@@ -1,0 +1,12 @@
+{
+  "name": "danon/clean-regex",
+  "autoload": {
+    "psr-0": {
+      "Danon\\Pattern": "src",
+      "Danon\\Pattern\\Test": "test"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "3.7.*"
+  }
+}
