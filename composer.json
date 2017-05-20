@@ -2,8 +2,9 @@
   "name": "danon/clean-regex",
   "autoload": {
     "psr-0": {
-      "Danon\\Pattern": "src",
-      "Danon\\Pattern\\Test": "test"
+      "": "helper",
+      "Danon\\CleanRegex": "src",
+      "Danon\\CleanRegex\\Test": "test"
     }
   },
   "require-dev": {
