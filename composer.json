@@ -1,13 +1,15 @@
 {
   "name": "danon/clean-regex",
   "autoload": {
+    "files": [
+      "helper/helper.php"
+    ],
     "psr-0": {
-      "": "helper",
-      "Danon\\CleanRegex": "src",
-      "Danon\\CleanRegex\\Test": "test"
+      "Danon\\CleanRegex\\": "src",
+      "Danon\\CleanRegex\\Test\\": "test"
     }
   },
   "require-dev": {
-    "phpunit/phpunit": "3.7.*"
+    "phpunit/phpunit": "6.1"
   }
 }
