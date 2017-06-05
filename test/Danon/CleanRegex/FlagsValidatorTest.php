@@ -14,7 +14,7 @@ class FlagsValidatorTest extends TestCase
         $flags = new FlagsValidator();
 
         // when
-        $flags->validate("gi");
+        $flags->validate("mi");
 
         // then
         $this->assertTrue(true);
