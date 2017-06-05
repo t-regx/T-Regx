@@ -6,9 +6,9 @@ class PregReturnException extends \Exception
     /** @var string */
     private $error;
 
-    public function __construct(int $error, string $methodName)
+    public function __construct(int $errorCode, string $methodName)
     {
-        $this->error = $error;
+        $this->error = $errorCode;
         parent::__construct("$methodName() returned 'false' value.");
     }
 

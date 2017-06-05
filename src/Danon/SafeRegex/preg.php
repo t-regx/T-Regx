@@ -69,14 +69,15 @@ class preg
         if ($result === false) {
             throw new PregReturnException(preg::last_error(), $methodName);
         }
-        self::validateLastPregError();
+        self::validateLastPregError($methodName);
     }
 
-    private static function validateLastPregError(): void
+    private static function validateLastPregError(string $methodName): void
     {
         /** @link http://php.net/manual/en/pcre.constants.php */
 
-        switch (preg_last_error()) {
+        $lastError = preg_last_error();
+        switch ($lastError) {
             case PREG_NO_ERROR:
                 return;
 
@@ -85,25 +86,22 @@ class preg
                  * Returned by <b>preg_last_error</b> if there was an
                  * internal PCRE error.
                  */
-                break;
+
             case PREG_BACKTRACK_LIMIT_ERROR:
                 /**
                  * Returned by <b>preg_last_error</b> if backtrack limit was exhausted.
                  */
-                break;
 
             case PREG_RECURSION_LIMIT_ERROR:
                 /**
                  * Returned by <b>preg_last_error</b> if recursion limit was exhausted.
                  */
-                break;
 
             case PREG_BAD_UTF8_ERROR:
                 /**
                  * Returned by <b>preg_last_error</b> if the last error was
                  * caused by malformed UTF-8 data (only when running a regex in UTF-8 mode).
                  */
-                break;
 
             case PREG_BAD_UTF8_OFFSET_ERROR:
                 /**
@@ -111,7 +109,11 @@ class preg
                  * correspond to the begin of a valid UTF-8 code point (only when running
                  * a regex in UTF-8 mode).
                  */
-                break;
+
+                throw new PregErrorException($lastError, $methodName);
+
+            default:
+                throw new UnknownPregErrorException();
         }
     }
 
