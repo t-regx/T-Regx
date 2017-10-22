@@ -38,14 +38,19 @@ class Pattern
         return (new FilterArrayPattern($this, $array))->filter();
     }
 
+    public function split(string $string): SplitPattern
+    {
+        return new SplitPattern($this, $string);
+    }
+
     public function count(string $string): int
     {
         return (new CountPattern($this, $string))->count();
     }
 
-    public function quote(string $string): string
+    public function quote(): string
     {
-        return preg_quote($string);
+        return preg_quote($this->pattern);
     }
 
     public function valid(): bool
