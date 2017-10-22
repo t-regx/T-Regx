@@ -50,7 +50,8 @@ class PatternValidTest extends TestCase
     public function invalidPatterns()
     {
         return [
-            ['(asd']
+            ['/un(closed.group/'],
+            ['/*starting.quantifier/'],
         ];
     }
 }
