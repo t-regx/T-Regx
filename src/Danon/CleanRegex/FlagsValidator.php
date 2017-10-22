@@ -7,15 +7,16 @@ use Danon\CleanRegex\Exception\InternalCleanRegexException;
 class FlagsValidator
 {
     private $flags = [
-        'g',
-        'i',
-        'U',
-        'm',
-        'x',
-        's',
-        'A',
-        'D',
-        'S'
+        'i', // PCRE_CASELESS
+        'm', // PCRE_MULTILINE
+        'x', // PCRE_EXTENDED
+        's', // PCRE_DOTALL
+
+        'U', // PCRE_UNGREEDY
+        'X', // PCRE_EXTRA
+        'A', // PCRE_ANCHORED
+        'D', // PCRE_DOLLAR_ENDONLY
+        'S', // Studying a pattern, before executing
     ];
 
     /**

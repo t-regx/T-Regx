@@ -6,6 +6,7 @@
     ],
     "psr-0": {
       "Danon\\CleanRegex\\": "src",
+      "Danon\\SafeRegex\\": "src",
       "Danon\\CleanRegex\\Test\\": "test"
     }
   },

@@ -53,7 +53,7 @@ class FlagsValidatorTest extends TestCase
      * @dataProvider invalidFlags
      * @expectedException \Danon\CleanRegex\Exception\FlagNotAllowedException
      */
-    public function shouldNotAllowFlags()
+    public function shouldNotAllowInvalidFlags()
     {
         // given
         $flags = new FlagsValidator();
