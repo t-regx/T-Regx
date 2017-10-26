@@ -2,9 +2,10 @@
 namespace Test\Danon\CleanRegex;
 
 use Danon\CleanRegex\Pattern;
+use Danon\CleanRegex\ValidPattern;
 use PHPUnit\Framework\TestCase;
 
-class PatternValidTest extends TestCase
+class ValidPatternTest extends TestCase
 {
     /**
      * @test
@@ -14,10 +15,10 @@ class PatternValidTest extends TestCase
     public function shouldValidatePattern(string $string)
     {
         // given
-        $pattern = new Pattern($string);
+        $pattern = new ValidPattern(new Pattern($string));
 
         // when
-        $isValid = $pattern->valid();
+        $isValid = $pattern->isValid();
 
         // then
         $this->assertTrue($isValid, "Failed asserting that pattern is valid");
@@ -38,10 +39,10 @@ class PatternValidTest extends TestCase
     public function shouldNotValidatePattern(string $string)
     {
         // given
-        $pattern = new Pattern($string);
+        $pattern = new ValidPattern(new Pattern($string));
 
         // when
-        $isValid = $pattern->valid();
+        $isValid = $pattern->isValid();
 
         // then
         $this->assertFalse($isValid, "Failed asserting that pattern is invalid");

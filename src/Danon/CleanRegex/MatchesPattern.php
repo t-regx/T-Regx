@@ -20,8 +20,7 @@ class MatchesPattern
     {
         $result = @preg_match($this->pattern->pattern, $this->string);
         if ($result === false) {
-            $lastError = preg_last_error();
-            throw new PatternMatchesException($lastError);
+            throw new PatternMatchesException(preg_last_error());
         }
 
         return $result === 1;

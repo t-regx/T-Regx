@@ -8,6 +8,7 @@ class PatternMatchesException extends \Exception
 
     public function __construct(int $lastError)
     {
+        parent::__construct("Last error code: $lastError");
         $this->lastError = $lastError;
     }
 }

@@ -11,5 +11,3 @@ $result = preg_match('/(?<whole>(?<first>[A-Z])[a-z]+)/', 'Daniel Jest Spoks sie
 
 $matchesAll = [];
 $resultAll = preg_match_all('/(?<whole>(?<first>[A-Z])[a-z]+)/', 'Daniel Jest Spoks siemka', $matchesAll);
-
-pattern('/something/')->

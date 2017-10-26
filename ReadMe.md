@@ -3,7 +3,7 @@
 Clean, descriptive wrapper functions enhancing PCRE extension methods.
 
 
-## What for?
+## What happens if you fail?
 To check whether the pattern fails, you need to change this:
 ```php
 if (preg_match( '/((Hello, )?World/', $word )) {
@@ -87,7 +87,7 @@ pattern('\d+ ?')
     ->iterate(function (Match $match) {
 
         // gets the match
-        $match->get()      // (string) "172"
+        $match->match()    // (string) "172"
         (string) $match    // also gets the match
 
         // gets the match offset 
@@ -98,6 +98,7 @@ pattern('\d+ ?')
 
         // gets other groups
         $match->all()      // (array) [ '192', '168', '172', '14' ]
+
     });
 ```
 
