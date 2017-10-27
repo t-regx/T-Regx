@@ -1,7 +1,7 @@
 <?php
 namespace Danon\CleanRegex\Replace;
 
-use Danon\CleanRegex\Exception\PatternReplaceException;
+use Danon\CleanRegex\Exception\Preg\PatternReplaceException;
 use Danon\CleanRegex\Pattern;
 
 class ReplacePattern

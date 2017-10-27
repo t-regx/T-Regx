@@ -1,8 +1,13 @@
 <?php
 namespace Danon\CleanRegex\Match;
 
+use Danon\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+
 class Match
 {
+    /** @var integer */
+    private const WHOLE_MATCH = 0;
+
     /** @var string */
     private $subject;
     /** @var int */
@@ -29,13 +34,14 @@ class Match
 
     public function match(): string
     {
-        list($match, $offset) = $this->matches[0][$this->index];
+        list($match, $offset) = $this->matches[self::WHOLE_MATCH][$this->index];
         return $match;
     }
 
     /**
      * @param string|int $nameOrIndex
      * @return string
+     * @throws NonexistentGroupException
      */
     public function group($nameOrIndex): string
     {
@@ -46,7 +52,7 @@ class Match
             return $match;
         }
 
-        return null;
+        throw new NonexistentGroupException();
     }
 
     public function namedGroups(): array
@@ -83,7 +89,7 @@ class Match
 
     public function offset(): int
     {
-        list($value, $offset) = $this->matches[0][$this->index];
+        list($value, $offset) = $this->matches[self::WHOLE_MATCH][$this->index];
         return $offset;
     }
 

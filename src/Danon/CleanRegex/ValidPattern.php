@@ -1,7 +1,7 @@
 <?php
 namespace Danon\CleanRegex;
 
-use Danon\CleanRegex\Exception\ArgumentNotAllowedException;
+use Danon\CleanRegex\Exception\CleanRegex\ArgumentNotAllowedException;
 
 class ValidPattern
 {

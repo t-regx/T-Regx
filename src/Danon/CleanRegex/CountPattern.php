@@ -1,7 +1,7 @@
 <?php
 namespace Danon\CleanRegex;
 
-use Danon\CleanRegex\Exception\InternalCleanRegexException;
+use Danon\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use Danon\SafeRegex\preg;
 
 class CountPattern
@@ -21,7 +21,7 @@ class CountPattern
     {
         $result = preg::match_all($this->pattern->pattern, $this->string, $matches);
         if ($result !== count($matches[0])) {
-            throw new InternalCleanRegexException("Count result differs from matches count");
+            throw new InternalCleanRegexException();
         }
         return $result;
     }

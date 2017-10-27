@@ -1,8 +1,8 @@
 <?php
 namespace Danon\CleanRegex;
 
-use Danon\CleanRegex\Exception\FlagNotAllowedException;
-use Danon\CleanRegex\Exception\InternalCleanRegexException;
+use Danon\CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
+use Danon\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 
 class FlagsValidator
 {

@@ -1,7 +1,7 @@
 <?php
 namespace Danon\CleanRegex\Match;
 
-use Danon\CleanRegex\Exception\PatternMatchException;
+use Danon\CleanRegex\Exception\Preg\PatternMatchException;
 use Danon\CleanRegex\Pattern;
 
 class MatchPattern

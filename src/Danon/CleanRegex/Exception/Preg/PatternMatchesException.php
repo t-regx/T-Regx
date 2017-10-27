@@ -1,7 +1,7 @@
 <?php
-namespace Danon\CleanRegex\Exception;
+namespace Danon\CleanRegex\Exception\Preg;
 
-class PatternMatchesException extends \Exception
+class PatternMatchesException extends PregException
 {
     /** @var int */
     private $lastError;
