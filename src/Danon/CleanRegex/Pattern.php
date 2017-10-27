@@ -18,9 +18,9 @@ class Pattern
         $this->flags = $flags;
     }
 
-    public function match(string $string): MatchPattern
+    public function match(string $subject): MatchPattern
     {
-        return new MatchPattern($this, $string);
+        return new MatchPattern($this, $subject);
     }
 
     public function matches(string $string): bool

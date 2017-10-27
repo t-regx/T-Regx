@@ -49,7 +49,7 @@ if ($result) {
 
 #### Matching
 
-Checks if subject "contains" the pattern:
+Checks if subject matches the pattern:
 ```php
 pattern('[aeiouy]')->matches('Computer');
 ```
@@ -57,7 +57,7 @@ pattern('[aeiouy]')->matches('Computer');
 (bool) true
 ```
 
-#### Get all matches:
+#### Get all the matches:
 ```php
 pattern('\d+ ?')->match('192 168 172 14')->all()
 ```
@@ -69,6 +69,7 @@ array (4) {
   3 => string '14',
 }
 ```
+(without capturing groups)
 
 #### Retrieving
 
@@ -125,8 +126,8 @@ pattern('[A-Z][a-z]+')
 ```
 
 # What's better
-![GitHub Logo](php.api.png)
+![Ugly api](php.api.png)
 
 or
 
-![GitHub Logo](clean.api.png)
+![Pretty api](clean.api.png)
