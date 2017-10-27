@@ -4,28 +4,22 @@ namespace Danon\CleanRegex\Match;
 class Match
 {
     /** @var string */
-    private $first;
+    private $subject;
     /** @var int */
     private $index;
-    /** @var string */
-    private $match;
     /** @var array */
     private $matches;
-    /** @var int */
-    private $offset;
 
-    public function __construct(string $first, int $index, string $match, int $offset, array $allMatches)
+    public function __construct(string $subject, int $index, array $matches)
     {
-        $this->first = $first;
-        $this->match = $match;
-        $this->matches = $allMatches;
-        $this->offset = $offset;
+        $this->subject = $subject;
+        $this->matches = $matches;
         $this->index = $index;
     }
 
     public function subject(): string
     {
-        return $this->first;
+        return $this->subject;
     }
 
     public function index(): int
@@ -33,18 +27,75 @@ class Match
         return $this->index;
     }
 
-    public function get(): string
+    public function match(): string
     {
-        return $this->match;
+        list($match, $offset) = $this->matches[0][$this->index];
+        return $match;
     }
 
-    public function all(): array
+    /**
+     * @param string|int $nameOrIndex
+     * @return string
+     */
+    public function group($nameOrIndex): string
     {
-        return $this->matches;
+        $this->validateGroupName($nameOrIndex);
+
+        if ($this->hasGroup($nameOrIndex)) {
+            list($match, $offset) = $this->matches[$nameOrIndex][$this->index];
+            return $match;
+        }
+
+        return null;
+    }
+
+    public function namedGroups(): array
+    {
+        $namedGroups = [];
+
+        foreach ($this->matches as $index => $match) {
+            if (is_string($index)) {
+                list($value, $offset) = $match[$this->index];
+                $namedGroups[$index] = $value;
+            }
+        }
+
+        return $namedGroups;
+    }
+
+    public function groupNames(): array
+    {
+        return array_values(array_filter(array_keys($this->matches), function ($key) {
+            return is_string($key);
+        }));
+    }
+
+    /**
+     * @param string|int $nameOrIndex
+     * @return bool
+     */
+    public function hasGroup($nameOrIndex): bool
+    {
+        $this->validateGroupName($nameOrIndex);
+
+        return array_key_exists($nameOrIndex, $this->matches);
     }
 
     public function offset(): int
     {
-        return $this->offset;
+        list($value, $offset) = $this->matches[0][$this->index];
+        return $offset;
+    }
+
+    function __toString(): string
+    {
+        return $this->match();
+    }
+
+    private function validateGroupName($nameOrIndex)
+    {
+        if (!is_string($nameOrIndex) && !is_int($nameOrIndex)) {
+            throw new \InvalidArgumentException("Group index can only be an integer or string");
+        }
     }
 }
