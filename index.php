@@ -25,3 +25,8 @@ pattern('/(?<whole>(?<first>[A-Z])[a-z]+)(?<no>[0-9])?/')
 
         $m = $match->namedGroups();
     });
+
+$count = 0;
+$result = preg_replace('/ab([0-9])/', 'lol$1', 'ab1 ab2 ab3', -1, $count);
+
+echo $count;

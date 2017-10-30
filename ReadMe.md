@@ -1,4 +1,4 @@
-# Regular Expressions extension
+# Regular Expressions wrapper
 
 Clean, descriptive wrapper functions enhancing PCRE extension methods.
 
@@ -12,9 +12,7 @@ if (preg_match( '/((Hello, )?World/', $word )) {
 to this:
 
 ```php
-$result = preg_match('/((Hello, )?World/');
-
-if ($result === false) {
+if (($result = preg_match('/((Hello, )?World/')) === false) {
     throw new Exception();
 }
 
@@ -43,7 +41,7 @@ if ($result) {
   ```
   
 * ### Don't have to use /word/ slashes
-  Surrounding `/pattern/` slashes or `~patttern~` tildes are not compulsory. 
+  Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. CleanRegex will add them, if they're not already present. 
   
 ## API
 
@@ -95,7 +93,7 @@ pattern('\d+ ?')
         $match->offset()  // (int) 8
         
         // gets the group index
-        $match->index()    // (int) 3
+        $match->index()    // (int) 2
 
         // gets other groups
         $match->all()      // (array) [ '192', '168', '172', '14' ]
@@ -112,17 +110,41 @@ pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->with('*')
 (string) 'P. Sh*man, 42 Wall**y w**, Sydn**'
 ```
 
-#### Replace strings using callbacks
+Because we value clean API, magic string patterns (`$1`, `${12}`, `\\2`) will not be treated "magically". 
+They will be replaced literally. 
+```php
+pattern('\d+')->replace('600 700 800')->with('Number:$1')
+```
+```
+(string) 'Number:$1 Number:$1 Number:$1'
+```
+
+Use `replace()->callback()` to render strings with capturing groups.
+
+#### Replace using callbacks
 
 ```php
 pattern('[A-Z][a-z]+')
   ->replace('Some words are Capitalized, and those will be All Caps')
-  ->callback(function ($match) {
+  ->callback(function (Match $match) {
     return strtoupper($match);
   });
 ```
 ```
 (string) 'SOME words are CAPITALIZED and those will be ALL CAPS'
+```
+
+#### Replace using callbacks with groups
+
+```php
+pattern('(http|ftp)://(?<host>[a-z]+\.(com|org))')
+  ->replace('Links: http://google.com and ftp://some.org.')
+  ->callback(function (Match $match) {
+    return $match->group('host');
+  });
+```
+```
+(string) 'Links: google.com and some.org.'
 ```
 
 # What's better
@@ -131,3 +153,37 @@ pattern('[A-Z][a-z]+')
 or
 
 ![Pretty api](clean.api.png)
+
+# Performance
+
+#### Unnecessary calls
+```php
+pattern('\d+ ?')
+    ->match('192 168 172 14')
+    ->iterate(function (Match $match) {})
+    ->iterate(function (Match $match) {})
+    ->iterate(function (Match $match) {})
+    ->iterate(function (Match $match) {})
+```
+
+Clean Regex will perform only one call to `preg_match()`, and use cached results to iterate matches.
+
+#### PCRE magic format
+
+```php
+pattern('.*')
+    ->replace('Word')
+    ->with('Something $1')
+```
+Will result in `Something $1`, not `Something Word`, because Clean Regex will treat all subjects literally.
+
+However, if you need better performance (using single call to C API, without PHP callbacks) you can us this:
+```php
+pcre()
+    ->pattern('.*')
+    ->replace('Word')
+    ->withPcreFormat('Something $1')
+```
+```
+(string) 'Something Word' 
+```
