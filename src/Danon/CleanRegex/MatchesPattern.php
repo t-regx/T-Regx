@@ -2,6 +2,7 @@
 namespace Danon\CleanRegex;
 
 use Danon\CleanRegex\Exception\Preg\PatternMatchesException;
+use Danon\CleanRegex\Internal\Pattern;
 
 class MatchesPattern
 {

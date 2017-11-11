@@ -1,7 +1,7 @@
 <?php
 namespace Test\Danon\CleanRegex;
 
-use Danon\CleanRegex\Pattern;
+use Danon\CleanRegex\Internal\Pattern;
 use Danon\CleanRegex\ValidPattern;
 use PHPUnit\Framework\TestCase;
 

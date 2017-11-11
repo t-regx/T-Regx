@@ -2,7 +2,7 @@
 namespace Test\Danon\CleanRegex;
 
 use Danon\CleanRegex\CountPattern;
-use Danon\CleanRegex\Pattern;
+use Danon\CleanRegex\Internal\Pattern;
 use PHPUnit\Framework\TestCase;
 
 class CountPatternTest extends TestCase

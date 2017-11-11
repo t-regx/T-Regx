@@ -1,6 +1,8 @@
 <?php
 namespace Danon\CleanRegex;
 
+use Danon\CleanRegex\Internal\Pattern;
+
 class SplitPattern
 {
     /** @var Pattern */

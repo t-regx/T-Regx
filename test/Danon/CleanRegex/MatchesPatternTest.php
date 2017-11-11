@@ -2,7 +2,7 @@
 namespace Test\Danon\CleanRegex;
 
 use Danon\CleanRegex\MatchesPattern;
-use Danon\CleanRegex\Pattern;
+use Danon\CleanRegex\Internal\Pattern;
 use PHPUnit\Framework\TestCase;
 
 class MatchesPatternTest extends TestCase

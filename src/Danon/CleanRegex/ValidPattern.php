@@ -2,6 +2,7 @@
 namespace Danon\CleanRegex;
 
 use Danon\CleanRegex\Exception\CleanRegex\ArgumentNotAllowedException;
+use Danon\CleanRegex\Internal\Pattern;
 
 class ValidPattern
 {
@@ -15,7 +16,7 @@ class ValidPattern
 
     public function isValid()
     {
-        $result = @preg_match($this->pattern->pattern, null);
+        $result = @preg_match_all($this->pattern->pattern, null);
         return $result !== false;
     }
 

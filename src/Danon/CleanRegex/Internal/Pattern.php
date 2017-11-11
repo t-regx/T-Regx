@@ -1,9 +1,13 @@
 <?php
-namespace Danon\CleanRegex;
+namespace Danon\CleanRegex\Internal;
 
-use Danon\CleanRegex\Internal\PatternDelimiterer;
+use Danon\CleanRegex\CountPattern;
+use Danon\CleanRegex\FilterArrayPattern;
 use Danon\CleanRegex\Match\MatchPattern;
+use Danon\CleanRegex\MatchesPattern;
 use Danon\CleanRegex\Replace\ReplacePattern;
+use Danon\CleanRegex\SplitPattern;
+use Danon\CleanRegex\ValidPattern;
 
 class Pattern
 {

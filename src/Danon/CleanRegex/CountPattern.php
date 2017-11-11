@@ -2,6 +2,7 @@
 namespace Danon\CleanRegex;
 
 use Danon\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use Danon\CleanRegex\Internal\Pattern;
 use Danon\SafeRegex\preg;
 
 class CountPattern

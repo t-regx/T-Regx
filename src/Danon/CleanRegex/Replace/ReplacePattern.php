@@ -2,7 +2,7 @@
 namespace Danon\CleanRegex\Replace;
 
 use Danon\CleanRegex\Exception\Preg\PatternReplaceException;
-use Danon\CleanRegex\Pattern;
+use Danon\CleanRegex\Internal\Pattern;
 
 class ReplacePattern
 {
