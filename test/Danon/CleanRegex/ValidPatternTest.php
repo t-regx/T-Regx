@@ -27,7 +27,8 @@ class ValidPatternTest extends TestCase
     public function validPatterns()
     {
         return [
-            ['~((https?|ftp)://(\S*?\.\S*?))([\s)\[\]{},;"\':<]|\.\s | $)~']
+            ['~((https?|ftp)://(\S*?\.\S*?))([\s)\[\]{},;"\':<]|\.\s | $)~'],
+            ['!exclamation marks!'],
         ];
     }
 

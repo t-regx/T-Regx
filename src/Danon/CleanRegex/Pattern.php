@@ -1,6 +1,7 @@
 <?php
 namespace Danon\CleanRegex;
 
+use Danon\CleanRegex\Internal\PatternDelimiterer;
 use Danon\CleanRegex\Match\MatchPattern;
 use Danon\CleanRegex\Replace\ReplacePattern;
 
@@ -56,5 +57,10 @@ class Pattern
     public function valid(): bool
     {
         return (new ValidPattern($this))->isValid();
+    }
+
+    public function delimitered(): ?string
+    {
+        return (new PatternDelimiterer())->delimiter($this->pattern);
     }
 }
