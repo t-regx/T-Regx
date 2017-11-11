@@ -8,7 +8,7 @@ if (!function_exists('pattern')) {
 }
 
 if (!function_exists('pcre')) {
-    function pattern(string $pattern): \Danon\CleanRegex\Pattern
+    function pcre(string $pattern): \Danon\CleanRegex\Pattern
     {
         return new \Danon\CleanRegex\Pattern($pattern);
     }

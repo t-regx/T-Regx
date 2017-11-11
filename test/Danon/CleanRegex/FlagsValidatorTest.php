@@ -37,7 +37,7 @@ class FlagsValidatorTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Danon\CleanRegex\Exception\FlagNotAllowedException
+     * @expectedException \Danon\CleanRegex\Exception\CleanRegex\FlagNotAllowedException
      */
     public function shouldNotAllowWhitespace()
     {
@@ -51,7 +51,7 @@ class FlagsValidatorTest extends TestCase
     /**
      * @test
      * @dataProvider invalidFlags
-     * @expectedException \Danon\CleanRegex\Exception\FlagNotAllowedException
+     * @expectedException \Danon\CleanRegex\Exception\CleanRegex\FlagNotAllowedException
      */
     public function shouldNotAllowInvalidFlags()
     {
