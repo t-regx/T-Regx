@@ -19,8 +19,7 @@ class FilterArrayPattern
     public function filter(): array
     {
         return array_filter($this->array, function ($element) {
-            $argument = ValidPattern::matchableArgument($element);
-            return $this->pattern->matches($argument);
+            return (new MatchesPattern($this->pattern, $element))->matches();
         });
     }
 }
