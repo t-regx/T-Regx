@@ -2,6 +2,17 @@
 
 Clean, descriptive wrapper functions enhancing PCRE extension methods.
 
+1. [Overview](#regular-expressions-wrapper)
+    * [What happens if you fail?](#what-happens-if-you-fail)
+    * [Why CleanRegex?](#why-cleanregex)
+2. [Installation](#installation)  
+3. [API](#api)  
+    * [Matching](#matching)
+    * [Retrieving](#retrieving)
+    * [Iterating](#iterating)
+    * [Replacing](#replace-strings)
+    * [Other](#first-match-with-callback)
+4. [Performance](#performance)
 
 ## What happens if you fail?
 To check whether the pattern fails, you need to change this:
@@ -42,12 +53,20 @@ if ($result) {
   
 * ### Don't have to use /word/ slashes
   Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. CleanRegex will add them, if they're not already present. 
-  
-## API
 
-#### Matching
 
-Checks if subject matches the pattern:
+# Installation
+
+```bash
+composer require "danon/clean-regex"
+```
+
+
+# API
+
+## Matching
+
+Check if subject matches the pattern:
 ```php
 pattern('[aeiouy]')->matches('Computer');
 ```
@@ -55,23 +74,23 @@ pattern('[aeiouy]')->matches('Computer');
 (bool) true
 ```
 
-#### Get all the matches:
+#### Get all matches:
 ```php
 pattern('\d+ ?')->match('192 168 172 14')->all()
 ```
 ```
 array (4) {
-  0 => string '192',
-  1 => string '168',
-  2 => string '172',
+  0 => string '192 ',
+  1 => string '168 ',
+  2 => string '172 ',
   3 => string '14',
 }
 ```
 (without capturing groups)
 
-#### Retrieving
+## Retrieving
 
-Gets the first matched part of the string:
+Get the first matched part of the string:
 ```php
 pattern('[a-zA-Z]+')->match('Robert likes trains')->first()
 ```
@@ -79,9 +98,9 @@ pattern('[a-zA-Z]+')->match('Robert likes trains')->first()
 (string) 'Robert'
 ```
 
-#### Iterate matches:
+## Iterating
 ```php
-pattern('\d+ ?')
+pattern('\d+')
     ->match('192 168 172 14')
     ->iterate(function (Match $match) {
 
@@ -100,7 +119,27 @@ pattern('\d+ ?')
     });
 ```
 
-#### Replace strings
+You can also use `match()->first(function (Match $m) {})` to invoke the callback only for the first match.
+
+### Making a map
+
+```php
+pattern('\d+')
+    ->match('192 168 172 14')
+    ->map(function (Match $match) {
+        return $match->match() * 2;
+    });
+```
+```
+array (4) {
+    0 => (integer) 384,
+    1 => (integer) 336,
+    2 => (integer) 344,
+    3 => (integer) 28,
+}
+```
+
+## Replace strings
 
 ```php
 pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->with('*')
@@ -111,44 +150,44 @@ pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->with('*')
 
 For more readability, use `replace()->callback()` to render strings with capturing groups.
 
-#### Replace using callbacks
+### Replace using callbacks
 
 ```php
 pattern('[A-Z][a-z]+')
-  ->replace('Some words are Capitalized, and those will be All Caps')
-  ->callback(function (Match $match) {
-    return strtoupper($match);
-  });
+    ->replace('Some words are Capitalized, and those will be All Caps')
+    ->callback(function (Match $match) {
+        return strtoupper($match);
+    });
 ```
 ```
 (string) 'SOME words are CAPITALIZED and those will be ALL CAPS'
 ```
 
-#### Replace using callbacks with groups
+### Replace using callbacks with groups
 
 ```php
 $subject = 'Links: http://google.com and http://other.org.';
 
 pattern('http://(?<name>[a-z]+)\.(com|org)')
-  ->replace($subject)
-  ->callback(function (Match $match) {
-     return $match->group('name');
-  });
+    ->replace($subject)
+    ->callback(function (Match $match) {
+        return $match->group('name');
+    });
 ```
 ```
 (string) 'Links: google and other.'
 ```
 
-#### First match with details
+### First match with details
 ```php
-pattern(' [a-z]+')
+pattern('[a-z]+$')
     ->match('Robert likes trains')
     ->first(function (Match $match) {
         echo $match . ' at ' . $match->offset(); 
     });
 ```
-```
-(string) 'likes at 7'
+```bash
+trains at 13
 ```
 
 # What's better

@@ -63,14 +63,14 @@ class ReadMeTest extends TestCase
         $result = null;
 
         // when
-        pattern(' [a-z]+')
+        pattern('[a-z]+$')
             ->match('Robert likes trains')
             ->first(function (Match $match) use (&$result) {
                 $result = $match . ' at ' . $match->offset();
             });
 
         // then
-        $this->assertEquals('likes at 7', $result);
+        $this->assertEquals('trains at 13', $result);
     }
 
     /**
@@ -98,6 +98,22 @@ class ReadMeTest extends TestCase
                 // gets other groups
                 $this->assertEquals(['192', '168', '172', '14'], $match->all());
             });
+    }
+
+    /**
+     * @test
+     */
+    public function map()
+    {
+        // when
+        $map = pattern('\d+')
+            ->match('192 168 172 14')
+            ->map(function (Match $match) {
+                return $match->match() * 2;
+            });
+
+        // then
+        $this->assertEquals([384, 336, 344, 28], $map);
     }
 
     /**
