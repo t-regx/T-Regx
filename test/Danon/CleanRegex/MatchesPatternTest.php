@@ -1,6 +1,8 @@
 <?php
-namespace Danon\CleanRegex;
+namespace Test\Danon\CleanRegex;
 
+use Danon\CleanRegex\MatchesPattern;
+use Danon\CleanRegex\Pattern;
 use PHPUnit\Framework\TestCase;
 
 class MatchesPatternTest extends TestCase

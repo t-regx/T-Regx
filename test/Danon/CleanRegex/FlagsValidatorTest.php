@@ -1,6 +1,7 @@
 <?php
-namespace Danon\CleanRegex;
+namespace Test\Danon\CleanRegex;
 
+use Danon\CleanRegex\FlagsValidator;
 use PHPUnit\Framework\TestCase;
 
 class FlagsValidatorTest extends TestCase

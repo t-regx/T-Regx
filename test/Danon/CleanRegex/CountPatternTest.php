@@ -1,6 +1,8 @@
 <?php
-namespace Danon\CleanRegex;
+namespace Test\Danon\CleanRegex;
 
+use Danon\CleanRegex\CountPattern;
+use Danon\CleanRegex\Pattern;
 use PHPUnit\Framework\TestCase;
 
 class CountPatternTest extends TestCase

@@ -1,8 +1,9 @@
 <?php
-namespace Danon\SafeRegex;
+namespace Test\Danon\SafeRegex;
 
 use Danon\SafeRegex\Exception\PhpErrorSafeRegexException;
 use Danon\SafeRegex\Exception\PregErrorSafeRegexException;
+use Danon\SafeRegex\ExceptionFactory;
 use PHPUnit\Framework\TestCase;
 
 class ExceptionFactoryTest extends TestCase

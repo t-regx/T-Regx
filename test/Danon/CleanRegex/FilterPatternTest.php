@@ -1,6 +1,8 @@
 <?php
-namespace Danon\CleanRegex;
+namespace Test\Danon\CleanRegex;
 
+use Danon\CleanRegex\FilterArrayPattern;
+use Danon\CleanRegex\Pattern;
 use PHPUnit\Framework\TestCase;
 
 class FilterPatternTest extends TestCase

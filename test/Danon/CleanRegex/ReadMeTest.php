@@ -1,10 +1,10 @@
 <?php
-namespace Danon\CleanRegex;
+namespace Test\Danon\CleanRegex;
 
 use Danon\CleanRegex\Match\Match;
 use PHPUnit\Framework\TestCase;
 
-class ReadMeTests extends TestCase
+class ReadMeTest extends TestCase
 {
     /**
      * @test

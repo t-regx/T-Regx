@@ -1,6 +1,7 @@
 <?php
-namespace Danon\SafeRegex;
+namespace Test\Danon\SafeRegex;
 
+use Danon\SafeRegex\PhpError;
 use PHPUnit\Framework\TestCase;
 
 class PhpErrorTest extends TestCase
