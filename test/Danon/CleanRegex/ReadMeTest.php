@@ -36,7 +36,7 @@ class ReadMeTest extends TestCase
     public function allMatches()
     {
         // when
-        $result = pattern('\d+ ?')->match('192 168 172 14')->all();
+        $result = pattern('\d+')->match('192 168 172 14')->all();
 
         // then
         $this->assertEquals(['192', '168', '172', '14'], $result);

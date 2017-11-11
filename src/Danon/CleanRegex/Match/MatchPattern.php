@@ -18,6 +18,19 @@ class MatchPattern
         $this->subject = $subject;
     }
 
+    /**
+     * @return array
+     * @throws PatternMatchException
+     */
+    public function all(): array
+    {
+        $matches = [];
+        if (preg_match_all($this->pattern->pattern, $this->subject, $matches) === false) {
+            throw new PatternMatchException();
+        }
+        return $matches[0];
+    }
+
     public function iterate(callable $callback): void
     {
         foreach ($this->getMatchObjects() as $object) {
