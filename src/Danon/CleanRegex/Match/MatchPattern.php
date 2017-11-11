@@ -34,18 +34,41 @@ class MatchPattern
         return $results;
     }
 
+    public function first(callable $callback = null): ?string
+    {
+        $matches = $this->performMatchOne();
+        if (empty($matches)) return null;
+
+        if ($callback !== null) {
+            call_user_func($callback, new Match($this->subject, 0, [$matches]));
+        }
+
+        list($value, $offset) = $matches[0];
+        return $value;
+    }
+
     /**
      * @return Match[]
      */
     private function getMatchObjects(): array
     {
-        return $this->constructMatchObjects($this->performMatch());
+        return $this->constructMatchObjects($this->performMatchAll());
     }
 
-    private function performMatch(): array
+    private function performMatchAll(): array
     {
         $matches = [];
         $result = preg_match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
+        if ($result === false) {
+            throw new PatternMatchException();
+        }
+        return $matches;
+    }
+
+    private function performMatchOne(): array
+    {
+        $matches = [];
+        $result = preg_match($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
         if ($result === false) {
             throw new PatternMatchException();
         }
