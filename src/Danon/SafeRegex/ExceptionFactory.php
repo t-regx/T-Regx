@@ -10,7 +10,7 @@ class ExceptionFactory
 {
     /**
      * @param string $methodName
-     * @param int|bool $pregResult
+     * @param mixed $pregResult
      * @return void
      * @throws SafeRegexException
      */
@@ -24,7 +24,7 @@ class ExceptionFactory
 
     /**
      * @param string $methodName
-     * @param int|bool $pregResult
+     * @param mixed $pregResult
      * @param int $pregError
      * @param array|null $phpError
      * @return void
@@ -41,7 +41,7 @@ class ExceptionFactory
 
     /**
      * @param string $methodName
-     * @param int|bool $pregResult
+     * @param mixed $pregResult
      * @param int $pregError
      * @param array|null $phpError
      * @return SafeRegexException|null
