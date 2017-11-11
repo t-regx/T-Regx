@@ -45,13 +45,32 @@ class ReadMeTest extends TestCase
     /**
      * @test
      */
-    public function retrieve()
+    public function retrieveFirst()
     {
         // when
         $result = pattern('[a-zA-Z]+')->match('Robert likes trains')->first();
 
         // then
         $this->assertEquals('Robert', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function retrieveFirstWithCallback()
+    {
+        // given
+        $result = null;
+
+        // when
+        pattern(' [a-z]+')
+            ->match('Robert likes trains')
+            ->first(function (Match $match) use (&$result) {
+                $result = $match . ' at ' . $match->offset();
+            });
+
+        // then
+        $this->assertEquals('likes at 7', $result);
     }
 
     /**
@@ -99,18 +118,17 @@ class ReadMeTest extends TestCase
     public function replaceCallbacks()
     {
         // given
-        $pattern = '(http|ftp)://(?<host>[a-z]+\.(com|org))';
-        $subject = 'Links: http://google.com and ftp://some.org.';
+        $pattern = 'http://(?<name>[a-z]+)\.(com|org)';
+        $subject = 'Links: http://google.com and http://other.org.';
 
         // when
         $result = pattern($pattern)
             ->replace($subject)
             ->callback(function (Match $match) {
-                return $match->group('host');
+                return $match->group('name');
             });
 
         // then
-        $this->assertEquals($result, 'Links: google.com and some.org.');
+        $this->assertEquals($result, 'Links: google and other.');
     }
-
 }

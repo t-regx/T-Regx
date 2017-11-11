@@ -92,12 +92,11 @@ pattern('\d+ ?')
         // gets the match offset 
         $match->offset()  // (int) 8
         
-        // gets the group index
+        // gets the match index
         $match->index()    // (int) 2
 
-        // gets other groups
+        // gets other matches
         $match->all()      // (array) [ '192', '168', '172', '14' ]
-
     });
 ```
 
@@ -128,14 +127,28 @@ pattern('[A-Z][a-z]+')
 #### Replace using callbacks with groups
 
 ```php
-pattern('(http|ftp)://(?<host>[a-z]+\.(com|org))')
-  ->replace('Links: http://google.com and ftp://some.org.')
+$subject = 'Links: http://google.com and http://other.org.';
+
+pattern('http://(?<name>[a-z]+)\.(com|org)')
+  ->replace($subject)
   ->callback(function (Match $match) {
-    return $match->group('host');
+     return $match->group('name');
   });
 ```
 ```
-(string) 'Links: google.com and some.org.'
+(string) 'Links: google and other.'
+```
+
+#### First match with details
+```php
+pattern(' [a-z]+')
+    ->match('Robert likes trains')
+    ->first(function (Match $match) {
+        echo $match . ' at ' . $match->offset(); 
+    });
+```
+```
+(string) 'likes at 7'
 ```
 
 # What's better
