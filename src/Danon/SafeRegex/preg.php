@@ -1,61 +1,63 @@
 <?php
 namespace Danon\SafeRegex;
 
+use Danon\SafeRegex\Constants\PregConstants;
+
 class preg
 {
     public static function match($pattern, $subject, array &$matches = null, $flags = 0, $offset = 0)
     {
         $result = preg_match($pattern, $subject, $matches, $flags, $offset);
-        self::validateResult($result, 'preg_match');
+        self::validateResult('preg_match', $result);
         return $result;
     }
 
     public static function match_all($pattern, $subject, array &$matches = null, $flags = PREG_PATTERN_ORDER, $offset = 0)
     {
         $result = preg_match_all($pattern, $subject, $matches, $flags, $offset);
-        self::validateResult($result, 'preg_match_all');
+        self::validateResult('preg_match_all', $result);
         return $result;
     }
 
     public static function replace($pattern, $replacement, $subject, $limit = -1, &$count = null)
     {
         $result = preg_replace($pattern, $replacement, $subject, $limit, $count);
-        self::validateResult($result, 'preg_replace');
+        self::validateResult('preg_replace', $result);
         return $result;
     }
 
     public static function replace_callback($pattern, callable $callback, $subject, $limit = -1, &$count = null)
     {
         $result = preg_replace_callback($pattern, $callback, $subject, $limit, $count);
-        self::validateResult($result, 'preg_replace_callback');
+        self::validateResult('preg_replace_callback', $result);
         return $result;
     }
 
     public static function replace_callback_array($patterns_and_callbacks, $subject, $limit = -1, &$count)
     {
         $result = preg_replace_callback_array($patterns_and_callbacks, $subject, $limit, $count);
-        self::validateResult($result, 'preg_replace_callback_array');
+        self::validateResult('preg_replace_callback_array', $result);
         return $result;
     }
 
     public static function filter($pattern, $replacement, $subject, $limit = -1, &$count = null)
     {
         $result = preg_filter($pattern, $replacement, $subject, $limit, $count);
-        self::validateResult($result, 'preg_filter');
+        self::validateResult('preg_filter', $result);
         return $result;
     }
 
     public static function split($pattern, $subject, $limit = -1, $flags = 0)
     {
         $result = preg_split($pattern, $subject, $limit, $flags);
-        self::validateResult($result, 'preg_split');
+        self::validateResult('preg_split', $result);
         return $result;
     }
 
     public static function grep($pattern, array $input, $flags = 0)
     {
         $result = preg_grep($pattern, $input, $flags);
-        self::validateResult($result, 'preg_grep');
+        self::validateResult('preg_grep', $result);
         return $result;
     }
 
@@ -64,57 +66,9 @@ class preg
         return preg_quote($string, $delimiter);
     }
 
-    private static function validateResult($result, string $methodName)
+    private static function validateResult(string $methodName, $result)
     {
-        if ($result === false) {
-            throw new PregReturnException(preg::last_error(), $methodName);
-        }
-        self::validateLastPregError($methodName);
-    }
-
-    private static function validateLastPregError(string $methodName): void
-    {
-        /** @link http://php.net/manual/en/pcre.constants.php */
-
-        $lastError = preg_last_error();
-        switch ($lastError) {
-            case PREG_NO_ERROR:
-                return;
-
-            case PREG_INTERNAL_ERROR:
-                /**
-                 * Returned by <b>preg_last_error</b> if there was an
-                 * internal PCRE error.
-                 */
-
-            case PREG_BACKTRACK_LIMIT_ERROR:
-                /**
-                 * Returned by <b>preg_last_error</b> if backtrack limit was exhausted.
-                 */
-
-            case PREG_RECURSION_LIMIT_ERROR:
-                /**
-                 * Returned by <b>preg_last_error</b> if recursion limit was exhausted.
-                 */
-
-            case PREG_BAD_UTF8_ERROR:
-                /**
-                 * Returned by <b>preg_last_error</b> if the last error was
-                 * caused by malformed UTF-8 data (only when running a regex in UTF-8 mode).
-                 */
-
-            case PREG_BAD_UTF8_OFFSET_ERROR:
-                /**
-                 * Returned by <b>preg_last_error</b> if the offset didn't
-                 * correspond to the begin of a valid UTF-8 code point (only when running
-                 * a regex in UTF-8 mode).
-                 */
-
-                throw new PregErrorException($lastError, $methodName);
-
-            default:
-                throw new UnknownPregErrorException();
-        }
+        (new ExceptionFactory())->retrieveGlobalsAndThrow($methodName, $result);
     }
 
     public static function last_error()
@@ -124,24 +78,11 @@ class preg
 
     public static function last_error_constant(): string
     {
-        return preg::error_constant(preg::last_error());
+        return (new PregConstants())->getConstant(preg_last_error());
     }
 
-    public static function error_constant($error): string
+    public static function error_constant(int $error): string
     {
-        $constants = [
-            PREG_NO_ERROR => 'PREG_NO_ERROR',
-            PREG_BAD_UTF8_ERROR => 'PREG_BAD_UTF8_ERROR',
-            PREG_INTERNAL_ERROR => 'PREG_INTERNAL_ERROR',
-            PREG_BACKTRACK_LIMIT_ERROR => 'PREG_BACKTRACK_LIMIT_ERROR',
-            PREG_RECURSION_LIMIT_ERROR => 'PREG_RECURSION_LIMIT_ERROR',
-            PREG_BAD_UTF8_OFFSET_ERROR => 'PREG_BAD_UTF8_OFFSET_ERROR',
-        ];
-
-        if (array_key_exists($error, $constants)) {
-            return $constants[$error];
-        }
-
-        return 'UNKNOWN_PREG_ERROR';
+        return (new PregConstants())->getConstant($error);
     }
 }
