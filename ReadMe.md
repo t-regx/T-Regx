@@ -107,7 +107,7 @@ pattern('\d+ ?')
 pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->with('*')
 ```
 ```
-(string) 'P. Sh*man, 42 Wall**y w**, Sydn**'
+(string) 'P. Sh*man, 42 Wall*y w*, Sydn*'
 ```
 
 Because we value clean API, magic string patterns (`$1`, `${12}`, `\\2`) will not be treated "magically". 
@@ -158,7 +158,7 @@ or
 
 #### Unnecessary calls
 ```php
-pattern('\d+ ?')
+pattern('\d+')
     ->match('192 168 172 14')
     ->iterate(function (Match $match) {})
     ->iterate(function (Match $match) {})

@@ -15,7 +15,7 @@ class ReadMeTest extends TestCase
         $result = pattern('[a-z0-9]')->replace('Hello, world')->with('*');
 
         // then
-        $this->assertEquals('H****, ****', $result);
+        $this->assertEquals('H****, *****', $result);
     }
 
     /**
@@ -60,7 +60,7 @@ class ReadMeTest extends TestCase
     public function iterate()
     {
         // when + then
-        pattern('\d+ ?')
+        pattern('\d+')
             ->match('192 168 172 14')
             ->iterate(function (Match $match) {
 
@@ -90,7 +90,7 @@ class ReadMeTest extends TestCase
         $result = pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->with('*');
 
         // then
-        $this->assertEquals('P. Sh*man, 42 Wall**y w**, Sydn**', $result);
+        $this->assertEquals('P. Sh*man, 42 Wall*y w*, Sydn*', $result);
     }
 
     /**
