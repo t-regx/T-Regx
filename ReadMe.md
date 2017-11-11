@@ -110,16 +110,7 @@ pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->with('*')
 (string) 'P. Sh*man, 42 Wall*y w*, Sydn*'
 ```
 
-Because we value clean API, magic string patterns (`$1`, `${12}`, `\\2`) will not be treated "magically". 
-They will be replaced literally. 
-```php
-pattern('\d+')->replace('600 700 800')->with('Number:$1')
-```
-```
-(string) 'Number:$1 Number:$1 Number:$1'
-```
-
-Use `replace()->callback()` to render strings with capturing groups.
+For more readability, use `replace()->callback()` to render strings with capturing groups.
 
 #### Replace using callbacks
 
@@ -167,23 +158,3 @@ pattern('\d+')
 ```
 
 Clean Regex will perform only one call to `preg_match()`, and use cached results to iterate matches.
-
-#### PCRE magic format
-
-```php
-pattern('.*')
-    ->replace('Word')
-    ->with('Something $1')
-```
-Will result in `Something $1`, not `Something Word`, because Clean Regex will treat all subjects literally.
-
-However, if you need better performance (using single call to C API, without PHP callbacks) you can us this:
-```php
-pcre()
-    ->pattern('.*')
-    ->replace('Word')
-    ->withPcreFormat('Something $1')
-```
-```
-(string) 'Something Word' 
-```

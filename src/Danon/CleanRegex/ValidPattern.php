@@ -16,7 +16,7 @@ class ValidPattern
 
     public function isValid()
     {
-        $result = @preg_match_all($this->pattern->pattern, null);
+        $result = @preg_match($this->pattern->originalPattern, null);
         return $result !== false;
     }
 

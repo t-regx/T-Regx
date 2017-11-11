@@ -96,18 +96,6 @@ class ReadMeTest extends TestCase
     /**
      * @test
      */
-    public function replaceLiterally()
-    {
-        // when
-        $result = pattern('\d+')->replace('600 700 800')->with('Number:$1');
-
-        // then
-        $this->assertEquals('Number:$1 Number:$1 Number:$1', $result);
-    }
-
-    /**
-     * @test
-     */
     public function replaceCallbacks()
     {
         // given

@@ -34,7 +34,7 @@ class ValidPatternTest extends TestCase
 
     /**
      * @test
-     * @dataProvider invalidPatterns
+     * @dataProvider \Test\Danon\DataProviders::invalidPregPatterns()
      * @param string $string
      */
     public function shouldNotValidatePattern(string $string)
@@ -47,13 +47,5 @@ class ValidPatternTest extends TestCase
 
         // then
         $this->assertFalse($isValid, "Failed asserting that pattern is invalid");
-    }
-
-    public function invalidPatterns()
-    {
-        return [
-            ['/un(closed.group/'],
-            ['/*starting.quantifier/'],
-        ];
     }
 }

@@ -2,12 +2,14 @@
   "name": "danon/clean-regex",
   "autoload": {
     "files": [
-      "helper/helper.php"
+      "helper/helper.php",
+      "test/Danon/DataProviders.php"
     ],
     "psr-0": {
       "Danon\\CleanRegex\\": "src",
       "Danon\\SafeRegex\\": "src",
-      "Danon\\CleanRegex\\Test\\": "test"
+      "Danon\\CleanRegex\\Test\\": "test",
+      "Danon\\SafeRegex\\Test\\": "test"
     }
   },
   "require-dev": {

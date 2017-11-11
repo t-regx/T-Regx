@@ -8,22 +8,8 @@ use PHPUnit\Framework\TestCase;
 
 class ExceptionFactoryTest extends TestCase
 {
-    public function invalidPatterns()
-    {
-        return [
-            ['/{2,1}/'],
-            ['/)/'],
-            ['/+/'],
-            [' /\/'],
-            ['/\/'],
-            ['/\\/'],
-            ['/(/'],
-            ['/{1}/'],
-        ];
-    }
-
     /**
-     * @dataProvider invalidPatterns
+     * @dataProvider \Test\Danon\DataProviders::invalidPregPatterns()
      * @param string $invalidPattern
      */
     public function testPregErrors(string $invalidPattern)
