@@ -87,13 +87,21 @@ class Match
         return array_key_exists($nameOrIndex, $this->matches);
     }
 
+    public function all(): array
+    {
+        return array_map(function ($match) {
+            list($value, $offset) = $match;
+            return $value;
+        }, $this->matches[self::WHOLE_MATCH]);
+    }
+
     public function offset(): int
     {
         list($value, $offset) = $this->matches[self::WHOLE_MATCH][$this->index];
         return $offset;
     }
 
-    function __toString(): string
+    public function __toString(): string
     {
         return $this->match();
     }
