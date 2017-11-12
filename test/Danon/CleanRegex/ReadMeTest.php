@@ -119,6 +119,18 @@ class ReadMeTest extends TestCase
     /**
      * @test
      */
+    public function countVowels()
+    {
+        // when
+        $amount = pattern('[aeiouy]')->count('Computer');
+
+        // then
+        $this->assertEquals('There are 3 vowels', "There are $amount vowels");
+    }
+
+    /**
+     * @test
+     */
     public function replaceStrings()
     {
         // when

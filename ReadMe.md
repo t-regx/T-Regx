@@ -10,6 +10,7 @@ Clean, descriptive wrapper functions enhancing PCRE extension methods.
     * [Matching](#matching)
     * [Retrieving](#retrieving)
     * [Iterating](#iterating)
+    * [Counting](#counting)
     * [Replacing](#replace-strings)
     * [Other](#first-match-with-callback)
 4. [Performance](#performance)
@@ -137,6 +138,17 @@ array (4) {
     2 => (integer) 344,
     3 => (integer) 28,
 }
+```
+
+## Counting
+
+```php
+$amount = pattern('[aeiouy]')->count('Computer');
+
+echo "There are $amount vowels";
+```
+```
+There are 3 vowels
 ```
 
 ## Replace strings
