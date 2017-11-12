@@ -29,10 +29,6 @@ class ReplacePattern
 
     public function callback(callable $callback): string
     {
-        $result = preg_replace_callback($this->pattern->pattern, $callback, $this->subject);
-        if ($result === null) {
-            throw new PatternReplaceException();
-        }
-        return $result ?: "";
+        return (new ReplacePatternCallbackInvoker($this->pattern, $this->subject))->invoke($callback);
     }
 }

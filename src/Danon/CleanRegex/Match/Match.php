@@ -6,14 +6,14 @@ use Danon\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 class Match
 {
     /** @var integer */
-    private const WHOLE_MATCH = 0;
+    protected const WHOLE_MATCH = 0;
 
     /** @var string */
-    private $subject;
+    protected $subject;
     /** @var int */
-    private $index;
+    protected $index;
     /** @var array */
-    private $matches;
+    protected $matches;
 
     public function __construct(string $subject, int $index, array $matches)
     {
