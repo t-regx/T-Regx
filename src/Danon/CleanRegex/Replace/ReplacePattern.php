@@ -10,17 +10,17 @@ class ReplacePattern
     private $pattern;
 
     /** @var string */
-    private $string;
+    private $subject;
 
-    public function __construct(Pattern $pattern, string $string)
+    public function __construct(Pattern $pattern, string $subject)
     {
         $this->pattern = $pattern;
-        $this->string = $string;
+        $this->subject = $subject;
     }
 
-    public function with(string $string): string
+    public function with(string $replacement): string
     {
-        $result = preg_replace($this->pattern->pattern, $string, $this->string);
+        $result = preg_replace($this->pattern->pattern, $replacement, $this->subject);
         if ($result === null) {
             throw new PatternReplaceException();
         }
@@ -29,7 +29,7 @@ class ReplacePattern
 
     public function callback(callable $callback): string
     {
-        $result = preg_replace_callback($this->pattern->pattern, $callback, $this->string);
+        $result = preg_replace_callback($this->pattern->pattern, $callback, $this->subject);
         if ($result === null) {
             throw new PatternReplaceException();
         }

@@ -9,17 +9,17 @@ class MatchesPattern
     /** @var Pattern */
     private $pattern;
     /** @var string */
-    private $string;
+    private $subject;
 
-    public function __construct(Pattern $pattern, string $string)
+    public function __construct(Pattern $pattern, string $subject)
     {
         $this->pattern = $pattern;
-        $this->string = $string;
+        $this->subject = $subject;
     }
 
     public function matches(): bool
     {
-        $argument = ValidPattern::matchableArgument($this->string);
+        $argument = ValidPattern::matchableArgument($this->subject);
 
         $result = @preg_match($this->pattern->pattern, $argument);
         if ($result === false) {

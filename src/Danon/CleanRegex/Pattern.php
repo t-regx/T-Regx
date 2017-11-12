@@ -25,29 +25,29 @@ class Pattern
         return new MatchPattern(new InternalPattern($this->pattern), $subject);
     }
 
-    public function matches(string $string): bool
+    public function matches(string $subject): bool
     {
-        return (new MatchesPattern(new InternalPattern($this->pattern), $string))->matches();
+        return (new MatchesPattern(new InternalPattern($this->pattern), $subject))->matches();
     }
 
-    public function replace(string $string): ReplacePattern
+    public function replace(string $subject): ReplacePattern
     {
-        return new ReplacePattern(new InternalPattern($this->pattern), $string);
+        return new ReplacePattern(new InternalPattern($this->pattern), $subject);
     }
 
-    public function filter(array $array): array
+    public function filter(array $haystack): array
     {
-        return (new FilterArrayPattern(new InternalPattern($this->pattern), $array))->filter();
+        return (new FilterArrayPattern(new InternalPattern($this->pattern), $haystack))->filter();
     }
 
-    public function split(string $string): SplitPattern
+    public function split(string $subject): SplitPattern
     {
-        return new SplitPattern(new InternalPattern($this->pattern), $string);
+        return new SplitPattern(new InternalPattern($this->pattern), $subject);
     }
 
-    public function count(string $string): int
+    public function count(string $subject): int
     {
-        return (new CountPattern(new InternalPattern($this->pattern), $string))->count();
+        return (new CountPattern(new InternalPattern($this->pattern), $subject))->count();
     }
 
     public function quote(): string

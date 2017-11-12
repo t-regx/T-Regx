@@ -9,21 +9,21 @@ class SplitPattern
     private $pattern;
 
     /** @var string */
-    private $string;
+    private $subject;
 
-    public function __construct(Pattern $pattern, string $string)
+    public function __construct(Pattern $pattern, string $subject)
     {
         $this->pattern = $pattern;
-        $this->string = $string;
+        $this->subject = $subject;
     }
 
     public function split(): array
     {
-        return preg_split($this->pattern->pattern, $this->string);
+        return preg_split($this->pattern->pattern, $this->subject);
     }
 
     public function separate(): array
     {
-        return preg_split($this->pattern->pattern, $this->string, PREG_SPLIT_DELIM_CAPTURE);
+        return preg_split($this->pattern->pattern, $this->subject, PREG_SPLIT_DELIM_CAPTURE);
     }
 }
