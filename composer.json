@@ -3,13 +3,13 @@
   "autoload": {
     "files": [
       "helper/helper.php",
-      "test/Danon/DataProviders.php"
+      "test/DataProviders.php"
     ],
     "psr-0": {
-      "Danon\\CleanRegex\\": "src",
-      "Danon\\SafeRegex\\": "src",
-      "Danon\\CleanRegex\\Test\\": "test",
-      "Danon\\SafeRegex\\Test\\": "test"
+      "CleanRegex\\": "src",
+      "SafeRegex\\": "src",
+      "CleanRegex\\Test\\": "test",
+      "SafeRegex\\Test\\": "test"
     }
   },
   "require-dev": {

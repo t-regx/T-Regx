@@ -1,8 +1,8 @@
 <?php
 
 if (!function_exists('pattern')) {
-    function pattern(string $pattern): \Danon\CleanRegex\Pattern
+    function pattern(string $pattern): \CleanRegex\Pattern
     {
-        return new \Danon\CleanRegex\Pattern($pattern);
+        return new \CleanRegex\Pattern($pattern);
     }
 }
