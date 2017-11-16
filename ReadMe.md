@@ -2,6 +2,8 @@
 
 Clean, descriptive wrapper functions enhancing PCRE extension methods.
 
+[![Build Status](https://travis-ci.org/PleaseDontKillMe/pattern.svg?branch=master)](https://travis-ci.org/PleaseDontKillMe/pattern)
+
 1. [Overview](#regular-expressions-wrapper)
     * [What happens if you fail?](#what-happens-if-you-fail)
     * [Why CleanRegex?](#why-cleanregex)

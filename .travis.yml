@@ -1,0 +1,14 @@
+language: php
+php:
+  - 7.1.9
+
+branches:
+  only:
+    master
+
+before_install:
+  - travis_retry composer self-update
+  - composer install
+
+script:
+  - phpunit --bootstrap helper/bootstrap.php test
