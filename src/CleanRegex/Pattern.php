@@ -52,7 +52,7 @@ class Pattern
 
     public function quote(): string
     {
-        return preg_quote($this->pattern);
+        return (new QuotePattern(new InternalPattern($this->pattern)))->quote();
     }
 
     public function valid(): bool

@@ -3,6 +3,7 @@ namespace CleanRegex\Match;
 
 use CleanRegex\Exception\Preg\PatternMatchException;
 use CleanRegex\Internal\Pattern;
+use SafeRegex\ExceptionFactory;
 
 class MatchPattern
 {
@@ -25,9 +26,10 @@ class MatchPattern
     public function all(): array
     {
         $matches = [];
-        if (preg_match_all($this->pattern->pattern, $this->subject, $matches) === false) {
-            throw new PatternMatchException();
-        }
+
+        $result = @preg_match_all($this->pattern->pattern, $this->subject, $matches);
+        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match', $result);
+
         return $matches[0];
     }
 
@@ -71,20 +73,20 @@ class MatchPattern
     private function performMatchAll(): array
     {
         $matches = [];
-        $result = preg_match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
-        if ($result === false) {
-            throw new PatternMatchException();
-        }
+
+        $result = @preg_match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
+        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match_all', $result);
+
         return $matches;
     }
 
     private function performMatchOne(): array
     {
         $matches = [];
-        $result = preg_match($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
-        if ($result === false) {
-            throw new PatternMatchException();
-        }
+
+        $result = @preg_match($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
+        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match', $result);
+
         return $matches;
     }
 
@@ -105,19 +107,17 @@ class MatchPattern
 
     public function matches()
     {
-        $result = preg_match($this->pattern->pattern, $this->subject);
-        if ($result === false) {
-            throw new PatternMatchException();
-        }
+        $result = @preg_match($this->pattern->pattern, $this->subject);
+        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match', $result);
+
         return $result === 1;
     }
 
     public function count(): int
     {
-        $result = preg_match_all($this->pattern->pattern, $this->subject);
-        if ($result === false) {
-            throw new PatternMatchException();
-        }
+        $result = @preg_match_all($this->pattern->pattern, $this->subject);
+        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match_all', $result);
+
         return $result;
     }
 }

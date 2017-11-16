@@ -3,6 +3,7 @@ namespace CleanRegex;
 
 use CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
 use CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use SafeRegex\ExceptionFactory;
 
 class FlagsValidator
 {
@@ -39,7 +40,14 @@ class FlagsValidator
 
     private function containWhitespace(string $flags): bool
     {
-        return preg_match('/\s/', $flags) === 1;
+        $result = @preg_match('/\s/', $flags);
+
+        $exception = (new ExceptionFactory())->retrieveGlobalsAndReturn('preg_match', $result);
+        if ($exception === null) {
+            return $result === 1;
+        }
+
+        throw new InternalCleanRegexException();
     }
 
     private function validateFlags(string $flags)

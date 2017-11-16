@@ -1,8 +1,8 @@
 <?php
 namespace CleanRegex;
 
-use CleanRegex\Exception\Preg\PatternMatchesException;
 use CleanRegex\Internal\Pattern;
+use SafeRegex\ExceptionFactory;
 
 class MatchesPattern
 {
@@ -22,9 +22,7 @@ class MatchesPattern
         $argument = ValidPattern::matchableArgument($this->subject);
 
         $result = @preg_match($this->pattern->pattern, $argument);
-        if ($result === false) {
-            throw new PatternMatchesException(preg_last_error());
-        }
+        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match', $result);
 
         return $result === 1;
     }

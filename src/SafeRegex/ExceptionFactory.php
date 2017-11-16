@@ -16,27 +16,25 @@ class ExceptionFactory
      */
     public function retrieveGlobalsAndThrow(string $methodName, $pregResult): void
     {
-        $phpError = error_get_last();
-        error_clear_last();
+        $exception = $this->retrieveGlobalsAndReturn($methodName, $pregResult);
 
-        (new ExceptionFactory())->createAndThrow($methodName, $pregResult, preg_last_error(), $phpError);
+        if ($exception !== null) {
+            throw $exception;
+        }
     }
 
     /**
      * @param string $methodName
      * @param mixed $pregResult
-     * @param int $pregError
-     * @param array|null $phpError
-     * @return void
+     * @return SafeRegexException|null
      * @throws SafeRegexException
      */
-    public function createAndThrow(string $methodName, $pregResult, int $pregError, ?array $phpError): void
+    public function retrieveGlobalsAndReturn(string $methodName, $pregResult): ?SafeRegexException
     {
-        $exception = $this->create($methodName, $pregResult, $pregError, $phpError);
+        $phpError = error_get_last();
+        error_clear_last();
 
-        if ($exception !== null) {
-            throw $exception;
-        }
+        return (new ExceptionFactory())->create($methodName, $pregResult, preg_last_error(), $phpError);
     }
 
     /**

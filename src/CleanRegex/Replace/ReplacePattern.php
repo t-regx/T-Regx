@@ -1,8 +1,8 @@
 <?php
 namespace CleanRegex\Replace;
 
-use CleanRegex\Exception\Preg\PatternReplaceException;
 use CleanRegex\Internal\Pattern;
+use SafeRegex\ExceptionFactory;
 
 class ReplacePattern
 {
@@ -20,10 +20,9 @@ class ReplacePattern
 
     public function with(string $replacement): string
     {
-        $result = preg_replace($this->pattern->pattern, $replacement, $this->subject);
-        if ($result === null) {
-            throw new PatternReplaceException();
-        }
+        $result = @preg_replace($this->pattern->pattern, $replacement, $this->subject);
+        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_replace', $result);
+
         return $result ?: "";
     }
 

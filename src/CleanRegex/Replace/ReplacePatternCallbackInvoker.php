@@ -4,6 +4,7 @@ namespace CleanRegex\Replace;
 use CleanRegex\Exception\Preg\PatternReplaceException;
 use CleanRegex\Internal\Pattern;
 use CleanRegex\Match\ReplaceMatch;
+use SafeRegex\ExceptionFactory;
 
 class ReplacePatternCallbackInvoker
 {
@@ -36,7 +37,7 @@ class ReplacePatternCallbackInvoker
 
         $offsetModification = 0;
 
-        return preg_replace_callback($this->pattern->pattern, function (array $match) use (&$callback, $matches, &$counter, &$offsetModification) {
+        $return = @preg_replace_callback($this->pattern->pattern, function (array $match) use (&$callback, $matches, &$counter, &$offsetModification) {
             $search = $match[0];
             $replacement = call_user_func($callback, new ReplaceMatch($this->subject, $counter++, $matches, $this->pattern, $offsetModification));
 
@@ -44,15 +45,18 @@ class ReplacePatternCallbackInvoker
 
             return $replacement;
         }, $this->subject);
+
+        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_replace_callback', $return);
+
+        return $return;
     }
 
     private function analyzePattern(): array
     {
         $matches = [];
-        $result = preg_match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
-        if ($result === null) {
-            throw new PatternReplaceException();
-        }
+        $result = @preg_match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
+        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match_all', $result);
+
         return $matches;
     }
 }
