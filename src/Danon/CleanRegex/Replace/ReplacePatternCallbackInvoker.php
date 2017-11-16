@@ -3,7 +3,6 @@ namespace Danon\CleanRegex\Replace;
 
 use Danon\CleanRegex\Exception\Preg\PatternReplaceException;
 use Danon\CleanRegex\Internal\Pattern;
-use Danon\CleanRegex\Match\Match;
 use Danon\CleanRegex\Match\ReplaceMatch;
 
 class ReplacePatternCallbackInvoker
@@ -32,25 +31,28 @@ class ReplacePatternCallbackInvoker
 
     private function performReplaceCallback(callable $callback): string
     {
-        $matches = [];
+        $matches = $this->analyzePattern();
         $counter = 0;
 
-        return preg_replace_callback($this->pattern->pattern, function (array $match) use (&$callback, &$matches, &$counter) {
-            $matches = $this->mergePreservingKeys($matches ?: $match, $match);
+        $offsetModification = 0;
 
-            return call_user_func($callback, new ReplaceMatch($this->subject, $counter++, $matches, $this->pattern));
+        return preg_replace_callback($this->pattern->pattern, function (array $match) use (&$callback, $matches, &$counter, &$offsetModification) {
+            $search = $match[0];
+            $replacement = call_user_func($callback, new ReplaceMatch($this->subject, $counter++, $matches, $this->pattern, $offsetModification));
+
+            $offsetModification += strlen($replacement) - strlen($search);
+
+            return $replacement;
         }, $this->subject);
     }
 
-    function mergePreservingKeys(array $matches, array $match): array
+    private function analyzePattern(): array
     {
-        array_walk($matches, function (&$value, $key, $newMatch) {
-            $value = [
-                [1 => -1] + (array)$value,
-                [$newMatch[$key], -1]
-            ];
-        }, $match);
-
+        $matches = [];
+        $result = preg_match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
+        if ($result === null) {
+            throw new PatternReplaceException();
+        }
         return $matches;
     }
 }

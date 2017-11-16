@@ -21,6 +21,26 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldReplaceWithStringUsingCallback()
+    {
+        // given
+        $pattern = 'http://(?<name>[a-z]+)\.(com|org)';
+        $subject = 'Links: http://google.com and http://other.org.';
+
+        // when
+        $result = pattern($pattern)
+            ->replace($subject)
+            ->callback(function () {
+                return 'a';
+            });
+
+        // then
+        $this->assertEquals($result, 'Links: a and a.');
+    }
+
+    /**
+     * @test
+     */
     public function shouldReplaceWithCallback()
     {
         // given
@@ -79,7 +99,7 @@ class ReplacePatternTest extends TestCase
         pattern($pattern)->replace($subject)->callback($callback);
 
         // then
-        $this->assertEquals([7, 18, 29], $offsets);
+        $this->assertEquals([7, 29, 57], $offsets);
     }
 
     /**
@@ -90,7 +110,6 @@ class ReplacePatternTest extends TestCase
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
         $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
-        $subject = 'Links: a and a. and again a';
 
         $offsets = [];
 
@@ -103,6 +122,6 @@ class ReplacePatternTest extends TestCase
         pattern($pattern)->replace($subject)->callback($callback);
 
         // then
-        $this->assertEquals([7, 8, 9], $offsets);
+        $this->assertEquals([7, 13, 26], $offsets);
     }
 }
