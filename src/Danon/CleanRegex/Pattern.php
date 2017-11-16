@@ -57,7 +57,7 @@ class Pattern
 
     public function valid(): bool
     {
-        return (new ValidPattern(new InternalPattern($this)))->isValid();
+        return (new ValidPattern(new InternalPattern($this->pattern)))->isValid();
     }
 
     public function delimitered(): ?string

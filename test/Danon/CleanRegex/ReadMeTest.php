@@ -159,4 +159,52 @@ class ReadMeTest extends TestCase
         // then
         $this->assertEquals($result, 'Links: google and other.');
     }
+
+    /**
+     * @test
+     */
+    public function validatePattern()
+    {
+        // when
+        $result = pattern('/[a-z/')->valid();
+
+        // then
+        $this->assertFalse($result);
+    }
+
+    /**
+     * @test
+     */
+    public function validateWithoutDelimiters()
+    {
+        // when
+        $result = pattern('welcome')->valid();
+
+        // then
+        $this->assertFalse($result);
+    }
+
+    /**
+     * @test
+     */
+    public function validateWithDelimiters()
+    {
+        // when
+        $result = pattern('/[a-z]/')->valid();
+
+        // then
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @test
+     */
+    public function quotePattern()
+    {
+        // when
+        $result = pattern('.*[a-z]?')->quote();
+
+        // then
+        $this->assertEquals('\.\*\[a\-z\]\?', $result);
+    }
 }

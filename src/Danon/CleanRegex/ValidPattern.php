@@ -3,6 +3,8 @@ namespace Danon\CleanRegex;
 
 use Danon\CleanRegex\Exception\CleanRegex\ArgumentNotAllowedException;
 use Danon\CleanRegex\Internal\Pattern;
+use Danon\SafeRegex\Exception\SafeRegexException;
+use Danon\SafeRegex\ExceptionFactory;
 
 class ValidPattern
 {

@@ -12,6 +12,7 @@ Clean, descriptive wrapper functions enhancing PCRE extension methods.
     * [Iterating](#iterating)
     * [Counting](#counting)
     * [Replacing](#replace-strings)
+    * [Validating](#validate-pattern)
     * [Other](#first-match-with-callback)
 4. [Performance](#performance)
 
@@ -31,6 +32,8 @@ if (($result = preg_match('/((Hello, )?World/')) === false) {
 if ($result) {
 ```
 *`preg_match()`  can return `1` (match), `0` (no matches) or `false` (pattern error).*
+
+Awful!
 
 ## Why CleanRegex?
 
@@ -53,7 +56,8 @@ if ($result) {
   ```
   
 * ### Don't have to use /word/ slashes
-  Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. CleanRegex will add them, if they're not already present. 
+  Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. CleanRegex will conveniently add them, 
+  if they're not already present. 
 
 
 # Installation
@@ -61,7 +65,6 @@ if ($result) {
 ```bash
 composer require "danon/clean-regex"
 ```
-
 
 # API
 
@@ -77,13 +80,13 @@ pattern('[aeiouy]')->matches('Computer');
 
 #### Get all matches:
 ```php
-pattern('\d+ ?')->match('192 168 172 14')->all()
+pattern('\d+')->match('192 168 172 14')->all()
 ```
 ```
 array (4) {
-  0 => string '192 ',
-  1 => string '168 ',
-  2 => string '172 ',
+  0 => string '192',
+  1 => string '168',
+  2 => string '172',
   3 => string '14',
 }
 ```
@@ -189,6 +192,45 @@ pattern('http://(?<name>[a-z]+)\.(com|org)')
 ```
 (string) 'Links: google and other.'
 ```
+
+## Validate pattern
+
+Want to validate pattern before calling it?
+```php
+pattern('/[a-z/')->valid()
+```
+```bash
+(bool) false
+```
+
+:bulb: Remember that `pattern()->valid()` **requires** surrounding delimiters (`/.*/`, or `#.*#`). CleanRegex **will not**
+add them implicitly, so you can assure whether the input pattern is valid or not.
+
+```php
+pattern('welcome')->valid()
+```
+```bash
+(bool) false
+```
+
+The pattern has to be surrounded by delimiters, in order to be validated.
+
+```php
+pattern('/[a-z]/')->valid()
+```
+```bash
+(bool) true
+```
+
+### Quoting
+```php
+echo pattern('.*[a-z]?')->quote()
+```
+```bash
+\.\*\[a\-z\]\?
+```
+
+:bulb: Remember that `pattern()->quote()` doesn't automatically delimiter the pattern (with `/.*/` or `#.*#`).
 
 ### First match with details
 ```php
