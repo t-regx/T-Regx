@@ -163,6 +163,60 @@ class ReadMeTest extends TestCase
     /**
      * @test
      */
+    public function filterArray()
+    {
+        // when
+        $result = pattern('^[A-Z][a-z]+$')->filter([
+            'Mark',
+            'Robert',
+            'asdczx',
+            'Jane',
+            'Stan123'
+        ]);
+
+        // then
+        $this->assertEquals(['Mark', 'Robert', 'Jane'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function firstMatchWithDetail()
+    {
+        // when
+        pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
+            ->match('Robert Likes Trains')
+            ->first(function (Match $match) {
+
+                // then
+                $this->assertEquals('Robert', $match->match());
+                $this->assertEquals('Robert', (string)$match);
+
+                $this->assertEquals('Robert Likes Trains', $match->subject());
+
+                $this->assertEquals(0, $match->index());
+                $this->assertEquals(0, $match->offset());
+
+                $this->assertEquals(['Robert', 'Likes', 'Trains'], $match->all());
+
+                $this->assertEquals('R', $match->group('capital'));
+                $this->assertEquals('R', $match->group(1));
+                $this->assertEquals('obert', $match->group('lowercase'));
+                $this->assertEquals('obert', $match->group(2));
+
+                $this->assertEquals(['capital', 'lowercase'], $match->groupNames());
+
+                $this->assertEquals(true, $match->hasGroup('capital'));
+
+                $this->assertEquals(true, $match->matched('capital'));
+
+                $this->assertEquals(['capital' => 'R', 'lowercase' => 'obert'], $match->namedGroups());
+            });
+    }
+
+    /**
+     * @test
+     */
     public function validatePattern()
     {
         // when
@@ -199,12 +253,24 @@ class ReadMeTest extends TestCase
     /**
      * @test
      */
+    public function delimiter()
+    {
+        // when
+        $result = pattern('[A-Z][a-z]')->delimitered();
+
+        // then
+        $this->assertEquals('/[A-Z][a-z]/', $result);
+    }
+
+    /**
+     * @test
+     */
     public function quotePattern()
     {
         // when
-        $result = pattern('.*[a-z]?')->quote();
+        $result = pattern('#.*[a-z]?#')->quote();
 
         // then
-        $this->assertEquals('\.\*\[a\-z\]\?', $result);
+        $this->assertEquals('#\.\*\[a\-z\]\?#', $result);
     }
 }

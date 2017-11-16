@@ -3,7 +3,6 @@ namespace CleanRegex;
 
 use CleanRegex\Exception\CleanRegex\ArgumentNotAllowedException;
 use CleanRegex\Internal\Pattern;
-use SafeRegex\Exception\SafeRegexException;
 use SafeRegex\ExceptionFactory;
 
 class ValidPattern
@@ -19,7 +18,8 @@ class ValidPattern
     public function isValid()
     {
         $result = @preg_match($this->pattern->originalPattern, null);
-        return $result !== false;
+        $exception = (new ExceptionFactory())->retrieveGlobalsAndReturn('preg_match', $result);
+        return $exception === null;
     }
 
     public static function matchableArgument($argument): string

@@ -7,6 +7,8 @@ use SafeRegex\ExceptionFactory;
 
 class MatchPattern
 {
+    private const WHOLE_MATCH = 0;
+
     /** @var Pattern */
     private $pattern;
 
@@ -51,14 +53,14 @@ class MatchPattern
 
     public function first(callable $callback = null): ?string
     {
-        $matches = $this->performMatchOne();
+        $matches = $this->performMatchAll();
         if (empty($matches)) return null;
 
         if ($callback !== null) {
-            call_user_func($callback, new Match($this->subject, 0, [$matches]));
+            call_user_func($callback, new Match($this->subject, 0, $matches));
         }
 
-        list($value, $offset) = $matches[0];
+        list($value, $offset) = $matches[self::WHOLE_MATCH][0];
         return $value;
     }
 
@@ -76,16 +78,6 @@ class MatchPattern
 
         $result = @preg_match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
         (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match_all', $result);
-
-        return $matches;
-    }
-
-    private function performMatchOne(): array
-    {
-        $matches = [];
-
-        $result = @preg_match($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
-        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match', $result);
 
         return $matches;
     }

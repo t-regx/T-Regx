@@ -1,5 +1,7 @@
 {
-  "name": "danon/clean-regex",
+  "name": "pattern/clean-regex",
+  "version": "1.0",
+  "description": "The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE extension methods.",
   "autoload": {
     "files": [
       "helper/helper.php",
@@ -11,6 +13,9 @@
       "CleanRegex\\Test\\": "test",
       "SafeRegex\\Test\\": "test"
     }
+  },
+  "require": {
+    "php": ">=7.1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.4"

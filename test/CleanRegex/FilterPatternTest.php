@@ -37,7 +37,7 @@ class FilterPatternTest extends TestCase
             [
                 '/^[aoe]$/',
                 ['a', 'b', 'o'],
-                ['a', 2 => 'o']
+                ['a', 'o']
             ],
             [
                 '/^.$/',

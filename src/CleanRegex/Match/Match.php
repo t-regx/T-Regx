@@ -59,10 +59,10 @@ class Match
     {
         $namedGroups = [];
 
-        foreach ($this->matches as $index => $match) {
-            if (is_string($index)) {
+        foreach ($this->matches as $groupNameOrIndex => $match) {
+            if (is_string($groupNameOrIndex)) {
                 list($value, $offset) = $match[$this->index];
-                $namedGroups[$index] = $value;
+                $namedGroups[$groupNameOrIndex] = $value;
             }
         }
 
@@ -85,6 +85,15 @@ class Match
         $this->validateGroupName($nameOrIndex);
 
         return array_key_exists($nameOrIndex, $this->matches);
+    }
+
+    /**
+     * @param string|int $nameOrIndex
+     * @return bool
+     */
+    public function matched($nameOrIndex): bool
+    {
+        return $this->matches[$nameOrIndex][$this->index] !== '';
     }
 
     public function all(): array

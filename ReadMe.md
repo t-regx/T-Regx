@@ -1,22 +1,69 @@
 # Regular Expressions wrapper
 
-Clean, descriptive wrapper functions enhancing PCRE extension methods.
+The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE extension methods.
 
-[![Build Status](https://travis-ci.org/PleaseDontKillMe/pattern.svg?branch=master)](https://travis-ci.org/PleaseDontKillMe/pattern)
+[![Build Status](https://travis-ci.org/Danon/CleanRegex.svg?branch=master)](https://travis-ci.org/Danon/CleanRegex)
 
 1. [Overview](#regular-expressions-wrapper)
+    * [Why CleanRegex stands out?](#why-cleanregex-stands-out)
     * [What happens if you fail?](#what-happens-if-you-fail)
-    * [Why CleanRegex?](#why-cleanregex)
-2. [Installation](#installation)  
+    * [What's SafeRegex?](#cleanregex-vs-saferegex)
+2. [Installation](#installation)
 3. [API](#api)  
     * [Matching](#matching)
     * [Retrieving](#retrieving)
     * [Iterating](#iterating)
     * [Counting](#counting)
     * [Replacing](#replace-strings)
+    * [Splitting](#split-a-string)
+    * [Filtering](#filter-an-array)
     * [Validating](#validate-pattern)
-    * [Other](#first-match-with-callback)
-4. [Performance](#performance)
+    * [Delimitering](#delimter-a-pattern)
+    * [Other](#first-match-with-details)
+4. [Why CleanRegex stands out?](#why-cleanregex-stands-out)
+5. [Performance](#performance)
+
+## Why CleanRegex stands out?
+
+* ### Written with Clean API in mind
+   * No hidden behaviour or magical features
+   * One method, one purpose, only
+   * Descriptive, chainable interface
+   * Catches all PCRE-related warnings and throws exceptions instead
+
+* ### **No interference** with your project
+   * Not messing with error handlers **in any way**.
+   * Not using any global or static variables.
+
+* ### Working **with** the developer
+   * UTF8 support out of the box.
+   * Many additional features that aren't provided by PHP or PCRE.
+   * Automatic delimiters for your patterns.
+   * Tracking offset while replacing strings.
+   * Pure pattern [validation](#validate-pattern).
+   * Protects against **any** PCRE error (not just `preg_last_error()`). See [Exception Tree](https://github.com/PleaseDontKillMe/pattern).
+   * Each method throws separate derivation of `CleanRegexException` (`MatchPatternException`, `ReplacePatternException`, etc.), so you can try-catch multiple errors.
+   * Handles all PCRE warnings, and throws exceptions instead.
+
+* ### Cleaning the mess after PCRE
+   * Fixing error with multi-byte offset.
+   * Handling many ways `preg_*()` methods can fail, with graceful exceptions.
+
+* ### Automatic delimiters for your pattern
+  Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. CleanRegex's smart delimiter
+  will conveniently add one of many delimiters for you (so to minimize the need of you escaping them), if they're not already present.
+
+* ###  Always an exception
+  `preg_match()` returns `false` if an error occurred or, if no match is found - `0` (which evaluates to `false`).  You have to do an **explicit check** in order to react to it. CleanRegex always throws an exception. 
+
+  We got your back.
+
+* ### No type-mixing
+  Using `PCRE_CAPTURE_OFFSET` changes return types from `string` to an `array`. And there's more...
+
+  You know these. You've been there.
+
+[Scroll to API](#api)  
 
 ## What happens if you fail?
 To check whether the pattern fails, you need to change this:
@@ -37,35 +84,44 @@ if ($result) {
 
 Awful!
 
-## Why CleanRegex?
 
-* ###  Always an exception
-  `preg_match()` returns `false` if an error occurred or, if no match is found - `0` (which evaluates to `false`).  You have to do an **explicit check** in order to react to it. CleanRegex always throws an exception. 
+[Scroll to API](#api)  
 
-  We got your back.
+## CleanRegex vs SafeRegex
 
-* ### No type-mixing
-  Using `PCRE_CAPTURE_OFFSET` changes return types from `string` to an `array`. And there's more...
+Only interested in catching warnings and fails, without changing your code?
 
-  You know these. You've been there.
+SafeRegex is a copy of `preg_*()` functions, but:
+ * They never emit warnings
+ * You don't have to check for `false` or `null` return on fail (results that suggest that the method failed)
+ * Throw an exception on fail
 
-* ### Cleaner API
+You don't need to worry about warnings or returning false 
+([or sometimes null](http://php.net/manual/en/function.preg-replace-callback-array.php)).
 
-  CleanRegex allows you to use cleaner, more descriptive and chainable API:
+```php
+use SafeRegex\preg_match;
 
-  ```php
-  pattern('[a-z0-9]')->replace('Hello, world')->with('*')
-  ```
-  
-* ### Don't have to use /word/ slashes
-  Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. CleanRegex will conveniently add them, 
-  if they're not already present. 
+$result = preg_match('/a/', $subject'); // idential to preg_match, but never emits a warning or returns false
+```
+if you don't want to mix SafeRegex methods and default PCRE methods, you can casually swap `_` for `::`
+```php
+use SafeRegex\preg;
 
+$result = preg::match('/a/', $subject'); // idential to preg_match, but never emits a warning or returns false
+```
+
+Regardless, of whether you use `preg_match_all()`, `SafeRegex\preg_match_all()` or `preg::match_all()`, these methods have exactly alike interfaces and paramters,
+and return exactly the same data. The only exception is, that SafeRegex methods never emit warnings or return `false` 
+([or sometimes null](http://php.net/manual/en/function.preg-replace-callback-array.php)), but throw an Exception on fail.
+
+[Scroll to API](#api)  
 
 # Installation
+Simply add a composer dependency :)
 
 ```bash
-composer require "danon/clean-regex"
+composer require "pattern/clean-regex"
 ```
 
 # API
@@ -115,7 +171,7 @@ pattern('\d+')
         (string) $match    // also gets the match
 
         // gets the match offset 
-        $match->offset()  // (int) 8
+        $match->offset()   // (int) 8
         
         // gets the match index
         $match->index()    // (int) 2
@@ -125,7 +181,9 @@ pattern('\d+')
     });
 ```
 
-You can also use `match()->first(function (Match $m) {})` to invoke the callback only for the first match.
+:bulb: `Match` object contains many, many useful information. Learn more about `Match` in [Matching with details](#first-match-with-details)
+
+:bulb: You can also use `match()->first(function (Match $m) {})` to invoke the callback only for the first match.
 
 ### Making a map
 
@@ -144,6 +202,8 @@ array (4) {
     3 => (integer) 28,
 }
 ```
+
+:bulb: `Match` object contains many, many useful information. Learn more about `Match` in [Matching with details](#first-match-with-details)
 
 ## Counting
 
@@ -195,55 +255,125 @@ pattern('http://(?<name>[a-z]+)\.(com|org)')
 (string) 'Links: google and other.'
 ```
 
+## Split a string
+Split a string:
+```php
+pattern(',')->split('Foo,Bar,Cat')->split();
+```
+```
+array(3) [
+    0 => (string) 'Foo', 
+    1 => (string) 'Bar', 
+    2 => (string) 'Cat'
+]
+```
+
+Split a string, but also include a delimiter in the result:
+```php
+pattern('(,)')->split('One,Two,Three')->separate();
+```
+```
+array(3) [
+    0 => (string) 'One', 
+    1 => (string) ',', 
+    2 => (string) 'Two', 
+    2 => (string) ',', 
+    4 => (string) 'Three'
+]
+```
+
+:bulb: Please keep in mind, that for `separate()` to return the delimiter, the delimiter must be in a capturing group
+(wrapped in parentheses `(,)`). That's how `preg_split()` works, and we won't use hacks to walk-around this.
+
+## Filter an array
+
+```php
+pattern('[A-Z][a-z]+$')->filter([
+     'Mark',
+     'Robert',
+     'asdczx',
+     'Jane',
+     'Stan123'
+ ])
+```
+```
+array (3) {
+    0 => (string) 'Mark',
+    1 => (string) 'Robert',
+    2 => (string) 'Jane',
+}
+```
+
 ## Validate pattern
 
 Want to validate pattern before calling it?
 ```php
-pattern('/[a-z/')->valid()
+pattern('/[a-z]/')->valid();  // No exceptions, warnings (no side-effects)
 ```
-```bash
-(bool) false
 ```
-
-:bulb: Remember that `pattern()->valid()` **requires** surrounding delimiters (`/.*/`, or `#.*#`). CleanRegex **will not**
-add them implicitly, so you can assure whether the input pattern is valid or not.
-
-```php
-pattern('welcome')->valid()
-```
-```bash
-(bool) false
-```
-
-The pattern has to be surrounded by delimiters, in order to be validated.
-
-```php
-pattern('/[a-z]/')->valid()
-```
-```bash
 (bool) true
 ```
 
+:bulb: Remember that `pattern()->valid()` works with you, so delimiters (`/.*/` or `#.*#`) will not be added automatically 
+this time, and won't mess with your input :) so you can be sure whether the input pattern is valid or not.
+
+```php
+pattern('welcome')->valid();
+```
+```
+(bool) false
+```
+
+## Delimter a pattern 
+
+Want only to use our awesome delimiterer?
+
+```php
+pattern('[A-Z][a-z]')->delimitered();
+```
+```
+/[A-Z][a-z]/
+```
+
+
 ### Quoting
 ```php
-echo pattern('.*[a-z]?')->quote()
+echo pattern('#.*[a-z]?#')->quote();   // No exceptions, warnings (no side-effects)
 ```
 ```bash
-\.\*\[a\-z\]\?
+#\.\*\[a\-z\]\?#
 ```
 
 :bulb: Remember that `pattern()->quote()` doesn't automatically delimiter the pattern (with `/.*/` or `#.*#`).
 
 ### First match with details
 ```php
-pattern('[a-z]+$')
-    ->match('Robert likes trains')
-    ->first(function (Match $match) {
-        echo $match . ' at ' . $match->offset(); 
-    });
-```
-```bash
-trains at 13
+pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
+  ->match('Robert Likes Trains')
+  ->first(function (Match $match) {
+
+     $match->match();    // Gets the match ('Robert')
+     (string) $match;    // alias for match()
+
+     $match->subject();  // Gets the string that's being searched through ('Robert Likes Trains')
+
+     $match->index();    // Ordinal number of the match in the string
+
+     $match->offset();   // Gets the position of the match in the string, UTF8-safe
+
+     $match->all();      // Gets all other matches ('Robert', 'Likes', 'Trains')
+
+     $match->group('capital');   // Gets the value of a capturing group, by name ('R')
+     $match->group(2);           // Gets the value of a capturing group, by index ('obert')
+
+     $match->groupNames();       // Gets the names of the capturing groups (['capital', 'lowercase'])
+
+     $match->hasGroup('capital'); // Checks whether the group was used in the pattern (true)
+
+     $match->matched('capital');  // Checks whether the group has been matched by subject (true)
+
+     $match->namedGroups();       // Gets all named groups with values (['capital' => 'R', 'lowercase' => 'obert'])
+  });
 ```
 
 # What's better

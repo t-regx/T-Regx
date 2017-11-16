@@ -28,7 +28,7 @@ class SplitPattern
 
     public function separate(): array
     {
-        $result = @preg_split($this->pattern->pattern, $this->subject, PREG_SPLIT_DELIM_CAPTURE);
+        $result = @preg_split($this->pattern->pattern, $this->subject, -1, PREG_SPLIT_DELIM_CAPTURE);
         (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_split', $result);
 
         return $result;

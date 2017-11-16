@@ -18,8 +18,8 @@ class FilterArrayPattern
 
     public function filter(): array
     {
-        return array_filter($this->array, function ($element) {
+        return array_values(array_filter($this->array, function ($element) {
             return (new MatchesPattern($this->pattern, $element))->matches();
-        });
+        }));
     }
 }
