@@ -3,10 +3,14 @@ namespace SafeRegex\Exception;
 
 class ReturnFalseSafeRegexException extends SafeRegexException
 {
-    /** @var int */
+    /** @var mixed */
     private $returnValue;
 
-    public function __construct(string $methodName, mixed $returnValue)
+    /**
+     * @param string $methodName
+     * @param mixed  $returnValue
+     */
+    public function __construct(string $methodName, $returnValue)
     {
         parent::__construct($methodName);
         $this->returnValue = $returnValue;
