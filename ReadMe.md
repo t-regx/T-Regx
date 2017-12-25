@@ -7,6 +7,7 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 1. [Overview](#regular-expressions-wrapper)
     * [Why CleanRegex stands out?](#why-cleanregex-stands-out)
     * [What happens if you fail?](#what-happens-if-you-fail)
+    * [Ways of using CleanRegex](#ways-of-using-cleanregex)
     * [What's SafeRegex?](#cleanregex-vs-saferegex)
 2. [Installation](#installation)
 3. [API](#api)  
@@ -26,6 +27,8 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 ## Why CleanRegex stands out?
 
 * ### Written with Clean API in mind
+   * Deterministic
+   * Doesn't rely on global/static state
    * No hidden behaviour or magical features
    * One method, one purpose, only
    * Descriptive, chainable interface
@@ -84,20 +87,43 @@ if ($result) {
 
 Awful!
 
+## Ways of using CleanRegex
+
+There are 4 different entry points for CleanRegex and all of them work the same (No warnings, no errors, always exceptions).
+
+```php
+// Facade style
+Pattern::pattern('[A-Z][a-z]+')->matches($subject)
+```
+```php
+// Global method style
+pattern('[A-Z][a-z]+')->matches($subject)
+```
+```php
+use SafeRegex\preg_match;
+
+// Old school PCRE style
+preg_match('/[A-Z][a-z]+/', $subject);
+```
+```php
+// Separate API for preg_*() methods
+preg::match('/[A-Z][a-z]+/', $subject); 
+```
+
+If none of them suits you, feel free to create your own helper method :)
+```php
+function p(string $pattern) {
+    return new \CleanRegex\Pattern($pattern);
+}
+
+p('[A-Z][a-z]+')->matches('Jhon');
+```
 
 [Scroll to API](#api)  
 
 ## CleanRegex vs SafeRegex
 
 Only interested in catching warnings and fails, without changing your code?
-
-SafeRegex is a copy of `preg_*()` functions, but:
- * They never emit warnings
- * You don't have to check for `false` or `null` return on fail (results that suggest that the method failed)
- * Throw an exception on fail
-
-You don't need to worry about warnings or returning false 
-([or sometimes null](http://php.net/manual/en/function.preg-replace-callback-array.php)).
 
 ```php
 use SafeRegex\preg_match;
@@ -110,6 +136,14 @@ use SafeRegex\preg;
 
 $result = preg::match('/a/', $subject'); // idential to preg_match, but never emits a warning or returns false
 ```
+
+SafeRegex is a copy of `preg_*()` functions, but:
+ * They never emit warnings
+ * If an error occurred, they throw an exception
+ * You don't have to check for `false` or `null` return on fail (results that suggest that the method failed)
+
+You don't need to worry about warnings or returning false 
+([or sometimes null](http://php.net/manual/en/function.preg-replace-callback-array.php)).
 
 Regardless, of whether you use `preg_match_all()`, `SafeRegex\preg_match_all()` or `preg::match_all()`, these methods have exactly alike interfaces and paramters,
 and return exactly the same data. The only exception is, that SafeRegex methods never emit warnings or return `false` 
@@ -308,7 +342,7 @@ array (3) {
 
 Want to validate pattern before calling it?
 ```php
-pattern('/[a-z]/')->valid();  // No exceptions, warnings (no side-effects)
+pattern('/[a-z]/')->valid();  // No exceptions, no warnings (no side-effects)
 ```
 ```
 (bool) true
@@ -338,7 +372,7 @@ pattern('[A-Z][a-z]')->delimitered();
 
 ### Quoting
 ```php
-echo pattern('#.*[a-z]?#')->quote();   // No exceptions, warnings (no side-effects)
+echo pattern('#.*[a-z]?#')->quote();   // No exceptions, no warnings (no side-effects)
 ```
 ```bash
 #\.\*\[a\-z\]\?#
