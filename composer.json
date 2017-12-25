@@ -5,7 +5,8 @@
   "autoload": {
     "files": [
       "helper/helper.php",
-      "test/DataProviders.php"
+      "test/DataProviders.php",
+      "test/Warnings.php"
     ],
     "psr-0": {
       "CleanRegex\\": "src",

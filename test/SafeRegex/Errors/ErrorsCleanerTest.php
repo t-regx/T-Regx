@@ -3,9 +3,12 @@ namespace Test\SafeRegex\Errors;
 
 use PHPUnit\Framework\TestCase;
 use SafeRegex\Errors\ErrorsCleaner;
+use Test\Warnings;
 
 class ErrorsCleanerTest extends TestCase
 {
+    use Warnings;
+
     /**
      * @test
      */
@@ -13,7 +16,7 @@ class ErrorsCleanerTest extends TestCase
     {
         // given
         $cleaner = new ErrorsCleaner();
-        $this->causePhpError();
+        $this->causePhpWarning();
 
         // when
         $cleaner->clear();
@@ -30,7 +33,7 @@ class ErrorsCleanerTest extends TestCase
     {
         // given
         $cleaner = new ErrorsCleaner();
-        $this->causePregError();
+        $this->causePregWarning();
 
         // when
         $cleaner->clear();
@@ -38,15 +41,5 @@ class ErrorsCleanerTest extends TestCase
         // then
         $error = preg_last_error();
         $this->assertEquals(PREG_NO_ERROR, $error);
-    }
-
-    private function causePhpError()
-    {
-        @preg_match('/asd', '');
-    }
-
-    private function causePregError()
-    {
-        preg_match('/bad.utf8/u', "\xa0\xa1");
     }
 }
