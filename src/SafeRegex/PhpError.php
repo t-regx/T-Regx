@@ -44,4 +44,13 @@ class PhpError
     {
         return new self($array['type'], $array['message'], $array['file'], $array['line']);
     }
+
+    public static function getLast(): ?PhpError
+    {
+        $error = error_get_last();
+        if ($error === null) {
+            return null;
+        }
+        return PhpError::fromArray($error);
+    }
 }
