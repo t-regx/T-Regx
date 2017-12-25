@@ -20,14 +20,14 @@ class GuardedInvoker
 
     public function catch(): GuardedInvocation
     {
-        $this->clearObsoletePhpAndRuntimeErrors();
+        $this->clearObsoleteCompileAndRuntimeErrors();
 
         $result = call_user_func($this->callback);
 
         return new GuardedInvocation($result, $this->exception($result));
     }
 
-    private function clearObsoletePhpAndRuntimeErrors(): void
+    private function clearObsoleteCompileAndRuntimeErrors(): void
     {
         (new ErrorsCleaner())->clear();
     }

@@ -3,9 +3,9 @@ namespace SafeRegex\Errors\Errors;
 
 use SafeRegex\PhpError;
 
-class StandardPhpHostError extends PhpHostError
+class StandardCompileError extends CompileError
 {
-    /** @var PhpError| */
+    /** @var PhpError|null */
     private $error;
 
     public function __construct(?PhpError $error)

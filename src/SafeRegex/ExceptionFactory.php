@@ -1,7 +1,7 @@
 <?php
 namespace SafeRegex;
 
-use SafeRegex\Exception\PhpErrorSafeRegexException;
+use SafeRegex\Exception\CompileSafeRegexException;
 use SafeRegex\Exception\RuntimeSafeRegexException;
 use SafeRegex\Exception\ReturnFalseSafeRegexException;
 use SafeRegex\Exception\SafeRegexException;
@@ -51,7 +51,7 @@ class ExceptionFactory
         }
 
         if ($phpError !== null) {
-            return new PhpErrorSafeRegexException($methodName, PhpError::fromArray($phpError));
+            return new CompileSafeRegexException($methodName, PhpError::fromArray($phpError));
         }
 
         if ($pregResult === false) {

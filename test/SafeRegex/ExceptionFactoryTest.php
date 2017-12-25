@@ -1,7 +1,7 @@
 <?php
 namespace Test\SafeRegex;
 
-use SafeRegex\Exception\PhpErrorSafeRegexException;
+use SafeRegex\Exception\CompileSafeRegexException;
 use SafeRegex\Exception\RuntimeSafeRegexException;
 use SafeRegex\ExceptionFactory;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ class ExceptionFactoryTest extends TestCase
         $result = @preg_match($invalidPattern, '');
 
         // then
-        $this->expectException(PhpErrorSafeRegexException::class);
+        $this->expectException(CompileSafeRegexException::class);
 
         // when
         (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match', $result);

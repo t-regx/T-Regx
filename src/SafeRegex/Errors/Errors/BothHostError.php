@@ -5,25 +5,25 @@ use SafeRegex\Errors\HostError;
 
 class BothHostError implements HostError
 {
-    /** @var PhpHostError */
-    private $php;
+    /** @var CompileError */
+    private $compile;
     /** @var RuntimeError */
     private $runtime;
 
-    public function __construct(PhpHostError $phpHostError, RuntimeError $runtimeError)
+    public function __construct(CompileError $compileError, RuntimeError $runtimeError)
     {
-        $this->php = $phpHostError;
+        $this->compile = $compileError;
         $this->runtime = $runtimeError;
     }
 
     public function occurred(): bool
     {
-        return $this->php->occurred() || $this->runtime->occurred();
+        return $this->compile->occurred() || $this->runtime->occurred();
     }
 
     public function clear(): void
     {
-        $this->php->occurred() && $this->php->clear();
+        $this->compile->occurred() && $this->compile->clear();
         $this->runtime->occurred() && $this->runtime->clear();
     }
 }

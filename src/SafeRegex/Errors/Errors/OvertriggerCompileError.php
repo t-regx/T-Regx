@@ -3,7 +3,7 @@ namespace SafeRegex\Errors\Errors;
 
 use SafeRegex\PhpError;
 
-class OvertriggerPhpHostError extends PhpHostError
+class OvertriggerCompileError extends CompileError
 {
     const OVERTRIGGER_MESSAGE = 'SafeRegex w triggered over previous exception, to prevent it from causing exceptions for current invokation';
 

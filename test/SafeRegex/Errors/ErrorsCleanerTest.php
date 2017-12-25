@@ -12,11 +12,11 @@ class ErrorsCleanerTest extends TestCase
     /**
      * @test
      */
-    public function shouldClearPhpError()
+    public function shouldClearCompileError()
     {
         // given
         $cleaner = new ErrorsCleaner();
-        $this->causePhpWarning();
+        $this->causeCompileWarning();
 
         // when
         $cleaner->clear();

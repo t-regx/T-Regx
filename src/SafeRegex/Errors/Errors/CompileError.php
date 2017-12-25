@@ -4,16 +4,16 @@ namespace SafeRegex\Errors\Errors;
 use SafeRegex\Errors\HostError;
 use SafeRegex\PhpError;
 
-abstract class PhpHostError implements HostError
+abstract class CompileError implements HostError
 {
-    public static function get(): PhpHostError
+    public static function get(): CompileError
     {
         $phpError = PhpError::getLast();
 
         if (is_callable('error_clear_last')) {
-            return new StandardPhpHostError($phpError);
+            return new StandardCompileError($phpError);
         }
 
-        return new OvertriggerPhpHostError($phpError);
+        return new OvertriggerCompileError($phpError);
     }
 }

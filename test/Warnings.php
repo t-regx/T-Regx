@@ -5,10 +5,10 @@ trait Warnings
 {
     public function causeRuntimeWarning(): void
     {
-        @preg_match('/pattern/', "\xc3\x28");
+        @preg_match('/pattern/u', "\xc3\x28");
     }
 
-    public function causePhpWarning(): void
+    public function causeCompileWarning(): void
     {
         @preg_match('/unclosed pattern', '');
     }

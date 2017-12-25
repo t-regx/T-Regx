@@ -4,7 +4,7 @@ namespace SafeRegex\Exception;
 use SafeRegex\Constants\PhpErrorConstants;
 use SafeRegex\PhpError;
 
-class PhpErrorSafeRegexException extends SafeRegexException
+class CompileSafeRegexException extends SafeRegexException
 {
     /** @var PhpError */
     private $error;
