@@ -1,6 +1,8 @@
 <?php
 namespace SafeRegex\Guard;
 
+use SafeRegex\Errors\ErrorsCleaner;
+use SafeRegex\Exception\SafeRegexException;
 use SafeRegex\ExceptionFactory;
 
 class GuardedInvoker
@@ -18,12 +20,19 @@ class GuardedInvoker
 
     public function catch(): GuardedInvocation
     {
+        $this->clearObsoletePhpAndPregErrors();
+
         $result = call_user_func($this->callback);
 
         return new GuardedInvocation($result, $this->exception($result));
     }
 
-    public function exception($result)
+    private function clearObsoletePhpAndPregErrors(): void
+    {
+        (new ErrorsCleaner())->clear();
+    }
+
+    private function exception($result): ?SafeRegexException
     {
         return (new ExceptionFactory())->retrieveGlobalsAndReturn($this->methodName, $result);
     }
