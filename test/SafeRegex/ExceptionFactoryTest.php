@@ -2,7 +2,7 @@
 namespace Test\SafeRegex;
 
 use SafeRegex\Exception\PhpErrorSafeRegexException;
-use SafeRegex\Exception\PregErrorSafeRegexException;
+use SafeRegex\Exception\RuntimeSafeRegexException;
 use SafeRegex\ExceptionFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -35,7 +35,7 @@ class ExceptionFactoryTest extends TestCase
         $result = @preg_match("/pattern/u", $utf8);
 
         // then
-        $this->expectException(PregErrorSafeRegexException::class);
+        $this->expectException(RuntimeSafeRegexException::class);
 
         // when
         (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match', $result);

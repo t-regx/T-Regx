@@ -3,7 +3,7 @@ namespace SafeRegex\Exception;
 
 use SafeRegex\Constants\PregConstants;
 
-class PregErrorSafeRegexException extends SafeRegexException
+class RuntimeSafeRegexException extends SafeRegexException
 {
     /** @var int */
     private $errorCode;

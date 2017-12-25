@@ -4,7 +4,7 @@ namespace SafeRegex\Errors;
 use SafeRegex\Errors\Errors\BothHostError;
 use SafeRegex\Errors\Errors\EmptyHostError;
 use SafeRegex\Errors\Errors\PhpHostError;
-use SafeRegex\Errors\Errors\PregHostError;
+use SafeRegex\Errors\Errors\RuntimeError;
 
 class ErrorsCleaner
 {
@@ -20,14 +20,14 @@ class ErrorsCleaner
     private function getError(): HostError
     {
         $php = PhpHostError::get();
-        $preg = PregHostError::get();
+        $runtime = RuntimeError::get();
 
-        if ($preg->occurred() && $php->occurred()) {
-            return new BothHostError($php, $preg);
+        if ($runtime->occurred() && $php->occurred()) {
+            return new BothHostError($php, $runtime);
         }
 
         if ($php->occurred()) return $php;
-        if ($preg->occurred()) return $preg;
+        if ($runtime->occurred()) return $runtime;
 
         return new EmptyHostError();
     }

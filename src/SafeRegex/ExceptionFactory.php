@@ -2,7 +2,7 @@
 namespace SafeRegex;
 
 use SafeRegex\Exception\PhpErrorSafeRegexException;
-use SafeRegex\Exception\PregErrorSafeRegexException;
+use SafeRegex\Exception\RuntimeSafeRegexException;
 use SafeRegex\Exception\ReturnFalseSafeRegexException;
 use SafeRegex\Exception\SafeRegexException;
 
@@ -38,16 +38,16 @@ class ExceptionFactory
     }
 
     /**
-     * @param string $methodName
-     * @param mixed $pregResult
-     * @param int $pregError
+     * @param string     $methodName
+     * @param mixed      $pregResult
+     * @param int        $runtimeError
      * @param array|null $phpError
      * @return SafeRegexException|null
      */
-    public function create(string $methodName, $pregResult, int $pregError, ?array $phpError): ?SafeRegexException
+    public function create(string $methodName, $pregResult, int $runtimeError, ?array $phpError): ?SafeRegexException
     {
-        if ($pregError !== PREG_NO_ERROR) {
-            return new PregErrorSafeRegexException($methodName, $pregError);
+        if ($runtimeError !== PREG_NO_ERROR) {
+            return new RuntimeSafeRegexException($methodName, $runtimeError);
         }
 
         if ($phpError !== null) {

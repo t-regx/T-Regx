@@ -3,7 +3,7 @@ namespace Test\SafeRegex;
 
 use PHPUnit\Framework\TestCase;
 use SafeRegex\Exception\PhpErrorSafeRegexException;
-use SafeRegex\Exception\PregErrorSafeRegexException;
+use SafeRegex\Exception\RuntimeSafeRegexException;
 use SafeRegex\Guard\GuardedExecution;
 use Test\Warnings;
 
@@ -35,7 +35,7 @@ class GuardedExecutionTest extends TestCase
     {
         return [
             [function () {
-                $this->causePregWarning();
+                $this->causeRuntimeWarning();
             }],
             [function () {
                 $this->causePhpWarning();
@@ -46,17 +46,17 @@ class GuardedExecutionTest extends TestCase
     /**
      * @test
      */
-    public function shouldCatchPregWarning()
+    public function shouldCatchRuntimeWarning()
     {
         // when
         $invocation = GuardedExecution::catch('preg_match', function () {
-            $this->causePregWarning();
+            $this->causeRuntimeWarning();
             return false;
         });
 
         // then
         $this->assertTrue($invocation->hasException());
-        $this->assertInstanceOf(PregErrorSafeRegexException::class, $invocation->getException());
+        $this->assertInstanceOf(RuntimeSafeRegexException::class, $invocation->getException());
     }
 
     /**

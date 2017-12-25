@@ -29,11 +29,11 @@ class ErrorsCleanerTest extends TestCase
     /**
      * @test
      */
-    public function shouldClearPregError()
+    public function shouldClearRuntimeError()
     {
         // given
         $cleaner = new ErrorsCleaner();
-        $this->causePregWarning();
+        $this->causeRuntimeWarning();
 
         // when
         $cleaner->clear();

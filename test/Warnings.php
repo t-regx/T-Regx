@@ -3,7 +3,7 @@ namespace Test;
 
 trait Warnings
 {
-    public function causePregWarning(): void
+    public function causeRuntimeWarning(): void
     {
         @preg_match('/pattern/', "\xc3\x28");
     }

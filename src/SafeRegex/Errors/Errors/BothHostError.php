@@ -7,23 +7,23 @@ class BothHostError implements HostError
 {
     /** @var PhpHostError */
     private $php;
-    /** @var PregHostError */
-    private $preg;
+    /** @var RuntimeError */
+    private $runtime;
 
-    public function __construct(PhpHostError $phpHostError, PregHostError $pregHostError)
+    public function __construct(PhpHostError $phpHostError, RuntimeError $runtimeError)
     {
         $this->php = $phpHostError;
-        $this->preg = $pregHostError;
+        $this->runtime = $runtimeError;
     }
 
     public function occurred(): bool
     {
-        return $this->php->occurred() || $this->preg->occurred();
+        return $this->php->occurred() || $this->runtime->occurred();
     }
 
     public function clear(): void
     {
         $this->php->occurred() && $this->php->clear();
-        $this->preg->occurred() && $this->preg->clear();
+        $this->runtime->occurred() && $this->runtime->clear();
     }
 }

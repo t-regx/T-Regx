@@ -3,7 +3,7 @@ namespace SafeRegex\Errors\Errors;
 
 use SafeRegex\Errors\HostError;
 
-class PregHostError implements HostError
+class RuntimeError implements HostError
 {
     /** @var int */
     private $pregError;
@@ -23,8 +23,8 @@ class PregHostError implements HostError
         preg_match('//', '');
     }
 
-    public static function get(): PregHostError
+    public static function get(): RuntimeError
     {
-        return new PregHostError(preg_last_error());
+        return new RuntimeError(preg_last_error());
     }
 }
