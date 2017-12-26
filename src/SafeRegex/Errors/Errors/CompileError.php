@@ -6,7 +6,7 @@ use SafeRegex\PhpError;
 
 abstract class CompileError implements HostError
 {
-    public static function get(): CompileError
+    public static function getLast(): CompileError
     {
         $phpError = PhpError::getLast();
 

@@ -23,7 +23,7 @@ class RuntimeError implements HostError
         preg_match('//', '');
     }
 
-    public static function get(): RuntimeError
+    public static function getLast(): RuntimeError
     {
         return new RuntimeError(preg_last_error());
     }

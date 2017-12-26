@@ -19,8 +19,8 @@ class ErrorsCleaner
 
     private function getError(): HostError
     {
-        $compile = CompileError::get();
-        $runtime = RuntimeError::get();
+        $compile = CompileError::getLast();
+        $runtime = RuntimeError::getLast();
 
         if ($runtime->occurred() && $compile->occurred()) {
             return new BothHostError($compile, $runtime);
