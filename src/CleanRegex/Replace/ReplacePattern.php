@@ -2,7 +2,7 @@
 namespace CleanRegex\Replace;
 
 use CleanRegex\Internal\Pattern;
-use SafeRegex\ExceptionFactory;
+use SafeRegex\preg;
 
 class ReplacePattern
 {
@@ -20,10 +20,7 @@ class ReplacePattern
 
     public function with(string $replacement): string
     {
-        $result = @preg_replace($this->pattern->pattern, $replacement, $this->subject);
-        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_replace', $result);
-
-        return $result ?: "";
+        return preg::replace($this->pattern->pattern, $replacement, $this->subject);
     }
 
     public function callback(callable $callback): string

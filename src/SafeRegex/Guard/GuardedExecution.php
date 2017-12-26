@@ -5,7 +5,7 @@ namespace SafeRegex\Guard;
 class GuardedExecution
 {
     /**
-     * @param string $methodName
+     * @param string   $methodName
      * @param callable $callback
      * @return mixed
      * @throws \Exception
@@ -22,5 +22,10 @@ class GuardedExecution
     public static function catch(string $methodName, callable $callback): GuardedInvocation
     {
         return (new GuardedInvoker($methodName, $callback))->catch();
+    }
+
+    public static function silenced(string $methodName, callable $callback): bool
+    {
+        return GuardedExecution::catch($methodName, $callback)->hasException();
     }
 }

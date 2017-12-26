@@ -2,7 +2,7 @@
 namespace CleanRegex;
 
 use CleanRegex\Internal\Pattern;
-use SafeRegex\ExceptionFactory;
+use SafeRegex\preg;
 
 class MatchesPattern
 {
@@ -20,9 +20,7 @@ class MatchesPattern
     public function matches(): bool
     {
         $argument = ValidPattern::matchableArgument($this->subject);
-
-        $result = @preg_match($this->pattern->pattern, $argument);
-        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match', $result);
+        $result = preg::match($this->pattern->pattern, $argument);
 
         return $result === 1;
     }

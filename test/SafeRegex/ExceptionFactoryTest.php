@@ -1,10 +1,10 @@
 <?php
 namespace Test\SafeRegex;
 
+use PHPUnit\Framework\TestCase;
 use SafeRegex\Exception\CompileSafeRegexException;
 use SafeRegex\Exception\RuntimeSafeRegexException;
 use SafeRegex\ExceptionFactory;
-use PHPUnit\Framework\TestCase;
 
 class ExceptionFactoryTest extends TestCase
 {
@@ -17,11 +17,11 @@ class ExceptionFactoryTest extends TestCase
         // given
         $result = @preg_match($invalidPattern, '');
 
-        // then
-        $this->expectException(CompileSafeRegexException::class);
-
         // when
-        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match', $result);
+        $exception = (new ExceptionFactory())->retrieveGlobals('preg_match', $result);
+
+        // then
+        $this->assertInstanceOf(CompileSafeRegexException::class, $exception);
     }
 
     /**
@@ -34,10 +34,10 @@ class ExceptionFactoryTest extends TestCase
         // given
         $result = @preg_match("/pattern/u", $utf8);
 
-        // then
-        $this->expectException(RuntimeSafeRegexException::class);
-
         // when
-        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match', $result);
+        $exception = (new ExceptionFactory())->retrieveGlobals('preg_match', $result);
+
+        // then
+        $this->assertInstanceOf(RuntimeSafeRegexException::class, $exception);
     }
 }

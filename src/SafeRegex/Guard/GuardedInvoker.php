@@ -34,6 +34,6 @@ class GuardedInvoker
 
     private function exception($result): ?SafeRegexException
     {
-        return (new ExceptionFactory())->retrieveGlobalsAndReturn($this->methodName, $result);
+        return (new ExceptionFactory())->retrieveGlobals($this->methodName, $result);
     }
 }

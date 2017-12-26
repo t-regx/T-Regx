@@ -3,7 +3,7 @@ namespace CleanRegex\Match;
 
 use CleanRegex\Exception\Preg\PatternMatchException;
 use CleanRegex\Internal\Pattern;
-use SafeRegex\ExceptionFactory;
+use SafeRegex\preg;
 
 class MatchPattern
 {
@@ -28,9 +28,7 @@ class MatchPattern
     public function all(): array
     {
         $matches = [];
-
-        $result = @preg_match_all($this->pattern->pattern, $this->subject, $matches);
-        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match', $result);
+        preg::match_all($this->pattern->pattern, $this->subject, $matches);
 
         return $matches[0];
     }
@@ -75,9 +73,7 @@ class MatchPattern
     private function performMatchAll(): array
     {
         $matches = [];
-
-        $result = @preg_match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
-        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match_all', $result);
+        preg::match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
 
         return $matches;
     }
@@ -99,17 +95,13 @@ class MatchPattern
 
     public function matches()
     {
-        $result = @preg_match($this->pattern->pattern, $this->subject);
-        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match', $result);
+        $result = preg::match($this->pattern->pattern, $this->subject);
 
         return $result === 1;
     }
 
     public function count(): int
     {
-        $result = @preg_match_all($this->pattern->pattern, $this->subject);
-        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_match_all', $result);
-
-        return $result;
+        return preg::match_all($this->pattern->pattern, $this->subject);
     }
 }

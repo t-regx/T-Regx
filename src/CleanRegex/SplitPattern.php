@@ -3,6 +3,7 @@ namespace CleanRegex;
 
 use CleanRegex\Internal\Pattern;
 use SafeRegex\ExceptionFactory;
+use SafeRegex\preg;
 
 class SplitPattern
 {
@@ -20,17 +21,11 @@ class SplitPattern
 
     public function split(): array
     {
-        $result = @preg_split($this->pattern->pattern, $this->subject);
-        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_split', $result);
-
-        return $result;
+        return preg::split($this->pattern->pattern, $this->subject);
     }
 
     public function separate(): array
     {
-        $result = @preg_split($this->pattern->pattern, $this->subject, -1, PREG_SPLIT_DELIM_CAPTURE);
-        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_split', $result);
-
-        return $result;
+        return preg::split($this->pattern->pattern, $this->subject, -1, PREG_SPLIT_DELIM_CAPTURE);
     }
 }

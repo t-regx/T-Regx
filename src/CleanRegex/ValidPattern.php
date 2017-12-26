@@ -3,7 +3,7 @@ namespace CleanRegex;
 
 use CleanRegex\Exception\CleanRegex\ArgumentNotAllowedException;
 use CleanRegex\Internal\Pattern;
-use SafeRegex\ExceptionFactory;
+use SafeRegex\Guard\GuardedExecution;
 
 class ValidPattern
 {
@@ -15,11 +15,13 @@ class ValidPattern
         $this->pattern = $pattern;
     }
 
-    public function isValid()
+    public function isValid(): bool
     {
-        $result = @preg_match($this->pattern->originalPattern, null);
-        $exception = (new ExceptionFactory())->retrieveGlobalsAndReturn('preg_match', $result);
-        return $exception === null;
+        $hadError = GuardedExecution::silenced('preg_match', function () {
+            return @preg_match($this->pattern->originalPattern, null);
+        });
+
+        return $hadError === false;
     }
 
     public static function matchableArgument($argument): string

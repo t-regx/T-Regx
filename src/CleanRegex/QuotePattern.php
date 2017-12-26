@@ -2,7 +2,7 @@
 namespace CleanRegex;
 
 use CleanRegex\Internal\Pattern;
-use SafeRegex\ExceptionFactory;
+use SafeRegex\preg;
 
 class QuotePattern
 {
@@ -16,9 +16,6 @@ class QuotePattern
 
     public function quote(): string
     {
-        $result = @preg_quote($this->pattern->originalPattern);
-        (new ExceptionFactory())->retrieveGlobalsAndThrow('preg_quote', $result);
-
-        return $result;
+        return preg::quote($this->pattern->originalPattern);
     }
 }
