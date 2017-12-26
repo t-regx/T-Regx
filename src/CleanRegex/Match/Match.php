@@ -115,7 +115,7 @@ class Match
         return $this->match();
     }
 
-    private function validateGroupName($nameOrIndex)
+    private function validateGroupName($nameOrIndex): void
     {
         if (!is_string($nameOrIndex) && !is_int($nameOrIndex)) {
             throw new \InvalidArgumentException("Group index can only be an integer or string");

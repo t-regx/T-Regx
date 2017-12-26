@@ -48,7 +48,7 @@ class FlagsValidator
         }
     }
 
-    private function validateFlags(string $flags)
+    private function validateFlags(string $flags): void
     {
         foreach (str_split($flags) as $flag) {
             if (!$this->isAllowed($flag)) {

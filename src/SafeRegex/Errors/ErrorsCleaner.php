@@ -8,7 +8,7 @@ use SafeRegex\Errors\Errors\RuntimeError;
 
 class ErrorsCleaner
 {
-    public function clear()
+    public function clear(): void
     {
         $error = $this->getError();
 

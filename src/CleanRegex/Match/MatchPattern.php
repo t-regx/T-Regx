@@ -93,7 +93,7 @@ class MatchPattern
         return $matchObjects;
     }
 
-    public function matches()
+    public function matches(): bool
     {
         $result = preg::match($this->pattern->pattern, $this->subject);
 
