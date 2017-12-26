@@ -74,4 +74,32 @@ class GuardedExecutionTest extends TestCase
         $this->assertTrue($invocation->hasException());
         $this->assertInstanceOf(CompileSafeRegexException::class, $invocation->getException());
     }
+
+    /**
+     * @test
+     */
+    public function shouldInvokeReturnResult()
+    {
+        // when
+        $result = GuardedExecution::invoke('preg_match', function () {
+            return 13;
+        });
+
+        // then
+        $this->assertEquals(13, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCatchReturnResult()
+    {
+        // when
+        $invocation = GuardedExecution::catch('preg_match', function () {
+            return 13;
+        });
+
+        // then
+        $this->assertEquals(13, $invocation->getResult());
+    }
 }
