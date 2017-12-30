@@ -59,9 +59,6 @@ class FlagsValidator
 
     private function isAllowed(string $character): bool
     {
-        if (strlen($character) !== 1) {
-            throw new InternalCleanRegexException('Flag must be one-character long');
-        }
         return in_array($character, $this->flags);
     }
 }

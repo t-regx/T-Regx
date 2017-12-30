@@ -2,6 +2,7 @@
 namespace CleanRegex\Match;
 
 use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use InvalidArgumentException;
 
 class Match
 {
@@ -118,7 +119,7 @@ class Match
     private function validateGroupName($nameOrIndex): void
     {
         if (!is_string($nameOrIndex) && !is_int($nameOrIndex)) {
-            throw new \InvalidArgumentException("Group index can only be an integer or string");
+            throw new InvalidArgumentException("Group index can only be an integer or string");
         }
     }
 }

@@ -52,7 +52,7 @@ class MatchPattern
     public function first(callable $callback = null): ?string
     {
         $matches = $this->performMatchAll();
-        if (empty($matches)) return null;
+        if (empty($matches[0])) return null;
 
         if ($callback !== null) {
             call_user_func($callback, new Match($this->subject, 0, $matches));
