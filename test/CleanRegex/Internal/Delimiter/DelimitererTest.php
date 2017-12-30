@@ -1,9 +1,11 @@
 <?php
-namespace CleanRegex\Internal;
+namespace Test\CleanRegex\Internal\Delimiter;
 
+use CleanRegex\Internal\Delimiter\Delimiterer;
+use CleanRegex\Internal\Delimiter\ExplicitDelimiterRequiredException;
 use PHPUnit\Framework\TestCase;
 
-class PatternDelimitererTest extends TestCase
+class DelimitererTest extends TestCase
 {
     public function patternsAndResults()
     {
@@ -27,31 +29,13 @@ class PatternDelimitererTest extends TestCase
     public function shouldDelimiterPattern(string $pattern, string $expectedResult)
     {
         // given
-        $delimiterer = new PatternDelimiterer();
+        $delimiterer = new Delimiterer();
 
         // when
         $result = $delimiterer->delimiter($pattern);
 
         // then
         $this->assertEquals($expectedResult, $result);
-    }
-
-    /**
-     * @test
-     * @dataProvider patternsAndResults
-     * @param string $pattern
-     * @param string $expectedResult
-     */
-    public function shouldNotBeDelimitered(string $pattern, string $expectedResult)
-    {
-        // given
-        $delimiterer = new PatternDelimiterer();
-
-        // when
-        $result = $delimiterer->isDelimitered($pattern);
-
-        // then
-        $this->assertFalse($result);
     }
 
     public function alreadyDelimitered()
@@ -74,7 +58,7 @@ class PatternDelimitererTest extends TestCase
     public function shouldDelimiterAlreadyDelimitered(string $pattern)
     {
         // given
-        $delimiterer = new PatternDelimiterer();
+        $delimiterer = new Delimiterer();
 
         // when
         $result = $delimiterer->delimiter($pattern);
@@ -85,28 +69,11 @@ class PatternDelimitererTest extends TestCase
 
     /**
      * @test
-     * @dataProvider alreadyDelimitered
-     * @param string $pattern
-     */
-    public function shouldBeDelimitered(string $pattern)
-    {
-        // given
-        $delimiterer = new PatternDelimiterer();
-
-        // when
-        $result = $delimiterer->isDelimitered($pattern);
-
-        // then
-        $this->assertTrue($result);
-    }
-
-    /**
-     * @test
      */
     public function shouldThrowOnNotEnoughDelimiters()
     {
         // given
-        $delimiterer = new PatternDelimiterer();
+        $delimiterer = new Delimiterer();
 
         // then
         $this->expectException(ExplicitDelimiterRequiredException::class);

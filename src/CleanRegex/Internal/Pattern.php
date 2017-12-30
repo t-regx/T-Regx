@@ -1,6 +1,8 @@
 <?php
 namespace CleanRegex\Internal;
 
+use CleanRegex\Internal\Delimiter\Delimiterer;
+
 class Pattern
 {
     /** @var string */
@@ -14,7 +16,7 @@ class Pattern
 
     public function __construct(string $pattern, string $flags = '')
     {
-        $this->pattern = (new PatternDelimiterer())->delimiter($pattern);
+        $this->pattern = (new Delimiterer())->delimiter($pattern);
         $this->flags = $flags;
         $this->originalPattern = $pattern;
     }

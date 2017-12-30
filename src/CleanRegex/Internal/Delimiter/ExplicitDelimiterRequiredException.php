@@ -1,5 +1,5 @@
 <?php
-namespace CleanRegex\Internal;
+namespace CleanRegex\Internal\Delimiter;
 
 use CleanRegex\Exception\CleanRegex\CleanRegexException;
 

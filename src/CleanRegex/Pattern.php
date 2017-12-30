@@ -1,8 +1,8 @@
 <?php
 namespace CleanRegex;
 
+use CleanRegex\Internal\Delimiter\Delimiterer;
 use CleanRegex\Internal\Pattern as InternalPattern;
-use CleanRegex\Internal\PatternDelimiterer;
 use CleanRegex\Match\MatchPattern;
 use CleanRegex\Replace\ReplacePattern;
 
@@ -60,8 +60,8 @@ class Pattern
         return (new ValidPattern(new InternalPattern($this->pattern)))->isValid();
     }
 
-    public function delimitered(): ?string
+    public function delimitered(): string
     {
-        return (new PatternDelimiterer())->delimiter($this->pattern);
+        return (new Delimiterer())->delimiter($this->pattern);
     }
 }
