@@ -2,6 +2,7 @@
 namespace CleanRegex\Replace;
 
 use CleanRegex\Internal\Pattern;
+use CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use SafeRegex\preg;
 
 class ReplacePattern

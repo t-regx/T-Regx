@@ -18,8 +18,8 @@ class Match
     public function __construct(string $subject, int $index, array $matches)
     {
         $this->subject = $subject;
-        $this->matches = $matches;
         $this->index = $index;
+        $this->matches = $matches;
     }
 
     public function subject(): string
