@@ -3,6 +3,7 @@
 The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE extension methods.
 
 [![Build Status](https://travis-ci.org/Danon/CleanRegex.svg?branch=master)](https://travis-ci.org/Danon/CleanRegex)
+[![Coverage Status](https://coveralls.io/repos/github/Danon/CleanRegex/badge.svg?branch=master)](https://coveralls.io/github/Danon/CleanRegex?branch=master)
 
 1. [Overview](#regular-expressions-wrapper)
     * [Why CleanRegex stands out?](#why-cleanregex-stands-out)
