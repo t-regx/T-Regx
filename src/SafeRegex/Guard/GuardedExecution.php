@@ -26,6 +26,7 @@ class GuardedExecution
 
     public static function silenced(string $methodName, callable $callback): bool
     {
-        return GuardedExecution::catch($methodName, $callback)->hasException();
+        $invocation = (new GuardedInvoker($methodName, $callback))->catch();
+        return $invocation->hasException();
     }
 }

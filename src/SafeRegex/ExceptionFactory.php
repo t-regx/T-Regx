@@ -10,16 +10,13 @@ class ExceptionFactory
 {
     /**
      * @param string $methodName
-     * @param mixed $pregResult
+     * @param mixed  $pregResult
      * @return SafeRegexException|null
      * @throws SafeRegexException
      */
     public function retrieveGlobals(string $methodName, $pregResult): ?SafeRegexException
     {
-        $phpError = error_get_last();
-        error_clear_last();
-
-        return (new ExceptionFactory())->create($methodName, $pregResult, preg_last_error(), $phpError);
+        return (new ExceptionFactory())->create($methodName, $pregResult, preg_last_error(), error_get_last());
     }
 
     /**

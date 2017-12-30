@@ -9,7 +9,6 @@ class preg
     public static function match($pattern, $subject, array &$matches = null, $flags = 0, $offset = 0)
     {
         return GuardedExecution::invoke('preg_match', function () use ($offset, $flags, &$matches, $subject, $pattern) {
-
             return @preg_match($pattern, $subject, $matches, $flags, $offset);
         });
     }

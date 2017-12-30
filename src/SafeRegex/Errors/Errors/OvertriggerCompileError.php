@@ -5,7 +5,7 @@ use SafeRegex\PhpError;
 
 class OvertriggerCompileError extends CompileError
 {
-    const OVERTRIGGER_MESSAGE = 'SafeRegex w triggered over previous exception, to prevent it from causing exceptions for current invokation';
+    const OVERTRIGGER_MESSAGE = 'SafeRegex triggered over previous exception, to prevent it from causing exceptions for current invocation';
 
     /** @var PhpError|null */
     private $error;
