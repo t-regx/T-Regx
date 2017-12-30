@@ -1,6 +1,7 @@
 <?php
 namespace Test\SafeRegex;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use SafeRegex\Exception\CompileSafeRegexException;
 use SafeRegex\Exception\RuntimeSafeRegexException;
@@ -73,6 +74,51 @@ class GuardedExecutionTest extends TestCase
         // then
         $this->assertTrue($invocation->hasException());
         $this->assertInstanceOf(CompileSafeRegexException::class, $invocation->getException());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCatchRuntimeWarningWhenInvoking()
+    {
+        // then
+        $this->expectException(RuntimeSafeRegexException::class);
+
+        // when
+        GuardedExecution::invoke('preg_match', function () {
+            $this->causeRuntimeWarning();
+            return false;
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCatchCompileWarningWhenInvoking()
+    {
+        // then
+        $this->expectException(CompileSafeRegexException::class);
+
+        // when
+        GuardedExecution::invoke('preg_match', function () {
+            $this->causeCompileWarning();
+            return false;
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRethrowException()
+    {
+        // then
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Rethrown exception');
+
+        // when
+        GuardedExecution::invoke('preg_match', function () {
+            throw new Exception('Rethrown exception');
+        });
     }
 
     /**
