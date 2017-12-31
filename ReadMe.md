@@ -251,6 +251,11 @@ echo "There are $amount vowels";
 There are 3 vowels
 ```
 
+You can get the same effect by calling
+```php
+pattern('[aeiouy]')->match('Computer')->count();
+```
+
 ## Replace strings
 
 ```php
