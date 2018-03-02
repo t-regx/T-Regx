@@ -285,4 +285,17 @@ class ReadMeTest extends TestCase
         // then
         $this->assertEquals('#\.\*\[a\-z\]\?#', $result);
     }
+
+    /**
+     * @test
+     */
+    public function factoryMethod()
+    {
+        // when
+        $instance = \CleanRegex\Pattern::of('test');
+
+        // then
+        $this->assertInstanceOf(\CleanRegex\Pattern::class, $instance);
+        $this->assertEquals('test', $instance->pattern);
+    }
 }

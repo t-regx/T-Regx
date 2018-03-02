@@ -94,7 +94,7 @@ There are 4 different entry points for CleanRegex and all of them work the same 
 
 ```php
 // Facade style
-Pattern::pattern('[A-Z][a-z]+')->matches($subject)
+\CleanRegex\Pattern::of('[A-Z][a-z]+')->matches($subject)
 ```
 ```php
 // Global method style

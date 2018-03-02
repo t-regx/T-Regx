@@ -64,4 +64,14 @@ class Pattern
     {
         return (new Delimiterer())->delimiter($this->pattern);
     }
+
+    public static function of(string $pattern, string $flags = ''): Pattern
+    {
+        return new Pattern($pattern, $flags);
+    }
+
+    public static function pattern(string $pattern, string $flags = ''): Pattern
+    {
+        return self::of($pattern, $flags);
+    }
 }
