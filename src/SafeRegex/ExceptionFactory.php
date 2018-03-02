@@ -1,8 +1,8 @@
 <?php
 namespace SafeRegex;
 
-use SafeRegex\Exception\CompileSafeRegexException;
-use SafeRegex\Exception\RuntimeSafeRegexException;
+use SafeRegex\Errors\ErrorsCleaner;
+use SafeRegex\Errors\HostError;
 use SafeRegex\Exception\ReturnFalseSafeRegexException;
 use SafeRegex\Exception\SafeRegexException;
 
@@ -12,28 +12,16 @@ class ExceptionFactory
      * @param string $methodName
      * @param mixed  $pregResult
      * @return SafeRegexException|null
-     * @throws SafeRegexException
      */
     public function retrieveGlobals(string $methodName, $pregResult): ?SafeRegexException
     {
-        return (new ExceptionFactory())->create($methodName, $pregResult, preg_last_error(), error_get_last());
+        return (new ExceptionFactory())->create($methodName, $pregResult, (new ErrorsCleaner())->getError());
     }
 
-    /**
-     * @param string     $methodName
-     * @param mixed      $pregResult
-     * @param int        $runtimeError
-     * @param array|null $phpError
-     * @return SafeRegexException|null
-     */
-    public function create(string $methodName, $pregResult, int $runtimeError, ?array $phpError): ?SafeRegexException
+    private function create(string $methodName, $pregResult, ?HostError $hostError): ?SafeRegexException
     {
-        if ($runtimeError !== PREG_NO_ERROR) {
-            return new RuntimeSafeRegexException($methodName, $runtimeError);
-        }
-
-        if ($phpError !== null) {
-            return new CompileSafeRegexException($methodName, PhpError::fromArray($phpError));
+        if ($hostError->occurred()) {
+            return $hostError->getSafeRegexpException($methodName);
         }
 
         if ($pregResult === false) {

@@ -2,6 +2,7 @@
 namespace SafeRegex\Errors\Errors;
 
 use SafeRegex\Errors\HostError;
+use SafeRegex\Exception\SafeRegexException;
 
 class BothHostError implements HostError
 {
@@ -25,5 +26,10 @@ class BothHostError implements HostError
     {
         $this->compile->occurred() && $this->compile->clear();
         $this->runtime->occurred() && $this->runtime->clear();
+    }
+
+    public function getSafeRegexpException(string $methodName): SafeRegexException
+    {
+        return $this->compile->getSafeRegexpException($methodName);
     }
 }

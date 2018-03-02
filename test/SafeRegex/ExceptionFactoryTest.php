@@ -2,12 +2,18 @@
 namespace Test\SafeRegex;
 
 use PHPUnit\Framework\TestCase;
+use SafeRegex\Errors\ErrorsCleaner;
 use SafeRegex\Exception\CompileSafeRegexException;
 use SafeRegex\Exception\RuntimeSafeRegexException;
 use SafeRegex\ExceptionFactory;
 
 class ExceptionFactoryTest extends TestCase
 {
+    protected function setUp()
+    {
+        (new ErrorsCleaner())->clear();
+    }
+
     /**
      * @dataProvider \Test\DataProviders::invalidPregPatterns()
      * @param string $invalidPattern

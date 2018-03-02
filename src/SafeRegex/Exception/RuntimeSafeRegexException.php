@@ -10,9 +10,7 @@ class RuntimeSafeRegexException extends SafeRegexException
 
     public function __construct(string $methodName, int $errorCode)
     {
-        parent::__construct($methodName);
         $this->errorCode = $errorCode;
-
         $errorMessage = self::getErrorName();
         parent::__construct("After invoking $methodName(), preg_last_error() returned $errorMessage.");
     }

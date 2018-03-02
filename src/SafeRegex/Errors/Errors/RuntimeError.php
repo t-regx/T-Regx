@@ -2,6 +2,8 @@
 namespace SafeRegex\Errors\Errors;
 
 use SafeRegex\Errors\HostError;
+use SafeRegex\Exception\RuntimeSafeRegexException;
+use SafeRegex\Exception\SafeRegexException;
 
 class RuntimeError implements HostError
 {
@@ -26,5 +28,10 @@ class RuntimeError implements HostError
     public static function getLast(): RuntimeError
     {
         return new RuntimeError(preg_last_error());
+    }
+
+    public function getSafeRegexpException(string $methodName): SafeRegexException
+    {
+        return new RuntimeSafeRegexException($methodName, $this->pregError);
     }
 }

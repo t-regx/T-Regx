@@ -17,7 +17,7 @@ class ErrorsCleaner
         }
     }
 
-    private function getError(): HostError
+    public function getError(): HostError
     {
         $compile = CompileError::getLast();
         $runtime = RuntimeError::getLast();
