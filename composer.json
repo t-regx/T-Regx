@@ -6,7 +6,8 @@
     "files": [
       "helper/helper.php",
       "test/DataProviders.php",
-      "test/Warnings.php"
+      "test/Warnings.php",
+      "test/ClassWithToString.php"
     ],
     "psr-0": {
       "CleanRegex\\": "src",
