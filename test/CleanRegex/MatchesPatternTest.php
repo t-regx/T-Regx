@@ -4,6 +4,7 @@ namespace Test\CleanRegex;
 use CleanRegex\MatchesPattern;
 use CleanRegex\Internal\Pattern as InternalPattern;
 use PHPUnit\Framework\TestCase;
+use Test\ClassWithToString;
 
 class MatchesPatternTest extends TestCase
 {
@@ -73,8 +74,8 @@ class MatchesPatternTest extends TestCase
     public function shouldClassWithToStringMatchPattern()
     {
         // given
-        $class = new \ClassWithToString();
-        $pattern = new MatchesPattern(new InternalPattern('/^string representation$/'), $class);
+        $class = new ClassWithToString("Lara Croft");
+        $pattern = new MatchesPattern(new InternalPattern('/^Lara Croft$/'), $class);
 
         // when
         $true = $pattern->matches();
@@ -89,8 +90,8 @@ class MatchesPatternTest extends TestCase
     public function shouldClassWithToStringNotMatchPattern()
     {
         // given
-        $class = new \ClassWithToString();
-        $pattern = new MatchesPattern(new InternalPattern('/^something$/'), $class);
+        $class = new ClassWithToString("text");
+        $pattern = new MatchesPattern(new InternalPattern('/^other text/'), $class);
 
         // when
         $true = $pattern->matches();

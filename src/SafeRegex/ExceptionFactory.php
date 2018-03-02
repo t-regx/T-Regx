@@ -2,12 +2,21 @@
 namespace SafeRegex;
 
 use SafeRegex\Errors\ErrorsCleaner;
+use SafeRegex\Errors\FailureIndicators;
 use SafeRegex\Errors\HostError;
-use SafeRegex\Exception\ReturnFalseSafeRegexException;
 use SafeRegex\Exception\SafeRegexException;
+use SafeRegex\Exception\SuspectedReturnSafeRegexException;
 
 class ExceptionFactory
 {
+    /** @var FailureIndicators */
+    private $failureIndicators;
+
+    public function __construct()
+    {
+        $this->failureIndicators = new FailureIndicators();
+    }
+
     /**
      * @param string $methodName
      * @param mixed  $pregResult
@@ -24,8 +33,8 @@ class ExceptionFactory
             return $hostError->getSafeRegexpException($methodName);
         }
 
-        if ($pregResult === false) {
-            return new ReturnFalseSafeRegexException($methodName, $pregResult);
+        if ($this->failureIndicators->suspected($methodName, $pregResult)) {
+            return new SuspectedReturnSafeRegexException($methodName, $pregResult);
         }
 
         return null;

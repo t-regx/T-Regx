@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use SafeRegex\Errors\ErrorsCleaner;
 use SafeRegex\Exception\CompileSafeRegexException;
 use SafeRegex\Exception\RuntimeSafeRegexException;
+use SafeRegex\Exception\SuspectedReturnSafeRegexException;
 use SafeRegex\ExceptionFactory;
 
 class ExceptionFactoryTest extends TestCase
@@ -15,6 +16,7 @@ class ExceptionFactoryTest extends TestCase
     }
 
     /**
+     * @test
      * @dataProvider \Test\DataProviders::invalidPregPatterns()
      * @param string $invalidPattern
      */
@@ -31,6 +33,7 @@ class ExceptionFactoryTest extends TestCase
     }
 
     /**
+     * @test
      * @dataProvider \Test\DataProviders::invalidUtf8Sequences()
      * @param $description
      * @param $utf8
@@ -45,5 +48,23 @@ class ExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf(RuntimeSafeRegexException::class, $exception);
+    }
+
+    /**
+     * @test
+     * @dataProvider \Test\DataProviders::invalidPregPatterns()
+     * @param string $invalidPattern
+     */
+    public function testUnexpectedReturnError(string $invalidPattern)
+    {
+        // given
+        $result = @preg_match($invalidPattern, '');
+        (new ErrorsCleaner)->clear();
+
+        // when
+        $exception = (new ExceptionFactory())->retrieveGlobals('preg_match', $result);
+
+        // then
+        $this->assertInstanceOf(SuspectedReturnSafeRegexException::class, $exception);
     }
 }
