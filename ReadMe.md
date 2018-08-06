@@ -403,18 +403,22 @@ pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
 
      $match->all();      // Gets all other matches ('Robert', 'Likes', 'Trains')
 
-     $match->group('capital');   // Gets the value of a capturing group, by name ('R')
-     $match->group(2);           // Gets the value of a capturing group, by index ('obert')
+     $match->group('capital');    // Gets the value of a capturing group, by name ('R')
+     $match->group(2);            // Gets the value of a capturing group, by index ('obert')
 
-     $match->groupNames();       // Gets the names of the capturing groups (['capital', 'lowercase'])
+     $match->groupNames();        // Gets the names of the capturing groups (['capital', 'lowercase'])
 
      $match->hasGroup('capital'); // Checks whether the group was used in the pattern (true)
 
      $match->matched('capital');  // Checks whether the group has been matched by subject (true)
 
      $match->namedGroups();       // Gets all named groups with values (['capital' => 'R', 'lowercase' => 'obert'])
+
+     $match->groups();            // Gets group values (['R', 'obert'])
   });
 ```
+
+:bulb: `$match->groups()` doesn't return the whole matched string at index 0. To get it, use `$match->subject()`.
 
 # What's better
 ![Ugly api](php.api.png)

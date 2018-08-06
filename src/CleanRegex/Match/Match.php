@@ -56,6 +56,9 @@ class Match
         throw new NonexistentGroupException();
     }
 
+    /**
+     * @return string[]
+     */
     public function namedGroups(): array
     {
         $namedGroups = [];
@@ -70,11 +73,31 @@ class Match
         return $namedGroups;
     }
 
+    /**
+     * @return string[]
+     */
     public function groupNames(): array
     {
         return array_values(array_filter(array_keys($this->matches), function ($key) {
             return is_string($key);
         }));
+    }
+
+    /**
+     * @return string[]
+     */
+    public function groups(): array
+    {
+        $indexMatches = array_filter($this->matches, function (array $match, $groupIndexOrName) {
+            return is_int($groupIndexOrName);
+        }, ARRAY_FILTER_USE_BOTH);
+
+        $indexGroups = array_map(function (array $match) {
+            list($value, $offset) = $match[$this->index];
+            return $value;
+        }, $indexMatches);
+
+        return array_slice($indexGroups, 1);
     }
 
     /**
