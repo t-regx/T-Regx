@@ -11,11 +11,14 @@ class ReplacePatternCallbackInvoker
     private $pattern;
     /** @var string */
     private $subject;
+    /** @var int */
+    private $limit;
 
-    public function __construct(Pattern $pattern, string $subject)
+    public function __construct(Pattern $pattern, string $subject, int $limit)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
+        $this->limit = $limit;
     }
 
     public function invoke(callable $callback): string
@@ -31,9 +34,9 @@ class ReplacePatternCallbackInvoker
 
     private function performReplaceCallback(callable $callback): string
     {
-        $object = new ReplaceCallbackObject($callback, $this->subject, $this->analyzePattern());
+        $object = new ReplaceCallbackObject($callback, $this->subject, $this->analyzePattern(), $this->limit);
 
-        return preg::replace_callback($this->pattern->pattern, $object->getCallback(), $this->subject);
+        return preg::replace_callback($this->pattern->pattern, $object->getCallback(), $this->subject, $this->limit);
     }
 
     private function analyzePattern(): array

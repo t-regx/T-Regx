@@ -122,6 +122,11 @@ class Match
 
     public function all(): array
     {
+        return $this->getFirstFromAllMatches();
+    }
+
+    protected function getFirstFromAllMatches(): array
+    {
         return array_map(function ($match) {
             list($value, $offset) = $match;
             return $value;

@@ -16,12 +16,15 @@ class ReplaceCallbackObject
     private $counter = 0;
     /** @var int */
     private $offsetModification = 0;
+    /** @var int */
+    private $limit;
 
-    public function __construct(callable $callback, string $subject, array $analyzedPattern)
+    public function __construct(callable $callback, string $subject, array $analyzedPattern, int $limit)
     {
         $this->callback = $callback;
         $this->subject = $subject;
         $this->analyzedPattern = $analyzedPattern;
+        $this->limit = $limit;
     }
 
     public function invoke(array $match): string
@@ -39,7 +42,8 @@ class ReplaceCallbackObject
             $this->subject,
             $this->counter++,
             $this->analyzedPattern,
-            $this->offsetModification
+            $this->offsetModification,
+            $this->limit
         );
     }
 

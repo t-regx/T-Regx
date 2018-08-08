@@ -1,6 +1,6 @@
 # Regular Expressions wrapper
 
-The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE extension methods.
+The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE methods.
 
 [![Build Status](https://travis-ci.org/Danon/CleanRegex.svg?branch=master)](https://travis-ci.org/Danon/CleanRegex)
 [![Coverage Status](https://coveralls.io/repos/github/Danon/CleanRegex/badge.svg?branch=master)](https://coveralls.io/github/Danon/CleanRegex?branch=master)
@@ -41,7 +41,7 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 
 * ### Working **with** the developer
    * UTF8 support out of the box.
-   * Many additional features that aren't provided by PHP or PCRE.
+   * Additional features that aren't provided by PHP or PCRE.
    * Automatic delimiters for your patterns.
    * Tracking offset while replacing strings.
    * Pure pattern [validation](#validate-pattern).
@@ -259,7 +259,7 @@ pattern('[aeiouy]')->match('Computer')->count();
 ## Replace strings
 
 ```php
-pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->with('*')
+pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->all()->with('*')
 ```
 ```
 (string) 'P. Sh*man, 42 Wall*y w*, Sydn*'
@@ -272,27 +272,29 @@ For more readability, use `replace()->callback()` to render strings with capturi
 ```php
 pattern('[A-Z][a-z]+')
     ->replace('Some words are Capitalized, and those will be All Caps')
+    ->all()
     ->callback(function (Match $match) {
         return strtoupper($match);
     });
 ```
 ```
-(string) 'SOME words are CAPITALIZED and those will be ALL CAPS'
+(string) 'SOME words are CAPITALIZED, and those will be ALL CAPS'
 ```
 
 ### Replace using callbacks with groups
 
 ```php
-$subject = 'Links: http://google.com and http://other.org.';
+$subject = 'Links: http://first.com and http://second.org.';
 
 pattern('http://(?<name>[a-z]+)\.(com|org)')
     ->replace($subject)
+    ->first()
     ->callback(function (Match $match) {
         return $match->group('name');
     });
 ```
 ```
-(string) 'Links: google and other.'
+(string) 'Links: first and http://second.org.'
 ```
 
 ## Split a string
@@ -321,9 +323,6 @@ array(3) [
     4 => (string) 'Three'
 ]
 ```
-
-:bulb: Please keep in mind, that for `separate()` to return the delimiter, the delimiter must be in a capturing group
-(wrapped in parentheses `(,)`). That's how `preg_split()` works, and we won't use hacks to walk-around this.
 
 ## Filter an array
 

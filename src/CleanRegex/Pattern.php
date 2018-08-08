@@ -4,6 +4,7 @@ namespace CleanRegex;
 use CleanRegex\Internal\Delimiter\Delimiterer;
 use CleanRegex\Internal\Pattern as InternalPattern;
 use CleanRegex\Match\MatchPattern;
+use CleanRegex\Replace\ReplaceLimit;
 use CleanRegex\Replace\ReplacePattern;
 
 class Pattern
@@ -30,9 +31,11 @@ class Pattern
         return (new MatchesPattern(new InternalPattern($this->pattern), $subject))->matches();
     }
 
-    public function replace(string $subject): ReplacePattern
+    public function replace(string $subject): ReplaceLimit
     {
-        return new ReplacePattern(new InternalPattern($this->pattern), $subject);
+        return new ReplaceLimit(function (int $limit) use ($subject) {
+            return new ReplacePattern(new InternalPattern($this->pattern), $subject, $limit);
+        });
     }
 
     public function filter(array $haystack): array

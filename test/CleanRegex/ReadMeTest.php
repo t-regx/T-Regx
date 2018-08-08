@@ -9,13 +9,38 @@ class ReadMeTest extends TestCase
     /**
      * @test
      */
-    public function cleanerApi()
+    public function replaceUsingCallbacks()
     {
         // when
-        $result = pattern('[a-z0-9]')->replace('Hello, world')->with('*');
+        $result = pattern('[A-Z][a-z]+')
+            ->replace('Some words are Capitalized, and those will be All Caps')
+            ->all()
+            ->callback(function (Match $match) {
+                return strtoupper($match);
+            });
 
         // then
-        $this->assertEquals('H****, *****', $result);
+        $this->assertEquals('SOME words are CAPITALIZED, and those will be ALL CAPS', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function replaceUsingCallbacksWithGroups()
+    {
+        // given
+        $subject = 'Links: http://first.com and http://second.org.';
+
+        // when
+        $result = pattern('http://(?<name>[a-z]+)\.(com|org)')
+            ->replace($subject)
+            ->first()
+            ->callback(function (Match $match) {
+                return $match->group('name');
+            });
+
+        // then
+        $this->assertEquals('Links: first and http://second.org.', $result);
     }
 
     /**
@@ -146,7 +171,9 @@ class ReadMeTest extends TestCase
     public function replaceStrings()
     {
         // when
-        $result = pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->with('*');
+        $result = pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')
+            ->all()
+            ->with('*');
 
         // then
         $this->assertEquals('P. Sh*man, 42 Wall*y w*, Sydn*', $result);
@@ -164,6 +191,7 @@ class ReadMeTest extends TestCase
         // when
         $result = pattern($pattern)
             ->replace($subject)
+            ->all()
             ->callback(function (Match $match) {
                 return $match->group('name');
             });
