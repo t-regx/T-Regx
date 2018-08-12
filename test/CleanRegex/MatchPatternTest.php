@@ -23,6 +23,47 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetFirst()
+    {
+        // when
+        $match = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->first();
+
+        // then
+        $this->assertEquals('Foo Bar', $match);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldModifyFirstReturnValue()
+    {
+        // when
+        $value = pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
+            ->match('Foo, Leszek Ziom, Dupa')
+            ->first(function (Match $match) {
+                return 'Different';
+            });
+
+        // then
+        $this->assertEquals("Different", $value);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAllowToReturnArbitraryType()
+    {
+        // when
+        $value = pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
+            ->match('Foo, Leszek Ziom, Dupa')
+            ->first(function (Match $match) {
+                return new \stdClass();
+            });
+
+        // then
+        $this->assertInstanceOf(\stdClass::class, $value);
+    }
+
     public function shouldMatchAllForFirst()
     {
         // when

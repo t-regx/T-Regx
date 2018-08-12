@@ -49,13 +49,17 @@ class MatchPattern
         return $results;
     }
 
-    public function first(callable $callback = null): ?string
+    /**
+     * @param callable|null $callback
+     * @return string|null|mixed
+     */
+    public function first(callable $callback = null)
     {
         $matches = $this->performMatchAll();
         if (empty($matches[0])) return null;
 
         if ($callback !== null) {
-            call_user_func($callback, new Match($this->subject, 0, $matches));
+            return call_user_func($callback, new Match($this->subject, 0, $matches));
         }
 
         list($value, $offset) = $matches[self::WHOLE_MATCH][0];
