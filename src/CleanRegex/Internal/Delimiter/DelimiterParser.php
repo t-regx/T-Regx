@@ -16,22 +16,22 @@ class DelimiterParser
         if (strlen($pattern) < 2) {
             return null;
         }
-        $firstLetter = $pattern[0];
-        if ($this->isValidDelimiter($firstLetter)) {
-            $lastOffset = strrpos($pattern, $firstLetter);
-            if ($lastOffset === 0) {
-                return null;
-            }
-
-            $flags = substr($pattern, $lastOffset);
-
-            return $firstLetter;
+        if ($this->isValidDelimiter($pattern[0])) {
+            return $this->tryGetDelimiter($pattern);
         }
-
         return null;
     }
 
-    public function isValidDelimiter(string $character): bool
+    private function tryGetDelimiter(string $pattern):?string
+    {
+        $lastOffset = strrpos($pattern, $pattern[0]);
+        if ($lastOffset > 0) {
+            return $pattern[0];
+        }
+        return null;
+    }
+
+    private function isValidDelimiter(string $character): bool
     {
         return in_array($character, $this->validDelimiters);
     }

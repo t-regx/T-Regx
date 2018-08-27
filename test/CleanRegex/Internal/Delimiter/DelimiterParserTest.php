@@ -47,9 +47,7 @@ class DelimiterParserTest extends TestCase
             ['/'],
             ['siema'],
             ['sie#ma'],
-            ['sie/ma'],
             ['si/e#ma'],
-            ['si/e#m%a'],
             ['s~i/e#m%a'],
             ['s~i/e#++m%a'],
 
