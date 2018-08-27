@@ -1,18 +1,18 @@
 <?php
 namespace SafeRegex\Exception;
 
-use SafeRegex\Constants\PregConstants;
-
 class RuntimeSafeRegexException extends SafeRegexException
 {
     /** @var int */
     private $errorCode;
+    /** @var string */
+    private $errorName;
 
-    public function __construct(string $methodName, int $errorCode)
+    public function __construct(string $message, string $methodName, int $errorCode, string $errorName)
     {
+        parent::__construct($methodName, $message);
         $this->errorCode = $errorCode;
-        $errorMessage = self::getErrorName();
-        parent::__construct("After invoking $methodName(), preg_last_error() returned $errorMessage.");
+        $this->errorName = $errorName;
     }
 
     public function getError(): int
@@ -22,6 +22,6 @@ class RuntimeSafeRegexException extends SafeRegexException
 
     public function getErrorName(): string
     {
-        return (new PregConstants())->getConstant($this->errorCode);
+        return $this->errorName;
     }
 }

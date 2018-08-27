@@ -2,7 +2,7 @@
 namespace SafeRegex\Errors\Errors;
 
 use SafeRegex\Errors\HostError;
-use SafeRegex\Exception\RuntimeSafeRegexException;
+use SafeRegex\Exception\Factory\RuntimeSafeRegexExceptionFactory;
 use SafeRegex\Exception\SafeRegexException;
 
 class RuntimeError implements HostError
@@ -25,13 +25,13 @@ class RuntimeError implements HostError
         preg_match('//', '');
     }
 
+    public function getSafeRegexpException(string $methodName): SafeRegexException
+    {
+        return (new RuntimeSafeRegexExceptionFactory($methodName, $this->pregError))->create();
+    }
+
     public static function getLast(): RuntimeError
     {
         return new RuntimeError(preg_last_error());
-    }
-
-    public function getSafeRegexpException(string $methodName): SafeRegexException
-    {
-        return new RuntimeSafeRegexException($methodName, $this->pregError);
     }
 }

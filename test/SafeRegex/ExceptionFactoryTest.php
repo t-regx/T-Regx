@@ -66,5 +66,6 @@ class ExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf(SuspectedReturnSafeRegexException::class, $exception);
+        $this->assertEquals("Invoking preg_match() resulted in 'false'.", $exception->getMessage());
     }
 }

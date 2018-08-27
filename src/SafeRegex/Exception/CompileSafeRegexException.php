@@ -1,24 +1,20 @@
 <?php
 namespace SafeRegex\Exception;
 
-use SafeRegex\Constants\PhpErrorConstants;
 use SafeRegex\PhpError;
 
 class CompileSafeRegexException extends SafeRegexException
 {
     /** @var PhpError */
     private $error;
+    /** @var string */
+    private $errorName;
 
-    public function __construct(string $methodName, PhpError $error)
+    public function __construct(string $methodName, string $message, PhpError $error, string $errorName)
     {
+        parent::__construct($methodName, $message);
         $this->error = $error;
-
-        parent::__construct($methodName, $this->formatMessage());
-    }
-
-    private function formatMessage(): string
-    {
-        return $this->getPregErrorMessage() . PHP_EOL . ' ' . PHP_EOL . '(caused by ' . $this->getErrorName() . ')';
+        $this->errorName = $errorName;
     }
 
     public function getError(): int
@@ -28,7 +24,7 @@ class CompileSafeRegexException extends SafeRegexException
 
     public function getErrorName(): string
     {
-        return (new PhpErrorConstants())->getConstant($this->error->getType());
+        return $this->errorName;
     }
 
     public function getPregErrorMessage(): string

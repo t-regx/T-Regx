@@ -2,7 +2,7 @@
 namespace SafeRegex\Errors\Errors;
 
 use SafeRegex\Errors\HostError;
-use SafeRegex\Exception\CompileSafeRegexException;
+use SafeRegex\Exception\Factory\CompileSafeRegexExceptionFactory;
 use SafeRegex\Exception\SafeRegexException;
 use SafeRegex\PhpError;
 
@@ -23,7 +23,7 @@ abstract class CompileError implements HostError
 
     public function getSafeRegexpException(string $methodName): SafeRegexException
     {
-        return new CompileSafeRegexException($methodName, $this->error);
+        return (new CompileSafeRegexExceptionFactory($methodName, $this->error))->create();
     }
 
     public static function getLast(): CompileError
