@@ -99,9 +99,7 @@ class MatchPattern
 
     public function matches(): bool
     {
-        $result = preg::match($this->pattern->pattern, $this->subject);
-
-        return $result === 1;
+        return preg::match($this->pattern->pattern, $this->subject) === 1;
     }
 
     public function count(): int
