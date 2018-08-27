@@ -19,9 +19,6 @@ class MatchesPattern
 
     public function matches(): bool
     {
-        $argument = ValidPattern::matchableArgument($this->subject);
-        $result = preg::match($this->pattern->pattern, $argument);
-
-        return $result === 1;
+        return preg::match($this->pattern->pattern, $this->subject) === 1;
     }
 }

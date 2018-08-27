@@ -322,10 +322,23 @@ class ReadMeTest extends TestCase
     /**
      * @test
      */
-    public function factoryMethod()
+    public function factoryMethodOf()
     {
         // when
         $instance = Pattern::of('test');
+
+        // then
+        $this->assertInstanceOf(Pattern::class, $instance);
+        $this->assertEquals('/test/', $instance->delimitered());
+    }
+
+    /**
+     * @test
+     */
+    public function factoryMethodPattern()
+    {
+        // when
+        $instance = Pattern::pattern('test');
 
         // then
         $this->assertInstanceOf(Pattern::class, $instance);
