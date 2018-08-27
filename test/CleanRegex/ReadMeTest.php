@@ -2,6 +2,7 @@
 namespace Test\CleanRegex;
 
 use CleanRegex\Match\Match;
+use CleanRegex\Pattern;
 use PHPUnit\Framework\TestCase;
 
 class ReadMeTest extends TestCase
@@ -320,10 +321,10 @@ class ReadMeTest extends TestCase
     public function factoryMethod()
     {
         // when
-        $instance = \CleanRegex\Pattern::of('test');
+        $instance = Pattern::of('test');
 
         // then
-        $this->assertInstanceOf(\CleanRegex\Pattern::class, $instance);
-        $this->assertEquals('test', $instance->pattern);
+        $this->assertInstanceOf(Pattern::class, $instance);
+        $this->assertEquals('/test/', $instance->delimitered());
     }
 }
