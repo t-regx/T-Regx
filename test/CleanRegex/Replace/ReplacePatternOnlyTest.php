@@ -25,7 +25,7 @@ class ReplacePatternOnlyTest extends TestCase
     /**
      * @test
      */
-    public function shouldReplaceWithStringUsingCallback()
+    public function shouldReplaceWithCallback()
     {
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(com|org)';
@@ -46,7 +46,7 @@ class ReplacePatternOnlyTest extends TestCase
     /**
      * @test
      */
-    public function shouldReplaceWithCallback()
+    public function shouldReplaceWithCallbackUsingGroup()
     {
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(com|org)';
@@ -67,7 +67,7 @@ class ReplacePatternOnlyTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllFromReplaceMatch()
+    public function shouldGetTrimmedAllFromReplaceMatch()
     {
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';

@@ -27,11 +27,9 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 
 ## Why CleanRegex stands out?
 
-* ### Written with Clean API in mind
-   * Deterministic
-   * Doesn't rely on global/static state
+* ### Written with clean API in mind
    * No hidden behaviour or magical features
-   * One method, one purpose, only
+   * One method for one purpose, only
    * Descriptive, chainable interface
    * Catches all PCRE-related warnings and throws exceptions instead
 
@@ -59,8 +57,6 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 
 * ###  Always an exception
   `preg_match()` returns `false` if an error occurred or, if no match is found - `0` (which evaluates to `false`).  You have to do an **explicit check** in order to react to it. CleanRegex always throws an exception. 
-
-  We got your back.
 
 * ### No type-mixing
   Using `PCRE_CAPTURE_OFFSET` changes return types from `string` to an `array`. And there's more...
@@ -90,8 +86,6 @@ Awful!
 
 ## Ways of using CleanRegex
 
-There are 4 different entry points for CleanRegex and all of them work the same (No warnings, no errors, always exceptions).
-
 ```php
 // Facade style
 \CleanRegex\Pattern::of('[A-Z][a-z]+')->matches($subject)
@@ -99,12 +93,6 @@ There are 4 different entry points for CleanRegex and all of them work the same 
 ```php
 // Global method style
 pattern('[A-Z][a-z]+')->matches($subject)
-```
-```php
-use SafeRegex\preg_match;
-
-// Old school PCRE style
-preg_match('/[A-Z][a-z]+/', $subject);
 ```
 ```php
 // Separate API for preg_*() methods
@@ -127,28 +115,21 @@ p('[A-Z][a-z]+')->matches('Jhon');
 Only interested in catching warnings and fails, without changing your code?
 
 ```php
-use SafeRegex\preg_match;
-
-$result = preg_match('/a/', $subject'); // idential to preg_match, but never emits a warning or returns false
-```
-if you don't want to mix SafeRegex methods and default PCRE methods, you can casually swap `_` for `::`
-```php
 use SafeRegex\preg;
 
 $result = preg::match('/a/', $subject'); // idential to preg_match, but never emits a warning or returns false
 ```
 
-SafeRegex is a copy of `preg_*()` functions, but:
+SafeRegex is an exact copy of `preg_*()` functions, but:
  * They never emit warnings
  * If an error occurred, they throw an exception
- * You don't have to check for `false` or `null` return on fail (results that suggest that the method failed)
+ * You don't need to worry about warnings or returning `false` 
+ ([or sometimes null](http://php.net/manual/en/function.preg-replace-callback-array.php)) - results that suggest that the 
+ method failed.
 
-You don't need to worry about warnings or returning false 
-([or sometimes null](http://php.net/manual/en/function.preg-replace-callback-array.php)).
-
-Regardless, of whether you use `preg_match_all()`, `SafeRegex\preg_match_all()` or `preg::match_all()`, these methods have exactly alike interfaces and paramters,
+Regardless, of whether you use `preg_match_all()` or `preg::match_all()`, these methods have **exactly** alike interfaces and parameters,
 and return exactly the same data. The only exception is, that SafeRegex methods never emit warnings or return `false` 
-([or sometimes null](http://php.net/manual/en/function.preg-replace-callback-array.php)), but throw an Exception on fail.
+([or sometimes null](http://php.net/manual/en/function.preg-replace-callback-array.php)), but throw an exception on fail.
 
 [Scroll to API](#api)  
 
@@ -173,21 +154,18 @@ pattern('[aeiouy]')->matches('Computer');
 
 #### Get all matches:
 ```php
-pattern('\d+')->match('192 168 172 14')->all()
+pattern('[a-zA-Z]+')->match('Robert likes trains')->all()
 ```
 ```
-array (4) {
-  0 => string '192',
-  1 => string '168',
-  2 => string '172',
-  3 => string '14',
+array (3) {
+  0 => string 'Robert',
+  1 => string 'likes',
+  2 => string 'trains',
 }
 ```
-(without capturing groups)
 
-## Retrieving
+#### Get the first match
 
-Get the first matched part of the string:
 ```php
 pattern('[a-zA-Z]+')->match('Robert likes trains')->first()
 ```
@@ -203,7 +181,7 @@ pattern('\d+')
 
         // gets the match
         $match->match()    // (string) "172"
-        (string) $match    // also gets the match
+        (string) $match    // (string) "172"
 
         // gets the match offset 
         $match->offset()   // (int) 8
@@ -259,15 +237,25 @@ pattern('[aeiouy]')->match('Computer')->count();
 ## Replace strings
 
 ```php
-pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->all()->with('*')
+$text = 'P. Sherman, 42 Wallaby way, Sydney';
+
+pattern('er|ab|ay|ey')->replace($text)->all()->with('__')
 ```
 ```
-(string) 'P. Sh*man, 42 Wall*y w*, Sydn*'
+(string) 'P. Sh__man, 42 Wall__y w__, Sydn__'
+```
+
+#### Replace first
+```php
+pattern('er|ab|ay|ey')->replace($text)->first()->with('__')
+```
+```
+(string) 'P. Sh__man, 42 Wallaby way, Sydney'
 ```
 
 For more readability, use `replace()->callback()` to render strings with capturing groups.
 
-### Replace using callbacks
+#### Replace using callbacks
 
 ```php
 pattern('[A-Z][a-z]+')
@@ -281,7 +269,7 @@ pattern('[A-Z][a-z]+')
 (string) 'SOME words are CAPITALIZED, and those will be ALL CAPS'
 ```
 
-### Replace using callbacks with groups
+#### Replace using callbacks with groups
 
 ```php
 $subject = 'Links: http://first.com and http://second.org.';
@@ -349,31 +337,28 @@ Want to validate pattern before calling it?
 ```php
 pattern('/[a-z]/')->valid();  // No exceptions, no warnings (no side-effects)
 ```
-```
-(bool) true
-```
+
+| Pattern | Result |
+| --- | --- |
+| `pattern('/[A-Za-z]/')->valid()`  | `(bool) true`  |
+| `pattern('/[a-z]/im')->valid()`   | `(bool) true`  |
+| `pattern('//[a-z]')->valid()`     | `(bool) false` |
+| `pattern('welcome')->valid()`     | `(bool) false` |
+| `pattern('/(unclosed/')->valid()` | `(bool) false` |
 
 :bulb: Remember that `pattern()->valid()` works with you, so delimiters (`/.*/` or `#.*#`) will not be added automatically 
 this time, and won't mess with your input :) so you can be sure whether the input pattern is valid or not.
 
-```php
-pattern('welcome')->valid();
-```
-```
-(bool) false
-```
-
-## Delimter a pattern 
+## Delimiter a pattern 
 
 Want only to use our awesome delimiterer?
 
 ```php
-pattern('[A-Z][a-z]')->delimitered();
+pattern('[A-Z]/[a-z]')->delimitered();
 ```
 ```
-/[A-Z][a-z]/
+#[A-Z]/[a-z]#
 ```
-
 
 ### Quoting
 ```php
@@ -405,15 +390,15 @@ pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
      $match->group('capital');    // Gets the value of a capturing group, by name ('R')
      $match->group(2);            // Gets the value of a capturing group, by index ('obert')
 
+     $match->groups();            // Gets all group values (['R', 'obert'])
+
      $match->groupNames();        // Gets the names of the capturing groups (['capital', 'lowercase'])
+
+     $match->namedGroups();       // Gets all named groups with values (['capital' => 'R', 'lowercase' => 'obert'])
 
      $match->hasGroup('capital'); // Checks whether the group was used in the pattern (true)
 
      $match->matched('capital');  // Checks whether the group has been matched by subject (true)
-
-     $match->namedGroups();       // Gets all named groups with values (['capital' => 'R', 'lowercase' => 'obert'])
-
-     $match->groups();            // Gets group values (['R', 'obert'])
   });
 ```
 

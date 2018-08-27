@@ -62,10 +62,10 @@ class ReadMeTest extends TestCase
     public function allMatches()
     {
         // when
-        $result = pattern('\d+')->match('192 168 172 14')->all();
+        $result = pattern('[a-zA-Z]+')->match('Robert likes trains')->all();
 
         // then
-        $this->assertEquals(['192', '168', '172', '14'], $result);
+        $this->assertEquals(['Robert', 'likes', 'trains'], $result);
     }
 
     /**
@@ -169,15 +169,29 @@ class ReadMeTest extends TestCase
     /**
      * @test
      */
-    public function replaceStrings()
+    public function replaceAllStrings()
     {
         // when
         $result = pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->all()
-            ->with('*');
+            ->with('__');
 
         // then
-        $this->assertEquals('P. Sh*man, 42 Wall*y w*, Sydn*', $result);
+        $this->assertEquals('P. Sh__man, 42 Wall__y w__, Sydn__', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function replaceFirstStrings()
+    {
+        // when
+        $result = pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')
+            ->first()
+            ->with('__');
+
+        // then
+        $this->assertEquals('P. Sh__man, 42 Wallaby way, Sydney', $result);
     }
 
     /**
@@ -257,38 +271,28 @@ class ReadMeTest extends TestCase
 
     /**
      * @test
+     * @dataProvider validPatterns
+     * @param string $pattern
+     * @param bool   $expected
      */
-    public function validatePattern()
+    public function validatePattern(string $pattern, bool $expected)
     {
         // when
-        $result = pattern('/[a-z/')->valid();
+        $result = pattern($pattern)->valid();
 
         // then
-        $this->assertFalse($result);
+        $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @test
-     */
-    public function validateWithoutDelimiters()
+    function validPatterns()
     {
-        // when
-        $result = pattern('welcome')->valid();
-
-        // then
-        $this->assertFalse($result);
-    }
-
-    /**
-     * @test
-     */
-    public function validateWithDelimiters()
-    {
-        // when
-        $result = pattern('/[a-z]/')->valid();
-
-        // then
-        $this->assertTrue($result);
+        return [
+            ['/[A-Za-z]/', true],
+            ['/[a-z]/im', true],
+            ['//[a-z]', false],
+            ['welcome', false],
+            ['/(unclosed/', false],
+        ];
     }
 
     /**
@@ -297,10 +301,10 @@ class ReadMeTest extends TestCase
     public function delimiter()
     {
         // when
-        $result = pattern('[A-Z][a-z]')->delimitered();
+        $result = pattern('[A-Z]/[a-z]')->delimitered();
 
         // then
-        $this->assertEquals('/[A-Z][a-z]/', $result);
+        $this->assertEquals('#[A-Z]/[a-z]#', $result);
     }
 
     /**
