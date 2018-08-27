@@ -1,7 +1,6 @@
 <?php
 namespace CleanRegex\Replace\Callback;
 
-use CleanRegex\Exception\Preg\PatternReplaceException;
 use CleanRegex\Internal\Pattern;
 use SafeRegex\preg;
 
@@ -23,20 +22,17 @@ class ReplacePatternCallbackInvoker
 
     public function invoke(callable $callback): string
     {
-        $result = $this->performReplaceCallback($callback);
-
-        if ($result === null) {
-            throw new PatternReplaceException();
-        }
-
-        return $result;
+        return preg::replace_callback(
+            $this->pattern->pattern,
+            $this->getObjectCallback($callback),
+            $this->subject,
+            $this->limit);
     }
 
-    private function performReplaceCallback(callable $callback): string
+    private function getObjectCallback(callable $callback): callable
     {
         $object = new ReplaceCallbackObject($callback, $this->subject, $this->analyzePattern(), $this->limit);
-
-        return preg::replace_callback($this->pattern->pattern, $object->getCallback(), $this->subject, $this->limit);
+        return $object->getCallback();
     }
 
     private function analyzePattern(): array

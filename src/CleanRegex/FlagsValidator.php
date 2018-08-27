@@ -2,9 +2,6 @@
 namespace CleanRegex;
 
 use CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
-use CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
-use SafeRegex\Exception\SafeRegexException;
-use SafeRegex\preg;
 
 class FlagsValidator
 {
@@ -32,20 +29,7 @@ class FlagsValidator
             return;
         }
 
-        if ($this->containWhitespace($flags)) {
-            throw new FlagNotAllowedException("Flags cannot contain whitespace");
-        }
-
         $this->validateFlags($flags);
-    }
-
-    private function containWhitespace(string $flags): bool
-    {
-        try {
-            return preg::match('/\s/', $flags) === 1;
-        } catch (SafeRegexException $exception) {
-            throw new InternalCleanRegexException();
-        }
     }
 
     private function validateFlags(string $flags): void
