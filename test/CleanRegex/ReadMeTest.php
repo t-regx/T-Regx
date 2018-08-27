@@ -313,10 +313,10 @@ class ReadMeTest extends TestCase
     public function quotePattern()
     {
         // when
-        $result = pattern('#.*[a-z]?#')->quote();
+        $result = pattern('.*[a-z]?')->quote();
 
         // then
-        $this->assertEquals('#\.\*\[a\-z\]\?#', $result);
+        $this->assertEquals('\.\*\[a\-z\]\?', $result);
     }
 
     /**

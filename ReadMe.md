@@ -20,7 +20,7 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
     * [Splitting](#split-a-string)
     * [Filtering](#filter-an-array)
     * [Validating](#validate-pattern)
-    * [Delimitering](#delimter-a-pattern)
+    * [Delimitering](#delimiter-a-pattern)
     * [Other](#first-match-with-details)
 4. [Why CleanRegex stands out?](#why-cleanregex-stands-out)
 5. [Performance](#performance)
@@ -29,7 +29,7 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 
 * ### Written with clean API in mind
    * No hidden behaviour or magical features
-   * One method for one purpose, only
+   * One method - only one purpose
    * Descriptive, chainable interface
    * Catches all PCRE-related warnings and throws exceptions instead
 
@@ -40,7 +40,6 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 * ### Working **with** the developer
    * UTF8 support out of the box.
    * Additional features that aren't provided by PHP or PCRE.
-   * Automatic delimiters for your patterns.
    * Tracking offset while replacing strings.
    * Pure pattern [validation](#validate-pattern).
    * Protects against **any** PCRE error (not just `preg_last_error()`). See [Exception Tree](https://github.com/PleaseDontKillMe/pattern).
@@ -128,7 +127,7 @@ SafeRegex is an exact copy of `preg_*()` functions, but:
  method failed.
 
 Regardless, of whether you use `preg_match_all()` or `preg::match_all()`, these methods have **exactly** alike interfaces and parameters,
-and return exactly the same data. The only exception is, that SafeRegex methods never emit warnings or return `false` 
+and return **exactly** the same data. The only exception is, that SafeRegex methods never emit warnings or return `false` 
 ([or sometimes null](http://php.net/manual/en/function.preg-replace-callback-array.php)), but throw an exception on fail.
 
 [Scroll to API](#api)  
@@ -362,10 +361,10 @@ pattern('[A-Z]/[a-z]')->delimitered();
 
 ### Quoting
 ```php
-echo pattern('#.*[a-z]?#')->quote();   // No exceptions, no warnings (no side-effects)
+echo pattern('.*[a-z]?')->quote();   // No exceptions, no warnings (no side-effects)
 ```
 ```bash
-#\.\*\[a\-z\]\?#
+\.\*\[a\-z\]\?
 ```
 
 :bulb: Remember that `pattern()->quote()` doesn't automatically delimiter the pattern (with `/.*/` or `#.*#`).
