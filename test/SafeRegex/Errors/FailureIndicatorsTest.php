@@ -1,8 +1,9 @@
 <?php
-namespace SafeRegex\Errors;
+namespace Test\SafeRegex\Errors;
 
 use CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use PHPUnit\Framework\TestCase;
+use SafeRegex\Errors\FailureIndicators;
 
 class FailureIndicatorsTest extends TestCase
 {

@@ -1,5 +1,5 @@
 <?php
-namespace CleanRegex;
+namespace Test\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use SafeRegex\Exception\CompileSafeRegexException;

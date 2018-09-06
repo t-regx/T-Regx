@@ -1,6 +1,7 @@
 <?php
-namespace CleanRegex;
+namespace Test\CleanRegex;
 
+use CleanRegex\Pattern;
 use PHPUnit\Framework\TestCase;
 
 class PatternQuoteTest extends TestCase

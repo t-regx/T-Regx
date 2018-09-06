@@ -1,5 +1,5 @@
 <?php
-namespace CleanRegex;
+namespace Test\CleanRegex;
 
 use CleanRegex\Match\ReplaceMatch;
 use InvalidArgumentException;

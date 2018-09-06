@@ -1,5 +1,5 @@
 <?php
-namespace CleanRegex;
+namespace Test\CleanRegex;
 
 use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use CleanRegex\Match\Match;
