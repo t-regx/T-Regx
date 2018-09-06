@@ -1,5 +1,4 @@
 <?php
-
 namespace SafeRegex\Guard;
 
 class GuardedExecution

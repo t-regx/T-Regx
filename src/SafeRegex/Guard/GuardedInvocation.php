@@ -1,5 +1,4 @@
 <?php
-
 namespace SafeRegex\Guard;
 
 use Exception;
