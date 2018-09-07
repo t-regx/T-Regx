@@ -15,7 +15,9 @@ class ErrorsCleanerTest extends TestCase
      */
     public function shouldClearCompileError()
     {
-//         $this->markTestSkipped('Only for PHP 7.0 +, with error_clear_last() method');
+        if (!function_exists('error_clear_last')) {
+            $this->markTestSkipped('Only for PHP 7.0 +, with error_clear_last() method');
+        }
 
         // given
         $cleaner = new ErrorsCleaner();
@@ -34,7 +36,9 @@ class ErrorsCleanerTest extends TestCase
      */
     public function shouldClearCompileErrorPhpPre7()
     {
-        $this->markTestSkipped('For PHP 5.6 and earlier, without error_clear_last() method');
+        if (function_exists('error_clear_last')) {
+            $this->markTestSkipped('For PHP 5.6 and earlier, without error_clear_last() method');
+        }
 
         // given
         $cleaner = new ErrorsCleaner();
