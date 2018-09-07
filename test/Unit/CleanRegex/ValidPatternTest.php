@@ -4,6 +4,8 @@ namespace Test\Unit\CleanRegex;
 use CleanRegex\Internal\Pattern;
 use CleanRegex\ValidPattern;
 use PHPUnit\Framework\TestCase;
+use SafeRegex\Errors\Errors\EmptyHostError;
+use SafeRegex\Errors\ErrorsCleaner;
 
 class ValidPatternTest extends TestCase
 {
@@ -47,5 +49,25 @@ class ValidPatternTest extends TestCase
 
         // then
         $this->assertFalse($isValid, "Failed asserting that pattern is invalid");
+    }
+
+    /**
+     * @test
+     * @dataProvider \Test\DataProviders::invalidPregPatterns()
+     * @param string $string
+     */
+    public function shouldNotLeaveErrors(string $string)
+    {
+        // given
+        $pattern = new ValidPattern(new Pattern($string));
+        $errorsCleaner = new ErrorsCleaner();
+
+        // when
+        $pattern->isValid();
+        $error = $errorsCleaner->getError();
+
+        // then
+        $this->assertInstanceOf(EmptyHostError::class, $error);
+        $this->assertFalse($error->occurred());
     }
 }
