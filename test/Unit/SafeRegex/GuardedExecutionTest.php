@@ -3,6 +3,8 @@ namespace Test\Unit\SafeRegex;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use SafeRegex\Errors\Errors\EmptyHostError;
+use SafeRegex\Errors\ErrorsCleaner;
 use SafeRegex\Exception\CompileSafeRegexException;
 use SafeRegex\Exception\RuntimeSafeRegexException;
 use SafeRegex\Guard\GuardedExecution;
@@ -169,13 +171,20 @@ class GuardedExecutionTest extends TestCase
      */
     public function shouldSilenceAnException()
     {
+        // given
+        $errorsCleaner = new ErrorsCleaner();
+
         // when
         $silenced = GuardedExecution::silenced('preg_match', function () {
             $this->causeCompileWarning();
         });
 
+        $error = $errorsCleaner->getError();
+
         // then
         $this->assertTrue($silenced);
+        $this->assertFalse($error->occurred());
+        $this->assertInstanceOf(EmptyHostError::class, $error);
     }
 
     /**
@@ -183,12 +192,19 @@ class GuardedExecutionTest extends TestCase
      */
     public function shouldNotSilenceAnException()
     {
+        // given
+        $errorsCleaner = new ErrorsCleaner();
+
         // when
         $silenced = GuardedExecution::silenced('preg_match', function () {
             return 2;
         });
 
+        $error = $errorsCleaner->getError();
+
         // then
         $this->assertFalse($silenced);
+        $this->assertFalse($error->occurred());
+        $this->assertInstanceOf(EmptyHostError::class, $error);
     }
 }
