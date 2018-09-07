@@ -2,13 +2,97 @@
 namespace Test\Unit\SafeRegex\Errors;
 
 use PHPUnit\Framework\TestCase;
+use SafeRegex\Errors\Errors\BothHostError;
+use SafeRegex\Errors\Errors\CompileError;
+use SafeRegex\Errors\Errors\EmptyHostError;
 use SafeRegex\Errors\Errors\OvertriggerCompileError;
+use SafeRegex\Errors\Errors\RuntimeError;
 use SafeRegex\Errors\ErrorsCleaner;
 use Test\Warnings;
 
 class ErrorsCleanerTest extends TestCase
 {
     use Warnings;
+
+    /**
+     * @test
+     */
+    public function shouldGetRuntimeError()
+    {
+        // given
+        $cleaner = new ErrorsCleaner();
+        $this->causeRuntimeWarning();
+
+        // when
+        $error = $cleaner->getError();
+
+        // then
+        $this->assertInstanceOf(RuntimeError::class, $error);
+        $this->assertTrue($error->occurred());
+
+        // cleanup
+        $error->clear();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetCompileError()
+    {
+        // given
+        $cleaner = new ErrorsCleaner();
+        $this->causeCompileWarning();
+
+        // when
+        $error = $cleaner->getError();
+
+        // then
+        $this->assertInstanceOf(CompileError::class, $error);
+        $this->assertTrue($error->occurred());
+
+        // cleanup
+        $error->clear();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetBothHostError()
+    {
+        // given
+        $cleaner = new ErrorsCleaner();
+        $this->causeCompileWarning();
+        $this->causeRuntimeWarning();
+
+        // when
+        $error = $cleaner->getError();
+
+        // then
+        $this->assertInstanceOf(BothHostError::class, $error);
+        $this->assertTrue($error->occurred());
+
+        // cleanup
+        $error->clear();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetEmptyHostError()
+    {
+        // given
+        $cleaner = new ErrorsCleaner();
+
+        // when
+        $error = $cleaner->getError();
+
+        // then
+        $this->assertInstanceOf(EmptyHostError::class, $error);
+        $this->assertFalse($error->occurred());
+
+        // cleanup
+        $error->clear();
+    }
 
     /**
      * @test
