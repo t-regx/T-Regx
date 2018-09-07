@@ -38,8 +38,8 @@ class MatchPatternTest extends TestCase
     public function shouldModifyFirstReturnValue()
     {
         // when
-        $value = pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
-            ->match('Foo, Leszek Ziom, Dupa')
+        $value = pattern('[A-Z]+')
+            ->match('Foo, Bar, Top')
             ->first(function (Match $match) {
                 return 'Different';
             });
@@ -54,7 +54,7 @@ class MatchPatternTest extends TestCase
     public function shouldAllowToReturnArbitraryType()
     {
         // when
-        $value = pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
+        $value = pattern('[A-Z]+')
             ->match('Foo, Leszek Ziom, Dupa')
             ->first(function (Match $match) {
                 return new \stdClass();
@@ -68,28 +68,12 @@ class MatchPatternTest extends TestCase
     {
         // when
         pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
-            ->match('Foo, Leszek Ziom, Dupa')
+            ->match('Foo, Leszek Ziom, Bar')
             ->first(function (Match $match) {
 
                 // then
-                $this->assertEquals(['Foo', 'Leszek', 'Ziom', 'Dupa'], $match->all());
+                $this->assertEquals(['Foo', 'Leszek', 'Ziom', 'Bar'], $match->all());
 
-            });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowOnMissingGroup()
-    {
-        // then
-        $this->expectException(NonexistentGroupException::class);
-
-        // when
-        pattern('(?<one>hello)')
-            ->match('hello')
-            ->first(function (Match $match) {
-                $match->group('two');
             });
     }
 
@@ -132,18 +116,16 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroupNames()
+    public function shouldThrowOnMissingGroup()
     {
-        // given
-        pattern('(?<one>first) and (?<two>second)')
-            ->match('first and second')
+        // then
+        $this->expectException(NonexistentGroupException::class);
+
+        // when
+        pattern('(?<one>hello)')
+            ->match('hello')
             ->first(function (Match $match) {
-
-                // when
-                $groupNames = $match->groupNames();
-
-                // then
-                $this->assertEquals(['one', 'two'], $groupNames);
+                $match->group('two');
             });
     }
 
@@ -180,6 +162,24 @@ class MatchPatternTest extends TestCase
 
                 // then
                 $this->assertEquals(['first1', 'second1'], $group);
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupNames()
+    {
+        // given
+        pattern('(?<one>first) and (?<two>second)')
+            ->match('first and second')
+            ->first(function (Match $match) {
+
+                // when
+                $groupNames = $match->groupNames();
+
+                // then
+                $this->assertEquals(['one', 'two'], $groupNames);
             });
     }
 
