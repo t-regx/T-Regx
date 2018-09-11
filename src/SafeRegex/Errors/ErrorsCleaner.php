@@ -26,8 +26,12 @@ class ErrorsCleaner
             return new BothHostError($compile, $runtime);
         }
 
-        if ($compile->occurred()) return $compile;
-        if ($runtime->occurred()) return $runtime;
+        if ($compile->occurred()) {
+            return $compile;
+        }
+        if ($runtime->occurred()) {
+            return $runtime;
+        }
 
         return new EmptyHostError();
     }
