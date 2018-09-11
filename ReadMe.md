@@ -1,9 +1,20 @@
 # Regular Expressions wrapper
 
-The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE methods.
+The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE methods. [Scroll to API](#api)
 
 [![Build Status](https://travis-ci.org/Danon/CleanRegex.svg?branch=master)](https://travis-ci.org/Danon/CleanRegex)
 [![Coverage Status](https://coveralls.io/repos/github/Danon/CleanRegex/badge.svg?branch=master)](https://coveralls.io/github/Danon/CleanRegex?branch=master)
+[![Requirements Status](https://requires.io/github/Danon/CleanRegex/requirements.svg?branch=master)](https://requires.io/github/Danon/CleanRegex/requirements/?branch=master)
+[![Code Quality](https://scrutinizer-ci.com/g/Danon/CleanRegex/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Danon/CleanRegex/?branch=master)
+![Size](https://github-size-badge.herokuapp.com/Danon/CleanRegex.svg)
+[![GitHub](https://img.shields.io/github/license/Danon/CleanRegex.svg)](https://github.com/Danon/CleanRegex)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Danon/CleanRegex.svg)](https://github.com/Danon/CleanRegex)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Danon/CleanRegex.svg)](https://github.com/Danon/CleanRegex)
+
+[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D5.3-blue.svg)](https://github.com/Danon/CleanRegex/branches/all)
+[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D5.6-blue.svg)](https://github.com/Danon/CleanRegex/branches/all)
+[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D7.1.3-blue.svg)](https://github.com/Danon/CleanRegex)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 
 1. [Overview](#regular-expressions-wrapper)
     * [Why CleanRegex stands out?](#why-cleanregex-stands-out)
@@ -13,7 +24,7 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 2. [Installation](#installation)
 3. [API](#api)  
     * [Matching](#matching)
-    * [Retrieving](#retrieving)
+    * [Retrieving](#get-all-matches)
     * [Iterating](#iterating)
     * [Counting](#counting)
     * [Replacing](#replace-strings)
@@ -27,18 +38,19 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 
 ## Why CleanRegex stands out?
 
-* ### Written with clean API in mind
-   * No hidden behaviour or magical features
-   * One method - only one purpose
-   * Descriptive, chainable interface
-   * Catches all PCRE-related warnings and throws exceptions instead
+[Scroll to API](#api) 
 
-* ### **No interference** with your project
+* ### Written with clean API in mind
    * Not messing with error handlers **in any way**.
-   * Not using any global or static variables.
+   * No flags or boolean arguments
+   * No nested arrays
+   * No varargs
+   * No hidden behaviour or magical features
+   * SRP methods
+   * Descriptive interface
 
 * ### Working **with** the developer
-   * UTF8 support out of the box.
+   * Catches all PCRE-related warnings and throws exceptions instead
    * Additional features that aren't provided by PHP or PCRE.
    * Tracking offset while replacing strings.
    * Pure pattern [validation](#validate-pattern).
@@ -55,7 +67,7 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
   will conveniently add one of many delimiters for you (so to minimize the need of you escaping them), if they're not already present.
 
 * ###  Always an exception
-  `preg_match()` returns `false` if an error occurred or, if no match is found - `0` (which evaluates to `false`).  You have to do an **explicit check** in order to react to it. CleanRegex always throws an exception. 
+  `preg_match()` returns `false` if an error occurred or, if no match is found - `0` (which evaluates to `false`).  You have to do an **explicit check** to handle the error. CleanRegex always throws an exception. 
 
 * ### No type-mixing
   Using `PCRE_CAPTURE_OFFSET` changes return types from `string` to an `array`. And there's more...
@@ -95,16 +107,11 @@ pattern('[A-Z][a-z]+')->matches($subject)
 ```
 ```php
 // Separate API for preg_*() methods
-preg::match('/[A-Z][a-z]+/', $subject); 
-```
-
-If none of them suits you, feel free to create your own helper method :)
-```php
-function p(string $pattern) {
-    return new \CleanRegex\Pattern($pattern);
-}
-
-p('[A-Z][a-z]+')->matches('Jhon');
+preg::match('/\w+/', $subject);
+preg::match_all('/\w+/', $subject);
+preg::match_replace('/\w+/', $replacement, $subject);
+preg::match_replace_callback('/\w+/', $callback, $subject);
+// and so on...
 ```
 
 [Scroll to API](#api)  
@@ -220,12 +227,10 @@ array (4) {
 ## Counting
 
 ```php
-$amount = pattern('[aeiouy]')->count('Computer');
-
-echo "There are $amount vowels";
+pattern('[aeiouy]')->count('Computer');
 ```
 ```
-There are 3 vowels
+(int) 3
 ```
 
 You can get the same effect by calling
