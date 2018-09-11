@@ -3,7 +3,6 @@ namespace Test\Unit\SafeRegex\Errors;
 
 use PHPUnit\Framework\TestCase;
 use SafeRegex\Errors\Errors\BothHostError;
-use SafeRegex\Errors\Errors\CompileError;
 use SafeRegex\Errors\Errors\EmptyHostError;
 use SafeRegex\Errors\Errors\OvertriggerCompileError;
 use SafeRegex\Errors\Errors\RuntimeError;
@@ -47,8 +46,10 @@ class ErrorsCleanerTest extends TestCase
         $error = $cleaner->getError();
 
         // then
-        $this->assertInstanceOf(CompileError::class, $error);
+        $exception = $error->getSafeRegexpException('preg_match');
+
         $this->assertTrue($error->occurred());
+        $this->assertEquals($exception->getMessage(), "preg_match(): No ending delimiter '/' found" . PHP_EOL . " " . PHP_EOL . "(caused by E_WARNING)");
 
         // cleanup
         $error->clear();

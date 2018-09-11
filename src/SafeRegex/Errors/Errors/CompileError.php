@@ -30,7 +30,7 @@ abstract class CompileError implements HostError
     {
         $phpError = PhpError::getLast();
 
-        if (is_callable('error_clear_last')) {
+        if (StandardCompileError::isCompatible()) {
             return new StandardCompileError($phpError);
         }
 

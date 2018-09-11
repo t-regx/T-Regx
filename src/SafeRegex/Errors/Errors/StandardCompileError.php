@@ -12,4 +12,9 @@ class StandardCompileError extends CompileError
     {
         error_clear_last();
     }
+
+    public static function isCompatible(): bool
+    {
+        return is_callable('error_clear_last');
+    }
 }
