@@ -2,17 +2,17 @@
 namespace CleanRegex;
 
 use CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
-use CleanRegex\Internal\Pattern;
+use CleanRegex\Internal\Pattern as InternalPattern;
 use SafeRegex\preg;
 
 class CountPattern
 {
-    /** @var Pattern */
+    /** @var InternalPattern */
     private $pattern;
     /** @var string */
     private $subject;
 
-    public function __construct(Pattern $pattern, string $subject)
+    public function __construct(InternalPattern $pattern, string $subject)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;

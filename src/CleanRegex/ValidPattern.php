@@ -1,15 +1,15 @@
 <?php
 namespace CleanRegex;
 
-use CleanRegex\Internal\Pattern;
+use CleanRegex\Internal\Pattern as InternalPattern;
 use SafeRegex\Guard\GuardedExecution;
 
 class ValidPattern
 {
-    /** @var Pattern */
+    /** @var InternalPattern */
     private $pattern;
 
-    public function __construct(Pattern $pattern)
+    public function __construct(InternalPattern $pattern)
     {
         $this->pattern = $pattern;
     }

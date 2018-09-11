@@ -1,16 +1,16 @@
 <?php
 namespace CleanRegex;
 
-use CleanRegex\Internal\Pattern;
+use CleanRegex\Internal\Pattern as InternalPattern;
 
 class FilterArrayPattern
 {
-    /** @var Pattern */
+    /** @var InternalPattern */
     private $pattern;
     /** @var array */
     private $array;
 
-    public function __construct(Pattern $pattern, array $array)
+    public function __construct(InternalPattern $pattern, array $array)
     {
         $this->pattern = $pattern;
         $this->array = $array;

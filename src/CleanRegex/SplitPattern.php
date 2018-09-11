@@ -1,19 +1,18 @@
 <?php
 namespace CleanRegex;
 
-use CleanRegex\Internal\Pattern;
-use SafeRegex\ExceptionFactory;
+use CleanRegex\Internal\Pattern as InternalPattern;
 use SafeRegex\preg;
 
 class SplitPattern
 {
-    /** @var Pattern */
+    /** @var InternalPattern */
     private $pattern;
 
     /** @var string */
     private $subject;
 
-    public function __construct(Pattern $pattern, string $subject)
+    public function __construct(InternalPattern $pattern, string $subject)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
