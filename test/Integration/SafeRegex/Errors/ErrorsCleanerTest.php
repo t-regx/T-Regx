@@ -1,12 +1,8 @@
 <?php
-namespace Test\Unit\SafeRegex\Errors;
+namespace Test\Integration\SafeRegex\Errors;
 
 use PHPUnit\Framework\TestCase;
-use SafeRegex\Errors\Errors\BothHostError;
-use SafeRegex\Errors\Errors\CompileError;
-use SafeRegex\Errors\Errors\EmptyHostError;
 use SafeRegex\Errors\Errors\OvertriggerCompileError;
-use SafeRegex\Errors\Errors\RuntimeError;
 use SafeRegex\Errors\ErrorsCleaner;
 use Test\Warnings;
 
@@ -27,8 +23,8 @@ class ErrorsCleanerTest extends TestCase
         $error = $cleaner->getError();
 
         // then
-        $this->assertInstanceOf(RuntimeError::class, $error);
-        $this->assertTrue($error->occurred());
+        $exception = $error->getSafeRegexpException('preg_match');
+        $this->assertEquals($exception->getMessage(), 'After invoking preg_match(), preg_last_error() returned PREG_BAD_UTF8_ERROR.');
 
         // cleanup
         $error->clear();
@@ -36,14 +32,9 @@ class ErrorsCleanerTest extends TestCase
 
     /**
      * @test
-     * @see https://bugs.php.net/bug.php?id=74183
      */
-    public function shouldGetCompileError_Bug_Exists()
+    public function shouldGetCompileError()
     {
-        if (version_compare(PHP_VERSION, '7.1.13', '>=')) {
-            $this->markTestSkipped("After compile-time warning calling preg_match(), preg_last_error() still return PREG_NO_ERROR. Bug fixed in 7.1.13");
-        }
-
         // given
         $cleaner = new ErrorsCleaner();
         $this->causeCompileWarning();
@@ -52,33 +43,8 @@ class ErrorsCleanerTest extends TestCase
         $error = $cleaner->getError();
 
         // then
-        $this->assertInstanceOf(CompileError::class, $error);
-        $this->assertTrue($error->occurred());
-
-        // cleanup
-        $error->clear();
-    }
-
-    /**
-     * @test
-     * @see https://bugs.php.net/bug.php?id=74183
-     */
-    public function shouldGetCompileError_Bug_Fixed()
-    {
-        if (version_compare(PHP_VERSION, '7.1.13', '<')) {
-            $this->markTestSkipped("Bug fixed in 7.1.13, now compile-time warnings in preg_match() causes preg_last_error() ");
-        }
-
-        // given
-        $cleaner = new ErrorsCleaner();
-        $this->causeCompileWarning();
-
-        // when
-        $error = $cleaner->getError();
-
-        // then
-        $this->assertInstanceOf(BothHostError::class, $error);
-        $this->assertTrue($error->occurred());
+        $exception = $error->getSafeRegexpException('preg_match');
+        $this->assertEquals($exception->getMessage(), "preg_match(): No ending delimiter '/' found" . PHP_EOL . " " . PHP_EOL . "(caused by E_WARNING)");
 
         // cleanup
         $error->clear();
@@ -91,15 +57,15 @@ class ErrorsCleanerTest extends TestCase
     {
         // given
         $cleaner = new ErrorsCleaner();
-        $this->causeCompileWarning();
         $this->causeRuntimeWarning();
+        $this->causeCompileWarning();
 
         // when
         $error = $cleaner->getError();
 
         // then
-        $this->assertInstanceOf(BothHostError::class, $error);
-        $this->assertTrue($error->occurred());
+        $exception = $error->getSafeRegexpException('preg_match');
+        $this->assertEquals($exception->getMessage(), "preg_match(): No ending delimiter '/' found" . PHP_EOL . " " . PHP_EOL . "(caused by E_WARNING)");
 
         // cleanup
         $error->clear();
@@ -117,7 +83,6 @@ class ErrorsCleanerTest extends TestCase
         $error = $cleaner->getError();
 
         // then
-        $this->assertInstanceOf(EmptyHostError::class, $error);
         $this->assertFalse($error->occurred());
 
         // cleanup
