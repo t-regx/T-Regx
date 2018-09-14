@@ -1,9 +1,10 @@
 <?php
 namespace CleanRegex\Replace;
 
+use CleanRegex\Internal\PatternLimit;
 use InvalidArgumentException;
 
-class ReplaceLimit
+class ReplaceLimit implements PatternLimit
 {
     /** @var callable */
     private $patternFactory;
