@@ -1,7 +1,6 @@
 <?php
 namespace CleanRegex;
 
-use CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use CleanRegex\Internal\Pattern as InternalPattern;
 use SafeRegex\preg;
 
@@ -20,10 +19,6 @@ class CountPattern
 
     public function count(): int
     {
-        $result = preg::match_all($this->pattern->pattern, $this->subject, $matches);
-        if ($result !== count($matches[0])) {
-            throw new InternalCleanRegexException();
-        }
-        return $result;
+        return preg::match_all($this->pattern->pattern, $this->subject);
     }
 }
