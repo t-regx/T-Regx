@@ -41,10 +41,10 @@ class Match
 
     /**
      * @param string|int $nameOrIndex
-     * @return string
+     * @return string|null
      * @throws NonexistentGroupException
      */
-    public function group($nameOrIndex): string
+    public function group($nameOrIndex): ?string
     {
         $this->validateGroupName($nameOrIndex);
 
@@ -53,7 +53,7 @@ class Match
             return $match;
         }
 
-        throw new NonexistentGroupException();
+        throw new NonexistentGroupException($nameOrIndex);
     }
 
     /**
@@ -107,7 +107,6 @@ class Match
     public function hasGroup($nameOrIndex): bool
     {
         $this->validateGroupName($nameOrIndex);
-
         return array_key_exists($nameOrIndex, $this->matches);
     }
 
@@ -117,7 +116,7 @@ class Match
      */
     public function matched($nameOrIndex): bool
     {
-        return $this->matches[$nameOrIndex][$this->index] !== '';
+        return $this->group($nameOrIndex) !== null;
     }
 
     public function all(): array
