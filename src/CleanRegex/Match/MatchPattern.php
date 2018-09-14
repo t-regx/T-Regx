@@ -7,7 +7,8 @@ use SafeRegex\preg;
 
 class MatchPattern
 {
-    private const WHOLE_MATCH = 0;
+    private const GROUP_WHOLE_MATCH = 0;
+    private const FIRST_MATCH = 0;
 
     /** @var Pattern */
     private $pattern;
@@ -30,7 +31,7 @@ class MatchPattern
         $matches = [];
         preg::match_all($this->pattern->pattern, $this->subject, $matches);
 
-        return $matches[0];
+        return $matches[self::GROUP_WHOLE_MATCH];
     }
 
     public function iterate(callable $callback): void
@@ -56,13 +57,15 @@ class MatchPattern
     public function first(callable $callback = null)
     {
         $matches = $this->performMatchAll();
-        if (empty($matches[0])) return null;
-
-        if ($callback !== null) {
-            return call_user_func($callback, new Match($this->subject, 0, $matches));
+        if (empty($matches[self::GROUP_WHOLE_MATCH])) {
+            return null;
         }
 
-        list($value, $offset) = $matches[self::WHOLE_MATCH][0];
+        if ($callback !== null) {
+            return call_user_func($callback, new Match($this->subject, self::FIRST_MATCH, $matches));
+        }
+
+        list($value, $offset) = $matches[self::GROUP_WHOLE_MATCH][self::FIRST_MATCH];
         return $value;
     }
 
@@ -89,11 +92,9 @@ class MatchPattern
     private function constructMatchObjects(array $matches): array
     {
         $matchObjects = [];
-
-        foreach ($matches[0] as $index => $match) {
+        foreach ($matches[self::GROUP_WHOLE_MATCH] as $index => $match) {
             $matchObjects[] = new Match($this->subject, $index, $matches);
         }
-
         return $matchObjects;
     }
 
