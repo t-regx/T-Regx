@@ -3,6 +3,8 @@ namespace CleanRegex;
 
 use CleanRegex\Internal\Pattern as InternalPattern;
 use CleanRegex\Match\MatchPattern;
+use CleanRegex\Remove\RemoveLimit;
+use CleanRegex\Remove\RemovePattern;
 use CleanRegex\Replace\ReplaceLimit;
 use CleanRegex\Replace\ReplacePattern;
 
@@ -34,6 +36,13 @@ class Pattern
     {
         return new ReplaceLimit(function (int $limit) use ($subject) {
             return new ReplacePattern($this->pattern, $subject, $limit);
+        });
+    }
+
+    public function remove(string $subject): RemoveLimit
+    {
+        return new RemoveLimit(function (int $limit) use ($subject) {
+            return (new RemovePattern($this->pattern, $subject, $limit))->remove();
         });
     }
 

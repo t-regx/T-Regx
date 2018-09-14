@@ -11,6 +11,7 @@ Incoming in 1.1
     * Add `Match.groups()`
     * Returning from `match()->first(callable)` modifies its return type
     * Add `replace()->all()`, `replace()->first()` and `replace()->only(int)`
+    * Add `pattern()->remove()`
 * Tests
     * Split tests into `\Test\Unit` and `\Test\Integration` folders 
     * Add dynamic skip for `ErrorsCleanerTest`

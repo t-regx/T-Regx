@@ -13,7 +13,7 @@ class MatchMatchesPatternTest extends TestCase
     public function shouldMatchPattern()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('/[a-z]/'), 'welcome');
+        $pattern = new MatchPattern(new Pattern('[a-z]'), 'welcome');
 
         // when
         $result = $pattern->matches();
@@ -28,7 +28,7 @@ class MatchMatchesPatternTest extends TestCase
     public function shouldNotMatchPattern()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('/^[a-z]+$/'), 'space space');
+        $pattern = new MatchPattern(new Pattern('^[a-z]+$'), 'space space');
 
         // when
         $result = $pattern->matches();
