@@ -168,6 +168,27 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetEmptyMatchedGroup()
+    {
+        // when
+        $groups = pattern('([a-z]+)(?:\((\d*)\))?')
+            ->match('sin(20) + cos() + tan')
+            ->map(function (Match $match) {
+                return $match->groups();
+            });
+
+        // then
+        $expected = [
+            ['sin', '20'], // braces value
+            ['cos', ''],   // empty braces
+            ['tan', null], // no braces
+        ];
+        $this->assertEquals($expected, $groups);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetGroupNames()
     {
         // given
