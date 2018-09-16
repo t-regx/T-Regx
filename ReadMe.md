@@ -45,9 +45,9 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
    * No flags or boolean arguments
    * No nested arrays
    * No varargs
-   * No hidden behaviour or magical features
    * SRP methods
    * Descriptive interface
+   * One public method per class - wherever possible
 
 * ### Working **with** the developer
    * Catches all PCRE-related warnings and throws exceptions instead
@@ -67,7 +67,8 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
   will conveniently add one of many delimiters for you (so to minimize the need of you escaping them), if they're not already present.
 
 * ###  Always an exception
-  `preg_match()` returns `false` if an error occurred or, if no match is found - `0` (which evaluates to `false`).  You have to do an **explicit check** to handle the error. CleanRegex always throws an exception. 
+   * `preg_match()` returns `false` if an error occurred or, if no match is found - `0` (which evaluates to `false`).  You have to do an **explicit check** to handle the error.
+   * CleanRegex **always** throws an exception. 
 
 * ### No type-mixing
   Using `PCRE_CAPTURE_OFFSET` changes return types from `string` to an `array`. And there's more...
@@ -109,8 +110,8 @@ pattern('[A-Z][a-z]+')->matches($subject)
 // Separate API for preg_*() methods
 preg::match('/\w+/', $subject);
 preg::match_all('/\w+/', $subject);
-preg::match_replace('/\w+/', $replacement, $subject);
-preg::match_replace_callback('/\w+/', $callback, $subject);
+preg::replace('/\w+/', $replacement, $subject);
+preg::replace_callback('/\w+/', $callback, $subject);
 // and so on...
 ```
 
@@ -126,8 +127,9 @@ use SafeRegex\preg;
 $result = preg::match('/a/', $subject'); // idential to preg_match, but never emits a warning or returns false
 ```
 
-SafeRegex is an exact copy of `preg_*()` functions, but:
- * They never emit warnings
+SafeRegex is an exact copy of `preg_*()` functions, and:
+ * Exactly alike interface
+ * Never emit warnings
  * If an error occurred, they throw an exception
  * You don't need to worry about warnings or returning `false` 
  ([or sometimes null](http://php.net/manual/en/function.preg-replace-callback-array.php)) - results that suggest that the 
