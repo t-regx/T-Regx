@@ -1,6 +1,7 @@
 <?php
 namespace CleanRegex\Replace\Callback;
 
+use CleanRegex\Exception\CleanRegex\InvalidReplacementException;
 use CleanRegex\Match\ReplaceMatch;
 
 class ReplaceCallbackObject
@@ -27,10 +28,17 @@ class ReplaceCallbackObject
         $this->limit = $limit;
     }
 
-    public function invoke(array $match): string
+    public function getCallback(): callable
+    {
+        return function (array $match) {
+            return $this->invoke($match);
+        };
+    }
+
+    private function invoke(array $match): string
     {
         $replacement = call_user_func($this->callback, $this->createMatchObject());
-
+        $this->validateReplacement($replacement);
         $this->modifyOffset($replacement, $match[0]);
 
         return $replacement;
@@ -47,13 +55,18 @@ class ReplaceCallbackObject
         );
     }
 
-    public function modifyOffset(string $replacement, string $search): void
+    /**
+     * @param mixed $replacement
+     */
+    private function validateReplacement($replacement): void
     {
-        $this->offsetModification += strlen($replacement) - strlen($search);
+        if (!is_string($replacement)) {
+            throw new InvalidReplacementException($replacement);
+        }
     }
 
-    public function getCallback(): callable
+    private function modifyOffset(string $replacement, string $search): void
     {
-        return [$this, 'invoke'];
+        $this->offsetModification += strlen($replacement) - strlen($search);
     }
 }
