@@ -3,6 +3,14 @@ namespace CleanRegex\Match;
 
 use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use InvalidArgumentException;
+use function array_filter;
+use function array_key_exists;
+use function array_keys;
+use function array_map;
+use function array_slice;
+use function array_values;
+use function is_int;
+use function is_string;
 
 class Match
 {
@@ -146,7 +154,7 @@ class Match
     private function validateGroupName($nameOrIndex): void
     {
         if (!is_string($nameOrIndex) && !is_int($nameOrIndex)) {
-            throw new InvalidArgumentException("Group index can only be an integer or string");
+            throw new InvalidArgumentException('Group index can only be an integer or string');
         }
     }
 }

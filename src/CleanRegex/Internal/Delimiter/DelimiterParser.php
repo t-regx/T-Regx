@@ -4,7 +4,7 @@ namespace CleanRegex\Internal\Delimiter;
 class DelimiterParser
 {
     /** @var array */
-    private $validDelimiters = ['/', '#', '%', '~', '+', '!'];
+    private static $validDelimiters = ['/', '#', '%', '~', '+', '!'];
 
     public function isDelimitered(string $pattern): bool
     {
@@ -22,7 +22,7 @@ class DelimiterParser
         return null;
     }
 
-    private function tryGetDelimiter(string $pattern):?string
+    private function tryGetDelimiter(string $pattern): ?string
     {
         $lastOffset = strrpos($pattern, $pattern[0]);
         if ($lastOffset > 0) {
@@ -33,11 +33,11 @@ class DelimiterParser
 
     private function isValidDelimiter(string $character): bool
     {
-        return in_array($character, $this->validDelimiters);
+        return in_array($character, self::$validDelimiters);
     }
 
     public function getDelimiters(): array
     {
-        return $this->validDelimiters;
+        return self::$validDelimiters;
     }
 }

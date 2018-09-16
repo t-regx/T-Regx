@@ -2,6 +2,8 @@
 namespace SafeRegex\Errors;
 
 use CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use function array_key_exists;
+use function in_array;
 
 class FailureIndicators
 {

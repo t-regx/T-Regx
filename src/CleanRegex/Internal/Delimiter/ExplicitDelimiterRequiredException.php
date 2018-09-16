@@ -13,6 +13,6 @@ class ExplicitDelimiterRequiredException extends CleanRegexException
     private function getExceptionMessage($pattern): string
     {
         return "Unfortunately, CleanRegex couldn't find any indistinct delimiter to match your pattern \"$pattern\". " .
-            "Please specify the delimiter explicitly, and escape the delimiter character inside your pattern.";
+            'Please specify the delimiter explicitly, and escape the delimiter character inside your pattern.';
     }
 }

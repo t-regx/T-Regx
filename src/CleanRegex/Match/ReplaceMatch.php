@@ -1,6 +1,8 @@
 <?php
 namespace CleanRegex\Match;
 
+use function array_slice;
+
 class ReplaceMatch extends Match
 {
     /** @var int */
@@ -20,7 +22,7 @@ class ReplaceMatch extends Match
         return $this->offset() + $this->offsetModification;
     }
 
-    public function allUnlimited()
+    public function allUnlimited(): array
     {
         return $this->getFirstFromAllMatches();
     }

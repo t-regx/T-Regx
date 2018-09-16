@@ -1,7 +1,6 @@
 <?php
 namespace CleanRegex\Match;
 
-use CleanRegex\Exception\Preg\PatternMatchException;
 use CleanRegex\Internal\Pattern;
 use SafeRegex\preg;
 
@@ -22,22 +21,17 @@ class MatchPattern
         $this->subject = $subject;
     }
 
-    /**
-     * @return array
-     * @throws PatternMatchException
-     */
     public function all(): array
     {
         $matches = [];
         preg::match_all($this->pattern->pattern, $this->subject, $matches);
-
         return $matches[self::GROUP_WHOLE_MATCH];
     }
 
     public function iterate(callable $callback): void
     {
         foreach ($this->getMatchObjects() as $object) {
-            call_user_func($callback, $object);
+            $callback($object);
         }
     }
 
@@ -45,7 +39,7 @@ class MatchPattern
     {
         $results = [];
         foreach ($this->getMatchObjects() as $object) {
-            $results[] = call_user_func($callback, $object);
+            $results[] = $callback($object);
         }
         return $results;
     }
@@ -62,7 +56,7 @@ class MatchPattern
         }
 
         if ($callback !== null) {
-            return call_user_func($callback, new Match($this->subject, self::FIRST_MATCH, $matches));
+            return $callback(new Match($this->subject, self::FIRST_MATCH, $matches));
         }
 
         list($value, $offset) = $matches[self::GROUP_WHOLE_MATCH][self::FIRST_MATCH];

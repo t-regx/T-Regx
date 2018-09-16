@@ -2,10 +2,12 @@
 namespace CleanRegex;
 
 use CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
+use function in_array;
+use function str_split;
 
 class FlagsValidator
 {
-    private $flags = [
+    private static $flags = [
         'i', // PCRE_CASELESS
         'm', // PCRE_MULTILINE
         'x', // PCRE_EXTENDED
@@ -43,6 +45,6 @@ class FlagsValidator
 
     private function isAllowed(string $character): bool
     {
-        return in_array($character, $this->flags);
+        return in_array($character, self::$flags, true);
     }
 }

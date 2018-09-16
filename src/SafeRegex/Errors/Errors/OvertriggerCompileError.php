@@ -3,7 +3,7 @@ namespace SafeRegex\Errors\Errors;
 
 class OvertriggerCompileError extends CompileError
 {
-    const OVERTRIGGER_MESSAGE = 'SafeRegex triggered over previous exception, to prevent it from causing exceptions for current invocation';
+    public const OVERTRIGGER_MESSAGE = 'SafeRegex triggered over previous exception, to prevent it from causing exceptions for current invocation';
 
     public function occurred(): bool
     {
