@@ -16,7 +16,8 @@ Incoming in 1.1
     * Split tests into `\Test\Unit` and `\Test\Integration` folders 
     * Add dynamic skip for `ErrorsCleanerTest`
     * Add test for `ReplacePatternAll`, `ErrorsCleaner.getError()`, `ValidPatternTest.shouldNotLeaveErrors()`,
- `GuardedExecution.silenced()`, `GuardedExecutionTest.shouldNotCatchException()`, `FailureIndicators`
+ `GuardedExecution.silenced()`, `GuardedExecutionTest.shouldNotCatchException()`, `FailureIndicators`,
+      `ReplaceCallbackObject`, `ReplacePatternCallbackInvoker`.
     * Handle [PHP bugfix in 7.1.13](https://bugs.php.net/bug.php?id=74183).
 * Debug
     * Add `pregConstant` field to `RuntimeError`. Only reason to do it is so if you **catch the exception it 
