@@ -13,7 +13,7 @@ class ReplacePatternOnlyTest extends TestCase
     public function shouldReplaceString()
     {
         // when
-        $result = pattern('er|ab|ay|ey', 'g')
+        $result = pattern('er|ab|ay|ey')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->only(2)
             ->with('*');
@@ -78,7 +78,6 @@ class ReplacePatternOnlyTest extends TestCase
             ->replace($subject)
             ->only(2)
             ->callback(function (ReplaceMatch $match) {
-
                 // then
                 $this->assertEquals(['http://google.com', 'http://other.org'], $match->all());
 
@@ -100,7 +99,6 @@ class ReplacePatternOnlyTest extends TestCase
             ->replace($subject)
             ->only(2)
             ->callback(function (ReplaceMatch $match) {
-
                 // then
                 $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->allUnlimited());
 
@@ -167,20 +165,10 @@ class ReplacePatternOnlyTest extends TestCase
         pattern('')->replace('')->only(-1);
     }
 
-    function limitAndExpectedResults()
-    {
-        return [
-            [0, '0 1 2 3'],
-            [1, '* 1 2 3'],
-            [2, '* * 2 3'],
-            [3, '* * * 3'],
-        ];
-    }
-
     /**
      * @test
      * @dataProvider limitAndExpectedResults
-     * @param int    $limit
+     * @param int $limit
      * @param string $expectedResult
      */
     public function shouldReplaceNOccurrences(int $limit, string $expectedResult)
@@ -190,5 +178,15 @@ class ReplacePatternOnlyTest extends TestCase
 
         // then
         $this->assertEquals($expectedResult, $result);
+    }
+
+    function limitAndExpectedResults()
+    {
+        return [
+            [0, '0 1 2 3'],
+            [1, '* 1 2 3'],
+            [2, '* * 2 3'],
+            [3, '* * * 3'],
+        ];
     }
 }

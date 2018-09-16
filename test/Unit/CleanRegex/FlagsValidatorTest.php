@@ -15,7 +15,7 @@ class FlagsValidatorTest extends TestCase
         $flags = new FlagsValidator();
 
         // when
-        $flags->validate("mi");
+        $flags->validate('mi');
 
         // then
         $this->assertTrue(true);
@@ -30,7 +30,7 @@ class FlagsValidatorTest extends TestCase
         $flags = new FlagsValidator();
 
         // when
-        $flags->validate("");
+        $flags->validate('');
 
         // then
         $this->assertTrue(true);
@@ -46,7 +46,7 @@ class FlagsValidatorTest extends TestCase
         $flags = new FlagsValidator();
 
         // when
-        $flags->validate("g i");
+        $flags->validate('g i');
     }
 
     /**

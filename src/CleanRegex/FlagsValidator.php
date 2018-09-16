@@ -38,7 +38,7 @@ class FlagsValidator
     {
         foreach (str_split($flags) as $flag) {
             if (!$this->isAllowed($flag)) {
-                throw new FlagNotAllowedException("Regular expression flag '$flag' is not allowed");
+                throw new FlagNotAllowedException($flag);
             }
         }
     }

@@ -9,15 +9,11 @@ class Pattern
     public $pattern;
 
     /** @var string */
-    private $flags;
-
-    /** @var string */
     public $originalPattern;
 
     public function __construct(string $pattern, string $flags = '')
     {
-        $this->pattern = (new Delimiterer())->delimiter($pattern);
-        $this->flags = $flags;
+        $this->pattern = (new Delimiterer())->delimiter($pattern) . $flags;
         $this->originalPattern = $pattern;
     }
 }

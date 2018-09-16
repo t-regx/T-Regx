@@ -64,7 +64,6 @@ class FailureIndicatorsTest extends TestCase
         ];
     }
 
-
     /**
      * @test
      */

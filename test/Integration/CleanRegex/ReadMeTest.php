@@ -242,7 +242,6 @@ class ReadMeTest extends TestCase
         pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
             ->match('Robert Likes Trains')
             ->first(function (Match $match) {
-
                 // then
                 $this->assertEquals('Robert', $match->match());
                 $this->assertEquals('Robert', (string)$match);
@@ -273,7 +272,7 @@ class ReadMeTest extends TestCase
      * @test
      * @dataProvider validPatterns
      * @param string $pattern
-     * @param bool   $expected
+     * @param bool $expected
      */
     public function validatePattern(string $pattern, bool $expected)
     {

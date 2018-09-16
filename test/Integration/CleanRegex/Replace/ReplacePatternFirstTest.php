@@ -12,7 +12,7 @@ class ReplacePatternFirstTest extends TestCase
     public function shouldReplaceString()
     {
         // when
-        $result = pattern('er|ab|ay|ey', 'g')
+        $result = pattern('er|ab|ay|ey')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->first()
             ->with('*');
@@ -77,7 +77,6 @@ class ReplacePatternFirstTest extends TestCase
             ->replace($subject)
             ->first()
             ->callback(function (ReplaceMatch $match) {
-
                 // then
                 $this->assertEquals(['http://google.com'], $match->all());
 
@@ -99,7 +98,6 @@ class ReplacePatternFirstTest extends TestCase
             ->replace($subject)
             ->first()
             ->callback(function (ReplaceMatch $match) {
-
                 // then
                 $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->allUnlimited());
 
