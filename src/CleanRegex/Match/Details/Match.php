@@ -2,8 +2,7 @@
 namespace CleanRegex\Match\Details;
 
 use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use CleanRegex\Internal\StringValue;
-use InvalidArgumentException;
+use CleanRegex\Internal\GroupNameValidator;
 use function array_filter;
 use function array_key_exists;
 use function array_keys;
@@ -154,14 +153,6 @@ class Match
 
     private function validateGroupName($nameOrIndex): void
     {
-        if (!is_string($nameOrIndex) && !is_int($nameOrIndex)) {
-            $this->throwInvalidGroupName($nameOrIndex);
-        }
-    }
-
-    private function throwInvalidGroupName($nameOrIndex): void
-    {
-        $type = (new StringValue($nameOrIndex))->getString();
-        throw new InvalidArgumentException("Group index can only be an integer or string, given: $type");
+        (new GroupNameValidator($nameOrIndex))->validate();
     }
 }
