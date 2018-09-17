@@ -1,7 +1,7 @@
 <?php
-namespace Test\Unit\CleanRegex;
+namespace Test\Unit\CleanRegex\Internal;
 
-use CleanRegex\FlagsValidator;
+use CleanRegex\Internal\FlagsValidator;
 use PHPUnit\Framework\TestCase;
 
 class FlagsValidatorTest extends TestCase

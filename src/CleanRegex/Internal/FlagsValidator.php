@@ -1,5 +1,5 @@
 <?php
-namespace CleanRegex;
+namespace CleanRegex\Internal;
 
 use CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
 use function in_array;
