@@ -252,7 +252,7 @@ class MatchTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Group index can only be an integer or string, given: (boolean) true');
+        $this->expectExceptionMessage('Group index can only be an integer or string, given: boolean (true)');
 
         // when
         $match->group(true);

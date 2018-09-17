@@ -17,16 +17,17 @@ class StringValue
     public function getString(): string
     {
         if ($this->value === null) {
-            return '(null)';
+            return 'null';
         }
         if (is_scalar($this->value)) {
             return $this->scalar();
         }
         if (is_array($this->value)) {
-            return '(array)';
+            $count = count($this->value);
+            return "array ($count)";
         }
         if (is_resource($this->value)) {
-            return '(resource)';
+            return 'resource';
         }
         return get_class($this->value);
     }
@@ -35,6 +36,6 @@ class StringValue
     {
         $type = gettype($this->value);
         $value = var_export($this->value, true);
-        return "($type) $value";
+        return "$type ($value)";
     }
 }

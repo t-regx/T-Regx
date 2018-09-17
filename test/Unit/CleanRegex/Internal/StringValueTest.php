@@ -30,35 +30,35 @@ class StringValueTest extends TestCase
         return [
             [
                 null,
-                '(null)'
+                'null'
             ],
             [
                 true,
-                '(boolean) true'
+                'boolean (true)'
             ],
             [
                 false,
-                '(boolean) false'
+                'boolean (false)'
             ],
             [
                 2,
-                '(integer) 2'
+                'integer (2)'
             ],
             [
                 2.23,
-                '(double) 2.23'
+                'double (2.23)'
             ],
             [
                 "She's sexy",
-                "(string) 'She\'s sexy'"
+                "string ('She\'s sexy')"
             ],
             [
                 [1, 2, 3],
-                '(array)'
+                'array (3)'
             ],
             [
                 $this->getResource(),
-                '(resource)'
+                'resource'
             ],
             [
                 new \stdClass(),
