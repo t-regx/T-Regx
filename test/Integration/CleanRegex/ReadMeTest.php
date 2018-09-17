@@ -129,7 +129,6 @@ class ReadMeTest extends TestCase
         pattern('\d+')
             ->match('192 168 172 14')
             ->iterate(function (Match $match) {
-
                 if ($match->match() != '172') return;
 
                 // gets the match
@@ -350,23 +349,9 @@ class ReadMeTest extends TestCase
     public function factoryMethodOf()
     {
         // when
-        $instance = Pattern::of('test');
+        $instance = Pattern::of('[A-Z][a-z]+');
 
         // then
-        $this->assertInstanceOf(Pattern::class, $instance);
-        $this->assertEquals('/test/', $instance->delimitered());
-    }
-
-    /**
-     * @test
-     */
-    public function factoryMethodPattern()
-    {
-        // when
-        $instance = Pattern::pattern('test');
-
-        // then
-        $this->assertInstanceOf(Pattern::class, $instance);
-        $this->assertEquals('/test/', $instance->delimitered());
+        $this->assertEquals('/[A-Z][a-z]+/', $instance->delimitered());
     }
 }
