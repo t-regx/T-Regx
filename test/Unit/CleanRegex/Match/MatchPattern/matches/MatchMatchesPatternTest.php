@@ -10,30 +10,30 @@ class MatchMatchesPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldMatchPattern()
+    public function shouldMatch()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('[a-z]'), 'welcome');
+        $pattern = new MatchPattern(new Pattern('[A-Z]?[a-z]+'), 'Nice matching pattern');
 
         // when
         $result = $pattern->matches();
 
         // then
-        $this->assertTrue($result);
+        $this->assertTrue($result, "Failed asserting that subject matches the pattern");
     }
 
     /**
      * @test
      */
-    public function shouldNotMatchPattern()
+    public function shouldNotMatch()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('^[a-z]+$'), 'space space');
+        $pattern = new MatchPattern(new Pattern('[A-Z]?[a-z]+'), 'NOT MATCHING');
 
         // when
         $result = $pattern->matches();
 
         // then
-        $this->assertFalse($result);
+        $this->assertFalse($result, "Failed asserting that subject DOES NOT match the pattern");
     }
 }
