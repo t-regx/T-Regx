@@ -234,9 +234,9 @@ pattern('\d+')
     });
 ```
 
-:bulb: `Match` object contains many, many useful information. Learn more about `Match` in [Matching with details](#first-match-with-details)
+:bulb: `Match` object contains many, many useful information. [Scroll to Matching with details](#first-match-with-details) to learn more about `Match`. 
 
-:bulb: You can also use `match()->first(function (Match $m) {})` to invoke the callback only for the first match.
+:bulb: You can use `match()->first(function (Match $m) {})` to invoke the callback only for the first match.
 
 ### Making a map
 
@@ -376,7 +376,7 @@ array (3) {
 
 ## Validate pattern
 
-Want to validate pattern before calling it?
+Want to validate a pattern before calling it?
 ```php
 pattern('/[a-z]/')->valid();  // No exceptions, no warnings (no side-effects)
 ```
