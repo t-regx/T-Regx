@@ -95,6 +95,15 @@ class ReadMeTest extends TestCase
         $this->assertEquals(['R', 'o', 'b', 'e', 'r', 't',], $result);
     }
 
+    public function retrieveGroups()
+    {
+        // when
+        $result = pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __:30')->groups('hour');
+
+        // then
+        $this->assertEquals(['14', '16', '24', null], $result);
+    }
+
     /**
      * @test
      */
@@ -304,7 +313,7 @@ class ReadMeTest extends TestCase
             ['/[A-Za-z]/', true],
             ['/[a-z]/im', true],
             ['//[a-z]', false],
-            ['welcome', false],
+            ['[a-z]+', false],
             ['/(unclosed/', false],
         ];
     }
@@ -315,10 +324,12 @@ class ReadMeTest extends TestCase
     public function delimiter()
     {
         // when
-        $result = pattern('[A-Z]/[a-z]')->delimitered();
+        $result1 = pattern('[A-Z]/[a-z]')->delimitered();
+        $result2 = pattern('[0-9]#[0-9]')->delimitered();
 
         // then
-        $this->assertEquals('#[A-Z]/[a-z]#', $result);
+        $this->assertEquals('#[A-Z]/[a-z]#', $result1);
+        $this->assertEquals('/[0-9]#[0-9]/', $result2);
     }
 
     /**
@@ -327,10 +338,10 @@ class ReadMeTest extends TestCase
     public function quotePattern()
     {
         // when
-        $result = pattern('.*[a-z]?')->quote();
+        $result = pattern('Your IP is [192.168.12.20] (local\tcp)')->quote();
 
         // then
-        $this->assertEquals('\.\*\[a\-z\]\?', $result);
+        $this->assertEquals('Your IP is \[192\.168\.12\.20\] \(local\\\\tcp\)', $result);
     }
 
     /**

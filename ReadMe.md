@@ -32,7 +32,7 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
     * [Filtering](#filter-an-array)
     * [Validating](#validate-pattern)
     * [Delimitering](#delimiter-a-pattern)
-    * [Other](#first-match-with-details)
+    * [Other](#quoting)
 4. [Why CleanRegex stands out?](#why-cleanregex-stands-out)
 5. [Performance](#performance)
 
@@ -189,23 +189,28 @@ pattern('[a-zA-Z]+')->match('Robert likes trains')->first()
 
 ```php
 pattern('[a-z]+$')->match('Robert likes trains')->first(function (Match $match) {
-    return $match . ' at ' . $match->offset();
+    return [
+         $match . ' at ' . $match->offset()
+    ];
 });
 ```
 ```
-(string) 'trains at 13'
+array (1) {
+   0 => 'trains at 13'
+}
 ```
 
-#### Callback with arbitrary return type
-
+#### Getting a single capturing group
 ```php
-$result = pattern('[a-zA-Z]+')->match('Robert likes trains')->first(function (Match $match) {
-    $name = $match->match();
-    return str_split($name);
-});
+pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __:30')->groups('hour')
 ```
 ```
-$this->assertEquals(['R', 'o', 'b', 'e', 'r', 't'], $result);
+array (4) {
+   0 => string '14',
+   1 => string '16',
+   2 => string '24',
+   3 => null,
+}
 ```
 
 :bulb: `match()->map()` and `match()->first()` accept arbitrary return types, including `null`. 
@@ -252,10 +257,10 @@ pattern('\d+')
 ```
 ```
 array (4) {
-    0 => (integer) 384,
-    1 => null,
-    2 => (integer) 344,
-    3 => (integer) 28,
+   0 => (integer) 384,
+   1 => null,
+   2 => (integer) 344,
+   3 => (integer) 28,
 }
 ```
 
@@ -296,7 +301,7 @@ pattern('er|ab|ay|ey')->replace($text)->first()->with('__')
 (string) 'P. Sh__man, 42 Wallaby way, Sydney'
 ```
 
-For more readability, use `replace()->callback()` to render strings with capturing groups.
+:bulb: For more readability, use `replace()->callback()` to render strings with capturing groups.
 
 #### Replace using callbacks
 
@@ -312,7 +317,7 @@ pattern('[A-Z][a-z]+')
 (string) 'SOME words are CAPITALIZED, and those will be ALL CAPS'
 ```
 
-#### Replace using callbacks with groups
+#### Replace using callbacks with capturing groups
 
 ```php
 $subject = 'Links: http://first.com and http://second.org.';
@@ -329,16 +334,16 @@ pattern('http://(?<name>[a-z]+)\.(com|org)')
 ```
 
 ## Split a string
-Split a string:
+
 ```php
 pattern(',')->split('Foo,Bar,Cat')->split();
 ```
 ```
-array(3) [
+array (3) {
     0 => (string) 'Foo', 
     1 => (string) 'Bar', 
     2 => (string) 'Cat'
-]
+}
 ```
 
 Split a string, but also include a delimiter in the result:
@@ -346,13 +351,13 @@ Split a string, but also include a delimiter in the result:
 pattern('(,)')->split('One,Two,Three')->separate();
 ```
 ```
-array(3) [
+array (3) {
     0 => (string) 'One', 
     1 => (string) ',', 
     2 => (string) 'Two', 
     2 => (string) ',', 
     4 => (string) 'Three'
-]
+}
 ```
 
 ## Filter an array
@@ -383,10 +388,9 @@ pattern('/[a-z]/')->valid();  // No exceptions, no warnings (no side-effects)
 
 | Pattern | Result |
 | --- | --- |
-| `pattern('/[A-Za-z]/')->valid()`  | `(bool) true`  |
 | `pattern('/[a-z]/im')->valid()`   | `(bool) true`  |
 | `pattern('//[a-z]')->valid()`     | `(bool) false` |
-| `pattern('welcome')->valid()`     | `(bool) false` |
+| `pattern('[a-z]+')->valid()`      | `(bool) false` |
 | `pattern('/(unclosed/')->valid()` | `(bool) false` |
 
 :bulb: Remember that `pattern()->valid()` works with you, so delimiters (`/.*/` or `#.*#`) will not be added automatically 
@@ -397,18 +401,20 @@ this time, and won't mess with your input :) so you can be sure whether the inpu
 Want only to use our awesome delimiterer?
 
 ```php
-pattern('[A-Z]/[a-z]')->delimitered();
+echo pattern('[A-Z]/[a-z]')->delimitered();
+echo pattern('[0-9]#[0-9]')->delimitered();
 ```
 ```
 #[A-Z]/[a-z]#
+/[0-9]#[0-9]/
 ```
 
 ### Quoting
 ```php
-echo pattern('.*[a-z]?')->quote();   // No exceptions, no warnings (no side-effects)
+echo pattern('Your IP is [192.168.12.20] (local\home)')->quote();   // No exceptions, no warnings (no side-effects)
 ```
 ```bash
-\.\*\[a\-z\]\?
+Your IP is \[192\.168\.12\.20\] \(local\\home\)
 ```
 
 :bulb: Remember that `pattern()->quote()` doesn't automatically delimiter the pattern (with `/.*/` or `#.*#`).
