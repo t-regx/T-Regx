@@ -1,8 +1,9 @@
 <?php
-namespace Unit\CleanRegex\Match\Match;
+namespace Test\Unit\CleanRegex\Match\Match;
 
 use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use CleanRegex\Match\Match;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use SafeRegex\preg;
 
@@ -239,6 +240,22 @@ class MatchTest extends TestCase
 
         // then
         $this->assertEquals(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow'], $all);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldValidateGroupNameType()
+    {
+        // given
+        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Group index can only be an integer or string, given: (boolean) true');
+
+        // when
+        $match->group(true);
     }
 
     private function getMatch(int $index): Match
