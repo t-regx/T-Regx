@@ -132,42 +132,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetNamedGroups()
-    {
-        // given
-        pattern('(?<one>first[1-2]) and (?<two>second[1-2])')
-            ->match('first1 and second1 or first2 and second2')
-            ->first(function (Match $match) {
-
-                // when
-                $group = $match->namedGroups();
-
-                // then
-                $this->assertEquals(['one' => 'first1', 'two' => 'second1'], $group);
-            });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetGroups()
-    {
-        // given
-        pattern('(?<one>first[1-2]) and (?<two>second[1-2])')
-            ->match('first1 and second1 or first2 and second2')
-            ->first(function (Match $match) {
-
-                // when
-                $group = $match->groups();
-
-                // then
-                $this->assertEquals(['first1', 'second1'], $group);
-            });
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetEmptyMatchedGroup()
     {
         // when
@@ -202,6 +166,21 @@ class MatchPatternTest extends TestCase
                 // then
                 $this->assertEquals(['one', 'two'], $groupNames);
             });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroups()
+    {
+        // given
+        $subject = 'Computer Leopard Three Four';
+
+        // when
+        $groups = pattern('[A-Z](?<lowercase>[a-z]+)')->match($subject)->groups('lowercase');
+
+        // then
+        $this->assertEquals(['omputer', 'eopard', 'hree', 'our'], $groups);
     }
 
     /**

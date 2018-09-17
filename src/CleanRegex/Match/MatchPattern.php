@@ -1,6 +1,8 @@
 <?php
 namespace CleanRegex\Match;
 
+use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use CleanRegex\Internal\GroupNameValidator;
 use CleanRegex\Internal\Pattern;
 use CleanRegex\Match\Details\Match;
 use SafeRegex\preg;
@@ -27,6 +29,22 @@ class MatchPattern
         $matches = [];
         preg::match_all($this->pattern->pattern, $this->subject, $matches);
         return $matches[self::GROUP_WHOLE_MATCH];
+    }
+
+    /**
+     * @param string|int $nameOrIndex
+     * @return array
+     * @throws NonexistentGroupException
+     */
+    public function groups($nameOrIndex)
+    {
+        (new GroupNameValidator($nameOrIndex))->validate();
+        $matches = [];
+        preg::match_all($this->pattern->pattern, $this->subject, $matches);
+        if (array_key_exists($nameOrIndex, $matches)) {
+            return $matches[$nameOrIndex];
+        }
+        throw new NonexistentGroupException($nameOrIndex);
     }
 
     public function iterate(callable $callback): void

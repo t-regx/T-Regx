@@ -121,6 +121,7 @@ class Match
     /**
      * @param string|int $nameOrIndex
      * @return bool
+     * @throws NonexistentGroupException
      */
     public function matched($nameOrIndex): bool
     {
