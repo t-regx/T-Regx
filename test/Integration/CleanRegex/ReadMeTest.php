@@ -50,7 +50,7 @@ class ReadMeTest extends TestCase
     public function match()
     {
         // when
-        $result = pattern('[aeiouy]')->matches('Computer');
+        $result = pattern('[A-Z][a-z]+')->matches('Computer');
 
         // then
         $this->assertTrue($result, "Failed asserting that pattern matches the subject");
@@ -83,16 +83,28 @@ class ReadMeTest extends TestCase
     /**
      * @test
      */
-    public function retrieveFirstWithCallback()
+    public function retrieveFirstWithCallbackSplit()
     {
-        // given
-        $result = null;
-
         // when
-        pattern('[a-z]+$')
+        $result = pattern('[a-zA-Z]+')->match('Robert likes trains')->first(function (Match $match) {
+            $name = $match->match();
+            return str_split($name);
+        });
+
+        // then
+        $this->assertEquals(['R', 'o', 'b', 'e', 'r', 't',], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function retrieveFirstWithCallbackOffset()
+    {
+        // when
+        $result = pattern('[a-z]+$')
             ->match('Robert likes trains')
-            ->first(function (Match $match) use (&$result) {
-                $result = $match . ' at ' . $match->offset();
+            ->first(function (Match $match) {
+                return $match . ' at ' . $match->offset();
             });
 
         // then
@@ -135,11 +147,14 @@ class ReadMeTest extends TestCase
         $map = pattern('\d+')
             ->match('192 168 172 14')
             ->map(function (Match $match) {
+                if ($match == '168') {
+                    return null;
+                }
                 return $match->match() * 2;
             });
 
         // then
-        $this->assertEquals([384, 336, 344, 28], $map);
+        $this->assertEquals([384, null, 344, 28], $map);
     }
 
     /**

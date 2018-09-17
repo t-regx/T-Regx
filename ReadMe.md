@@ -24,7 +24,7 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 2. [Installation](#installation)
 3. [API](#api)  
     * [Matching](#matching)
-    * [Retrieving](#get-all-matches)
+    * [Retrieving](#get-all-the-matches)
     * [Iterating](#iterating)
     * [Counting](#counting)
     * [Replacing](#replace-strings)
@@ -41,13 +41,15 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 [Scroll to API](#api) 
 
 * ### Written with clean API in mind
-   * Not messing with error handlers **in any way**.
-   * No flags or boolean arguments
-   * No nested arrays
-   * No varargs
-   * SRP methods
+   * Not even touching your error handlers **in any way**.
    * Descriptive interface
    * One public method per class - wherever possible
+   * SRP methods
+   * No varargs
+   * No flags or boolean arguments
+   * No nested arrays
+   * Similar things look similar
+   * Different things look different
 
 * ### Working **with** the developer
    * Catches all PCRE-related warnings and throws exceptions instead
@@ -95,6 +97,8 @@ if ($result) {
 *`preg_match()`  can return `1` (match), `0` (no matches) or `false` (pattern error).*
 
 Awful!
+
+[Scroll to API](#api) 
 
 ## Ways of using CleanRegex
 
@@ -154,13 +158,13 @@ composer require "pattern/clean-regex"
 
 Check if subject matches the pattern:
 ```php
-pattern('[aeiouy]')->matches('Computer');
+pattern('[A-Z][a-z]+')->matches('Computer');
 ```
 ```
 (bool) true
 ```
 
-#### Get all matches:
+#### Get all the matches:
 ```php
 pattern('[a-zA-Z]+')->match('Robert likes trains')->all()
 ```
@@ -181,7 +185,35 @@ pattern('[a-zA-Z]+')->match('Robert likes trains')->first()
 (string) 'Robert'
 ```
 
+#### Callback for the first match
+
+```php
+pattern('[a-z]+$')->match('Robert likes trains')->first(function (Match $match) {
+    return $match . ' at ' . $match->offset();
+});
+```
+```
+(string) 'trains at 13'
+```
+
+#### Callback with arbitrary return type
+
+```php
+$result = pattern('[a-zA-Z]+')->match('Robert likes trains')->first(function (Match $match) {
+    $name = $match->match();
+    return str_split($name);
+});
+```
+```
+$this->assertEquals(['R', 'o', 'b', 'e', 'r', 't'], $result);
+```
+
+:bulb: `match()->map()` and `match()->first()` accept arbitrary return types, including `null`. 
+
 ## Iterating
+
+:bulb: This method should really be named `forEach()`, but prior to PHP 5.6 - you can't use keywords as method names :/
+
 ```php
 pattern('\d+')
     ->match('192 168 172 14')
@@ -212,19 +244,24 @@ pattern('\d+')
 pattern('\d+')
     ->match('192 168 172 14')
     ->map(function (Match $match) {
+        if ($match == '168') {
+            return null;
+        }
         return $match->match() * 2;
     });
 ```
 ```
 array (4) {
     0 => (integer) 384,
-    1 => (integer) 336,
+    1 => null,
     2 => (integer) 344,
     3 => (integer) 28,
 }
 ```
 
 :bulb: `Match` object contains many, many useful information. Learn more about `Match` in [Matching with details](#first-match-with-details)
+
+:bulb: `match()->map()` and `match()->first()` accept arbitrary return types, including `null`.  
 
 ## Counting
 
