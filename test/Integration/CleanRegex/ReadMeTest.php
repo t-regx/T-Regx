@@ -1,7 +1,7 @@
 <?php
 namespace Test\Integration\CleanRegex;
 
-use CleanRegex\Match\Match;
+use CleanRegex\Match\Details\Match;
 use CleanRegex\Pattern;
 use PHPUnit\Framework\TestCase;
 

@@ -2,7 +2,7 @@
 namespace Test\Unit\CleanRegex\Match;
 
 use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use CleanRegex\Match\Match;
+use CleanRegex\Match\Details\Match;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use SafeRegex\preg;

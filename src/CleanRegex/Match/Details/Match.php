@@ -1,5 +1,5 @@
 <?php
-namespace CleanRegex\Match;
+namespace CleanRegex\Match\Details;
 
 use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use CleanRegex\Internal\StringValue;

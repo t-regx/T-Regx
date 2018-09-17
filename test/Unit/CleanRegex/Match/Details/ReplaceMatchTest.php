@@ -1,7 +1,7 @@
 <?php
 namespace Test\UnitCleanRegex\Match;
 
-use CleanRegex\Match\ReplaceMatch;
+use CleanRegex\Match\Details\ReplaceMatch;
 use PHPUnit\Framework\TestCase;
 use SafeRegex\preg;
 

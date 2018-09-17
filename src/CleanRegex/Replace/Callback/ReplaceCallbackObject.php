@@ -2,7 +2,7 @@
 namespace CleanRegex\Replace\Callback;
 
 use CleanRegex\Exception\CleanRegex\InvalidReplacementException;
-use CleanRegex\Match\ReplaceMatch;
+use CleanRegex\Match\Details\ReplaceMatch;
 
 class ReplaceCallbackObject
 {

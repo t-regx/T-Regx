@@ -2,7 +2,7 @@
 namespace Test\Unit\CleanRegex\Replace;
 
 use CleanRegex\Internal\Pattern;
-use CleanRegex\Match\ReplaceMatch;
+use CleanRegex\Match\Details\ReplaceMatch;
 use CleanRegex\Replace\ReplacePattern;
 use PHPUnit\Framework\TestCase;
 

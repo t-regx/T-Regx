@@ -2,6 +2,7 @@
 namespace CleanRegex\Match;
 
 use CleanRegex\Internal\Pattern;
+use CleanRegex\Match\Details\Match;
 use SafeRegex\preg;
 
 class MatchPattern

@@ -1,7 +1,7 @@
 <?php
 namespace Test\Integration\CleanRegex;
 
-use CleanRegex\Match\ReplaceMatch;
+use CleanRegex\Match\Details\ReplaceMatch;
 use PHPUnit\Framework\TestCase;
 
 class ReplacePatternTest extends TestCase

@@ -1,5 +1,5 @@
 <?php
-namespace CleanRegex\Match;
+namespace CleanRegex\Match\Details;
 
 use function array_slice;
 
