@@ -61,13 +61,13 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnNull_onNonExistentGroup()
+    public function shouldReturnNull_onNotMatchedGroup()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('(?<existing>[a-z]+)'), 'matching');
+        $pattern = new MatchPattern(new Pattern('(?<unmatched>not this time)? (?<existing>[a-z]+)'), 'matching');
 
         // when
-        $first = $pattern->group('missing')->first();
+        $first = $pattern->group('unmatched')->first();
 
         // then
         $this->assertNull($first);
@@ -78,7 +78,6 @@ class MatchPatternTest extends TestCase
      */
     public function shouldThrow_onNonExistentGroup()
     {
-        $this->markTestIncomplete("first() should throw on missing group, but preg_match() is fucked up and doesn't return unmatched groups");
         // given
         $pattern = new MatchPattern(new Pattern('(?<existing>[a-z]+)'), 'matching');
 

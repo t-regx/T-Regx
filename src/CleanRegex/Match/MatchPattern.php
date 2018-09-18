@@ -5,6 +5,8 @@ use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use CleanRegex\Internal\GroupNameValidator;
 use CleanRegex\Internal\Pattern;
 use CleanRegex\Match\Details\Match;
+use CleanRegex\Match\Groups\Strategy\GroupVerifier;
+use CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 use SafeRegex\preg;
 
 class MatchPattern
@@ -14,14 +16,16 @@ class MatchPattern
 
     /** @var Pattern */
     private $pattern;
-
     /** @var string */
     private $subject;
+    /** @var GroupVerifier */
+    private $groupVerifier;
 
-    public function __construct(Pattern $pattern, string $subject)
+    public function __construct(Pattern $pattern, string $subject, GroupVerifier $groupVerifier = null)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
+        $this->groupVerifier = $groupVerifier ?? new MatchAllGroupVerifier();
     }
 
     public function all(): array
@@ -54,7 +58,10 @@ class MatchPattern
                 if (array_key_exists($nameOrIndex, $matches)) {
                     return $matches[$nameOrIndex];
                 }
-                return null;
+                if ($this->groupExists($nameOrIndex)) {
+                    return null;
+                }
+                throw new NonexistentGroupException($nameOrIndex);
             });
     }
 
@@ -64,6 +71,15 @@ class MatchPattern
             return PREG_UNMATCHED_AS_NULL;
         }
         return 0;
+    }
+
+    /**
+     * @param string|int
+     * @return bool
+     */
+    private function groupExists($nameOrIndex): bool
+    {
+        return $this->groupVerifier->groupExists($this->pattern->pattern, $nameOrIndex);
     }
 
     public function iterate(callable $callback): void
@@ -92,11 +108,9 @@ class MatchPattern
         if (empty($matches[self::GROUP_WHOLE_MATCH])) {
             return null;
         }
-
         if ($callback !== null) {
             return $callback(new Match($this->subject, self::FIRST_MATCH, $matches));
         }
-
         list($value, $offset) = $matches[self::GROUP_WHOLE_MATCH][self::FIRST_MATCH];
         return $value;
     }

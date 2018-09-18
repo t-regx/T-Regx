@@ -1,0 +1,28 @@
+<?php
+namespace CleanRegex\Match\Groups\Strategy;
+
+use CleanRegex\Internal\Delimiter\DelimiterParser;
+use InvalidArgumentException;
+use SafeRegex\preg;
+
+class PatternAnalyzeGroupVerifier implements GroupVerifier
+{
+    public function groupExists(string $pattern, $nameOrIndex): bool
+    {
+        if (is_string($nameOrIndex)) {
+            return $this->groupNameExists($pattern, $nameOrIndex);
+        }
+        throw new InvalidArgumentException('Analyzing pattern is supported only for string group names');
+    }
+
+    private function groupNameExists(string $pattern, string $name): bool
+    {
+        $d = (new DelimiterParser())->getDelimiter($pattern);
+        $p1 = preg_quote("(?<$name>", $d);
+        $p2 = preg_quote("(?P<$name>", $d);
+        $p3 = preg_quote("(?'$name'", $d);
+        $p = "($p1|$p2|$p3)";
+
+        return preg::match("/(?<!\\\\)$p/", $pattern);
+    }
+}
