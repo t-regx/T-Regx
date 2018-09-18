@@ -13,7 +13,7 @@ class GroupNameValidatorTest extends TestCase
     public function shouldValidate_string()
     {
         // given
-        $validator = new GroupNameValidator('string');
+        $validator = new GroupNameValidator('string_69_string');
 
         // when
         $validator->validate();
@@ -51,5 +51,33 @@ class GroupNameValidatorTest extends TestCase
 
         // when
         $validator->validate();
+    }
+
+    /**
+     * @test
+     * @dataProvider invalidStringGroupName
+     * @param string $groupName
+     */
+    public function shouldNotValidate_string_nonAlphanumeric(string $groupName)
+    {
+        // given
+        $validator = new GroupNameValidator($groupName);
+
+        // this
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Group name must be an alphanumeric sequence starting with a letter');
+
+        // when
+        $validator->validate();
+    }
+
+    public function invalidStringGroupName()
+    {
+        return [
+            ['brace('],
+            ['9group'],
+            ['_group'],
+            ['group space'],
+        ];
     }
 }
