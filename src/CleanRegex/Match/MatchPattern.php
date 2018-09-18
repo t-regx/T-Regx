@@ -33,18 +33,37 @@ class MatchPattern
 
     /**
      * @param string|int $nameOrIndex
-     * @return array
-     * @throws NonexistentGroupException
+     * @return GroupLimit
      */
-    public function group($nameOrIndex)
+    public function group($nameOrIndex): GroupLimit
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        $matches = [];
-        preg::match_all($this->pattern->pattern, $this->subject, $matches);
-        if (array_key_exists($nameOrIndex, $matches)) {
-            return $matches[$nameOrIndex];
+
+        return new GroupLimit(
+            function () use ($nameOrIndex) {
+                $matches = [];
+                preg::match_all($this->pattern->pattern, $this->subject, $matches);
+                if (array_key_exists($nameOrIndex, $matches)) {
+                    return $matches[$nameOrIndex];
+                }
+                throw new NonexistentGroupException($nameOrIndex);
+            },
+            function () use ($nameOrIndex) {
+                $matches = [];
+                preg::match($this->pattern->pattern, $this->subject, $matches, $this->pregMatchFlags());
+                if (array_key_exists($nameOrIndex, $matches)) {
+                    return $matches[$nameOrIndex];
+                }
+                return null;
+            });
+    }
+
+    private function pregMatchFlags(): int
+    {
+        if (defined('PREG_UNMATCHED_AS_NULL')) {
+            return PREG_UNMATCHED_AS_NULL;
         }
-        throw new NonexistentGroupException($nameOrIndex);
+        return 0;
     }
 
     public function iterate(callable $callback): void

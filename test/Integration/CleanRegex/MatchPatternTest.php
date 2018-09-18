@@ -70,10 +70,8 @@ class MatchPatternTest extends TestCase
         pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
             ->match('Foo, Leszek Ziom, Bar')
             ->first(function (Match $match) {
-
                 // then
                 $this->assertEquals(['Foo', 'Leszek', 'Ziom', 'Bar'], $match->all());
-
             });
     }
 
@@ -86,7 +84,6 @@ class MatchPatternTest extends TestCase
         pattern('dont match me')
             ->match('word')
             ->iterate(function () {
-
                 // then
                 $this->assertTrue(false, "This shouldn't be invoked");
             });
@@ -104,7 +101,6 @@ class MatchPatternTest extends TestCase
         pattern('dont match me')
             ->match('word')
             ->first(function () {
-
                 // then
                 $this->assertTrue(false, "This shouldn't be invoked");
             });
@@ -159,7 +155,6 @@ class MatchPatternTest extends TestCase
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
             ->first(function (Match $match) {
-
                 // when
                 $groupNames = $match->groupNames();
 
@@ -177,7 +172,7 @@ class MatchPatternTest extends TestCase
         $subject = 'Computer Leopard Three Four';
 
         // when
-        $groups = pattern('[A-Z](?<lowercase>[a-z]+)')->match($subject)->group('lowercase');
+        $groups = pattern('[A-Z](?<lowercase>[a-z]+)')->match($subject)->group('lowercase')->all();
 
         // then
         $this->assertEquals(['omputer', 'eopard', 'hree', 'our'], $groups);
@@ -196,7 +191,6 @@ class MatchPatternTest extends TestCase
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
             ->first(function (Match $match) {
-
                 // when
                 $match->group(true);
             });
