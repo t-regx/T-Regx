@@ -1,6 +1,7 @@
 <?php
 namespace SafeRegex\Errors\Errors;
 
+use CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use SafeRegex\Errors\HostError;
 use SafeRegex\Exception\SafeRegexException;
 
@@ -15,8 +16,8 @@ class EmptyHostError implements HostError
     {
     }
 
-    public function getSafeRegexpException(string $methodName): ?SafeRegexException
+    public function getSafeRegexpException(string $methodName): SafeRegexException
     {
-        return null;
+        throw new InternalCleanRegexException();
     }
 }

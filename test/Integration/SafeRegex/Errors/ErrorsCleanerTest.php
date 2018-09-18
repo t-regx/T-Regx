@@ -83,7 +83,7 @@ class ErrorsCleanerTest extends TestCase
         $error = $cleaner->getError();
 
         // then
-        $this->assertNull($error->getSafeRegexpException('preg_match'));
+        $this->assertFalse($error->occurred());
 
         // cleanup
         $error->clear();

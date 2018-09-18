@@ -1,6 +1,7 @@
 <?php
 namespace SafeRegex\Errors\Errors;
 
+use CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use SafeRegex\Constants\PregConstants;
 use SafeRegex\Errors\HostError;
 use SafeRegex\Exception\Factory\RuntimeSafeRegexExceptionFactory;
@@ -32,7 +33,10 @@ class RuntimeError implements HostError
 
     public function getSafeRegexpException(string $methodName): SafeRegexException
     {
-        return (new RuntimeSafeRegexExceptionFactory($methodName, $this->pregError))->create();
+        if ($this->occurred()) {
+            return (new RuntimeSafeRegexExceptionFactory($methodName, $this->pregError))->create();
+        }
+        throw new InternalCleanRegexException();
     }
 
     public static function getLast(): RuntimeError
