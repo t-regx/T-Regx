@@ -4,12 +4,14 @@ namespace CleanRegex\Match;
 use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use CleanRegex\Internal\GroupNameValidator;
 use CleanRegex\Internal\Pattern;
+use CleanRegex\Internal\PatternLimit;
 use CleanRegex\Match\Details\Match;
 use CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
+use InvalidArgumentException;
 use SafeRegex\preg;
 
-class MatchPattern
+class MatchPattern implements PatternLimit
 {
     private const GROUP_WHOLE_MATCH = 0;
     private const FIRST_MATCH = 0;
@@ -33,6 +35,14 @@ class MatchPattern
         $matches = [];
         preg::match_all($this->pattern->pattern, $this->subject, $matches);
         return $matches[self::GROUP_WHOLE_MATCH];
+    }
+
+    public function only(int $limit): array
+    {
+        if ($limit < 0) {
+            throw new InvalidArgumentException("Negative limit $limit");
+        }
+        return array_slice($this->all(), 0, $limit);
     }
 
     /**

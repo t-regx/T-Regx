@@ -23,6 +23,18 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllMatches_only()
+    {
+        // when
+        $matches = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->only(2);
+
+        // then
+        $this->assertEquals(['Foo Bar', 'Foo Bar'], $matches);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetFirst()
     {
         // when
