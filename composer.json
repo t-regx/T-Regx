@@ -7,7 +7,8 @@
       "helper/helper.php",
       "test/DataProviders.php",
       "test/Warnings.php",
-      "test/ClassWithToString.php"
+      "test/ClassWithToString.php",
+      "test/ClosureMock.php"
     ],
     "psr-0": {
       "CleanRegex\\": "src",
