@@ -4,7 +4,6 @@ namespace Test\Unit\CleanRegex\Match\MatchPattern\groups\only;
 use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use CleanRegex\Internal\Pattern;
 use CleanRegex\Match\MatchPattern;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class MatchPatternTest extends TestCase
@@ -68,7 +67,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage("Nonexistent group: missing");
+        $this->expectExceptionMessage('Nonexistent group: missing');
 
         // when
         $pattern->group('missing')->only(2);

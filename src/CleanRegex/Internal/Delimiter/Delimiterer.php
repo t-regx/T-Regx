@@ -16,18 +16,15 @@ class Delimiterer
         if ($this->parser->isDelimitered($pattern)) {
             return $pattern;
         }
-
         return $this->tryDelimiter($pattern);
     }
 
     private function tryDelimiter(string $pattern): string
     {
         $delimiter = $this->getPossibleDelimiter($pattern);
-
         if ($delimiter === null) {
             throw new ExplicitDelimiterRequiredException($pattern);
         }
-
         return $delimiter . $pattern . $delimiter;
     }
 
