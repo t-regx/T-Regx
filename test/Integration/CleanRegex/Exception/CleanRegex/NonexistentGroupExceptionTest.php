@@ -18,6 +18,6 @@ class NonexistentGroupExceptionTest extends TestCase
         $message = $exception->getMessage();
 
         // then
-        $this->assertEquals('Nonexistent group: name', $message);
+        $this->assertEquals("Nonexistent group: 'name'", $message);
     }
 }

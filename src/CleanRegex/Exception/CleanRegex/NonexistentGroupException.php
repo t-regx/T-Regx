@@ -8,6 +8,6 @@ class NonexistentGroupException extends CleanRegexException
      */
     public function __construct($nameOrIndex)
     {
-        parent::__construct("Nonexistent group: $nameOrIndex");
+        parent::__construct("Nonexistent group: '$nameOrIndex'");
     }
 }

@@ -158,8 +158,8 @@ class MatchTest extends TestCase
         // then
         $expected = [
             'firstName' => 'Jack',
-            'initial' => 'J',
-            'surname' => 'Sparrow'
+            'initial'   => 'J',
+            'surname'   => 'Sparrow'
         ];
         $this->assertEquals($expected, $names);
     }
@@ -221,7 +221,7 @@ class MatchTest extends TestCase
 
         // then
         $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage("Nonexistent group: xd");
+        $this->expectExceptionMessage("Nonexistent group: 'xd'");
 
         // when
         $match->matched('xd');

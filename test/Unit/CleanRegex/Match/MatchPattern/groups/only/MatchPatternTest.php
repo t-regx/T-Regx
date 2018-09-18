@@ -67,7 +67,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage('Nonexistent group: missing');
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
 
         // when
         $pattern->group('missing')->only(2);
