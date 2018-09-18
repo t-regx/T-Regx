@@ -98,7 +98,7 @@ class ReadMeTest extends TestCase
     public function retrieveGroups()
     {
         // when
-        $result = pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __:30')->groups('hour');
+        $result = pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __:30')->group('hour');
 
         // then
         $this->assertEquals(['14', '16', '24', null], $result);

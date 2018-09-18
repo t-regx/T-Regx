@@ -18,8 +18,8 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(new Pattern('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'Nice Matching Pattern');
 
         // when
-        $twoGroups = $pattern->groups('two');
-        $restGroups = $pattern->groups('rest');
+        $twoGroups = $pattern->group('two');
+        $restGroups = $pattern->group('rest');
 
         // then
         $this->assertEquals(['Ni', 'Ma', 'Pa'], $twoGroups);
@@ -35,8 +35,8 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(new Pattern('(?<hour>\d\d)?:(?<minute>\d\d)?'), 'First->11:__   Second->__:12   Third->13:32');
 
         // when
-        $hours = $pattern->groups('hour');
-        $minutes = $pattern->groups('minute');
+        $hours = $pattern->group('hour');
+        $minutes = $pattern->group('minute');
 
         // then
         $this->assertEquals(['11', null, '13'], $hours);
@@ -52,7 +52,7 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(new Pattern('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'NOT MATCHING');
 
         // when
-        $groups = $pattern->groups('two');
+        $groups = $pattern->group('two');
 
         // then
         $this->assertEquals([], $groups);
@@ -71,7 +71,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage("Nonexistent group: missing");
 
         // when
-        $pattern->groups('missing');
+        $pattern->group('missing');
     }
 
     /**
@@ -87,6 +87,6 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Group index can only be an integer or string, given: array (0)');
 
         // when
-        $pattern->groups([]);
+        $pattern->group([]);
     }
 }

@@ -36,7 +36,7 @@ class MatchPattern
      * @return array
      * @throws NonexistentGroupException
      */
-    public function groups($nameOrIndex)
+    public function group($nameOrIndex)
     {
         (new GroupNameValidator($nameOrIndex))->validate();
         $matches = [];

@@ -177,7 +177,7 @@ class MatchPatternTest extends TestCase
         $subject = 'Computer Leopard Three Four';
 
         // when
-        $groups = pattern('[A-Z](?<lowercase>[a-z]+)')->match($subject)->groups('lowercase');
+        $groups = pattern('[A-Z](?<lowercase>[a-z]+)')->match($subject)->group('lowercase');
 
         // then
         $this->assertEquals(['omputer', 'eopard', 'hree', 'our'], $groups);

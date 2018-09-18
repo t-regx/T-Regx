@@ -202,7 +202,7 @@ array (1) {
 
 #### Getting a single capturing group
 ```php
-pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __:30')->groups('hour')
+pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __:30')->group('hour')
 ```
 ```
 array (4) {
