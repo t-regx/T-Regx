@@ -200,9 +200,11 @@ array (1) {
 }
 ```
 
-#### Getting a single capturing group
+:bulb: `match()->map()` and `match()->first()` accept arbitrary return types, including `null`. 
+
+#### Capturing group from all matches
 ```php
-pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __:30')->group('hour')
+pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __:30')->group('hour')->all()
 ```
 ```
 array (4) {
@@ -213,7 +215,13 @@ array (4) {
 }
 ```
 
-:bulb: `match()->map()` and `match()->first()` accept arbitrary return types, including `null`. 
+#### Capturing group from the first matches
+```php
+pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __:30')->group('hour')->first()
+```
+```
+string ('14')
+```
 
 ## Iterating
 
@@ -225,8 +233,8 @@ pattern('\d+')
     ->iterate(function (Match $match) {
 
         // gets the match
-        $match->match()    // (string) "172"
-        (string) $match    // (string) "172"
+        $match->match()    // (string) '172'
+        (string) $match    // (string) '172'
 
         // gets the match offset 
         $match->offset()   // (int) 8
@@ -451,7 +459,7 @@ pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
   });
 ```
 
-:bulb: `$match->groups()` doesn't return the whole matched string at index 0. To get it, use `$match->subject()`.
+:bulb: `$match->groups()` doesn't return the whole matched string at index 0. To get it, use `$match->match()`.
 
 # What's better
 ![Ugly api](php.api.png)
