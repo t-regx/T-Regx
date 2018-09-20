@@ -3,6 +3,8 @@ namespace CleanRegex\Exception\CleanRegex;
 
 class SubjectNotMatchedException extends CleanRegexException
 {
+    public const MESSAGE = 'Expected to get first match in the subject, but subject was not matched at all';
+
     /** @var string */
     private $subject; // Debugger
 
@@ -14,7 +16,6 @@ class SubjectNotMatchedException extends CleanRegexException
 
     public static function forFirst(string $subject): SubjectNotMatchedException
     {
-        $message = 'Tried to get first match in the subject, but subject was not matched at all';
-        return new SubjectNotMatchedException($message, $subject);
+        return new SubjectNotMatchedException(self::MESSAGE, $subject);
     }
 }

@@ -8,13 +8,16 @@
       "test/DataProviders.php",
       "test/Warnings.php",
       "test/ClassWithToString.php",
-      "test/ClosureMock.php"
+      "test/ClosureMock.php",
+      "test/Utils/ClassWithDefaultConstructor.php",
+      "test/Utils/ClassWithErrorInConstructor.php",
+      "test/Utils/ClassWithoutSuitableConstructor.php",
+      "test/Utils/ClassWithStringParamConstructor.php",
+      "test/Utils/ClassWithTwoStringParamsConstructor.php"
     ],
     "psr-0": {
       "CleanRegex\\": "src",
-      "SafeRegex\\": "src",
-      "CleanRegex\\Test\\": "test",
-      "SafeRegex\\Test\\": "test"
+      "SafeRegex\\": "src"
     }
   },
   "require": {
