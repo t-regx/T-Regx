@@ -48,13 +48,30 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldModifyFirstReturnValue()
+    public function shouldModifyReturnValue_first()
+    {
+        // when
+        $value = pattern('[A-Z]+')->match('Foo, Bar, Top')->first(function () {
+            return 'Different';
+        });
+
+        // then
+        $this->assertEquals("Different", $value);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldModifyReturnValue_forFirst()
     {
         // when
         $value = pattern('[A-Z]+')
             ->match('Foo, Bar, Top')
-            ->first(function (Match $match) {
+            ->forFirst(function () {
                 return 'Different';
+            })
+            ->orElse(function () {
+                $this->assertFalse(true);
             });
 
         // then
