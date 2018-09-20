@@ -20,13 +20,13 @@ class ExceptionFactoryTest extends TestCase
      * @dataProvider \Test\DataProviders::invalidPregPatterns()
      * @param string $invalidPattern
      */
-    public function testPregErrors(string $invalidPattern)
+    public function testCompileErrors(string $invalidPattern)
     {
         // given
-        $result = @preg_match($invalidPattern, '');
+        @preg_match($invalidPattern, '');
 
         // when
-        $exception = (new ExceptionFactory())->retrieveGlobals('preg_match', $result);
+        $exception = (new ExceptionFactory())->retrieveGlobals('preg_match', false);
 
         // then
         $this->assertInstanceOf(CompileSafeRegexException::class, $exception);
@@ -38,13 +38,13 @@ class ExceptionFactoryTest extends TestCase
      * @param $description
      * @param $utf8
      */
-    public function test(string $description, string $utf8)
+    public function testRuntimeErrors(string $description, string $utf8)
     {
         // given
-        $result = @preg_match("/pattern/u", $utf8);
+        @preg_match("/pattern/u", $utf8);
 
         // when
-        $exception = (new ExceptionFactory())->retrieveGlobals('preg_match', $result);
+        $exception = (new ExceptionFactory())->retrieveGlobals('preg_match', false);
 
         // then
         $this->assertInstanceOf(RuntimeSafeRegexException::class, $exception);
@@ -52,14 +52,11 @@ class ExceptionFactoryTest extends TestCase
 
     /**
      * @test
-     * @dataProvider \Test\DataProviders::invalidPregPatterns()
-     * @param string $invalidPattern
      */
-    public function testUnexpectedReturnError(string $invalidPattern)
+    public function testUnexpectedReturnError()
     {
         // given
-        $result = @preg_match($invalidPattern, '');
-        (new ErrorsCleaner)->clear();
+        $result = false;
 
         // when
         $exception = (new ExceptionFactory())->retrieveGlobals('preg_match', $result);

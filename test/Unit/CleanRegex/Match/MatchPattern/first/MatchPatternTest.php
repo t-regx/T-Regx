@@ -30,7 +30,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirst_withCallback()
     {
         // given
-        $pattern = $this->getMatchPattern("Nice matching pattern");
+        $pattern = $this->getMatchPattern('Nice matching pattern');
 
         // when
         $first = $pattern->first('strrev');
@@ -45,14 +45,13 @@ class MatchPatternTest extends TestCase
     public function shouldGetMatch_withDetails()
     {
         // given
-        $pattern = $this->getMatchPattern("Nice matching pattern");
+        $pattern = $this->getMatchPattern('Nice matching pattern');
 
         // when
         $pattern->first(function (Match $match) {
-
             // then
             $this->assertEquals(0, $match->index());
-            $this->assertEquals("Nice matching pattern", $match->subject());
+            $this->assertEquals('Nice matching pattern', $match->subject());
             $this->assertEquals(['Nice', 'matching', 'pattern'], $match->all());
             $this->assertEquals(['N'], $match->groups());
         });
@@ -70,7 +69,7 @@ class MatchPatternTest extends TestCase
             // when
             $pattern->first(function () {
                 // then
-                $this->assertTrue(false, "Failed asserting that first() is not invoked for not matching subject");
+                $this->assertTrue(false, 'Failed asserting that first() is not invoked for not matching subject');
             });
         } catch (SubjectNotMatchedException $exception) {
             // Ignore

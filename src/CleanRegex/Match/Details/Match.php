@@ -12,7 +12,7 @@ use function array_values;
 use function is_int;
 use function is_string;
 
-class Match
+class Match implements Details
 {
     /** @var integer */
     protected const WHOLE_MATCH = 0;
@@ -55,12 +55,10 @@ class Match
     public function group($nameOrIndex): ?string
     {
         $this->validateGroupName($nameOrIndex);
-
         if ($this->hasGroup($nameOrIndex)) {
             list($match, $offset) = $this->matches[$nameOrIndex][$this->index];
             return $match;
         }
-
         throw new NonexistentGroupException($nameOrIndex);
     }
 
@@ -70,14 +68,12 @@ class Match
     public function namedGroups(): array
     {
         $namedGroups = [];
-
         foreach ($this->matches as $groupNameOrIndex => $match) {
             if (is_string($groupNameOrIndex)) {
                 list($value, $offset) = $match[$this->index];
                 $namedGroups[$groupNameOrIndex] = $value;
             }
         }
-
         return $namedGroups;
     }
 

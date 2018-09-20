@@ -7,6 +7,9 @@ use CleanRegex\Internal\GroupNameValidator;
 use CleanRegex\Internal\Pattern;
 use CleanRegex\Internal\PatternLimit;
 use CleanRegex\Match\Details\Match;
+use CleanRegex\Match\ForFirst\MatchedOptional;
+use CleanRegex\Match\ForFirst\NotMatchedOptional;
+use CleanRegex\Match\ForFirst\Optional;
 use CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 use InvalidArgumentException;
@@ -125,6 +128,21 @@ class MatchPattern implements PatternLimit
         }
         list($value, $offset) = $matches[self::GROUP_WHOLE_MATCH][self::FIRST_MATCH];
         return $value;
+    }
+
+    /**
+     * @param callable $callback
+     * @return Optional
+     */
+    public function forFirst(callable $callback): Optional
+    {
+        $matches = $this->performMatchAll();
+        if (empty($matches[self::GROUP_WHOLE_MATCH])) {
+            return new NotMatchedOptional($matches, $this->subject);
+        }
+
+        $result = $callback(new Match($this->subject, self::FIRST_MATCH, $matches));
+        return new MatchedOptional($result);
     }
 
     /**
