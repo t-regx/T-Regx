@@ -2,6 +2,7 @@
 namespace CleanRegex\Match;
 
 use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use CleanRegex\Internal\GroupNameValidator;
 use CleanRegex\Internal\Pattern;
 use CleanRegex\Internal\PatternLimit;
@@ -110,13 +111,14 @@ class MatchPattern implements PatternLimit
 
     /**
      * @param callable|null $callback
-     * @return string|null|mixed
+     * @return string|mixed
+     * @throws SubjectNotMatchedException
      */
     public function first(callable $callback = null)
     {
         $matches = $this->performMatchAll();
         if (empty($matches[self::GROUP_WHOLE_MATCH])) {
-            return null;
+            throw SubjectNotMatchedException::forFirst($this->subject);
         }
         if ($callback !== null) {
             return $callback(new Match($this->subject, self::FIRST_MATCH, $matches));

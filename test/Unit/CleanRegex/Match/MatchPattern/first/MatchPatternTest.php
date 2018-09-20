@@ -1,6 +1,7 @@
 <?php
 namespace Test\Unit\CleanRegex\Match\MatchPattern\first;
 
+use CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use CleanRegex\Internal\Pattern;
 use CleanRegex\Match\Details\Match;
 use CleanRegex\Match\MatchPattern;
@@ -65,45 +66,46 @@ class MatchPatternTest extends TestCase
         // given
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
-        // when
-        $pattern->first(function () {
-
-            // then
-            $this->assertTrue(false, "Failed asserting that first() is not invoked for not matching subject");
-        });
-
-        // then
+        try {
+            // when
+            $pattern->first(function () {
+                // then
+                $this->assertTrue(false, "Failed asserting that first() is not invoked for not matching subject");
+            });
+        } catch (SubjectNotMatchedException $exception) {
+            // Ignore
+        }
         $this->assertTrue(true);
     }
 
     /**
      * @test
      */
-    public function shouldReturnNull_onNotMatchingSubject()
+    public function shouldThrow_onNotMatchingSubject()
     {
         // given
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
-        // when
-        $first = $pattern->first();
-
         // then
-        $this->assertNull($first, 'Failed asserting that first() returns null for not matched subject');
+        $this->expectException(SubjectNotMatchedException::class);
+
+        // when
+        $pattern->first();
     }
 
     /**
      * @test
      */
-    public function shouldReturnNull_withCallback_onNotMatchingSubject()
+    public function shouldThrow_withCallback_onNotMatchingSubject()
     {
         // given
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
-        // when
-        $first = $pattern->first('strrev');
-
         // then
-        $this->assertNull($first, 'Failed asserting that first() returns null for not matched subject');
+        $this->expectException(SubjectNotMatchedException::class);
+
+        // when
+        $pattern->first('strrev');
     }
 
     private function getMatchPattern($subject): MatchPattern

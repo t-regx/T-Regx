@@ -2,6 +2,7 @@
 namespace Test\Integration\CleanRegex;
 
 use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use CleanRegex\Match\Details\Match;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -109,6 +110,9 @@ class MatchPatternTest extends TestCase
      */
     public function shouldNotCallFirstOnUnmatchedPattern()
     {
+        // then
+        $this->expectException(SubjectNotMatchedException::class);
+
         // given
         pattern('dont match me')
             ->match('word')
@@ -116,9 +120,6 @@ class MatchPatternTest extends TestCase
                 // then
                 $this->assertTrue(false, "This shouldn't be invoked");
             });
-
-        // then
-        $this->assertTrue(true);
     }
 
     /**
