@@ -1,4 +1,4 @@
-# Regular Expressions wrapper
+# T-Regx | Regular Expressions library
 
 The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE methods. [Scroll to API](#api)
 
@@ -52,12 +52,12 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
    * Different things look different
 
 * ### Working **with** the developer
+   * UTF-8 support out of the box
    * Catches all PCRE-related warnings and throws exceptions instead
    * Additional features that aren't provided by PHP or PCRE.
    * Tracking offset while replacing strings.
    * Pure pattern [validation](#validate-pattern).
    * Protects against **any** PCRE error (not just `preg_last_error()`). See [Exception Tree](https://github.com/PleaseDontKillMe/pattern).
-   * Each method throws separate derivation of `CleanRegexException` (`MatchPatternException`, `ReplacePatternException`, etc.), so you can try-catch multiple errors.
    * Handles all PCRE warnings, and throws exceptions instead.
 
 * ### Cleaning the mess after PCRE
