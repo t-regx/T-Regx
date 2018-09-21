@@ -46,16 +46,16 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnEmptyArray_onNotMatchedSubject()
+    public function shouldReturnNull_onNotMatchedSubject()
     {
         // given
         $pattern = new MatchPattern(new Pattern('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'NOT MATCHING');
 
         // when
-        $groups = $pattern->group('two')->first();
+        $first = $pattern->group('two')->first();
 
         // then
-        $this->assertEquals(null, $groups);
+        $this->assertNull($first);
     }
 
     /**
@@ -87,5 +87,21 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern->group('missing')->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onInvalidGroupName()
+    {
+        // given
+        $pattern = new MatchPattern(new Pattern('(?<existing>[a-z]+)'), 'matching');
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string sequence starting with a letter, or an integer");
+
+        // when
+        $pattern->group('2invalid')->first();
     }
 }

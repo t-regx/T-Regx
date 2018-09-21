@@ -1,7 +1,9 @@
 <?php
+
 namespace CleanRegex\Replace\Callback;
 
 use CleanRegex\Exception\CleanRegex\InvalidReplacementException;
+use CleanRegex\Internal\ByteOffset;
 use CleanRegex\Match\Details\ReplaceMatch;
 use function call_user_func;
 use function is_string;
@@ -84,8 +86,13 @@ class ReplaceCallbackObject
         $this->subjectModification = substr_replace(
             $this->subjectModification,
             $replacement,
-            $offset + $this->offsetModification,
+            $this->getReplaceStart($offset),
             strlen($value)
         );
+    }
+
+    private function getReplaceStart($offset): int
+    {
+        return ByteOffset::normalize($this->subject, $offset) + $this->offsetModification;
     }
 }

@@ -2,6 +2,7 @@
 namespace CleanRegex\Match\Details;
 
 use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use CleanRegex\Internal\ByteOffset;
 use CleanRegex\Internal\GroupNameValidator;
 use function array_filter;
 use function array_key_exists;
@@ -139,18 +140,13 @@ class Match implements Details
 
     public function offset(): int
     {
-        return $this->normalizeByteOffset($this->subject, $this->byteOffset());
+        return ByteOffset::normalize($this->subject, $this->byteOffset());
     }
 
     private function byteOffset(): int
     {
         list($value, $offset) = $this->matches[self::WHOLE_MATCH][$this->index];
         return $offset;
-    }
-
-    private function normalizeByteOffset(string $subject, int $offset): int
-    {
-        return mb_strlen(substr($subject, 0, $offset));
     }
 
     public function __toString(): string

@@ -65,7 +65,7 @@ class GroupNameValidatorTest extends TestCase
 
         // this
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Group name must be an alphanumeric sequence starting with a letter');
+        $this->expectExceptionMessage('Group name must be an alphanumeric string sequence starting with a letter, or an integer');
 
         // when
         $validator->validate();

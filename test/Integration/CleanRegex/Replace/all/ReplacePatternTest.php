@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Integration\CleanRegex\Replace\all;
 
 use CleanRegex\Match\Details\ReplaceMatch;
@@ -47,7 +48,6 @@ class ReplacePatternTest extends TestCase
 
         // when
         pattern($pattern)->replace($subject)->all()->callback(function (ReplaceMatch $match) {
-
             // then
             $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->all());
             $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->allUnlimited());
@@ -108,12 +108,16 @@ class ReplacePatternTest extends TestCase
     public function shouldGetFromReplaceMatch_modifiedSubject()
     {
         // given
-        $pattern = '\*\*([a-zęó])\*\*';
-        $subject = 'words: **ó** **ę** **ó**';
+        $pattern = '\*([a-zęó])\*';
+        $subject = 'words: *ó* *ę* *ó*';
 
+        $offsets = [];
+        $mOffsets = [];
         $subjects = [];
 
-        $callback = function (ReplaceMatch $match) use (&$subjects) {
+        $callback = function (ReplaceMatch $match) use (&$subjects, &$offsets, &$mOffsets) {
+            $offsets[] = $match->offset();
+            $mOffsets[] = $match->modifiedOffset();
             $subjects[] = $match->modifiedSubject();
             return 'a';
         };
@@ -123,9 +127,9 @@ class ReplacePatternTest extends TestCase
 
         // then
         $expected = [
-            'words: **ó** **ę** **ó**',
-            'words: a **ę** **ó**',
-            'words: a a **ó**',
+            'words: *ó* *ę* *ó*',
+            'words: a *ę* *ó*',
+            'words: a a *ó*',
         ];
         $this->assertEquals($expected, $subjects);
         $this->assertEquals('words: a a a', $result);
