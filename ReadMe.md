@@ -1,25 +1,26 @@
+<p align="center"><img src="https://i.imgur.com/AUHFTIX.png"></p>
+
 # T-Regx | Regular Expressions library
 
 The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE methods. [Scroll to API](#api)
 
-[![Build Status](https://travis-ci.org/Danon/CleanRegex.svg?branch=master)](https://travis-ci.org/Danon/CleanRegex)
-[![Coverage Status](https://coveralls.io/repos/github/Danon/CleanRegex/badge.svg?branch=master)](https://coveralls.io/github/Danon/CleanRegex?branch=master)
-[![Requirements Status](https://requires.io/github/Danon/CleanRegex/requirements.svg?branch=master)](https://requires.io/github/Danon/CleanRegex/requirements/?branch=master)
-[![Code Quality](https://scrutinizer-ci.com/g/Danon/CleanRegex/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Danon/CleanRegex/?branch=master)
-![Size](https://github-size-badge.herokuapp.com/Danon/CleanRegex.svg)
-[![GitHub](https://img.shields.io/github/license/Danon/CleanRegex.svg)](https://github.com/Danon/CleanRegex)
-[![GitHub last commit](https://img.shields.io/github/last-commit/Danon/CleanRegex.svg)](https://github.com/Danon/CleanRegex)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Danon/CleanRegex.svg)](https://github.com/Danon/CleanRegex)
+[![Build Status](https://travis-ci.org/Danon/T-Regx.svg?branch=master)](https://travis-ci.org/Danon/T-Regx)
+[![Coverage Status](https://coveralls.io/repos/github/Danon/T-Regx/badge.svg?branch=master)](https://coveralls.io/github/Danon/T-Regx?branch=master)
+[![Requirements Status](https://requires.io/github/Danon/T-Regx/requirements.svg?branch=master)](https://requires.io/github/Danon/T-Regx/requirements/?branch=master)
+![Repository Size](https://github-size-badge.herokuapp.com/Danon/T-Regx.svg)
+[![GitHub](https://img.shields.io/github/license/Danon/T-Regx.svg)](https://github.com/Danon/T-Regx)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Danon/T-Regx.svg)](https://github.com/Danon/T-Regx)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Danon/T-Regx.svg)](https://github.com/Danon/T-Regx)
 
-[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D5.3-blue.svg)](https://github.com/Danon/CleanRegex/branches/all)
-[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D5.6-blue.svg)](https://github.com/Danon/CleanRegex/branches/all)
-[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D7.1.3-blue.svg)](https://github.com/Danon/CleanRegex)
+[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D5.3-blue.svg)](https://github.com/Danon/T-Regx/branches/all)
+[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D5.6-blue.svg)](https://github.com/Danon/T-Regx/branches/all)
+[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D7.1.3-blue.svg)](https://github.com/Danon/T-Regx)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 
-1. [Overview](#regular-expressions-wrapper)
-    * [Why CleanRegex stands out?](#why-cleanregex-stands-out)
+1. [Overview](#t-regx--regular-expressions-library)
+    * [Why T-Regx stands out?](#why-t-regx-stands-out)
     * [What happens if you fail?](#what-happens-if-you-fail)
-    * [Ways of using CleanRegex](#ways-of-using-cleanregex)
+    * [Ways of using T-Regx](#ways-of-using-t-regx)
     * [What's SafeRegex?](#cleanregex-vs-saferegex)
 2. [Installation](#installation)
 3. [API](#api)  
@@ -33,10 +34,10 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
     * [Validating](#validate-pattern)
     * [Delimitering](#delimiter-a-pattern)
     * [Other](#quoting)
-4. [Why CleanRegex stands out?](#why-cleanregex-stands-out)
+4. [What's better?](#whats-better)
 5. [Performance](#performance)
 
-## Why CleanRegex stands out?
+## Why T-Regx stands out?
 
 [Scroll to API](#api) 
 
@@ -45,32 +46,30 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
    * Descriptive interface
    * One public method per class - wherever possible
    * SRP methods
-   * No varargs
-   * No flags or boolean arguments
+   * No varargs, flags or boolean arguments
    * No nested arrays
-   * Similar things look similar
-   * Different things look different
+   * Similar things look similar - Different things look different
 
 * ### Working **with** the developer
    * UTF-8 support out of the box
    * Catches all PCRE-related warnings and throws exceptions instead
-   * Additional features that aren't provided by PHP or PCRE.
-   * Tracking offset while replacing strings.
+   * Additional features that aren't provided by PHP or PCRE
+   * Tracking offset and subjects while replacing strings
    * Pure pattern [validation](#validate-pattern).
-   * Protects against **any** PCRE error (not just `preg_last_error()`). See [Exception Tree](https://github.com/PleaseDontKillMe/pattern).
-   * Handles all PCRE warnings, and throws exceptions instead.
+   * Protects against **any** PCRE error (not just `preg_last_error()`). See [Exception Tree](https://github.com/Danon/T-Regx)
+   * Handles all PCRE warnings, and throws exceptions instead
 
 * ### Cleaning the mess after PCRE
    * Fixing error with multi-byte offset.
    * Handling many ways `preg_*()` methods can fail, with graceful exceptions.
 
 * ### Automatic delimiters for your pattern
-  Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. CleanRegex's smart delimiter
-  will conveniently add one of many delimiters for you (so to minimize the need of you escaping them), if they're not already present.
+  Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. T-Regx's smart delimiter
+  will [conveniently add one of many delimiters](#delimiter-a-pattern) for you, if they're not already present.
 
 * ###  Always an exception
    * `preg_match()` returns `false` if an error occurred or, if no match is found - `0` (which evaluates to `false`).  You have to do an **explicit check** to handle the error.
-   * CleanRegex **always** throws an exception. 
+   * T-Regx **always** throws an exception. 
 
 * ### No type-mixing
   Using `PCRE_CAPTURE_OFFSET` changes return types from `string` to an `array`. And there's more...
@@ -100,11 +99,13 @@ Awful!
 
 [Scroll to API](#api) 
 
-## Ways of using CleanRegex
+## Ways of using T-Regx
 
 ```php
 // Facade style
-\CleanRegex\Pattern::of('[A-Z][a-z]+')->matches($subject)
+use TRegx\CleanRegex\Pattern;
+
+Pattern::of('[A-Z][a-z]+')->matches($subject)
 ```
 ```php
 // Global method style
@@ -126,7 +127,7 @@ preg::replace_callback('/\w+/', $callback, $subject);
 Only interested in catching warnings and fails, without changing your code?
 
 ```php
-use SafeRegex\preg;
+use TRegx\SafeRegex\preg;
 
 $result = preg::match('/a/', $subject'); // idential to preg_match, but never emits a warning or returns false
 ```
@@ -146,10 +147,9 @@ and return **exactly** the same data. The only exception is, that SafeRegex meth
 [Scroll to API](#api)  
 
 # Installation
-Simply add a composer dependency :)
 
 ```bash
-composer require "pattern/clean-regex"
+$ composer require rawr/t-regx
 ```
 
 # API
@@ -228,22 +228,22 @@ string ('14')
 :bulb: This method should really be named `forEach()`, but prior to PHP 5.6 - you can't use keywords as method names :/
 
 ```php
-pattern('\d+')
-    ->match('192 168 172 14')
+pattern('\d+(?<unit>[ckm]?m))')
+    ->match('192cm 168m 172km 14mm')
     ->iterate(function (Match $match) {
 
         // gets the match
-        $match->match()    // (string) '172'
-        (string) $match    // (string) '172'
+        $match->match();        // (string) '172km'
+        (string) $match;        // (string) '172km'
 
         // gets the match offset 
-        $match->offset()   // (int) 8
+        $match->offset();       // (int) 11
         
-        // gets the match index
-        $match->index()    // (int) 2
+        // gets group
+        $match->group('unit');  // (string) 'km'
 
         // gets other matches
-        $match->all()      // (array) [ '192', '168', '172', '14' ]
+        $match->all();          // (array) [ '192cm', '168m', '172km', '14mm' ]
     });
 ```
 
@@ -264,12 +264,7 @@ pattern('\d+')
     });
 ```
 ```
-array (4) {
-   0 => (integer) 384,
-   1 => null,
-   2 => (integer) 344,
-   3 => (integer) 28,
-}
+array (4) [ 384, null, 344, 28 ]
 ```
 
 :bulb: `Match` object contains many, many useful information. Learn more about `Match` in [Matching with details](#first-match-with-details)
@@ -347,25 +342,15 @@ pattern('http://(?<name>[a-z]+)\.(com|org)')
 pattern(',')->split('Foo,Bar,Cat')->split();
 ```
 ```
-array (3) {
-    0 => (string) 'Foo', 
-    1 => (string) 'Bar', 
-    2 => (string) 'Cat'
-}
+array (3) [ 'Foo', 'Bar', 'Cat' ]
 ```
 
 Split a string, but also include a delimiter in the result:
 ```php
-pattern('(,)')->split('One,Two,Three')->separate();
+pattern('(\|)')->split('One|Two|Three')->separate();
 ```
 ```
-array (3) {
-    0 => (string) 'One', 
-    1 => (string) ',', 
-    2 => (string) 'Two', 
-    2 => (string) ',', 
-    4 => (string) 'Three'
-}
+array (3) [ 'One', '|', 'Two', '|', 'Three' ]
 ```
 
 ## Filter an array
@@ -380,11 +365,7 @@ pattern('[A-Z][a-z]+$')->filter([
  ])
 ```
 ```
-array (3) {
-    0 => (string) 'Mark',
-    1 => (string) 'Robert',
-    2 => (string) 'Jane',
-}
+array (3) [ 'Mark', 'Robert', 'Jane' ]
 ```
 
 ## Validate pattern
@@ -403,17 +384,6 @@ pattern('/[a-z]/')->is()->valid();  // No exceptions, no warnings (no side-effec
 
 :bulb: Remember that `pattern()->is()->valid()` works with you, so delimiters (`/.*/` or `#.*#`) will not be added automatically 
 this time, and won't mess with your input :) You can be sure whether the input pattern is valid or not.
-
-#### Also ignore delimiters
-
-`pattern()->is()->usable()` also validates a pattern, but for convenience it also considers patterns that are  not delimitered (`\d+`, instead of `/\d+/`) as valid.
-
-| Pattern | regex | Result |
-| ------- | ----- | ------ |
-| `pattern('/[a-z]/im')->is()->usable()`   | `/[a-z]/im`   | `(bool) true`  |
-| `pattern('[a-z]+')->is()->usable()`      | `[a-z]+`      | `(bool) true` |
-| `pattern('//[a-z]')->is()->usable()`     | `//[a-z]`     | `(bool) false` |
-| `pattern('/(unclosed/')->is()->usable()` | `/(unclosed/` | `(bool) false` |
 
 ## Delimiter a pattern 
 
@@ -460,9 +430,9 @@ pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
 
      $match->groups();            // Gets all group values (['R', 'obert'])
 
-     $match->groupNames();        // Gets the names of the capturing groups (['capital', 'lowercase'])
-
      $match->namedGroups();       // Gets all named groups with values (['capital' => 'R', 'lowercase' => 'obert'])
+     
+     $match->groupNames();        // Gets the names of the capturing groups (['capital', 'lowercase'])
 
      $match->hasGroup('capital'); // Checks whether the group was used in the pattern (true)
 
@@ -473,11 +443,11 @@ pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
 :bulb: `$match->groups()` doesn't return the whole matched string at index 0. To get it, use `$match->match()`.
 
 # What's better
-![Ugly api](php.api.png)
+![Ugly api](https://i.imgur.com/g1Buisr.png)
 
 or
 
-![Pretty api](clean.api.png)
+![Pretty api](https://i.imgur.com/OW0y0Df.png)
 
 # Performance
 

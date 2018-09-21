@@ -126,23 +126,23 @@ class ReadMeTest extends TestCase
     public function iterate()
     {
         // when + then
-        pattern('\d+')
-            ->match('192 168 172 14')
+        pattern('\d+(?<unit>[ckm]?m)')
+            ->match('192cm 168m 172km 14mm')
             ->iterate(function (Match $match) {
-                if ($match->match() != '172') return;
+                if ($match->match() != '172km') return;
 
                 // gets the match
-                $this->assertEquals("172", $match->match());
-                $this->assertEquals("172", (string)$match);
+                $this->assertEquals('172km', $match->match());
+                $this->assertEquals('172km', (string)$match);
 
                 // gets the match offset
-                $this->assertEquals(8, $match->offset());
+                $this->assertEquals(11, $match->offset());
 
-                // gets the group index
-                $this->assertEquals(2, $match->index());
+                // gets group
+                $this->assertEquals('km', $match->group('unit'));
 
-                // gets other groups
-                $this->assertEquals(['192', '168', '172', '14'], $match->all());
+                // gets other matches
+                $this->assertEquals(['192cm', '168m', '172km', '14mm'], $match->all());
             });
     }
 
@@ -241,6 +241,30 @@ class ReadMeTest extends TestCase
     /**
      * @test
      */
+    public function split()
+    {
+        // when
+        $split = pattern(',')->split('Foo,Bar,Cat')->split();
+
+        // then
+        $this->assertEquals(['Foo', 'Bar', 'Cat'], $split);
+    }
+
+    /**
+     * @test
+     */
+    public function separate()
+    {
+        // when
+        $separated = pattern('(\|)')->split('One|Two|Three')->separate();
+
+        // then
+        $this->assertEquals(['One', '|', 'Two', '|', 'Three'], $separated);
+    }
+
+    /**
+     * @test
+     */
     public function filterArray()
     {
         // when
@@ -295,8 +319,8 @@ class ReadMeTest extends TestCase
      * @test
      * @dataProvider validPatterns
      * @param string $pattern
-     * @param bool $expectedValid
-     * @param bool $expectedUsable
+     * @param bool   $expectedValid
+     * @param bool   $expectedUsable
      */
     public function validatePattern(string $pattern, bool $expectedValid, bool $expectedUsable)
     {
