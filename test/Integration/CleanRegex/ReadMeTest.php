@@ -300,7 +300,7 @@ class ReadMeTest extends TestCase
     public function validatePattern(string $pattern, bool $expected)
     {
         // when
-        $result = pattern($pattern)->valid();
+        $result = pattern($pattern)->is()->valid();
 
         // then
         $this->assertEquals($expected, $result);

@@ -22,14 +22,14 @@ class Pattern
         $this->flags = $flags;
     }
 
-    public function match(string $subject): MatchPattern
-    {
-        return new MatchPattern($this->pattern, $subject);
-    }
-
     public function matches(string $subject): bool
     {
         return (new MatchesPattern($this->pattern, $subject))->matches();
+    }
+
+    public function match(string $subject): MatchPattern
+    {
+        return new MatchPattern($this->pattern, $subject);
     }
 
     public function replace(string $subject): ReplaceLimit
@@ -66,9 +66,9 @@ class Pattern
         return (new QuotePattern($this->pattern))->quote();
     }
 
-    public function valid(): bool
+    public function is(): IsPattern
     {
-        return (new ValidPattern($this->pattern))->isValid();
+        return new IsPattern($this->pattern);
     }
 
     public function delimitered(): string

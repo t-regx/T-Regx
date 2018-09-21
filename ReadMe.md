@@ -391,17 +391,17 @@ array (3) {
 
 Want to validate a pattern before calling it?
 ```php
-pattern('/[a-z]/')->valid();  // No exceptions, no warnings (no side-effects)
+pattern('/[a-z]/')->is()->valid();  // No exceptions, no warnings (no side-effects)
 ```
 
 | Pattern | Result |
 | --- | --- |
-| `pattern('/[a-z]/im')->valid()`   | `(bool) true`  |
-| `pattern('//[a-z]')->valid()`     | `(bool) false` |
-| `pattern('[a-z]+')->valid()`      | `(bool) false` |
-| `pattern('/(unclosed/')->valid()` | `(bool) false` |
+| `pattern('/[a-z]/im')->is()->valid()`   | `(bool) true`  |
+| `pattern('//[a-z]')->is()->valid()`     | `(bool) false` |
+| `pattern('[a-z]+')->is()->valid()`      | `(bool) false` |
+| `pattern('/(unclosed/')->is()->valid()` | `(bool) false` |
 
-:bulb: Remember that `pattern()->valid()` works with you, so delimiters (`/.*/` or `#.*#`) will not be added automatically 
+:bulb: Remember that `pattern()->is()->valid()` works with you, so delimiters (`/.*/` or `#.*#`) will not be added automatically 
 this time, and won't mess with your input :) so you can be sure whether the input pattern is valid or not.
 
 ## Delimiter a pattern 
