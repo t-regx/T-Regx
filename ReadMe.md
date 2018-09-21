@@ -391,18 +391,29 @@ array (3) {
 
 Want to validate a pattern before calling it?
 ```php
-pattern('/[a-z]/')->valid();  // No exceptions, no warnings (no side-effects)
+pattern('/[a-z]/')->is()->valid();  // No exceptions, no warnings (no side-effects)
 ```
 
-| Pattern | Result |
-| --- | --- |
-| `pattern('/[a-z]/im')->valid()`   | `(bool) true`  |
-| `pattern('//[a-z]')->valid()`     | `(bool) false` |
-| `pattern('[a-z]+')->valid()`      | `(bool) false` |
-| `pattern('/(unclosed/')->valid()` | `(bool) false` |
+| Pattern | regex | Result |
+| ------- | ----- | ------ |
+| `pattern('/[a-z]/im')->is()->valid()`   | `/[a-z]/im`   | `(bool) true`  |
+| `pattern('[a-z]+')->is()->valid()`      | `[a-z]+`      | `(bool) false` |
+| `pattern('//[a-z]')->is()->valid()`     | `//[a-z]`     | `(bool) false` |
+| `pattern('/(unclosed/')->is()->valid()` | `/(unclosed/` | `(bool) false` |
 
-:bulb: Remember that `pattern()->valid()` works with you, so delimiters (`/.*/` or `#.*#`) will not be added automatically 
-this time, and won't mess with your input :) so you can be sure whether the input pattern is valid or not.
+:bulb: Remember that `pattern()->is()->valid()` works with you, so delimiters (`/.*/` or `#.*#`) will not be added automatically 
+this time, and won't mess with your input :) You can be sure whether the input pattern is valid or not.
+
+#### Also ignore delimiters
+
+`pattern()->is()->usable()` also validates a pattern, but for convenience it also considers patterns that are  not delimitered (`\d+`, instead of `/\d+/`) as valid.
+
+| Pattern | regex | Result |
+| ------- | ----- | ------ |
+| `pattern('/[a-z]/im')->is()->usable()`   | `/[a-z]/im`   | `(bool) true`  |
+| `pattern('[a-z]+')->is()->usable()`      | `[a-z]+`      | `(bool) true` |
+| `pattern('//[a-z]')->is()->usable()`     | `//[a-z]`     | `(bool) false` |
+| `pattern('/(unclosed/')->is()->usable()` | `/(unclosed/` | `(bool) false` |
 
 ## Delimiter a pattern 
 

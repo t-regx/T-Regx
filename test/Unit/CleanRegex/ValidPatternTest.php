@@ -17,7 +17,7 @@ class ValidPatternTest extends TestCase
     public function shouldValidatePattern(string $string)
     {
         // given
-        $pattern = new ValidPattern(new Pattern($string));
+        $pattern = new ValidPattern($string);
 
         // when
         $isValid = $pattern->isValid();
@@ -42,7 +42,7 @@ class ValidPatternTest extends TestCase
     public function shouldNotValidatePattern(string $string)
     {
         // given
-        $pattern = new ValidPattern(new Pattern($string));
+        $pattern = new ValidPattern($string);
 
         // when
         $isValid = $pattern->isValid();
@@ -59,7 +59,7 @@ class ValidPatternTest extends TestCase
     public function shouldNotLeaveErrors(string $string)
     {
         // given
-        $pattern = new ValidPattern(new Pattern($string));
+        $pattern = new ValidPattern($string);
         $errorsCleaner = new ErrorsCleaner();
 
         // when

@@ -2,3 +2,4 @@
 vendor/
 build/cov/
 build/logs
+composer.phar
