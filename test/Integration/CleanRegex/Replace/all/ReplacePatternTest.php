@@ -9,7 +9,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReplaceString()
+    public function shouldReplace_withString()
     {
         // when
         $result = pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->all()->with('*');
@@ -21,28 +21,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReplaceWithStringUsingCallback()
-    {
-        // given
-        $pattern = 'http://(?<name>[a-z]+)\.(com|org)';
-        $subject = 'Links: http://google.com, http://other.org and http://website.org.';
-
-        // when
-        $result = pattern($pattern)
-            ->replace($subject)
-            ->all()
-            ->callback(function () {
-                return 'a';
-            });
-
-        // then
-        $this->assertEquals($result, 'Links: a, a and a.');
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReplaceWithCallback()
+    public function shouldReplace_withCallback()
     {
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(com|org)';
@@ -63,7 +42,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllFromReplaceMatch()
+    public function shouldGetFromReplaceMatch_all()
     {
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
@@ -77,6 +56,7 @@ class ReplacePatternTest extends TestCase
 
                 // then
                 $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->all());
+                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->allUnlimited());
 
                 return '';
             });
@@ -85,7 +65,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetOffsetFromReplaceMatch()
+    public function shouldGetFromReplaceMatch_offset()
     {
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
@@ -108,7 +88,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetModifiedOffsetFromReplaceMatch()
+    public function shouldGetFromReplaceMatch_modifiedOffset()
     {
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';

@@ -10,7 +10,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReplaceString()
+    public function shouldReplace_withString()
     {
         // when
         $result = pattern('er|ab|ay|ey')
@@ -25,28 +25,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReplaceWithCallback()
-    {
-        // given
-        $pattern = 'http://(?<name>[a-z]+)\.(com|org)';
-        $subject = 'Links: http://google.com, http://other.org and http://website.org.';
-
-        // when
-        $result = pattern($pattern)
-            ->replace($subject)
-            ->only(2)
-            ->callback(function () {
-                return 'a';
-            });
-
-        // then
-        $this->assertEquals($result, 'Links: a, a and http://website.org.');
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReplaceWithCallbackUsingGroup()
+    public function shouldReplace_withCallback()
     {
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(com|org)';
@@ -67,7 +46,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetTrimmedAllFromReplaceMatch()
+    public function shouldGetFromReplaceMatch_all()
     {
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
@@ -80,26 +59,6 @@ class ReplacePatternTest extends TestCase
             ->callback(function (ReplaceMatch $match) {
                 // then
                 $this->assertEquals(['http://google.com', 'http://other.org'], $match->all());
-
-                return '';
-            });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetAllUnlimitedFromReplaceMatch()
-    {
-        // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
-        $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
-
-        // when
-        pattern($pattern)
-            ->replace($subject)
-            ->only(2)
-            ->callback(function (ReplaceMatch $match) {
-                // then
                 $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->allUnlimited());
 
                 return '';
@@ -109,7 +68,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetOffsetFromReplaceMatch()
+    public function shouldGetFromReplaceMatch_offset()
     {
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
@@ -132,7 +91,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetModifiedOffsetFromReplaceMatch()
+    public function shouldGetFromReplaceMatch_modifiedOffset()
     {
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
