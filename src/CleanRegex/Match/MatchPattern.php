@@ -1,8 +1,8 @@
 <?php
 namespace CleanRegex\Match;
 
-use CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
+use CleanRegex\Internal\GroupLimitFactory;
 use CleanRegex\Internal\GroupNameValidator;
 use CleanRegex\Internal\Pattern;
 use CleanRegex\Internal\PatternLimit;
@@ -14,7 +14,6 @@ use CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 use InvalidArgumentException;
 use SafeRegex\preg;
-use function array_key_exists;
 
 class MatchPattern implements PatternLimit
 {
@@ -111,49 +110,12 @@ class MatchPattern implements PatternLimit
     public function group($nameOrIndex): GroupLimit
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-
-        return new GroupLimit(
-            function () use ($nameOrIndex) {
-                $matches = [];
-                preg::match_all($this->pattern->pattern, $this->subject, $matches);
-                if (array_key_exists($nameOrIndex, $matches)) {
-                    return $matches[$nameOrIndex];
-                }
-                throw new NonexistentGroupException($nameOrIndex);
-            },
-            function () use ($nameOrIndex) {
-                $matches = [];
-                preg::match($this->pattern->pattern, $this->subject, $matches, $this->pregMatchFlags());
-                if (array_key_exists($nameOrIndex, $matches)) {
-                    return $matches[$nameOrIndex];
-                }
-                if ($this->groupExists($nameOrIndex)) {
-                    return null;
-                }
-                throw new NonexistentGroupException($nameOrIndex);
-            });
+        return (new GroupLimitFactory($this->pattern, $this->subject, $this->groupVerifier, $nameOrIndex))->create();
     }
 
     public function count(): int
     {
         return preg::match_all($this->pattern->pattern, $this->subject);
-    }
-
-    private function pregMatchFlags(): int
-    {
-        if (defined('PREG_UNMATCHED_AS_NULL')) {
-            return PREG_UNMATCHED_AS_NULL;
-        }
-        return 0;
-    }
-
-    /**
-     * @param string|int
-     * @return bool
-     */
-    private function groupExists($nameOrIndex): bool
-    {
-        return $this->groupVerifier->groupExists($this->pattern->pattern, $nameOrIndex);
     }
 
     /**
