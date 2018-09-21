@@ -18,12 +18,18 @@ class SplitPattern
         $this->subject = $subject;
     }
 
-    public function split(): array
+    /**
+     * @return string[]
+     */
+    public function ex(): array
     {
         return preg::split($this->pattern->pattern, $this->subject);
     }
 
-    public function separate(): array
+    /**
+     * @return string[]
+     */
+    public function inc(): array
     {
         return preg::split($this->pattern->pattern, $this->subject, -1, PREG_SPLIT_DELIM_CAPTURE);
     }
