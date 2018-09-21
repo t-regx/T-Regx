@@ -1,7 +1,15 @@
 {
-  "name": "pattern/clean-regex",
+  "name": "pattern/t-regx",
   "version": "1.0",
   "description": "The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE extension methods.",
+  "keywords": [
+    "php",
+    "regex",
+    "tdd",
+    "oop",
+    "clean",
+    "design"
+  ],
   "autoload": {
     "files": [
       "helper/helper.php",
@@ -15,10 +23,15 @@
       "test/Utils/ClassWithStringParamConstructor.php",
       "test/Utils/ClassWithTwoStringParamsConstructor.php"
     ],
-    "psr-0": {
-      "CleanRegex\\": "src",
-      "SafeRegex\\": "src"
+    "psr-4": {
+      "TRegx\\CleanRegex\\": "src/TRegx/CleanRegex",
+      "TRegx\\SafeRegex\\": "src/TRegx/SafeRegex"
     }
+  },
+  "autoload-dev": {
+    "classmap": [
+      "test/"
+    ]
   },
   "require": {
     "php": ">=7.1.0"

@@ -3,3 +3,4 @@ vendor/
 build/cov/
 build/logs
 composer.phar
+composer.lock
