@@ -29,8 +29,8 @@ class InvalidReplacementExceptionTest extends TestCase
     public function objectsAndMessages()
     {
         return [
-            [true, 'Invalid replace callback return type: boolean (true), string expected.'],
-            [new Pattern(''), 'Invalid replace callback return type: CleanRegex\Pattern, string expected.'],
+            [true, 'Invalid replace callback return type. Expected string, but boolean (true) given'],
+            [new Pattern(''), 'Invalid replace callback return type. Expected string, but CleanRegex\Pattern given'],
         ];
     }
 }

@@ -11,6 +11,6 @@ class InvalidReplacementException extends CleanRegexException
     public function __construct($replacement)
     {
         $type = (new StringValue($replacement))->getString();
-        parent::__construct("Invalid replace callback return type: $type, string expected.");
+        parent::__construct("Invalid replace callback return type. Expected string, but $type given");
     }
 }
