@@ -24,27 +24,6 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReplace_withCallback()
-    {
-        // given
-        $pattern = 'http://(?<name>[a-z]+)\.(com|org)';
-        $subject = 'Links: http://google.com, http://other.org and http://website.org.';
-
-        // when
-        $result = pattern($pattern)
-            ->replace($subject)
-            ->first()
-            ->callback(function (ReplaceMatch $match) {
-                return $match->group('name');
-            });
-
-        // then
-        $this->assertEquals($result, 'Links: google, http://other.org and http://website.org.');
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetFromReplaceMatch_all()
     {
         // given
@@ -62,74 +41,5 @@ class ReplacePatternTest extends TestCase
 
                 return '';
             });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetFromReplaceMatch_offset()
-    {
-        // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
-        $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
-
-        $offsets = [];
-
-        $callback = function (ReplaceMatch $match) use (&$offsets) {
-            $offsets[] = $match->offset();
-            return '';
-        };
-
-        // when
-        pattern($pattern)->replace($subject)->first()->callback($callback);
-
-        // then
-        $this->assertEquals([7], $offsets);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetFromReplaceMatch_modifiedOffset()
-    {
-        // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
-        $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
-
-        $offsets = [];
-
-        $callback = function (ReplaceMatch $match) use (&$offsets) {
-            $offsets[] = $match->modifiedOffset();
-            return 'ą';
-        };
-
-        // when
-        pattern($pattern)->replace($subject)->first()->callback($callback);
-
-        // then
-        $this->assertEquals([7], $offsets);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetFromReplaceMatch_modifiedSubject()
-    {
-        // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
-        $subject = 'Links: http://google.com and http://other.org. and again http://google.com';
-
-        $subjects = [];
-
-        $callback = function (ReplaceMatch $match) use (&$subjects) {
-            $subjects[] = $match->modifiedSubject();
-            return '+' . $match->group('domain') . '+';
-        };
-
-        // when
-        pattern($pattern)->replace($subject)->first()->callback($callback);
-
-        // then
-        $this->assertEquals(['Links: http://google.com and http://other.org. and again http://google.com'], $subjects);
     }
 }
