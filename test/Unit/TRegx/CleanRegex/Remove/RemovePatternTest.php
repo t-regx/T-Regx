@@ -1,7 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Remove;
 
-use TRegx\CleanRegex\Internal\Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Remove\RemovePattern;
 use PHPUnit\Framework\TestCase;
 

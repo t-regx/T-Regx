@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
-use TRegx\CleanRegex\Internal\Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\SafeRegex\preg;
 

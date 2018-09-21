@@ -1,7 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\StringValue;
 use PHPUnit\Framework\TestCase;
 
@@ -10,7 +10,7 @@ class StringValueTest extends TestCase
     /**
      * @test
      * @dataProvider objectsAndMessages
-     * @param mixed $value
+     * @param mixed  $value
      * @param string $expectedString
      */
     public function shouldGetMessageWithType($value, string $expectedString)
@@ -66,7 +66,7 @@ class StringValueTest extends TestCase
             ],
             [
                 new Pattern(''),
-                'TRegx\CleanRegex\Internal\Pattern'
+                Pattern::class
             ],
             [
                 function () {

@@ -1,11 +1,10 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\groups\all;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use TRegx\CleanRegex\Internal\Pattern;
-use TRegx\CleanRegex\Match\MatchPattern;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
 {

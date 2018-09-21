@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Internal\Pattern as InternalPattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\SafeRegex\preg;
 
 class SplitPattern

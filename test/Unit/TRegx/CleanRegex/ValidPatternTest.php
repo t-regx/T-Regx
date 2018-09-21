@@ -1,7 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Internal\Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\ValidPattern;
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Errors\Errors\EmptyHostError;

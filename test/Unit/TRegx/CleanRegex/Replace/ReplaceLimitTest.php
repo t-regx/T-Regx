@@ -1,7 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Replace;
 
-use TRegx\CleanRegex\Internal\Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\CleanRegex\Replace\ReplacePattern;
 use InvalidArgumentException;

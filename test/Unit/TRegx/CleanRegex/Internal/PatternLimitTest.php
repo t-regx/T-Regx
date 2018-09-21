@@ -1,7 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Replace\ReplaceLimit;

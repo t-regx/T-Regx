@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex;
 
 use TRegx\CleanRegex\MatchesPattern;
-use TRegx\CleanRegex\Internal\Pattern as InternalPattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use PHPUnit\Framework\TestCase;
 use Test\ClassWithToString;
 

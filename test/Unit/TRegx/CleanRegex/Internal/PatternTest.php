@@ -1,7 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use PHPUnit\Framework\TestCase;
 
 class PatternTest extends TestCase

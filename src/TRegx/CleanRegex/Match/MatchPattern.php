@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Match;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupLimitFactory;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
-use TRegx\CleanRegex\Internal\Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;

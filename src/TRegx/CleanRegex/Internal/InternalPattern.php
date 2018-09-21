@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
 
-class Pattern
+class InternalPattern
 {
     /** @var string */
     public $pattern;

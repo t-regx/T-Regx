@@ -1,7 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Internal\Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\SplitPattern;
 use PHPUnit\Framework\TestCase;
 

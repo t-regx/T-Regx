@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\forFirst;
 
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\MatchPattern;

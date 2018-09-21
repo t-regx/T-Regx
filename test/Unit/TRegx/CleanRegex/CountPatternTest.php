@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex;
 
 use TRegx\CleanRegex\CountPattern;
-use TRegx\CleanRegex\Internal\Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use PHPUnit\Framework\TestCase;
 
 class CountPatternTest extends TestCase

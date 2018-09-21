@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Match\GroupLimit;
 use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
 

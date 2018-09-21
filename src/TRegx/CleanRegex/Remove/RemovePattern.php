@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Remove;
 
-use TRegx\CleanRegex\Internal\Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\SafeRegex\preg;
 
 class RemovePattern
