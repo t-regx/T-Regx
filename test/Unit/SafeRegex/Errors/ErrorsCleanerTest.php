@@ -65,7 +65,7 @@ class ErrorsCleanerTest extends TestCase
      */
     public function shouldGetCompileError_Bug_Fixed()
     {
-        if (version_compare(PHP_VERSION, '7.1.13', '<')) {
+        if (PHP_VERSION_ID < 70113) {
             $this->markTestSkipped("Bug fixed in 7.1.13, now compile-time warnings in preg_match() causes preg_last_error() ");
         }
 

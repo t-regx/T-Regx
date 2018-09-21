@@ -1,6 +1,7 @@
 <?php
 namespace Test\Unit\CleanRegex\Match\Groups\Strategy;
 
+use CleanRegex\Internal\Delimiter\DelimiterParser;
 use CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 use CleanRegex\Match\Groups\Strategy\PatternAnalyzeGroupVerifier;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +19,7 @@ class GroupVerifierTest extends TestCase
         // given
         $strategies = [
             'match'   => new MatchAllGroupVerifier(),
-            'analyze' => new PatternAnalyzeGroupVerifier()
+            'analyze' => new PatternAnalyzeGroupVerifier(new DelimiterParser())
         ];
 
         // when
@@ -43,6 +44,7 @@ class GroupVerifierTest extends TestCase
             ['/ab (?<group>c)/', true],
             ['/ab (?P<group>c)/', true],
             ["/ab (?'group'c)/", true],
+            ["/ab (?'group'c (?<P>xd))/", true],
 
             ['/ab \(?<group>c\)/', false],
             ['/ab \(?P<group>c\)/', false],

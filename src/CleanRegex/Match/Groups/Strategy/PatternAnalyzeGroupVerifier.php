@@ -7,6 +7,14 @@ use SafeRegex\preg;
 
 class PatternAnalyzeGroupVerifier implements GroupVerifier
 {
+    /** @var DelimiterParser */
+    private $parser;
+
+    public function __construct(DelimiterParser $parser)
+    {
+        $this->parser = $parser;
+    }
+
     public function groupExists(string $pattern, $nameOrIndex): bool
     {
         if (is_string($nameOrIndex)) {
@@ -17,7 +25,7 @@ class PatternAnalyzeGroupVerifier implements GroupVerifier
 
     private function groupNameExists(string $pattern, string $name): bool
     {
-        $d = (new DelimiterParser())->getDelimiter($pattern);
+        $d = $this->parser->getDelimiter($pattern);
         $p1 = preg_quote("(?<$name>", $d);
         $p2 = preg_quote("(?P<$name>", $d);
         $p3 = preg_quote("(?'$name'", $d);

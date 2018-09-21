@@ -1,6 +1,7 @@
 <?php
 namespace Test\Unit\CleanRegex\Match\Groups\Strategy;
 
+use CleanRegex\Internal\Delimiter\DelimiterParser;
 use CleanRegex\Match\Groups\Strategy\PatternAnalyzeGroupVerifier;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -13,7 +14,7 @@ class PatternAnalyzeGroupVerifierTest extends TestCase
     public function shouldThrowOnIntegerGroup()
     {
         // given
-        $verifier = new PatternAnalyzeGroupVerifier();
+        $verifier = new PatternAnalyzeGroupVerifier(new DelimiterParser());
 
         // then
         $this->expectException(InvalidArgumentException::class);
