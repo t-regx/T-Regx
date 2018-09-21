@@ -1,7 +1,7 @@
-CleanRegex Changelog
-====================
+T-Regx Changelog
+================
 
-This file is to keep track of enhancments and bugfixes in different versions of CleanRegex.
+This file is to keep track of enhancements and bug fixes in different versions of T-Regx.
 
 Incoming in 1.1
 ---------------
@@ -12,6 +12,15 @@ Incoming in 1.1
     * Returning from `match()->first(callable)` modifies its return type
     * Add `replace()->all()`, `replace()->first()` and `replace()->only(int)`
     * Add `pattern()->remove()`
+    * Add `match()->only(int)`
+    * Pass flags as `pattern()` second argument
+    * Add `ReplaceMatch.modifiedSubject()`
+    * Add UTF-8 support for methods `offset()`, `modifiedOffset()` and `modifiedSubject()`
+    * Add `match()->group()->all()`, `match()->group()->first()` and `match()->group()->only()`
+    * Add `match()->forFirst()` with methods `orReturn()`, `orElse()` and `orThrow()`
+    * `orThrow()` can instantiate exceptions by class name (with one of predefined constructor signatures)
+    * `match()->first()` throws on unmatched subject
+    * Use `PREG_UNMATCHED_AS_NULL` if PHP version is supported 
 * Tests
     * Split tests into `\Test\Unit` and `\Test\Integration` folders 
     * Add dynamic skip for `ErrorsCleanerTest`
@@ -23,9 +32,10 @@ Incoming in 1.1
     * Add `pregConstant` field to `RuntimeError`. Only reason to do it is so if you **catch the exception it 
     in debugger**, you'll see constant name (ie. `PREG_BAD_UTF8_ERROR`) instead of constant value (ie. `4`).
 * Other
+    * Set `\TRegx` namespace prefix
     * Add MIT license
 
-Features in 1.0
+API
 ---------------
 
 * SafeRegex
@@ -50,6 +60,14 @@ Features in 1.0
         * `pattern()->match()->first()`
         * `pattern()->match()->map()`
         * `pattern()->match()->iterate()`
+        * `pattern()->match()->group(name|index)`
+            * `->first()`
+            * `->all()`
+            * `->only(int)`
+        * `pattern()->match()->forFirst()`
+            * `->orReturn(mixed)`
+            * `->orElse(callable)`
+            * `->orThrow(className|null)`
         * `Match` details:
             * `Match.match()` / `Match.__toString()` / `(string) $match`
             * `Match.subject()`
@@ -61,22 +79,32 @@ Features in 1.0
             * `Match.groupNames()`
             * `Match.hasGroup()`
             * `Match.matched(string|int)`
+            * `Match.hasGroup(string|int)`
             * `Match.all()`
     * Replace API
-        * `pattern()->replace()->all()->with()`
-        * `pattern()->replace()->first()->with()`
-        * `pattern()->replace()->only(int)->with()`
-        * `pattern()->replace()->all()->callback()`
-        * `pattern()->replace()->first()->callback()`
-        * `pattern()->replace()->only(int)->callback()`
+        * `pattern()->replace()->all()`
+            * `->with()`
+            * `->callback()`
+        * `pattern()->replace()->first()`
+            * `->with()`
+            * `->callback()`
+        * `pattern()->replace()->only(int)`
+            * `->with()`
+            * `->callback()`
         * `ReplaceMatch` details (extending `Match` details)
             * `ReplaceMatch.modifiedOffset()`
+            * `ReplaceMatch.modifiedSubject()`
             * `ReplaceMatch.allUnlimited()`
+    * Remove API
+        * `pattern()->remove()->all()`
+        * `pattern()->remove()->first()`
+        * `pattern()->remove()->only(int)`
     * Other API
         * `pattern()->filter()`
         * `pattern()->split()->split()`
         * `pattern()->split()->separate()`
         * `pattern()->count()`
         * `pattern()->quote()`
-        * `pattern()->valid()`
+        * `pattern()->is()->valid()`
+        * `pattern()->is()->usable()`
         * `pattern()->delimitered()`
