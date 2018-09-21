@@ -14,6 +14,7 @@ use CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 use InvalidArgumentException;
 use SafeRegex\preg;
+use function array_key_exists;
 
 class MatchPattern implements PatternLimit
 {
@@ -41,12 +42,66 @@ class MatchPattern implements PatternLimit
         return $matches[self::GROUP_WHOLE_MATCH];
     }
 
+    /**
+     * @param callable|null $callback
+     * @return string|mixed
+     * @throws SubjectNotMatchedException
+     */
+    public function first(callable $callback = null)
+    {
+        $matches = $this->performMatchAll();
+        if (empty($matches[self::GROUP_WHOLE_MATCH])) {
+            throw SubjectNotMatchedException::forFirst($this->subject);
+        }
+        if ($callback !== null) {
+            return $callback(new Match($this->subject, self::FIRST_MATCH, $matches));
+        }
+        list($value, $offset) = $matches[self::GROUP_WHOLE_MATCH][self::FIRST_MATCH];
+        return $value;
+    }
+
     public function only(int $limit): array
     {
         if ($limit < 0) {
             throw new InvalidArgumentException("Negative limit $limit");
         }
         return array_slice($this->all(), 0, $limit);
+    }
+
+    public function matches(): bool
+    {
+        return preg::match($this->pattern->pattern, $this->subject) === 1;
+    }
+
+    public function iterate(callable $callback): void
+    {
+        foreach ($this->getMatchObjects() as $object) {
+            $callback($object);
+        }
+    }
+
+    public function map(callable $callback): array
+    {
+        $results = [];
+        foreach ($this->getMatchObjects() as $object) {
+            $results[] = $callback($object);
+        }
+        return $results;
+    }
+
+    /**
+     * @param callable $callback
+     * @return Optional
+     */
+    public function forFirst(callable $callback): Optional
+    {
+        $matches = $this->performMatchAll();
+        if (empty($matches[self::GROUP_WHOLE_MATCH])) {
+            return new NotMatchedOptional($matches, $this->subject);
+        }
+
+        $result = $callback(new Match($this->subject, self::FIRST_MATCH, $matches));
+        return new MatchedOptional($result);
     }
 
     /**
@@ -79,6 +134,11 @@ class MatchPattern implements PatternLimit
             });
     }
 
+    public function count(): int
+    {
+        return preg::match_all($this->pattern->pattern, $this->subject);
+    }
+
     private function pregMatchFlags(): int
     {
         if (defined('PREG_UNMATCHED_AS_NULL')) {
@@ -96,69 +156,12 @@ class MatchPattern implements PatternLimit
         return $this->groupVerifier->groupExists($this->pattern->pattern, $nameOrIndex);
     }
 
-    public function iterate(callable $callback): void
-    {
-        foreach ($this->getMatchObjects() as $object) {
-            $callback($object);
-        }
-    }
-
-    public function map(callable $callback): array
-    {
-        $results = [];
-        foreach ($this->getMatchObjects() as $object) {
-            $results[] = $callback($object);
-        }
-        return $results;
-    }
-
-    /**
-     * @param callable|null $callback
-     * @return string|mixed
-     * @throws SubjectNotMatchedException
-     */
-    public function first(callable $callback = null)
-    {
-        $matches = $this->performMatchAll();
-        if (empty($matches[self::GROUP_WHOLE_MATCH])) {
-            throw SubjectNotMatchedException::forFirst($this->subject);
-        }
-        if ($callback !== null) {
-            return $callback(new Match($this->subject, self::FIRST_MATCH, $matches));
-        }
-        list($value, $offset) = $matches[self::GROUP_WHOLE_MATCH][self::FIRST_MATCH];
-        return $value;
-    }
-
-    /**
-     * @param callable $callback
-     * @return Optional
-     */
-    public function forFirst(callable $callback): Optional
-    {
-        $matches = $this->performMatchAll();
-        if (empty($matches[self::GROUP_WHOLE_MATCH])) {
-            return new NotMatchedOptional($matches, $this->subject);
-        }
-
-        $result = $callback(new Match($this->subject, self::FIRST_MATCH, $matches));
-        return new MatchedOptional($result);
-    }
-
     /**
      * @return Match[]
      */
     private function getMatchObjects(): array
     {
         return $this->constructMatchObjects($this->performMatchAll());
-    }
-
-    private function performMatchAll(): array
-    {
-        $matches = [];
-        preg::match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
-
-        return $matches;
     }
 
     /**
@@ -174,13 +177,10 @@ class MatchPattern implements PatternLimit
         return $matchObjects;
     }
 
-    public function matches(): bool
+    private function performMatchAll(): array
     {
-        return preg::match($this->pattern->pattern, $this->subject) === 1;
-    }
-
-    public function count(): int
-    {
-        return preg::match_all($this->pattern->pattern, $this->subject);
+        $matches = [];
+        preg::match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
+        return $matches;
     }
 }
