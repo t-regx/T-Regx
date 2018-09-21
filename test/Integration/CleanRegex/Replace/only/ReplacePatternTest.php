@@ -101,7 +101,7 @@ class ReplacePatternTest extends TestCase
 
         $callback = function (ReplaceMatch $match) use (&$offsets) {
             $offsets[] = $match->modifiedOffset();
-            return 'a';
+            return 'ą';
         };
 
         // when
@@ -147,5 +147,32 @@ class ReplacePatternTest extends TestCase
             [2, '* * 2 3'],
             [3, '* * * 3'],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFromReplaceMatch_modifiedSubject()
+    {
+        // given
+        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
+        $subject = 'Links: http://google.com and http://other.org. and again http://google.com';
+
+        $subjects = [];
+
+        $callback = function (ReplaceMatch $match) use (&$subjects) {
+            $subjects[] = $match->modifiedSubject();
+            return '+' . $match->group('domain') . '+';
+        };
+
+        // when
+        pattern($pattern)->replace($subject)->only(2)->callback($callback);
+
+        // then
+        $expected = [
+            'Links: http://google.com and http://other.org. and again http://google.com',
+            'Links: +com+ and http://other.org. and again http://google.com'
+        ];
+        $this->assertEquals($expected, $subjects);
     }
 }

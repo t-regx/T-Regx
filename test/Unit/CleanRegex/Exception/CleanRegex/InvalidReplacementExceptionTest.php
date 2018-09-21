@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class InvalidReplacementExceptionTest extends TestCase
 {
-
     /**
      * @test
      * @dataProvider objectsAndMessages

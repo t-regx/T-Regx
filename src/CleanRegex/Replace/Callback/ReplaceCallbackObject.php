@@ -3,9 +3,15 @@ namespace CleanRegex\Replace\Callback;
 
 use CleanRegex\Exception\CleanRegex\InvalidReplacementException;
 use CleanRegex\Match\Details\ReplaceMatch;
+use function call_user_func;
+use function is_string;
+use function strlen;
+use function substr_replace;
 
 class ReplaceCallbackObject
 {
+    private const GROUP_WHOLE_MATCH = 0;
+
     /** @var callable */
     private $callback;
     /** @var string */
@@ -17,6 +23,8 @@ class ReplaceCallbackObject
     private $counter = 0;
     /** @var int */
     private $offsetModification = 0;
+    /** @var string */
+    private $subjectModification;
     /** @var int */
     private $limit;
 
@@ -26,6 +34,7 @@ class ReplaceCallbackObject
         $this->subject = $subject;
         $this->analyzedPattern = $analyzedPattern;
         $this->limit = $limit;
+        $this->subjectModification = $this->subject;
     }
 
     public function getCallback(): callable
@@ -39,8 +48,8 @@ class ReplaceCallbackObject
     {
         $replacement = call_user_func($this->callback, $this->createMatchObject());
         $this->validateReplacement($replacement);
-        $this->modifyOffset($replacement, $match[0]);
-
+        $this->modifySubject($replacement);
+        $this->modifyOffset($match[0], $replacement);
         return $replacement;
     }
 
@@ -51,13 +60,11 @@ class ReplaceCallbackObject
             $this->counter++,
             $this->analyzedPattern,
             $this->offsetModification,
+            $this->subjectModification,
             $this->limit
         );
     }
 
-    /**
-     * @param mixed $replacement
-     */
     private function validateReplacement($replacement): void
     {
         if (!is_string($replacement)) {
@@ -65,8 +72,20 @@ class ReplaceCallbackObject
         }
     }
 
-    private function modifyOffset(string $replacement, string $search): void
+    private function modifyOffset(string $search, string $replacement): void
     {
-        $this->offsetModification += strlen($replacement) - strlen($search);
+        $this->offsetModification += mb_strlen($replacement) - mb_strlen($search);
+    }
+
+    private function modifySubject(string $replacement): void
+    {
+        list($value, $offset) = $this->analyzedPattern[self::GROUP_WHOLE_MATCH][$this->counter - 1];
+
+        $this->subjectModification = substr_replace(
+            $this->subjectModification,
+            $replacement,
+            $offset + $this->offsetModification,
+            strlen($value)
+        );
     }
 }

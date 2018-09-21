@@ -68,8 +68,8 @@ class ReplacePatternTest extends TestCase
     public function shouldGetFromReplaceMatch_offset()
     {
         // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
-        $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
+        $pattern = 'http://(?<name>[a-zę]+)\.(?<domain>com|org)';
+        $subject = 'Links: http://googlę.com and http://other.org. and again http://danon.com';
 
         $offsets = [];
 
@@ -98,7 +98,7 @@ class ReplacePatternTest extends TestCase
 
         $callback = function (ReplaceMatch $match) use (&$offsets) {
             $offsets[] = $match->modifiedOffset();
-            return 'a';
+            return 'e';
         };
 
         // when
@@ -106,5 +106,35 @@ class ReplacePatternTest extends TestCase
 
         // then
         $this->assertEquals([7, 13, 26], $offsets);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFromReplaceMatch_modifiedSubject()
+    {
+        // given
+        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
+        $subject = 'Links: http://google.com and http://other.org. and again http://google.com, and maybe http://other.org';
+
+        $subjects = [];
+
+        $callback = function (ReplaceMatch $match) use (&$subjects) {
+            $subjects[] = $match->modifiedSubject();
+            return '+' . $match->group('domain') . '+';
+        };
+
+        // when
+        $result = pattern($pattern)->replace($subject)->all()->callback($callback);
+
+        // then
+        $expected = [
+            'Links: http://google.com and http://other.org. and again http://google.com, and maybe http://other.org',
+            'Links: +com+ and http://other.org. and again http://google.com, and maybe http://other.org',
+            'Links: +com+ and +org+. and again http://google.com, and maybe http://other.org',
+            'Links: +com+ and +org+. and again +com+, and maybe http://other.org'
+        ];
+        $this->assertEquals($expected, $subjects);
+        $this->assertEquals('Links: +com+ and +org+. and again +com+, and maybe +org+', $result);
     }
 }

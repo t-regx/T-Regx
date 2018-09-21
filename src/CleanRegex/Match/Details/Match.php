@@ -139,8 +139,18 @@ class Match implements Details
 
     public function offset(): int
     {
+        return $this->normalizeByteOffset($this->subject, $this->byteOffset());
+    }
+
+    private function byteOffset(): int
+    {
         list($value, $offset) = $this->matches[self::WHOLE_MATCH][$this->index];
         return $offset;
+    }
+
+    private function normalizeByteOffset(string $subject, int $offset): int
+    {
+        return mb_strlen(substr($subject, 0, $offset));
     }
 
     public function __toString(): string

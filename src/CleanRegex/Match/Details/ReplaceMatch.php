@@ -7,13 +7,16 @@ class ReplaceMatch extends Match
 {
     /** @var int */
     private $offsetModification;
+    /** @var string */
+    private $subjectModification;
     /** @var int */
     private $limit;
 
-    public function __construct(string $subject, int $index, array $matches, int $offsetModification, int $limit)
+    public function __construct(string $subject, int $index, array $matches, int $offsetModification, string $subjectModification, int $limit)
     {
         parent::__construct($subject, $index, $matches);
         $this->offsetModification = $offsetModification;
+        $this->subjectModification = $subjectModification;
         $this->limit = $limit;
     }
 
@@ -33,5 +36,10 @@ class ReplaceMatch extends Match
             return parent::all();
         }
         return array_slice(parent::all(), 0, $this->limit);
+    }
+
+    public function modifiedSubject(): string
+    {
+        return $this->subjectModification;
     }
 }
