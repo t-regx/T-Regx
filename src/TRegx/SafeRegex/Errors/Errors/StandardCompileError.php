@@ -5,7 +5,7 @@ class StandardCompileError extends CompileError
 {
     public function occurred(): bool
     {
-        return $this->getError() !== null;
+        return $this->error !== null;
     }
 
     public function clear(): void

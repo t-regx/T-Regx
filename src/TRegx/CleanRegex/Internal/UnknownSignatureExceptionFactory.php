@@ -66,10 +66,10 @@ class UnknownSignatureExceptionFactory
             function () use ($subject) {
                 return new $this->className(SubjectNotMatchedException::MESSAGE, $subject);
             },
-            function () use ($subject) {
+            function () {
                 return new $this->className(SubjectNotMatchedException::MESSAGE);
             },
-            function () use ($subject) {
+            function () {
                 return new $this->className();
             }
         ];

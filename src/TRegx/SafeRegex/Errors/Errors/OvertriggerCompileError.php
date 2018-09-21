@@ -7,11 +7,11 @@ class OvertriggerCompileError extends CompileError
 
     public function occurred(): bool
     {
-        if ($this->getError() === null) {
+        if ($this->error === null) {
             return false;
         }
 
-        return $this->getError()->getMessage() !== self::OVERTRIGGER_MESSAGE;
+        return $this->error->getMessage() !== self::OVERTRIGGER_MESSAGE;
     }
 
     public function clear(): void

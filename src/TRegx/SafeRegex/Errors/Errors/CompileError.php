@@ -10,17 +10,16 @@ use TRegx\SafeRegex\PhpError;
 abstract class CompileError implements HostError
 {
     /** @var PhpError|null */
-    private $error;
+    protected $error;
 
     public function __construct(?PhpError $error)
     {
         $this->error = $error;
     }
 
-    protected function getError(): ?PhpError
-    {
-        return $this->error;
-    }
+    public abstract function occurred(): bool;
+
+    public abstract function clear(): void;
 
     public function getSafeRegexpException(string $methodName): SafeRegexException
     {
