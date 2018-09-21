@@ -1,5 +1,5 @@
 <?php
-namespace Test\Integration\CleanRegex;
+namespace Test\Integration\CleanRegex\Replace\all;
 
 use CleanRegex\Match\Details\ReplaceMatch;
 use PHPUnit\Framework\TestCase;

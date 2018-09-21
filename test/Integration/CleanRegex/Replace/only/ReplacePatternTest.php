@@ -1,10 +1,11 @@
 <?php
-namespace Test\Integration\CleanRegex\Replace;
+namespace Test\Integration\CleanRegex\Replace\only;
 
 use CleanRegex\Match\Details\ReplaceMatch;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-class ReplacePatternAllTest extends TestCase
+class ReplacePatternTest extends TestCase
 {
     /**
      * @test
@@ -14,32 +15,11 @@ class ReplacePatternAllTest extends TestCase
         // when
         $result = pattern('er|ab|ay|ey')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->all()
+            ->only(2)
             ->with('*');
 
         // then
-        $this->assertEquals('P. Sh*man, 42 Wall*y w*, Sydn*', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReplaceWithStringUsingCallback()
-    {
-        // given
-        $pattern = 'http://(?<name>[a-z]+)\.(com|org)';
-        $subject = 'Links: http://google.com, http://other.org and http://website.org.';
-
-        // when
-        $result = pattern($pattern)
-            ->replace($subject)
-            ->all()
-            ->callback(function () {
-                return 'a';
-            });
-
-        // then
-        $this->assertEquals($result, 'Links: a, a and a.');
+        $this->assertEquals('P. Sh*man, 42 Wall*y way, Sydney', $result);
     }
 
     /**
@@ -54,19 +34,40 @@ class ReplacePatternAllTest extends TestCase
         // when
         $result = pattern($pattern)
             ->replace($subject)
-            ->all()
-            ->callback(function (ReplaceMatch $match) {
-                return $match->group('name');
+            ->only(2)
+            ->callback(function () {
+                return 'a';
             });
 
         // then
-        $this->assertEquals($result, 'Links: google, other and website.');
+        $this->assertEquals($result, 'Links: a, a and http://website.org.');
     }
 
     /**
      * @test
      */
-    public function shouldGetAllFromReplaceMatch()
+    public function shouldReplaceWithCallbackUsingGroup()
+    {
+        // given
+        $pattern = 'http://(?<name>[a-z]+)\.(com|org)';
+        $subject = 'Links: http://google.com, http://other.org and http://website.org.';
+
+        // when
+        $result = pattern($pattern)
+            ->replace($subject)
+            ->only(2)
+            ->callback(function (ReplaceMatch $match) {
+                return $match->group('name');
+            });
+
+        // then
+        $this->assertEquals($result, 'Links: google, other and http://website.org.');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetTrimmedAllFromReplaceMatch()
     {
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
@@ -75,10 +76,10 @@ class ReplacePatternAllTest extends TestCase
         // when
         pattern($pattern)
             ->replace($subject)
-            ->all()
+            ->only(2)
             ->callback(function (ReplaceMatch $match) {
                 // then
-                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->all());
+                $this->assertEquals(['http://google.com', 'http://other.org'], $match->all());
 
                 return '';
             });
@@ -96,7 +97,7 @@ class ReplacePatternAllTest extends TestCase
         // when
         pattern($pattern)
             ->replace($subject)
-            ->all()
+            ->only(2)
             ->callback(function (ReplaceMatch $match) {
                 // then
                 $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->allUnlimited());
@@ -122,10 +123,10 @@ class ReplacePatternAllTest extends TestCase
         };
 
         // when
-        pattern($pattern)->replace($subject)->all()->callback($callback);
+        pattern($pattern)->replace($subject)->only(2)->callback($callback);
 
         // then
-        $this->assertEquals([7, 29, 57], $offsets);
+        $this->assertEquals([7, 29], $offsets);
     }
 
     /**
@@ -145,9 +146,47 @@ class ReplacePatternAllTest extends TestCase
         };
 
         // when
-        pattern($pattern)->replace($subject)->all()->callback($callback);
+        pattern($pattern)->replace($subject)->only(2)->callback($callback);
 
         // then
-        $this->assertEquals([7, 13, 26], $offsets);
+        $this->assertEquals([7, 13], $offsets);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowOnNegativeLimit()
+    {
+        // given
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Negative limit -1");
+
+        // when
+        pattern('')->replace('')->only(-1);
+    }
+
+    /**
+     * @test
+     * @dataProvider limitAndExpectedResults
+     * @param int $limit
+     * @param string $expectedResult
+     */
+    public function shouldReplaceNOccurrences(int $limit, string $expectedResult)
+    {
+        // when
+        $result = pattern('[0-3]')->replace('0 1 2 3')->only($limit)->with('*');
+
+        // then
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    function limitAndExpectedResults()
+    {
+        return [
+            [0, '0 1 2 3'],
+            [1, '* 1 2 3'],
+            [2, '* * 2 3'],
+            [3, '* * * 3'],
+        ];
     }
 }
