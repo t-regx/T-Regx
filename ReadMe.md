@@ -339,7 +339,7 @@ pattern('http://(?<name>[a-z]+)\.(com|org)')
 ## Split a string
 
 ```php
-pattern(',')->split('Foo,Bar,Cat')->split();
+pattern(',')->split('Foo,Bar,Cat')->ex();
 ```
 ```
 array (3) [ 'Foo', 'Bar', 'Cat' ]
@@ -347,10 +347,18 @@ array (3) [ 'Foo', 'Bar', 'Cat' ]
 
 Split a string, but also include a delimiter in the result:
 ```php
-pattern('(\|)')->split('One|Two|Three')->separate();
+pattern('(\|)')->split('One|Two|Three')->inc();
 ```
 ```
 array (3) [ 'One', '|', 'Two', '|', 'Three' ]
+```
+
+Split, but also filter empty values:
+```php
+pattern('.')->split('192..168...18.23')->filter()->ex()
+```
+```
+array (4) [ '192', '168', '18', '23' ]
 ```
 
 ## Filter an array

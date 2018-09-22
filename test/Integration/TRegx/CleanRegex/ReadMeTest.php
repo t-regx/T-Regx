@@ -241,10 +241,10 @@ class ReadMeTest extends TestCase
     /**
      * @test
      */
-    public function split()
+    public function splitEx()
     {
         // when
-        $split = pattern(',')->split('Foo,Bar,Cat')->split();
+        $split = pattern(',')->split('Foo,Bar,Cat')->ex();
 
         // then
         $this->assertEquals(['Foo', 'Bar', 'Cat'], $split);
@@ -253,13 +253,25 @@ class ReadMeTest extends TestCase
     /**
      * @test
      */
-    public function separate()
+    public function splitInc()
     {
         // when
-        $separated = pattern('(\|)')->split('One|Two|Three')->separate();
+        $split = pattern('(\|)')->split('One|Two|Three')->inc();
 
         // then
-        $this->assertEquals(['One', '|', 'Two', '|', 'Three'], $separated);
+        $this->assertEquals(['One', '|', 'Two', '|', 'Three'], $split);
+    }
+
+    /**
+     * @test
+     */
+    public function splitFilteredEx()
+    {
+        // when
+        $split = pattern('\.')->split('192..168...18.23')->filter()->ex();
+
+        // then
+        $this->assertEquals(['192', '168', '18', '23'], $split);
     }
 
     /**

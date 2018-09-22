@@ -22,6 +22,7 @@ Incoming in 1.1
     * `match()->first()` throws on unmatched subject
     * Use `PREG_UNMATCHED_AS_NULL` if PHP version is supported
     * Add `CompositePattern` (#8)
+    * Add `split()->filter()`
 * Tests
     * Split tests into `\Test\Unit` and `\Test\Integration` folders 
     * Add dynamic skip for `ErrorsCleanerTest`

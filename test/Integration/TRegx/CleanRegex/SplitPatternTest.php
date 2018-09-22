@@ -11,7 +11,7 @@ class SplitPatternTest extends TestCase
     public function shouldSplitWithoutDelimiter()
     {
         // when
-        $matches = pattern(',')->split('Foo,Bar,Cat')->split();
+        $matches = pattern(',')->split('Foo,Bar,Cat')->ex();
 
         // then
         $this->assertEquals(['Foo', 'Bar', 'Cat'], $matches);
@@ -23,7 +23,7 @@ class SplitPatternTest extends TestCase
     public function shouldSplitWithDelimiter()
     {
         // when
-        $matches = pattern('(,)')->split('One,Two,Three')->separate();
+        $matches = pattern('(,)')->split('One,Two,Three')->inc();
 
         // then
         $this->assertEquals(['One', ',', 'Two', ',', 'Three'], $matches);
@@ -35,7 +35,7 @@ class SplitPatternTest extends TestCase
     public function shouldReturnUnchangedWithoutDelimiter()
     {
         // when
-        $matches = pattern('9')->split('Foo,Bar,Cat')->split();
+        $matches = pattern('9')->split('Foo,Bar,Cat')->ex();
 
         // then
         $this->assertEquals(['Foo,Bar,Cat'], $matches);
@@ -47,7 +47,7 @@ class SplitPatternTest extends TestCase
     public function shouldReturnUnchangedWithDelimiter()
     {
         // when
-        $matches = pattern('9')->split('One,Two,Three')->separate();
+        $matches = pattern('9')->split('One,Two,Three')->inc();
 
         // then
         $this->assertEquals(['One,Two,Three'], $matches);
