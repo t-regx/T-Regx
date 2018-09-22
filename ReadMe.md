@@ -17,87 +17,98 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 [![PHP Version](https://img.shields.io/badge/PHP-%3E%3D7.1.3-blue.svg)](https://github.com/Danon/T-Regx)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 
-1. [Overview](#t-regx--regular-expressions-library)
+1. [Quick Examples](#quick-examples)
+2. [Overview](#overview)
     * [Why T-Regx stands out?](#why-t-regx-stands-out)
-    * [What happens if you fail?](#what-happens-if-you-fail)
     * [Ways of using T-Regx](#ways-of-using-t-regx)
-    * [What's SafeRegex?](#cleanregex-vs-saferegex)
-2. [Installation](#installation)
-3. [API](#api)  
+    * [Converting warnings to Exceptions](#saferegex)
+3. [Installation](#installation)
+    * [Composer](#installation)
+4. [API](#api)
     * [Matching](#matching)
     * [Retrieving](#get-all-the-matches)
     * [Iterating](#iterating)
     * [Counting](#counting)
     * [Replacing](#replace-strings)
+    * [Match control](#controlling-unmatched-subject)
     * [Splitting](#split-a-string)
     * [Filtering](#filter-an-array)
     * [Validating](#validate-pattern)
     * [Delimitering](#delimiter-a-pattern)
     * [Other](#quoting)
-4. [What's better?](#whats-better)
-5. [Performance](#performance)
+5. [What's better?](#whats-better)
+6. [Performance](#performance)
+
+# Quick Examples
+
+```php
+pattern('\d{3}')->match('My phone is 456-232-123')->all();    // ['456', '232', '123']
+```
+
+```php
+pattern('\d{3}')->match('My phone is 456-232-123')->first();  //  '456'
+```
+
+```php
+$result = pattern('word')
+  ->match($someDataFromUser)
+  ->forFirst('strtoupper')                                   
+  ->orThrow(InvalidArgumentException::class);  // you can pass any \Throwable class name
+
+$result   // 'WORD'
+```
+
+:bulb: Instead of [`orThrow()`](#forFirst-orThrow), you can also use [`orReturn(var)`](#forFirst-orReturn) to pass a default value
+or use [`orElse(callback)`](#controlling-unmatched-subject) to fetch value from a callback.
+
+```php
+pattern('(?<value>\d+)(?<unit>cm|mm)')->match('192mm and 168cm 18mm 12cm')->iterate(function (Match $match) {
+    
+    (string) $match;           // '168cm'
+    $match->match();           // '168cm'
+    $match->group('value');    // '168'
+    $match->group('unit');     // 'cm'
+    $match->index();           //  1
+    $match->offset();          //  10      UTF-8 safe offset
+
+    $match->subject();         // '192mm and 168cm 18mm 12cm'
+    $match->all();             // ['192mm', '168cm', '18mm', '12cm']
+
+    $match->groups();          // ['168', 'cm']
+    $match->namedGroups();     // ['value' => '168', 'unit' => 'cm']
+    $match->groupNames();      // ['value', 'unit']
+    $match->hasGroup('val');   // false
+    $match->hasGroup('value'); // true
+});
+```
+
+:bulb: Scroll to [`Match`](#first-match-with-details). 
+# Overview
 
 ## Why T-Regx stands out?
 
-[Scroll to API](#api) 
+[Scroll to API](#api)
 
-* ### Written with clean API in mind
+* ### Written with clean API
    * Not even touching your error handlers **in any way**.
    * Descriptive interface
-   * One public method per class - wherever possible
-   * SRP methods
-   * No varargs, flags or boolean arguments
-   * No nested arrays
-   * Similar things look similar - Different things look different
+   * `SRP methods`, `UTF-8 support`
+   * `No varargs`, `No flags`,  `No boolean arguments`, `No nested arrays`, `No Reflection used`
 
 * ### Working **with** the developer
-   * UTF-8 support out of the box
-   * Catches all PCRE-related warnings and throws exceptions instead
-   * Additional features that aren't provided by PHP or PCRE
+   * Converts all PCRE notices/error/warnings to exceptions
    * Tracking offset and subjects while replacing strings
-   * Pure pattern [validation](#validate-pattern).
-   * Protects against **any** PCRE error (not just `preg_last_error()`). See [Exception Tree](https://github.com/Danon/T-Regx)
-   * Handles all PCRE warnings, and throws exceptions instead
-
-* ### Cleaning the mess after PCRE
-   * Fixing error with multi-byte offset.
-   * Handling many ways `preg_*()` methods can fail, with graceful exceptions.
+   * Fixing error with multi-byte offset
 
 * ### Automatic delimiters for your pattern
   Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. T-Regx's smart delimiter
   will [conveniently add one of many delimiters](#delimiter-a-pattern) for you, if they're not already present.
 
-* ###  Always an exception
-   * `preg_match()` returns `false` if an error occurred or, if no match is found - `0` (which evaluates to `false`).  You have to do an **explicit check** to handle the error.
-   * T-Regx **always** throws an exception. 
+* ### Converting Warnings to Exceptions
+   * Warning or errors during `preg::` are converted to exceptions.
+   * `preg_match()` returns `false` if an error occurred. `preg::match` never returns `false`, because it throws `SafeRegexException` on error.
 
-* ### No type-mixing
-  Using `PCRE_CAPTURE_OFFSET` changes return types from `string` to an `array`. And there's more...
-
-  You know these. You've been there.
-
-[Scroll to API](#api)  
-
-## What happens if you fail?
-To check whether the pattern fails, you need to change this:
-```php
-if (preg_match( '/((Hello, )?World/', $word )) {
-```
-
-to this:
-
-```php
-if (($result = preg_match('/((Hello, )?World/')) === false) {
-    throw new Exception();
-}
-
-if ($result) {
-```
-*`preg_match()`  can return `1` (match), `0` (no matches) or `false` (pattern error).*
-
-Awful!
-
-[Scroll to API](#api) 
+[Scroll to API](#api)
 
 ## Ways of using T-Regx
 
@@ -117,34 +128,33 @@ preg::match('/\w+/', $subject);
 preg::match_all('/\w+/', $subject);
 preg::replace('/\w+/', $replacement, $subject);
 preg::replace_callback('/\w+/', $callback, $subject);
-// and so on...
+// all preg_ methods
 ```
 
-[Scroll to API](#api)  
+[Scroll to API](#api)
 
-## CleanRegex vs SafeRegex
+## SafeRegex
 
-Only interested in catching warnings and fails, without changing your code?
+Just swap `preg_` to `preg::` and yay! All warnings and errors are converted to exceptions!
 
 ```php
-use TRegx\SafeRegex\preg;
+try {
+    if (preg::match_all('/^https?:\/\/(www)?\./', $url) > 0) {
+    }
 
-$result = preg::match('/a/', $subject'); // idential to preg_match, but never emits a warning or returns false
+    return preg::replace_callback('/(regexp/i', $myCallback, 'I very much like regexps');
+}
+catch (SafeRegexException $e) {
+    $e->getMessage(); // `preg_replace_callback(): Compilation failed: missing ) at offset 7`
+}
+
+if (preg::match('/\s+/', $input) === false) { // Never happens
 ```
 
-SafeRegex is an exact copy of `preg_*()` functions, and:
- * Exactly alike interface
- * Never emit warnings
- * If an error occurred, they throw an exception
- * You don't need to worry about warnings or returning `false` 
- ([or sometimes null](http://php.net/manual/en/function.preg-replace-callback-array.php)) - results that suggest that the 
- method failed.
+The last line never happens, because if match failed (all errors - invalid regex syntax, malformed utf-8 subject, backtrack limit 
+exceeded, any other error) - then `SafeRegexException` is thrown. You can `try-catch` it, which is impossible with warnings.
 
-Regardless, of whether you use `preg_match_all()` or `preg::match_all()`, these methods have **exactly** alike interfaces and parameters,
-and return **exactly** the same data. The only exception is, that SafeRegex methods never emit warnings or return `false` 
-([or sometimes null](http://php.net/manual/en/function.preg-replace-callback-array.php)), but throw an exception on fail.
-
-[Scroll to API](#api)  
+[Scroll to API](#api)
 
 # Installation
 
@@ -161,7 +171,7 @@ Check if subject matches the pattern:
 pattern('[A-Z][a-z]+')->matches('Computer');
 ```
 ```
-(bool) true
+true
 ```
 
 #### Get all the matches:
@@ -169,11 +179,7 @@ pattern('[A-Z][a-z]+')->matches('Computer');
 pattern('[a-zA-Z]+')->match('Robert likes trains')->all()
 ```
 ```
-array (3) {
-  0 => string 'Robert',
-  1 => string 'likes',
-  2 => string 'trains',
-}
+['Robert', 'likes', 'trains']
 ```
 
 #### Get the first match
@@ -182,37 +188,28 @@ array (3) {
 pattern('[a-zA-Z]+')->match('Robert likes trains')->first()
 ```
 ```
-(string) 'Robert'
+'Robert'
 ```
 
 #### Callback for the first match
 
 ```php
 pattern('[a-z]+$')->match('Robert likes trains')->first(function (Match $match) {
-    return [
-         $match . ' at ' . $match->offset()
-    ];
+    return $match . ' at ' . $match->offset();
 });
 ```
 ```
-array (1) {
-   0 => 'trains at 13'
-}
+'trains at 13'
 ```
 
-:bulb: `match()->map()` and `match()->first()` accept arbitrary return types, including `null`. 
+:bulb: `match()->map()` and `match()->first()` accept arbitrary return types, including `null`.
 
 #### Capturing group from all matches
 ```php
 pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __:30')->group('hour')->all()
 ```
 ```
-array (4) {
-   0 => string '14',
-   1 => string '16',
-   2 => string '24',
-   3 => null,
-}
+['14', '16', '24', null]
 ```
 
 #### Capturing group from the first matches
@@ -220,7 +217,7 @@ array (4) {
 pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __:30')->group('hour')->first()
 ```
 ```
-string ('14')
+'14'
 ```
 
 ## Iterating
@@ -236,18 +233,18 @@ pattern('\d+(?<unit>[ckm]?m))')
         $match->match();        // (string) '172km'
         (string) $match;        // (string) '172km'
 
-        // gets the match offset 
+        // gets the match offset
         $match->offset();       // (int) 11
-        
+
         // gets group
         $match->group('unit');  // (string) 'km'
 
         // gets other matches
-        $match->all();          // (array) [ '192cm', '168m', '172km', '14mm' ]
+        $match->all();          // (array) ['192cm', '168m', '172km', '14mm']
     });
 ```
 
-:bulb: `Match` object contains many, many useful information. [Scroll to Matching with details](#first-match-with-details) to learn more about `Match`. 
+:bulb: `Match` object contains many, many useful information. [Scroll to `Match`](#first-match-with-details) to learn more. 
 
 :bulb: You can use `match()->first(function (Match $m) {})` to invoke the callback only for the first match.
 
@@ -264,12 +261,12 @@ pattern('\d+')
     });
 ```
 ```
-array (4) [ 384, null, 344, 28 ]
+[384, null, 344, 28]
 ```
 
-:bulb: `Match` object contains many, many useful information. Learn more about `Match` in [Matching with details](#first-match-with-details)
+:bulb: `Match` object contains many, many useful information. [Scroll to `Match`](#first-match-with-details) to learn more.
 
-:bulb: `match()->map()` and `match()->first()` accept arbitrary return types, including `null`.  
+:bulb: `match()->map()` and `match()->first()` accept arbitrary return types, including `null`.
 
 ## Counting
 
@@ -277,7 +274,7 @@ array (4) [ 384, null, 344, 28 ]
 pattern('[aeiouy]')->count('Computer');
 ```
 ```
-(int) 3
+3
 ```
 
 You can get the same effect by calling
@@ -293,7 +290,7 @@ $text = 'P. Sherman, 42 Wallaby way, Sydney';
 pattern('er|ab|ay|ey')->replace($text)->all()->with('__')
 ```
 ```
-(string) 'P. Sh__man, 42 Wall__y w__, Sydn__'
+'P. Sh__man, 42 Wall__y w__, Sydn__'
 ```
 
 #### Replace first
@@ -301,7 +298,7 @@ pattern('er|ab|ay|ey')->replace($text)->all()->with('__')
 pattern('er|ab|ay|ey')->replace($text)->first()->with('__')
 ```
 ```
-(string) 'P. Sh__man, 42 Wallaby way, Sydney'
+'P. Sh__man, 42 Wallaby way, Sydney'
 ```
 
 :bulb: For more readability, use `replace()->callback()` to render strings with capturing groups.
@@ -312,12 +309,10 @@ pattern('er|ab|ay|ey')->replace($text)->first()->with('__')
 pattern('[A-Z][a-z]+')
     ->replace('Some words are Capitalized, and those will be All Caps')
     ->all()
-    ->callback(function (Match $match) {
-        return strtoupper($match);
-    });
+    ->callback('strtoupper');
 ```
 ```
-(string) 'SOME words are CAPITALIZED, and those will be ALL CAPS'
+'SOME words are CAPITALIZED, and those will be ALL CAPS'
 ```
 
 #### Replace using callbacks with capturing groups
@@ -333,32 +328,81 @@ pattern('http://(?<name>[a-z]+)\.(com|org)')
     });
 ```
 ```
-(string) 'Links: first and http://second.org.'
+'Links: first and http://second.org.'
 ```
+
+## Controlling unmatched subject
+
+When you call `pattern('x')->match('asd')->first()` and subject isn't matched by the pattern, then T-Regx throws `SubjectNotMatchedException` that you can catch.
+
+However, if subject is  **expected** not to be matched by the pattern, you can call `forFirst()->orElse()`.
+
+* <a name="forFirst-orElse">`forFirst()->orElse(callable)`</a>
+  ```php
+  pattern('x')
+      ->match('asd')
+      ->forFirst(function (Match $match) {
+          return '*' . $match . '*';
+      })
+      ->orElse(function (NotMatched $m) {
+          return 'Subject ' . $m->subject() . ' unmatched';
+      });
+  ```
+  ```
+  'Subject asd unmatched'
+  ```
+
+* <a name="forFirst-orReturn">`forFirst()->orReturn()`</a>
+  
+  You can also just return a default value:
+  
+  ```php
+  pattern('x')
+      ->match('asd')
+      ->forFirst(function (Match $match) {
+          return '*' . $match . '*';
+      })
+      ->orReturn('Unmatched :/');
+  ```
+  ```
+  'Unmatched :/'
+  ```
+
+* <a name="forFirst-orThrow">`forFirst()->orThrow()`</a>
+
+  You can even supply your own exception! It only has to implement `\Throwable`.
+  ```php
+  $result = pattern('(x|asd)')
+      ->match('asd')
+      ->forFirst(function (Match $match) {
+          return 'Matched "' . $match . '"';
+      })
+      ->orThrow(MySuperException::class);
+  
+  $result; // 'Matched "asd"'
+  ```
+  It must also have one of the following constructors
+  * `__construct()`
+  * `__construct($message)`, where `$message` can be `string`
+  * `__construct($message, $subject)`, where `$message` and `subject` can be `string`
 
 ## Split a string
 
 ```php
-pattern(',')->split('Foo,Bar,Cat')->ex();
-```
-```
-array (3) [ 'Foo', 'Bar', 'Cat' ]
-```
+pattern(',')->split('Foo,Bar,Cat')->ex();                // excluding the delimiter
 
-Split a string, but also include a delimiter in the result:
-```php
-pattern('(\|)')->split('One|Two|Three')->inc();
-```
-```
-array (3) [ 'One', '|', 'Two', '|', 'Three' ]
-```
+pattern('(\|)')->split('One|Two|Three')->inc();          // including the delimiter
 
-Split, but also filter empty values:
-```php
-pattern('.')->split('192..168...18.23')->filter()->ex()
+pattern('.')->split('192..168...18.23')->filter()->ex()  // filtering out empty values
 ```
 ```
-array (4) [ '192', '168', '18', '23' ]
+['Foo', 'Bar', 'Cat']
+```
+```
+['One', '|', 'Two', '|', 'Three']
+```
+```
+['192', '168', '18', '23']
 ```
 
 ## Filter an array
@@ -370,10 +414,10 @@ pattern('[A-Z][a-z]+$')->filter([
      'asdczx',
      'Jane',
      'Stan123'
- ])
+])
 ```
 ```
-array (3) [ 'Mark', 'Robert', 'Jane' ]
+['Mark', 'Robert', 'Jane']
 ```
 
 ## Validate pattern
@@ -385,15 +429,15 @@ pattern('/[a-z]/')->is()->valid();  // No exceptions, no warnings (no side-effec
 
 | Pattern | regex | Result |
 | ------- | ----- | ------ |
-| `pattern('/[a-z]/im')->is()->valid()`   | `/[a-z]/im`   | `(bool) true`  |
-| `pattern('[a-z]+')->is()->valid()`      | `[a-z]+`      | `(bool) false` |
-| `pattern('//[a-z]')->is()->valid()`     | `//[a-z]`     | `(bool) false` |
-| `pattern('/(unclosed/')->is()->valid()` | `/(unclosed/` | `(bool) false` |
+| `pattern('/[a-z]/im')->is()->valid()`   | `/[a-z]/im`   | `true`  |
+| `pattern('[a-z]+')->is()->valid()`      | `[a-z]+`      | `false` |
+| `pattern('//[a-z]')->is()->valid()`     | `//[a-z]`     | `false` |
+| `pattern('/(unclosed/')->is()->valid()` | `/(unclosed/` | `false` |
 
 :bulb: Remember that `pattern()->is()->valid()` works with you, so delimiters (`/.*/` or `#.*#`) will not be added automatically 
-this time, and won't mess with your input :) You can be sure whether the input pattern is valid or not.
+this time, and won't mess with your input :) If you'd like them to be added though, use `is()->usable()`.
 
-## Delimiter a pattern 
+## Delimiter a pattern
 
 Want only to use our awesome delimiterer?
 
@@ -439,7 +483,7 @@ pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
      $match->groups();            // Gets all group values (['R', 'obert'])
 
      $match->namedGroups();       // Gets all named groups with values (['capital' => 'R', 'lowercase' => 'obert'])
-     
+
      $match->groupNames();        // Gets the names of the capturing groups (['capital', 'lowercase'])
 
      $match->hasGroup('capital'); // Checks whether the group was used in the pattern (true)

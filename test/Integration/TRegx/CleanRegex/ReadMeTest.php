@@ -1,12 +1,83 @@
 <?php
 namespace Test\Integration\TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Match\Details\Match;
-use TRegx\CleanRegex\Pattern;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ClassWithDefaultConstructor;
+use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\NotMatched;
+use TRegx\CleanRegex\Pattern;
+use TRegx\SafeRegex\Exception\SafeRegexException;
+use TRegx\SafeRegex\preg;
 
 class ReadMeTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function examples()
+    {
+        // given
+        $someDataFromUser = 'word';
+
+        // when
+        $all = pattern('\d{3}')->match('My phone is 456-232-123')->all();
+        $first = pattern('\d{3}')->match('My phone is 456-232-123')->first();
+
+        $forFirst = pattern('word')
+            ->match($someDataFromUser)
+            ->forFirst('strtoupper')//
+            ->orThrow(InvalidArgumentException::class);
+
+        pattern('(?<value>\d+)(?<unit>cm|mm)')->match('192mm and 168cm 18mm 12cm')->iterate(function (Match $match) {
+            if ($match != '168cm') return;
+
+            $this->assertEquals('168cm', (string)$match);
+            $this->assertEquals('168cm', $match->match());
+            $this->assertEquals('168', $match->group('value'));
+            $this->assertEquals('cm', $match->group('unit'));
+            $this->assertEquals(1, $match->index());
+            $this->assertEquals(10, $match->offset());
+
+            $this->assertEquals('192mm and 168cm 18mm 12cm', $match->subject());
+            $this->assertEquals(['192mm', '168cm', '18mm', '12cm'], $match->all());
+
+            $this->assertEquals(['168', 'cm'], $match->groups());
+            $this->assertEquals(['value' => '168', 'unit' => 'cm'], $match->namedGroups());
+            $this->assertEquals(['value', 'unit'], $match->groupNames());
+            $this->assertFalse($match->hasGroup('val'));
+            $this->assertTrue($match->hasGroup('value'));
+        });
+
+        // then
+        $this->assertEquals(['456', '232', '123'], $all);
+        $this->assertEquals('456', $first);
+        $this->assertEquals('WORD', $forFirst);
+    }
+
+    /**
+     * @test
+     */
+    public function safeRegex()
+    {
+        // given
+        $url = '';
+        $input = '';
+        $myCallback = 'strtoupper';
+
+        // when
+        try {
+            if (preg::match_all('/^https?:\/\/(www)?\./', $url) > 0) {
+            }
+
+            preg::replace_callback('/(regexp/i', $myCallback, 'I very much like regexps');
+        } catch (SafeRegexException $e) {
+            $this->assertStringStartsWith('preg_replace_callback(): Compilation failed: missing ) at offset 7', $e->getMessage());
+        }
+        if (preg::match('/\s+/', $input) === false) { // Never happens
+        }
+    }
+
     /**
      * @test
      */
@@ -16,9 +87,7 @@ class ReadMeTest extends TestCase
         $result = pattern('[A-Z][a-z]+')
             ->replace('Some words are Capitalized, and those will be All Caps')
             ->all()
-            ->callback(function (Match $match) {
-                return strtoupper($match);
-            });
+            ->callback('strtoupper');
 
         // then
         $this->assertEquals('SOME words are CAPITALIZED, and those will be ALL CAPS', $result);
@@ -236,6 +305,41 @@ class ReadMeTest extends TestCase
 
         // then
         $this->assertEquals($result, 'Links: google and other.');
+    }
+
+    /**
+     * @test
+     */
+    public function controllingUnmatched()
+    {
+        // when
+        $orElse = pattern('x')
+            ->match('asd')
+            ->forFirst(function (Match $match) {
+                return '*' . $match . '*';
+            })
+            ->orElse(function (NotMatched $m) {
+                return 'Subject ' . $m->subject() . ' unmatched';
+            });
+
+        $orReturn = pattern('x')
+            ->match('asd')
+            ->forFirst(function (Match $match) {
+                return '*' . $match . '*';
+            })
+            ->orReturn('Unmatched :/');
+
+        $orThrow = pattern('(x|asd)')
+            ->match('asd')
+            ->forFirst(function (Match $match) {
+                return 'Matched "' . $match . '"';
+            })
+            ->orThrow(ClassWithDefaultConstructor::class);
+
+        // then
+        $this->assertEquals('Subject asd unmatched', $orElse);
+        $this->assertEquals('Unmatched :/', $orReturn);
+        $this->assertEquals('Matched "asd"', $orThrow);
     }
 
     /**
