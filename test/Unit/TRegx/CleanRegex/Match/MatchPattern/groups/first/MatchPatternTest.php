@@ -14,7 +14,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroups()
+    public function shouldGet_groups()
     {
         // given
         $pattern = new MatchPattern(new Pattern('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'Nice Matching Pattern');
