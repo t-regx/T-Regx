@@ -1,7 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\groups\first;
 
+use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 use InvalidArgumentException;
@@ -46,31 +48,33 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnNull_onNotMatchedSubject()
+    public function shouldThrow_onNotMatchedSubject()
     {
         // given
         $pattern = new MatchPattern(new Pattern('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'NOT MATCHING');
 
-        // when
-        $first = $pattern->group('two')->first();
-
         // then
-        $this->assertNull($first);
+        $this->expectException(SubjectNotMatchedException::class);
+        $this->expectExceptionMessage(SubjectNotMatchedException::MESSAGE);
+
+        // when
+        $pattern->group('two')->first();
     }
 
     /**
      * @test
      */
-    public function shouldReturnNull_onNotMatchedGroup()
+    public function shouldThrow_onNotMatchedGroup()
     {
         // given
         $pattern = new MatchPattern(new Pattern('(?<unmatched>not this time)? (?<existing>[a-z]+)'), 'matching');
 
-        // when
-        $first = $pattern->group('unmatched')->first();
-
         // then
-        $this->assertNull($first);
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage(GroupNotMatchedException::MESSAGE);
+
+        // when
+        $pattern->group('unmatched')->first();
     }
 
     /**
