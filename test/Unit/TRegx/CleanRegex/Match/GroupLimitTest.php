@@ -61,8 +61,17 @@ class GroupLimitTest extends TestCase
     public function shouldReturnValues()
     {
         // given
-        $all = new ClosureMock(function () {
-            return ['first', 'second', 'third'];
+        $all = new ClosureMock(function (int $limit, bool $allowNegative) {
+            if ($limit === -1) {
+                $this->assertTrue($allowNegative);
+                return ['first', 'second', 'third'];
+            }
+            if ($limit === 2) {
+                $this->assertFalse($allowNegative);
+                return ['first', 'second'];
+            }
+            $this->assertFalse(true);
+            return null;
         });
         $first = new ClosureMock(function () {
             return 'first';

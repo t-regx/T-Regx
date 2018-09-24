@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Internal\PatternLimit;
-use InvalidArgumentException;
 use function call_user_func;
 
 class GroupLimit implements PatternLimit
@@ -18,17 +17,17 @@ class GroupLimit implements PatternLimit
         $this->firstFactory = $firstFactory;
     }
 
+    public function first(): string
+    {
+        return call_user_func($this->firstFactory);
+    }
+
     /**
      * @return (string|null)[]
      */
     public function all(): array
     {
-        return call_user_func($this->allFactory);
-    }
-
-    public function first(): string
-    {
-        return call_user_func($this->firstFactory);
+        return call_user_func($this->allFactory, -1, true);
     }
 
     /**
@@ -37,10 +36,6 @@ class GroupLimit implements PatternLimit
      */
     public function only(int $limit): array
     {
-        if ($limit < 0) {
-            throw new InvalidArgumentException("Negative limit $limit");
-        }
-        $matches = call_user_func($this->allFactory);
-        return array_slice($matches, 0, $limit);
+        return call_user_func($this->allFactory, $limit, false);
     }
 }

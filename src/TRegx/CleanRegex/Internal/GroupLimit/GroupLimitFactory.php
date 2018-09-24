@@ -20,8 +20,8 @@ class GroupLimitFactory
     public function create(): GroupLimit
     {
         return new GroupLimit(
-            function () {
-                return $this->limitAll->getAllForGroup();
+            function (int $limit, bool $allowNegative) {
+                return $this->limitAll->getAllForGroup($limit, $allowNegative);
             },
             function () {
                 return $this->limitFirst->getFirstForGroup();
