@@ -9,7 +9,7 @@ class GroupNotMatchedException extends CleanRegexException
     private $subject; // Debugger
 
     /** @var string|int */
-    private $group;
+    private $group;   // Debugger
 
     public function __construct(string $message, string $subject, $group)
     {

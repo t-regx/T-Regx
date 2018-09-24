@@ -34,13 +34,13 @@ class GroupLimitFirst
     {
         $matches = [];
         $count = preg::match($this->pattern->pattern, $this->subject, $matches, $this->pregMatchFlags());
-        if ($count === 0) {
-            if ($this->groupExists()) {
-                throw SubjectNotMatchedException::forFirst($this->subject);
-            }
+        if ($count > 0) {
+            return $this->getGroupOrThrow($matches);
+        }
+        if (!$this->groupExists()) {
             throw GroupNotMatchedException::forFirst($this->subject, $this->nameOrIndex);
         }
-        return $this->getGroupOrThrow($matches);
+        throw SubjectNotMatchedException::forFirst($this->subject);
     }
 
     private function pregMatchFlags(): int

@@ -32,7 +32,6 @@ class GroupLimitAll
         if (!$allowNegative && $limit < 0) {
             throw new InvalidArgumentException("Negative limit $limit");
         }
-
         if ($limit === -1) {
             return $matches[$this->nameOrIndex];
         }
