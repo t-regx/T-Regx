@@ -31,23 +31,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnUnmatchedGroups()
-    {
-        // given
-        $pattern = new MatchPattern(new Pattern('(?<hour>\d\d)?:(?<minute>\d\d)?'), 'First->11:__   Second->__:12   Third->13:32');
-
-        // when
-        $hours = $pattern->group('hour')->first();
-        $minutes = $pattern->group('minute')->first();
-
-        // then
-        $this->assertEquals('11', $hours);
-        $this->assertEquals(null, $minutes);
-    }
-
-    /**
-     * @test
-     */
     public function shouldThrow_onNotMatchedSubject()
     {
         // given
@@ -67,7 +50,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onNotMatchedGroup()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('(?<unmatched>not this time)? (?<existing>[a-z]+)'), 'matching');
+        $pattern = new MatchPattern(new Pattern('(?<unmatched>not this time)? (?<existing>[a-z]+)'), ' matching');
 
         // then
         $this->expectException(GroupNotMatchedException::class);

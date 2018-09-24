@@ -89,7 +89,7 @@ class GroupLimitTest extends TestCase
             return [];
         });
         $first = new ClosureMock(function () {
-            return null;
+            return '';
         });
         return [new GroupLimit($all, $first), $all, $first];
     }
