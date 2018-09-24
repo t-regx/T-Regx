@@ -39,6 +39,6 @@ class MatchPatternTest extends TestCase
 
     private function getMatchPattern(string $subject): MatchPattern
     {
-        return new MatchPattern(new Pattern("([A-Z])?[a-z']+"), $subject);
+        return new MatchPattern(new Pattern('([A-Z])?[a-z]+'), $subject);
     }
 }
