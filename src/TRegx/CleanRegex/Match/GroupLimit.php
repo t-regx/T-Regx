@@ -26,7 +26,7 @@ class GroupLimit implements PatternLimit
         return call_user_func($this->allFactory);
     }
 
-    public function first(): ?string
+    public function first(): string
     {
         return call_user_func($this->firstFactory);
     }
