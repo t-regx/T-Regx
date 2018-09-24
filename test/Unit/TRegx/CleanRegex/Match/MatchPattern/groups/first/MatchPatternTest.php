@@ -54,7 +54,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage(GroupNotMatchedException::MESSAGE);
+        $this->expectExceptionMessage(GroupNotMatchedException::FOR_FIRST_MESSAGE);
 
         // when
         $pattern->group('unmatched')->first();

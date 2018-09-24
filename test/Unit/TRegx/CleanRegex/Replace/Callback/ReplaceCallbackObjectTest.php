@@ -89,7 +89,7 @@ class ReplaceCallbackObjectTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowExceptionOnNonStringReplacement()
+    public function shouldThrow_OnNonStringReplacement()
     {
         // given
         $object = $this->create('//', 'foo bar', 1, function (ReplaceMatch $match) {
@@ -102,6 +102,24 @@ class ReplaceCallbackObjectTest extends TestCase
         // when
         $callback = $object->getCallback();
         $callback(['foo']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotThrow_OnMatchGroupReplacement()
+    {
+        // given
+        $object = $this->create('/(?<g>\d)cm/', 'foo 2cm bar', 1, function (ReplaceMatch $match) {
+            return $match->group('g');
+        });
+
+        // when
+        $callback = $object->getCallback();
+        $result = $callback(['2cm']);
+
+        // then
+        $this->assertEquals('2', $result);
     }
 
     private function create(string $pattern, string $subject, int $limit, callable $callback): ReplaceCallbackObject

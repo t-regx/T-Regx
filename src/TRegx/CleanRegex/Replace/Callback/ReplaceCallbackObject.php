@@ -1,9 +1,9 @@
 <?php
-
 namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\ByteOffset;
+use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use function call_user_func;
 use function is_string;
@@ -48,8 +48,8 @@ class ReplaceCallbackObject
 
     private function invoke(array $match): string
     {
-        $replacement = call_user_func($this->callback, $this->createMatchObject());
-        $this->validateReplacement($replacement);
+        $result = call_user_func($this->callback, $this->createMatchObject());
+        $replacement = $this->getReplacement($result);
         $this->modifySubject($replacement);
         $this->modifyOffset($match[0], $replacement);
         return $replacement;
@@ -67,11 +67,21 @@ class ReplaceCallbackObject
         );
     }
 
-    private function validateReplacement($replacement): void
+    private function getReplacement($result): string
     {
-        if (!is_string($replacement)) {
-            throw new InvalidReplacementException($replacement);
+        $replacement = $this->stringifyMatchGroup($result);
+        if (is_string($replacement)) {
+            return $replacement;
         }
+        throw new InvalidReplacementException($result);
+    }
+
+    private function stringifyMatchGroup($replacement)
+    {
+        if ($replacement instanceof MatchGroup) {
+            return $replacement->text();
+        }
+        return $replacement;
     }
 
     private function modifyOffset(string $search, string $replacement): void

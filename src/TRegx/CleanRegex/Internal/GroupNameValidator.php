@@ -39,6 +39,6 @@ class GroupNameValidator
 
     private function isGroupNameValid(): bool
     {
-        return preg::match('/^[a-zA-Z]\w+$/', $this->groupNameOrIndex) === 1;
+        return preg::match('/^[a-zA-Z]\w*$/', $this->groupNameOrIndex) === 1;
     }
 }

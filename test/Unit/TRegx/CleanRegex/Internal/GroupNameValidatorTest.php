@@ -25,6 +25,21 @@ class GroupNameValidatorTest extends TestCase
     /**
      * @test
      */
+    public function shouldValidate_oneLetterGroup()
+    {
+        // given
+        $validator = new GroupNameValidator('g');
+
+        // when
+        $validator->validate();
+
+        // then
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     */
     public function shouldValidate_int()
     {
         // given

@@ -42,4 +42,26 @@ class ReplacePatternTest extends TestCase
                 return '';
             });
     }
+
+    /**
+     * @test
+     */
+    public function shouldReplace_withGroup()
+    {
+        // given
+        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
+        $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
+
+        // when
+        $result = pattern($pattern)
+            ->replace($subject)
+            ->first()
+            ->callback(function (ReplaceMatch $match) {
+                // then
+                return $match->group('name');
+            });
+
+        // then
+        $this->assertEquals('Links: google and http://other.org. and again http://danon.com', $result);
+    }
 }
