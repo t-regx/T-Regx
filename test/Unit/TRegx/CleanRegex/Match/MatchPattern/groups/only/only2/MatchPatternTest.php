@@ -1,17 +1,18 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\groups\only;
+namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\groups\only\only2;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\MatchPattern;
-use PHPUnit\Framework\TestCase;
 
 class MatchPatternTest extends TestCase
 {
     /**
      * @test
      */
-    public function shouldGetGroups()
+    public function shouldGet_groups()
     {
         // given
         $pattern = new MatchPattern(new Pattern('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'Nice Matching Pattern');
@@ -28,7 +29,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnUnmatchedGroups()
+    public function shouldGet_unmatchedGroups()
     {
         // given
         $pattern = new MatchPattern(new Pattern('(?<hour>\d\d)?:(?<minute>\d\d)?'), 'First->11:__   Second->__:12   Third->13:32');
@@ -71,5 +72,37 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern->group('missing')->only(2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onNonExistentGroup_onNotMatchedSubject()
+    {
+        // given
+        $pattern = new MatchPattern(new Pattern('(?<existing>[a-z]+)'), 'NOT MATCHING');
+
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+
+        // when
+        $pattern->group('missing')->only(2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onInvalidGroupName()
+    {
+        // given
+        $pattern = new MatchPattern(new Pattern('(?<existing>[a-z]+)'), 'matching');
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string sequence starting with a letter, or an integer");
+
+        // when
+        $pattern->group('2invalid')->only(2);
     }
 }

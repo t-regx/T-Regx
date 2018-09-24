@@ -19,10 +19,11 @@ Incoming in 1.1
     * Add `match()->group()->all()`, `match()->group()->first()` and `match()->group()->only()`
     * Add `match()->forFirst()` with methods `orReturn()`, `orElse()` and `orThrow()`
     * `orThrow()` can instantiate exceptions by class name (with one of predefined constructor signatures)
-    * `match()->first()` throws on unmatched subject
+    * `match()->first()` throws on unmatched subject and on unmatched group
     * Use `PREG_UNMATCHED_AS_NULL` if PHP version is supported
     * Add `CompositePattern` (#8)
     * Add `split()->filter()`
+    * Match with limit 1 calls `preg_match` (instead of `preg_match_all`)
 * Tests
     * Split tests into `\Test\Unit` and `\Test\Integration` folders 
     * Add dynamic skip for `ErrorsCleanerTest`

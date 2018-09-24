@@ -199,13 +199,28 @@ class MatchPatternTest extends TestCase
     public function shouldGetGroups()
     {
         // given
-        $subject = 'Computer Leopard Three Four';
+        $subject = 'Computer L Three Four';
 
         // when
-        $groups = pattern('[A-Z](?<lowercase>[a-z]+)')->match($subject)->group('lowercase')->all();
+        $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->all();
 
         // then
-        $this->assertEquals(['omputer', 'eopard', 'hree', 'our'], $groups);
+        $this->assertEquals(['omputer', null, 'hree', 'our'], $groups);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroup_onlyOne()
+    {
+        // given
+        $subject = 'D Computer';
+
+        // when
+        $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->only(1);
+
+        // then
+        $this->assertEquals([null], $groups);
     }
 
     /**

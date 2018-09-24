@@ -18,15 +18,14 @@ class GroupVerifierTest extends TestCase
     {
         // given
         $strategies = [
-            'match'   => new MatchAllGroupVerifier(),
-            'analyze' => new PatternAnalyzeGroupVerifier(new DelimiterParser())
+            'match' => new MatchAllGroupVerifier()
         ];
 
         // when
         $results = $this->getStrategiesResults($strategies, $pattern);
 
         // then
-        $this->assertEquals(['match' => $expected, 'analyze' => $expected], $results);
+        $this->assertEquals(['match' => $expected], $results);
     }
 
     private function getStrategiesResults(array $verifiers, string $pattern): array

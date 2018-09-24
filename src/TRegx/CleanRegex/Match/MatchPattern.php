@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\GroupLimitFactory;
+use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFactory;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\PatternLimit;
@@ -110,7 +110,7 @@ class MatchPattern implements PatternLimit
     public function group($nameOrIndex): GroupLimit
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return (new GroupLimitFactory($this->pattern, $this->subject, $this->groupVerifier, $nameOrIndex))->create();
+        return (new GroupLimitFactory($this->pattern, $this->subject, $nameOrIndex))->create();
     }
 
     public function count(): int

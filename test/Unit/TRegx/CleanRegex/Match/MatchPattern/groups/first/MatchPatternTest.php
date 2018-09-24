@@ -1,18 +1,20 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\groups\first;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
-use TRegx\CleanRegex\Match\MatchPattern;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
 {
     /**
      * @test
      */
-    public function shouldGetGroups()
+    public function shouldGet_groups()
     {
         // given
         $pattern = new MatchPattern(new Pattern('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'Nice Matching Pattern');
@@ -29,48 +31,33 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnUnmatchedGroups()
-    {
-        // given
-        $pattern = new MatchPattern(new Pattern('(?<hour>\d\d)?:(?<minute>\d\d)?'), 'First->11:__   Second->__:12   Third->13:32');
-
-        // when
-        $hours = $pattern->group('hour')->first();
-        $minutes = $pattern->group('minute')->first();
-
-        // then
-        $this->assertEquals('11', $hours);
-        $this->assertEquals(null, $minutes);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturnNull_onNotMatchedSubject()
+    public function shouldThrow_onNotMatchedSubject()
     {
         // given
         $pattern = new MatchPattern(new Pattern('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'NOT MATCHING');
 
-        // when
-        $first = $pattern->group('two')->first();
-
         // then
-        $this->assertNull($first);
+        $this->expectException(SubjectNotMatchedException::class);
+        $this->expectExceptionMessage(SubjectNotMatchedException::MESSAGE);
+
+        // when
+        $pattern->group('two')->first();
     }
 
     /**
      * @test
      */
-    public function shouldReturnNull_onNotMatchedGroup()
+    public function shouldThrow_onNotMatchedGroup()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('(?<unmatched>not this time)? (?<existing>[a-z]+)'), 'matching');
-
-        // when
-        $first = $pattern->group('unmatched')->first();
+        $pattern = new MatchPattern(new Pattern('(?<unmatched>not this time)? (?<existing>[a-z]+)'), ' matching');
 
         // then
-        $this->assertNull($first);
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage(GroupNotMatchedException::MESSAGE);
+
+        // when
+        $pattern->group('unmatched')->first();
     }
 
     /**
@@ -84,6 +71,21 @@ class MatchPatternTest extends TestCase
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'missing'");
+
+        // when
+        $pattern->group('missing')->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onNonExistentGroup_onNotMatchedSubject()
+    {
+        // given
+        $pattern = new MatchPattern(new Pattern('(?<existing>[a-z]+)'), 'NOT MATCHING');
+
+        // then
+        $this->expectException(GroupNotMatchedException::class);
 
         // when
         $pattern->group('missing')->first();

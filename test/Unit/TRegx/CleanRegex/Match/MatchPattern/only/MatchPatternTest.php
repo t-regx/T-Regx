@@ -17,10 +17,10 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(new Pattern('([A-Z])?[a-z]+'), 'Nice matching pattern');
 
         // when
-        $first = $pattern->only(2);
+        $only = $pattern->only(2);
 
         // then
-        $this->assertEquals(['Nice', 'matching'], $first);
+        $this->assertEquals(['Nice', 'matching'], $only);
     }
 
     /**
@@ -32,10 +32,10 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(new Pattern('([A-Z])?[a-z]+'), 'NOT MATCHING');
 
         // when
-        $all = $pattern->only(2);
+        $only = $pattern->only(2);
 
         // then
-        $this->assertEquals([], $all, 'Failed asserting that all() returned an empty array');
+        $this->assertEquals([], $only, 'Failed asserting that only() returned an empty array');
     }
 
     /**
@@ -52,5 +52,35 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern->only(-2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetOne_withPregMatch()
+    {
+        // given
+        $pattern = new MatchPattern(new Pattern('(?<group>[A-Z])?(?<group2>[a-z]+)'), 'Nice matching pattern');
+
+        // when
+        $only = $pattern->only(1);
+
+        // then
+        $this->assertEquals(['Nice'], $only);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNone()
+    {
+        // given
+        $pattern = new MatchPattern(new Pattern('(?<group>[A-Z])?(?<group2>[a-z]+)'), 'Nice matching pattern');
+
+        // when
+        $only = $pattern->only(0);
+
+        // then
+        $this->assertEquals([], $only);
     }
 }
