@@ -1,11 +1,11 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\groups\only\only1;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\MatchPattern;
-use PHPUnit\Framework\TestCase;
 
 class MatchPatternTest extends TestCase
 {
@@ -72,5 +72,37 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern->group('missing')->only(1);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onNonExistentGroup_onNotMatchedSubject()
+    {
+        // given
+        $pattern = new MatchPattern(new Pattern('(?<existing>[a-z]+)'), 'NOT MATCHING');
+
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+
+        // when
+        $pattern->group('missing')->only(1);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onInvalidGroupName()
+    {
+        // given
+        $pattern = new MatchPattern(new Pattern('(?<existing>[a-z]+)'), 'matching');
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string sequence starting with a letter, or an integer");
+
+        // when
+        $pattern->group('2invalid')->only(1);
     }
 }

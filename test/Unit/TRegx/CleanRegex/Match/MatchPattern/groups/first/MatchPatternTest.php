@@ -1,13 +1,13 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\groups\first;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\MatchPattern;
-use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 
 class MatchPatternTest extends TestCase
 {
@@ -71,6 +71,21 @@ class MatchPatternTest extends TestCase
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'missing'");
+
+        // when
+        $pattern->group('missing')->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onNonExistentGroup_onNotMatchedSubject()
+    {
+        // given
+        $pattern = new MatchPattern(new Pattern('(?<existing>[a-z]+)'), 'NOT MATCHING');
+
+        // then
+        $this->expectException(GroupNotMatchedException::class);
 
         // when
         $pattern->group('missing')->first();

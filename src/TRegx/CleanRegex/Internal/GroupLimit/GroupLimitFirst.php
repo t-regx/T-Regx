@@ -6,6 +6,8 @@ use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
+use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
 
@@ -17,12 +19,15 @@ class GroupLimitFirst
     private $subject;
     /** @var string|int */
     private $nameOrIndex;
+    /** @var GroupVerifier */
+    private $groupVerifier;
 
     public function __construct(Pattern $pattern, string $subject, $nameOrIndex)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
         $this->nameOrIndex = $nameOrIndex;
+        $this->groupVerifier = new MatchAllGroupVerifier();
     }
 
     public function getFirstForGroup(): string
@@ -30,7 +35,10 @@ class GroupLimitFirst
         $matches = [];
         $count = preg::match($this->pattern->pattern, $this->subject, $matches, $this->pregMatchFlags());
         if ($count === 0) {
-            throw SubjectNotMatchedException::forFirst($this->subject);
+            if ($this->groupExists()) {
+                throw SubjectNotMatchedException::forFirst($this->subject);
+            }
+            throw GroupNotMatchedException::forFirst($this->subject, $this->nameOrIndex);
         }
         return $this->getGroupOrThrow($matches);
     }
@@ -41,6 +49,11 @@ class GroupLimitFirst
             return PREG_UNMATCHED_AS_NULL;
         }
         return PREG_OFFSET_CAPTURE;
+    }
+
+    private function groupExists(): bool
+    {
+        return $this->groupVerifier->groupExists($this->pattern->pattern, $this->nameOrIndex);
     }
 
     private function getGroupOrThrow(array $matches): string
