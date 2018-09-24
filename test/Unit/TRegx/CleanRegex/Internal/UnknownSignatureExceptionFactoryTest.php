@@ -10,6 +10,7 @@ use Test\Utils\ClassWithDefaultConstructor;
 use Test\Utils\ClassWithoutSuitableConstructor;
 use Test\Utils\ClassWithStringParamConstructor;
 use Test\Utils\ClassWithTwoStringParamsConstructor;
+use Throwable;
 use TRegx\CleanRegex\Exception\CleanRegex\ClassExpectedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NoSuitableConstructorException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
@@ -29,6 +30,22 @@ class UnknownSignatureExceptionFactoryTest extends TestCase
         // then
         $this->expectException(ClassExpectedException::Class);
         $this->expectExceptionMessage("Class 'Namespace\NoSuchClass' does not exists");
+
+        // when
+        $factory->create('');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onInterface()
+    {
+        // given
+        $factory = new UnknownSignatureExceptionFactory(Throwable::class);
+
+        // then
+        $this->expectException(ClassExpectedException::Class);
+        $this->expectExceptionMessage("'Throwable' is not a class, but an interface");
 
         // when
         $factory->create('');

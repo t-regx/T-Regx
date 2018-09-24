@@ -21,12 +21,20 @@ class UnknownSignatureExceptionFactory
 
     public function create(string $subject): Throwable
     {
+        $this->validateNotInterface();
         $this->validateClassExists();
         $exception = $this->tryCreate($subject);
         if ($exception instanceof Throwable) {
             return $exception;
         }
         throw ClassExpectedException::notThrowable($this->className);
+    }
+
+    private function validateNotInterface(): void
+    {
+        if (interface_exists($this->className)) {
+            throw ClassExpectedException::isInterface($this->className);
+        }
     }
 
     private function validateClassExists(): void
@@ -80,7 +88,7 @@ class UnknownSignatureExceptionFactory
         return $this->startsWith($error->getMessage(), "Wrong parameters for $this->className");
     }
 
-    private function startsWith(string $haystack, string $needle)
+    private function startsWith(string $haystack, string $needle): bool
     {
         return substr($haystack, 0, strlen($needle)) === $needle;
     }
