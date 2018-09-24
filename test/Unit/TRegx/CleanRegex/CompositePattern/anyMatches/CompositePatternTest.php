@@ -25,11 +25,14 @@ class CompositePatternTest extends TestCase
         $this->assertTrue($match);
     }
 
+    /**
+     * @test
+     */
     public function shouldNotMatch()
     {
         // given
         $pattern = CompositePattern::of([
-            '/https?/i',
+            '/https?$/i',
             'fail',
             '/failed/'
         ]);
@@ -38,6 +41,6 @@ class CompositePatternTest extends TestCase
         $match = $pattern->anyMatches("httpz");
 
         // then
-        $this->assertTrue($match);
+        $this->assertFalse($match);
     }
 }
