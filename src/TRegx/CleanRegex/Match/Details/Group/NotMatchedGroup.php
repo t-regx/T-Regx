@@ -66,7 +66,7 @@ class NotMatchedGroup implements MatchGroup
      */
     public function orThrow(string $exceptionClassName = GroupNotMatchedException::class)
     {
-        throw (new UnknownSignatureExceptionFactory($exceptionClassName))->create($this->subject);
+        throw (new UnknownSignatureExceptionFactory($exceptionClassName, new GroupMessage($this->group)))->create($this->subject);
     }
 
     /**

@@ -1,11 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Exception\CleanRegex;
 
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\FirstGroupMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\GroupMethodMessage;
+
 class GroupNotMatchedException extends CleanRegexException
 {
-    public const FOR_FIRST_MESSAGE = 'Expected to get first group in the subject, but group was not matched at all';
-    public const FOR_METHOD_MESSAGE = "Expected to call %s() for group '%s', but group was not matched at all";
-
     /** @var string */
     private $subject; // Debugger
 
@@ -14,19 +14,20 @@ class GroupNotMatchedException extends CleanRegexException
 
     public function __construct(string $message, string $subject, $group)
     {
-        $this->message = $message;
+        parent::__construct($message);
         $this->subject = $subject;
         $this->group = $group;
     }
 
     public static function forFirst(string $subject, $group): GroupNotMatchedException
     {
-        return new GroupNotMatchedException(self::FOR_FIRST_MESSAGE, $subject, $group);
+        $message = new FirstGroupMessage($group);
+        return new GroupNotMatchedException($message->getMessage(), $subject, $group);
     }
 
     public static function forMethod(string $subject, $group, string $method): GroupNotMatchedException
     {
-        $message = sprintf(self::FOR_METHOD_MESSAGE, $method, $group);
-        return new GroupNotMatchedException($message, $subject, $group);
+        $message = new GroupMethodMessage($method, $group);
+        return new GroupNotMatchedException($message->getMessage(), $subject, $group);
     }
 }

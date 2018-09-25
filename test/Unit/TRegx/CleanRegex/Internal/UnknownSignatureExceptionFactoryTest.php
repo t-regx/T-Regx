@@ -13,6 +13,7 @@ use Test\Utils\ClassWithTwoStringParamsConstructor;
 use Throwable;
 use TRegx\CleanRegex\Exception\CleanRegex\ClassExpectedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NoSuitableConstructorException;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\UnknownSignatureExceptionFactory;
 use Utils\ClassWithErrorInConstructor;
@@ -25,7 +26,7 @@ class UnknownSignatureExceptionFactoryTest extends TestCase
     public function shouldThrow_onNotExistingClass()
     {
         // given
-        $factory = new UnknownSignatureExceptionFactory('Namespace\NoSuchClass');
+        $factory = new UnknownSignatureExceptionFactory('Namespace\NoSuchClass', new FirstMatchMessage());
 
         // then
         $this->expectException(ClassExpectedException::Class);
@@ -41,7 +42,7 @@ class UnknownSignatureExceptionFactoryTest extends TestCase
     public function shouldThrow_onInterface()
     {
         // given
-        $factory = new UnknownSignatureExceptionFactory(Throwable::class);
+        $factory = new UnknownSignatureExceptionFactory(Throwable::class, new FirstMatchMessage());
 
         // then
         $this->expectException(ClassExpectedException::Class);
@@ -57,7 +58,7 @@ class UnknownSignatureExceptionFactoryTest extends TestCase
     public function shouldThrow_onClassThatIsNotThrowable()
     {
         // given
-        $factory = new UnknownSignatureExceptionFactory(stdClass::class);
+        $factory = new UnknownSignatureExceptionFactory(stdClass::class, new FirstMatchMessage());
 
         // then
         $this->expectException(ClassExpectedException::Class);
@@ -73,7 +74,7 @@ class UnknownSignatureExceptionFactoryTest extends TestCase
     public function shouldThrow_onClassWithoutSuitableConstructor()
     {
         // given
-        $factory = new UnknownSignatureExceptionFactory(ClassWithoutSuitableConstructor::class);
+        $factory = new UnknownSignatureExceptionFactory(ClassWithoutSuitableConstructor::class, new FirstMatchMessage());
 
         // then
         $this->expectException(NoSuitableConstructorException::Class);
@@ -89,7 +90,7 @@ class UnknownSignatureExceptionFactoryTest extends TestCase
     public function shouldInstantiate_withMessageAndSubjectParams()
     {
         // given
-        $factory = new UnknownSignatureExceptionFactory(ClassWithTwoStringParamsConstructor::class);
+        $factory = new UnknownSignatureExceptionFactory(ClassWithTwoStringParamsConstructor::class, new FirstMatchMessage());
 
         // when
         /** @var ClassWithTwoStringParamsConstructor $exception */
@@ -97,7 +98,7 @@ class UnknownSignatureExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf(ClassWithTwoStringParamsConstructor::class, $exception);
-        $this->assertEquals(SubjectNotMatchedException::MESSAGE, $exception->getMessage());
+        $this->assertEquals(FirstMatchMessage::MESSAGE, $exception->getMessage());
         $this->assertEquals('my subject', $exception->getSubject());
     }
 
@@ -107,14 +108,14 @@ class UnknownSignatureExceptionFactoryTest extends TestCase
     public function shouldInstantiate_withMessageParam()
     {
         // given
-        $factory = new UnknownSignatureExceptionFactory(ClassWithStringParamConstructor::class);
+        $factory = new UnknownSignatureExceptionFactory(ClassWithStringParamConstructor::class, new FirstMatchMessage());
 
         // when
         $exception = $factory->create('my subject');
 
         // then
         $this->assertInstanceOf(ClassWithStringParamConstructor::class, $exception);
-        $this->assertEquals(SubjectNotMatchedException::MESSAGE, $exception->getMessage());
+        $this->assertEquals(FirstMatchMessage::MESSAGE, $exception->getMessage());
     }
 
     /**
@@ -123,7 +124,7 @@ class UnknownSignatureExceptionFactoryTest extends TestCase
     public function shouldInstantiate_withDefaultConstructor()
     {
         // given
-        $factory = new UnknownSignatureExceptionFactory(ClassWithDefaultConstructor::class);
+        $factory = new UnknownSignatureExceptionFactory(ClassWithDefaultConstructor::class, new FirstMatchMessage());
 
         // when
         $exception = $factory->create('my subject');
@@ -140,14 +141,14 @@ class UnknownSignatureExceptionFactoryTest extends TestCase
     public function shouldInstantiate_withMessage(string $className)
     {
         // given
-        $factory = new UnknownSignatureExceptionFactory($className);
+        $factory = new UnknownSignatureExceptionFactory($className, new FirstMatchMessage());
 
         // when
         $exception = $factory->create('my subject');
 
         // then
         $this->assertInstanceOf($className, $exception);
-        $this->assertEquals(SubjectNotMatchedException::MESSAGE, $exception->getMessage());
+        $this->assertEquals(FirstMatchMessage::MESSAGE, $exception->getMessage());
     }
 
     /**
@@ -156,7 +157,7 @@ class UnknownSignatureExceptionFactoryTest extends TestCase
     public function shouldRethrow_errorWhileInstantiating()
     {
         // given
-        $factory = new UnknownSignatureExceptionFactory(ClassWithErrorInConstructor::class);
+        $factory = new UnknownSignatureExceptionFactory(ClassWithErrorInConstructor::class, new FirstMatchMessage());
 
         // then
         $this->expectException(Error::class);

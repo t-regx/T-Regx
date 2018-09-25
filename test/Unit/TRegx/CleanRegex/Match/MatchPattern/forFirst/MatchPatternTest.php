@@ -1,13 +1,14 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\forFirst;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\MatchPattern;
-use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 
 class MatchPatternTest extends TestCase
 {
@@ -130,7 +131,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(SubjectNotMatchedException::MESSAGE);
+        $this->expectExceptionMessage(FirstMatchMessage::MESSAGE);
 
         // when
         $pattern->forFirst('strrev')->orThrow(InvalidArgumentException::class);

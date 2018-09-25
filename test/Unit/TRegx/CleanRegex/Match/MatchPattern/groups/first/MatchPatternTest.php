@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -38,7 +39,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage(SubjectNotMatchedException::MESSAGE);
+        $this->expectExceptionMessage(FirstMatchMessage::MESSAGE);
 
         // when
         $pattern->group('two')->first();
@@ -54,7 +55,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage(GroupNotMatchedException::FOR_FIRST_MESSAGE);
+        $this->expectExceptionMessage("Expected to get first group 'unmatched' in the subject, but group was not matched at all");
 
         // when
         $pattern->group('unmatched')->first();

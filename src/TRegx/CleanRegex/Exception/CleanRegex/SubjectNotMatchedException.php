@@ -1,21 +1,21 @@
 <?php
 namespace TRegx\CleanRegex\Exception\CleanRegex;
 
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\FirstMatchMessage;
+
 class SubjectNotMatchedException extends CleanRegexException
 {
-    public const MESSAGE = 'Expected to get first match in the subject, but subject was not matched at all';
-
     /** @var string */
     private $subject; // Debugger
 
     public function __construct(string $message, string $subject)
     {
-        $this->message = $message;
+        parent::__construct($message);
         $this->subject = $subject;
     }
 
     public static function forFirst(string $subject): SubjectNotMatchedException
     {
-        return new SubjectNotMatchedException(self::MESSAGE, $subject);
+        return new SubjectNotMatchedException((new FirstMatchMessage())->getMessage(), $subject);
     }
 }

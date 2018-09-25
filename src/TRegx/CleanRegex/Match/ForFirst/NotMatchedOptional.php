@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\ForFirst;
 
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\UnknownSignatureExceptionFactory;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -31,7 +32,7 @@ class NotMatchedOptional implements Optional
 
     private function getException(string $exceptionClassName): Throwable
     {
-        return (new UnknownSignatureExceptionFactory($exceptionClassName))->create($this->subject);
+        return (new UnknownSignatureExceptionFactory($exceptionClassName, new FirstMatchMessage()))->create($this->subject);
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\ForFirst;
 
+use TRegx\CleanRegex\Exception\CleanRegex\CleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 
 interface Optional
@@ -10,7 +11,7 @@ interface Optional
      * @return mixed
      * @throws \Throwable|SubjectNotMatchedException
      */
-    public function orThrow(string $exceptionClassName = SubjectNotMatchedException::class);
+    public function orThrow(string $exceptionClassName = CleanRegexException::class);
 
     /**
      * @param mixed $default

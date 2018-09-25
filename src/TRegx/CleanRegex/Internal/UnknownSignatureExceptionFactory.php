@@ -2,21 +2,24 @@
 namespace TRegx\CleanRegex\Internal;
 
 use ArgumentCountError;
-use TRegx\CleanRegex\Exception\CleanRegex\ClassExpectedException;
-use TRegx\CleanRegex\Exception\CleanRegex\NoSuitableConstructorException;
-use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use Error;
 use Throwable;
+use TRegx\CleanRegex\Exception\CleanRegex\ClassExpectedException;
+use TRegx\CleanRegex\Exception\CleanRegex\NoSuitableConstructorException;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NotMatchedMessage;
 use TypeError;
 
 class UnknownSignatureExceptionFactory
 {
     /** @var string */
     private $className;
+    /** @var NotMatchedMessage */
+    private $message;
 
-    public function __construct(string $className)
+    public function __construct(string $className, NotMatchedMessage $message)
     {
         $this->className = $className;
+        $this->message = $message;
     }
 
     public function create(string $subject): Throwable
@@ -72,10 +75,10 @@ class UnknownSignatureExceptionFactory
     {
         return [
             function () use ($subject) {
-                return new $this->className(SubjectNotMatchedException::MESSAGE, $subject);
+                return new $this->className($this->message->getMessage(), $subject);
             },
             function () {
-                return new $this->className(SubjectNotMatchedException::MESSAGE);
+                return new $this->className($this->message->getMessage());
             },
             function () {
                 return new $this->className();
