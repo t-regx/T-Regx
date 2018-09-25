@@ -1,11 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Match\ForFirst;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\FirstMatchMessage;
+use Throwable;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\UnknownSignatureExceptionFactory;
 use TRegx\CleanRegex\Match\Details\NotMatched;
-use Throwable;
 
 class NotMatchedOptional implements Optional
 {

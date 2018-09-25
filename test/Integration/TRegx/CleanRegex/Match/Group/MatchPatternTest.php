@@ -1,33 +1,16 @@
 <?php
 namespace Test\Integration\TRegx\CleanRegex\Match\Group;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Match;
 
 class MatchPatternTest extends TestCase
 {
     /**
      * @test
      */
-    public function shouldThrowOnMissingGroup()
-    {
-        // then
-        $this->expectException(NonexistentGroupException::class);
-
-        // when
-        pattern('(?<one>hello)')
-            ->match('hello')
-            ->first(function (Match $match) {
-                $match->group('two');
-            });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetGroups()
+    public function shouldGet_all()
     {
         // given
         $subject = 'Computer L Three Four';
@@ -42,7 +25,22 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroup_onlyOne()
+    public function shouldGet_all_unmatched()
+    {
+        // given
+        $subject = 'NOT MATCHING';
+
+        // when
+        $all = pattern('[A-Z](?<lowercase>[a-z]+)')->match($subject)->group('lowercase')->all();
+
+        // then
+        $this->assertEmpty($all);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_onlyOne()
     {
         // given
         $subject = 'D Computer';
@@ -57,18 +55,94 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldValidateGroupName()
+    public function shouldGet_onlyOne_unmatched()
     {
-        // then
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Group index can only be an integer or string, given: boolean (true)');
-
         // given
-        pattern('(?<one>first) and (?<two>second)')
-            ->match('first and second')
-            ->first(function (Match $match) {
-                // when
-                $match->group(true);
-            });
+        $subject = 'NOT MATCHING';
+
+        // when
+        $all = pattern('[A-Z](?<lowercase>[a-z]+)')->match($subject)->group('lowercase')->only(1);
+
+        // then
+        $this->assertEmpty($all);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_first()
+    {
+        // given
+        $subject = 'Computer L Three Four';
+
+        // when
+        $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first();
+
+        // then
+        $this->assertEquals('omputer', $groups);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_first_unmatched()
+    {
+        // given
+        $subject = 'L Three Four';
+
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to get group 'lowercase' from the first match, but the group was not matched");
+
+        // when
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_first_nonexistent()
+    {
+        // given
+        $subject = 'L Three Four';
+
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+
+        // when
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('missing')->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_all_nonexistent()
+    {
+        // given
+        $subject = 'L Three Four';
+
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+
+        // when
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('missing')->all();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onlyOne_nonexistent()
+    {
+        // given
+        $subject = 'L Three Four';
+
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+
+        // when
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('missing')->only(1);
     }
 }

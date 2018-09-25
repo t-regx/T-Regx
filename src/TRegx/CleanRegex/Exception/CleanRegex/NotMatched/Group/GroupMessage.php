@@ -1,9 +1,11 @@
 <?php
-namespace TRegx\CleanRegex\Exception\CleanRegex\NotMatched;
+namespace TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group;
+
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NotMatchedMessage;
 
 class GroupMessage implements NotMatchedMessage
 {
-    private const MESSAGE = "Expected to get group '%s', but group was not matched at all";
+    private const MESSAGE = "Expected to get group '%s', but it was not matched";
 
     /** @var string */
     private $message;

@@ -112,7 +112,7 @@ class NotMatchedGroupTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Expected to get group 'first', but group was not matched at all");
+        $this->expectExceptionMessage("Expected to get group 'first', but it was not matched");
 
         // when
         $matchGroup->orThrow(InvalidArgumentException::class);

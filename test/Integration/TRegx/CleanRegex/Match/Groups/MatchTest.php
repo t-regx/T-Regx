@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Match\Details\Match;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-class MatchPatternTest extends TestCase
+class MatchTest extends TestCase
 {
     /**
      * @test

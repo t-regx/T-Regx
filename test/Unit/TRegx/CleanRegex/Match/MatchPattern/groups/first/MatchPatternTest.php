@@ -5,7 +5,6 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -39,7 +38,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage(FirstMatchMessage::MESSAGE);
+        $this->expectExceptionMessage("Expected to get first match, but subject was not matched");
 
         // when
         $pattern->group('two')->first();
@@ -55,7 +54,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get first group 'unmatched' in the subject, but group was not matched at all");
+        $this->expectExceptionMessage("Expected to get group 'unmatched' from the first match, but the group was not matched");
 
         // when
         $pattern->group('unmatched')->first();
@@ -86,7 +85,8 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(new Pattern('(?<existing>[a-z]+)'), 'NOT MATCHING');
 
         // then
-        $this->expectException(GroupNotMatchedException::class);
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
 
         // when
         $pattern->group('missing')->first();

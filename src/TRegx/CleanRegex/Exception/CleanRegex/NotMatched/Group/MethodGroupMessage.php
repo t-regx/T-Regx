@@ -1,7 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Exception\CleanRegex\NotMatched;
+namespace TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group;
 
-class GroupMethodMessage implements NotMatchedMessage
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NotMatchedMessage;
+
+class MethodGroupMessage implements NotMatchedMessage
 {
     private const MESSAGE = "Expected to call %s() for group '%s', but group was not matched at all";
 

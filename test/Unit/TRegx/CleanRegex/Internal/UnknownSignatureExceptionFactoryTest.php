@@ -13,7 +13,7 @@ use Test\Utils\ClassWithTwoStringParamsConstructor;
 use Throwable;
 use TRegx\CleanRegex\Exception\CleanRegex\ClassExpectedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NoSuitableConstructorException;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\FirstMatchMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\UnknownSignatureExceptionFactory;
 use Utils\ClassWithErrorInConstructor;

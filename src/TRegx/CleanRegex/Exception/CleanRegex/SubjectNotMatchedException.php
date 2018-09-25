@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception\CleanRegex;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\FirstMatchMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
 
 class SubjectNotMatchedException extends CleanRegexException
 {

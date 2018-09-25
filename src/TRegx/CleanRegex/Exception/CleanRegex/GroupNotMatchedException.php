@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Exception\CleanRegex;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\FirstGroupMessage;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\GroupMethodMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\FirstGroupMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\MethodGroupMessage;
 
 class GroupNotMatchedException extends CleanRegexException
 {
@@ -27,7 +27,7 @@ class GroupNotMatchedException extends CleanRegexException
 
     public static function forMethod(string $subject, $group, string $method): GroupNotMatchedException
     {
-        $message = new GroupMethodMessage($method, $group);
+        $message = new MethodGroupMessage($method, $group);
         return new GroupNotMatchedException($message->getMessage(), $subject, $group);
     }
 }

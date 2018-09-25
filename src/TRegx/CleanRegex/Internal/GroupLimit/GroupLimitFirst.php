@@ -34,13 +34,17 @@ class GroupLimitFirst
     {
         $matches = [];
         $count = preg::match($this->pattern->pattern, $this->subject, $matches, $this->pregMatchFlags());
-        if ($count > 0) {
-            return $this->getGroupOrThrow($matches);
+
+        if ($this->groupMatchedIn($matches)) {
+            $group = $this->getGroup($matches);
+            if ($group !== null) {
+                return $group;
+            }
+        } else {
+            $this->validateGroupExists();
+            $this->validateSubjectMatched($count);
         }
-        if (!$this->groupExists()) {
-            throw GroupNotMatchedException::forFirst($this->subject, $this->nameOrIndex);
-        }
-        throw SubjectNotMatchedException::forFirst($this->subject);
+        throw GroupNotMatchedException::forFirst($this->subject, $this->nameOrIndex);
     }
 
     private function pregMatchFlags(): int
@@ -51,31 +55,33 @@ class GroupLimitFirst
         return PREG_OFFSET_CAPTURE;
     }
 
+    private function groupMatchedIn(array $matches): bool
+    {
+        return array_key_exists($this->nameOrIndex, $matches);
+    }
+
+    private function getGroup(array $matches): ?string
+    {
+        return $this->getGroupFromMatch($matches[$this->nameOrIndex]);
+    }
+
+    private function validateGroupExists(): void
+    {
+        if (!$this->groupExists()) {
+            throw new NonexistentGroupException($this->nameOrIndex);
+        }
+    }
+
     private function groupExists(): bool
     {
         return $this->groupVerifier->groupExists($this->pattern->pattern, $this->nameOrIndex);
     }
 
-    private function getGroupOrThrow(array $matches): string
+    private function validateSubjectMatched(int $count): void
     {
-        if (array_key_exists($this->nameOrIndex, $matches)) {
-            return $this->tryGetGroup($matches[$this->nameOrIndex]);
+        if ($count === 0) {
+            throw SubjectNotMatchedException::forFirst($this->subject);
         }
-        throw new NonexistentGroupException($this->nameOrIndex);
-    }
-
-    /**
-     * @param array|string|null $match
-     * @return string
-     * @throws GroupNotMatchedException
-     */
-    private function tryGetGroup($match): string
-    {
-        $group = $this->getGroupFromMatch($match);
-        if ($group === null) {
-            throw GroupNotMatchedException::forFirst($this->subject, $this->nameOrIndex);
-        }
-        return $group;
     }
 
     /**
