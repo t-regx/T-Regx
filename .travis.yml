@@ -7,7 +7,8 @@ php:
 
 branches:
   only:
-    master
+  - master
+  - develop
 
 before_install:
   - travis_retry composer self-update
