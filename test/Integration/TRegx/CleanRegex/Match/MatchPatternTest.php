@@ -1,5 +1,5 @@
 <?php
-namespace Test\Integration\TRegx\CleanRegex;
+namespace Test\Integration\TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
