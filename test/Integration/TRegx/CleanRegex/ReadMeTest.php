@@ -29,17 +29,23 @@ class ReadMeTest extends TestCase
             ->forFirst('strtoupper')//
             ->orThrow(InvalidArgumentException::class);
 
-        pattern('(?<value>\d+)(?<unit>cm|mm)')->match('192mm and 168cm 18mm 12cm')->iterate(function (Match $match) {
+        $subject = '192mm and 168cm or 18mm and 12cm';
+
+        $pattern = '(?<value>\d+)(?<unit>cm|mm)';
+        pattern($pattern)->match($subject)->iterate(function (Match $match) {
             if ($match != '168cm') return;
 
             $this->assertEquals('168cm', (string)$match);
             $this->assertEquals('168cm', $match->match());
+            $this->assertEquals('168cm', $match->group(0));
             $this->assertEquals('168', $match->group('value'));
+            $this->assertEquals('168', $match->group(1));
             $this->assertEquals('cm', $match->group('unit'));
+            $this->assertEquals('cm', $match->group(2));
             $this->assertEquals(1, $match->index());
             $this->assertEquals(10, $match->offset());
 
-            $this->assertEquals('192mm and 168cm 18mm 12cm', $match->subject());
+            $this->assertEquals('192mm and 168cm or 18mm and 12cm', $match->subject());
             $this->assertEquals(['192mm', '168cm', '18mm', '12cm'], $match->all());
 
             $this->assertEquals(['168', 'cm'], $match->groups());
@@ -49,10 +55,19 @@ class ReadMeTest extends TestCase
             $this->assertTrue($match->hasGroup('value'));
         });
 
+        $groupAll = pattern($pattern)->match($subject)->group('value')->all();
+        $groupFirst = pattern($pattern)->match($subject)->group('value')->first();
+        $stringSplit = pattern($pattern)->match($subject)->first('str_split');
+        $stringLength = pattern($pattern)->match($subject)->first('strlen');          // 5
+
         // then
         $this->assertEquals(['456', '232', '123'], $all);
         $this->assertEquals('456', $first);
         $this->assertEquals('WORD', $forFirst);
+        $this->assertEquals(['192', '168', '18', '12'], $groupAll);
+        $this->assertEquals('192', $groupFirst);
+        $this->assertEquals(['1', '9', '2', 'm', 'm'], $stringSplit);
+        $this->assertEquals(5, $stringLength);
     }
 
     /**
@@ -435,8 +450,8 @@ class ReadMeTest extends TestCase
      * @test
      * @dataProvider validPatterns
      * @param string $pattern
-     * @param bool   $expectedValid
-     * @param bool   $expectedUsable
+     * @param bool $expectedValid
+     * @param bool $expectedUsable
      */
     public function validatePattern(string $pattern, bool $expectedValid, bool $expectedUsable)
     {

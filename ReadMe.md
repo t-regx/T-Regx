@@ -50,10 +50,8 @@ pattern('\d{3}')->match('My phone is 456-232-123')->first();  //  '456'
 ```
 
 ```php
-$result = pattern('word')
-  ->match($someDataFromUser)
-  ->forFirst('strtoupper')                                   
-  ->orThrow(InvalidArgumentException::class);  // you can pass any \Throwable class name
+$result = pattern('word')->match($text)
+  ->forFirst('strtoupper')->orThrow(InvalidArgumentException::class);  // you can pass any \Throwable class name
 
 $result   // 'WORD'
 ```
@@ -62,16 +60,22 @@ $result   // 'WORD'
 or use [`orElse(callback)`](#controlling-unmatched-subject) to fetch value from a callback.
 
 ```php
-pattern('(?<value>\d+)(?<unit>cm|mm)')->match('192mm and 168cm 18mm 12cm')->iterate(function (Match $match) {
+$p = '(?<value>\d+)(?<unit>cm|mm)';
+$s = '192mm and 168cm or 18mm and 12cm';
+
+pattern($p) ->match($s) ->iterate(function (Match $match) {
     
     (string) $match;           // '168cm'
     $match->match();           // '168cm'
+    $match->group(0);          // '168cm'
     $match->group('value');    // '168'
+    $match->group(1);          // '168'
     $match->group('unit');     // 'cm'
+    $match->group(2);          // 'cm'
     $match->index();           //  1
     $match->offset();          //  10      UTF-8 safe offset
 
-    $match->subject();         // '192mm and 168cm 18mm 12cm'
+    $match->subject();         // '192mm and 168cm or 18mm and 12cm'
     $match->all();             // ['192mm', '168cm', '18mm', '12cm']
 
     $match->groups();          // ['168', 'cm']
@@ -80,6 +84,25 @@ pattern('(?<value>\d+)(?<unit>cm|mm)')->match('192mm and 168cm 18mm 12cm')->iter
     $match->hasGroup('val');   // false
     $match->hasGroup('value'); // true
 });
+```
+
+```php
+$p = '(?<value>\d+)(?<unit>cm|mm)';
+$s = '192mm and 168cm or 18mm and 12cm';
+
+pattern($p)->match($s)->all()                     // ['192mm', '168cm', '18mm', '12cm']
+pattern($p)->match($s)->first()                   // '192mm'
+
+pattern($p)->match($s)->group('value')->all()     // ['192', '168', '18', '12']
+pattern($p)->match($s)->group('value')->first()   // '192'
+```
+
+You can pass any `callable` and `\Closure` to the `->first()` method. It's result will be returned.
+
+```php
+pattern($p)->match($s)->first();                // '192mm'
+pattern($p)->match($s)->first('str_split');      // ['1', '9', '2', 'm', 'm']
+pattern($p)->match($s)->first('strlen')          // 5
 ```
 
 :bulb: Scroll to [`Match`](#first-match-with-details). 
