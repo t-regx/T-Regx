@@ -55,14 +55,30 @@ class GroupNameValidatorTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotValidate_otherTypes()
+    public function shouldNotValidate_negativeInt()
     {
         // given
-        $validator = new GroupNameValidator(new \stdClass());
+        $validator = new GroupNameValidator(-14);
 
         // this
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Group index can only be an integer or string, given: stdClass');
+        $this->expectExceptionMessage('Group index can only be a positive integer, given: -14');
+
+        // when
+        $validator->validate();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotValidate_otherTypes()
+    {
+        // given
+        $validator = new GroupNameValidator(2.23);
+
+        // this
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Group index can only be an integer or string, given: double (2.23)');
 
         // when
         $validator->validate();

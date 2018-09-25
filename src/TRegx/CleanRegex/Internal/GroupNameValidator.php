@@ -19,6 +19,9 @@ class GroupNameValidator
         if (!is_string($this->groupNameOrIndex) && !is_int($this->groupNameOrIndex)) {
             $this->throwInvalidGroupNameType();
         }
+        if (is_int($this->groupNameOrIndex)) {
+            $this->validateGroupIndex();
+        }
         if (is_string($this->groupNameOrIndex)) {
             $this->validateGroupNameFormat();
         }
@@ -28,6 +31,13 @@ class GroupNameValidator
     {
         $type = (new StringValue($this->groupNameOrIndex))->getString();
         throw new InvalidArgumentException("Group index can only be an integer or string, given: $type");
+    }
+
+    private function validateGroupIndex(): void
+    {
+        if ($this->groupNameOrIndex < 0) {
+            throw new InvalidArgumentException("Group index can only be a positive integer, given: $this->groupNameOrIndex");
+        }
     }
 
     private function validateGroupNameFormat(): void
