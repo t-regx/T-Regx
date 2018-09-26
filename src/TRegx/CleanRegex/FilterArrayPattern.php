@@ -2,6 +2,8 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
+use function array_filter;
+use function array_values;
 
 class FilterArrayPattern
 {

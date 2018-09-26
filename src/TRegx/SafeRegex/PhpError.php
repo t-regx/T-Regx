@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\SafeRegex;
 
+use function error_get_last;
+
 class PhpError
 {
     /** @var int */

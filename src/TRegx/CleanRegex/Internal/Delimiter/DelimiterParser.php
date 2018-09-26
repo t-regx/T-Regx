@@ -1,6 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Delimiter;
 
+use function strlen;
+use function strrpos;
+
 class DelimiterParser
 {
     /** @var array */

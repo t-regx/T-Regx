@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\SafeRegex\Guard\GuardedExecution;
+use function preg_match;
 
 class ValidPattern
 {

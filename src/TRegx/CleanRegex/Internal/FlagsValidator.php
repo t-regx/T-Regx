@@ -30,7 +30,6 @@ class FlagsValidator
         if (empty($flags)) {
             return;
         }
-
         $this->validateFlags($flags);
     }
 

@@ -3,6 +3,8 @@ namespace TRegx\CleanRegex\Internal;
 
 use InvalidArgumentException;
 use TRegx\SafeRegex\preg;
+use function is_int;
+use function is_string;
 
 class GroupNameValidator
 {

@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Remove;
 
 use TRegx\CleanRegex\Internal\PatternLimit;
 use InvalidArgumentException;
+use function call_user_func;
 
 class RemoveLimit implements PatternLimit
 {

@@ -8,6 +8,10 @@ use TRegx\CleanRegex\Exception\CleanRegex\ClassExpectedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NoSuitableConstructorException;
 use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NotMatchedMessage;
 use TypeError;
+use function class_exists;
+use function interface_exists;
+use function strlen;
+use function substr;
 
 class UnknownSignatureExceptionFactory
 {

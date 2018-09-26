@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group;
 
 use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NotMatchedMessage;
+use function sprintf;
 
 class GroupMessage implements NotMatchedMessage
 {

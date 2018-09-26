@@ -3,6 +3,8 @@ namespace TRegx\CleanRegex\Internal;
 
 use InvalidArgumentException;
 use TRegx\CleanRegex\Pattern;
+use function array_map;
+use function is_string;
 
 class CompositePatternMapper
 {

@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Delimiter;
 
+use function strpos;
+
 class Delimiterer
 {
     /** @var DelimiterParser */

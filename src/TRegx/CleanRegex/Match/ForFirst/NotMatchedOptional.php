@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\UnknownSignatureExceptionFactory;
 use TRegx\CleanRegex\Match\Details\NotMatched;
+use function call_user_func;
 
 class NotMatchedOptional implements Optional
 {

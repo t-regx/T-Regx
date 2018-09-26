@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use function call_user_func;
 use function is_string;
+use function mb_strlen;
 use function strlen;
 use function substr_replace;
 

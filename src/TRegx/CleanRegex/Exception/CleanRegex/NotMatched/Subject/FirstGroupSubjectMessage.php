@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject;
 
 use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NotMatchedMessage;
+use function sprintf;
 
 class FirstGroupSubjectMessage implements NotMatchedMessage
 {

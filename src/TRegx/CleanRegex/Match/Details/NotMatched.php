@@ -1,6 +1,12 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
+use function array_filter;
+use function array_key_exists;
+use function array_keys;
+use function array_values;
+use function count;
+
 class NotMatched implements Details
 {
     /** @var array */

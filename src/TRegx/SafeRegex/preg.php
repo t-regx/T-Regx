@@ -3,6 +3,16 @@ namespace TRegx\SafeRegex;
 
 use TRegx\SafeRegex\Constants\PregConstants;
 use TRegx\SafeRegex\Guard\GuardedExecution;
+use function preg_match;
+use function preg_match_all;
+use function preg_replace;
+use function preg_replace_callback;
+use function preg_replace_callback_array;
+use function preg_filter;
+use function preg_split;
+use function preg_grep;
+use function preg_quote;
+use function preg_last_error;
 
 class preg
 {

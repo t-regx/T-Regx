@@ -1,6 +1,9 @@
 <?php
 namespace TRegx\SafeRegex\Errors\Errors;
 
+use function error_clear_last;
+use function is_callable;
+
 class StandardCompileError extends CompileError
 {
     public function occurred(): bool

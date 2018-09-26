@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\SafeRegex\Errors\Errors;
 
+use function trigger_error;
+
 class OvertriggerCompileError extends CompileError
 {
     public const OVERTRIGGER_MESSAGE = 'SafeRegex triggered over previous exception, to prevent it from causing exceptions for current invocation';

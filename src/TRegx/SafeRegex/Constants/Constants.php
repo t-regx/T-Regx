@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\SafeRegex\Constants;
 
+use function array_key_exists;
+
 abstract class Constants
 {
     public function getConstant(int $error): string

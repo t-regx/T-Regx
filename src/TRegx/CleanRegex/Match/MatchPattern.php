@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
+use InvalidArgumentException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFactory;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
@@ -12,8 +13,8 @@ use TRegx\CleanRegex\Match\ForFirst\NotMatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\Optional;
 use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
-use InvalidArgumentException;
 use TRegx\SafeRegex\preg;
+use function array_slice;
 
 class MatchPattern implements PatternLimit
 {

@@ -4,6 +4,7 @@ namespace TRegx\SafeRegex\Guard;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Exception\SafeRegexException;
 use TRegx\SafeRegex\ExceptionFactory;
+use function call_user_func;
 
 class GuardedInvoker
 {

@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
+use function defined;
 
 class GroupLimitAll
 {

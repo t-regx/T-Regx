@@ -1,7 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use function array_keys;
 use function array_search;
+use function is_int;
+use function is_string;
 
 class GroupNameIndexAssign
 {

@@ -1,6 +1,14 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use function count;
+use function get_class;
+use function gettype;
+use function is_array;
+use function is_resource;
+use function is_scalar;
+use function var_export;
+
 class StringValue
 {
     /** @var mixed */
