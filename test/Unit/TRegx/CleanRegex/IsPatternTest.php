@@ -1,9 +1,10 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex;
 
+use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\InvalidPatternException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\IsPattern;
-use PHPUnit\Framework\TestCase;
 
 class IsPatternTest extends TestCase
 {
@@ -95,5 +96,51 @@ class IsPatternTest extends TestCase
 
         // then
         $this->assertFalse($usable);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeDelimitered()
+    {
+        // given
+        $is = new IsPattern(new Pattern('/valid/'));
+
+        // when
+        $delimitered = $is->delimitered();
+
+        // then
+        $this->assertTrue($delimitered);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotBeDelimitered()
+    {
+        // given
+        $is = new IsPattern(new Pattern('/invalid'));
+
+        // when
+        $delimitered = $is->delimitered();
+
+        // then
+        $this->assertFalse($delimitered);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onInvalidPattern()
+    {
+        // given
+        $is = new IsPattern(new Pattern('invalid)'));
+
+        // then
+        $this->expectException(InvalidPatternException::class);
+        $this->expectExceptionMessage("Compilation failed: unmatched parentheses at offset 7");
+
+        // when
+        $is->delimitered();
     }
 }

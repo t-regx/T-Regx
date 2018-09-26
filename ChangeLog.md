@@ -112,4 +112,5 @@ API
         * `pattern()->quote()`
         * `pattern()->is()->valid()`
         * `pattern()->is()->usable()`
+        * `pattern()->is()->delimitered()`
         * `pattern()->delimitered()`
