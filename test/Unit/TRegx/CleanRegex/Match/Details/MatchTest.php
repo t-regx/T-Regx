@@ -245,6 +245,37 @@ class MatchTest extends TestCase
     /**
      * @test
      */
+    public function shouldGet_groupAll()
+    {
+        // given
+        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+
+        // when
+        $all = $match->group('surname')->all();
+
+        // then
+        $this->assertEquals(['Durden', 'Singer', null, 'Sparrow'], $all);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onNonexistentGroup()
+    {
+        // given
+        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+
+        // when
+        $match->group('missing')->all();
+    }
+
+    /**
+     * @test
+     */
     public function shouldValidateGroupNameType()
     {
         // given

@@ -24,6 +24,7 @@ Incoming in 1.1
     * Add `CompositePattern` (#8)
     * Add `split()->filter()`
     * Match with limit 1 calls `preg_match` (instead of `preg_match_all`)
+    * Add `group()->all()` to `Match`
 * Tests
     * Split tests into `\Test\Unit` and `\Test\Integration` folders 
     * Add dynamic skip for `ErrorsCleanerTest`

@@ -6,8 +6,9 @@ use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\GroupMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\UnknownSignatureExceptionFactory;
 use TRegx\CleanRegex\Match\Details\NotMatched;
+use function call_user_func;
 
-class NotMatchedGroup implements MatchGroup
+class NotMatchedGroup extends AbstractMatchGroup
 {
     /** @var string */
     private $subject;
@@ -22,6 +23,7 @@ class NotMatchedGroup implements MatchGroup
 
     public function __construct(?string $name, int $index, $group, string $subject, array $matches)
     {
+        parent::__construct($matches, $group);
         $this->subject = $subject;
         $this->group = $group;
         $this->name = $name;

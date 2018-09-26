@@ -65,24 +65,29 @@ $s = '192mm and 168cm or 18mm and 12cm';
 
 pattern($p) ->match($s) ->iterate(function (Match $match) {
     
-    (string) $match;           // '168cm'
-    $match->match();           // '168cm'
-    $match->group(0);          // '168cm'
-    $match->group('value');    // '168'
-    $match->group(1);          // '168'
-    $match->group('unit');     // 'cm'
-    $match->group(2);          // 'cm'
-    $match->index();           //  1
-    $match->offset();          //  10      UTF-8 safe offset
+    (string) $match;                // '168cm'
+    $match->match();                // '168cm'
+    $match->group(0);               // '168cm'
+    $match->group('value');         // '168'
+    $match->group(1);               // '168'
+    $match->group('unit');          // 'cm'
+    $match->group(2);               // 'cm'
+    $match->index();                //  1
+    $match->offset();               //  10       UTF-8 safe offset
+    
+    $match->group('unit')->offset() // 13
+    $match->group('unit')->index()  // 2
+    $match->group(2)->name()        // 'unit'
 
-    $match->subject();         // '192mm and 168cm or 18mm and 12cm'
-    $match->all();             // ['192mm', '168cm', '18mm', '12cm']
+    $match->subject();              // '192mm and 168cm or 18mm and 12cm'
+    $match->all();                  // ['192mm', '168cm', '18mm', '12cm']
+    $match->group('value)->all();   // ['192', '168', '18', '12']
 
-    $match->groups();          // ['168', 'cm']
-    $match->namedGroups();     // ['value' => '168', 'unit' => 'cm']
-    $match->groupNames();      // ['value', 'unit']
-    $match->hasGroup('val');   // false
-    $match->hasGroup('value'); // true
+    $match->groups();               // ['168', 'cm']
+    $match->namedGroups();          // ['value' => '168', 'unit' => 'cm']
+    $match->groupNames();           // ['value', 'unit']
+    $match->hasGroup('val');        // false
+    $match->hasGroup('value');      // true
 });
 ```
 

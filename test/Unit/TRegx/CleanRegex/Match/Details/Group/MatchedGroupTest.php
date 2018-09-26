@@ -118,6 +118,6 @@ class MatchedGroupTest extends TestCase
 
     private function matchGroup(): MatchGroup
     {
-        return new MatchedGroup('first', 1, 'Nice matching', 14);
+        return new MatchedGroup('first', 1, 'Nice matching', 14, []);
     }
 }

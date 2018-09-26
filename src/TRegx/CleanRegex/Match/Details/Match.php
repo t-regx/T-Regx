@@ -65,7 +65,7 @@ class Match implements Details
         list($name, $index) = (new GroupNameIndexAssign($this->matches, $nameOrIndex))->getNameAndIndex();
         list($match, $offset) = $this->matches[$nameOrIndex][$this->index];
         if ($offset > -1) {
-            return new MatchedGroup($name, $index, $match, $offset);
+            return new MatchedGroup($name, $index, $match, $offset, $this->matches);
         }
         return new NotMatchedGroup($name, $index, $nameOrIndex, $this->subject, $this->matches);
     }

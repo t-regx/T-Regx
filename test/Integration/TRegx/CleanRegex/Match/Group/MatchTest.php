@@ -34,6 +34,46 @@ class MatchTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetGroup_all_matched()
+    {
+        // when
+        pattern('Hello (?<one>there|here)?')
+            ->match('Hello there, General Kenobi, maybe Hello and Hello here')
+            ->first(function (Match $match) {
+
+                // when
+                $all = $match->all();
+                $groupAll = $match->group('one')->all();
+
+                // then
+                $this->assertEquals(['Hello there', 'Hello ', 'Hello here'], $all);
+                $this->assertEquals(['there', null, 'here'], $groupAll);
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroup_empty_string()
+    {
+        // when
+        pattern('Hello (?<one>there|here|)')
+            ->match('Hello there, General Kenobi, maybe Hello and Hello here')
+            ->first(function (Match $match) {
+
+                // when
+                $all = $match->all();
+                $groupAll = $match->group('one')->all();
+
+                // then
+                $this->assertEquals(['Hello there', 'Hello ', 'Hello here'], $all);
+                $this->assertEquals(['there', '', 'here'], $groupAll);
+            });
+    }
+
+    /**
+     * @test
+     */
     public function shouldGroup_notMatch()
     {
         // when

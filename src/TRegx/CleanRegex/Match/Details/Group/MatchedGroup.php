@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 
-class MatchedGroup implements MatchGroup
+class MatchedGroup extends AbstractMatchGroup
 {
     /** @var null|string */
     private $name;
@@ -15,8 +15,9 @@ class MatchedGroup implements MatchGroup
     /** @var int */
     private $offset;
 
-    public function __construct(?string $name, int $index, string $match, int $offset)
+    public function __construct(?string $name, int $index, string $match, int $offset, array $matches)
     {
+        parent::__construct($matches, $index);
         $this->name = $name;
         $this->index = $index;
         $this->match = $match;

@@ -45,8 +45,13 @@ class ReadMeTest extends TestCase
             $this->assertEquals(1, $match->index());
             $this->assertEquals(10, $match->offset());
 
+            $this->assertEquals(13, $match->group('unit')->offset());
+            $this->assertEquals(2, $match->group('unit')->index());
+            $this->assertEquals('unit', $match->group(2)->name());
+
             $this->assertEquals('192mm and 168cm or 18mm and 12cm', $match->subject());
             $this->assertEquals(['192mm', '168cm', '18mm', '12cm'], $match->all());
+            $this->assertEquals(['192', '168', '18', '12'], $match->group('value')->all());
 
             $this->assertEquals(['168', 'cm'], $match->groups());
             $this->assertEquals(['value' => '168', 'unit' => 'cm'], $match->namedGroups());
