@@ -7,7 +7,7 @@ Incoming in 1.1
 ---------------
 
 * Features
-    * General development (refactor, clean, unused code)
+    * General development (refactor, clean, removed unused code)
     * Add `Match.groups()`
     * Returning from `match()->first(callable)` modifies its return type
     * Add `replace()->all()`, `replace()->first()` and `replace()->only(int)`
@@ -23,14 +23,15 @@ Incoming in 1.1
     * Use `PREG_UNMATCHED_AS_NULL` if PHP version is supported
     * Add `CompositePattern` (#8)
     * Add `split()->filter()`
-    * Match with limit 1 calls `preg_match` (instead of `preg_match_all`)
+    * `match->only(i)` calls `preg_match` for `i=1`, and `preg_match_all` for other values
     * Add `group()->all()` to `Match`
+    * Add `groupsCount()` to `NotMatched`
 * Tests
     * Split tests into `\Test\Unit` and `\Test\Integration` folders 
     * Add dynamic skip for `ErrorsCleanerTest`
     * Add test for `ReplacePatternAll`, `ErrorsCleaner.getError()`, `ValidPatternTest.shouldNotLeaveErrors()`,
  `GuardedExecution.silenced()`, `GuardedExecutionTest.shouldNotCatchException()`, `FailureIndicators`,
-      `ReplaceCallbackObject`, `ReplacePatternCallbackInvoker`.
+      `ReplaceCallbackObject`, `ReplacePatternCallbackInvoker` from 1.0.
     * Handle [PHP bugfix in 7.1.13](https://bugs.php.net/bug.php?id=74183).
 * Debug
     * Add `pregConstant` field to `RuntimeError`. Only reason to do it is so if you **catch the exception it 

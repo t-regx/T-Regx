@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\Details;
 
-use TRegx\CleanRegex\Match\Details\NotMatched;
 use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class NotMatchedTest extends TestCase
 {
@@ -26,15 +26,15 @@ class NotMatchedTest extends TestCase
     /**
      * @test
      */
-    public function shouldGroupNames()
+    public function shouldGet_groupNames()
     {
         // given
         $notMatched = new NotMatched([
-            0 => ['Me'],
+            0       => ['Me'],
             'group' => ['M'],
-            1 => ['M'],
-            'xd' => ['e'],
-            2 => ['e'],
+            1       => ['M'],
+            'xd'    => ['e'],
+            2       => ['e'],
         ], 'subject');
 
         // when
@@ -42,5 +42,28 @@ class NotMatchedTest extends TestCase
 
         // then
         $this->assertEquals(['group', 'xd'], $groupNames);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_groupsCount()
+    {
+        // given
+        $notMatched = new NotMatched([
+            0       => ['Me'],
+            'group' => ['M'],
+            1       => ['M'],
+            2       => ['X'],
+            'xd'    => ['X'],
+            3       => ['e'],
+            4       => ['f'],
+        ], 'subject');
+
+        // when
+        $groupsCount = $notMatched->groupsCount();
+
+        // then
+        $this->assertEquals(4, $groupsCount);
     }
 }

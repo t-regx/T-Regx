@@ -29,6 +29,12 @@ class NotMatched implements Details
         }));
     }
 
+    public function groupsCount(): int
+    {
+        $indexedGroups = array_filter(array_keys($this->matches), 'is_int');
+        return count($indexedGroups) - 1;
+    }
+
     /**
      * @param string|int $nameOrIndex
      * @return bool

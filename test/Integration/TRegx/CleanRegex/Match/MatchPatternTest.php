@@ -4,6 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex\Match;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class MatchPatternTest extends TestCase
 {
@@ -70,6 +71,27 @@ class MatchPatternTest extends TestCase
             })
             ->orElse(function () {
                 $this->assertFalse(true);
+            });
+
+        // then
+        $this->assertEquals("Different", $value);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupsCount_forNoGroups()
+    {
+        // when
+        $value = pattern('[a-z]+')
+            ->match('NOT MATCHING')
+            ->forFirst(function () {
+                $this->assertFalse(true);
+            })
+            ->orElse(function (NotMatched $notMatched) {
+                // then
+                $this->assertEquals(0, $notMatched->groupsCount());
+                return 'Different';
             });
 
         // then
