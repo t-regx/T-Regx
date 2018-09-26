@@ -59,15 +59,15 @@ class Match implements Details
     public function group($nameOrIndex): MatchGroup
     {
         $this->validateGroupName($nameOrIndex);
-        if ($this->hasGroup($nameOrIndex)) {
-            list($name, $index) = (new GroupNameIndexAssign($this->matches, $nameOrIndex))->getNameAndIndex();
-            list($match, $offset) = $this->matches[$nameOrIndex][$this->index];
-            if ($offset > -1) {
-                return new MatchedGroup($name, $index, $match, $offset);
-            }
-            return new NotMatchedGroup($name, $index, $nameOrIndex, $this->subject, $this->matches);
+        if (!$this->hasGroup($nameOrIndex)) {
+            throw new NonexistentGroupException($nameOrIndex);
         }
-        throw new NonexistentGroupException($nameOrIndex);
+        list($name, $index) = (new GroupNameIndexAssign($this->matches, $nameOrIndex))->getNameAndIndex();
+        list($match, $offset) = $this->matches[$nameOrIndex][$this->index];
+        if ($offset > -1) {
+            return new MatchedGroup($name, $index, $match, $offset);
+        }
+        return new NotMatchedGroup($name, $index, $nameOrIndex, $this->subject, $this->matches);
     }
 
     /**

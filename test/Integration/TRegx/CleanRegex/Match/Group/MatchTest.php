@@ -11,6 +11,44 @@ class MatchTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetGroup()
+    {
+        // when
+        pattern('Hello (?<one>there)')
+            ->match('Hello there, General Kenobi')
+            ->first(function (Match $match) {
+
+                // then
+                $this->assertEquals(0, $match->offset());
+
+                $this->assertEquals('there', $match->group('one'));
+                $this->assertEquals('there', $match->group('one')->text());
+                $this->assertEquals(6, $match->group('one')->offset());
+                $this->assertTrue($match->group('one')->matches());
+
+                $this->assertTrue($match->hasGroup('one'));
+                $this->assertFalse($match->hasGroup('two'));
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroup_notMatch()
+    {
+        // when
+        pattern('Hello (?<one>there)?')
+            ->match('Hello XX, General Kenobi')
+            ->first(function (Match $match) {
+
+                // then
+                $this->assertFalse($match->group('one')->matches());
+            });
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_onMissingGroup()
     {
         // then
