@@ -42,12 +42,30 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 # Quick Examples
 
 ```php
-pattern('\d{3}')->match('My phone is 456-232-123')->all();    // ['456', '232', '123']
+pattern('\d{3}')->match('My phone is 456-232-123')->all();    
+
+// ['456', '232', '123']
 ```
 
+:bulb: See also [`->first()`](#get-the-first-match) and [`->only($limit)`](#get-only-few-matches).
+
 ```php
-pattern('\d{3}')->match('My phone is 456-232-123')->first();  //  '456'
+pattern('\d{3}')->match('My phone is 456-232-123')->only(2);    
+
+// ['456', '232']
 ```
+
+#### Replacing
+
+```php
+pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->all()->with('__');
+
+// 'P. Sh__man, 42 Wall__y w__'
+```
+
+Of course instead of [`->all()`](#replace-strings), you can also use [`->first()`](#replace-strings) and [`only($limit)`](#replace-only-few) to limit your [matches](#get-all-the-matches) or [replacements](#replace-strings) done.
+
+#### Advanced examples
 
 ```php
 $result = pattern('word')->match($text)
@@ -66,30 +84,28 @@ $s = '192mm and 168cm or 18mm and 12cm';
 pattern($p) ->match($s) ->iterate(function (Match $match) {
     
     (string) $match;                // '168cm'
-    $match->match();                // '168cm'
-    $match->group(0);               // '168cm'
+
     $match->group('value');         // '168'
-    $match->group(1);               // '168'
-    $match->group('unit');          // 'cm'
     $match->group(2);               // 'cm'
-    $match->index();                //  1
     $match->offset();               //  10       UTF-8 safe offset
-    
+
+    $match->group('unit')->text()   // '168'
     $match->group('unit')->offset() // 13
     $match->group('unit')->index()  // 2
     $match->group(2)->name()        // 'unit'
-
-    $match->subject();              // '192mm and 168cm or 18mm and 12cm'
-    $match->all();                  // ['192mm', '168cm', '18mm', '12cm']
-    $match->group('value)->all();   // ['192', '168', '18', '12']
 
     $match->groups();               // ['168', 'cm']
     $match->namedGroups();          // ['value' => '168', 'unit' => 'cm']
     $match->groupNames();           // ['value', 'unit']
     $match->hasGroup('val');        // false
-    $match->hasGroup('value');      // true
+
+    $match->subject();              // '192mm and 168cm or 18mm and 12cm'
+    $match->all();                  // ['192mm', '168cm', '18mm', '12cm']
+    $match->group('value')->all();  // ['192', '168', '18', '12']
 });
 ```
+
+:bulb: Scroll to [`Match`](#first-match-with-details). 
 
 ```php
 $p = '(?<value>\d+)(?<unit>cm|mm)';
@@ -105,12 +121,11 @@ pattern($p)->match($s)->group('value')->first()   // '192'
 You can pass any `callable` and `\Closure` to the `->first()` method. It's result will be returned.
 
 ```php
-pattern($p)->match($s)->first();                // '192mm'
+pattern($p)->match($s)->first();                 // '192mm'
 pattern($p)->match($s)->first('str_split');      // ['1', '9', '2', 'm', 'm']
 pattern($p)->match($s)->first('strlen')          // 5
 ```
 
-:bulb: Scroll to [`Match`](#first-match-with-details). 
 # Overview
 
 ## Why T-Regx stands out?
@@ -134,8 +149,10 @@ pattern($p)->match($s)->first('strlen')          // 5
 
 * ### Converting Warnings to Exceptions
    * Warning or errors during `preg::` are converted to exceptions.
-   * `preg_match()` returns `false` if an error occurred. `preg::match` never returns `false`, because it throws `SafeRegexException` on error.
-
+   * `preg_()` can never fail, because it throws `SafeRegexException` on warning/error.
+   * In some cases, `preg_()` methods might fail, return `false`/`null` and **NOT** trigger a warning. Separate exception,
+     `SuspectedReturnSafeRegexException` is then thrown by T-Regx.
+ 
 [Scroll to API](#api)
 
 ## Ways of using T-Regx
@@ -217,6 +234,15 @@ pattern('[a-zA-Z]+')->match('Robert likes trains')->first()
 ```
 ```
 'Robert'
+```
+
+#### Get only few matches
+
+```php
+pattern('[a-zA-Z]+')->match('Robert likes trains')->only(2)
+```
+```
+['Robert', 'likes']
 ```
 
 #### Callback for the first match
@@ -329,6 +355,14 @@ pattern('er|ab|ay|ey')->replace($text)->first()->with('__')
 'P. Sh__man, 42 Wallaby way, Sydney'
 ```
 
+#### Replace only few
+```php
+pattern('er|ab|ay|ey')->replace($text)->only(2)->with('__')
+```
+```
+'P. Sh__man, 42 Wall__y way, Sydney'
+```
+
 :bulb: For more readability, use `replace()->callback()` to render strings with capturing groups.
 
 #### Replace using callbacks
@@ -363,7 +397,7 @@ pattern('http://(?<name>[a-z]+)\.(com|org)')
 
 When you call `pattern('x')->match('asd')->first()` and subject isn't matched by the pattern, then T-Regx throws `SubjectNotMatchedException` that you can catch.
 
-However, if subject is  **expected** not to be matched by the pattern, you can call `forFirst()->orElse()`.
+However, if subject is  **expected** not to be matched by the pattern, you can call `forFirst()` and decide whether to return from a callback, throw an exception or return a default value:
 
 * <a name="forFirst-orElse">`forFirst()->orElse(callable)`</a>
   ```php
@@ -398,7 +432,7 @@ However, if subject is  **expected** not to be matched by the pattern, you can c
 
 * <a name="forFirst-orThrow">`forFirst()->orThrow()`</a>
 
-  You can even supply your own exception! It only has to implement `\Throwable`.
+  You can even supply your own exception! It has to implement `\Throwable`, though.
   ```php
   $result = pattern('(x|asd)')
       ->match('asd')
@@ -411,8 +445,8 @@ However, if subject is  **expected** not to be matched by the pattern, you can c
   ```
   It must also have one of the following constructors
   * `__construct()`
-  * `__construct($message)`, where `$message` can be `string`
-  * `__construct($message, $subject)`, where `$message` and `subject` can be `string`
+  * `__construct($message)`, where `$message` can be a `string`
+  * `__construct($message, $subject)`, where `$message` and `subject` can be a `string`
 
 ## Split a string
 
@@ -421,7 +455,7 @@ pattern(',')->split('Foo,Bar,Cat')->ex();                // excluding the delimi
 
 pattern('(\|)')->split('One|Two|Three')->inc();          // including the delimiter
 
-pattern('.')->split('192..168...18.23')->filter()->ex()  // filtering out empty values
+pattern('\.')->split('192..168...18.23')->filter()->ex()  // filtering out empty values
 ```
 ```
 ['Foo', 'Bar', 'Cat']
@@ -531,14 +565,20 @@ or
 
 # Performance
 
-#### Unnecessary calls
-```php
-pattern('\d+')
-    ->match('192 168 172 14')
-    ->iterate(function (Match $match) {})
-    ->iterate(function (Match $match) {})
-    ->iterate(function (Match $match) {})
-    ->iterate(function (Match $match) {})
-```
+* Unnecessary calls:
+  ```php
+  pattern('\d+')
+      ->match('192 168 172 14')
+      ->iterate(function (Match $match) {})
+      ->iterate(function (Match $match) {})
+      ->iterate(function (Match $match) {})
+      ->iterate(function (Match $match) {})
+  ```
 
-Clean Regex will perform only one call to `preg_match()`, and use cached results to iterate matches.
+  T-Regx will perform only one call to `preg_match()`, and use cached results to iterate matches.
+* Unnecessary matches:
+  ```php
+  pattern($p)->match($s)->first()
+  pattern($p)->match($s)->only(1)
+  ```
+  will do only `preg::match()` under the hood, and not `preg::match_all`.

@@ -22,7 +22,7 @@ class ReadMeTest extends TestCase
 
         // when
         $all = pattern('\d{3}')->match('My phone is 456-232-123')->all();
-        $first = pattern('\d{3}')->match('My phone is 456-232-123')->first();
+        $replace = pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->all()->with('__');
 
         $forFirst = pattern('word')
             ->match($someDataFromUser)
@@ -36,38 +36,33 @@ class ReadMeTest extends TestCase
             if ($match != '168cm') return;
 
             $this->assertEquals('168cm', (string)$match);
-            $this->assertEquals('168cm', $match->match());
-            $this->assertEquals('168cm', $match->group(0));
             $this->assertEquals('168', $match->group('value'));
-            $this->assertEquals('168', $match->group(1));
-            $this->assertEquals('cm', $match->group('unit'));
             $this->assertEquals('cm', $match->group(2));
-            $this->assertEquals(1, $match->index());
             $this->assertEquals(10, $match->offset());
 
+            $this->assertEquals('cm', $match->group('unit')->text());
             $this->assertEquals(13, $match->group('unit')->offset());
             $this->assertEquals(2, $match->group('unit')->index());
             $this->assertEquals('unit', $match->group(2)->name());
-
-            $this->assertEquals('192mm and 168cm or 18mm and 12cm', $match->subject());
-            $this->assertEquals(['192mm', '168cm', '18mm', '12cm'], $match->all());
-            $this->assertEquals(['192', '168', '18', '12'], $match->group('value')->all());
 
             $this->assertEquals(['168', 'cm'], $match->groups());
             $this->assertEquals(['value' => '168', 'unit' => 'cm'], $match->namedGroups());
             $this->assertEquals(['value', 'unit'], $match->groupNames());
             $this->assertFalse($match->hasGroup('val'));
-            $this->assertTrue($match->hasGroup('value'));
+
+            $this->assertEquals('192mm and 168cm or 18mm and 12cm', $match->subject());
+            $this->assertEquals(['192mm', '168cm', '18mm', '12cm'], $match->all());
+            $this->assertEquals(['192', '168', '18', '12'], $match->group('value')->all());
         });
 
         $groupAll = pattern($pattern)->match($subject)->group('value')->all();
         $groupFirst = pattern($pattern)->match($subject)->group('value')->first();
         $stringSplit = pattern($pattern)->match($subject)->first('str_split');
-        $stringLength = pattern($pattern)->match($subject)->first('strlen');          // 5
+        $stringLength = pattern($pattern)->match($subject)->first('strlen');
 
         // then
         $this->assertEquals(['456', '232', '123'], $all);
-        $this->assertEquals('456', $first);
+        $this->assertEquals('P. Sh__man, 42 Wall__y w__', $replace);
         $this->assertEquals('WORD', $forFirst);
         $this->assertEquals(['192', '168', '18', '12'], $groupAll);
         $this->assertEquals('192', $groupFirst);
@@ -167,6 +162,18 @@ class ReadMeTest extends TestCase
 
         // then
         $this->assertEquals('Robert', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function retrieveOnlyFew()
+    {
+        // when
+        $result = pattern('[a-zA-Z]+')->match('Robert likes trains')->only(2);
+
+        // then
+        $this->assertEquals(['Robert', 'likes'], $result);
     }
 
     /**
@@ -304,6 +311,20 @@ class ReadMeTest extends TestCase
 
         // then
         $this->assertEquals('P. Sh__man, 42 Wallaby way, Sydney', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function replaceOnlyFewStrings()
+    {
+        // when
+        $result = pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')
+            ->only(2)
+            ->with('__');
+
+        // then
+        $this->assertEquals('P. Sh__man, 42 Wall__y way, Sydney', $result);
     }
 
     /**
