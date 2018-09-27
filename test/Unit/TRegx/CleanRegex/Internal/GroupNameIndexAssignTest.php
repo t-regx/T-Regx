@@ -77,9 +77,7 @@ class GroupNameIndexAssignTest extends TestCase
      */
     private function getAssign($group): GroupNameIndexAssign
     {
-        $matches = [];
         preg::match_all('/(?<first>1) (and) (?<third>2) (and maybe) (?<fifth>3)/', '', $matches);
-        $assign = new GroupNameIndexAssign($matches, $group);
-        return $assign;
+        return new GroupNameIndexAssign($matches, $group);
     }
 }

@@ -129,7 +129,6 @@ class ReplaceCallbackObjectTest extends TestCase
 
     private function analyzePattern($pattern, $subject): array
     {
-        $matches = [];
         preg::match_all($pattern, $subject, $matches, PREG_OFFSET_CAPTURE);
         return $matches;
     }

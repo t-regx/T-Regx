@@ -293,7 +293,6 @@ class MatchTest extends TestCase
     {
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
 
-        $matches = [];
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
         return new Match(self::subject, $index, $matches);
     }

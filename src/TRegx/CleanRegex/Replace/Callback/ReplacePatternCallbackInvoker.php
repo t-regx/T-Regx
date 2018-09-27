@@ -37,9 +37,7 @@ class ReplacePatternCallbackInvoker
 
     private function analyzePattern(): array
     {
-        $matches = [];
         preg::match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
-
         return $matches;
     }
 }

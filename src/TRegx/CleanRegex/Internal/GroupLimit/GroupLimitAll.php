@@ -41,7 +41,6 @@ class GroupLimitAll
 
     private function getMatches(): array
     {
-        $matches = [];
         preg::match_all($this->pattern->pattern, $this->subject, $matches, $this->pregMatchFlags());
         return $matches;
     }

@@ -32,7 +32,6 @@ class GroupLimitFirst
 
     public function getFirstForGroup(): string
     {
-        $matches = [];
         $count = preg::match($this->pattern->pattern, $this->subject, $matches, $this->pregMatchFlags());
 
         if ($this->groupMatchedIn($matches)) {
