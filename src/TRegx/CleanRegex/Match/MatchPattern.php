@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use InvalidArgumentException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFactory;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
@@ -11,10 +10,7 @@ use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\NotMatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\Optional;
-use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
-use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 use TRegx\SafeRegex\preg;
-use function array_slice;
 
 class MatchPattern implements PatternLimit
 {
@@ -25,19 +21,20 @@ class MatchPattern implements PatternLimit
     private $pattern;
     /** @var string */
     private $subject;
-    /** @var GroupVerifier */
-    private $groupVerifier;
 
-    public function __construct(Pattern $pattern, string $subject, GroupVerifier $groupVerifier = null)
+    public function __construct(Pattern $pattern, string $subject)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
-        $this->groupVerifier = $groupVerifier ?? new MatchAllGroupVerifier();
+    }
+
+    public function matches(): bool
+    {
+        return preg::match($this->pattern->pattern, $this->subject) === 1;
     }
 
     public function all(): array
     {
-        $matches = [];
         preg::match_all($this->pattern->pattern, $this->subject, $matches);
         return $matches[self::GROUP_WHOLE_MATCH];
     }
@@ -62,15 +59,7 @@ class MatchPattern implements PatternLimit
 
     public function only(int $limit): array
     {
-        if ($limit < 0) {
-            throw new InvalidArgumentException("Negative limit $limit");
-        }
-        return array_slice($this->all(), 0, $limit);
-    }
-
-    public function matches(): bool
-    {
-        return preg::match($this->pattern->pattern, $this->subject) === 1;
+        return (new MatchOnly($this->pattern, $this->subject, $limit))->get();
     }
 
     public function iterate(callable $callback): void

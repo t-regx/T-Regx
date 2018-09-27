@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\SafeRegex\preg;
 use function array_filter;
 use function array_values;
 
@@ -20,8 +21,8 @@ class FilterArrayPattern
 
     public function filter(): array
     {
-        return array_values(array_filter($this->array, function ($element) {
-            return (new MatchesPattern($this->pattern, $element))->matches();
+        return array_values(array_filter($this->array, function ($subject) {
+            return preg::match($this->pattern->pattern, $subject) === 1;
         }));
     }
 }
