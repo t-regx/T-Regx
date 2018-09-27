@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\CompositePattern\chainedReplace;
+namespace Test\Unit\TRegx\CleanRegex\CompositePattern\chainedReplace\with;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\CompositePattern;
@@ -26,7 +26,7 @@ class CompositePatternTest extends TestCase
         $pattern = CompositePattern::of(array_slice($patterns, 0, $times));
 
         // when
-        $replaced = $pattern->chainedReplace("Do you think that's air you're breathing now?", '__');
+        $replaced = $pattern->chainedReplace("Do you think that's air you're breathing now?")->with('__');
 
         // then
         $this->assertEquals($expected, $replaced);
