@@ -3,11 +3,12 @@ namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\ByteOffset;
+use TRegx\CleanRegex\Internal\Factory\Group\GroupFacade;
+use TRegx\CleanRegex\Internal\Factory\Group\GroupFactoryStrategy;
+use TRegx\CleanRegex\Internal\Factory\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
-use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
-use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use function array_filter;
 use function array_key_exists;
 use function array_keys;
@@ -28,11 +29,18 @@ class Match implements MatchInterface
     /** @var array */
     protected $matches;
 
-    public function __construct(string $subject, int $index, array $matches)
+    /** @var GroupNameIndexAssign */
+    private $groupAssign;
+    /** @var GroupFactoryStrategy */
+    private $strategy;
+
+    public function __construct(string $subject, int $index, array $matches, GroupFactoryStrategy $strategy = null)
     {
         $this->subject = $subject;
         $this->index = $index;
         $this->matches = $matches;
+        $this->groupAssign = new GroupNameIndexAssign($matches);
+        $this->strategy = $strategy ?? new MatchGroupFactoryStrategy();
     }
 
     public function subject(): string
@@ -58,16 +66,15 @@ class Match implements MatchInterface
      */
     public function group($nameOrIndex): MatchGroup
     {
-        $this->validateGroupName($nameOrIndex);
         if (!$this->hasGroup($nameOrIndex)) {
             throw new NonexistentGroupException($nameOrIndex);
         }
-        list($name, $index) = (new GroupNameIndexAssign($this->matches, $nameOrIndex))->getNameAndIndex();
-        list($match, $offset) = $this->matches[$nameOrIndex][$this->index];
-        if ($offset > -1) {
-            return new MatchedGroup($name, $index, $match, $offset, $this->matches);
-        }
-        return new NotMatchedGroup($name, $index, $nameOrIndex, $this->subject, $this->matches);
+        return $this->getGroupFacade($nameOrIndex)->createGroup($this->strategy);
+    }
+
+    private function getGroupFacade($nameOrIndex): GroupFacade
+    {
+        return new GroupFacade($this->matches, $this->subject, $nameOrIndex, $this->index);
     }
 
     /**
@@ -76,10 +83,10 @@ class Match implements MatchInterface
     public function namedGroups(): array
     {
         $namedGroups = [];
-        foreach ($this->matches as $groupNameOrIndex => $match) {
-            if (is_string($groupNameOrIndex)) {
+        foreach ($this->matches as $nameOrIndex => $match) {
+            if (is_string($nameOrIndex)) {
                 list($value, $offset) = $match[$this->index];
-                $namedGroups[$groupNameOrIndex] = $value;
+                $namedGroups[$nameOrIndex] = $value;
             }
         }
         return $namedGroups;
@@ -145,10 +152,10 @@ class Match implements MatchInterface
 
     public function offset(): int
     {
-        return ByteOffset::normalize($this->subject, $this->byteOffset());
+        return ByteOffset::toCharacterOffset($this->subject, $this->byteOffset());
     }
 
-    private function byteOffset(): int
+    public function byteOffset(): int
     {
         list($value, $offset) = $this->matches[self::WHOLE_MATCH][$this->index];
         return $offset;

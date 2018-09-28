@@ -13,7 +13,7 @@ use function interface_exists;
 use function strlen;
 use function substr;
 
-class UnknownSignatureExceptionFactory
+class SignatureExceptionFactory
 {
     /** @var string */
     private $className;

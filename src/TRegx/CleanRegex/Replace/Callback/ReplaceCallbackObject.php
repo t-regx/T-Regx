@@ -104,6 +104,6 @@ class ReplaceCallbackObject
 
     private function getReplaceStart($offset): int
     {
-        return ByteOffset::normalize($this->subject, $offset) + $this->offsetModification;
+        return ByteOffset::toCharacterOffset($this->subject, $offset) + $this->offsetModification;
     }
 }

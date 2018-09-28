@@ -2,38 +2,27 @@
 namespace TRegx\CleanRegex\Match\ForFirst;
 
 use Throwable;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\UnknownSignatureExceptionFactory;
-use TRegx\CleanRegex\Match\Details\NotMatched;
-use function call_user_func;
+use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 
 class NotMatchedOptional implements Optional
 {
-    /** @var array */
-    private $matches;
-    /** @var string */
-    private $subject;
+    /** @var NotMatchedOptionalWorker */
+    private $worker;
 
-    public function __construct(array $matches, string $subject)
+    public function __construct(NotMatchedOptionalWorker $worker)
     {
-        $this->matches = $matches;
-        $this->subject = $subject;
+        $this->worker = $worker;
     }
 
     /**
      * @param string $exceptionClassName
+     * @return mixed
      * @throws Throwable
      */
     public function orThrow(string $exceptionClassName = SubjectNotMatchedException::class)
     {
-        $exception = $this->getException($exceptionClassName);
-        throw $exception;
-    }
-
-    private function getException(string $exceptionClassName): Throwable
-    {
-        return (new UnknownSignatureExceptionFactory($exceptionClassName, new FirstMatchMessage()))->create($this->subject);
+        throw $this->worker->orThrow($exceptionClassName);
     }
 
     /**
@@ -51,6 +40,6 @@ class NotMatchedOptional implements Optional
      */
     public function orElse(callable $producer)
     {
-        return call_user_func($producer, new NotMatched($this->matches, $this->subject));
+        return $this->worker->orElse($producer);
     }
 }

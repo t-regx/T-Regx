@@ -13,13 +13,9 @@ class Pattern
     /** @var InternalPattern */
     private $pattern;
 
-    /** @var string */
-    private $flags;
-
     public function __construct(string $pattern, string $flags = '')
     {
         $this->pattern = new InternalPattern($pattern, $flags);
-        $this->flags = $flags;
     }
 
     public function matches(string $subject): bool

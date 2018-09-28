@@ -1,8 +1,8 @@
 <?php
 namespace Test\UnitTRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\SafeRegex\preg;
 
 class GroupNameIndexAssignTest extends TestCase
@@ -13,10 +13,10 @@ class GroupNameIndexAssignTest extends TestCase
     public function shouldGetNameAndIndex_fromName()
     {
         // given
-        $assign = $this->getAssign('third');
+        $assign = $this->getAssign();
 
         // when
-        list($name, $index) = $assign->getNameAndIndex();
+        list($name, $index) = $assign->getNameAndIndex('third');
 
         // then
         $this->assertEquals('third', $name);
@@ -29,10 +29,10 @@ class GroupNameIndexAssignTest extends TestCase
     public function shouldGetNameAndIndex_fromIndex()
     {
         // given
-        $assign = $this->getAssign(5);
+        $assign = $this->getAssign();
 
         // when
-        list($name, $index) = $assign->getNameAndIndex();
+        list($name, $index) = $assign->getNameAndIndex(5);
 
         // then
         $this->assertEquals('fifth', $name);
@@ -45,10 +45,10 @@ class GroupNameIndexAssignTest extends TestCase
     public function shouldGetNullAndIndex_fromIndex_unnamedGroup()
     {
         // given
-        $assign = $this->getAssign(2);
+        $assign = $this->getAssign();
 
         // when
-        list($name, $index) = $assign->getNameAndIndex();
+        list($name, $index) = $assign->getNameAndIndex(2);
 
         // then
         $this->assertEquals(null, $name);
@@ -61,10 +61,10 @@ class GroupNameIndexAssignTest extends TestCase
     public function shouldGetNullAndIndex_fromIndex_wholeMatch()
     {
         // given
-        $assign = $this->getAssign(0);
+        $assign = $this->getAssign();
 
         // when
-        list($name, $index) = $assign->getNameAndIndex();
+        list($name, $index) = $assign->getNameAndIndex(0);
 
         // then
         $this->assertEquals(null, $name);
@@ -75,9 +75,9 @@ class GroupNameIndexAssignTest extends TestCase
      * @param string|int $group
      * @return GroupNameIndexAssign
      */
-    private function getAssign($group): GroupNameIndexAssign
+    private function getAssign(): GroupNameIndexAssign
     {
         preg::match_all('/(?<first>1) (and) (?<third>2) (and maybe) (?<fifth>3)/', '', $matches);
-        return new GroupNameIndexAssign($matches, $group);
+        return new GroupNameIndexAssign($matches);
     }
 }

@@ -78,6 +78,7 @@ API
             * `Match.subject()`
             * `Match.index()`
             * `Match.offset()`
+            * `Match.byteOffset()`
             * `Match.group(string|int)`
             * `Match.groups()`
             * `Match.namedGroups()`
