@@ -1,11 +1,9 @@
 <?php
 namespace Test\Integration\TRegx\CleanRegex\Match\Groups;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Match;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Match\Details\Match;
 
 class MatchTest extends TestCase
 {

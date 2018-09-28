@@ -1,10 +1,8 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\Groups\Strategy;
 
-use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
-use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
-use TRegx\CleanRegex\Match\Groups\Strategy\PatternAnalyzeGroupVerifier;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 
 class GroupVerifierTest extends TestCase
 {

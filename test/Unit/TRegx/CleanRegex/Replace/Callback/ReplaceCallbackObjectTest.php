@@ -92,7 +92,7 @@ class ReplaceCallbackObjectTest extends TestCase
     public function shouldThrow_OnNonStringReplacement()
     {
         // given
-        $object = $this->create('//', 'foo bar', 1, function (ReplaceMatch $match) {
+        $object = $this->create('//', 'foo bar', 1, function () {
             return 2;
         });
 
