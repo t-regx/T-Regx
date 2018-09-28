@@ -16,7 +16,7 @@ use function array_values;
 use function is_int;
 use function is_string;
 
-class Match implements Details
+class Match implements MatchInterface
 {
     protected const WHOLE_MATCH = 0;
     private const VALUE_INDEX = 0;
