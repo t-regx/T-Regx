@@ -53,7 +53,7 @@ class Match implements MatchInterface
         return $this->index;
     }
 
-    public function match(): string
+    public function text(): string
     {
         list($match, $offset) = $this->matches[self::WHOLE_MATCH][$this->index];
         return $match;
@@ -163,7 +163,7 @@ class Match implements MatchInterface
 
     public function __toString(): string
     {
-        return $this->match();
+        return $this->text();
     }
 
     private function validateGroupName($nameOrIndex): void

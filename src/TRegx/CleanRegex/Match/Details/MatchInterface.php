@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 
 interface MatchInterface extends Details
 {
-    public function match(): string;
+    public function text(): string;
 
     public function index(): int;
 

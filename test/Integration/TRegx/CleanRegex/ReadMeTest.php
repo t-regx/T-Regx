@@ -183,7 +183,7 @@ class ReadMeTest extends TestCase
     {
         // when
         $result = pattern('[a-zA-Z]+')->match('Robert likes trains')->first(function (Match $match) {
-            $name = $match->match();
+            $name = $match->text();
             return str_split($name);
         });
 
@@ -225,10 +225,10 @@ class ReadMeTest extends TestCase
         pattern('\d+(?<unit>[ckm]?m)')
             ->match('192cm 168m 172km 14mm')
             ->iterate(function (Match $match) {
-                if ($match->match() != '172km') return;
+                if ($match->text() != '172km') return;
 
                 // gets the match
-                $this->assertEquals('172km', $match->match());
+                $this->assertEquals('172km', $match->text());
                 $this->assertEquals('172km', (string)$match);
 
                 // gets the match offset
@@ -254,7 +254,7 @@ class ReadMeTest extends TestCase
                 if ($match == '168') {
                     return null;
                 }
-                return $match->match() * 2;
+                return $match->text() * 2;
             });
 
         // then
@@ -447,7 +447,7 @@ class ReadMeTest extends TestCase
             ->match('Robert Likes Trains')
             ->first(function (Match $match) {
                 // then
-                $this->assertEquals('Robert', $match->match());
+                $this->assertEquals('Robert', $match->text());
                 $this->assertEquals('Robert', (string)$match);
 
                 $this->assertEquals('Robert Likes Trains', $match->subject());

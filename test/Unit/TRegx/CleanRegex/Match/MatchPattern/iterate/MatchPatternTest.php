@@ -22,7 +22,7 @@ class MatchPatternTest extends TestCase
         $pattern->iterate(function (Match $match) use (&$counter, $matches) {
 
             // then
-            $this->assertEquals($matches[$counter], $match->match());
+            $this->assertEquals($matches[$counter], $match->text());
             $this->assertEquals($counter++, $match->index());
             $this->assertEquals('Nice matching pattern', $match->subject());
             $this->assertEquals(['Nice', 'matching', 'pattern'], $match->all());

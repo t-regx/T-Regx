@@ -74,7 +74,7 @@ class MatchTest extends TestCase
         $match = $this->getMatch(self::INDEX_JACK_SPARROW);
 
         // when
-        $match = $match->match();
+        $match = $match->text();
 
         // then
         $this->assertEquals('Jack Sparrow', $match);
