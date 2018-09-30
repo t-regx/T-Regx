@@ -19,7 +19,7 @@ class CompositePattern
     public function allMatch(string $subject): bool
     {
         foreach ($this->patterns as $pattern) {
-            if (!preg::match($pattern, $subject)) {
+            if (!preg::match($pattern->pattern, $subject)) {
                 return false;
             }
         }
@@ -29,7 +29,7 @@ class CompositePattern
     public function anyMatches(string $subject): bool
     {
         foreach ($this->patterns as $pattern) {
-            if (preg::match($pattern, $subject)) {
+            if (preg::match($pattern->pattern, $subject)) {
                 return true;
             }
         }
@@ -46,6 +46,10 @@ class CompositePattern
         return new ChainedReplace($this->patterns, $subject);
     }
 
+    /**
+     * @param (string|Pattern)[] $patterns
+     * @return CompositePattern
+     */
     public static function of(array $patterns): CompositePattern
     {
         return new CompositePattern((new CompositePatternMapper($patterns))->create());
