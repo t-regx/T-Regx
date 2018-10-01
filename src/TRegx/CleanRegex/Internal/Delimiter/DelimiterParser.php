@@ -3,11 +3,12 @@ namespace TRegx\CleanRegex\Internal\Delimiter;
 
 use function strlen;
 use function strrpos;
+use function in_array;
 
 class DelimiterParser
 {
     /** @var array */
-    private static $validDelimiters = ['/', '#', '%', '~', '+', '!'];
+    private static $validDelimiters = ['/', '#', '%', '~', '+', '!', '@', '_', ';', '`', '-', '='];
 
     public function isDelimitered(string $pattern): bool
     {
