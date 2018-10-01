@@ -72,6 +72,11 @@ class Pattern
         return $this->pattern->pattern;
     }
 
+    public function analyze(): AnalyzePattern
+    {
+        return new AnalyzePattern($this->pattern);
+    }
+
     public static function of(string $pattern, string $flags = ''): Pattern
     {
         return new Pattern($pattern, $flags);
