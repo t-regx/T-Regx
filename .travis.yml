@@ -4,6 +4,7 @@ php:
   - 7.1.12
   - 7.1.13
   - 7.2
+  - nightly
 
 branches:
   only:
@@ -23,3 +24,8 @@ script:
 
 after_script:
   - travis_retry php vendor/bin/php-coveralls -v
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: nightly
