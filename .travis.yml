@@ -1,9 +1,11 @@
 language: php
 php:
+  - 7.1.0
   - 7.1.3
   - 7.1.12
   - 7.1.13
   - 7.2
+  - hhvm
   - nightly
 
 branches:
@@ -20,6 +22,7 @@ before_script:
     - mkdir -p build/cov
 
 script:
+  - composer info | sort
   - phpunit --bootstrap helper/bootstrap.php test
 
 after_script:
@@ -28,4 +31,7 @@ after_script:
 matrix:
   fast_finish: true
   allow_failures:
+    - php: 7.1.0
+    - php: hhvm
     - php: nightly
+
