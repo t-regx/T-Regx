@@ -24,6 +24,11 @@ class ReadMeTest extends TestCase
         $all = pattern('\d{3}')->match('My phone is 456-232-123')->all();
         $replace = pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->all()->with('__');
 
+        $replaceCallback = pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->first()->callback(function (Match $m) {
+            return '<' . strtoupper($m->match()) . '>';
+        });
+        $bareCallback = pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->first()->callback('strtoupper');
+
         $forFirst = pattern('word')
             ->match($someDataFromUser)
             ->forFirst('strtoupper')//
@@ -63,6 +68,8 @@ class ReadMeTest extends TestCase
         // then
         $this->assertEquals(['456', '232', '123'], $all);
         $this->assertEquals('P. Sh__man, 42 Wall__y w__', $replace);
+        $this->assertEquals('P. Sh<ER>man, 42 Wallaby way', $replaceCallback);
+        $this->assertEquals('P. ShERman, 42 Wallaby way', $bareCallback);
         $this->assertEquals('WORD', $forFirst);
         $this->assertEquals(['192', '168', '18', '12'], $groupAll);
         $this->assertEquals('192', $groupFirst);
