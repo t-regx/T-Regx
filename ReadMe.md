@@ -70,7 +70,7 @@ Of course you can also use [`first()`](#replace-strings) and [`only($limit)`](#r
 
 ```php
 pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->first()->callback(function (Match $m) {
-    return '<' . strtoupper($m->match()) . '>';
+    return '<' . strtoupper($m->text()) . '>';
 });
 
 // 'P. Sh<ER>man, 42 Wallaby way'
@@ -106,7 +106,7 @@ $s = '192mm and 168cm or 18mm and 12cm';
 
 pattern($p) ->match($s) ->iterate(function (Match $match) {
     
-    $match->match();                  // '168cm'
+    $match->text();                   // '168cm'
     (string) $match;                  // '168cm'
 
     (string) $match->group('value');  // '168'

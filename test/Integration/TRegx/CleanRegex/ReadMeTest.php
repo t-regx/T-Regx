@@ -25,7 +25,7 @@ class ReadMeTest extends TestCase
         $replace = pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->all()->with('__');
 
         $replaceCallback = pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->first()->callback(function (Match $m) {
-            return '<' . strtoupper($m->match()) . '>';
+            return '<' . strtoupper($m->text()) . '>';
         });
         $bareCallback = pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->first()->callback('strtoupper');
 
