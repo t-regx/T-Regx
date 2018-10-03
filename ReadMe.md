@@ -1,21 +1,21 @@
-<p align="center"><img src="https://i.imgur.com/AUHFTIX.png"></p>
+<p align="center"><img src="t.regx.png"></p>
 
-# T-Regx | Regular Expressions library
+# T-Regx | Powerful Regular Expressions library
 
 The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE methods. [Scroll to API](#api)
 
 [![Build Status](https://travis-ci.org/Danon/T-Regx.svg?branch=master)](https://travis-ci.org/Danon/T-Regx)
 [![Coverage Status](https://coveralls.io/repos/github/Danon/T-Regx/badge.svg?branch=master)](https://coveralls.io/github/Danon/T-Regx?branch=master)
-[![Requirements Status](https://requires.io/github/Danon/T-Regx/requirements.svg?branch=master)](https://requires.io/github/Danon/T-Regx/requirements/?branch=master)
+[![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](https://requires.io/github/Danon/T-Regx/requirements/?branch=master)
 ![Repository Size](https://github-size-badge.herokuapp.com/Danon/T-Regx.svg)
-[![GitHub](https://img.shields.io/github/license/Danon/T-Regx.svg)](https://github.com/Danon/T-Regx)
-[![GitHub last commit](https://img.shields.io/github/last-commit/Danon/T-Regx.svg)](https://github.com/Danon/T-Regx)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Danon/T-Regx.svg)](https://github.com/Danon/T-Regx)
+![License](https://img.shields.io/github/license/Danon/T-Regx.svg)
+![GitHub last commit](https://img.shields.io/github/last-commit/Danon/T-Regx.svg)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Danon/T-Regx.svg)
 
-[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D5.3-blue.svg)](https://github.com/Danon/T-Regx/branches/all)
-[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D5.6-blue.svg)](https://github.com/Danon/T-Regx/branches/all)
-[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D7.1.3-blue.svg)](https://github.com/Danon/T-Regx)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
+[![PHP Version](https://img.shields.io/badge/PHP-5.3%2B-blue.svg)](https://github.com/Danon/T-Regx/branches/all)
+[![PHP Version](https://img.shields.io/badge/PHP-5.6%2B-blue.svg)](https://github.com/Danon/T-Regx/branches/all)
+[![PHP Version](https://img.shields.io/badge/PHP-7.1.3%2B-blue.svg)](https://github.com/Danon/T-Regx/branches/all)
+[![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 
 1. [Quick Examples](#quick-examples)
 2. [Overview](#overview)
@@ -43,18 +43,20 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 # Quick Examples
 
 ```php
-pattern('\d{3}')->match('My phone is 456-232-123')->all();    
+$s = 'My phone is 456-232-123';
 
-// ['456', '232', '123']
+pattern('\d{3}')->match($s)->first();  // '456'
 ```
-
-:bulb: See also [`->first()`](#get-the-first-match) and [`->only($limit)`](#get-only-few-matches).
 
 ```php
-pattern('\d{3}')->match('My phone is 456-232-123')->only(2);    
-
-// ['456', '232']
+pattern('\d{3}')->match($s)->all();    // ['456', '232', '123']
 ```
+
+```php
+pattern('\d{3}')->match($s)->only(2);  // ['456', '232']
+```
+
+:bulb: See more about [`first()`](#get-the-first-match), [`all()`](#get-all-the-matches) and [`only($limit)`](#get-only-few-matches).
 
 #### Replacing
 
@@ -64,9 +66,27 @@ pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->all()->with('__');
 // 'P. Sh__man, 42 Wall__y w__'
 ```
 
-Of course instead of [`->all()`](#replace-strings), you can also use [`->first()`](#replace-strings) and [`only($limit)`](#replace-only-few) to limit your [matches](#get-all-the-matches) or [replacements](#replace-strings) done.
+Of course you can also use [`first()`](#replace-strings) and [`only($limit)`](#replace-only-few) to limit your [replacements](#replace-strings).
 
-#### Advanced examples
+```php
+pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->first()->callback(function (Match $m) {
+    return '<' . strtoupper($m->match()) . '>';
+});
+
+// 'P. Sh<ER>man, 42 Wallaby way'
+```
+
+You can even pass bare callbacks!
+
+```php
+pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->first()->callback('strtoupper');
+
+// 'P. ShERman, 42 Wallaby way'
+```
+
+### Advanced examples
+
+Not sure if your pattern is matched or not?
 
 ```php
 $result = pattern('word')->match($text)
@@ -78,31 +98,35 @@ $result   // 'WORD'
 :bulb: Instead of [`orThrow()`](#forFirst-orThrow), you can also use [`orReturn(var)`](#forFirst-orReturn) to pass a default value
 or use [`orElse(callback)`](#controlling-unmatched-subject) to fetch value from a callback.
 
+### Details
+
 ```php
 $p = '(?<value>\d+)(?<unit>cm|mm)';
 $s = '192mm and 168cm or 18mm and 12cm';
 
 pattern($p) ->match($s) ->iterate(function (Match $match) {
     
-    (string) $match;                // '168cm'
+    $match->match();                  // '168cm'
+    (string) $match;                  // '168cm'
 
-    $match->group('value');         // '168'
-    $match->group(2);               // 'cm'
-    $match->offset();               //  10       UTF-8 safe offset
+    (string) $match->group('value');  // '168'
+    (string) $match->group(2);        // 'cm'
+    $match->offset();                 //  10       UTF-8 safe offset
 
-    $match->group('unit')->text()   // '168'
-    $match->group('unit')->offset() // 13
-    $match->group('unit')->index()  // 2
-    $match->group(2)->name()        // 'unit'
+    $match->group('unit')->text()     // '168'
+    $match->group('unit')->offset()   // 13
+    $match->group('unit')->index()    // 2
+    $match->group(2)->name()          // 'unit'
 
-    $match->groups();               // ['168', 'cm']
-    $match->namedGroups();          // ['value' => '168', 'unit' => 'cm']
-    $match->groupNames();           // ['value', 'unit']
-    $match->hasGroup('val');        // false
+    $match->groups();                 // ['168', 'cm']
+    $match->namedGroups();            // ['value' => '168', 'unit' => 'cm']
+    $match->groupNames();             // ['value', 'unit']
+    $match->hasGroup('val');          // false
 
-    $match->subject();              // '192mm and 168cm or 18mm and 12cm'
-    $match->all();                  // ['192mm', '168cm', '18mm', '12cm']
-    $match->group('value')->all();  // ['192', '168', '18', '12']
+    $match->subject();                // '192mm and 168cm or 18mm and 12cm'
+    $match->all();                    // ['192mm', '168cm', '18mm', '12cm']
+    $match->group('value')->all();    // ['192', '168', '18', '12']
+    $match->group('unit')->all();     // ['mm', 'cm', 'mm', 'cm']
 });
 ```
 
