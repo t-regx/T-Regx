@@ -4,6 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ClassWithDefaultConstructor;
+use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Pattern;
@@ -94,7 +95,7 @@ class ReadMeTest extends TestCase
 
             preg::replace_callback('/(regexp/i', $myCallback, 'I very much like regexps');
         } catch (SafeRegexException $e) {
-            $this->assertStringStartsWith('preg_replace_callback(): Compilation failed: missing ) at offset 7', $e->getMessage());
+            $this->assertStringStartsWith(PhpVersionDependent::getUnmatchedParenthesisMessage_ReplaceCallback(7), $e->getMessage());
         }
         if (preg::match('/\s+/', $input) === false) { // Never happens
         }
