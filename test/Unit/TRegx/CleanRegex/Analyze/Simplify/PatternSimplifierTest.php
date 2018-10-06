@@ -29,6 +29,9 @@ class PatternSimplifierTest extends TestCase
     public function toBeSimplified()
     {
         return [
+            // Character groups - repeating
+            'repeating char group'       => ['Repeat [abca]', 'Repeat [abc]'],
+
             // Character groups (digits)
             'numbers token \d #1'        => ['Number [0-9]', 'Number \d'],
             'numbers token \d #2'        => ['Word [0-9]as]', 'Word \das]'],
