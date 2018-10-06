@@ -23,7 +23,16 @@ class CompositePatternMapper
         }, $this->patterns);
     }
 
-    private function map($pattern): string
+    /**
+     * @param Pattern|string $pattern
+     * @return InternalPattern
+     */
+    private function map($pattern): InternalPattern
+    {
+        return new InternalPattern($this->mapToString($pattern));
+    }
+
+    private function mapToString($pattern): string
     {
         if (is_string($pattern)) {
             return pattern($pattern)->delimitered();
