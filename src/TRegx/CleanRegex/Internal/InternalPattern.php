@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
+use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
 
 class InternalPattern
 {
@@ -13,7 +14,7 @@ class InternalPattern
 
     public function __construct(string $pattern, string $flags = '')
     {
-        $this->pattern = (new Delimiterer())->delimiter($pattern) . $flags;
+        $this->pattern = (new Delimiterer(new DelimiterParser(new FlagsValidator())))->delimiter($pattern) . $flags;
         $this->originalPattern = $pattern;
     }
 }

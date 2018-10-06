@@ -476,8 +476,8 @@ class ReadMeTest extends TestCase
      * @test
      * @dataProvider validPatterns
      * @param string $pattern
-     * @param bool $expectedValid
-     * @param bool $expectedUsable
+     * @param bool   $expectedValid
+     * @param bool   $expectedUsable
      */
     public function validatePattern(string $pattern, bool $expectedValid, bool $expectedUsable)
     {
@@ -486,8 +486,8 @@ class ReadMeTest extends TestCase
         $usable = pattern($pattern)->is()->usable();
 
         // then
-        $this->assertEquals($expectedValid, $valid);
-        $this->assertEquals($expectedUsable, $usable);
+        $this->assertEquals($expectedValid, $valid, "Failed asserting that '$pattern' is valid");
+        $this->assertEquals($expectedUsable, $usable, "Failed asserting that '$pattern' is usable");
     }
 
     function validPatterns()
@@ -495,7 +495,7 @@ class ReadMeTest extends TestCase
         return [
             ['/[a-z]/im', true, true],
             ['[a-z]+', false, true],
-            ['//[a-z]', false, false],
+            ['//[a-z]', false, true],
             ['/(unclosed/', false, false],
         ];
     }

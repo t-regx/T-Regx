@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
 use function in_array;
 use function str_split;
 
@@ -22,24 +21,24 @@ class FlagsValidator
 
     /**
      * @param string $flags
-     * @return void
-     * @throws FlagNotAllowedException
+     * @return bool
      */
-    public function validate(string $flags): void
+    public function isValid(string $flags): bool
     {
         if (empty($flags)) {
-            return;
+            return true;
         }
-        $this->validateFlags($flags);
+        return $this->areFlagsValid($flags);
     }
 
-    private function validateFlags(string $flags): void
+    private function areFlagsValid(string $flags): bool
     {
         foreach (str_split($flags) as $flag) {
             if (!$this->isAllowed($flag)) {
-                throw new FlagNotAllowedException($flag);
+                return false;
             }
         }
+        return true;
     }
 
     private function isAllowed(string $character): bool

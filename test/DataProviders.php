@@ -15,9 +15,9 @@ class DataProviders
             ['/\\/'],
             ['/(/'],
             ['/{1}/'],
+            ['//[a-z]']
         ];
     }
-
 
     public function invalidUtf8Sequences()
     {

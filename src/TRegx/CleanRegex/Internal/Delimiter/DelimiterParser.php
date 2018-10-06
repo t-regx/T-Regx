@@ -1,14 +1,23 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Delimiter;
 
+use TRegx\CleanRegex\Internal\FlagsValidator;
+use function in_array;
 use function strlen;
 use function strrpos;
-use function in_array;
 
 class DelimiterParser
 {
     /** @var array */
     private static $validDelimiters = ['/', '#', '%', '~', '+', '!', '@', '_', ';', '`', '-', '='];
+
+    /** @var FlagsValidator */
+    private $flagsValidator;
+
+    public function __construct(FlagsValidator $flagsValidator)
+    {
+        $this->flagsValidator = $flagsValidator;
+    }
 
     public function isDelimitered(string $pattern): bool
     {
@@ -28,11 +37,19 @@ class DelimiterParser
 
     private function tryGetDelimiter(string $pattern): ?string
     {
-        $lastOffset = strrpos($pattern, $pattern[0]);
-        if ($lastOffset > 0) {
-            return $pattern[0];
+        $first = $pattern[0];
+        $lastOffset = strrpos($pattern, $first);
+        $nextOffset = strpos($pattern, $first, 1);
+        if ($lastOffset !== $nextOffset) {
+            return null;
         }
-        return null;
+        if (!$this->hasValidFlagsAfterOffset($pattern, $lastOffset)) {
+            return null;
+        }
+        if ($lastOffset <= 0) {
+            return null;
+        }
+        return $first;
     }
 
     private function isValidDelimiter(string $character): bool
@@ -43,5 +60,11 @@ class DelimiterParser
     public function getDelimiters(): array
     {
         return self::$validDelimiters;
+    }
+
+    private function hasValidFlagsAfterOffset(string $pattern, $lastOffset): bool
+    {
+        $flags = substr($pattern, $lastOffset + 1);
+        return $this->flagsValidator->isValid($flags);
     }
 }

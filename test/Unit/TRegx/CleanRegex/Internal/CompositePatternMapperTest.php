@@ -20,7 +20,7 @@ class CompositePatternMapperTest extends TestCase
             '[A-Z]+',
             '/[A-Z0-9]+/',
             '/[A-Z+]/i',
-            pattern('[A-Za-z]+', 'u'),
+            pattern('[A-Za-z]+', 'i'),
         ]);
 
         // when
@@ -31,7 +31,7 @@ class CompositePatternMapperTest extends TestCase
             '/[A-Z]+/',
             '/[A-Z0-9]+/',
             '/[A-Z+]/i',
-            '/[A-Za-z]+/u'
+            '/[A-Za-z]+/i'
         ];
         $actual = array_map(function (InternalPattern $pattern) {
             return $pattern->pattern;

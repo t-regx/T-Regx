@@ -8,9 +8,9 @@ class Delimiterer
     /** @var DelimiterParser */
     private $parser;
 
-    public function __construct()
+    public function __construct(DelimiterParser $parser)
     {
-        $this->parser = new DelimiterParser();
+        $this->parser = $parser;
     }
 
     public function delimiter(string $pattern): string

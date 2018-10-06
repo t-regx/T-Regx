@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
+use TRegx\CleanRegex\Internal\FlagsValidator;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\PatternVerifier;
 
@@ -28,6 +29,6 @@ class IsPattern
     public function delimitered(): bool
     {
         (new PatternVerifier($this->pattern->pattern))->verify();
-        return (new DelimiterParser())->isDelimitered($this->pattern->originalPattern);
+        return (new DelimiterParser(new FlagsValidator()))->isDelimitered($this->pattern->originalPattern);
     }
 }

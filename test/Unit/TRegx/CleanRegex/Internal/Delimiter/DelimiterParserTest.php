@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 
 use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\FlagsValidator;
 
 class DelimiterParserTest extends TestCase
 {
@@ -11,7 +12,10 @@ class DelimiterParserTest extends TestCase
         return [
             ['//', '/'],
             ['/a/', '/'],
-            ['/siema/', '/'],
+            ['/word/', '/'],
+            ['//im', '/'],
+            ['/word/im', '/'],
+
             ['/sie#ma/', '/'],
             ['#sie/ma#', '#'],
             ['%si/e#ma%', '%'],
@@ -31,13 +35,30 @@ class DelimiterParserTest extends TestCase
     public function shouldGetDelimiter(string $pattern, string $delimiter)
     {
         // given
-        $delimiterer = new DelimiterParser();
+        $delimiterer = new DelimiterParser(new FlagsValidator());
 
         // when
         $result = $delimiterer->getDelimiter($pattern);
 
         // then
-        $this->assertEquals($delimiter, $result);
+        $this->assertEquals($delimiter, $result, "Failed asserting that '$result' is a delimiter of '$pattern'");
+    }
+
+    /**
+     * @test
+     * @dataProvider delimitered
+     * @param string $pattern
+     */
+    public function shouldBeDelimitered(string $pattern)
+    {
+        // given
+        $delimiterer = new DelimiterParser(new FlagsValidator());
+
+        // when
+        $result = $delimiterer->isDelimitered($pattern);
+
+        // then
+        $this->assertTrue($result);
     }
 
     public function notDelimitered()
@@ -46,13 +67,19 @@ class DelimiterParserTest extends TestCase
             [''],
             ['a'],
             ['/'],
-            ['siema'],
+            ['///'],
+            ['//12'],
+            ['//abc'],
+
+            ['word'],
             ['sie#ma'],
             ['si/e#ma'],
             ['s~i/e#m%a'],
             ['s~i/e#++m%a'],
 
-            ['/siema'],
+            ['/word'],
+            ['/word/2'],
+            ['/word/word/'],
             ['/sie#ma'],
             ['#sie/ma'],
             ['%si/e#ma'],
@@ -70,13 +97,13 @@ class DelimiterParserTest extends TestCase
     public function shouldNotGetDelimiter(string $pattern)
     {
         // given
-        $delimiterer = new DelimiterParser();
+        $delimiterer = new DelimiterParser(new FlagsValidator());
 
         // when
         $result = $delimiterer->getDelimiter($pattern);
 
         // then
-        $this->assertNull($result);
+        $this->assertNull($result, "Failed asserting that '$pattern' does not have a delimiter");
     }
 
     /**
@@ -87,29 +114,12 @@ class DelimiterParserTest extends TestCase
     public function shouldNotBeDelimitered(string $pattern)
     {
         // given
-        $delimiterer = new DelimiterParser();
+        $delimiterer = new DelimiterParser(new FlagsValidator());
 
         // when
         $result = $delimiterer->isDelimitered($pattern);
 
         // then
-        $this->assertFalse($result);
-    }
-
-    /**
-     * @test
-     * @dataProvider delimitered
-     * @param string $pattern
-     */
-    public function shouldBeDelimitered(string $pattern)
-    {
-        // given
-        $delimiterer = new DelimiterParser();
-
-        // when
-        $result = $delimiterer->isDelimitered($pattern);
-
-        // then
-        $this->assertTrue($result);
+        $this->assertFalse($result, "Failed asserting that '$pattern' is not delimiter");
     }
 }

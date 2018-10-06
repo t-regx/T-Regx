@@ -2,8 +2,10 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 
 use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
+use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
 use TRegx\CleanRegex\Internal\Delimiter\ExplicitDelimiterRequiredException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\FlagsValidator;
 
 class DelimitererTest extends TestCase
 {
@@ -35,7 +37,7 @@ class DelimitererTest extends TestCase
     public function shouldDelimiterPattern(string $pattern, string $expectedResult)
     {
         // given
-        $delimiterer = new Delimiterer();
+        $delimiterer = new Delimiterer(new DelimiterParser(new FlagsValidator()));
 
         // when
         $result = $delimiterer->delimiter($pattern);
@@ -64,7 +66,7 @@ class DelimitererTest extends TestCase
     public function shouldDelimiterAlreadyDelimitered(string $pattern)
     {
         // given
-        $delimiterer = new Delimiterer();
+        $delimiterer = new Delimiterer(new DelimiterParser(new FlagsValidator()));
 
         // when
         $result = $delimiterer->delimiter($pattern);
@@ -79,7 +81,7 @@ class DelimitererTest extends TestCase
     public function shouldThrowOnNotEnoughDelimiters()
     {
         // given
-        $delimiterer = new Delimiterer();
+        $delimiterer = new Delimiterer(new DelimiterParser(new FlagsValidator()));
 
         // then
         $this->expectException(ExplicitDelimiterRequiredException::class);
