@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Analyze\Simplify\Set;
+namespace TRegx\CleanRegex\Analyze\Simplify\Posix;
 
 use TRegx\CleanRegex\Analyze\Simplify\Model\Group;
 use TRegx\CleanRegex\Analyze\Simplify\Model\Model;

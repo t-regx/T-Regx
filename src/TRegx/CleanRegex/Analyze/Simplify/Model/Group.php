@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Analyze\Simplify\Model;
 
 use TRegx\CleanRegex\Analyze\Simplify\LiteralLetters;
+use TRegx\CleanRegex\Analyze\Simplify\Posix\PosixClassSimplifier;
 use TRegx\CleanRegex\Analyze\Simplify\UnnecessaryGroupEscapes;
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\SafeRegex\preg;
@@ -43,7 +44,7 @@ class Group extends Model
                 return $token;
             }
         }
-        $group = $this->unnecessaryGroupEscapes->remove($this->elements);
+        $group = $this->removeEscapesAndDuplicates();
         return '[' . join($group) . ']';
     }
 
@@ -97,5 +98,16 @@ class Group extends Model
     private function arraysEqual(array $a, array $b): bool
     {
         return !array_diff($a, $b) && !array_diff($b, $a);
+    }
+
+    private function removeEscapesAndDuplicates(): array
+    {
+        $group = $this->unnecessaryGroupEscapes->remove($this->elements);
+        return $this->removeDuplicates($group);
+    }
+
+    private function removeDuplicates(array $elements): array
+    {
+        return (new PosixClassSimplifier($elements))->all();
     }
 }

@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Analyze\Simplify\Set;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Analyze\Simplify\Set\SetGrouper;
+use TRegx\CleanRegex\Analyze\Simplify\Posix\SetGrouper;
 use TRegx\CleanRegex\Analyze\Simplify\Model\EscapedLiteral;
 use TRegx\CleanRegex\Analyze\Simplify\Model\Group;
 use TRegx\CleanRegex\Analyze\Simplify\Model\Literal;

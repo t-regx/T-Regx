@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Analyze\Simplify;
 
 use TRegx\CleanRegex\Analyze\Simplify\Alternative\AlternativeGrouper;
-use TRegx\CleanRegex\Analyze\Simplify\Set\SetGrouper;
+use TRegx\CleanRegex\Analyze\Simplify\Posix\SetGrouper;
 use TRegx\CleanRegex\Analyze\Simplify\Model\Model;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\PatternVerifier;

@@ -29,8 +29,13 @@ class PatternSimplifierTest extends TestCase
     public function toBeSimplified()
     {
         return [
+            'hex set range'              => ['Well [\x14-\x16-\x15] with', 'Well [\x14-\x16-] with'],
+
             // Character groups - repeating
-            'repeating char group'       => ['Repeat [abca]', 'Repeat [abc]'],
+            'repeating char group #1'    => ['Repeat [abca]', 'Repeat [abc]'],
+            'repeating char group #2'    => ['Repeat [99]', 'Repeat [9]'],
+            'repeating char group #3'    => ['Repeat [\..]', 'Repeat \.'],
+            'repeating char group #4'    => ['Repeat [\..,]', 'Repeat [.,]'],
 
             // Character groups (digits)
             'numbers token \d #1'        => ['Number [0-9]', 'Number \d'],
