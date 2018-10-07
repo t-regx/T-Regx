@@ -51,4 +51,10 @@ class Grouper
         list($text) = $this->getTextAndOffset();
         return $text;
     }
+
+    public function getOffset(): ?int
+    {
+        list($text, $offset) = $this->getTextAndOffset();
+        return $offset;
+    }
 }

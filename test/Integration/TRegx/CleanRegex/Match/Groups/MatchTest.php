@@ -16,7 +16,7 @@ class MatchTest extends TestCase
         $groups = pattern('([a-z]+)(?:\((\d*)\))?')
             ->match('sin(20) + cos() + tan')
             ->map(function (Match $match) {
-                return $match->groups();
+                return $match->groups()->texts();
             });
 
         // then
@@ -55,7 +55,7 @@ class MatchTest extends TestCase
             ->match('first and second')
             ->first(function (Match $match) {
                 // when
-                $groupNames = $match->namedGroups();
+                $groupNames = $match->namedGroups()->texts();
 
                 // then
                 $expected = [

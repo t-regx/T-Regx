@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 
 interface MatchInterface extends Details
 {
@@ -17,15 +18,7 @@ interface MatchInterface extends Details
      */
     public function group($nameOrIndex): MatchGroup;
 
-    /**
-     * @return string[]
-     */
-    public function namedGroups(): array;
-
-    /**
-     * @return string[]
-     */
-    public function groups(): array;
+    public function groups(): IndexedGroups;
 
     /**
      * @param string|int $nameOrIndex

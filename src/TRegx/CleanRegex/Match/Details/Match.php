@@ -9,12 +9,13 @@ use TRegx\CleanRegex\Internal\Factory\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
+use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 use function array_filter;
 use function array_key_exists;
 use function array_keys;
 use function array_map;
 use function array_values;
-use function is_int;
 use function is_string;
 
 class Match implements MatchInterface
@@ -80,21 +81,6 @@ class Match implements MatchInterface
     /**
      * @return string[]
      */
-    public function namedGroups(): array
-    {
-        $namedGroups = [];
-        foreach ($this->matches as $nameOrIndex => $match) {
-            if (is_string($nameOrIndex)) {
-                list($value, $offset) = $match[$this->index];
-                $namedGroups[$nameOrIndex] = $value;
-            }
-        }
-        return $namedGroups;
-    }
-
-    /**
-     * @return string[]
-     */
     public function groupNames(): array
     {
         return array_values(array_filter(array_keys($this->matches), function ($key) {
@@ -102,19 +88,14 @@ class Match implements MatchInterface
         }));
     }
 
-    /**
-     * @return string[]
-     */
-    public function groups(): array
+    public function groups(): IndexedGroups
     {
-        $indexMatches = array_filter($this->matches, function (array $match, $groupIndexOrName) {
-            return is_int($groupIndexOrName);
-        }, ARRAY_FILTER_USE_BOTH);
-        $indexGroups = array_map(function (array $match) {
-            list($value, $offset) = $match[$this->index];
-            return $value;
-        }, $indexMatches);
-        return array_slice($indexGroups, 1);
+        return new IndexedGroups($this->matches, $this->index);
+    }
+
+    public function namedGroups(): NamedGroups
+    {
+        return new NamedGroups($this->matches, $this->index);
     }
 
     /**
@@ -155,10 +136,23 @@ class Match implements MatchInterface
         return ByteOffset::toCharacterOffset($this->subject, $this->byteOffset());
     }
 
+    public function groupOffset(): array
+    {
+        return $this->byteGroupOffsets();
+    }
+
     public function byteOffset(): int
     {
         list($value, $offset) = $this->matches[self::WHOLE_MATCH][$this->index];
         return $offset;
+    }
+
+    public function byteGroupOffsets(): array
+    {
+        return array_map(function (array $match) {
+            list($value, $offset) = $match[$this->index];
+            return $offset;
+        }, $this->matches);
     }
 
     public function __toString(): string

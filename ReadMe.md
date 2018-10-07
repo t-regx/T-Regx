@@ -106,27 +106,27 @@ $s = '192mm and 168cm or 18mm and 12cm';
 
 pattern($p) ->match($s) ->iterate(function (Match $match) {
     
-    $match->text();                   // '168cm'
-    (string) $match;                  // '168cm'
+    $match->text();                     // '168cm'
+    (string) $match;                    // '168cm'
 
-    (string) $match->group('value');  // '168'
-    (string) $match->group(2);        // 'cm'
-    $match->offset();                 //  10       UTF-8 safe offset
+    (string) $match->group('value');    // '168'
+    (string) $match->group(2);          // 'cm'
+    $match->offset();                   //  10       UTF-8 safe offset
 
-    $match->group('unit')->text()     // '168'
-    $match->group('unit')->offset()   // 13
-    $match->group('unit')->index()    // 2
-    $match->group(2)->name()          // 'unit'
+    $match->group('unit')->text()       // '168'
+    $match->group('unit')->offset()     // 13
+    $match->group('unit')->index()      // 2
+    $match->group(2)->name()            // 'unit'
 
-    $match->groups();                 // ['168', 'cm']
-    $match->namedGroups();            // ['value' => '168', 'unit' => 'cm']
-    $match->groupNames();             // ['value', 'unit']
-    $match->hasGroup('val');          // false
+    $match->groups()->texts();          // ['168', 'cm']
+    $match->namedGroups()->texts();     // ['value' => '168', 'unit' => 'cm']
+    $match->groupNames();               // ['value', 'unit']
+    $match->hasGroup('val');            // false
 
-    $match->subject();                // '192mm and 168cm or 18mm and 12cm'
-    $match->all();                    // ['192mm', '168cm', '18mm', '12cm']
-    $match->group('value')->all();    // ['192', '168', '18', '12']
-    $match->group('unit')->all();     // ['mm', 'cm', 'mm', 'cm']
+    $match->subject();                  // '192mm and 168cm or 18mm and 12cm'
+    $match->all();                      // ['192mm', '168cm', '18mm', '12cm']
+    $match->group('value')->all();      // ['192', '168', '18', '12']
+    $match->group('unit')->all();       // ['mm', 'cm', 'mm', 'cm']
 });
 ```
 
@@ -587,8 +587,8 @@ pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
      $match->group('capital')->all();     // ['R', 'L', 'T']
      $match->group('lowercase')->all();   // ['obert', 'ikes', 'trains']
 
-     $match->groups();                    // Gets all group values (['R', 'obert'])                                    
-     $match->namedGroups();               // Gets all named groups with values (['capital' => 'R', 'lowercase' => 'obert'])
+     $match->groups()->texts();           // Gets all group values (['R', 'obert'])                                    
+     $match->namedGroups()->texts();      // Gets all named groups with values (['capital' => 'R', 'lowercase' => 'obert'])
      $match->groupNames();                // Gets the names of the capturing groups (['capital', 'lowercase'])
 
      $match->hasGroup('capital');         // Checks whether the group was used in the pattern (true)

@@ -68,6 +68,48 @@ class MatchTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetGroupsOffset()
+    {
+        // given
+        $match = $this->getMatch(self::INDEX_MARLA_SINGER);
+
+        // when
+        $offsets = $match->groups()->offsets();
+
+        // then
+        $rn = strlen(PHP_EOL);
+        $expectedOffsets = [
+            173 + $rn,
+            173 + $rn,
+            179 + $rn,
+        ];
+        $this->assertEquals($expectedOffsets, $offsets);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNamedGroupsOffset()
+    {
+        // given
+        $match = $this->getMatch(self::INDEX_MARLA_SINGER);
+
+        // when
+        $offsets = $match->namedGroups()->offsets();
+
+        // then
+        $rn = strlen(PHP_EOL);
+        $expectedOffsets = [
+            'firstName' => 173 + $rn,
+            'initial'   => 173 + $rn,
+            'surname'   => 179 + $rn,
+        ];
+        $this->assertEquals($expectedOffsets, $offsets);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetMatch()
     {
         // given
@@ -104,10 +146,30 @@ class MatchTest extends TestCase
         $match = $this->getMatch(self::INDEX_TYLER_DURDEN);
 
         // when
-        $groups = $match->groups();
+        $groups = $match->groups()->texts();
 
         // then
         $this->assertEquals(['Tyler', 'T', 'Durden'], $groups);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNamedGroups()
+    {
+        // given
+        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+
+        // when
+        $names = $match->namedGroups()->texts();
+
+        // then
+        $expected = [
+            'firstName' => 'Jack',
+            'initial'   => 'J',
+            'surname'   => 'Sparrow'
+        ];
+        $this->assertEquals($expected, $names);
     }
 
     /**
@@ -142,26 +204,6 @@ class MatchTest extends TestCase
 
         // then
         $this->assertEquals(['firstName', 'initial', 'surname'], $names);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetNamedGroups()
-    {
-        // given
-        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
-
-        // when
-        $names = $match->namedGroups();
-
-        // then
-        $expected = [
-            'firstName' => 'Jack',
-            'initial'   => 'J',
-            'surname'   => 'Sparrow'
-        ];
-        $this->assertEquals($expected, $names);
     }
 
     /**

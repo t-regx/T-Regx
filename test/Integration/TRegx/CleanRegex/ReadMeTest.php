@@ -51,8 +51,8 @@ class ReadMeTest extends TestCase
             $this->assertEquals(2, $match->group('unit')->index());
             $this->assertEquals('unit', $match->group(2)->name());
 
-            $this->assertEquals(['168', 'cm'], $match->groups());
-            $this->assertEquals(['value' => '168', 'unit' => 'cm'], $match->namedGroups());
+            $this->assertEquals(['168', 'cm'], $match->groups()->texts());
+            $this->assertEquals(['value' => '168', 'unit' => 'cm'], $match->namedGroups()->texts());
             $this->assertEquals(['value', 'unit'], $match->groupNames());
             $this->assertFalse($match->hasGroup('val'));
 
@@ -476,7 +476,7 @@ class ReadMeTest extends TestCase
 
                 $this->assertEquals(true, $match->matched('capital'));
 
-                $this->assertEquals(['capital' => 'R', 'lowercase' => 'obert'], $match->namedGroups());
+                $this->assertEquals(['capital' => 'R', 'lowercase' => 'obert'], $match->namedGroups()->texts());
             });
     }
 
@@ -484,8 +484,8 @@ class ReadMeTest extends TestCase
      * @test
      * @dataProvider validPatterns
      * @param string $pattern
-     * @param bool $expectedValid
-     * @param bool $expectedUsable
+     * @param bool   $expectedValid
+     * @param bool   $expectedUsable
      */
     public function validatePattern(string $pattern, bool $expectedValid, bool $expectedUsable)
     {
