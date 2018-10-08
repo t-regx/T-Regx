@@ -114,6 +114,9 @@ class MatchPatternTest extends TestCase
         $this->assertInstanceOf(\stdClass::class, $value);
     }
 
+    /**
+     * @test
+     */
     public function shouldMatchAllForFirst()
     {
         // when

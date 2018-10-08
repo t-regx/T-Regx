@@ -199,6 +199,9 @@ class ReadMeTest extends TestCase
         $this->assertEquals(['R', 'o', 'b', 'e', 'r', 't',], $result);
     }
 
+    /**
+     * @test
+     */
     public function retrieveGroups()
     {
         // when
