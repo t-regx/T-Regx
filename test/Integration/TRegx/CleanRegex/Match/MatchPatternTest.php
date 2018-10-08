@@ -201,9 +201,58 @@ class MatchPatternTest extends TestCase
         $subject = 'D Computer';
 
         // when
-        $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->only(1);
+        $groups1 = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->only(1);
+        $groups2 = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->only(2);
 
         // then
-        $this->assertEquals([null], $groups);
+        $this->assertEquals([null], $groups1);
+        $this->assertEquals([null, 'omputer'], $groups2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_offsets()
+    {
+        // given
+        $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')
+            ->match('xd Computer L Three Four')
+            ->offsets();
+
+        // when
+        $first = $offsets->first();
+        $only1 = $offsets->only(1);
+        $only2 = $offsets->only(2);
+        $all = $offsets->all();
+
+        // then
+        $this->assertEquals(3, $first);
+        $this->assertEquals([3], $only1);
+        $this->assertEquals([3, 12], $only2);
+        $this->assertEquals([3, 12, 14, 20], $all);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroups_offsets()
+    {
+        // given
+        $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')
+            ->match('xd Computer L Three Four')
+            ->group('lowercase')
+            ->offsets();
+
+        // when
+        $first = $offsets->first();
+        $only1 = $offsets->only(1);
+        $only2 = $offsets->only(2);
+        $all = $offsets->all();
+
+        // then
+        $this->assertEquals(4, $first);
+        $this->assertEquals([4], $only1);
+        $this->assertEquals([4, null], $only2);
+        $this->assertEquals([4, null, 15, 21], $all);
     }
 }

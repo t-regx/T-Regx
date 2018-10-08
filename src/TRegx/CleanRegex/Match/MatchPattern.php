@@ -7,12 +7,14 @@ use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFactory;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\NotMatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\Optional;
+use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 use TRegx\SafeRegex\preg;
 
 class MatchPattern implements PatternLimit
@@ -103,6 +105,11 @@ class MatchPattern implements PatternLimit
     {
         (new GroupNameValidator($nameOrIndex))->validate();
         return (new GroupLimitFactory($this->pattern, $this->subject, $nameOrIndex))->create();
+    }
+
+    public function offsets(): MatchOffsetLimit
+    {
+        return (new MatchOffsetLimitFactory($this->pattern, $this->subject, 0))->create();
     }
 
     public function count(): int

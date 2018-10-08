@@ -69,6 +69,10 @@ API
             * `->first()`
             * `->all()`
             * `->only(int)`
+        * `pattern()->match()->group(name|index)->offsets()`
+            * `->first()`
+            * `->all()`
+            * `->only(int)`
         * `pattern()->match()->forFirst()`
             * `->orReturn(mixed)`
             * `->orElse(callable)`

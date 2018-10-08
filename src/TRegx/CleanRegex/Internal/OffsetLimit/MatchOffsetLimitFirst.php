@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\GroupLimit;
+namespace TRegx\CleanRegex\Internal\OffsetLimit;
 
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
@@ -10,8 +10,9 @@ use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
+use function defined;
 
-class GroupLimitFirst
+class MatchOffsetLimitFirst
 {
     /** @var Pattern */
     private $pattern;
@@ -30,7 +31,7 @@ class GroupLimitFirst
         $this->groupVerifier = new MatchAllGroupVerifier();
     }
 
-    public function getFirstForGroup(): string
+    public function getFirstForGroup(): int
     {
         $count = preg::match($this->pattern->pattern, $this->subject, $matches, $this->pregMatchFlags());
         if ($this->groupMatchedIn($matches)) {
@@ -48,7 +49,7 @@ class GroupLimitFirst
     private function pregMatchFlags(): int
     {
         if (defined('PREG_UNMATCHED_AS_NULL')) {
-            return PREG_UNMATCHED_AS_NULL;
+            return PREG_UNMATCHED_AS_NULL | PREG_OFFSET_CAPTURE;
         }
         return PREG_OFFSET_CAPTURE;
     }
@@ -65,9 +66,9 @@ class GroupLimitFirst
         return array_key_exists($this->nameOrIndex, $matches);
     }
 
-    private function getGroup(array $matches): ?string
+    private function getGroup(array $matches): ?int
     {
-        return (new Grouper($matches[$this->nameOrIndex]))->getText();
+        return (new Grouper($matches[$this->nameOrIndex]))->getOffset();
     }
 
     private function groupExists(): bool
