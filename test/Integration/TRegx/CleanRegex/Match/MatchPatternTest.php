@@ -165,7 +165,22 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroups()
+    public function shouldGetGroups_first()
+    {
+        // given
+        $subject = 'Computer L Three Four';
+
+        // when
+        $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first();
+
+        // then
+        $this->assertEquals('omputer', $groups);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroups_all()
     {
         // given
         $subject = 'Computer L Three Four';
@@ -180,7 +195,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroup_onlyOne()
+    public function shouldGetGroups_onlyOne()
     {
         // given
         $subject = 'D Computer';

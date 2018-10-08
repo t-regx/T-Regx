@@ -283,6 +283,8 @@ pattern('[a-z]+$')->match('Robert likes trains')->first(function (Match $match) 
 
 :bulb: `match()->map()` and `match()->first()` accept arbitrary return types, including `null`.
 
+### Groups
+
 #### Capturing group from all matches
 ```php
 pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __:30')->group('hour')->all()
@@ -297,6 +299,14 @@ pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __
 ```
 ```
 '14'
+```
+
+#### Capturing group from a limited number of matches
+```php
+pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, __:30, 24:05 or none 14:30')->group('hour')->only(2)
+```
+```
+['14', null]
 ```
 
 ## Iterating

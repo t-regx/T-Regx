@@ -202,13 +202,46 @@ class ReadMeTest extends TestCase
     /**
      * @test
      */
-    public function retrieveGroups()
+    public function retrieveGroups_all()
     {
         // when
-        $result = pattern('(?<hour>\d\d)?:(?<minute>\d\d)')->match('14:15, 16:30, 24:05 or none __:30')->group('hour');
+        $result = pattern('(?<hour>\d\d)?:(?<minute>\d\d)')
+            ->match('14:15, 16:30, 24:05 or none __:30')
+            ->group('hour')
+            ->all();
 
         // then
         $this->assertEquals(['14', '16', '24', null], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function retrieveGroups_first()
+    {
+        // when
+        $result = pattern('(?<hour>\d\d)?:(?<minute>\d\d)')
+            ->match('14:15, 16:30, 24:05 or none __:30')
+            ->group('hour')
+            ->first();
+
+        // then
+        $this->assertEquals('14', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function retrieveGroups_only()
+    {
+        // when
+        $result = pattern('(?<hour>\d\d)?:(?<minute>\d\d)')
+            ->match('14:15, __:30, 24:05 or none 14:30')
+            ->group('hour')
+            ->only(2);
+
+        // then
+        $this->assertEquals(['14', null], $result);
     }
 
     /**
@@ -478,6 +511,7 @@ class ReadMeTest extends TestCase
                 $this->assertEquals(true, $match->hasGroup('capital'));
 
                 $this->assertEquals(true, $match->matched('capital'));
+                $this->assertEquals(true, $match->group('capital')->matches());
 
                 $this->assertEquals(['capital' => 'R', 'lowercase' => 'obert'], $match->namedGroups()->texts());
             });
