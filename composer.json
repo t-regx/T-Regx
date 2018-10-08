@@ -8,6 +8,8 @@
     "php",
     "t-regx",
     "t-rex",
+    "trex",
+    "regx",
     "regex",
     "regexp",
     "regular",
@@ -22,8 +24,7 @@
       "helper/helper.php"
     ],
     "psr-4": {
-      "TRegx\\CleanRegex\\": "src/TRegx/CleanRegex",
-      "TRegx\\SafeRegex\\": "src/TRegx/SafeRegex"
+      "TRegx\\": "src/TRegx"
     }
   },
   "autoload-dev": {
