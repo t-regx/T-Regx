@@ -1,11 +1,9 @@
 <?php
 namespace Test\Integration\TRegx\CleanRegex\Match\Groups;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Match;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Match\Details\Match;
 
 class MatchTest extends TestCase
 {
@@ -18,7 +16,7 @@ class MatchTest extends TestCase
         $groups = pattern('([a-z]+)(?:\((\d*)\))?')
             ->match('sin(20) + cos() + tan')
             ->map(function (Match $match) {
-                return $match->groups();
+                return $match->groups()->texts();
             });
 
         // then
@@ -57,7 +55,7 @@ class MatchTest extends TestCase
             ->match('first and second')
             ->first(function (Match $match) {
                 // when
-                $groupNames = $match->namedGroups();
+                $groupNames = $match->namedGroups()->texts();
 
                 // then
                 $expected = [

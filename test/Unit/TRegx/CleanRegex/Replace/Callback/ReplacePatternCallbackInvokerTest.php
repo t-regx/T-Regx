@@ -17,7 +17,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $subject = 'Tom Cruise is 21 years old and has 192cm';
         $invoker = new ReplacePatternCallbackInvoker(new Pattern('[0-9]+'), $subject, 2);
         $callback = function (ReplaceMatch $match) {
-            $value = (int)$match->match();
+            $value = (int)$match->text();
             return '*' . ($value + 1) . '*';
         };
 

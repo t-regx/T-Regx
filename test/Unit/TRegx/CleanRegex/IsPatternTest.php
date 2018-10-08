@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidPatternException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\IsPattern;
@@ -138,7 +139,7 @@ class IsPatternTest extends TestCase
 
         // then
         $this->expectException(InvalidPatternException::class);
-        $this->expectExceptionMessage("Compilation failed: unmatched parentheses at offset 7");
+        $this->expectExceptionMessage(PhpVersionDependent::getUnmatchedParenthesisMessage(7));
 
         // when
         $is->delimitered();

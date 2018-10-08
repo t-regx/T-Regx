@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\only;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\SafeRegex\Exception\CompileSafeRegexException;
@@ -110,7 +111,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(CompileSafeRegexException::class);
-        $this->expectExceptionMessage('Compilation failed: unmatched parentheses at offset 7');
+        $this->expectExceptionMessage(PhpVersionDependent::getUnmatchedParenthesisMessage(7));
 
         // when
         $pattern->only(0);

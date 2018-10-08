@@ -37,7 +37,8 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
     * [Delimitering](#delimiter-a-pattern)
     * [Other](#quoting)
 5. [What's better?](#whats-better)
-6. [Performance](#performance)
+6. [Supported PHP versions](#supported-php-versions)
+7. [Performance](#performance)
 
 # Quick Examples
 
@@ -69,7 +70,7 @@ Of course you can also use [`first()`](#replace-strings) and [`only($limit)`](#r
 
 ```php
 pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->first()->callback(function (Match $m) {
-    return '<' . strtoupper($m->match()) . '>';
+    return '<' . strtoupper($m->text()) . '>';
 });
 
 // 'P. Sh<ER>man, 42 Wallaby way'
@@ -105,27 +106,27 @@ $s = '192mm and 168cm or 18mm and 12cm';
 
 pattern($p) ->match($s) ->iterate(function (Match $match) {
     
-    $match->match();                  // '168cm'
-    (string) $match;                  // '168cm'
+    $match->text();                     // '168cm'
+    (string) $match;                    // '168cm'
 
-    (string) $match->group('value');  // '168'
-    (string) $match->group(2);        // 'cm'
-    $match->offset();                 //  10       UTF-8 safe offset
+    (string) $match->group('value');    // '168'
+    (string) $match->group(2);          // 'cm'
+    $match->offset();                   //  10       UTF-8 safe offset
 
-    $match->group('unit')->text()     // '168'
-    $match->group('unit')->offset()   // 13
-    $match->group('unit')->index()    // 2
-    $match->group(2)->name()          // 'unit'
+    $match->group('unit')->text()       // '168'
+    $match->group('unit')->offset()     // 13
+    $match->group('unit')->index()      // 2
+    $match->group(2)->name()            // 'unit'
 
-    $match->groups();                 // ['168', 'cm']
-    $match->namedGroups();            // ['value' => '168', 'unit' => 'cm']
-    $match->groupNames();             // ['value', 'unit']
-    $match->hasGroup('val');          // false
+    $match->groups()->texts();          // ['168', 'cm']
+    $match->namedGroups()->texts();     // ['value' => '168', 'unit' => 'cm']
+    $match->groupNames();               // ['value', 'unit']
+    $match->hasGroup('val');            // false
 
-    $match->subject();                // '192mm and 168cm or 18mm and 12cm'
-    $match->all();                    // ['192mm', '168cm', '18mm', '12cm']
-    $match->group('value')->all();    // ['192', '168', '18', '12']
-    $match->group('unit')->all();     // ['mm', 'cm', 'mm', 'cm']
+    $match->subject();                  // '192mm and 168cm or 18mm and 12cm'
+    $match->all();                      // ['192mm', '168cm', '18mm', '12cm']
+    $match->group('value')->all();      // ['192', '168', '18', '12']
+    $match->group('unit')->all();       // ['mm', 'cm', 'mm', 'cm']
 });
 ```
 
@@ -308,7 +309,7 @@ pattern('\d+(?<unit>[ckm]?m))')
     ->iterate(function (Match $match) {
 
         // gets the match
-        $match->match();        // (string) '172km'
+        $match->text();         // (string) '172km'
         (string) $match;        // (string) '172km'
 
         // gets the match offset
@@ -335,7 +336,7 @@ pattern('\d+')
         if ($match == '168') {
             return null;
         }
-        return $match->match() * 2;
+        return $match->text() * 2;
     });
 ```
 ```
@@ -550,35 +551,71 @@ Your IP is \[192\.168\.12\.20\] \(local\\home\)
 ```php
 pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
   ->match('Robert Likes Trains')
-  ->first(function (Match $match) {
+  ->first(function (Match $m) {
 
-     $match->match();    // Gets the match ('Robert')
-     (string) $match;    // alias for match()
+     $m->text();                          // Gets the match ('Likes')
+     (string) $m;                         // alias for text()
 
-     $match->subject();  // Gets the string that's being searched through ('Robert Likes Trains')
+     $g = $match->group('capital');
+     
+     $g->text();                          // get group by name ('L')
+     (string) $g;                         // alias 'L'
 
-     $match->index();    // Ordinal number of the match in the string
+     $match->group(1)->text();            // get group by index ('L')
 
-     $match->offset();   // Gets the position of the match in the string, UTF8-safe
+     $m->text();                          // 'Likes'
+     $m->group('capital')->text()         // value of 'capital' group ('L')
+     $m->group('lowercase')->text()       // value of 'lowercase' group ('ikes')
+     
+     $match->offset();                    // offset of the matched text, utf8 safe (8)
+     $m->group('capital')->offset()       // offset of 'capital' group (8)
+     $m->group('lowercase')->offset()     // offset of 'lowercase' group (9)
 
-     $match->all();      // Gets all other matches ('Robert', 'Likes', 'Trains')
+     $m->index();                         // ordinal number of a match in a subject (1)
+     $m->group(0)->index()                // 0
+     $m->group('capital')->index()        // 1
+     $m->group(1)->index()                // 1
+     $m->group('lowercase')->index()      // 2
+     $m->grouo(2)->index()                // 2
+     $m->group(2)->name()                 // 'lowercase'
 
-     $match->group('capital');    // Gets the value of a capturing group, by name ('R')
-     $match->group(2);            // Gets the value of a capturing group, by index ('obert')
+     $m->group(0)->name()                 // null
+     $m->group(1)->name()                 // 'capital'
+     $m->group(2)->name()                 // 'lowercase'
 
-     $match->groups();            // Gets all group values (['R', 'obert'])
+     $match->all();                       // ['Robert', 'Likes', 'Trains']
+     $match->group('capital')->all();     // ['R', 'L', 'T']
+     $match->group('lowercase')->all();   // ['obert', 'ikes', 'trains']
 
-     $match->namedGroups();       // Gets all named groups with values (['capital' => 'R', 'lowercase' => 'obert'])
+     $match->groups()->texts();           // Gets all group values (['R', 'obert'])                                    
+     $match->namedGroups()->texts();      // Gets all named groups with values (['capital' => 'R', 'lowercase' => 'obert'])
+     $match->groupNames();                // Gets the names of the capturing groups (['capital', 'lowercase'])
 
-     $match->groupNames();        // Gets the names of the capturing groups (['capital', 'lowercase'])
+     $match->hasGroup('capital');         // Checks whether the group was used in the pattern (true)
 
-     $match->hasGroup('capital'); // Checks whether the group was used in the pattern (true)
+     $match->group('capital')->matched(); // Checks whether the group has been matched by subject (true)
 
-     $match->matched('capital');  // Checks whether the group has been matched by subject (true)
+     $match->subject();                   // Gets the string that's being searched through ('Robert Likes Trains')
   });
 ```
 
-:bulb: `$match->groups()` doesn't return the whole matched string at index 0. To get it, use `$match->match()`.
+# Supported PHP versions
+
+T-Regx has 2 production branches: `master` and `master-php5.3`. As you might expect, `master` is the most recent
+release. Ever so often `master` is being merged `master-php5.3` and the most recent changes are also available for PHP `5.3+` - `< 7.1.0`.
+
+ - `master-php5.3` runs on `PHP 5.3` - it just works
+ - `master` runs on `PHP 7.1.3` - with`scalar params`, `nullable types`, `return type hints`, `PREG_EMPTY_AS_NULL`, `error_clear_last()`, `preg_replace_callback_array`, etc.
+
+Continuous integration builds are running for:
+
+ - `PHP 5.3.0`, `PHP 5.3.29` (oldest and most recent)
+ - `PHP 5.4.45` (newest)
+ - `PHP 5.5.38` (newest)
+ - `PHP 5.6.24` (newest)
+ - `PHP 7.0.3`, `PHP 7.0.31` (oldest and most recent)
+ - `PHP 7.1.12`, `PHP 7.1.13`, `PHP 7.1.21`
+ - `PHP 7.2.9` (newest)
 
 # What's better
 ![Ugly api](https://i.imgur.com/g1Buisr.png)

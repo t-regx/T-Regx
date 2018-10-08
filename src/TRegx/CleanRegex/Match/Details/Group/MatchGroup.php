@@ -15,7 +15,7 @@ interface MatchGroup extends Optional
 
     public function offset(): int;
 
-    public function all();
+    public function all(): array;
 
     public function __toString(): string;
 }

@@ -10,34 +10,31 @@ class GroupNameIndexAssign
 {
     /** @var array */
     private $matches;
-    /** @var string|int */
-    private $group;
 
-    public function __construct(array $matches, $nameOrIndex)
+    public function __construct(array $matches)
     {
         $this->matches = array_keys($matches);
-        $this->group = $nameOrIndex;
     }
 
-    public function getNameAndIndex(): array
+    public function getNameAndIndex($group): array
     {
-        if (is_string($this->group)) {
-            return $this->getByName();
+        if (is_string($group)) {
+            return $this->getByName($group);
         }
-        if (is_int($this->group)) {
-            return $this->getByIndex();
+        if (is_int($group)) {
+            return $this->getByIndex($group);
         }
         return [];
     }
 
-    private function getByName(): array
+    private function getByName(string $group): array
     {
-        return [$this->group, $this->getIndexByName($this->group)];
+        return [$group, $this->getIndexByName($group)];
     }
 
-    private function getByIndex(): array
+    private function getByIndex(int $group): array
     {
-        return [$this->getNameByIndex($this->group), $this->group];
+        return [$this->getNameByIndex($group), $group];
     }
 
     private function getIndexByName(string $name): int

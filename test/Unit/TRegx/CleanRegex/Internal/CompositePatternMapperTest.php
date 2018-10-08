@@ -5,6 +5,8 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
+use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Pattern;
 
 class CompositePatternMapperTest extends TestCase
 {
@@ -22,7 +24,7 @@ class CompositePatternMapperTest extends TestCase
         ]);
 
         // when
-        $mapped = $mapper->create();
+        $patterns = $mapper->create();
 
         // then
         $expected = [
@@ -31,7 +33,10 @@ class CompositePatternMapperTest extends TestCase
             '/[A-Z+]/i',
             '/[A-Za-z]+/u'
         ];
-        $this->assertEquals($expected, $mapped);
+        $actual = array_map(function (InternalPattern $pattern) {
+            return $pattern->pattern;
+        }, $patterns);
+        $this->assertEquals($expected, $actual);
     }
 
     /**

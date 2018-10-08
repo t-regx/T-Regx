@@ -6,7 +6,7 @@ use function substr;
 
 class ByteOffset
 {
-    public static function normalize(string $subject, int $offset): int
+    public static function toCharacterOffset(string $subject, int $offset): int
     {
         return mb_strlen(substr($subject, 0, $offset));
     }

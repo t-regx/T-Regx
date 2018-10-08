@@ -85,6 +85,21 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGet_first_forEmptyMatch()
+    {
+        // given
+        $subject = 'Foo NOT MATCH';
+
+        // when
+        $groups = pattern('Foo (?<bar>[a-z]*)')->match($subject)->group('bar')->first();
+
+        // then
+        $this->assertEquals('', $groups);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_first_unmatched()
     {
         // given

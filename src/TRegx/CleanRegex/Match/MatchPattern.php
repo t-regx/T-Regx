@@ -1,12 +1,15 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
+use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFactory;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\NotMatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\Optional;
@@ -86,9 +89,8 @@ class MatchPattern implements PatternLimit
     {
         $matches = $this->performMatchAll();
         if (empty($matches[self::GROUP_WHOLE_MATCH])) {
-            return new NotMatchedOptional($matches, $this->subject);
+            return new NotMatchedOptional(new NotMatchedOptionalWorker(new FirstMatchMessage(), $this->subject, new NotMatched($matches, $this->subject)));
         }
-
         $result = $callback(new Match($this->subject, self::FIRST_MATCH, $matches));
         return new MatchedOptional($result);
     }

@@ -78,9 +78,11 @@ API
             * `Match.subject()`
             * `Match.index()`
             * `Match.offset()`
+            * `Match.byteOffset()`
             * `Match.group(string|int)`
             * `Match.groups()`
-            * `Match.namedGroups()`
+            * `Match.groups().offsets()`
+            * `Match.namedGroups().*`
             * `Match.groupNames()`
             * `Match.hasGroup()`
             * `Match.matched(string|int)`

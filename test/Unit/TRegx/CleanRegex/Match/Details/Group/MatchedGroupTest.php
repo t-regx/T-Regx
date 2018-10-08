@@ -1,8 +1,11 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\Details\Group;
 
-use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Factory\Group\GroupDetails;
+use TRegx\CleanRegex\Internal\Factory\Group\MatchedGroupDetails;
+use TRegx\CleanRegex\Match\Details\Group\MatchAll;
+use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 
 class MatchedGroupTest extends TestCase
@@ -118,6 +121,9 @@ class MatchedGroupTest extends TestCase
 
     private function matchGroup(): MatchGroup
     {
-        return new MatchedGroup('first', 1, 'Nice matching', 14, []);
+        return new MatchedGroup(
+            new GroupDetails('first', 1, 'first', new MatchAll([], 'first')),
+            new MatchedGroupDetails('Nice matching', 14)
+        );
     }
 }

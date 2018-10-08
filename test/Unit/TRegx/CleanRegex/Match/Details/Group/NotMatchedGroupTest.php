@@ -2,10 +2,15 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\Details\Group;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\GroupMessage;
+use TRegx\CleanRegex\Internal\Factory\Group\GroupDetails;
+use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
+use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
+use TRegx\CleanRegex\Match\Details\Group\MatchAll;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
-use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class NotMatchedGroupTest extends TestCase
@@ -152,6 +157,15 @@ class NotMatchedGroupTest extends TestCase
 
     private function matchGroup(): MatchGroup
     {
-        return new NotMatchedGroup('first', 1, 'first', 'My super subject', []);
+        $subject = 'My super subject';
+        return new NotMatchedGroup(
+            new GroupDetails('first', 1, 'first', new MatchAll([], 'first')),
+            new GroupExceptionFactory($subject, 'first'),
+            new NotMatchedOptionalWorker(
+                new GroupMessage('first'),
+                $subject,
+                new NotMatched([], $subject)
+            )
+        );
     }
 }

@@ -3,14 +3,14 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 
 use function array_map;
 
-abstract class AbstractMatchGroup implements MatchGroup
+class MatchAll
 {
     /*** @var array */
     private $matches;
     /** @var string|int */
     private $group;
 
-    protected function __construct(array $matches, $group)
+    public function __construct(array $matches, $group)
     {
         $this->matches = $matches;
         $this->group = $group;

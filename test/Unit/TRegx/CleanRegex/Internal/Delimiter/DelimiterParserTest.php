@@ -18,6 +18,7 @@ class DelimiterParserTest extends TestCase
             ['~si/e#m%a~', '~'],
             ['+s~i/e#m%a+', '+'],
             ['!s~i/e#++m%a!', '!'],
+            ['@!s~i/e#++m%a!@', '@'],
         ];
     }
 

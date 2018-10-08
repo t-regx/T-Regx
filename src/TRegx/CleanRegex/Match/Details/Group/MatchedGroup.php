@@ -3,30 +3,26 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
+use TRegx\CleanRegex\Internal\Factory\Group\GroupDetails;
+use TRegx\CleanRegex\Internal\Factory\Group\MatchedGroupDetails;
 
-class MatchedGroup extends AbstractMatchGroup
+class MatchedGroup implements MatchGroup
 {
-    /** @var null|string */
-    private $name;
-    /** @var int */
-    private $index;
-    /** @var string */
-    private $match;
-    /** @var int */
-    private $offset;
+    /** @var GroupDetails */
+    private $details;
 
-    public function __construct(?string $name, int $index, string $match, int $offset, array $matches)
+    /** @var MatchedGroupDetails */
+    private $matchedDetails;
+
+    public function __construct(GroupDetails $details, MatchedGroupDetails $matchedDetails)
     {
-        parent::__construct($matches, $index);
-        $this->name = $name;
-        $this->index = $index;
-        $this->match = $match;
-        $this->offset = $offset;
+        $this->details = $details;
+        $this->matchedDetails = $matchedDetails;
     }
 
     public function text(): string
     {
-        return $this->match;
+        return $this->matchedDetails->text;
     }
 
     public function matches(): bool
@@ -34,24 +30,29 @@ class MatchedGroup extends AbstractMatchGroup
         return true;
     }
 
-    public function name(): ?string
-    {
-        return $this->name;
-    }
-
     public function index(): int
     {
-        return $this->index;
+        return $this->details->index;
+    }
+
+    public function name(): ?string
+    {
+        return $this->details->name;
     }
 
     public function offset(): int
     {
-        return $this->offset;
+        return $this->matchedDetails->offset;
     }
 
     public function __toString(): string
     {
         return $this->text();
+    }
+
+    public function all(): array
+    {
+        return $this->details->matchAll->all();
     }
 
     /**

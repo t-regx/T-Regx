@@ -28,7 +28,7 @@ class MatchPatternTest extends TestCase
                 $this->assertEquals(0, $match->index());
                 $this->assertEquals("Nice matching pattern", $match->subject());
                 $this->assertEquals(['Nice', 'matching', 'pattern'], $match->all());
-                $this->assertEquals(['N'], $match->groups());
+                $this->assertEquals(['N'], $match->groups()->texts());
             })
             ->orThrow();
     }

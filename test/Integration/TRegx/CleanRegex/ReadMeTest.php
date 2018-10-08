@@ -4,6 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ClassWithDefaultConstructor;
+use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Pattern;
@@ -25,7 +26,7 @@ class ReadMeTest extends TestCase
         $replace = pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->all()->with('__');
 
         $replaceCallback = pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->first()->callback(function (Match $m) {
-            return '<' . strtoupper($m->match()) . '>';
+            return '<' . strtoupper($m->text()) . '>';
         });
         $bareCallback = pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way')->first()->callback('strtoupper');
 
@@ -50,8 +51,8 @@ class ReadMeTest extends TestCase
             $this->assertEquals(2, $match->group('unit')->index());
             $this->assertEquals('unit', $match->group(2)->name());
 
-            $this->assertEquals(['168', 'cm'], $match->groups());
-            $this->assertEquals(['value' => '168', 'unit' => 'cm'], $match->namedGroups());
+            $this->assertEquals(['168', 'cm'], $match->groups()->texts());
+            $this->assertEquals(['value' => '168', 'unit' => 'cm'], $match->namedGroups()->texts());
             $this->assertEquals(['value', 'unit'], $match->groupNames());
             $this->assertFalse($match->hasGroup('val'));
 
@@ -94,7 +95,7 @@ class ReadMeTest extends TestCase
 
             preg::replace_callback('/(regexp/i', $myCallback, 'I very much like regexps');
         } catch (SafeRegexException $e) {
-            $this->assertStringStartsWith('preg_replace_callback(): Compilation failed: missing ) at offset 7', $e->getMessage());
+            $this->assertStringStartsWith(PhpVersionDependent::getUnmatchedParenthesisMessage_ReplaceCallback(7), $e->getMessage());
         }
         if (preg::match('/\s+/', $input) === false) { // Never happens
         }
@@ -190,7 +191,7 @@ class ReadMeTest extends TestCase
     {
         // when
         $result = pattern('[a-zA-Z]+')->match('Robert likes trains')->first(function (Match $match) {
-            $name = $match->match();
+            $name = $match->text();
             return str_split($name);
         });
 
@@ -232,10 +233,10 @@ class ReadMeTest extends TestCase
         pattern('\d+(?<unit>[ckm]?m)')
             ->match('192cm 168m 172km 14mm')
             ->iterate(function (Match $match) {
-                if ($match->match() != '172km') return;
+                if ($match->text() != '172km') return;
 
                 // gets the match
-                $this->assertEquals('172km', $match->match());
+                $this->assertEquals('172km', $match->text());
                 $this->assertEquals('172km', (string)$match);
 
                 // gets the match offset
@@ -261,7 +262,7 @@ class ReadMeTest extends TestCase
                 if ($match == '168') {
                     return null;
                 }
-                return $match->match() * 2;
+                return $match->text() * 2;
             });
 
         // then
@@ -454,7 +455,7 @@ class ReadMeTest extends TestCase
             ->match('Robert Likes Trains')
             ->first(function (Match $match) {
                 // then
-                $this->assertEquals('Robert', $match->match());
+                $this->assertEquals('Robert', $match->text());
                 $this->assertEquals('Robert', (string)$match);
 
                 $this->assertEquals('Robert Likes Trains', $match->subject());
@@ -475,7 +476,7 @@ class ReadMeTest extends TestCase
 
                 $this->assertEquals(true, $match->matched('capital'));
 
-                $this->assertEquals(['capital' => 'R', 'lowercase' => 'obert'], $match->namedGroups());
+                $this->assertEquals(['capital' => 'R', 'lowercase' => 'obert'], $match->namedGroups()->texts());
             });
     }
 
@@ -483,8 +484,8 @@ class ReadMeTest extends TestCase
      * @test
      * @dataProvider validPatterns
      * @param string $pattern
-     * @param bool $expectedValid
-     * @param bool $expectedUsable
+     * @param bool   $expectedValid
+     * @param bool   $expectedUsable
      */
     public function validatePattern(string $pattern, bool $expectedValid, bool $expectedUsable)
     {

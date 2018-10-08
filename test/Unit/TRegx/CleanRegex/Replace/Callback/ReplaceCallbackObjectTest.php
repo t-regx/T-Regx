@@ -22,7 +22,7 @@ class ReplaceCallbackObjectTest extends TestCase
             // then
             $this->assertEquals(['hello', 'there', 'general'], $match->all());
             $this->assertEquals($subject, $match->subject());
-            $this->assertEquals('hello', $match->match());
+            $this->assertEquals('hello', $match->text());
             $this->assertEquals(0, $match->index());
             $this->assertEquals(3, $match->offset());
             $this->assertEquals(3, $match->modifiedOffset());
@@ -92,7 +92,7 @@ class ReplaceCallbackObjectTest extends TestCase
     public function shouldThrow_OnNonStringReplacement()
     {
         // given
-        $object = $this->create('//', 'foo bar', 1, function (ReplaceMatch $match) {
+        $object = $this->create('//', 'foo bar', 1, function () {
             return 2;
         });
 

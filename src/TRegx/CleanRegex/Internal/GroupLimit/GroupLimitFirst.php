@@ -2,9 +2,9 @@
 namespace TRegx\CleanRegex\Internal\GroupLimit;
 
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
+use TRegx\CleanRegex\Internal\Grouper;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
@@ -89,19 +89,6 @@ class GroupLimitFirst
      */
     private function getGroupFromMatch($match): ?string
     {
-        if ($match === null) {
-            return null;
-        }
-        if (is_string($match)) {
-            return $match;
-        }
-        if (is_array($match)) {
-            list($value, $offset) = $match;
-            if ($offset === -1) {
-                return null;
-            }
-            return $value;
-        }
-        throw new InternalCleanRegexException();
+        return (new Grouper($match))->getText();
     }
 }

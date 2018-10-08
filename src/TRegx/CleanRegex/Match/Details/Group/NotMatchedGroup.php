@@ -2,33 +2,25 @@
 namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\GroupMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\UnknownSignatureExceptionFactory;
-use TRegx\CleanRegex\Match\Details\NotMatched;
-use function call_user_func;
+use TRegx\CleanRegex\Internal\Factory\Group\GroupDetails;
+use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
+use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 
-class NotMatchedGroup extends AbstractMatchGroup
+class NotMatchedGroup implements MatchGroup
 {
-    /** @var string */
-    private $subject;
-    /** @var string|int */
-    private $group;
-    /** @var null|string */
-    private $name;
-    /** @var int */
-    private $index;
-    /** @var array */
-    private $matches;
+    /** @var GroupDetails */
+    private $details;
+    /** @var NotMatchedOptionalWorker */
+    private $optionalFactory;
+    /** @var GroupExceptionFactory */
+    private $exceptionFactory;
 
-    public function __construct(?string $name, int $index, $group, string $subject, array $matches)
+    public function __construct(GroupDetails $details, GroupExceptionFactory $exceptionFactory, NotMatchedOptionalWorker $optionalFactory)
     {
-        parent::__construct($matches, $group);
-        $this->subject = $subject;
-        $this->group = $group;
-        $this->name = $name;
-        $this->index = $index;
-        $this->matches = $matches;
+        $this->details = $details;
+        $this->exceptionFactory = $exceptionFactory;
+        $this->optionalFactory = $optionalFactory;
     }
 
     public function text(): string
@@ -43,12 +35,12 @@ class NotMatchedGroup extends AbstractMatchGroup
 
     public function name(): ?string
     {
-        return $this->name;
+        return $this->details->name;
     }
 
     public function index(): int
     {
-        return $this->index;
+        return $this->details->index;
     }
 
     public function offset(): int
@@ -61,14 +53,19 @@ class NotMatchedGroup extends AbstractMatchGroup
         return '';
     }
 
+    public function all(): array
+    {
+        return $this->details->matchAll->all();
+    }
+
     /**
      * @param string $exceptionClassName
      * @return mixed
      * @throws \Throwable|SubjectNotMatchedException
      */
-    public function orThrow(string $exceptionClassName = GroupNotMatchedException::class)
+    public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string
     {
-        throw (new UnknownSignatureExceptionFactory($exceptionClassName, new GroupMessage($this->group)))->create($this->subject);
+        throw $this->optionalFactory->orThrow($exceptionClassName);
     }
 
     /**
@@ -86,11 +83,11 @@ class NotMatchedGroup extends AbstractMatchGroup
      */
     public function orElse(callable $producer)
     {
-        return call_user_func($producer, new NotMatched($this->matches, $this->subject));
+        return $this->optionalFactory->orElse($producer);
     }
 
-    private function groupNotMatched(string $method): GroupNotMatchedException
+    protected function groupNotMatched(string $method): GroupNotMatchedException
     {
-        return GroupNotMatchedException::forMethod($this->subject, $this->group, $method);
+        return $this->exceptionFactory->create($method);
     }
 }

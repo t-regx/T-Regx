@@ -106,7 +106,7 @@ class MatchPatternTest extends TestCase
         // when
         $value = pattern('[A-Z]+')
             ->match('Foo, Leszek Ziom, Dupa')
-            ->first(function (Match $match) {
+            ->first(function () {
                 return new \stdClass();
             });
 
