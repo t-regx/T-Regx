@@ -23,6 +23,11 @@ class Pattern
         return (new MatchesPattern($this->pattern, $subject))->matches();
     }
 
+    public function fails(string $subject): bool
+    {
+        return (new MatchesPattern($this->pattern, $subject))->fails();
+    }
+
     public function match(string $subject): MatchPattern
     {
         return new MatchPattern($this->pattern, $subject);

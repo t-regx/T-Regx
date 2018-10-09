@@ -61,10 +61,15 @@ API
     * Automatic delimiter (ie. `pattern('[A-Z]')`)
     * Matching API
         * `pattern()->matches()`
+        * `pattern()->fails()`
         * `pattern()->match()->all()`
         * `pattern()->match()->first()`
         * `pattern()->match()->map()`
         * `pattern()->match()->iterate()`
+        * `pattern()->match()->offsets()`
+            * `->first()`
+            * `->all()`
+            * `->only(int)`
         * `pattern()->match()->group(name|index)`
             * `->first()`
             * `->all()`

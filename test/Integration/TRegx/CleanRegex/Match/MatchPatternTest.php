@@ -255,4 +255,22 @@ class MatchPatternTest extends TestCase
         $this->assertEquals([4, null], $only2);
         $this->assertEquals([4, null, 15, 21], $all);
     }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroups_offsets_null_first()
+    {
+        // given
+        $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')
+            ->match('xd L Three Four')
+            ->group('lowercase')
+            ->offsets();
+
+        // when
+        $only1 = $offsets->only(1);
+
+        // then
+        $this->assertEquals([null], $only1);
+    }
 }

@@ -21,4 +21,9 @@ class MatchesPattern
     {
         return preg::match($this->pattern->pattern, $this->subject) === 1;
     }
+
+    public function fails(): bool
+    {
+        return !$this->matches();
+    }
 }

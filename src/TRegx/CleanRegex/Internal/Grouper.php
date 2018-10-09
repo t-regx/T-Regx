@@ -29,7 +29,7 @@ class Grouper
 
     private function unmatched(): array
     {
-        return [null, -1];
+        return [null, null];
     }
 
     private function fromString(): array

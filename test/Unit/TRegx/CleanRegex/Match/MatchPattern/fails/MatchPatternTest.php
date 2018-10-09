@@ -1,11 +1,11 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match;
+namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\fails;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 use PHPUnit\Framework\TestCase;
 
-class MatchMatchesPatternTest extends TestCase
+class MatchPatternTest extends TestCase
 {
     /**
      * @test
@@ -16,10 +16,10 @@ class MatchMatchesPatternTest extends TestCase
         $pattern = new MatchPattern(new Pattern('[A-Z]?[a-z]+'), 'Nice matching pattern');
 
         // when
-        $result = $pattern->matches();
+        $result = $pattern->fails();
 
         // then
-        $this->assertTrue($result, "Failed asserting that subject matches the pattern");
+        $this->assertFalse($result, "Failed asserting that subject fails the pattern");
     }
 
     /**
@@ -31,9 +31,9 @@ class MatchMatchesPatternTest extends TestCase
         $pattern = new MatchPattern(new Pattern('[A-Z]?[a-z]+'), 'NOT MATCHING');
 
         // when
-        $result = $pattern->matches();
+        $result = $pattern->fails();
 
         // then
-        $this->assertFalse($result, "Failed asserting that subject DOES NOT match the pattern");
+        $this->assertTrue($result, "Failed asserting that subject DOES NOT fail the pattern");
     }
 }

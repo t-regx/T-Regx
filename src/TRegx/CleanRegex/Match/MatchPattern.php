@@ -15,6 +15,7 @@ use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\NotMatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\Optional;
 use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
+use TRegx\CleanRegex\MatchesPattern;
 use TRegx\SafeRegex\preg;
 
 class MatchPattern implements PatternLimit
@@ -35,7 +36,12 @@ class MatchPattern implements PatternLimit
 
     public function matches(): bool
     {
-        return preg::match($this->pattern->pattern, $this->subject) === 1;
+        return (new MatchesPattern($this->pattern, $this->subject))->matches();
+    }
+
+    public function fails(): bool
+    {
+        return (new MatchesPattern($this->pattern, $this->subject))->fails();
     }
 
     public function all(): array
