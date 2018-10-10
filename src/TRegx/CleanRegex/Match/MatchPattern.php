@@ -73,11 +73,16 @@ class MatchPattern implements PatternLimit
         return (new MatchOnly($this->pattern, $this->subject, $limit))->get();
     }
 
-    public function iterate(callable $callback): void
+    public function forEach(callable $callback): void
     {
         foreach ($this->getMatchObjects() as $object) {
             $callback($object);
         }
+    }
+
+    public function iterate(callable $callback): void
+    {
+        $this->forEach($callback);
     }
 
     public function map(callable $callback): array

@@ -65,7 +65,7 @@ API
         * `pattern()->match()->all()`
         * `pattern()->match()->first()`
         * `pattern()->match()->map()`
-        * `pattern()->match()->iterate()`
+        * `pattern()->match()->forEach()` / `iterate()`
         * `pattern()->match()->offsets()`
             * `->first()`
             * `->all()`
