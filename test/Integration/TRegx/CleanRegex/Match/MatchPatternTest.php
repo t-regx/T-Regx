@@ -11,7 +11,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllMatches()
+    public function shouldGet_allMatches()
     {
         // when
         $matches = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->all();
@@ -23,7 +23,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllMatches_only()
+    public function shouldGet_allMatches_only()
     {
         // when
         $matches = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->only(2);
@@ -35,7 +35,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFirst()
+    public function shouldGet_first()
     {
         // when
         $match = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->first();
@@ -47,7 +47,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldModifyReturnValue_first()
+    public function shouldModify_returnValue_first()
     {
         // when
         $value = pattern('[A-Z]+')->match('Foo, Bar, Top')->first(function () {
@@ -61,7 +61,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldModifyReturnValue_forFirst()
+    public function shouldModify_returnValue_forFirst()
     {
         // when
         $value = pattern('[A-Z]+')
@@ -80,7 +80,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroupsCount_forNoGroups()
+    public function shouldGet_groupsCount_forNoGroups()
     {
         // when
         $value = pattern('[a-z]+')
@@ -101,7 +101,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldAllowToReturnArbitraryType()
+    public function shouldAllow_returnArbitraryType()
     {
         // when
         $value = pattern('[A-Z]+')
@@ -117,7 +117,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldMatchAllForFirst()
+    public function should_matchAll_first()
     {
         // when
         pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
@@ -131,7 +131,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotCallIterateOnUnmatchedPattern()
+    public function shouldNotCall_iterate_onUnmatchedPattern()
     {
         // given
         pattern('dont match me')
@@ -148,7 +148,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotCallFirstOnUnmatchedPattern()
+    public function shouldNotCall_first_OnUnmatchedPattern()
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -165,7 +165,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroups_first()
+    public function shouldGet_groups_first()
     {
         // given
         $subject = 'Computer L Three Four';
@@ -180,7 +180,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroups_all()
+    public function shouldGet_groups_all()
     {
         // given
         $subject = 'Computer L Three Four';
@@ -195,7 +195,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroups_onlyOne()
+    public function shouldGet_groups_onlyOne()
     {
         // given
         $subject = 'D Computer';
@@ -235,7 +235,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroups_offsets()
+    public function shouldGet_groups_offsets()
     {
         // given
         $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')
@@ -259,7 +259,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroups_offsets_null_first()
+    public function shouldGet_groups_offsets_null_onlyOne()
     {
         // given
         $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')

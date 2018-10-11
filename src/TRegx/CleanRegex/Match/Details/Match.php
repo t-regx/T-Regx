@@ -136,15 +136,15 @@ class Match implements MatchInterface
         return ByteOffset::toCharacterOffset($this->subject, $this->byteOffset());
     }
 
-    public function groupOffset(): array
-    {
-        return $this->byteGroupOffsets();
-    }
-
     public function byteOffset(): int
     {
         list($value, $offset) = $this->matches[self::WHOLE_MATCH][$this->index];
         return $offset;
+    }
+
+    public function groupOffsets(): array
+    {
+        return $this->byteGroupOffsets();
     }
 
     public function byteGroupOffsets(): array

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex;
+namespace Test\Unit\TRegx\CleanRegex\MatchesPattern\matches;
 
 use TRegx\CleanRegex\MatchesPattern;
 use TRegx\CleanRegex\Internal\InternalPattern;
@@ -11,10 +11,10 @@ class MatchesPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldMatchPattern()
+    public function should_match()
     {
         // given
-        $pattern = new MatchesPattern(new InternalPattern('/[a-z]/'), 'welcome');
+        $pattern = new MatchesPattern(new InternalPattern('/[a-z]/'), 'matching');
 
         // when
         $result = $pattern->matches();
@@ -26,10 +26,10 @@ class MatchesPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotMatchPattern()
+    public function should_not_match()
     {
         // given
-        $pattern = new MatchesPattern(new InternalPattern('/^[a-z]+$/'), 'space space');
+        $pattern = new MatchesPattern(new InternalPattern('/^[a-z]+$/'), 'not matching');
 
         // when
         $result = $pattern->matches();
@@ -41,7 +41,7 @@ class MatchesPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldIntegerMatchPattern()
+    public function should_integer_match()
     {
         // given
         $pattern = new MatchesPattern(new InternalPattern('/^2$/'), 2);
@@ -56,7 +56,7 @@ class MatchesPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldIntegerNotMatchPattern()
+    public function shouldNot_integer_match()
     {
         // given
         $pattern = new MatchesPattern(new InternalPattern('/^3$/'), 2);
