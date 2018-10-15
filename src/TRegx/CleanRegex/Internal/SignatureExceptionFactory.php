@@ -66,6 +66,9 @@ class SignatureExceptionFactory
             } catch (TypeError $error) {
                 continue;
             } catch (Error $error) {
+                if ($this->isAbstractClassError($error)) {
+                    throw ClassExpectedException::isAbstract($this->className);
+                }
                 if ($this->isWrongParametersError($error)) {
                     continue;
                 }
@@ -88,6 +91,11 @@ class SignatureExceptionFactory
                 return new $this->className();
             }
         ];
+    }
+
+    private function isAbstractClassError(Error $error): bool
+    {
+        return $error->getMessage() === "Cannot instantiate abstract class $this->className";
     }
 
     private function isWrongParametersError(Error $error): bool

@@ -22,4 +22,9 @@ class ClassExpectedException extends CleanRegexException
     {
         return new ClassExpectedException("'$className' is not a class, but an interface");
     }
+
+    public static function isAbstract(string $className)
+    {
+        return new ClassExpectedException("'$className' is an abstract class");
+    }
 }

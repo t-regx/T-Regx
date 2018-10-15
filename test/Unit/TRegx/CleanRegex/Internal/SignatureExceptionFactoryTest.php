@@ -6,10 +6,12 @@ use Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use Test\Utils\AbstractClass;
 use Test\Utils\ClassWithDefaultConstructor;
 use Test\Utils\ClassWithoutSuitableConstructor;
 use Test\Utils\ClassWithStringParamConstructor;
 use Test\Utils\ClassWithTwoStringParamsConstructor;
+use Test\Utils\ThrowableWithPrivateConstructor;
 use Throwable;
 use TRegx\CleanRegex\Exception\CleanRegex\ClassExpectedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NoSuitableConstructorException;
@@ -47,6 +49,22 @@ class SignatureExceptionFactoryTest extends TestCase
         // then
         $this->expectException(ClassExpectedException::Class);
         $this->expectExceptionMessage("'Throwable' is not a class, but an interface");
+
+        // when
+        $factory->create('');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onAbstractClass()
+    {
+        // given
+        $factory = new SignatureExceptionFactory(AbstractClass::class, new FirstMatchMessage());
+
+        // then
+        $this->expectException(ClassExpectedException::Class);
+        $this->expectExceptionMessage("'Test\Utils\AbstractClass' is an abstract class");
 
         // when
         $factory->create('');
