@@ -94,6 +94,11 @@ class MatchPattern implements PatternLimit
         return $results;
     }
 
+    public function flatMap(callable $callback): array
+    {
+        return $this->map($callback);
+    }
+
     /**
      * @param callable $callback
      * @return Optional

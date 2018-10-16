@@ -65,7 +65,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $value = pattern('[A-Z]+')
-            ->match('Foo, Leszek Ziom, Dupa')
+            ->match('F')
             ->first(function () {
                 return new \stdClass();
             });
@@ -95,7 +95,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $value = pattern('[A-Z]+')
-            ->match('Foo, Bar, Top')
+            ->match('FOO')
             ->forFirst(function () {
                 return 'Different';
             })
@@ -126,6 +126,40 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertEquals("Different", $value);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_map()
+    {
+        // when
+        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->map(function (Match $match) {
+            return str_split(strtoupper($match));
+        });
+
+        // then
+        $expected = [
+            ['F', 'O', 'O'],
+            ['B', 'A', 'R'],
+            ['T', 'O', 'P']
+        ];
+        $this->assertEquals($expected, $mapped);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_flatMap()
+    {
+        // when
+        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->flatMap(function (Match $match) {
+            return str_split(strtoupper($match));
+        });
+
+        // then
+        $expected = ['F', 'O', 'O', 'B', 'A', 'R', 'T', 'O', 'P'];
+        $this->assertEquals($expected, $mapped);
     }
 
     /**
