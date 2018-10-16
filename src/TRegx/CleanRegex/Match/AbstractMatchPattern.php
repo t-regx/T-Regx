@@ -22,7 +22,7 @@ use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 use TRegx\CleanRegex\MatchesPattern;
 use TRegx\SafeRegex\preg;
 
-class MatchPattern implements PatternLimit, Countable
+class AbstractMatchPattern implements PatternLimit, Countable
 {
     private const GROUP_WHOLE_MATCH = 0;
     private const FIRST_MATCH = 0;
