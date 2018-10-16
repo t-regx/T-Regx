@@ -9,7 +9,7 @@ The most advanced PHP regexp library. Clean, descriptive wrapper functions enhan
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](https://requires.io/github/Danon/T-Regx/requirements/?branch=master)
 ![Repository Size](https://github-size-badge.herokuapp.com/Danon/T-Regx.svg)
 ![License](https://img.shields.io/github/license/Danon/T-Regx.svg)
-![GitHub last commit](https://img.shields.io/github/last-commit/Danon/T-Regx.svg)
+![GitHub last commit](https://img.shields.io/github/last-commit/Danon/T-Regx/develop.svg)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Danon/T-Regx.svg)
 
 [![PHP Version](https://img.shields.io/badge/PHP-5.3%2B-blue.svg)](https://github.com/Danon/T-Regx/branches/all)
