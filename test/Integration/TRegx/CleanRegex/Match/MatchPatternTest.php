@@ -11,7 +11,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_allMatches()
+    public function shouldGet_all()
     {
         // when
         $matches = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->all();
@@ -23,7 +23,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_allMatches_only()
+    public function shouldGet_only_2()
     {
         // when
         $matches = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->only(2);
@@ -47,7 +47,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldModify_returnValue_first()
+    public function shouldGet_first_callback()
     {
         // when
         $value = pattern('[A-Z]+')->match('Foo, Bar, Top')->first(function () {
@@ -61,7 +61,37 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldModify_returnValue_forFirst()
+    public function shouldGet_first_returnArbitraryType()
+    {
+        // when
+        $value = pattern('[A-Z]+')
+            ->match('Foo, Leszek Ziom, Dupa')
+            ->first(function () {
+                return new \stdClass();
+            });
+
+        // then
+        $this->assertInstanceOf(\stdClass::class, $value);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_first_matchAll()
+    {
+        // when
+        pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
+            ->match('Foo, Leszek Ziom, Bar')
+            ->first(function (Match $match) {
+                // then
+                $this->assertEquals(['Foo', 'Leszek', 'Ziom', 'Bar'], $match->all());
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_forFirst_orElse()
     {
         // when
         $value = pattern('[A-Z]+')
@@ -80,7 +110,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_groupsCount_forNoGroups()
+    public function shouldGet_forFirst_orElse_groupsCount()
     {
         // when
         $value = pattern('[a-z]+')
@@ -96,36 +126,6 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertEquals("Different", $value);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldAllow_returnArbitraryType()
-    {
-        // when
-        $value = pattern('[A-Z]+')
-            ->match('Foo, Leszek Ziom, Dupa')
-            ->first(function () {
-                return new \stdClass();
-            });
-
-        // then
-        $this->assertInstanceOf(\stdClass::class, $value);
-    }
-
-    /**
-     * @test
-     */
-    public function should_matchAll_first()
-    {
-        // when
-        pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
-            ->match('Foo, Leszek Ziom, Bar')
-            ->first(function (Match $match) {
-                // then
-                $this->assertEquals(['Foo', 'Leszek', 'Ziom', 'Bar'], $match->all());
-            });
     }
 
     /**
@@ -165,7 +165,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_groups_first()
+    public function shouldGet_group_first()
     {
         // given
         $subject = 'Computer L Three Four';
@@ -180,7 +180,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_groups_all()
+    public function shouldGet_group_all()
     {
         // given
         $subject = 'Computer L Three Four';
@@ -195,7 +195,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_groups_onlyOne()
+    public function shouldGet_group_only_1()
     {
         // given
         $subject = 'D Computer';
@@ -235,7 +235,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_groups_offsets()
+    public function shouldGet_group_offsets()
     {
         // given
         $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')
@@ -259,7 +259,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_groups_offsets_null_onlyOne()
+    public function shouldGet_group_offsets_onlyOne_null()
     {
         // given
         $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')
