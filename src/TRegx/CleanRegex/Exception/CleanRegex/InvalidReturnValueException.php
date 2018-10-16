@@ -11,6 +11,6 @@ class InvalidReturnValueException extends CleanRegexException
     public function __construct($returnValue)
     {
         $type = (new StringValue($returnValue))->getString();
-        parent::__construct("Invalid replace callback return type. Expected array, but $type given");
+        parent::__construct("Invalid flatMap() callback return type. Expected array, but $type given");
     }
 }

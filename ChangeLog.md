@@ -13,6 +13,7 @@ Incoming in 1.1
     * Add `replace()->all()`, `replace()->first()` and `replace()->only(int)`
     * Add `pattern()->remove()`
     * Add `match()->only(int)`
+    * Add `match()->flatMap()`
     * Pass flags as `pattern()` second argument
     * Add `ReplaceMatch.modifiedSubject()`
     * Add UTF-8 support for methods `offset()`, `modifiedOffset()` and `modifiedSubject()`
@@ -65,6 +66,7 @@ API
         * `pattern()->match()->all()`
         * `pattern()->match()->first()`
         * `pattern()->match()->map()`
+        * `pattern()->match()->flatMap()`
         * `pattern()->match()->forEach()` / `iterate()`
         * `pattern()->match()->offsets()`
             * `->first()`

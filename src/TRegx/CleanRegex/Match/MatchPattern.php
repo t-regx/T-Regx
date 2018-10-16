@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
+use TRegx\CleanRegex\Exception\CleanRegex\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
@@ -16,7 +17,9 @@ use TRegx\CleanRegex\Match\ForFirst\NotMatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\Optional;
 use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 use TRegx\CleanRegex\MatchesPattern;
+use TRegx\SafeRegex\Guard\Arrays;
 use TRegx\SafeRegex\preg;
+use function is_array;
 
 class MatchPattern implements PatternLimit
 {
@@ -96,7 +99,7 @@ class MatchPattern implements PatternLimit
 
     public function flatMap(callable $callback): array
     {
-        return $this->map($callback);
+        return (new FlatMapper($this->getMatchObjects(), $callback))->get();
     }
 
     /**
