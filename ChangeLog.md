@@ -21,6 +21,7 @@ Incoming in 1.1
     * Add `match()->forFirst()` with methods `orReturn()`, `orElse()` and `orThrow()`
     * `orThrow()` can instantiate exceptions by class name (with one of predefined constructor signatures)
     * `match()->first()` throws on unmatched subject and on unmatched group
+    * Add `match()->iterator()`
     * Use `PREG_UNMATCHED_AS_NULL` if PHP version is supported
     * Add `CompositePattern` (#8)
     * Add `split()->filter()`
@@ -68,6 +69,7 @@ API
         * `pattern()->match()->map()`
         * `pattern()->match()->flatMap()`
         * `pattern()->match()->forEach()` / `iterate()`
+        * `pattern()->match()->iterator()`
         * `pattern()->match()->offsets()`
             * `->first()`
             * `->all()`
