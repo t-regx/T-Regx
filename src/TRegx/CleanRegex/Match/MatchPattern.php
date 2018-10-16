@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Match;
 
 use ArrayIterator;
+use Countable;
 use EmptyIterator;
 use Iterator;
 use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
@@ -21,7 +22,7 @@ use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 use TRegx\CleanRegex\MatchesPattern;
 use TRegx\SafeRegex\preg;
 
-class MatchPattern implements PatternLimit
+class MatchPattern implements PatternLimit, Countable
 {
     private const GROUP_WHOLE_MATCH = 0;
     private const FIRST_MATCH = 0;

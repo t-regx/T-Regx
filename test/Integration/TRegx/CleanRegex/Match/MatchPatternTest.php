@@ -307,4 +307,16 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertEquals([null], $only1);
     }
+
+    /**
+     * @test
+     */
+    public function shouldCount_matched()
+    {
+        // when
+        $count = count(pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar'));
+
+        // then
+        $this->assertEquals(3, $count);
+    }
 }

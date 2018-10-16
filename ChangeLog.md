@@ -28,6 +28,7 @@ Incoming in 1.1
     * `match->only(i)` calls `preg_match` for `i=1`, and `preg_match_all` for other values
     * Add `group()->all()` to `Match`
     * Add `groupsCount()` to `NotMatched`
+    * `pattern()->match()` is `\Countable`
 * Tests
     * Split tests into `\Test\Unit` and `\Test\Integration` folders 
     * Add dynamic skip for `ErrorsCleanerTest`
