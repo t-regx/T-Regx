@@ -99,6 +99,11 @@ API
             * `Match.matched(string|int)`
             * `Match.hasGroup(string|int)`
             * `Match.all()`
+        * `NotMatched` details
+            * `NotMatched.subject()`
+            * `NotMatched.groupNames()`
+            * `NotMatched.groupsCount()`
+            * `NotMatched.hasGroup($nameOrIndex)`
     * Replace API
         * `pattern()->replace()->all()`
             * `->with()`
