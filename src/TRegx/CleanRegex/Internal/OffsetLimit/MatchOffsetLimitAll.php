@@ -4,32 +4,27 @@ namespace TRegx\CleanRegex\Internal\OffsetLimit;
 use InvalidArgumentException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Grouper;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
-use TRegx\SafeRegex\preg;
+use TRegx\CleanRegex\Internal\Match\Adapter\Base;
 use function array_key_exists;
 use function array_map;
 use function array_slice;
-use function defined;
 
 class MatchOffsetLimitAll
 {
-    /** @var Pattern */
-    private $pattern;
-    /** @var string */
-    private $subject;
     /** @var string|int */
     private $nameOrIndex;
+    /** @var Base */
+    private $base;
 
-    public function __construct(Pattern $pattern, string $subject, $nameOrIndex)
+    public function __construct(Base $base, $nameOrIndex)
     {
-        $this->pattern = $pattern;
-        $this->subject = $subject;
+        $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
     }
 
     public function getAllForGroup(int $limit, bool $allowNegative): array
     {
-        $matches = $this->getMatches();
+        $matches = $this->base->matchAllOffsets();
         if (!$this->groupExistsIn($matches)) {
             throw new NonexistentGroupException($this->nameOrIndex);
         }
@@ -37,20 +32,6 @@ class MatchOffsetLimitAll
             throw new InvalidArgumentException("Negative limit $limit");
         }
         return $this->mapToOffset($this->getLimitedMatches($limit, $matches));
-    }
-
-    private function getMatches(): array
-    {
-        preg::match_all($this->pattern->pattern, $this->subject, $matches, $this->pregMatchFlags());
-        return $matches;
-    }
-
-    private function pregMatchFlags(): int
-    {
-        if (defined('PREG_UNMATCHED_AS_NULL')) {
-            return PREG_UNMATCHED_AS_NULL | PREG_OFFSET_CAPTURE;
-        }
-        return PREG_OFFSET_CAPTURE;
     }
 
     private function groupExistsIn(array $matches): bool

@@ -38,7 +38,7 @@ class FlatMapper
         if (is_array($value)) {
             return $value;
         }
-        throw new InvalidReturnValueException($value);
+        throw InvalidReturnValueException::forFlatMap($value);
     }
 
     private function invoke($object)

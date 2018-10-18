@@ -50,7 +50,7 @@ class NotMatchedGroup implements MatchGroup
 
     public function __toString(): string
     {
-        return '';
+        throw $this->groupNotMatched('__toString');
     }
 
     public function all(): array

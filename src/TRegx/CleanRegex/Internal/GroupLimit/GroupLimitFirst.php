@@ -5,34 +5,30 @@ use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Grouper;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Match\Adapter\Base;
 use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
-use TRegx\SafeRegex\preg;
 use function array_key_exists;
 
 class GroupLimitFirst
 {
-    /** @var Pattern */
-    private $pattern;
-    /** @var string */
-    private $subject;
+    /** @var Base */
+    private $base;
     /** @var string|int */
     private $nameOrIndex;
     /** @var GroupVerifier */
     private $groupVerifier;
 
-    public function __construct(Pattern $pattern, string $subject, $nameOrIndex)
+    public function __construct(Base $base, $nameOrIndex)
     {
-        $this->pattern = $pattern;
-        $this->subject = $subject;
+        $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
         $this->groupVerifier = new MatchAllGroupVerifier();
     }
 
     public function getFirstForGroup(): string
     {
-        $count = preg::match($this->pattern->pattern, $this->subject, $matches, $this->pregMatchFlags());
+        list($matches, $count) = $this->base->matchCountVerified();
         if ($this->groupMatchedIn($matches)) {
             $group = $this->getGroup($matches);
             if ($group !== null) {
@@ -42,22 +38,7 @@ class GroupLimitFirst
             $this->validateGroupExists();
             $this->validateSubjectMatched($count);
         }
-        throw GroupNotMatchedException::forFirst($this->subject, $this->nameOrIndex);
-    }
-
-    private function pregMatchFlags(): int
-    {
-        if (defined('PREG_UNMATCHED_AS_NULL')) {
-            return PREG_UNMATCHED_AS_NULL;
-        }
-        return PREG_OFFSET_CAPTURE;
-    }
-
-    private function validateGroupExists(): void
-    {
-        if (!$this->groupExists()) {
-            throw new NonexistentGroupException($this->nameOrIndex);
-        }
+        throw GroupNotMatchedException::forFirst($this->base->getSubject(), $this->nameOrIndex);
     }
 
     private function groupMatchedIn(array $matches): bool
@@ -70,15 +51,22 @@ class GroupLimitFirst
         return (new Grouper($matches[$this->nameOrIndex]))->getText();
     }
 
+    private function validateGroupExists(): void
+    {
+        if (!$this->groupExists()) {
+            throw new NonexistentGroupException($this->nameOrIndex);
+        }
+    }
+
     private function groupExists(): bool
     {
-        return $this->groupVerifier->groupExists($this->pattern->pattern, $this->nameOrIndex);
+        return $this->groupVerifier->groupExists($this->base->getPattern()->pattern, $this->nameOrIndex);
     }
 
     private function validateSubjectMatched(int $count): void
     {
         if ($count === 0) {
-            throw SubjectNotMatchedException::forFirst($this->subject);
+            throw SubjectNotMatchedException::forFirst($this->base->getSubject());
         }
     }
 }

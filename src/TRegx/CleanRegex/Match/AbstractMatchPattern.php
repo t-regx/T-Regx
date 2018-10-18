@@ -10,7 +10,10 @@ use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFactory;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Match\Adapter\Base;
+use TRegx\CleanRegex\Internal\Match\Adapter\FilteredBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\Filter;
+use TRegx\CleanRegex\Internal\Match\MatchFactory;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -19,38 +22,30 @@ use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\NotMatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\Optional;
 use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
-use TRegx\CleanRegex\MatchesPattern;
-use TRegx\SafeRegex\preg;
 
-class AbstractMatchPattern implements PatternLimit, Countable
+abstract class AbstractMatchPattern implements PatternLimit, Countable
 {
     private const GROUP_WHOLE_MATCH = 0;
     private const FIRST_MATCH = 0;
 
-    /** @var Pattern */
-    private $pattern;
-    /** @var string */
-    private $subject;
+    /** @var Base */
+    protected $base;
 
-    public function __construct(Pattern $pattern, string $subject)
+    public function __construct(Base $base)
     {
-        $this->pattern = $pattern;
-        $this->subject = $subject;
+        $this->base = $base;
     }
 
-    public function matches(): bool
-    {
-        return (new MatchesPattern($this->pattern, $this->subject))->matches();
-    }
+    abstract public function matches(): bool;
 
     public function fails(): bool
     {
-        return (new MatchesPattern($this->pattern, $this->subject))->fails();
+        return !$this->matches();
     }
 
     public function all(): array
     {
-        preg::match_all($this->pattern->pattern, $this->subject, $matches);
+        $matches = $this->base->matchAll();
         return $matches[self::GROUP_WHOLE_MATCH];
     }
 
@@ -63,10 +58,10 @@ class AbstractMatchPattern implements PatternLimit, Countable
     {
         $matches = $this->performMatchAll();
         if (empty($matches[self::GROUP_WHOLE_MATCH])) {
-            throw SubjectNotMatchedException::forFirst($this->subject);
+            throw SubjectNotMatchedException::forFirst($this->base->getSubject());
         }
         if ($callback !== null) {
-            return $callback(new Match($this->subject, self::FIRST_MATCH, $matches));
+            return $callback(new Match($this->base->getSubject(), self::FIRST_MATCH, $matches));
         }
         list($value, $offset) = $matches[self::GROUP_WHOLE_MATCH][self::FIRST_MATCH];
         return $value;
@@ -74,7 +69,7 @@ class AbstractMatchPattern implements PatternLimit, Countable
 
     public function only(int $limit): array
     {
-        return (new MatchOnly($this->pattern, $this->subject, $limit))->get();
+        return (new MatchOnly($this->base, $limit))->get();
     }
 
     public function forEach(callable $callback): void
@@ -110,10 +105,11 @@ class AbstractMatchPattern implements PatternLimit, Countable
     public function forFirst(callable $callback): Optional
     {
         $matches = $this->performMatchAll();
+        $subject = $this->base->getSubject();
         if (empty($matches[self::GROUP_WHOLE_MATCH])) {
-            return new NotMatchedOptional(new NotMatchedOptionalWorker(new FirstMatchMessage(), $this->subject, new NotMatched($matches, $this->subject)));
+            return new NotMatchedOptional(new NotMatchedOptionalWorker(new FirstMatchMessage(), $subject, new NotMatched($matches, $subject)));
         }
-        $result = $callback(new Match($this->subject, self::FIRST_MATCH, $matches));
+        $result = $callback(new Match($subject, self::FIRST_MATCH, $matches));
         return new MatchedOptional($result);
     }
 
@@ -124,18 +120,15 @@ class AbstractMatchPattern implements PatternLimit, Countable
     public function group($nameOrIndex): GroupLimit
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return (new GroupLimitFactory($this->pattern, $this->subject, $nameOrIndex))->create();
+        return (new GroupLimitFactory($this->base, $nameOrIndex))->create();
     }
 
     public function offsets(): MatchOffsetLimit
     {
-        return (new MatchOffsetLimitFactory($this->pattern, $this->subject, 0))->create();
+        return (new MatchOffsetLimitFactory($this->base, 0))->create();
     }
 
-    public function count(): int
-    {
-        return preg::match_all($this->pattern->pattern, $this->subject);
-    }
+    abstract public function count(): int;
 
     public function iterator(): Iterator
     {
@@ -146,30 +139,21 @@ class AbstractMatchPattern implements PatternLimit, Countable
         return new ArrayIterator($objects);
     }
 
-    /**
-     * @return Match[]
-     */
-    private function getMatchObjects(): array
+    public function filter(callable $filterCallback): FilteredMatchPattern
     {
-        return $this->constructMatchObjects($this->performMatchAll());
+        return new FilteredMatchPattern(new FilteredBaseDecorator($this->base, new Filter($filterCallback)));
     }
 
     /**
-     * @param array $matches
      * @return Match[]
      */
-    private function constructMatchObjects(array $matches): array
+    protected function getMatchObjects(): array
     {
-        $matchObjects = [];
-        foreach ($matches[self::GROUP_WHOLE_MATCH] as $index => $match) {
-            $matchObjects[] = new Match($this->subject, $index, $matches);
-        }
-        return $matchObjects;
+        return MatchFactory::fromMatchAll($this->base, $this->performMatchAll());
     }
 
     private function performMatchAll(): array
     {
-        preg::match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
-        return $matches;
+        return $this->base->matchAllOffsets();
     }
 }

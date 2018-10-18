@@ -22,7 +22,7 @@ class MatchAll
     public function all(): array
     {
         return array_map(function ($group) {
-            if ($group === null || $group === "") {
+            if ($group === null || $group === '') {
                 return null;
             }
             return $group[0];

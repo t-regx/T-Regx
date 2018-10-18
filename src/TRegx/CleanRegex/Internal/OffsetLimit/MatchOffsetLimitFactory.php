@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\OffsetLimit;
 
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Match\Adapter\Base;
 use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 
 class MatchOffsetLimitFactory
@@ -11,10 +11,10 @@ class MatchOffsetLimitFactory
     /** @var MatchOffsetLimitFirst */
     private $limitFirst;
 
-    public function __construct(Pattern $pattern, string $subject, $nameOrIndex)
+    public function __construct(Base $base, $nameOrIndex)
     {
-        $this->limitAll = new MatchOffsetLimitAll($pattern, $subject, $nameOrIndex);
-        $this->limitFirst = new MatchOffsetLimitFirst($pattern, $subject, $nameOrIndex);
+        $this->limitAll = new MatchOffsetLimitAll($base, $nameOrIndex);
+        $this->limitFirst = new MatchOffsetLimitFirst($base, $nameOrIndex);
     }
 
     public function create(): MatchOffsetLimit

@@ -7,10 +7,22 @@ class InvalidReturnValueException extends CleanRegexException
 {
     /**
      * @param $returnValue
+     * @param $methodName
+     * @param $expectedReturnType
      */
-    public function __construct($returnValue)
+    public function __construct($returnValue, $methodName, $expectedReturnType)
     {
         $type = (new StringValue($returnValue))->getString();
-        parent::__construct("Invalid flatMap() callback return type. Expected array, but $type given");
+        parent::__construct("Invalid $methodName() callback return type. Expected $expectedReturnType, but $type given");
+    }
+
+    public static function forFlatMap($value): self
+    {
+        return new self($value, 'flatMap', 'array');
+    }
+
+    public static function forFilter($value): self
+    {
+        return new self($value, 'filter', 'bool');
     }
 }
