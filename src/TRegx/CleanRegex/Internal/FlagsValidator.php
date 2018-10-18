@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
-use function in_array;
 use function str_split;
 
 class FlagsValidator
@@ -27,23 +26,25 @@ class FlagsValidator
      */
     public function validate(string $flags): void
     {
+        $invalid = $this->getInvalidFlags($flags);
+        if (count($invalid) === 1) {
+            throw FlagNotAllowedException::forOne(reset($invalid));
+        }
+        if (count($invalid) > 1) {
+            throw FlagNotAllowedException::forMany($invalid);
+        }
+    }
+
+    private function getInvalidFlags(string $flags): array
+    {
+        return array_diff($this->toArray($flags), self::$flags);
+    }
+
+    private function toArray(string $flags): array
+    {
         if (empty($flags)) {
-            return;
+            return [];
         }
-        $this->validateFlags($flags);
-    }
-
-    private function validateFlags(string $flags): void
-    {
-        foreach (str_split($flags) as $flag) {
-            if (!$this->isAllowed($flag)) {
-                throw new FlagNotAllowedException($flag);
-            }
-        }
-    }
-
-    private function isAllowed(string $character): bool
-    {
-        return in_array($character, self::$flags, true);
+        return str_split($flags);
     }
 }

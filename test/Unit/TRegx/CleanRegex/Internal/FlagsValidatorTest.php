@@ -1,6 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
+use TRegx\CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
 use TRegx\CleanRegex\Internal\FlagsValidator;
 use PHPUnit\Framework\TestCase;
 
@@ -38,15 +39,18 @@ class FlagsValidatorTest extends TestCase
 
     /**
      * @test
-     * @expectedException \TRegx\CleanRegex\Exception\CleanRegex\FlagNotAllowedException
      */
     public function shouldNotAllowWhitespace()
     {
         // given
         $flags = new FlagsValidator();
 
+        // then
+        $this->expectException(FlagNotAllowedException::class);
+        $this->expectExceptionMessage("Regular expression flag: ' ' is not allowed");
+
         // when
-        $flags->validate('g i');
+        $flags->validate(' i');
     }
 
     /**
@@ -72,5 +76,21 @@ class FlagsValidatorTest extends TestCase
             ['/'],
             ['G'],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldValidateMultipleFlags()
+    {
+        // given
+        $flags = new FlagsValidator();
+
+        // then
+        $this->expectException(FlagNotAllowedException::class);
+        $this->expectExceptionMessage("Regular expression flags: ['f', 'c'] are not allowed");
+
+        // when
+        $flags->validate('fc');
     }
 }

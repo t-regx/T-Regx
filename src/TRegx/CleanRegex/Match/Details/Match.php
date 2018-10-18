@@ -108,6 +108,11 @@ class Match implements MatchInterface
         return array_key_exists($nameOrIndex, $this->matches);
     }
 
+    private function validateGroupName($nameOrIndex): void
+    {
+        (new GroupNameValidator($nameOrIndex))->validate();
+    }
+
     /**
      * @param string|int $nameOrIndex
      * @return bool
@@ -158,10 +163,5 @@ class Match implements MatchInterface
     public function __toString(): string
     {
         return $this->text();
-    }
-
-    private function validateGroupName($nameOrIndex): void
-    {
-        (new GroupNameValidator($nameOrIndex))->validate();
     }
 }
