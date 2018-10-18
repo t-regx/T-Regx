@@ -1,8 +1,8 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Pattern;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Pattern;
 
 class PatternQuoteTest extends TestCase
 {

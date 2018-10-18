@@ -2,9 +2,9 @@
 namespace Test\Integration\TRegx\SafeRegex\Errors;
 
 use PHPUnit\Framework\TestCase;
+use Test\Warnings;
 use TRegx\SafeRegex\Errors\Errors\OvertriggerCompileError;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
-use Test\Warnings;
 
 class ErrorsCleanerTest extends TestCase
 {

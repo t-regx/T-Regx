@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\FilterArrayPattern;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
-use PHPUnit\Framework\TestCase;
 
 class FilterPatternTest extends TestCase
 {

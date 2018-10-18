@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\CountPattern;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
-use PHPUnit\Framework\TestCase;
 
 class CountPatternTest extends TestCase
 {

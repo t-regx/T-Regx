@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Split;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\SplitPattern;
-use PHPUnit\Framework\TestCase;
 
 class SplitPatternTest extends TestCase
 {

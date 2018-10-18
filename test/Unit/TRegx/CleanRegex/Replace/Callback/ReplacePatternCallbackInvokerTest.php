@@ -1,10 +1,10 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Replace\Callback;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
-use PHPUnit\Framework\TestCase;
 
 class ReplacePatternCallbackInvokerTest extends TestCase
 {

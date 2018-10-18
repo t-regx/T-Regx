@@ -1,10 +1,10 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Match;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\SafeRegex\preg;
 
 class MatchTest extends TestCase

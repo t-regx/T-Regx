@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Exception\Preg;
 
-use TRegx\CleanRegex\Exception\Preg\PatternMatchesException;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use TRegx\CleanRegex\Exception\Preg\PatternMatchesException;
 
 class PatternMatchesExceptionTest extends TestCase
 {

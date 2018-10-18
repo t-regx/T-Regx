@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
 use TRegx\CleanRegex\Internal\Delimiter\ExplicitDelimiterRequiredException;
-use PHPUnit\Framework\TestCase;
 
 class DelimitererTest extends TestCase
 {

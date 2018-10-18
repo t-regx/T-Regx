@@ -1,8 +1,8 @@
 <?php
 namespace Test\Integration\TRegx\CleanRegex\Exception\CleanRegex;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 
 class NonexistentGroupExceptionTest extends TestCase
 {

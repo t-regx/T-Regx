@@ -10,7 +10,7 @@ class GroupVerifierTest extends TestCase
      * @test
      * @dataProvider existingGroupsAndVerifiers
      * @param string $pattern
-     * @param bool $expected
+     * @param bool   $expected
      */
     public function shouldStrategiesAgreeWithEachOther(string $pattern, bool $expected)
     {

@@ -1,8 +1,8 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 
-use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
 
 class DelimiterParserTest extends TestCase
 {

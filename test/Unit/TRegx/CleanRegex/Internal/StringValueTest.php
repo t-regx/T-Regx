@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\StringValue;
-use PHPUnit\Framework\TestCase;
 
 class StringValueTest extends TestCase
 {

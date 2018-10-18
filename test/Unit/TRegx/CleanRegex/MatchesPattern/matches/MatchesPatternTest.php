@@ -1,10 +1,10 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\MatchesPattern\matches;
 
-use TRegx\CleanRegex\MatchesPattern;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use PHPUnit\Framework\TestCase;
 use Test\ClassWithToString;
+use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\MatchesPattern;
 
 class MatchesPatternTest extends TestCase
 {

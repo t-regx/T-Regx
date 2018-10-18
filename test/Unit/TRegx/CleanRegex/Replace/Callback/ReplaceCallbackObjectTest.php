@@ -1,10 +1,10 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Replace\Callback;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReplacementException;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\CleanRegex\Replace\Callback\ReplaceCallbackObject;
-use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\preg;
 
 class ReplaceCallbackObjectTest extends TestCase

@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Remove;
 
-use TRegx\CleanRegex\Remove\RemoveLimit;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Remove\RemoveLimit;
 
 class RemoveLimitTest extends TestCase
 {

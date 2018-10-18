@@ -1,11 +1,11 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Replace;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\CleanRegex\Replace\ReplacePattern;
-use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 
 class ReplaceLimitTest extends TestCase
 {

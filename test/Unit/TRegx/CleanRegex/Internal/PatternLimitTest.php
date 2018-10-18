@@ -1,13 +1,13 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\CleanRegex\Replace\ReplacePattern;
-use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 
 /*
  * This test checks that implementations of PatternLimit have all

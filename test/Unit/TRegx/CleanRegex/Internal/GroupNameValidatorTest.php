@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\GroupNameValidator;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\GroupNameValidator;
 
 class GroupNameValidatorTest extends TestCase
 {

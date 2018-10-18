@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
 use TRegx\CleanRegex\Internal\FlagsValidator;
-use PHPUnit\Framework\TestCase;
 
 class FlagsValidatorTest extends TestCase
 {
