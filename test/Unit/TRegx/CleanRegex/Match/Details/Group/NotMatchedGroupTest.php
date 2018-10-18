@@ -95,21 +95,6 @@ class NotMatchedGroupTest extends TestCase
     /**
      * @test
      */
-    public function shouldCastToString()
-    {
-        // given
-        $matchGroup = $this->matchGroup();
-
-        // when
-        $text = (string)$matchGroup;
-
-        // then
-        $this->assertEquals('', $text);
-    }
-
-    /**
-     * @test
-     */
     public function shouldControlMatched_orThrow()
     {
         // given

@@ -319,4 +319,116 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertEquals(3, $count);
     }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_all()
+    {
+        // when
+        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function (Match $match) {
+                return strlen($match) === 5;
+            })
+            ->all();
+
+        // then
+        $this->assertEquals(['First', 'Third', 'Fifth'], $filtered);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_only()
+    {
+        // when
+        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function (Match $match) {
+                return strlen($match) === 5;
+            })
+            ->only(2);
+
+        // then
+        $this->assertEquals(['First', 'Third'], $filtered);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_count()
+    {
+        // when
+        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function (Match $match) {
+                return strlen($match) === 5;
+            })
+            ->count();
+
+        // then
+        $this->assertEquals(3, $filtered);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_first()
+    {
+        // when
+        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function (Match $match) {
+                return $match->index() > 1;
+            })
+            ->first();
+
+        // then
+        $this->assertEquals('Third', $filtered);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_matches_true()
+    {
+        // when
+        $matches = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function (Match $match) {
+                return $match->text() === 'Fifth';
+            })
+            ->matches();
+
+        // then
+        $this->assertTrue($matches);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_matches_false()
+    {
+        // when
+        $matches = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function () {
+                return false;
+            })
+            ->matches();
+
+        // then
+        $this->assertFalse($matches);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_matches_notMatched()
+    {
+        // when
+        $matches = pattern('[A-Z][a-z]+')->match('NOT MATCHING')
+            ->filter(function () {
+                return true;
+            })
+            ->matches();
+
+        // then
+        $this->assertFalse($matches);
+    }
 }
