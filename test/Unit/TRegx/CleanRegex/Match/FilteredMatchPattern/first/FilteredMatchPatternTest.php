@@ -75,6 +75,25 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern->first();
     }
 
+    /**
+     * @test
+     */
+    public function shouldNotInvokeFilter()
+    {
+        // given
+        $invoked = [];
+        $matchPattern = $this->matchPattern('\w+', 'One, two, three, four, five', function (Match $match) use (&$invoked) {
+            $invoked[] = $match->text();
+            return true;
+        });
+
+        // when
+        $matchPattern->first();
+
+        // then
+        $this->assertEquals(['One'], $invoked);
+    }
+
     private function standardMatchPattern_notFirst(): AbstractMatchPattern
     {
         return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Match $match) {
