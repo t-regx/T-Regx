@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Match\Groups\Strategy;
 
 class SilencedExceptionGroupVerifier implements GroupVerifier
 {
-    public function groupExists(string $pattern, $nameOrIndex): bool
+    public function groupExists($nameOrIndex): bool
     {
         return true;
     }

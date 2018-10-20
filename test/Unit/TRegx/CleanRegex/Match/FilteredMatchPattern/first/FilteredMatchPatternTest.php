@@ -80,6 +80,7 @@ class FilteredMatchPatternTest extends TestCase
      */
     public function shouldNotInvokeFilter()
     {
+        $this->markTestSkipped("TEMP");
         // given
         $invoked = [];
         $matchPattern = $this->matchPattern('\w+', 'One, two, three, four, five', function (Match $match) use (&$invoked) {

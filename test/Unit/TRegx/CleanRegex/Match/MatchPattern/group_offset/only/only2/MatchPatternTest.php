@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\groups\only\only1;
+namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\group_offset\only\only2;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -18,12 +18,12 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(new Pattern('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'Nice Matching Pattern');
 
         // when
-        $twoGroups = $pattern->group('two')->only(1);
-        $restGroups = $pattern->group('rest')->only(1);
+        $twoGroups = $pattern->group('two')->offsets()->only(2);
+        $restGroups = $pattern->group('rest')->offsets()->only(2);
 
         // then
-        $this->assertEquals(['Ni'], $twoGroups);
-        $this->assertEquals(['ce'], $restGroups);
+        $this->assertEquals([0, 5], $twoGroups);
+        $this->assertEquals([2, 7], $restGroups);
     }
 
     /**
@@ -35,12 +35,12 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(new Pattern('(?<hour>\d\d)?:(?<minute>\d\d)?'), 'First->11:__   Second->__:12   Third->13:32');
 
         // when
-        $hours = $pattern->group('hour')->only(1);
-        $minutes = $pattern->group('minute')->only(1);
+        $hours = $pattern->group('hour')->offsets()->only(2);
+        $minutes = $pattern->group('minute')->offsets()->only(2);
 
         // then
-        $this->assertEquals(['11'], $hours);
-        $this->assertEquals([null], $minutes);
+        $this->assertEquals([7, null], $hours);
+        $this->assertEquals([null, 26], $minutes);
     }
 
     /**
@@ -52,7 +52,7 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(new Pattern('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'NOT MATCHING');
 
         // when
-        $groups = $pattern->group('two')->only(1);
+        $groups = $pattern->group('two')->offsets()->only(2);
 
         // then
         $this->assertEquals([], $groups);
@@ -71,7 +71,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage("Nonexistent group: 'missing'");
 
         // when
-        $pattern->group('missing')->only(1);
+        $pattern->group('missing')->offsets()->only(2);
     }
 
     /**
@@ -87,7 +87,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage("Nonexistent group: 'missing'");
 
         // when
-        $pattern->group('missing')->only(1);
+        $pattern->group('missing')->offsets()->only(2);
     }
 
     /**
@@ -103,6 +103,6 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage("Group name must be an alphanumeric string sequence starting with a letter, or an integer");
 
         // when
-        $pattern->group('2invalid')->only(1);
+        $pattern->group('2invalid')->offsets()->only(2);
     }
 }

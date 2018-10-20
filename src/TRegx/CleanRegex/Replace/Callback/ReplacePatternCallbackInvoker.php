@@ -2,6 +2,8 @@
 namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\SubjectableEx;
 use TRegx\SafeRegex\preg;
 
 class ReplacePatternCallbackInvoker
@@ -35,9 +37,9 @@ class ReplacePatternCallbackInvoker
         return $object->getCallback();
     }
 
-    private function analyzePattern(): array
+    private function analyzePattern(): RawMatchesOffset
     {
         preg::match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
-        return $matches;
+        return new RawMatchesOffset($matches, new SubjectableEx($this->subject));
     }
 }

@@ -2,9 +2,12 @@
 namespace TRegx\CleanRegex\Internal\Match\Base;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
-use TRegx\CleanRegex\Internal\Match\Details\MatchFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Internal\Model\RawMatch;
+use TRegx\CleanRegex\Internal\Model\RawMatches;
+use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\RawMatchGroupable;
+use TRegx\CleanRegex\Internal\Model\RawMatchOffset;
 
 class FilteredBaseDecorator implements Base
 {
@@ -29,64 +32,44 @@ class FilteredBaseDecorator implements Base
         return $this->base->getSubject();
     }
 
-    public function match(): array
+    public function match(): RawMatch
     {
         $matches = $this->base->matchAllOffsets();
-        /** @var Match $match */
-        foreach (MatchFactory::fromMatchAll($this->base, $matches) as $index => $match) {
+        foreach ($matches->getMatchObjects() as $index => $match) {
             if ($this->predicate->test($match)) {
-                $raw = array_map(function (array $match) use ($index) {
-                    list($text, $offset) = $match[$index];
-                    return $text;
-                }, $matches);
-                return $raw;
+                return $matches->getRawMatch($index);
             }
         }
-        return [];
+        return new RawMatch([]);
     }
 
-    public function matchCountOffset(): array
+    public function matchOffset(): RawMatchOffset
     {
         $matches = $this->base->matchAllOffsets();
-        /** @var Match $match */
-        foreach (MatchFactory::fromMatchAll($this->base, $matches) as $index => $match) {
+        foreach ($matches->getMatchObjects() as $index => $match) {
             if ($this->predicate->test($match)) {
-                $raw = array_map(function (array $match) use ($index) {
-                    return $match[$index];
-                }, $matches);
-                return [$raw, 1];
+                return $matches->getRawMatchOffset($index);
             }
         }
-        return [[], 0];
+        return new RawMatchOffset([]);
     }
 
-    public function matchCountVerified(): array
+    public function matchGroupable(): RawMatchGroupable
     {
-        return $this->matchCountOffset();
+        return $this->matchOffset();
     }
 
-    public function matchAll(): array
+    public function matchAll(): RawMatches
     {
-        $matchAll = $this->base->matchAllOffsets();
-        $filterMatches = $this->filterMatches($matchAll);
-        return $this->removeOffsets($filterMatches);
+        $filterMatches = $this->base->matchAllOffsets()->filterMatchesByMatchObjects($this->predicate);
+        $values = $this->removeOffsets($filterMatches);
+        return new RawMatches($values);
     }
 
-    public function matchAllOffsets(): array
+    public function matchAllOffsets(): RawMatchesOffset
     {
-        $matchAllOffsets = $this->base->matchAllOffsets();
-        return $this->filterMatches($matchAllOffsets);
-    }
-
-    private function filterMatches(array $matchAll): array
-    {
-        $matches = MatchFactory::fromMatchAll($this->base, $matchAll);
-
-        $filteredMatches = array_filter($matches, [$this->predicate, 'test']);
-
-        return array_map(function (array $match) use ($filteredMatches) {
-            return array_values(array_intersect_key($match, $filteredMatches));
-        }, $matchAll);
+        $matches = $this->base->matchAllOffsets()->filterMatchesByMatchObjects($this->predicate);
+        return new RawMatchesOffset($matches, $this->base);
     }
 
     private function removeOffsets(array $filterMatches): array

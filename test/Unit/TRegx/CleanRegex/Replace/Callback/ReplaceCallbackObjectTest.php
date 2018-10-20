@@ -3,6 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Replace\Callback;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReplacementException;
+use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\SubjectableEx;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\CleanRegex\Replace\Callback\ReplaceCallbackObject;
 use TRegx\SafeRegex\preg;
@@ -127,9 +129,9 @@ class ReplaceCallbackObjectTest extends TestCase
         return new ReplaceCallbackObject($callback, $subject, $this->analyzePattern($pattern, $subject), $limit);
     }
 
-    private function analyzePattern($pattern, $subject): array
+    private function analyzePattern($pattern, $subject): RawMatchesOffset
     {
         preg::match_all($pattern, $subject, $matches, PREG_OFFSET_CAPTURE);
-        return $matches;
+        return new RawMatchesOffset($matches, new SubjectableEx($subject));
     }
 }

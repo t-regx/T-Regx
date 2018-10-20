@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\Groups\Strategy;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 
 class GroupVerifierTest extends TestCase
@@ -16,21 +17,21 @@ class GroupVerifierTest extends TestCase
     {
         // given
         $strategies = [
-            'match' => new MatchAllGroupVerifier()
+            'match' => new MatchAllGroupVerifier(new InternalPattern($pattern))
         ];
 
         // when
-        $results = $this->getStrategiesResults($strategies, $pattern);
+        $results = $this->getStrategiesResults($strategies);
 
         // then
         $this->assertEquals(['match' => $expected], $results);
     }
 
-    private function getStrategiesResults(array $verifiers, string $pattern): array
+    private function getStrategiesResults(array $verifiers): array
     {
         $results = [];
         foreach ($verifiers as $key => $verifier) {
-            $results[$key] = $verifier->groupExists($pattern, 'group');
+            $results[$key] = $verifier->groupExists('group');
         }
         return $results;
     }

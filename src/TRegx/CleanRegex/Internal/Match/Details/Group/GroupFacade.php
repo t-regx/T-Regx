@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Grouper;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\MatchAllResults;
+use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
@@ -14,31 +15,31 @@ use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class GroupFacade
 {
-    /** @var array */
+    /** @var RawMatchesOffset */
     private $matches;
     /** @var string */
     private $subject;
     /** @var string|int */
     private $group;
 
-    /** @var Grouper */
-    private $grouper;
     /** @var GroupNameIndexAssign */
     private $groupAssign;
+    /** @var int */
+    private $index;
 
-    public function __construct(array $matches, string $subject, $group, int $index)
+    public function __construct(RawMatchesOffset $matches, string $subject, $group, int $index)
     {
         $this->matches = $matches;
         $this->subject = $subject;
         $this->group = $group;
-        $this->grouper = new Grouper($this->matches[$this->group][$index]);
         $this->groupAssign = new GroupNameIndexAssign($this->matches);
+        $this->index = $index;
     }
 
     public function createGroup(GroupFactoryStrategy $groupFactory): MatchGroup
     {
-        list($text, $offset) = $this->grouper->getTextAndOffset();
-        if ($offset > -1) {
+        if ($this->matches->isGroupMatched($this->group, $this->index)) {
+            list($text, $offset) = $this->matches->getGroupTextAndOffset($this->group, $this->index);
             return $this->createdMatched($groupFactory, new MatchedGroupOccurrence($text, $offset));
         }
         return $this->createUnmatched($groupFactory);

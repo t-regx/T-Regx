@@ -5,15 +5,17 @@ use function array_keys;
 use function array_search;
 use function is_int;
 use function is_string;
+use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\RawWithGroups;
 
 class GroupNameIndexAssign
 {
-    /** @var array */
-    private $matches;
+    /** @var (string|int)[] */
+    private $groups;
 
-    public function __construct(array $matches)
+    public function __construct(RawWithGroups $matches)
     {
-        $this->matches = array_keys($matches);
+        $this->groups = $matches->getGroupKeys();
     }
 
     public function getNameAndIndex($group): array
@@ -39,17 +41,17 @@ class GroupNameIndexAssign
 
     private function getIndexByName(string $name): int
     {
-        $key = array_search($name, $this->matches, true);
-        return $this->matches[$key + 1];
+        $key = array_search($name, $this->groups, true);
+        return $this->groups[$key + 1];
     }
 
     private function getNameByIndex(int $index): ?string
     {
-        $key = array_search($index, $this->matches, true);
+        $key = array_search($index, $this->groups, true);
         if ($key === 0) {
             return null;
         }
-        $value = $this->matches[$key - 1];
+        $value = $this->groups[$key - 1];
         if (is_string($value)) {
             return $value;
         }

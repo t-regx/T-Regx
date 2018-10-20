@@ -8,8 +8,6 @@ use function array_slice;
 
 class MatchOnly
 {
-    private const GROUP_WHOLE_MATCH = 0;
-
     /** @var Base */
     private $base;
     /** @var int */
@@ -49,12 +47,11 @@ class MatchOnly
      */
     private function getOneMatch(): array
     {
-        $matches = $this->base->match();
-        if (empty($matches)) {
-            return [];
+        $result = $this->base->match();
+        if ($result->matched()) {
+            return [$result->getMatch()];
         }
-        $match = $matches[self::GROUP_WHOLE_MATCH];
-        return [$match];
+        return [];
     }
 
     /**
@@ -67,7 +64,6 @@ class MatchOnly
 
     private function getAll(): array
     {
-        $matches = $this->base->matchAll();
-        return $matches[self::GROUP_WHOLE_MATCH];
+        return $this->base->matchAll()->getAll();
     }
 }

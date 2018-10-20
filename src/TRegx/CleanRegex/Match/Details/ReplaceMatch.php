@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
+use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Group\ReplaceMatchGroup;
 use function array_slice;
@@ -16,7 +17,7 @@ class ReplaceMatch extends Match
     /** @var int */
     private $limit;
 
-    public function __construct(string $subject, int $index, array $matches, int $offsetModification, string $subjectModification, int $limit)
+    public function __construct(string $subject, int $index, RawMatchesOffset $matches, int $offsetModification, string $subjectModification, int $limit)
     {
         parent::__construct($subject, $index, $matches, new ReplaceMatchGroupFactoryStrategy($offsetModification));
         $this->offsetModification = $offsetModification;

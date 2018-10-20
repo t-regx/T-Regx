@@ -15,7 +15,7 @@ class SilencedExceptionGroupVerifierTest extends TestCase
         $verifier = new SilencedExceptionGroupVerifier();
 
         // when
-        $exists = $verifier->groupExists('', 'group');
+        $exists = $verifier->groupExists('group');
 
         // then
         $this->assertTrue($exists);

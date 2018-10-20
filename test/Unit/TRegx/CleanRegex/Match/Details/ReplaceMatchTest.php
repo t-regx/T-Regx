@@ -2,6 +2,8 @@
 namespace Test\UnitCleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\SubjectableEx;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\SafeRegex\preg;
 
@@ -85,6 +87,6 @@ class ReplaceMatchTest extends TestCase
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
 
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
-        return new ReplaceMatch(self::subject, $index, $matches, $offsetModification, '', $limit);
+        return new ReplaceMatch(self::subject, $index, new RawMatchesOffset($matches, new SubjectableEx(self::subject)), $offsetModification, '', $limit);
     }
 }

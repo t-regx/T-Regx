@@ -21,21 +21,16 @@ class GroupLimitAll
 
     public function getAllForGroup(int $limit, bool $allowNegative): array
     {
-        $matches = $this->base->matchAll();
-        if (!$this->groupExistsIn($matches)) {
+        $rawMatches = $this->base->matchAll();
+        if (!$rawMatches->hasGroup($this->nameOrIndex)) {
             throw new NonexistentGroupException($this->nameOrIndex);
         }
         if (!$allowNegative && $limit < 0) {
             throw new InvalidArgumentException("Negative limit $limit");
         }
         if ($limit === -1) {
-            return $matches[$this->nameOrIndex];
+            return $rawMatches->getGroupTexts($this->nameOrIndex);
         }
-        return array_slice($matches[$this->nameOrIndex], 0, $limit);
-    }
-
-    private function groupExistsIn(array $matches): bool
-    {
-        return array_key_exists($this->nameOrIndex, $matches);
+        return array_slice($rawMatches->getGroupTexts($this->nameOrIndex), 0, $limit);
     }
 }

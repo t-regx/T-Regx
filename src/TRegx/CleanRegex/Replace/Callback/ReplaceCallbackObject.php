@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\ByteOffset;
+use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use function call_user_func;
@@ -19,7 +20,7 @@ class ReplaceCallbackObject
     private $callback;
     /** @var string */
     private $subject;
-    /** @var array */
+    /** @var RawMatchesOffset */
     private $analyzedPattern;
 
     /** @var int */
@@ -31,7 +32,7 @@ class ReplaceCallbackObject
     /** @var int */
     private $limit;
 
-    public function __construct(callable $callback, string $subject, array $analyzedPattern, int $limit)
+    public function __construct(callable $callback, string $subject, RawMatchesOffset $analyzedPattern, int $limit)
     {
         $this->callback = $callback;
         $this->subject = $subject;
@@ -92,7 +93,7 @@ class ReplaceCallbackObject
 
     private function modifySubject(string $replacement): void
     {
-        list($value, $offset) = $this->analyzedPattern[self::GROUP_WHOLE_MATCH][$this->counter - 1];
+        list($value, $offset) = $this->analyzedPattern->getTextAndOffset($this->counter - 1);
 
         $this->subjectModification = substr_replace(
             $this->subjectModification,

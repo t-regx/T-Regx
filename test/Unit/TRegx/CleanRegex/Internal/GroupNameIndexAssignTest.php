@@ -3,6 +3,7 @@ namespace Test\UnitTRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
+use TRegx\CleanRegex\Internal\Model\RawMatches;
 use TRegx\SafeRegex\preg;
 
 class GroupNameIndexAssignTest extends TestCase
@@ -78,6 +79,6 @@ class GroupNameIndexAssignTest extends TestCase
     private function getAssign(): GroupNameIndexAssign
     {
         preg::match_all('/(?<first>1) (and) (?<third>2) (and maybe) (?<fifth>3)/', '', $matches);
-        return new GroupNameIndexAssign($matches);
+        return new GroupNameIndexAssign(new RawMatches($matches));
     }
 }

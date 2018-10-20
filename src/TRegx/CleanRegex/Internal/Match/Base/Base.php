@@ -1,21 +1,25 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Base;
 
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Model\RawMatch;
+use TRegx\CleanRegex\Internal\Model\RawMatches;
+use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\RawMatchGroupable;
+use TRegx\CleanRegex\Internal\Model\RawMatchOffset;
 
-interface Base
+interface Base extends Subjectable
 {
     public function getPattern(): InternalPattern;
 
-    public function getSubject(): string;
+    public function match(): RawMatch;
 
-    public function match(): array;
+    public function matchOffset(): RawMatchOffset;
 
-    public function matchCountOffset(): array;
+    public function matchGroupable(): RawMatchGroupable;
 
-    public function matchCountVerified(): array;
+    public function matchAll(): RawMatches;
 
-    public function matchAll(): array;
-
-    public function matchAllOffsets(): array;
+    public function matchAllOffsets(): RawMatchesOffset;
 }

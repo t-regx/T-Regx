@@ -4,11 +4,9 @@ namespace TRegx\CleanRegex\Internal\GroupLimit;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Grouper;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
-use function array_key_exists;
 
 class GroupLimitFirst
 {
@@ -23,50 +21,25 @@ class GroupLimitFirst
     {
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
-        $this->groupVerifier = new MatchAllGroupVerifier();
+        $this->groupVerifier = new MatchAllGroupVerifier($this->base->getPattern());
     }
 
     public function getFirstForGroup(): string
     {
-        list($matches, $count) = $this->base->matchCountVerified();
-        if ($this->groupMatchedIn($matches)) {
-            $group = $this->getGroup($matches);
+        $rawMatch = $this->base->matchGroupable();
+        if ($rawMatch->hasGroup($this->nameOrIndex)) {
+            $group = $rawMatch->getGroup($this->nameOrIndex);
             if ($group !== null) {
                 return $group;
             }
         } else {
-            $this->validateGroupExists();
-            $this->validateSubjectMatched($count);
+            if (!$this->groupVerifier->groupExists($this->nameOrIndex)) {
+                throw new NonexistentGroupException($this->nameOrIndex);
+            }
+            if (!$rawMatch->matched()) {
+                throw SubjectNotMatchedException::forFirst($this->base->getSubject());
+            }
         }
         throw GroupNotMatchedException::forFirst($this->base->getSubject(), $this->nameOrIndex);
-    }
-
-    private function groupMatchedIn(array $matches): bool
-    {
-        return array_key_exists($this->nameOrIndex, $matches);
-    }
-
-    private function getGroup(array $matches): ?string
-    {
-        return (new Grouper($matches[$this->nameOrIndex]))->getText();
-    }
-
-    private function validateGroupExists(): void
-    {
-        if (!$this->groupExists()) {
-            throw new NonexistentGroupException($this->nameOrIndex);
-        }
-    }
-
-    private function groupExists(): bool
-    {
-        return $this->groupVerifier->groupExists($this->base->getPattern()->pattern, $this->nameOrIndex);
-    }
-
-    private function validateSubjectMatched(int $count): void
-    {
-        if ($count === 0) {
-            throw SubjectNotMatchedException::forFirst($this->base->getSubject());
-        }
     }
 }

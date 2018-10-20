@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\Details;
 
 use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Model\RawMatches;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class NotMatchedTest extends TestCase
@@ -16,7 +17,7 @@ class NotMatchedTest extends TestCase
             $this->markTestSkipped("Prior to PHP 7.1.0, casting to string causes a fatal error, which can't be tested by PhpUnit");
         }
         // given
-        $notMatched = new NotMatched([], 'subject');
+        $notMatched = new NotMatched(new RawMatches([]), 'subject');
 
         // then
         $this->expectException(Error::class);
@@ -32,13 +33,13 @@ class NotMatchedTest extends TestCase
     public function shouldGet_groupNames()
     {
         // given
-        $notMatched = new NotMatched([
+        $notMatched = new NotMatched(new RawMatches([
             0       => ['Me'],
             'group' => ['M'],
             1       => ['M'],
             'xd'    => ['e'],
             2       => ['e'],
-        ], 'subject');
+        ]), 'subject');
 
         // when
         $groupNames = $notMatched->groupNames();
@@ -53,7 +54,7 @@ class NotMatchedTest extends TestCase
     public function shouldGet_groupsCount()
     {
         // given
-        $notMatched = new NotMatched([
+        $notMatched = new NotMatched(new RawMatches([
             0       => ['Me'],
             'group' => ['M'],
             1       => ['M'],
@@ -61,7 +62,7 @@ class NotMatchedTest extends TestCase
             'xd'    => ['X'],
             3       => ['e'],
             4       => ['f'],
-        ], 'subject');
+        ]), 'subject');
 
         // when
         $groupsCount = $notMatched->groupsCount();

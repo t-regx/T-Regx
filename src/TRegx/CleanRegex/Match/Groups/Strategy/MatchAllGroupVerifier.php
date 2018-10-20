@@ -1,13 +1,22 @@
 <?php
 namespace TRegx\CleanRegex\Match\Groups\Strategy;
 
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\SafeRegex\preg;
 
 class MatchAllGroupVerifier implements GroupVerifier
 {
-    public function groupExists(string $pattern, $nameOrIndex): bool
+    /** @var InternalPattern */
+    private $pattern;
+
+    public function __construct(InternalPattern $pattern)
     {
-        preg::match_all($pattern, '', $matches, PREG_PATTERN_ORDER);
+        $this->pattern = $pattern;
+    }
+
+    public function groupExists($nameOrIndex): bool
+    {
+        preg::match_all($this->pattern->pattern, '', $matches, PREG_PATTERN_ORDER);
         return array_key_exists($nameOrIndex, $matches);
     }
 }
