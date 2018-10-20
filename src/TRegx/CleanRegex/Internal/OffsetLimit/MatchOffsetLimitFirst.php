@@ -41,13 +41,6 @@ class MatchOffsetLimitFirst
         throw GroupNotMatchedException::forFirst($this->base->getSubject(), $this->nameOrIndex);
     }
 
-    private function validateGroupExists(): void
-    {
-        if (!$this->groupExists()) {
-            throw new NonexistentGroupException($this->nameOrIndex);
-        }
-    }
-
     private function groupMatchedIn(array $matches): bool
     {
         return array_key_exists($this->nameOrIndex, $matches);
@@ -56,6 +49,13 @@ class MatchOffsetLimitFirst
     private function getGroup(array $matches): ?int
     {
         return (new Grouper($matches[$this->nameOrIndex]))->getOffset();
+    }
+
+    private function validateGroupExists(): void
+    {
+        if (!$this->groupExists()) {
+            throw new NonexistentGroupException($this->nameOrIndex);
+        }
     }
 
     private function groupExists(): bool

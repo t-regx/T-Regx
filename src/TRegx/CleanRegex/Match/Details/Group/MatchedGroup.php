@@ -12,17 +12,17 @@ class MatchedGroup implements MatchGroup
     private $details;
 
     /** @var MatchedGroupDetails */
-    private $matchedDetails;
+    private $groupDetails;
 
     public function __construct(GroupDetails $details, MatchedGroupDetails $matchedDetails)
     {
         $this->details = $details;
-        $this->matchedDetails = $matchedDetails;
+        $this->groupDetails = $matchedDetails;
     }
 
     public function text(): string
     {
-        return $this->matchedDetails->text;
+        return $this->groupDetails->text;
     }
 
     public function matches(): bool
@@ -42,7 +42,7 @@ class MatchedGroup implements MatchGroup
 
     public function offset(): int
     {
-        return $this->matchedDetails->offset;
+        return $this->groupDetails->offset;
     }
 
     public function __toString(): string
