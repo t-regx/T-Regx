@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Internal\Match\Adapter\ApiBase;
+use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\MatchesPattern;
 use TRegx\SafeRegex\preg;
 

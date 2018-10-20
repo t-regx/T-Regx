@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\OffsetLimit;
 
-use TRegx\CleanRegex\Internal\Match\Adapter\Base;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 
 class MatchOffsetLimitFactory

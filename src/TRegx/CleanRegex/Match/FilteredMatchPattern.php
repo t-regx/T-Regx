@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use TRegx\CleanRegex\Internal\Match\Adapter\FilteredBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use function count;
 
 class FilteredMatchPattern extends AbstractMatchPattern

@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details;
 
-use TRegx\CleanRegex\Internal\Match\Adapter\Base;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Match\Details\Match;
 
 class MatchFactory

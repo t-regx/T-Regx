@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match;
 use PHPUnit\Framework\TestCase;
 use Test\ClosureMock;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Internal\Match\Adapter\ApiBase;
+use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Match\GroupLimit;
 

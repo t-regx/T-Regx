@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\GroupLimit;
 
-use TRegx\CleanRegex\Internal\Match\Adapter\Base;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Match\GroupLimit;
 

@@ -3,8 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Match\FilteredMatchPattern\count;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Internal\Match\Adapter\ApiBase;
-use TRegx\CleanRegex\Internal\Match\Adapter\FilteredBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
+use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\Filter;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Match;

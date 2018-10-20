@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\OffsetLimit;
 use InvalidArgumentException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Grouper;
-use TRegx\CleanRegex\Internal\Match\Adapter\Base;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
 use function array_key_exists;
 use function array_map;
 use function array_slice;

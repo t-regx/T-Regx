@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Match;
 
 use InvalidArgumentException;
-use TRegx\CleanRegex\Internal\Match\Adapter\Base;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\SafeRegex\preg;
 use function array_slice;
 

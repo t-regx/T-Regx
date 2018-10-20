@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\GroupLimit;
 
 use InvalidArgumentException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use TRegx\CleanRegex\Internal\Match\Adapter\Base;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
 use function array_key_exists;
 
 class GroupLimitAll
