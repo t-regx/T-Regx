@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
-use TRegx\CleanRegex\Internal\Factory\Group\GroupDetails;
-use TRegx\CleanRegex\Internal\Factory\Group\MatchedGroupOccurrence;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
+use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
 
 class ReplaceMatchedGroup extends MatchedGroup implements ReplaceMatchGroup
 {

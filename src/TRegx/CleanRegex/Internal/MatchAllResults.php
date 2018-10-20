@@ -1,9 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Match\Details\Group;
+namespace TRegx\CleanRegex\Internal;
 
 use function array_map;
 
-class MatchAll
+class MatchAllResults
 {
     /*** @var array */
     private $matches;

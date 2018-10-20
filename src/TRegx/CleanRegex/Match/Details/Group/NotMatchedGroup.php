@@ -3,9 +3,9 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Factory\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 
 class NotMatchedGroup implements MatchGroup
 {

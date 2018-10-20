@@ -1,12 +1,12 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Factory\Group;
+namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Grouper;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
-use TRegx\CleanRegex\Match\Details\Group\MatchAll;
+use TRegx\CleanRegex\Internal\MatchAllResults;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
@@ -65,6 +65,6 @@ class GroupFacade
     private function createGroupDetails(): GroupDetails
     {
         list($name, $index) = $this->groupAssign->getNameAndIndex($this->group);
-        return new GroupDetails($name, $index, $this->group, new MatchAll($this->matches, $index));
+        return new GroupDetails($name, $index, $this->group, new MatchAllResults($this->matches, $index));
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Factory\Group;
+namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;

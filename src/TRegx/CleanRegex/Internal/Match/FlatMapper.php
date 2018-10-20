@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Match;
+namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReturnValueException;
 use TRegx\CleanRegex\Match\Details\Match;

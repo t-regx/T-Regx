@@ -1,7 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Factory\Group;
+namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
-use TRegx\CleanRegex\Match\Details\Group\MatchAll;
+use TRegx\CleanRegex\Internal\MatchAllResults;
 
 class GroupDetails
 {
@@ -11,10 +11,10 @@ class GroupDetails
     public $index;
     /** @var string|int */
     public $nameOrIndex;
-    /** @var MatchAll */
+    /** @var MatchAllResults */
     public $matchAll;
 
-    public function __construct(?string $name, int $index, $nameOrIndex, MatchAll $matchAll)
+    public function __construct(?string $name, int $index, $nameOrIndex, MatchAllResults $matchAll)
     {
         $this->name = $name;
         $this->index = $index;

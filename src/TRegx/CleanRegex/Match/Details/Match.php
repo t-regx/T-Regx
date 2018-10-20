@@ -3,11 +3,11 @@ namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\ByteOffset;
-use TRegx\CleanRegex\Internal\Factory\Group\GroupFacade;
-use TRegx\CleanRegex\Internal\Factory\Group\GroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Factory\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
+use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;

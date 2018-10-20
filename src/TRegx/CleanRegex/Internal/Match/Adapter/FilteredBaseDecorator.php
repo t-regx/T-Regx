@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Internal\Match\Adapter;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Match\Details\MatchFactory;
 use TRegx\CleanRegex\Internal\Match\Filter;
-use TRegx\CleanRegex\Internal\Match\MatchFactory;
 use TRegx\CleanRegex\Match\Details\Match;
 
 class FilteredBaseDecorator implements Base
