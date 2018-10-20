@@ -5,19 +5,19 @@ use TRegx\CleanRegex\Exception\CleanRegex\InvalidReturnValueException;
 use TRegx\CleanRegex\Match\Details\Match;
 use function call_user_func;
 
-class Filter
+class Predicate
 {
     /** @var callable */
-    private $callback;
+    private $predicate;
 
-    public function __construct(callable $callback)
+    public function __construct(callable $predicate)
     {
-        $this->callback = $callback;
+        $this->predicate = $predicate;
     }
 
     public function test(Match $match): bool
     {
-        $result = call_user_func($this->callback, $match);
+        $result = call_user_func($this->predicate, $match);
         if (is_bool($result)) {
             return $result;
         }

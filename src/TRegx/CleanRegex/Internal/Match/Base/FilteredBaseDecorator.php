@@ -3,20 +3,20 @@ namespace TRegx\CleanRegex\Internal\Match\Base;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Details\MatchFactory;
-use TRegx\CleanRegex\Internal\Match\Filter;
+use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Match\Details\Match;
 
 class FilteredBaseDecorator implements Base
 {
     /** @var Base */
     private $base;
-    /** @var Filter */
-    private $callback;
+    /** @var Predicate */
+    private $predicate;
 
-    public function __construct(Base $base, Filter $callback)
+    public function __construct(Base $base, Predicate $predicate)
     {
         $this->base = $base;
-        $this->callback = $callback;
+        $this->predicate = $predicate;
     }
 
     public function getPattern(): Pattern
@@ -34,7 +34,7 @@ class FilteredBaseDecorator implements Base
         $matches = $this->base->matchAllOffsets();
         /** @var Match $match */
         foreach (MatchFactory::fromMatchAll($this->base, $matches) as $index => $match) {
-            if ($this->callback->test($match)) {
+            if ($this->predicate->test($match)) {
                 $raw = array_map(function (array $match) use ($index) {
                     list($text, $offset) = $match[$index];
                     return $text;
@@ -50,7 +50,7 @@ class FilteredBaseDecorator implements Base
         $matches = $this->base->matchAllOffsets();
         /** @var Match $match */
         foreach (MatchFactory::fromMatchAll($this->base, $matches) as $index => $match) {
-            if ($this->callback->test($match)) {
+            if ($this->predicate->test($match)) {
                 $raw = array_map(function (array $match) use ($index) {
                     return $match[$index];
                 }, $matches);
@@ -82,7 +82,7 @@ class FilteredBaseDecorator implements Base
     {
         $matches = MatchFactory::fromMatchAll($this->base, $matchAll);
 
-        $filteredMatches = array_filter($matches, [$this->callback, 'test']);
+        $filteredMatches = array_filter($matches, [$this->predicate, 'test']);
 
         return array_map(function (array $match) use ($filteredMatches) {
             return array_values(array_intersect_key($match, $filteredMatches));

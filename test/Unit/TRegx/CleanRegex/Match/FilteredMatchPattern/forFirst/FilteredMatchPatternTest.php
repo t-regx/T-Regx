@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
-use TRegx\CleanRegex\Internal\Match\Filter;
+use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FilteredMatchPattern;
@@ -116,8 +116,8 @@ class FilteredMatchPatternTest extends TestCase
         });
     }
 
-    private function matchPattern(string $pattern, string $subject, callable $callback): AbstractMatchPattern
+    private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
     {
-        return new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(new InternalPattern($pattern), $subject), new Filter($callback)));
+        return new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(new InternalPattern($pattern), $subject), new Predicate($predicate)));
     }
 }

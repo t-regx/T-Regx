@@ -13,8 +13,8 @@ use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\Details\MatchFactory;
-use TRegx\CleanRegex\Internal\Match\Filter;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
+use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -140,9 +140,9 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
         return new ArrayIterator($objects);
     }
 
-    public function filter(callable $filterCallback): FilteredMatchPattern
+    public function filter(callable $predicate): FilteredMatchPattern
     {
-        return new FilteredMatchPattern(new FilteredBaseDecorator($this->base, new Filter($filterCallback)));
+        return new FilteredMatchPattern(new FilteredBaseDecorator($this->base, new Predicate($predicate)));
     }
 
     /**
