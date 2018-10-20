@@ -39,12 +39,12 @@ class GroupFacade
     {
         list($text, $offset) = $this->grouper->getTextAndOffset();
         if ($offset > -1) {
-            return $this->createdMatched($groupFactory, new MatchedGroupDetails($text, $offset));
+            return $this->createdMatched($groupFactory, new MatchedGroupOccurrence($text, $offset));
         }
         return $this->createUnmatched($groupFactory);
     }
 
-    private function createdMatched(GroupFactoryStrategy $groupFactory, MatchedGroupDetails $details): MatchedGroup
+    private function createdMatched(GroupFactoryStrategy $groupFactory, MatchedGroupOccurrence $details): MatchedGroup
     {
         return $groupFactory->createMatched($this->createGroupDetails(), $details);
     }

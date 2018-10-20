@@ -4,25 +4,25 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\Group\GroupDetails;
-use TRegx\CleanRegex\Internal\Factory\Group\MatchedGroupDetails;
+use TRegx\CleanRegex\Internal\Factory\Group\MatchedGroupOccurrence;
 
 class MatchedGroup implements MatchGroup
 {
     /** @var GroupDetails */
     private $details;
 
-    /** @var MatchedGroupDetails */
-    private $groupDetails;
+    /** @var MatchedGroupOccurrence */
+    private $occurrence;
 
-    public function __construct(GroupDetails $details, MatchedGroupDetails $matchedDetails)
+    public function __construct(GroupDetails $details, MatchedGroupOccurrence $matchedDetails)
     {
         $this->details = $details;
-        $this->groupDetails = $matchedDetails;
+        $this->occurrence = $matchedDetails;
     }
 
     public function text(): string
     {
-        return $this->groupDetails->text;
+        return $this->occurrence->text;
     }
 
     public function matches(): bool
@@ -42,7 +42,7 @@ class MatchedGroup implements MatchGroup
 
     public function offset(): int
     {
-        return $this->groupDetails->offset;
+        return $this->occurrence->offset;
     }
 
     public function __toString(): string

@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Factory\Group;
 
-class MatchedGroupDetails
+class MatchedGroupOccurrence
 {
     /** @var string */
     public $text;

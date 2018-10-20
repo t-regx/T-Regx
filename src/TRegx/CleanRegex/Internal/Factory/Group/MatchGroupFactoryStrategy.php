@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 class MatchGroupFactoryStrategy implements GroupFactoryStrategy
 {
     public function createMatched(GroupDetails $details,
-                                  MatchedGroupDetails $matchedDetails): MatchedGroup
+                                  MatchedGroupOccurrence $matchedDetails): MatchedGroup
     {
         return new MatchedGroup($details, $matchedDetails);
     }

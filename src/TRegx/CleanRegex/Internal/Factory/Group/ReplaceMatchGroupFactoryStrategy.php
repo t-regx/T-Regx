@@ -19,7 +19,7 @@ class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
     }
 
     function createMatched(GroupDetails $details,
-                           MatchedGroupDetails $matchedDetails): MatchedGroup
+                           MatchedGroupOccurrence $matchedDetails): MatchedGroup
     {
         return new ReplaceMatchedGroup($details, $matchedDetails, $this->offsetModification);
     }
