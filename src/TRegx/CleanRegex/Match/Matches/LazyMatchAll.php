@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Match\Matches;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\SafeRegex\preg;
 
-class LazyMatches implements Matches
+class LazyMatchAll implements Matches
 {
     /** @var InternalPattern */
     private $pattern;
@@ -23,9 +23,14 @@ class LazyMatches implements Matches
     public function getMatches(): array
     {
         if ($this->matches === null) {
-            preg::match_all($this->pattern->pattern, $this->subject, $matches);
-            $this->matches = $matches;
+            $this->matches = $this->matchAll();
         }
         return $this->matches;
+    }
+
+    private function matchAll(): array
+    {
+        preg::match_all($this->pattern->pattern, $this->subject, $matches);
+        return $matches;
     }
 }
