@@ -4,17 +4,17 @@
 
 The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE methods. [Scroll to API](#api)
 
-[![Build Status](https://travis-ci.org/Danon/T-Regx.svg?branch=master)](https://travis-ci.org/Danon/T-Regx)
-[![Coverage Status](https://coveralls.io/repos/github/Danon/T-Regx/badge.svg?branch=master)](https://coveralls.io/github/Danon/T-Regx?branch=master)
-[![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](https://requires.io/github/Danon/T-Regx/requirements/?branch=master)
-![Repository Size](https://github-size-badge.herokuapp.com/Danon/T-Regx.svg)
-![License](https://img.shields.io/github/license/Danon/T-Regx.svg)
-![GitHub last commit](https://img.shields.io/github/last-commit/Danon/T-Regx/develop.svg)
+[![Build Status   ](https://travis-ci.org/T-Regx/T-Regx.svg?branch=master)](https://travis-ci.org/T-Regx/T-Regx)
+[![Coverage Status](https://coveralls.io/repos/github/T-Regx/T-Regx/badge.svg?branch=master)](https://coveralls.io/github/T-Regx/T-Regx?branch=master)
+[![Dependencies   ](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](https://requires.io/github/Danon/T-Regx/requirements/?branch=master)
+![Repository Size ](https://github-size-badge.herokuapp.com/Danon/T-Regx.svg)
+![License         ](https://img.shields.io/github/license/Danon/T-Regx.svg)
+![GitHub last commit    ](https://img.shields.io/github/last-commit/Danon/T-Regx/develop.svg)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Danon/T-Regx.svg)
 
-[![PHP Version](https://img.shields.io/badge/PHP-5.3%2B-blue.svg)](https://github.com/Danon/T-Regx/branches/all)
-[![PHP Version](https://img.shields.io/badge/PHP-5.6%2B-blue.svg)](https://github.com/Danon/T-Regx/branches/all)
-[![PHP Version](https://img.shields.io/badge/PHP-7.1.3%2B-blue.svg)](https://github.com/Danon/T-Regx/branches/all)
+[![PHP Version](https://img.shields.io/badge/PHP-5.3%2B-blue.svg)        ](https://github.com/Danon/T-Regx/branches/all)
+[![PHP Version](https://img.shields.io/badge/PHP-5.6%2B-blue.svg)        ](https://github.com/Danon/T-Regx/branches/all)
+[![PHP Version](https://img.shields.io/badge/php-7.0%20--%207.4%2B-blue.svg)](https://github.com/Danon/T-Regx/branches/all)
 [![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 
 1. [Quick Examples](#quick-examples)
