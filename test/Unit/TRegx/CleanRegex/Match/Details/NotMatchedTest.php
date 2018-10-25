@@ -132,8 +132,8 @@ class NotMatchedTest extends TestCase
     public function invalidGroups(): array
     {
         return [
-            [-1, 'Negative limit -1'],
-            [-3, 'Negative limit -3'],
+            [-1, 'Group index can only be a positive integer, given: -1'],
+            [-3, 'Group index can only be a positive integer, given: -3'],
         ];
     }
 

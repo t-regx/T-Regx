@@ -18,14 +18,12 @@ class GroupNameValidator
 
     public function validate(): void
     {
-        if (!is_string($this->groupNameOrIndex) && !is_int($this->groupNameOrIndex)) {
-            $this->throwInvalidGroupNameType();
-        }
         if (is_int($this->groupNameOrIndex)) {
             $this->validateGroupIndex();
-        }
-        if (is_string($this->groupNameOrIndex)) {
+        } else if (is_string($this->groupNameOrIndex)) {
             $this->validateGroupNameFormat();
+        } else {
+            $this->throwInvalidGroupNameType();
         }
     }
 

@@ -1,13 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
+use TRegx\CleanRegex\Internal\GroupNameValidator;
+use TRegx\CleanRegex\Internal\Model\RawWithGroups;
 use function array_filter;
-use function array_key_exists;
-use function array_keys;
 use function array_values;
 use function count;
-use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\RawWithGroups;
 
 class NotMatched implements Details
 {
@@ -32,9 +30,7 @@ class NotMatched implements Details
      */
     public function groupNames(): array
     {
-        return array_values(array_filter($this->matches->getGroupKeys(), function ($key) {
-            return is_string($key);
-        }));
+        return array_values(array_filter($this->matches->getGroupKeys(), 'is_string'));
     }
 
     public function groupsCount(): int
@@ -49,6 +45,7 @@ class NotMatched implements Details
      */
     public function hasGroup($nameOrIndex): bool
     {
+        (new GroupNameValidator($nameOrIndex))->validate();
         return $this->matches->hasGroup($nameOrIndex);
     }
 }

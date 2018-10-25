@@ -5,9 +5,7 @@ class PhpVersionDependent
 {
     public static function getUnmatchedParenthesisMessage(int $offset): string
     {
-        echo 'PHP_VERSION_ID: ' . PHP_VERSION_ID;
         $closing = "Compilation failed: unmatched closing parenthesis at offset $offset";
-
         if (PHP_VERSION_ID === 70300) {
             return $closing;
         }
