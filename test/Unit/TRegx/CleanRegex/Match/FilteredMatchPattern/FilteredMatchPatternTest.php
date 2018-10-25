@@ -215,6 +215,46 @@ class FilteredMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldFilter_first_untilFound()
+    {
+        // given
+        $invokedFor = [];
+        $pattern = $this->matchPattern('\w+', 'One two three four five six', function (Match $match) use (&$invokedFor) {
+            $invokedFor[] = $match->text();
+            return $match->text() === 'four';
+        });
+
+        // when
+        $first = $pattern->first();
+
+        // then
+        $this->assertEquals('four', $first);
+        $this->assertEquals(['One', 'two', 'three', 'four'], $invokedFor);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_all_untilFound()
+    {
+        // given
+        $invokedFor = [];
+        $pattern = $this->matchPattern('\w+', 'One two three four five six', function (Match $match) use (&$invokedFor) {
+            $invokedFor[] = $match->text();
+            return $match->text() === 'four';
+        });
+
+        // when
+        $first = $pattern->all();
+
+        // then
+        $this->assertEquals(['four'], $first);
+        $this->assertEquals(['One', 'two', 'three', 'four', 'five', 'six'], $invokedFor);
+    }
+
+    /**
+     * @test
+     */
     public function shouldForEach()
     {
         // given
