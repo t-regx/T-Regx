@@ -59,9 +59,9 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
             throw SubjectNotMatchedException::forFirst($this->base->getSubject());
         }
         if ($callback !== null) {
-            return $callback(new Match($this->base->getSubject(), self::FIRST_MATCH, $matches));
+            return $callback($matches->getFirstMatchObject());
         }
-        return $matches->getText(self::FIRST_MATCH);
+        return $matches->getFirstText();
     }
 
     public function only(int $limit): array
@@ -106,7 +106,7 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
         if (!$matches->matched()) {
             return new NotMatchedOptional(new NotMatchedOptionalWorker(new FirstMatchMessage(), $subject, new NotMatched($matches, $subject)));
         }
-        $result = $callback(new Match($subject, self::FIRST_MATCH, $matches));
+        $result = $callback($matches->getFirstMatchObject());
         return new MatchedOptional($result);
     }
 

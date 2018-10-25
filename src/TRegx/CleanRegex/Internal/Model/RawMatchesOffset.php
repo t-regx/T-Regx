@@ -13,6 +13,7 @@ use function is_string;
 class RawMatchesOffset implements RawWithGroups, RawMatchesInterface
 {
     private const GROUP_WHOLE_MATCH = 0;
+    private const FIRST_MATCH = 0;
 
     /** @var array */
     private $matches;
@@ -85,6 +86,16 @@ class RawMatchesOffset implements RawWithGroups, RawMatchesInterface
     {
         list($text, $offset) = $this->matches[self::GROUP_WHOLE_MATCH][$index];
         return $text;
+    }
+
+    public function getFirstText(): string
+    {
+        return $this->getText(self::FIRST_MATCH);
+    }
+
+    public function getFirstMatchObject(): Match
+    {
+        return new Match($this->subjectable->getSubject(), self::FIRST_MATCH, $this);
     }
 
     private function mapMatch($match): ?int
