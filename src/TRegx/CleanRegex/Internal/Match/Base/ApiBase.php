@@ -25,6 +25,11 @@ class ApiBase implements Base
         $this->subject = $subject;
     }
 
+    public function getApiBase(): ApiBase
+    {
+        return $this;
+    }
+
     public function getPattern(): Pattern
     {
         return $this->pattern;

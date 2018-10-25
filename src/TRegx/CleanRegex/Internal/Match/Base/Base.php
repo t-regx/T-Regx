@@ -13,6 +13,8 @@ interface Base extends Subjectable
 {
     public function getPattern(): InternalPattern;
 
+    public function getApiBase(): ApiBase;
+
     public function match(): RawMatch;
 
     public function matchOffset(): RawMatchOffset;
