@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\MatchAllResults;
 use TRegx\CleanRegex\Internal\Model\RawMatches;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -143,7 +144,7 @@ class NotMatchedGroupTest extends TestCase
 
     private function matchGroup(): MatchGroup
     {
-        $subject = 'My super subject';
+        $subject = new SubjectableImpl('My super subject');
         return new NotMatchedGroup(
             new GroupDetails('first', 1, 'first', new MatchAllResults(new RawMatches([]), 'first')),
             new GroupExceptionFactory($subject, 'first'),

@@ -2,15 +2,16 @@
 namespace TRegx\CleanRegex\Internal\Factory;
 
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
+use TRegx\CleanRegex\Internal\Subjectable;
 
 class GroupExceptionFactory
 {
-    /** @var string */
+    /** @var Subjectable */
     private $subject;
     /** @var string|int */
     private $nameOrIndex;
 
-    public function __construct(string $subject, $nameOrIndex)
+    public function __construct(Subjectable $subject, $nameOrIndex)
     {
         $this->subject = $subject;
         $this->nameOrIndex = $nameOrIndex;

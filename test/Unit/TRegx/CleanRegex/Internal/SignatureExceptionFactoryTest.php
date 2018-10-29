@@ -11,13 +11,13 @@ use Test\Utils\ClassWithDefaultConstructor;
 use Test\Utils\ClassWithoutSuitableConstructor;
 use Test\Utils\ClassWithStringParamConstructor;
 use Test\Utils\ClassWithTwoStringParamsConstructor;
-use Test\Utils\ThrowableWithPrivateConstructor;
 use Throwable;
 use TRegx\CleanRegex\Exception\CleanRegex\ClassExpectedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NoSuitableConstructorException;
 use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 use Utils\ClassWithErrorInConstructor;
 
 class SignatureExceptionFactoryTest extends TestCase
@@ -35,7 +35,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $this->expectExceptionMessage("Class 'Namespace\NoSuchClass' does not exists");
 
         // when
-        $factory->create('');
+        $factory->create(new SubjectableImpl(''));
     }
 
     /**
@@ -51,7 +51,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $this->expectExceptionMessage("'Throwable' is not a class, but an interface");
 
         // when
-        $factory->create('');
+        $factory->create(new SubjectableImpl(''));
     }
 
     /**
@@ -67,7 +67,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $this->expectExceptionMessage("'Test\Utils\AbstractClass' is an abstract class");
 
         // when
-        $factory->create('');
+        $factory->create(new SubjectableImpl(''));
     }
 
     /**
@@ -83,7 +83,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $this->expectExceptionMessage("Class 'stdClass' is not throwable");
 
         // when
-        $factory->create('');
+        $factory->create(new SubjectableImpl(''));
     }
 
     /**
@@ -99,7 +99,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $this->expectExceptionMessage("Class 'Test\Utils\ClassWithoutSuitableConstructor' doesn't have a constructor with supported signature");
 
         // when
-        $factory->create('');
+        $factory->create(new SubjectableImpl(''));
     }
 
     /**
@@ -109,10 +109,11 @@ class SignatureExceptionFactoryTest extends TestCase
     {
         // given
         $factory = new SignatureExceptionFactory(ClassWithTwoStringParamsConstructor::class, new FirstMatchMessage());
+        $subject = new SubjectableImpl('my subject');
 
         // when
         /** @var ClassWithTwoStringParamsConstructor $exception */
-        $exception = $factory->create('my subject');
+        $exception = $factory->create($subject);
 
         // then
         $this->assertInstanceOf(ClassWithTwoStringParamsConstructor::class, $exception);
@@ -127,9 +128,10 @@ class SignatureExceptionFactoryTest extends TestCase
     {
         // given
         $factory = new SignatureExceptionFactory(ClassWithStringParamConstructor::class, new FirstMatchMessage());
+        $subject = new SubjectableImpl('my subject');
 
         // when
-        $exception = $factory->create('my subject');
+        $exception = $factory->create($subject);
 
         // then
         $this->assertInstanceOf(ClassWithStringParamConstructor::class, $exception);
@@ -143,9 +145,10 @@ class SignatureExceptionFactoryTest extends TestCase
     {
         // given
         $factory = new SignatureExceptionFactory(ClassWithDefaultConstructor::class, new FirstMatchMessage());
+        $subject = new SubjectableImpl('my subject');
 
         // when
-        $exception = $factory->create('my subject');
+        $exception = $factory->create($subject);
 
         // then
         $this->assertInstanceOf(ClassWithDefaultConstructor::class, $exception);
@@ -160,9 +163,10 @@ class SignatureExceptionFactoryTest extends TestCase
     {
         // given
         $factory = new SignatureExceptionFactory($className, new FirstMatchMessage());
+        $subject = new SubjectableImpl('my subject');
 
         // when
-        $exception = $factory->create('my subject');
+        $exception = $factory->create($subject);
 
         // then
         $this->assertInstanceOf($className, $exception);
@@ -176,12 +180,13 @@ class SignatureExceptionFactoryTest extends TestCase
     {
         // given
         $factory = new SignatureExceptionFactory(ClassWithErrorInConstructor::class, new FirstMatchMessage());
+        $subject = new SubjectableImpl('my subject');
 
         // then
         $this->expectException(Error::class);
 
         // when
-        $factory->create('my subject');
+        $factory->create($subject);
     }
 
     public function exceptions()

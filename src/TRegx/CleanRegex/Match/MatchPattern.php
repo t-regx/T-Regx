@@ -22,7 +22,7 @@ class MatchPattern extends AbstractMatchPattern
 
     public function matches(): bool
     {
-        return (new MatchesPattern($this->base->getPattern(), $this->base->getSubject()))->matches();
+        return (new MatchesPattern($this->base->getPattern(), $this->base))->matches();
     }
 
     public function count(): int

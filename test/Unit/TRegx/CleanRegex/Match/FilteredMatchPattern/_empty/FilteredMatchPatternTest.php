@@ -422,7 +422,15 @@ class FilteredMatchPatternTest extends TestCase
 
     private function matchPattern(callable $predicate): AbstractMatchPattern
     {
-        return new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(new InternalPattern($this->pattern()), $this->subject()), new Predicate($predicate)));
+        return new FilteredMatchPattern(
+            new FilteredBaseDecorator(
+                new ApiBase(
+                    new InternalPattern($this->pattern()),
+                    $this->subject()
+                ),
+                new Predicate($predicate)
+            )
+        );
     }
 
     private function pattern(): string

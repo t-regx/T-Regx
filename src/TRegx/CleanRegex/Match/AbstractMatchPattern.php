@@ -16,6 +16,7 @@ use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
@@ -56,7 +57,7 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
     {
         $matches = $this->base->matchAllOffsets();
         if (!$matches->matched()) {
-            throw SubjectNotMatchedException::forFirst($this->base->getSubject());
+            throw SubjectNotMatchedException::forFirst($this->base);
         }
         if ($callback !== null) {
             return $callback($matches->getFirstMatchObject());
@@ -104,7 +105,12 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
         $matches = $this->base->matchAllOffsets();
         $subject = $this->base->getSubject();
         if (!$matches->matched()) {
-            return new NotMatchedOptional(new NotMatchedOptionalWorker(new FirstMatchMessage(), $subject, new NotMatched($matches, $subject)));
+            return new NotMatchedOptional(
+                new NotMatchedOptionalWorker(
+                    new FirstMatchMessage(),
+                    new SubjectableImpl($subject),
+                    new NotMatched($matches, new SubjectableImpl($subject)))
+            );
         }
         $result = $callback($matches->getFirstMatchObject());
         return new MatchedOptional($result);

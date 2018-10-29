@@ -5,6 +5,8 @@ use InvalidArgumentException;
 use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Model\RawMatches;
+use TRegx\CleanRegex\Internal\SubjectableEx;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class NotMatchedTest extends TestCase
@@ -18,7 +20,7 @@ class NotMatchedTest extends TestCase
             $this->markTestSkipped("Prior to PHP 7.1.0, casting to string causes a fatal error, which can't be tested by PhpUnit");
         }
         // given
-        $notMatched = new NotMatched(new RawMatches([]), 'subject');
+        $notMatched = new NotMatched(new RawMatches([]), new SubjectableImpl('subject'));
 
         // then
         $this->expectException(Error::class);
@@ -34,7 +36,7 @@ class NotMatchedTest extends TestCase
     public function shouldGet_subject()
     {
         //
-        $notMatched = new NotMatched(new RawMatches([]), 'subject');
+        $notMatched = new NotMatched(new RawMatches([]), new SubjectableImpl('subject'));
 
         // when
         $subject = $notMatched->subject();
@@ -51,13 +53,7 @@ class NotMatchedTest extends TestCase
     public function shouldHasGroup($nameOrIndex)
     {
         // given
-        $notMatched = new NotMatched(new RawMatches([
-            0       => [],
-            'group' => [],
-            1       => [],
-            'xd'    => [],
-            2       => [],
-        ]), '');
+        $notMatched = $this->createNotMatched();
 
         // when
         $hasGroup = $notMatched->hasGroup($nameOrIndex);
@@ -74,13 +70,7 @@ class NotMatchedTest extends TestCase
     public function shouldHasGroup_not($nameOrIndex)
     {
         // given
-        $notMatched = new NotMatched(new RawMatches([
-            0       => [],
-            'group' => [],
-            1       => [],
-            'xd'    => [],
-            2       => [],
-        ]), '');
+        $notMatched = $this->createNotMatched();
 
         // when
         $hasGroup = $notMatched->hasGroup($nameOrIndex);
@@ -119,7 +109,7 @@ class NotMatchedTest extends TestCase
     public function shouldThrow_invalidGroupName($nameOrIndex, string $message)
     {
         // given
-        $notMatched = new NotMatched(new RawMatches([]), '');
+        $notMatched = new NotMatched(new RawMatches([]), new SubjectableEx());
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -143,13 +133,7 @@ class NotMatchedTest extends TestCase
     public function shouldGet_groupNames()
     {
         // given
-        $notMatched = new NotMatched(new RawMatches([
-            0       => [],
-            'group' => [],
-            1       => [],
-            'xd'    => [],
-            2       => [],
-        ]), 'subject');
+        $notMatched = $this->createNotMatched();
 
         // when
         $groupNames = $notMatched->groupNames();
@@ -158,13 +142,36 @@ class NotMatchedTest extends TestCase
         $this->assertEquals(['group', 'xd'], $groupNames);
     }
 
+    private function createNotMatched(): NotMatched
+    {
+        $matches = [
+            0       => [],
+            'group' => [],
+            1       => [],
+            'xd'    => [],
+            2       => [],
+        ];
+        return new NotMatched(new RawMatches($matches), new SubjectableImpl('subject'));
+    }
+
     /**
      * @test
      */
     public function shouldGet_groupsCount()
     {
         // given
-        $notMatched = new NotMatched(new RawMatches([
+        $notMatched = $this->createNotMatched_jagged();
+
+        // when
+        $groupsCount = $notMatched->groupsCount();
+
+        // then
+        $this->assertEquals(4, $groupsCount);
+    }
+
+    private function createNotMatched_jagged(): NotMatched
+    {
+        $matches = [
             0       => [],
             'group' => [],
             1       => [],
@@ -172,12 +179,7 @@ class NotMatchedTest extends TestCase
             'xd'    => [],
             3       => [],
             4       => [],
-        ]), 'subject');
-
-        // when
-        $groupsCount = $notMatched->groupsCount();
-
-        // then
-        $this->assertEquals(4, $groupsCount);
+        ];
+        return new NotMatched(new RawMatches($matches), new SubjectableImpl('subject'));
     }
 }

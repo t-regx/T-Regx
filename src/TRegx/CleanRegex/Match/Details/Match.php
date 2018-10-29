@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
@@ -23,8 +24,8 @@ class Match implements MatchInterface
 {
     protected const WHOLE_MATCH = 0;
 
-    /** @var string */
-    protected $subject;
+    /** @var Subjectable */
+    protected $subjectable;
     /** @var int */
     protected $index;
     /** @var RawMatchesOffset */
@@ -35,9 +36,9 @@ class Match implements MatchInterface
     /** @var GroupFactoryStrategy */
     private $strategy;
 
-    public function __construct(string $subject, int $index, RawMatchesOffset $matches, GroupFactoryStrategy $strategy = null)
+    public function __construct(Subjectable $subjectable, int $index, RawMatchesOffset $matches, GroupFactoryStrategy $strategy = null)
     {
-        $this->subject = $subject;
+        $this->subjectable = $subjectable;
         $this->index = $index;
         $this->matches = $matches;
         $this->groupAssign = new GroupNameIndexAssign($matches);
@@ -46,7 +47,7 @@ class Match implements MatchInterface
 
     public function subject(): string
     {
-        return $this->subject;
+        return $this->subjectable->getSubject();
     }
 
     public function index(): int
@@ -74,7 +75,7 @@ class Match implements MatchInterface
 
     private function getGroupFacade($nameOrIndex): GroupFacade
     {
-        return new GroupFacade($this->matches, $this->subject, $nameOrIndex, $this->index);
+        return new GroupFacade($this->matches, $this->subjectable, $nameOrIndex, $this->index);
     }
 
     /**
@@ -134,12 +135,12 @@ class Match implements MatchInterface
 
     public function offset(): int
     {
-        return ByteOffset::toCharacterOffset($this->subject, $this->byteOffset());
+        return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $this->byteOffset());
     }
 
     public function byteOffset(): int
     {
-       return $this->matches->getOffset($this->index);
+        return $this->matches->getOffset($this->index);
     }
 
     public function groupOffsets(): array

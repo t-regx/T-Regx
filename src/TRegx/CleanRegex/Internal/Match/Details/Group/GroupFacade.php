@@ -4,10 +4,10 @@ namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
-use TRegx\CleanRegex\Internal\Grouper;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\MatchAllResults;
 use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
@@ -17,22 +17,21 @@ class GroupFacade
 {
     /** @var RawMatchesOffset */
     private $matches;
-    /** @var string */
+    /** @var GroupNameIndexAssign */
+    private $groupAssign;
+    /** @var Subjectable */
     private $subject;
     /** @var string|int */
     private $group;
-
-    /** @var GroupNameIndexAssign */
-    private $groupAssign;
     /** @var int */
     private $index;
 
-    public function __construct(RawMatchesOffset $matches, string $subject, $group, int $index)
+    public function __construct(RawMatchesOffset $matches, Subjectable $subject, $group, int $index)
     {
         $this->matches = $matches;
+        $this->groupAssign = new GroupNameIndexAssign($this->matches);
         $this->subject = $subject;
         $this->group = $group;
-        $this->groupAssign = new GroupNameIndexAssign($this->matches);
         $this->index = $index;
     }
 

@@ -37,9 +37,9 @@ class MatchOffsetLimitFirst
                 throw new NonexistentGroupException($this->nameOrIndex);
             }
             if (!$rawMatch->matched()) {
-                throw SubjectNotMatchedException::forFirst($this->base->getSubject());
+                throw SubjectNotMatchedException::forFirst($this->base);
             }
         }
-        throw GroupNotMatchedException::forFirst($this->base->getSubject(), $this->nameOrIndex);
+        throw GroupNotMatchedException::forFirst($this->base, $this->nameOrIndex);
     }
 }

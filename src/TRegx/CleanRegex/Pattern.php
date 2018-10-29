@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Remove\RemovePattern;
@@ -20,12 +21,12 @@ class Pattern
 
     public function matches(string $subject): bool
     {
-        return (new MatchesPattern($this->pattern, $subject))->matches();
+        return (new MatchesPattern($this->pattern, new SubjectableImpl($subject)))->matches();
     }
 
     public function fails(string $subject): bool
     {
-        return (new MatchesPattern($this->pattern, $subject))->fails();
+        return (new MatchesPattern($this->pattern, new SubjectableImpl($subject)))->fails();
     }
 
     public function match(string $subject): MatchPattern
@@ -54,12 +55,12 @@ class Pattern
 
     public function split(string $subject): SplitPattern
     {
-        return new SplitPattern($this->pattern, $subject);
+        return new SplitPattern($this->pattern, new SubjectableImpl($subject));
     }
 
     public function count(string $subject): int
     {
-        return (new CountPattern($this->pattern, $subject))->count();
+        return (new CountPattern($this->pattern, new SubjectableImpl($subject)))->count();
     }
 
     public function quote(): string

@@ -4,8 +4,10 @@ namespace TRegx\CleanRegex\Replace\Callback;
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Matches\PredefinedMatchesFactory;
 use function call_user_func;
 use function is_string;
 use function mb_strlen;
@@ -14,8 +16,6 @@ use function substr_replace;
 
 class ReplaceCallbackObject
 {
-    private const GROUP_WHOLE_MATCH = 0;
-
     /** @var callable */
     private $callback;
     /** @var string */
@@ -60,7 +60,7 @@ class ReplaceCallbackObject
     private function createMatchObject(): ReplaceMatch
     {
         return new ReplaceMatch(
-            $this->subject,
+            new SubjectableImpl($this->subject),
             $this->counter++,
             $this->analyzedPattern,
             $this->offsetModification,

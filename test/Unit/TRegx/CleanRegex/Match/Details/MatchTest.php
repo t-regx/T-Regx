@@ -6,7 +6,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableEx;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Matches\PredefinedMatchesFactory;
 use TRegx\SafeRegex\preg;
 
 class MatchTest extends TestCase
@@ -336,8 +338,11 @@ class MatchTest extends TestCase
     private function getMatch(int $index): Match
     {
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
-
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
-        return new Match(self::subject, $index, new RawMatchesOffset($matches, new SubjectableEx(self::subject)));
+
+        return new Match(
+            new SubjectableImpl(self::subject),
+            $index,
+            new RawMatchesOffset($matches, new SubjectableEx()));
     }
 }

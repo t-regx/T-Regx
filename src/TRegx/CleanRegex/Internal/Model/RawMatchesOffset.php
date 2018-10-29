@@ -49,7 +49,7 @@ class RawMatchesOffset implements RawWithGroups, RawMatchesInterface
     {
         $matchObjects = [];
         foreach ($this->matches[self::GROUP_WHOLE_MATCH] as $index => $match) {
-            $matchObjects[] = new Match($this->subjectable->getSubject(), $index, $this);
+            $matchObjects[] = new Match($this->subjectable, $index, $this);
         }
         return $matchObjects;
     }
@@ -95,7 +95,7 @@ class RawMatchesOffset implements RawWithGroups, RawMatchesInterface
 
     public function getFirstMatchObject(): Match
     {
-        return new Match($this->subjectable->getSubject(), self::FIRST_MATCH, $this);
+        return new Match($this->subjectable, self::FIRST_MATCH, $this);
     }
 
     private function mapMatch($match): ?int

@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Factory;
 use Throwable;
 use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use function call_user_func;
 
@@ -11,12 +12,12 @@ class NotMatchedOptionalWorker
 {
     /** @var NotMatchedMessage */
     private $message;
-    /** @var string */
+    /** @var Subjectable */
     private $subject;
     /** @var NotMatched */
     private $notMatched;
 
-    public function __construct(NotMatchedMessage $message, string $subject, NotMatched $notMatched)
+    public function __construct(NotMatchedMessage $message, Subjectable $subject, NotMatched $notMatched)
     {
         $this->message = $message;
         $this->subject = $subject;

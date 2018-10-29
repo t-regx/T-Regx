@@ -4,7 +4,9 @@ namespace Test\UnitCleanRegex\Match;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableEx;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Matches\PredefinedMatchesFactory;
 use TRegx\SafeRegex\preg;
 
 class ReplaceMatchTest extends TestCase
@@ -85,8 +87,14 @@ class ReplaceMatchTest extends TestCase
     private function getMatch(int $index, int $offsetModification, int $limit): ReplaceMatch
     {
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
-
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
-        return new ReplaceMatch(self::subject, $index, new RawMatchesOffset($matches, new SubjectableEx(self::subject)), $offsetModification, '', $limit);
+
+        return new ReplaceMatch(
+            new SubjectableImpl(self::subject),
+            $index,
+            new RawMatchesOffset($matches, new SubjectableEx()),
+            $offsetModification,
+            '',
+            $limit);
     }
 }

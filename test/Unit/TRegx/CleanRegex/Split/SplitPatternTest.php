@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Split;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\SplitPattern;
 
 class SplitPatternTest extends TestCase
@@ -13,7 +14,7 @@ class SplitPatternTest extends TestCase
     public function shouldSplit_excludingDelimiter()
     {
         // given
-        $splitPattern = new SplitPattern(new Pattern('([.+|])'), '192..168+++172||16');
+        $splitPattern = new SplitPattern(new Pattern('([.+|])'), new SubjectableImpl('192..168+++172||16'));
 
         // when
         $result = $splitPattern->ex();
@@ -28,7 +29,7 @@ class SplitPatternTest extends TestCase
     public function shouldSplit_includingDelimiter()
     {
         // given
-        $splitPattern = new SplitPattern(new Pattern('([.+|])'), '192..168+++172||16');
+        $splitPattern = new SplitPattern(new Pattern('([.+|])'), new SubjectableImpl('192..168+++172||16'));
 
         // when
         $result = $splitPattern->inc();

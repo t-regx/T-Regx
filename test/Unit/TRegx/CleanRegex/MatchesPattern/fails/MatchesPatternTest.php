@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\MatchesPattern\fails;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\MatchesPattern;
 
 class MatchesPatternTest extends TestCase
@@ -13,7 +14,7 @@ class MatchesPatternTest extends TestCase
     public function shouldNot_fail()
     {
         // given
-        $pattern = new MatchesPattern(new InternalPattern('/[a-z]/'), 'matching');
+        $pattern = new MatchesPattern(new InternalPattern('/[a-z]/'), new SubjectableImpl('matching'));
 
         // when
         $result = $pattern->fails();
@@ -28,42 +29,12 @@ class MatchesPatternTest extends TestCase
     public function should_fail()
     {
         // given
-        $pattern = new MatchesPattern(new InternalPattern('/^[a-z]+$/'), 'not matching');
+        $pattern = new MatchesPattern(new InternalPattern('/^[a-z]+$/'), new SubjectableImpl('not matching'));
 
         // when
         $result = $pattern->fails();
 
         // then
         $this->assertTrue($result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNot_integer_fail()
-    {
-        // given
-        $pattern = new MatchesPattern(new InternalPattern('/^2$/'), 2);
-
-        // when
-        $true = $pattern->fails();
-
-        // then
-        $this->assertFalse($true);
-    }
-
-    /**
-     * @test
-     */
-    public function should_integer_fail()
-    {
-        // given
-        $pattern = new MatchesPattern(new InternalPattern('/^3$/'), 2);
-
-        // when
-        $true = $pattern->fails();
-
-        // then
-        $this->assertTrue($true);
     }
 }
