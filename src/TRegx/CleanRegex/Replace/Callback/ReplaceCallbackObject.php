@@ -1,4 +1,5 @@
 <?php
+
 namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReplacementException;
@@ -7,7 +8,6 @@ use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
-use TRegx\CleanRegex\Match\Matches\PredefinedMatchesFactory;
 use function call_user_func;
 use function is_string;
 use function mb_strlen;
@@ -93,13 +93,13 @@ class ReplaceCallbackObject
 
     private function modifySubject(string $replacement): void
     {
-        list($value, $offset) = $this->analyzedPattern->getTextAndOffset($this->counter - 1);
+        list($text, $offset) = $this->analyzedPattern->getTextAndOffset($this->counter - 1);
 
         $this->subjectModification = substr_replace(
             $this->subjectModification,
             $replacement,
             $this->getReplaceStart($offset),
-            strlen($value)
+            strlen($text)
         );
     }
 

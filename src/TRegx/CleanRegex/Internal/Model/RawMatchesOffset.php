@@ -37,8 +37,8 @@ class RawMatchesOffset implements RawWithGroups, RawMatchesInterface
     public function getAll(): array
     {
         return array_map(function ($match) {
-            list($value, $offset) = $match;
-            return $value;
+            list($text, $offset) = $match;
+            return $text;
         }, $this->matches[self::GROUP_WHOLE_MATCH]);
     }
 
@@ -106,7 +106,7 @@ class RawMatchesOffset implements RawWithGroups, RawMatchesInterface
         if (!is_array($match)) {
             throw new InternalCleanRegexException();
         }
-        list($value, $offset) = $match;
+        list($text, $offset) = $match;
         if ($offset === -1) {
             return null;
         }
@@ -161,8 +161,8 @@ class RawMatchesOffset implements RawWithGroups, RawMatchesInterface
     public function getGroupTexts($group): array
     {
         return array_map(function ($group) {
-            list($value, $offset) = $group;
-            return $value;
+            list($text, $offset) = $group;
+            return $text;
         }, $this->matches[$group]);
     }
 

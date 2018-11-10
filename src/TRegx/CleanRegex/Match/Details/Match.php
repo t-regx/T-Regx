@@ -14,9 +14,6 @@ use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 use function array_filter;
-use function array_key_exists;
-use function array_keys;
-use function array_map;
 use function array_values;
 use function is_string;
 

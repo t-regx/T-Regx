@@ -1,9 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use function array_map;
 use TRegx\CleanRegex\Internal\Model\RawMatchesInterface;
-use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
 
 class MatchAllResults
 {
