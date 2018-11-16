@@ -16,7 +16,6 @@ use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
@@ -26,8 +25,6 @@ use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 
 abstract class AbstractMatchPattern implements PatternLimit, Countable
 {
-    private const FIRST_MATCH = 0;
-
     /** @var Base */
     protected $base;
 
@@ -84,11 +81,7 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
 
     public function map(callable $callback): array
     {
-        $results = [];
-        foreach ($this->getMatchObjects() as $object) {
-            $results[] = $callback($object);
-        }
-        return $results;
+        return array_map($callback, $this->getMatchObjects());
     }
 
     public function flatMap(callable $callback): array
@@ -103,17 +96,16 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
     public function forFirst(callable $callback): Optional
     {
         $matches = $this->base->matchAllOffsets();
-        $subject = $this->base->getSubject();
-        if (!$matches->matched()) {
-            return new NotMatchedOptional(
-                new NotMatchedOptionalWorker(
-                    new FirstMatchMessage(),
-                    new SubjectableImpl($subject),
-                    new NotMatched($matches, new SubjectableImpl($subject)))
-            );
+        if ($matches->matched()) {
+            $result = $callback($matches->getFirstMatchObject());
+            return new MatchedOptional($result);
         }
-        $result = $callback($matches->getFirstMatchObject());
-        return new MatchedOptional($result);
+        return new NotMatchedOptional(
+            new NotMatchedOptionalWorker(
+                new FirstMatchMessage(),
+                $this->base,
+                new NotMatched($matches, $this->base))
+        );
     }
 
     /**
