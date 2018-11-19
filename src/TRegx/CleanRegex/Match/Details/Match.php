@@ -15,7 +15,6 @@ use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 use function array_filter;
 use function array_values;
-use function is_string;
 
 class Match implements MatchInterface
 {
@@ -32,6 +31,8 @@ class Match implements MatchInterface
     private $groupAssign;
     /** @var GroupFactoryStrategy */
     private $strategy;
+    /** @var mixed */
+    private $userData;
 
     public function __construct(Subjectable $subjectable, int $index, RawMatchesOffset $matches, GroupFactoryStrategy $strategy = null)
     {
@@ -80,9 +81,7 @@ class Match implements MatchInterface
      */
     public function groupNames(): array
     {
-        return array_values(array_filter($this->matches->getGroupKeys(), function ($key) {
-            return is_string($key);
-        }));
+        return array_values(array_filter($this->matches->getGroupKeys(), '\is_string'));
     }
 
     public function groups(): IndexedGroups
@@ -148,6 +147,16 @@ class Match implements MatchInterface
     public function byteGroupOffsets(): array
     {
         return $this->matches->getGroupsOffsets($this->index);
+    }
+
+    public function setUserData($userData)
+    {
+        $this->userData = $userData;
+    }
+
+    public function getUserData()
+    {
+        return $this->userData;
     }
 
     public function __toString(): string

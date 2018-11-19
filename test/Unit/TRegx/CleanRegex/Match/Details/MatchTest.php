@@ -8,7 +8,6 @@ use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableEx;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\Match;
-use TRegx\CleanRegex\Match\Matches\PredefinedMatchesFactory;
 use TRegx\SafeRegex\preg;
 
 class MatchTest extends TestCase
@@ -333,6 +332,26 @@ class MatchTest extends TestCase
 
         // when
         $match->group(true);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPreserveUserData()
+    {
+        // given
+        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+        $mixed = new \stdClass();
+        $mixed->value = 'foo';
+
+        // when
+        $match->setUserData($mixed);
+        $userData = $match->getUserData();
+
+        // then
+        $expected = new \stdClass();
+        $expected->value = 'foo';
+        $this->assertEquals($expected, $userData);
     }
 
     private function getMatch(int $index): Match
