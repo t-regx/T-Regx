@@ -18,13 +18,13 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldAll()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->standardMatchPattern_secondFiltered();
 
         // when
         $all = $matchPattern->all();
 
         // then
-        $this->assertEquals(['nice', 'pattern'], $all);
+        $this->assertEquals(['first', 'third', 'fourth'], $all);
     }
 
     /**
@@ -33,13 +33,13 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldOnly_2()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_long();
+        $matchPattern = $this->standardMatchPattern_secondFiltered();
 
         // when
         $only = $matchPattern->only(2);
 
         // then
-        $this->assertEquals(['nice', 'pattern'], $only);
+        $this->assertEquals(['first', 'third'], $only);
     }
 
     /**
@@ -48,13 +48,13 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldOnly_1()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_long();
+        $matchPattern = $this->standardMatchPattern_secondFiltered();
 
         // when
         $only = $matchPattern->only(1);
 
         // then
-        $this->assertEquals(['nice'], $only);
+        $this->assertEquals(['first'], $only);
     }
 
     /**
@@ -63,7 +63,7 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldOnly_0()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_long();
+        $matchPattern = $this->standardMatchPattern_secondFiltered();
 
         // when
         $only = $matchPattern->only(0);
@@ -78,7 +78,7 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldFlatMap()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_notFirst();
+        $matchPattern = $this->standardMatchPattern_firstFiltered();
         $callback = function (Match $match) {
             return str_split($match, 3);
         };
@@ -87,22 +87,37 @@ class FilteredMatchPatternTest extends TestCase
         $flatMap = $matchPattern->flatMap($callback);
 
         // then
-        $this->assertEquals(['mat', 'chi', 'ng', 'pat', 'ter', 'n'], $flatMap);
+        $this->assertEquals(['sec', 'ond', 'thi', 'rd', 'fou', 'rth'], $flatMap);
     }
 
     /**
      * @test
      */
-    public function shouldFirst()
+    public function shouldFirst_firstFiltered()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_notFirst();
+        $matchPattern = $this->standardMatchPattern_firstFiltered();
 
         // when
         $first = $matchPattern->first();
 
         // then
-        $this->assertEquals('matching', $first);
+        $this->assertEquals('second', $first);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFirst_secondFiltered()
+    {
+        // given
+        $matchPattern = $this->standardMatchPattern_secondFiltered();
+
+        // when
+        $first = $matchPattern->first();
+
+        // then
+        $this->assertEquals('first', $first);
     }
 
     /**
@@ -111,13 +126,13 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldOffsets()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->standardMatchPattern_secondFiltered();
 
         // when
         $offsets = $matchPattern->offsets()->all();
 
         // then
-        $this->assertEquals([0, 14], $offsets);
+        $this->assertEquals([0, 13, 19], $offsets);
     }
 
     /**
@@ -126,13 +141,13 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldGroup_all()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_group();
+        $matchPattern = $this->standardMatchPattern_group('First Second Third Fourth', 'Second');
 
         // when
         $all = $matchPattern->group('capital')->all();
 
         // then
-        $this->assertEquals(['M', 'P'], $all);
+        $this->assertEquals(['F', 'T', 'F'], $all);
     }
 
     /**
@@ -141,13 +156,13 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldGroup_first()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_group();
+        $matchPattern = $this->standardMatchPattern_group('First Second Third', 'First');
 
         // when
         $firstGroup = $matchPattern->group('capital')->first();
 
         // then
-        $this->assertEquals('M', $firstGroup);
+        $this->assertEquals('S', $firstGroup);
     }
 
     /**
@@ -156,7 +171,7 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldMap()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->standardMatchPattern_secondFiltered();
         $mapper = function (Match $match) {
             return lcfirst(strtoupper($match));
         };
@@ -165,25 +180,43 @@ class FilteredMatchPatternTest extends TestCase
         $mapped = $matchPattern->map($mapper);
 
         // then
-        $this->assertEquals(['nICE', 'pATTERN'], $mapped);
+        $this->assertEquals(['fIRST', 'tHIRD', 'fOURTH'], $mapped);
     }
 
     /**
      * @test
      */
-    public function shouldForFirst()
+    public function shouldForFirst_firstFiltered()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->standardMatchPattern_firstFiltered();
         $callback = function (Match $match) {
             return 'for first: ' . $match->text();
         };
 
         // when
-        $first = $matchPattern->forFirst($callback)->orReturn('');
+        $forFirst = $matchPattern->forFirst($callback)->orReturn('');
 
         // then
-        $this->assertEquals('for first: nice', $first);
+        $this->assertEquals('for first: second', $forFirst);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldForFirst_secondFiltered()
+    {
+        // given
+        $matchPattern = $this->standardMatchPattern_secondFiltered();
+        $callback = function (Match $match) {
+            return 'for first: ' . $match->text();
+        };
+
+        // when
+        $forFirst = $matchPattern->forFirst($callback)->orReturn('');
+
+        // then
+        $this->assertEquals('for first: first', $forFirst);
     }
 
     /**
@@ -245,10 +278,10 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // when
-        $first = $pattern->all();
+        $all = $pattern->all();
 
         // then
-        $this->assertEquals(['four'], $first);
+        $this->assertEquals(['four'], $all);
         $this->assertEquals(['One', 'two', 'three', 'four', 'five', 'six'], $invokedFor);
     }
 
@@ -258,7 +291,7 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldForEach()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->standardMatchPattern_secondFiltered();
         $matches = [];
         $callback = function (Match $match) use (&$matches) {
             $matches[] = $match->text();
@@ -268,7 +301,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern->forEach($callback);
 
         // then
-        $this->assertEquals(['nice', 'pattern'], $matches);
+        $this->assertEquals(['first', 'third', 'fourth'], $matches);
     }
 
     /**
@@ -277,7 +310,7 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldGet_iterator()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->standardMatchPattern_secondFiltered();
 
         // when
         $iterator = $matchPattern->iterator();
@@ -287,34 +320,27 @@ class FilteredMatchPatternTest extends TestCase
         foreach ($iterator as $match) {
             $array[] = $match->text();
         }
-        $this->assertEquals(['nice', 'pattern'], $array);
+        $this->assertEquals(['first', 'third', 'fourth'], $array);
     }
 
-    private function standardMatchPattern(): AbstractMatchPattern
+    private function standardMatchPattern_secondFiltered(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Match $match) {
+        return $this->matchPattern('[a-z]+', 'first second third fourth', function (Match $match) {
             return $match->index() != 1;
         });
     }
 
-    private function standardMatchPattern_notFirst(): AbstractMatchPattern
+    private function standardMatchPattern_firstFiltered(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Match $match) {
+        return $this->matchPattern('[a-z]+', 'first second third fourth', function (Match $match) {
             return $match->index() > 0;
         });
     }
 
-    private function standardMatchPattern_long(): AbstractMatchPattern
+    private function standardMatchPattern_group(string $subject, string $filteredOut): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern long', function (Match $match) {
-            return $match->index() != 1;
-        });
-    }
-
-    private function standardMatchPattern_group(): AbstractMatchPattern
-    {
-        return $this->matchPattern('(?<capital>[A-Z])[a-z]+', 'Nice Matching Pattern', function (Match $match) {
-            return $match->text() !== 'Nice';
+        return $this->matchPattern('(?<capital>[A-Z])[a-z]+', $subject, function (Match $match) use ($filteredOut) {
+            return $match->text() !== $filteredOut;
         });
     }
 
