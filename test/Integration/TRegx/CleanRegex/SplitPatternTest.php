@@ -8,7 +8,7 @@ class SplitPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldSplitWithoutDelimiter()
+    public function shouldSplit_ex()
     {
         // when
         $matches = pattern(',')->split('Foo,Bar,Cat')->ex();
@@ -20,7 +20,7 @@ class SplitPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldSplitWithDelimiter()
+    public function shouldSplit_inc()
     {
         // when
         $matches = pattern('(,)')->split('One,Two,Three')->inc();
@@ -32,24 +32,24 @@ class SplitPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnUnchangedWithoutDelimiter()
+    public function shouldSplit_filter_ex()
     {
         // when
-        $matches = pattern('9')->split('Foo,Bar,Cat')->ex();
+        $matches = pattern(',')->split('Foo,,,Bar,,,Cat')->filter()->ex();
 
         // then
-        $this->assertEquals(['Foo,Bar,Cat'], $matches);
+        $this->assertEquals(['Foo', 'Bar', 'Cat'], $matches);
     }
 
     /**
      * @test
      */
-    public function shouldReturnUnchangedWithDelimiter()
+    public function shouldSplit_filter_inc()
     {
         // when
-        $matches = pattern('9')->split('One,Two,Three')->inc();
+        $matches = pattern('(,)')->split('One,,Two,,Three')->filter()->inc();
 
         // then
-        $this->assertEquals(['One,Two,Three'], $matches);
+        $this->assertEquals(['One', ',', ',', 'Two', ',', ',', 'Three'], $matches);
     }
 }
