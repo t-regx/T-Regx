@@ -53,6 +53,11 @@ class NotMatchedGroup implements MatchGroup
         throw $this->groupNotMatched('offset');
     }
 
+    public function byteOffset(): int
+    {
+        throw $this->groupNotMatched('byteOffset');
+    }
+
     public function __toString(): string
     {
         throw $this->groupNotMatched('__toString');

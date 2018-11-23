@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
+use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
 
@@ -41,6 +42,11 @@ class MatchedGroup implements MatchGroup
     }
 
     public function offset(): int
+    {
+        return ByteOffset::toCharacterOffset($this->occurrence->subject->getSubject(), $this->occurrence->offset);
+    }
+
+    public function byteOffset(): int
     {
         return $this->occurrence->offset;
     }

@@ -42,7 +42,7 @@ class GroupFacade
     {
         if ($this->matches->isGroupMatched($this->group, $this->index)) {
             list($text, $offset) = $this->matches->getGroupTextAndOffset($this->group, $this->index);
-            return $this->createdMatched(new MatchedGroupOccurrence($text, $offset));
+            return $this->createdMatched(new MatchedGroupOccurrence($text, $offset, $this->subject));
         }
         return $this->createUnmatched();
     }
