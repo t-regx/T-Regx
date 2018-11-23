@@ -68,12 +68,12 @@ class Match implements MatchInterface
         if (!$this->hasGroup($nameOrIndex)) {
             throw new NonexistentGroupException($nameOrIndex);
         }
-        return $this->getGroupFacade($nameOrIndex)->createGroup($this->strategy);
+        return $this->getGroupFacade($nameOrIndex)->createGroup();
     }
 
     private function getGroupFacade($nameOrIndex): GroupFacade
     {
-        return new GroupFacade($this->matches, $this->subjectable, $nameOrIndex, $this->index);
+        return new GroupFacade($this->matches, $this->subjectable, $nameOrIndex, $this->index, $this->strategy);
     }
 
     /**
@@ -149,7 +149,7 @@ class Match implements MatchInterface
         return $this->matches->getGroupsOffsets($this->index);
     }
 
-    public function setUserData($userData)
+    public function setUserData($userData): void
     {
         $this->userData = $userData;
     }

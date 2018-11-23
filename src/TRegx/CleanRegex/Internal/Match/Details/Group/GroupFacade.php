@@ -25,33 +25,36 @@ class GroupFacade
     private $group;
     /** @var int */
     private $index;
+    /** @var GroupFactoryStrategy */
+    private $factoryStrategy;
 
-    public function __construct(RawMatchesOffset $matches, Subjectable $subject, $group, int $index)
+    public function __construct(RawMatchesOffset $matches, Subjectable $subject, $group, int $index, GroupFactoryStrategy $factoryStrategy)
     {
         $this->matches = $matches;
         $this->groupAssign = new GroupNameIndexAssign($this->matches);
         $this->subject = $subject;
         $this->group = $group;
         $this->index = $index;
+        $this->factoryStrategy = $factoryStrategy;
     }
 
-    public function createGroup(GroupFactoryStrategy $groupFactory): MatchGroup
+    public function createGroup(): MatchGroup
     {
         if ($this->matches->isGroupMatched($this->group, $this->index)) {
             list($text, $offset) = $this->matches->getGroupTextAndOffset($this->group, $this->index);
-            return $this->createdMatched($groupFactory, new MatchedGroupOccurrence($text, $offset));
+            return $this->createdMatched(new MatchedGroupOccurrence($text, $offset));
         }
-        return $this->createUnmatched($groupFactory);
+        return $this->createUnmatched();
     }
 
-    private function createdMatched(GroupFactoryStrategy $groupFactory, MatchedGroupOccurrence $details): MatchedGroup
+    private function createdMatched(MatchedGroupOccurrence $details): MatchedGroup
     {
-        return $groupFactory->createMatched($this->createGroupDetails(), $details);
+        return $this->factoryStrategy->createMatched($this->createGroupDetails(), $details);
     }
 
-    private function createUnmatched(GroupFactoryStrategy $groupFactory): NotMatchedGroup
+    private function createUnmatched(): NotMatchedGroup
     {
-        return $groupFactory->createUnmatched(
+        return $this->factoryStrategy->createUnmatched(
             $this->createGroupDetails(),
             new GroupExceptionFactory($this->subject, $this->group),
             new NotMatchedOptionalWorker(
