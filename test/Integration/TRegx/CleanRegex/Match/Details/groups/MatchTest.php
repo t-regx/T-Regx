@@ -76,7 +76,7 @@ class MatchTest extends TestCase
             ->match('first and second')
             ->first(function (Match $match) {
                 // when
-                $has = $match->hasGroup('xd');
+                $has = $match->hasGroup('nonexistent');
 
                 // then
                 $this->assertFalse($has);
@@ -89,11 +89,11 @@ class MatchTest extends TestCase
     public function shouldHaveGroup()
     {
         // given
-        pattern('(?<one>first) and (?<two>second)')
+        pattern('(?<existing>first) and (?<two_existing>second)')
             ->match('first and second')
             ->first(function (Match $match) {
                 // when
-                $has = $match->hasGroup('one');
+                $has = $match->hasGroup('existing');
 
                 // then
                 $this->assertTrue($has);

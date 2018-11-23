@@ -19,8 +19,6 @@ class MatchTest extends TestCase
             ->first(function (Match $match) {
 
                 // then
-                $this->assertEquals(0, $match->offset());
-
                 $this->assertEquals('there', $match->group('one'));
                 $this->assertEquals('there', $match->group('one')->text());
                 $this->assertEquals(6, $match->group('one')->offset());
