@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Unit\TRegx\CleanRegex\Match\Details;
 
 use InvalidArgumentException;
@@ -104,7 +105,7 @@ class NotMatchedTest extends TestCase
      * @test
      * @dataProvider invalidGroups
      * @param string|int $nameOrIndex
-     * @param string     $message
+     * @param string $message
      */
     public function shouldThrow_invalidGroupName($nameOrIndex, string $message)
     {
@@ -124,6 +125,8 @@ class NotMatchedTest extends TestCase
         return [
             [-1, 'Group index can only be a positive integer, given: -1'],
             [-3, 'Group index can only be a positive integer, given: -3'],
+            ['2startingWithDigit', "Group name must be an alphanumeric string starting with a letter, given: '2startingWithDigit'"],
+            ['dashed-dashed', "Group name must be an alphanumeric string starting with a letter, given: 'dashed-dashed'"]
         ];
     }
 
@@ -145,11 +148,11 @@ class NotMatchedTest extends TestCase
     private function createNotMatched(): NotMatched
     {
         $matches = [
-            0       => [],
+            0 => [],
             'group' => [],
-            1       => [],
-            'xd'    => [],
-            2       => [],
+            1 => [],
+            'xd' => [],
+            2 => [],
         ];
         return new NotMatched(new RawMatches($matches), new SubjectableImpl('subject'));
     }
@@ -172,13 +175,13 @@ class NotMatchedTest extends TestCase
     private function createNotMatched_jagged(): NotMatched
     {
         $matches = [
-            0       => [],
+            0 => [],
             'group' => [],
-            1       => [],
-            2       => [],
-            'xd'    => [],
-            3       => [],
-            4       => [],
+            1 => [],
+            2 => [],
+            'xd' => [],
+            3 => [],
+            4 => [],
         ];
         return new NotMatched(new RawMatches($matches), new SubjectableImpl('subject'));
     }

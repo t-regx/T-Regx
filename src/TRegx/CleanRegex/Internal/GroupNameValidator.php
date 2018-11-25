@@ -43,7 +43,7 @@ class GroupNameValidator
     private function validateGroupNameFormat(): void
     {
         if (!$this->isGroupNameValid()) {
-            throw new InvalidArgumentException('Group name must be an alphanumeric string sequence starting with a letter, or an integer');
+            throw new InvalidArgumentException("Group name must be an alphanumeric string starting with a letter, given: '$this->groupNameOrIndex'");
         }
     }
 
