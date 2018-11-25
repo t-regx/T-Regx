@@ -1,8 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
+use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 
-class EmptyRawMatch implements RawMatchGroupable
+class EmptyRawMatch implements RawMatchInterface, RawMatchGroupable
 {
     public function matched(): bool
     {
@@ -22,5 +23,10 @@ class EmptyRawMatch implements RawMatchGroupable
     public function getGroupOffset($nameOrIndex): ?int
     {
         return null;
+    }
+
+    public function getMatch(): string
+    {
+        throw new InternalCleanRegexException();
     }
 }

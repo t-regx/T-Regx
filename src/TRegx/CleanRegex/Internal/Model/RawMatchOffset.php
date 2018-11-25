@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Model;
 
 use function array_key_exists;
 
-class RawMatchOffset implements RawMatchGroupable
+class RawMatchOffset implements RawMatchInterface, RawMatchGroupable
 {
     /** @var array[] */
     private $match;
@@ -18,7 +18,7 @@ class RawMatchOffset implements RawMatchGroupable
         return !empty($this->match);
     }
 
-    public function getMatch()
+    public function getMatch(): string
     {
         list($text, $offset) = $this->match[0];
         return $text;

@@ -1,7 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-class RawMatchNullable implements RawMatchGroupable
+use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+
+class RawMatchNullable implements RawMatchInterface, RawMatchGroupable
 {
     /** @var array */
     private $match;
@@ -14,6 +16,11 @@ class RawMatchNullable implements RawMatchGroupable
     public function matched(): bool
     {
         return !empty($this->match);
+    }
+
+    public function getMatch(): string
+    {
+        throw new InternalCleanRegexException();
     }
 
     public function hasGroup($nameOrIndex): bool

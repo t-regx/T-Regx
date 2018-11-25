@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-class RawMatch
+class RawMatch implements RawMatchInterface
 {
     private const GROUP_WHOLE_MATCH = 0;
 
@@ -18,7 +18,7 @@ class RawMatch
         return !empty($this->match);
     }
 
-    public function getMatch()
+    public function getMatch(): string
     {
         return $this->match[self::GROUP_WHOLE_MATCH];
     }

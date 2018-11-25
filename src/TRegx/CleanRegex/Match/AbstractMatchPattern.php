@@ -53,7 +53,8 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
     public function first(callable $callback = null)
     {
         $matches = $this->base->matchAllOffsets();
-        if (!$matches->matched()) {
+        $match = $this->base->matchOffset();
+        if (!$match->matched()) {
             throw SubjectNotMatchedException::forFirst($this->base);
         }
         if ($callback !== null) {

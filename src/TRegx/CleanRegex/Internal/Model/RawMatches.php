@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-class RawMatches implements RawWithGroups, RawMatchesInterface
+class RawMatches implements RawMatchesInterface, RawWithGroups
 {
     private const GROUP_WHOLE_MATCH = 0;
 
@@ -11,11 +11,6 @@ class RawMatches implements RawWithGroups, RawMatchesInterface
     public function __construct(array $matches)
     {
         $this->matches = $matches;
-    }
-
-    public function hasGroup($nameOrIndex): bool
-    {
-        return array_key_exists($nameOrIndex, $this->matches);
     }
 
     public function getAll(): array
@@ -30,6 +25,11 @@ class RawMatches implements RawWithGroups, RawMatchesInterface
     public function getGroupTexts($nameOrIndex): array
     {
         return $this->matches[$nameOrIndex];
+    }
+
+    public function hasGroup($nameOrIndex): bool
+    {
+        return array_key_exists($nameOrIndex, $this->matches);
     }
 
     /**
