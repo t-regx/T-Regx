@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Model;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 
-class EmptyRawMatch implements RawMatchInterface, RawMatchGroupable
+class EmptyRawMatch implements IRawMatch, IRawMatchGroupable
 {
     public function matched(): bool
     {

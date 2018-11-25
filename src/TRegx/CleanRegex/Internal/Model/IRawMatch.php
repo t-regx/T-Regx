@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-interface RawMatchInterface
+interface IRawMatch
 {
     public function matched(): bool;
 

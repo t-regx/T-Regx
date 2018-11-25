@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-class RawMatch implements RawMatchInterface
+class RawMatch implements IRawMatch
 {
     private const GROUP_WHOLE_MATCH = 0;
 

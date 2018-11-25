@@ -8,7 +8,9 @@ use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
@@ -24,22 +26,25 @@ class Match implements MatchInterface
     protected $subjectable;
     /** @var int */
     protected $index;
-    /** @var RawMatchesOffset */
-    protected $matches;
+    /** @var RawMatchOffset */
+    protected $match;
 
     /** @var GroupNameIndexAssign */
     private $groupAssign;
+    /** @var MatchAllFactory */
+    private $allFactory;
     /** @var GroupFactoryStrategy */
     private $strategy;
     /** @var mixed */
     private $userData;
 
-    public function __construct(Subjectable $subjectable, int $index, RawMatchesOffset $matches, GroupFactoryStrategy $strategy = null)
+    public function __construct(Subjectable $subjectable, int $index, IRawMatchOffset $match, MatchAllFactory $allFactory, GroupFactoryStrategy $strategy = null)
     {
         $this->subjectable = $subjectable;
         $this->index = $index;
-        $this->matches = $matches;
-        $this->groupAssign = new GroupNameIndexAssign($matches);
+        $this->match = $match;
+        $this->groupAssign = new GroupNameIndexAssign($match);
+        $this->allFactory = $allFactory;
         $this->strategy = $strategy ?? new MatchGroupFactoryStrategy();
     }
 
@@ -55,7 +60,7 @@ class Match implements MatchInterface
 
     public function text(): string
     {
-        return $this->matches->getText($this->index);
+        return $this->match->getMatch();
     }
 
     /**
@@ -126,7 +131,8 @@ class Match implements MatchInterface
 
     protected function getFirstFromAllMatches(): array
     {
-        return $this->matches->getAll();
+        $rawMatches = $this->allFactory->getRawMatches();
+        return $rawMatches->getAll();
     }
 
     public function offset(): int

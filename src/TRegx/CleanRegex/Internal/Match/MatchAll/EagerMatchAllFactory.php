@@ -1,10 +1,20 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\MatchAll;
 
+use TRegx\CleanRegex\Internal\Model\IRawMatches;
+
 class EagerMatchAllFactory implements MatchAllFactory
 {
-    public function getAll()
+    /** @var IRawMatches */
+    private $matches;
+
+    public function __construct(IRawMatches $matches)
     {
-        // TODO: Implement getAll() method.
+        $this->matches = $matches;
+    }
+
+    public function getRawMatches(): IRawMatches
+    {
+        return $this->matches;
     }
 }

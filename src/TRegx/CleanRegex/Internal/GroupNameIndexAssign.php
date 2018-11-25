@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\Model\RawWithGroups;
+use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use function array_search;
 use function is_int;
 use function is_string;
@@ -11,7 +11,7 @@ class GroupNameIndexAssign
     /** @var (string|int)[] */
     private $groupKeys;
 
-    public function __construct(RawWithGroups $matches)
+    public function __construct(IRawWithGroups $matches)
     {
         $this->groupKeys = $matches->getGroupKeys();
     }

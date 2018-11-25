@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Model;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 
-class RawMatchNullable implements RawMatchInterface, RawMatchGroupable
+class RawMatchNullable implements IRawMatch, IRawMatchGroupable
 {
     /** @var array */
     private $match;

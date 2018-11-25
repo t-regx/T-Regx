@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-interface RawWithGroups
+interface IRawWithGroups
 {
     /**
      * @return (string|int)[]

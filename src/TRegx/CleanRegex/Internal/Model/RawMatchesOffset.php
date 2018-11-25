@@ -3,14 +3,16 @@ namespace TRegx\CleanRegex\Internal\Model;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
+use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToFirstMatchAdapter;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Match;
 use function array_key_exists;
 use function is_array;
 use function is_string;
 
-class RawMatchesOffset implements RawMatchesInterface, RawWithGroups
+class RawMatchesOffset implements IRawMatchesOffset, IRawMatches, IRawWithGroups
 {
     private const GROUP_WHOLE_MATCH = 0;
     private const FIRST_MATCH = 0;
@@ -49,7 +51,8 @@ class RawMatchesOffset implements RawMatchesInterface, RawWithGroups
     {
         $matchObjects = [];
         foreach ($this->matches[self::GROUP_WHOLE_MATCH] as $index => $match) {
-            $matchObjects[] = new Match($this->subjectable, $index, $this);
+            $rawMatchesToFirstMatchAdapter = new RawMatchesToFirstMatchAdapter($this);
+            $matchObjects[] = new Match($this->subjectable, $index, $rawMatchesToFirstMatchAdapter, new EagerMatchAllFactory($this));
         }
         return $matchObjects;
     }
@@ -95,7 +98,8 @@ class RawMatchesOffset implements RawMatchesInterface, RawWithGroups
 
     public function getFirstMatchObject(): Match
     {
-        return new Match($this->subjectable, self::FIRST_MATCH, $this);
+        $a = new RawMatchesToFirstMatchAdapter($this);
+        return new Match($this->subjectable, self::FIRST_MATCH, $a, new EagerMatchAllFactory($this));
     }
 
     private function mapMatch($match): ?int

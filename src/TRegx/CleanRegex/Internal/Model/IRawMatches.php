@@ -1,8 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-interface RawMatchesInterface
+interface IRawMatches
 {
+    public function matched(): bool;
+
     /**
      * @return string[]
      */

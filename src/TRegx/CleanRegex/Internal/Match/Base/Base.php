@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Model\RawMatch;
 use TRegx\CleanRegex\Internal\Model\RawMatches;
 use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\RawMatchGroupable;
+use TRegx\CleanRegex\Internal\Model\IRawMatchGroupable;
 use TRegx\CleanRegex\Internal\Model\RawMatchOffset;
 
 interface Base extends Subjectable
@@ -19,7 +19,7 @@ interface Base extends Subjectable
 
     public function matchOffset(): RawMatchOffset;
 
-    public function matchGroupable(): RawMatchGroupable;
+    public function matchGroupable(): IRawMatchGroupable;
 
     public function matchAll(): RawMatches;
 

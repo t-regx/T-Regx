@@ -2,6 +2,7 @@
 namespace Test\UnitCleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableEx;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
@@ -93,6 +94,7 @@ class ReplaceMatchTest extends TestCase
             new SubjectableImpl(self::subject),
             $index,
             new RawMatchesOffset($matches, new SubjectableEx()),
+            new EagerMatchAllFactory(new RawMatchesOffset($matches, new SubjectableEx())),
             $offsetModification,
             '',
             $limit);

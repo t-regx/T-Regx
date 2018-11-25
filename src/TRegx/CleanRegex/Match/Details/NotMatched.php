@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Internal\GroupNameValidator;
-use TRegx\CleanRegex\Internal\Model\RawWithGroups;
+use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Subjectable;
 use function array_filter;
 use function array_values;
@@ -10,12 +10,12 @@ use function count;
 
 class NotMatched implements Details
 {
-    /** @var RawWithGroups */
+    /** @var IRawWithGroups */
     private $matches;
     /** @var Subjectable */
     private $subject;
 
-    public function __construct(RawWithGroups $matches, Subjectable $subject)
+    public function __construct(IRawWithGroups $matches, Subjectable $subject)
     {
         $this->matches = $matches;
         $this->subject = $subject;

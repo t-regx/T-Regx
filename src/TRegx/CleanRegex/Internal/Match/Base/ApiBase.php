@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Model\EmptyRawMatch;
 use TRegx\CleanRegex\Internal\Model\RawMatch;
 use TRegx\CleanRegex\Internal\Model\RawMatches;
 use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\RawMatchGroupable;
+use TRegx\CleanRegex\Internal\Model\IRawMatchGroupable;
 use TRegx\CleanRegex\Internal\Model\RawMatchNullable;
 use TRegx\CleanRegex\Internal\Model\RawMatchOffset;
 use TRegx\SafeRegex\preg;
@@ -52,7 +52,7 @@ class ApiBase implements Base
         return new RawMatchOffset($match);
     }
 
-    public function matchGroupable(): RawMatchGroupable
+    public function matchGroupable(): IRawMatchGroupable
     {
         if (defined('PREG_UNMATCHED_AS_NULL')) {
             $count = preg::match($this->pattern->pattern, $this->subject, $match, PREG_UNMATCHED_AS_NULL);

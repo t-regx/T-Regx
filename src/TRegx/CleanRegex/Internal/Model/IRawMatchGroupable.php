@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-interface RawMatchGroupable
+interface IRawMatchGroupable
 {
     public function matched(): bool;
 

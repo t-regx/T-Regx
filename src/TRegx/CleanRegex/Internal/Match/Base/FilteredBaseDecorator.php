@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Model\RawMatch;
 use TRegx\CleanRegex\Internal\Model\RawMatches;
 use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\RawMatchGroupable;
+use TRegx\CleanRegex\Internal\Model\IRawMatchGroupable;
 use TRegx\CleanRegex\Internal\Model\RawMatchOffset;
 
 class FilteredBaseDecorator implements Base
@@ -59,7 +59,7 @@ class FilteredBaseDecorator implements Base
         return new RawMatchOffset([]);
     }
 
-    public function matchGroupable(): RawMatchGroupable
+    public function matchGroupable(): IRawMatchGroupable
     {
         return $this->matchOffset();
     }

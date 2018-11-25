@@ -1,9 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
+use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use function array_key_exists;
 
-class RawMatchOffset implements RawMatchInterface, RawMatchGroupable
+class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
 {
     /** @var array[] */
     private $match;
@@ -16,6 +17,11 @@ class RawMatchOffset implements RawMatchInterface, RawMatchGroupable
     public function matched(): bool
     {
         return !empty($this->match);
+    }
+
+    public function getText(): string
+    {
+        return $this->getMatch();
     }
 
     public function getMatch(): string
@@ -45,5 +51,14 @@ class RawMatchOffset implements RawMatchInterface, RawMatchGroupable
             return null;
         }
         return $offset;
+    }
+
+    /**
+     * @return (string|int)[]
+     */
+    public function getGroupKeys(): array
+    {
+        $a = $this->match;
+        throw new InternalCleanRegexException();
     }
 }

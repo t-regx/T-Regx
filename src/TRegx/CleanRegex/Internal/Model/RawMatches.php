@@ -1,7 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-class RawMatches implements RawMatchesInterface, RawWithGroups
+use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+
+class RawMatches implements IRawMatches, IRawWithGroups
 {
     private const GROUP_WHOLE_MATCH = 0;
 
@@ -11,6 +13,11 @@ class RawMatches implements RawMatchesInterface, RawWithGroups
     public function __construct(array $matches)
     {
         $this->matches = $matches;
+    }
+
+    public function matched(): bool
+    {
+        throw new InternalCleanRegexException();
     }
 
     public function getAll(): array
