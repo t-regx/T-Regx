@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Model;
+namespace TRegx\CleanRegex\Internal\Model\Match;
 
 class RawMatch implements IRawMatch
 {
