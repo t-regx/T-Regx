@@ -7,6 +7,12 @@ use TRegx\CleanRegex\Match\FilteredMatchPattern;
 
 class MatchTest extends TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->markTestSkipped("User data");
+    }
+
     /**
      * @test
      */
