@@ -9,5 +9,5 @@ interface IRawMatchGroupable
 
     public function getGroup($nameOrIndex): ?string;
 
-    public function getGroupOffset($nameOrIndex): ?int;
+    public function getGroupByteOffset($nameOrIndex): ?int;
 }

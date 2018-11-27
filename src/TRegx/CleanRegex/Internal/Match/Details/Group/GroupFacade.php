@@ -25,20 +25,17 @@ class GroupFacade
     private $subject;
     /** @var string|int */
     private $group;
-    /** @var int */
-    private $index;
     /** @var GroupFactoryStrategy */
     private $factoryStrategy;
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(IRawMatchOffset $match, Subjectable $subject, $group, int $index, GroupFactoryStrategy $factoryStrategy, MatchAllFactory $allFactory)
+    public function __construct(IRawMatchOffset $match, Subjectable $subject, $group, GroupFactoryStrategy $factoryStrategy, MatchAllFactory $allFactory)
     {
         $this->match = $match;
         $this->groupAssign = new GroupNameIndexAssign($match);
         $this->subject = $subject;
         $this->group = $group;
-        $this->index = $index;
         $this->factoryStrategy = $factoryStrategy;
         $this->allFactory = $allFactory;
     }

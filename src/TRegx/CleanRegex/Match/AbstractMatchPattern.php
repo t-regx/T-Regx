@@ -13,6 +13,7 @@ use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
+use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
@@ -52,15 +53,14 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
      */
     public function first(callable $callback = null)
     {
-        $matches = $this->base->matchAllOffsets();
         $match = $this->base->matchOffset();
         if (!$match->matched()) {
             throw SubjectNotMatchedException::forFirst($this->base);
         }
         if ($callback !== null) {
-            return $callback($matches->getFirstMatchObject());
+            return $callback($match->getMatchObject(new LazyMatchAllFactory($this->base), $this->base));
         }
-        return $matches->getFirstText();
+        return $match->getText();
     }
 
     public function only(int $limit): array

@@ -5,14 +5,17 @@ use TRegx\CleanRegex\Internal\Model\IRawMatches;
 use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\IRawMatchOffset;
 
-class RawMatchesToFirstMatchAdapter implements IRawMatchOffset
+class RawMatchesToMatchAdapter implements IRawMatchOffset
 {
     /** @var IRawMatches */
     private $matches;
+    /** @var int */
+    private $index;
 
-    public function __construct(IRawMatchesOffset $matches)
+    public function __construct(IRawMatchesOffset $matches, int $index)
     {
         $this->matches = $matches;
+        $this->index = $index;
     }
 
     public function matched(): bool
@@ -23,7 +26,7 @@ class RawMatchesToFirstMatchAdapter implements IRawMatchOffset
     public function getMatch(): string
     {
         $all = $this->matches->getAll();
-        return $all[0];
+        return $all[$this->index];
     }
 
     public function hasGroup($nameOrIndex): bool
@@ -41,17 +44,17 @@ class RawMatchesToFirstMatchAdapter implements IRawMatchOffset
 
     public function isGroupMatched($nameOrIndex): bool
     {
-        return $this->matches->isGroupMatched($nameOrIndex, 0);
+        return $this->matches->isGroupMatched($nameOrIndex, $this->index);
     }
 
     public function getGroupTextAndOffset($nameOrIndex): array
     {
-        return $this->matches->getGroupTextAndOffset($nameOrIndex, 0);
+        return $this->matches->getGroupTextAndOffset($nameOrIndex, $this->index);
     }
 
     public function byteOffset(): int
     {
-        return $this->matches->getOffset(0);
+        return $this->matches->getOffset($this->index);
     }
 
     /**
@@ -59,7 +62,7 @@ class RawMatchesToFirstMatchAdapter implements IRawMatchOffset
      */
     public function getGroupsTexts(): array
     {
-        return $this->matches->getGroupsTexts(0);
+        return $this->matches->getGroupsTexts($this->index);
     }
 
     /**
@@ -67,6 +70,6 @@ class RawMatchesToFirstMatchAdapter implements IRawMatchOffset
      */
     public function getGroupsOffsets(): array
     {
-        return $this->matches->getGroupsOffsets(0);
+        return $this->matches->getGroupsOffsets($this->index);
     }
 }

@@ -50,9 +50,11 @@ class RawMatchesOffset implements IRawMatchesOffset
     public function getMatchObjects(): array
     {
         $matchObjects = [];
-        foreach ($this->matches[self::GROUP_WHOLE_MATCH] as $index => $match) {
-            $rawMatchesToFirstMatchAdapter = new RawMatchesToFirstMatchAdapter($this);
-            $matchObjects[] = new Match($this->subjectable, $index, $rawMatchesToFirstMatchAdapter, new EagerMatchAllFactory($this));
+        foreach ($this->matches[self::GROUP_WHOLE_MATCH] as $index => $firstWhole) {
+            $match = array_map(function ($match) use ($index) {
+                return $match[$index];
+            }, $this->matches);
+            $matchObjects[] = new Match($this->subjectable, $index, new RawMatchOffset($match), new EagerMatchAllFactory($this));
         }
         return $matchObjects;
     }

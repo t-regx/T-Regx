@@ -37,7 +37,7 @@ class RawMatchNullable implements IRawMatch, IRawMatchGroupable
         return $value;
     }
 
-    public function getGroupOffset($nameOrIndex): ?int
+    public function getGroupByteOffset($nameOrIndex): ?int
     {
         $value = $this->match[$nameOrIndex];
         if ($value === null) {

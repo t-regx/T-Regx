@@ -20,7 +20,7 @@ class EmptyRawMatch implements IRawMatch, IRawMatchGroupable
         return null;
     }
 
-    public function getGroupOffset($nameOrIndex): ?int
+    public function getGroupByteOffset($nameOrIndex): ?int
     {
         return null;
     }

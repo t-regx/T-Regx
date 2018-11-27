@@ -1,22 +1,17 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Groups;
 
-use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\IRawMatchOffset;
 
 class NamedGroups extends AbstractMatchGroups
 {
-    public function __construct(IRawMatchesOffset $matches, int $index)
+    public function __construct(IRawMatchOffset $match)
     {
-        parent::__construct($matches, $index);
+        parent::__construct($match);
     }
 
     protected function filterGroupKey($nameOrIndex): bool
     {
         return is_string($nameOrIndex);
-    }
-
-    protected function sliceWholeMatch(array $matches): array
-    {
-        return $matches;
     }
 }

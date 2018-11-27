@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Replace\Callback;
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToFirstMatchAdapter;
+use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
@@ -60,10 +60,11 @@ class ReplaceCallbackObject
 
     private function createMatchObject(): ReplaceMatch
     {
+        $index = $this->counter++;
         return new ReplaceMatch(
             new SubjectableImpl($this->subject),
-            $this->counter++,
-            new RawMatchesToFirstMatchAdapter($this->analyzedPattern),
+            $index,
+            new RawMatchesToMatchAdapter($this->analyzedPattern, $index),
             new EagerMatchAllFactory($this->analyzedPattern),
             $this->offsetModification,
             $this->subjectModification,

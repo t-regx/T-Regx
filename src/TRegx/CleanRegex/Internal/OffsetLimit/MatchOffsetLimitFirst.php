@@ -28,7 +28,7 @@ class MatchOffsetLimitFirst
     {
         $rawMatch = $this->base->matchOffset();
         if ($rawMatch->hasGroup($this->nameOrIndex)) {
-            $group = $rawMatch->getGroupOffset($this->nameOrIndex);
+            $group = $rawMatch->getGroupByteOffset($this->nameOrIndex);
             if ($group !== null) {
                 return $group;
             }

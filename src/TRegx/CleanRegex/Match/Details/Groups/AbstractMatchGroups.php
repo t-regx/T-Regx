@@ -2,19 +2,18 @@
 namespace TRegx\CleanRegex\Match\Details\Groups;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\IRawMatchOffset;
 
 abstract class AbstractMatchGroups implements MatchGroups
 {
-    /** @var IRawMatchesOffset */
-    protected $matches;
+    /** @var IRawMatchOffset */
+    protected $match;
     /** @var int */
     protected $index;
 
-    protected function __construct(IRawMatchesOffset $matches, int $index)
+    protected function __construct(IRawMatchOffset $match)
     {
-        $this->matches = $matches;
-        $this->index = $index;
+        $this->match = $match;
     }
 
     /**
@@ -22,7 +21,7 @@ abstract class AbstractMatchGroups implements MatchGroups
      */
     public function texts(): array
     {
-        return $this->sliceAndFilter($this->matches->getGroupsTexts($this->index));
+        return $this->sliceAndFilter($this->match->getGroupsTexts());
     }
 
     /**
@@ -30,7 +29,7 @@ abstract class AbstractMatchGroups implements MatchGroups
      */
     public function offsets(): array
     {
-        return $this->sliceAndFilter($this->matches->getGroupsOffsets($this->index));
+        return $this->sliceAndFilter($this->match->getGroupsOffsets());
     }
 
     private function sliceAndFilter(array $valuesWithWhole): array

@@ -88,7 +88,7 @@ class ReplaceMatchTest extends TestCase
     private function getMatch(int $index, int $offsetModification, int $limit): ReplaceMatch
     {
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
-        preg::match_all($pattern, self::subject, $match, PREG_OFFSET_CAPTURE);
+        preg::match($pattern, self::subject, $match, PREG_OFFSET_CAPTURE);
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
 
         return new ReplaceMatch(

@@ -121,10 +121,10 @@ class MatchTest extends TestCase
         $match = $this->getMatch(self::INDEX_JACK_SPARROW);
 
         // when
-        $match = $match->text();
+        $text = $match->text();
 
         // then
-        $this->assertEquals('Jack Sparrow', $match);
+        $this->assertEquals('Jack Sparrow', $text);
     }
 
     /**
@@ -136,10 +136,10 @@ class MatchTest extends TestCase
         $match = $this->getMatch(self::INDEX_JACK_SPARROW);
 
         // when
-        $match = (string)$match;
+        $text = (string)$match;
 
         // then
-        $this->assertEquals('Jack Sparrow', $match);
+        $this->assertEquals('Jack Sparrow', $text);
     }
 
     /**
@@ -166,7 +166,7 @@ class MatchTest extends TestCase
         $match = $this->getMatch(self::INDEX_JACK_SPARROW);
 
         // when
-        $names = $match->namedGroups()->texts();
+        $named = $match->namedGroups()->texts();
 
         // then
         $expected = [
@@ -174,7 +174,7 @@ class MatchTest extends TestCase
             'initial'   => 'J',
             'surname'   => 'Sparrow'
         ];
-        $this->assertEquals($expected, $names);
+        $this->assertEquals($expected, $named);
     }
 
     /**
@@ -361,6 +361,10 @@ class MatchTest extends TestCase
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
         preg::match($pattern, self::subject, $match, PREG_OFFSET_CAPTURE);
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
+
+        $match = array_map(function (array $m) use ($index) {
+            return $m[$index];
+        }, $matches);
 
         return new Match(
             new SubjectableImpl(self::subject),
