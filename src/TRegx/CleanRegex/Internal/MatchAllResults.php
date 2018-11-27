@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\Model\IRawMatches;
+use TRegx\CleanRegex\Internal\Model\Matches\IRawMatches;
 
 class MatchAllResults
 {

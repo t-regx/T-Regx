@@ -1,11 +1,10 @@
 <?php
-
 namespace Test\Unit\TRegx\CleanRegex\Match\Details;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Model\RawMatches;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\CleanRegex\Internal\SubjectableEx;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -148,11 +147,11 @@ class NotMatchedTest extends TestCase
     private function createNotMatched(): NotMatched
     {
         $matches = [
-            0 => [],
+            0       => [],
             'group' => [],
-            1 => [],
-            'xd' => [],
-            2 => [],
+            1       => [],
+            'xd'    => [],
+            2       => [],
         ];
         return new NotMatched(new RawMatches($matches), new SubjectableImpl('subject'));
     }
@@ -175,13 +174,13 @@ class NotMatchedTest extends TestCase
     private function createNotMatched_jagged(): NotMatched
     {
         $matches = [
-            0 => [],
+            0       => [],
             'group' => [],
-            1 => [],
-            2 => [],
-            'xd' => [],
-            3 => [],
-            4 => [],
+            1       => [],
+            2       => [],
+            'xd'    => [],
+            3       => [],
+            4       => [],
         ];
         return new NotMatched(new RawMatches($matches), new SubjectableImpl('subject'));
     }

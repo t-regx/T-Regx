@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Model;
+namespace TRegx\CleanRegex\Internal\Model\Matches;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;

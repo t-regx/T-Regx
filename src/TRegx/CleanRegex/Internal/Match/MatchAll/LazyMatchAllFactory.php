@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Match\MatchAll;
 
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 
 class LazyMatchAllFactory implements MatchAllFactory
 {

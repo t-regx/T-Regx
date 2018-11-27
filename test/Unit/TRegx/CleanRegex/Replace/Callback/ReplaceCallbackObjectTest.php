@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Replace\Callback;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReplacementException;
-use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableEx;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\CleanRegex\Replace\Callback\ReplaceCallbackObject;

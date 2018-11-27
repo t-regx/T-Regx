@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model\Adapter;
 
-use TRegx\CleanRegex\Internal\Model\IRawMatches;
-use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\IRawMatches;
+use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 
 class RawMatchesToMatchAdapter implements IRawMatchOffset
 {
