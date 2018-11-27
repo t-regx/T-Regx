@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
-use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToFirstMatchAdapter;
+use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
@@ -105,7 +105,7 @@ class RawMatchesOffset implements IRawMatchesOffset
         return new Match(
             $this->subjectable,
             self::FIRST_MATCH,
-            new RawMatchesToFirstMatchAdapter($this),
+            new RawMatchesToMatchAdapter($this, self::FIRST_MATCH),
             new EagerMatchAllFactory($this));
     }
 
