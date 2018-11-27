@@ -42,6 +42,10 @@ Incoming in 1.1
 * Other
     * Set `\TRegx` namespace prefix
     * Add MIT license
+    * `preg_match()` won't return unmatched groups at the end of list, which makes validating groups and general
+      work with group names impossible. Thanks to `GroupPolyfillDecorator`, a second call to `preg_match_all()` is done
+      to get a list of all groups (even unmatched once). The call to `preg_match_all()` is of course only in the case
+      of `Match.hasGroup()` or similar method. Regular methods like `Match.text()` won't call `preg_match_all()`.
 
 API
 ---------------
