@@ -12,7 +12,7 @@ use function array_key_exists;
 use function is_array;
 use function is_string;
 
-class RawMatchesOffset implements IRawMatchesOffset, IRawMatches, IRawWithGroups
+class RawMatchesOffset implements IRawMatchesOffset
 {
     private const GROUP_WHOLE_MATCH = 0;
     private const FIRST_MATCH = 0;

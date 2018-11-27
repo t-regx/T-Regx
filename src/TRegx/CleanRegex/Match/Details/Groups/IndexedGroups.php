@@ -1,11 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Groups;
 
-use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
 
 class IndexedGroups extends AbstractMatchGroups
 {
-    public function __construct(RawMatchesOffset $matches, int $index)
+    public function __construct(IRawMatchesOffset $matches, int $index)
     {
         parent::__construct($matches, $index);
     }

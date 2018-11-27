@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
@@ -78,7 +79,7 @@ class Match implements MatchInterface
 
     private function getGroupFacade($nameOrIndex): GroupFacade
     {
-        return new GroupFacade($this->matches, $this->subjectable, $nameOrIndex, $this->index, $this->strategy);
+        return new GroupFacade($this->getMatches(), $this->subjectable, $nameOrIndex, $this->index, $this->strategy);
     }
 
     /**
@@ -86,17 +87,17 @@ class Match implements MatchInterface
      */
     public function groupNames(): array
     {
-        return array_values(array_filter($this->matches->getGroupKeys(), '\is_string'));
+        return array_values(array_filter($this->getMatches()->getGroupKeys(), '\is_string'));
     }
 
     public function groups(): IndexedGroups
     {
-        return new IndexedGroups($this->matches, $this->index);
+        return new IndexedGroups($this->getMatches(), $this->index);
     }
 
     public function namedGroups(): NamedGroups
     {
-        return new NamedGroups($this->matches, $this->index);
+        return new NamedGroups($this->getMatches(), $this->index);
     }
 
     /**
@@ -106,7 +107,7 @@ class Match implements MatchInterface
     public function hasGroup($nameOrIndex): bool
     {
         $this->validateGroupName($nameOrIndex);
-        return $this->matches->hasGroup($nameOrIndex);
+        return $this->match->hasGroup($nameOrIndex);
     }
 
     private function validateGroupName($nameOrIndex): void
@@ -131,8 +132,7 @@ class Match implements MatchInterface
 
     protected function getFirstFromAllMatches(): array
     {
-        $rawMatches = $this->allFactory->getRawMatches();
-        return $rawMatches->getAll();
+        return $this->getMatches()->getGroupsTexts(self::WHOLE_MATCH);
     }
 
     public function offset(): int
@@ -142,7 +142,7 @@ class Match implements MatchInterface
 
     public function byteOffset(): int
     {
-        return $this->matches->getOffset($this->index);
+        return $this->getMatches()->getOffset($this->index);
     }
 
     public function groupOffsets(): array
@@ -152,7 +152,7 @@ class Match implements MatchInterface
 
     public function byteGroupOffsets(): array
     {
-        return $this->matches->getGroupsOffsets($this->index);
+        return $this->getMatches()->getGroupsOffsets($this->index);
     }
 
     public function setUserData($userData): void
@@ -168,5 +168,10 @@ class Match implements MatchInterface
     public function __toString(): string
     {
         return $this->text();
+    }
+
+    private function getMatches(): IRawMatchesOffset
+    {
+        return $this->allFactory->getRawMatches();
     }
 }

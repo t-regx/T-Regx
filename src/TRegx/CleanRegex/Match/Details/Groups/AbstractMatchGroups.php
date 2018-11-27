@@ -2,16 +2,16 @@
 namespace TRegx\CleanRegex\Match\Details\Groups;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
 
 abstract class AbstractMatchGroups implements MatchGroups
 {
-    /** @var RawMatchesOffset */
+    /** @var IRawMatchesOffset */
     protected $matches;
     /** @var int */
     protected $index;
 
-    protected function __construct(RawMatchesOffset $matches, int $index)
+    protected function __construct(IRawMatchesOffset $matches, int $index)
     {
         $this->matches = $matches;
         $this->index = $index;

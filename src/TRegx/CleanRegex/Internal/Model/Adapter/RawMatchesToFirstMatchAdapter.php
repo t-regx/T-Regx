@@ -3,15 +3,15 @@ namespace TRegx\CleanRegex\Internal\Model\Adapter;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Model\IRawMatches;
+use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\IRawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
 
 class RawMatchesToFirstMatchAdapter implements IRawMatchOffset
 {
     /** @var IRawMatches */
     private $matches;
 
-    public function __construct(RawMatchesOffset $matches)
+    public function __construct(IRawMatchesOffset $matches)
     {
         $this->matches = $matches;
     }

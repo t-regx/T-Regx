@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToFirstMatchAdapter;
-use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
@@ -21,7 +21,7 @@ class ReplaceCallbackObject
     private $callback;
     /** @var string */
     private $subject;
-    /** @var RawMatchesOffset */
+    /** @var IRawMatchesOffset */
     private $analyzedPattern;
 
     /** @var int */
@@ -33,7 +33,7 @@ class ReplaceCallbackObject
     /** @var int */
     private $limit;
 
-    public function __construct(callable $callback, string $subject, RawMatchesOffset $analyzedPattern, int $limit)
+    public function __construct(callable $callback, string $subject, IRawMatchesOffset $analyzedPattern, int $limit)
     {
         $this->callback = $callback;
         $this->subject = $subject;

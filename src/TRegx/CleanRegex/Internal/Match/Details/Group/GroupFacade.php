@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\MatchAllResults;
-use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
@@ -15,7 +15,7 @@ use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class GroupFacade
 {
-    /** @var RawMatchesOffset */
+    /** @var IRawMatchesOffset */
     private $matches;
     /** @var GroupNameIndexAssign */
     private $groupAssign;
@@ -28,7 +28,7 @@ class GroupFacade
     /** @var GroupFactoryStrategy */
     private $factoryStrategy;
 
-    public function __construct(RawMatchesOffset $matches, Subjectable $subject, $group, int $index, GroupFactoryStrategy $factoryStrategy)
+    public function __construct(IRawMatchesOffset $matches, Subjectable $subject, $group, int $index, GroupFactoryStrategy $factoryStrategy)
     {
         $this->matches = $matches;
         $this->groupAssign = new GroupNameIndexAssign($this->matches);
