@@ -115,9 +115,4 @@ class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
             return $offset;
         }, $this->match);
     }
-
-    public function getMatchObject(MatchAllFactory $allFactory, Subjectable $subjectable): Match
-    {
-        return new Match($subjectable, 0, $this, $allFactory);
-    }
 }

@@ -179,7 +179,11 @@ class RawMatchesOffset implements IRawMatchesOffset
 
     public function isGroupMatched($nameOrIndex, int $index): bool
     {
-        return is_array($this->matches[$nameOrIndex][$index]);
+        $var = $this->matches[$nameOrIndex][$index];
+        if (is_array($var)) {
+            return $var[1] !== -1;
+        }
+        return false;
     }
 
     public function getRawMatchOffset(int $index): RawMatchOffset
