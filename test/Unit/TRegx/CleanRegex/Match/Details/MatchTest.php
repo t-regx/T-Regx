@@ -1,10 +1,15 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Match;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\SubjectableEx;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\SafeRegex\preg;
 
 class MatchTest extends TestCase
@@ -116,10 +121,10 @@ class MatchTest extends TestCase
         $match = $this->getMatch(self::INDEX_JACK_SPARROW);
 
         // when
-        $match = $match->text();
+        $text = $match->text();
 
         // then
-        $this->assertEquals('Jack Sparrow', $match);
+        $this->assertEquals('Jack Sparrow', $text);
     }
 
     /**
@@ -131,10 +136,10 @@ class MatchTest extends TestCase
         $match = $this->getMatch(self::INDEX_JACK_SPARROW);
 
         // when
-        $match = (string)$match;
+        $text = (string)$match;
 
         // then
-        $this->assertEquals('Jack Sparrow', $match);
+        $this->assertEquals('Jack Sparrow', $text);
     }
 
     /**
@@ -161,7 +166,7 @@ class MatchTest extends TestCase
         $match = $this->getMatch(self::INDEX_JACK_SPARROW);
 
         // when
-        $names = $match->namedGroups()->texts();
+        $named = $match->namedGroups()->texts();
 
         // then
         $expected = [
@@ -169,7 +174,7 @@ class MatchTest extends TestCase
             'initial'   => 'J',
             'surname'   => 'Sparrow'
         ];
-        $this->assertEquals($expected, $names);
+        $this->assertEquals($expected, $named);
     }
 
     /**
@@ -331,11 +336,37 @@ class MatchTest extends TestCase
         $match->group(true);
     }
 
+    /**
+     * @test
+     */
+    public function shouldPreserveUserData()
+    {
+        // given
+        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+        $mixed = new \stdClass();
+        $mixed->value = 'foo';
+
+        // when
+        $match->setUserData($mixed);
+        $userData = $match->getUserData();
+
+        // then
+        $expected = new \stdClass();
+        $expected->value = 'foo';
+        $this->assertEquals($expected, $userData);
+    }
+
     private function getMatch(int $index): Match
     {
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
-
+        preg::match($pattern, self::subject, $match, PREG_OFFSET_CAPTURE);
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
-        return new Match(self::subject, $index, $matches);
+
+        $match = array_map(function (array $m) use ($index) {
+            return $m[$index];
+        }, $matches);
+
+        $factory = new EagerMatchAllFactory(new RawMatchesOffset($matches, new SubjectableEx()));
+        return new Match(new SubjectableImpl(self::subject), $index, new RawMatchOffset($match), $factory);
     }
 }

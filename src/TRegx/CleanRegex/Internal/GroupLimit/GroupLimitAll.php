@@ -3,58 +3,34 @@ namespace TRegx\CleanRegex\Internal\GroupLimit;
 
 use InvalidArgumentException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
-use TRegx\SafeRegex\preg;
-use function array_key_exists;
-use function defined;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
+use function array_slice;
 
 class GroupLimitAll
 {
-    /** @var Pattern */
-    private $pattern;
-    /** @var string */
-    private $subject;
+    /** @var Base */
+    private $base;
     /** @var string|int */
     private $nameOrIndex;
 
-    public function __construct(Pattern $pattern, string $subject, $nameOrIndex)
+    public function __construct(Base $base, $nameOrIndex)
     {
-        $this->pattern = $pattern;
-        $this->subject = $subject;
+        $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
     }
 
     public function getAllForGroup(int $limit, bool $allowNegative): array
     {
-        $matches = $this->getMatches();
-        if (!$this->groupExistsIn($matches)) {
+        $rawMatches = $this->base->matchAll();
+        if (!$rawMatches->hasGroup($this->nameOrIndex)) {
             throw new NonexistentGroupException($this->nameOrIndex);
         }
         if (!$allowNegative && $limit < 0) {
             throw new InvalidArgumentException("Negative limit $limit");
         }
         if ($limit === -1) {
-            return $matches[$this->nameOrIndex];
+            return $rawMatches->getGroupTexts($this->nameOrIndex);
         }
-        return array_slice($matches[$this->nameOrIndex], 0, $limit);
-    }
-
-    private function getMatches(): array
-    {
-        preg::match_all($this->pattern->pattern, $this->subject, $matches, $this->pregMatchFlags());
-        return $matches;
-    }
-
-    private function pregMatchFlags(): int
-    {
-        if (defined('PREG_UNMATCHED_AS_NULL')) {
-            return PREG_UNMATCHED_AS_NULL;
-        }
-        return 0;
-    }
-
-    private function groupExistsIn(array $matches): bool
-    {
-        return array_key_exists($this->nameOrIndex, $matches);
+        return array_slice($rawMatches->getGroupTexts($this->nameOrIndex), 0, $limit);
     }
 }

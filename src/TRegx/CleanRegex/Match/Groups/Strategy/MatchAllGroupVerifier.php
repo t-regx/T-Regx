@@ -1,13 +1,27 @@
 <?php
 namespace TRegx\CleanRegex\Match\Groups\Strategy;
 
-use TRegx\SafeRegex\preg;
+use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Match\Groups\Descriptor;
 
 class MatchAllGroupVerifier implements GroupVerifier
 {
-    public function groupExists(string $pattern, $nameOrIndex): bool
+    /** @var InternalPattern */
+    private $pattern;
+
+    public function __construct(InternalPattern $pattern)
     {
-        preg::match_all($pattern, '', $matches, PREG_PATTERN_ORDER);
-        return array_key_exists($nameOrIndex, $matches);
+        $this->pattern = $pattern;
+    }
+
+    public function groupExists($nameOrIndex): bool
+    {
+        $matches = (new Descriptor($this->pattern))->getGroups();
+        return $this->arrayHasValue($matches, $nameOrIndex);
+    }
+
+    private function arrayHasValue(array $array, $needle): bool
+    {
+        return \array_search($needle, $array, true) !== false;
     }
 }

@@ -1,20 +1,21 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
+use TRegx\CleanRegex\Internal\GroupNameValidator;
+use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
+use TRegx\CleanRegex\Internal\Subjectable;
 use function array_filter;
-use function array_key_exists;
-use function array_keys;
 use function array_values;
 use function count;
 
 class NotMatched implements Details
 {
-    /** @var array */
+    /** @var IRawWithGroups */
     private $matches;
-    /** @var string */
+    /** @var Subjectable */
     private $subject;
 
-    public function __construct(array $matches, string $subject)
+    public function __construct(IRawWithGroups $matches, Subjectable $subject)
     {
         $this->matches = $matches;
         $this->subject = $subject;
@@ -22,7 +23,7 @@ class NotMatched implements Details
 
     public function subject(): string
     {
-        return $this->subject;
+        return $this->subject->getSubject();
     }
 
     /**
@@ -30,14 +31,12 @@ class NotMatched implements Details
      */
     public function groupNames(): array
     {
-        return array_values(array_filter(array_keys($this->matches), function ($key) {
-            return is_string($key);
-        }));
+        return array_values(array_filter($this->matches->getGroupKeys(), 'is_string'));
     }
 
     public function groupsCount(): int
     {
-        $indexedGroups = array_filter(array_keys($this->matches), 'is_int');
+        $indexedGroups = array_filter($this->matches->getGroupKeys(), 'is_int');
         return count($indexedGroups) - 1;
     }
 
@@ -47,6 +46,7 @@ class NotMatched implements Details
      */
     public function hasGroup($nameOrIndex): bool
     {
-        return array_key_exists($nameOrIndex, $this->matches);
+        (new GroupNameValidator($nameOrIndex))->validate();
+        return $this->matches->hasGroup($nameOrIndex);
     }
 }

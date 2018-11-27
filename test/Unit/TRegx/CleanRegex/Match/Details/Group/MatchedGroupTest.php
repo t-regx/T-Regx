@@ -2,9 +2,12 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\Details\Group;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Factory\Group\GroupDetails;
-use TRegx\CleanRegex\Internal\Factory\Group\MatchedGroupDetails;
-use TRegx\CleanRegex\Match\Details\Group\MatchAll;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
+use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
+use TRegx\CleanRegex\Internal\MatchAllResults;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\SubjectableEx;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 
@@ -122,8 +125,8 @@ class MatchedGroupTest extends TestCase
     private function matchGroup(): MatchGroup
     {
         return new MatchedGroup(
-            new GroupDetails('first', 1, 'first', new MatchAll([], 'first')),
-            new MatchedGroupDetails('Nice matching', 14)
+            new GroupDetails('first', 1, 'first', new MatchAllResults(new RawMatchesOffset([], new SubjectableEx()), 'first')),
+            new MatchedGroupOccurrence('Nice matching', 14, new SubjectableImpl(str_repeat(' ', 14)))
         );
     }
 }

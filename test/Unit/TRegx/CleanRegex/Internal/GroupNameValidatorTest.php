@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\GroupNameValidator;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\GroupNameValidator;
 
 class GroupNameValidatorTest extends TestCase
 {
@@ -96,7 +96,7 @@ class GroupNameValidatorTest extends TestCase
 
         // this
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Group name must be an alphanumeric string sequence starting with a letter, or an integer');
+        $this->expectExceptionMessage("Group name must be an alphanumeric string starting with a letter, given: '$groupName");
 
         // when
         $validator->validate();

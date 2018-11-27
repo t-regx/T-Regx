@@ -2,25 +2,20 @@
 namespace TRegx\CleanRegex\Match;
 
 use InvalidArgumentException;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\SafeRegex\preg;
 use function array_slice;
 
 class MatchOnly
 {
-    private const GROUP_WHOLE_MATCH = 0;
-
+    /** @var Base */
+    private $base;
     /** @var int */
     private $limit;
-    /** @var string */
-    private $subject;
-    /** @var Pattern */
-    private $pattern;
 
-    public function __construct(Pattern $pattern, string $subject, int $limit)
+    public function __construct(Base $base, int $limit)
     {
-        $this->pattern = $pattern;
-        $this->subject = $subject;
+        $this->base = $base;
         $this->limit = $limit;
     }
 
@@ -44,7 +39,7 @@ class MatchOnly
 
     private function validatePattern(): void
     {
-        preg::match($this->pattern->pattern, '');
+        preg::match($this->base->getPattern()->pattern, '');
     }
 
     /**
@@ -52,12 +47,11 @@ class MatchOnly
      */
     private function getOneMatch(): array
     {
-        preg::match($this->pattern->pattern, $this->subject, $matches);
-        if (empty($matches)) {
-            return [];
+        $result = $this->base->match();
+        if ($result->matched()) {
+            return [$result->getMatch()];
         }
-        $match = $matches[self::GROUP_WHOLE_MATCH];
-        return [$match];
+        return [];
     }
 
     /**
@@ -70,7 +64,6 @@ class MatchOnly
 
     private function getAll(): array
     {
-        preg::match_all($this->pattern->pattern, $this->subject, $matches);
-        return $matches[self::GROUP_WHOLE_MATCH];
+        return $this->base->matchAll()->getAll();
     }
 }

@@ -13,6 +13,7 @@ Incoming in 1.1
     * Add `replace()->all()`, `replace()->first()` and `replace()->only(int)`
     * Add `pattern()->remove()`
     * Add `match()->only(int)`
+    * Add `match()->flatMap()`
     * Pass flags as `pattern()` second argument
     * Add `ReplaceMatch.modifiedSubject()`
     * Add UTF-8 support for methods `offset()`, `modifiedOffset()` and `modifiedSubject()`
@@ -20,12 +21,14 @@ Incoming in 1.1
     * Add `match()->forFirst()` with methods `orReturn()`, `orElse()` and `orThrow()`
     * `orThrow()` can instantiate exceptions by class name (with one of predefined constructor signatures)
     * `match()->first()` throws on unmatched subject and on unmatched group
+    * Add `match()->iterator()`
     * Use `PREG_UNMATCHED_AS_NULL` if PHP version is supported
     * Add `CompositePattern` (#8)
     * Add `split()->filter()`
     * `match->only(i)` calls `preg_match` for `i=1`, and `preg_match_all` for other values
     * Add `group()->all()` to `Match`
     * Add `groupsCount()` to `NotMatched`
+    * `pattern()->match()` is `\Countable`
 * Tests
     * Split tests into `\Test\Unit` and `\Test\Integration` folders 
     * Add dynamic skip for `ErrorsCleanerTest`
@@ -39,6 +42,10 @@ Incoming in 1.1
 * Other
     * Set `\TRegx` namespace prefix
     * Add MIT license
+    * `preg_match()` won't return unmatched groups at the end of list, which makes validating groups and general
+      work with group names impossible. Thanks to `GroupPolyfillDecorator`, a second call to `preg_match_all()` is done
+      to get a list of all groups (even unmatched once). The call to `preg_match_all()` is of course only in the case
+      of `Match.hasGroup()` or similar method. Regular methods like `Match.text()` won't call `preg_match_all()`.
 
 API
 ---------------
@@ -61,11 +68,22 @@ API
     * Automatic delimiter (ie. `pattern('[A-Z]')`)
     * Matching API
         * `pattern()->matches()`
+        * `pattern()->fails()`
         * `pattern()->match()->all()`
         * `pattern()->match()->first()`
         * `pattern()->match()->map()`
-        * `pattern()->match()->iterate()`
+        * `pattern()->match()->flatMap()`
+        * `pattern()->match()->forEach()` / `iterate()`
+        * `pattern()->match()->iterator()`
+        * `pattern()->match()->offsets()`
+            * `->first()`
+            * `->all()`
+            * `->only(int)`
         * `pattern()->match()->group(name|index)`
+            * `->first()`
+            * `->all()`
+            * `->only(int)`
+        * `pattern()->match()->group(name|index)->offsets()`
             * `->first()`
             * `->all()`
             * `->only(int)`
@@ -88,6 +106,11 @@ API
             * `Match.matched(string|int)`
             * `Match.hasGroup(string|int)`
             * `Match.all()`
+        * `NotMatched` details
+            * `NotMatched.subject()`
+            * `NotMatched.groupNames()`
+            * `NotMatched.groupsCount()`
+            * `NotMatched.hasGroup($nameOrIndex)`
     * Replace API
         * `pattern()->replace()->all()`
             * `->with()`

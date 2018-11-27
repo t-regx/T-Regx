@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Exception\CleanRegex;
 
 use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
+use TRegx\CleanRegex\Internal\Subjectable;
 
 class SubjectNotMatchedException extends CleanRegexException
 {
@@ -14,8 +15,8 @@ class SubjectNotMatchedException extends CleanRegexException
         $this->subject = $subject;
     }
 
-    public static function forFirst(string $subject): SubjectNotMatchedException
+    public static function forFirst(Subjectable $subjectable): SubjectNotMatchedException
     {
-        return new SubjectNotMatchedException((new FirstMatchMessage())->getMessage(), $subject);
+        return new SubjectNotMatchedException((new FirstMatchMessage())->getMessage(), $subjectable->getSubject());
     }
 }

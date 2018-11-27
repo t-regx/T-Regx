@@ -18,14 +18,12 @@ class GroupNameValidator
 
     public function validate(): void
     {
-        if (!is_string($this->groupNameOrIndex) && !is_int($this->groupNameOrIndex)) {
-            $this->throwInvalidGroupNameType();
-        }
         if (is_int($this->groupNameOrIndex)) {
             $this->validateGroupIndex();
-        }
-        if (is_string($this->groupNameOrIndex)) {
+        } else if (is_string($this->groupNameOrIndex)) {
             $this->validateGroupNameFormat();
+        } else {
+            $this->throwInvalidGroupNameType();
         }
     }
 
@@ -45,7 +43,7 @@ class GroupNameValidator
     private function validateGroupNameFormat(): void
     {
         if (!$this->isGroupNameValid()) {
-            throw new InvalidArgumentException('Group name must be an alphanumeric string sequence starting with a letter, or an integer');
+            throw new InvalidArgumentException("Group name must be an alphanumeric string starting with a letter, given: '$this->groupNameOrIndex'");
         }
     }
 

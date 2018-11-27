@@ -1,19 +1,23 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use function array_keys;
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use function array_search;
 use function is_int;
 use function is_string;
 
 class GroupNameIndexAssign
 {
-    /** @var array */
-    private $matches;
+    /** @var (string|int)[] */
+    private $groupKeys;
+    /** @var MatchAllFactory */
+    private $allGroupKeysFactory;
 
-    public function __construct(array $matches)
+    public function __construct(IRawWithGroups $matches, MatchAllFactory $allGroupKeysFactory)
     {
-        $this->matches = array_keys($matches);
+        $this->groupKeys = $matches->getGroupKeys();
+        $this->allGroupKeysFactory = $allGroupKeysFactory;
     }
 
     public function getNameAndIndex($group): array
@@ -39,17 +43,21 @@ class GroupNameIndexAssign
 
     private function getIndexByName(string $name): int
     {
-        $key = array_search($name, $this->matches, true);
-        return $this->matches[$key + 1];
+        $key = array_search($name, $this->groupKeys, true);
+        if (array_key_exists($key + 1, $this->groupKeys)) {
+            return $this->groupKeys[$key + 1];
+        }
+        $groupKeys = $this->allGroupKeysFactory->getRawMatches()->getGroupKeys();
+        return array_search($name, $groupKeys, true);
     }
 
     private function getNameByIndex(int $index): ?string
     {
-        $key = array_search($index, $this->matches, true);
+        $key = array_search($index, $this->groupKeys, true);
         if ($key === 0) {
             return null;
         }
-        $value = $this->matches[$key - 1];
+        $value = $this->groupKeys[$key - 1];
         if (is_string($value)) {
             return $value;
         }

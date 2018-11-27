@@ -3,7 +3,8 @@ namespace Test\UnitTRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
-use TRegx\SafeRegex\preg;
+use TRegx\CleanRegex\Internal\Match\MatchAll\ExceptionMatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 class GroupNameIndexAssignTest extends TestCase
 {
@@ -13,7 +14,7 @@ class GroupNameIndexAssignTest extends TestCase
     public function shouldGetNameAndIndex_fromName()
     {
         // given
-        $assign = $this->getAssign();
+        $assign = $this->create();
 
         // when
         list($name, $index) = $assign->getNameAndIndex('third');
@@ -29,7 +30,7 @@ class GroupNameIndexAssignTest extends TestCase
     public function shouldGetNameAndIndex_fromIndex()
     {
         // given
-        $assign = $this->getAssign();
+        $assign = $this->create();
 
         // when
         list($name, $index) = $assign->getNameAndIndex(5);
@@ -45,7 +46,7 @@ class GroupNameIndexAssignTest extends TestCase
     public function shouldGetNullAndIndex_fromIndex_unnamedGroup()
     {
         // given
-        $assign = $this->getAssign();
+        $assign = $this->create();
 
         // when
         list($name, $index) = $assign->getNameAndIndex(2);
@@ -61,7 +62,7 @@ class GroupNameIndexAssignTest extends TestCase
     public function shouldGetNullAndIndex_fromIndex_wholeMatch()
     {
         // given
-        $assign = $this->getAssign();
+        $assign = $this->create();
 
         // when
         list($name, $index) = $assign->getNameAndIndex(0);
@@ -75,9 +76,20 @@ class GroupNameIndexAssignTest extends TestCase
      * @param string|int $group
      * @return GroupNameIndexAssign
      */
-    private function getAssign(): GroupNameIndexAssign
+    private function create(): GroupNameIndexAssign
     {
-        preg::match_all('/(?<first>1) (and) (?<third>2) (and maybe) (?<fifth>3)/', '', $matches);
-        return new GroupNameIndexAssign($matches);
+        $matches = [
+            0       => [],
+            'first' => [],
+            1       => [],
+            2       => [],
+            'third' => [],
+            3       => [],
+            4       => [],
+            'fifth' => [],
+            5       => [],
+        ];
+        $factory = new ExceptionMatchAllFactory();
+        return new GroupNameIndexAssign(new RawMatchOffset($matches), $factory);
     }
 }

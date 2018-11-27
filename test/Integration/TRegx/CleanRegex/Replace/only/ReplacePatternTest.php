@@ -1,9 +1,9 @@
 <?php
 namespace Test\Integration\TRegx\CleanRegex\Replace\only;
 
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 
 class ReplacePatternTest extends TestCase
 {
@@ -60,7 +60,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      * @dataProvider limitAndExpectedResults
-     * @param int $limit
+     * @param int    $limit
      * @param string $expectedResult
      */
     public function shouldReplaceNOccurrences(int $limit, string $expectedResult)

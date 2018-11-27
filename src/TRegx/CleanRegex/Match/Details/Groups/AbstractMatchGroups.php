@@ -1,20 +1,19 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Groups;
 
-use Closure;
-use TRegx\CleanRegex\Internal\Grouper;
+use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 
 abstract class AbstractMatchGroups implements MatchGroups
 {
-    /** @var array */
-    protected $matches;
+    /** @var IRawMatchOffset */
+    protected $match;
     /** @var int */
     protected $index;
 
-    protected function __construct(array $matches, int $index)
+    protected function __construct(IRawMatchOffset $match)
     {
-        $this->matches = $matches;
-        $this->index = $index;
+        $this->match = $match;
     }
 
     /**
@@ -22,9 +21,7 @@ abstract class AbstractMatchGroups implements MatchGroups
      */
     public function texts(): array
     {
-        return $this->forEachGroup(function (Grouper $grouper) {
-            return $grouper->getText();
-        });
+        return $this->sliceAndFilter($this->match->getGroupsTexts());
     }
 
     /**
@@ -32,38 +29,26 @@ abstract class AbstractMatchGroups implements MatchGroups
      */
     public function offsets(): array
     {
-        return $this->forEachGroup(function (Grouper $grouper) {
-            return $grouper->getOffset();
-        });
+        return $this->sliceAndFilter($this->match->getGroupsOffsets());
     }
 
-    private function forEachGroup(Closure $grouperResolver): array
+    private function sliceAndFilter(array $valuesWithWhole): array
     {
-        return $this->sliceWholeMatch($this->forEachMatch($grouperResolver));
+        return $this->filterValues(array_slice($valuesWithWhole, 1));
     }
 
-    protected function sliceWholeMatch(array $matches): array
+    private function filterValues(array $values): array
     {
-        return array_slice($matches, 1);
+        return array_filter($values, [$this, 'filter'], ARRAY_FILTER_USE_BOTH);
     }
 
-    /**
-     * @param Closure $resolver
-     * @return Grouper[]
-     */
-    private function forEachMatch(Closure $resolver): array
+    private function filter($value, $key): bool
     {
-        return array_map(function (array $match) use ($resolver) {
-            return $resolver(new Grouper($match[$this->index]));
-        }, $this->getIndexMatches());
+        if ((is_int($value) && $value > -1) || is_string($value) || is_null($value)) {
+            return $this->filterGroupKey($key);
+        }
+        throw new InternalCleanRegexException();
     }
 
-    private function getIndexMatches(): array
-    {
-        return array_filter($this->matches, function (array $match, $groupIndexOrName) {
-            return $this->filterGroupKey($groupIndexOrName);
-        }, ARRAY_FILTER_USE_BOTH);
-    }
-
-    protected abstract function filterGroupKey($groupIndexOrName): bool;
+    protected abstract function filterGroupKey($nameOrIndex): bool;
 }

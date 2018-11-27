@@ -1,8 +1,13 @@
 <?php
 namespace Test\UnitCleanRegex\Match;
 
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\SubjectableEx;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\SafeRegex\preg;
 
 class ReplaceMatchTest extends TestCase
@@ -83,8 +88,16 @@ class ReplaceMatchTest extends TestCase
     private function getMatch(int $index, int $offsetModification, int $limit): ReplaceMatch
     {
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
-
+        preg::match($pattern, self::subject, $match, PREG_OFFSET_CAPTURE);
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
-        return new ReplaceMatch(self::subject, $index, $matches, $offsetModification, '', $limit);
+
+        return new ReplaceMatch(
+            new SubjectableImpl(self::subject),
+            $index,
+            new RawMatchOffset($match),
+            new EagerMatchAllFactory(new RawMatchesOffset($matches, new SubjectableEx())),
+            $offsetModification,
+            '',
+            $limit);
     }
 }

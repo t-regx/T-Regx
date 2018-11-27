@@ -1,9 +1,10 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\CountPattern;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
-use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 
 class CountPatternTest extends TestCase
 {
@@ -17,7 +18,7 @@ class CountPatternTest extends TestCase
     public function shouldCountMatches(string $pattern, string $subject, int $expectedCount)
     {
         // given
-        $countPattern = new CountPattern(new Pattern($pattern), $subject);
+        $countPattern = new CountPattern(new Pattern($pattern), new SubjectableImpl($subject));
 
         // when
         $count = $countPattern->count();

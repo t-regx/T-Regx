@@ -11,7 +11,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllMatches()
+    public function shouldGet_all()
     {
         // when
         $matches = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->all();
@@ -23,7 +23,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllMatches_only()
+    public function shouldGet_only_2()
     {
         // when
         $matches = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->only(2);
@@ -35,7 +35,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFirst()
+    public function shouldGet_first()
     {
         // when
         $match = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->first();
@@ -47,7 +47,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldModifyReturnValue_first()
+    public function shouldGet_first_callback()
     {
         // when
         $value = pattern('[A-Z]+')->match('Foo, Bar, Top')->first(function () {
@@ -61,11 +61,41 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldModifyReturnValue_forFirst()
+    public function shouldGet_first_returnArbitraryType()
     {
         // when
         $value = pattern('[A-Z]+')
-            ->match('Foo, Bar, Top')
+            ->match('F')
+            ->first(function () {
+                return new \stdClass();
+            });
+
+        // then
+        $this->assertInstanceOf(\stdClass::class, $value);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_first_matchAll()
+    {
+        // when
+        pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
+            ->match('Foo, Leszek Ziom, Bar')
+            ->first(function (Match $match) {
+                // then
+                $this->assertEquals(['Foo', 'Leszek', 'Ziom', 'Bar'], $match->all());
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_forFirst_orElse()
+    {
+        // when
+        $value = pattern('[A-Z]+')
+            ->match('FOO')
             ->forFirst(function () {
                 return 'Different';
             })
@@ -80,7 +110,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroupsCount_forNoGroups()
+    public function shouldGet_forFirst_orElse_groupsCount()
     {
         // when
         $value = pattern('[a-z]+')
@@ -101,34 +131,41 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldAllowToReturnArbitraryType()
+    public function shouldGet_map()
     {
         // when
-        $value = pattern('[A-Z]+')
-            ->match('Foo, Leszek Ziom, Dupa')
-            ->first(function () {
-                return new \stdClass();
-            });
+        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->map(function (Match $match) {
+            return str_split(strtoupper($match));
+        });
 
         // then
-        $this->assertInstanceOf(\stdClass::class, $value);
-    }
-
-    public function shouldMatchAllForFirst()
-    {
-        // when
-        pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
-            ->match('Foo, Leszek Ziom, Bar')
-            ->first(function (Match $match) {
-                // then
-                $this->assertEquals(['Foo', 'Leszek', 'Ziom', 'Bar'], $match->all());
-            });
+        $expected = [
+            ['F', 'O', 'O'],
+            ['B', 'A', 'R'],
+            ['T', 'O', 'P']
+        ];
+        $this->assertEquals($expected, $mapped);
     }
 
     /**
      * @test
      */
-    public function shouldNotCallIterateOnUnmatchedPattern()
+    public function shouldGet_flatMap()
+    {
+        // when
+        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->flatMap(function (Match $match) {
+            return str_split(strtoupper($match));
+        });
+
+        // then
+        $expected = ['F', 'O', 'O', 'B', 'A', 'R', 'T', 'O', 'P'];
+        $this->assertEquals($expected, $mapped);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotCall_iterate_onUnmatchedPattern()
     {
         // given
         pattern('dont match me')
@@ -145,7 +182,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotCallFirstOnUnmatchedPattern()
+    public function shouldNotCall_first_OnUnmatchedPattern()
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -162,7 +199,22 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroups()
+    public function shouldGet_group_first()
+    {
+        // given
+        $subject = 'Computer L Three Four';
+
+        // when
+        $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first();
+
+        // then
+        $this->assertEquals('omputer', $groups);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_group_all()
     {
         // given
         $subject = 'Computer L Three Four';
@@ -177,15 +229,206 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroup_onlyOne()
+    public function shouldGet_group_only_1()
     {
         // given
         $subject = 'D Computer';
 
         // when
-        $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->only(1);
+        $groups1 = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->only(1);
+        $groups2 = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->only(2);
 
         // then
-        $this->assertEquals([null], $groups);
+        $this->assertEquals([null], $groups1);
+        $this->assertEquals([null, 'omputer'], $groups2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_offsets()
+    {
+        // given
+        $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')
+            ->match('xd Computer L Three Four')
+            ->offsets();
+
+        // when
+        $first = $offsets->first();
+        $only1 = $offsets->only(1);
+        $only2 = $offsets->only(2);
+        $all = $offsets->all();
+
+        // then
+        $this->assertEquals(3, $first);
+        $this->assertEquals([3], $only1);
+        $this->assertEquals([3, 12], $only2);
+        $this->assertEquals([3, 12, 14, 20], $all);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_group_offsets()
+    {
+        // given
+        $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')
+            ->match('xd Computer L Three Four')
+            ->group('lowercase')
+            ->offsets();
+
+        // when
+        $first = $offsets->first();
+        $only1 = $offsets->only(1);
+        $only2 = $offsets->only(2);
+        $all = $offsets->all();
+
+        // then
+        $this->assertEquals(4, $first);
+        $this->assertEquals([4], $only1);
+        $this->assertEquals([4, null], $only2);
+        $this->assertEquals([4, null, 15, 21], $all);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_group_offsets_onlyOne_null()
+    {
+        // given
+        $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')
+            ->match('xd L Three Four')
+            ->group('lowercase')
+            ->offsets();
+
+        // when
+        $only1 = $offsets->only(1);
+
+        // then
+        $this->assertEquals([null], $only1);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCount_matched()
+    {
+        // when
+        $count = count(pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar'));
+
+        // then
+        $this->assertEquals(3, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_all()
+    {
+        // when
+        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function (Match $match) {
+                return strlen($match) === 5;
+            })
+            ->all();
+
+        // then
+        $this->assertEquals(['First', 'Third', 'Fifth'], $filtered);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_only()
+    {
+        // when
+        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function (Match $match) {
+                return strlen($match) === 5;
+            })
+            ->only(2);
+
+        // then
+        $this->assertEquals(['First', 'Third'], $filtered);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_count()
+    {
+        // when
+        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function (Match $match) {
+                return strlen($match) === 5;
+            })
+            ->count();
+
+        // then
+        $this->assertEquals(3, $filtered);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_first()
+    {
+        // when
+        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function (Match $match) {
+                return $match->index() > 1;
+            })
+            ->first();
+
+        // then
+        $this->assertEquals('Third', $filtered);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_matches_true()
+    {
+        // when
+        $matches = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function (Match $match) {
+                return $match->text() === 'Fifth';
+            })
+            ->matches();
+
+        // then
+        $this->assertTrue($matches);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_matches_false()
+    {
+        // when
+        $matches = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function () {
+                return false;
+            })
+            ->matches();
+
+        // then
+        $this->assertFalse($matches);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_matches_notMatched()
+    {
+        // when
+        $matches = pattern('[A-Z][a-z]+')->match('NOT MATCHING')
+            ->filter(function () {
+                return true;
+            })
+            ->matches();
+
+        // then
+        $this->assertFalse($matches);
     }
 }

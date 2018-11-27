@@ -26,7 +26,7 @@ class SignatureExceptionFactory
         $this->message = $message;
     }
 
-    public function create(string $subject): Throwable
+    public function create(Subjectable $subject): Throwable
     {
         $this->validateNotInterface();
         $this->validateClassExists();
@@ -52,13 +52,14 @@ class SignatureExceptionFactory
     }
 
     /**
-     * @param string $subject
+     * @param Subjectable $subjectable
      * @return mixed
+     * @throws ClassExpectedException
      * @throws NoSuitableConstructorException
      */
-    private function tryCreate(string $subject)
+    private function tryCreate(Subjectable $subjectable)
     {
-        foreach ($this->getSignatures($subject) as $signature) {
+        foreach ($this->getSignatures($subjectable) as $signature) {
             try {
                 return $signature();
             } catch (ArgumentCountError $error) {
@@ -66,6 +67,9 @@ class SignatureExceptionFactory
             } catch (TypeError $error) {
                 continue;
             } catch (Error $error) {
+                if ($this->isAbstractClassError($error)) {
+                    throw ClassExpectedException::isAbstract($this->className);
+                }
                 if ($this->isWrongParametersError($error)) {
                     continue;
                 }
@@ -75,11 +79,11 @@ class SignatureExceptionFactory
         throw new NoSuitableConstructorException($this->className);
     }
 
-    private function getSignatures(string $subject): array
+    private function getSignatures(Subjectable $subject): array
     {
         return [
             function () use ($subject) {
-                return new $this->className($this->message->getMessage(), $subject);
+                return new $this->className($this->message->getMessage(), $subject->getSubject());
             },
             function () {
                 return new $this->className($this->message->getMessage());
@@ -88,6 +92,11 @@ class SignatureExceptionFactory
                 return new $this->className();
             }
         ];
+    }
+
+    private function isAbstractClassError(Error $error): bool
+    {
+        return $error->getMessage() === "Cannot instantiate abstract class $this->className";
     }
 
     private function isWrongParametersError(Error $error): bool

@@ -3,26 +3,27 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Factory\Group\GroupDetails;
-use TRegx\CleanRegex\Internal\Factory\Group\MatchedGroupDetails;
+use TRegx\CleanRegex\Internal\ByteOffset;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
+use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
 
 class MatchedGroup implements MatchGroup
 {
     /** @var GroupDetails */
     private $details;
 
-    /** @var MatchedGroupDetails */
-    private $matchedDetails;
+    /** @var MatchedGroupOccurrence */
+    private $occurrence;
 
-    public function __construct(GroupDetails $details, MatchedGroupDetails $matchedDetails)
+    public function __construct(GroupDetails $details, MatchedGroupOccurrence $matchedDetails)
     {
         $this->details = $details;
-        $this->matchedDetails = $matchedDetails;
+        $this->occurrence = $matchedDetails;
     }
 
     public function text(): string
     {
-        return $this->matchedDetails->text;
+        return $this->occurrence->text;
     }
 
     public function matches(): bool
@@ -42,7 +43,12 @@ class MatchedGroup implements MatchGroup
 
     public function offset(): int
     {
-        return $this->matchedDetails->offset;
+        return ByteOffset::toCharacterOffset($this->occurrence->subject->getSubject(), $this->occurrence->offset);
+    }
+
+    public function byteOffset(): int
+    {
+        return $this->occurrence->offset;
     }
 
     public function __toString(): string

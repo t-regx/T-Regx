@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use stdClass;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Pattern;
 
 class CompositePatternMapperTest extends TestCase
 {

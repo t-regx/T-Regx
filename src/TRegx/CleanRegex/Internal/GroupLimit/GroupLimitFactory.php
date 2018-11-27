@@ -1,7 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\GroupLimit;
 
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Match\GroupLimit;
 
 class GroupLimitFactory
@@ -10,11 +11,14 @@ class GroupLimitFactory
     private $limitAll;
     /** @var GroupLimitFirst */
     private $limitFirst;
+    /** @var  MatchOffsetLimitFactory */
+    private $offsetLimitFactory;
 
-    public function __construct(Pattern $pattern, string $subject, $nameOrIndex)
+    public function __construct(Base $base, $nameOrIndex)
     {
-        $this->limitAll = new GroupLimitAll($pattern, $subject, $nameOrIndex);
-        $this->limitFirst = new GroupLimitFirst($pattern, $subject, $nameOrIndex);
+        $this->limitAll = new GroupLimitAll($base, $nameOrIndex);
+        $this->limitFirst = new GroupLimitFirst($base, $nameOrIndex);
+        $this->offsetLimitFactory = new MatchOffsetLimitFactory($base, $nameOrIndex);
     }
 
     public function create(): GroupLimit
@@ -25,6 +29,8 @@ class GroupLimitFactory
             },
             function () {
                 return $this->limitFirst->getFirstForGroup();
-            });
+            },
+            $this->offsetLimitFactory
+        );
     }
 }

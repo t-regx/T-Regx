@@ -1,15 +1,17 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Groups;
 
+use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+
 class IndexedGroups extends AbstractMatchGroups
 {
-    public function __construct(array $matches, int $index)
+    public function __construct(IRawMatchOffset $match)
     {
-        parent::__construct($matches, $index);
+        parent::__construct($match);
     }
 
-    protected function filterGroupKey($groupIndexOrName): bool
+    protected function filterGroupKey($nameOrIndex): bool
     {
-        return is_int($groupIndexOrName);
+        return is_int($nameOrIndex);
     }
 }

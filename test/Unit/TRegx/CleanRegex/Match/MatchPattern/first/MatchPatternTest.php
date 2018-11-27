@@ -1,11 +1,11 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\first;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\MatchPattern;
-use PHPUnit\Framework\TestCase;
 
 class MatchPatternTest extends TestCase
 {
@@ -22,6 +22,21 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertEquals('Nice', $first);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFirst_emptyMatch()
+    {
+        // given
+        $pattern = new MatchPattern(new Pattern("9?(?=matching)"), 'Nice matching pattern');
+
+        // when
+        $first = $pattern->first();
+
+        // then
+        $this->assertEquals('', $first);
     }
 
     /**

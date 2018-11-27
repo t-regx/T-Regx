@@ -4,91 +4,42 @@ namespace TRegx\CleanRegex\Internal\GroupLimit;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Grouper;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
-use TRegx\SafeRegex\preg;
-use function array_key_exists;
 
 class GroupLimitFirst
 {
-    /** @var Pattern */
-    private $pattern;
-    /** @var string */
-    private $subject;
+    /** @var Base */
+    private $base;
     /** @var string|int */
     private $nameOrIndex;
     /** @var GroupVerifier */
     private $groupVerifier;
 
-    public function __construct(Pattern $pattern, string $subject, $nameOrIndex)
+    public function __construct(Base $base, $nameOrIndex)
     {
-        $this->pattern = $pattern;
-        $this->subject = $subject;
+        $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
-        $this->groupVerifier = new MatchAllGroupVerifier();
+        $this->groupVerifier = new MatchAllGroupVerifier($this->base->getPattern());
     }
 
     public function getFirstForGroup(): string
     {
-        $count = preg::match($this->pattern->pattern, $this->subject, $matches, $this->pregMatchFlags());
-
-        if ($this->groupMatchedIn($matches)) {
-            $group = $this->getGroup($matches);
+        $rawMatch = $this->base->matchGroupable();
+        if ($rawMatch->hasGroup($this->nameOrIndex)) {
+            $group = $rawMatch->getGroup($this->nameOrIndex);
             if ($group !== null) {
                 return $group;
             }
         } else {
-            $this->validateGroupExists();
-            $this->validateSubjectMatched($count);
+            if (!$this->groupVerifier->groupExists($this->nameOrIndex)) {
+                throw new NonexistentGroupException($this->nameOrIndex);
+            }
+            if (!$rawMatch->matched()) {
+                throw SubjectNotMatchedException::forFirst($this->base);
+            }
         }
-        throw GroupNotMatchedException::forFirst($this->subject, $this->nameOrIndex);
-    }
-
-    private function pregMatchFlags(): int
-    {
-        if (defined('PREG_UNMATCHED_AS_NULL')) {
-            return PREG_UNMATCHED_AS_NULL;
-        }
-        return PREG_OFFSET_CAPTURE;
-    }
-
-    private function groupMatchedIn(array $matches): bool
-    {
-        return array_key_exists($this->nameOrIndex, $matches);
-    }
-
-    private function getGroup(array $matches): ?string
-    {
-        return $this->getGroupFromMatch($matches[$this->nameOrIndex]);
-    }
-
-    private function validateGroupExists(): void
-    {
-        if (!$this->groupExists()) {
-            throw new NonexistentGroupException($this->nameOrIndex);
-        }
-    }
-
-    private function groupExists(): bool
-    {
-        return $this->groupVerifier->groupExists($this->pattern->pattern, $this->nameOrIndex);
-    }
-
-    private function validateSubjectMatched(int $count): void
-    {
-        if ($count === 0) {
-            throw SubjectNotMatchedException::forFirst($this->subject);
-        }
-    }
-
-    /**
-     * @param array|string|null $match
-     * @return string|null
-     */
-    private function getGroupFromMatch($match): ?string
-    {
-        return (new Grouper($match))->getText();
+        throw GroupNotMatchedException::forFirst($this->base, $this->nameOrIndex);
     }
 }

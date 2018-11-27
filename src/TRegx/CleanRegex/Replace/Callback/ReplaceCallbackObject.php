@@ -3,6 +3,10 @@ namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\ByteOffset;
+use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
+use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use function call_user_func;
@@ -13,13 +17,11 @@ use function substr_replace;
 
 class ReplaceCallbackObject
 {
-    private const GROUP_WHOLE_MATCH = 0;
-
     /** @var callable */
     private $callback;
     /** @var string */
     private $subject;
-    /** @var array */
+    /** @var IRawMatchesOffset */
     private $analyzedPattern;
 
     /** @var int */
@@ -31,7 +33,7 @@ class ReplaceCallbackObject
     /** @var int */
     private $limit;
 
-    public function __construct(callable $callback, string $subject, array $analyzedPattern, int $limit)
+    public function __construct(callable $callback, string $subject, IRawMatchesOffset $analyzedPattern, int $limit)
     {
         $this->callback = $callback;
         $this->subject = $subject;
@@ -58,10 +60,12 @@ class ReplaceCallbackObject
 
     private function createMatchObject(): ReplaceMatch
     {
+        $index = $this->counter++;
         return new ReplaceMatch(
-            $this->subject,
-            $this->counter++,
-            $this->analyzedPattern,
+            new SubjectableImpl($this->subject),
+            $index,
+            new RawMatchesToMatchAdapter($this->analyzedPattern, $index),
+            new EagerMatchAllFactory($this->analyzedPattern),
             $this->offsetModification,
             $this->subjectModification,
             $this->limit
@@ -92,13 +96,13 @@ class ReplaceCallbackObject
 
     private function modifySubject(string $replacement): void
     {
-        list($value, $offset) = $this->analyzedPattern[self::GROUP_WHOLE_MATCH][$this->counter - 1];
+        list($text, $offset) = $this->analyzedPattern->getTextAndOffset($this->counter - 1);
 
         $this->subjectModification = substr_replace(
             $this->subjectModification,
             $replacement,
             $this->getReplaceStart($offset),
-            strlen($value)
+            strlen($text)
         );
     }
 

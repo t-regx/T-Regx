@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\count;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\MatchPattern;
-use PHPUnit\Framework\TestCase;
 
 class MatchPatternTest extends TestCase
 {
@@ -17,6 +17,21 @@ class MatchPatternTest extends TestCase
 
         // when
         $count = $pattern->count();
+
+        // then
+        $this->assertEquals(3, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCountMatches_count()
+    {
+        // given
+        $pattern = $this->getMatchPattern("Nice matching pattern");
+
+        // when
+        $count = count($pattern);
 
         // then
         $this->assertEquals(3, $count);

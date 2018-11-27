@@ -29,7 +29,7 @@ class Grouper
 
     private function unmatched(): array
     {
-        return [null, -1];
+        return [null, null];
     }
 
     private function fromString(): array
@@ -39,7 +39,7 @@ class Grouper
 
     private function fromArray()
     {
-        list($value, $offset) = $this->match;
+        list($text, $offset) = $this->match;
         if ($offset === -1) {
             return $this->unmatched();
         }

@@ -3,50 +3,54 @@ namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\ByteOffset;
-use TRegx\CleanRegex\Internal\Factory\Group\GroupFacade;
-use TRegx\CleanRegex\Internal\Factory\Group\GroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Factory\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
+use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 use function array_filter;
-use function array_key_exists;
-use function array_keys;
-use function array_map;
 use function array_values;
-use function is_string;
 
 class Match implements MatchInterface
 {
     protected const WHOLE_MATCH = 0;
-    private const VALUE_INDEX = 0;
 
-    /** @var string */
-    protected $subject;
+    /** @var Subjectable */
+    protected $subjectable;
     /** @var int */
     protected $index;
-    /** @var array */
-    protected $matches;
+    /** @var IRawMatchOffset */
+    protected $match;
 
     /** @var GroupNameIndexAssign */
     private $groupAssign;
+    /** @var MatchAllFactory */
+    private $allFactory;
     /** @var GroupFactoryStrategy */
     private $strategy;
+    /** @var mixed */
+    private $userData;
 
-    public function __construct(string $subject, int $index, array $matches, GroupFactoryStrategy $strategy = null)
+    public function __construct(Subjectable $subjectable, int $index, IRawMatchOffset $match, MatchAllFactory $allFactory, GroupFactoryStrategy $strategy = null)
     {
-        $this->subject = $subject;
+        $this->subjectable = $subjectable;
         $this->index = $index;
-        $this->matches = $matches;
-        $this->groupAssign = new GroupNameIndexAssign($matches);
+        $this->match = $match;
+        $this->groupAssign = new GroupNameIndexAssign($match, $allFactory);
+        $this->allFactory = $allFactory;
         $this->strategy = $strategy ?? new MatchGroupFactoryStrategy();
     }
 
     public function subject(): string
     {
-        return $this->subject;
+        return $this->subjectable->getSubject();
     }
 
     public function index(): int
@@ -56,8 +60,7 @@ class Match implements MatchInterface
 
     public function text(): string
     {
-        list($match, $offset) = $this->matches[self::WHOLE_MATCH][$this->index];
-        return $match;
+        return $this->match->getMatch();
     }
 
     /**
@@ -70,12 +73,12 @@ class Match implements MatchInterface
         if (!$this->hasGroup($nameOrIndex)) {
             throw new NonexistentGroupException($nameOrIndex);
         }
-        return $this->getGroupFacade($nameOrIndex)->createGroup($this->strategy);
+        return $this->getGroupFacade($nameOrIndex)->createGroup();
     }
 
     private function getGroupFacade($nameOrIndex): GroupFacade
     {
-        return new GroupFacade($this->matches, $this->subject, $nameOrIndex, $this->index);
+        return new GroupFacade($this->match, $this->subjectable, $nameOrIndex, $this->strategy, $this->allFactory);
     }
 
     /**
@@ -83,19 +86,17 @@ class Match implements MatchInterface
      */
     public function groupNames(): array
     {
-        return array_values(array_filter(array_keys($this->matches), function ($key) {
-            return is_string($key);
-        }));
+        return array_values(array_filter($this->getMatches()->getGroupKeys(), '\is_string'));
     }
 
     public function groups(): IndexedGroups
     {
-        return new IndexedGroups($this->matches, $this->index);
+        return new IndexedGroups($this->match);
     }
 
     public function namedGroups(): NamedGroups
     {
-        return new NamedGroups($this->matches, $this->index);
+        return new NamedGroups($this->match);
     }
 
     /**
@@ -105,7 +106,12 @@ class Match implements MatchInterface
     public function hasGroup($nameOrIndex): bool
     {
         $this->validateGroupName($nameOrIndex);
-        return array_key_exists($nameOrIndex, $this->matches);
+        return $this->match->hasGroup($nameOrIndex);
+    }
+
+    private function validateGroupName($nameOrIndex): void
+    {
+        (new GroupNameValidator($nameOrIndex))->validate();
     }
 
     /**
@@ -125,34 +131,37 @@ class Match implements MatchInterface
 
     protected function getFirstFromAllMatches(): array
     {
-        return array_map(function ($match) {
-            list($value, $offset) = $match;
-            return $value;
-        }, $this->matches[self::WHOLE_MATCH]);
+        return $this->getMatches()->getGroupTexts(self::WHOLE_MATCH);
     }
 
     public function offset(): int
     {
-        return ByteOffset::toCharacterOffset($this->subject, $this->byteOffset());
-    }
-
-    public function groupOffset(): array
-    {
-        return $this->byteGroupOffsets();
+        return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $this->byteOffset());
     }
 
     public function byteOffset(): int
     {
-        list($value, $offset) = $this->matches[self::WHOLE_MATCH][$this->index];
-        return $offset;
+        return $this->match->byteOffset();
+    }
+
+    public function groupOffsets(): array
+    {
+        return $this->byteGroupOffsets();
     }
 
     public function byteGroupOffsets(): array
     {
-        return array_map(function (array $match) {
-            list($value, $offset) = $match[$this->index];
-            return $offset;
-        }, $this->matches);
+        return $this->match->getGroupsOffsets();
+    }
+
+    public function setUserData($userData): void
+    {
+        $this->userData = $userData;
+    }
+
+    public function getUserData()
+    {
+        return $this->userData;
     }
 
     public function __toString(): string
@@ -160,8 +169,8 @@ class Match implements MatchInterface
         return $this->text();
     }
 
-    private function validateGroupName($nameOrIndex): void
+    private function getMatches(): IRawMatchesOffset
     {
-        (new GroupNameValidator($nameOrIndex))->validate();
+        return $this->allFactory->getRawMatches();
     }
 }

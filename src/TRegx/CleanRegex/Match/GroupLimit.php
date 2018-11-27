@@ -1,7 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
+use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
+use TRegx\CleanRegex\Match\Offset\OffsetLimit;
 use function call_user_func;
 
 class GroupLimit implements PatternLimit
@@ -10,11 +12,19 @@ class GroupLimit implements PatternLimit
     private $allFactory;
     /** @var callable */
     private $firstFactory;
+    /** @var MatchOffsetLimitFactory */
+    private $offsetLimitFactory;
 
-    public function __construct(callable $allFactory, callable $firstFactory)
+    public function __construct(callable $allFactory, callable $firstFactory, MatchOffsetLimitFactory $offsetLimitFactory)
     {
         $this->allFactory = $allFactory;
         $this->firstFactory = $firstFactory;
+        $this->offsetLimitFactory = $offsetLimitFactory;
+    }
+
+    public function offsets(): OffsetLimit
+    {
+        return $this->offsetLimitFactory->create();
     }
 
     public function first(): string

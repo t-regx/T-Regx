@@ -1,8 +1,8 @@
 <?php
 namespace Test\Integration\TRegx\CleanRegex\Replace\first;
 
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 
 class ReplacePatternTest extends TestCase
 {

@@ -18,7 +18,6 @@ class DataProviders
         ];
     }
 
-
     public function invalidUtf8Sequences()
     {
         return [
@@ -31,5 +30,4 @@ class DataProviders
             ['Invalid 4 Octet Sequence (in 4th Octet)', "\xf0\x28\x8c\x28"],
         ];
     }
-
 }
