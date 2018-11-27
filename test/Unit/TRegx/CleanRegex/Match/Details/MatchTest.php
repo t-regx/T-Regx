@@ -106,8 +106,8 @@ class MatchTest extends TestCase
         $rn = strlen(PHP_EOL);
         $expectedOffsets = [
             'firstName' => 173 + $rn,
-            'initial' => 173 + $rn,
-            'surname' => 179 + $rn,
+            'initial'   => 173 + $rn,
+            'surname'   => 179 + $rn,
         ];
         $this->assertEquals($expectedOffsets, $offsets);
     }
@@ -171,8 +171,8 @@ class MatchTest extends TestCase
         // then
         $expected = [
             'firstName' => 'Jack',
-            'initial' => 'J',
-            'surname' => 'Sparrow'
+            'initial'   => 'J',
+            'surname'   => 'Sparrow'
         ];
         $this->assertEquals($expected, $names);
     }
@@ -359,7 +359,7 @@ class MatchTest extends TestCase
     private function getMatch(int $index): Match
     {
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
-        preg::match_all($pattern, self::subject, $match, PREG_OFFSET_CAPTURE);
+        preg::match($pattern, self::subject, $match, PREG_OFFSET_CAPTURE);
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
 
         return new Match(

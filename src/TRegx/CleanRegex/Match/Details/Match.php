@@ -79,7 +79,14 @@ class Match implements MatchInterface
 
     private function getGroupFacade($nameOrIndex): GroupFacade
     {
-        return new GroupFacade($this->getMatches(), $this->subjectable, $nameOrIndex, $this->index, $this->strategy);
+        return new GroupFacade(
+            $this->match,
+            $this->subjectable,
+            $nameOrIndex,
+            $this->index,
+            $this->strategy,
+            $this->allFactory
+        );
     }
 
     /**

@@ -5,8 +5,10 @@ use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\MatchAllResults;
 use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
@@ -15,8 +17,8 @@ use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class GroupFacade
 {
-    /** @var IRawMatchesOffset */
-    private $matches;
+    /** @var IRawMatchOffset */
+    private $match;
     /** @var GroupNameIndexAssign */
     private $groupAssign;
     /** @var Subjectable */
@@ -27,21 +29,24 @@ class GroupFacade
     private $index;
     /** @var GroupFactoryStrategy */
     private $factoryStrategy;
+    /** @var MatchAllFactory */
+    private $allFactory;
 
-    public function __construct(IRawMatchesOffset $matches, Subjectable $subject, $group, int $index, GroupFactoryStrategy $factoryStrategy)
+    public function __construct(IRawMatchOffset $match, Subjectable $subject, $group, int $index, GroupFactoryStrategy $factoryStrategy, MatchAllFactory $allFactory)
     {
-        $this->matches = $matches;
-        $this->groupAssign = new GroupNameIndexAssign($this->matches);
+        $this->match = $match;
+        $this->groupAssign = new GroupNameIndexAssign($match);
         $this->subject = $subject;
         $this->group = $group;
         $this->index = $index;
         $this->factoryStrategy = $factoryStrategy;
+        $this->allFactory = $allFactory;
     }
 
     public function createGroup(): MatchGroup
     {
-        if ($this->matches->isGroupMatched($this->group, $this->index)) {
-            list($text, $offset) = $this->matches->getGroupTextAndOffset($this->group, $this->index);
+        if ($this->match->isGroupMatched($this->group)) {
+            list($text, $offset) = $this->match->getGroupTextAndOffset($this->group);
             return $this->createdMatched(new MatchedGroupOccurrence($text, $offset, $this->subject));
         }
         return $this->createUnmatched();
@@ -60,7 +65,7 @@ class GroupFacade
             new NotMatchedOptionalWorker(
                 new GroupMessage($this->group),
                 $this->subject,
-                new NotMatched($this->matches, $this->subject)
+                new NotMatched($this->match, $this->subject)
             )
         );
     }
@@ -68,6 +73,11 @@ class GroupFacade
     private function createGroupDetails(): GroupDetails
     {
         list($name, $index) = $this->groupAssign->getNameAndIndex($this->group);
-        return new GroupDetails($name, $index, $this->group, new MatchAllResults($this->matches, $index));
+        return new GroupDetails($name, $index, $this->group, new MatchAllResults($this->getMatches(), $index));
+    }
+
+    private function getMatches(): IRawMatchesOffset
+    {
+        return $this->allFactory->getRawMatches();
     }
 }

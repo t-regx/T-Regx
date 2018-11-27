@@ -98,8 +98,11 @@ class RawMatchesOffset implements IRawMatchesOffset
 
     public function getFirstMatchObject(): Match
     {
-        $a = new RawMatchesToFirstMatchAdapter($this);
-        return new Match($this->subjectable, self::FIRST_MATCH, $a, new EagerMatchAllFactory($this));
+        return new Match(
+            $this->subjectable,
+            self::FIRST_MATCH,
+            new RawMatchesToFirstMatchAdapter($this),
+            new EagerMatchAllFactory($this));
     }
 
     private function mapMatch($match): ?int
