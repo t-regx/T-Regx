@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Model\Adapter;
 
 use TRegx\CleanRegex\Internal\Model\IRawMatches;
 use TRegx\CleanRegex\Internal\Model\IRawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 
 class RawMatchesToMatchAdapter implements IRawMatchOffset
 {

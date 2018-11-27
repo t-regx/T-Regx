@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Match\Details\Groups;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Model\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 
 abstract class AbstractMatchGroups implements MatchGroups
 {

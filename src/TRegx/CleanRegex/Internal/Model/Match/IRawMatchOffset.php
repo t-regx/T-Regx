@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
+use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
+
 interface IRawMatchOffset extends IRawMatch, IRawWithGroups
 {
     public function isGroupMatched($nameOrIndex): bool;

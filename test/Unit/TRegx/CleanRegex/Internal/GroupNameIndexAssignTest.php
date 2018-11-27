@@ -4,7 +4,7 @@ namespace Test\UnitTRegx\CleanRegex\Internal;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\Match\MatchAll\ExceptionMatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 class GroupNameIndexAssignTest extends TestCase
 {

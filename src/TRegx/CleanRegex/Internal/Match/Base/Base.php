@@ -1,13 +1,13 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Base;
 
-use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Internal\Model\RawMatch;
+use TRegx\CleanRegex\Internal\Model\Match\IRawMatchGroupable;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatches;
 use TRegx\CleanRegex\Internal\Model\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\IRawMatchGroupable;
-use TRegx\CleanRegex\Internal\Model\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Subjectable;
 
 interface Base extends Subjectable
 {
