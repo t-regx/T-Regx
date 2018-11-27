@@ -3,7 +3,8 @@ namespace Test\UnitTRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
-use TRegx\CleanRegex\Internal\Model\RawMatches;
+use TRegx\CleanRegex\Internal\Match\MatchAll\ExceptionMatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\RawMatchOffset;
 
 class GroupNameIndexAssignTest extends TestCase
 {
@@ -77,7 +78,7 @@ class GroupNameIndexAssignTest extends TestCase
      */
     private function create(): GroupNameIndexAssign
     {
-        return new GroupNameIndexAssign(new RawMatches([
+        $matches = [
             0       => [],
             'first' => [],
             1       => [],
@@ -87,6 +88,8 @@ class GroupNameIndexAssignTest extends TestCase
             4       => [],
             'fifth' => [],
             5       => [],
-        ]));
+        ];
+        $factory = new ExceptionMatchAllFactory();
+        return new GroupNameIndexAssign(new RawMatchOffset($matches), $factory);
     }
 }

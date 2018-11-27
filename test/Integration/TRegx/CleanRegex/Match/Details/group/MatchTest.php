@@ -71,17 +71,31 @@ class MatchTest extends TestCase
 
     /**
      * @test
+     * @dataProvider shouldGroup_notMatch_dataProvider
+     * @param string $pattern
+     * @param string $subject
      */
-    public function shouldGroup_notMatch()
+    public function shouldGroup_notMatch(string $pattern, string $subject)
     {
-        // when
-        pattern('Hello (?<one>there)?')
-            ->match('Hello XX, General Kenobi')
-            ->first(function (Match $match) {
+        // given
+        pattern($pattern)->match($subject)->first(function (Match $match) {
 
-                // then
-                $this->assertFalse($match->group('one')->matches());
-            });
+            $group = $match->group('one');
+
+            // when
+            $matches = $group->matches();
+
+            // then
+            $this->assertFalse($matches);
+        });
+    }
+
+    public function shouldGroup_notMatch_dataProvider()
+    {
+        return [
+            ['Hello (?<one>there)?', 'Hello XX, General Kenobi'],
+            ['Hello (?<one>there)?(?<two>XX)', 'Hello XX, General Kenobi'],
+        ];
     }
 
     /**

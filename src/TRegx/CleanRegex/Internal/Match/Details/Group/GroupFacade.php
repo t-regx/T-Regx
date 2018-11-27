@@ -33,7 +33,7 @@ class GroupFacade
     public function __construct(IRawMatchOffset $match, Subjectable $subject, $group, GroupFactoryStrategy $factoryStrategy, MatchAllFactory $allFactory)
     {
         $this->match = $match;
-        $this->groupAssign = new GroupNameIndexAssign($match);
+        $this->groupAssign = new GroupNameIndexAssign($match, $allFactory);
         $this->subject = $subject;
         $this->group = $group;
         $this->factoryStrategy = $factoryStrategy;

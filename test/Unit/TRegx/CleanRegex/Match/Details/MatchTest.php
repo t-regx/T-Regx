@@ -366,11 +366,7 @@ class MatchTest extends TestCase
             return $m[$index];
         }, $matches);
 
-        return new Match(
-            new SubjectableImpl(self::subject),
-            $index,
-            new RawMatchOffset($match),
-            new EagerMatchAllFactory(new RawMatchesOffset($matches, new SubjectableEx()))
-        );
+        $factory = new EagerMatchAllFactory(new RawMatchesOffset($matches, new SubjectableEx()));
+        return new Match(new SubjectableImpl(self::subject), $index, new RawMatchOffset($match), $factory);
     }
 }

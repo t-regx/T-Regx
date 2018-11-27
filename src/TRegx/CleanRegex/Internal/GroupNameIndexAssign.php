@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use function array_search;
 use function is_int;
@@ -10,10 +11,13 @@ class GroupNameIndexAssign
 {
     /** @var (string|int)[] */
     private $groupKeys;
+    /** @var MatchAllFactory */
+    private $allGroupKeysFactory;
 
-    public function __construct(IRawWithGroups $matches)
+    public function __construct(IRawWithGroups $matches, MatchAllFactory $allGroupKeysFactory)
     {
         $this->groupKeys = $matches->getGroupKeys();
+        $this->allGroupKeysFactory = $allGroupKeysFactory;
     }
 
     public function getNameAndIndex($group): array
@@ -40,7 +44,11 @@ class GroupNameIndexAssign
     private function getIndexByName(string $name): int
     {
         $key = array_search($name, $this->groupKeys, true);
-        return $this->groupKeys[$key + 1];
+        if (array_key_exists($key + 1, $this->groupKeys)) {
+            return $this->groupKeys[$key + 1];
+        }
+        $groupKeys = $this->allGroupKeysFactory->getRawMatches()->getGroupKeys();
+        return array_search($name, $groupKeys, true);
     }
 
     private function getNameByIndex(int $index): ?string

@@ -43,7 +43,7 @@ class Match implements MatchInterface
         $this->subjectable = $subjectable;
         $this->index = $index;
         $this->match = $match;
-        $this->groupAssign = new GroupNameIndexAssign($match);
+        $this->groupAssign = new GroupNameIndexAssign($match, $allFactory);
         $this->allFactory = $allFactory;
         $this->strategy = $strategy ?? new MatchGroupFactoryStrategy();
     }

@@ -71,7 +71,15 @@ class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
 
     public function isGroupMatched($nameOrIndex): bool
     {
-        return is_array($this->match[$nameOrIndex]);
+        if (!array_key_exists($nameOrIndex, $this->match)) {
+            return false;
+        }
+        $match = $this->match[$nameOrIndex];
+        if (is_array($match)) {
+            list($text, $offset) = $match;
+            return $offset !== -1;
+        }
+        return false;
     }
 
     public function getGroupTextAndOffset($nameOrIndex): array

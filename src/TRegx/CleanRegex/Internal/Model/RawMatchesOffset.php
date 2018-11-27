@@ -182,9 +182,10 @@ class RawMatchesOffset implements IRawMatchesOffset
 
     public function getRawMatchOffset(int $index): RawMatchOffset
     {
-        return new RawMatchOffset(array_map(function (array $match) use ($index) {
+        $matches = array_map(function (array $match) use ($index) {
             return $match[$index];
-        }, $this->matches));
+        }, $this->matches);
+        return new RawMatchOffset($matches);
     }
 
     public function getRawMatch(int $index): RawMatch
