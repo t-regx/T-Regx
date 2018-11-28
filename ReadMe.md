@@ -12,10 +12,13 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 [![License](https://img.shields.io/github/license/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
 [![GitHub last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
+[![Composer lock](https://img.shields.io/badge/.lock-uncommited-green.svg)](https://github.com/T-Regx/T-Regx)
 
 [![PHP Version](https://img.shields.io/badge/PHP-5.3%2B-blue.svg)](https://github.com/T-Regx/T-Regx/branches/all)
 [![PHP Version](https://img.shields.io/badge/PHP-5.6%2B-blue.svg)](https://github.com/T-Regx/T-Regx/branches/all)
 [![PHP Version](https://img.shields.io/badge/PHP-7.1.3%2B-blue.svg)](https://github.com/T-Regx/T-Regx/branches/all)
+[![PHP Version](https://img.shields.io/badge/PHP-7.3-blue.svg)](https://github.com/T-Regx/T-Regx/branches/all)
+[![PHP Version](https://img.shields.io/badge/PHP-7.4-blue.svg)](https://github.com/T-Regx/T-Regx/branches/all)
 [![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 
 1. [Installation](#installation)
@@ -28,7 +31,7 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
     * [Converting warnings to Exceptions](#saferegex)
 5. [What's better?](#whats-better)
 6. [Supported PHP versions](#supported-php-versions)
-7. [Performance](#performance)
+7. [Comparison](#whats-better)
 
 # Installation
 
