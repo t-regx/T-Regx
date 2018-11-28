@@ -96,8 +96,14 @@ class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
             if ($match === null) {
                 return null;
             }
+            if ($match === '') {
+                return null;
+            }
             if (is_array($match)) {
                 list($text, $offset) = $match;
+                if ($offset === -1) {
+                    return null;
+                }
                 return $text;
             }
             throw new InternalCleanRegexException();
