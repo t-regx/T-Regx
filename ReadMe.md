@@ -41,11 +41,11 @@ Installation for PHP 7.1 and later:
 $ composer require rawr/t-regx
 ```
 
-:bulb: See documentation for installation for [earlier PHP versions](https://t-regx.github.io/docs/installation).
+:bulb: See documentation if you need to use [earlier versions of PHP](https://t-regx.github.io/docs/installation).
 
 # API
 
-Full API documentation is available at [t-regx.github.io](https://t-regx.github.io/)
+Full API documentation is available at [t-regx.github.io](https://t-regx.github.io/).
 
 # Quick Examples
 
