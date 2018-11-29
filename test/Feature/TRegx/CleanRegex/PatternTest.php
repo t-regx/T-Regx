@@ -28,4 +28,61 @@ class PatternTest extends TestCase
         // then
         $this->assertTrue($matches);
     }
+
+    /**
+     * @test
+     */
+    public function should_count()
+    {
+        // when
+        $count = pattern('\d+')->count('111-222-333');
+
+        // then
+        $this->assertEquals(3, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function should_count_unmatched()
+    {
+        // when
+        $count = pattern('[a-z]+')->count('111-222-333');
+
+        // then
+        $this->assertEquals(0, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function should_quote()
+    {
+        // when
+        $quoted = pattern('[a-z]+')->quote();
+
+        // then
+        $this->assertEquals('\[a\-z\]\+', $quoted);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilterArray()
+    {
+        // given
+        $array = [
+            'Uppercase',
+            'lowercase',
+            'Uppercase again',
+            'lowercase again',
+        ];
+
+        // when
+        $result = pattern('[A-Z][a-z]+')->filter($array);
+
+        // then
+        $expected = ['Uppercase', 'Uppercase again'];
+        $this->assertEquals($expected, $result);
+    }
 }

@@ -131,7 +131,7 @@ class ReplaceCallbackObjectTest extends TestCase
 
     private function analyzePattern($pattern, $subject): RawMatchesOffset
     {
-        preg::match_all($pattern, $subject, $matches, PREG_OFFSET_CAPTURE);
-        return new RawMatchesOffset($matches, new SubjectableEx($subject));
+        preg::match_all($pattern, $subject, $matches, PREG_OFFSET_CAPTURE); // TODO get rid of preg::match_all
+        return new RawMatchesOffset($matches, new SubjectableEx());
     }
 }

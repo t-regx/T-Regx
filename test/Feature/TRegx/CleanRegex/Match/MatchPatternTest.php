@@ -214,6 +214,22 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrow_group_first()
+    {
+        // given
+        $subject = 'unmatching subject';
+
+        // then
+        $this->expectException(SubjectNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to get first match, but subject was not matched');
+
+        // when
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first();
+    }
+
+    /**
+     * @test
+     */
     public function shouldGet_group_all()
     {
         // given

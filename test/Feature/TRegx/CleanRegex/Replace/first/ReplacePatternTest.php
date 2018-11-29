@@ -24,28 +24,6 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFromReplaceMatch_all()
-    {
-        // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
-        $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
-
-        // when
-        pattern($pattern)
-            ->replace($subject)
-            ->first()
-            ->callback(function (ReplaceMatch $match) {
-                // then
-                $this->assertEquals(['http://google.com'], $match->all());
-                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->allUnlimited());
-
-                return '';
-            });
-    }
-
-    /**
-     * @test
-     */
     public function shouldReplace_withGroup()
     {
         // given
@@ -63,5 +41,27 @@ class ReplacePatternTest extends TestCase
 
         // then
         $this->assertEquals('Links: google and http://other.org. and again http://danon.com', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFromReplaceMatch_all()
+    {
+        // given
+        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
+        $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
+
+        // when
+        pattern($pattern)
+            ->replace($subject)
+            ->first()
+            ->callback(function (ReplaceMatch $match) {
+                // then
+                $this->assertEquals(['http://google.com'], $match->all());
+                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->allUnlimited());
+
+                return '';
+            });
     }
 }

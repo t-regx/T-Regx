@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\MissingSplitDelimiterGroupException;
 
 class SplitPatternTest extends TestCase
 {
@@ -51,5 +52,29 @@ class SplitPatternTest extends TestCase
 
         // then
         $this->assertEquals(['One', ',', ',', 'Two', ',', ',', 'Three'], $matches);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onMissingCapturingGroup()
+    {
+        // then
+        $this->expectException(MissingSplitDelimiterGroupException::class);
+
+        // when
+        pattern(',')->split('One,Two,Three')->inc();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onMissingCapturingGroup_filter()
+    {
+        // then
+        $this->expectException(MissingSplitDelimiterGroupException::class);
+
+        // when
+        pattern(',')->split('One,Two,Three')->filter()->inc();
     }
 }

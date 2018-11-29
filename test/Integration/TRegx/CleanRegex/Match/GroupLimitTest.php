@@ -13,6 +13,40 @@ class GroupLimitTest extends TestCase
     /**
      * @test
      */
+    public function shouldReturnValues()
+    {
+        // given
+        $all = new ClosureMock(function (int $limit, bool $allowNegative) {
+            if ($limit === -1) {
+                $this->assertTrue($allowNegative);
+                return ['first', 'second', 'third'];
+            }
+            if ($limit === 2) {
+                $this->assertFalse($allowNegative);
+                return ['first', 'second'];
+            }
+            $this->assertFalse(true);
+            return null;
+        });
+        $first = new ClosureMock(function () {
+            return 'first';
+        });
+        $limit = new GroupLimit($all, $first, new MatchOffsetLimitFactory(new ApiBase(new InternalPattern(''), ''), 0));
+
+        // when
+        $fromAll = $limit->all();
+        $fromOnly = $limit->only(2);
+        $fromFirst = $limit->first();
+
+        // then
+        $this->assertEquals($fromAll, ['first', 'second', 'third']);
+        $this->assertEquals($fromOnly, ['first', 'second']);
+        $this->assertEquals($fromFirst, 'first');
+    }
+
+    /**
+     * @test
+     */
     public function shouldCallGetAll()
     {
         // given
@@ -56,40 +90,6 @@ class GroupLimitTest extends TestCase
         // then
         $this->assertTrue($first->isCalled(), 'Failed asserting that first() factory is called');
         $this->assertFalse($all->isCalled(), 'Failed asserting that all() factory is not called unnecessarily');
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturnValues()
-    {
-        // given
-        $all = new ClosureMock(function (int $limit, bool $allowNegative) {
-            if ($limit === -1) {
-                $this->assertTrue($allowNegative);
-                return ['first', 'second', 'third'];
-            }
-            if ($limit === 2) {
-                $this->assertFalse($allowNegative);
-                return ['first', 'second'];
-            }
-            $this->assertFalse(true);
-            return null;
-        });
-        $first = new ClosureMock(function () {
-            return 'first';
-        });
-        $limit = new GroupLimit($all, $first, new MatchOffsetLimitFactory(new ApiBase(new InternalPattern(''), ''), 0));
-
-        // when
-        $fromAll = $limit->all();
-        $fromOnly = $limit->only(2);
-        $fromFirst = $limit->first();
-
-        // then
-        $this->assertEquals($fromAll, ['first', 'second', 'third']);
-        $this->assertEquals($fromOnly, ['first', 'second']);
-        $this->assertEquals($fromFirst, 'first');
     }
 
     /**

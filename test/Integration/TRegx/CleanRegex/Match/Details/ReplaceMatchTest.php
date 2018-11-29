@@ -1,9 +1,9 @@
 <?php
-namespace Test\UnitCleanRegex\Match;
+namespace Test\Integration\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableEx;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
@@ -29,7 +29,7 @@ class ReplaceMatchTest extends TestCase
     public function shouldSliceAllToLimit()
     {
         // given
-        $match = $this->getMatch(0, 0, 2);
+        $match = $this->getMatch(0, 2);
 
         // when
         $all = $match->all();
@@ -44,7 +44,7 @@ class ReplaceMatchTest extends TestCase
     public function shouldNotSliceAllForNegativeLimit()
     {
         // given
-        $match = $this->getMatch(0, 0, -1);
+        $match = $this->getMatch(0, -1);
 
         // when
         $all = $match->all();
@@ -59,7 +59,7 @@ class ReplaceMatchTest extends TestCase
     public function shouldGetUnlimitedRegardlessOfLimit()
     {
         // given
-        $match = $this->getMatch(0, 0, 2);
+        $match = $this->getMatch(0, 2);
 
         // when
         $all = $match->allUnlimited();
@@ -74,7 +74,7 @@ class ReplaceMatchTest extends TestCase
     public function shouldModifyOffset()
     {
         // given
-        $match = $this->getMatch(0, 15, 0);
+        $match = $this->getMatch(15, 0);
 
         // when
         $offset = $match->offset();
@@ -85,17 +85,17 @@ class ReplaceMatchTest extends TestCase
         $this->assertEquals(53, $modifiedOffset);
     }
 
-    private function getMatch(int $index, int $offsetModification, int $limit): ReplaceMatch
+    private function getMatch(int $offsetModification, int $limit): ReplaceMatch
     {
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
-        preg::match($pattern, self::subject, $match, PREG_OFFSET_CAPTURE);
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
 
+        $matches = new RawMatchesOffset($matches, new SubjectableEx());
         return new ReplaceMatch(
             new SubjectableImpl(self::subject),
-            $index,
-            new RawMatchOffset($match),
-            new EagerMatchAllFactory(new RawMatchesOffset($matches, new SubjectableEx())),
+            0,
+            new RawMatchesToMatchAdapter($matches, 0),
+            new EagerMatchAllFactory($matches),
             $offsetModification,
             '',
             $limit);

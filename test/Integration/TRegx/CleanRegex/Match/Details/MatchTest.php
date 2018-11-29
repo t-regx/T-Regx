@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableEx;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
@@ -359,14 +359,14 @@ class MatchTest extends TestCase
     private function getMatch(int $index): Match
     {
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
-        preg::match($pattern, self::subject, $match, PREG_OFFSET_CAPTURE);
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
 
-        $match = array_map(function (array $m) use ($index) {
-            return $m[$index];
-        }, $matches);
-
-        $factory = new EagerMatchAllFactory(new RawMatchesOffset($matches, new SubjectableEx()));
-        return new Match(new SubjectableImpl(self::subject), $index, new RawMatchOffset($match), $factory);
+        $rawMatches = new RawMatchesOffset($matches, new SubjectableEx());
+        return new Match(
+            new SubjectableImpl(self::subject),
+            $index,
+            new RawMatchesToMatchAdapter($rawMatches, $index),
+            new EagerMatchAllFactory($rawMatches)
+        );
     }
 }

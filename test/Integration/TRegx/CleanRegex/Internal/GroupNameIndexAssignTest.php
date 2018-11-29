@@ -1,5 +1,5 @@
 <?php
-namespace Test\UnitTRegx\CleanRegex\Internal;
+namespace Test\Integration\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
