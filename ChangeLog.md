@@ -30,7 +30,7 @@ Incoming in 1.1
     * Add `groupsCount()` to `NotMatched`
     * `pattern()->match()` is `\Countable`
 * Tests
-    * Split tests into `\Test\Unit` and `\Test\Integration` folders 
+    * Split tests into `\Test\Unit`, `\Test\Integration`, `\Test\Functional` and `\Test\Feature` folders 
     * Add dynamic skip for `ErrorsCleanerTest`
     * Add test for `ReplacePatternAll`, `ErrorsCleaner.getError()`, `ValidPatternTest.shouldNotLeaveErrors()`,
  `GuardedExecution.silenced()`, `GuardedExecutionTest.shouldNotCatchException()`, `FailureIndicators`,
@@ -44,7 +44,7 @@ Incoming in 1.1
     * Add MIT license
     * `preg_match()` won't return unmatched groups at the end of list, which makes validating groups and general
       work with group names impossible. Thanks to `GroupPolyfillDecorator`, a second call to `preg_match_all()` is done
-      to get a list of all groups (even unmatched once). The call to `preg_match_all()` is of course only in the case
+      to get a list of all groups (even unmatched ones). The call to `preg_match_all()` is of course only in the case
       of `Match.hasGroup()` or similar method. Regular methods like `Match.text()` won't call `preg_match_all()`.
 
 API
@@ -62,7 +62,7 @@ API
       (ie. `'PREG_RECURSION_LIMIT_ERROR'`), where as `preg_last_error()` and `preg::last_error()` return constant
       as integer (ie. `3`).
     * Additional `preg::error_constant(int)` method to change error constant from integer to string
-      (ie. `preg::error_constant(PREG_BAD_UTF8_ERROR) == 4`).
+      (ie. `preg::error_constant(4) == 'PREG_BAD_UTF8_ERROR'`).
 
 * CleanRegex
     * Automatic delimiter (ie. `pattern('[A-Z]')`)
