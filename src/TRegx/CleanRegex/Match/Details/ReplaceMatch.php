@@ -63,6 +63,11 @@ class ReplaceMatch extends MatchImpl
      */
     public function group($nameOrIndex): MatchGroup
     {
+        return $this->getReplaceGroup($nameOrIndex);
+    }
+
+    private function getReplaceGroup($nameOrIndex): ReplaceMatchGroup
+    {
         /** @var ReplaceMatchGroup $matchGroup */
         $matchGroup = parent::group($nameOrIndex);
         return $matchGroup;
