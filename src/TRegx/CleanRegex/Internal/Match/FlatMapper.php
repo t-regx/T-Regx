@@ -32,7 +32,7 @@ class FlatMapper
         return array_map([$this, 'map'], $this->matchObjects);
     }
 
-    function map(Match $object)
+    public function map(Match $object)
     {
         $value = $this->invoke($object);
         if (is_array($value)) {

@@ -2,7 +2,10 @@
 namespace TRegx\SafeRegex;
 
 use TRegx\SafeRegex\Constants\PregConstants;
+use TRegx\SafeRegex\Exception\CompileSafeRegexException;
+use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
 use TRegx\SafeRegex\Exception\SafeRegexException;
+use TRegx\SafeRegex\Exception\SuspectedReturnSafeRegexException;
 use TRegx\SafeRegex\Guard\GuardedExecution;
 use function preg_filter;
 use function preg_grep;
@@ -94,7 +97,7 @@ class preg
      * if an error occurred.
      * @since 4.0
      * @since 5.0
-     * @throws SafeRegexException
+     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
      */
     public static function match($pattern, $subject, array &$matches = null, $flags = 0, $offset = 0)
     {
@@ -157,12 +160,11 @@ class preg
      * and $out[1] contains array of strings enclosed by tags.
      * </p>
      * </p>
-     * @param int        $offset [optional]
      * @return int|false the number of full pattern matches (which might be zero),
      * or <b>FALSE</b> if an error occurred.
      * @since 4.0
      * @since 5.0
-     * @throws SafeRegexException
+     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
      */
     public static function match_all($pattern, $subject, array &$matches = null, $flags = PREG_PATTERN_ORDER, $offset = 0)
     {
@@ -258,7 +260,7 @@ class preg
      * returned unchanged or <b>NULL</b> if an error occurred.
      * @since 4.0
      * @since 5.0
-     * @throws SafeRegexException
+     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
      */
     public static function replace($pattern, $replacement, $subject, $limit = -1, &$count = null)
     {
@@ -336,7 +338,7 @@ class preg
      * <i>subject</i> will be returned unchanged.
      * @since 4.0.5
      * @since 5.0
-     * @throws SafeRegexException
+     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
      */
     public static function replace_callback($pattern, callable $callback, $subject, $limit = -1, &$count = null)
     {
@@ -354,7 +356,7 @@ class preg
      * @param int              $count [optional]
      * @return string|string[]|null  <p>preg_replace_callback_array() returns an array if the subject parameter is an array, or a string otherwise. On errors the return value is NULL</p>
      * <p>If matches are found, the new subject will be returned, otherwise subject will be returned unchanged.</p>
-     * @throws SafeRegexException
+     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
      */
     public static function replace_callback_array($patterns_and_callbacks, $subject, $limit = -1, &$count)
     {
@@ -379,7 +381,7 @@ class preg
      * is returned when <i>subject</i> is an array
      * or <b>NULL</b> otherwise.
      * @since 5.3.0
-     * @throws SafeRegexException
+     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
      */
     public static function filter($pattern, $replacement, $subject, $limit = -1, &$count = null)
     {
@@ -415,7 +417,7 @@ class preg
      * if an error occurred.
      * @since 4.0
      * @since 5.0
-     * @throws SafeRegexException
+     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
      */
     public static function split($pattern, $subject, $limit = -1, $flags = 0)
     {
@@ -442,7 +444,7 @@ class preg
      * <i>input</i> array.
      * @since 4.0
      * @since 5.0
-     * @throws SafeRegexException
+     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
      */
     public static function grep($pattern, array $input, $flags = 0)
     {
@@ -462,7 +464,6 @@ class preg
      * <b>PREG_BAD_UTF8_ERROR</b>
      * <b>PREG_BAD_UTF8_OFFSET_ERROR</b> (since PHP 5.3.0)
      * @since 5.2.0
-     * @throws SafeRegexException
      */
     public static function quote($string, $delimiter = null)
     {
