@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableEx;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\MatchImpl;
 use TRegx\SafeRegex\preg;
 
 class MatchTest extends TestCase
@@ -362,7 +363,7 @@ class MatchTest extends TestCase
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
 
         $rawMatches = new RawMatchesOffset($matches, new SubjectableEx());
-        return new Match(
+        return new MatchImpl(
             new SubjectableImpl(self::subject),
             $index,
             new RawMatchesToMatchAdapter($rawMatches, $index),

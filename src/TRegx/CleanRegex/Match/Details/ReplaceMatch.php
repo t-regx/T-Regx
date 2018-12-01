@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Group\ReplaceMatchGroup;
 use function array_slice;
 
-class ReplaceMatch extends Match
+class ReplaceMatch extends MatchImpl
 {
     /** @var int */
     private $offsetModification;

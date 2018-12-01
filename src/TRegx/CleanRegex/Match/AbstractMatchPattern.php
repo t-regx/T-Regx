@@ -19,6 +19,7 @@ use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\MatchImpl;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\NotMatchedOptional;
@@ -61,7 +62,7 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
         if ($callback !== null) {
             $factory = new LazyMatchAllFactory($this->base);
             $polyfill = new GroupPolyfillDecorator($match, $factory, 0);
-            $matchObject = new Match($this->base, 0, $polyfill, $factory);
+            $matchObject = new MatchImpl($this->base, 0, $polyfill, $factory);
             return $callback($matchObject);
         }
         return $match->getText();

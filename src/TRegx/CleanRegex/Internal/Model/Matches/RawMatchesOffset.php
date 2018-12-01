@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\MatchImpl;
 use function array_key_exists;
 use function is_array;
 use function is_string;
@@ -56,7 +57,7 @@ class RawMatchesOffset implements IRawMatchesOffset
             $match = array_map(function ($match) use ($index) {
                 return $match[$index];
             }, $this->matches);
-            $matchObjects[] = new Match($this->subjectable, $index, new RawMatchOffset($match), new EagerMatchAllFactory($this));
+            $matchObjects[] = new MatchImpl($this->subjectable, $index, new RawMatchOffset($match), new EagerMatchAllFactory($this));
         }
         return $matchObjects;
     }
@@ -102,7 +103,7 @@ class RawMatchesOffset implements IRawMatchesOffset
 
     public function getFirstMatchObject(): Match
     {
-        return new Match(
+        return new MatchImpl(
             $this->subjectable,
             self::FIRST_MATCH,
             new RawMatchesToMatchAdapter($this, self::FIRST_MATCH),
