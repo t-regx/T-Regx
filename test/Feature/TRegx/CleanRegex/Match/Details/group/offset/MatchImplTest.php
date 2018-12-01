@@ -4,7 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\group\offset;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Match;
 
-class MatchTest extends TestCase
+class MatchImplTest extends TestCase
 {
     /**
      * @test

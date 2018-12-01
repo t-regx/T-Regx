@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FilteredMatchPattern;
 
-class MatchTest extends TestCase
+class MatchImplTest extends TestCase
 {
     protected function setUp()
     {

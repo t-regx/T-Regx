@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Match;
 
-class MatchTest extends TestCase
+class MatchImplTest extends TestCase
 {
     /**
      * @test

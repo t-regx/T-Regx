@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Match;
 
-class MatchTest extends TestCase
+class MatchImplTest extends TestCase
 {
     /**
      * @test
