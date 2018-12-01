@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Match\Details;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
+use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
 interface MatchInterface extends Details
 {
@@ -20,6 +21,8 @@ interface MatchInterface extends Details
 
     public function groups(): IndexedGroups;
 
+    public function namedGroups(): NamedGroups;
+
     /**
      * @param string|int $nameOrIndex
      * @return bool
@@ -27,5 +30,22 @@ interface MatchInterface extends Details
      */
     public function matched($nameOrIndex): bool;
 
+    /**
+     * @return string[]
+     */
+    public function all(): array;
+
     public function offset(): int;
+
+    public function byteOffset(): int;
+
+    public function groupOffsets(): array;
+
+    public function byteGroupOffsets(): array;
+
+    public function setUserData($userData): void;
+
+    public function getUserData();
+
+    public function __toString(): string;
 }

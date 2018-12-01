@@ -134,6 +134,11 @@ class Match implements MatchInterface
         return $this->getMatches()->getGroupTexts(self::WHOLE_MATCH);
     }
 
+    private function getMatches(): IRawMatchesOffset
+    {
+        return $this->allFactory->getRawMatches();
+    }
+
     public function offset(): int
     {
         return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $this->byteOffset());
@@ -167,10 +172,5 @@ class Match implements MatchInterface
     public function __toString(): string
     {
         return $this->text();
-    }
-
-    private function getMatches(): IRawMatchesOffset
-    {
-        return $this->allFactory->getRawMatches();
     }
 }
