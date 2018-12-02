@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableEx;
@@ -367,7 +368,8 @@ class MatchImplTest extends TestCase
             new SubjectableImpl(self::subject),
             $index,
             new RawMatchesToMatchAdapter($rawMatches, $index),
-            new EagerMatchAllFactory($rawMatches)
+            new EagerMatchAllFactory($rawMatches),
+            new UserData()
         );
     }
 }

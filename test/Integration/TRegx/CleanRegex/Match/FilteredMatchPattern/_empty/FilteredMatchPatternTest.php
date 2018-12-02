@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\Predicate;
+use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FilteredMatchPattern;
@@ -338,7 +339,7 @@ class FilteredMatchPatternTest extends TestCase
         $predicate = function (Match $match) {
             return $match->text() != 'forgot';
         };
-        $pattern = new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(new InternalPattern($pattern), $subject), new Predicate($predicate)));
+        $pattern = new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(new InternalPattern($pattern), $subject, new UserData()), new Predicate($predicate)));
 
         // when
         $filtered = $pattern
@@ -426,7 +427,8 @@ class FilteredMatchPatternTest extends TestCase
             new FilteredBaseDecorator(
                 new ApiBase(
                     new InternalPattern($this->pattern()),
-                    $this->subject()
+                    $this->subject(),
+                    new UserData()
                 ),
                 new Predicate($predicate)
             )

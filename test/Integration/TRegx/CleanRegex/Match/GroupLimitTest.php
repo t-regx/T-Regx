@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\ClosureMock;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
+use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Match\GroupLimit;
 
@@ -31,7 +32,7 @@ class GroupLimitTest extends TestCase
         $first = new ClosureMock(function () {
             return 'first';
         });
-        $limit = new GroupLimit($all, $first, new MatchOffsetLimitFactory(new ApiBase(new InternalPattern(''), ''), 0));
+        $limit = new GroupLimit($all, $first, new MatchOffsetLimitFactory(new ApiBase(new InternalPattern(''), '', new UserData()), 0));
 
         // when
         $fromAll = $limit->all();
@@ -103,6 +104,6 @@ class GroupLimitTest extends TestCase
         $first = new ClosureMock(function () {
             return '';
         });
-        return [new GroupLimit($all, $first, new MatchOffsetLimitFactory(new ApiBase(new InternalPattern(''), ''), 0)), $all, $first];
+        return [new GroupLimit($all, $first, new MatchOffsetLimitFactory(new ApiBase(new InternalPattern(''), '', new UserData()), 0)), $all, $first];
     }
 }

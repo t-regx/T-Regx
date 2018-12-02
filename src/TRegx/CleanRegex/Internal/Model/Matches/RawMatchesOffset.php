@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
+use TRegx\CleanRegex\Internal\Match\UserDataObject;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -48,17 +49,14 @@ class RawMatchesOffset implements IRawMatchesOffset
         }, $this->matches[self::GROUP_WHOLE_MATCH]);
     }
 
-    /**
-     * @return Match[]
-     */
-    public function getMatchObjects(): array
+    public function getMatchObjects(UserData $userData): array
     {
         $matchObjects = [];
         foreach ($this->matches[self::GROUP_WHOLE_MATCH] as $index => $firstWhole) {
             $match = array_map(function ($match) use ($index) {
                 return $match[$index];
             }, $this->matches);
-            $matchObjects[] = new MatchImpl($this->subjectable, $index, new RawMatchOffset($match), new EagerMatchAllFactory($this), new UserData());
+            $matchObjects[] = new MatchImpl($this->subjectable, $index, new RawMatchOffset($match), new EagerMatchAllFactory($this), $userData);
         }
         return $matchObjects;
     }
@@ -91,14 +89,14 @@ class RawMatchesOffset implements IRawMatchesOffset
         return array_map([$this, 'mapMatch'], $matches);
     }
 
-    public function getFirstMatchObject(): Match
+    public function getFirstMatchObject(UserData $userData): Match
     {
         return new MatchImpl(
             $this->subjectable,
             self::FIRST_MATCH,
             new RawMatchesToMatchAdapter($this, self::FIRST_MATCH),
             new EagerMatchAllFactory($this),
-            new UserData()
+            $userData
         );
     }
 
@@ -195,9 +193,9 @@ class RawMatchesOffset implements IRawMatchesOffset
         }, $this->matches));
     }
 
-    public function filterMatchesByMatchObjects(Predicate $predicate): array
+    public function filterMatchesByMatchObjects(Predicate $predicate, UserData $userData): array
     {
-        $matchObjects = $this->getMatchObjects();
+        $matchObjects = $this->getMatchObjects($userData);
         $filteredMatches = array_filter($matchObjects, [$predicate, 'test']);
 
         return array_map(function (array $match) use ($filteredMatches) {

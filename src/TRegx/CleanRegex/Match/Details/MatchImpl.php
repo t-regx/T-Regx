@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
@@ -35,10 +36,15 @@ class MatchImpl implements Match
     private $allFactory;
     /** @var GroupFactoryStrategy */
     private $strategy;
-    /** @var mixed */
+    /** @var UserData */
     private $userData;
 
-    public function __construct(Subjectable $subjectable, int $index, IRawMatchOffset $match, MatchAllFactory $allFactory, GroupFactoryStrategy $strategy = null)
+    public function __construct(Subjectable $subjectable,
+                                int $index,
+                                IRawMatchOffset $match,
+                                MatchAllFactory $allFactory,
+                                UserData $userData,
+                                GroupFactoryStrategy $strategy = null)
     {
         $this->subjectable = $subjectable;
         $this->index = $index;
@@ -46,6 +52,7 @@ class MatchImpl implements Match
         $this->groupAssign = new GroupNameIndexAssign($match, $allFactory);
         $this->allFactory = $allFactory;
         $this->strategy = $strategy ?? new MatchGroupFactoryStrategy();
+        $this->userData = $userData;
     }
 
     public function subject(): string
@@ -161,12 +168,12 @@ class MatchImpl implements Match
 
     public function setUserData($userData): void
     {
-        $this->userData = $userData;
+        $this->userData->get($this)->set($userData);
     }
 
     public function getUserData()
     {
-        return $this->userData;
+        return $this->userData->get($this)->get();
     }
 
     public function __toString(): string

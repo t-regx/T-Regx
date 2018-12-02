@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Match\Details;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
@@ -27,7 +28,7 @@ class ReplaceMatch extends MatchImpl
                                 string $subjectModification,
                                 int $limit)
     {
-        parent::__construct($subjectable, $index, $matches, $allFactory, new ReplaceMatchGroupFactoryStrategy($offsetModification));
+        parent::__construct($subjectable, $index, $matches, $allFactory, new UserData(), new ReplaceMatchGroupFactoryStrategy($offsetModification));
         $this->offsetModification = $offsetModification;
         $this->subjectModification = $subjectModification;
         $this->limit = $limit;

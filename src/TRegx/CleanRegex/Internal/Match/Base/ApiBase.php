@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Match\Base;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\EmptyRawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchGroupable;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
@@ -19,11 +20,14 @@ class ApiBase implements Base
     private $pattern;
     /** @var string */
     private $subject;
+    /** @var UserData */
+    private $userData;
 
-    public function __construct(Pattern $pattern, string $subject)
+    public function __construct(Pattern $pattern, string $subject, UserData $userData)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
+        $this->userData = $userData;
     }
 
     public function getApiBase(): ApiBase
@@ -87,5 +91,10 @@ class ApiBase implements Base
             return PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL;
         }
         return PREG_OFFSET_CAPTURE;
+    }
+
+    public function getUserData(): UserData
+    {
+        return $this->userData;
     }
 }

@@ -31,6 +31,30 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
+    public function shouldPreserveUserData_forFirst()
+    {
+        // given
+        $filtered = pattern('[A-Z][a-z]+')
+            ->match('First, Second, Third')
+            ->filter(function (Match $match) {
+                $match->setUserData($match . $match);
+                return true;
+            });
+
+        // when
+        $userData = $filtered
+            ->forFirst(function (Match $match) {
+                return $match->getUserData();
+            })
+            ->orThrow();
+
+        // then
+        $this->assertEquals('FirstFirst', $userData);
+    }
+
+    /**
+     * @test
+     */
     public function shouldPreserveUserData_map()
     {
         // given

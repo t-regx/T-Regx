@@ -62,7 +62,7 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
         if ($callback !== null) {
             $factory = new LazyMatchAllFactory($this->base);
             $polyfill = new GroupPolyfillDecorator($match, $factory, 0);
-            $matchObject = new MatchImpl($this->base, 0, $polyfill, $factory);
+            $matchObject = new MatchImpl($this->base, 0, $polyfill, $factory, $this->base->getUserData());
             return $callback($matchObject);
         }
         return $match->getText();
@@ -103,7 +103,7 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
     {
         $matches = $this->base->matchAllOffsets();
         if ($matches->matched()) {
-            $result = $callback($matches->getFirstMatchObject());
+            $result = $callback($matches->getFirstMatchObject($this->base->getUserData()));
             return new MatchedOptional($result);
         }
         return new NotMatchedOptional(
@@ -150,6 +150,6 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
      */
     protected function getMatchObjects(): array
     {
-        return $this->base->matchAllOffsets()->getMatchObjects();
+        return $this->base->matchAllOffsets()->getMatchObjects($this->base->getUserData());
     }
 }

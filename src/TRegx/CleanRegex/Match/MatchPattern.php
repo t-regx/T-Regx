@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
+use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\MatchesPattern;
 use TRegx\SafeRegex\preg;
 
@@ -15,7 +16,7 @@ class MatchPattern extends AbstractMatchPattern
 
     public function __construct(InternalPattern $pattern, string $subject)
     {
-        parent::__construct(new ApiBase($pattern, $subject));
+        parent::__construct(new ApiBase($pattern, $subject, new UserData()));
         $this->pattern = $pattern;
         $this->subject = $subject;
     }
