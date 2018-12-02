@@ -27,12 +27,6 @@ class GroupNameValidator
         }
     }
 
-    private function throwInvalidGroupNameType(): void
-    {
-        $type = (new StringValue($this->groupNameOrIndex))->getString();
-        throw new InvalidArgumentException("Group index can only be an integer or string, given: $type");
-    }
-
     private function validateGroupIndex(): void
     {
         if ($this->groupNameOrIndex < 0) {
@@ -50,5 +44,11 @@ class GroupNameValidator
     private function isGroupNameValid(): bool
     {
         return preg::match('/^[a-zA-Z]\w*$/', $this->groupNameOrIndex) === 1;
+    }
+
+    private function throwInvalidGroupNameType(): void
+    {
+        $type = (new StringValue($this->groupNameOrIndex))->getString();
+        throw new InvalidArgumentException("Group index can only be an integer or a string, given: $type");
     }
 }

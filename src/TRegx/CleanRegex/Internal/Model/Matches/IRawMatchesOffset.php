@@ -16,10 +16,6 @@ interface IRawMatchesOffset extends IRawMatches, IRawWithGroups
 
     public function getLimitedGroupOffsets($nameOrIndex, int $limit);
 
-//    public function getText(int $index): string;
-//
-//    public function getFirstText(): string;
-
     public function getFirstMatchObject(): Match;
 
     public function getOffset(int $index): int;
@@ -39,12 +35,6 @@ interface IRawMatchesOffset extends IRawMatches, IRawWithGroups
      * @return (string|null)[]
      */
     public function getGroupsTexts(int $index): array;
-//
-//    /**
-//     * @param string|int $group
-//     * @return (string|null)[]
-//     */
-//    public function getGroupTexts($group): array;
 
     public function isGroupMatched($nameOrIndex, int $index);
 

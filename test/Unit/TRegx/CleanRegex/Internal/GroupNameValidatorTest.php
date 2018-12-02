@@ -78,7 +78,7 @@ class GroupNameValidatorTest extends TestCase
 
         // this
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Group index can only be an integer or string, given: double (2.23)');
+        $this->expectExceptionMessage('Group index can only be an integer or a string, given: double (2.23)');
 
         // when
         $validator->validate();
