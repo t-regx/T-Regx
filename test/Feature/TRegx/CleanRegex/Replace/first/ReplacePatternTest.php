@@ -58,8 +58,7 @@ class ReplacePatternTest extends TestCase
             ->first()
             ->callback(function (ReplaceMatch $match) {
                 // then
-                $this->assertEquals(['http://google.com'], $match->all());
-                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->allUnlimited());
+                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->all());
 
                 return '';
             });

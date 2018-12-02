@@ -80,7 +80,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $invoker = new ReplacePatternCallbackInvoker(new Pattern('[0-9]+'), $subject, 3);
         $callback = function (ReplaceMatch $match) {
             // then
-            $this->assertEquals(['192', '168', '17'], $match->all());
+            $this->assertEquals(['192', '168', '17', '20'], $match->all());
 
             return '';
         };

@@ -37,8 +37,7 @@ class ReplacePatternTest extends TestCase
             ->only(2)
             ->callback(function (ReplaceMatch $match) {
                 // then
-                $this->assertEquals(['http://google.com', 'http://other.org'], $match->all());
-                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->allUnlimited());
+                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->all());
 
                 return '';
             });
@@ -60,7 +59,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      * @dataProvider limitAndExpectedResults
-     * @param int    $limit
+     * @param int $limit
      * @param string $expectedResult
      */
     public function shouldReplaceNOccurrences(int $limit, string $expectedResult)

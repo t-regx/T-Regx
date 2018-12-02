@@ -23,7 +23,7 @@ class ReplaceCallbackObjectTest extends TestCase
 
         $object = $this->create($pattern, $subject, 3, function (ReplaceMatch $match) use ($subject) {
             // then
-            $this->assertEquals(['hello', 'there', 'general'], $match->all());
+            $this->assertEquals(['hello', 'there', 'general', 'kenobi'], $match->all());
             $this->assertEquals($subject, $match->subject());
             $this->assertEquals('hello', $match->text());
             $this->assertEquals(0, $match->index());

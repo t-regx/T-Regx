@@ -35,7 +35,7 @@ class ReplaceMatchTest extends TestCase
         $all = $match->all();
 
         // then
-        $this->assertEquals(['Tyler Durden', 'Marla Singer'], $all);
+        $this->assertEquals(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow'], $all);
     }
 
     /**
@@ -48,21 +48,6 @@ class ReplaceMatchTest extends TestCase
 
         // when
         $all = $match->all();
-
-        // then
-        $this->assertEquals(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow'], $all);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetUnlimitedRegardlessOfLimit()
-    {
-        // given
-        $match = $this->getMatch(0, 2);
-
-        // when
-        $all = $match->allUnlimited();
 
         // then
         $this->assertEquals(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow'], $all);

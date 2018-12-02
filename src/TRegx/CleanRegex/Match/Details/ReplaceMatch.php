@@ -44,19 +44,6 @@ class ReplaceMatch extends MatchImpl
         return $this->subjectModification;
     }
 
-    public function all(): array
-    {
-        if ($this->limit === -1) {
-            return parent::all();
-        }
-        return array_slice(parent::all(), 0, $this->limit);
-    }
-
-    public function allUnlimited(): array
-    {
-        return $this->getFirstFromAllMatches();
-    }
-
     /**
      * @param string|int $nameOrIndex
      * @return ReplaceMatchGroup
