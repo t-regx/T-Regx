@@ -29,6 +29,7 @@ Incoming in 1.1
     * Add `group()->all()` to `Match`
     * Add `groupsCount()` to `NotMatched`
     * `pattern()->match()` is `\Countable`
+    * Add user data to `Match`
 * Tests
     * Split tests into `\Test\Unit`, `\Test\Integration`, `\Test\Functional` and `\Test\Feature` folders 
     * Add dynamic skip for `ErrorsCleanerTest`
