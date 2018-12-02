@@ -77,16 +77,6 @@ class OffsetMatchImpl implements Match
         throw new Exception();
     }
 
-    public function groupOffsets(): array
-    {
-        throw new Exception();
-    }
-
-    public function byteGroupOffsets(): array
-    {
-        throw new Exception();
-    }
-
     public function setUserData($userData): void
     {
         throw new Exception();

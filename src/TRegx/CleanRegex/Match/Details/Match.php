@@ -39,10 +39,6 @@ interface Match extends Details
 
     public function byteOffset(): int;
 
-    public function groupOffsets(): array;
-
-    public function byteGroupOffsets(): array;
-
     public function setUserData($userData): void;
 
     public function getUserData();

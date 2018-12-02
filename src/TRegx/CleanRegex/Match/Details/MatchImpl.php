@@ -156,16 +156,6 @@ class MatchImpl implements Match
         return $this->match->byteOffset();
     }
 
-    public function groupOffsets(): array
-    {
-        return $this->byteGroupOffsets();
-    }
-
-    public function byteGroupOffsets(): array
-    {
-        return $this->match->getGroupsOffsets();
-    }
-
     public function setUserData($userData): void
     {
         $this->userData->get($this)->set($userData);
