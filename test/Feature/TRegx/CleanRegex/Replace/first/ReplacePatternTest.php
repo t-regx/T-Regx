@@ -24,6 +24,21 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldReplace_withString_not_escaped()
+    {
+        // when
+        $result = pattern('(er|ab|ay|ey)')
+            ->replace('P. Sherman, 42 Wallaby way, Sydney')
+            ->first()
+            ->withRaw('$1');
+
+        // then
+        $this->assertEquals('P. Sherman, 42 Wallaby way, Sydney', $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldReplace_withGroup()
     {
         // given

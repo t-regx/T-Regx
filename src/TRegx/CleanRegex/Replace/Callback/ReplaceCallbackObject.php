@@ -72,21 +72,15 @@ class ReplaceCallbackObject
         );
     }
 
-    private function getReplacement($result): string
-    {
-        $replacement = $this->stringifyMatchGroup($result);
-        if (is_string($replacement)) {
-            return $replacement;
-        }
-        throw new InvalidReplacementException($result);
-    }
-
-    private function stringifyMatchGroup($replacement)
+    private function getReplacement($replacement): string
     {
         if ($replacement instanceof MatchGroup) {
             return $replacement->text();
         }
-        return $replacement;
+        if (is_string($replacement)) {
+            return $replacement;
+        }
+        throw new InvalidReplacementException($replacement);
     }
 
     private function modifyOffset(string $search, string $replacement): void
