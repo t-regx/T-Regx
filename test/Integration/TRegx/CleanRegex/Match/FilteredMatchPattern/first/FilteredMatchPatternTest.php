@@ -32,6 +32,40 @@ class FilteredMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetFirst_callMatch_all()
+    {
+        // given
+        $matchPattern = $this->standardMatchPattern();
+
+        // when
+        $all = $matchPattern->first(function (Match $match) {
+            return $match->all();
+        });
+
+        // then
+        $this->assertEquals($all, ['nice', 'pattern']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFirst_callMatch_group_all()
+    {
+        // given
+        $matchPattern = $this->standardMatchPattern();
+
+        // when
+        $all = $matchPattern->first(function (Match $match) {
+            return $match->group(0)->all();
+        });
+
+        // then
+        $this->assertEquals($all, ['nice', 'pattern']);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetFirst_notFirst()
     {
         // given
