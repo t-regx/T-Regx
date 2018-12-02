@@ -98,12 +98,12 @@ class MatchImpl implements Match
 
     public function groups(): IndexedGroups
     {
-        return new IndexedGroups($this->match);
+        return new IndexedGroups($this->match, $this->subjectable);
     }
 
     public function namedGroups(): NamedGroups
     {
-        return new NamedGroups($this->match);
+        return new NamedGroups($this->match, $this->subjectable);
     }
 
     /**

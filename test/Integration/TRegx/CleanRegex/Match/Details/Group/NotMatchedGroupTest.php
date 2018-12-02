@@ -67,6 +67,22 @@ class NotMatchedGroupTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetByteOffset()
+    {
+        // given
+        $matchGroup = $this->matchGroup();
+
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to call byteOffset() for group 'first', but group was not matched at all");
+
+        // when
+        $matchGroup->byteOffset();
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetName()
     {
         // given

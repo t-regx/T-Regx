@@ -2,7 +2,9 @@
 namespace TRegx\CleanRegex\Match\Details\Groups;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Subjectable;
 
 abstract class AbstractMatchGroups implements MatchGroups
 {
@@ -10,10 +12,13 @@ abstract class AbstractMatchGroups implements MatchGroups
     protected $match;
     /** @var int */
     protected $index;
+    /** @var Subjectable */
+    private $subjectable;
 
-    protected function __construct(IRawMatchOffset $match)
+    public function __construct(IRawMatchOffset $match, Subjectable $subjectable)
     {
         $this->match = $match;
+        $this->subjectable = $subjectable;
     }
 
     /**
@@ -28,6 +33,16 @@ abstract class AbstractMatchGroups implements MatchGroups
      * @return (int|null)[]
      */
     public function offsets(): array
+    {
+        return array_map(function (int $offset) {
+            return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $offset);
+        }, $this->byteOffsets());
+    }
+
+    /**
+     * @return (int|null)[]
+     */
+    public function byteOffsets()
     {
         return $this->sliceAndFilter($this->match->getGroupsOffsets());
     }

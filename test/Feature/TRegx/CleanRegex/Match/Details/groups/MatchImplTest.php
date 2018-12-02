@@ -31,23 +31,6 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroupNames()
-    {
-        // given
-        pattern('(?<one>first) and (?<two>second)')
-            ->match('first and second')
-            ->first(function (Match $match) {
-                // when
-                $groupNames = $match->groupNames();
-
-                // then
-                $this->assertEquals(['one', 'two'], $groupNames);
-            });
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetNamedGroup()
     {
         // given
@@ -63,6 +46,61 @@ class MatchImplTest extends TestCase
                     'two' => 'second'
                 ];
                 $this->assertEquals($expected, $groupNames);
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupsOffsets_indexedGroups()
+    {
+        // given
+        pattern('(?<one>first ę) and (?<two>second)')
+            ->match('first ę and second')
+            ->first(function (Match $match) {
+                // when
+                $offsets = $match->groups()->offsets();
+                $byteOffsets = $match->groups()->byteOffsets();
+
+                // then
+                $this->assertEquals([0, 12], $offsets);
+                $this->assertEquals([0, 13], $byteOffsets);
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupsOffsets_namedGroups()
+    {
+        // given
+        pattern('(?<one>first ę) and (?<two>second)')
+            ->match('first ę and second')
+            ->first(function (Match $match) {
+                // when
+                $offsets = $match->namedGroups()->offsets();
+                $byteOffsets = $match->namedGroups()->byteOffsets();
+
+                // then
+                $this->assertEquals(['one' => 0, 'two' => 12], $offsets);
+                $this->assertEquals(['one' => 0, 'two' => 13], $byteOffsets);
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupNames()
+    {
+        // given
+        pattern('(?<one>first) and (?<two>second)')
+            ->match('first and second')
+            ->first(function (Match $match) {
+                // when
+                $groupNames = $match->groupNames();
+
+                // then
+                $this->assertEquals(['one', 'two'], $groupNames);
             });
     }
 
