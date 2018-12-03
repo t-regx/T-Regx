@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableEx;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
 use TRegx\SafeRegex\preg;
 
 class ReplaceMatchTest extends TestCase
@@ -76,7 +77,7 @@ class ReplaceMatchTest extends TestCase
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
 
         $matches = new RawMatchesOffset($matches, new SubjectableEx());
-        return new ReplaceMatch(
+        return new ReplaceMatchImpl(
             new SubjectableImpl(self::subject),
             0,
             new RawMatchesToMatchAdapter($matches, 0),

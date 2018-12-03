@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
 use function call_user_func;
 use function is_string;
 use function mb_strlen;
@@ -61,7 +62,7 @@ class ReplaceCallbackObject
     private function createMatchObject(): ReplaceMatch
     {
         $index = $this->counter++;
-        return new ReplaceMatch(
+        return new ReplaceMatchImpl(
             new SubjectableImpl($this->subject),
             $index,
             new RawMatchesToMatchAdapter($this->analyzedPattern, $index),
