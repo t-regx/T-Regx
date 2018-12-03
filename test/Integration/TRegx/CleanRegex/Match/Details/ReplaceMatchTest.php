@@ -2,11 +2,14 @@
 namespace Test\Integration\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableEx;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Match\Details\MatchImpl;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
 use TRegx\SafeRegex\preg;
@@ -30,7 +33,7 @@ class ReplaceMatchTest extends TestCase
     public function shouldSliceAllToLimit()
     {
         // given
-        $match = $this->getMatch(0, 2);
+        $match = $this->getMatch(0);
 
         // when
         $all = $match->all();
@@ -45,7 +48,7 @@ class ReplaceMatchTest extends TestCase
     public function shouldNotSliceAllForNegativeLimit()
     {
         // given
-        $match = $this->getMatch(0, -1);
+        $match = $this->getMatch(0);
 
         // when
         $all = $match->all();
@@ -60,7 +63,7 @@ class ReplaceMatchTest extends TestCase
     public function shouldModifyOffset()
     {
         // given
-        $match = $this->getMatch(15, 0);
+        $match = $this->getMatch(15);
 
         // when
         $offset = $match->offset();
@@ -71,17 +74,21 @@ class ReplaceMatchTest extends TestCase
         $this->assertEquals(53, $modifiedOffset);
     }
 
-    private function getMatch(int $offsetModification, int $limit): ReplaceMatch
+    private function getMatch(int $offsetModification): ReplaceMatch
     {
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
 
         $matches = new RawMatchesOffset($matches, new SubjectableEx());
         return new ReplaceMatchImpl(
-            new SubjectableImpl(self::subject),
-            0,
-            new RawMatchesToMatchAdapter($matches, 0),
-            new EagerMatchAllFactory($matches),
+            new MatchImpl(
+                new SubjectableImpl(self::subject),
+                0,
+                new RawMatchesToMatchAdapter($matches, 0),
+                new EagerMatchAllFactory($matches),
+                new UserData(),
+                new ReplaceMatchGroupFactoryStrategy($offsetModification)
+            ),
             $offsetModification,
             '');
     }
