@@ -68,8 +68,7 @@ class ReplaceCallbackObject
             new RawMatchesToMatchAdapter($this->analyzedPattern, $index),
             new EagerMatchAllFactory($this->analyzedPattern),
             $this->offsetModification,
-            $this->subjectModification,
-            $this->limit
+            $this->subjectModification
         );
     }
 
@@ -91,7 +90,7 @@ class ReplaceCallbackObject
 
     private function modifySubject(string $replacement): void
     {
-        list($text, $offset) = $this->analyzedPattern->getTextAndOffset($this->counter - 1);
+        [$text, $offset] = $this->analyzedPattern->getTextAndOffset($this->counter - 1);
 
         $this->subjectModification = substr_replace(
             $this->subjectModification,

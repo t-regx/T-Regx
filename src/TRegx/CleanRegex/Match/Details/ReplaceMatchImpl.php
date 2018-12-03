@@ -16,21 +16,17 @@ class ReplaceMatchImpl extends MatchImpl implements ReplaceMatch
     private $offsetModification;
     /** @var string */
     private $subjectModification;
-    /** @var int */
-    private $limit;
 
     public function __construct(Subjectable $subjectable,
                                 int $index,
                                 IRawMatchOffset $matches,
                                 MatchAllFactory $allFactory,
                                 int $offsetModification,
-                                string $subjectModification,
-                                int $limit)
+                                string $subjectModification)
     {
         parent::__construct($subjectable, $index, $matches, $allFactory, new UserData(), new ReplaceMatchGroupFactoryStrategy($offsetModification));
         $this->offsetModification = $offsetModification;
         $this->subjectModification = $subjectModification;
-        $this->limit = $limit;
     }
 
     public function modifiedOffset(): int

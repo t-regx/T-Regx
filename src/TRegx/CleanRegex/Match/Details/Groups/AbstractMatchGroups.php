@@ -9,9 +9,7 @@ use TRegx\CleanRegex\Internal\Subjectable;
 abstract class AbstractMatchGroups implements MatchGroups
 {
     /** @var IRawMatchOffset */
-    protected $match;
-    /** @var int */
-    protected $index;
+    private $match;
     /** @var Subjectable */
     private $subjectable;
 

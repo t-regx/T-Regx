@@ -7,7 +7,6 @@ use function gettype;
 use function is_array;
 use function is_resource;
 use function is_scalar;
-use function var_export;
 
 class StringValue
 {
@@ -43,7 +42,7 @@ class StringValue
     private function scalar(): string
     {
         $type = gettype($this->value);
-        $value = var_export($this->value, true);
+        $value = \var_export($this->value, true);
         return "$type ($value)";
     }
 }

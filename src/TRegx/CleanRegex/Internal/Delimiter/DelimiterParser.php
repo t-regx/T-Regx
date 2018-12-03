@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Delimiter;
 
+use function in_array;
 use function strlen;
 use function strrpos;
-use function in_array;
 
 class DelimiterParser
 {
@@ -37,7 +37,7 @@ class DelimiterParser
 
     private function isValidDelimiter(string $character): bool
     {
-        return in_array($character, self::$validDelimiters);
+        return in_array($character, self::$validDelimiters, true);
     }
 
     public function getDelimiters(): array

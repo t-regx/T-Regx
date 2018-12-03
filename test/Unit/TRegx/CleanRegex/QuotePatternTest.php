@@ -13,7 +13,7 @@ class QuotePatternTest extends TestCase
     public function shouldQuote()
     {
         // given
-        $pattern = new InternalPattern("Did you?");
+        $pattern = new InternalPattern('Did you?');
         $quotePattern = new QuotePattern($pattern);
 
         // when

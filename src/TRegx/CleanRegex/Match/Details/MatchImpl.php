@@ -21,14 +21,14 @@ use function array_values;
 
 class MatchImpl implements Match
 {
-    protected const WHOLE_MATCH = 0;
+    private const WHOLE_MATCH = 0;
 
     /** @var Subjectable */
-    protected $subjectable;
+    private $subjectable;
     /** @var int */
-    protected $index;
+    private $index;
     /** @var IRawMatchOffset */
-    protected $match;
+    private $match;
 
     /** @var GroupNameIndexAssign */
     private $groupAssign;
@@ -132,11 +132,6 @@ class MatchImpl implements Match
     }
 
     public function all(): array
-    {
-        return $this->getFirstFromAllMatches();
-    }
-
-    protected function getFirstFromAllMatches(): array
     {
         return $this->getMatches()->getGroupTexts(self::WHOLE_MATCH);
     }

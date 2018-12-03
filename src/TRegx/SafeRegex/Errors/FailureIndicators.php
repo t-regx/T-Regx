@@ -24,7 +24,7 @@ class FailureIndicators
 
     public function suspected(string $methodName, $value): bool
     {
-        if (in_array($methodName, $this->vague)) {
+        if (in_array($methodName, $this->vague, true)) {
             return false;
         }
 

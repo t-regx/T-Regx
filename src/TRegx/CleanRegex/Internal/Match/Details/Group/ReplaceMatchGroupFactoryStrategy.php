@@ -18,15 +18,15 @@ class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
         $this->offsetModification = $offsetModification;
     }
 
-    function createMatched(GroupDetails $details,
-                           MatchedGroupOccurrence $matchedDetails): MatchedGroup
+    public function createMatched(GroupDetails $details,
+                                  MatchedGroupOccurrence $matchedDetails): MatchedGroup
     {
         return new ReplaceMatchedGroup($details, $matchedDetails, $this->offsetModification);
     }
 
-    function createUnmatched(GroupDetails $details,
-                             GroupExceptionFactory $exceptionFactory,
-                             NotMatchedOptionalWorker $optionalFactory): NotMatchedGroup
+    public function createUnmatched(GroupDetails $details,
+                                    GroupExceptionFactory $exceptionFactory,
+                                    NotMatchedOptionalWorker $optionalFactory): NotMatchedGroup
     {
         return new ReplaceNotMatchedGroup($details, $exceptionFactory, $optionalFactory);
     }

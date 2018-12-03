@@ -83,7 +83,6 @@ class ReplaceMatchTest extends TestCase
             new RawMatchesToMatchAdapter($matches, 0),
             new EagerMatchAllFactory($matches),
             $offsetModification,
-            '',
-            $limit);
+            '');
     }
 }
