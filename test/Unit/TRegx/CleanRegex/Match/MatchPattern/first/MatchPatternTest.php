@@ -1,5 +1,5 @@
 <?php
-namespace TestNIT\TRegx\CleanRegex\Match\MatchPattern\first;
+namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\first;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;

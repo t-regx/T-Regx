@@ -1,5 +1,5 @@
 <?php
-namespace TestNIT\TRegx\CleanRegex\Match\MatchPattern\flatMap;
+namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\flatMap;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;

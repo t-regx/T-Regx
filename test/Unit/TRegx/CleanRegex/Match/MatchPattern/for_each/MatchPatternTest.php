@@ -1,5 +1,5 @@
 <?php
-namespace TestNIT\TRegx\CleanRegex\Match\MatchPattern\for_each;
+namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\for_each;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\Details\Match;

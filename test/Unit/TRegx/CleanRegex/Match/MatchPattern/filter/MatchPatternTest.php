@@ -1,5 +1,5 @@
 <?php
-namespace TestNIT\TRegx\CleanRegex\Match\MatchPattern\filter;
+namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\filter;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReturnValueException;

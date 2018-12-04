@@ -1,9 +1,9 @@
 <?php
-namespace TestNIT\TRegx\CleanRegex\Match\MatchPattern\offsets\all;
+namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\offsets\all;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\MatchPattern;
-use PHPUnit\Framework\TestCase;
 
 class MatchPatternTest extends TestCase
 {

@@ -1,5 +1,5 @@
 <?php
-namespace TestNIT\TRegx\CleanRegex\Match\MatchPattern\group\only\only2;
+namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\group\only\only2;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
