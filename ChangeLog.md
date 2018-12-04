@@ -9,6 +9,7 @@ Incoming in 1.1
 * Features
     * General development (refactor, clean, removed unused code)
     * Add `Match.groups()`
+    * Add `Match.limit()`
     * Returning from `match()->first(callable)` modifies its return type
     * Add `replace()->all()`, `replace()->first()` and `replace()->only(int)`
     * Add `pattern()->remove()`

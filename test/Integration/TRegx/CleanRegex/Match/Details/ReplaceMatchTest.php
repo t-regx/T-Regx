@@ -84,6 +84,7 @@ class ReplaceMatchTest extends TestCase
             new MatchImpl(
                 new SubjectableImpl(self::subject),
                 0,
+                -1,
                 new RawMatchesToMatchAdapter($matches, 0),
                 new EagerMatchAllFactory($matches),
                 new UserData(),

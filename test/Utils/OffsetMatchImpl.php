@@ -47,6 +47,11 @@ class OffsetMatchImpl implements Match
         throw new Exception();
     }
 
+    public function limit(): int
+    {
+        throw new Exception();
+    }
+
     public function group($nameOrIndex): MatchGroup
     {
         throw new Exception();

@@ -13,15 +13,18 @@ class MatchObjectFactoryImpl implements MatchObjectFactory
     private $subjectable;
     /** @var UserData */
     private $userData;
+    /** @var int|null */
+    private $limit;
 
-    public function __construct(Subjectable $subjectable, UserData $userData)
+    public function __construct(Subjectable $subjectable, ?int $limit, UserData $userData)
     {
         $this->subjectable = $subjectable;
         $this->userData = $userData;
+        $this->limit = $limit;
     }
 
     public function create(int $index, IRawMatchOffset $matchOffset, MatchAllFactory $matchAllFactory)
     {
-        return new MatchImpl($this->subjectable, $index, $matchOffset, $matchAllFactory, $this->userData);
+        return new MatchImpl($this->subjectable, $index, $this->limit, $matchOffset, $matchAllFactory, $this->userData);
     }
 }

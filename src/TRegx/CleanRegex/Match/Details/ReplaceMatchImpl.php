@@ -82,6 +82,11 @@ class ReplaceMatchImpl implements ReplaceMatch
         return $this->match->index();
     }
 
+    public function limit(): int
+    {
+        return $this->match->limit();
+    }
+
     public function groups(): IndexedGroups
     {
         return $this->match->groups();

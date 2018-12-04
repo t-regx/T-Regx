@@ -69,6 +69,7 @@ class ReplaceCallbackObject
             new MatchImpl(
                 new SubjectableImpl($this->subject),
                 $index,
+                $this->limit,
                 new RawMatchesToMatchAdapter($this->analyzedPattern, $index),
                 new EagerMatchAllFactory($this->analyzedPattern),
                 new UserData(),

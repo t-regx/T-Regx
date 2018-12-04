@@ -12,6 +12,8 @@ interface Match extends Details
 
     public function index(): int;
 
+    public function limit(): int;
+
     /**
      * @param string|int $nameOrIndex
      * @return MatchGroup

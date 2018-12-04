@@ -367,6 +367,7 @@ class MatchImplTest extends TestCase
         return new MatchImpl(
             new SubjectableImpl(self::subject),
             $index,
+            -1,
             new RawMatchesToMatchAdapter($rawMatches, $index),
             new EagerMatchAllFactory($rawMatches),
             new UserData()

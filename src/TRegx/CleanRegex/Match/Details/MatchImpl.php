@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\ByteOffset;
-use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
@@ -30,17 +29,18 @@ class MatchImpl implements Match
     /** @var IRawMatchOffset */
     private $match;
 
-    /** @var GroupNameIndexAssign */
-    private $groupAssign;
     /** @var MatchAllFactory */
     private $allFactory;
     /** @var GroupFactoryStrategy */
     private $strategy;
     /** @var UserData */
     private $userData;
+    /** @var int */
+    private $limit;
 
     public function __construct(Subjectable $subjectable,
                                 int $index,
+                                int $limit,
                                 IRawMatchOffset $match,
                                 MatchAllFactory $allFactory,
                                 UserData $userData,
@@ -48,8 +48,8 @@ class MatchImpl implements Match
     {
         $this->subjectable = $subjectable;
         $this->index = $index;
+        $this->limit = $limit;
         $this->match = $match;
-        $this->groupAssign = new GroupNameIndexAssign($match, $allFactory);
         $this->allFactory = $allFactory;
         $this->strategy = $strategy ?? new MatchGroupFactoryStrategy();
         $this->userData = $userData;
@@ -63,6 +63,11 @@ class MatchImpl implements Match
     public function index(): int
     {
         return $this->index;
+    }
+
+    public function limit(): int
+    {
+        return $this->limit;
     }
 
     public function text(): string

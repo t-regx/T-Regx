@@ -65,7 +65,7 @@ class FilteredBaseDecorator implements Base
 
     private function getMatchFactory(): MatchObjectFactory
     {
-        return new MatchObjectFactoryImpl($this->base, $this->base->getUserData());
+        return new MatchObjectFactoryImpl($this->base, -1, $this->base->getUserData());
     }
 
     public function matchGroupable(): IRawMatchGroupable
