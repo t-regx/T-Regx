@@ -8,8 +8,7 @@ Incoming in 1.1
 
 * Features
     * General development (refactor, clean, removed unused code)
-    * Add `Match.groups()`
-    * Add `Match.limit()`
+    * Add `Match.groups()` and `Match.limit()`
     * Returning from `match()->first(callable)` modifies its return type
     * Add `replace()->all()`, `replace()->first()` and `replace()->only(int)`
     * Add `pattern()->remove()`
@@ -97,6 +96,7 @@ API
             * `Match.match()` / `Match.__toString()` / `(string) $match`
             * `Match.subject()`
             * `Match.index()`
+            * `Match.limit()`
             * `Match.offset()`
             * `Match.byteOffset()`
             * `Match.group(string|int)`
@@ -104,24 +104,27 @@ API
             * `Match.groups().offsets()`
             * `Match.namedGroups().*`
             * `Match.groupNames()`
-            * `Match.hasGroup()`
             * `Match.matched(string|int)`
             * `Match.hasGroup(string|int)`
             * `Match.all()`
+            * `Match.setUserData()`/`Match.getUserData()`
         * `NotMatched` details
             * `NotMatched.subject()`
             * `NotMatched.groupNames()`
             * `NotMatched.groupsCount()`
-            * `NotMatched.hasGroup($nameOrIndex)`
+            * `NotMatched.hasGroup(string|int)`
     * Replace API
         * `pattern()->replace()->all()`
             * `->with()`
+            * `->withRaw()`
             * `->callback()`
         * `pattern()->replace()->first()`
             * `->with()`
+            * `->withRaw()`
             * `->callback()`
         * `pattern()->replace()->only(int)`
             * `->with()`
+            * `->withRaw()`
             * `->callback()`
         * `ReplaceMatch` details (extending `Match` details)
             * `ReplaceMatch.modifiedOffset()`
@@ -133,8 +136,9 @@ API
         * `pattern()->remove()->only(int)`
     * Other API
         * `pattern()->filter()`
-        * `pattern()->split()->split()`
-        * `pattern()->split()->separate()`
+        * `pattern()->split()->ex()`
+        * `pattern()->split()->inc()`
+        * `pattern()->split()->filter()->*`
         * `pattern()->count()`
         * `pattern()->quote()`
         * `pattern()->is()->valid()`
