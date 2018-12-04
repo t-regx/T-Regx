@@ -82,7 +82,7 @@ class ApiBase implements Base
     public function matchAllOffsets(): IRawMatchesOffset
     {
         preg::match_all($this->pattern->pattern, $this->subject, $matches, $this->matchAllOffsetsFlags());
-        return new RawMatchesOffset($matches, $this);
+        return new RawMatchesOffset($matches);
     }
 
     private function matchAllOffsetsFlags(): int

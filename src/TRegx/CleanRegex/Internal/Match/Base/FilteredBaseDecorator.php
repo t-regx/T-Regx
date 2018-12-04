@@ -83,7 +83,7 @@ class FilteredBaseDecorator implements Base
     public function matchAllOffsets(): IRawMatchesOffset
     {
         $matches = $this->base->matchAllOffsets()->filterMatchesByMatchObjects($this->predicate, $this->getMatchFactory());
-        return new RawMatchesOffset($matches, $this->base);
+        return new RawMatchesOffset($matches);
     }
 
     private function removeOffsets(array $filterMatches): array

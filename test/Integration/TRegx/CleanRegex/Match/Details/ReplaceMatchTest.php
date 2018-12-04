@@ -79,7 +79,7 @@ class ReplaceMatchTest extends TestCase
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
 
-        $matches = new RawMatchesOffset($matches, new SubjectableEx());
+        $matches = new RawMatchesOffset($matches);
         return new ReplaceMatchImpl(
             new MatchImpl(
                 new SubjectableImpl(self::subject),

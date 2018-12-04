@@ -125,7 +125,7 @@ class MatchedGroupTest extends TestCase
     private function matchGroup(): MatchGroup
     {
         return new MatchedGroup(
-            new GroupDetails('first', 1, 'first', new MatchAllResults(new RawMatchesOffset([], new SubjectableEx()), 'first')),
+            new GroupDetails('first', 1, 'first', new MatchAllResults(new RawMatchesOffset([]), 'first')),
             new MatchedGroupOccurrence('Nice matching', 14, new SubjectableImpl(str_repeat(' ', 14)))
         );
     }

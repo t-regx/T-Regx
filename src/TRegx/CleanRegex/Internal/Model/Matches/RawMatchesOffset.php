@@ -2,14 +2,12 @@
 namespace TRegx\CleanRegex\Internal\Model\Matches;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Match;
 use function array_intersect_key;
 use function array_key_exists;
@@ -27,13 +25,10 @@ class RawMatchesOffset implements IRawMatchesOffset
 
     /** @var array */
     private $matches;
-    /** @var Base */
-    private $subjectable;
 
-    public function __construct(array $matches, Subjectable $subjectable)
+    public function __construct(array $matches)
     {
         $this->matches = $matches;
-        $this->subjectable = $subjectable;
     }
 
     public function matched(): bool

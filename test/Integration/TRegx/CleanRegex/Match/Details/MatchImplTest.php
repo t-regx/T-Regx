@@ -363,7 +363,7 @@ class MatchImplTest extends TestCase
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
         preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
 
-        $rawMatches = new RawMatchesOffset($matches, new SubjectableEx());
+        $rawMatches = new RawMatchesOffset($matches);
         return new MatchImpl(
             new SubjectableImpl(self::subject),
             $index,

@@ -50,6 +50,6 @@ class ReplacePatternCallbackInvoker
     private function analyzePattern(): IRawMatchesOffset
     {
         preg::match_all($this->pattern->pattern, $this->subject, $matches, PREG_OFFSET_CAPTURE);
-        return new RawMatchesOffset($matches, new SubjectableEx());
+        return new RawMatchesOffset($matches);
     }
 }
