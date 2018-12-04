@@ -34,6 +34,15 @@ class ReplacePatternCallbackInvoker
 
     private function getObjectCallback(callable $callback): callable
     {
+        if ($this->limit === 0) {
+            return function () {
+            };
+        }
+        return $this->createObjectCallback($callback);
+    }
+
+    private function createObjectCallback(callable $callback): callable
+    {
         $object = new ReplaceCallbackObject($callback, $this->subject, $this->analyzePattern(), $this->limit);
         return $object->getCallback();
     }
