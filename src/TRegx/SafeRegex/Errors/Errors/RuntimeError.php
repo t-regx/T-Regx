@@ -40,9 +40,4 @@ class RuntimeError implements HostError
         }
         throw new InternalCleanRegexException();
     }
-
-    public static function getLast(): RuntimeError
-    {
-        return new RuntimeError(preg_last_error());
-    }
 }

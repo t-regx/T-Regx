@@ -28,13 +28,4 @@ abstract class CompileError implements HostError
         }
         throw new InternalCleanRegexException();
     }
-
-    public static function getLast(): CompileError
-    {
-        $phpError = PhpError::getLast();
-        if (StandardCompileError::isCompatible()) {
-            return new StandardCompileError($phpError);
-        }
-        return new OvertriggerCompileError($phpError);
-    }
 }

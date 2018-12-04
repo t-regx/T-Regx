@@ -2,16 +2,15 @@
 namespace TRegx\SafeRegex\Errors;
 
 use TRegx\SafeRegex\Errors\Errors\BothHostError;
-use TRegx\SafeRegex\Errors\Errors\CompileError;
+use TRegx\SafeRegex\Errors\Errors\CompileErrorFactory;
 use TRegx\SafeRegex\Errors\Errors\EmptyHostError;
-use TRegx\SafeRegex\Errors\Errors\RuntimeError;
+use TRegx\SafeRegex\Errors\Errors\RuntimeErrorFactory;
 
 class ErrorsCleaner
 {
     public function clear(): void
     {
         $error = $this->getError();
-
         if ($error->occurred()) {
             $error->clear();
         }
@@ -19,8 +18,8 @@ class ErrorsCleaner
 
     public function getError(): HostError
     {
-        $compile = CompileError::getLast();
-        $runtime = RuntimeError::getLast();
+        $compile = CompileErrorFactory::getLast();
+        $runtime = RuntimeErrorFactory::getLast();
 
         if ($runtime->occurred() && $compile->occurred()) {
             return new BothHostError($compile, $runtime);

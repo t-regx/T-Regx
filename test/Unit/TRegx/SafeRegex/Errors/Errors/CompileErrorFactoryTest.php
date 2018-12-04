@@ -2,11 +2,11 @@
 namespace Test\Unit\TRegx\SafeRegex\Errors\Errors;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\SafeRegex\Errors\Errors\CompileError;
+use TRegx\SafeRegex\Errors\Errors\CompileErrorFactory;
 use TRegx\SafeRegex\Errors\Errors\OvertriggerCompileError;
 use TRegx\SafeRegex\Errors\Errors\StandardCompileError;
 
-class CompileErrorTest extends TestCase
+class CompileErrorFactoryTest extends TestCase
 {
     /**
      * @test
@@ -19,7 +19,7 @@ class CompileErrorTest extends TestCase
         }
 
         // when
-        $error = CompileError::getLast();
+        $error = CompileErrorFactory::getLast();
 
         // then
         $this->assertInstanceOf(StandardCompileError::class, $error);
@@ -36,7 +36,7 @@ class CompileErrorTest extends TestCase
         }
 
         // when
-        $error = CompileError::getLast();
+        $error = CompileErrorFactory::getLast();
 
         // then
         $this->assertInstanceOf(OvertriggerCompileError::class, $error);

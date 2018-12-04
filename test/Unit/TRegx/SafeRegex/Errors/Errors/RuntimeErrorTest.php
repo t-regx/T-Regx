@@ -1,11 +1,12 @@
 <?php
 namespace Test\Unit\TRegx\SafeRegex\Errors\Errors;
 
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use PHPUnit\Framework\TestCase;
-use TRegx\SafeRegex\Errors\Errors\RuntimeError;
-use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
 use Test\Warnings;
+use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use TRegx\SafeRegex\Errors\Errors\RuntimeError;
+use TRegx\SafeRegex\Errors\Errors\RuntimeErrorFactory;
+use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
 
 class RuntimeErrorTest extends TestCase
 {
@@ -44,47 +45,17 @@ class RuntimeErrorTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetLast()
-    {
-        // given
-        $this->causeRuntimeWarning();
-
-        // when
-        $error = RuntimeError::getLast();
-
-        // then
-        $this->assertTrue($error->occurred());
-
-        // cleanup
-        $error->clear();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotGetLast()
-    {
-        // when
-        $error = RuntimeError::getLast();
-
-        // then
-        $this->assertFalse($error->occurred());
-    }
-
-    /**
-     * @test
-     */
     public function shouldClean()
     {
         // given
         $this->causeRuntimeWarning();
-        $error = RuntimeError::getLast();
+        $error = RuntimeErrorFactory::getLast();
 
         // when
         $error->clear();
 
         // then
-        $this->assertFalse(RuntimeError::getLast()->occurred());
+        $this->assertFalse(RuntimeErrorFactory::getLast()->occurred());
     }
 
     /**
