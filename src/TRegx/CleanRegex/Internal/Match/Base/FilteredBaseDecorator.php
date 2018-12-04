@@ -4,6 +4,8 @@ namespace TRegx\CleanRegex\Internal\Match\Base;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
+use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactory;
+use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactoryImpl;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchGroupable;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -42,7 +44,7 @@ class FilteredBaseDecorator implements Base
     public function match(): RawMatch
     {
         $matches = $this->base->matchAllOffsets();
-        foreach ($matches->getMatchObjects($this->base->getUserData()) as $index => $match) {
+        foreach ($matches->getMatchObjects($this->getMatchFactory()) as $index => $match) {
             if ($this->predicate->test($match)) {
                 return $matches->getRawMatch($index);
             }
@@ -53,12 +55,17 @@ class FilteredBaseDecorator implements Base
     public function matchOffset(): RawMatchOffset
     {
         $matches = $this->base->matchAllOffsets();
-        foreach ($matches->getMatchObjects($this->base->getUserData()) as $index => $match) {
+        foreach ($matches->getMatchObjects($this->getMatchFactory()) as $index => $match) {
             if ($this->predicate->test($match)) {
                 return $matches->getRawMatchOffset($index);
             }
         }
         return new RawMatchOffset([]);
+    }
+
+    private function getMatchFactory(): MatchObjectFactory
+    {
+        return new MatchObjectFactoryImpl($this->base, $this->base->getUserData());
     }
 
     public function matchGroupable(): IRawMatchGroupable
@@ -68,14 +75,14 @@ class FilteredBaseDecorator implements Base
 
     public function matchAll(): RawMatches
     {
-        $filterMatches = $this->base->matchAllOffsets()->filterMatchesByMatchObjects($this->predicate, $this->base->getUserData());
+        $filterMatches = $this->base->matchAllOffsets()->filterMatchesByMatchObjects($this->predicate, $this->getMatchFactory());
         $values = $this->removeOffsets($filterMatches);
         return new RawMatches($values);
     }
 
     public function matchAllOffsets(): IRawMatchesOffset
     {
-        $matches = $this->base->matchAllOffsets()->filterMatchesByMatchObjects($this->predicate, $this->base->getUserData());
+        $matches = $this->base->matchAllOffsets()->filterMatchesByMatchObjects($this->predicate, $this->getMatchFactory());
         return new RawMatchesOffset($matches, $this->base);
     }
 
@@ -83,7 +90,7 @@ class FilteredBaseDecorator implements Base
     {
         return array_map(function (array $matches) {
             return array_map(function ($match) {
-                list($text, $offset) = $match;
+                [$text, $offset] = $match;
                 return $text;
             }, $matches);
         }, $filterMatches);

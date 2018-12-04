@@ -15,6 +15,7 @@ use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
+use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactoryImpl;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
@@ -103,7 +104,7 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
     {
         $matches = $this->base->matchAllOffsets();
         if ($matches->matched()) {
-            $result = $callback($matches->getFirstMatchObject($this->base->getUserData()));
+            $result = $callback($matches->getFirstMatchObject(new MatchObjectFactoryImpl($this->base, $this->base->getUserData())));
             return new MatchedOptional($result);
         }
         return new NotMatchedOptional(
@@ -150,6 +151,7 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
      */
     protected function getMatchObjects(): array
     {
-        return $this->base->matchAllOffsets()->getMatchObjects($this->base->getUserData());
+        $factory = new MatchObjectFactoryImpl($this->base, $this->base->getUserData());
+        return $this->base->matchAllOffsets()->getMatchObjects($factory);
     }
 }

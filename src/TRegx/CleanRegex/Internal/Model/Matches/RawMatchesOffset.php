@@ -5,15 +5,18 @@ use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
-use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Match\UserDataObject;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
+use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Match;
-use TRegx\CleanRegex\Match\Details\MatchImpl;
+use function array_intersect_key;
 use function array_key_exists;
+use function array_keys;
+use function array_map;
+use function array_slice;
+use function array_values;
 use function is_array;
 use function is_string;
 
@@ -44,19 +47,19 @@ class RawMatchesOffset implements IRawMatchesOffset
     public function getAll(): array
     {
         return array_map(function ($match) {
-            list($text, $offset) = $match;
+            [$text, $offset] = $match;
             return $text;
         }, $this->matches[self::GROUP_WHOLE_MATCH]);
     }
 
-    public function getMatchObjects(UserData $userData): array
+    public function getMatchObjects(MatchObjectFactory $factory): array
     {
         $matchObjects = [];
         foreach ($this->matches[self::GROUP_WHOLE_MATCH] as $index => $firstWhole) {
             $match = array_map(function ($match) use ($index) {
                 return $match[$index];
             }, $this->matches);
-            $matchObjects[] = new MatchImpl($this->subjectable, $index, new RawMatchOffset($match), new EagerMatchAllFactory($this), $userData);
+            $matchObjects[] = $factory->create($index, new RawMatchOffset($match), new EagerMatchAllFactory($this));
         }
         return $matchObjects;
     }
@@ -89,14 +92,12 @@ class RawMatchesOffset implements IRawMatchesOffset
         return array_map([$this, 'mapMatch'], $matches);
     }
 
-    public function getFirstMatchObject(UserData $userData): Match
+    public function getFirstMatchObject(MatchObjectFactory $factory): Match
     {
-        return new MatchImpl(
-            $this->subjectable,
+        return $factory->create(
             self::FIRST_MATCH,
             new RawMatchesToMatchAdapter($this, self::FIRST_MATCH),
-            new EagerMatchAllFactory($this),
-            $userData
+            new EagerMatchAllFactory($this)
         );
     }
 
@@ -108,7 +109,7 @@ class RawMatchesOffset implements IRawMatchesOffset
         if (!is_array($match)) {
             throw new InternalCleanRegexException();
         }
-        list($text, $offset) = $match;
+        [$text, $offset] = $match;
         if ($offset === -1) {
             return null;
         }
@@ -117,7 +118,7 @@ class RawMatchesOffset implements IRawMatchesOffset
 
     public function getOffset(int $index): int
     {
-        list($text, $offset) = $this->matches[self::GROUP_WHOLE_MATCH][$index];
+        [$text, $offset] = $this->matches[self::GROUP_WHOLE_MATCH][$index];
         return $offset;
     }
 
@@ -143,7 +144,7 @@ class RawMatchesOffset implements IRawMatchesOffset
     public function getGroupsOffsets(int $index): array
     {
         return array_map(function (array $match) use ($index) {
-            list($text, $offset) = $match[$index];
+            [$text, $offset] = $match[$index];
             return $offset;
         }, $this->matches);
     }
@@ -155,7 +156,7 @@ class RawMatchesOffset implements IRawMatchesOffset
     public function getGroupsTexts(int $index): array
     {
         return array_map(function (array $match) use ($index) {
-            list($text, $offset) = $match[$index];
+            [$text, $offset] = $match[$index];
             return $text;
         }, $this->matches);
     }
@@ -163,7 +164,7 @@ class RawMatchesOffset implements IRawMatchesOffset
     public function getGroupTexts($group): array
     {
         return array_map(function ($group) {
-            list($text, $offset) = $group;
+            [$text, $offset] = $group;
             return $text;
         }, $this->matches[$group]);
     }
@@ -188,14 +189,14 @@ class RawMatchesOffset implements IRawMatchesOffset
     public function getRawMatch(int $index): RawMatch
     {
         return new RawMatch(array_map(function (array $match) use ($index) {
-            list($text, $offset) = $match[$index];
+            [$text, $offset] = $match[$index];
             return $text;
         }, $this->matches));
     }
 
-    public function filterMatchesByMatchObjects(Predicate $predicate, UserData $userData): array
+    public function filterMatchesByMatchObjects(Predicate $predicate, MatchObjectFactory $factory): array
     {
-        $matchObjects = $this->getMatchObjects($userData);
+        $matchObjects = $this->getMatchObjects($factory);
         $filteredMatches = array_filter($matchObjects, [$predicate, 'test']);
 
         return array_map(function (array $match) use ($filteredMatches) {

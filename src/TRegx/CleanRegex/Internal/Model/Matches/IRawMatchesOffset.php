@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Model\Matches;
 
 use TRegx\CleanRegex\Internal\Match\Predicate;
-use TRegx\CleanRegex\Internal\Match\UserData;
+use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -11,14 +11,14 @@ use TRegx\CleanRegex\Match\Details\Match;
 interface IRawMatchesOffset extends IRawMatches, IRawWithGroups
 {
     /**
-     * @param UserData $userData
+     * @param MatchObjectFactory $factory
      * @return Match[]
      */
-    public function getMatchObjects(UserData $userData): array;
+    public function getMatchObjects(MatchObjectFactory $factory): array;
 
     public function getLimitedGroupOffsets($nameOrIndex, int $limit);
 
-    public function getFirstMatchObject(UserData $userData): Match;
+    public function getFirstMatchObject(MatchObjectFactory $factory): Match;
 
     public function getOffset(int $index): int;
 
@@ -44,5 +44,5 @@ interface IRawMatchesOffset extends IRawMatches, IRawWithGroups
 
     public function getRawMatch(int $index): RawMatch;
 
-    public function filterMatchesByMatchObjects(Predicate $predicate, UserData $userData): array;
+    public function filterMatchesByMatchObjects(Predicate $predicate, MatchObjectFactory $factory): array;
 }
