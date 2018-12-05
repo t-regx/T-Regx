@@ -358,7 +358,7 @@ class preg
      * <p>If matches are found, the new subject will be returned, otherwise subject will be returned unchanged.</p>
      * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
      */
-    public static function replace_callback_array($patterns_and_callbacks, $subject, $limit = -1, &$count)
+    public static function replace_callback_array($patterns_and_callbacks, $subject, $limit = -1, &$count = null)
     {
         return GuardedExecution::invoke('preg_replace_callback_array', function () use ($patterns_and_callbacks, $subject, $limit, &$count) {
             return @preg_replace_callback_array($patterns_and_callbacks, $subject, $limit, $count);
