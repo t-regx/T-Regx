@@ -23,10 +23,10 @@ class preg
     /**
      * Perform a regular expression match
      * @link https://php.net/manual/en/function.preg-match.php
-     * @param string   $pattern <p>
+     * @param string $pattern <p>
      * The pattern to search for, as a string.
      * </p>
-     * @param string   $subject <p>
+     * @param string $subject <p>
      * The input string.
      * </p>
      * @param string[] $matches [optional] <p>
@@ -36,7 +36,7 @@ class preg
      * will have the text that matched the first captured parenthesized
      * subpattern, and so on.
      * </p>
-     * @param int      $flags [optional] <p>
+     * @param int $flags [optional] <p>
      * <i>flags</i> can be the following flag:
      * <b>PREG_OFFSET_CAPTURE</b>
      * If this flag is passed, for every occurring match the appendant string
@@ -45,7 +45,7 @@ class preg
      * array consisting of the matched string at offset 0
      * and its string offset into <i>subject</i> at offset
      * 1.
-     * @param int      $offset [optional] <p>
+     * @param int $offset [optional] <p>
      * Normally, the search starts from the beginning of the subject string.
      * The optional parameter <i>offset</i> can be used to
      * specify the alternate place from which to start the search (in bytes).
@@ -109,16 +109,16 @@ class preg
     /**
      * Perform a global regular expression match
      * @link https://php.net/manual/en/function.preg-match-all.php
-     * @param string     $pattern <p>
+     * @param string $pattern <p>
      * The pattern to search for, as a string.
      * </p>
-     * @param string     $subject <p>
+     * @param string $subject <p>
      * The input string.
      * </p>
      * @param string[][] $matches [optional] <p>
      * Array of all matches in multi-dimensional array ordered according to flags.
      * </p>
-     * @param int        $flags [optional] <p>
+     * @param int $flags [optional] <p>
      * Can be a combination of the following flags (note that it doesn't make
      * sense to use <b>PREG_PATTERN_ORDER</b> together with
      * <b>PREG_SET_ORDER</b>):
@@ -128,7 +128,7 @@ class preg
      * pattern matches, $matches[1] is an array of strings matched by
      * the first parenthesized subpattern, and so on.
      * </p>
-     * @param int        $offset [optional] <p>
+     * @param int $offset [optional] <p>
      * Normally, the search starts from the beginning of the subject string.
      * The optional parameter <i>offset</i> can be used to
      * specify the alternate place from which to start the search (in bytes).
@@ -241,12 +241,12 @@ class preg
      * replace is performed on every entry of <i>subject</i>,
      * and the return value is an array as well.
      * </p>
-     * @param int             $limit [optional] <p>
+     * @param int $limit [optional] <p>
      * The maximum possible replacements for each pattern in each
      * <i>subject</i> string. Defaults to
      * -1 (no limit).
      * </p>
-     * @param int             $count [optional] <p>
+     * @param int $count [optional] <p>
      * If specified, this variable will be filled with the number of
      * replacements done.
      * </p>
@@ -276,7 +276,7 @@ class preg
      * The pattern to search for. It can be either a string or an array with
      * strings.
      * </p>
-     * @param callable        $callback <p>
+     * @param callable $callback <p>
      * A callback that will be called and passed an array of matched elements
      * in the <i>subject</i> string. The callback should
      * return the replacement string. This is the callback signature:
@@ -320,12 +320,12 @@ class preg
      * @param string|string[] $subject <p>
      * The string or an array with strings to search and replace.
      * </p>
-     * @param int             $limit [optional] <p>
+     * @param int $limit [optional] <p>
      * The maximum possible replacements for each pattern in each
      * <i>subject</i> string. Defaults to
      * -1 (no limit).
      * </p>
-     * @param int             $count [optional] <p>
+     * @param int $count [optional] <p>
      * If specified, this variable will be filled with the number of
      * replacements done.
      * </p>
@@ -351,9 +351,9 @@ class preg
      * Perform a regular expression search and replace using callbacks
      * @link https://php.net/manual/en/function.preg-replace-callback-array.php
      * @param array|callable[] $patterns_and_callbacks An associative array mapping patterns (keys) to callbacks (values)
-     * @param string|string[]  $subject
-     * @param int              $limit [optional]
-     * @param int              $count [optional]
+     * @param string|string[] $subject
+     * @param int $limit [optional]
+     * @param int $count [optional]
      * @return string|string[]|null  <p>preg_replace_callback_array() returns an array if the subject parameter is an array, or a string otherwise. On errors the return value is NULL</p>
      * <p>If matches are found, the new subject will be returned, otherwise subject will be returned unchanged.</p>
      * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
@@ -371,8 +371,8 @@ class preg
      * @param string|string[] $pattern
      * @param string|string[] $replacement
      * @param string|string[] $subject
-     * @param int             $limit [optional]
-     * @param int             $count [optional]
+     * @param int $limit [optional]
+     * @param int $count [optional]
      * @return string|string[]|null an array if the <i>subject</i>
      * parameter is an array, or a string otherwise.
      * </p>
@@ -399,14 +399,14 @@ class preg
      * @param string $subject <p>
      * The input string.
      * </p>
-     * @param int    $limit [optional] <p>
+     * @param int $limit [optional] <p>
      * If specified, then only substrings up to <i>limit</i>
      * are returned with the rest of the string being placed in the last
      * substring. A <i>limit</i> of -1, 0 or <b>NULL</b> means "no limit"
      * and, as is standard across PHP, you can use <b>NULL</b> to skip to the
      * <i>flags</i> parameter.
      * </p>
-     * @param int    $flags [optional] <p>
+     * @param int $flags [optional] <p>
      * <i>flags</i> can be any combination of the following
      * flags (combined with the | bitwise operator):
      * <b>PREG_SPLIT_NO_EMPTY</b>
@@ -432,10 +432,10 @@ class preg
      * @param string $pattern <p>
      * The pattern to search for, as a string.
      * </p>
-     * @param array  $input <p>
+     * @param array $input <p>
      * The input array.
      * </p>
-     * @param int    $flags [optional] <p>
+     * @param int $flags [optional] <p>
      * If set to <b>PREG_GREP_INVERT</b>, this function returns
      * the elements of the input array that do not match
      * the given <i>pattern</i>.
@@ -454,22 +454,24 @@ class preg
     }
 
     /**
-     * Returns the error code of the last PCRE regex execution
-     * @link https://php.net/manual/en/function.preg-last-error.php
-     * @return int one of the following constants (explained on their own page):
-     * <b>PREG_NO_ERROR</b>
-     * <b>PREG_INTERNAL_ERROR</b>
-     * <b>PREG_BACKTRACK_LIMIT_ERROR</b> (see also pcre.backtrack_limit)
-     * <b>PREG_RECURSION_LIMIT_ERROR</b> (see also pcre.recursion_limit)
-     * <b>PREG_BAD_UTF8_ERROR</b>
-     * <b>PREG_BAD_UTF8_OFFSET_ERROR</b> (since PHP 5.3.0)
-     * @since 5.2.0
+     * Quote regular expression characters
+     * @link https://php.net/manual/en/function.preg-quote.php
+     * @param string $string <p>
+     * The input string.
+     * </p>
+     * @param string $delimiter [optional] <p>
+     * If the optional <i>delimiter</i> is specified, it
+     * will also be escaped. This is useful for escaping the delimiter
+     * that is required by the PCRE functions. The / is the most commonly
+     * used delimiter.
+     * </p>
+     * @return string the quoted (escaped) string.
+     * @since 4.0
+     * @since 5.0
      */
     public static function quote($string, $delimiter = null)
     {
-        return GuardedExecution::invoke('preg_quote', function () use ($delimiter, $string) {
-            return @preg_quote($string, $delimiter);
-        });
+        return preg_quote($string, $delimiter);
     }
 
     /**
