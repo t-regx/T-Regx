@@ -6,6 +6,7 @@
   "license": "MIT",
   "keywords": [
     "php",
+    "pcre",
     "t-regx",
     "t-rex",
     "trex",

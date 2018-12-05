@@ -1,38 +1,43 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Delimiter;
 
-use function strpos;
+use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
+use TRegx\CleanRegex\Internal\Delimiter\Strategy\IdentityDelimiterStrategy;
 
 class Delimiterer
 {
+    /** @var Delimiters */
+    private $delimiters;
     /** @var DelimiterParser */
     private $parser;
+    /** @var DelimiterStrategy */
+    private $delimiterStrategy;
 
-    public function __construct()
+    public function __construct(DelimiterStrategy $strategy = null)
     {
+        $this->delimiters = new Delimiters();
         $this->parser = new DelimiterParser();
+        $this->delimiterStrategy = $strategy ?? new IdentityDelimiterStrategy();
     }
 
     public function delimiter(string $pattern): string
     {
-        if ($this->parser->isDelimitered($pattern)) {
-            return $pattern;
+        $delimiter = $this->parser->getDelimiter($pattern);
+        if ($delimiter !== null) {
+            return $this->delimiterStrategy->alreadyDelimitered($pattern, $delimiter);
         }
-        return $this->tryDelimiter($pattern);
-    }
 
-    private function tryDelimiter(string $pattern): string
-    {
-        $delimiter = $this->getPossibleDelimiter($pattern);
-        if ($delimiter === null) {
-            throw new ExplicitDelimiterRequiredException($pattern);
+        $delimiterNext = $this->getPossibleDelimiter($pattern);
+        if ($delimiterNext !== null) {
+            return $this->delimiterStrategy->delimiter($pattern, $delimiterNext);
         }
-        return $delimiter . $pattern . $delimiter;
+
+        throw new ExplicitDelimiterRequiredException($pattern);
     }
 
     public function getPossibleDelimiter(string $pattern): ?string
     {
-        foreach ($this->parser->getDelimiters() as $delimiter) {
+        foreach ($this->delimiters->getDelimiters() as $delimiter) {
             if (strpos($pattern, $delimiter) === false) {
                 return $delimiter;
             }

@@ -1,14 +1,18 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Delimiter;
 
-use function in_array;
 use function strlen;
 use function strrpos;
 
 class DelimiterParser
 {
-    /** @var array */
-    private static $validDelimiters = ['/', '#', '%', '~', '+', '!', '@', '_', ';', '`', '-', '='];
+    /** @var Delimiters */
+    private $delimiters;
+
+    public function __construct()
+    {
+        $this->delimiters = new Delimiters();
+    }
 
     public function isDelimitered(string $pattern): bool
     {
@@ -20,7 +24,7 @@ class DelimiterParser
         if (strlen($pattern) < 2) {
             return null;
         }
-        if ($this->isValidDelimiter($pattern[0])) {
+        if ($this->delimiters->isValidDelimiter($pattern[0])) {
             return $this->tryGetDelimiter($pattern);
         }
         return null;
@@ -33,15 +37,5 @@ class DelimiterParser
             return $pattern[0];
         }
         return null;
-    }
-
-    private function isValidDelimiter(string $character): bool
-    {
-        return in_array($character, self::$validDelimiters, true);
-    }
-
-    public function getDelimiters(): array
-    {
-        return self::$validDelimiters;
     }
 }
