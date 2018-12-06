@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Composite\ChainedReplace;
-use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\SafeRegex\preg;
 
@@ -44,14 +43,5 @@ class CompositePattern
     public function chainedReplace(string $subject): ChainedReplace
     {
         return new ChainedReplace($this->patterns, $subject);
-    }
-
-    /**
-     * @param (string|Pattern)[] $patterns
-     * @return CompositePattern
-     */
-    public static function of(array $patterns): CompositePattern
-    {
-        return new CompositePattern((new CompositePatternMapper($patterns))->create());
     }
 }

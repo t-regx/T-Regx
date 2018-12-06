@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\CompositePattern\anyMatches;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\CompositePattern;
+use TRegx\CleanRegex\Internal\CompositePatternMapper;
 
 class CompositePatternTest extends TestCase
 {
@@ -12,14 +13,10 @@ class CompositePatternTest extends TestCase
     public function shouldMatch()
     {
         // given
-        $pattern = CompositePattern::of([
-            '/https?/i',
-            'fail',
-            '/failed/'
-        ]);
+        $pattern = new CompositePattern((new CompositePatternMapper(['/https?/i', 'fail', '/failed/']))->createPatterns());
 
         // when
-        $match = $pattern->anyMatches("http");
+        $match = $pattern->anyMatches('http');
 
         // then
         $this->assertTrue($match);
@@ -31,14 +28,10 @@ class CompositePatternTest extends TestCase
     public function shouldNotMatch()
     {
         // given
-        $pattern = CompositePattern::of([
-            '/https?$/i',
-            'fail',
-            '/failed/'
-        ]);
+        $pattern = new CompositePattern((new CompositePatternMapper(['/https?$/i', 'fail', '/failed/']))->createPatterns());
 
         // when
-        $match = $pattern->anyMatches("httpz");
+        $match = $pattern->anyMatches('httpz');
 
         // then
         $this->assertFalse($match);

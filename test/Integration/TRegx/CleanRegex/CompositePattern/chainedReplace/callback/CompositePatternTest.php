@@ -3,6 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex\CompositePattern\chainedReplace\call
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\CompositePattern;
+use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use function array_slice;
 
@@ -11,7 +12,7 @@ class CompositePatternTest extends TestCase
     /**
      * @test
      * @dataProvider times
-     * @param int    $times
+     * @param int $times
      * @param string $expected
      */
     public function test(int $times, string $expected)
@@ -24,7 +25,8 @@ class CompositePatternTest extends TestCase
             "thi__ing",
             '(\s+|\?)',
         ];
-        $pattern = CompositePattern::of(array_slice($patterns, 0, $times));
+        $sliced = array_slice($patterns, 0, $times);
+        $pattern = new CompositePattern((new CompositePatternMapper($sliced))->createPatterns());
 
         // when
         $replaced = $pattern
@@ -57,8 +59,8 @@ class CompositePatternTest extends TestCase
     public function shouldInvokeCallbackForOnePattern()
     {
         // given
-        $patterns = ['[a-z]', '[1-9]'];
-        $chainedReplace = CompositePattern::of($patterns)->chainedReplace('a 1 b 2 c 3');
+        $pattern = new CompositePattern((new CompositePatternMapper(['[a-z]', '[1-9]']))->createPatterns());
+        $chainedReplace = $pattern->chainedReplace('a 1 b 2 c 3');
         $matches = [];
         $subjects = [];
         $modified = [];

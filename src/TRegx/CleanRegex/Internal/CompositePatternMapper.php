@@ -16,7 +16,7 @@ class CompositePatternMapper
         $this->patterns = $patterns;
     }
 
-    public function create(): array
+    public function createPatterns(): array
     {
         return array_map(function ($pattern) {
             return $this->map($pattern);

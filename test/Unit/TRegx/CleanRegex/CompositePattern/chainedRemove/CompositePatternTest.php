@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\CompositePattern\chainedRemove;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\CompositePattern;
+use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use function array_slice;
 
 class CompositePatternTest extends TestCase
@@ -10,7 +11,7 @@ class CompositePatternTest extends TestCase
     /**
      * @test
      * @dataProvider times
-     * @param int    $times
+     * @param int $times
      * @param string $expected
      */
     public function test(int $times, string $expected)
@@ -24,7 +25,8 @@ class CompositePatternTest extends TestCase
             '(\s+|\?)',
             "[ou]"
         ];
-        $pattern = CompositePattern::of(array_slice($patterns, 0, $times));
+        $slicedPatterns = array_slice($patterns, 0, $times);
+        $pattern = new CompositePattern((new CompositePatternMapper($slicedPatterns))->createPatterns());
 
         // when
         $replaced = $pattern->chainedRemove("Do you think that's air you're breathing now?");

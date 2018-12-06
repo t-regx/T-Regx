@@ -23,7 +23,7 @@ class CompositePatternMapperTest extends TestCase
         ]);
 
         // when
-        $patterns = $mapper->create();
+        $patterns = $mapper->createPatterns();
 
         // then
         $expected = [
@@ -51,6 +51,6 @@ class CompositePatternMapperTest extends TestCase
         $this->expectExceptionMessage("CompositePattern accepts only type Pattern or string, but stdClass given");
 
         // when
-        $mapper->create();
+        $mapper->createPatterns();
     }
 }
