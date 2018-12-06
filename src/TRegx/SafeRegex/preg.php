@@ -471,6 +471,9 @@ class preg
      */
     public static function quote($string, $delimiter = null)
     {
+        if (preg_quote('#', null) === '#') {
+            return str_replace('#', '\#', preg_quote($string, $delimiter));
+        }
         return preg_quote($string, $delimiter);
     }
 
