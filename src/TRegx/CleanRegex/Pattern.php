@@ -82,4 +82,19 @@ class Pattern
     {
         return new Pattern($pattern, $flags);
     }
+
+    public static function prepare(array $input): Pattern
+    {
+        return PatternBuilder::prepare($input);
+    }
+
+    public static function inject(string $input, array $values): Pattern
+    {
+        return PatternBuilder::inject($input, $values);
+    }
+
+    public static function compose(array $patterns): CompositePattern
+    {
+        return PatternBuilder::compose($patterns);
+    }
 }
