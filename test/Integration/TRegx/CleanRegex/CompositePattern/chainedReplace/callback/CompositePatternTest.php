@@ -39,17 +39,17 @@ class CompositePatternTest extends TestCase
         $this->assertEquals($expected, $replaced);
     }
 
-    function times()
+    public function times()
     {
         return [
             [0, "Do you think that's air you're breathing now?"],
             [1, "Do you think th__r you're breathing now?"],
-            [2, "Do you think __athing now?"],
-            [3, "Do you thi__ing now?"],
-            [4, "Do you __ now?"],
-            [5, "Do__you______now__"],
-            [6, "Do__you______now__"],
-            [7, "Do__you______now__"],
+            [2, 'Do you think __athing now?'],
+            [3, 'Do you thi__ing now?'],
+            [4, 'Do you __ now?'],
+            [5, 'Do__you______now__'],
+            [6, 'Do__you______now__'],
+            [7, 'Do__you______now__'],
         ];
     }
 

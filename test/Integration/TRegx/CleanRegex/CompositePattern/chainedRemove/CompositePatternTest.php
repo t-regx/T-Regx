@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\CompositePattern\chainedRemove;
+namespace Test\Integration\TRegx\CleanRegex\CompositePattern\chainedRemove;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\CompositePattern;
@@ -35,7 +35,7 @@ class CompositePatternTest extends TestCase
         $this->assertEquals($expected, $replaced);
     }
 
-    function times()
+    public function times()
     {
         return [
             [0, "Do you think that's air you're breathing now?"],
