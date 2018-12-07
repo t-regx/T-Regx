@@ -65,11 +65,8 @@ class InjectingParser implements Parser
     private function isPlaceholderIgnored(string $label): bool
     {
         foreach ($this->values as $key => $value) {
-            if (is_int($key)) {
-                $this->validateIgnoredValue($value);
-                if ($value === $label) {
-                    return true;
-                }
+            if (is_int($key) && $value === $label) {
+                return true;
             }
         }
         return false;
@@ -125,19 +122,11 @@ class InjectingParser implements Parser
         }
     }
 
-    private function validateIgnoredValue($value): void
-    {
-        if (!is_string($value)) {
-            $type = (new StringValue($value))->getString();
-            throw new InvalidArgumentException("Invalid inject value. Expected string, but $type given. Should be [name] or [name => value]");
-        }
-    }
-
     private function validateValueType($value): void
     {
         if (!is_string($value)) {
             $type = (new StringValue($value))->getString();
-            throw new InvalidArgumentException("Invalid inject value. Expected string, but $type given");
+            throw new InvalidArgumentException("Invalid inject parameters. Expected string, but $type given. Should be [name] or [name => value]");
         }
     }
 

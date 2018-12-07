@@ -204,7 +204,7 @@ class PrepareFacadeTest extends TestCase
                 [
                     0 => 21,
                 ],
-                'Invalid inject value. Expected string, but integer (21) given',
+                'Invalid inject parameters. Expected string, but integer (21) given',
             ],
             [
                 'well',

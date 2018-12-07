@@ -50,6 +50,10 @@ class PrepareFacadeTest extends TestCase
                 '//',
             ],
             [
+                ['', []],
+                '//',
+            ],
+            [
                 ['a', 'b', 'c'],
                 '/abc/',
             ],

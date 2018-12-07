@@ -57,11 +57,11 @@ abstract class AbstractMatchGroups implements MatchGroups
 
     private function filter($value, $key): bool
     {
-        if ((is_int($value) && $value > -1) || is_string($value) || is_null($value)) {
+        if ((is_int($value) && $value > -1) || is_string($value) || $value === null) {
             return $this->filterGroupKey($key);
         }
         throw new InternalCleanRegexException();
     }
 
-    protected abstract function filterGroupKey($nameOrIndex): bool;
+    abstract protected function filterGroupKey($nameOrIndex): bool;
 }

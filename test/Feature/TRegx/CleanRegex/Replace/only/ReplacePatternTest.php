@@ -94,7 +94,7 @@ class ReplacePatternTest extends TestCase
 
         $callback = function (ReplaceMatch $match) use (&$subjects) {
             $subjects[] = $match->modifiedSubject();
-            return '+' . $match->group('domain') . '+';
+            return '+' . $match->group('domain')->text() . '+';
         };
 
         // when

@@ -31,12 +31,12 @@ class NotMatched implements Details
      */
     public function groupNames(): array
     {
-        return array_values(array_filter($this->matches->getGroupKeys(), 'is_string'));
+        return array_values(array_filter($this->matches->getGroupKeys(), '\is_string'));
     }
 
     public function groupsCount(): int
     {
-        $indexedGroups = array_filter($this->matches->getGroupKeys(), 'is_int');
+        $indexedGroups = array_filter($this->matches->getGroupKeys(), '\is_int');
         return count($indexedGroups) - 1;
     }
 

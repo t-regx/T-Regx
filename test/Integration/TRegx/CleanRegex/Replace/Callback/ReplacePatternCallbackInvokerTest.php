@@ -107,4 +107,22 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         // when
         $invoker->invoke($callback);
     }
+
+    /**
+     * @test
+     */
+    public function shouldNotInvokeCallback_limit_0()
+    {
+        // given
+        $subject = '';
+        $invoker = new ReplacePatternCallbackInvoker(new Pattern(''), $subject, 0);
+
+        // when
+        $result = $invoker->invoke(function () {
+            $this->assertTrue(false);
+        });
+
+        // then
+        $this->assertEquals('', $result);
+    }
 }

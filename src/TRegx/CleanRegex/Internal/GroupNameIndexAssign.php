@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use function array_search;
@@ -28,7 +29,7 @@ class GroupNameIndexAssign
         if (is_int($group)) {
             return $this->getByIndex($group);
         }
-        return [];
+        throw new InvalidArgumentException();
     }
 
     private function getByName(string $group): array
