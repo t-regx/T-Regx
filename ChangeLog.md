@@ -3,10 +3,11 @@ T-Regx Changelog
 
 This file is to keep track of enhancements and bug fixes in different versions of T-Regx.
 
-Incoming in 1.1
+Added in 1.0
 ---------------
 
 * Features
+    * `PatternBuilder` with `inject()`, `prepare()` and `compose()`!
     * General development (refactor, clean, removed unused code)
     * Add `Match.groups()` and `Match.limit()`
     * Returning from `match()->first(callable)` modifies its return type
@@ -46,7 +47,8 @@ Incoming in 1.1
     * `preg_match()` won't return unmatched groups at the end of list, which makes validating groups and general
       work with group names impossible. Thanks to `GroupPolyfillDecorator`, a second call to `preg_match_all()` is done
       to get a list of all groups (even unmatched ones). The call to `preg_match_all()` is of course only in the case
-      of `Match.hasGroup()` or similar method. Regular methods like `Match.text()` won't call `preg_match_all()`.
+      of `Match.hasGroup()` or similar method. Regular methods like `Match.text()` won't call `preg_match_all()`
+    * Handle bug [PHP #75355](https://bugs.php.net/bug.php?id=75355)
 
 API
 ---------------
@@ -145,3 +147,7 @@ API
         * `pattern()->is()->usable()`
         * `pattern()->is()->delimitered()`
         * `pattern()->delimitered()`
+    * Building Pattern API
+        *  `PatternBuilder::inject()`/`Pattern::inject()`
+        *  `PatternBuilder::prepare()`/`Pattern::prepare()`
+        *  `PatternBuilder::compose()`/`Pattern::compose()`
