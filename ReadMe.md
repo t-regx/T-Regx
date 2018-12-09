@@ -1,9 +1,9 @@
-<p align="center"><a href="https://t-regx.github.io/"><img src="t.regx.png"></a></p>
+<p align="center"><a href="https://t-regx.com/"><img src="t.regx.png"></a></p>
 
 # T-Regx | Powerful Regular Expressions library
 
 The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions enhancing PCRE methods. 
-[See documentation](https://t-regx.github.io/).
+[See documentation](https://t-regx.com/).
 
 [![Build Status](https://travis-ci.org/T-Regx/T-Regx.svg?branch=master)](https://travis-ci.org/T-Regx/T-Regx)
 [![Coverage Status](https://coveralls.io/repos/github/T-Regx/T-Regx/badge.svg?branch=master)](https://coveralls.io/github/T-Regx/T-Regx?branch=master)
@@ -41,11 +41,11 @@ Installation for PHP 7.1 and later:
 $ composer require rawr/t-regx
 ```
 
-:bulb: See documentation if you need to use [earlier versions of PHP](https://t-regx.github.io/docs/installation).
+:bulb: See documentation if you need to use [earlier versions of PHP](https://t-regx.com/docs/installation).
 
 # API
 
-Full API documentation is available at [t-regx.github.io](https://t-regx.github.io/).
+Full API documentation is available at [t-regx.com](https://t-regx.com/).
 
 # Quick Examples
 
@@ -57,7 +57,7 @@ pattern('\d{3}')->match($s)->all();    // ['456', '232', '123']
 pattern('\d{3}')->match($s)->only(2);  // ['456', '232']
 ```
 
-You can pass any `callable` to the [`first()`](https://t-regx.github.io/docs/match) method:
+You can pass any `callable` to the [`first()`](https://t-regx.com/docs/match) method:
 
 ```php
 pattern('\d{3}')->match($s)->first('str_split');   // ['4', '5', '6']
@@ -65,9 +65,9 @@ pattern('\d{3}')->match($s)->first('strlen')       // 3
 ```
 
 :bulb: See more about 
-[`first()`](https://t-regx.github.io/docs/match), 
-[`all()`](https://t-regx.github.io/docs/match) and 
-[`only($limit)`](https://t-regx.github.io/docs/match).
+[`first()`](https://t-regx.com/docs/match), 
+[`all()`](https://t-regx.com/docs/match) and 
+[`only($limit)`](https://t-regx.com/docs/match).
 
 #### Replacing
 
@@ -90,8 +90,8 @@ pattern('er|ab|ay')
 ```
 
 :bulb: See more about 
-[`replace()->with()`](https://t-regx.github.io/docs/replace) and 
-[`replace()->callback()`](https://t-regx.github.io/docs/replace-callback).
+[`replace()->with()`](https://t-regx.com/docs/replace) and 
+[`replace()->callback()`](https://t-regx.com/docs/replace-callback).
 
 #### Optional matches
 
@@ -106,15 +106,15 @@ $result   // 'WORD'
 ```
 
 :bulb: See more about 
-[`orThrow()`](https://t-regx.github.io/docs/match-for-first), 
-[`orElse(callback)`](https://t-regx.github.io/docs/match-for-first) or 
-[`orReturn(var)`](https://t-regx.github.io/docs/match-for-first).
+[`orThrow()`](https://t-regx.com/docs/match-for-first), 
+[`orElse(callback)`](https://t-regx.com/docs/match-for-first) or 
+[`orReturn(var)`](https://t-regx.com/docs/match-for-first).
 
 # Overview
 
 ## Why T-Regx stands out?
 
-:bulb: [See documentation](https://t-regx.github.io/)
+:bulb: [See documentation](https://t-regx.com/)
 
 * ### Working **with** the developer
    * Not even touching your error handlers **in any way**
@@ -129,7 +129,7 @@ $result   // 'WORD'
 
 * ### Automatic delimiters for your pattern
   Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. T-Regx's smart delimiter
-  will [conveniently add one of many delimiters](https://t-regx.github.io/docs/delimiters) for you, if they're not already present.
+  will [conveniently add one of many delimiters](https://t-regx.com/docs/delimiters) for you, if they're not already present.
 
 * ### Converting Warnings to Exceptions
    * Warning or errors during `preg::` are converted to exceptions.
@@ -158,8 +158,8 @@ preg::replace_callback('/\w+/', $callback, $subject);
 // all preg_ methods
 ```
 
-:bulb: See more about [entry points](https://t-regx.github.io/docs/introduction) and 
-[`pattern()`](https://t-regx.github.io/docs/introduction).
+:bulb: See more about [entry points](https://t-regx.com/docs/introduction) and 
+[`pattern()`](https://t-regx.com/docs/introduction).
 
 ## SafeRegex
 
