@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
-use TRegx\CleanRegex\Internal\Delimiter\ExplicitDelimiterRequiredException;
 
 class DelimitererTest extends TestCase
 {

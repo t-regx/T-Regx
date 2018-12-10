@@ -1,7 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Delimiter;
-
-use TRegx\CleanRegex\Exception\CleanRegex\CleanRegexException;
+namespace TRegx\CleanRegex\Exception\CleanRegex;
 
 class ExplicitDelimiterRequiredException extends CleanRegexException
 {

@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Delimiter;
 
+use TRegx\CleanRegex\Exception\CleanRegex\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\IdentityDelimiterStrategy;
 
