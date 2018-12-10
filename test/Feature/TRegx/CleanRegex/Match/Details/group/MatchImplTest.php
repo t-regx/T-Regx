@@ -22,7 +22,7 @@ class MatchImplTest extends TestCase
                 $this->assertEquals('there', $match->group('one'));
                 $this->assertEquals('there', $match->group('one')->text());
                 $this->assertEquals(6, $match->group('one')->offset());
-                $this->assertTrue($match->group('one')->matches());
+                $this->assertTrue($match->group('one')->matched());
 
                 $this->assertTrue($match->hasGroup('one'));
                 $this->assertFalse($match->hasGroup('two'));
@@ -101,7 +101,7 @@ class MatchImplTest extends TestCase
             $group = $match->group('one');
 
             // when
-            $matches = $group->matches();
+            $matches = $group->matched();
 
             // then
             $this->assertFalse($matches);

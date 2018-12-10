@@ -33,7 +33,7 @@ class NotMatchedGroup implements MatchGroup
         return $this->exceptionFactory->create($method);
     }
 
-    public function matches(): bool
+    public function matched(): bool
     {
         return false;
     }

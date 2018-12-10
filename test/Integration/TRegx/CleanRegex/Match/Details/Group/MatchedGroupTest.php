@@ -37,7 +37,7 @@ class MatchedGroupTest extends TestCase
         $matchGroup = $this->matchGroup();
 
         // when
-        $matches = $matchGroup->matches();
+        $matches = $matchGroup->matched();
 
         // then
         $this->assertTrue($matches);

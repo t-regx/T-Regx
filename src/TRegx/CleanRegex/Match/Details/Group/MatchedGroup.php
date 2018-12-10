@@ -26,7 +26,7 @@ class MatchedGroup implements MatchGroup
         return $this->occurrence->text;
     }
 
-    public function matches(): bool
+    public function matched(): bool
     {
         return true;
     }

@@ -133,7 +133,7 @@ class MatchImpl implements Match
      */
     public function matched($nameOrIndex): bool
     {
-        return $this->group($nameOrIndex)->matches();
+        return $this->group($nameOrIndex)->matched();
     }
 
     public function all(): array

@@ -7,7 +7,7 @@ interface MatchGroup extends Optional
 {
     public function text(): string;
 
-    public function matches(): bool;
+    public function matched(): bool;
 
     public function name(): ?string;
 
