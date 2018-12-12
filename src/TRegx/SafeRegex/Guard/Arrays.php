@@ -2,6 +2,7 @@
 namespace TRegx\SafeRegex\Guard;
 
 use function array_diff_key;
+use function array_merge;
 
 class Arrays
 {
@@ -12,6 +13,6 @@ class Arrays
 
     public static function flatten(array $array): array
     {
-        return call_user_func_array('array_merge', $array);
+        return array_merge(...$array);
     }
 }
