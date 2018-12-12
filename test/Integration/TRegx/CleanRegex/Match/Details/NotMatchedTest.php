@@ -4,8 +4,8 @@ namespace Test\Integration\TRegx\CleanRegex\Match\Details;
 use InvalidArgumentException;
 use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\SubjectableEx;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
-use TRegx\CleanRegex\Internal\SubjectableEx;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 

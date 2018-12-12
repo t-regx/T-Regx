@@ -3,8 +3,8 @@ namespace Test\Integration\TRegx\CleanRegex\Internal;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ExceptionMatchAllFactory;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
-use TRegx\CleanRegex\Internal\Match\MatchAll\ExceptionMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 class GroupNameIndexAssignTest extends TestCase

@@ -1,5 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Internal;
+namespace Test\Utils;
+
+use TRegx\CleanRegex\Internal\Subjectable;
 
 class SubjectableEx implements Subjectable
 {
