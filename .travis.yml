@@ -6,7 +6,6 @@ php:
   - 7.1.22
   - 7.2.0
   - 7.2.9
-  - hhvm
   - nightly
 
 branches:
@@ -31,7 +30,6 @@ after_script:
 matrix:
   fast_finish: true
   allow_failures:
-    - php: hhvm
     - php: nightly
   include:
     - php: 7.3.0RC1
