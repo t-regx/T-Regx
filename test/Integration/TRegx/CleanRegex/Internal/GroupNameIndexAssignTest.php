@@ -5,7 +5,9 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ExceptionMatchAllFactory;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
+use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 class GroupNameIndexAssignTest extends TestCase
 {
@@ -94,18 +96,141 @@ class GroupNameIndexAssignTest extends TestCase
      */
     private function create(): GroupNameIndexAssign
     {
-        $matches = [
-            0       => [],
-            'first' => [],
-            1       => [],
-            2       => [],
-            'third' => [],
-            3       => [],
-            4       => [],
-            'fifth' => [],
-            5       => [],
+        $match = [
+            0       => '',
+            'first' => '',
+            1       => '',
+            2       => '',
+            'third' => '',
+            3       => '',
+            4       => '',
+            'fifth' => '',
+            5       => '',
         ];
         $factory = new ExceptionMatchAllFactory();
-        return new GroupNameIndexAssign(new RawMatchOffset($matches), $factory);
+        return new GroupNameIndexAssign(new RawMatchOffset($match), $factory);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCallFactory_byName_uneven()
+    {
+        // given
+        $assign = $this->createWithMatchAllFactory_uneven();
+
+        // when
+        [$name, $index] = $assign->getNameAndIndex('name2');
+
+        // then
+        $this->assertEquals('name2', $name);
+        $this->assertEquals(3, $index);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCallFactory_byIndex_uneven()
+    {
+        // given
+        $assign = $this->createWithMatchAllFactory_uneven();
+
+        // when
+        [$name, $index] = $assign->getNameAndIndex(3);
+
+        // then
+        $this->assertEquals('name2', $name);
+        $this->assertEquals(3, $index);
+    }
+
+    private function createWithMatchAllFactory_uneven(): GroupNameIndexAssign
+    {
+        $match = [null, null];
+        $matches = [
+            0       => null,
+            1       => null,
+            'name'  => null,
+            2       => null,
+            'name2' => null,
+            3       => null,
+        ];
+
+        return new GroupNameIndexAssign(new RawMatchOffset($match), new EagerMatchAllFactory(new RawMatchesOffset($matches)));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCallFactory_byName_even()
+    {
+        // given
+        $assign = $this->createWithMatchAllFactory_even();
+
+        // when
+        [$name, $index] = $assign->getNameAndIndex('name2');
+
+        // then
+        $this->assertEquals('name2', $name);
+        $this->assertEquals(3, $index);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCallFactory_byIndex_even()
+    {
+        // given
+        $assign = $this->createWithMatchAllFactory_even();
+
+        // when
+        [$name, $index] = $assign->getNameAndIndex(3);
+
+        // then
+        $this->assertEquals('name2', $name);
+        $this->assertEquals(3, $index);
+    }
+
+    private function createWithMatchAllFactory_even(): GroupNameIndexAssign
+    {
+        $matches = [
+            0       => null,
+            1       => null,
+            'name'  => null,
+            2       => null,
+            'name2' => null,
+            3       => null,
+        ];
+
+        return new GroupNameIndexAssign(new RawMatchOffset($matches), new EagerMatchAllFactory(new RawMatchesOffset($matches)));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCallFactory_byName_missing()
+    {
+        // given
+        $assign = $this->createWithMatchAllFactory_uneven();
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+
+        // when
+        $assign->getNameAndIndex('missing');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCallFactory_byIndex_missing()
+    {
+        // given
+        $assign = $this->createWithMatchAllFactory_uneven();
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+
+        // when
+        $assign->getNameAndIndex(14);
     }
 }
