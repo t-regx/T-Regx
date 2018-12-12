@@ -221,7 +221,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get first match, but subject was not matched');
+        $this->expectExceptionMessage("Expected to get group 'lowercase' from the first match, but subject was not matched at all");
 
         // when
         pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first();

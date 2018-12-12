@@ -6,7 +6,7 @@ use function sprintf;
 
 class FirstGroupSubjectMessage implements NotMatchedMessage
 {
-    private const MESSAGE = "Expected to get group '%s' from first match, but subject was not matched at all";
+    private const MESSAGE = "Expected to get group '%s' from the first match, but subject was not matched at all";
 
     /** @var string */
     private $message;
