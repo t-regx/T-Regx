@@ -122,10 +122,40 @@ class MatchedGroupTest extends TestCase
         $this->assertEquals('Nice matching', $orThrow);
     }
 
+    /**
+     * @test
+     * @dataProvider identifiers
+     * @param int|string $usedIdentifier
+     */
+    public function shouldGet_usedIdentifier($usedIdentifier)
+    {
+        // given
+        $matchGroup = $this->matchGroupWithIndexAndName($usedIdentifier);
+
+        // when
+        $result = $matchGroup->usedIdentifier();
+
+        // then
+        $this->assertEquals($usedIdentifier, $result);
+    }
+
+    public function identifiers(): array
+    {
+        return [
+            ['first'],
+            [1],
+        ];
+    }
+
     private function matchGroup(): MatchGroup
     {
+        return $this->matchGroupWithIndexAndName('first');
+    }
+
+    private function matchGroupWithIndexAndName($nameOrIndex): MatchGroup
+    {
         return new MatchedGroup(
-            new GroupDetails('first', 1, 'first', new MatchAllResults(new RawMatchesOffset([]), 'first')),
+            new GroupDetails('first', 1, $nameOrIndex, new MatchAllResults(new RawMatchesOffset([]), 'first')),
             new MatchedGroupOccurrence('Nice matching', 14, new SubjectableImpl(str_repeat(' ', 14)))
         );
     }

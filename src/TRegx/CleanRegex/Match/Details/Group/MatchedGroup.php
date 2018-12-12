@@ -41,6 +41,14 @@ class MatchedGroup implements MatchGroup
         return $this->details->name;
     }
 
+    /**
+     * @return int|string
+     */
+    public function usedIdentifier()
+    {
+        return $this->details->nameOrIndex;
+    }
+
     public function offset(): int
     {
         return ByteOffset::toCharacterOffset($this->occurrence->subject->getSubject(), $this->occurrence->offset);

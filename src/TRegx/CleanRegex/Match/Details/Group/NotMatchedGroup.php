@@ -48,6 +48,14 @@ class NotMatchedGroup implements MatchGroup
         return $this->details->index;
     }
 
+    /**
+     * @return int|string
+     */
+    public function usedIdentifier()
+    {
+        return $this->details->nameOrIndex;
+    }
+
     public function offset(): int
     {
         throw $this->groupNotMatched('offset');

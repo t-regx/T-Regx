@@ -14,6 +14,11 @@ interface MatchGroup extends Optional
 
     public function index(): int;
 
+    /**
+     * @return int|string
+     */
+    public function usedIdentifier();
+
     public function offset(): int;
 
     public function byteOffset(): int;
