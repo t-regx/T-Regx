@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Callback;
 
+use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
@@ -83,12 +84,20 @@ class ReplaceCallbackObject
     private function getReplacement($replacement): string
     {
         if ($replacement instanceof MatchGroup) {
-            return $replacement->text();
+            return $this->groupAsReplacement($replacement);
         }
         if (is_string($replacement)) {
             return $replacement;
         }
         throw new InvalidReplacementException($replacement);
+    }
+
+    private function groupAsReplacement(MatchGroup $group): string
+    {
+        if ($group->matched()) {
+            return $group->text();
+        }
+        throw GroupNotMatchedException::forReplacement($this->subject, $group->usedIdentifier());
     }
 
     private function modifyOffset(string $search, string $replacement): void

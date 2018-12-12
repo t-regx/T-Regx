@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Exception\CleanRegex;
 
 use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\FirstGroupMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\MethodGroupMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Subjectable;
 
 class GroupNotMatchedException extends CleanRegexException
@@ -29,6 +30,12 @@ class GroupNotMatchedException extends CleanRegexException
     public static function forMethod(Subjectable $subject, $group, string $method): GroupNotMatchedException
     {
         $message = new MethodGroupMessage($method, $group);
+        return new GroupNotMatchedException($message->getMessage(), $subject, $group);
+    }
+
+    public static function forReplacement(Subjectable $subject, $group): GroupNotMatchedException
+    {
+        $message = new ReplacementWithUnmatchedGroupMessage($group);
         return new GroupNotMatchedException($message->getMessage(), $subject, $group);
     }
 }
