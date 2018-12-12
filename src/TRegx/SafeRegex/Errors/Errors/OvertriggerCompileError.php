@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Errors\Errors;
 
+use TRegx\SafeRegex\Exception\Factory\CompileSafeRegexExceptionFactory;
 use TRegx\SafeRegex\Exception\SafeRegexException;
 use TRegx\SafeRegex\PhpError;
 use function trigger_error;

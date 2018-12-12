@@ -6,7 +6,6 @@ use TRegx\SafeRegex\Constants\PregConstants;
 use TRegx\SafeRegex\Errors\HostError;
 use TRegx\SafeRegex\Exception\Factory\RuntimeSafeRegexExceptionFactory;
 use TRegx\SafeRegex\Exception\SafeRegexException;
-use function preg_last_error;
 use function preg_match;
 
 class RuntimeError implements HostError

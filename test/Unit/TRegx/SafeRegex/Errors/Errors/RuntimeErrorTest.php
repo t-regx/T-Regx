@@ -75,7 +75,6 @@ class RuntimeErrorTest extends TestCase
         $this->assertEquals('preg_replace', $exception->getInvokingMethod());
         $this->assertEquals(PREG_BAD_UTF8_ERROR, $exception->getError());
         $this->assertEquals('PREG_BAD_UTF8_ERROR', $exception->getErrorName());
-        $this->assertEquals('preg_replace', $exception->getInvokingMethod());
         $this->assertEquals('After invoking preg_replace(), preg_last_error() returned PREG_BAD_UTF8_ERROR.',
             $exception->getMessage());
     }

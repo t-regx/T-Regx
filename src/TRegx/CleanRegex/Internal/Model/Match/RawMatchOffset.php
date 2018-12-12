@@ -51,7 +51,7 @@ class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
 
     public function getGroupByteOffset($nameOrIndex): ?int
     {
-        list($text, $offset) = $this->match[$nameOrIndex];
+        [$text, $offset] = $this->match[$nameOrIndex];
         if ($offset === -1) {
             return null;
         }

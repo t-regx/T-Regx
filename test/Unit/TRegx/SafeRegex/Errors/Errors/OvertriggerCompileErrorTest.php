@@ -2,10 +2,11 @@
 namespace Test\Unit\TRegx\SafeRegex\Errors\Errors;
 
 use PHPUnit\Framework\TestCase;
+use Test\Warnings;
 use TRegx\SafeRegex\Errors\Errors\OvertriggerCompileError;
 use TRegx\SafeRegex\Errors\Errors\StandardCompileError;
+use TRegx\SafeRegex\Exception\CompileSafeRegexException;
 use TRegx\SafeRegex\PhpError;
-use Test\Warnings;
 
 class OvertriggerCompileErrorTest extends TestCase
 {
@@ -70,20 +71,36 @@ class OvertriggerCompileErrorTest extends TestCase
 
         // then
         $lastError = PhpError::fromArray(error_get_last());
-        $error = new OvertriggerCompileError($lastError);
-        $this->assertFalse($error->occurred());
+        $this->assertEquals(OvertriggerCompileError::OVERTRIGGER_MESSAGE, $lastError->getMessage());
 
         // clean up
         (new StandardCompileError($lastError))->clear();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetSafeRegexException()
+    {
+        // given
+        $error = new OvertriggerCompileError($this->phpError('other error'));
+
+        // when
+        $exception = $error->getSafeRegexpException('preg_replace');
+
+        // then
+        $this->assertInstanceOf(CompileSafeRegexException::class, $exception);
+        $this->assertEquals('preg_replace', $exception->getInvokingMethod());
+        $this->assertEquals('other error' . PHP_EOL . ' ' . PHP_EOL . '(caused by E_WARNING)', $exception->getMessage());
     }
 
     private function phpError(string $message)
     {
         return PhpError::fromArray([
             'message' => $message,
-            'type' => E_WARNING,
-            'file' => '',
-            'line' => 0,
+            'type'    => E_WARNING,
+            'file'    => '',
+            'line'    => 0,
         ]);
     }
 }
