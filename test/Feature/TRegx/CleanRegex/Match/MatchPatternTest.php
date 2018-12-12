@@ -125,7 +125,7 @@ class MatchPatternTest extends TestCase
             });
 
         // then
-        $this->assertEquals("Different", $value);
+        $this->assertEquals('Different', $value);
     }
 
     /**

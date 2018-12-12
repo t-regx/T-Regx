@@ -13,7 +13,7 @@ class UserData
         return $this->getOrCreate($this->getKey($match));
     }
 
-    public function getOrCreate(int $key): UserDataObject
+    private function getOrCreate(int $key): UserDataObject
     {
         if (!array_key_exists($key, $this->values)) {
             $this->values[$key] = new UserDataObject();

@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Match\Groups\Strategy;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Groups\Descriptor;
+use function in_array;
 
 class MatchAllGroupVerifier implements GroupVerifier
 {
@@ -16,12 +17,11 @@ class MatchAllGroupVerifier implements GroupVerifier
 
     public function groupExists($nameOrIndex): bool
     {
-        $matches = (new Descriptor($this->pattern))->getGroups();
-        return $this->arrayHasValue($matches, $nameOrIndex);
+        return in_array($nameOrIndex, $this->getGroups(), true);
     }
 
-    private function arrayHasValue(array $array, $needle): bool
+    private function getGroups(): array
     {
-        return \array_search($needle, $array, true) !== false;
+        return (new Descriptor($this->pattern))->getGroups();
     }
 }

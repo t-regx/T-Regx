@@ -53,6 +53,6 @@ class PhpError
         if ($error === null) {
             return null;
         }
-        return PhpError::fromArray($error);
+        return self::fromArray($error);
     }
 }

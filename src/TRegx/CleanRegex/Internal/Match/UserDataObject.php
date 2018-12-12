@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Match;
 class UserDataObject
 {
     /** @var mixed|null */
-    private $value = null;
+    private $value;
 
     public function get()
     {

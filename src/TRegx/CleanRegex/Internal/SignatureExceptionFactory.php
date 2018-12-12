@@ -10,8 +10,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NotMatchedMessage;
 use TypeError;
 use function class_exists;
 use function interface_exists;
-use function strlen;
-use function substr;
+use function strpos;
 
 class SignatureExceptionFactory
 {
@@ -106,6 +105,6 @@ class SignatureExceptionFactory
 
     private function startsWith(string $haystack, string $needle): bool
     {
-        return substr($haystack, 0, strlen($needle)) === $needle;
+        return strpos($haystack, $needle) === 0;
     }
 }

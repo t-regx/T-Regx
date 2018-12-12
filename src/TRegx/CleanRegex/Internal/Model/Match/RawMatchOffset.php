@@ -3,6 +3,9 @@ namespace TRegx\CleanRegex\Internal\Model\Match;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use function array_key_exists;
+use function array_keys;
+use function array_map;
+use function is_array;
 
 class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
 {
@@ -26,7 +29,7 @@ class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
 
     public function getMatch(): string
     {
-        list($text, $offset) = $this->match[0];
+        [$text, $offset] = $this->match[0];
         return $text;
     }
 
@@ -37,7 +40,7 @@ class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
 
     public function getGroup($nameOrIndex): ?string
     {
-        list($text, $offset) = $this->match[$nameOrIndex];
+        [$text, $offset] = $this->match[$nameOrIndex];
         if ($offset === -1) {
             return null;
         }
@@ -73,7 +76,7 @@ class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
         }
         $match = $this->match[$nameOrIndex];
         if (is_array($match)) {
-            list($text, $offset) = $match;
+            [$text, $offset] = $match;
             return $offset !== -1;
         }
         return false;
@@ -97,7 +100,7 @@ class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
                 return null;
             }
             if (is_array($match)) {
-                list($text, $offset) = $match;
+                [$text, $offset] = $match;
                 if ($offset === -1) {
                     return null;
                 }
@@ -114,7 +117,7 @@ class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
     {
         // TODO write a test for $match==null
         return array_map(function (array $match) {
-            list($text, $offset) = $match;
+            [$text, $offset] = $match;
             return $offset;
         }, $this->match);
     }

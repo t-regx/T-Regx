@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal;
 
 use Throwable;
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidPatternException;
 use TRegx\SafeRegex\Exception\CompileSafeRegexException;
 use TRegx\SafeRegex\preg;
@@ -30,9 +29,7 @@ class PatternVerifier
     private function getMessage(Throwable $exception): string
     {
         $message = $exception->getMessage();
-        if (preg::match('/preg_[a-z_]+\(\): (.*)/A', $message, $matches) === 1) {
-            return trim($matches[1]);
-        }
-        throw new InternalCleanRegexException();
+        preg::match('/preg_match\(\): (.*)/A', $message, $matches);
+        return trim($matches[1]);
     }
 }

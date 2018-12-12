@@ -12,7 +12,7 @@ class FailureIndicators
         'preg_quote',
     ];
 
-    private $indicators = [
+    private static $indicators = [
         'preg_match'                  => [false],
         'preg_match_all'              => [false],
         'preg_replace'                => [null, []],
@@ -24,14 +24,17 @@ class FailureIndicators
 
     public function suspected(string $methodName, $value): bool
     {
-        if (in_array($methodName, $this->vague, true)) {
+        if ($this->isMethodVague($methodName)) {
             return false;
         }
-
-        if (array_key_exists($methodName, $this->indicators)) {
-            return in_array($value, $this->indicators[$methodName], true);
+        if (array_key_exists($methodName, self::$indicators)) {
+            return in_array($value, self::$indicators[$methodName], true);
         }
-
         throw new InternalCleanRegexException();
+    }
+
+    private function isMethodVague(string $methodName): bool
+    {
+        return in_array($methodName, $this->vague, true);
     }
 }

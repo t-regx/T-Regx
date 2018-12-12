@@ -43,7 +43,7 @@ class GroupFacade
     public function createGroup(): MatchGroup
     {
         if ($this->match->isGroupMatched($this->group)) {
-            list($text, $offset) = $this->match->getGroupTextAndOffset($this->group);
+            [$text, $offset] = $this->match->getGroupTextAndOffset($this->group);
             return $this->createdMatched(new MatchedGroupOccurrence($text, $offset, $this->subject));
         }
         return $this->createUnmatched();
@@ -69,7 +69,7 @@ class GroupFacade
 
     private function createGroupDetails(): GroupDetails
     {
-        list($name, $index) = $this->groupAssign->getNameAndIndex($this->group);
+        [$name, $index] = $this->groupAssign->getNameAndIndex($this->group);
         return new GroupDetails($name, $index, $this->group, new MatchAllResults($this->getMatches(), $index));
     }
 

@@ -14,7 +14,6 @@ class LazyMatchAllFactory implements MatchAllFactory
     public function __construct(Base $base)
     {
         $this->base = $base;
-        $this->value = null;
     }
 
     public function getRawMatches(): IRawMatchesOffset
