@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\MatchImpl;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
@@ -23,7 +23,7 @@ class ReplaceCallbackObject
 {
     /** @var callable */
     private $callback;
-    /** @var string */
+    /** @var Subjectable */
     private $subject;
     /** @var IRawMatchesOffset */
     private $analyzedPattern;
@@ -37,13 +37,13 @@ class ReplaceCallbackObject
     /** @var int */
     private $limit;
 
-    public function __construct(callable $callback, string $subject, IRawMatchesOffset $analyzedPattern, int $limit)
+    public function __construct(callable $callback, Subjectable $subject, IRawMatchesOffset $analyzedPattern, int $limit)
     {
         $this->callback = $callback;
         $this->subject = $subject;
         $this->analyzedPattern = $analyzedPattern;
         $this->limit = $limit;
-        $this->subjectModification = $this->subject;
+        $this->subjectModification = $this->subject->getSubject();
     }
 
     public function getCallback(): callable
@@ -67,7 +67,7 @@ class ReplaceCallbackObject
         $index = $this->counter++;
         return new ReplaceMatchImpl(
             new MatchImpl(
-                new SubjectableImpl($this->subject),
+                $this->subject,
                 $index,
                 $this->limit,
                 new RawMatchesToMatchAdapter($this->analyzedPattern, $index),
@@ -110,6 +110,6 @@ class ReplaceCallbackObject
 
     private function getReplaceStart($offset): int
     {
-        return ByteOffset::toCharacterOffset($this->subject, $offset) + $this->offsetModification;
+        return ByteOffset::toCharacterOffset($this->subject->getSubject(), $offset) + $this->offsetModification;
     }
 }

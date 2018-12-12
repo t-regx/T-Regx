@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Composite;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\SafeRegex\preg;
 
@@ -31,7 +32,7 @@ class ChainedReplace
     {
         $subject = $this->subject;
         foreach ($this->patterns as $pattern) {
-            $subject = (new ReplacePatternCallbackInvoker($pattern, $subject, -1))->invoke($callback);
+            $subject = (new ReplacePatternCallbackInvoker($pattern, new SubjectableImpl($subject), -1))->invoke($callback);
         }
         return $subject;
     }
