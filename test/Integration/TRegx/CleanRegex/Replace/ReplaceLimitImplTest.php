@@ -4,10 +4,10 @@ namespace Test\Integration\TRegx\CleanRegex\Replace;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
-use TRegx\CleanRegex\Replace\ReplaceLimit;
+use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
 use TRegx\CleanRegex\Replace\ReplacePattern;
 
-class ReplaceLimitTest extends TestCase
+class ReplaceLimitImplTest extends TestCase
 {
     /**
      * @test
@@ -15,7 +15,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldLimitFirst()
     {
         // given
-        $limit = new ReplaceLimit(function (int $limit) {
+        $limit = new ReplaceLimitImpl(function (int $limit) {
             // then
             $this->assertEquals(1, $limit);
             return $this->chain();
@@ -31,7 +31,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldLimitAll()
     {
         // given
-        $limit = new ReplaceLimit(function (int $limit) {
+        $limit = new ReplaceLimitImpl(function (int $limit) {
             // then
             $this->assertEquals(-1, $limit);
             return $this->chain();
@@ -47,7 +47,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldLimitOnly()
     {
         // given
-        $limit = new ReplaceLimit(function (int $limit) {
+        $limit = new ReplaceLimitImpl(function (int $limit) {
             // then
             $this->assertEquals(20, $limit);
             return $this->chain();
@@ -63,7 +63,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldThrowOnNegativeLimit()
     {
         // given
-        $limit = new ReplaceLimit(function () {
+        $limit = new ReplaceLimitImpl(function () {
             return '';
         });
 

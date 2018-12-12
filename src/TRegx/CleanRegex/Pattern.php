@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Remove\RemovePattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
+use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
 use TRegx\CleanRegex\Replace\ReplacePattern;
 
 class Pattern
@@ -36,7 +37,7 @@ class Pattern
 
     public function replace(string $subject): ReplaceLimit
     {
-        return new ReplaceLimit(function (int $limit) use ($subject) {
+        return new ReplaceLimitImpl(function (int $limit) use ($subject) {
             return new ReplacePattern($this->pattern, $subject, $limit);
         });
     }
