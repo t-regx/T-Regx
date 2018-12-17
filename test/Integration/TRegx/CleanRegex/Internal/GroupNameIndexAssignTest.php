@@ -20,7 +20,7 @@ class GroupNameIndexAssignTest extends TestCase
         $assign = $this->create();
 
         // when
-        list($name, $index) = $assign->getNameAndIndex('third');
+        [$name, $index] = $assign->getNameAndIndex('third');
 
         // then
         $this->assertEquals('third', $name);
@@ -36,7 +36,7 @@ class GroupNameIndexAssignTest extends TestCase
         $assign = $this->create();
 
         // when
-        list($name, $index) = $assign->getNameAndIndex(5);
+        [$name, $index] = $assign->getNameAndIndex(5);
 
         // then
         $this->assertEquals('fifth', $name);
@@ -52,7 +52,7 @@ class GroupNameIndexAssignTest extends TestCase
         $assign = $this->create();
 
         // when
-        list($name, $index) = $assign->getNameAndIndex(2);
+        [$name, $index] = $assign->getNameAndIndex(2);
 
         // then
         $this->assertEquals(null, $name);
@@ -68,7 +68,7 @@ class GroupNameIndexAssignTest extends TestCase
         $assign = $this->create();
 
         // when
-        list($name, $index) = $assign->getNameAndIndex(0);
+        [$name, $index] = $assign->getNameAndIndex(0);
 
         // then
         $this->assertEquals(null, $name);
@@ -91,7 +91,6 @@ class GroupNameIndexAssignTest extends TestCase
     }
 
     /**
-     * @param string|int $group
      * @return GroupNameIndexAssign
      */
     private function create(): GroupNameIndexAssign

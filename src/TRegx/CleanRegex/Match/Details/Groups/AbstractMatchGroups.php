@@ -5,6 +5,11 @@ use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
+use function array_filter;
+use function array_map;
+use function array_slice;
+use function is_int;
+use function is_string;
 
 abstract class AbstractMatchGroups implements MatchGroups
 {
@@ -52,10 +57,10 @@ abstract class AbstractMatchGroups implements MatchGroups
 
     private function filterValues(array $values): array
     {
-        return array_filter($values, [$this, 'filter'], ARRAY_FILTER_USE_BOTH);
+        return array_filter($values, [$this, 'validateAndFilterGroupKey'], ARRAY_FILTER_USE_BOTH);
     }
 
-    private function filter($value, $key): bool
+    private function validateAndFilterGroupKey($value, $key): bool
     {
         if ((is_int($value) && $value > -1) || is_string($value) || $value === null) {
             return $this->filterGroupKey($key);

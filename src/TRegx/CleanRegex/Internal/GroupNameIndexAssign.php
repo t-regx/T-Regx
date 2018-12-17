@@ -5,7 +5,6 @@ use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\Exception\InsufficientMatchException;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
-use function array_key_exists;
 use function array_search;
 use function is_int;
 use function is_string;
@@ -66,10 +65,7 @@ class GroupNameIndexAssign
     private function getIndexByName(string $name): int
     {
         $key = $this->getKeyByGroup($name);
-        if (array_key_exists($key + 1, $this->groupKeys)) {
-            return $this->groupKeys[$key + 1];
-        }
-        throw new InvalidArgumentException();
+        return $this->groupKeys[$key + 1];
     }
 
     private function getByIndex(int $group): array
