@@ -30,11 +30,6 @@ class ApiBase implements Base
         $this->userData = $userData;
     }
 
-    public function getApiBase(): ApiBase
-    {
-        return $this;
-    }
-
     public function getPattern(): Pattern
     {
         return $this->pattern;

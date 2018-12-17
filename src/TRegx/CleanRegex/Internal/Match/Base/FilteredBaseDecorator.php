@@ -31,11 +31,6 @@ class FilteredBaseDecorator implements Base
         return $this->base->getPattern();
     }
 
-    public function getApiBase(): ApiBase
-    {
-        return $this->base->getApiBase();
-    }
-
     public function getSubject(): string
     {
         return $this->base->getSubject();
