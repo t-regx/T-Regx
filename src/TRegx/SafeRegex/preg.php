@@ -496,7 +496,7 @@ class preg
 
     public static function last_error_constant(): string
     {
-        return (new PregConstants())->getConstant(preg_last_error());
+        return preg::error_constant(preg_last_error());
     }
 
     public static function error_constant(int $error): string

@@ -32,8 +32,14 @@ class ChainedReplace
     {
         $subject = $this->subject;
         foreach ($this->patterns as $pattern) {
-            $subject = (new ReplacePatternCallbackInvoker($pattern, new SubjectableImpl($subject), -1))->invoke($callback);
+            $subject = $this->replaceNext($pattern, $subject, $callback);
         }
         return $subject;
+    }
+
+    private function replaceNext(Pattern $pattern, string $subject, callable $callback): string
+    {
+        $invoker = new ReplacePatternCallbackInvoker($pattern, new SubjectableImpl($subject), -1);
+        return $invoker->invoke($callback);
     }
 }

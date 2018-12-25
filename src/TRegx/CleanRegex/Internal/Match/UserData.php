@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Match\Details\Match;
+use function array_key_exists;
 
 class UserData
 {

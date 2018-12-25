@@ -33,7 +33,7 @@ class GroupLimitFirst
                 return $group;
             }
         } else {
-            if (!$this->groupVerifier->groupExists($this->nameOrIndex)) {
+            if (!$this->groupExists()) {
                 throw new NonexistentGroupException($this->nameOrIndex);
             }
             if (!$rawMatch->matched()) {
@@ -41,5 +41,10 @@ class GroupLimitFirst
             }
         }
         throw GroupNotMatchedException::forFirst($this->base, $this->nameOrIndex);
+    }
+
+    private function groupExists(): bool
+    {
+        return $this->groupVerifier->groupExists($this->nameOrIndex);
     }
 }

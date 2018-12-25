@@ -50,7 +50,8 @@ class FilteredBaseDecorator implements Base
     public function matchOffset(): RawMatchOffset
     {
         $matches = $this->base->matchAllOffsets();
-        foreach ($matches->getMatchObjects($this->getMatchFactory()) as $index => $match) {
+        $matchObjects = $matches->getMatchObjects($this->getMatchFactory());
+        foreach ($matchObjects as $index => $match) {
             if ($this->predicate->test($match)) {
                 return $matches->getRawMatchOffset($index);
             }

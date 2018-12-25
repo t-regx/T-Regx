@@ -5,11 +5,11 @@ use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 
 interface IRawMatchOffset extends IRawMatch, IRawWithGroups
 {
+    public function byteOffset(): int;
+
     public function isGroupMatched($nameOrIndex): bool;
 
     public function getGroupTextAndOffset($nameOrIndex): array;
-
-    public function byteOffset(): int;
 
     /**
      * @return (string|null)[]
