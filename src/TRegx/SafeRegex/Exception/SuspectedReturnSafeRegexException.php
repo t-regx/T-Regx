@@ -11,4 +11,9 @@ class SuspectedReturnSafeRegexException extends SafeRegexException
         parent::__construct($methodName, "Invoking $methodName() resulted in '$returnValue'.");
         $this->returnValue = $returnValue;
     }
+
+    public function getReturnValue()
+    {
+        return $this->returnValue;
+    }
 }
