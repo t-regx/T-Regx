@@ -118,15 +118,15 @@ API
     * Replace API
         * `pattern()->replace()->all()`
             * `->with()`
-            * `->withRaw()`
+            * `->withReferences()`
             * `->callback()`
         * `pattern()->replace()->first()`
             * `->with()`
-            * `->withRaw()`
+            * `->withReferences()`
             * `->callback()`
         * `pattern()->replace()->only(int)`
             * `->with()`
-            * `->withRaw()`
+            * `->withReferences()`
             * `->callback()`
         * `ReplaceMatch` details (extending `Match` details)
             * `ReplaceMatch.modifiedOffset()`

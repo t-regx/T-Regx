@@ -30,10 +30,10 @@ class ReplacePatternTest extends TestCase
         $result = pattern('(er|ab|ay|ey)')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->first()
-            ->withRaw('$1');
+            ->withReferences('*$1*');
 
         // then
-        $this->assertEquals('P. Sherman, 42 Wallaby way, Sydney', $result);
+        $this->assertEquals('P. Sh*er*man, 42 Wallaby way, Sydney', $result);
     }
 
     /**
