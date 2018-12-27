@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
-use TRegx\CleanRegex\Replace\ReplacePattern;
+use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 
 /*
  * This test checks that implementations of PatternLimit have all
@@ -56,7 +56,7 @@ class PatternLimitTest extends TestCase
         return [
             [
                 new ReplaceLimitImpl(function (int $limit) {
-                    return new ReplacePattern(new Pattern(''), '', $limit);
+                    return new ReplacePatternImpl(new Pattern(''), '', $limit);
                 })
             ],
             [

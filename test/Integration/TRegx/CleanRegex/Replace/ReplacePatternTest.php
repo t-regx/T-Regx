@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\CleanRegex\Replace\ReplacePattern;
+use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 
 class ReplacePatternTest extends TestCase
 {
@@ -45,6 +46,6 @@ class ReplacePatternTest extends TestCase
 
     private function createReplacePattern(string $subject): ReplacePattern
     {
-        return new ReplacePattern(new Pattern('[0-9]+'), $subject, 3);
+        return new ReplacePatternImpl(new Pattern('[0-9]+'), $subject, 3);
     }
 }
