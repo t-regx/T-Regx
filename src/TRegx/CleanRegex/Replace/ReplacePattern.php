@@ -8,4 +8,6 @@ interface ReplacePattern
     public function withReferences(string $replacement): string;
 
     public function callback(callable $callback): string;
+
+    public function by(): MapReplacePattern;
 }

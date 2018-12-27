@@ -1,5 +1,4 @@
 <?php
-
 namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
@@ -9,6 +8,8 @@ use TRegx\SafeRegex\preg;
 
 class ReplacePatternImpl implements ReplacePattern
 {
+    const WHOLE_MATCH = 0;
+
     /** @var Pattern */
     private $pattern;
 
@@ -43,5 +44,10 @@ class ReplacePatternImpl implements ReplacePattern
             $this->limit
         );
         return $invoker->invoke($callback);
+    }
+
+    public function by(): MapReplacePattern
+    {
+        return new MapReplacePatternImpl($this->pattern, new SubjectableImpl($this->subject), $this->limit, self::WHOLE_MATCH);
     }
 }
