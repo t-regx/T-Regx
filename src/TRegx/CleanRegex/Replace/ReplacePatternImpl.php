@@ -48,6 +48,12 @@ class ReplacePatternImpl implements ReplacePattern
 
     public function by(): MapReplacePattern
     {
-        return new MapReplacePatternImpl($this->pattern, new SubjectableImpl($this->subject), $this->limit, self::WHOLE_MATCH);
+        return new MapReplacePatternImpl(
+            new MapReplacer(
+                $this->pattern,
+                new SubjectableImpl($this->subject),
+                $this->limit),
+            self::WHOLE_MATCH
+        );
     }
 }
