@@ -1,7 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Replace;
-
-use TRegx\CleanRegex\Replace\Exception\MissingReplacementKeyException;
+namespace TRegx\CleanRegex\Replace\Map;
 
 class MapReplacePatternImpl implements MapReplacePattern
 {

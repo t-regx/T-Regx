@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Replace;
+namespace TRegx\CleanRegex\Replace\Map;
 
 use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;

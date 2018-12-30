@@ -4,6 +4,9 @@ namespace TRegx\CleanRegex\Replace;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
+use TRegx\CleanRegex\Replace\Map\MapReplacePattern;
+use TRegx\CleanRegex\Replace\Map\MapReplacePatternImpl;
+use TRegx\CleanRegex\Replace\Map\MapReplacer;
 use TRegx\SafeRegex\preg;
 
 class ReplacePatternImpl implements ReplacePattern

@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
+use TRegx\CleanRegex\Replace\Map\MapReplacePattern;
+
 interface ReplacePattern
 {
     public function with(string $replacement): string;

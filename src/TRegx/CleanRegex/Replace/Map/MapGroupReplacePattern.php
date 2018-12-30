@@ -1,7 +1,6 @@
 <?php
-namespace TRegx\CleanRegex\Replace;
+namespace TRegx\CleanRegex\Replace\Map;
 
-use TRegx\CleanRegex\Replace\Exception\MissingReplacementKeyException;
 
 interface MapGroupReplacePattern
 {

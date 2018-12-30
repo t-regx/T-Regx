@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Replace\Exception;
+namespace TRegx\CleanRegex\Replace\Map;
 
 use TRegx\CleanRegex\Exception\CleanRegex\CleanRegexException;
 

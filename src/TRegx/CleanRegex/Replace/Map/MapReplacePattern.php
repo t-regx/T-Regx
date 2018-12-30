@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Replace;
+namespace TRegx\CleanRegex\Replace\Map;
 
 interface MapReplacePattern extends MapGroupReplacePattern
 {
