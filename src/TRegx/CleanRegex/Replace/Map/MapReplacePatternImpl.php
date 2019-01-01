@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Map;
 
+use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Replace\Map\Exception\GroupMessageExceptionStrategy;
 use TRegx\CleanRegex\Replace\Map\Exception\MatchMessageExceptionStrategy;
 use TRegx\CleanRegex\Replace\Map\Exception\MissingReplacementExceptionMessageStrategy;
@@ -23,6 +24,7 @@ class MapReplacePatternImpl implements MapReplacePattern
 
     public function group($nameOrIndex): MapGroupReplacePattern
     {
+        (new GroupNameValidator($nameOrIndex))->validate();
         return new MapReplacePatternImpl($this->mapReplacer, $nameOrIndex, new GroupMessageExceptionStrategy());
     }
 
