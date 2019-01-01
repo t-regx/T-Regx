@@ -31,6 +31,8 @@ Added in 1.0
     * Add `groupsCount()` to `NotMatched`
     * `pattern()->match()` is `\Countable`
     * Add user data to `Match`
+    * Add `PatternBuilder` with `prepare()`, `inject()` and `compose()` methods (#25)
+    * Add `pattern()->replace()->by()`
 * Tests
     * Split tests into `\Test\Unit`, `\Test\Integration`, `\Test\Functional` and `\Test\Feature` folders 
     * Add dynamic skip for `ErrorsCleanerTest`
@@ -66,6 +68,7 @@ API
       as integer (ie. `3`).
     * Additional `preg::error_constant(int)` method to change error constant from integer to string
       (ie. `preg::error_constant(4) == 'PREG_BAD_UTF8_ERROR'`).
+    * `preg::quote()` quotes additional PCRE characters, which `preg_quote()` doesn't.
 
 * CleanRegex
     * Automatic delimiter (ie. `pattern('[A-Z]')`)
@@ -116,18 +119,20 @@ API
             * `NotMatched.groupsCount()`
             * `NotMatched.hasGroup(string|int)`
     * Replace API
-        * `pattern()->replace()->all()`
+        * `pattern()->replace()->all()`...
+        * `pattern()->replace()->first()`...
+        * `pattern()->replace()->only(int)`....
             * `->with()`
             * `->withReferences()`
             * `->callback()`
-        * `pattern()->replace()->first()`
-            * `->with()`
-            * `->withReferences()`
-            * `->callback()`
-        * `pattern()->replace()->only(int)`
-            * `->with()`
-            * `->withReferences()`
-            * `->callback()`
+            * `->by()`
+                * `->map()`
+                * `->mapIfExists()`
+                * `->map()`
+                * `->group()`
+                    * `->map()`
+                    * `->mapIfExists()`
+                    * `->map()`
         * `ReplaceMatch` details (extending `Match` details)
             * `ReplaceMatch.modifiedOffset()`
             * `ReplaceMatch.modifiedSubject()`
