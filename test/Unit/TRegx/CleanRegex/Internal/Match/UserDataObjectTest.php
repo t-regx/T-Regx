@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match;
 
 use PHPUnit\Framework\TestCase;
 
-class UserDataTest extends TestCase
+class UserDataObjectTest extends TestCase
 {
     /**
      * @test
