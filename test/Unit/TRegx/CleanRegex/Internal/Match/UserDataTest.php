@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\OffsetMatchImpl;
 use TRegx\CleanRegex\Match\Details\Match;
 
-class UserDataContainerTest extends TestCase
+class UserDataTest extends TestCase
 {
     /**
      * @test
