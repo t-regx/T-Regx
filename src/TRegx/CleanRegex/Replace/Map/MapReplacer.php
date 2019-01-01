@@ -68,6 +68,6 @@ class MapReplacer
         if (array_key_exists($occurrence, $map)) {
             return $map[$occurrence];
         }
-        return $unexpectedReplacementHandler($occurrence);
+        return $unexpectedReplacementHandler($match[0], $occurrence);
     }
 }

@@ -28,8 +28,8 @@ class MapReplacePatternImpl implements MapReplacePattern
 
     public function map(array $map): string
     {
-        return $this->mapOrCallHandler($map, function (string $occurrence) {
-            throw $this->strategy->create($occurrence, $this->nameOrIndex);
+        return $this->mapOrCallHandler($map, function (string $occurrence, string $group) {
+            throw $this->strategy->create($occurrence, $this->nameOrIndex, $group);
         });
     }
 
