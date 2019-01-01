@@ -355,7 +355,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFilter_only()
+    public function shouldFilter_only_2()
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
@@ -366,6 +366,38 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertEquals(['First', 'Third'], $filtered);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_only_1()
+    {
+        // when
+        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function (Match $match) {
+                return strlen($match) === 5;
+            })
+            ->only(1);
+
+        // then
+        $this->assertEquals(['First'], $filtered);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_only_1_filteredOut()
+    {
+        // when
+        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
+            ->filter(function () {
+                return false;
+            })
+            ->only(1);
+
+        // then
+        $this->assertEquals([], $filtered);
     }
 
     /**
