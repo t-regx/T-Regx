@@ -1,28 +1,35 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Map;
 
+use TRegx\CleanRegex\Replace\Map\Exception\GroupMessageExceptionStrategy;
+use TRegx\CleanRegex\Replace\Map\Exception\MatchMessageExceptionStrategy;
+use TRegx\CleanRegex\Replace\Map\Exception\MissingReplacementExceptionMessageStrategy;
+
 class MapReplacePatternImpl implements MapReplacePattern
 {
     /** @var MapReplacer */
     private $mapReplacer;
     /** @var string|int */
     private $nameOrIndex;
+    /** @var MissingReplacementExceptionMessageStrategy */
+    private $strategy;
 
-    public function __construct(MapReplacer $mapReplacer, $nameOrIndex)
+    public function __construct(MapReplacer $mapReplacer, $nameOrIndex, MissingReplacementExceptionMessageStrategy $strategy = null)
     {
         $this->mapReplacer = $mapReplacer;
         $this->nameOrIndex = $nameOrIndex;
+        $this->strategy = $strategy ?? new MatchMessageExceptionStrategy();
     }
 
     public function group($nameOrIndex): MapGroupReplacePattern
     {
-        return new MapReplacePatternImpl($this->mapReplacer, $nameOrIndex);
+        return new MapReplacePatternImpl($this->mapReplacer, $nameOrIndex, new GroupMessageExceptionStrategy());
     }
 
     public function map(array $map): string
     {
         return $this->mapOrCallHandler($map, function (string $occurrence) {
-            throw MissingReplacementKeyException::create($occurrence);
+            throw $this->strategy->create($occurrence, $this->nameOrIndex);
         });
     }
 

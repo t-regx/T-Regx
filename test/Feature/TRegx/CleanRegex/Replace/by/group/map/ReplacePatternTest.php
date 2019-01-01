@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\by\group\map;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Replace\Map\MissingReplacementKeyException;
+use TRegx\CleanRegex\Replace\Map\Exception\MissingReplacementKeyException;
 
 class ReplacePatternTest extends TestCase
 {
