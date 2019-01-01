@@ -3,9 +3,9 @@ namespace Test\Integration\TRegx\CleanRegex\Internal;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ExceptionMatchAllFactory;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
@@ -106,7 +106,8 @@ class GroupNameIndexAssignTest extends TestCase
             'fifth' => '',
             5       => '',
         ];
-        $factory = new ExceptionMatchAllFactory();
+        /** @var MatchAllFactory $factory */
+        $factory = $this->createMock(MatchAllFactory::class);
         return new GroupNameIndexAssign(new RawMatchOffset($match), $factory);
     }
 

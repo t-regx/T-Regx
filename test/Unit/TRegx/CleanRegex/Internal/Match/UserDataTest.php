@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\OffsetMatchImpl;
 use TRegx\CleanRegex\Match\Details\Match;
 
 class UserDataTest extends TestCase
@@ -14,8 +14,8 @@ class UserDataTest extends TestCase
     {
         // given
         $container = new UserData();
-        $match = $this->getMatch();
-        $otherMatch = $this->getOtherMatch();
+        $match = $this->createMockWithByteOffset(14);
+        $otherMatch = $this->createMockWithByteOffset(15);
 
         // when
         $container->get($match)->set('value');
@@ -26,13 +26,11 @@ class UserDataTest extends TestCase
         $this->assertEquals('value', $result);
     }
 
-    public function getMatch(): Match
+    private function createMockWithByteOffset(int $byteOffset)
     {
-        return new OffsetMatchImpl(14);
-    }
-
-    public function getOtherMatch(): Match
-    {
-        return new OffsetMatchImpl(15);
+        /** @var Match|MockObject $match */
+        $match = $this->createMock(Match::class);
+        $match->method('byteOffset')->willReturn($byteOffset);
+        return $match;
     }
 }

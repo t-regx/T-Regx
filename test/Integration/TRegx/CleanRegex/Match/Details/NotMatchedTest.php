@@ -4,8 +4,8 @@ namespace Test\Integration\TRegx\CleanRegex\Match\Details;
 use InvalidArgumentException;
 use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\SubjectableEx;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
@@ -109,7 +109,9 @@ class NotMatchedTest extends TestCase
     public function shouldThrow_invalidGroupName($nameOrIndex, string $message)
     {
         // given
-        $notMatched = new NotMatched(new RawMatches([]), new SubjectableEx());
+        /** @var Subjectable $subject */
+        $subject = $this->createMock(Subjectable::class);
+        $notMatched = new NotMatched(new RawMatches([]), $subject);
 
         // then
         $this->expectException(InvalidArgumentException::class);
