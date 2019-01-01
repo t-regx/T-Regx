@@ -10,8 +10,8 @@ class MissingReplacementKeyException extends CleanRegexException
         return new self("Expected to replace value '$value', but such key is not found in replacement map.");
     }
 
-    public static function forGroup(string $value, $nameOrIndex)
+    public static function forGroup(string $value, $nameOrIndex, string $group)
     {
-        return new self("Expected to replace value '$value' of group '$nameOrIndex', but such key is not found in replacement map.");
+        return new self("Expected to replace value '$value' by group '$nameOrIndex' ('$group'), but such key is not found in replacement map.");
     }
 }

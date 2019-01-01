@@ -5,6 +5,6 @@ class GroupMessageExceptionStrategy implements MissingReplacementExceptionMessag
 {
     public function create(string $value, $nameOrIndex, string $group): MissingReplacementKeyException
     {
-        return MissingReplacementKeyException::forGroup($value, $nameOrIndex);
+        return MissingReplacementKeyException::forGroup($value, $nameOrIndex, $group);
     }
 }

@@ -44,7 +44,7 @@ class ReplacePatternTest extends TestCase
 
         // then
         $this->expectException(MissingReplacementKeyException::class);
-        $this->expectExceptionMessage("Expected to replace value 'T' of group 'capital', but such key is not found in replacement map.");
+        $this->expectExceptionMessage("Expected to replace value 'Two' by group 'capital' ('T'), but such key is not found in replacement map.");
 
         // when
         pattern('(?<capital>[OT])(ne|wo)')
