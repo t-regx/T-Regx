@@ -18,7 +18,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
-use Utils\ClassWithErrorInConstructor;
+use Test\Utils\ClassWithErrorInConstructor;
 
 class SignatureExceptionFactoryTest extends TestCase
 {

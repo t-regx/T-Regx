@@ -1,7 +1,8 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Match\UserDataObject;
 
 class UserDataObjectTest extends TestCase
 {

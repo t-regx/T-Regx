@@ -1,8 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Match;
 
 class UserDataTest extends TestCase
