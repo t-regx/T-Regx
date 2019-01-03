@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 
-class PatternTest extends TestCase
+class InternalPatternTest extends TestCase
 {
     /**
      * @test
