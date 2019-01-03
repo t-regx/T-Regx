@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex;
 
+use TRegx\CleanRegex\Filter\PregGrepArrayIntersectStrategy;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -8,7 +9,6 @@ use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Remove\RemovePattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
-use TRegx\CleanRegex\Replace\ReplacePattern;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 
 class Pattern
@@ -53,6 +53,16 @@ class Pattern
     public function filter(array $haystack): array
     {
         return (new FilterArrayPattern($this->pattern, $haystack))->filter();
+    }
+
+    public function filterAssoc(array $haystack): array
+    {
+        return (new FilterArrayPattern($this->pattern, $haystack))->filterAssoc();
+    }
+
+    public function filterByKeys(array $haystack): array
+    {
+        return (new FilterArrayKeysPattern($this->pattern, $haystack))->filterByKeys(new PregGrepArrayIntersectStrategy());
     }
 
     public function split(string $subject): SplitPattern

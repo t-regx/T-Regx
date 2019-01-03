@@ -1,9 +1,8 @@
 <?php
-namespace TRegx\CleanRegex;
+namespace TRegx\CleanRegex\ForArray;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\SafeRegex\preg;
-use function array_filter;
 use function array_values;
 
 class FilterArrayPattern
@@ -21,8 +20,11 @@ class FilterArrayPattern
 
     public function filter(): array
     {
-        return array_values(array_filter($this->array, function ($subject) {
-            return preg::match($this->pattern->pattern, $subject) === 1;
-        }));
+        return array_values($this->filterAssoc());
+    }
+
+    public function filterAssoc()
+    {
+        return preg::grep($this->pattern->pattern, $this->array);
     }
 }

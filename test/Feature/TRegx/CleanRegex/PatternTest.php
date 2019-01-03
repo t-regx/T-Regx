@@ -85,4 +85,46 @@ class PatternTest extends TestCase
         $expected = ['Uppercase', 'Uppercase again'];
         $this->assertEquals($expected, $result);
     }
+
+    /**
+     * @test
+     */
+    public function shouldFilterArray_assoc()
+    {
+        // given
+        $array = [
+            'a' => 'Uppercase',
+            'b' => 'lowercase',
+            'c' => 'Uppercase again',
+            'd' => 'lowercase again',
+        ];
+
+        // when
+        $result = pattern('[A-Z][a-z]+')->filterAssoc($array);
+
+        // then
+        $expected = ['a' => 'Uppercase', 'c' => 'Uppercase again'];
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilterArray_byKeys()
+    {
+        // given
+        $array = [
+            'Uppercase'       => 0,
+            'lowercase'       => 1,
+            'Uppercase again' => 2,
+            'lowercase again' => 3,
+        ];
+
+        // when
+        $result = pattern('[A-Z][a-z]+')->filterByKeys($array);
+
+        // then
+        $expected = ['Uppercase' => 0, 'Uppercase again' => 2];
+        $this->assertEquals($expected, $result);
+    }
 }
