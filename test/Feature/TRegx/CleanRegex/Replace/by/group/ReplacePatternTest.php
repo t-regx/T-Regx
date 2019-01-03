@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\by\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 
 class ReplacePatternTest extends TestCase
 {
@@ -21,6 +22,27 @@ class ReplacePatternTest extends TestCase
         // when
         pattern('(?<capital>[OT])(ne|wo)')
             ->replace('')
+            ->all()
+            ->by()
+            ->group($groupName)
+            ->map([]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onNonExistingGroup()
+    {
+        // given
+        $groupName = 'missing';
+
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+
+        // when
+        pattern('(?<capital>foo)')
+            ->replace('foo')
             ->all()
             ->by()
             ->group($groupName)
