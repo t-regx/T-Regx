@@ -79,7 +79,7 @@ class PatternTest extends TestCase
         ];
 
         // when
-        $result = pattern('[A-Z][a-z]+')->filter($array);
+        $result = pattern('[A-Z][a-z]+')->forArray($array)->filter();
 
         // then
         $expected = ['Uppercase', 'Uppercase again'];
@@ -100,7 +100,7 @@ class PatternTest extends TestCase
         ];
 
         // when
-        $result = pattern('[A-Z][a-z]+')->filterAssoc($array);
+        $result = pattern('[A-Z][a-z]+')->forArray($array)->filterAssoc();
 
         // then
         $expected = ['a' => 'Uppercase', 'c' => 'Uppercase again'];
@@ -121,7 +121,7 @@ class PatternTest extends TestCase
         ];
 
         // when
-        $result = pattern('[A-Z][a-z]+')->filterByKeys($array);
+        $result = pattern('[A-Z][a-z]+')->forArray($array)->filterByKeys();
 
         // then
         $expected = ['Uppercase' => 0, 'Uppercase again' => 2];

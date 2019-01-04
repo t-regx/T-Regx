@@ -1,7 +1,8 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Filter\PregGrepArrayIntersectStrategy;
+use TRegx\CleanRegex\ForArray\ForArrayPattern;
+use TRegx\CleanRegex\ForArray\ForArrayPatternImpl;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -50,19 +51,9 @@ class Pattern
         });
     }
 
-    public function filter(array $haystack): array
+    public function forArray(array $haystack): ForArrayPattern
     {
-        return (new FilterArrayPattern($this->pattern, $haystack))->filter();
-    }
-
-    public function filterAssoc(array $haystack): array
-    {
-        return (new FilterArrayPattern($this->pattern, $haystack))->filterAssoc();
-    }
-
-    public function filterByKeys(array $haystack): array
-    {
-        return (new FilterArrayKeysPattern($this->pattern, $haystack))->filterByKeys(new PregGrepArrayIntersectStrategy());
+        return new ForArrayPatternImpl($this->pattern, $haystack);
     }
 
     public function split(string $subject): SplitPattern

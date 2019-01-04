@@ -23,7 +23,7 @@ class FilterArrayPattern
         return array_values($this->filterAssoc());
     }
 
-    public function filterAssoc()
+    public function filterAssoc(): array
     {
         return preg::grep($this->pattern->pattern, $this->array);
     }
