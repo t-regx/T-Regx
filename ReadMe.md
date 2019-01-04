@@ -16,7 +16,8 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 
 [![PHP Version](https://img.shields.io/badge/PHP-5.3%2B-blue.svg)](https://github.com/T-Regx/T-Regx/branches/all)
 [![PHP Version](https://img.shields.io/badge/PHP-5.6%2B-blue.svg)](https://github.com/T-Regx/T-Regx/branches/all)
-[![PHP Version](https://img.shields.io/badge/PHP-7.1.3%2B-blue.svg)](https://github.com/T-Regx/T-Regx/branches/all)
+[![PHP Version](https://img.shields.io/badge/PHP-7.1.0%2B-blue.svg)](https://github.com/T-Regx/T-Regx/branches/all)
+[![PHP Version](https://img.shields.io/badge/PHP-7.2-blue.svg)](https://github.com/T-Regx/T-Regx/branches/all)
 [![PHP Version](https://img.shields.io/badge/PHP-7.3-blue.svg)](https://github.com/T-Regx/T-Regx/branches/all)
 [![PHP Version](https://img.shields.io/badge/PHP-7.4-blue.svg)](https://github.com/T-Regx/T-Regx/branches/all)
 [![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
