@@ -16,6 +16,9 @@ class NotMatchedTest extends TestCase
      */
     public function shouldNotCastToString()
     {
+        // pre
+        $previous = error_reporting(E_ALL);
+
         if (PHP_VERSION_ID <= 70100) {
             $this->markTestSkipped("Prior to PHP 7.1.0, casting to string causes a fatal error, which can't be tested by PhpUnit");
         }
@@ -28,6 +31,9 @@ class NotMatchedTest extends TestCase
 
         // when
         $string = (string)$notMatched;
+
+        // post
+        error_reporting($previous);
     }
 
     /**
