@@ -2,22 +2,21 @@
 namespace TRegx\SafeRegex;
 
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
-use TRegx\SafeRegex\Errors\FailureIndicators;
 use TRegx\SafeRegex\Exception\Factory\SuspectedReturnSafeRegexExceptionFactory;
 use TRegx\SafeRegex\Exception\SafeRegexException;
 use TRegx\SafeRegex\Guard\Strategy\SuspectedReturnStrategy;
 
 class ExceptionFactory
 {
-    /** @var FailureIndicators */
-    private $failureIndicators;
 
+    /** @var SuspectedReturnStrategy */
+    private $strategy;
     /** @var ErrorsCleaner */
     private $errorsCleaner;
 
     public function __construct(SuspectedReturnStrategy $strategy)
     {
-        $this->failureIndicators = new FailureIndicators($strategy);
+        $this->strategy = $strategy;
         $this->errorsCleaner = new ErrorsCleaner();
     }
 
@@ -29,15 +28,17 @@ class ExceptionFactory
     public function retrieveGlobals(string $methodName, $pregResult): ?SafeRegexException
     {
         $hostError = $this->errorsCleaner->getError();
-
         if ($hostError->occurred()) {
             return $hostError->getSafeRegexpException($methodName);
         }
+        return $this->getExceptionByReturnValue($methodName, $pregResult);
+    }
 
-        if ($this->failureIndicators->suspected($methodName, $pregResult)) {
+    private function getExceptionByReturnValue(string $methodName, $pregResult): ?SafeRegexException
+    {
+        if ($this->strategy->isSuspected($methodName, $pregResult)) {
             return (new SuspectedReturnSafeRegexExceptionFactory())->create($methodName, $pregResult);
         }
-
         return null;
     }
 }
