@@ -51,6 +51,8 @@ Added in 1.0
       to get a list of all groups (even unmatched ones). The call to `preg_match_all()` is of course only in the case
       of `Match.hasGroup()` or similar method. Regular methods like `Match.text()` won't call `preg_match_all()`
     * Handle bug [PHP #75355](https://bugs.php.net/bug.php?id=75355)
+* Bug fixes
+    * `preg::replace()` and `preg::filter()` only consider `[]` an error prone if input subject was also an empty array.
 
 API
 ---------------
