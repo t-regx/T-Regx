@@ -1,8 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Model\Adapter;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Model\Adapter;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 
 class RawMatchesToMatchAdapterTest extends TestCase
