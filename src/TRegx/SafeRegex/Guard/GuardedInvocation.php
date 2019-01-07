@@ -1,26 +1,26 @@
 <?php
 namespace TRegx\SafeRegex\Guard;
 
-use Exception;
+use TRegx\SafeRegex\Exception\SafeRegexException;
 
 class GuardedInvocation
 {
     /** @var mixed */
     private $result;
-    /** @var Exception|null */
+    /** @var SafeRegexException|null */
     private $exception;
 
     /**
-     * @param mixed          $result
-     * @param Exception|null $exception
+     * @param mixed $result
+     * @param SafeRegexException|null $exception
      */
-    public function __construct($result, ?Exception $exception)
+    public function __construct($result, ?SafeRegexException $exception)
     {
         $this->result = $result;
         $this->exception = $exception;
     }
 
-    public function getException(): ?Exception
+    public function getException(): ?SafeRegexException
     {
         return $this->exception;
     }
