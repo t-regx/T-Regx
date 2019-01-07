@@ -2,11 +2,20 @@
 namespace TRegx\SafeRegex\Errors;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use TRegx\SafeRegex\Guard\Strategy\SuspectedReturnStrategy;
 use function array_key_exists;
 use function in_array;
 
 class FailureIndicators
 {
+    /** @var SuspectedReturnStrategy */
+    private $strategy;
+
+    public function __construct(SuspectedReturnStrategy $strategy)
+    {
+        $this->strategy = $strategy;
+    }
+
     private $vague = [
         'preg_grep',
         'preg_quote',

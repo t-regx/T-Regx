@@ -1,26 +1,13 @@
 <?php
 namespace TRegx\SafeRegex\Guard;
 
-use TRegx\SafeRegex\Exception\CompileSafeRegexException;
-use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
-use TRegx\SafeRegex\Exception\SafeRegexException;
-use TRegx\SafeRegex\Exception\SuspectedReturnSafeRegexException;
+use TRegx\SafeRegex\Guard\Strategy\SuspectedReturnStrategy;
 
 class GuardedExecution
 {
-    /**
-     * @param string   $methodName
-     * @param callable $callback
-     * @return mixed
-     * @throws SafeRegexException
-     * @throws CompileSafeRegexException
-     * @throws RuntimeSafeRegexException
-     * @throws SuspectedReturnSafeRegexException
-     * @throws \Exception
-     */
-    public static function invoke(string $methodName, callable $callback)
+    public static function invoke(string $methodName, callable $callback, SuspectedReturnStrategy $strategy = null)
     {
-        $invocation = (new GuardedInvoker($methodName, $callback))->catch();
+        $invocation = (new GuardedInvoker($methodName, $callback, $strategy))->catch();
         if ($invocation->hasException()) {
             throw $invocation->getException();
         }

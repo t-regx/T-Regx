@@ -1,9 +1,10 @@
 <?php
 namespace Test\Unit\TRegx\SafeRegex\Errors;
 
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\SafeRegex\Errors\FailureIndicators;
+use TRegx\SafeRegex\Guard\Strategy\DefaultSuspectedReturnStrategy;
 
 class FailureIndicatorsTest extends TestCase
 {
@@ -15,7 +16,7 @@ class FailureIndicatorsTest extends TestCase
     public function shouldNotBeSuspectedForVagueMethods(string $methodName)
     {
         // given
-        $failureIndicators = new FailureIndicators();
+        $failureIndicators = new FailureIndicators(new DefaultSuspectedReturnStrategy());
         $anyValue = null;
 
         // when
@@ -42,7 +43,7 @@ class FailureIndicatorsTest extends TestCase
     public function shouldResultBeSuspected(string $methodName, $result)
     {
         // given
-        $failureIndicators = new FailureIndicators();
+        $failureIndicators = new FailureIndicators(new DefaultSuspectedReturnStrategy());
 
         // when
         $isSuspected = $failureIndicators->suspected($methodName, $result);
@@ -70,7 +71,7 @@ class FailureIndicatorsTest extends TestCase
     public function shouldThrowForUnexpectedMethod()
     {
         // given
-        $failureIndicators = new FailureIndicators();
+        $failureIndicators = new FailureIndicators(new DefaultSuspectedReturnStrategy());
         $anyValue = null;
         $unexpectedMethod = 'asd';
 

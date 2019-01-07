@@ -7,6 +7,7 @@ use TRegx\SafeRegex\Exception\CompileSafeRegexException;
 use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
 use TRegx\SafeRegex\Exception\SuspectedReturnSafeRegexException;
 use TRegx\SafeRegex\ExceptionFactory;
+use TRegx\SafeRegex\Guard\Strategy\DefaultSuspectedReturnStrategy;
 
 class ExceptionFactoryTest extends TestCase
 {
@@ -16,7 +17,6 @@ class ExceptionFactoryTest extends TestCase
     }
 
     /**
-     * @test
      * @dataProvider \Test\DataProviders::invalidPregPatterns()
      * @param string $invalidPattern
      */
@@ -24,16 +24,16 @@ class ExceptionFactoryTest extends TestCase
     {
         // given
         @preg_match($invalidPattern, '');
+        $exceptionFactory = $this->create();
 
         // when
-        $exception = (new ExceptionFactory())->retrieveGlobals('preg_match', false);
+        $exception = $exceptionFactory->retrieveGlobals('preg_match', false);
 
         // then
         $this->assertInstanceOf(CompileSafeRegexException::class, $exception);
     }
 
     /**
-     * @test
      * @dataProvider \Test\DataProviders::invalidUtf8Sequences()
      * @param $description
      * @param $utf8
@@ -42,27 +42,31 @@ class ExceptionFactoryTest extends TestCase
     {
         // given
         @preg_match("/pattern/u", $utf8);
+        $exceptionFactory = $this->create();
 
         // when
-        $exception = (new ExceptionFactory())->retrieveGlobals('preg_match', false);
+        $exception = $exceptionFactory->retrieveGlobals('preg_match', false);
 
         // then
         $this->assertInstanceOf(RuntimeSafeRegexException::class, $exception);
     }
 
-    /**
-     * @test
-     */
     public function testUnexpectedReturnError()
     {
         // given
         $result = false;
+        $exceptionFactory = $this->create();
 
         // when
-        $exception = (new ExceptionFactory())->retrieveGlobals('preg_match', $result);
+        $exception = $exceptionFactory->retrieveGlobals('preg_match', $result);
 
         // then
         $this->assertInstanceOf(SuspectedReturnSafeRegexException::class, $exception);
         $this->assertEquals("Invoking preg_match() resulted in 'false'.", $exception->getMessage());
+    }
+
+    private function create(): ExceptionFactory
+    {
+        return new ExceptionFactory(new DefaultSuspectedReturnStrategy());
     }
 }

@@ -5,6 +5,7 @@ use TRegx\SafeRegex\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Errors\FailureIndicators;
 use TRegx\SafeRegex\Exception\Factory\SuspectedReturnSafeRegexExceptionFactory;
 use TRegx\SafeRegex\Exception\SafeRegexException;
+use TRegx\SafeRegex\Guard\Strategy\SuspectedReturnStrategy;
 
 class ExceptionFactory
 {
@@ -14,9 +15,9 @@ class ExceptionFactory
     /** @var ErrorsCleaner */
     private $errorsCleaner;
 
-    public function __construct()
+    public function __construct(SuspectedReturnStrategy $strategy)
     {
-        $this->failureIndicators = new FailureIndicators();
+        $this->failureIndicators = new FailureIndicators($strategy);
         $this->errorsCleaner = new ErrorsCleaner();
     }
 

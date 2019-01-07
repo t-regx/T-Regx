@@ -7,6 +7,8 @@ use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
 use TRegx\SafeRegex\Exception\SafeRegexException;
 use TRegx\SafeRegex\Exception\SuspectedReturnSafeRegexException;
 use TRegx\SafeRegex\Guard\GuardedExecution;
+use TRegx\SafeRegex\Guard\Strategy\BySubjectSuspectedReturnStrategy;
+use TRegx\SafeRegex\Guard\Strategy\SilencedSuspectedReturnStrategy;
 use function preg_filter;
 use function preg_grep;
 use function preg_last_error;
@@ -266,7 +268,7 @@ class preg
     {
         return GuardedExecution::invoke('preg_replace', function () use ($limit, $subject, $replacement, $pattern, &$count) {
             return @preg_replace($pattern, $replacement, $subject, $limit, $count);
-        });
+        }, new BySubjectSuspectedReturnStrategy($subject));
     }
 
     /**
@@ -387,7 +389,7 @@ class preg
     {
         return GuardedExecution::invoke('preg_filter', function () use ($pattern, $replacement, $subject, $limit, &$count) {
             return @preg_filter($pattern, $replacement, $subject, $limit, $count);
-        });
+        }, new BySubjectSuspectedReturnStrategy($subject));
     }
 
     /**
@@ -446,11 +448,11 @@ class preg
      * @since 5.0
      * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
      */
-    public static function grep($pattern, array $input, $flags = 0)
+    public static function grep($pattern, array $input, $flags = 0): array
     {
         return GuardedExecution::invoke('preg_grep', function () use ($flags, $input, $pattern) {
             return @preg_grep($pattern, $input, $flags);
-        });
+        }, new SilencedSuspectedReturnStrategy());
     }
 
     /**
@@ -469,7 +471,7 @@ class preg
      * @since 4.0
      * @since 5.0
      */
-    public static function quote($string, $delimiter = null)
+    public static function quote($string, $delimiter = null): string
     {
         if (preg_quote('#', null) === '#') {
             return str_replace('#', '\#', preg_quote($string, $delimiter));

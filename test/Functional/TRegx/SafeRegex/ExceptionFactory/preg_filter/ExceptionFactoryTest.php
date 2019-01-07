@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Exception\SuspectedReturnSafeRegexException;
 use TRegx\SafeRegex\ExceptionFactory;
+use TRegx\SafeRegex\Guard\Strategy\BySubjectSuspectedReturnStrategy;
 
 class ExceptionFactoryTest extends TestCase
 {
@@ -21,9 +22,10 @@ class ExceptionFactoryTest extends TestCase
         // given
         $result = @preg_filter('/[invalid/', 'replacement', '');
         $this->clearErrors();
+        $exceptionFactory = new ExceptionFactory(new BySubjectSuspectedReturnStrategy(''));
 
         // when
-        $exception = (new ExceptionFactory())->retrieveGlobals('preg_filter', $result);
+        $exception = $exceptionFactory->retrieveGlobals('preg_filter', $result);
 
         // then
         $this->assertInstanceOf(SuspectedReturnSafeRegexException::class, $exception);
@@ -38,9 +40,10 @@ class ExceptionFactoryTest extends TestCase
         // given
         $result = preg_filter(['/pattern/u'], '', ["\xc3\x28"]);
         $this->clearErrors();
+        $exceptionFactory = new ExceptionFactory(new BySubjectSuspectedReturnStrategy(["\xc3\x28"]));
 
         // when
-        $exception = (new ExceptionFactory())->retrieveGlobals('preg_filter', $result);
+        $exception = $exceptionFactory->retrieveGlobals('preg_filter', $result);
 
         // then
         $this->assertInstanceOf(SuspectedReturnSafeRegexException::class, $exception);
