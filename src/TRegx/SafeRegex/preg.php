@@ -7,7 +7,8 @@ use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
 use TRegx\SafeRegex\Exception\SafeRegexException;
 use TRegx\SafeRegex\Exception\SuspectedReturnSafeRegexException;
 use TRegx\SafeRegex\Guard\GuardedExecution;
-use TRegx\SafeRegex\Guard\Strategy\BySubjectSuspectedReturnStrategy;
+use TRegx\SafeRegex\Guard\Strategy\PregFilterSuspectedReturnStrategy;
+use TRegx\SafeRegex\Guard\Strategy\PregReplaceSuspectedReturnStrategy;
 use TRegx\SafeRegex\Guard\Strategy\SilencedSuspectedReturnStrategy;
 use function preg_filter;
 use function preg_grep;
@@ -268,7 +269,7 @@ class preg
     {
         return GuardedExecution::invoke('preg_replace', function () use ($limit, $subject, $replacement, $pattern, &$count) {
             return @preg_replace($pattern, $replacement, $subject, $limit, $count);
-        }, new BySubjectSuspectedReturnStrategy($subject));
+        }, new PregReplaceSuspectedReturnStrategy($subject));
     }
 
     /**
@@ -389,7 +390,7 @@ class preg
     {
         return GuardedExecution::invoke('preg_filter', function () use ($pattern, $replacement, $subject, $limit, &$count) {
             return @preg_filter($pattern, $replacement, $subject, $limit, $count);
-        }, new BySubjectSuspectedReturnStrategy($subject));
+        }, new PregFilterSuspectedReturnStrategy($subject));
     }
 
     /**

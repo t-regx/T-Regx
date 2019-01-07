@@ -3,7 +3,7 @@ namespace TRegx\SafeRegex\Guard\Strategy;
 
 use function is_array;
 
-class BySubjectSuspectedReturnStrategy implements SuspectedReturnStrategy
+class PregReplaceSuspectedReturnStrategy implements SuspectedReturnStrategy
 {
     /** @var string|array|mixed */
     private $subject;

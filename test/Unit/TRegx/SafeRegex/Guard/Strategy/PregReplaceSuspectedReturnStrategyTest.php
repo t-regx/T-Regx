@@ -2,9 +2,9 @@
 namespace Test\Unit\TRegx\SafeRegex\Guard\Strategy;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\SafeRegex\Guard\Strategy\BySubjectSuspectedReturnStrategy;
+use TRegx\SafeRegex\Guard\Strategy\PregReplaceSuspectedReturnStrategy;
 
-class BySubjectSuspectedReturnStrategyTest extends TestCase
+class PregReplaceSuspectedReturnStrategyTest extends TestCase
 {
     /**
      * @test
@@ -12,7 +12,7 @@ class BySubjectSuspectedReturnStrategyTest extends TestCase
     public function shouldNotBeSuspected_emptyArrayInput_emptyArrayOutput()
     {
         // given
-        $strategy = new BySubjectSuspectedReturnStrategy([]);
+        $strategy = new PregReplaceSuspectedReturnStrategy([]);
 
         // when
         $isSuspected = $strategy->isSuspected('', []);
@@ -27,7 +27,7 @@ class BySubjectSuspectedReturnStrategyTest extends TestCase
     public function shouldNotBeSuspected_arrayInput_arrayOutput()
     {
         // given
-        $strategy = new BySubjectSuspectedReturnStrategy([1]);
+        $strategy = new PregReplaceSuspectedReturnStrategy([1]);
 
         // when
         $isSuspected = $strategy->isSuspected('', [2]);
@@ -42,7 +42,7 @@ class BySubjectSuspectedReturnStrategyTest extends TestCase
     public function shouldNotBeSuspected_stringInput_stringOutput()
     {
         // given
-        $strategy = new BySubjectSuspectedReturnStrategy('input');
+        $strategy = new PregReplaceSuspectedReturnStrategy('input');
 
         // when
         $isSuspected = $strategy->isSuspected('', 'output');
@@ -57,7 +57,7 @@ class BySubjectSuspectedReturnStrategyTest extends TestCase
     public function shouldBeSuspected_arrayInput_emptyArrayOutput()
     {
         // given
-        $strategy = new BySubjectSuspectedReturnStrategy(['input']);
+        $strategy = new PregReplaceSuspectedReturnStrategy(['input']);
 
         // when
         $isSuspected = $strategy->isSuspected('', []);
@@ -72,7 +72,7 @@ class BySubjectSuspectedReturnStrategyTest extends TestCase
     public function shouldBeSuspected_stringInput_emptyArrayOutput()
     {
         // given
-        $strategy = new BySubjectSuspectedReturnStrategy('input');
+        $strategy = new PregReplaceSuspectedReturnStrategy('input');
 
         // when
         $isSuspected = $strategy->isSuspected('', null);
