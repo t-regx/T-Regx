@@ -1,14 +1,14 @@
 <?php
-namespace Test\Functional\TRegx\SafeRegex;
+namespace Test\Functional\TRegx\SafeRegex\Guard;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use Test\Warnings;
 use TRegx\SafeRegex\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Exception\CompileSafeRegexException;
 use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
 use TRegx\SafeRegex\Guard\GuardedExecution;
-use Test\Warnings;
 
 class GuardedExecutionTest extends TestCase
 {
@@ -27,18 +27,6 @@ class GuardedExecutionTest extends TestCase
         // then
         $this->assertNull($invocation->getException());
         $this->assertFalse($invocation->hasException());
-    }
-
-    public function possibleObsoleteWarnings()
-    {
-        return [
-            [function () {
-                $this->causeRuntimeWarning();
-            }],
-            [function () {
-                $this->causeCompileWarning();
-            }],
-        ];
     }
 
     /**
@@ -154,7 +142,7 @@ class GuardedExecutionTest extends TestCase
     public function shouldIgnorePreviousWarnings(callable $obsoleteWarning)
     {
         // given
-        call_user_func($obsoleteWarning);
+        $obsoleteWarning();
 
         // when
         $invocation = GuardedExecution::catch('preg_match', function () {
@@ -164,6 +152,18 @@ class GuardedExecutionTest extends TestCase
         // then
         $this->assertNull($invocation->getException());
         $this->assertFalse($invocation->hasException());
+    }
+
+    public function possibleObsoleteWarnings()
+    {
+        return [
+            [function () {
+                $this->causeRuntimeWarning();
+            }],
+            [function () {
+                $this->causeCompileWarning();
+            }],
+        ];
     }
 
     /**

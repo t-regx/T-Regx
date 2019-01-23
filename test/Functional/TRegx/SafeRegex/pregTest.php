@@ -2,6 +2,7 @@
 namespace Test\Functional\TRegx\SafeRegex;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\SafeRegex\Exception\CompileSafeRegexException;
 use TRegx\SafeRegex\preg;
 
 class pregTest extends TestCase
@@ -40,5 +41,21 @@ class pregTest extends TestCase
 
         // then
         $this->assertEquals([], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeIndependentOfCallback_preg_replace_callback()
+    {
+        // then
+        $this->expectException(CompileSafeRegexException::class);
+        $this->expectExceptionMessage("preg_replace_callback(): No ending delimiter '/' found");
+
+        // when
+        preg::replace_callback('/valid/', function () {
+            preg_replace_callback('/invalid', 'strtoupper', '');
+            return 'maybe';
+        }, 'valid');
     }
 }
