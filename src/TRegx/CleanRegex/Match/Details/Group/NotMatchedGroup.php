@@ -28,6 +28,16 @@ class NotMatchedGroup implements MatchGroup
         throw $this->groupNotMatched('text');
     }
 
+    public function parseInt(): int
+    {
+        throw $this->groupNotMatched('parseInt');
+    }
+
+    public function isInt(): bool
+    {
+        throw $this->groupNotMatched('isInt');
+    }
+
     protected function groupNotMatched(string $method): GroupNotMatchedException
     {
         return $this->exceptionFactory->create($method);

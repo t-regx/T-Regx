@@ -2,8 +2,10 @@
 namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\CleanRegex\IntegerFormatException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\ByteOffset;
+use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
 
@@ -24,6 +26,19 @@ class MatchedGroup implements MatchGroup
     public function text(): string
     {
         return $this->occurrence->text;
+    }
+
+    public function parseInt(): int
+    {
+        if ($this->isInt()) {
+            return $this->occurrence->text;
+        }
+        throw IntegerFormatException::forGroup($this->details->nameOrIndex, $this->occurrence->text);
+    }
+
+    public function isInt(): bool
+    {
+        return Integer::isValid($this->occurrence->text);
     }
 
     public function matched(): bool
