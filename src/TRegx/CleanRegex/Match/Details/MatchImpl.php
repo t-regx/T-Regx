@@ -1,9 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
+use TRegx\CleanRegex\Exception\CleanRegex\IntegerFormatException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
+use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
@@ -73,6 +75,19 @@ class MatchImpl implements Match
     public function text(): string
     {
         return $this->match->getMatch();
+    }
+
+    public function parseInt(): int
+    {
+        if ($this->isInt()) {
+            return $this->match->getMatch();
+        }
+        throw IntegerFormatException::forMatch($this->match->getMatch());
+    }
+
+    public function isInt(): bool
+    {
+        return Integer::isValid($this->match->getMatch());
     }
 
     /**

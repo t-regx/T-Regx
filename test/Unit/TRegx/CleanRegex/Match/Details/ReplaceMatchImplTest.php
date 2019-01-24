@@ -51,10 +51,10 @@ class ReplaceMatchImplTest extends TestCase
         $match = $this->getMatch_mockedMethod('subject', 'subject result');
 
         // when
-        $offset = $match->subject();
+        $subject = $match->subject();
 
         // then
-        $this->assertEquals('subject result', $offset);
+        $this->assertEquals('subject result', $subject);
     }
 
     /**
@@ -66,10 +66,10 @@ class ReplaceMatchImplTest extends TestCase
         $match = $this->getMatch_mockedMethod('groupNames', ['one', 'two']);
 
         // when
-        $offset = $match->groupNames();
+        $groupNames = $match->groupNames();
 
         // then
-        $this->assertEquals(['one', 'two'], $offset);
+        $this->assertEquals(['one', 'two'], $groupNames);
     }
 
     /**
@@ -81,10 +81,10 @@ class ReplaceMatchImplTest extends TestCase
         $match = $this->getMatch_mockedMethod('text', 'text result');
 
         // when
-        $offset = $match->text();
+        $text = $match->text();
 
         // then
-        $this->assertEquals('text result', $offset);
+        $this->assertEquals('text result', $text);
     }
 
     /**
@@ -96,10 +96,10 @@ class ReplaceMatchImplTest extends TestCase
         $match = $this->getMatch_mockedMethod('all', ['all', 'one', 'two']);
 
         // when
-        $offset = $match->all();
+        $all = $match->all();
 
         // then
-        $this->assertEquals(['all', 'one', 'two'], $offset);
+        $this->assertEquals(['all', 'one', 'two'], $all);
     }
 
     /**
@@ -111,10 +111,10 @@ class ReplaceMatchImplTest extends TestCase
         $match = $this->getMatch_mockedMethod('index', 14);
 
         // when
-        $offset = $match->index();
+        $index = $match->index();
 
         // then
-        $this->assertEquals(14, $offset);
+        $this->assertEquals(14, $index);
     }
 
     /**
@@ -126,10 +126,10 @@ class ReplaceMatchImplTest extends TestCase
         $match = $this->getMatch_mockedMethod('limit', 14);
 
         // when
-        $offset = $match->limit();
+        $limit = $match->limit();
 
         // then
-        $this->assertEquals(14, $offset);
+        $this->assertEquals(14, $limit);
     }
 
     /**
@@ -156,10 +156,10 @@ class ReplaceMatchImplTest extends TestCase
         $match = $this->getMatch_mockedMethod('byteOffset', 14);
 
         // when
-        $offset = $match->byteOffset();
+        $byteOffset = $match->byteOffset();
 
         // then
-        $this->assertEquals(14, $offset);
+        $this->assertEquals(14, $byteOffset);
     }
 
     /**
@@ -171,10 +171,40 @@ class ReplaceMatchImplTest extends TestCase
         $match = $this->getMatch_mockedMethod('getUserData', 14);
 
         // when
-        $offset = $match->getUserData();
+        $userData = $match->getUserData();
 
         // then
-        $this->assertEquals(14, $offset);
+        $this->assertEquals(14, $userData);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_parseInt()
+    {
+        // given
+        $match = $this->getMatch_mockedMethod('parseInt', 14);
+
+        // when
+        $int = $match->parseInt();
+
+        // then
+        $this->assertEquals(14, $int);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_isInt()
+    {
+        // given
+        $match = $this->getMatch_mockedMethod('isInt', true);
+
+        // when
+        $isInt = $match->isInt();
+
+        // then
+        $this->assertTrue($isInt);
     }
 
     /**

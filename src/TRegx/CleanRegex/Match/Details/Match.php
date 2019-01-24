@@ -10,6 +10,10 @@ interface Match extends Details
 {
     public function text(): string;
 
+    public function parseInt(): int;
+
+    public function isInt(): bool;
+
     public function index(): int;
 
     public function limit(): int;

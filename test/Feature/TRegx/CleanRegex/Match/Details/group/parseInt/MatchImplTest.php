@@ -128,7 +128,6 @@ class MatchImplTest extends TestCase
             });
     }
 
-
     /**
      * @test
      */

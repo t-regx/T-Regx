@@ -77,6 +77,16 @@ class ReplaceMatchImpl implements ReplaceMatch
         return $this->match->text();
     }
 
+    public function parseInt(): int
+    {
+        return $this->match->parseInt();
+    }
+
+    public function isInt(): bool
+    {
+        return $this->match->isInt();
+    }
+
     public function index(): int
     {
         return $this->match->index();
