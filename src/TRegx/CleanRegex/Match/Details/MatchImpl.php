@@ -173,12 +173,12 @@ class MatchImpl implements Match
 
     public function setUserData($userData): void
     {
-        $this->userData->get($this)->set($userData);
+        $this->userData->forMatch($this)->set($userData);
     }
 
     public function getUserData()
     {
-        return $this->userData->get($this)->get();
+        return $this->userData->forMatch($this)->get();
     }
 
     public function __toString(): string

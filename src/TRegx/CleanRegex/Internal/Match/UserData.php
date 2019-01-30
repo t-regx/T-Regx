@@ -9,7 +9,7 @@ class UserData
     /** @var UserDataObject[] */
     private $values = [];
 
-    public function get(Match $match): UserDataObject
+    public function forMatch(Match $match): UserDataObject
     {
         return $this->getOrCreate($this->getKey($match));
     }

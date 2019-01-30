@@ -19,9 +19,9 @@ class UserDataTest extends TestCase
         $otherMatch = $this->createMockWithByteOffset(15);
 
         // when
-        $container->get($match)->set('value');
-        $container->get($otherMatch)->set('value 2');
-        $result = $container->get($match)->get();
+        $container->forMatch($match)->set('value');
+        $container->forMatch($otherMatch)->set('value 2');
+        $result = $container->forMatch($match)->get();
 
         // then
         $this->assertEquals('value', $result);
