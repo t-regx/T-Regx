@@ -24,7 +24,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('capital')
-            ->mapDefault($map, 'default');
+            ->mapOrDefault($map, 'default');
 
         // then
         $this->assertEquals('Replace 1 and 2', $result);
@@ -48,7 +48,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('capital')
-            ->mapDefault($map, 'X');
+            ->mapOrDefault($map, 'X');
 
         // then
         $this->assertEquals('Replace 1 and 2, and maybe X', $result);
@@ -67,7 +67,7 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Invalid replacement map key. Expected string, but integer (2) given");
 
         // when
-        pattern('(One|Two)')->replace('')->first()->by()->group(1)->mapDefault($map, 'default');
+        pattern('(One|Two)')->replace('')->first()->by()->group(1)->mapOrDefault($map, 'default');
     }
 
     /**
@@ -83,6 +83,6 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Invalid replacement map value. Expected string, but boolean (true) given");
 
         // when
-        pattern('(One|Two)')->replace('')->first()->by()->group(1)->mapDefault($map, 'default');
+        pattern('(One|Two)')->replace('')->first()->by()->group(1)->mapOrDefault($map, 'default');
     }
 }

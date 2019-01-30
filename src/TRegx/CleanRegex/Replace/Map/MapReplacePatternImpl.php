@@ -42,7 +42,7 @@ class MapReplacePatternImpl implements MapReplacePattern
         });
     }
 
-    public function mapDefault(array $map, string $defaultReplacement): string
+    public function mapOrDefault(array $map, string $defaultReplacement): string
     {
         return $this->mapOrCallHandler($map, function () use ($defaultReplacement) {
             return $defaultReplacement;

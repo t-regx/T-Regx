@@ -26,5 +26,5 @@ interface MapGroupReplacePattern
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function mapDefault(array $occurrencesAndReplacements, string $defaultReplacement): string;
+    public function mapOrDefault(array $occurrencesAndReplacements, string $defaultReplacement): string;
 }
