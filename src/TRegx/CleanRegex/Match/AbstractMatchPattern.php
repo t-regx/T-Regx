@@ -60,13 +60,13 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
         if (!$match->matched()) {
             throw SubjectNotMatchedException::forFirst($this->base);
         }
-        if ($callback !== null) {
-            $factory = new LazyMatchAllFactory($this->base);
-            $polyfill = new GroupPolyfillDecorator($match, $factory, 0);
-            $matchObject = new MatchImpl($this->base, 0, 1, $polyfill, $factory, $this->base->getUserData());
-            return $callback($matchObject);
+        if ($callback === null) {
+            return $match->getText();
         }
-        return $match->getText();
+        $factory = new LazyMatchAllFactory($this->base);
+        $polyfill = new GroupPolyfillDecorator($match, $factory, 0);
+        $matchObject = new MatchImpl($this->base, 0, 1, $polyfill, $factory, $this->base->getUserData());
+        return $callback($matchObject);
     }
 
     public function only(int $limit): array
