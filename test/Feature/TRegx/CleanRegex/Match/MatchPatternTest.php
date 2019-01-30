@@ -442,7 +442,7 @@ class MatchPatternTest extends TestCase
             ->filter(function (Match $match) {
                 return $match->text() === 'Fifth';
             })
-            ->matches();
+            ->test();
 
         // then
         $this->assertTrue($matches);
@@ -458,7 +458,7 @@ class MatchPatternTest extends TestCase
             ->filter(function () {
                 return false;
             })
-            ->matches();
+            ->test();
 
         // then
         $this->assertFalse($matches);
@@ -474,7 +474,7 @@ class MatchPatternTest extends TestCase
             ->filter(function () {
                 return true;
             })
-            ->matches();
+            ->test();
 
         // then
         $this->assertFalse($matches);

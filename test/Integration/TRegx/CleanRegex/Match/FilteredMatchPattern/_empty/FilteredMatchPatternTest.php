@@ -202,7 +202,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_all();
 
         // when
-        $matches = $matchPattern->matches();
+        $matches = $matchPattern->test();
         $fails = $matchPattern->fails();
 
         // then
@@ -219,7 +219,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern();
 
         // when
-        $matches = $matchPattern->matches();
+        $matches = $matchPattern->test();
         $fails = $matchPattern->fails();
 
         // then
@@ -236,7 +236,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_filtered();
 
         // when
-        $matches = $matchPattern->matches();
+        $matches = $matchPattern->test();
         $fails = $matchPattern->fails();
 
         // then

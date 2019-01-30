@@ -37,11 +37,11 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
         $this->base = $base;
     }
 
-    abstract public function matches(): bool;
+    abstract public function test(): bool;
 
     public function fails(): bool
     {
-        return !$this->matches();
+        return !$this->test();
     }
 
     public function all(): array

@@ -27,12 +27,12 @@ class ErrorCleanTest extends TestCase
     public function shouldNotInterfereWithFurtherMatches()
     {
         try {
-            pattern('/[a-')->matches("");
+            pattern('/[a-')->test("");
         } catch (CompileSafeRegexException $e) {
         }
 
         // when
-        $valid = pattern('/[a-z]/')->matches("a");
+        $valid = pattern('/[a-z]/')->test("a");
 
         // then
         $this->assertTrue($valid);

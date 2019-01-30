@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\SafeRegex\preg;
 
-class MatchesPattern
+class TestMatchesPattern
 {
     /** @var InternalPattern */
     private $pattern;
@@ -18,13 +18,13 @@ class MatchesPattern
         $this->subjectable = $subjectable;
     }
 
-    public function matches(): bool
+    public function test(): bool
     {
         return preg::match($this->pattern->pattern, $this->subjectable->getSubject()) === 1;
     }
 
     public function fails(): bool
     {
-        return !$this->matches();
+        return !$this->test();
     }
 }

@@ -22,14 +22,14 @@ class Pattern
         $this->pattern = new InternalPattern($pattern, $flags);
     }
 
-    public function matches(string $subject): bool
+    public function test(string $subject): bool
     {
-        return (new MatchesPattern($this->pattern, new SubjectableImpl($subject)))->matches();
+        return (new TestMatchesPattern($this->pattern, new SubjectableImpl($subject)))->test();
     }
 
     public function fails(string $subject): bool
     {
-        return (new MatchesPattern($this->pattern, new SubjectableImpl($subject)))->fails();
+        return (new TestMatchesPattern($this->pattern, new SubjectableImpl($subject)))->fails();
     }
 
     public function match(string $subject): MatchPattern

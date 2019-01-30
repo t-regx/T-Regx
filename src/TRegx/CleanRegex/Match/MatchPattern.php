@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Match;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\MatchesPattern;
+use TRegx\CleanRegex\TestMatchesPattern;
 use TRegx\SafeRegex\preg;
 
 class MatchPattern extends AbstractMatchPattern
@@ -21,9 +21,9 @@ class MatchPattern extends AbstractMatchPattern
         $this->subject = $subject;
     }
 
-    public function matches(): bool
+    public function test(): bool
     {
-        return (new MatchesPattern($this->base->getPattern(), $this->base))->matches();
+        return (new TestMatchesPattern($this->base->getPattern(), $this->base))->test();
     }
 
     public function count(): int

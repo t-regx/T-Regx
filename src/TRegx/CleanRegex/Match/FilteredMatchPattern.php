@@ -11,7 +11,7 @@ class FilteredMatchPattern extends AbstractMatchPattern
         parent::__construct($base);
     }
 
-    public function matches(): bool
+    public function test(): bool
     {
         return !empty($this->getMatchObjects());
     }

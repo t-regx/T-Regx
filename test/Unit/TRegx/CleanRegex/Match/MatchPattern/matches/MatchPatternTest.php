@@ -16,7 +16,7 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(new Pattern('[A-Z]?[a-z]+'), 'Nice matching pattern');
 
         // when
-        $result = $pattern->matches();
+        $result = $pattern->test();
 
         // then
         $this->assertTrue($result, "Failed asserting that subject matches the pattern");
@@ -31,7 +31,7 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(new Pattern('[A-Z]?[a-z]+'), 'NOT MATCHING');
 
         // when
-        $result = $pattern->matches();
+        $result = $pattern->test();
 
         // then
         $this->assertFalse($result, "Failed asserting that subject DOES NOT match the pattern");

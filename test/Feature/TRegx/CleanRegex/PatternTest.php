@@ -11,7 +11,7 @@ class PatternTest extends TestCase
     public function should_matches()
     {
         // when
-        $matches = pattern('\d')->matches('abc');
+        $matches = pattern('\d')->test('abc');
 
         // then
         $this->assertFalse($matches);
