@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Remove\RemoveLimit;
+use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 
@@ -56,7 +57,7 @@ class PatternLimitTest extends TestCase
         return [
             [
                 new ReplaceLimitImpl(function (int $limit) {
-                    return new ReplacePatternImpl(new Pattern(''), '', $limit);
+                    return new ReplacePatternImpl(new Pattern(''), '', $limit, new DefaultStrategy());
                 })
             ],
             [

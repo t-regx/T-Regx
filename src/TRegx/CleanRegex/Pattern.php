@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Remove\RemovePattern;
+use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
@@ -40,7 +41,7 @@ class Pattern
     public function replace(string $subject): ReplaceLimit
     {
         return new ReplaceLimitImpl(function (int $limit) use ($subject) {
-            return new ReplacePatternImpl($this->pattern, $subject, $limit);
+            return new ReplacePatternImpl($this->pattern, $subject, $limit, new DefaultStrategy());
         });
     }
 

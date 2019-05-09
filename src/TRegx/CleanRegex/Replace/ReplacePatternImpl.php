@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\Map\MapReplacePattern;
 use TRegx\CleanRegex\Replace\Map\MapReplacePatternImpl;
 use TRegx\CleanRegex\Replace\Map\MapReplacer;
+use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
 use TRegx\SafeRegex\preg;
 
 class ReplacePatternImpl implements ReplacePattern
@@ -22,11 +23,15 @@ class ReplacePatternImpl implements ReplacePattern
     /** @var int */
     private $limit;
 
-    public function __construct(Pattern $pattern, string $subject, int $limit)
+    /** @var NonReplacedStrategy */
+    private $strategy;
+
+    public function __construct(Pattern $pattern, string $subject, int $limit, NonReplacedStrategy $strategy)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
         $this->limit = $limit;
+        $this->strategy = $strategy;
     }
 
     public function with(string $replacement): string

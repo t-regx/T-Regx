@@ -6,6 +6,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\Map\MapReplacePattern;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplacePattern§;
 use TRegx\CleanRegex\Replace\ReplacePattern;
 use TRegx\CleanRegex\Replace\ReplacePatternWithOptionalsImpl;
 
@@ -24,7 +25,7 @@ class ReplacePatternWithOptionalsImplTest extends TestCase
         $delegate->method($methodName)->willReturn('delegated');
         $delegate->expects($this->exactly(1))->method($methodName)->with('number');
 
-        $underTest = new ReplacePatternWithOptionalsImpl($delegate, new InternalPattern(''), '', 0);
+        $underTest = new ReplacePatternWithOptionalsImpl($delegate, new InternalPattern(''), '', 0, new ReplacePattern§());
 
         // when
         $result = $underTest->$methodName('number');
@@ -56,7 +57,7 @@ class ReplacePatternWithOptionalsImplTest extends TestCase
                 return $inputCallback() === 'input';
             }));
 
-        $underTest = new ReplacePatternWithOptionalsImpl($delegate, new InternalPattern(''), '', 0);
+        $underTest = new ReplacePatternWithOptionalsImpl($delegate, new InternalPattern(''), '', 0, new ReplacePattern§());
 
         // when
         $result = $underTest->callback(function () {
@@ -79,7 +80,7 @@ class ReplacePatternWithOptionalsImplTest extends TestCase
         $delegate = $this->createMock(ReplacePattern::class);
         $delegate->method('by')->willReturn($inputInstance);
 
-        $underTest = new ReplacePatternWithOptionalsImpl($delegate, new InternalPattern(''), '', 0);
+        $underTest = new ReplacePatternWithOptionalsImpl($delegate, new InternalPattern(''), '', 0, new ReplacePattern§());
 
         // when
         $result = $underTest->by();

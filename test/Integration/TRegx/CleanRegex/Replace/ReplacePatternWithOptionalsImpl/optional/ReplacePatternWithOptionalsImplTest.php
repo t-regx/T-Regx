@@ -1,88 +1,83 @@
 <?php
 namespace Test\Integration\TRegx\CleanRegex\Replace\ReplacePatternWithOptionalsImplTest\optional;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NonReplaced\NonMatchedMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\NotReplacedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplacePattern§;
+use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Replace\ReplacePattern;
 use TRegx\CleanRegex\Replace\ReplacePatternWithOptionalsImpl;
 
 class ReplacePatternWithOptionalsImplTest extends TestCase
 {
-    /*
+    /**
      * @test
+     * @dataProvider methodsAndStrategies
+     * @param string $method
+     * @param NonReplacedStrategy $strategy
      */
-    public function replaced_shouldDelegate()
+    public function notReplaced_orThrow(string $method, array $arguments, NonReplacedStrategy $strategy)
     {
         // given
-        $underTest = new ReplacePatternWithOptionalsImpl($this->mock('delegated'), new InternalPattern(''), '', 0);
+        $pattern = new InternalPattern('');
 
-        // when
-        $result1 = $underTest->orThrow()->with('');
-        $result2 = $underTest->orReturn('')->with('');
-        $result3 = $underTest->orElse(function () {
-        })->with('');
+        $instance = $this->mock();
+        $factory = $this->mockFactory($instance);
+        $underTest = new ReplacePatternWithOptionalsImpl($this->mock(), $pattern, 'subject', 0, $factory);
 
         // then
-        $this->assertEquals('delegated', $result1);
-        $this->assertEquals('delegated', $result2);
-        $this->assertEquals('delegated', $result3);
+        $factory->expects($this->once())
+            ->method('create')
+            ->with($pattern, 'subject', 0, $strategy)
+            ->willReturn('delegated');
+
+        // when
+        $result = $underTest->$method(...$arguments);
+
+        // then
+        $this->assertEquals($instance, $result);
+    }
+
+    function methodsAndStrategies(): array
+    {
+        $callback = function () {
+        };
+        return [
+            ['orReturn', ['arg'], new ConstantResultStrategy('arg')],
+            ['orThrow', [], new ThrowStrategy(NotReplacedException::class, new NonMatchedMessage())],
+            ['orThrow', [InvalidArgumentException::class], new ThrowStrategy(InvalidArgumentException::class, new NonMatchedMessage())],
+            ['orElse', [$callback], new ComputedSubjectStrategy($callback)],
+        ];
     }
 
     /**
-     * @test
+     * @param string|null $result
+     * @return ReplacePattern|MockObject
      */
-    public function notReplaced_orThrow()
-    {
-        // given
-        $underTest = new ReplacePatternWithOptionalsImpl($this->mock(), new InternalPattern(''), '', 0);
-
-        // then
-        $this->expectException(NotReplacedException::class);
-
-        // when
-        $underTest->orThrow()->with('');
-    }
-
-    /**
-     * @test
-     */
-    public function notReplaced_orReturn()
-    {
-        // given
-        $underTest = new ReplacePatternWithOptionalsImpl($this->mock(), new InternalPattern(''), '', 0);
-
-        // when
-        $result = $underTest->orReturn('Custom message')->with('');
-
-        // then
-        $this->assertEquals('Custom message', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function notReplaced_orElse()
-    {
-        // given
-        $underTest = new ReplacePatternWithOptionalsImpl($this->mock(), new InternalPattern(''), 'Apple', 0);
-
-        // when
-        $result = $underTest
-            ->orElse(function (string $subject) {
-                return "Subject: '$subject'";
-            })
-            ->with('');
-
-        // then
-        $this->assertEquals("Subject: 'Apple'", $result);
-    }
-
     public function mock(string $result = null): ReplacePattern
     {
         /** @var ReplacePattern $delegate */
         $delegate = $this->createMock(ReplacePattern::class);
         $delegate->method('with')->willReturn($result ?? '');
         return $delegate;
+    }
+
+    /**
+     * @param ReplacePattern $result
+     * @return ReplacePattern§|MockObject
+     */
+    private function mockFactory(ReplacePattern $result): ReplacePattern§
+    {
+        /** @var ReplacePattern§|MockObject $factory */
+        $factory = $this->createMock(ReplacePattern§::class);
+        $factory->method('create')->willReturn($result);
+        return $factory;
     }
 }
