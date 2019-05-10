@@ -7,8 +7,8 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\Map\MapReplacePattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePattern§;
-use TRegx\CleanRegex\Replace\ReplacePattern;
-use TRegx\CleanRegex\Replace\ReplacePatternWithOptionalsImpl;
+use TRegx\CleanRegex\Replace\SpecificReplacePattern;
+use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 
 class ReplacePatternWithOptionalsImplTest extends TestCase
 {
@@ -20,12 +20,12 @@ class ReplacePatternWithOptionalsImplTest extends TestCase
     public function shouldDelegate_with_and_withReferences(string $methodName)
     {
         // given
-        /** @var ReplacePattern|MockObject $delegate */
-        $delegate = $this->createMock(ReplacePattern::class);
+        /** @var SpecificReplacePattern|MockObject $delegate */
+        $delegate = $this->createMock(SpecificReplacePattern::class);
         $delegate->method($methodName)->willReturn('delegated');
         $delegate->expects($this->exactly(1))->method($methodName)->with('number');
 
-        $underTest = new ReplacePatternWithOptionalsImpl($delegate, new InternalPattern(''), '', 0, new ReplacePattern§());
+        $underTest = new ReplacePatternImpl($delegate, new InternalPattern(''), '', 0, new ReplacePattern§());
 
         // when
         $result = $underTest->$methodName('number');
@@ -48,8 +48,8 @@ class ReplacePatternWithOptionalsImplTest extends TestCase
     public function shouldDelegate_callback()
     {
         // given
-        /** @var ReplacePattern|MockObject $delegate */
-        $delegate = $this->createMock(ReplacePattern::class);
+        /** @var SpecificReplacePattern|MockObject $delegate */
+        $delegate = $this->createMock(SpecificReplacePattern::class);
         $delegate->method('callback')->willReturn('delegated');
         $delegate->expects($this->exactly(1))
             ->method('callback')
@@ -57,7 +57,7 @@ class ReplacePatternWithOptionalsImplTest extends TestCase
                 return $inputCallback() === 'input';
             }));
 
-        $underTest = new ReplacePatternWithOptionalsImpl($delegate, new InternalPattern(''), '', 0, new ReplacePattern§());
+        $underTest = new ReplacePatternImpl($delegate, new InternalPattern(''), '', 0, new ReplacePattern§());
 
         // when
         $result = $underTest->callback(function () {
@@ -76,11 +76,11 @@ class ReplacePatternWithOptionalsImplTest extends TestCase
         // given
         $inputInstance = $this->createMock(MapReplacePattern::class);
 
-        /** @var ReplacePattern|MockObject $delegate */
-        $delegate = $this->createMock(ReplacePattern::class);
+        /** @var SpecificReplacePattern|MockObject $delegate */
+        $delegate = $this->createMock(SpecificReplacePattern::class);
         $delegate->method('by')->willReturn($inputInstance);
 
-        $underTest = new ReplacePatternWithOptionalsImpl($delegate, new InternalPattern(''), '', 0, new ReplacePattern§());
+        $underTest = new ReplacePatternImpl($delegate, new InternalPattern(''), '', 0, new ReplacePattern§());
 
         // when
         $result = $underTest->by();

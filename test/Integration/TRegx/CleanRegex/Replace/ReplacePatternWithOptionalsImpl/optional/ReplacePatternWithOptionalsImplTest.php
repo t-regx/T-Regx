@@ -12,8 +12,8 @@ use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePattern§;
 use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
-use TRegx\CleanRegex\Replace\ReplacePattern;
-use TRegx\CleanRegex\Replace\ReplacePatternWithOptionalsImpl;
+use TRegx\CleanRegex\Replace\SpecificReplacePattern;
+use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 
 class ReplacePatternWithOptionalsImplTest extends TestCase
 {
@@ -30,7 +30,7 @@ class ReplacePatternWithOptionalsImplTest extends TestCase
 
         $instance = $this->mock();
         $factory = $this->mockFactory($instance);
-        $underTest = new ReplacePatternWithOptionalsImpl($this->mock(), $pattern, 'subject', 0, $factory);
+        $underTest = new ReplacePatternImpl($this->mock(), $pattern, 'subject', 0, $factory);
 
         // then
         $factory->expects($this->once())
@@ -59,21 +59,21 @@ class ReplacePatternWithOptionalsImplTest extends TestCase
 
     /**
      * @param string|null $result
-     * @return ReplacePattern|MockObject
+     * @return SpecificReplacePattern|MockObject
      */
-    public function mock(string $result = null): ReplacePattern
+    public function mock(string $result = null): SpecificReplacePattern
     {
-        /** @var ReplacePattern $delegate */
-        $delegate = $this->createMock(ReplacePattern::class);
+        /** @var SpecificReplacePattern $delegate */
+        $delegate = $this->createMock(SpecificReplacePattern::class);
         $delegate->method('with')->willReturn($result ?? '');
         return $delegate;
     }
 
     /**
-     * @param ReplacePattern $result
+     * @param SpecificReplacePattern $result
      * @return ReplacePattern§|MockObject
      */
-    private function mockFactory(ReplacePattern $result): ReplacePattern§
+    private function mockFactory(SpecificReplacePattern $result): ReplacePattern§
     {
         /** @var ReplacePattern§|MockObject $factory */
         $factory = $this->createMock(ReplacePattern§::class);

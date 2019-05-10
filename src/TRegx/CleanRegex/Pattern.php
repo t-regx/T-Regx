@@ -9,9 +9,11 @@ use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Remove\RemovePattern;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplacePattern§;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
+use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
 
 class Pattern
 {
@@ -41,7 +43,12 @@ class Pattern
     public function replace(string $subject): ReplaceLimit
     {
         return new ReplaceLimitImpl(function (int $limit) use ($subject) {
-            return new ReplacePatternImpl($this->pattern, $subject, $limit, new DefaultStrategy());
+            return new ReplacePatternImpl(
+                new SpecificReplacePatternImpl($this->pattern, $subject, $limit, new DefaultStrategy()),
+                $this->pattern,
+                $subject,
+                $limit,
+                new ReplacePattern§());
         });
     }
 

@@ -1,15 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
-use TRegx\CleanRegex\Replace\Map\MapReplacePattern;
+use TRegx\CleanRegex\Match\ForFirst\Optional;
 
-interface ReplacePattern
+interface ReplacePattern extends SpecificReplacePattern, Optional
 {
-    public function with(string $replacement): string;
-
-    public function withReferences(string $replacement): string;
-
-    public function callback(callable $callback): string;
-
-    public function by(): MapReplacePattern;
 }

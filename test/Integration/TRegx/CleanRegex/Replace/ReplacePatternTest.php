@@ -5,8 +5,8 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Replace\ReplacePattern;
-use TRegx\CleanRegex\Replace\ReplacePatternImpl;
+use TRegx\CleanRegex\Replace\SpecificReplacePattern;
+use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
 
 class ReplacePatternTest extends TestCase
 {
@@ -45,8 +45,8 @@ class ReplacePatternTest extends TestCase
         $this->assertEquals('^^^.___.___.180', $result);
     }
 
-    private function createReplacePattern(string $subject): ReplacePattern
+    private function createReplacePattern(string $subject): SpecificReplacePattern
     {
-        return new ReplacePatternImpl(new Pattern('[0-9]+'), $subject, 3, new DefaultStrategy());
+        return new SpecificReplacePatternImpl(new Pattern('[0-9]+'), $subject, 3, new DefaultStrategy());
     }
 }
