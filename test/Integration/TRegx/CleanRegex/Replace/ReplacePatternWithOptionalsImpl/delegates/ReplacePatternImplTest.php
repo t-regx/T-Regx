@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Replace\NonReplaced\ReplacePattern§;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 
-class ReplacePatternWithOptionalsImplTest extends TestCase
+class ReplacePatternImplTest extends TestCase
 {
     /**
      * @test

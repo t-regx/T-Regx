@@ -15,7 +15,7 @@ use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 
-class ReplacePatternWithOptionalsImplTest extends TestCase
+class ReplacePatternImplTest extends TestCase
 {
     /**
      * @test
