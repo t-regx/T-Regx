@@ -23,7 +23,7 @@ interface Match extends Details
      * @return MatchGroup
      * @throws NonexistentGroupException
      */
-    public function group($nameOrIndex): MatchGroup;
+    public function group($nameOrIndex);
 
     public function groups(): IndexedGroups;
 

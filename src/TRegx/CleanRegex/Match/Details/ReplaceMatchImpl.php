@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Group\ReplaceMatchGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
@@ -38,12 +37,7 @@ class ReplaceMatchImpl implements ReplaceMatch
      * @return ReplaceMatchGroup
      * @throws NonexistentGroupException
      */
-    public function group($nameOrIndex): MatchGroup
-    {
-        return $this->getReplaceGroup($nameOrIndex);
-    }
-
-    private function getReplaceGroup($nameOrIndex): ReplaceMatchGroup
+    public function group($nameOrIndex): ReplaceMatchGroup
     {
         /** @var ReplaceMatchGroup $matchGroup */
         $matchGroup = $this->match->group($nameOrIndex);
