@@ -41,7 +41,11 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
 
     public function withReferences(string $replacement): string
     {
-        return preg::replace($this->pattern->pattern, $replacement, $this->subject, $this->limit);
+        $result = preg::replace($this->pattern->pattern, $replacement, $this->subject, $this->limit, $replaced);
+        if ($replaced === 0) {
+            return $this->strategy->replacementResult($this->subject) ?? $result;
+        }
+        return $result;
     }
 
     public function callback(callable $callback): string
