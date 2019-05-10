@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
 use TRegx\SafeRegex\preg;
 
 class ReplacePatternCallbackInvoker
@@ -15,21 +16,33 @@ class ReplacePatternCallbackInvoker
     private $subject;
     /** @var int */
     private $limit;
+    /** @var NonReplacedStrategy */
+    private $strategy;
 
-    public function __construct(Pattern $pattern, Subjectable $subject, int $limit)
+    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, NonReplacedStrategy $strategy)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
         $this->limit = $limit;
+        $this->strategy = $strategy;
     }
 
     public function invoke(callable $callback): string
     {
-        return preg::replace_callback(
-            $this->pattern->pattern,
+        $result = $this->pregReplaceCallback($callback, $replaced);
+        if ($replaced === 0) {
+            return $this->strategy->replacementResult($this->subject->getSubject()) ?? $result;
+        }
+        return $result;
+    }
+
+    public function pregReplaceCallback(callable $callback, ?int &$replaced): string
+    {
+        return preg::replace_callback($this->pattern->pattern,
             $this->getObjectCallback($callback),
             $this->subject->getSubject(),
-            $this->limit);
+            $this->limit,
+            $replaced);
     }
 
     private function getObjectCallback(callable $callback): callable

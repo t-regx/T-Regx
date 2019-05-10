@@ -53,7 +53,8 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
         $invoker = new ReplacePatternCallbackInvoker(
             $this->pattern,
             new SubjectableImpl($this->subject),
-            $this->limit
+            $this->limit,
+            $this->strategy
         );
         return $invoker->invoke($callback);
     }
@@ -64,7 +65,8 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
             new MapReplacer(
                 $this->pattern,
                 new SubjectableImpl($this->subject),
-                $this->limit),
+                $this->limit,
+                $this->strategy),
             self::WHOLE_MATCH
         );
     }

@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Composite;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
+use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
 use TRegx\SafeRegex\preg;
 
 class ChainedReplace
@@ -12,11 +13,14 @@ class ChainedReplace
     private $patterns;
     /** @var string */
     private $subject;
+    /** @var NonReplacedStrategy */
+    private $strategy;
 
-    public function __construct(array $patterns, string $subject)
+    public function __construct(array $patterns, string $subject, NonReplacedStrategy $strategy)
     {
         $this->patterns = $patterns;
         $this->subject = $subject;
+        $this->strategy = $strategy;
     }
 
     public function with(string $replacement): string
@@ -39,7 +43,7 @@ class ChainedReplace
 
     private function replaceNext(Pattern $pattern, string $subject, callable $callback): string
     {
-        $invoker = new ReplacePatternCallbackInvoker($pattern, new SubjectableImpl($subject), -1);
+        $invoker = new ReplacePatternCallbackInvoker($pattern, new SubjectableImpl($subject), -1, $this->strategy);
         return $invoker->invoke($callback);
     }
 }

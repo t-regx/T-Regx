@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\StringValue;
 use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
 use function is_string;
@@ -18,12 +19,15 @@ class MapReplacer
     private $subject;
     /** @var int */
     private $limit;
+    /** @var NonReplacedStrategy */
+    private $strategy;
 
-    public function __construct(Pattern $pattern, Subjectable $subject, int $limit)
+    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, NonReplacedStrategy $strategy)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
         $this->limit = $limit;
+        $this->strategy = $strategy;
     }
 
     public function mapOrCallHandler($nameOrIndex, array $map, callable $unexpectedReplacementHandler): string
@@ -68,7 +72,21 @@ class MapReplacer
 
     public function replaceUsingCallback(callable $closure): string
     {
-        return preg::replace_callback($this->pattern->pattern, $closure, $this->subject->getSubject(), $this->limit);
+        $result = $this->pregReplaceCallback($closure, $replaced);
+        if ($replaced === 0) {
+            return $this->strategy->replacementResult($this->subject->getSubject());
+        }
+        return $result;
+    }
+
+    public function pregReplaceCallback(callable $closure, ?int &$replaced): string
+    {
+        return preg::replace_callback(
+            $this->pattern->pattern,
+            $closure,
+            $this->subject->getSubject(),
+            $this->limit,
+            $replaced);
     }
 
     private function getReplacementOrHandle(array $match, $nameOrIndex, array $map, callable $unexpectedReplacementHandler): string

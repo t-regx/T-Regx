@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
+use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 
 class ReplacePatternCallbackInvokerTest extends TestCase
 {
@@ -16,7 +17,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     {
         // given
         $subject = 'Tom Cruise is 21 years old and has 192cm';
-        $invoker = new ReplacePatternCallbackInvoker(new Pattern('[0-9]+'), new SubjectableImpl($subject), 2);
+        $invoker = new ReplacePatternCallbackInvoker(new Pattern('[0-9]+'), new SubjectableImpl($subject), 2, new DefaultStrategy());
         $callback = function (ReplaceMatch $match) {
             $value = (int)$match->text();
             return '*' . ($value + 1) . '*';
@@ -36,7 +37,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     {
         // given
         $subject = 'Tom Cruise is 21 years old and has 192cm';
-        $invoker = new ReplacePatternCallbackInvoker(new Pattern('[0-9]+'), new SubjectableImpl($subject), 2);
+        $invoker = new ReplacePatternCallbackInvoker(new Pattern('[0-9]+'), new SubjectableImpl($subject), 2, new DefaultStrategy());
         $offsets = [];
         $callback = function (ReplaceMatch $match) use (&$offsets) {
             $offsets[] = $match->offset();
@@ -57,7 +58,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     {
         // given
         $subject = '192.168.17.20';
-        $invoker = new ReplacePatternCallbackInvoker(new Pattern('[0-9]+'), new SubjectableImpl($subject), 3);
+        $invoker = new ReplacePatternCallbackInvoker(new Pattern('[0-9]+'), new SubjectableImpl($subject), 3, new DefaultStrategy());
         $values = [];
         $callback = function (ReplaceMatch $match) use (&$values) {
             $values[] = $match;
@@ -78,7 +79,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     {
         // given
         $subject = '192.168.17.20';
-        $invoker = new ReplacePatternCallbackInvoker(new Pattern('[0-9]+'), new SubjectableImpl($subject), 3);
+        $invoker = new ReplacePatternCallbackInvoker(new Pattern('[0-9]+'), new SubjectableImpl($subject), 3, new DefaultStrategy());
         $callback = function (ReplaceMatch $match) {
             // then
             $this->assertEquals(['192', '168', '17', '20'], $match->all());
@@ -97,7 +98,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     {
         // given
         $subject = 'Tom Cruise is 21 years old and has 192cm';
-        $invoker = new ReplacePatternCallbackInvoker(new Pattern('[0-9]+'), new SubjectableImpl($subject), 2);
+        $invoker = new ReplacePatternCallbackInvoker(new Pattern('[0-9]+'), new SubjectableImpl($subject), 2, new DefaultStrategy());
         $callback = function (ReplaceMatch $match) use ($subject) {
             // then
             $this->assertEquals($subject, $match->subject());
@@ -115,7 +116,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     public function shouldNotInvokeCallback_limit_0()
     {
         // given
-        $invoker = new ReplacePatternCallbackInvoker(new Pattern(''), new SubjectableImpl(''), 0);
+        $invoker = new ReplacePatternCallbackInvoker(new Pattern(''), new SubjectableImpl(''), 0, new DefaultStrategy());
 
         // when
         $result = $invoker->invoke(function () {
