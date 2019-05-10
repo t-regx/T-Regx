@@ -74,7 +74,7 @@ class MapReplacer
     {
         $result = $this->pregReplaceCallback($closure, $replaced);
         if ($replaced === 0) {
-            return $this->strategy->replacementResult($this->subject->getSubject());
+            return $this->strategy->replacementResult($this->subject->getSubject()) ?? $result;
         }
         return $result;
     }
