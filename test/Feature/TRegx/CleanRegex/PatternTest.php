@@ -68,6 +68,18 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function should_unquote()
+    {
+        // when
+        $unquote = pattern('\[a\-z\]\+')->unquote();
+
+        // then
+        $this->assertEquals('[a-z]+', $unquote);
+    }
+
+    /**
+     * @test
+     */
     public function shouldFilterArray()
     {
         // given

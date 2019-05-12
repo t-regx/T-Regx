@@ -79,6 +79,11 @@ class Pattern
         return (new QuotePattern($this->pattern))->quote();
     }
 
+    public function unquote(): string
+    {
+        return (new UnquotePattern($this->pattern))->unquote();
+    }
+
     public function is(): IsPattern
     {
         return new IsPattern($this->pattern);
