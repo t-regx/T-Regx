@@ -2,7 +2,6 @@
 namespace Test\Unit\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\UnquotePattern;
 use TRegx\SafeRegex\preg;
 
@@ -14,7 +13,7 @@ class UnquotePatternTest extends TestCase
     public function shouldUnquote()
     {
         // given
-        $unquotePattern = new UnquotePattern(new InternalPattern('Did you\\?'));
+        $unquotePattern = new UnquotePattern('Did you\\?');
 
         // when
         $unquoted = $unquotePattern->unquote();
@@ -31,7 +30,7 @@ class UnquotePatternTest extends TestCase
     public function shouldPreserveContract(string $input)
     {
         // given
-        $unquotePattern = new UnquotePattern(new InternalPattern(preg::quote($input)));
+        $unquotePattern = new UnquotePattern(preg::quote($input));
 
         // when
         $output = $unquotePattern->unquote();
@@ -59,7 +58,7 @@ class UnquotePatternTest extends TestCase
     {
         // given
         $input = '\\\' \\" \\/ \\;';
-        $unquotePattern = new UnquotePattern(new InternalPattern($input));
+        $unquotePattern = new UnquotePattern($input);
 
         // when
         $unquoted = $unquotePattern->unquote();
@@ -76,8 +75,7 @@ class UnquotePatternTest extends TestCase
     public function shouldUnquoteWithoutException(string $invalidPattern)
     {
         // given
-        $pattern = new InternalPattern($invalidPattern);
-        $unquotePattern = new UnquotePattern($pattern);
+        $unquotePattern = new UnquotePattern($invalidPattern);
 
         // when
         $unquotePattern->unquote();

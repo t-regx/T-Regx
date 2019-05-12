@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Pattern;
 
 class PatternTest extends TestCase
 {
@@ -59,7 +60,7 @@ class PatternTest extends TestCase
     public function should_quote()
     {
         // when
-        $quoted = pattern('[a-z]+')->quote();
+        $quoted = Pattern::quote('[a-z]+');
 
         // then
         $this->assertEquals('\[a\-z\]\+', $quoted);
@@ -71,7 +72,7 @@ class PatternTest extends TestCase
     public function should_unquote()
     {
         // when
-        $unquote = pattern('\[a\-z\]\+')->unquote();
+        $unquote = Pattern::unquote('\[a\-z\]\+');
 
         // then
         $this->assertEquals('[a-z]+', $unquote);

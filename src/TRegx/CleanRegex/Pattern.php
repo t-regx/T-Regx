@@ -74,14 +74,14 @@ class Pattern
         return (new CountPattern($this->pattern, new SubjectableImpl($subject)))->count();
     }
 
-    public function quote(): string
+    public static function quote(string $pattern): string
     {
-        return (new QuotePattern($this->pattern))->quote();
+        return (new QuotePattern($pattern))->quote();
     }
 
-    public function unquote(): string
+    public static function unquote(string $pattern): string
     {
-        return (new UnquotePattern($this->pattern))->unquote();
+        return (new UnquotePattern($pattern))->unquote();
     }
 
     public function is(): IsPattern

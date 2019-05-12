@@ -2,7 +2,6 @@
 namespace Test\Unit\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\QuotePattern;
 
 class QuotePatternTest extends TestCase
@@ -13,8 +12,7 @@ class QuotePatternTest extends TestCase
     public function shouldQuote()
     {
         // given
-        $pattern = new InternalPattern('Did you?');
-        $quotePattern = new QuotePattern($pattern);
+        $quotePattern = new QuotePattern('Did you?');
 
         // when
         $quoted = $quotePattern->quote();
@@ -31,8 +29,7 @@ class QuotePatternTest extends TestCase
     public function shouldQuoteWithoutException(string $invalidPattern)
     {
         // given
-        $pattern = new InternalPattern($invalidPattern);
-        $quotePattern = new QuotePattern($pattern);
+        $quotePattern = new QuotePattern($invalidPattern);
 
         // when
         $quotePattern->quote();

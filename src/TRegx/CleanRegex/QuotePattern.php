@@ -1,21 +1,20 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\SafeRegex\preg;
 
 class QuotePattern
 {
-    /** @var InternalPattern */
+    /** @var string */
     private $pattern;
 
-    public function __construct(InternalPattern $pattern)
+    public function __construct(string $pattern)
     {
         $this->pattern = $pattern;
     }
 
     public function quote(): string
     {
-        return preg::quote($this->pattern->originalPattern);
+        return preg::quote($this->pattern);
     }
 }

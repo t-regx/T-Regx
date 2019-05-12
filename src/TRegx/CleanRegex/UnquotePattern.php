@@ -1,21 +1,19 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Internal\InternalPattern;
-
 class UnquotePattern
 {
-    /** @var InternalPattern */
+    /** @var string */
     private $pattern;
 
-    public function __construct(InternalPattern $pattern)
+    public function __construct(string $pattern)
     {
         $this->pattern = $pattern;
     }
 
     public function unquote(): string
     {
-        return $this->unquoteStringWithCharacters($this->pattern->originalPattern, [
+        return $this->unquoteStringWithCharacters($this->pattern, [
             '.', '\\', '+', '*', '?', '[', ']', '^', '$', '(', ')',
             '{', '}', '=', '!', '<', '>', '|', ':', '-', '#'
         ]);
