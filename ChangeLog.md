@@ -30,6 +30,7 @@ Added in 1.0
     * Add `CompositePattern` (#8)
     * Add `PatternBuilder` with `prepare()`, `inject()` and `compose()` methods (#25)
     * Use `PREG_UNMATCHED_AS_NULL` if PHP version is supported
+    * Add `Pattern::unquote()`
 * Tests
     * Split tests into `\Test\Unit`, `\Test\Integration`, `\Test\Functional` and `\Test\Feature` folders 
     * Add dynamic skip for `ErrorsCleanerTest`
@@ -142,14 +143,10 @@ API
             * `->with()`
             * `->withReferences()`
             * `->callback()`
-            * `->by()`
+            * `->by()`/`by()->group()`
                 * `->map()`
                 * `->mapIfExists()`
                 * `->mapOrDefault()`
-                * `->group()`
-                    * `->map()`
-                    * `->mapIfExists()`
-                    * `->mapOrDefault()`
         * `ReplaceMatch` details (extending `Match` details)
             * `ReplaceMatch.modifiedOffset()`
             * `ReplaceMatch.modifiedSubject()`
@@ -166,11 +163,12 @@ API
         * `pattern()->split()->inc()`
         * `pattern()->split()->filter()->*`
         * `pattern()->count()`
-        * `pattern()->quote()`
         * `pattern()->is()->valid()`
         * `pattern()->is()->usable()`
         * `pattern()->is()->delimitered()`
         * `pattern()->delimitered()`
+        * `Pattern::quote()`
+        * `Pattern::unquote()`
     * Building Pattern API
         * `Pattern::of()`
         * `Pattern::inject()`/`PatternBuilder::inject()`
