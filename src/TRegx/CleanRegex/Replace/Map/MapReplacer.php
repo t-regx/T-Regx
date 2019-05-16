@@ -2,8 +2,10 @@
 namespace TRegx\CleanRegex\Replace\Map;
 
 use InvalidArgumentException;
+use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\StringValue;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
@@ -21,13 +23,16 @@ class MapReplacer
     private $limit;
     /** @var NonReplacedStrategy */
     private $strategy;
+    /** @var Base */
+    private $base;
 
-    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, NonReplacedStrategy $strategy)
+    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, NonReplacedStrategy $strategy, Base $base)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
         $this->limit = $limit;
         $this->strategy = $strategy;
+        $this->base = $base;
     }
 
     public function mapOrCallHandler($nameOrIndex, array $map, callable $unexpectedReplacementHandler): string
@@ -66,7 +71,10 @@ class MapReplacer
     private function validateGroup(array $match, $nameOrIndex): void
     {
         if (!array_key_exists($nameOrIndex, $match)) {
-            throw new NonexistentGroupException($nameOrIndex);
+            $matches = $this->base->matchAllOffsets();
+            if (!$matches->hasGroup($nameOrIndex)) {
+                throw new NonexistentGroupException($nameOrIndex);
+            }
         }
     }
 
@@ -92,6 +100,9 @@ class MapReplacer
     private function getReplacementOrHandle(array $match, $nameOrIndex, array $map, callable $unexpectedReplacementHandler): string
     {
         $occurrence = $match[$nameOrIndex];
+        if ($occurrence === null) {
+            throw GroupNotMatchedException::forReplacement($this->subject, $nameOrIndex);
+        }
         if (array_key_exists($occurrence, $map)) {
             return $map[$occurrence];
         }

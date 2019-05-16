@@ -2,6 +2,8 @@
 namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
+use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\Map\MapReplacePattern;
@@ -66,7 +68,9 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
                 $this->pattern,
                 new SubjectableImpl($this->subject),
                 $this->limit,
-                $this->strategy),
+                $this->strategy,
+                new ApiBase($this->pattern, $this->subject, new UserData())
+            ),
             self::WHOLE_MATCH
         );
     }
