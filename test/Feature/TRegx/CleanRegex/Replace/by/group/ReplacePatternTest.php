@@ -70,6 +70,27 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrow_groupNotMatch_middleGroup_thirdIndex()
+    {
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to replace with group 'bar', but the group was not matched");
+
+        // when
+        pattern('Foo(?<bar>Bar)?(?<car>Car)')
+            ->replace('FooBarCar FooBarCar FooCar')
+            ->all()
+            ->by()
+            ->group('bar')
+            ->map([
+                'Bar' => 'ok',
+                ''    => 'failure'
+            ]);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_groupNotMatch_lastGroup()
     {
         // then
