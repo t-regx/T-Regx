@@ -103,6 +103,12 @@ class MapReplacer
         if ($occurrence === null) {
             throw GroupNotMatchedException::forReplacement($this->subject, $nameOrIndex);
         }
+        if ($occurrence === '') {
+            $matches = $this->base->matchAllOffsets();
+            if (!$matches->isGroupMatched($nameOrIndex, 0)) {
+                throw GroupNotMatchedException::forReplacement($this->subject, $nameOrIndex);
+            }
+        }
         if (array_key_exists($occurrence, $map)) {
             return $map[$occurrence];
         }
