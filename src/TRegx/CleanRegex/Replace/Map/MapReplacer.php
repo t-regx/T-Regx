@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Replace\Map;
 
 use InvalidArgumentException;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
@@ -25,6 +26,8 @@ class MapReplacer
     private $strategy;
     /** @var Base */
     private $base;
+    /** @var int */
+    private $counter = -1;
 
     public function __construct(Pattern $pattern, Subjectable $subject, int $limit, NonReplacedStrategy $strategy, Base $base)
     {
@@ -38,7 +41,9 @@ class MapReplacer
     public function mapOrCallHandler($nameOrIndex, array $map, callable $unexpectedReplacementHandler): string
     {
         $this->validateMap($map);
+        $this->counter = -1;
         return $this->replaceUsingCallback(function (array $match) use ($nameOrIndex, $map, $unexpectedReplacementHandler) {
+            $this->counter++;
             $this->validateGroup($match, $nameOrIndex);
             return $this->getReplacementOrHandle($match, $nameOrIndex, $map, $unexpectedReplacementHandler);
         });
@@ -104,8 +109,12 @@ class MapReplacer
             throw GroupNotMatchedException::forReplacement($this->subject, $nameOrIndex);
         }
         if ($occurrence === '') {
+            // With preg_replace_callback - it's impossible to distinguish unmatched group from a matched empty string
             $matches = $this->base->matchAllOffsets();
-            if (!$matches->isGroupMatched($nameOrIndex, 0)) {
+            if (!$matches->hasGroup($this->counter)) {
+                throw new InternalCleanRegexException();
+            }
+            if (!$matches->isGroupMatched($nameOrIndex, $this->counter)) {
                 throw GroupNotMatchedException::forReplacement($this->subject, $nameOrIndex);
             }
         }

@@ -91,6 +91,37 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrow_groupNotMatch_lastGroup_thirdIndex_breaking()
+    {
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to replace with group 'bar', but the group was not matched");
+
+        $group = pattern('(?<foo>Foo)(?<bar>Bar)?(?<last>;)')
+            ->replace('FooBar; FooBar; Foo; Foo;')
+            ->all()
+            ->by()
+            ->group('bar');
+        try {
+            $result = $group->map([
+                'Bar' => 'ok',
+                ''    => 'failure'
+            ]);
+
+            $this->assertEquals('ok ok failure failure', $result);
+        } catch (GroupNotMatchedException $ignored) {
+        }
+        // when
+        $result = $group->map([
+            'Bar' => 'ok',
+            ''    => 'failure'
+        ]);
+        $this->assertEquals('ok ok failure failure', $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_groupNotMatch_lastGroup()
     {
         // then
