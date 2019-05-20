@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Remove\RemovePattern;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplacePattern§;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
@@ -48,7 +48,7 @@ class Pattern
                 $this->pattern,
                 $subject,
                 $limit,
-                new ReplacePattern§());
+                new ReplacePatternFactory());
         });
     }
 

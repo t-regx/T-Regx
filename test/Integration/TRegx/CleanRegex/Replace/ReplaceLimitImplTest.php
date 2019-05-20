@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplacePattern§;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
 use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
 use TRegx\CleanRegex\Replace\ReplacePattern;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
@@ -86,7 +86,7 @@ class ReplaceLimitImplTest extends TestCase
             new Pattern(''),
             '',
             0,
-            new ReplacePattern§()
+            new ReplacePatternFactory()
         );
     }
 }

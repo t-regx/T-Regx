@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplacePattern§;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
 use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
@@ -71,12 +71,12 @@ class ReplacePatternImplTest extends TestCase
 
     /**
      * @param SpecificReplacePattern $result
-     * @return ReplacePattern§|MockObject
+     * @return ReplacePatternFactory|MockObject
      */
-    private function mockFactory(SpecificReplacePattern $result): ReplacePattern§
+    private function mockFactory(SpecificReplacePattern $result): ReplacePatternFactory
     {
-        /** @var ReplacePattern§|MockObject $factory */
-        $factory = $this->createMock(ReplacePattern§::class);
+        /** @var ReplacePatternFactory|MockObject $factory */
+        $factory = $this->createMock(ReplacePatternFactory::class);
         $factory->method('create')->willReturn($result);
         return $factory;
     }

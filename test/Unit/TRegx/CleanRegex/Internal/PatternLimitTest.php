@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplacePattern§;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
 use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
@@ -64,7 +64,7 @@ class PatternLimitTest extends TestCase
                         new Pattern(''),
                         '',
                         $limit,
-                        new ReplacePattern§()
+                        new ReplacePatternFactory()
                     );
                 })
             ],
