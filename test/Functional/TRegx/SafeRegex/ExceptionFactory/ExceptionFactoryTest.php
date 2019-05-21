@@ -11,7 +11,7 @@ use TRegx\SafeRegex\Guard\Strategy\DefaultSuspectedReturnStrategy;
 
 class ExceptionFactoryTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         (new ErrorsCleaner())->clear();
     }

@@ -56,13 +56,15 @@ class FlagsValidatorTest extends TestCase
     /**
      * @test
      * @dataProvider invalidFlags
-     * @expectedException \TRegx\CleanRegex\Exception\CleanRegex\FlagNotAllowedException
      * @param string $flag
      */
     public function shouldNotAllowInvalidFlags(string $flag)
     {
         // given
         $flags = new FlagsValidator();
+
+        // then
+        $this->expectException(FlagNotAllowedException::class);
 
         // when
         $flags->validate($flag);

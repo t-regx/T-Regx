@@ -41,7 +41,7 @@
     "ext-mbstring": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.4",
+    "phpunit/phpunit": "^7.4",
     "satooshi/php-coveralls": "^2.0"
   },
   "archive": {
