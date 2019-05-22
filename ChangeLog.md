@@ -1,8 +1,6 @@
 T-Regx Changelog
 ================
 
-This file is to keep track of enhancements and bug fixes in different versions of T-Regx.
-
 Added in 1.0
 ---------------
 
@@ -12,12 +10,12 @@ Added in 1.0
     * Add `Match.group()->all()` 
     * Add `Match.getUserData()`/`setUserData()` 
     * Add `ReplaceMatch.modifiedSubject()`
-    * Returning from `match()->first(callable)` modifies its return type
+    * Returning from `match()->first(callable)` modifies its return value
     * Add `pattern()->remove()`
     * Add `pattern()->replace()->by()`
     * Add `match()->only(int)`
     * Add `match()->flatMap()`
-    * Add `match()->group()->all()`, `match()->group()->first()` and `match()->group()->only()`
+    * Add `match()->group()->all()` / `first()` / `->only()`
     * Add `match()->iterator()`
     * Add `match()->forFirst()`
         * with methods `orReturn()`, `orElse()` and `orThrow()`
@@ -34,9 +32,6 @@ Added in 1.0
 * Tests
     * Split tests into `\Test\Unit`, `\Test\Integration`, `\Test\Functional` and `\Test\Feature` folders 
     * Add dynamic skip for `ErrorsCleanerTest`
-    * Add test for `ReplacePatternAll`, `ErrorsCleaner.getError()`, `ValidPatternTest.shouldNotLeaveErrors()`,
- `GuardedExecution.silenced()`, `GuardedExecutionTest.shouldNotCatchException()`, `FailureIndicators`,
-      `ReplaceCallbackObject`, `ReplacePatternCallbackInvoker` from 1.0.
     * Handle [PHP bugfix in 7.1.13](https://bugs.php.net/bug.php?id=74183).
 * Debug
     * Add `pregConstant` field to `RuntimeError`. Only reason to do it is so if you **catch the exception it 
@@ -50,52 +45,51 @@ Added in 1.0
       of `Match.hasGroup()` or similar method. Regular methods like `Match.text()` won't call `preg_match_all()`
     * Handle bug [PHP #75355](https://bugs.php.net/bug.php?id=75355)
 * Bug fixes
-    * `preg::replace()` and `preg::filter()` only consider `[]` an error prone if input subject was also an empty array.
+    * `preg::replace()` and `preg::filter()` only consider `[]` error prone if input subject was also an empty array.
 
 API
 ---------------
 
 * SafeRegex
-    * Create exact copies of `preg_*()` methods: `preg::match()`, `preg::match_all()`, `preg::replace()`, `preg::replace_callback()`, 
-      `preg::replace_callback_array()`, `preg::filter()`, `preg::split()`, `preg::grep()`, `preg::quote()`,
-      `preg::last_error()` methods.
-    * `preg::*` SafeRegex methods never emit warnings or errors, but throw `SafeRegexException` instead.
-    * Add additional utility methods:
-         * `preg::last_error_constant()`, which returns error constant as string
-           (ie. `'PREG_RECURSION_LIMIT_ERROR'`), where as `preg_last_error()` and `preg::last_error()` return constant
-           as integer (ie. `3`).
-         * `preg::error_constant(int)` method to change error constant from integer to string
-           (ie. `preg::error_constant(4) == 'PREG_BAD_UTF8_ERROR'`).
-    * `preg::quote()` quotes additional PCRE characters, which `preg_quote()` does not.
+    * Exact copies of `preg_*()` functions - wrapper methods that catch warnings and throw `SafeRegexException` instead: 
+      * `preg::match()`, 
+      * `preg::match_all()`,
+      * `preg::replace()`, 
+      * `preg::replace_callback()`, 
+      * `preg::replace_callback_array()`,
+      * `preg::filter()`, 
+      * `preg::split()`,
+      * `preg::grep()`, 
+      * `preg::quote()`,
+      * `preg::last_error()`
+    * Additional utility methods:
+      * `preg::last_error_constant()` - which returns error constant as string
+        (ie. `'PREG_RECURSION_LIMIT_ERROR'`), where as `preg_last_error()` and `preg::last_error()` return constant
+        as integer (ie. `3`).
+      * `preg::error_constant(int)` - method to change error constant from integer to string
+        (ie. `preg::error_constant(4) == 'PREG_BAD_UTF8_ERROR'`).
+    * Bug fixes:
+      * `preg::quote()` quotes additional PCRE characters, which `preg_quote()` does not.
 
 * CleanRegex
-    * Automatic delimiter (ie. `pattern('[A-Z]')`)
-    * Matching API
+    * Matching
         * `pattern()->test()`
         * `pattern()->fails()`
         * `pattern()->match()`
             * `->test()`
             * `->fails()`
-            * `->all()`
-            * `->first()`
-            * `->only()`
+            * `->all()` / `->first()` / `->only(int)`
+            * `->forEach()` / `iterate()`
+            * `->first(callable)`
             * `->map()`
             * `->flatMap()`
-            * `->forEach()` / `iterate()`
             * `->iterator()`
             * `->count()`
             * `->offsets()`
-                * `->first()`
-                * `->all()`
-                * `->only(int)`
+                * `->all()` / `->first()` / `->only(int)`
             * `->group(name|index)`
-                * `->first()`
-                * `->all()`
-                * `->only(int)`
-                * `->offsets()`
-                    * `->first()`
-                    * `->all()`
-                    * `->only(int)`
+                * `->all()` / `->first()` / `->only(int)`
+                * `->offsets()->*`
             * `->forFirst()`
                 * `->orReturn(mixed)`
                 * `->orElse(callable)`
@@ -107,8 +101,7 @@ API
             * `Match->subject()`
             * `Match->index()`
             * `Match->limit()`
-            * `Match->offset()`
-            * `Match->byteOffset()`
+            * `Match->offset()` / `Match->byteOffset()`
             * `Match->group(string|int)`
                 * `->text()`
                 * `->parseInt()`, `->isInt()`
@@ -116,16 +109,14 @@ API
                 * `->name()`
                 * `->index()`
                 * `->usedIdentifier()`
-                * `->offset()`
-                * `->byteOffset()`
+                * `->offset()` / `->byteOffset()`
                 * `->all()`
                 * `->orThrow()`
                 * `->orReturn()`
                 * `->orElse()`
-            * `Match->groups()->*`, `Match->namedGroups()->*`
+            * `Match->groups()` / `Match->namedGroups()`
                 * `->texts()`
-                * `->offsets()`
-                * `->byteOffsets()`
+                * `->offsets()` / `->byteOffsets()`
             * `Match->groupNames()`
             * `Match->matched(string|int)`
             * `Match->hasGroup(string|int)`
@@ -136,41 +127,39 @@ API
             * `NotMatched->groupNames()`
             * `NotMatched->groupsCount()`
             * `NotMatched->hasGroup(string|int)`
-    * Replace API
-        * `pattern()->replace()->all()`...
-        * `pattern()->replace()->first()`...
-        * `pattern()->replace()->only(int)`....
-            * `->with()`
-            * `->withReferences()`
-            * `->callback()`
-            * `->by()`/`by()->group()`
-                * `->map()`
-                * `->mapIfExists()`
-                * `->mapOrDefault()`
-        * `ReplaceMatch` details (extending `Match` details)
-            * `ReplaceMatch.modifiedOffset()`
-            * `ReplaceMatch.modifiedSubject()`
-    * Remove API
-        * `pattern()->remove()->all()`
-        * `pattern()->remove()->first()`
-        * `pattern()->remove()->only(int)`
+    * Replace
+        * `pattern()->replace()`
+            * `->all()` / `->first()` / `->only(int)`
+                * `->with()`
+                * `->withReferences()`
+                * `->callback()`
+                    * `ReplaceMatch` details (extending `Match` details)
+                        * `ReplaceMatch.modifiedOffset()`
+                        * `ReplaceMatch.modifiedSubject()`
+                * `->by()`/`by()->group()`
+                    * `->map()`
+                    * `->mapIfExists()`
+                    * `->mapOrDefault()`
+    * Remove
+        * `pattern()->remove()`
+            * `->all()` / `->first()` / `->only(int)`
     * Other API
         * `pattern()->forArray()`
             * `->filter()`
             * `->filterAssoc()`
             * `->filterByKeys()`
-        * `pattern()->split()->ex()`
-        * `pattern()->split()->inc()`
-        * `pattern()->split()->filter()->*`
+        * `pattern()->split()->ex()` / `->inc()`
+            * `->filter()`
         * `pattern()->count()`
         * `pattern()->is()->valid()`
         * `pattern()->is()->usable()`
         * `pattern()->is()->delimitered()`
-        * `pattern()->delimitered()`
+        * `pattern()->delimiter()`
         * `Pattern::quote()`
         * `Pattern::unquote()`
     * Building Pattern API
         * `Pattern::of()`
+        * `Pattern::compose()`/`PatternBuilder::compose()`
+    * Handling user input    
         * `Pattern::inject()`/`PatternBuilder::inject()`
         * `Pattern::prepare()`/`PatternBuilder::prepare()`
-        * `Pattern::compose()`/`PatternBuilder::compose()`
