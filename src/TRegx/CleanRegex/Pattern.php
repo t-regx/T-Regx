@@ -89,7 +89,7 @@ class Pattern
         return new IsPattern($this->pattern);
     }
 
-    public function delimitered(): string
+    public function delimiter(): string
     {
         return $this->pattern->pattern;
     }

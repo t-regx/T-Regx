@@ -35,10 +35,10 @@ class CompositePatternMapper
     private function mapToString($pattern): string
     {
         if (is_string($pattern)) {
-            return pattern($pattern)->delimitered();
+            return pattern($pattern)->delimiter();
         }
         if ($pattern instanceof Pattern) {
-            return $pattern->delimitered();
+            return $pattern->delimiter();
         }
         throw $this->throwInvalidPatternType($pattern);
     }
