@@ -111,7 +111,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(CompileSafeRegexException::class);
-        $this->expectExceptionMessage(PhpVersionDependent::getUnmatchedParenthesisMessage(7));
+        $this->expectExceptionMessageRegExp(PhpVersionDependent::getUnmatchedParenthesisMessage(7));
 
         // when
         $pattern->only(0);

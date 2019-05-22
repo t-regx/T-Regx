@@ -139,7 +139,7 @@ class IsPatternTest extends TestCase
 
         // then
         $this->expectException(InvalidPatternException::class);
-        $this->expectExceptionMessage(PhpVersionDependent::getUnmatchedParenthesisMessage(7));
+        $this->expectExceptionMessageRegExp(PhpVersionDependent::getUnmatchedParenthesisMessage(7));
 
         // when
         $is->delimitered();

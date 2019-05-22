@@ -65,7 +65,7 @@ class ReadMeTest extends TestCase
 
             preg::replace_callback('/(regexp/i', $myCallback, 'I very much like regexps');
         } catch (SafeRegexException $e) {
-            $this->assertStringStartsWith(PhpVersionDependent::getUnmatchedParenthesisMessage_ReplaceCallback(7), $e->getMessage());
+            $this->assertRegExp(PhpVersionDependent::getUnmatchedParenthesisMessage_ReplaceCallback(7), $e->getMessage());
         }
         if (preg::match('/\s+/', $input) === false) {
             // Never happens
