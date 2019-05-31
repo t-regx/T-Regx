@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Replace;
 use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NonReplaced\NonMatchedMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\NotReplacedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Replace\Map\MapReplacePattern;
+use TRegx\CleanRegex\Replace\Map\ByReplacePattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
@@ -52,7 +52,7 @@ class ReplacePatternImpl implements ReplacePattern
         return $this->replacePattern->callback($callback);
     }
 
-    public function by(): MapReplacePattern
+    public function by(): ByReplacePattern
     {
         return $this->replacePattern->by();
     }

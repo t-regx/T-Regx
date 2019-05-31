@@ -6,8 +6,8 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
-use TRegx\CleanRegex\Replace\Map\MapReplacePattern;
-use TRegx\CleanRegex\Replace\Map\MapReplacePatternImpl;
+use TRegx\CleanRegex\Replace\Map\ByReplacePattern;
+use TRegx\CleanRegex\Replace\Map\ByReplacePatternImpl;
 use TRegx\CleanRegex\Replace\Map\MapReplacer;
 use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
 use TRegx\SafeRegex\preg;
@@ -61,9 +61,9 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
         return $invoker->invoke($callback);
     }
 
-    public function by(): MapReplacePattern
+    public function by(): ByReplacePattern
     {
-        return new MapReplacePatternImpl(
+        return new ByReplacePatternImpl(
             new MapReplacer(
                 $this->pattern,
                 new SubjectableImpl($this->subject),

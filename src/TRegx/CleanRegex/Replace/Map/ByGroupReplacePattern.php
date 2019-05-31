@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Replace\Map;
 
 use TRegx\CleanRegex\Replace\Map\Exception\MissingReplacementKeyException;
 
-interface MapGroupReplacePattern
+interface ByGroupReplacePattern
 {
     /**
      * @param string[] $occurrencesAndReplacements

@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
-use TRegx\CleanRegex\Replace\Map\MapReplacePattern;
+use TRegx\CleanRegex\Replace\Map\ByReplacePattern;
 
 interface SpecificReplacePattern
 {
@@ -11,5 +11,5 @@ interface SpecificReplacePattern
 
     public function callback(callable $callback): string;
 
-    public function by(): MapReplacePattern;
+    public function by(): ByReplacePattern;
 }

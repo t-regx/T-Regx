@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Replace\Map\Exception\GroupMessageExceptionStrategy;
 use TRegx\CleanRegex\Replace\Map\Exception\MatchMessageExceptionStrategy;
 use TRegx\CleanRegex\Replace\Map\Exception\MissingReplacementExceptionMessageStrategy;
 
-class MapReplacePatternImpl implements MapReplacePattern
+class ByReplacePatternImpl implements ByReplacePattern
 {
     /** @var MapReplacer */
     private $mapReplacer;
@@ -22,10 +22,10 @@ class MapReplacePatternImpl implements MapReplacePattern
         $this->strategy = $strategy ?? new MatchMessageExceptionStrategy();
     }
 
-    public function group($nameOrIndex): MapGroupReplacePattern
+    public function group($nameOrIndex): ByGroupReplacePattern
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return new MapReplacePatternImpl($this->mapReplacer, $nameOrIndex, new GroupMessageExceptionStrategy());
+        return new ByReplacePatternImpl($this->mapReplacer, $nameOrIndex, new GroupMessageExceptionStrategy());
     }
 
     public function map(array $map): string

@@ -5,7 +5,7 @@ use Closure;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Replace\Map\MapReplacePattern;
+use TRegx\CleanRegex\Replace\Map\ByReplacePattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
@@ -74,7 +74,7 @@ class ReplacePatternImplTest extends TestCase
     public function shouldDelegate_by()
     {
         // given
-        $inputInstance = $this->createMock(MapReplacePattern::class);
+        $inputInstance = $this->createMock(ByReplacePattern::class);
 
         /** @var SpecificReplacePattern|MockObject $delegate */
         $delegate = $this->createMock(SpecificReplacePattern::class);
