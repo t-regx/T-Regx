@@ -3,7 +3,6 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\withGroup;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 
 class ReplacePatternTest extends TestCase
@@ -94,7 +93,7 @@ class ReplacePatternTest extends TestCase
     public function shouldThrowForNotMatchedGroup()
     {
         // then
-        $this->expectException(GroupNotMatchedException::class);
+        $this->expectException(CustomException::class);
         $this->expectExceptionMessage('xd');
 
         // when
@@ -103,6 +102,6 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group(1)
-            ->orThrow();
+            ->orThrow(CustomException::class);
     }
 }
