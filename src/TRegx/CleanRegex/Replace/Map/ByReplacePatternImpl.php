@@ -3,9 +3,9 @@ namespace TRegx\CleanRegex\Replace\Map;
 
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
-use TRegx\CleanRegex\Replace\Map\Exception\GroupMessageExceptionStrategy;
-use TRegx\CleanRegex\Replace\Map\Exception\MatchMessageExceptionStrategy;
-use TRegx\CleanRegex\Replace\Map\Exception\MissingReplacementExceptionMessageStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\Map\Exception\GroupMessageExceptionStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\Map\Exception\MatchMessageExceptionStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\Map\Exception\MissingReplacementExceptionMessageStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\MapReplaceStrategy;
 
 class ByReplacePatternImpl implements ByReplacePattern

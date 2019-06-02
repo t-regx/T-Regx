@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Replace\Map;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\ForFirst\Optional;
-use TRegx\CleanRegex\Replace\Map\Exception\MissingReplacementKeyException;
+use TRegx\CleanRegex\Replace\NonReplaced\Map\Exception\MissingReplacementKeyException;
 
 interface ByGroupReplacePattern extends Optional
 {
