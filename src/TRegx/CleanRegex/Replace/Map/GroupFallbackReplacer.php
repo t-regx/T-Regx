@@ -1,20 +1,17 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Map;
 
-use InvalidArgumentException;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\StringValue;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
-use function is_string;
 
-class MapReplacer
+class GroupFallbackReplacer
 {
     /** @var Pattern */
     private $pattern;
@@ -38,39 +35,14 @@ class MapReplacer
         $this->base = $base;
     }
 
-    public function mapOrCallHandler($nameOrIndex, array $map, callable $unexpectedReplacementHandler): string
+    public function replaceOrFallback($nameOrIndex, NonReplacedStrategy $strategy, callable $unexpectedReplacementHandler): string
     {
-        $this->validateMap($map);
         $this->counter = -1;
-        return $this->replaceUsingCallback(function (array $match) use ($nameOrIndex, $map, $unexpectedReplacementHandler) {
+        return $this->replaceUsingCallback(function (array $match) use ($nameOrIndex, $strategy, $unexpectedReplacementHandler) {
             $this->counter++;
             $this->validateGroup($match, $nameOrIndex);
-            return $this->getReplacementOrHandle($match, $nameOrIndex, $map, $unexpectedReplacementHandler);
+            return $this->getReplacementOrHandle($match, $nameOrIndex, $strategy, $unexpectedReplacementHandler);
         });
-    }
-
-    private function validateMap(array $map): void
-    {
-        foreach ($map as $occurrence => $replacement) {
-            $this->validateOccurrence($occurrence);
-            $this->validateReplacement($replacement);
-        }
-    }
-
-    private function validateOccurrence($occurrence): void
-    {
-        if (!is_string($occurrence)) {
-            $value = (new StringValue($occurrence))->getString();
-            throw new InvalidArgumentException("Invalid replacement map key. Expected string, but $value given");
-        }
-    }
-
-    private function validateReplacement($replacement): void
-    {
-        if (!is_string($replacement)) {
-            $value = (new StringValue($replacement))->getString();
-            throw new InvalidArgumentException("Invalid replacement map value. Expected string, but $value given");
-        }
     }
 
     private function validateGroup(array $match, $nameOrIndex): void
@@ -102,7 +74,7 @@ class MapReplacer
             $replaced);
     }
 
-    private function getReplacementOrHandle(array $match, $nameOrIndex, array $map, callable $unexpectedReplacementHandler): string
+    private function getReplacementOrHandle(array $match, $nameOrIndex, NonReplacedStrategy $strategy, callable $unexpectedReplacementHandler): string
     {
         $occurrence = $match[$nameOrIndex];
         if ($occurrence === null) {
@@ -118,9 +90,6 @@ class MapReplacer
                 throw GroupNotMatchedException::forReplacement($this->subject, $nameOrIndex);
             }
         }
-        if (array_key_exists($occurrence, $map)) {
-            return $map[$occurrence];
-        }
-        return $unexpectedReplacementHandler($match[0], $occurrence);
+        return $strategy->replacementResult($occurrence) ?? $unexpectedReplacementHandler($match[0], $occurrence);
     }
 }

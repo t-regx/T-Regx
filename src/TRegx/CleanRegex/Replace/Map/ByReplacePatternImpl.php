@@ -6,19 +6,20 @@ use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Replace\Map\Exception\GroupMessageExceptionStrategy;
 use TRegx\CleanRegex\Replace\Map\Exception\MatchMessageExceptionStrategy;
 use TRegx\CleanRegex\Replace\Map\Exception\MissingReplacementExceptionMessageStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\MapReplaceStrategy;
 
 class ByReplacePatternImpl implements ByReplacePattern
 {
-    /** @var MapReplacer */
-    private $mapReplacer;
+    /** @var GroupFallbackReplacer */
+    private $fallbackReplacer;
     /** @var string|int */
     private $nameOrIndex;
     /** @var MissingReplacementExceptionMessageStrategy */
     private $messageStrategy;
 
-    public function __construct(MapReplacer $mapReplacer, $nameOrIndex, MissingReplacementExceptionMessageStrategy $messageStrategy = null)
+    public function __construct(GroupFallbackReplacer $mapReplacer, $nameOrIndex, MissingReplacementExceptionMessageStrategy $messageStrategy = null)
     {
-        $this->mapReplacer = $mapReplacer;
+        $this->fallbackReplacer = $mapReplacer;
         $this->nameOrIndex = $nameOrIndex;
         $this->messageStrategy = $messageStrategy ?? new MatchMessageExceptionStrategy();
     }
@@ -26,7 +27,7 @@ class ByReplacePatternImpl implements ByReplacePattern
     public function group($nameOrIndex): ByGroupReplacePattern
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return new ByReplacePatternImpl($this->mapReplacer, $nameOrIndex, new GroupMessageExceptionStrategy());
+        return new ByReplacePatternImpl($this->fallbackReplacer, $nameOrIndex, new GroupMessageExceptionStrategy());
     }
 
     public function map(array $map): string
@@ -52,7 +53,10 @@ class ByReplacePatternImpl implements ByReplacePattern
 
     private function mapOrCallHandler(array $map, callable $unexpectedReplacementHandler): string
     {
-        return $this->mapReplacer->mapOrCallHandler($this->nameOrIndex, $map, $unexpectedReplacementHandler);
+        return $this->fallbackReplacer->replaceOrFallback(
+            $this->nameOrIndex,
+            new MapReplaceStrategy($map),
+            $unexpectedReplacementHandler);
     }
 
     public function orThrow(string $exceptionClassName = GroupNotMatchedException::class)

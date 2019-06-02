@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\Map\ByReplacePattern;
 use TRegx\CleanRegex\Replace\Map\ByReplacePatternImpl;
-use TRegx\CleanRegex\Replace\Map\MapReplacer;
+use TRegx\CleanRegex\Replace\Map\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
 use TRegx\SafeRegex\preg;
 
@@ -64,7 +64,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
     public function by(): ByReplacePattern
     {
         return new ByReplacePatternImpl(
-            new MapReplacer(
+            new GroupFallbackReplacer(
                 $this->pattern,
                 new SubjectableImpl($this->subject),
                 $this->limit,
