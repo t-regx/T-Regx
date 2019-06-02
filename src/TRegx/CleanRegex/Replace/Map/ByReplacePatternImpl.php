@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Map;
 
+use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Replace\Map\Exception\GroupMessageExceptionStrategy;
 use TRegx\CleanRegex\Replace\Map\Exception\MatchMessageExceptionStrategy;
@@ -52,5 +53,20 @@ class ByReplacePatternImpl implements ByReplacePattern
     private function mapOrCallHandler(array $map, callable $unexpectedReplacementHandler): string
     {
         return $this->mapReplacer->mapOrCallHandler($this->nameOrIndex, $map, $unexpectedReplacementHandler);
+    }
+
+    public function orThrow(string $exceptionClassName = GroupNotMatchedException::class)
+    {
+        return '';
+    }
+
+    public function orReturn($default)
+    {
+        return '';
+    }
+
+    public function orElse(callable $producer)
+    {
+        return '';
     }
 }
