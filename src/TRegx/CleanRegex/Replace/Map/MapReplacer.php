@@ -83,7 +83,7 @@ class MapReplacer
         }
     }
 
-    public function replaceUsingCallback(callable $closure): string
+    private function replaceUsingCallback(callable $closure): string
     {
         $result = $this->pregReplaceCallback($closure, $replaced);
         if ($replaced === 0) {
@@ -92,7 +92,7 @@ class MapReplacer
         return $result;
     }
 
-    public function pregReplaceCallback(callable $closure, ?int &$replaced): string
+    private function pregReplaceCallback(callable $closure, ?int &$replaced): string
     {
         return preg::replace_callback(
             $this->pattern->pattern,

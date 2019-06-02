@@ -14,13 +14,13 @@ class ByReplacePatternImpl implements ByReplacePattern
     /** @var string|int */
     private $nameOrIndex;
     /** @var MissingReplacementExceptionMessageStrategy */
-    private $strategy;
+    private $messageStrategy;
 
-    public function __construct(MapReplacer $mapReplacer, $nameOrIndex, MissingReplacementExceptionMessageStrategy $strategy = null)
+    public function __construct(MapReplacer $mapReplacer, $nameOrIndex, MissingReplacementExceptionMessageStrategy $messageStrategy = null)
     {
         $this->mapReplacer = $mapReplacer;
         $this->nameOrIndex = $nameOrIndex;
-        $this->strategy = $strategy ?? new MatchMessageExceptionStrategy();
+        $this->messageStrategy = $messageStrategy ?? new MatchMessageExceptionStrategy();
     }
 
     public function group($nameOrIndex): ByGroupReplacePattern
@@ -32,7 +32,7 @@ class ByReplacePatternImpl implements ByReplacePattern
     public function map(array $map): string
     {
         return $this->mapOrCallHandler($map, function (string $occurrence, string $group) {
-            throw $this->strategy->create($occurrence, $this->nameOrIndex, $group);
+            throw $this->messageStrategy->create($occurrence, $this->nameOrIndex, $group);
         });
     }
 
