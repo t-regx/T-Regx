@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\Map\ByReplacePattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
 use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 
@@ -62,18 +62,18 @@ class ReplacePatternImpl implements ReplacePattern
         return $this->replacePattern(new ThrowStrategy($exceptionClassName, new NonMatchedMessage()));
     }
 
-    public function orReturn($default): SpecificReplacePattern
+    public function orReturn($substitute): SpecificReplacePattern
     {
-        return $this->replacePattern(new ConstantResultStrategy($default));
+        return $this->replacePattern(new ConstantResultStrategy($substitute));
     }
 
-    public function orElse(callable $producer): SpecificReplacePattern
+    public function orElse(callable $substituteProducer): SpecificReplacePattern
     {
-        return $this->replacePattern(new ComputedSubjectStrategy($producer));
+        return $this->replacePattern(new ComputedSubjectStrategy($substituteProducer));
     }
 
-    private function replacePattern(NonReplacedStrategy $strategy): SpecificReplacePattern
+    private function replacePattern(ReplaceSubstitute $substitute): SpecificReplacePattern
     {
-        return $this->replacePatternFactory->create($this->pattern, $this->subject, $this->limit, $strategy);
+        return $this->replacePatternFactory->create($this->pattern, $this->subject, $this->limit, $substitute);
     }
 }

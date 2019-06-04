@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\NonReplaced;
 
-class ComputedSubjectStrategy implements NonReplacedStrategy
+class ComputedSubjectStrategy implements ReplaceSubstitute
 {
     /** @var callable */
     private $mapper;
@@ -11,7 +11,7 @@ class ComputedSubjectStrategy implements NonReplacedStrategy
         $this->mapper = $mapper;
     }
 
-    public function replacementResult(string $subject): ?string
+    public function substitute(string $subject): ?string
     {
         return call_user_func($this->mapper, $subject);
     }

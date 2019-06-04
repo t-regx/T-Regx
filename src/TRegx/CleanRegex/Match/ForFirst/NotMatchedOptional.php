@@ -26,20 +26,20 @@ class NotMatchedOptional implements Optional
     }
 
     /**
-     * @param mixed $default
+     * @param mixed $substitute
      * @return mixed
      */
-    public function orReturn($default)
+    public function orReturn($substitute)
     {
-        return $default;
+        return $substitute;
     }
 
     /**
-     * @param callable $producer
+     * @param callable $substituteProducer
      * @return mixed
      */
-    public function orElse(callable $producer)
+    public function orElse(callable $substituteProducer)
     {
-        return $this->worker->orElse($producer);
+        return $this->worker->orElse($substituteProducer);
     }
 }

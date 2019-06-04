@@ -7,8 +7,8 @@ use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
 
 class ReplacePatternFactory
 {
-    public function create(InternalPattern $pattern, string $subject, int $limit, NonReplacedStrategy $strategy): SpecificReplacePattern
+    public function create(InternalPattern $pattern, string $subject, int $limit, ReplaceSubstitute $substitute): SpecificReplacePattern
     {
-        return new SpecificReplacePatternImpl($pattern, $subject, $limit, $strategy);
+        return new SpecificReplacePatternImpl($pattern, $subject, $limit, $substitute);
     }
 }

@@ -14,7 +14,7 @@ class ConstantResultStrategyTest extends TestCase
         $strategy = new ConstantResultStrategy('constant');
 
         // when
-        $result = $strategy->replacementResult('');
+        $result = $strategy->substitute('');
 
         // then
         $this->assertEquals('constant', $result);

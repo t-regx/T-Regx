@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\NonReplaced;
 
-class ConstantResultStrategy implements NonReplacedStrategy
+class ConstantResultStrategy implements ReplaceSubstitute
 {
     /** @var string */
     private $constant;
@@ -11,7 +11,7 @@ class ConstantResultStrategy implements NonReplacedStrategy
         $this->constant = $constant;
     }
 
-    public function replacementResult(string $subject): ?string
+    public function substitute(string $subject): ?string
     {
         return $this->constant;
     }

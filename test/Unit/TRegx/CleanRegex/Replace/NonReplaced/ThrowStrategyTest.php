@@ -19,6 +19,6 @@ class ThrowStrategyTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         // when
-        $strategy->replacementResult('');
+        $strategy->substitute('');
     }
 }

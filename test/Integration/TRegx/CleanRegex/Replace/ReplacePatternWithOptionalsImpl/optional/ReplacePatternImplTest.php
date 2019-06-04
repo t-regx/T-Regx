@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\NotReplacedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
 use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
@@ -21,9 +21,9 @@ class ReplacePatternImplTest extends TestCase
      * @test
      * @dataProvider methodsAndStrategies
      * @param string $method
-     * @param NonReplacedStrategy $strategy
+     * @param ReplaceSubstitute $substitute
      */
-    public function notReplaced_orThrow(string $method, array $arguments, NonReplacedStrategy $strategy)
+    public function notReplaced_orThrow(string $method, array $arguments, ReplaceSubstitute $substitute)
     {
         // given
         $pattern = new InternalPattern('');
@@ -35,7 +35,7 @@ class ReplacePatternImplTest extends TestCase
         // then
         $factory->expects($this->once())
             ->method('create')
-            ->with($pattern, 'subject', 0, $strategy)
+            ->with($pattern, 'subject', 0, $substitute)
             ->willReturn('delegated');
 
         // when

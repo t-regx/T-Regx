@@ -23,19 +23,19 @@ class MatchedOptional implements Optional
     }
 
     /**
-     * @param mixed $default
+     * @param mixed $substitute
      * @return mixed
      */
-    public function orReturn($default)
+    public function orReturn($substitute)
     {
         return $this->result;
     }
 
     /**
-     * @param callable $producer
+     * @param callable $substituteProducer
      * @return mixed
      */
-    public function orElse(callable $producer)
+    public function orElse(callable $substituteProducer)
     {
         return $this->result;
     }

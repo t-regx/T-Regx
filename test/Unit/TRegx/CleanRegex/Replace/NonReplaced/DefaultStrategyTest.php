@@ -14,7 +14,7 @@ class DefaultStrategyTest extends TestCase
         $strategy = new DefaultStrategy();
 
         // when
-        $result = $strategy->replacementResult('');
+        $result = $strategy->substitute('');
 
         // then
         $this->assertNull($result);

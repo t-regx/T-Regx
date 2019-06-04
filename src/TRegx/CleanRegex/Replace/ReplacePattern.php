@@ -8,7 +8,7 @@ interface ReplacePattern extends SpecificReplacePattern, Optional
 {
     public function orThrow(string $exceptionClassName = NotReplacedException::class): SpecificReplacePattern;
 
-    public function orReturn($default): SpecificReplacePattern;
+    public function orReturn($substitute): SpecificReplacePattern;
 
-    public function orElse(callable $producer): SpecificReplacePattern;
+    public function orElse(callable $substituteProducer): SpecificReplacePattern;
 }

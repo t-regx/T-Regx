@@ -12,7 +12,7 @@ use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 
 class ByGroupReplacePatternImpl implements ByGroupReplacePattern
@@ -53,21 +53,21 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         return $this->replaceGroupOptional(new ThrowStrategy($exceptionClassName, new ReplacementWithUnmatchedGroupMessage($this->nameOrIndex)));
     }
 
-    public function orReturn($default): string
+    public function orReturn($substitute): string
     {
-        return $this->replaceGroupOptional(new ConstantResultStrategy($default));
+        return $this->replaceGroupOptional(new ConstantResultStrategy($substitute));
     }
 
-    public function orElse(callable $producer): string
+    public function orElse(callable $substituteProducer): string
     {
-        return $this->replaceGroupOptional(new ComputedSubjectStrategy($producer));
+        return $this->replaceGroupOptional(new ComputedSubjectStrategy($substituteProducer));
     }
 
-    public function replaceGroupOptional(NonReplacedStrategy $strategy): string
+    public function replaceGroupOptional(ReplaceSubstitute $substitute): string
     {
         if ($this->nameOrIndex === 0) {
             throw new InternalCleanRegexException();
         }
-        return $this->fallbackReplacer->replaceOrFallback($this->nameOrIndex, new IdentityMapper(), $strategy);
+        return $this->fallbackReplacer->replaceOrFallback($this->nameOrIndex, new IdentityMapper(), $substitute);
     }
 }

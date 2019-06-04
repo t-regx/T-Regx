@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\Map\ByReplacePattern;
 use TRegx\CleanRegex\Replace\Map\ByReplacePatternImpl;
 use TRegx\CleanRegex\Replace\Map\GroupFallbackReplacer;
-use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 use TRegx\SafeRegex\preg;
 
@@ -28,15 +28,15 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
     /** @var int */
     private $limit;
 
-    /** @var NonReplacedStrategy */
-    private $strategy;
+    /** @var ReplaceSubstitute */
+    private $substitute;
 
-    public function __construct(Pattern $pattern, string $subject, int $limit, NonReplacedStrategy $strategy)
+    public function __construct(Pattern $pattern, string $subject, int $limit, ReplaceSubstitute $substitute)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
         $this->limit = $limit;
-        $this->strategy = $strategy;
+        $this->substitute = $substitute;
     }
 
     public function with(string $replacement): string
@@ -48,7 +48,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
     {
         $result = preg::replace($this->pattern->pattern, $replacement, $this->subject, $this->limit, $replaced);
         if ($replaced === 0) {
-            return $this->strategy->replacementResult($this->subject) ?? $result;
+            return $this->substitute->substitute($this->subject) ?? $result;
         }
         return $result;
     }
@@ -59,7 +59,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
             $this->pattern,
             new SubjectableImpl($this->subject),
             $this->limit,
-            $this->strategy
+            $this->substitute
         );
         return $invoker->invoke($callback);
     }
@@ -71,7 +71,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
                 $this->pattern,
                 new SubjectableImpl($this->subject),
                 $this->limit,
-                $this->strategy,
+                $this->substitute,
                 new ApiBase($this->pattern, $this->subject, new UserData())
             ),
             new ThrowStrategy(

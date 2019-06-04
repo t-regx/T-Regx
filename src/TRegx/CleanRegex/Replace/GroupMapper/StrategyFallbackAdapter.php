@@ -1,21 +1,21 @@
 <?php
 namespace TRegx\CleanRegex\Replace\GroupMapper;
 
-use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 
 class StrategyFallbackAdapter implements GroupMapper
 {
     /** @var GroupMapper */
     private $mapper;
-    /** @var NonReplacedStrategy */
-    private $nonReplacedStrategy;
+    /** @var ReplaceSubstitute */
+    private $substitute;
     /** @var string */
     private $subject;
 
-    public function __construct(GroupMapper $mapper, NonReplacedStrategy $nonReplacedStrategy, string $subject)
+    public function __construct(GroupMapper $mapper, ReplaceSubstitute $substitute, string $subject)
     {
         $this->mapper = $mapper;
-        $this->nonReplacedStrategy = $nonReplacedStrategy;
+        $this->substitute = $substitute;
         $this->subject = $subject;
     }
 
@@ -23,7 +23,7 @@ class StrategyFallbackAdapter implements GroupMapper
     {
         $result = $this->mapper->map($occurrence);
         if ($result === null) {
-            return $this->nonReplacedStrategy->replacementResult($this->subject);
+            return $this->substitute->substitute($this->subject);
         }
         return $result;
     }

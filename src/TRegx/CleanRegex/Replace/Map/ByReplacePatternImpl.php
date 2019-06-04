@@ -5,20 +5,20 @@ use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 
 class ByReplacePatternImpl implements ByReplacePattern
 {
     /** @var GroupFallbackReplacer */
     private $fallbackReplacer;
-    /** @var NonReplacedStrategy */
-    private $mapStrategy;
+    /** @var ReplaceSubstitute */
+    private $substitute;
 
-    public function __construct(GroupFallbackReplacer $fallbackReplacer, NonReplacedStrategy $mapStrategy)
+    public function __construct(GroupFallbackReplacer $fallbackReplacer, ReplaceSubstitute $substitute)
     {
         $this->fallbackReplacer = $fallbackReplacer;
-        $this->mapStrategy = $mapStrategy;
+        $this->substitute = $substitute;
     }
 
     public function group($nameOrIndex): ByGroupReplacePattern
@@ -29,7 +29,7 @@ class ByReplacePatternImpl implements ByReplacePattern
 
     public function map(array $map): string
     {
-        return $this->replaceByMap($map, $this->mapStrategy);
+        return $this->replaceByMap($map, $this->substitute);
     }
 
     public function mapIfExists(array $map): string
@@ -37,11 +37,11 @@ class ByReplacePatternImpl implements ByReplacePattern
         return $this->replaceByMap($map, new DefaultStrategy());
     }
 
-    public function replaceByMap(array $map, NonReplacedStrategy $missingKeyReplacementStrategy): string
+    public function replaceByMap(array $map, ReplaceSubstitute $substitute): string
     {
         return $this->fallbackReplacer->replaceOrFallback(
             0,
-            new StrategyFallbackAdapter(new DictionaryMapper($map), $missingKeyReplacementStrategy, ''),
+            new StrategyFallbackAdapter(new DictionaryMapper($map), $substitute, ''),
             ThrowStrategy::internalException());
     }
 }

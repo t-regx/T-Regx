@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Replace\NonReplaced;
 
-class DefaultStrategy implements NonReplacedStrategy
+class DefaultStrategy implements ReplaceSubstitute
 {
-    public function replacementResult(string $subject): ?string
+    public function substitute(string $subject): ?string
     {
         return null;
     }

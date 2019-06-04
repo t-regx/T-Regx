@@ -111,7 +111,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturn_nonReplacedStrategy()
+    public function shouldReturn_substitute()
     {
         // when
         $result = pattern('Foo')->replace('Bar')->only(2)->orReturn('otherwise')->with('');

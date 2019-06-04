@@ -95,19 +95,19 @@ class MatchedGroup implements MatchGroup
     }
 
     /**
-     * @param mixed $default
+     * @param mixed $substitute
      * @return mixed
      */
-    public function orReturn($default): string
+    public function orReturn($substitute): string
     {
         return $this->text();
     }
 
     /**
-     * @param callable $producer
+     * @param callable $substituteProducer
      * @return mixed
      */
-    public function orElse(callable $producer): string
+    public function orElse(callable $substituteProducer): string
     {
         return $this->text();
     }

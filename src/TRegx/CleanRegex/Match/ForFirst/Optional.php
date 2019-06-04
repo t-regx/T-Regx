@@ -14,14 +14,14 @@ interface Optional
     public function orThrow(string $exceptionClassName = CleanRegexException::class);
 
     /**
-     * @param mixed $default
+     * @param mixed $substitute
      * @return mixed
      */
-    public function orReturn($default);
+    public function orReturn($substitute);
 
     /**
-     * @param callable $producer
+     * @param callable $substituteProducer
      * @return mixed
      */
-    public function orElse(callable $producer);
+    public function orElse(callable $substituteProducer);
 }

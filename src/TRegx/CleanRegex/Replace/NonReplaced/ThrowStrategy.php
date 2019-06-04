@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 
-class ThrowStrategy implements NonReplacedStrategy
+class ThrowStrategy implements ReplaceSubstitute
 {
     /** @var string */
     private $className;
@@ -20,7 +20,7 @@ class ThrowStrategy implements NonReplacedStrategy
         $this->message = $message;
     }
 
-    public function replacementResult(string $subject): ?string
+    public function substitute(string $subject): ?string
     {
         throw (new SignatureExceptionFactory($this->className, $this->message))
             ->create(new SubjectableImpl($subject));

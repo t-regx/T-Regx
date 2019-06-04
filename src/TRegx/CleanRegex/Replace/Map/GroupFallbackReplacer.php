@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
-use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
 
@@ -19,29 +19,29 @@ class GroupFallbackReplacer
     private $subject;
     /** @var int */
     private $limit;
-    /** @var NonReplacedStrategy */
-    private $strategy;
+    /** @var ReplaceSubstitute */
+    private $substitute;
     /** @var Base */
     private $base;
     /** @var int */
     private $counter = -1;
 
-    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, NonReplacedStrategy $strategy, Base $base)
+    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, ReplaceSubstitute $substitute, Base $base)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
         $this->limit = $limit;
-        $this->strategy = $strategy;
+        $this->substitute = $substitute;
         $this->base = $base;
     }
 
-    public function replaceOrFallback($nameOrIndex, GroupMapper $mapper, NonReplacedStrategy $nonReplacedStrategy): string
+    public function replaceOrFallback($nameOrIndex, GroupMapper $mapper, ReplaceSubstitute $substitute): string
     {
         $this->counter = -1;
-        return $this->replaceUsingCallback(function (array $match) use ($nameOrIndex, $mapper, $nonReplacedStrategy) {
+        return $this->replaceUsingCallback(function (array $match) use ($nameOrIndex, $mapper, $substitute) {
             $this->counter++;
             $this->validateGroup($match, $nameOrIndex);
-            return $this->getReplacementOrHandle($match, $nameOrIndex, $mapper, $nonReplacedStrategy);
+            return $this->getReplacementOrHandle($match, $nameOrIndex, $mapper, $substitute);
         });
     }
 
@@ -59,7 +59,7 @@ class GroupFallbackReplacer
     {
         $result = $this->pregReplaceCallback($closure, $replaced);
         if ($replaced === 0) {
-            return $this->strategy->replacementResult($this->subject->getSubject()) ?? $result;
+            return $this->substitute->substitute($this->subject->getSubject()) ?? $result;
         }
         return $result;
     }
@@ -74,14 +74,14 @@ class GroupFallbackReplacer
             $replaced);
     }
 
-    private function getReplacementOrHandle(array $match, $nameOrIndex, GroupMapper $mapper, NonReplacedStrategy $nonReplacedStrategy): string
+    private function getReplacementOrHandle(array $match, $nameOrIndex, GroupMapper $mapper, ReplaceSubstitute $substitute): string
     {
         $occurrence = null;
         if (array_key_exists($nameOrIndex, $match)) {
             $occurrence = $match[$nameOrIndex];
         }
         if ($occurrence === null) {
-            return $nonReplacedStrategy->replacementResult($this->subject->getSubject()) ?? $match[0];
+            return $substitute->substitute($this->subject->getSubject()) ?? $match[0];
         }
         if ($occurrence === '') {
             // With preg_replace_callback - it's impossible to distinguish unmatched group from a matched empty string
@@ -90,7 +90,7 @@ class GroupFallbackReplacer
                 throw new InternalCleanRegexException();
             }
             if (!$matches->isGroupMatched($nameOrIndex, $this->counter)) {
-                return $nonReplacedStrategy->replacementResult($this->subject->getSubject()) ?? $match[0];
+                return $substitute->substitute($this->subject->getSubject()) ?? $match[0];
             }
         }
         return $mapper->map($occurrence) ?? $match[0];

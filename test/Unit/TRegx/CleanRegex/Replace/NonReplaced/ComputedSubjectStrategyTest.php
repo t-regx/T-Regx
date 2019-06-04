@@ -16,7 +16,7 @@ class ComputedSubjectStrategyTest extends TestCase
         });
 
         // when
-        $result = $strategy->replacementResult("test");
+        $result = $strategy->substitute("test");
 
         // then
         $this->assertEquals('*test*', $result);

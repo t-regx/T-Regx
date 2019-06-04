@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 use TRegx\SafeRegex\preg;
 
 class ReplacePatternCallbackInvoker
@@ -16,22 +16,22 @@ class ReplacePatternCallbackInvoker
     private $subject;
     /** @var int */
     private $limit;
-    /** @var NonReplacedStrategy */
-    private $strategy;
+    /** @var ReplaceSubstitute */
+    private $substitute;
 
-    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, NonReplacedStrategy $strategy)
+    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, ReplaceSubstitute $substitute)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
         $this->limit = $limit;
-        $this->strategy = $strategy;
+        $this->substitute = $substitute;
     }
 
     public function invoke(callable $callback): string
     {
         $result = $this->pregReplaceCallback($callback, $replaced);
         if ($replaced === 0) {
-            return $this->strategy->replacementResult($this->subject->getSubject()) ?? $result;
+            return $this->substitute->substitute($this->subject->getSubject()) ?? $result;
         }
         return $result;
     }
