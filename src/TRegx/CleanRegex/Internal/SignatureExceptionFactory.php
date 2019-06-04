@@ -89,7 +89,10 @@ class SignatureExceptionFactory
             },
             function () {
                 return new $this->className();
-            }
+            },
+            function () use ($subject) {
+                return new $this->className($this->message->getMessage(), $subject, null);
+            },
         ];
     }
 

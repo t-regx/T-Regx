@@ -8,8 +8,10 @@ use PHPUnit\Framework\TestCase;
 use stdClass;
 use Test\Utils\AbstractClass;
 use Test\Utils\ClassWithDefaultConstructor;
+use Test\Utils\ClassWithErrorInConstructor;
 use Test\Utils\ClassWithoutSuitableConstructor;
 use Test\Utils\ClassWithStringParamConstructor;
+use Test\Utils\ClassWithSubjectableConstructor;
 use Test\Utils\ClassWithTwoStringParamsConstructor;
 use Throwable;
 use TRegx\CleanRegex\Exception\CleanRegex\ClassExpectedException;
@@ -18,7 +20,6 @@ use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
-use Test\Utils\ClassWithErrorInConstructor;
 
 class SignatureExceptionFactoryTest extends TestCase
 {
@@ -152,6 +153,22 @@ class SignatureExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf(ClassWithDefaultConstructor::class, $exception);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldInstantiate_withSubjectable()
+    {
+        // given
+        $factory = new SignatureExceptionFactory(ClassWithSubjectableConstructor::class, new FirstMatchMessage());
+        $subject = new SubjectableImpl('my subject');
+
+        // when
+        $exception = $factory->create($subject);
+
+        // then
+        $this->assertInstanceOf(ClassWithSubjectableConstructor::class, $exception);
     }
 
     /**
