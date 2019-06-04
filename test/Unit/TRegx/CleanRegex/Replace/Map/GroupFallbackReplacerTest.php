@@ -2,34 +2,64 @@
 namespace Test\Unit\TRegx\CleanRegex\Replace\Map;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
+use Test\Feature\TRegx\CleanRegex\Replace\by\group\CustomException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
+use Test\Utils\ComputedMapper;
+use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
+use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
+use Test\Utils\NoReplacementMapper;
+use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\Map\GroupFallbackReplacer;
-use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 
 class GroupFallbackReplacerTest extends TestCase
 {
     /**
      * @test
      * @happyPath
+     * @dataProvider strategies
+     * @param GroupMapper $mapper
+     * @param $expected
      */
-    public function shouldReplace_usingStrategy()
+    public function shouldReplace_usingStrategy(GroupMapper $mapper, $expected)
     {
         // given
-        $mapReplacer = $this->create('\[(\w+)\]', '[two] [three] [four]');
+        $mapReplacer = $this->create('\[(\w+)\]', '[two], [three], [four]');
 
         // when
-        $result = $mapReplacer->replaceOrFallback(1, new ComputedSubjectStrategy('strlen'), function () {
-        });
+        $result = $mapReplacer->replaceOrFallback(1, $mapper, new DefaultStrategy());
 
         // then
-        $this->assertEquals('3 5 4', $result);
+        $this->assertEquals($expected, $result);
+    }
+
+    function strategies(): array
+    {
+        return [
+            'computed' => [
+                new ComputedMapper('strlen'),
+                '3, 5, 4'
+            ],
+            'identity' => [
+                new IdentityMapper(),
+                'two, three, four'
+            ],
+            'ignoring' => [
+                new NoReplacementMapper(),
+                '[two], [three], [four]'
+            ],
+            'map'      => [
+                new DictionaryMapper(['two' => 'dwa', 'three' => 'trzy', 'four' => 'cztery']),
+                'dwa, trzy, cztery'
+            ]
+        ];
     }
 
     /**
@@ -38,11 +68,12 @@ class GroupFallbackReplacerTest extends TestCase
     public function shouldReplace_emptyString()
     {
         // given
-        $mapReplacer = $this->create('\[(\w*)\]', '[two] [] [four]');
+        $fallbackReplacer = $this->create('\[(\w*)\]', '[two] [] [four]');
 
         // when
-        $result = $mapReplacer->replaceOrFallback(1, new ComputedSubjectStrategy('strlen'), function () {
-        });
+        $result = $fallbackReplacer->replaceOrFallback(1,
+            new ComputedMapper('strlen'),
+            new DefaultStrategy());
 
         // then
         $this->assertEquals('3 0 4', $result);
@@ -51,18 +82,16 @@ class GroupFallbackReplacerTest extends TestCase
     /**
      * @test
      */
-    public function shouldFallback_toStrategy()
+    public function shouldFallback_toStrategy_unmatchedGroup()
     {
         // given
-        $mapReplacer = $this->create('\[(\w+)\]', '[two] [three] [four]');
+        $fallbackReplacer = $this->create('\[(\w+)?\]', '[two] [] [four]');
 
         // when
-        $result = $mapReplacer->replaceOrFallback(1, new DefaultStrategy(), function ($match, $group) {
-            return strrev($group);
-        });
+        $result = $fallbackReplacer->replaceOrFallback(1, new NoReplacementMapper(), new ConstantResultStrategy('fallback'));
 
         // then
-        $this->assertEquals('owt eerht ruof', $result);
+        $this->assertEquals('[two] fallback [four]', $result);
     }
 
     /**
@@ -71,14 +100,13 @@ class GroupFallbackReplacerTest extends TestCase
     public function shouldFallback_toDefault()
     {
         // given
-        $mapReplacer = $this->create('\[(\w+)\]', '');
+        $fallbackReplacer = $this->create('\[(\w+)\]', '');
 
         // when
-        $result = $mapReplacer->replaceOrFallback(1, new DefaultStrategy(), function () {
-        });
+        $result = $fallbackReplacer->replaceOrFallback(1, new NoReplacementMapper(), new DefaultStrategy());
 
         // then
-        $this->assertEquals('Group not found', $result);
+        $this->assertEquals('Subject not matched', $result);
     }
 
     /**
@@ -87,15 +115,14 @@ class GroupFallbackReplacerTest extends TestCase
     public function shouldThrow_forInvalidGroup()
     {
         // given
-        $mapReplacer = $this->create('', '');
+        $fallbackReplacer = $this->create('', '');
 
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: '1'");
 
         // when
-        $mapReplacer->replaceOrFallback(1, new DefaultStrategy(), function () {
-        });
+        $fallbackReplacer->replaceOrFallback(1, new NoReplacementMapper(), new DefaultStrategy());
     }
 
     /**
@@ -104,15 +131,18 @@ class GroupFallbackReplacerTest extends TestCase
     public function shouldThrow_forUnmatchedGroup_last()
     {
         // given
-        $mapReplacer = $this->create('word:(\d)?', 'word:');
+        $fallbackReplacer = $this->create('word:(\d)?', 'word:');
 
         // then
-        $this->expectException(GroupNotMatchedException::class);
+        $this->expectException(CustomException::class);
         $this->expectExceptionMessage("Expected to replace with group '1', but the group was not matched");
 
         // when
-        $mapReplacer->replaceOrFallback(1, new DefaultStrategy(), function () {
-        });
+        $fallbackReplacer->replaceOrFallback(
+            1,
+            new NoReplacementMapper(),
+            new ThrowStrategy(CustomException::class, new ReplacementWithUnmatchedGroupMessage(1))
+        );
     }
 
     /**
@@ -121,15 +151,18 @@ class GroupFallbackReplacerTest extends TestCase
     public function shouldThrow_forUnmatchedGroup_middle()
     {
         // given
-        $mapReplacer = $this->create('foo:(\d)?:(bar)', 'foo::bar');
+        $fallbackReplacer = $this->create('foo:(\d)?:(bar)', 'foo::bar');
 
         // then
-        $this->expectException(GroupNotMatchedException::class);
+        $this->expectException(CustomException::class);
         $this->expectExceptionMessage("Expected to replace with group '1', but the group was not matched");
 
         // when
-        $mapReplacer->replaceOrFallback(1, new DefaultStrategy(), function () {
-        });
+        $fallbackReplacer->replaceOrFallback(
+            1,
+            new NoReplacementMapper(),
+            new ThrowStrategy(CustomException::class, new ReplacementWithUnmatchedGroupMessage(1))
+        );
     }
 
     public function create($pattern, $subject): GroupFallbackReplacer
@@ -138,7 +171,7 @@ class GroupFallbackReplacerTest extends TestCase
             new InternalPattern($pattern),
             new SubjectableImpl($subject),
             -1,
-            new ConstantResultStrategy('Group not found'),
+            new ConstantResultStrategy('Subject not matched'),
             new ApiBase(new InternalPattern($pattern), $subject, new UserData())
         );
     }

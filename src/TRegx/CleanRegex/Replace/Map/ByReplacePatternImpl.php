@@ -1,76 +1,47 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Map;
 
-use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
-use TRegx\CleanRegex\Replace\NonReplaced\Map\Exception\GroupMessageExceptionStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\Map\Exception\MatchMessageExceptionStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\Map\Exception\MissingReplacementExceptionMessageStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\MapReplaceStrategy;
+use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
+use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
+use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 
 class ByReplacePatternImpl implements ByReplacePattern
 {
     /** @var GroupFallbackReplacer */
     private $fallbackReplacer;
-    /** @var string|int */
-    private $nameOrIndex;
-    /** @var MissingReplacementExceptionMessageStrategy */
-    private $messageStrategy;
+    /** @var NonReplacedStrategy */
+    private $mapStrategy;
 
-    public function __construct(GroupFallbackReplacer $mapReplacer, $nameOrIndex, MissingReplacementExceptionMessageStrategy $messageStrategy = null)
+    public function __construct(GroupFallbackReplacer $fallbackReplacer, NonReplacedStrategy $mapStrategy)
     {
-        $this->fallbackReplacer = $mapReplacer;
-        $this->nameOrIndex = $nameOrIndex;
-        $this->messageStrategy = $messageStrategy ?? new MatchMessageExceptionStrategy();
+        $this->fallbackReplacer = $fallbackReplacer;
+        $this->mapStrategy = $mapStrategy;
     }
 
     public function group($nameOrIndex): ByGroupReplacePattern
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return new ByReplacePatternImpl($this->fallbackReplacer, $nameOrIndex, new GroupMessageExceptionStrategy());
+        return new ByGroupReplacePatternImpl($this->fallbackReplacer, $nameOrIndex);
     }
 
     public function map(array $map): string
     {
-        return $this->mapOrCallHandler($map, function (string $occurrence, string $group) {
-            throw $this->messageStrategy->create($occurrence, $this->nameOrIndex, $group);
-        });
+        return $this->replaceByMap($map, $this->mapStrategy);
     }
 
     public function mapIfExists(array $map): string
     {
-        return $this->mapOrCallHandler($map, function (string $occurrence) {
-            return $occurrence;
-        });
+        return $this->replaceByMap($map, new DefaultStrategy());
     }
 
-    public function mapOrDefault(array $map, string $defaultReplacement): string
-    {
-        return $this->mapOrCallHandler($map, function () use ($defaultReplacement) {
-            return $defaultReplacement;
-        });
-    }
-
-    private function mapOrCallHandler(array $map, callable $unexpectedReplacementHandler): string
+    public function replaceByMap(array $map, NonReplacedStrategy $missingKeyReplacementStrategy): string
     {
         return $this->fallbackReplacer->replaceOrFallback(
-            $this->nameOrIndex,
-            new MapReplaceStrategy($map),
-            $unexpectedReplacementHandler);
-    }
-
-    public function orThrow(string $exceptionClassName = GroupNotMatchedException::class)
-    {
-        return '';
-    }
-
-    public function orReturn($default)
-    {
-        return '';
-    }
-
-    public function orElse(callable $producer)
-    {
-        return '';
+            0,
+            new StrategyFallbackAdapter(new DictionaryMapper($map), $missingKeyReplacementStrategy, ''),
+            ThrowStrategy::internalException());
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
+use TRegx\CleanRegex\Exception\CleanRegex\MissingReplacementKeyException;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\MissingReplacement\ForMatchMessage;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -10,6 +12,7 @@ use TRegx\CleanRegex\Replace\Map\ByReplacePattern;
 use TRegx\CleanRegex\Replace\Map\ByReplacePatternImpl;
 use TRegx\CleanRegex\Replace\Map\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 use TRegx\SafeRegex\preg;
 
 class SpecificReplacePatternImpl implements SpecificReplacePattern
@@ -71,7 +74,10 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
                 $this->strategy,
                 new ApiBase($this->pattern, $this->subject, new UserData())
             ),
-            self::WHOLE_MATCH
+            new ThrowStrategy(
+                MissingReplacementKeyException::class,
+                new ForMatchMessage()
+            )
         );
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\withGroup;
+namespace Test\Feature\TRegx\CleanRegex\Replace\by\group;
 
 use Exception;
 

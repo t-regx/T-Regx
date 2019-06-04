@@ -1,7 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Map;
 
-interface ByReplacePattern extends ByGroupReplacePattern
+use TRegx\CleanRegex\Exception\CleanRegex\MissingReplacementKeyException;
+
+interface ByReplacePattern
 {
     /**
      * @param string|int $nameOrIndex
@@ -9,4 +11,19 @@ interface ByReplacePattern extends ByGroupReplacePattern
      * @throws \InvalidArgumentException
      */
     public function group($nameOrIndex): ByGroupReplacePattern;
+
+    /**
+     * @param string[] $occurrencesAndReplacements
+     * @return OptionalStrategySelector
+     * @throws \InvalidArgumentException
+     * @throws MissingReplacementKeyException
+     */
+    public function map(array $occurrencesAndReplacements): string;
+
+    /**
+     * @param string[] $occurrencesAndReplacements
+     * @return OptionalStrategySelector
+     * @throws \InvalidArgumentException
+     */
+    public function mapIfExists(array $occurrencesAndReplacements): string;
 }

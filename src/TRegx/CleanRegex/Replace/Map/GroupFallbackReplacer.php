@@ -35,13 +35,13 @@ class GroupFallbackReplacer
         $this->base = $base;
     }
 
-    public function replaceOrFallback($nameOrIndex, GroupMapper $mapper, NonReplacedStrategy $unexpectedReplacementHandler): string
+    public function replaceOrFallback($nameOrIndex, GroupMapper $mapper, NonReplacedStrategy $nonReplacedStrategy): string
     {
         $this->counter = -1;
-        return $this->replaceUsingCallback(function (array $match) use ($nameOrIndex, $mapper, $unexpectedReplacementHandler) {
+        return $this->replaceUsingCallback(function (array $match) use ($nameOrIndex, $mapper, $nonReplacedStrategy) {
             $this->counter++;
             $this->validateGroup($match, $nameOrIndex);
-            return $this->getReplacementOrHandle($match, $nameOrIndex, $mapper, $unexpectedReplacementHandler);
+            return $this->getReplacementOrHandle($match, $nameOrIndex, $mapper, $nonReplacedStrategy);
         });
     }
 
@@ -76,9 +76,12 @@ class GroupFallbackReplacer
 
     private function getReplacementOrHandle(array $match, $nameOrIndex, GroupMapper $mapper, NonReplacedStrategy $nonReplacedStrategy): string
     {
-        $occurrence = $match[$nameOrIndex];
+        $occurrence = null;
+        if (array_key_exists($nameOrIndex, $match)) {
+            $occurrence = $match[$nameOrIndex];
+        }
         if ($occurrence === null) {
-            throw GroupNotMatchedException::forReplacement($this->subject, $nameOrIndex);
+            return $nonReplacedStrategy->replacementResult($this->subject->getSubject()) ?? $match[0];
         }
         if ($occurrence === '') {
             // With preg_replace_callback - it's impossible to distinguish unmatched group from a matched empty string
@@ -87,7 +90,7 @@ class GroupFallbackReplacer
                 throw new InternalCleanRegexException();
             }
             if (!$matches->isGroupMatched($nameOrIndex, $this->counter)) {
-                throw GroupNotMatchedException::forReplacement($this->subject, $nameOrIndex);
+                return $nonReplacedStrategy->replacementResult($this->subject->getSubject()) ?? $match[0];
             }
         }
         return $mapper->map($occurrence) ?? $match[0];

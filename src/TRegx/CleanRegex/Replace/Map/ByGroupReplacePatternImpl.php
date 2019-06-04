@@ -1,0 +1,73 @@
+<?php
+namespace TRegx\CleanRegex\Replace\Map;
+
+use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use TRegx\CleanRegex\Exception\CleanRegex\MissingReplacementKeyException;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\ReplacementWithUnmatchedGroupMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\MissingReplacement\ForGroupMessage;
+use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
+use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
+use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
+use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
+
+class ByGroupReplacePatternImpl implements ByGroupReplacePattern
+{
+    /** @var GroupFallbackReplacer */
+    private $fallbackReplacer;
+    /** @var string|int */
+    private $nameOrIndex;
+
+    public function __construct(GroupFallbackReplacer $fallbackReplacer, $nameOrIndex)
+    {
+        $this->fallbackReplacer = $fallbackReplacer;
+        $this->nameOrIndex = $nameOrIndex;
+    }
+
+    public function map(array $map): OptionalStrategySelector
+    {
+        return new OptionalStrategySelectorImpl(
+            $this->fallbackReplacer,
+            $this->nameOrIndex,
+            new StrategyFallbackAdapter(
+                new DictionaryMapper($map),
+                new ThrowStrategy(
+                    MissingReplacementKeyException::class,
+                    new ForGroupMessage('', '', '')),
+                ''
+            )
+        );
+    }
+
+    public function mapIfExists(array $map): OptionalStrategySelector
+    {
+        return new OptionalStrategySelectorImpl($this->fallbackReplacer, $this->nameOrIndex, new DictionaryMapper($map));
+    }
+
+    public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string
+    {
+        return $this->replaceGroupOptional(new ThrowStrategy($exceptionClassName, new ReplacementWithUnmatchedGroupMessage($this->nameOrIndex)));
+    }
+
+    public function orReturn($default): string
+    {
+        return $this->replaceGroupOptional(new ConstantResultStrategy($default));
+    }
+
+    public function orElse(callable $producer): string
+    {
+        return $this->replaceGroupOptional(new ComputedSubjectStrategy($producer));
+    }
+
+    public function replaceGroupOptional(NonReplacedStrategy $strategy): string
+    {
+        if ($this->nameOrIndex === 0) {
+            throw new InternalCleanRegexException();
+        }
+        return $this->fallbackReplacer->replaceOrFallback($this->nameOrIndex, new IdentityMapper(), $strategy);
+    }
+}
