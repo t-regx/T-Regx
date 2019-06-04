@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Exception\CleanRegex;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\FirstGroupMessage;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\MethodGroupMessage;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\ReplacementWithUnmatchedGroupMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\FirstGroupMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\MethodGroupMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Subjectable;
 
 class GroupNotMatchedException extends CleanRegexException

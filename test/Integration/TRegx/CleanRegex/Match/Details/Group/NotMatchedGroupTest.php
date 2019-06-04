@@ -4,7 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex\Match\Details\Group;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\GroupMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;

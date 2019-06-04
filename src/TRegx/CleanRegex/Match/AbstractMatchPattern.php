@@ -5,7 +5,7 @@ use ArrayIterator;
 use Countable;
 use EmptyIterator;
 use Iterator;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFactory;

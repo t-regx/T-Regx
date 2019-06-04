@@ -16,7 +16,7 @@ use Test\Utils\ClassWithTwoStringParamsConstructor;
 use Throwable;
 use TRegx\CleanRegex\Exception\CleanRegex\ClassExpectedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NoSuitableConstructorException;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
@@ -118,7 +118,7 @@ class SignatureExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf(ClassWithTwoStringParamsConstructor::class, $exception);
-        $this->assertEquals(FirstMatchMessage::MESSAGE, $exception->getMessage());
+        $this->assertEquals('Expected to get first match, but subject was not matched', $exception->getMessage());
         $this->assertEquals('my subject', $exception->getSubject());
     }
 
@@ -136,7 +136,7 @@ class SignatureExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf(ClassWithStringParamConstructor::class, $exception);
-        $this->assertEquals(FirstMatchMessage::MESSAGE, $exception->getMessage());
+        $this->assertEquals('Expected to get first match, but subject was not matched', $exception->getMessage());
     }
 
     /**
@@ -187,7 +187,7 @@ class SignatureExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf($className, $exception);
-        $this->assertEquals(FirstMatchMessage::MESSAGE, $exception->getMessage());
+        $this->assertEquals('Expected to get first match, but subject was not matched', $exception->getMessage());
     }
 
     /**

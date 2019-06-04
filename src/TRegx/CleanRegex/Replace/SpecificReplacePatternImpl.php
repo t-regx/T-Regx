@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Exception\CleanRegex\MissingReplacementKeyException;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\MissingReplacement\ForMatchMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\MissingReplacement\ForMatchMessage;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -76,7 +76,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
             ),
             new ThrowStrategy(
                 MissingReplacementKeyException::class,
-                new ForMatchMessage()
+                new ForMatchMessage('')
             )
         );
     }

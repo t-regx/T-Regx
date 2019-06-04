@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\forFirst;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -131,7 +131,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(FirstMatchMessage::MESSAGE);
+        $this->expectExceptionMessage('Expected to get first match, but subject was not matched');
 
         // when
         $pattern->forFirst('strrev')->orThrow(InvalidArgumentException::class);

@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Exception\CleanRegex;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstGroupSubjectMessage;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Subject\FirstMatchMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstGroupSubjectMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Subjectable;
 
 class SubjectNotMatchedException extends CleanRegexException

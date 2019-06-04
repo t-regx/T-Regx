@@ -1,7 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NonReplaced;
+namespace TRegx\CleanRegex\Exception\CleanRegex\Messages\NonReplaced;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NotMatchedMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
 
 class NonMatchedMessage implements NotMatchedMessage
 {

@@ -1,7 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group;
+namespace TRegx\CleanRegex\Exception\CleanRegex\Messages\Group;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NotMatchedMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
 
 class ReplacementWithUnmatchedGroupMessage implements NotMatchedMessage
 {

@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NonReplaced\NonMatchedMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\NonReplaced\NonMatchedMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\NotReplacedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\Map\ByReplacePattern;

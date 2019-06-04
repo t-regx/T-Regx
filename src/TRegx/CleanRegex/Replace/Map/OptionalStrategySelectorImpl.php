@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Replace\Map;
 
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\Group\ReplacementWithUnmatchedGroupMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;

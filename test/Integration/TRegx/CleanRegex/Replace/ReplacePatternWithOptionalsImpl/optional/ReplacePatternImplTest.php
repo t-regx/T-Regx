@@ -4,7 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex\Replace\ReplacePatternWithOptionalsI
 use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NonReplaced\NonMatchedMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\NonReplaced\NonMatchedMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\NotReplacedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;

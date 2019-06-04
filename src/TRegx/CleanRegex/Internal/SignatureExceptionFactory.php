@@ -6,7 +6,7 @@ use Error;
 use Throwable;
 use TRegx\CleanRegex\Exception\CleanRegex\ClassExpectedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NoSuitableConstructorException;
-use TRegx\CleanRegex\Exception\CleanRegex\NotMatched\NotMatchedMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
 use TypeError;
 use function class_exists;
 use function interface_exists;
