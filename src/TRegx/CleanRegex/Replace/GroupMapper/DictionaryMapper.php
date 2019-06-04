@@ -1,10 +1,10 @@
 <?php
-namespace TRegx\CleanRegex\Replace\NonReplaced;
+namespace TRegx\CleanRegex\Replace\GroupMapper;
 
 use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\StringValue;
 
-class MapReplaceStrategy implements NonReplacedStrategy
+class DictionaryMapper implements GroupMapper
 {
     /** @var array */
     private $map;
@@ -15,7 +15,7 @@ class MapReplaceStrategy implements NonReplacedStrategy
         $this->validateMap($map);
     }
 
-    public function replacementResult(string $occurrence): ?string
+    public function map(string $occurrence): ?string
     {
         if (array_key_exists($occurrence, $this->map)) {
             return $this->map[$occurrence];

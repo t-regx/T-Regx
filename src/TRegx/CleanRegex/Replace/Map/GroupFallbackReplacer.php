@@ -1,12 +1,12 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Map;
 
-use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\NonReplaced\NonReplacedStrategy;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
@@ -35,13 +35,13 @@ class GroupFallbackReplacer
         $this->base = $base;
     }
 
-    public function replaceOrFallback($nameOrIndex, NonReplacedStrategy $strategy, callable $unexpectedReplacementHandler): string
+    public function replaceOrFallback($nameOrIndex, GroupMapper $mapper, NonReplacedStrategy $unexpectedReplacementHandler): string
     {
         $this->counter = -1;
-        return $this->replaceUsingCallback(function (array $match) use ($nameOrIndex, $strategy, $unexpectedReplacementHandler) {
+        return $this->replaceUsingCallback(function (array $match) use ($nameOrIndex, $mapper, $unexpectedReplacementHandler) {
             $this->counter++;
             $this->validateGroup($match, $nameOrIndex);
-            return $this->getReplacementOrHandle($match, $nameOrIndex, $strategy, $unexpectedReplacementHandler);
+            return $this->getReplacementOrHandle($match, $nameOrIndex, $mapper, $unexpectedReplacementHandler);
         });
     }
 
@@ -74,7 +74,7 @@ class GroupFallbackReplacer
             $replaced);
     }
 
-    private function getReplacementOrHandle(array $match, $nameOrIndex, NonReplacedStrategy $strategy, callable $unexpectedReplacementHandler): string
+    private function getReplacementOrHandle(array $match, $nameOrIndex, GroupMapper $mapper, NonReplacedStrategy $nonReplacedStrategy): string
     {
         $occurrence = $match[$nameOrIndex];
         if ($occurrence === null) {
@@ -90,6 +90,6 @@ class GroupFallbackReplacer
                 throw GroupNotMatchedException::forReplacement($this->subject, $nameOrIndex);
             }
         }
-        return $strategy->replacementResult($occurrence) ?? $unexpectedReplacementHandler($match[0], $occurrence);
+        return $mapper->map($occurrence) ?? $match[0];
     }
 }

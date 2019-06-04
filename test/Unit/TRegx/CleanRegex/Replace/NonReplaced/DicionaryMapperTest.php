@@ -3,9 +3,9 @@ namespace Test\Unit\TRegx\CleanRegex\Replace\NonReplaced;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Replace\NonReplaced\MapReplaceStrategy;
+use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 
-class MapReplaceStrategyTest extends TestCase
+class DicionaryMapperTest extends TestCase
 {
     /**
      * @test
@@ -14,10 +14,10 @@ class MapReplaceStrategyTest extends TestCase
     public function shouldReplace()
     {
         // given
-        $mapReplace = new MapReplaceStrategy(['old' => 'new']);
+        $mapReplace = new DictionaryMapper(['old' => 'new']);
 
         // when
-        $result = $mapReplace->replacementResult('old');
+        $result = $mapReplace->map('old');
 
         // then
         $this->assertEquals('new', $result);
@@ -29,10 +29,10 @@ class MapReplaceStrategyTest extends TestCase
     public function shouldReturnNull_forMissing()
     {
         // given
-        $mapReplace = new MapReplaceStrategy(['old' => 'new']);
+        $mapReplace = new DictionaryMapper(['old' => 'new']);
 
         // when
-        $result = $mapReplace->replacementResult('missing');
+        $result = $mapReplace->map('missing');
 
         // then
         $this->assertNull($result);
@@ -48,7 +48,7 @@ class MapReplaceStrategyTest extends TestCase
         $this->expectExceptionMessage('Invalid replacement map key. Expected string, but integer (1) given');
 
         // when
-        new MapReplaceStrategy([1 => 'new']);
+        new DictionaryMapper([1 => 'new']);
     }
 
     /**
@@ -61,6 +61,6 @@ class MapReplaceStrategyTest extends TestCase
         $this->expectExceptionMessage('Invalid replacement map value. Expected string, but integer (1) given');
 
         // when
-        new MapReplaceStrategy(['old' => 1]);
+        new DictionaryMapper(['old' => 1]);
     }
 }
