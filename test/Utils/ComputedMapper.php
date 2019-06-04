@@ -17,4 +17,8 @@ class ComputedMapper implements GroupMapper
     {
         return call_user_func($this->mapper, $subject);
     }
+
+    public function useExceptionValues(string $occurrence, $nameOrIndex, string $match): void
+    {
+    }
 }

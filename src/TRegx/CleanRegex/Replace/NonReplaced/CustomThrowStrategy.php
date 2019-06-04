@@ -24,7 +24,7 @@ class CustomThrowStrategy implements ReplaceSubstitute
             ->create(new SubjectableImpl($subject));
     }
 
-    public function useExceptionMessage(NotMatchedMessage $message)
+    public function useExceptionMessage(NotMatchedMessage $message): void
     {
     }
 }

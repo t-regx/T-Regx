@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Replace\NonReplaced;
 
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
+
 class ConstantResultStrategy implements ReplaceSubstitute
 {
     /** @var string */
@@ -14,5 +16,9 @@ class ConstantResultStrategy implements ReplaceSubstitute
     public function substitute(string $subject): ?string
     {
         return $this->constant;
+    }
+
+    public function useExceptionMessage(NotMatchedMessage $message): void
+    {
     }
 }

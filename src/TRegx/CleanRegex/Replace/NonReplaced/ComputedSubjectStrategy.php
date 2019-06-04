@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Replace\NonReplaced;
 
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
+
 class ComputedSubjectStrategy implements ReplaceSubstitute
 {
     /** @var callable */
@@ -14,5 +16,9 @@ class ComputedSubjectStrategy implements ReplaceSubstitute
     public function substitute(string $subject): ?string
     {
         return call_user_func($this->mapper, $subject);
+    }
+
+    public function useExceptionMessage(NotMatchedMessage $message): void
+    {
     }
 }

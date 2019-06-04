@@ -9,4 +9,8 @@ class NoReplacementMapper implements GroupMapper
     {
         return null;
     }
+
+    public function useExceptionValues(string $occurrence, $nameOrIndex, string $match): void
+    {
+    }
 }

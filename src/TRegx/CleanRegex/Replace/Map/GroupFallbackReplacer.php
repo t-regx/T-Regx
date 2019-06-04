@@ -45,16 +45,6 @@ class GroupFallbackReplacer
         });
     }
 
-    private function validateGroup(array $match, $nameOrIndex): void
-    {
-        if (!array_key_exists($nameOrIndex, $match)) {
-            $matches = $this->base->matchAllOffsets();
-            if (!$matches->hasGroup($nameOrIndex)) {
-                throw new NonexistentGroupException($nameOrIndex);
-            }
-        }
-    }
-
     private function replaceUsingCallback(callable $closure): string
     {
         $result = $this->pregReplaceCallback($closure, $replaced);
@@ -74,25 +64,47 @@ class GroupFallbackReplacer
             $replaced);
     }
 
+    private function validateGroup(array $match, $nameOrIndex): void
+    {
+        if (!array_key_exists($nameOrIndex, $match)) {
+            $matches = $this->base->matchAllOffsets();
+            if (!$matches->hasGroup($nameOrIndex)) {
+                throw new NonexistentGroupException($nameOrIndex);
+            }
+        }
+    }
+
     private function getReplacementOrHandle(array $match, $nameOrIndex, GroupMapper $mapper, ReplaceSubstitute $substitute): string
     {
-        $occurrence = null;
-        if (array_key_exists($nameOrIndex, $match)) {
-            $occurrence = $match[$nameOrIndex];
-        }
+        $occurrence = $this->occurrence($match, $nameOrIndex);
         if ($occurrence === null) {
             return $substitute->substitute($this->subject->getSubject()) ?? $match[0];
         }
-        if ($occurrence === '') {
-            // With preg_replace_callback - it's impossible to distinguish unmatched group from a matched empty string
-            $matches = $this->base->matchAllOffsets();
-            if (!$matches->hasGroup($this->counter)) {
-                throw new InternalCleanRegexException();
-            }
-            if (!$matches->isGroupMatched($nameOrIndex, $this->counter)) {
-                return $substitute->substitute($this->subject->getSubject()) ?? $match[0];
-            }
-        }
+        $mapper->useExceptionValues($occurrence, $nameOrIndex, $match[0]);
         return $mapper->map($occurrence) ?? $match[0];
+    }
+
+    private function occurrence(array $match, $nameOrIndex): ?string
+    {
+        if (array_key_exists($nameOrIndex, $match)) {
+            return $this->makeSureOccurrence($nameOrIndex, $match[$nameOrIndex]);
+        }
+        return null;
+    }
+
+    private function makeSureOccurrence($nameOrIndex, string $occurrence): ?string
+    {
+        if ($occurrence !== '') {
+            return $occurrence;
+        }
+        // With preg_replace_callback - it's impossible to distinguish unmatched group from a matched empty string
+        $matches = $this->base->matchAllOffsets();
+        if (!$matches->hasGroup($this->counter)) {
+            throw new InternalCleanRegexException();
+        }
+        if (!$matches->isGroupMatched($nameOrIndex, $this->counter)) {
+            return null;
+        }
+        return $occurrence;
     }
 }

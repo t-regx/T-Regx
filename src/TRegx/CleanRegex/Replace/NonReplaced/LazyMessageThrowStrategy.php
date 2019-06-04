@@ -20,7 +20,7 @@ class LazyMessageThrowStrategy implements ReplaceSubstitute
     public function substitute(string $subject): ?string
     {
         $className = $this->className;
-        throw new $className($this->message);
+        throw new $className($this->message->getMessage());
     }
 
     public static function internalException(): LazyMessageThrowStrategy
@@ -28,7 +28,7 @@ class LazyMessageThrowStrategy implements ReplaceSubstitute
         return new self(InternalCleanRegexException::class);
     }
 
-    public function useExceptionMessage(NotMatchedMessage $message)
+    public function useExceptionMessage(NotMatchedMessage $message): void
     {
         $this->message = $message;
     }

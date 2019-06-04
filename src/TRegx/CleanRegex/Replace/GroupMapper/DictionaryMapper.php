@@ -23,6 +23,10 @@ class DictionaryMapper implements GroupMapper
         return null;
     }
 
+    public function useExceptionValues(string $occurrence, $nameOrIndex, string $match): void
+    {
+    }
+
     private function validateMap(array $map): void
     {
         foreach ($map as $occurrence => $replacement) {

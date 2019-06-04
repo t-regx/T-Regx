@@ -7,4 +7,8 @@ class IdentityMapper implements GroupMapper
     {
         return $occurrence;
     }
+
+    public function useExceptionValues(string $occurrence, $nameOrIndex, string $match): void
+    {
+    }
 }
