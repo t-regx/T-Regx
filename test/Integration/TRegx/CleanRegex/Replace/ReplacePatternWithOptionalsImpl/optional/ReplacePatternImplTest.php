@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
-use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 
@@ -51,8 +51,8 @@ class ReplacePatternImplTest extends TestCase
         };
         return [
             ['orReturn', ['arg'], new ConstantResultStrategy('arg')],
-            ['orThrow', [], new ThrowStrategy(NotReplacedException::class, new NonMatchedMessage())],
-            ['orThrow', [InvalidArgumentException::class], new ThrowStrategy(InvalidArgumentException::class, new NonMatchedMessage())],
+            ['orThrow', [], new CustomThrowStrategy(NotReplacedException::class, new NonMatchedMessage())],
+            ['orThrow', [InvalidArgumentException::class], new CustomThrowStrategy(InvalidArgumentException::class, new NonMatchedMessage())],
             ['orElse', [$callback], new ComputedSubjectStrategy($callback)],
         ];
     }

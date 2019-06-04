@@ -71,7 +71,8 @@ class ByReplacePatternImplTest extends TestCase
                 new DefaultStrategy(),
                 new ApiBase(new InternalPattern($pattern), $subject, new UserData())
             ),
-            1
+            1,
+            $subject
         );
     }
 }

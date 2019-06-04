@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 
-class DicionaryMapperTest extends TestCase
+class DictionaryMapperTest extends TestCase
 {
     /**
      * @test

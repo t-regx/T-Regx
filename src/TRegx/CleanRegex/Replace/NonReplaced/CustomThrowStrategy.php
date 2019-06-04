@@ -1,13 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Replace\NonReplaced;
 
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\InternalExceptionMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 
-class ThrowStrategy implements ReplaceSubstitute
+class CustomThrowStrategy implements ReplaceSubstitute
 {
     /** @var string */
     private $className;
@@ -26,8 +24,7 @@ class ThrowStrategy implements ReplaceSubstitute
             ->create(new SubjectableImpl($subject));
     }
 
-    public static function internalException(): ThrowStrategy
+    public function useExceptionMessage(NotMatchedMessage $message)
     {
-        return new self(InternalCleanRegexException::class, new InternalExceptionMessage());
     }
 }

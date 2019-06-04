@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\NonReplaced\NonMatchedMessage;
 
-class ThrowStrategyTest extends TestCase
+class CustomThrowStrategyTest extends TestCase
 {
     /**
      * @test
@@ -13,7 +13,7 @@ class ThrowStrategyTest extends TestCase
     public function shouldThrow()
     {
         // given
-        $strategy = new ThrowStrategy(InvalidArgumentException::class, new NonMatchedMessage());
+        $strategy = new CustomThrowStrategy(InvalidArgumentException::class, new NonMatchedMessage());
 
         // then
         $this->expectException(InvalidArgumentException::class);

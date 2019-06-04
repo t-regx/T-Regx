@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
-use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\LazyMessageThrowStrategy;
 
 class ByReplacePatternImpl implements ByReplacePattern
 {
@@ -14,17 +14,20 @@ class ByReplacePatternImpl implements ByReplacePattern
     private $fallbackReplacer;
     /** @var ReplaceSubstitute */
     private $substitute;
+    /** @var string */
+    private $subject;
 
-    public function __construct(GroupFallbackReplacer $fallbackReplacer, ReplaceSubstitute $substitute)
+    public function __construct(GroupFallbackReplacer $fallbackReplacer, ReplaceSubstitute $substitute, string $subject)
     {
         $this->fallbackReplacer = $fallbackReplacer;
         $this->substitute = $substitute;
+        $this->subject = $subject;
     }
 
     public function group($nameOrIndex): ByGroupReplacePattern
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return new ByGroupReplacePatternImpl($this->fallbackReplacer, $nameOrIndex);
+        return new ByGroupReplacePatternImpl($this->fallbackReplacer, $nameOrIndex, $this->subject);
     }
 
     public function map(array $map): string
@@ -41,7 +44,7 @@ class ByReplacePatternImpl implements ByReplacePattern
     {
         return $this->fallbackReplacer->replaceOrFallback(
             0,
-            new StrategyFallbackAdapter(new DictionaryMapper($map), $substitute, ''),
-            ThrowStrategy::internalException());
+            new StrategyFallbackAdapter(new DictionaryMapper($map), $substitute, $this->subject),
+            LazyMessageThrowStrategy::internalException());
     }
 }

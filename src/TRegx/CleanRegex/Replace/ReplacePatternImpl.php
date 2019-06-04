@@ -7,9 +7,9 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\Map\ByReplacePattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
+use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
-use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 
 class ReplacePatternImpl implements ReplacePattern
 {
@@ -59,7 +59,7 @@ class ReplacePatternImpl implements ReplacePattern
 
     public function orThrow(string $exceptionClassName = NotReplacedException::class): SpecificReplacePattern
     {
-        return $this->replacePattern(new ThrowStrategy($exceptionClassName, new NonMatchedMessage()));
+        return $this->replacePattern(new CustomThrowStrategy($exceptionClassName, new NonMatchedMessage()));
     }
 
     public function orReturn($substitute): SpecificReplacePattern

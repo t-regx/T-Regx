@@ -3,17 +3,16 @@ namespace TRegx\CleanRegex\Replace\Map;
 
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
-use TRegx\CleanRegex\Exception\CleanRegex\MissingReplacementKeyException;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\ReplacementWithUnmatchedGroupMessage;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\MissingReplacement\ForGroupMessage;
-use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
-use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
+use TRegx\CleanRegex\Exception\CleanRegex\MissingReplacementKeyException;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
+use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
+use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
-use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\LazyMessageThrowStrategy;
 
 class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 {
@@ -21,11 +20,14 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
     private $fallbackReplacer;
     /** @var string|int */
     private $nameOrIndex;
+    /** @var string */
+    private $subject;
 
-    public function __construct(GroupFallbackReplacer $fallbackReplacer, $nameOrIndex)
+    public function __construct(GroupFallbackReplacer $fallbackReplacer, $nameOrIndex, string $subject)
     {
         $this->fallbackReplacer = $fallbackReplacer;
         $this->nameOrIndex = $nameOrIndex;
+        $this->subject = $subject;
     }
 
     public function map(array $map): OptionalStrategySelector
@@ -35,11 +37,8 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
             $this->nameOrIndex,
             new StrategyFallbackAdapter(
                 new DictionaryMapper($map),
-                new ThrowStrategy(
-                    MissingReplacementKeyException::class,
-                    new ForGroupMessage('', '', '')),
-                ''
-            )
+                new LazyMessageThrowStrategy(MissingReplacementKeyException::class),
+                $this->subject)
         );
     }
 
@@ -50,7 +49,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 
     public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string
     {
-        return $this->replaceGroupOptional(new ThrowStrategy($exceptionClassName, new ReplacementWithUnmatchedGroupMessage($this->nameOrIndex)));
+        return $this->replaceGroupOptional(new CustomThrowStrategy($exceptionClassName, new ReplacementWithUnmatchedGroupMessage($this->nameOrIndex)));
     }
 
     public function orReturn($substitute): string
