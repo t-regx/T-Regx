@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Replace\Map;
+namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;

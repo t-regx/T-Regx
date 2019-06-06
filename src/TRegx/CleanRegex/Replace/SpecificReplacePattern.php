@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
-use TRegx\CleanRegex\Replace\Map\ByReplacePattern;
+use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 
 interface SpecificReplacePattern
 {

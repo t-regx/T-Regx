@@ -14,7 +14,7 @@ use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
 use Test\Utils\NoReplacementMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
-use TRegx\CleanRegex\Replace\Map\GroupFallbackReplacer;
+use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;

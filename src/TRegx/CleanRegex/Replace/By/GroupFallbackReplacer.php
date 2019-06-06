@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Replace\Map;
+namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;

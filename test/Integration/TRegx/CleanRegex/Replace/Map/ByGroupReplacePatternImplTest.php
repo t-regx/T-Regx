@@ -7,8 +7,8 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
-use TRegx\CleanRegex\Replace\Map\ByGroupReplacePatternImpl;
-use TRegx\CleanRegex\Replace\Map\GroupFallbackReplacer;
+use TRegx\CleanRegex\Replace\By\ByGroupReplacePatternImpl;
+use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 
 class ByReplacePatternImplTest extends TestCase
