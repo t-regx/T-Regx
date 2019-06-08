@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Replace\By\ByGroupReplacePatternImpl;
 use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
+use TRegx\CleanRegex\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 
 class ByReplacePatternImplTest extends TestCase
@@ -63,14 +64,18 @@ class ByReplacePatternImplTest extends TestCase
 
     public function create(string $pattern, string $subject): ByGroupReplacePatternImpl
     {
+        $internalPattern = new InternalPattern($pattern);
+        $subjectable = new SubjectableImpl($subject);
+
         return new ByGroupReplacePatternImpl(
             new GroupFallbackReplacer(
-                new InternalPattern($pattern),
-                new SubjectableImpl($subject),
+                $internalPattern,
+                $subjectable,
                 -1,
                 new DefaultStrategy(),
-                new ApiBase(new InternalPattern($pattern), $subject, new UserData())
+                new ApiBase($internalPattern, $subject, new UserData())
             ),
+            new PerformanceEmptyGroupReplace($internalPattern, $subjectable, -1),
             1,
             $subject
         );

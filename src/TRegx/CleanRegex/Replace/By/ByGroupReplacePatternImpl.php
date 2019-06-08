@@ -23,12 +23,15 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
     private $nameOrIndex;
     /** @var string */
     private $subject;
+    /** @var PerformanceEmptyGroupReplace */
+    private $performanceReplace;
 
-    public function __construct(GroupFallbackReplacer $fallbackReplacer, $nameOrIndex, string $subject)
+    public function __construct(GroupFallbackReplacer $fallbackReplacer, PerformanceEmptyGroupReplace $performanceReplace, $nameOrIndex, string $subject)
     {
         $this->fallbackReplacer = $fallbackReplacer;
         $this->nameOrIndex = $nameOrIndex;
         $this->subject = $subject;
+        $this->performanceReplace = $performanceReplace;
     }
 
     public function map(array $map): OptionalStrategySelector
@@ -65,6 +68,9 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 
     public function orEmpty(): string
     {
+        if (is_int($this->nameOrIndex)) {
+            return $this->performanceReplace->replaceWithGroupOrEmpty($this->nameOrIndex);
+        }
         return $this->replaceGroupOptional(new ConstantResultStrategy(''));
     }
 
