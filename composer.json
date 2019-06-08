@@ -41,7 +41,8 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^7.5",
-    "php-coveralls/php-coveralls": "^2.0"
+    "php-coveralls/php-coveralls": "^2.0",
+    "rawr/cross-data-providers": "^1.0"
   },
   "archive": {
     "exclude": [

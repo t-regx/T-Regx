@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CrossData\DataProviders;
 
 class ReplacePatternTest extends TestCase
 {
@@ -36,6 +37,67 @@ class ReplacePatternTest extends TestCase
             'orElse'   => ['orElse', [function () {
             }]],
             'orThrow'  => ['orThrow', []],
+            'orIgnore' => ['orIgnore', []],
+            'orEmpty'  => ['orEmpty', []],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider shouldNotReplaceGroups
+     */
+    public function shouldNotReplace($nameOrIndex, $method, $arguments, $expected)
+    {
+        // when
+        $result = pattern('https?://(?<name>\w+)?\.com')
+            ->replace('Links: https://.com,http://.com.')
+            ->all()
+            ->by()
+            ->group($nameOrIndex)
+            ->$method(...$arguments);
+
+        // then
+        $this->assertEquals($expected, $result);
+    }
+
+    function shouldNotReplaceGroups(): array
+    {
+        return DataProviders::builder()
+            ->crossing($this->groups())
+            ->crossing([
+                ['orReturn', ['default'], 'Links: default,default.'],
+                ['orElse', [function () {
+                    return 'else';
+                }], 'Links: else,else.'],
+                ['orIgnore', [], 'Links: https://.com,http://.com.'],
+                ['orEmpty', [], 'Links: ,.'],
+            ])
+            ->build();
+    }
+
+    /**
+     * @test
+     * @dataProvider groups
+     */
+    public function shouldNotReplace_orThrow($nameOrIndex)
+    {
+        // then
+        $this->expectException(CustomException::class);
+        $this->expectExceptionMessage("Expected to replace with group '$nameOrIndex', but the group was not matched");
+
+        // when
+        pattern('https?://(?<name>\w+)?\.com')
+            ->replace('Links: https://.com,http://.com.')
+            ->all()
+            ->by()
+            ->group($nameOrIndex)
+            ->orThrow(CustomException::class);
+    }
+
+    function groups(): array
+    {
+        return [
+            ['name'], [1]
         ];
     }
 

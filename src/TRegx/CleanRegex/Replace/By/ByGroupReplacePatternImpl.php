@@ -11,8 +11,9 @@ use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
+use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\LazyMessageThrowStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 
 class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 {
@@ -55,6 +56,16 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
     public function orReturn($substitute): string
     {
         return $this->replaceGroupOptional(new ConstantResultStrategy($substitute));
+    }
+
+    public function orIgnore(): string
+    {
+        return $this->replaceGroupOptional(new DefaultStrategy());
+    }
+
+    public function orEmpty(): string
+    {
+        return $this->replaceGroupOptional(new ConstantResultStrategy(''));
     }
 
     public function orElse(callable $substituteProducer): string

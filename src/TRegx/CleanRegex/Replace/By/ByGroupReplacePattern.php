@@ -14,6 +14,10 @@ interface ByGroupReplacePattern extends Optional
      */
     public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string;
 
+    public function orIgnore(): string;
+
+    public function orEmpty(): string;
+
     /**
      * @param string[] $occurrencesAndReplacements
      * @return OptionalStrategySelector
