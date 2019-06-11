@@ -1,7 +1,7 @@
 T-Regx Changelog
 ================
 
-Added in 1.0
+Added in 0.9
 ---------------
 
 * Features
@@ -33,9 +33,6 @@ Added in 1.0
     * Split tests into `\Test\Unit`, `\Test\Integration`, `\Test\Functional` and `\Test\Feature` folders 
     * Add dynamic skip for `ErrorsCleanerTest`
     * Handle [PHP bugfix in 7.1.13](https://bugs.php.net/bug.php?id=74183).
-* Debug
-    * Add `pregConstant` field to `RuntimeError`. Only reason to do it is so if you **catch the exception it 
-    in debugger**, you'll see constant name (ie. `PREG_BAD_UTF8_ERROR`) instead of constant value (ie. `4`).
 * Other
     * Set `\TRegx` namespace prefix
     * Add `ext-mbstring` requirement to `composer.json`.
@@ -43,6 +40,9 @@ Added in 1.0
       work with group names impossible. Thanks to `GroupPolyfillDecorator`, a second call to `preg_match_all()` is done
       to get a list of all groups (even unmatched ones). The call to `preg_match_all()` is of course only in the case
       of `Match.hasGroup()` or similar method. Regular methods like `Match.text()` won't call `preg_match_all()`
+* Debug
+    * Add `pregConstant` field to `RuntimeError`. Only reason to do it is so if you **catch the exception it 
+    in debugger**, you'll see constant name (ie. `PREG_BAD_UTF8_ERROR`) instead of constant value (ie. `4`).
     * Handle bug [PHP #75355](https://bugs.php.net/bug.php?id=75355)
 * Bug fixes
     * `preg::replace()` and `preg::filter()` only consider `[]` error prone if input subject was also an empty array.
@@ -136,10 +136,12 @@ API
                     * `ReplaceMatch` details (extending `Match` details)
                         * `ReplaceMatch.modifiedOffset()`
                         * `ReplaceMatch.modifiedSubject()`
-                * `->by()`/`by()->group()`
-                    * `->map()`
-                    * `->mapIfExists()`
-                    * `->mapOrDefault()`
+                * `by()->map()`, `by()->group()`, `by()->group()->map()`
+                    * `->orReturn()`
+                    * `->orElse()`
+                    * `->orThrow()`
+                    * `->orEmpty()`
+                    * `->orIgnore()`
     * Remove
         * `pattern()->remove()`
             * `->all()` / `->first()` / `->only(int)`
