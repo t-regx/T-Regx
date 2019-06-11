@@ -55,13 +55,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
 
     public function callback(callable $callback): string
     {
-        $invoker = new ReplacePatternCallbackInvoker(
-            $this->pattern,
-            new SubjectableImpl($this->subject),
-            $this->limit,
-            $this->substitute
-        );
-        return $invoker->invoke($callback);
+        return $this->replaceCallbackInvoker()->invoke($callback);
     }
 
     public function by(): ByReplacePattern
@@ -77,7 +71,18 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
             ),
             new LazyMessageThrowStrategy(MissingReplacementKeyException::class),
             new PerformanceEmptyGroupReplace($this->pattern, $subjectable, $this->limit),
+            $this->replaceCallbackInvoker(),
             $this->subject
+        );
+    }
+
+    private function replaceCallbackInvoker(): ReplacePatternCallbackInvoker
+    {
+        return new ReplacePatternCallbackInvoker(
+            $this->pattern,
+            new SubjectableImpl($this->subject),
+            $this->limit,
+            $this->substitute
         );
     }
 }

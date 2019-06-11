@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\MissingReplacementKeyException;
+use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
@@ -25,13 +26,20 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
     private $subject;
     /** @var PerformanceEmptyGroupReplace */
     private $performanceReplace;
+    /** @var ReplacePatternCallbackInvoker */
+    private $replaceCallbackInvoker;
 
-    public function __construct(GroupFallbackReplacer $fallbackReplacer, PerformanceEmptyGroupReplace $performanceReplace, $nameOrIndex, string $subject)
+    public function __construct(GroupFallbackReplacer $fallbackReplacer,
+                                PerformanceEmptyGroupReplace $performanceReplace,
+                                ReplacePatternCallbackInvoker $replaceCallbackInvoker,
+                                $nameOrIndex,
+                                string $subject)
     {
         $this->fallbackReplacer = $fallbackReplacer;
         $this->nameOrIndex = $nameOrIndex;
         $this->subject = $subject;
         $this->performanceReplace = $performanceReplace;
+        $this->replaceCallbackInvoker = $replaceCallbackInvoker;
     }
 
     public function map(array $map): OptionalStrategySelector
@@ -85,5 +93,10 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
             throw new InternalCleanRegexException();
         }
         return $this->fallbackReplacer->replaceOrFallback($this->nameOrIndex, new IdentityMapper(), $substitute);
+    }
+
+    public function callback(callable $callback): string
+    {
+        return $this->replaceCallbackInvoker->invoke($callback);
     }
 }

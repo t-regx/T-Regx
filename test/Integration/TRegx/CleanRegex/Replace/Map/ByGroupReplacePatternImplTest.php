@@ -10,7 +10,9 @@ use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Replace\By\ByGroupReplacePatternImpl;
 use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\By\PerformanceEmptyGroupReplace;
+use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\LazyMessageThrowStrategy;
 
 class ByReplacePatternImplTest extends TestCase
 {
@@ -76,6 +78,7 @@ class ByReplacePatternImplTest extends TestCase
                 new ApiBase($internalPattern, $subject, new UserData())
             ),
             new PerformanceEmptyGroupReplace($internalPattern, $subjectable, -1),
+            new ReplacePatternCallbackInvoker($internalPattern, $subjectable, -1, new LazyMessageThrowStrategy(\AssertionError::class)),
             1,
             $subject
         );

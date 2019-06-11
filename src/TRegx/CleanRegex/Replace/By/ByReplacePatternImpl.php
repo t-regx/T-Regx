@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Internal\GroupNameValidator;
+use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
@@ -18,19 +19,26 @@ class ByReplacePatternImpl implements ByReplacePattern
     private $subject;
     /** @var PerformanceEmptyGroupReplace */
     private $performanceReplace;
+    /** @var ReplacePatternCallbackInvoker */
+    private $replaceCallbackInvoker;
 
-    public function __construct(GroupFallbackReplacer $fallbackReplacer, ReplaceSubstitute $substitute, PerformanceEmptyGroupReplace $performanceReplace, string $subject)
+    public function __construct(GroupFallbackReplacer $fallbackReplacer,
+                                ReplaceSubstitute $substitute,
+                                PerformanceEmptyGroupReplace $performanceReplace,
+                                ReplacePatternCallbackInvoker $replaceCallbackInvoker,
+                                string $subject)
     {
         $this->fallbackReplacer = $fallbackReplacer;
         $this->substitute = $substitute;
         $this->subject = $subject;
         $this->performanceReplace = $performanceReplace;
+        $this->replaceCallbackInvoker = $replaceCallbackInvoker;
     }
 
     public function group($nameOrIndex): ByGroupReplacePattern
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return new ByGroupReplacePatternImpl($this->fallbackReplacer, $this->performanceReplace, $nameOrIndex, $this->subject);
+        return new ByGroupReplacePatternImpl($this->fallbackReplacer, $this->performanceReplace, $this->replaceCallbackInvoker,$nameOrIndex, $this->subject);
     }
 
     public function map(array $map): string

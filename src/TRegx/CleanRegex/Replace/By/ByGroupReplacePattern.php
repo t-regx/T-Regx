@@ -32,4 +32,6 @@ interface ByGroupReplacePattern extends Optional
      * @throws \InvalidArgumentException
      */
     public function mapIfExists(array $occurrencesAndReplacements): OptionalStrategySelector;
+
+    public function callback(callable $callback): string;
 }
