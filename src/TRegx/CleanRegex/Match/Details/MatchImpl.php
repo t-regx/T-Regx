@@ -77,6 +77,11 @@ class MatchImpl implements Match
         return $this->match->getMatch();
     }
 
+    public function textLength(): int
+    {
+        return \mb_strlen($this->match->getMatch());
+    }
+
     public function parseInt(): int
     {
         if ($this->isInt()) {

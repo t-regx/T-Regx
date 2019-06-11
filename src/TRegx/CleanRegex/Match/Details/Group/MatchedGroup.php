@@ -28,6 +28,11 @@ class MatchedGroup implements MatchGroup
         return $this->occurrence->text;
     }
 
+    public function textLength(): int
+    {
+        return mb_strlen($this->occurrence->text);
+    }
+
     public function parseInt(): int
     {
         if ($this->isInt()) {

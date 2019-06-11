@@ -76,6 +76,11 @@ class ReplaceMatchImpl implements ReplaceMatch
         return $this->match->text();
     }
 
+    public function textLength(): int
+    {
+        return $this->match->textLength();
+    }
+
     public function parseInt(): int
     {
         return $this->match->parseInt();

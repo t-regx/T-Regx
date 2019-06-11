@@ -1,7 +1,15 @@
 T-Regx Changelog
 ================
 
-Added in 0.9
+Added in 0.9.1
+---------------
+
+* Features
+    * `Match.textLength()`
+    * `Match.group().textLength()`
+    * `Match.groupsCount()`
+
+Added in 0.9.0
 ---------------
 
 * Features
@@ -97,6 +105,7 @@ API
             * `->filter()->*`
         * `Match` details:
             * `Match->text()` / `Match->__toString()` / `(string) $match`
+            * `Match->textLength()`
             * `Match->parseInt()`, `Match->isInt()`
             * `Match->subject()`
             * `Match->index()`

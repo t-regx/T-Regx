@@ -32,6 +32,21 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
+    public function shouldGet_groupTextLength()
+    {
+        // given
+        pattern('(\p{L}+)', 'u')
+            ->match('Łomża')
+            ->first(function (Match $match) {
+                // then
+                $this->assertEquals('Łomża', $match->group(1)->text());
+                $this->assertEquals(5, $match->group(1)->textLength());
+            });
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetGroup_all_matched()
     {
         // given

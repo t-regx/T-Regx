@@ -8,6 +8,8 @@ interface MatchGroup extends Optional
 {
     public function text(): string;
 
+    public function textLength(): int;
+
     public function parseInt(): int;
 
     public function isInt(): bool;
