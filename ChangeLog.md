@@ -8,8 +8,9 @@ Added in 0.9.1
     * `Match.textLength()`
     * `Match.group().textLength()`
     * `Match.groupsCount()`
+    * Add method `by()->group()->callback()` which accepts `MatchGroup` as an argument
 
-Added in 0.9.0
+Available in 0.9.0
 ---------------
 
 * Features
@@ -146,6 +147,7 @@ API
                     * `ReplaceMatch` details (extending `Match` details)
                         * `ReplaceMatch.modifiedOffset()`
                         * `ReplaceMatch.modifiedSubject()`
+                * `by()->group()->callback()`
                 * `by()->map()`, `by()->group()`, `by()->group()->map()`
                     * `->orReturn()`
                     * `->orElse()`
