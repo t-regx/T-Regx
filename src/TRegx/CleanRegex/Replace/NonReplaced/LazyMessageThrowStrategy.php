@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Replace\NonReplaced;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
+use TRegx\CleanRegex\Match\Details\Match;
 
 class LazyMessageThrowStrategy implements ReplaceSubstitute
 {
@@ -18,6 +19,16 @@ class LazyMessageThrowStrategy implements ReplaceSubstitute
     }
 
     public function substitute(string $subject): ?string
+    {
+        return $this->doSubstitute();
+    }
+
+    public function substituteGroup(Match $match): ?string
+    {
+        return $this->doSubstitute();
+    }
+
+    private function doSubstitute(): string
     {
         $className = $this->className;
         throw new $className($this->message->getMessage());

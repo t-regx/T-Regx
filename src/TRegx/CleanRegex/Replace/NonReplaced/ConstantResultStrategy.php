@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Replace\NonReplaced;
 
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
+use TRegx\CleanRegex\Match\Details\Match;
 
 class ConstantResultStrategy implements ReplaceSubstitute
 {
@@ -14,6 +15,11 @@ class ConstantResultStrategy implements ReplaceSubstitute
     }
 
     public function substitute(string $subject): ?string
+    {
+        return $this->constant;
+    }
+
+    public function substituteGroup(Match $match): ?string
     {
         return $this->constant;
     }

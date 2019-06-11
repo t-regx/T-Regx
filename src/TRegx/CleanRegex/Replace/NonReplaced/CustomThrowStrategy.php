@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Replace\NonReplaced;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Match\Details\Match;
 
 class CustomThrowStrategy implements ReplaceSubstitute
 {
@@ -22,6 +23,11 @@ class CustomThrowStrategy implements ReplaceSubstitute
     {
         throw (new SignatureExceptionFactory($this->className, $this->message))
             ->create(new SubjectableImpl($subject));
+    }
+
+    public function substituteGroup(Match $match): ?string
+    {
+        return $this->substitute($match->subject());
     }
 
     public function useExceptionMessage(NotMatchedMessage $message): void
