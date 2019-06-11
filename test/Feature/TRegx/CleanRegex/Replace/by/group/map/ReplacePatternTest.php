@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\MissingReplacementKeyException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Match\Details\Match;
 
 class ReplacePatternTest extends TestCase
 {
@@ -40,7 +41,7 @@ class ReplacePatternTest extends TestCase
     {
         return [
             'orReturn' => ['orReturn', ['word']],
-            'orElse'   => ['orElse', [function () {
+            'orElse'   => ['orElse', [function (Match $match) {
             }]],
             'orThrow'  => ['orThrow', []],
         ];

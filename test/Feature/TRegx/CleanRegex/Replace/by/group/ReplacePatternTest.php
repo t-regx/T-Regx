@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CrossData\DataProviders;
 
 class ReplacePatternTest extends TestCase
@@ -34,7 +35,7 @@ class ReplacePatternTest extends TestCase
     {
         return [
             'orReturn' => ['orReturn', ['word']],
-            'orElse'   => ['orElse', [function () {
+            'orElse'   => ['orElse', [function (Match $match) {
             }]],
             'orThrow'  => ['orThrow', []],
             'orIgnore' => ['orIgnore', []],
@@ -66,7 +67,7 @@ class ReplacePatternTest extends TestCase
             ->crossing($this->groups())
             ->crossing([
                 ['orReturn', ['default'], 'Links: default,default.'],
-                ['orElse', [function () {
+                ['orElse', [function (Match $notMatched) {
                     return 'else';
                 }], 'Links: else,else.'],
                 ['orIgnore', [], 'Links: https://.com,http://.com.'],

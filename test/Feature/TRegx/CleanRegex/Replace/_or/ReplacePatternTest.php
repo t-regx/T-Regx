@@ -25,6 +25,24 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldReturn_with_orElse()
+    {
+        // given
+        $replacePattern = pattern('Foo')->replace('Bar')->first();
+
+        // when
+        $result = $replacePattern->orElse(function (string $subject) {
+            $this->assertEquals('Bar', $subject);
+            return 'otherwise';
+        })->with('');
+
+        // then
+        $this->assertEquals('otherwise', $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldReturn_withReferences()
     {
         // given
