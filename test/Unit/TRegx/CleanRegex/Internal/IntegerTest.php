@@ -36,15 +36,15 @@ class IntegerTest extends TestCase
     /**
      * @test
      * @dataProvider pseudoIntegers
-     * @param string $pseudoString
+     * @param string $pseudoInteger
      */
-    public function shouldPseudoInteger_notBeValid(string $pseudoString)
+    public function shouldPseudoInteger_notBeValid(string $pseudoInteger)
     {
         // given
-        $result = Integer::isValid($pseudoString);
+        $result = Integer::isValid($pseudoInteger);
 
         // then
-        $this->assertFalse($result);
+        $this->assertFalse($result, "Failed asserting that '$pseudoInteger' is not a valid integer");
     }
 
     public function pseudoIntegers()
