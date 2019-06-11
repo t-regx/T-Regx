@@ -6,8 +6,8 @@ use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 use TRegx\CleanRegex\Replace\NonReplaced\LazyMessageThrowStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 
 class ByReplacePatternImpl implements ByReplacePattern
 {
@@ -38,7 +38,7 @@ class ByReplacePatternImpl implements ByReplacePattern
     public function group($nameOrIndex): ByGroupReplacePattern
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return new ByGroupReplacePatternImpl($this->fallbackReplacer, $this->performanceReplace, $this->replaceCallbackInvoker,$nameOrIndex, $this->subject);
+        return new ByGroupReplacePatternImpl($this->fallbackReplacer, $this->performanceReplace, $this->replaceCallbackInvoker, $nameOrIndex, $this->subject);
     }
 
     public function map(array $map): string

@@ -37,14 +37,21 @@ class ReplaceCallbackObject
     private $subjectModification;
     /** @var int */
     private $limit;
+    /** @var ReplaceCallbackArgumentStrategy */
+    private $argumentStrategy;
 
-    public function __construct(callable $callback, Subjectable $subject, IRawMatchesOffset $analyzedPattern, int $limit)
+    public function __construct(callable $callback,
+                                Subjectable $subject,
+                                IRawMatchesOffset $analyzedPattern,
+                                int $limit,
+                                ReplaceCallbackArgumentStrategy $argumentStrategy)
     {
         $this->callback = $callback;
         $this->subject = $subject;
         $this->analyzedPattern = $analyzedPattern;
         $this->limit = $limit;
         $this->subjectModification = $this->subject->getSubject();
+        $this->argumentStrategy = $argumentStrategy;
     }
 
     public function getCallback(): callable
@@ -56,11 +63,16 @@ class ReplaceCallbackObject
 
     private function invoke(array $match): string
     {
-        $result = call_user_func($this->callback, $this->createMatchObject());
+        $result = call_user_func($this->callback, $this->matchObject());
         $replacement = $this->getReplacement($result);
         $this->modifySubject($replacement);
         $this->modifyOffset($match[0], $replacement);
         return $replacement;
+    }
+
+    private function matchObject()
+    {
+        return $this->argumentStrategy->mapArgument($this->createMatchObject());
     }
 
     private function createMatchObject(): ReplaceMatch

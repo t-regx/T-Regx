@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePatternImpl;
 use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\By\PerformanceEmptyGroupReplace;
+use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
@@ -55,7 +56,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
 
     public function callback(callable $callback): string
     {
-        return $this->replaceCallbackInvoker()->invoke($callback);
+        return $this->replaceCallbackInvoker()->invoke($callback, new MatchStrategy());
     }
 
     public function by(): ByReplacePattern

@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\SubjectableImpl;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 
@@ -24,7 +25,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         };
 
         // when
-        $result = $invoker->invoke($callback);
+        $result = $invoker->invoke($callback, new MatchStrategy());
 
         // then
         $this->assertEquals('Tom Cruise is *22* years old and has *193*cm', $result);
@@ -45,7 +46,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         };
 
         // when
-        $invoker->invoke($callback);
+        $invoker->invoke($callback, new MatchStrategy());
 
         // then
         $this->assertEquals([14, 35], $offsets);
@@ -66,7 +67,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         };
 
         // when
-        $invoker->invoke($callback);
+        $invoker->invoke($callback, new MatchStrategy());
 
         // then
         $this->assertEquals(['192', '168', '17'], $values);
@@ -88,7 +89,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         };
 
         // when
-        $invoker->invoke($callback);
+        $invoker->invoke($callback, new MatchStrategy());
     }
 
     /**
@@ -107,7 +108,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         };
 
         // when
-        $invoker->invoke($callback);
+        $invoker->invoke($callback, new MatchStrategy());
     }
 
     /**
@@ -121,7 +122,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         // when
         $result = $invoker->invoke(function () {
             $this->assertTrue(false);
-        });
+        }, new MatchStrategy());
 
         // then
         $this->assertEquals('', $result);

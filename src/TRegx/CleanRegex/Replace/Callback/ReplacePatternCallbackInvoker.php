@@ -27,36 +27,36 @@ class ReplacePatternCallbackInvoker
         $this->substitute = $substitute;
     }
 
-    public function invoke(callable $callback): string
+    public function invoke(callable $callback, ReplaceCallbackArgumentStrategy $strategy): string
     {
-        $result = $this->pregReplaceCallback($callback, $replaced);
+        $result = $this->pregReplaceCallback($callback, $replaced, $strategy);
         if ($replaced === 0) {
             return $this->substitute->substitute($this->subject->getSubject()) ?? $result;
         }
         return $result;
     }
 
-    public function pregReplaceCallback(callable $callback, ?int &$replaced): string
+    public function pregReplaceCallback(callable $callback, ?int &$replaced, ReplaceCallbackArgumentStrategy $strategy): string
     {
         return preg::replace_callback($this->pattern->pattern,
-            $this->getObjectCallback($callback),
+            $this->getObjectCallback($callback, $strategy),
             $this->subject->getSubject(),
             $this->limit,
             $replaced);
     }
 
-    private function getObjectCallback(callable $callback): callable
+    private function getObjectCallback(callable $callback, ReplaceCallbackArgumentStrategy $strategy): callable
     {
         if ($this->limit === 0) {
             return function () {
             };
         }
-        return $this->createObjectCallback($callback);
+        return $this->createObjectCallback($callback, $strategy);
     }
 
-    private function createObjectCallback(callable $callback): callable
+    private function createObjectCallback(callable $callback, ReplaceCallbackArgumentStrategy $strategy): callable
     {
-        $object = new ReplaceCallbackObject($callback, $this->subject, $this->analyzePattern(), $this->limit);
+        $object = new ReplaceCallbackObject($callback, $this->subject, $this->analyzePattern(), $this->limit, $strategy);
         return $object->getCallback();
     }
 

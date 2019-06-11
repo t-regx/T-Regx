@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\MissingReplacementKeyException;
+use TRegx\CleanRegex\Replace\Callback\MatchGroupStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
@@ -97,6 +98,6 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 
     public function callback(callable $callback): string
     {
-        return $this->replaceCallbackInvoker->invoke($callback);
+        return $this->replaceCallbackInvoker->invoke($callback, new MatchGroupStrategy($this->nameOrIndex));
     }
 }
