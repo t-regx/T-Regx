@@ -43,15 +43,15 @@ class ByReplacePatternImpl implements ByReplacePattern
 
     public function map(array $map): string
     {
-        return $this->replaceByMap($map, $this->substitute);
+        return $this->replace($map, $this->substitute);
     }
 
     public function mapIfExists(array $map): string
     {
-        return $this->replaceByMap($map, new DefaultStrategy());
+        return $this->replace($map, new DefaultStrategy());
     }
 
-    public function replaceByMap(array $map, ReplaceSubstitute $substitute): string
+    public function replace(array $map, ReplaceSubstitute $substitute): string
     {
         return $this->fallbackReplacer->replaceOrFallback(
             0,
