@@ -116,6 +116,12 @@ class MatchImpl implements Match
         return array_values(array_filter($this->getMatches()->getGroupKeys(), '\is_string'));
     }
 
+    public function groupsCount(): int
+    {
+        $indexedGroups = array_filter($this->getMatches()->getGroupKeys(), '\is_int');
+        return count($indexedGroups) - 1;
+    }
+
     public function groups(): IndexedGroups
     {
         return new IndexedGroups($this->match, $this->subjectable);

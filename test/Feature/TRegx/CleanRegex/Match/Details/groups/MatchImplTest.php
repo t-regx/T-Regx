@@ -107,6 +107,23 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetGroupsCount()
+    {
+        // given
+        pattern('(?<one>first) and (second)')
+            ->match('first and second')
+            ->first(function (Match $match) {
+                // when
+                $groupsCount = $match->groupsCount();
+
+                // then
+                $this->assertEquals(2, $groupsCount);
+            });
+    }
+
+    /**
+     * @test
+     */
     public function shouldNotHaveGroup()
     {
         // given

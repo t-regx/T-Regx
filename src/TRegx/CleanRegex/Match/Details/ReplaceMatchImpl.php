@@ -57,6 +57,11 @@ class ReplaceMatchImpl implements ReplaceMatch
         return $this->match->groupNames();
     }
 
+    public function groupsCount(): int
+    {
+        return $this->match->groupsCount();
+    }
+
     /**
      * @param string|int $nameOrIndex
      * @return bool

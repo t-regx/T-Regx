@@ -10,6 +10,8 @@ interface Details
      */
     public function groupNames(): array;
 
+    public function groupsCount(): int;
+
     /**
      * @param string|int $nameOrIndex
      * @return bool

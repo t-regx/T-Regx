@@ -118,6 +118,7 @@ API
                 * `->texts()`
                 * `->offsets()` / `->byteOffsets()`
             * `Match->groupNames()`
+            * `Match->groupsCount()`
             * `Match->matched(string|int)`
             * `Match->hasGroup(string|int)`
             * `Match->all()`
