@@ -45,6 +45,24 @@ class ReplacePatternTest extends TestCase
 
     /**
      * @test
+     */
+    public function shouldNotReplace_passMatchDetails_orElse()
+    {
+        // when
+        pattern('(?<value>\d+)(?<unit>cm)?')
+            ->replace('15cm 14 16cm')
+            ->all()
+            ->by()
+            ->group('unit')
+            ->orElse(function (Match $match) {
+                $this->assertEquals('14', $match->text());
+                $this->assertEquals('14', $match->group('value')->text());
+                $this->assertEquals(1, $match->index());
+            });
+    }
+
+    /**
+     * @test
      * @dataProvider shouldNotReplaceGroups
      */
     public function shouldNotReplace($nameOrIndex, $method, $arguments, $expected)

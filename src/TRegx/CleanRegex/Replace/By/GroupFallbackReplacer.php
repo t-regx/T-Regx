@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Match\Details\LazyMatchImpl;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 use TRegx\SafeRegex\preg;
@@ -78,7 +79,7 @@ class GroupFallbackReplacer
     {
         $occurrence = $this->occurrence($match, $nameOrIndex);
         if ($occurrence === null) {
-            return $substitute->substitute($this->subject->getSubject()) ?? $match[0];
+            return $substitute->substituteGroup(new LazyMatchImpl($this->pattern, $this->subject, $this->counter, $this->limit, $this->base)) ?? $match[0];
         }
         $mapper->useExceptionValues($occurrence, $nameOrIndex, $match[0]);
         return $mapper->map($occurrence) ?? $match[0];
