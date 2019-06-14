@@ -23,6 +23,7 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 [![PHP Version](https://img.shields.io/badge/PHP-7.4-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/PHP-8.0-yellow.svg)](https://travis-ci.org/T-Regx/T-Regx "Unofficially, but builds do run on 8.0")
 
+[![PRs Welcome](https://img.shields.io/badge/Stable-0.9.1-brightgreen.svg?style=popout)](https://github.com/T-Regx/T-Regx/releases)
 [![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 
 1. [Installation](#installation)
@@ -42,7 +43,7 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 Installation for PHP 7.1 and later:
 
 ```bash
-$ composer require rawr/t-regx
+$ composer require rawr/t-regx:0.9
 ```
 
 :bulb: See documentation if you need to use [earlier versions of PHP](https://t-regx.com/docs/installation).
