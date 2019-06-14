@@ -91,7 +91,7 @@ class OvertriggerCompileErrorTest extends TestCase
         // then
         $this->assertInstanceOf(CompileSafeRegexException::class, $exception);
         $this->assertEquals('preg_replace', $exception->getInvokingMethod());
-        $this->assertEquals('other error' . PHP_EOL . ' ' . PHP_EOL . '(caused by E_WARNING)', $exception->getMessage());
+        $this->assertEquals('other error' . PHP_EOL . PHP_EOL . '(caused by E_WARNING)', $exception->getMessage());
     }
 
     private function phpError(string $message)

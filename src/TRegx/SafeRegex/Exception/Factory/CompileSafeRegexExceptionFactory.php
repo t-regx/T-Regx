@@ -38,6 +38,6 @@ class CompileSafeRegexExceptionFactory
 
     public function getExceptionMessage(string $errorName): string
     {
-        return $this->error->getMessage() . PHP_EOL . ' ' . PHP_EOL . "(caused by $errorName)";
+        return $this->error->getMessage() . PHP_EOL . PHP_EOL . "(caused by $errorName)";
     }
 }
