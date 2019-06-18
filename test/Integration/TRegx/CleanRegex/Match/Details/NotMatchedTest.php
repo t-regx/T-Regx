@@ -26,7 +26,11 @@ class NotMatchedTest extends TestCase
         $notMatched = new NotMatched(new RawMatches([]), new SubjectableImpl('subject'));
 
         // then
-        $this->expectException(Error::class);
+        if (PHP_VERSION_ID < 70400) {
+            $this->expectException(Error::class);
+        } else {
+            $this->expectException(\Error::class);
+        }
         $this->expectExceptionMessage('Object of class TRegx\CleanRegex\Match\Details\NotMatched could not be converted to string');
 
         // when
