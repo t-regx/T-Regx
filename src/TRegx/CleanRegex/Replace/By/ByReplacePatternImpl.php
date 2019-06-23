@@ -38,7 +38,12 @@ class ByReplacePatternImpl implements ByReplacePattern
     public function group($nameOrIndex): ByGroupReplacePattern
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return new ByGroupReplacePatternImpl($this->fallbackReplacer, $this->performanceReplace, $this->replaceCallbackInvoker, $nameOrIndex, $this->subject);
+        return new ByGroupReplacePatternImpl(
+            $this->fallbackReplacer,
+            $this->performanceReplace,
+            $this->replaceCallbackInvoker,
+            $nameOrIndex,
+            $this->subject);
     }
 
     public function map(array $map): string

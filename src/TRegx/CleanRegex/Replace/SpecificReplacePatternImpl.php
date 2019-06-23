@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePatternImpl;
 use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
@@ -16,7 +17,7 @@ use TRegx\CleanRegex\Replace\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 use TRegx\SafeRegex\preg;
 
-class SpecificReplacePatternImpl implements SpecificReplacePattern
+class SpecificReplacePatternImpl implements SpecificReplacePattern, Subjectable
 {
     const WHOLE_MATCH = 0;
 
@@ -64,13 +65,13 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
         return new ByReplacePatternImpl(
             new GroupFallbackReplacer(
                 $this->pattern,
-                new Subject($this->subject),
+                $this,
                 $this->limit,
                 $this->substitute,
                 new ApiBase($this->pattern, $this->subject, new UserData())
             ),
             new LazyMessageThrowStrategy(MissingReplacementKeyException::class),
-            new PerformanceEmptyGroupReplace($this->pattern, new Subject($this->subject), $this->limit),
+            new PerformanceEmptyGroupReplace($this->pattern, $this, $this->limit),
             $this->replaceCallbackInvoker(),
             $this->subject
         );
@@ -78,11 +79,11 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
 
     private function replaceCallbackInvoker(): ReplacePatternCallbackInvoker
     {
-        return new ReplacePatternCallbackInvoker(
-            $this->pattern,
-            new Subject($this->subject),
-            $this->limit,
-            $this->substitute
-        );
+        return new ReplacePatternCallbackInvoker($this->pattern, $this, $this->limit, $this->substitute);
+    }
+
+    public function getSubject(): string
+    {
+        return $this->subject;
     }
 }
