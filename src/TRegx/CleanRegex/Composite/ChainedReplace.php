@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
+use TRegx\CleanRegex\Replace\ReplaceReferences;
 use TRegx\SafeRegex\preg;
 
 class ChainedReplace
@@ -25,6 +26,11 @@ class ChainedReplace
     }
 
     public function with(string $replacement): string
+    {
+        return $this->withReferences(ReplaceReferences::quote($replacement));
+    }
+
+    public function withReferences(string $replacement): string
     {
         $subject = $this->subject;
         foreach ($this->patterns as $pattern) {

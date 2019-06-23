@@ -47,4 +47,35 @@ class CompositePatternTest extends TestCase
             [7, 'Do__you______now__'],
         ];
     }
+
+    /**
+     * @test
+     */
+    public function shouldQuoteReferences()
+    {
+        // given
+        $patterns = ['One(1)', 'Two(2)', 'Three(3)'];
+        $pattern = new CompositePattern((new CompositePatternMapper($patterns))->createPatterns());
+
+        // when
+        $replaced = $pattern->chainedReplace("One1 Two2 Three3")->with('$1');
+
+        // then
+        $this->assertEquals('$1 $1 $1', $replaced);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReplaceWithReferences()
+    {
+        // given
+        $pattern = new CompositePattern((new CompositePatternMapper(['One(1)', 'Two(2)', 'Three(3)']))->createPatterns());
+
+        // when
+        $replaced = $pattern->chainedReplace("One1 Two2 Three3")->withReferences('$1');
+
+        // then
+        $this->assertEquals('1 2 3', $replaced);
+    }
 }

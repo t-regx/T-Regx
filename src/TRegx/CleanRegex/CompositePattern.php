@@ -38,7 +38,7 @@ class CompositePattern
 
     public function chainedRemove(string $subject): string
     {
-        return $this->chainedReplace($subject)->with('');
+        return $this->chainedReplace($subject)->withReferences('');
     }
 
     public function chainedReplace(string $subject): ChainedReplace
