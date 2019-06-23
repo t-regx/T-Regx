@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplaceCallbackObject;
@@ -128,7 +128,7 @@ class ReplaceCallbackObjectTest extends TestCase
 
     private function create(string $pattern, string $subject, int $limit, callable $callback): ReplaceCallbackObject
     {
-        return new ReplaceCallbackObject($callback, new SubjectableImpl($subject), $this->analyzePattern($pattern, $subject), $limit, new MatchStrategy());
+        return new ReplaceCallbackObject($callback, new Subject($subject), $this->analyzePattern($pattern, $subject), $limit, new MatchStrategy());
     }
 
     private function analyzePattern($pattern, $subject): IRawMatchesOffset

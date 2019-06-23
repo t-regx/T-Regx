@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex;
 use TRegx\CleanRegex\ForArray\ForArrayPattern;
 use TRegx\CleanRegex\ForArray\ForArrayPatternImpl;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Remove\RemovePattern;
@@ -27,12 +27,12 @@ class Pattern
 
     public function test(string $subject): bool
     {
-        return (new TestMatchesPattern($this->pattern, new SubjectableImpl($subject)))->test();
+        return (new TestMatchesPattern($this->pattern, new Subject($subject)))->test();
     }
 
     public function fails(string $subject): bool
     {
-        return (new TestMatchesPattern($this->pattern, new SubjectableImpl($subject)))->fails();
+        return (new TestMatchesPattern($this->pattern, new Subject($subject)))->fails();
     }
 
     public function match(string $subject): MatchPattern
@@ -66,12 +66,12 @@ class Pattern
 
     public function split(string $subject): SplitPattern
     {
-        return new SplitPattern($this->pattern, new SubjectableImpl($subject));
+        return new SplitPattern($this->pattern, new Subject($subject));
     }
 
     public function count(string $subject): int
     {
-        return (new CountPattern($this->pattern, new SubjectableImpl($subject)))->count();
+        return (new CountPattern($this->pattern, new Subject($subject)))->count();
     }
 
     public static function quote(string $pattern): string

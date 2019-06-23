@@ -6,7 +6,7 @@ use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class NotMatchedTest extends TestCase
@@ -23,7 +23,7 @@ class NotMatchedTest extends TestCase
             $this->markTestSkipped("Prior to PHP 7.1.0, casting to string causes a fatal error, which can't be tested by PhpUnit");
         }
         // given
-        $notMatched = new NotMatched(new RawMatches([]), new SubjectableImpl('subject'));
+        $notMatched = new NotMatched(new RawMatches([]), new Subject('subject'));
 
         // then
         if (PHP_VERSION_ID < 70400) {
@@ -46,7 +46,7 @@ class NotMatchedTest extends TestCase
     public function shouldGet_subject()
     {
         //
-        $notMatched = new NotMatched(new RawMatches([]), new SubjectableImpl('subject'));
+        $notMatched = new NotMatched(new RawMatches([]), new Subject('subject'));
 
         // when
         $subject = $notMatched->subject();
@@ -165,7 +165,7 @@ class NotMatchedTest extends TestCase
             'xd'    => [],
             2       => [],
         ];
-        return new NotMatched(new RawMatches($matches), new SubjectableImpl('subject'));
+        return new NotMatched(new RawMatches($matches), new Subject('subject'));
     }
 
     /**
@@ -194,6 +194,6 @@ class NotMatchedTest extends TestCase
             3       => [],
             4       => [],
         ];
-        return new NotMatched(new RawMatches($matches), new SubjectableImpl('subject'));
+        return new NotMatched(new RawMatches($matches), new Subject('subject'));
     }
 }

@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableEx;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\MatchImpl;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
@@ -82,7 +82,7 @@ class ReplaceMatchTest extends TestCase
         $matches = new RawMatchesOffset($matches);
         return new ReplaceMatchImpl(
             new MatchImpl(
-                new SubjectableImpl(self::subject),
+                new Subject(self::subject),
                 0,
                 -1,
                 new RawMatchesToMatchAdapter($matches, 0),

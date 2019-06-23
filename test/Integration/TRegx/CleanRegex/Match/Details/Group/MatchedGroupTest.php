@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
 use TRegx\CleanRegex\Internal\MatchAllResults;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\SubjectableEx;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 
@@ -156,7 +156,7 @@ class MatchedGroupTest extends TestCase
     {
         return new MatchedGroup(
             new GroupDetails('first', 1, $nameOrIndex, new MatchAllResults(new RawMatchesOffset([]), 'first')),
-            new MatchedGroupOccurrence('Nice matching', 14, new SubjectableImpl(str_repeat(' ', 14)))
+            new MatchedGroupOccurrence('Nice matching', 14, new Subject(str_repeat(' ', 14)))
         );
     }
 }

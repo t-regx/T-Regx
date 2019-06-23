@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\LazyMatchImpl;
 
 class LazyMatchImplTest extends TestCase
@@ -186,7 +186,7 @@ class LazyMatchImplTest extends TestCase
     private function matchWithIndex(string $pattern, string $subject, int $index): LazyMatchImpl
     {
         $pattern = new InternalPattern($pattern);
-        $subject = new SubjectableImpl($subject);
+        $subject = new Subject($subject);
         return new LazyMatchImpl($pattern, $subject, $index, 14, new ApiBase($pattern, $subject->getSubject(), new UserData()));
     }
 }

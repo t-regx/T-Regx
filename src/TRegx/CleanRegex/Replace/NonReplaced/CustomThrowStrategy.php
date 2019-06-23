@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Replace\NonReplaced;
 
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Match;
 
 class CustomThrowStrategy implements ReplaceSubstitute
@@ -22,7 +22,7 @@ class CustomThrowStrategy implements ReplaceSubstitute
     public function substitute(string $subject): ?string
     {
         throw (new SignatureExceptionFactory($this->className, $this->message))
-            ->create(new SubjectableImpl($subject));
+            ->create(new Subject($subject));
     }
 
     public function substituteGroup(Match $match): ?string

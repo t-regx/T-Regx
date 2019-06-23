@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\MissingReplacementKeyException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePatternImpl;
 use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
@@ -61,17 +61,16 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
 
     public function by(): ByReplacePattern
     {
-        $subjectable = new SubjectableImpl($this->subject);
         return new ByReplacePatternImpl(
             new GroupFallbackReplacer(
                 $this->pattern,
-                $subjectable,
+                new Subject($this->subject),
                 $this->limit,
                 $this->substitute,
                 new ApiBase($this->pattern, $this->subject, new UserData())
             ),
             new LazyMessageThrowStrategy(MissingReplacementKeyException::class),
-            new PerformanceEmptyGroupReplace($this->pattern, $subjectable, $this->limit),
+            new PerformanceEmptyGroupReplace($this->pattern, new Subject($this->subject), $this->limit),
             $this->replaceCallbackInvoker(),
             $this->subject
         );
@@ -81,7 +80,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
     {
         return new ReplacePatternCallbackInvoker(
             $this->pattern,
-            new SubjectableImpl($this->subject),
+            new Subject($this->subject),
             $this->limit,
             $this->substitute
         );

@@ -6,7 +6,7 @@ use Test\Feature\TRegx\CleanRegex\Replace\by\group\CustomException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\By\ByGroupReplacePatternImpl;
 use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\By\PerformanceEmptyGroupReplace;
@@ -67,7 +67,7 @@ class ByReplacePatternImplTest extends TestCase
     public function create(string $pattern, string $subject): ByGroupReplacePatternImpl
     {
         $internalPattern = new InternalPattern($pattern);
-        $subjectable = new SubjectableImpl($subject);
+        $subjectable = new Subject($subject);
 
         return new ByGroupReplacePatternImpl(
             new GroupFallbackReplacer(

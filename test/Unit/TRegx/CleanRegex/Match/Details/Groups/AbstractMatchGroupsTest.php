@@ -5,7 +5,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Groups\AbstractMatchGroups;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 
@@ -46,6 +46,6 @@ class AbstractMatchGroupsTest extends TestCase
         $mock = $this->createMock(IRawMatchOffset::class);
         $mock->method('getGroupsTexts')->willReturn($texts);
 
-        return new IndexedGroups($mock, new SubjectableImpl(''));
+        return new IndexedGroups($mock, new Subject(''));
     }
 }

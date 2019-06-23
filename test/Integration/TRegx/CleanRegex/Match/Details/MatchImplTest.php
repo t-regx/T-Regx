@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\MatchImpl;
 use TRegx\SafeRegex\preg;
@@ -381,7 +381,7 @@ class MatchImplTest extends TestCase
 
         $rawMatches = new RawMatchesOffset($matches);
         return new MatchImpl(
-            new SubjectableImpl(self::subject),
+            new Subject(self::subject),
             $index,
             -1,
             new RawMatchesToMatchAdapter($rawMatches, $index),

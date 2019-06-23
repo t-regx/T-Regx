@@ -3,7 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex\Split\ex;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Split\FilteredSplitPattern;
 use TRegx\CleanRegex\Split\SplitPatternInterface;
 
@@ -41,6 +41,6 @@ class FilteredSplitPatternTest extends TestCase
 
     private function split($pattern, $subject): SplitPatternInterface
     {
-        return new FilteredSplitPattern(new Pattern($pattern), new SubjectableImpl($subject));
+        return new FilteredSplitPattern(new Pattern($pattern), new Subject($subject));
     }
 }

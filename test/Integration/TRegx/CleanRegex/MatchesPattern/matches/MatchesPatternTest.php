@@ -3,7 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex\MatchesPattern\matches;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\TestMatchesPattern;
 
 class MatchesPatternTest extends TestCase
@@ -14,7 +14,7 @@ class MatchesPatternTest extends TestCase
     public function should_match()
     {
         // given
-        $pattern = new TestMatchesPattern(new InternalPattern('/[a-z]/'), new SubjectableImpl('matching'));
+        $pattern = new TestMatchesPattern(new InternalPattern('/[a-z]/'), new Subject('matching'));
 
         // when
         $result = $pattern->test();
@@ -29,7 +29,7 @@ class MatchesPatternTest extends TestCase
     public function should_not_match()
     {
         // given
-        $pattern = new TestMatchesPattern(new InternalPattern('/^[a-z]+$/'), new SubjectableImpl('not matching'));
+        $pattern = new TestMatchesPattern(new InternalPattern('/^[a-z]+$/'), new Subject('not matching'));
 
         // when
         $result = $pattern->test();

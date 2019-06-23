@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\ReplacementWithUnmatche
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\SubjectableImpl;
+use TRegx\CleanRegex\Internal\Subject;
 use Test\Utils\ComputedMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
@@ -169,7 +169,7 @@ class GroupFallbackReplacerTest extends TestCase
     {
         return new GroupFallbackReplacer(
             new InternalPattern($pattern),
-            new SubjectableImpl($subject),
+            new Subject($subject),
             -1,
             new ConstantResultStrategy('Subject not matched'),
             new ApiBase(new InternalPattern($pattern), $subject, new UserData())
