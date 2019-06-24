@@ -32,6 +32,28 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldMap_withKeys()
+    {
+        // given
+        $pattern = $this->getMatchPattern('Nice 1 matching 2 pattern');
+
+        // when
+        $map = $pattern->flatMap(function (Match $match) {
+            return [$match->text() => $match->offset()];
+        });
+
+        // then
+        $expected = [
+            'Nice'     => 0,
+            'matching' => 7,
+            'pattern'  => 18
+        ];
+        $this->assertEquals($expected, $map);
+    }
+
+    /**
+     * @test
+     */
     public function shouldMap_withDetails()
     {
         // given
@@ -41,7 +63,6 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern->flatMap(function (Match $match) use (&$counter, $matches) {
-
             // then
             $this->assertEquals($matches[$counter], $match->text());
             $this->assertEquals($counter++, $match->index());
@@ -62,7 +83,6 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern->flatMap(function () {
-
             // then
             $this->assertTrue(false, "Failed asserting that flatMap() is not invoked for not matching subject");
         });
