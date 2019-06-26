@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
+use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupReplacer;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 
 class MatchedGroup implements MatchGroup
@@ -84,7 +85,7 @@ class MatchedGroup implements MatchGroup
 
     public function replace(string $replacement): string
     {
-        return '';
+        return (new MatchGroupReplacer())->replaceGroup($this->match, $this->occurrence, $replacement);
     }
 
     public function all(): array
@@ -124,4 +125,5 @@ class MatchedGroup implements MatchGroup
     {
         return $this->text();
     }
+
 }
