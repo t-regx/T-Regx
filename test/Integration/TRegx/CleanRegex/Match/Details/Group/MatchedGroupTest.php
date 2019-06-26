@@ -90,6 +90,21 @@ class MatchedGroupTest extends TestCase
     /**
      * @test
      */
+    public function shouldReplaceGroup()
+    {
+        // given
+        $matchGroup = $this->matchGroup();
+
+        // when
+        $match = $matchGroup->replace('(replaced value)');
+
+        // then
+        $this->assertEquals('start(replaced value)end', $match);
+    }
+
+    /**
+     * @test
+     */
     public function shouldCastToString()
     {
         // given
@@ -155,7 +170,7 @@ class MatchedGroupTest extends TestCase
     {
         return new MatchedGroup(
             new GroupDetails('first', 1, $nameOrIndex, new MatchAllResults(new RawMatchesOffset([]), 'first')),
-            new MatchedGroupOccurrence('Nice matching', 14, new Subject(str_repeat(' ', 14)))
+            new MatchedGroupOccurrence('Nice matching', 14, new Subject('before- start(Nice matching)end -after match'))
         );
     }
 }

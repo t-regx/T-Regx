@@ -29,6 +29,8 @@ interface MatchGroup extends Optional
 
     public function byteOffset(): int;
 
+    public function replace(string $replacement): string;
+
     public function all(): array;
 
     public function orThrow(string $exceptionClassName = GroupNotMatchedException::class);

@@ -67,6 +67,22 @@ class NotMatchedGroupTest extends TestCase
     /**
      * @test
      */
+    public function shouldInject()
+    {
+        // given
+        $matchGroup = $this->matchGroup();
+
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to call replace() for group 'first', but group was not matched");
+
+        // when
+        $matchGroup->replace('');
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetByteOffset()
     {
         // given

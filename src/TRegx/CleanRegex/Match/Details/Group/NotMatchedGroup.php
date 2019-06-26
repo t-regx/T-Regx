@@ -81,6 +81,11 @@ class NotMatchedGroup implements MatchGroup
         throw $this->groupNotMatched('byteOffset');
     }
 
+    public function replace(string $replacement): string
+    {
+        throw $this->groupNotMatched('replace');
+    }
+
     public function all(): array
     {
         return $this->details->matchAll->all();

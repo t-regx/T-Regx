@@ -79,9 +79,9 @@ class MatchedGroup implements MatchGroup
         return $this->occurrence->offset;
     }
 
-    public function __toString(): string
+    public function replace(string $replacement): string
     {
-        return $this->text();
+        return '';
     }
 
     public function all(): array
@@ -113,6 +113,11 @@ class MatchedGroup implements MatchGroup
      * @return mixed
      */
     public function orElse(callable $substituteProducer): string
+    {
+        return $this->text();
+    }
+
+    public function __toString(): string
     {
         return $this->text();
     }
