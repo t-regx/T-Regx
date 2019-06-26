@@ -150,6 +150,18 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGet_unique()
+    {
+        // when
+        $mapped = pattern('[A-Za-z]+')->match('One, One, Two, One, Three, Two, One')->unique();
+
+        // then
+        $this->assertEquals(['One', 'Two', 'Three'], $mapped);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGet_flatMap()
     {
         // when
@@ -158,8 +170,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $expected = ['F', 'O', 'O', 'B', 'A', 'R', 'T', 'O', 'P'];
-        $this->assertEquals($expected, $mapped);
+        $this->assertEquals(['F', 'O', 'O', 'B', 'A', 'R', 'T', 'O', 'P'], $mapped);
     }
 
     /**

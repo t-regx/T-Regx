@@ -96,6 +96,11 @@ abstract class AbstractMatchPattern implements PatternLimit, Countable
         return (new FlatMapper($this->getMatchObjects(), $callback))->get();
     }
 
+    public function unique(): array
+    {
+        return array_values(array_unique($this->all()));
+    }
+
     /**
      * @param callable $callback
      * @return Optional

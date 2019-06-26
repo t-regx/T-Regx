@@ -6,6 +6,7 @@ Added in 0.9.1
 
 * Features
     * `Match.textLength()`
+    * `Match.unique()`
     * `Match.group().textLength()`
     * `Match.groupsCount()`
     * Add methods `by()->group()->orIgnore()` and `by()->group()->orElse()`
@@ -93,6 +94,7 @@ API
             * `->forEach()` / `iterate()`
             * `->first(callable)`
             * `->map()`
+            * `->unique()`
             * `->flatMap()`
             * `->iterator()`
             * `->count()`
