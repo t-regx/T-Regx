@@ -12,6 +12,7 @@ Added in 0.9.1
     * Add methods `by()->group()->orIgnore()` and `by()->group()->orElse()`
     * Add method `by()->group()->callback()` which accepts `MatchGroup` as an argument
     * Method `by()->group()->orElse()` now receives lazy-loaded `Match`, instead of a subject
+    * `Match.group().replace()`
 
 Available in 0.9.0
 ---------------
@@ -124,6 +125,7 @@ API
                 * `->index()`
                 * `->usedIdentifier()`
                 * `->offset()` / `->byteOffset()`
+                * `->replace()`
                 * `->all()`
                 * `->orThrow()`
                 * `->orReturn()`
