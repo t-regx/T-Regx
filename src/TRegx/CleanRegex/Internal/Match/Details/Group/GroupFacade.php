@@ -51,7 +51,7 @@ class GroupFacade
 
     private function createdMatched(MatchedGroupOccurrence $details): MatchedGroup
     {
-        return $this->factoryStrategy->createMatched($this->createGroupDetails(), $details);
+        return $this->factoryStrategy->createMatched($this->match, $this->createGroupDetails(), $details);
     }
 
     private function createUnmatched(): NotMatchedGroup
