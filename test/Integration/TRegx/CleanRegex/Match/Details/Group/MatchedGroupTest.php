@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
 use TRegx\CleanRegex\Internal\MatchAllResults;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
@@ -52,6 +53,21 @@ class MatchedGroupTest extends TestCase
 
         // when
         $offset = $matchGroup->offset();
+
+        // then
+        $this->assertEquals(14, $offset);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetByteOffset()
+    {
+        // given
+        $matchGroup = $this->matchGroup();
+
+        // when
+        $offset = $matchGroup->byteOffset();
 
         // then
         $this->assertEquals(14, $offset);
@@ -169,6 +185,11 @@ class MatchedGroupTest extends TestCase
     private function matchGroupWithIndexAndName($nameOrIndex): MatchGroup
     {
         return new MatchedGroup(
+            new RawMatchOffset([
+                0       => ['start(Nice matching)end', 8],
+                'first' => ['Nice matching', 14],
+                1       => ['Nice matching', 14]
+            ]),
             new GroupDetails('first', 1, $nameOrIndex, new MatchAllResults(new RawMatchesOffset([]), 'first')),
             new MatchedGroupOccurrence('Nice matching', 14, new Subject('before- start(Nice matching)end -after match'))
         );

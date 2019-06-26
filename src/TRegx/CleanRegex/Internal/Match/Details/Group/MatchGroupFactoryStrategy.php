@@ -11,7 +11,7 @@ class MatchGroupFactoryStrategy implements GroupFactoryStrategy
 {
     public function createMatched(IRawMatchOffset $match, GroupDetails $details, MatchedGroupOccurrence $matchedDetails): MatchedGroup
     {
-        return new MatchedGroup($details, $matchedDetails);
+        return new MatchedGroup($match, $details, $matchedDetails);
     }
 
     public function createUnmatched(GroupDetails $details,

@@ -21,7 +21,7 @@ class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
 
     public function createMatched(IRawMatchOffset $match, GroupDetails $details, MatchedGroupOccurrence $matchedDetails): MatchedGroup
     {
-        return new ReplaceMatchedGroup($details, $matchedDetails, $this->offsetModification);
+        return new ReplaceMatchedGroup($match, $details, $matchedDetails, $this->offsetModification);
     }
 
     public function createUnmatched(GroupDetails $details,

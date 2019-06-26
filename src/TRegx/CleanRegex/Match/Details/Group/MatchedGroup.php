@@ -8,19 +8,22 @@ use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
+use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 
 class MatchedGroup implements MatchGroup
 {
+    /** @var IRawMatchOffset */
+    private $match;
     /** @var GroupDetails */
     private $details;
-
     /** @var MatchedGroupOccurrence */
     private $occurrence;
 
-    public function __construct(GroupDetails $details, MatchedGroupOccurrence $matchedDetails)
+    public function __construct(IRawMatchOffset $match, GroupDetails $details, MatchedGroupOccurrence $matchedDetails)
     {
         $this->details = $details;
         $this->occurrence = $matchedDetails;
+        $this->match = $match;
     }
 
     public function text(): string
