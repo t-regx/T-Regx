@@ -13,6 +13,7 @@ use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
+use TRegx\CleanRegex\Internal\Match\FluentMatchPattern;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactoryImpl;
@@ -27,7 +28,7 @@ use TRegx\CleanRegex\Match\ForFirst\NotMatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\Optional;
 use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 
-abstract class AbstractMatchPattern implements PatternLimit, Countable
+abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLimit, Countable
 {
     /** @var Base */
     protected $base;
