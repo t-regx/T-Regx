@@ -61,7 +61,7 @@ class ReplacePatternTest extends TestCase
 
         // then
         $this->expectException(MissingReplacementKeyException::class);
-        $this->expectExceptionMessage("Expected to replace value 'two', but such key is not found in replacement map.");
+        $this->expectExceptionMessage("Expected to replace value 'two', but such key is not found in replacement map");
 
         // when
         pattern('(one|two)')->replace($subject)->all()->by()->map($map);

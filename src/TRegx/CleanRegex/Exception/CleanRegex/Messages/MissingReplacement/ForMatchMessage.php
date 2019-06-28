@@ -15,6 +15,6 @@ class ForMatchMessage implements NotMatchedMessage
 
     public function getMessage(): string
     {
-        return "Expected to replace value '$this->match', but such key is not found in replacement map.";
+        return "Expected to replace value '$this->match', but such key is not found in replacement map";
     }
 }

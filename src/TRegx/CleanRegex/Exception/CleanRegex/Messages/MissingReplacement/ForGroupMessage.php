@@ -21,6 +21,6 @@ class ForGroupMessage implements NotMatchedMessage
 
     public function getMessage(): string
     {
-        return "Expected to replace value '$this->match' by group '$this->nameOrIndex' ('$this->occurrence'), but such key is not found in replacement map.";
+        return "Expected to replace value '$this->match' by group '$this->nameOrIndex' ('$this->occurrence'), but such key is not found in replacement map";
     }
 }

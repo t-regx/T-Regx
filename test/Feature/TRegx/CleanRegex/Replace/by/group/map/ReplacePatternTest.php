@@ -196,7 +196,7 @@ class ReplacePatternTest extends TestCase
 
         // then
         $this->expectException(MissingReplacementKeyException::class);
-        $this->expectExceptionMessage("Expected to replace value 'Four' by group 'capital' ('F'), but such key is not found in replacement map.");
+        $this->expectExceptionMessage("Expected to replace value 'Four' by group 'capital' ('F'), but such key is not found in replacement map");
 
         // when
         pattern('(?<capital>[OTF])(ne|wo|our)')
