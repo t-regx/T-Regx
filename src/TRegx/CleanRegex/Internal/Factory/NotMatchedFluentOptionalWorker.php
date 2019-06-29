@@ -5,22 +5,18 @@ use Throwable;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 
-class NotMatchedOptionalWorker implements NotMatchedWorker
+class NotMatchedFluentOptionalWorker implements NotMatchedWorker
 {
     /** @var NotMatchedMessage */
     private $message;
     /** @var Subjectable */
     private $subject;
-    /** @var NotMatched */
-    private $notMatched;
 
-    public function __construct(NotMatchedMessage $message, Subjectable $subject, NotMatched $notMatched)
+    public function __construct(NotMatchedMessage $message, Subjectable $subject)
     {
         $this->message = $message;
         $this->subject = $subject;
-        $this->notMatched = $notMatched;
     }
 
     public function orThrow(string $exceptionClassName): Throwable
@@ -30,6 +26,6 @@ class NotMatchedOptionalWorker implements NotMatchedWorker
 
     public function orElse(callable $producer)
     {
-        return $producer($this->notMatched);
+        return $producer();
     }
 }

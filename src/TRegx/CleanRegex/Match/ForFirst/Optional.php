@@ -7,6 +7,10 @@ use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 interface Optional
 {
     /**
+     * Please keep in mind, the default $exceptionClassName is not the exact exception
+     * that's going to be thrown in the case of an empty Optional. Other implementations
+     * of `TRegx\CleanRegex\Match\ForFirst\Optional` have different default class names.
+     *
      * @param string $exceptionClassName
      * @return mixed
      * @throws \Throwable|SubjectNotMatchedException

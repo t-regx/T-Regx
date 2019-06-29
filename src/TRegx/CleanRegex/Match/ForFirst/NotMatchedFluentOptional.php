@@ -2,10 +2,10 @@
 namespace TRegx\CleanRegex\Match\ForFirst;
 
 use Throwable;
-use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
+use TRegx\CleanRegex\Exception\CleanRegex\NoFirstElementFluentException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
 
-class NotMatchedOptional implements Optional
+class NotMatchedFluentOptional implements Optional
 {
     /** @var NotMatchedWorker */
     private $worker;
@@ -20,7 +20,7 @@ class NotMatchedOptional implements Optional
      * @return mixed
      * @throws Throwable
      */
-    public function orThrow(string $exceptionClassName = SubjectNotMatchedException::class)
+    public function orThrow(string $exceptionClassName = NoFirstElementFluentException::class)
     {
         throw $this->worker->orThrow($exceptionClassName);
     }

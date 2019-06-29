@@ -2,19 +2,18 @@
 namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReturnValueException;
-use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\SafeRegex\Guard\Arrays;
 
 class FlatMapper
 {
     /** @var array */
-    private $matchObjects;
+    private $elements;
     /** @var callable */
     private $callback;
 
-    public function __construct(array $matchObjects, callable $callback)
+    public function __construct(array $elements, callable $callback)
     {
-        $this->matchObjects = $matchObjects;
+        $this->elements = $elements;
         $this->callback = $callback;
     }
 
@@ -29,10 +28,10 @@ class FlatMapper
 
     private function flatMap(): array
     {
-        return array_map([$this, 'map'], $this->matchObjects);
+        return array_map([$this, 'map'], $this->elements);
     }
 
-    public function map(Match $object)
+    public function map($object)
     {
         $value = $this->invoke($object);
         if (is_array($value)) {
