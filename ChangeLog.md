@@ -1,18 +1,33 @@
 T-Regx Changelog
 ================
 
+Incoming in 0.9.2
+-----------------
+* Features
+    * Added `Match.group().replace()` 🔥
+    * Added `pattern()->match()->unique()`
+
+* Enhancements/updates
+    * Method `by()->group()->orElse()` now receives lazy-loaded `Match`, instead of a subject
+    * Added `withReferences()` to `CompositePattern.chainedReplace()`
+
+* Other
+    * Renamed `CompileSafeRegexException` to `MalformedPatternException`, so it better describes its nature
+
+* Maintenance
+    * PhpUnit throws different exceptions because of [PHP `__toString()` exception policy change](https://wiki.php.net/rfc/tostring_exceptions).
+
 Added in 0.9.1
----------------
+--------------
 
 * Features
-    * `Match.textLength()`
-    * `Match.unique()`
-    * `Match.group().textLength()`
-    * `Match.groupsCount()`
-    * Add methods `by()->group()->orIgnore()` and `by()->group()->orElse()`
-    * Add method `by()->group()->callback()` which accepts `MatchGroup` as an argument
-    * Method `by()->group()->orElse()` now receives lazy-loaded `Match`, instead of a subject
-    * `Match.group().replace()`
+    * Added `Match.textLength()`
+    * Added `Match.group().textLength()`
+    * Added `Match.groupsCount()`
+    * Added:
+       - `by()->group()->orIgnore()`
+       - `by()->group()->orElse()`
+       - `by()->group()->callback()` which accepts `MatchGroup` as an argument
 
 Available in 0.9.0
 ---------------
