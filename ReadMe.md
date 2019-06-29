@@ -13,7 +13,7 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 [![GitHub last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
 [![Composer lock](https://img.shields.io/badge/.lock-uncommited-green.svg)](https://github.com/T-Regx/T-Regx)
-![PHP Version](https://img.shields.io/badge/Unit%20tests-1012-green.svg)
+![PHP Version](https://img.shields.io/badge/Unit%20tests-1050-green.svg)
 
 [![PHP Version](https://img.shields.io/badge/PHP-5.3%2B-blue.svg)](https://packagist.org/packages/rawr/t-regx)
 [![PHP Version](https://img.shields.io/badge/PHP-5.6%2B-blue.svg)](https://packagist.org/packages/rawr/t-regx)
@@ -153,14 +153,6 @@ Pattern::of('[A-Z][a-z]+')->matches($subject)
 ```php
 // Global method style
 pattern('[A-Z][a-z]+')->matches($subject)
-```
-```php
-// Separate API for preg_*() methods, that catches warnings and throws Exceptions
-preg::match('/\w+/', $subject);
-preg::match_all('/\w+/', $subject);
-preg::replace('/\w+/', $replacement, $subject);
-preg::replace_callback('/\w+/', $callback, $subject);
-// all preg_ methods
 ```
 
 :bulb: See more about [entry points](https://t-regx.com/docs/introduction) and 
