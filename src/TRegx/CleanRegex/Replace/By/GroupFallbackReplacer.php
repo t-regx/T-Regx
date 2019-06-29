@@ -101,7 +101,9 @@ class GroupFallbackReplacer
         // With preg_replace_callback - it's impossible to distinguish unmatched group from a matched empty string
         $matches = $this->base->matchAllOffsets();
         if (!$matches->hasGroup($this->counter)) {
+            // @codeCoverageIgnoreStart
             throw new InternalCleanRegexException();
+            // @codeCoverageIgnoreEnd
         }
         if (!$matches->isGroupMatched($nameOrIndex, $this->counter)) {
             return null;

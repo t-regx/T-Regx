@@ -91,7 +91,9 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
     public function replaceGroupOptional(ReplaceSubstitute $substitute): string
     {
         if ($this->nameOrIndex === 0) {
+            // @codeCoverageIgnoreStart
             throw new InternalCleanRegexException();
+            // @codeCoverageIgnoreEnd
         }
         return $this->fallbackReplacer->replaceOrFallback($this->nameOrIndex, new IdentityMapper(), $substitute);
     }

@@ -102,7 +102,9 @@ class RawMatchesOffset implements IRawMatchesOffset
             return null;
         }
         if (!is_array($match)) {
+            // @codeCoverageIgnoreStart
             throw new InternalCleanRegexException();
+            // @codeCoverageIgnoreEnd
         }
         [$text, $offset] = $match;
         if ($offset === -1) {

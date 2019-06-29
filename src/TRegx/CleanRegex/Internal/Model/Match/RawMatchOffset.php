@@ -106,7 +106,9 @@ class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
                 }
                 return $text;
             }
+            // @codeCoverageIgnoreStart
             throw new InternalCleanRegexException();
+            // @codeCoverageIgnoreEnd
         }, $this->match);
     }
 

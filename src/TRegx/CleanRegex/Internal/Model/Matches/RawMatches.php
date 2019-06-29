@@ -18,7 +18,9 @@ class RawMatches implements IRawMatches, IRawWithGroups
 
     public function matched(): bool
     {
+        // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();
+        // @codeCoverageIgnoreEnd
     }
 
     public function getAll(): array

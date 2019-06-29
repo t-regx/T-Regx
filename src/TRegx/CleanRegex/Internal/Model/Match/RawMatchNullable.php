@@ -20,7 +20,9 @@ class RawMatchNullable implements IRawMatch, IRawMatchGroupable
 
     public function getMatch(): string
     {
+        // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();
+        // @codeCoverageIgnoreEnd
     }
 
     public function hasGroup($nameOrIndex): bool
