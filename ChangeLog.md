@@ -4,6 +4,7 @@ T-Regx Changelog
 Incoming in 0.9.2
 -----------------
 * Features
+    * Added `pattern()->match()->fluent()` 🔥
     * Added `Match.group().replace()` 🔥
     * Added `pattern()->match()->unique()`
 
@@ -124,6 +125,7 @@ API
                 * `->orElse(callable)`
                 * `->orThrow(className|null)`
             * `->filter()->*`
+            * `->fluent()->*`
         * `Match` details:
             * `Match->text()` / `Match->__toString()` / `(string) $match`
             * `Match->textLength()`

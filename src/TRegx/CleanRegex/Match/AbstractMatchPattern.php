@@ -5,8 +5,10 @@ use ArrayIterator;
 use Countable;
 use EmptyIterator;
 use Iterator;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
+use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFactory;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
@@ -150,6 +152,14 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     public function filter(callable $predicate): FilteredMatchPattern
     {
         return new FilteredMatchPattern(new FilteredBaseDecorator($this->base, new Predicate($predicate)));
+    }
+
+    public function fluent(): FluentMatchPattern
+    {
+        return new FluentMatchPattern(
+            $this->getMatchObjects(),
+            new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base)
+        );
     }
 
     /**
