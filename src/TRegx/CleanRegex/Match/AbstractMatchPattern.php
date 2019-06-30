@@ -53,23 +53,23 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     }
 
     /**
-     * @param callable|null $callback
+     * @param callable|null $consumer
      * @return string|mixed
      * @throws SubjectNotMatchedException
      */
-    public function first(callable $callback = null)
+    public function first(callable $consumer = null)
     {
         $match = $this->base->matchOffset();
         if (!$match->matched()) {
             throw SubjectNotMatchedException::forFirst($this->base);
         }
-        if ($callback === null) {
+        if ($consumer === null) {
             return $match->getText();
         }
         $factory = new LazyMatchAllFactory($this->base);
         $polyfill = new GroupPolyfillDecorator($match, $factory, 0);
         $matchObject = new MatchImpl($this->base, 0, 1, $polyfill, $factory, $this->base->getUserData());
-        return $callback($matchObject);
+        return $consumer($matchObject);
     }
 
     public function only(int $limit): array
@@ -77,26 +77,26 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return (new MatchOnly($this->base, $limit))->get();
     }
 
-    public function forEach(callable $callback): void
+    public function forEach(callable $consumer): void
     {
         foreach ($this->getMatchObjects() as $object) {
-            $callback($object);
+            $consumer($object);
         }
     }
 
-    public function iterate(callable $callback): void
+    public function iterate(callable $consumer): void
     {
-        $this->forEach($callback);
+        $this->forEach($consumer);
     }
 
-    public function map(callable $callback): array
+    public function map(callable $mapper): array
     {
-        return array_map($callback, $this->getMatchObjects());
+        return array_map($mapper, $this->getMatchObjects());
     }
 
-    public function flatMap(callable $callback): array
+    public function flatMap(callable $mapper): array
     {
-        return (new FlatMapper($this->getMatchObjects(), $callback))->get();
+        return (new FlatMapper($this->getMatchObjects(), $mapper))->get();
     }
 
     public function unique(): array
@@ -105,14 +105,14 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     }
 
     /**
-     * @param callable $callback
+     * @param callable $consumer
      * @return Optional
      */
-    public function forFirst(callable $callback): Optional
+    public function forFirst(callable $consumer): Optional
     {
         $matches = $this->base->matchAllOffsets();
         if ($matches->matched()) {
-            $result = $callback($matches->getFirstMatchObject(new MatchObjectFactoryImpl($this->base, 1, $this->base->getUserData())));
+            $result = $consumer($matches->getFirstMatchObject(new MatchObjectFactoryImpl($this->base, 1, $this->base->getUserData())));
             return new MatchedOptional($result);
         }
         return new NotMatchedOptional(

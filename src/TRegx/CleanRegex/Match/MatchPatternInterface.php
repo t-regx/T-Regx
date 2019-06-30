@@ -12,37 +12,37 @@ interface MatchPatternInterface
     public function only(int $limit): array;
 
     /**
-     * @param callable|null $callback
+     * @param callable|null $consumer
      * @return string|mixed
      * @throws SubjectNotMatchedException
      */
-    public function first(callable $callback = null);
+    public function first(callable $consumer = null);
 
-    public function forEach(callable $callback): void;
+    public function forEach(callable $consumer): void;
 
-    public function iterate(callable $callback): void;
+    public function iterate(callable $consumer): void;
 
     /**
-     * @param callable $callback
+     * @param callable $consumer
      * @return Optional
      */
-    public function forFirst(callable $callback): Optional;
+    public function forFirst(callable $consumer): Optional;
 
     public function count(): int;
 
     public function iterator(): Iterator;
 
     /**
-     * @param callable $callback
+     * @param callable $mapper
      * @return MatchPatternInterface|array
      */
-    public function map(callable $callback);
+    public function map(callable $mapper);
 
     /**
-     * @param callable $callback
+     * @param callable $mapper
      * @return MatchPatternInterface|array
      */
-    public function flatMap(callable $callback);
+    public function flatMap(callable $mapper);
 
     /**
      * @return MatchPatternInterface|array

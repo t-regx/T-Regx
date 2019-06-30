@@ -39,11 +39,11 @@ class FluentMatchPattern implements MatchPatternInterface
     }
 
     /**
-     * @param callable|null $callback
+     * @param callable|null $consumer
      * @return string|mixed
      * @throws NoFirstElementFluentException
      */
-    public function first(callable $callback = null)
+    public function first(callable $consumer = null)
     {
         if (empty($this->elements)) {
             throw new NoFirstElementFluentException();
@@ -51,24 +51,24 @@ class FluentMatchPattern implements MatchPatternInterface
         return reset($this->elements);
     }
 
-    public function forFirst(callable $callback): Optional
+    public function forFirst(callable $consumer): Optional
     {
         if (empty($this->elements)) {
             return new NotMatchedFluentOptional($this->worker);
         }
-        return new MatchedOptional($callback(reset($this->elements)));
+        return new MatchedOptional($consumer(reset($this->elements)));
     }
 
-    public function forEach(callable $callback): void
+    public function forEach(callable $consumer): void
     {
         foreach ($this->elements as $key => $value) {
-            $callback($value, $key);
+            $consumer($value, $key);
         }
     }
 
-    public function iterate(callable $callback): void
+    public function iterate(callable $consumer): void
     {
-        $this->forEach($callback);
+        $this->forEach($consumer);
     }
 
     public function count(): int
@@ -81,14 +81,14 @@ class FluentMatchPattern implements MatchPatternInterface
         return new ArrayIterator($this->elements);
     }
 
-    public function map(callable $callback): FluentMatchPattern
+    public function map(callable $mapper): FluentMatchPattern
     {
-        return $this->next(array_map($callback, $this->elements));
+        return $this->next(array_map($mapper, $this->elements));
     }
 
-    public function flatMap(callable $callback): FluentMatchPattern
+    public function flatMap(callable $mapper): FluentMatchPattern
     {
-        return $this->next((new FlatMapper($this->elements, $callback))->get());
+        return $this->next((new FlatMapper($this->elements, $mapper))->get());
     }
 
     public function unique(): FluentMatchPattern
