@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\CleanRegex\NoFirstElementFluentException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
-use TRegx\CleanRegex\Internal\Match\FluentMatchPattern;
+use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 class FluentMatchPatternTest extends TestCase
 {

@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match;
+namespace TRegx\CleanRegex\Match;
 
 use ArrayIterator;
 use InvalidArgumentException;
@@ -7,10 +7,10 @@ use Iterator;
 use TRegx\CleanRegex\Exception\CleanRegex\NoFirstElementFluentException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
+use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\NotMatchedFluentOptional;
 use TRegx\CleanRegex\Match\ForFirst\Optional;
-use TRegx\CleanRegex\Match\MatchPatternInterface;
 
 class FluentMatchPattern implements MatchPatternInterface
 {
