@@ -23,21 +23,10 @@ class CompileSafeRegexExceptionFactory
 
     public function create(): CompileSafeRegexException
     {
-        return $this->instantiateException($this->getErrorName());
-    }
-
-    public function getErrorName(): string
-    {
-        return $this->phpErrorConstants->getConstant($this->error->getType());
-    }
-
-    public function instantiateException(string $errorName): CompileSafeRegexException
-    {
-        return new CompileSafeRegexException($this->methodName, $this->getExceptionMessage($errorName), $this->error, $errorName);
-    }
-
-    public function getExceptionMessage(string $errorName): string
-    {
-        return $this->error->getMessage() . PHP_EOL . PHP_EOL . "(caused by $errorName)";
+        return new CompileSafeRegexException(
+            $this->methodName,
+            $this->error->getMessage(),
+            $this->error,
+            $this->phpErrorConstants->getConstant($this->error->getType()));
     }
 }

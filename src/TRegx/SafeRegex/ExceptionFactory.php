@@ -8,7 +8,6 @@ use TRegx\SafeRegex\Guard\Strategy\SuspectedReturnStrategy;
 
 class ExceptionFactory
 {
-
     /** @var SuspectedReturnStrategy */
     private $strategy;
     /** @var ErrorsCleaner */
