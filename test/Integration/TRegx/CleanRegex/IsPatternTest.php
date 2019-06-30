@@ -57,7 +57,7 @@ class IsPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeUsable_notDelimitered()
+    public function shouldBeUsable_notDelimited()
     {
         // given
         $is = new IsPattern(new Pattern('valid'));
@@ -87,7 +87,7 @@ class IsPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotBeUsable_invalid_notDelimitered()
+    public function shouldNotBeUsable_invalid_notDelimited()
     {
         // given
         $is = new IsPattern(new Pattern('invalid)'));
@@ -102,31 +102,31 @@ class IsPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeDelimitered()
+    public function shouldBeDelimited()
     {
         // given
         $is = new IsPattern(new Pattern('/valid/'));
 
         // when
-        $delimitered = $is->delimitered();
+        $delimited = $is->delimited();
 
         // then
-        $this->assertTrue($delimitered);
+        $this->assertTrue($delimited);
     }
 
     /**
      * @test
      */
-    public function shouldNotBeDelimitered()
+    public function shouldNotBeDelimited()
     {
         // given
         $is = new IsPattern(new Pattern('/invalid'));
 
         // when
-        $delimitered = $is->delimitered();
+        $delimited = $is->delimited();
 
         // then
-        $this->assertFalse($delimitered);
+        $this->assertFalse($delimited);
     }
 
     /**
@@ -142,6 +142,6 @@ class IsPatternTest extends TestCase
         $this->expectExceptionMessageRegExp(PhpVersionDependent::getUnmatchedParenthesisMessage(7));
 
         // when
-        $is->delimitered();
+        $is->delimited();
     }
 }

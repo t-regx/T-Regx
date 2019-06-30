@@ -18,7 +18,7 @@ class CrossDelimiterStrategy implements DelimiterStrategy
         return $delimiter . $this->getPattern($delimiter) . $delimiter;
     }
 
-    public function alreadyDelimitered(string $pattern, string $delimiter): string
+    public function alreadyDelimited(string $pattern, string $delimiter): string
     {
         return $this->getPattern($delimiter);
     }

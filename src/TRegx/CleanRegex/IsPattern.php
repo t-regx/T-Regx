@@ -25,9 +25,9 @@ class IsPattern
         return (new ValidPattern($this->pattern->pattern))->isValid();
     }
 
-    public function delimitered(): bool
+    public function delimited(): bool
     {
         (new PatternVerifier($this->pattern->pattern))->verify();
-        return (new DelimiterParser())->isDelimitered($this->pattern->originalPattern);
+        return (new DelimiterParser())->isDelimited($this->pattern->originalPattern);
     }
 }

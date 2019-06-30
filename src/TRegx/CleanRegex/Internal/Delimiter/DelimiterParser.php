@@ -14,7 +14,7 @@ class DelimiterParser
         $this->delimiters = new Delimiters();
     }
 
-    public function isDelimitered(string $pattern): bool
+    public function isDelimited(string $pattern): bool
     {
         return $this->getDelimiter($pattern) !== null;
     }

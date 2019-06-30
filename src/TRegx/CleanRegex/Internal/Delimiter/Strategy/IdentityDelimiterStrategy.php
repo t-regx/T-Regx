@@ -8,7 +8,7 @@ class IdentityDelimiterStrategy implements DelimiterStrategy
         return $delimiter . $pattern . $delimiter;
     }
 
-    public function alreadyDelimitered(string $pattern, string $delimiter): string
+    public function alreadyDelimited(string $pattern, string $delimiter): string
     {
         return $pattern;
     }

@@ -5,5 +5,5 @@ interface DelimiterStrategy
 {
     public function delimiter(string $pattern, string $delimiter): string;
 
-    public function alreadyDelimitered(string $pattern, string $delimiter): string;
+    public function alreadyDelimited(string $pattern, string $delimiter): string;
 }

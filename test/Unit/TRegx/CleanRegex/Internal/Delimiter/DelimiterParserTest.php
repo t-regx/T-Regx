@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
 
 class DelimiterParserTest extends TestCase
 {
-    public function delimitered()
+    public function delimited()
     {
         return [
             ['//', '/'],
@@ -24,7 +24,7 @@ class DelimiterParserTest extends TestCase
 
     /**
      * @test
-     * @dataProvider delimitered
+     * @dataProvider delimited
      * @param string $pattern
      * @param string $delimiter
      */
@@ -40,7 +40,7 @@ class DelimiterParserTest extends TestCase
         $this->assertEquals($delimiter, $result);
     }
 
-    public function notDelimitered()
+    public function notDelimited()
     {
         return [
             [''],
@@ -68,7 +68,7 @@ class DelimiterParserTest extends TestCase
 
     /**
      * @test
-     * @dataProvider notDelimitered
+     * @dataProvider notDelimited
      * @param string $pattern
      */
     public function shouldNotGetDelimiter(string $pattern)
@@ -85,16 +85,16 @@ class DelimiterParserTest extends TestCase
 
     /**
      * @test
-     * @dataProvider notDelimitered
+     * @dataProvider notDelimited
      * @param string $pattern
      */
-    public function shouldNotBeDelimitered(string $pattern)
+    public function shouldNotBeDelimited(string $pattern)
     {
         // given
         $delimiterer = new DelimiterParser();
 
         // when
-        $result = $delimiterer->isDelimitered($pattern);
+        $result = $delimiterer->isDelimited($pattern);
 
         // then
         $this->assertFalse($result);
@@ -102,16 +102,16 @@ class DelimiterParserTest extends TestCase
 
     /**
      * @test
-     * @dataProvider delimitered
+     * @dataProvider delimited
      * @param string $pattern
      */
-    public function shouldBeDelimitered(string $pattern)
+    public function shouldBeDelimited(string $pattern)
     {
         // given
         $delimiterer = new DelimiterParser();
 
         // when
-        $result = $delimiterer->isDelimitered($pattern);
+        $result = $delimiterer->isDelimited($pattern);
 
         // then
         $this->assertTrue($result);

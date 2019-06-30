@@ -25,7 +25,7 @@ class Delimiterer
     {
         $delimiter = $this->parser->getDelimiter($pattern);
         if ($delimiter !== null) {
-            return $this->delimiterStrategy->alreadyDelimitered($pattern, $delimiter);
+            return $this->delimiterStrategy->alreadyDelimited($pattern, $delimiter);
         }
 
         $delimiterNext = $this->getPossibleDelimiter($pattern);

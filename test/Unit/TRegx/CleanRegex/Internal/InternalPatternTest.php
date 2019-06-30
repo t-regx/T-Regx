@@ -15,10 +15,10 @@ class InternalPatternTest extends TestCase
         $pattern = new Pattern('[a-z]+', 'mi');
 
         // when
-        $delimitered = $pattern->pattern;
+        $delimited = $pattern->pattern;
 
         // then
-        $this->assertEquals('/[a-z]+/mi', $delimitered);
+        $this->assertEquals('/[a-z]+/mi', $delimited);
     }
 
     /**

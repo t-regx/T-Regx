@@ -44,7 +44,7 @@ class DelimitererTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function alreadyDelimitered()
+    public function alreadyDelimited()
     {
         return [
             ['/a/'],
@@ -58,16 +58,16 @@ class DelimitererTest extends TestCase
 
     /**
      * @test
-     * @dataProvider alreadyDelimitered
+     * @dataProvider alreadyDelimited
      * @param string $pattern
      */
-    public function shouldDelimiterAlreadyDelimitered(string $pattern)
+    public function shouldDelimiterAlreadyDelimited(string $pattern)
     {
         // given
-        $delimiterer = new Delimiterer();
+        $delimited = new Delimiterer();
 
         // when
-        $result = $delimiterer->delimiter($pattern);
+        $result = $delimited->delimiter($pattern);
 
         // then
         $this->assertEquals($pattern, $result);

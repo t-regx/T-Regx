@@ -14,6 +14,7 @@ Incoming in 0.9.2
 
 * Other
     * Renamed `CompileSafeRegexException` to `MalformedPatternException`, so it better describes its nature
+    * Renamed `is()->delimitered()` to `is()->delimited()`
 
 * Maintenance
     * PhpUnit throws different exceptions because of [PHP `__toString()` exception policy change](https://wiki.php.net/rfc/tostring_exceptions).
@@ -190,7 +191,7 @@ API
         * `pattern()->count()`
         * `pattern()->is()->valid()`
         * `pattern()->is()->usable()`
-        * `pattern()->is()->delimitered()`
+        * `pattern()->is()->delimited()`
         * `pattern()->delimiter()`
         * `Pattern::quote()`
         * `Pattern::unquote()`
