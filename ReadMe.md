@@ -13,7 +13,7 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 [![GitHub last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
 [![Composer lock](https://img.shields.io/badge/.lock-uncommited-green.svg)](https://github.com/T-Regx/T-Regx)
-![PHP Version](https://img.shields.io/badge/Unit%20tests-1050-green.svg)
+![PHP Version](https://img.shields.io/badge/Unit%20tests-1125-green.svg)
 
 [![PHP Version](https://img.shields.io/badge/PHP-5.3%2B-blue.svg)](https://packagist.org/packages/rawr/t-regx)
 [![PHP Version](https://img.shields.io/badge/PHP-5.6%2B-blue.svg)](https://packagist.org/packages/rawr/t-regx)
@@ -97,6 +97,23 @@ pattern('er|ab|ay')
 :bulb: See more about 
 [`replace()->with()`](https://t-regx.com/docs/replace) and 
 [`replace()->callback()`](https://t-regx.com/docs/replace-callback).
+
+#### Prepared Patterns
+
+```php
+Pattern::inject('(You|she) (are|is) @link (yours|hers)', [
+    'link' => 'https://t-regx.com/docs/prepared-patterns'
+]);
+```
+Above pattern can match both:
+```
+You are https://t-regx.com/docs/prepared-patterns hers
+She is https://t-regx.com/docs/prepared-patterns yours
+```
+
+Check out prepared patterns with 
+[`Pattern::prepare()`](https://t-regx.com/docs/prepared-patterns#with-pattern-prepare) and 
+[`Pattern::inject()`](https://t-regx.com/docs/prepared-patterns#with-pattern-inject)!
 
 #### Optional matches
 
