@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Internal\PatternVerifier;
+use TRegx\SafeRegex\preg;
 
 class IsPattern
 {
@@ -27,7 +27,7 @@ class IsPattern
 
     public function delimited(): bool
     {
-        (new PatternVerifier($this->pattern->pattern))->verify();
+        preg::match($this->pattern->pattern, '');
         return (new DelimiterParser())->isDelimited($this->pattern->originalPattern);
     }
 }

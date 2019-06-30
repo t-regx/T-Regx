@@ -50,12 +50,19 @@ class pregTest extends TestCase
     {
         // then
         $this->expectException(CompileSafeRegexException::class);
-        $this->expectExceptionMessage("preg_replace_callback(): No ending delimiter '/' found");
+        $this->expectExceptionMessage("No ending delimiter '/' found");
 
         // when
-        preg::replace_callback('/valid/', function () {
-            preg_replace_callback('/invalid', 'strtoupper', '');
-            return 'maybe';
-        }, 'valid');
+        try {
+            preg::replace_callback('/valid/', function () {
+                preg_replace_callback('/invalid', 'strtoupper', '');
+                return 'maybe';
+            }, 'valid');
+        } catch (CompileSafeRegexException $exception) {
+            $this->assertEquals($exception->getMessage(), "No ending delimiter '/' found");
+            $this->assertEquals($exception->getInvokingMethod(), 'preg_replace_callback');
+
+            throw $exception;
+        }
     }
 }

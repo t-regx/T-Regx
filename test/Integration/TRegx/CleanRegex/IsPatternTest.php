@@ -3,7 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\PhpVersionDependent;
-use TRegx\CleanRegex\Exception\CleanRegex\InvalidPatternException;
+use TRegx\CleanRegex\Exception\CleanRegex\MalformedPatternException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\IsPattern;
 
@@ -138,7 +138,7 @@ class IsPatternTest extends TestCase
         $is = new IsPattern(new Pattern('invalid)'));
 
         // then
-        $this->expectException(InvalidPatternException::class);
+        $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessageRegExp(PhpVersionDependent::getUnmatchedParenthesisMessage(7));
 
         // when
