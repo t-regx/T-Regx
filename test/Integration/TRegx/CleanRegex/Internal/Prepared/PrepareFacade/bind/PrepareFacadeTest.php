@@ -1,9 +1,9 @@
 <?php
-namespace Test\Integration\TRegx\CleanRegex\Internal\Prepared\PrepareFacade\inject;
+namespace Test\Integration\TRegx\CleanRegex\Internal\Prepared\PrepareFacade\bind;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Prepared\Parser\InjectingParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 
 class PrepareFacadeTest extends TestCase
@@ -15,10 +15,10 @@ class PrepareFacadeTest extends TestCase
      * @param array $values
      * @param string $expected
      */
-    public function shouldInject(string $input, array $values, string $expected)
+    public function shouldBind(string $input, array $values, string $expected)
     {
         // given
-        $facade = new PrepareFacade(new InjectingParser($input, $values));
+        $facade = new PrepareFacade(new BindingParser($input, $values));
 
         // when
         $pattern = $facade->getPattern();
@@ -33,7 +33,7 @@ class PrepareFacadeTest extends TestCase
             [
                 '(I|We) would like to match: @input (and|or) @input_2',
                 [
-                    'input'   => 'User (input)',
+                    'input' => 'User (input)',
                     'input_2' => 'User (input_2)',
                 ],
                 '/(I|We) would like to match: User \(input\) (and|or) User \(input_2\)/'
@@ -41,18 +41,18 @@ class PrepareFacadeTest extends TestCase
             [
                 '(I|We) would like to match: `input` (and|or) `input_2`',
                 [
-                    'input'   => 'User (input)',
+                    'input' => 'User (input)',
                     'input_2' => 'User (input_2)',
                 ],
                 '/(I|We) would like to match: User \(input\) (and|or) User \(input_2\)/'
             ],
             [
-                '(I|We) would like to match: @input @input_2',
+                '(I|We) would like to match: @input@input_2',
                 [
-                    'input'   => 'User (input)',
+                    'input' => 'User (input)',
                     'input_2' => 'User (input_2)',
                 ],
-                '/(I|We) would like to match: User \(input\) User \(input_2\)/'
+                '/(I|We) would like to match: User \(input\)User \(input_2\)/'
             ],
             [
                 'With delimiters / #@input',
@@ -74,7 +74,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldIgnorePlaceholders(string $input, array $values, string $expected)
     {
         // given
-        $facade = new PrepareFacade(new InjectingParser($input, $values));
+        $facade = new PrepareFacade(new BindingParser($input, $values));
 
         // when
         $pattern = $facade->getPattern();
@@ -89,7 +89,7 @@ class PrepareFacadeTest extends TestCase
             [
                 '(I|We) would like to match: @input (and|or) @input2',
                 [
-                    'input'  => '@input',
+                    'input' => '@input',
                     'input2' => '@input2',
                 ],
                 '/(I|We) would like to match: @input (and|or) @input2/',
@@ -97,7 +97,7 @@ class PrepareFacadeTest extends TestCase
             [
                 '(I|We) would like to match: `input` (and|or) `input2`',
                 [
-                    'input'  => '`input`',
+                    'input' => '`input`',
                     'input2' => '`input2`',
                 ],
                 '/(I|We) would like to match: `input` (and|or) `input2`/',
@@ -122,9 +122,9 @@ class PrepareFacadeTest extends TestCase
                 '/(I|We) would like to match - empty colon : is ok/',
             ],
             [
-                '/Hey @inject you/mi',
+                '/Hey @bind you/mi',
                 [
-                    'inject' => '(or)'
+                    'bind' => '(or)'
                 ],
                 '/Hey \(or\) you/mi'
             ],
@@ -144,7 +144,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldThrow_onInvalidInput(string $input, array $values, string $message)
     {
         // given
-        $facade = new PrepareFacade(new InjectingParser($input, $values));
+        $facade = new PrepareFacade(new BindingParser($input, $values));
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage($message);
@@ -181,7 +181,7 @@ class PrepareFacadeTest extends TestCase
                 '@input',
                 [
                     'input' => 'some value',
-                    0       => 'input',
+                    0 => 'input',
                 ],
                 "Name 'input' is used more than once (as a key or as ignored value)",
             ],
@@ -190,21 +190,21 @@ class PrepareFacadeTest extends TestCase
                 [
                     'input' => 4,
                 ],
-                "Invalid injected value for name 'input'. Expected string, but integer (4) given",
+                "Invalid bound value for name 'input'. Expected string, but integer (4) given",
             ],
             [
                 '@input',
                 [
                     'input' => [],
                 ],
-                "Invalid injected value for name 'input'. Expected string, but array (0) given",
+                "Invalid bound value for name 'input'. Expected string, but array (0) given",
             ],
             [
                 'well',
                 [
                     0 => 21,
                 ],
-                'Invalid inject parameters. Expected string, but integer (21) given',
+                'Invalid bound parameters. Expected string, but integer (21) given',
             ],
             [
                 'well',

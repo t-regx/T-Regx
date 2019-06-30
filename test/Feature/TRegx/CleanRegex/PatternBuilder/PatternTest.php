@@ -24,10 +24,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_inject()
+    public function shouldBuild_bind()
     {
         // given
-        $pattern = Pattern::inject('You/her, (are|is) @question (you|her)', [
+        $pattern = Pattern::bind('You/her, (are|is) @question (you|her)', [
             'question' => 'real? (or are you not real?)'
         ]);
 

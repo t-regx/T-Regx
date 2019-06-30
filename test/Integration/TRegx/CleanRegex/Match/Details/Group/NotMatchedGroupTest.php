@@ -67,7 +67,7 @@ class NotMatchedGroupTest extends TestCase
     /**
      * @test
      */
-    public function shouldInject()
+    public function shouldReplace()
     {
         // given
         $matchGroup = $this->matchGroup();

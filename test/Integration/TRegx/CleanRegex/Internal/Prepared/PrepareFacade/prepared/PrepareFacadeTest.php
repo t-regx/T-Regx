@@ -14,7 +14,7 @@ class PrepareFacadeTest extends TestCase
      * @param array $input
      * @param string $expected
      */
-    public function shouldInject(array $input, string $expected)
+    public function shouldPrepare(array $input, string $expected)
     {
         // given
         $facade = new PrepareFacade(new PreparedParser($input));
@@ -103,11 +103,11 @@ class PrepareFacadeTest extends TestCase
             ],
             [
                 ['input', [4], 'input'],
-                'Invalid injected value. Expected string, but integer (4) given',
+                'Invalid bound value. Expected string, but integer (4) given',
             ],
             [
                 ['input', [[]], 'input'],
-                'Invalid injected value. Expected string, but array (0) given',
+                'Invalid bound value. Expected string, but array (0) given',
             ],
             [
                 [],

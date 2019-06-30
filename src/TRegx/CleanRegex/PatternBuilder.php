@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
-use TRegx\CleanRegex\Internal\Prepared\Parser\InjectingParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
@@ -14,9 +14,9 @@ class PatternBuilder
      * @param string[] $values
      * @return Pattern
      */
-    public static function inject(string $input, array $values): Pattern
+    public static function bind(string $input, array $values): Pattern
     {
-        return self::build(new InjectingParser($input, $values));
+        return self::build(new BindingParser($input, $values));
     }
 
     /**

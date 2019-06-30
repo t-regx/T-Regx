@@ -104,9 +104,9 @@ class Pattern
         return PatternBuilder::prepare($input);
     }
 
-    public static function inject(string $input, array $values): Pattern
+    public static function bind(string $input, array $values): Pattern
     {
-        return PatternBuilder::inject($input, $values);
+        return PatternBuilder::bind($input, $values);
     }
 
     public static function compose(array $patterns): CompositePattern

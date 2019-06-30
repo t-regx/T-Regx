@@ -48,7 +48,7 @@ class CompositeUserInput implements Quoteable
     {
         if (!is_string($quoteable)) {
             $type = (new StringValue($quoteable))->getString();
-            throw new InvalidArgumentException("Invalid injected value. Expected string, but $type given");
+            throw new InvalidArgumentException("Invalid bound value. Expected string, but $type given");
         }
     }
 }

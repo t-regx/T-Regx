@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\StringValue;
 use TRegx\SafeRegex\preg;
 use function in_array;
 
-class InjectingParser implements Parser
+class BindingParser implements Parser
 {
     /** @var string */
     private $input;
@@ -53,7 +53,7 @@ class InjectingParser implements Parser
     {
         if (array_key_exists($label, $this->values)) {
             $value = $this->values[$label];
-            $this->validateInjectValue($label, $value);
+            $this->validateBindValue($label, $value);
             return $value;
         }
         if ($this->isPlaceholderIgnored($label)) {
@@ -114,11 +114,11 @@ class InjectingParser implements Parser
         return $this->input;
     }
 
-    private function validateInjectValue(string $label, $value): void
+    private function validateBindValue(string $label, $value): void
     {
         if (!is_string($value)) {
             $type = (new StringValue($value))->getString();
-            throw new InvalidArgumentException("Invalid injected value for name '$label'. Expected string, but $type given");
+            throw new InvalidArgumentException("Invalid bound value for name '$label'. Expected string, but $type given");
         }
     }
 
@@ -126,7 +126,7 @@ class InjectingParser implements Parser
     {
         if (!is_string($value)) {
             $type = (new StringValue($value))->getString();
-            throw new InvalidArgumentException("Invalid inject parameters. Expected string, but $type given. Should be [name] or [name => value]");
+            throw new InvalidArgumentException("Invalid bound parameters. Expected string, but $type given. Should be [name] or [name => value]");
         }
     }
 
