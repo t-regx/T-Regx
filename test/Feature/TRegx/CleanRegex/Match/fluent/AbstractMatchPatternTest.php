@@ -39,6 +39,29 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldFluent_passUserData()
+    {
+        // given
+        pattern("\w+")
+            ->match("Foo, Bar")
+            ->fluent()
+            ->filter(function (Match $match) {
+                // when
+                $match->setUserData($match === 'Foo' ? 'hey' : 'hello');
+
+                return true;
+            })
+            ->forEach(function (Match $match) {
+                // then
+                $userData = $match->getUserData();
+
+                $this->assertEquals($match === 'Foo' ? 'hey' : 'hello', $userData);
+            });
+    }
+
+    /**
+     * @test
+     */
     public function shouldFluent_forFirst()
     {
         // when
