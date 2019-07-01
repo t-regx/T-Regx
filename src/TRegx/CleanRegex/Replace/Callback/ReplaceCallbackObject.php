@@ -96,13 +96,13 @@ class ReplaceCallbackObject
 
     private function getReplacement($replacement): string
     {
+        if (is_string($replacement)) {
+            return $replacement;
+        }
         if ($replacement instanceof MatchGroup) {
             return $this->groupAsReplacement($replacement);
         }
         if ($replacement instanceof Match) {
-            return $replacement;
-        }
-        if (is_string($replacement)) {
             return $replacement;
         }
         throw new InvalidReplacementException($replacement);
