@@ -61,6 +61,28 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldReplace_withDetails()
+    {
+        // given
+        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
+        $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
+
+        // when
+        $result = pattern($pattern)
+            ->replace($subject)
+            ->first()
+            ->callback(function (ReplaceMatch $match) {
+                // then
+                return $match;
+            });
+
+        // then
+        $this->assertEquals($subject, $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetFromReplaceMatch_all()
     {
         // given

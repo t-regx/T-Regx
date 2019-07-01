@@ -11,6 +11,7 @@ use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\MatchImpl;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
@@ -97,6 +98,9 @@ class ReplaceCallbackObject
     {
         if ($replacement instanceof MatchGroup) {
             return $this->groupAsReplacement($replacement);
+        }
+        if ($replacement instanceof Match) {
+            return $replacement;
         }
         if (is_string($replacement)) {
             return $replacement;
