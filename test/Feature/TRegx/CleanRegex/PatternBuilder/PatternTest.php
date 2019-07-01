@@ -41,6 +41,23 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldBuild_inject()
+    {
+        // given
+        $pattern = Pattern::inject('You/her, (are|is) @ (you|her)', [
+            'real? (or are you not real?)'
+        ]);
+
+        // when
+        $pattern = $pattern->delimiter();
+
+        // then
+        $this->assertEquals('#You/her, (are|is) real\? \(or are you not real\?\) (you|her)#', $pattern);
+    }
+
+    /**
+     * @test
+     */
     public function shouldBuild_compose()
     {
         // given

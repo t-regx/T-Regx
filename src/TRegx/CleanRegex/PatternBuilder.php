@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
@@ -17,6 +18,16 @@ class PatternBuilder
     public static function bind(string $input, array $values): Pattern
     {
         return self::build(new BindingParser($input, $values));
+    }
+
+    /**
+     * @param string $input
+     * @param string[] $values
+     * @return Pattern
+     */
+    public static function inject(string $input, array $values): Pattern
+    {
+        return self::build(new InjectParser($input, $values));
     }
 
     /**

@@ -7,11 +7,13 @@ Incoming in 0.9.2
     * Added `pattern()->match()->fluent()` 🔥
     * Added `Match.group().replace()` 🔥
     * Added `pattern()->match()->unique()`
+    * Added `Pattern::inject()`/`Pattern::bind()`
 
 * Enhancements/updates
     * Method `by()->group()->orElse()` now receives lazy-loaded `Match`, instead of a subject
     * Added `withReferences()` to `CompositePattern.chainedReplace()`
-
+    * Previously named `Pattern::inject()` is renamed to `Pattern::bind()`
+    * The `Pattern::bind()` still it accepts values as an associative array, but new `Pattern::inject()` receives values without regard for the keys.
 * Other
     * Renamed `CompileSafeRegexException` to `MalformedPatternException`, so it better describes its nature
     * Renamed `is()->delimitered()` to `is()->delimited()`
@@ -199,5 +201,6 @@ API
         * `Pattern::of()`
         * `Pattern::compose()`/`PatternBuilder::compose()`
     * Handling user input    
+        * `Pattern::bind()`/`PatternBuilder::bind()`
         * `Pattern::inject()`/`PatternBuilder::inject()`
         * `Pattern::prepare()`/`PatternBuilder::prepare()`
