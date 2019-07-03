@@ -23,6 +23,11 @@ class DelimitererTest extends TestCase
             ['s~i/e#++m%a!@_;', '`s~i/e#++m%a!@_;`'],
             ['s~i/e#++m%a!@_;`', '-s~i/e#++m%a!@_;`-'],
             ['s~i/e#++m%a!@_;`-', '=s~i/e#++m%a!@_;`-='],
+
+            ['[foo]', '/[foo]/'],
+            ['{foo}', '/{foo}/'],
+            ['(foo)', '/(foo)/'],
+            ['<foo>', '/<foo>/'],
         ];
     }
 
