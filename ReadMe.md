@@ -43,7 +43,7 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 Installation for PHP 7.1 and later:
 
 ```bash
-$ composer require rawr/t-regx:0.9
+composer require rawr/t-regx
 ```
 
 :bulb: See documentation if you need to use [earlier versions of PHP](https://t-regx.com/docs/installation).
@@ -147,7 +147,7 @@ $result   // 'WORD'
 * ### Written with clean API
    * Descriptive interface
    * `SRP methods`, `UTF-8 support`
-   * `No varargs`, `No flags`,  `No boolean arguments`, `No nested arrays`, `No Reflection used`
+   * `No Reflection used`, `No (...varargs)`, `No (boolean arguments, true)`, `(No flags, 1)`, `[No [nested, [arrays]]]`
 
 * ### Automatic delimiters for your pattern
   Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. T-Regx's smart delimiter
