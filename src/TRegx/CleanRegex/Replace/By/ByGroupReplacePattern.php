@@ -7,11 +7,6 @@ use TRegx\CleanRegex\Match\ForFirst\Optional;
 
 interface ByGroupReplacePattern extends Optional
 {
-    /**
-     * @param string $exceptionClassName
-     * @return mixed
-     * @throws \Throwable|GroupNotMatchedException
-     */
     public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string;
 
     public function orIgnore(): string;

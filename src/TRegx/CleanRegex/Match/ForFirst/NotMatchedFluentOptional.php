@@ -15,29 +15,16 @@ class NotMatchedFluentOptional implements Optional
         $this->worker = $worker;
     }
 
-    /**
-     * @param string $exceptionClassName
-     * @return mixed
-     * @throws Throwable
-     */
-    public function orThrow(string $exceptionClassName = NoFirstElementFluentException::class)
+    public function orThrow(string $exceptionClassName = NoFirstElementFluentException::class): void
     {
         throw $this->worker->orThrow($exceptionClassName);
     }
 
-    /**
-     * @param mixed $substitute
-     * @return mixed
-     */
     public function orReturn($substitute)
     {
         return $substitute;
     }
 
-    /**
-     * @param callable $substituteProducer
-     * @return mixed
-     */
     public function orElse(callable $substituteProducer)
     {
         return $this->worker->orElse($substituteProducer);

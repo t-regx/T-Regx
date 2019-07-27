@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Match\ForFirst;
 
 use TRegx\CleanRegex\Exception\CleanRegex\CleanRegexException;
+use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 
 interface Optional
@@ -13,7 +14,7 @@ interface Optional
      *
      * @param string $exceptionClassName
      * @return mixed
-     * @throws \Throwable|SubjectNotMatchedException
+     * @throws \Throwable|SubjectNotMatchedException|GroupNotMatchedException|CleanRegexException
      */
     public function orThrow(string $exceptionClassName = CleanRegexException::class);
 

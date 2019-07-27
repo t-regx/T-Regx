@@ -93,29 +93,16 @@ class MatchedGroup implements MatchGroup
         return $this->details->matchAll->all();
     }
 
-    /**
-     * @param string $exceptionClassName
-     * @return mixed
-     * @throws \Throwable|SubjectNotMatchedException
-     */
     public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string
     {
         return $this->text();
     }
 
-    /**
-     * @param mixed $substitute
-     * @return mixed
-     */
     public function orReturn($substitute): string
     {
         return $this->text();
     }
 
-    /**
-     * @param callable $substituteProducer
-     * @return mixed
-     */
     public function orElse(callable $substituteProducer): string
     {
         return $this->text();

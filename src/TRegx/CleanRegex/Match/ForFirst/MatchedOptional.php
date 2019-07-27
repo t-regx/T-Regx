@@ -13,28 +13,16 @@ class MatchedOptional implements Optional
         $this->result = $result;
     }
 
-    /**
-     * @param string $exceptionClassName
-     * @return mixed
-     */
     public function orThrow(string $exceptionClassName = SubjectNotMatchedException::class)
     {
         return $this->result;
     }
 
-    /**
-     * @param mixed $substitute
-     * @return mixed
-     */
     public function orReturn($substitute)
     {
         return $this->result;
     }
 
-    /**
-     * @param callable $substituteProducer
-     * @return mixed
-     */
     public function orElse(callable $substituteProducer)
     {
         return $this->result;

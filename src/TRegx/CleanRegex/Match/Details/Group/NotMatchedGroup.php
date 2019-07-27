@@ -91,29 +91,16 @@ class NotMatchedGroup implements MatchGroup
         return $this->details->matchAll->all();
     }
 
-    /**
-     * @param mixed $substitute
-     * @return mixed
-     */
     public function orReturn($substitute)
     {
         return $substitute;
     }
 
-    /**
-     * @param string $exceptionClassName
-     * @return mixed
-     * @throws \Throwable|SubjectNotMatchedException
-     */
-    public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string
+    public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): void
     {
         throw $this->optionalWorker->orThrow($exceptionClassName);
     }
 
-    /**
-     * @param callable $substituteProducer
-     * @return mixed
-     */
     public function orElse(callable $substituteProducer)
     {
         return $this->optionalWorker->orElse($substituteProducer);
