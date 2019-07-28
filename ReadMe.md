@@ -2,7 +2,8 @@
 
 # T-Regx | Powerful Regular Expressions library
 
-The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions enhancing PCRE methods. 
+The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions enhancing PCRE methods.
+
 [See documentation](https://t-regx.com/).
 
 [![Build Status](https://travis-ci.org/T-Regx/T-Regx.svg?branch=master)](https://travis-ci.org/T-Regx/T-Regx)
@@ -13,7 +14,7 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 [![GitHub last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
 [![Composer lock](https://img.shields.io/badge/.lock-uncommited-green.svg)](https://github.com/T-Regx/T-Regx)
-![PHP Version](https://img.shields.io/badge/Unit%20tests-1125-green.svg)
+![PHP Version](https://img.shields.io/badge/Unit%20tests-1140-green.svg)
 
 [![PHP Version](https://img.shields.io/badge/PHP-5.3%2B-blue.svg)](https://packagist.org/packages/rawr/t-regx)
 [![PHP Version](https://img.shields.io/badge/PHP-5.6%2B-blue.svg)](https://packagist.org/packages/rawr/t-regx)
@@ -219,8 +220,8 @@ Continuous integration builds are running for:
  - `PHP 7.2.9` (newest)
 
 # What's better
-![Ugly api](https://i.imgur.com/g1Buisr.png)
+![Ugly api](https://t-regx.com/img/readme/preg.png)
 
 or
 
-![Pretty api](https://i.imgur.com/OW0y0Df.png)
+![Pretty api](https://t-regx.com/img/readme/t-regx.png)
