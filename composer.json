@@ -7,9 +7,6 @@
     "php",
     "pcre",
     "t-regx",
-    "t-rex",
-    "trex",
-    "regx",
     "regex",
     "regexp",
     "regular",
@@ -17,7 +14,15 @@
     "tdd",
     "oop",
     "clean",
-    "design"
+    "preg",
+    "preg_match",
+    "preg_match_all",
+    "preg_replace",
+    "preg_replace_callback",
+    "preg_quote",
+    "prepared patterns",
+    "delimiters",
+    "automatic delimiters"
   ],
   "autoload": {
     "files": [
