@@ -215,9 +215,12 @@ Continuous integration builds are running for:
  - `PHP 5.4.45` (newest)
  - `PHP 5.5.38` (newest)
  - `PHP 5.6.24` (newest)
- - `PHP 7.0.3`, `PHP 7.0.31` (oldest and most recent)
- - `PHP 7.1.12`, `PHP 7.1.13`, `PHP 7.1.21`
- - `PHP 7.2.9` (newest)
+ - `PHP 7.0` (`7.0.3`, `7.0.31` - oldest and most recent)
+ - `PHP 7.1` (`7.1.0`, `7.1.12`, `7.1.13`, `7.1.21`)
+ - `PHP 7.2` (`7.2.0`, `7.2.15`)
+ - `PHP 7.3` (`7.3.0`, `7.3.1`, `7.3.2`, `7.3.0RC1`, `7.3.3`, `7.3.4`, `7.3.5`)
+ - `PHP 7.4`
+ - `PHP 8.0`
 
 # What's better
 ![Ugly api](https://t-regx.com/img/readme/preg.png)
