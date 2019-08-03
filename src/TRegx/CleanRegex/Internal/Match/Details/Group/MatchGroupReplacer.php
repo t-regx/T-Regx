@@ -9,8 +9,8 @@ class MatchGroupReplacer
     {
         $text = $match->getMatch();
         $matchOffset = $occurrence->offset - $match->byteOffset();
-        $before = substr($text, 0, $matchOffset);
-        $after = substr($text, $matchOffset + strlen($occurrence->text));
+        $before = \substr($text, 0, $matchOffset);
+        $after = \substr($text, $matchOffset + \strlen($occurrence->text));
         return $before . $replacement . $after;
     }
 }

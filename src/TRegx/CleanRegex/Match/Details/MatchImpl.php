@@ -118,13 +118,13 @@ class MatchImpl implements Match
      */
     public function groupNames(): array
     {
-        return array_values(array_filter($this->getMatches()->getGroupKeys(), '\is_string'));
+        return \array_values(\array_filter($this->getMatches()->getGroupKeys(), '\is_string'));
     }
 
     public function groupsCount(): int
     {
-        $indexedGroups = array_filter($this->getMatches()->getGroupKeys(), '\is_int');
-        return count($indexedGroups) - 1;
+        $indexedGroups = \array_filter($this->getMatches()->getGroupKeys(), '\is_int');
+        return \count($indexedGroups) - 1;
     }
 
     public function groups(): IndexedGroups

@@ -77,7 +77,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 
     public function orEmpty(): string
     {
-        if (is_int($this->nameOrIndex)) {
+        if (\is_int($this->nameOrIndex)) {
             return $this->performanceReplace->replaceWithGroupOrEmpty($this->nameOrIndex);
         }
         return $this->replaceGroupOptional(new ConstantResultStrategy(''));

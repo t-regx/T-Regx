@@ -28,20 +28,15 @@ class FlatMapper
 
     private function flatMap(): array
     {
-        return array_map([$this, 'map'], $this->elements);
+        return \array_map([$this, 'map'], $this->elements);
     }
 
     public function map($object)
     {
-        $value = $this->invoke($object);
-        if (is_array($value)) {
+        $value = \call_user_func($this->callback, $object);
+        if (\is_array($value)) {
             return $value;
         }
         throw InvalidReturnValueException::forFlatMap($value);
-    }
-
-    private function invoke($object)
-    {
-        return call_user_func($this->callback, $object);
     }
 }

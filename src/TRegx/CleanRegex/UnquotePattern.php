@@ -21,7 +21,7 @@ class UnquotePattern
 
     private function unquoteStringWithCharacters(string $string, array $specialCharacters): string
     {
-        return strtr($string, array_combine(array_map(function (string $char) {
+        return \strtr($string, \array_combine(\array_map(function (string $char) {
             return '\\' . $char;
         }, $specialCharacters), $specialCharacters));
     }

@@ -35,7 +35,7 @@ class FluentMatchPattern implements MatchPatternInterface
         if ($limit < 0) {
             throw new InvalidArgumentException("Negative limit $limit");
         }
-        return array_slice($this->elements, 0, $limit);
+        return \array_slice($this->elements, 0, $limit);
     }
 
     /**
@@ -48,7 +48,7 @@ class FluentMatchPattern implements MatchPatternInterface
         if (empty($this->elements)) {
             throw new NoFirstElementFluentException();
         }
-        return reset($this->elements);
+        return \reset($this->elements);
     }
 
     public function forFirst(callable $consumer): Optional
@@ -56,7 +56,7 @@ class FluentMatchPattern implements MatchPatternInterface
         if (empty($this->elements)) {
             return new NotMatchedFluentOptional($this->worker);
         }
-        return new MatchedOptional($consumer(reset($this->elements)));
+        return new MatchedOptional($consumer(\reset($this->elements)));
     }
 
     public function forEach(callable $consumer): void
@@ -73,7 +73,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function count(): int
     {
-        return count($this->elements);
+        return \count($this->elements);
     }
 
     public function iterator(): Iterator
@@ -83,7 +83,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function map(callable $mapper): FluentMatchPattern
     {
-        return $this->next(array_map($mapper, $this->elements));
+        return $this->next(\array_map($mapper, $this->elements));
     }
 
     public function flatMap(callable $mapper): FluentMatchPattern
@@ -93,22 +93,22 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function unique(): FluentMatchPattern
     {
-        return $this->next(array_values(array_unique($this->elements)));
+        return $this->next(\array_values(\array_unique($this->elements)));
     }
 
     public function filter(callable $predicate): FluentMatchPattern
     {
-        return $this->next(array_values(array_filter($this->elements, $predicate)));
+        return $this->next(\array_values(\array_filter($this->elements, $predicate)));
     }
 
     public function values(): FluentMatchPattern
     {
-        return $this->next(array_values($this->elements));
+        return $this->next(\array_values($this->elements));
     }
 
     public function keys(): FluentMatchPattern
     {
-        return $this->next(array_keys($this->elements));
+        return $this->next(\array_keys($this->elements));
     }
 
     private function next(array $elements): FluentMatchPattern

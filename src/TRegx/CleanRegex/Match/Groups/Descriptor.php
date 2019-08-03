@@ -16,12 +16,12 @@ class Descriptor
 
     public function hasAnyGroup(): bool
     {
-        return count($this->getGroups()) > 1;
+        return \count($this->getGroups()) > 1;
     }
 
     public function getGroups(): array
     {
-        return array_keys($this->getMatches());
+        return \array_keys($this->getMatches());
     }
 
     private function getMatches(): array

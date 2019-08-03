@@ -5,6 +5,6 @@ class ReplaceReferences
 {
     public static function quote(string $replacement): string
     {
-        return str_replace(['\\', '$'], ['\\\\', '\\$'], $replacement);
+        return \str_replace(['\\', '$'], ['\\\\', '\\$'], $replacement);
     }
 }

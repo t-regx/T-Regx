@@ -10,7 +10,7 @@ class FlagNotAllowedException extends CleanRegexException
 
     public static function forMany(array $flags)
     {
-        $s = implode("', '", $flags);
+        $s = \implode("', '", $flags);
         return new self("Regular expression flags: ['$s'] are not allowed");
     }
 }

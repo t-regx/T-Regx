@@ -7,6 +7,6 @@ class SuspectedReturnSafeRegexExceptionFactory
 {
     public function create(string $methodName, $returnValue): SuspectedReturnSafeRegexException
     {
-        return new SuspectedReturnSafeRegexException($methodName, var_export($returnValue, true));
+        return new SuspectedReturnSafeRegexException($methodName, \var_export($returnValue, true));
     }
 }

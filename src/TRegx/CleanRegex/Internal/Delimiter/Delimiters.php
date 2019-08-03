@@ -13,6 +13,6 @@ class Delimiters
 
     public function isValidDelimiter(string $character): bool
     {
-        return in_array($character, self::$validDelimiters, true);
+        return \in_array($character, self::$validDelimiters, true);
     }
 }

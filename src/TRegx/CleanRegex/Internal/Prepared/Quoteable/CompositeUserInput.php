@@ -19,7 +19,7 @@ class CompositeUserInput implements Quoteable
     public function quote(string $delimiter): string
     {
         $quoted = $this->getQuoted($delimiter);
-        return implode($quoted);
+        return \implode($quoted);
     }
 
     /**
@@ -28,7 +28,7 @@ class CompositeUserInput implements Quoteable
      */
     private function getQuoted(string $delimiter): array
     {
-        return array_map(function (UserInputQuoteable $quotable) use ($delimiter) {
+        return \array_map(function (UserInputQuoteable $quotable) use ($delimiter) {
             return $quotable->quote($delimiter);
         }, $this->getAsUserInputs());
     }
@@ -38,7 +38,7 @@ class CompositeUserInput implements Quoteable
      */
     private function getAsUserInputs(): array
     {
-        return array_map(function ($quoteable) {
+        return \array_map(function ($quoteable) {
             $this->validateQuoteable($quoteable);
             return new UserInputQuoteable($quoteable);
         }, $this->userInputs);
@@ -46,7 +46,7 @@ class CompositeUserInput implements Quoteable
 
     private function validateQuoteable($quoteable): void
     {
-        if (!is_string($quoteable)) {
+        if (!\is_string($quoteable)) {
             $type = (new StringValue($quoteable))->getString();
             throw new InvalidArgumentException("Invalid bound value. Expected string, but $type given");
         }

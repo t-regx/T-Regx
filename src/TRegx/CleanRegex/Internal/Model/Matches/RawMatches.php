@@ -39,7 +39,7 @@ class RawMatches implements IRawMatches, IRawWithGroups
 
     public function hasGroup($nameOrIndex): bool
     {
-        return array_key_exists($nameOrIndex, $this->matches);
+        return \array_key_exists($nameOrIndex, $this->matches);
     }
 
     /**
@@ -47,6 +47,6 @@ class RawMatches implements IRawMatches, IRawWithGroups
      */
     public function getGroupKeys(): array
     {
-        return array_keys($this->matches);
+        return \array_keys($this->matches);
     }
 }

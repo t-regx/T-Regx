@@ -15,12 +15,12 @@ class ReplaceLimitImpl implements ReplaceLimit
 
     public function all(): ReplacePattern
     {
-        return call_user_func($this->patternFactory, -1);
+        return \call_user_func($this->patternFactory, -1);
     }
 
     public function first(): ReplacePattern
     {
-        return call_user_func($this->patternFactory, 1);
+        return \call_user_func($this->patternFactory, 1);
     }
 
     public function only(int $limit): ReplacePattern
@@ -28,6 +28,6 @@ class ReplaceLimitImpl implements ReplaceLimit
         if ($limit < 0) {
             throw new InvalidArgumentException("Negative limit $limit");
         }
-        return call_user_func($this->patternFactory, $limit);
+        return \call_user_func($this->patternFactory, $limit);
     }
 }

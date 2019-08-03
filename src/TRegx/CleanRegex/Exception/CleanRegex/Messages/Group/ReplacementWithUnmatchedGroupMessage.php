@@ -12,7 +12,7 @@ class ReplacementWithUnmatchedGroupMessage implements NotMatchedMessage
 
     public function __construct($nameOrIndex)
     {
-        $this->message = sprintf(self::MESSAGE, $nameOrIndex);
+        $this->message = \sprintf(self::MESSAGE, $nameOrIndex);
     }
 
     public function getMessage(): string

@@ -8,16 +8,16 @@ class Integer
         if ($value === "") {
             return false;
         }
-        if (trim($value) !== $value) {
+        if (\trim($value) !== $value) {
             return false;
         }
-        if (filter_var($value, FILTER_VALIDATE_INT) !== false) {
+        if (\filter_var($value, FILTER_VALIDATE_INT) !== false) {
             return true;
         }
-        $text = ltrim($value, '0');
+        $text = \ltrim($value, '0');
         if ($text === "") {
             return true;
         }
-        return filter_var($text, FILTER_VALIDATE_INT) !== false;
+        return \filter_var($text, FILTER_VALIDATE_INT) !== false;
     }
 }

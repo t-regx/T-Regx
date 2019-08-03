@@ -39,7 +39,7 @@ class Delimiterer
     public function getPossibleDelimiter(string $pattern): ?string
     {
         foreach ($this->delimiters->getDelimiters() as $delimiter) {
-            if (strpos($pattern, $delimiter) === false) {
+            if (\strpos($pattern, $delimiter) === false) {
                 return $delimiter;
             }
         }

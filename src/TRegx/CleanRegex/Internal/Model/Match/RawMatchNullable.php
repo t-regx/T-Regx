@@ -27,7 +27,7 @@ class RawMatchNullable implements IRawMatch, IRawMatchGroupable
 
     public function hasGroup($nameOrIndex): bool
     {
-        return array_key_exists($nameOrIndex, $this->match);
+        return \array_key_exists($nameOrIndex, $this->match);
     }
 
     // TODO fix getGroup() and getGroupByteOffset()

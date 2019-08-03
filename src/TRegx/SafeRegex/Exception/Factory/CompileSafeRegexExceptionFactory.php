@@ -43,8 +43,8 @@ class CompileSafeRegexExceptionFactory
     private function matchMalformed(string $message, ?string &$result): bool
     {
         $pattern = '/^preg_(?:match(?:_all)?|replace(?:_callback(?:_array)?)?|filter|split|grep)\(\): (?:Compilation failed: )?(.*)/';
-        if (preg_match($pattern, $message, $match) === 1) {
-            $result = ucfirst($match[1]);
+        if (\preg_match($pattern, $message, $match) === 1) {
+            $result = \ucfirst($match[1]);
             return true;
         }
         return false;

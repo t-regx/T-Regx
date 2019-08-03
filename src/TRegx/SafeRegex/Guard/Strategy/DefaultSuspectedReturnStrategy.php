@@ -2,7 +2,6 @@
 namespace TRegx\SafeRegex\Guard\Strategy;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
-use function array_key_exists;
 
 class DefaultSuspectedReturnStrategy implements SuspectedReturnStrategy
 {
@@ -16,7 +15,7 @@ class DefaultSuspectedReturnStrategy implements SuspectedReturnStrategy
 
     public function isSuspected(string $methodName, $result): bool
     {
-        if (array_key_exists($methodName, self::$indicators)) {
+        if (\array_key_exists($methodName, self::$indicators)) {
             return $result === self::$indicators[$methodName];
         }
         throw new InternalCleanRegexException();

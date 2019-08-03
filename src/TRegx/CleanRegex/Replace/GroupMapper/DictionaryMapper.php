@@ -17,7 +17,7 @@ class DictionaryMapper implements GroupMapper
 
     public function map(string $occurrence): ?string
     {
-        if (array_key_exists($occurrence, $this->map)) {
+        if (\array_key_exists($occurrence, $this->map)) {
             return $this->map[$occurrence];
         }
         return null;
@@ -37,7 +37,7 @@ class DictionaryMapper implements GroupMapper
 
     private function validateOccurrence($occurrence): void
     {
-        if (!is_string($occurrence)) {
+        if (!\is_string($occurrence)) {
             $value = (new StringValue($occurrence))->getString();
             throw new InvalidArgumentException("Invalid replacement map key. Expected string, but $value given");
         }
@@ -45,7 +45,7 @@ class DictionaryMapper implements GroupMapper
 
     private function validateReplacement($replacement): void
     {
-        if (!is_string($replacement)) {
+        if (!\is_string($replacement)) {
             $value = (new StringValue($replacement))->getString();
             throw new InvalidArgumentException("Invalid replacement map value. Expected string, but $value given");
         }

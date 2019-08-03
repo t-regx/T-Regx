@@ -5,6 +5,6 @@ class IndexedGroups extends AbstractMatchGroups
 {
     protected function filterGroupKey($nameOrIndex): bool
     {
-        return is_int($nameOrIndex);
+        return \is_int($nameOrIndex);
     }
 }

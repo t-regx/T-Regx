@@ -16,12 +16,12 @@ class ComputedSubjectStrategy implements ReplaceSubstitute
 
     public function substitute(string $subject): ?string
     {
-        return call_user_func($this->mapper, $subject);
+        return \call_user_func($this->mapper, $subject);
     }
 
     public function substituteGroup(Match $match): ?string
     {
-        return call_user_func($this->mapper, $match);
+        return \call_user_func($this->mapper, $match);
     }
 
     public function useExceptionMessage(NotMatchedMessage $message): void

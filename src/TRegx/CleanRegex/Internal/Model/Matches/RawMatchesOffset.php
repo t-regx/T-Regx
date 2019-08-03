@@ -9,14 +9,6 @@ use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\Match;
-use function array_intersect_key;
-use function array_key_exists;
-use function array_keys;
-use function array_map;
-use function array_slice;
-use function array_values;
-use function is_array;
-use function is_string;
 
 class RawMatchesOffset implements IRawMatchesOffset
 {
@@ -33,7 +25,7 @@ class RawMatchesOffset implements IRawMatchesOffset
 
     public function matched(): bool
     {
-        return count($this->matches[self::GROUP_WHOLE_MATCH]) > 0;
+        return \count($this->matches[self::GROUP_WHOLE_MATCH]) > 0;
     }
 
     /**
@@ -41,7 +33,7 @@ class RawMatchesOffset implements IRawMatchesOffset
      */
     public function getAll(): array
     {
-        return array_map(function ($match) {
+        return \array_map(function ($match) {
             [$text, $offset] = $match;
             return $text;
         }, $this->matches[self::GROUP_WHOLE_MATCH]);
@@ -51,7 +43,7 @@ class RawMatchesOffset implements IRawMatchesOffset
     {
         $matchObjects = [];
         foreach ($this->matches[self::GROUP_WHOLE_MATCH] as $index => $firstWhole) {
-            $match = array_map(function ($match) use ($index) {
+            $match = \array_map(function ($match) use ($index) {
                 return $match[$index];
             }, $this->matches);
             $matchObjects[] = $factory->create($index, new RawMatchOffset($match), new EagerMatchAllFactory($this));
@@ -65,7 +57,7 @@ class RawMatchesOffset implements IRawMatchesOffset
      */
     public function hasGroup($nameOrIndex): bool
     {
-        return array_key_exists($nameOrIndex, $this->matches);
+        return \array_key_exists($nameOrIndex, $this->matches);
     }
 
     public function getLimitedGroupOffsets($nameOrIndex, int $limit)
@@ -79,12 +71,12 @@ class RawMatchesOffset implements IRawMatchesOffset
         if ($limit === -1) {
             return $match;
         }
-        return array_slice($match, 0, $limit);
+        return \array_slice($match, 0, $limit);
     }
 
     private function mapToOffset(array $matches): array
     {
-        return array_map([$this, 'mapMatch'], $matches);
+        return \array_map([$this, 'mapMatch'], $matches);
     }
 
     public function getFirstMatchObject(MatchObjectFactory $factory): Match
@@ -98,10 +90,10 @@ class RawMatchesOffset implements IRawMatchesOffset
 
     private function mapMatch($match): ?int
     {
-        if ($match === null || is_string($match)) {
+        if ($match === null || \is_string($match)) {
             return null;
         }
-        if (!is_array($match)) {
+        if (!\is_array($match)) {
             // @codeCoverageIgnoreStart
             throw new InternalCleanRegexException();
             // @codeCoverageIgnoreEnd
@@ -131,7 +123,7 @@ class RawMatchesOffset implements IRawMatchesOffset
 
     public function getGroupKeys(): array
     {
-        return array_keys($this->matches);
+        return \array_keys($this->matches);
     }
 
     /**
@@ -140,7 +132,7 @@ class RawMatchesOffset implements IRawMatchesOffset
      */
     public function getGroupsOffsets(int $index): array
     {
-        return array_map(function (array $match) use ($index) {
+        return \array_map(function (array $match) use ($index) {
             [$text, $offset] = $match[$index];
             return $offset;
         }, $this->matches);
@@ -152,7 +144,7 @@ class RawMatchesOffset implements IRawMatchesOffset
      */
     public function getGroupsTexts(int $index): array
     {
-        return array_map(function (array $match) use ($index) {
+        return \array_map(function (array $match) use ($index) {
             [$text, $offset] = $match[$index];
             return $text;
         }, $this->matches);
@@ -160,7 +152,7 @@ class RawMatchesOffset implements IRawMatchesOffset
 
     public function getGroupTexts($group): array
     {
-        return array_map(function ($group) {
+        return \array_map(function ($group) {
             [$text, $offset] = $group;
             return $text;
         }, $this->matches[$group]);
@@ -169,7 +161,7 @@ class RawMatchesOffset implements IRawMatchesOffset
     public function isGroupMatched($nameOrIndex, int $index): bool
     {
         $var = $this->matches[$nameOrIndex][$index];
-        if (is_array($var)) {
+        if (\is_array($var)) {
             return $var[1] !== -1;
         }
         return false;
@@ -177,7 +169,7 @@ class RawMatchesOffset implements IRawMatchesOffset
 
     public function getRawMatchOffset(int $index): RawMatchOffset
     {
-        $matches = array_map(function (array $match) use ($index) {
+        $matches = \array_map(function (array $match) use ($index) {
             return $match[$index];
         }, $this->matches);
         return new RawMatchOffset($matches);
@@ -185,7 +177,7 @@ class RawMatchesOffset implements IRawMatchesOffset
 
     public function getRawMatch(int $index): RawMatch
     {
-        return new RawMatch(array_map(function (array $match) use ($index) {
+        return new RawMatch(\array_map(function (array $match) use ($index) {
             [$text, $offset] = $match[$index];
             return $text;
         }, $this->matches));
@@ -194,10 +186,10 @@ class RawMatchesOffset implements IRawMatchesOffset
     public function filterMatchesByMatchObjects(Predicate $predicate, MatchObjectFactory $factory): array
     {
         $matchObjects = $this->getMatchObjects($factory);
-        $filteredMatches = array_filter($matchObjects, [$predicate, 'test']);
+        $filteredMatches = \array_filter($matchObjects, [$predicate, 'test']);
 
-        return array_map(function (array $match) use ($filteredMatches) {
-            return array_values(array_intersect_key($match, $filteredMatches));
+        return \array_map(function (array $match) use ($filteredMatches) {
+            return \array_values(\array_intersect_key($match, $filteredMatches));
         }, $this->matches);
     }
 }

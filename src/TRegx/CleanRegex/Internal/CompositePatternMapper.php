@@ -18,7 +18,7 @@ class CompositePatternMapper
 
     public function createPatterns(): array
     {
-        return array_map(function ($pattern) {
+        return \array_map(function ($pattern) {
             return $this->map($pattern);
         }, $this->patterns);
     }
@@ -34,8 +34,8 @@ class CompositePatternMapper
 
     private function mapToString($pattern): string
     {
-        if (is_string($pattern)) {
-            return pattern($pattern)->delimiter();
+        if (\is_string($pattern)) {
+            return \pattern($pattern)->delimiter();
         }
         if ($pattern instanceof Pattern) {
             return $pattern->delimiter();

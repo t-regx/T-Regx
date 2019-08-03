@@ -5,6 +5,6 @@ class RuntimeErrorFactory
 {
     public static function getLast(): RuntimeError
     {
-        return new RuntimeError(preg_last_error());
+        return new RuntimeError(\preg_last_error());
     }
 }

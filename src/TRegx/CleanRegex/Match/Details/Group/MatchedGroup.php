@@ -34,7 +34,7 @@ class MatchedGroup implements MatchGroup
 
     public function textLength(): int
     {
-        return mb_strlen($this->occurrence->text);
+        return \mb_strlen($this->occurrence->text);
     }
 
     public function parseInt(): int

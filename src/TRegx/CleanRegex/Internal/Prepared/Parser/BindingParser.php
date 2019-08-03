@@ -51,7 +51,7 @@ class BindingParser implements Parser
 
     private function getValueByLabel(string $label, string $placeholder): string
     {
-        if (array_key_exists($label, $this->values)) {
+        if (\array_key_exists($label, $this->values)) {
             $value = $this->values[$label];
             $this->validateBindValue($label, $value);
             return $value;
@@ -65,7 +65,7 @@ class BindingParser implements Parser
     private function isPlaceholderIgnored(string $label): bool
     {
         foreach ($this->values as $key => $value) {
-            if (is_int($key) && $value === $label) {
+            if (\is_int($key) && $value === $label) {
                 return true;
             }
         }
@@ -86,7 +86,7 @@ class BindingParser implements Parser
 
     private function isLabelIgnored(string $label): bool
     {
-        return in_array($label, $this->iteratedPlaceholders, true);
+        return \in_array($label, $this->iteratedPlaceholders, true);
     }
 
     private function validateDuplicateLabels(): void
@@ -94,7 +94,7 @@ class BindingParser implements Parser
         $existing = [];
         foreach ($this->values as $key => $value) {
             $label = $this->getLabel($key, $value);
-            if (in_array($label, $existing, true)) {
+            if (\in_array($label, $existing, true)) {
                 throw new InvalidArgumentException("Name '$label' is used more than once (as a key or as ignored value)");
             }
             $existing[] = $label;
@@ -103,7 +103,7 @@ class BindingParser implements Parser
 
     private function getLabel($key, string $value)
     {
-        if (is_int($key)) {
+        if (\is_int($key)) {
             return $value;
         }
         return $key;
@@ -116,7 +116,7 @@ class BindingParser implements Parser
 
     private function validateBindValue(string $label, $value): void
     {
-        if (!is_string($value)) {
+        if (!\is_string($value)) {
             $type = (new StringValue($value))->getString();
             throw new InvalidArgumentException("Invalid bound value for name '$label'. Expected string, but $type given");
         }
@@ -124,7 +124,7 @@ class BindingParser implements Parser
 
     private function validateValueType($value): void
     {
-        if (!is_string($value)) {
+        if (!\is_string($value)) {
             $type = (new StringValue($value))->getString();
             throw new InvalidArgumentException("Invalid bound parameters. Expected string, but $type given. Should be [name] or [name => value]");
         }

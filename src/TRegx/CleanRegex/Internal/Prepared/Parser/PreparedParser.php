@@ -31,14 +31,14 @@ class PreparedParser implements Parser
 
     private function mapToQuoteable($quoteable): Quoteable
     {
-        if (is_array($quoteable)) {
-            $count = count($quoteable);
+        if (\is_array($quoteable)) {
+            $count = \count($quoteable);
             if ($count === 0) {
                 return new EmptyQuoteable();
             }
             return new CompositeUserInput($quoteable);
         }
-        if (is_string($quoteable)) {
+        if (\is_string($quoteable)) {
             return new RawQuoteable($quoteable);
         }
         $type = (new StringValue($quoteable))->getString();
@@ -47,12 +47,12 @@ class PreparedParser implements Parser
 
     public function getDelimiterable(): string
     {
-        return implode($this->getDelimiterableStrings());
+        return \implode($this->getDelimiterableStrings());
     }
 
     private function getDelimiterableStrings(): array
     {
-        return array_filter($this->input, '\is_string');
+        return \array_filter($this->input, '\is_string');
     }
 
     private function validateEmptyInput(): void

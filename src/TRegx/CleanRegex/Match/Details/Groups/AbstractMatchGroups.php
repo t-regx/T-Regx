@@ -37,7 +37,7 @@ abstract class AbstractMatchGroups implements MatchGroups
      */
     public function offsets(): array
     {
-        return array_map(function (int $offset) {
+        return \array_map(function (int $offset) {
             return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $offset);
         }, $this->byteOffsets());
     }
@@ -57,12 +57,12 @@ abstract class AbstractMatchGroups implements MatchGroups
 
     private function filterValues(array $values): array
     {
-        return array_filter($values, [$this, 'validateAndFilterGroupKey'], ARRAY_FILTER_USE_BOTH);
+        return \array_filter($values, [$this, 'validateAndFilterGroupKey'], ARRAY_FILTER_USE_BOTH);
     }
 
     private function validateAndFilterGroupKey($value, $key): bool
     {
-        if ((is_int($value) && $value > -1) || is_string($value) || $value === null) {
+        if ((\is_int($value) && $value > -1) || \is_string($value) || $value === null) {
             return $this->filterGroupKey($key);
         }
         throw new InternalCleanRegexException();

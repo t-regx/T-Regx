@@ -84,8 +84,8 @@ class FilteredBaseDecorator implements Base
 
     private function removeOffsets(array $filterMatches): array
     {
-        return array_map(function (array $matches) {
-            return array_map(function ($match) {
+        return \array_map(function (array $matches) {
+            return \array_map(function ($match) {
                 [$text, $offset] = $match;
                 return $text;
             }, $matches);

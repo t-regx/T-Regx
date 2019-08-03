@@ -90,7 +90,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function map(callable $mapper): array
     {
-        return array_map($mapper, $this->getMatchObjects());
+        return \array_map($mapper, $this->getMatchObjects());
     }
 
     public function flatMap(callable $mapper): array
@@ -100,7 +100,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function unique(): array
     {
-        return array_values(array_unique($this->all()));
+        return \array_values(\array_unique($this->all()));
     }
 
     /**

@@ -5,6 +5,6 @@ class NamedGroups extends AbstractMatchGroups
 {
     protected function filterGroupKey($nameOrIndex): bool
     {
-        return is_string($nameOrIndex);
+        return \is_string($nameOrIndex);
     }
 }

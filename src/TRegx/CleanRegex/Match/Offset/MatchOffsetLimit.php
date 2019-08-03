@@ -16,7 +16,7 @@ class MatchOffsetLimit implements OffsetLimit
 
     public function first()
     {
-        return call_user_func($this->firstFactory);
+        return \call_user_func($this->firstFactory);
     }
 
     /**
@@ -24,7 +24,7 @@ class MatchOffsetLimit implements OffsetLimit
      */
     public function all(): array
     {
-        return call_user_func($this->allFactory, -1, true);
+        return \call_user_func($this->allFactory, -1, true);
     }
 
     /**
@@ -33,6 +33,6 @@ class MatchOffsetLimit implements OffsetLimit
      */
     public function only(int $limit): array
     {
-        return call_user_func($this->allFactory, $limit, false);
+        return \call_user_func($this->allFactory, $limit, false);
     }
 }

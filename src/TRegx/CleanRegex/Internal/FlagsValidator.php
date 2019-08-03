@@ -27,17 +27,17 @@ class FlagsValidator
     public function validate(string $flags): void
     {
         $invalid = $this->getInvalidFlags($flags);
-        if (count($invalid) === 1) {
-            throw FlagNotAllowedException::forOne(reset($invalid));
+        if (\count($invalid) === 1) {
+            throw FlagNotAllowedException::forOne(\reset($invalid));
         }
-        if (count($invalid) > 1) {
+        if (\count($invalid) > 1) {
             throw FlagNotAllowedException::forMany($invalid);
         }
     }
 
     private function getInvalidFlags(string $flags): array
     {
-        return array_diff($this->toArray($flags), self::$flags);
+        return \array_diff($this->toArray($flags), self::$flags);
     }
 
     private function toArray(string $flags): array
@@ -45,6 +45,6 @@ class FlagsValidator
         if (empty($flags)) {
             return [];
         }
-        return str_split($flags);
+        return \str_split($flags);
     }
 }
