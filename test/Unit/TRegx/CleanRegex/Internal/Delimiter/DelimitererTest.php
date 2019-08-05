@@ -23,6 +23,7 @@ class DelimitererTest extends TestCase
             ['s~i/e#++m%a!@_;', '`s~i/e#++m%a!@_;`'],
             ['s~i/e#++m%a!@_;`', '-s~i/e#++m%a!@_;`-'],
             ['s~i/e#++m%a!@_;`-', '=s~i/e#++m%a!@_;`-='],
+            ['s~i/e#++m%a!@_;==`-', ',s~i/e#++m%a!@_;==`-,'],
 
             ['[foo]', '/[foo]/'],
             ['{foo}', '/{foo}/'],
@@ -90,6 +91,6 @@ class DelimitererTest extends TestCase
         $this->expectException(ExplicitDelimiterRequiredException::class);
 
         // when
-        $delimiterer->delimiter('s~i/e#++m%a!@*`_-;=');
+        $delimiterer->delimiter('s~i/e#++m%a!@*`_-;=,');
     }
 }
