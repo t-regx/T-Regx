@@ -10,16 +10,6 @@ use TRegx\SafeRegex\Guard\GuardedExecution;
 use TRegx\SafeRegex\Guard\Strategy\PregFilterSuspectedReturnStrategy;
 use TRegx\SafeRegex\Guard\Strategy\PregReplaceSuspectedReturnStrategy;
 use TRegx\SafeRegex\Guard\Strategy\SilencedSuspectedReturnStrategy;
-use function preg_filter;
-use function preg_grep;
-use function preg_last_error;
-use function preg_match;
-use function preg_match_all;
-use function preg_quote;
-use function preg_replace;
-use function preg_replace_callback;
-use function preg_replace_callback_array;
-use function preg_split;
 
 class preg
 {
@@ -494,7 +484,9 @@ class preg
      */
     public static function last_error(): int
     {
+        // @codeCoverageIgnoreStart
         return \preg_last_error();
+        // @codeCoverageIgnoreEnd
     }
 
     public static function last_error_constant(): string

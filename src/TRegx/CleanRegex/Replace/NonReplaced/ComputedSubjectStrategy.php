@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\NonReplaced;
 
+use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Match\Details\Match;
 
@@ -24,7 +25,9 @@ class ComputedSubjectStrategy implements ReplaceSubstitute
         return \call_user_func($this->mapper, $match);
     }
 
+    // @codeCoverageIgnoreStart
     public function useExceptionMessage(NotMatchedMessage $message): void
     {
     }
+    // @codeCoverageIgnoreEnd
 }

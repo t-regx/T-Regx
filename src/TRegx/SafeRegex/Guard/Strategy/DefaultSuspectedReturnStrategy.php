@@ -18,6 +18,8 @@ class DefaultSuspectedReturnStrategy implements SuspectedReturnStrategy
         if (\array_key_exists($methodName, self::$indicators)) {
             return $result === self::$indicators[$methodName];
         }
+        // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();
+        // @codeCoverageIgnoreEnd
     }
 }
