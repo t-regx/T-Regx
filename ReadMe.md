@@ -1,4 +1,4 @@
-<p align="center"><a href="https://t-regx.com/"><img src="t.regx.png"></a></p>
+<p align="center"><a href="https://t-regx.com"><img src="t.regx.png"></a></p>
 
 # T-Regx | Powerful Regular Expressions library
 
@@ -55,19 +55,30 @@ Full API documentation is available at [t-regx.com](https://t-regx.com/).
 
 # Quick Examples
 
-```php
-$s = 'My phone is 456-232-123';
+#### Automatic delimiters
 
-pattern('\d{3}')->match($s)->first();  // '456'
-pattern('\d{3}')->match($s)->all();    // ['456', '232', '123']
-pattern('\d{3}')->match($s)->only(2);  // ['456', '232']
+These calls are identical:
+
+```php
+pattern('\d{3}')->match()
+pattern('/\d{3}/')->match()
+```
+
+:bulb: See more about [automatic delimiters](https://t-regx.com/docs/delimiters)
+
+#### Matching
+
+```php
+pattern('\d{3}')->match('My phone is 456-232-123')->first();  // '456'
+pattern('\d{3}')->match('My phone is 456-232-123')->all();    // ['456', '232', '123']
+pattern('\d{3}')->match('My phone is 456-232-123')->only(2);  // ['456', '232']
 ```
 
 You can pass any `callable` to the [`first()`](https://t-regx.com/docs/match) method:
 
 ```php
-pattern('\d{3}')->match($s)->first('str_split');   // ['4', '5', '6']
-pattern('\d{3}')->match($s)->first('strlen')       // 3
+pattern('\d{3}')->match('My phone is 456-232-123')->first('str_split');   // ['4', '5', '6']
+pattern('\d{3}')->match('My phone is 456-232-123')->first('strlen')       // 3
 ```
 
 :bulb: See more about 
@@ -81,9 +92,9 @@ pattern('\d{3}')->match($s)->first('strlen')       // 3
 pattern('er|ab|ay')
     ->replace('P. Sherman, 42 Wallaby way')
     ->all()
-    ->with('__');
+    ->with('__$1__');
 
-// 'P. Sh__man, 42 Wall__y w__'
+// 'P. Sh__$1__man, 42 Wall__$1__y w__$1__'
 ```
 
 ```php
@@ -96,8 +107,13 @@ pattern('er|ab|ay')
 ```
 
 :bulb: See more about 
-[`replace()->with()`](https://t-regx.com/docs/replace) and 
+[`replace()->with()`](https://t-regx.com/docs/replace-with) / 
+[`replace()->withReferences()`](https://t-regx.com/docs/replace-with#regular-expression-references) and 
 [`replace()->callback()`](https://t-regx.com/docs/replace-callback).
+
+:bulb: See also:
+[`replace()->by()->group()`](https://t-regx.com/docs/replace-by-group) and 
+[`replace()->by()->map()`](https://t-regx.com/docs/replace-by-map).
 
 #### Prepared Patterns
 
@@ -137,18 +153,14 @@ $result   // 'WORD'
 
 ## Why T-Regx stands out?
 
-:bulb: [See documentation](https://t-regx.com/)
+:bulb: [See documentation at t-regx.com](https://t-regx.com/)
 
 * ### Working **with** the developer
    * Not even touching your error handlers **in any way**
    * Converts all PCRE notices/error/warnings to exceptions
+   * Calling `preg_last_error()` after each call, to validate your method
    * Tracking offset and subjects while replacing strings
    * Fixing error with multi-byte offset (utf-8 safe)
-
-* ### Written with clean API
-   * Descriptive interface
-   * `SRP methods`, `UTF-8 support`
-   * `No Reflection used`, `No (...varargs)`, `No (boolean arguments, true)`, `(No flags, 1)`, `[No [nested, [arrays]]]`
 
 * ### Automatic delimiters for your pattern
   Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. T-Regx's smart delimiter
@@ -160,23 +172,30 @@ $result   // 'WORD'
    * In some cases, `preg_()` methods might fail, return `false`/`null` and **NOT** trigger a warning. Separate exception,
      `SuspectedReturnSafeRegexException` is then thrown by T-Regx.
 
+* ### Written with clean API
+   * Descriptive interface
+   * `SRP methods`, `UTF-8 support`
+   * `No Reflection used`, `No (...varargs)`, `No (boolean arguments, true)`, `(No flags, 1)`, `[No [nested, [arrays]]]`
+
 ## Ways of using T-Regx
 
 ```php
-// Facade style
+// Class static method style
 use TRegx\CleanRegex\Pattern;
 
 Pattern::of('[A-Z][a-z]+')->matches($subject)
 ```
 ```php
-// Global method style
+// Global function style
 pattern('[A-Z][a-z]+')->matches($subject)
 ```
 
 :bulb: See more about [entry points](https://t-regx.com/docs/introduction) and 
 [`pattern()`](https://t-regx.com/docs/introduction).
 
-## SafeRegex
+## Safe regexps without changing your API?
+
+Would you like to protect yourself from any notices, errors and warnings?
 
 Just swap `preg_` to `preg::` and yay! All warnings and errors are converted to exceptions!
 
@@ -195,6 +214,8 @@ if (preg::match('/\s+/', $input) === false) {
     // Never happens
 }
 ```
+
+`preg::` is an exact copy of `preg_` methods, but catches all warnings, exceptions and calls `preg_last_error()` after each call.
 
 The last line never happens, because if match failed (invalid regex syntax, malformed utf-8 subject, backtrack limit 
 exceeded, any other error) - then `SafeRegexException` is thrown.
@@ -228,3 +249,6 @@ Continuous integration builds are running for:
 or
 
 ![Pretty api](https://t-regx.com/img/readme/t-regx.png)
+
+## License
+T-Regx is [MIT licensed](./LICENSE).
