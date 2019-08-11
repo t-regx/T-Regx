@@ -11,13 +11,13 @@ use function count;
 class NotMatched implements Details
 {
     /** @var IRawWithGroups */
-    private $matches;
+    private $match;
     /** @var Subjectable */
     private $subject;
 
-    public function __construct(IRawWithGroups $matches, Subjectable $subject)
+    public function __construct(IRawWithGroups $match, Subjectable $subject)
     {
-        $this->matches = $matches;
+        $this->match = $match;
         $this->subject = $subject;
     }
 
@@ -31,12 +31,12 @@ class NotMatched implements Details
      */
     public function groupNames(): array
     {
-        return array_values(array_filter($this->matches->getGroupKeys(), '\is_string'));
+        return array_values(array_filter($this->match->getGroupKeys(), '\is_string'));
     }
 
     public function groupsCount(): int
     {
-        $indexedGroups = array_filter($this->matches->getGroupKeys(), '\is_int');
+        $indexedGroups = array_filter($this->match->getGroupKeys(), '\is_int');
         return count($indexedGroups) - 1;
     }
 
@@ -47,6 +47,6 @@ class NotMatched implements Details
     public function hasGroup($nameOrIndex): bool
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return $this->matches->hasGroup($nameOrIndex);
+        return $this->match->hasGroup($nameOrIndex);
     }
 }

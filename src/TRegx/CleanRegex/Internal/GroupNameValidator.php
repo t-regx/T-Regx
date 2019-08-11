@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal;
 
 use InvalidArgumentException;
-use TRegx\SafeRegex\preg;
 use function is_int;
 use function is_string;
 
@@ -43,7 +42,7 @@ class GroupNameValidator
 
     private function isGroupNameValid(): bool
     {
-        return preg::match('/^[a-zA-Z]\w*$/', $this->groupNameOrIndex) === 1;
+        return \preg_match('/^[a-zA-Z]\w*$/', $this->groupNameOrIndex) === 1;
     }
 
     private function throwInvalidGroupNameType(): void

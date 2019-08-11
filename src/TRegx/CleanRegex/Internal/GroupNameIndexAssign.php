@@ -49,28 +49,18 @@ class GroupNameIndexAssign
     private function tryGetNameAndIndex($group): array
     {
         if (is_string($group)) {
-            return $this->getByName($group);
+            return [$group, $this->getIndexByName($group)];
         }
         if (is_int($group)) {
-            return $this->getByIndex($group);
+            return [$this->getNameByIndex($group), $group];
         }
         throw new InvalidArgumentException();
-    }
-
-    private function getByName(string $group): array
-    {
-        return [$group, $this->getIndexByName($group)];
     }
 
     private function getIndexByName(string $name): int
     {
         $key = $this->getKeyByGroup($name);
         return $this->groupKeys[$key + 1];
-    }
-
-    private function getByIndex(int $group): array
-    {
-        return [$this->getNameByIndex($group), $group];
     }
 
     private function getNameByIndex(int $index): ?string
