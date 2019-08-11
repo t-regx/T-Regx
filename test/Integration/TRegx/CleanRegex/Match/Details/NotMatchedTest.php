@@ -5,8 +5,8 @@ use InvalidArgumentException;
 use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
-use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class NotMatchedTest extends TestCase
@@ -154,6 +154,21 @@ class NotMatchedTest extends TestCase
 
         // then
         $this->assertEquals(['group', 'xd'], $groupNames);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_groupNames_jagged()
+    {
+        // given
+        $notMatched = $this->createNotMatched_jagged();
+
+        // when
+        $groupNames = $notMatched->groupNames();
+
+        // then
+        $this->assertEquals(['group', null, 'xd', null], $groupNames);
     }
 
     private function createNotMatched(): NotMatched

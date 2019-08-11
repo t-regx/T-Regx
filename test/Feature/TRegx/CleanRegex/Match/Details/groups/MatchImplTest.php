@@ -93,14 +93,14 @@ class MatchImplTest extends TestCase
     public function shouldGetGroupNames()
     {
         // given
-        pattern('(?<one>first) and (?<two>second)')
+        pattern('(?<one>first) (and) (?<two>second)')
             ->match('first and second')
             ->first(function (Match $match) {
                 // when
                 $groupNames = $match->groupNames();
 
                 // then
-                $this->assertEquals(['one', 'two'], $groupNames);
+                $this->assertEquals(['one', null, 'two'], $groupNames);
             });
     }
 
