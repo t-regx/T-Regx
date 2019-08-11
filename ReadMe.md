@@ -31,13 +31,18 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
     * [Composer](#installation)
 2. [API](#api)
 3. [Quick Examples](#quick-examples)
+    * [Automatic delimiters](#automatic-delimiters)
+    * [Matching](#matching)
+    * [Replacing](#replacing)
+    * [Prepared Patterns](#prepared-patterns)
+    * [Optional matches](#optional-matches)
 4. [Overview](#overview)
     * [Why T-Regx stands out?](#why-t-regx-stands-out)
     * [Ways of using T-Regx](#ways-of-using-t-regx)
     * [Converting warnings to Exceptions](#saferegex)
-5. [What's better?](#whats-better)
-6. [Supported PHP versions](#supported-php-versions)
+5. [Supported PHP versions](#supported-php-versions)
 7. [Comparison](#whats-better)
+8. [License](#license)
 
 # Installation
 
@@ -249,6 +254,12 @@ Continuous integration builds are running for:
 or
 
 ![Pretty api](https://t-regx.com/img/external/readme/t-regx.png)
+
+# T-Regx is developed thanks to
+
+<a href="https://www.jetbrains.com/?from=T-Regx">
+  <img src="https://t-regx.com/img/external/jetbrains-variant-4.svg" alt="JetBrains"/>
+</a>
 
 ## License
 T-Regx is [MIT licensed](./LICENSE).
