@@ -12,7 +12,7 @@ class Integer
             return false;
         }
         if (\filter_var($value, FILTER_VALIDATE_INT) !== false) {
-            return true;
+            return $value[0] !== '+';
         }
         $text = \ltrim($value, '0');
         if ($text === "") {

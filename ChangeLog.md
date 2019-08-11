@@ -13,12 +13,12 @@ Incoming in 0.9.2
     * Method `by()->group()->orElse()` now receives lazy-loaded `Match`, instead of a subject
     * Added `withReferences()` to `CompositePattern.chainedReplace()`
     * Previously named `Pattern::inject()` is renamed to `Pattern::bind()`
-    * The `Pattern::bind()` still it accepts values as an associative array, but new `Pattern::inject()` receives values without regard for the keys.
+    * The `Pattern::bind()` (old `Pattern::inject()`) still accepts values as an associative array, but new `Pattern::inject()` receives values without regard for the keys.
 * Other
     * Renamed `CompileSafeRegexException` to `MalformedPatternException`, so it better describes its nature
     * Renamed `is()->delimitered()` to `is()->delimited()`
     * Returning `Match` from `replace()->callback()` (instead of `Match.text()` as `string`)
-
+    * Match `+12` is no longer considered a valid integer for `isInt()`/`parseInt()`
 * Maintenance
     * PhpUnit throws different exceptions because of [PHP `__toString()` exception policy change](https://wiki.php.net/rfc/tostring_exceptions).
 

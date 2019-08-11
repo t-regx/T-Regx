@@ -6,7 +6,6 @@ use TRegx\CleanRegex\Internal\Integer;
 
 class IntegerTest extends TestCase
 {
-
     /**
      * @test
      * @dataProvider validIntegers
@@ -60,12 +59,19 @@ class IntegerTest extends TestCase
             ['-'],
             ['1-1'],
             ['1 1'],
+            ['+1'],
+            ['1+'],
+            ['++1'],
+            ['--1'],
+            ['---1'],
             ["1\n1"],
             ["-1\n1"],
             ['1e3'],
             ['0x'],
             ['0x10'],
+            ['0b11'],
             ['123foo'],
+            ['foo123'],
         ];
     }
 
