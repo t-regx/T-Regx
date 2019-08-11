@@ -19,6 +19,7 @@ Incoming in 0.9.2
     * Renamed `is()->delimitered()` to `is()->delimited()`
     * Returning `Match` from `replace()->callback()` (instead of `Match.text()` as `string`)
     * Match `+12` is no longer considered a valid integer for `isInt()`/`parseInt()`
+    * Unnamed group will be represented as `null` in `Match.groupNames()`, instead of being simply ignored
 * Maintenance
     * PhpUnit throws different exceptions because of [PHP `__toString()` exception policy change](https://wiki.php.net/rfc/tostring_exceptions).
 

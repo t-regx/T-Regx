@@ -1,11 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
+use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Subjectable;
 use function array_filter;
-use function array_values;
 use function count;
 
 class NotMatched implements Details
@@ -31,7 +31,7 @@ class NotMatched implements Details
      */
     public function groupNames(): array
     {
-        return array_values(array_filter($this->match->getGroupKeys(), '\is_string'));
+        return (new GroupNames($this->match))->groupNames();
     }
 
     public function groupsCount(): int

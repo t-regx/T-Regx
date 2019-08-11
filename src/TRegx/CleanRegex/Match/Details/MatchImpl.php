@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Match\Details;
 use TRegx\CleanRegex\Exception\CleanRegex\IntegerFormatException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\ByteOffset;
+use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
@@ -17,8 +18,6 @@ use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
-use function array_filter;
-use function array_values;
 
 class MatchImpl implements Match
 {
@@ -118,7 +117,7 @@ class MatchImpl implements Match
      */
     public function groupNames(): array
     {
-        return \array_values(\array_filter($this->getMatches()->getGroupKeys(), '\is_string'));
+        return (new GroupNames($this->match))->groupNames();
     }
 
     public function groupsCount(): int
