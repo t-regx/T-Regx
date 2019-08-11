@@ -63,7 +63,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
             throw SubjectNotMatchedException::forFirst($this->base);
         }
         if ($consumer === null) {
-            return $match->getText();
+            return $match->getMatch();
         }
         $factory = new LazyMatchAllFactory($this->base);
         $polyfill = new GroupPolyfillDecorator($match, $factory, 0);

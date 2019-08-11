@@ -22,11 +22,6 @@ class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
         return !empty($this->match);
     }
 
-    public function getText(): string
-    {
-        return $this->getMatch();
-    }
-
     public function getMatch(): string
     {
         [$text, $offset] = $this->match[0];
