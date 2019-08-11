@@ -244,11 +244,11 @@ Continuous integration builds are running for:
  - `PHP 8.0`
 
 # What's better
-![Ugly api](https://t-regx.com/img/readme/preg.png)
+![Ugly api](https://t-regx.com/img/external/readme/preg.png)
 
 or
 
-![Pretty api](https://t-regx.com/img/readme/t-regx.png)
+![Pretty api](https://t-regx.com/img/external/readme/t-regx.png)
 
 ## License
 T-Regx is [MIT licensed](./LICENSE).
