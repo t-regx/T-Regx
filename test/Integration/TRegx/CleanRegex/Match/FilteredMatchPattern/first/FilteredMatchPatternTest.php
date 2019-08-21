@@ -88,7 +88,7 @@ class FilteredMatchPatternTest extends TestCase
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get first match, but subject was not matched');
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
         $matchPattern->first();
@@ -104,7 +104,7 @@ class FilteredMatchPatternTest extends TestCase
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get first match, but subject was not matched');
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
         $matchPattern->first();

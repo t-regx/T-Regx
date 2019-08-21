@@ -197,6 +197,7 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to get the first match, but subject was not matched");
 
         // given
         pattern('dont match me')
@@ -291,6 +292,22 @@ class MatchPatternTest extends TestCase
         $this->assertEquals([3], $only1);
         $this->assertEquals([3, 12], $only2);
         $this->assertEquals([3, 12, 14, 20], $all);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotCall_offsets_first_OnUnmatchedPattern()
+    {
+        // then
+        $this->expectException(SubjectNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to get the first match offset, but subject was not matched");
+
+        // given
+        pattern('dont match me')
+            ->match('word')
+            ->offsets()
+            ->first();
     }
 
     /**

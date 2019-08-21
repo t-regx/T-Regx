@@ -7,6 +7,6 @@ class FirstMatchMessage implements NotMatchedMessage
 {
     public function getMessage(): string
     {
-        return 'Expected to get first match, but subject was not matched';
+        return 'Expected to get the first match, but subject was not matched';
     }
 }
