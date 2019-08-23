@@ -16,12 +16,15 @@ class MatchOffsetLimitFirst
     private $nameOrIndex;
     /** @var GroupVerifier */
     private $groupVerifier;
+    /** @var bool */
+    private $isWholeMatch;
 
-    public function __construct(Base $base, $nameOrIndex)
+    public function __construct(Base $base, $nameOrIndex, bool $isWholeMatch)
     {
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
         $this->groupVerifier = new MatchAllGroupVerifier($this->base->getPattern());
+        $this->isWholeMatch = $isWholeMatch;
     }
 
     public function getFirstForGroup(): int
@@ -37,7 +40,11 @@ class MatchOffsetLimitFirst
                 throw new NonexistentGroupException($this->nameOrIndex);
             }
             if (!$rawMatch->matched()) {
-                throw SubjectNotMatchedException::forFirst($this->base);
+                if ($this->isWholeMatch) {
+                    throw SubjectNotMatchedException::forFirstOffset($this->base);
+                } else {
+                    throw SubjectNotMatchedException::forFirstGroupOffset($this->base, $this->nameOrIndex);
+                }
             }
         }
         throw GroupNotMatchedException::forFirst($this->base, $this->nameOrIndex);

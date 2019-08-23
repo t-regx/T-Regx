@@ -129,12 +129,12 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     public function group($nameOrIndex): GroupLimit
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return (new GroupLimitFactory($this->base, $nameOrIndex))->create();
+        return (new GroupLimitFactory($this->base, $nameOrIndex, false))->create();
     }
 
     public function offsets(): MatchOffsetLimit
     {
-        return (new MatchOffsetLimitFactory($this->base, 0))->create();
+        return (new MatchOffsetLimitFactory($this->base, 0, true))->create();
     }
 
     abstract public function count(): int;

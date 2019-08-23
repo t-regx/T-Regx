@@ -32,7 +32,7 @@ class GroupLimitTest extends TestCase
         $first = new ClosureMock(function () {
             return 'first';
         });
-        $limit = new GroupLimit($all, $first, new MatchOffsetLimitFactory(new ApiBase(new InternalPattern(''), '', new UserData()), 0));
+        $limit = new GroupLimit($all, $first, new MatchOffsetLimitFactory(new ApiBase(new InternalPattern(''), '', new UserData()), 0, false));
 
         // when
         $fromAll = $limit->all();
@@ -104,6 +104,6 @@ class GroupLimitTest extends TestCase
         $first = new ClosureMock(function () {
             return '';
         });
-        return [new GroupLimit($all, $first, new MatchOffsetLimitFactory(new ApiBase(new InternalPattern(''), '', new UserData()), 0)), $all, $first];
+        return [new GroupLimit($all, $first, new MatchOffsetLimitFactory(new ApiBase(new InternalPattern(''), '', new UserData()), 0, false)), $all, $first];
     }
 }

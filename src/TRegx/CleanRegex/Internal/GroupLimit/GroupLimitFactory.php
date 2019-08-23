@@ -14,11 +14,11 @@ class GroupLimitFactory
     /** @var  MatchOffsetLimitFactory */
     private $offsetLimitFactory;
 
-    public function __construct(Base $base, $nameOrIndex)
+    public function __construct(Base $base, $nameOrIndex, bool $isWholeMatch)
     {
         $this->limitAll = new GroupLimitAll($base, $nameOrIndex);
         $this->limitFirst = new GroupLimitFirst($base, $nameOrIndex);
-        $this->offsetLimitFactory = new MatchOffsetLimitFactory($base, $nameOrIndex);
+        $this->offsetLimitFactory = new MatchOffsetLimitFactory($base, $nameOrIndex, $isWholeMatch);
     }
 
     public function create(): GroupLimit

@@ -11,10 +11,10 @@ class MatchOffsetLimitFactory
     /** @var MatchOffsetLimitFirst */
     private $limitFirst;
 
-    public function __construct(Base $base, $nameOrIndex)
+    public function __construct(Base $base, $nameOrIndex, bool $isWholeMatch)
     {
         $this->limitAll = new MatchOffsetLimitAll($base, $nameOrIndex);
-        $this->limitFirst = new MatchOffsetLimitFirst($base, $nameOrIndex);
+        $this->limitFirst = new MatchOffsetLimitFirst($base, $nameOrIndex, $isWholeMatch);
     }
 
     public function create(): MatchOffsetLimit
