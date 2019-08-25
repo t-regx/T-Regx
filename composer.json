@@ -3,6 +3,9 @@
   "type": "library",
   "description": "The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE extension methods.",
   "license": "MIT",
+  "scripts": {
+    "fqn": "cd vendor/bin && fqn-check ../../src"
+  },
   "keywords": [
     "php",
     "pcre",
