@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Replace\NonReplaced;
 
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Internal\Subject;

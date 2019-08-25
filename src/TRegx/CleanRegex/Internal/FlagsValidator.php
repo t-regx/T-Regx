@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
-use function str_split;
 
 class FlagsValidator
 {

@@ -3,8 +3,6 @@ namespace TRegx\CleanRegex\Internal\Prepared\Quoteable;
 
 use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\StringValue;
-use function array_map;
-use function implode;
 
 class CompositeUserInput implements Quoteable
 {

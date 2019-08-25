@@ -5,7 +5,6 @@ use TRegx\CleanRegex\Exception\CleanRegex\MissingReplacementKeyException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePatternImpl;
@@ -19,8 +18,6 @@ use TRegx\SafeRegex\preg;
 
 class SpecificReplacePatternImpl implements SpecificReplacePattern, Subjectable
 {
-    const WHOLE_MATCH = 0;
-
     /** @var Pattern */
     private $pattern;
 

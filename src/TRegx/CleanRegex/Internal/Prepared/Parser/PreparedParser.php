@@ -8,7 +8,6 @@ use TRegx\CleanRegex\Internal\Prepared\Quoteable\EmptyQuoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
 use TRegx\CleanRegex\Internal\StringValue;
-use function is_string;
 
 class PreparedParser implements Parser
 {

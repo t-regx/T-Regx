@@ -6,7 +6,6 @@ use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
 use TRegx\CleanRegex\Internal\StringValue;
 use TRegx\SafeRegex\preg;
-use function in_array;
 
 class BindingParser implements Parser
 {

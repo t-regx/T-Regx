@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Match\ForFirst;
 
-use Throwable;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
 

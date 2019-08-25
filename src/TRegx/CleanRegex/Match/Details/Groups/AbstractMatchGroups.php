@@ -5,11 +5,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
-use function array_filter;
-use function array_map;
 use function array_slice;
-use function is_int;
-use function is_string;
 
 abstract class AbstractMatchGroups implements MatchGroups
 {

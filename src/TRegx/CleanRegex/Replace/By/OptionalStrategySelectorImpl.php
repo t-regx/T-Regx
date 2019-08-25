@@ -6,9 +6,8 @@ use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\ReplacementWithUnmatche
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 
 class OptionalStrategySelectorImpl implements OptionalStrategySelector
 {

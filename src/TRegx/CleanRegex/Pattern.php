@@ -74,16 +74,6 @@ class Pattern
         return (new CountPattern($this->pattern, new Subject($subject)))->count();
     }
 
-    public static function quote(string $pattern): string
-    {
-        return (new QuotePattern($pattern))->quote();
-    }
-
-    public static function unquote(string $pattern): string
-    {
-        return (new UnquotePattern($pattern))->unquote();
-    }
-
     public function is(): IsPattern
     {
         return new IsPattern($this->pattern);
@@ -92,6 +82,16 @@ class Pattern
     public function delimiter(): string
     {
         return $this->pattern->pattern;
+    }
+
+    public static function quote(string $pattern): string
+    {
+        return (new QuotePattern($pattern))->quote();
+    }
+
+    public static function unquote(string $pattern): string
+    {
+        return (new UnquotePattern($pattern))->unquote();
     }
 
     public static function of(string $pattern, string $flags = ''): Pattern
