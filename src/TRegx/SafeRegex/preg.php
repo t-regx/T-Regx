@@ -446,6 +446,11 @@ class preg
         }, new SilencedSuspectedReturnStrategy());
     }
 
+    public static function grep_keys($pattern, array $input, $flags = 0): array
+    {
+        return \array_intersect_key($input, \array_flip(self::grep($pattern, \array_keys($input), $flags)));
+    }
+
     /**
      * Quote regular expression characters
      * @link https://php.net/manual/en/function.preg-quote.php

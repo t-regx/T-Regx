@@ -8,7 +8,8 @@ Incoming in 0.9.2
     * Added `Match.group().replace()` 🔥
     * Added `pattern()->match()->unique()`
     * Added `Pattern::inject()`/`Pattern::bind()`
-
+* SafeRegex
+    * Added `preg::grep_keys()`, that works exactly like `preg::grep()`, but filters by keys (also accepts [`PREG_GREP_INVERT`](https://www.php.net/manual/en/function.preg-grep.php))
 * Enhancements/updates
     * Method `by()->group()->orElse()` now receives lazy-loaded `Match`, instead of a subject
     * Added `withReferences()` to `CompositePattern.chainedReplace()`
