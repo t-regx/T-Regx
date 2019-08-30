@@ -157,6 +157,8 @@ API
                 * `->orElse()`
             * `Match->groups()` / `Match->namedGroups()`
                 * `->texts()`
+                * `->names()`
+                * `->count()`
                 * `->offsets()` / `->byteOffsets()`
             * `Match->groupNames()`
             * `Match->groupsCount()`
@@ -175,6 +177,8 @@ API
                 * `->with()`
                 * `->withReferences()`
                 * `->callback()`
+                    * `Match` details:
+                        - Exactly identical interface to `Match` above
                     * `ReplaceMatch` details (extending `Match` details)
                         * `ReplaceMatch.modifiedOffset()`
                         * `ReplaceMatch.modifiedSubject()`

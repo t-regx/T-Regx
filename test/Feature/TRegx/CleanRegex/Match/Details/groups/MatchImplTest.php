@@ -158,6 +158,44 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetGroupsNames()
+    {
+        // given
+        pattern('(zero) (?<existing>first) and (?<two_existing>second)')
+            ->match('zero first and second')
+            ->first(function (Match $match) {
+                // when
+                $groupNames = $match->groups()->names();
+                $namedGroups = $match->namedGroups()->names();
+
+                // then
+                $this->assertEquals($groupNames, [null, 'existing', 'two_existing']);
+                $this->assertEquals($namedGroups, ['existing', 'two_existing']);
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCount()
+    {
+        // given
+        pattern('(zero) (?<existing>first) and (?<two_existing>second)')
+            ->match('zero first and second')
+            ->first(function (Match $match) {
+                // when
+                $groups = $match->groups()->count();
+                $namedGroups = $match->namedGroups()->count();
+
+                // then
+                $this->assertEquals($groups, 3);
+                $this->assertEquals($namedGroups, 2);
+            });
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowOnInvalidGroupName()
     {
         // then
