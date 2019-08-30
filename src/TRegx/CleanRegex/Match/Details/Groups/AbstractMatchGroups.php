@@ -66,5 +66,7 @@ abstract class AbstractMatchGroups implements MatchGroups
 
     abstract public function names(): array;
 
+    abstract public function count(): int;
+
     abstract protected function filterGroupKey($nameOrIndex): bool;
 }

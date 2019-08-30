@@ -12,4 +12,9 @@ class NamedGroups extends AbstractMatchGroups
     {
         return \array_values(\array_filter($this->match->getGroupKeys(), '\is_string'));
     }
+
+    public function count(): int
+    {
+        return \count(\array_filter($this->match->getGroupKeys(), '\is_string'));
+    }
 }

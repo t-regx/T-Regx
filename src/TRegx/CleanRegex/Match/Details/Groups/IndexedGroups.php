@@ -14,4 +14,9 @@ class IndexedGroups extends AbstractMatchGroups
     {
         return (new GroupNames($this->match))->groupNames();
     }
+
+    public function count(): int
+    {
+        return \max(0, \count(\array_filter($this->match->getGroupKeys(), '\is_int')) - 1);
+    }
 }
