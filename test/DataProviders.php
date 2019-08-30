@@ -30,4 +30,30 @@ class DataProviders
             ['Invalid 4 Octet Sequence (in 4th Octet)', "\xf0\x28\x8c\x28"],
         ];
     }
+
+    public static function namedAndIndexedGroups_mixed_keys(): array
+    {
+        return [
+            'potentially invalid' => [[], []],
+            'no groups'           => [[0], []],
+
+            'no named groups' => [
+                [0, 1, 2, 3, 4],
+                [null, null, null, null]
+            ],
+
+            'all named groups' => [
+                [0, 'one', 1, 'two', 2, 'three', 3],
+                ['one', 'two', 'three']
+            ],
+            'named in middle'  => [
+                [0, 1, 'two', 2, 3],
+                [null, 'two', null]
+            ],
+            'named at edges'   => [
+                [0, 'one', 1, 2, 'three', 3],
+                ['one', null, 'three']
+            ]
+        ];
+    }
 }

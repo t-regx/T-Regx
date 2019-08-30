@@ -7,4 +7,9 @@ class NamedGroups extends AbstractMatchGroups
     {
         return \is_string($nameOrIndex);
     }
+
+    public function names(): array
+    {
+        return \array_values(\array_filter($this->match->getGroupKeys(), '\is_string'));
+    }
 }

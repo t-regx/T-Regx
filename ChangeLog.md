@@ -8,6 +8,7 @@ Incoming in 0.9.2
     * Added `Match.group().replace()` 🔥
     * Added `pattern()->match()->unique()`
     * Added `Pattern::inject()`/`Pattern::bind()`
+    * Added `groups()->names()` and `namedGroups()->names()`
 * SafeRegex
     * Added `preg::grep_keys()`, that works exactly like `preg::grep()`, but filters by keys (also accepts [`PREG_GREP_INVERT`](https://www.php.net/manual/en/function.preg-grep.php))
 * Enhancements/updates

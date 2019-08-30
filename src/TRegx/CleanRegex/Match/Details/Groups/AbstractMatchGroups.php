@@ -10,7 +10,7 @@ use function array_slice;
 abstract class AbstractMatchGroups implements MatchGroups
 {
     /** @var IRawMatchOffset */
-    private $match;
+    protected $match;
     /** @var Subjectable */
     private $subjectable;
 
@@ -63,6 +63,8 @@ abstract class AbstractMatchGroups implements MatchGroups
         }
         throw new InternalCleanRegexException();
     }
+
+    abstract public function names(): array;
 
     abstract protected function filterGroupKey($nameOrIndex): bool;
 }
