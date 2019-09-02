@@ -5,9 +5,6 @@ use TRegx\CleanRegex\Filter\FilterByKeysStrategy;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\SafeRegex\preg;
 use function array_filter;
-use function array_flip;
-use function array_intersect_key;
-use function array_keys;
 
 class FilterArrayKeysPattern
 {
@@ -36,7 +33,6 @@ class FilterArrayKeysPattern
 
     public function strategy_PregGrep_ArrayIntersect(): array
     {
-        $filteredKeys = preg::grep($this->pattern->pattern, array_keys($this->array));
-        return array_intersect_key($this->array, array_flip($filteredKeys));
+        return preg::grep_keys($this->pattern->pattern, $this->array);
     }
 }
