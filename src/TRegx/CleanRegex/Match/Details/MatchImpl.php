@@ -81,7 +81,7 @@ class MatchImpl implements Match
         return \mb_strlen($this->match->getMatch());
     }
 
-    public function parseInt(): int
+    public function toInt(): int
     {
         if ($this->isInt()) {
             return $this->match->getMatch();

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\Details\group\parseInt;
+namespace Test\Feature\TRegx\CleanRegex\Match\Details\group\toInt;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
@@ -21,7 +21,7 @@ class MatchImplTest extends TestCase
             ->match($string)
             ->first(function (Match $match) {
                 // when
-                return $match->group(1)->parseInt();
+                return $match->group(1)->toInt();
             });
 
         // then
@@ -54,7 +54,7 @@ class MatchImplTest extends TestCase
             ->match('1e3')
             ->first(function (Match $match) {
                 // when
-                return $match->group(1)->parseInt();
+                return $match->group(1)->toInt();
             });
     }
 
@@ -68,7 +68,7 @@ class MatchImplTest extends TestCase
             ->match('12cm 14mm 13cm 19cm 18mm 2mm')
             ->map(function (Match $match) {
                 // when
-                return $match->group('value')->parseInt();
+                return $match->group('value')->toInt();
             });
 
         // then
@@ -85,7 +85,7 @@ class MatchImplTest extends TestCase
             ->match('12cm 14mm 13cm 19cm 18mm 2mm')
             ->map(function (Match $match) {
                 // when
-                return $match->group(1)->parseInt();
+                return $match->group(1)->toInt();
             });
 
         // then
@@ -106,7 +106,7 @@ class MatchImplTest extends TestCase
             ->match('Foo bar')
             ->first(function (Match $match) {
                 // when
-                return $match->group('name')->parseInt();
+                return $match->group('name')->toInt();
             });
     }
 
@@ -124,7 +124,7 @@ class MatchImplTest extends TestCase
             ->match('Foo bar')
             ->first(function (Match $match) {
                 // when
-                return $match->group(1)->parseInt();
+                return $match->group(1)->toInt();
             });
     }
 
@@ -135,14 +135,14 @@ class MatchImplTest extends TestCase
     {
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call parseInt() for group 'missing', but group was not matched");
+        $this->expectExceptionMessage("Expected to call toInt() for group 'missing', but group was not matched");
 
         // given
         pattern('(?<name>\w+)(?<missing>\d+)?')
             ->match('Foo bar')
             ->first(function (Match $match) {
                 // when
-                return $match->group('missing')->parseInt();
+                return $match->group('missing')->toInt();
             });
     }
 }

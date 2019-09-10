@@ -195,13 +195,13 @@ class ReplaceMatchImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_parseInt()
+    public function shouldGet_toInt()
     {
         // given
-        $match = $this->getMatch_mockedMethod('parseInt', 14);
+        $match = $this->getMatch_mockedMethod('toInt', 14);
 
         // when
-        $int = $match->parseInt();
+        $int = $match->toInt();
 
         // then
         $this->assertEquals(14, $int);

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\Details\parseInt;
+namespace Test\Feature\TRegx\CleanRegex\Match\Details\toInt;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\IntegerFormatException;
@@ -20,7 +20,7 @@ class MatchImplTest extends TestCase
             ->match($string)
             ->first(function (Match $match) {
                 // when
-                return $match->parseInt();
+                return $match->toInt();
             });
 
         // then
@@ -53,7 +53,7 @@ class MatchImplTest extends TestCase
             ->match('1e3')
             ->first(function (Match $match) {
                 // when
-                return $match->parseInt();
+                return $match->toInt();
             });
     }
 
@@ -71,7 +71,7 @@ class MatchImplTest extends TestCase
             ->match('Foo bar')
             ->first(function (Match $match) {
                 // when
-                return $match->parseInt();
+                return $match->toInt();
             });
     }
 }

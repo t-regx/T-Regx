@@ -81,9 +81,9 @@ class ReplaceMatchImpl implements ReplaceMatch
         return $this->match->textLength();
     }
 
-    public function parseInt(): int
+    public function toInt(): int
     {
-        return $this->match->parseInt();
+        return $this->match->toInt();
     }
 
     public function isInt(): bool

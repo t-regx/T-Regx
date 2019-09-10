@@ -12,7 +12,7 @@ interface Match extends Details
 
     public function textLength(): int;
 
-    public function parseInt(): int;
+    public function toInt(): int;
 
     public function isInt(): bool;
 

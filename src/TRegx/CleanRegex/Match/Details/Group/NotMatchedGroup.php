@@ -32,9 +32,9 @@ class NotMatchedGroup implements MatchGroup
         throw $this->groupNotMatched('textLength');
     }
 
-    public function parseInt(): int
+    public function toInt(): int
     {
-        throw $this->groupNotMatched('parseInt');
+        throw $this->groupNotMatched('toInt');
     }
 
     public function isInt(): bool

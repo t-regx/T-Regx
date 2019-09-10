@@ -36,7 +36,7 @@ class MatchedGroup implements MatchGroup
         return \mb_strlen($this->occurrence->text);
     }
 
-    public function parseInt(): int
+    public function toInt(): int
     {
         if ($this->isInt()) {
             return $this->occurrence->text;
