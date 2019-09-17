@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Iterator;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
+use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatches;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
@@ -83,6 +84,15 @@ class GroupLimit implements PatternLimit
     public function map(callable $mapper): array
     {
         return \array_map($mapper, $this->getMatchGroupObjects());
+    }
+
+    /**
+     * @param callable $mapper
+     * @return mixed[]
+     */
+    public function flatMap(callable $mapper): array
+    {
+        return (new FlatMapper($this->getMatchGroupObjects(), $mapper))->get();
     }
 
     public function forEach(callable $consumer): void

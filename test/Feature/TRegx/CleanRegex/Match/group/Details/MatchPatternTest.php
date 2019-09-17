@@ -27,6 +27,28 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldFlatMap()
+    {
+        // given
+        $subject = 'XXX:abc YYY:efg ZZZ:ijk';
+
+        // when
+        $result = pattern('[A-Z]+:(?<lowercase>[a-z]+)')->match($subject)->group('lowercase')->flatMap(function (MatchGroup $group) {
+            return ['word:' . $group->text() => 'offset:' . $group->offset(), $group->all()];
+        });
+
+        // then
+        $expected = [
+            'word:abc' => 'offset:4', ['abc', 'efg', 'ijk'],
+            'word:efg' => 'offset:12', ['abc', 'efg', 'ijk'],
+            'word:ijk' => 'offset:20', ['abc', 'efg', 'ijk'],
+        ];
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetOffset()
     {
         // given
