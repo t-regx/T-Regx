@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
+use ArrayIterator;
+use Iterator;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Offset\OffsetLimit;
@@ -47,5 +49,10 @@ class GroupLimit implements PatternLimit
     public function only(int $limit): array
     {
         return call_user_func($this->allFactory, $limit, false);
+    }
+
+    public function iterator(): Iterator
+    {
+        return new ArrayIterator($this->all());
     }
 }

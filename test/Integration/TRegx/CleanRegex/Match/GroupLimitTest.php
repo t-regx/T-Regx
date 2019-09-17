@@ -14,7 +14,7 @@ class GroupLimitTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnValues()
+    public function shouldReturnValues(): void
     {
         // given
         $all = new ClosureMock(function (int $limit, bool $allowNegative) {
@@ -48,10 +48,28 @@ class GroupLimitTest extends TestCase
     /**
      * @test
      */
+    public function shouldReturnValuesFromIterator(): void
+    {
+        // given
+        /** @var $limit GroupLimit */
+        list($limit, $all, $first) = $this->mockGroupLimit(['Foo', 'Bar']);
+
+        // when
+        $iterator = $limit->iterator();
+
+        // then
+        $this->assertEquals(['Foo', 'Bar'], iterator_to_array($iterator));
+        $this->assertTrue($all->isCalled(), 'Failed asserting that all() factory is called');
+        $this->assertFalse($first->isCalled(), 'Failed asserting that first() factory is not called unnecessarily');
+    }
+
+    /**
+     * @test
+     */
     public function shouldCallGetAll()
     {
         // given
-        list($limit, $all, $first) = $this->getGroupLimit();
+        list($limit, $all, $first) = $this->mockGroupLimit();
 
         // when
         $limit->all();
@@ -67,7 +85,7 @@ class GroupLimitTest extends TestCase
     public function shouldCallOnly()
     {
         // given
-        list($limit, $all, $first) = $this->getGroupLimit();
+        list($limit, $all, $first) = $this->mockGroupLimit();
 
         // when
         $limit->only(14);
@@ -83,7 +101,7 @@ class GroupLimitTest extends TestCase
     public function shouldCallFirst()
     {
         // given
-        list($limit, $all, $first) = $this->getGroupLimit();
+        list($limit, $all, $first) = $this->mockGroupLimit();
 
         // when
         $limit->first();
@@ -93,13 +111,10 @@ class GroupLimitTest extends TestCase
         $this->assertFalse($all->isCalled(), 'Failed asserting that all() factory is not called unnecessarily');
     }
 
-    /**
-     * @return array
-     */
-    private function getGroupLimit(): array
+    private function mockGroupLimit(array $allValues = []): array
     {
-        $all = new ClosureMock(function () {
-            return [];
+        $all = new ClosureMock(function () use ($allValues) {
+            return $allValues;
         });
         $first = new ClosureMock(function () {
             return '';
