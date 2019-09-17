@@ -27,6 +27,18 @@ interface IRawMatchesOffset extends IRawMatches, IRawWithGroups
     public function getGroupTextAndOffset($nameOrIndex, int $index): array;
 
     /**
+     * This method is only for performance (to just return what's already there). This whole class idea,
+     * is to make access to matches uniform, but making application slower just for the sake of internal
+     * uniformity would be dumb.
+     * If faster way is found to create MatchGroup[], then this method should be removed.
+     * The methods:
+     *  - getGroupTextAndOffset($a, $b);
+     *  - getGroupTextAndOffsetAll($a)[$b);
+     * should have identical results
+     */
+    public function getGroupTextAndOffsetAll($nameOrIndex): array;
+
+    /**
      * @param int $index
      * @return (int|null)[]
      */

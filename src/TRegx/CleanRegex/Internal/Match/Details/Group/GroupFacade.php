@@ -7,8 +7,10 @@ use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\MatchAllResults;
+use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
@@ -35,6 +37,24 @@ class GroupFacade
         $this->group = $group;
         $this->factoryStrategy = $factoryStrategy;
         $this->allFactory = $allFactory;
+    }
+
+    /**
+     * @param IRawMatchesOffset $match
+     * @return MatchGroup[]
+     */
+    public function createGroups(IRawMatchesOffset $match): array
+    {
+        $matchObjects = [];
+        foreach ($match->getGroupTextAndOffsetAll($this->group) as $index => $firstWhole) {
+            [$text, $offset] = $firstWhole;
+            if ($match->isGroupMatched($this->group, $index)) {
+                $matchObjects[] = $this->createdMatched(new RawMatchesToMatchAdapter($match, $index), new MatchedGroupOccurrence($text, $offset, $this->subject));
+            } else {
+                $matchObjects[] = $this->createUnmatched(new RawMatchesToMatchAdapter($match, $index));
+            }
+        }
+        return $matchObjects;
     }
 
     public function createGroup(IRawMatchOffset $match): MatchGroup

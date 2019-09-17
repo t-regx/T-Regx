@@ -121,6 +121,11 @@ class RawMatchesOffset implements IRawMatchesOffset
         return $this->matches[$nameOrIndex][$index];
     }
 
+    public function getGroupTextAndOffsetAll($nameOrIndex): array
+    {
+        return $this->matches[$nameOrIndex];
+    }
+
     public function getGroupKeys(): array
     {
         return \array_keys($this->matches);
