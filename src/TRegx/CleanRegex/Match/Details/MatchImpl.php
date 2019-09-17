@@ -104,7 +104,7 @@ class MatchImpl implements Match
         if (!$this->hasGroup($nameOrIndex)) {
             throw new NonexistentGroupException($nameOrIndex);
         }
-        return $this->getGroupFacade($nameOrIndex)->createGroup();
+        return $this->getGroupFacade($nameOrIndex)->createGroup($this->match);
     }
 
     private function getGroupFacade($nameOrIndex): GroupFacade
