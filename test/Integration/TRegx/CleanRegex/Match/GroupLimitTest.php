@@ -58,36 +58,37 @@ class GroupLimitTest extends TestCase
 
     /**
      * @test
+     * @dataProvider allCallingMethods
+     * @param string $method
+     * @param array $arguments
      */
-    public function shouldCallGetAll()
+    public function shouldCallAll(string $method, array $arguments)
     {
         // given
         /** @var $limit GroupLimit */
         list($limit, $all, $first) = $this->mockGroupLimit();
 
         // when
-        $limit->all();
+        $limit->$method(...$arguments);
 
         // then
         $this->assertTrue($all->isCalled(), 'Failed asserting that all() factory is called');
         $this->assertFalse($first->isCalled(), 'Failed asserting that first() factory is not called unnecessarily');
     }
 
-    /**
-     * @test
-     */
-    public function shouldCallOnly()
+    function allCallingMethods()
     {
-        // given
-        list($limit, $all, $first) = $this->mockGroupLimit();
-
-        // when
-        /** @var $limit GroupLimit */
-        $limit->only(14);
-
-        // then
-        $this->assertTrue($all->isCalled(), 'Failed asserting that all() factory is called');
-        $this->assertFalse($first->isCalled(), 'Failed asserting that first() factory is not called unnecessarily');
+        return [
+            ['all', []],
+            ['only', [14]],
+            ['map', [function () {
+            }]],
+            ['forEach', [function () {
+            }]],
+            ['iterate', [function () {
+            }]],
+            ['iterator', []],
+        ];
     }
 
     /**

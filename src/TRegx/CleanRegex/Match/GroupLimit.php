@@ -12,6 +12,7 @@ use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Offset\OffsetLimit;
 
 class GroupLimit implements PatternLimit
@@ -43,7 +44,7 @@ class GroupLimit implements PatternLimit
 
     public function first(): string
     {
-        return call_user_func($this->firstFactory);
+        return \call_user_func($this->firstFactory);
     }
 
     /**
@@ -73,5 +74,36 @@ class GroupLimit implements PatternLimit
     public function iterator(): Iterator
     {
         return new ArrayIterator($this->all());
+    }
+
+    /**
+     * @param callable $mapper
+     * @return mixed[]
+     */
+    public function map(callable $mapper): array
+    {
+        return \array_map($mapper, $this->getMatchGroupObjects());
+    }
+
+    public function forEach(callable $consumer): void
+    {
+        foreach ($this->getMatchGroupObjects() as $group) {
+            $consumer($group);
+        }
+    }
+
+    public function iterate(callable $consumer): void
+    {
+        $this->forEach($consumer);
+    }
+
+    /**
+     * @return MatchGroup[]
+     */
+    private function getMatchGroupObjects()
+    {
+        /** @var IRawMatchesOffset $rawMatches */
+        $rawMatches = \call_user_func($this->allFactory);
+        return (new GroupFacade($rawMatches, $this->subjectable, $this->nameOrIndex, new MatchGroupFactoryStrategy(), new EagerMatchAllFactory($rawMatches)))->createGroups($rawMatches);
     }
 }
