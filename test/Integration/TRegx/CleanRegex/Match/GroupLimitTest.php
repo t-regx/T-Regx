@@ -6,9 +6,9 @@ use Test\ClosureMock;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
-use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\GroupLimit;
 
 class GroupLimitTest extends TestCase
@@ -23,9 +23,10 @@ class GroupLimitTest extends TestCase
             return new RawMatchesOffset([0 => [['first', 0], ['second', 1], ['third', 2]]]);
         });
         $first = new ClosureMock(function () {
-            return 'first';
+            return new RawMatchOffset([0 => ['first', 1]]);
         });
-        $limit = new GroupLimit($all, $first, new MatchOffsetLimitFactory(new ApiBase(new InternalPattern(''), '', new UserData()), 0, false), new Subject('unused'), 0);
+        $base = new ApiBase(new InternalPattern(''), 'unused', new UserData());
+        $limit = new GroupLimit($all, $first, new MatchOffsetLimitFactory($base, 0, false), $base, 0);
 
         // when
         $fromAll = $limit->all();
@@ -45,7 +46,7 @@ class GroupLimitTest extends TestCase
     {
         // given
         /** @var $limit GroupLimit */
-        list($limit, $all, $first) = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
+        [$limit, $all, $first] = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
 
         // when
         $iterator = $limit->iterator();
@@ -66,7 +67,7 @@ class GroupLimitTest extends TestCase
     {
         // given
         /** @var $limit GroupLimit */
-        list($limit, $all, $first) = $this->mockGroupLimit();
+        [$limit, $all, $first] = $this->mockGroupLimit();
 
         // when
         $limit->$method(...$arguments);
@@ -98,7 +99,7 @@ class GroupLimitTest extends TestCase
     {
         // given
         /** @var $limit GroupLimit */
-        list($limit, $all, $first) = $this->mockGroupLimit();
+        [$limit, $all, $first] = $this->mockGroupLimit();
 
         // when
         $limit->first();
@@ -114,8 +115,9 @@ class GroupLimitTest extends TestCase
             return new RawMatchesOffset([0 => $allValues]);
         });
         $first = new ClosureMock(function () {
-            return '';
+            return new RawMatchOffset([0 => ['', 0]]);
         });
-        return [new GroupLimit($all, $first, new MatchOffsetLimitFactory(new ApiBase(new InternalPattern(''), '', new UserData()), 0, false), new Subject('unused'), 0), $all, $first];
+        $base = new ApiBase(new InternalPattern(''), 'unused', new UserData());
+        return [new GroupLimit($all, $first, new MatchOffsetLimitFactory($base, 0, false), $base, 0), $all, $first];
     }
 }

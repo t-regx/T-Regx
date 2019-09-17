@@ -4,15 +4,17 @@ namespace TRegx\CleanRegex\Match;
 use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatches;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
-use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Offset\OffsetLimit;
 
@@ -24,17 +26,17 @@ class GroupLimit implements PatternLimit
     private $firstFactory;
     /** @var MatchOffsetLimitFactory */
     private $offsetLimitFactory;
-    /** @var Subjectable */
-    private $subjectable;
+    /** @var Base */
+    private $base;
     /** @var string|int */
     private $nameOrIndex;
 
-    public function __construct(callable $allFactory, callable $firstFactory, MatchOffsetLimitFactory $offsetLimitFactory, Subjectable $subjectable, $nameOrIndex)
+    public function __construct(callable $allFactory, callable $firstFactory, MatchOffsetLimitFactory $offsetLimitFactory, Base $base, $nameOrIndex)
     {
         $this->allFactory = $allFactory;
         $this->firstFactory = $firstFactory;
         $this->offsetLimitFactory = $offsetLimitFactory;
-        $this->subjectable = $subjectable;
+        $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
     }
 
@@ -43,9 +45,19 @@ class GroupLimit implements PatternLimit
         return $this->offsetLimitFactory->create();
     }
 
-    public function first(callable $consumer = null): string
+    /**
+     * @param callable|null $consumer
+     * @return string|mixed
+     */
+    public function first(callable $consumer = null)
     {
-        return \call_user_func($this->firstFactory);
+        /** @var IRawMatchOffset $first */
+        $first = \call_user_func($this->firstFactory);
+        if ($consumer === null) {
+            return $first->getGroup($this->nameOrIndex);
+        }
+        $matchGroup = (new GroupFacade($first, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), new LazyMatchAllFactory($this->base)))->createGroup($first);
+        return $consumer($matchGroup);
     }
 
     /**
@@ -114,6 +126,6 @@ class GroupLimit implements PatternLimit
     {
         /** @var IRawMatchesOffset $rawMatches */
         $rawMatches = \call_user_func($this->allFactory);
-        return (new GroupFacade($rawMatches, $this->subjectable, $this->nameOrIndex, new MatchGroupFactoryStrategy(), new EagerMatchAllFactory($rawMatches)))->createGroups($rawMatches);
+        return (new GroupFacade($rawMatches, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), new EagerMatchAllFactory($rawMatches)))->createGroups($rawMatches);
     }
 }

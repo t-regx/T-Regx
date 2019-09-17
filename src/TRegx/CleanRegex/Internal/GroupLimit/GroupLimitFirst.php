@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 
@@ -24,13 +25,13 @@ class GroupLimitFirst
         $this->groupVerifier = new MatchAllGroupVerifier($this->base->getPattern());
     }
 
-    public function getFirstForGroup(): string
+    public function getFirstForGroup(): IRawMatchOffset
     {
-        $rawMatch = $this->base->matchGroupable();
+        $rawMatch = $this->base->matchOffset();
         if ($rawMatch->hasGroup($this->nameOrIndex)) {
             $group = $rawMatch->getGroup($this->nameOrIndex);
             if ($group !== null) {
-                return $group;
+                return $rawMatch;
             }
         } else {
             if (!$this->groupExists()) {
