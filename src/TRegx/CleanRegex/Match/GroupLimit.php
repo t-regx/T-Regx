@@ -43,7 +43,7 @@ class GroupLimit implements PatternLimit
         return $this->offsetLimitFactory->create();
     }
 
-    public function first(): string
+    public function first(callable $consumer = null): string
     {
         return \call_user_func($this->firstFactory);
     }
