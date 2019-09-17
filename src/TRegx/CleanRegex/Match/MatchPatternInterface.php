@@ -47,7 +47,7 @@ interface MatchPatternInterface
     /**
      * @return MatchPatternInterface|array
      */
-    public function unique();
+    public function distinct();
 
     /**
      * @param callable $predicate

@@ -228,7 +228,7 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern(['foo', 'foo', 'bar', 'foo', 'Bar', 'bar'], $this->mock());
 
         // when
-        $result = $pattern->unique()->all();
+        $result = $pattern->distinct()->all();
 
         // then
         $this->assertEquals(['foo', 'bar', 'Bar'], $result);

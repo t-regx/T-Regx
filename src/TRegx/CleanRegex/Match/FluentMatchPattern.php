@@ -91,7 +91,7 @@ class FluentMatchPattern implements MatchPatternInterface
         return $this->next((new FlatMapper($this->elements, $mapper))->get());
     }
 
-    public function unique(): FluentMatchPattern
+    public function distinct(): FluentMatchPattern
     {
         return $this->next(\array_values(\array_unique($this->elements)));
     }

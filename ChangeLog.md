@@ -6,7 +6,7 @@ Incoming in 0.9.2
 * Features
     * Added `pattern()->match()->fluent()` 🔥
     * Added `Match.group().replace()` 🔥
-    * Added `pattern()->match()->unique()`
+    * Added `pattern()->match()->distinct()` (leaves only unique matches)
     * Added `Pattern::inject()`/`Pattern::bind()`
     * Added `groups()->names()` and `namedGroups()->names()`
     * Added `groups()->count()` and `namedGroups()->count()`

@@ -150,10 +150,10 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_unique()
+    public function shouldGet_distinct()
     {
         // when
-        $mapped = pattern('[A-Za-z]+')->match('One, One, Two, One, Three, Two, One')->unique();
+        $mapped = pattern('[A-Za-z]+')->match('One, One, Two, One, Three, Two, One')->distinct();
 
         // then
         $this->assertEquals(['One', 'Two', 'Three'], $mapped);

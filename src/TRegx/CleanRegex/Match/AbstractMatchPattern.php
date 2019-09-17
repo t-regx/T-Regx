@@ -98,7 +98,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return (new FlatMapper($this->getMatchObjects(), $mapper))->get();
     }
 
-    public function unique(): array
+    public function distinct(): array
     {
         return \array_values(\array_unique($this->all()));
     }
