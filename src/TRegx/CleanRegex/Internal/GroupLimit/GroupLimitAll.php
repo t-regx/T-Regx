@@ -1,10 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\GroupLimit;
 
-use InvalidArgumentException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use function array_slice;
+use TRegx\CleanRegex\Internal\Model\Matches\IRawMatches;
 
 class GroupLimitAll
 {
@@ -19,18 +18,12 @@ class GroupLimitAll
         $this->nameOrIndex = $nameOrIndex;
     }
 
-    public function getAllForGroup(int $limit, bool $allowNegative): array
+    public function getAllForGroup(): IRawMatches
     {
-        $rawMatches = $this->base->matchAll();
-        if (!$rawMatches->hasGroup($this->nameOrIndex)) {
-            throw new NonexistentGroupException($this->nameOrIndex);
+        $rawMatches = $this->base->matchAllOffsets();
+        if ($rawMatches->hasGroup($this->nameOrIndex)) {
+            return $rawMatches;
         }
-        if (!$allowNegative && $limit < 0) {
-            throw new InvalidArgumentException("Negative limit $limit");
-        }
-        if ($limit === -1) {
-            return $rawMatches->getGroupTexts($this->nameOrIndex);
-        }
-        return array_slice($rawMatches->getGroupTexts($this->nameOrIndex), 0, $limit);
+        throw new NonexistentGroupException($this->nameOrIndex);
     }
 }
