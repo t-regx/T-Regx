@@ -56,21 +56,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_onlyOne()
-    {
-        // given
-        $subject = 'D Computer';
-
-        // when
-        $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->only(1);
-
-        // then
-        $this->assertEquals([null], $groups);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_onlyOne_unmatched()
     {
         // given
@@ -116,7 +101,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_first_group_unmatched()
+    public function shouldThrow_first_unmatched()
     {
         // given
         $subject = 'L Three Four';
@@ -192,4 +177,80 @@ class MatchPatternTest extends TestCase
         // when
         pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('missing')->only(1);
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_first()
+    {
+        // given
+        $subject = 'unmatching subject';
+
+        // then
+        $this->expectException(SubjectNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to get group 'lowercase' from the first match, but subject was not matched at all");
+
+        // when
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_only()
+    {
+        // given
+        $subject = 'D Computer';
+
+        // when
+        $groups1 = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->only(1);
+        $groups2 = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->only(2);
+
+        // then
+        $this->assertEquals([null], $groups1);
+        $this->assertEquals([null, 'omputer'], $groups2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_offsets()
+    {
+        // given
+        $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')
+            ->match('xd Computer L Three Four')
+            ->group('lowercase')
+            ->offsets();
+
+        // when
+        $first = $offsets->first();
+        $only1 = $offsets->only(1);
+        $only2 = $offsets->only(2);
+        $all = $offsets->all();
+
+        // then
+        $this->assertEquals(4, $first);
+        $this->assertEquals([4], $only1);
+        $this->assertEquals([4, null], $only2);
+        $this->assertEquals([4, null, 15, 21], $all);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_offsets_onlyOne_null()
+    {
+        // given
+        $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')
+            ->match('xd L Three Four')
+            ->group('lowercase')
+            ->offsets();
+
+        // when
+        $only1 = $offsets->only(1);
+
+        // then
+        $this->assertEquals([null], $only1);
+    }
+
 }
