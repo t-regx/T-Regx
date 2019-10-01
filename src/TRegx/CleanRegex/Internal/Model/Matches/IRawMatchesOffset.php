@@ -33,7 +33,7 @@ interface IRawMatchesOffset extends IRawMatches, IRawWithGroups
      * If faster way is found to create MatchGroup[], then this method should be removed.
      * The methods:
      *  - getGroupTextAndOffset($a, $b);
-     *  - getGroupTextAndOffsetAll($a)[$b);
+     *  - getGroupTextAndOffsetAll($a)[$b];
      * should have identical results
      */
     public function getGroupTextAndOffsetAll($nameOrIndex): array;

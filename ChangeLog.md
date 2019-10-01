@@ -3,11 +3,16 @@ T-Regx Changelog
 
 Incoming in 0.9.2
 -----------------
+* Breaking changes
+    * Renamed `Match.parseInt()` to `Match.toInt()` (and the same for groups)
 * Features
-    * Added `pattern()->match()->fluent()` 🔥
     * Added `Match.group().replace()` 🔥
+    * Added `pattern()->match()->fluent()` 🔥
     * Added `pattern()->match()->distinct()` (leaves only unique matches)
-    * Added `Pattern::inject()`/`Pattern::bind()`
+    * Added `pattern()->match()->groups()->forEach()`/`iterate()`
+    * Added `pattern()->match()->groups()->flatMap()`
+    * Added `pattern()->match()->groups()->map()`
+    * Added prepared pattern method `Pattern::inject()`/`Pattern::bind()`
     * Added `groups()->names()` and `namedGroups()->names()`
     * Added `groups()->count()` and `namedGroups()->count()`
 * SafeRegex
@@ -21,7 +26,7 @@ Incoming in 0.9.2
     * Renamed `CompileSafeRegexException` to `MalformedPatternException`, so it better describes its nature
     * Renamed `is()->delimitered()` to `is()->delimited()`
     * Returning `Match` from `replace()->callback()` (instead of `Match.text()` as `string`)
-    * Match `+12` is no longer considered a valid integer for `isInt()`/`parseInt()`
+    * Match `+12` is no longer considered a valid integer for `isInt()`/`toInt()`
     * Unnamed group will be represented as `null` in `Match.groupNames()`, instead of being simply ignored
 * Maintenance
     * PhpUnit throws different exceptions because of [PHP `__toString()` exception policy change](https://wiki.php.net/rfc/tostring_exceptions).
