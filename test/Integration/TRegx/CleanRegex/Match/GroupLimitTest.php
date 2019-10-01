@@ -42,19 +42,17 @@ class GroupLimitTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnValuesFromIterator(): void
+    public function shouldReturnValues_iterator(): void
     {
         // given
         /** @var $limit GroupLimit */
-        [$limit, $all, $first] = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
+        [$limit] = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
 
         // when
         $iterator = $limit->iterator();
 
         // then
         $this->assertEquals(['Foo', 'Bar'], iterator_to_array($iterator));
-        $this->assertTrue($all->isCalled(), 'Failed asserting that all() factory is called');
-        $this->assertFalse($first->isCalled(), 'Failed asserting that first() factory is not called unnecessarily');
     }
 
     /**

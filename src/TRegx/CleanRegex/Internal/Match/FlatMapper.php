@@ -19,16 +19,11 @@ class FlatMapper
 
     public function get(): array
     {
-        $results = $this->flatMap();
+        $results = \array_map([$this, 'map'], $this->elements);
         if (empty($results)) {
             return [];
         }
         return Arrays::flatten($results);
-    }
-
-    private function flatMap(): array
-    {
-        return \array_map([$this, 'map'], $this->elements);
     }
 
     public function map($object)

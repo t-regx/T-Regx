@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatches;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
@@ -51,7 +51,7 @@ class GroupLimit implements PatternLimit
      */
     public function first(callable $consumer = null)
     {
-        /** @var IRawMatchOffset $first */
+        /** @var RawMatchOffset $first */
         $first = \call_user_func($this->firstFactory);
         if ($consumer === null) {
             return $first->getGroup($this->nameOrIndex);
