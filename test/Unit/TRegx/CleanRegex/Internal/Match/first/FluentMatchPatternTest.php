@@ -11,7 +11,7 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFirst()
+    public function shouldGetFirst()
     {
         // given
         $pattern = new FluentMatchPattern(['a' => 'foo', 'b' => 'bar', 6 => 'lorem', 7 => 'ipsum'], $this->mock());
@@ -26,7 +26,23 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFirst_throwEmpty()
+    public function shouldInvoke_consumer()
+    {
+        // given
+        $pattern = new FluentMatchPattern(['a' => 'foo', 'b' => 'bar'], $this->mock());
+
+        // when
+        $pattern->first(function ($value, $key = null) {
+            // then
+            $this->assertEquals('foo', $value);
+            $this->assertNull($key); // For now, `first()` won't receive key as a second argument
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowEmpty()
     {
         // given
         $pattern = new FluentMatchPattern([], $this->mock());
@@ -36,6 +52,23 @@ class FluentMatchPatternTest extends TestCase
 
         // when
         $pattern->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowEmpty_consumer()
+    {
+        // given
+        $pattern = new FluentMatchPattern([], $this->mock());
+
+        // then
+        $this->expectException(NoFirstElementFluentException::class);
+
+        // when
+        $pattern->first(function () {
+            $this->fail();
+        });
     }
 
     private function mock(): NotMatchedWorker
