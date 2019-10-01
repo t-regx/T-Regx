@@ -32,11 +32,9 @@ class StrategyFallbackAdapter implements GroupMapper
 
     public function useExceptionValues(string $occurrence, $nameOrIndex, string $match): void
     {
-        if ($nameOrIndex === 0) {
-            $this->substitute->useExceptionMessage(new ForMatchMessage($occurrence));
-        } else {
-            $this->substitute->useExceptionMessage(new ForGroupMessage($match, $nameOrIndex, $occurrence));
-        }
+        $this->substitute->useExceptionMessage($nameOrIndex === 0
+            ? new ForMatchMessage($occurrence)
+            : new ForGroupMessage($match, $nameOrIndex, $occurrence));
         $this->mapper->useExceptionValues($occurrence, $nameOrIndex, $match);
     }
 }
