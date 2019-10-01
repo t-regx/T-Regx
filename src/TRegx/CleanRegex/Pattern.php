@@ -100,19 +100,19 @@ class Pattern
         return new Pattern($pattern, $flags);
     }
 
-    public static function prepare(array $input): Pattern
+    public static function prepare(array $input, string $flags = ''): Pattern
     {
-        return PatternBuilder::prepare($input);
+        return PatternBuilder::prepare($input, $flags);
     }
 
-    public static function bind(string $input, array $values): Pattern
+    public static function bind(string $input, array $values, string $flags = ''): Pattern
     {
-        return PatternBuilder::bind($input, $values);
+        return PatternBuilder::bind($input, $values, $flags);
     }
 
-    public static function inject(string $input, array $values): Pattern
+    public static function inject(string $input, array $values, string $flags = ''): Pattern
     {
-        return PatternBuilder::inject($input, $values);
+        return PatternBuilder::inject($input, $values, $flags);
     }
 
     public static function compose(array $patterns): CompositePattern
