@@ -48,7 +48,8 @@ class FluentMatchPattern implements MatchPatternInterface
         if (empty($this->elements)) {
             throw new NoFirstElementFluentException();
         }
-        return \reset($this->elements);
+        $firstElement = \reset($this->elements);
+        return $consumer ? $consumer($firstElement) : $firstElement;
     }
 
     public function forFirst(callable $consumer): Optional
