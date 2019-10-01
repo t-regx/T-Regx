@@ -111,5 +111,4 @@ class MatchedGroup implements MatchGroup
     {
         return $this->text();
     }
-
 }

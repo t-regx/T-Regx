@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 
 class MatchPatternTest extends TestCase
 {
@@ -113,6 +114,30 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertEquals([null], $groups1);
         $this->assertEquals([null, 'omputer'], $groups2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_fluent()
+    {
+        // given
+        $subject = 'D Computer';
+
+        // when
+        $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')
+            ->match($subject)
+            ->group('lowercase')
+            ->fluent()->map(function (MatchGroup $group) {
+                if ($group->matched()) {
+                    return $group->text();
+                }
+                return "unmatched";
+            })
+            ->all();
+
+        // then
+        $this->assertEquals(['unmatched', 'omputer'], $groups);
     }
 
     /**

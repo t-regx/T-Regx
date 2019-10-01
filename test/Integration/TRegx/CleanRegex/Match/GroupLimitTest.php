@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
+use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\GroupLimit;
 
 class GroupLimitTest extends TestCase
@@ -87,6 +88,7 @@ class GroupLimitTest extends TestCase
             ['iterate', [function () {
             }]],
             ['iterator', []],
+            ['fluent', []],
         ];
     }
 
@@ -107,13 +109,29 @@ class GroupLimitTest extends TestCase
         $this->assertFalse($all->isCalled(), 'Failed asserting that all() factory is not called unnecessarily');
     }
 
-    private function mockGroupLimit(array $allValues = []): array
+    /**
+     * @test
+     */
+    public function shouldInvokeFirstConsumer()
+    {
+        // given
+        /** @var $limit GroupLimit */
+        [$limit] = $this->mockGroupLimit([], 'Foo Bar');
+
+        // when
+        $limit->first(function (MatchGroup $group) {
+            // then
+            $this->assertEquals('Foo Bar', $group->text());
+        });
+    }
+
+    public static function mockGroupLimit(array $allValues = [], string $firstValue = ''): array
     {
         $all = new ClosureMock(function () use ($allValues) {
             return new RawMatchesOffset([0 => $allValues]);
         });
-        $first = new ClosureMock(function () {
-            return new RawMatchOffset([0 => ['', 0]]);
+        $first = new ClosureMock(function () use ($firstValue) {
+            return new RawMatchOffset([0 => [$firstValue, 0]]);
         });
         $base = new ApiBase(new InternalPattern(''), 'unused', new UserData());
         return [new GroupLimit($all, $first, new MatchOffsetLimitFactory($base, 0, false), $base, 0), $all, $first];

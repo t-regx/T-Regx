@@ -4,6 +4,8 @@ namespace TRegx\CleanRegex\Match;
 use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
+use TRegx\CleanRegex\Exception\CleanRegex\Messages\NoFirstElementFluentMessage;
+use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
@@ -15,7 +17,6 @@ use TRegx\CleanRegex\Internal\Model\Matches\IRawMatches;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Offset\OffsetLimit;
 
 class GroupLimit implements PatternLimit
@@ -119,10 +120,14 @@ class GroupLimit implements PatternLimit
         $this->forEach($consumer);
     }
 
-    /**
-     * @return MatchGroup[]
-     */
-    private function getMatchGroupObjects()
+    public function fluent(): FluentMatchPattern
+    {
+        return new FluentMatchPattern(
+            $this->getMatchGroupObjects(),
+            new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base));
+    }
+
+    private function getMatchGroupObjects(): array
     {
         /** @var IRawMatchesOffset $rawMatches */
         $rawMatches = \call_user_func($this->allFactory);
