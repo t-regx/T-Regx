@@ -4,26 +4,29 @@ T-Regx Changelog
 Incoming in 0.9.2
 -----------------
 * Breaking changes
-    * Renamed `Match.parseInt()` to `Match.toInt()` (and the same for groups)
+    * Renamed `Match.parseInt()` to `Match.toInt()` (the same for `MatchGroup`)
+    * Removed `pattern()->match()->test()` (and `fails()`). From now on, use `pattern()->test()` (and `fails()`)
 * Features
     * Added `Match.group().replace()` 🔥
     * Added `pattern()->match()->fluent()` 🔥
     * Added `pattern()->match()->distinct()` (leaves only unique matches)
-    * Added `pattern()->match()->groups()->forEach()`/`iterate()`
-    * Added `pattern()->match()->groups()->flatMap()`
-    * Added `pattern()->match()->groups()->map()`
-    * Added prepared pattern method `Pattern::inject()`/`Pattern::bind()`
-    * Added `groups()->names()` and `namedGroups()->names()`
-    * Added `groups()->count()` and `namedGroups()->count()`
+    * Added prepared pattern method `Pattern::inject()`/`Pattern::bind()` (see below)
+    * In `pattern()->match()->groups()`:
+        * Added `groups()->forEach()`/`iterate()`
+        * Added `groups()->flatMap()`
+        * Added `groups()->map()`
+        * Added `group()->fluent()`
+        * Added `groups()->names()` (and `namedGroups()->names()`)
+        * Added `groups()->count()` (and `namedGroups()->count()`)
 * SafeRegex
-    * Added `preg::grep_keys()`, that works exactly like `preg::grep()`, but filters by keys (also accepts [`PREG_GREP_INVERT`](https://www.php.net/manual/en/function.preg-grep.php))
+    * Added `preg::grep_keys()` 🔥, that works exactly like `preg::grep()`, but filters by keys (also accepts [`PREG_GREP_INVERT`](https://www.php.net/manual/en/function.preg-grep.php))
 * Enhancements/updates
     * Method `by()->group()->orElse()` now receives lazy-loaded `Match`, instead of a subject
     * Added `withReferences()` to `CompositePattern.chainedReplace()`
     * Previously named `Pattern::inject()` is renamed to `Pattern::bind()`
     * The `Pattern::bind()` (old `Pattern::inject()`) still accepts values as an associative array, but new `Pattern::inject()` receives values without regard for the keys.
 * Other
-    * Renamed `CompileSafeRegexException` to `MalformedPatternException`, so it better describes its nature
+    * Now `MalformedPatternException` is thrown, instead of `CompileSafeRegexException`, when using invalid PCRE syntax.
     * Renamed `is()->delimitered()` to `is()->delimited()`
     * Returning `Match` from `replace()->callback()` (instead of `Match.text()` as `string`)
     * Match `+12` is no longer considered a valid integer for `isInt()`/`toInt()`
@@ -89,7 +92,7 @@ Available in 0.9.0
 * Bug fixes
     * `preg::replace()` and `preg::filter()` only consider `[]` error prone if input subject was also an empty array.
 
-API
+API (for 0.9.2)
 ---------------
 
 * SafeRegex
@@ -105,6 +108,7 @@ API
       * `preg::quote()`,
       * `preg::last_error()`
     * Additional utility methods:
+      * `preg::grep_keys()`, that works exactly like `preg::grep()`, but filters by keys (also accepts [`PREG_GREP_INVERT`](https://www.php.net/manual/en/function.preg-grep.php))
       * `preg::last_error_constant()` - which returns error constant as string
         (ie. `'PREG_RECURSION_LIMIT_ERROR'`), where as `preg_last_error()` and `preg::last_error()` return constant
         as integer (ie. `3`).
@@ -118,21 +122,24 @@ API
         * `pattern()->test()`
         * `pattern()->fails()`
         * `pattern()->match()`
-            * `->test()`
-            * `->fails()`
             * `->all()` / `->first()` / `->only(int)`
             * `->forEach()` / `iterate()`
             * `->first(callable)`
             * `->map()`
-            * `->unique()`
+            * `->distinct()`
             * `->flatMap()`
             * `->iterator()`
             * `->count()`
             * `->offsets()`
                 * `->all()` / `->first()` / `->only(int)`
             * `->group(name|index)`
+                * `->forEach()`/`->iterate()`
+                * `->map()`
+                * `->flatMap()`
+                * `->iterator()`
                 * `->all()` / `->first()` / `->only(int)`
                 * `->offsets()->*`
+                * `->fluent()->*`
             * `->forFirst()`
                 * `->orReturn(mixed)`
                 * `->orElse(callable)`
@@ -142,14 +149,14 @@ API
         * `Match` details:
             * `Match->text()` / `Match->__toString()` / `(string) $match`
             * `Match->textLength()`
-            * `Match->parseInt()`, `Match->isInt()`
+            * `Match->toInt()`, `Match->isInt()`
             * `Match->subject()`
             * `Match->index()`
             * `Match->limit()`
             * `Match->offset()` / `Match->byteOffset()`
             * `Match->group(string|int)`
                 * `->text()`
-                * `->parseInt()`, `->isInt()`
+                * `->toInt()`, `->isInt()`
                 * `->matched()`
                 * `->name()`
                 * `->index()`
@@ -160,6 +167,7 @@ API
                 * `->orThrow()`
                 * `->orReturn()`
                 * `->orElse()`
+                * `->replace()` 🔥
             * `Match->groups()` / `Match->namedGroups()`
                 * `->texts()`
                 * `->names()`
