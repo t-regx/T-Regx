@@ -14,6 +14,7 @@ use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
+use TRegx\SafeRegex\preg;
 
 class Pattern
 {
@@ -27,12 +28,12 @@ class Pattern
 
     public function test(string $subject): bool
     {
-        return (new TestMatchesPattern($this->pattern, new Subject($subject)))->test();
+        return preg::match($this->pattern->pattern, $subject) === 1;
     }
 
     public function fails(string $subject): bool
     {
-        return (new TestMatchesPattern($this->pattern, new Subject($subject)))->fails();
+        return preg::match($this->pattern->pattern, $subject) === 0;
     }
 
     public function match(string $subject): MatchPattern
