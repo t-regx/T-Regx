@@ -39,13 +39,6 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         $this->base = $base;
     }
 
-    abstract public function test(): bool;
-
-    public function fails(): bool
-    {
-        return !$this->test();
-    }
-
     public function all(): array
     {
         return $this->base->matchAll()->getAll();

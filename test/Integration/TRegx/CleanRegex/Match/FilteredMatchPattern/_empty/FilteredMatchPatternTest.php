@@ -8,7 +8,6 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FilteredMatchPattern;
 use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
@@ -203,11 +202,9 @@ class FilteredMatchPatternTest extends TestCase
 
         // when
         $matches = $matchPattern->test();
-        $fails = $matchPattern->fails();
 
         // then
         $this->assertTrue($matches);
-        $this->assertFalse($fails);
     }
 
     /**
@@ -220,11 +217,9 @@ class FilteredMatchPatternTest extends TestCase
 
         // when
         $matches = $matchPattern->test();
-        $fails = $matchPattern->fails();
 
         // then
         $this->assertTrue($matches);
-        $this->assertFalse($fails);
     }
 
     /**
@@ -237,11 +232,9 @@ class FilteredMatchPatternTest extends TestCase
 
         // when
         $matches = $matchPattern->test();
-        $fails = $matchPattern->fails();
 
         // then
         $this->assertFalse($matches);
-        $this->assertTrue($fails);
     }
 
     /**
@@ -344,10 +337,10 @@ class FilteredMatchPatternTest extends TestCase
         // when
         $filtered = $pattern
             ->filter(function (Match $match) {
-                return $match->text() != 'very';
+                return $match->text() !== 'very';
             })
             ->filter(function (Match $match) {
-                return $match->text() != 'mate';
+                return $match->text() !== 'mate';
             })
             ->all();
 
@@ -393,35 +386,35 @@ class FilteredMatchPatternTest extends TestCase
         $this->assertEquals(['', 'a', '', 'c'], $array);
     }
 
-    private function standardMatchPattern(): AbstractMatchPattern
+    private function standardMatchPattern(): FilteredMatchPattern
     {
         return $this->matchPattern(function (Match $match) {
             return $match->text() !== 'b';
         });
     }
 
-    private function standardMatchPattern_all(): AbstractMatchPattern
+    private function standardMatchPattern_all(): FilteredMatchPattern
     {
         return $this->matchPattern(function () {
             return true;
         });
     }
 
-    private function standardMatchPattern_notFirst(): AbstractMatchPattern
+    private function standardMatchPattern_notFirst(): FilteredMatchPattern
     {
         return $this->matchPattern(function (Match $match) {
             return $match->index() > 0;
         });
     }
 
-    private function standardMatchPattern_filtered(): AbstractMatchPattern
+    private function standardMatchPattern_filtered(): FilteredMatchPattern
     {
         return $this->matchPattern(function () {
             return false;
         });
     }
 
-    private function matchPattern(callable $predicate): AbstractMatchPattern
+    private function matchPattern(callable $predicate): FilteredMatchPattern
     {
         return new FilteredMatchPattern(
             new FilteredBaseDecorator(

@@ -7,7 +7,6 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FilteredMatchPattern;
 
@@ -23,11 +22,9 @@ class FilteredMatchPatternTest extends TestCase
 
         // when
         $matches = $matchPattern->test();
-        $fails = $matchPattern->fails();
 
         // then
         $this->assertTrue($matches);
-        $this->assertFalse($fails);
     }
 
     /**
@@ -40,11 +37,9 @@ class FilteredMatchPatternTest extends TestCase
 
         // when
         $matches = $matchPattern->test();
-        $fails = $matchPattern->fails();
 
         // then
         $this->assertTrue($matches);
-        $this->assertFalse($fails);
     }
 
     /**
@@ -57,11 +52,9 @@ class FilteredMatchPatternTest extends TestCase
 
         // when
         $matches = $matchPattern->test();
-        $fails = $matchPattern->fails();
 
         // then
         $this->assertFalse($matches);
-        $this->assertTrue($fails);
     }
 
     /**
@@ -74,42 +67,40 @@ class FilteredMatchPatternTest extends TestCase
 
         // when
         $matches = $matchPattern->test();
-        $fails = $matchPattern->fails();
 
         // then
         $this->assertFalse($matches);
-        $this->assertTrue($fails);
     }
 
-    private function standardMatchPattern(): AbstractMatchPattern
+    private function standardMatchPattern(): FilteredMatchPattern
     {
         return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Match $match) {
             return $match->index() != 1;
         });
     }
 
-    private function standardMatchPattern_allMatch(): AbstractMatchPattern
+    private function standardMatchPattern_allMatch(): FilteredMatchPattern
     {
         return $this->matchPattern('[a-z]+', 'nice matching pattern', function () {
             return true;
         });
     }
 
-    private function standardMatchPattern_notMatches(): AbstractMatchPattern
+    private function standardMatchPattern_notMatches(): FilteredMatchPattern
     {
         return $this->matchPattern('[a-z]+', 'NOT MATCHING', function () {
             return true;
         });
     }
 
-    private function standardMatchPattern_filtered(): AbstractMatchPattern
+    private function standardMatchPattern_filtered(): FilteredMatchPattern
     {
         return $this->matchPattern('[a-z]+', 'nice matching pattern long', function () {
             return false;
         });
     }
 
-    private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
+    private function matchPattern(string $pattern, string $subject, callable $predicate): FilteredMatchPattern
     {
         return new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(new InternalPattern($pattern), $subject, new UserData()), new Predicate($predicate)));
     }

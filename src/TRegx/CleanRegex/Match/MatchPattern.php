@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Match;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\TestMatchesPattern;
 use TRegx\SafeRegex\preg;
 
 class MatchPattern extends AbstractMatchPattern
@@ -19,11 +18,6 @@ class MatchPattern extends AbstractMatchPattern
         parent::__construct(new ApiBase($pattern, $subject, new UserData()));
         $this->pattern = $pattern;
         $this->subject = $subject;
-    }
-
-    public function test(): bool
-    {
-        return (new TestMatchesPattern($this->base->getPattern(), $this->base))->test();
     }
 
     public function count(): int
