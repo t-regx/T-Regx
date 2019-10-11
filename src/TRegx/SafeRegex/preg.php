@@ -85,12 +85,13 @@ class preg
      * )
      * </pre>
      * </p>
-     * @return int|false <b>preg_match</b> returns 1 if the <i>pattern</i>
-     * matches given <i>subject</i>, 0 if it does not, or <b>FALSE</b>
-     * if an error occurred.
-     * @since 4.0
-     * @since 5.0
-     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
+     * @return int <b>preg_match</b> returns 1 if the <i>pattern</i>
+     * matches given <i>subject</i>, 0 if it does not.
+     *
+     * @throws SafeRegexException
+     * @throws CompileSafeRegexException
+     * @throws SuspectedReturnSafeRegexException
+     * @throws RuntimeSafeRegexException
      */
     public static function match($pattern, $subject, array &$matches = null, $flags = 0, $offset = 0)
     {
@@ -153,11 +154,12 @@ class preg
      * and $out[1] contains array of strings enclosed by tags.
      * </p>
      * </p>
-     * @return int|false the number of full pattern matches (which might be zero),
-     * or <b>FALSE</b> if an error occurred.
-     * @since 4.0
-     * @since 5.0
-     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
+     * @return int the number of full pattern matches (which might be zero).
+     *
+     * @throws SafeRegexException
+     * @throws CompileSafeRegexException
+     * @throws SuspectedReturnSafeRegexException
+     * @throws RuntimeSafeRegexException
      */
     public static function match_all($pattern, $subject, array &$matches = null, $flags = PREG_PATTERN_ORDER, $offset = 0)
     {
@@ -243,17 +245,19 @@ class preg
      * If specified, this variable will be filled with the number of
      * replacements done.
      * </p>
-     * @return string|string[]|null <b>preg_replace</b> returns an array if the
+     * @return string|string[] <b>preg_replace</b> returns an array if the
      * <i>subject</i> parameter is an array, or a string
      * otherwise.
      * </p>
      * <p>
      * If matches are found, the new <i>subject</i> will
      * be returned, otherwise <i>subject</i> will be
-     * returned unchanged or <b>NULL</b> if an error occurred.
-     * @since 4.0
-     * @since 5.0
-     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
+     * returned unchanged.
+     *
+     * @throws SafeRegexException
+     * @throws CompileSafeRegexException
+     * @throws SuspectedReturnSafeRegexException
+     * @throws RuntimeSafeRegexException
      */
     public static function replace($pattern, $replacement, $subject, $limit = -1, &$count = null)
     {
@@ -329,9 +333,11 @@ class preg
      * <p>
      * If matches are found, the new subject will be returned, otherwise
      * <i>subject</i> will be returned unchanged.
-     * @since 4.0.5
-     * @since 5.0
-     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
+     *
+     * @throws SafeRegexException
+     * @throws CompileSafeRegexException
+     * @throws SuspectedReturnSafeRegexException
+     * @throws RuntimeSafeRegexException
      */
     public static function replace_callback($pattern, callable $callback, $subject, $limit = -1, &$count = null)
     {
@@ -347,9 +353,13 @@ class preg
      * @param string|string[] $subject
      * @param int $limit [optional]
      * @param int $count [optional]
-     * @return string|string[]|null  <p>preg_replace_callback_array() returns an array if the subject parameter is an array, or a string otherwise. On errors the return value is NULL</p>
+     * @return string|string[]  <p>preg_replace_callback_array() returns an array if the subject parameter is an array, or a string otherwise.
      * <p>If matches are found, the new subject will be returned, otherwise subject will be returned unchanged.</p>
-     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
+     *
+     * @throws SafeRegexException
+     * @throws CompileSafeRegexException
+     * @throws SuspectedReturnSafeRegexException
+     * @throws RuntimeSafeRegexException
      */
     public static function replace_callback_array($patterns_and_callbacks, $subject, $limit = -1, &$count = null)
     {
@@ -366,15 +376,17 @@ class preg
      * @param string|string[] $subject
      * @param int $limit [optional]
      * @param int $count [optional]
-     * @return string|string[]|null an array if the <i>subject</i>
+     * @return string|string[] an array if the <i>subject</i>
      * parameter is an array, or a string otherwise.
      * </p>
      * <p>
-     * If no matches are found or an error occurred, an empty array
-     * is returned when <i>subject</i> is an array
+     * If no matches are found, an empty array is returned when <i>subject</i> is an array
      * or <b>NULL</b> otherwise.
-     * @since 5.3.0
-     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
+     *
+     * @throws SafeRegexException
+     * @throws CompileSafeRegexException
+     * @throws SuspectedReturnSafeRegexException
+     * @throws RuntimeSafeRegexException
      */
     public static function filter($pattern, $replacement, $subject, $limit = -1, &$count = null)
     {
@@ -405,12 +417,13 @@ class preg
      * <b>PREG_SPLIT_NO_EMPTY</b>
      * If this flag is set, only non-empty pieces will be returned by
      * <b>preg_split</b>.
-     * @return string[]|array[]|false an array containing substrings of <i>subject</i>
-     * split along boundaries matched by <i>pattern</i>, or <b>FALSE</b>
-     * if an error occurred.
-     * @since 4.0
-     * @since 5.0
-     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
+     * @return string[]|array[] an array containing substrings of <i>subject</i>
+     * split along boundaries matched by <i>pattern</i>.
+     *
+     * @throws SafeRegexException
+     * @throws CompileSafeRegexException
+     * @throws SuspectedReturnSafeRegexException
+     * @throws RuntimeSafeRegexException
      */
     public static function split($pattern, $subject, $limit = -1, $flags = 0)
     {
@@ -435,9 +448,11 @@ class preg
      * </p>
      * @return array an array indexed using the keys from the
      * <i>input</i> array.
-     * @since 4.0
-     * @since 5.0
-     * @throws SafeRegexException|CompileSafeRegexException|SuspectedReturnSafeRegexException|RuntimeSafeRegexException
+     *
+     * @throws SafeRegexException
+     * @throws CompileSafeRegexException
+     * @throws SuspectedReturnSafeRegexException
+     * @throws RuntimeSafeRegexException
      */
     public static function grep($pattern, array $input, $flags = 0): array
     {
@@ -464,8 +479,6 @@ class preg
      * used delimiter.
      * </p>
      * @return string the quoted (escaped) string.
-     * @since 4.0
-     * @since 5.0
      */
     public static function quote($string, $delimiter = null): string
     {
@@ -485,10 +498,17 @@ class preg
      * <b>PREG_RECURSION_LIMIT_ERROR</b> (see also pcre.recursion_limit)
      * <b>PREG_BAD_UTF8_ERROR</b>
      * <b>PREG_BAD_UTF8_OFFSET_ERROR</b> (since PHP 5.3.0)
-     * @since 5.2.0
      */
     public static function last_error(): int
     {
+        /**
+         * Please, keep in mind that calling `preg::last_error()`, by design, is useless,
+         * because `preg::*()` functions never fail with `false`, `null` or by
+         * using `preg_last_error()` method.
+         *
+         * So in normal situations, this function will always return `PREG_NO_ERROR`.
+         */
+
         // @codeCoverageIgnoreStart
         return \preg_last_error();
         // @codeCoverageIgnoreEnd
