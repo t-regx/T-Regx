@@ -4,9 +4,9 @@ namespace Test\Integration\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use Test\Warnings;
-use TRegx\CleanRegex\Exception\CleanRegex\MalformedPatternException;
 use TRegx\CrossData\DataProviders;
 use TRegx\SafeRegex\Exception\CompileSafeRegexException;
+use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\preg;
 
 class PatternExceptionsTest extends TestCase

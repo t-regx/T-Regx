@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Exception\CleanRegex;
+namespace TRegx\SafeRegex\Exception;
 
 use TRegx\SafeRegex\Exception\CompileSafeRegexException;
 use TRegx\SafeRegex\PhpError;

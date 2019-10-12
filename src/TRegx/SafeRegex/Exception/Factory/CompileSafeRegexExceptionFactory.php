@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\SafeRegex\Exception\Factory;
 
-use TRegx\CleanRegex\Exception\CleanRegex\MalformedPatternException;
 use TRegx\SafeRegex\Constants\PhpErrorConstants;
 use TRegx\SafeRegex\Exception\CompileSafeRegexException;
+use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\PhpError;
 
 class CompileSafeRegexExceptionFactory

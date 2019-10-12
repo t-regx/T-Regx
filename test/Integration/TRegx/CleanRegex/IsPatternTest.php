@@ -3,9 +3,9 @@ namespace Test\Integration\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\PhpVersionDependent;
-use TRegx\CleanRegex\Exception\CleanRegex\MalformedPatternException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\IsPattern;
+use TRegx\SafeRegex\Exception\MalformedPatternException;
 
 class IsPatternTest extends TestCase
 {

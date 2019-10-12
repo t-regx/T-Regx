@@ -2,8 +2,7 @@
 namespace Test\Functional\TRegx\SafeRegex;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\MalformedPatternException;
-use TRegx\SafeRegex\Exception\CompileSafeRegexException;
+use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\preg;
 
 class pregGrepKeysTest extends TestCase
