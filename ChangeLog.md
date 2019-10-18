@@ -5,6 +5,7 @@ Incoming in 0.9.2
 -----------------
 * Breaking changes
     * Renamed `Match.parseInt()` to `Match.toInt()` (the same for `MatchGroup`)
+    * Renamed `is()->delimitered()` to `is()->delimited()`
     * Removed `pattern()->match()->test()` (and `fails()`). From now on, use `pattern()->test()` (and `fails()`)
 * Features
     * Added `Match.group().replace()` 🔥
@@ -25,9 +26,9 @@ Incoming in 0.9.2
     * Added `withReferences()` to `CompositePattern.chainedReplace()`
     * Previously named `Pattern::inject()` is renamed to `Pattern::bind()`
     * The `Pattern::bind()` (old `Pattern::inject()`) still accepts values as an associative array, but new `Pattern::inject()` receives values without regard for the keys.
+    * Fixed passing invalid types to `forArray()`. Previously, caused fatal error due to internal implementation.
 * Other
     * Now `MalformedPatternException` is thrown, instead of `CompileSafeRegexException`, when using invalid PCRE syntax.
-    * Renamed `is()->delimitered()` to `is()->delimited()`
     * Returning `Match` from `replace()->callback()` (instead of `Match.text()` as `string`)
     * Match `+12` is no longer considered a valid integer for `isInt()`/`toInt()`
     * Unnamed group will be represented as `null` in `Match.groupNames()`, instead of being simply ignored

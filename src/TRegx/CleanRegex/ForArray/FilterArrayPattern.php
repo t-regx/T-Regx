@@ -25,6 +25,6 @@ class FilterArrayPattern
 
     public function filterAssoc(): array
     {
-        return preg::grep($this->pattern->pattern, $this->array);
+        return preg::grep($this->pattern->pattern, \array_filter($this->array, '\is_string'));
     }
 }

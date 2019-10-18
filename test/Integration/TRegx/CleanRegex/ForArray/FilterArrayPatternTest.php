@@ -4,6 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex\ForArray;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\ForArray\FilterArrayPattern;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CrossData\CrossDataProviders;
 
 class FilterArrayPatternTest extends TestCase
 {
@@ -85,5 +86,43 @@ class FilterArrayPatternTest extends TestCase
                 [],
             ],
         ];
+    }
+
+    /**
+     * @test
+     * @dataProvider filterMethods
+     * @param string $method
+     * @param null|int|array|callable|resource $listElement
+     */
+    public function shouldFilter_safe(string $method, $listElement)
+    {
+        // given
+        $input = ['Foo', 1, $listElement];
+
+        // when
+        $output = pattern('')->forArray($input)->$method();
+
+        // then
+        $this->assertEquals(['Foo'], $output);
+    }
+
+    function filterMethods(): array
+    {
+        return CrossDataProviders::cross(
+            [
+                ['filter'], ['filterAssoc']
+            ],
+            [
+                [1],
+                [true],
+                [false],
+                [1.0],
+                [null],
+                [[]],
+                [function () {
+                }],
+                [fopen('/', 'r')]
+            ]
+        );
     }
 }
