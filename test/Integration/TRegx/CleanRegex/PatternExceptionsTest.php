@@ -30,7 +30,7 @@ class PatternExceptionsTest extends TestCase
 
     function malformedPatternExceptionFunctions(): array
     {
-        return DataProviders::crossAll([
+        return DataProviders::cross([
             'match' => [function (string $pattern) {
                 preg::match($pattern, '');
             }],

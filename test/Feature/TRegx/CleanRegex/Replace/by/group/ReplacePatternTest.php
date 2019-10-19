@@ -82,15 +82,14 @@ class ReplacePatternTest extends TestCase
     function shouldNotReplaceGroups(): array
     {
         return DataProviders::builder()
-            ->crossing($this->groups())
-            ->crossing([
+            ->addSection('name', 1)
+            ->addJoinedSection(
                 ['orReturn', ['default'], 'Links: default,default.'],
                 ['orElse', [function (Match $notMatched) {
                     return 'else';
                 }], 'Links: else,else.'],
                 ['orIgnore', [], 'Links: https://.com,http://.com.'],
-                ['orEmpty', [], 'Links: ,.'],
-            ])
+                ['orEmpty', [], 'Links: ,.'])
             ->build();
     }
 
