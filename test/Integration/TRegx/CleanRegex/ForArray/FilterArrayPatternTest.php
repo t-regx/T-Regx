@@ -121,7 +121,6 @@ class FilterArrayPatternTest extends TestCase
                 [[]],
                 [function () {
                 }],
-                [fopen('/', 'r')]
             ]
         );
     }

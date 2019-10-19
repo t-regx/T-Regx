@@ -1,9 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\ForArray;
 
+use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\StringValue;
 use TRegx\SafeRegex\preg;
-use function array_values;
 
 class FilterArrayPattern
 {
@@ -11,20 +12,36 @@ class FilterArrayPattern
     private $pattern;
     /** @var array */
     private $array;
+    /** @var bool */
+    private $throwOnNonStringElements;
 
-    public function __construct(InternalPattern $pattern, array $array)
+    public function __construct(InternalPattern $pattern, array $array, bool $strict = false)
     {
         $this->pattern = $pattern;
         $this->array = $array;
+        $this->throwOnNonStringElements = $strict;
     }
 
     public function filter(): array
     {
-        return array_values($this->filterAssoc());
+        return \array_values($this->filterAssoc());
     }
 
     public function filterAssoc(): array
     {
-        return preg::grep($this->pattern->pattern, \array_filter($this->array, '\is_string'));
+        $onlyStrings = \array_filter($this->array, '\is_string');
+        if ($this->throwOnNonStringElements) {
+            $this->validateOnlyStrings($onlyStrings);
+        }
+        return preg::grep($this->pattern->pattern, $onlyStrings);
+    }
+
+    private function validateOnlyStrings(array $filteredArray): void
+    {
+        if (count($filteredArray) != count($this->array)) {
+            $key = \array_key_first(\array_diff_key($this->array, $filteredArray));
+            $invalidTypeText = (new StringValue($this->array[$key]))->getString();
+            throw new InvalidArgumentException("Only elements of type `string` can be filtered, but $invalidTypeText given");
+        }
     }
 }
