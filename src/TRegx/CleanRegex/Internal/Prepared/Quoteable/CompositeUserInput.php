@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Quoteable;
 
 use InvalidArgumentException;
-use TRegx\CleanRegex\Internal\StringValue;
+use TRegx\CleanRegex\Internal\Type;
 
 class CompositeUserInput implements Quoteable
 {
@@ -45,7 +45,7 @@ class CompositeUserInput implements Quoteable
     private function validateQuoteable($quoteable): void
     {
         if (!\is_string($quoteable)) {
-            $type = (new StringValue($quoteable))->getString();
+            $type = Type::asString($quoteable);
             throw new InvalidArgumentException("Invalid bound value. Expected string, but $type given");
         }
     }

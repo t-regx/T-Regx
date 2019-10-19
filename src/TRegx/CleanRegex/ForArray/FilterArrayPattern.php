@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\ForArray;
 
 use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Internal\StringValue;
+use TRegx\CleanRegex\Internal\Type;
 use TRegx\SafeRegex\preg;
 
 class FilterArrayPattern
@@ -40,7 +40,7 @@ class FilterArrayPattern
     {
         if (count($filteredArray) != count($this->array)) {
             $key = \array_key_first(\array_diff_key($this->array, $filteredArray));
-            $invalidTypeText = (new StringValue($this->array[$key]))->getString();
+            $invalidTypeText = Type::asString($this->array[$key]);
             throw new InvalidArgumentException("Only elements of type `string` can be filtered, but $invalidTypeText given");
         }
     }

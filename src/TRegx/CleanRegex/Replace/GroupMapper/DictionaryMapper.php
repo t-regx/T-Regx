@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Replace\GroupMapper;
 
 use InvalidArgumentException;
-use TRegx\CleanRegex\Internal\StringValue;
+use TRegx\CleanRegex\Internal\Type;
 
 class DictionaryMapper implements GroupMapper
 {
@@ -38,7 +38,7 @@ class DictionaryMapper implements GroupMapper
     private function validateOccurrence($occurrence): void
     {
         if (!\is_string($occurrence)) {
-            $value = (new StringValue($occurrence))->getString();
+            $value = Type::asString($occurrence);
             throw new InvalidArgumentException("Invalid replacement map key. Expected string, but $value given");
         }
     }
@@ -46,7 +46,7 @@ class DictionaryMapper implements GroupMapper
     private function validateReplacement($replacement): void
     {
         if (!\is_string($replacement)) {
-            $value = (new StringValue($replacement))->getString();
+            $value = Type::asString($replacement);
             throw new InvalidArgumentException("Invalid replacement map value. Expected string, but $value given");
         }
     }

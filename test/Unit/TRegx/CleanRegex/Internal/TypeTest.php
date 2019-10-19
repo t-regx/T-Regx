@@ -3,23 +3,20 @@ namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
-use TRegx\CleanRegex\Internal\StringValue;
+use TRegx\CleanRegex\Internal\Type;
 
-class StringValueTest extends TestCase
+class TypeTest extends TestCase
 {
     /**
      * @test
      * @dataProvider objectsAndMessages
-     * @param mixed  $value
+     * @param mixed $value
      * @param string $expectedString
      */
     public function shouldGetMessageWithType($value, string $expectedString)
     {
-        // given
-        $stringValue = new StringValue($value);
-
         // when
-        $string = $stringValue->getString();
+        $string = Type::asString($value);
 
         // then
         $this->assertEquals($expectedString, $string);

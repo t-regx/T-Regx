@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception\CleanRegex;
 
-use TRegx\CleanRegex\Internal\StringValue;
+use TRegx\CleanRegex\Internal\Type;
 
 class InvalidReturnValueException extends CleanRegexException
 {
@@ -12,7 +12,7 @@ class InvalidReturnValueException extends CleanRegexException
      */
     public function __construct($returnValue, $methodName, $expectedReturnType)
     {
-        $type = (new StringValue($returnValue))->getString();
+        $type = Type::asString($returnValue);
         parent::__construct("Invalid $methodName() callback return type. Expected $expectedReturnType, but $type given");
     }
 

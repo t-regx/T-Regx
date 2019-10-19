@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Prepared\Quoteable\CompositeUserInput;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\EmptyQuoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
-use TRegx\CleanRegex\Internal\StringValue;
+use TRegx\CleanRegex\Internal\Type;
 
 class PreparedParser implements Parser
 {
@@ -40,7 +40,7 @@ class PreparedParser implements Parser
         if (\is_string($quoteable)) {
             return new RawQuoteable($quoteable);
         }
-        $type = (new StringValue($quoteable))->getString();
+        $type = Type::asString($quoteable);
         throw new InvalidArgumentException("Invalid prepared pattern part. Expected string, but $type given");
     }
 

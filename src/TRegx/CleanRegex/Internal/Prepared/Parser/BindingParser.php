@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
-use TRegx\CleanRegex\Internal\StringValue;
+use TRegx\CleanRegex\Internal\Type;
 use TRegx\SafeRegex\preg;
 
 class BindingParser implements Parser
@@ -116,7 +116,7 @@ class BindingParser implements Parser
     private function validateBindValue(string $label, $value): void
     {
         if (!\is_string($value)) {
-            $type = (new StringValue($value))->getString();
+            $type = Type::asString($value);
             throw new InvalidArgumentException("Invalid bound value for name '$label'. Expected string, but $type given");
         }
     }
@@ -124,7 +124,7 @@ class BindingParser implements Parser
     private function validateValueType($value): void
     {
         if (!\is_string($value)) {
-            $type = (new StringValue($value))->getString();
+            $type = Type::asString($value);
             throw new InvalidArgumentException("Invalid bound parameters. Expected string, but $type given. Should be [name] or [name => value]");
         }
     }

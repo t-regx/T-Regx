@@ -43,7 +43,7 @@ class CompositePatternMapper
 
     private function throwInvalidPatternType($pattern): InvalidArgumentException
     {
-        $type = (new StringValue($pattern))->getString();
+        $type = Type::asString($pattern);
         return new InvalidArgumentException("CompositePattern accepts only type Pattern or string, but $type given");
     }
 }

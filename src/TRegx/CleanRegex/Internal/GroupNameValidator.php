@@ -47,7 +47,7 @@ class GroupNameValidator
 
     private function throwInvalidGroupNameType(): void
     {
-        $type = (new StringValue($this->groupNameOrIndex))->getString();
+        $type = Type::asString($this->groupNameOrIndex);
         throw new InvalidArgumentException("Group index can only be an integer or a string, given: $type");
     }
 }

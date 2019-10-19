@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
-use TRegx\CleanRegex\Internal\StringValue;
+use TRegx\CleanRegex\Internal\Type;
 use TRegx\SafeRegex\preg;
 
 class InjectParser implements Parser
@@ -51,8 +51,8 @@ class InjectParser implements Parser
     private function validateBindValue($key, $value): void
     {
         if (!\is_string($value)) {
-            $type = (new StringValue($value))->getString();
-            $keyType = (new StringValue($key))->getString();
+            $type = Type::asString($value);
+            $keyType = Type::asString($key);
             throw new InvalidArgumentException("Invalid inject value for key - $keyType. Expected string, but $type given");
         }
     }
@@ -67,8 +67,8 @@ class InjectParser implements Parser
         $key = \key($this->values);
         if ($key !== null) {
             $value = \current($this->values);
-            $valueType = (new StringValue($value))->getString();
-            $keyType = (new StringValue($key))->getString();
+            $valueType = Type::asString($value);
+            $keyType = Type::asString($key);
             throw new InvalidArgumentException("Superfluous bind value [$keyType => $valueType]");
         }
     }
