@@ -38,9 +38,9 @@ class FilterArrayPattern
 
     private function validateOnlyStrings(array $filteredArray): void
     {
-        if (count($filteredArray) != count($this->array)) {
-            $key = \array_key_first(\array_diff_key($this->array, $filteredArray));
-            $invalidTypeText = Type::asString($this->array[$key]);
+        if (\count($filteredArray) != \count($this->array)) {
+            $invalidValues = \array_diff_key($this->array, $filteredArray);
+            $invalidTypeText = Type::asString(\reset($invalidValues));
             throw new InvalidArgumentException("Only elements of type `string` can be filtered, but $invalidTypeText given");
         }
     }
