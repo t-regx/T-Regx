@@ -1,6 +1,8 @@
 <?php
 namespace Test;
 
+use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+
 class DataProviders
 {
     public static function invalidPregPatterns(): array
@@ -55,5 +57,34 @@ class DataProviders
                 ['one', null, 'three']
             ]
         ];
+    }
+
+    public static function allPhpTypes(string ...$except)
+    {
+        return array_values(array_diff_key(self::typesMap(), array_flip($except)));
+    }
+
+    private static function typesMap(): array
+    {
+        return [
+            'null'     => [null, 'null'],
+            'true'     => [true, 'boolean (true)'],
+            'false'    => [false, 'boolean (false)'],
+            'int'      => [2, 'integer (2)'],
+            'float'    => [2.23, 'double (2.23)'],
+            'string'   => ["She's sexy", "string ('She\'s sexy')"],
+            'array'    => [[1, 2, 3], 'array (3)'],
+            'resource' => [self::getResource(), 'resource'],
+            'stdClass' => [new \stdClass(), 'stdClass'],
+            'class'    => [new Pattern(''), Pattern::class],
+            'function' => [function () {
+            }, 'Closure']
+        ];
+    }
+
+    private static function getResource()
+    {
+        $resources = get_resources();
+        return reset($resources);
     }
 }

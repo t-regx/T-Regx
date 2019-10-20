@@ -2,6 +2,7 @@
 namespace Test\Integration\TRegx\CleanRegex\ForArray;
 
 use PHPUnit\Framework\TestCase;
+use Test\DataProviders;
 use TRegx\CleanRegex\ForArray\FilterArrayPattern;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CrossData\CrossDataProviders;
@@ -109,19 +110,8 @@ class FilterArrayPatternTest extends TestCase
     function filterMethods(): array
     {
         return CrossDataProviders::cross(
-            [
-                ['filter'], ['filterAssoc']
-            ],
-            [
-                [1],
-                [true],
-                [false],
-                [1.0],
-                [null],
-                [[]],
-                [function () {
-                }],
-            ]
+            [['filter'], ['filterAssoc']],
+            DataProviders::allPhpTypes('string')
         );
     }
 }

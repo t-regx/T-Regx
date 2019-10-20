@@ -3,6 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex\ForArray\strict;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\DataProviders;
 use TRegx\CrossData\CrossDataProviders;
 
 class FilterArrayPatternTest extends TestCase
@@ -30,19 +31,8 @@ class FilterArrayPatternTest extends TestCase
     function filterMethods(): array
     {
         return CrossDataProviders::cross(
-            [
-                ['filter'], ['filterAssoc']
-            ],
-            [
-                [1, 'integer (1)'],
-                [true, 'boolean (true)'],
-                [false, 'boolean (false)'],
-                [1.0, 'double (1.0)'],
-                [null, 'null'],
-                [[], 'array (0)'],
-                [function () {
-                }, 'Closure'],
-            ]
+            [['filter'], ['filterAssoc']],
+            DataProviders::allPhpTypes('string', 'int')
         );
     }
 }
