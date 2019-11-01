@@ -1,7 +1,6 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 
@@ -9,14 +8,16 @@ class GroupNameValidatorTest extends TestCase
 {
     /**
      * @test
+     * @dataProvider validGroups
+     * @param string $nameOrIndex
      */
-    public function shouldValidate_string()
+    public function shouldValidate($nameOrIndex)
     {
         // given
-        $validator = new GroupNameValidator('string_69_string');
+        $validatorString = new GroupNameValidator($nameOrIndex);
 
         // when
-        $validator->validate();
+        $validatorString->validate();
 
         // then
         $this->assertTrue(true);
@@ -24,91 +25,44 @@ class GroupNameValidatorTest extends TestCase
 
     /**
      * @test
+     * @dataProvider invalidGroup
+     * @param string $nameOrIndex
+     * @param string $message
      */
-    public function shouldValidate_oneLetterGroup()
+    public function shouldNotValidate($nameOrIndex, string $message)
     {
         // given
-        $validator = new GroupNameValidator('g');
-
-        // when
-        $validator->validate();
+        $validatorString = new GroupNameValidator($nameOrIndex);
 
         // then
-        $this->assertTrue(true);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldValidate_int()
-    {
-        // given
-        $validator = new GroupNameValidator(2);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($message);
 
         // when
-        $validator->validate();
-
-        // then
-        $this->assertTrue(true);
+        $validatorString->validate();
     }
 
-    /**
-     * @test
-     */
-    public function shouldNotValidate_negativeInt()
-    {
-        // given
-        $validator = new GroupNameValidator(-14);
-
-        // this
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Group index can only be a positive integer, given: -14');
-
-        // when
-        $validator->validate();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotValidate_otherTypes()
-    {
-        // given
-        $validator = new GroupNameValidator(2.23);
-
-        // this
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Group index can only be an integer or a string, given: double (2.23)');
-
-        // when
-        $validator->validate();
-    }
-
-    /**
-     * @test
-     * @dataProvider invalidStringGroupName
-     * @param string $groupName
-     */
-    public function shouldNotValidate_string_nonAlphanumeric(string $groupName)
-    {
-        // given
-        $validator = new GroupNameValidator($groupName);
-
-        // this
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Group name must be an alphanumeric string starting with a letter, given: '$groupName");
-
-        // when
-        $validator->validate();
-    }
-
-    public function invalidStringGroupName()
+    public function validGroups(): array
     {
         return [
-            ['brace('],
-            ['9group'],
-            ['_group'],
-            ['group space'],
+            ['group'],
+            ['GROUP'],
+            ['g'],
+            ['a123_'],
+            [0],
+            [14],
+        ];
+    }
+
+    public function invalidGroup(): array
+    {
+        return [
+            ['9group', "Group name must be an alphanumeric string starting with a letter, given: '9group"],
+            ['_group', "Group name must be an alphanumeric string starting with a letter, given: '_group"],
+            ['group space', "Group name must be an alphanumeric string starting with a letter, given: 'group space"],
+            [-15, 'Group index can only be a positive integer, given: -15'],
+            [2.23, 'Group index can only be an integer or a string, given: double (2.23)'],
+            [null, 'Group index can only be an integer or a string, given: null'],
         ];
     }
 }
