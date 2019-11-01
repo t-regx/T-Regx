@@ -19,12 +19,28 @@ class UserDataTest extends TestCase
         $otherMatch = $this->createMockWithByteOffset(15);
 
         // when
-        $container->forMatch($match)->set('value');
-        $container->forMatch($otherMatch)->set('value 2');
-        $result = $container->forMatch($match)->get();
+        $container->set($match, false);
+        $container->set($otherMatch, 'value 2');
+        $result = $container->get($match);
 
         // then
-        $this->assertEquals('value', $result);
+        $this->assertFalse($result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDefaultWhenMissing()
+    {
+        // given
+        $container = new UserData();
+        $match = $this->createMockWithByteOffset(14);
+
+        // when
+        $result = $container->get($match);
+
+        // then
+        $this->assertNull($result);
     }
 
     private function createMockWithByteOffset(int $byteOffset)

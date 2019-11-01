@@ -2,24 +2,21 @@
 namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Match\Details\Match;
-use function array_key_exists;
 
 class UserData
 {
-    /** @var UserDataObject[] */
+    /** @var mixed[] */
     private $values = [];
 
-    public function forMatch(Match $match): UserDataObject
+    public function set(Match $match, $value): void
     {
-        return $this->getOrCreate($this->getKey($match));
+        $this->values[$this->getKey($match)] = $value;
     }
 
-    private function getOrCreate(int $key): UserDataObject
+    public function get(Match $match)
     {
-        if (!array_key_exists($key, $this->values)) {
-            $this->values[$key] = new UserDataObject();
-        }
-        return $this->values[$key];
+        $key = $this->getKey($match);
+        return $this->values[$key] ?? null;
     }
 
     private function getKey(Match $match): int

@@ -184,12 +184,12 @@ class MatchImpl implements Match
 
     public function setUserData($userData): void
     {
-        $this->userData->forMatch($this)->set($userData);
+        $this->userData->set($this, $userData);
     }
 
     public function getUserData()
     {
-        return $this->userData->forMatch($this)->get();
+        return $this->userData->get($this);
     }
 
     public function __toString(): string
