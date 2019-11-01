@@ -26,6 +26,17 @@ class GroupNameValidator
         }
     }
 
+    public function isGroupValid(): bool
+    {
+        if (is_int($this->groupNameOrIndex)) {
+            return $this->groupNameOrIndex >= 0;
+        }
+        if (is_string($this->groupNameOrIndex)) {
+            return $this->isGroupNameValid();
+        }
+        return false;
+    }
+
     private function validateGroupIndex(): void
     {
         if ($this->groupNameOrIndex < 0) {
@@ -42,7 +53,7 @@ class GroupNameValidator
 
     private function isGroupNameValid(): bool
     {
-        return \preg_match('/^[a-zA-Z]\w*$/', $this->groupNameOrIndex) === 1;
+        return \preg_match('/^[a-zA-Z]\w{0,31}$/', $this->groupNameOrIndex) === 1;
     }
 
     private function throwInvalidGroupNameType(): void
