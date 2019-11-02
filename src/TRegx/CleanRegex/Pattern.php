@@ -75,9 +75,9 @@ class Pattern
         return (new CountPattern($this->pattern, new Subject($subject)))->count();
     }
 
-    public function is(): IsPattern
+    public function valid(): bool
     {
-        return new IsPattern($this->pattern);
+        return (new ValidPattern($this->pattern->pattern))->isValid();
     }
 
     public function delimiter(): string
