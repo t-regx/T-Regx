@@ -4,50 +4,51 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
+use TRegx\SafeRegex\preg;
 
 class DelimitererTest extends TestCase
 {
     public function patternsAndResults()
     {
         return [
-            ['siema', '/siema/'],
-            ['sie#ma', '/sie#ma/'],
-            ['sie/ma', '#sie/ma#'],
-            ['si/e#ma', '%si/e#ma%'],
-            ['si/e#m%a', '~si/e#m%a~'],
-            ['s~i/e#m%a', '+s~i/e#m%a+'],
-            ['s~i/e#++m%a', '!s~i/e#++m%a!'],
-            ['s~i/e#++m%a!', '@s~i/e#++m%a!@'],
-            ['s~i/e#++m%a!@', '_s~i/e#++m%a!@_'],
-            ['s~i/e#++m%a!@_', ';s~i/e#++m%a!@_;'],
-            ['s~i/e#++m%a!@_;', '`s~i/e#++m%a!@_;`'],
-            ['s~i/e#++m%a!@_;`', '-s~i/e#++m%a!@_;`-'],
-            ['s~i/e#++m%a!@_;`-', '=s~i/e#++m%a!@_;`-='],
-            ['s~i/e#++m%a!@_;==`-', ',s~i/e#++m%a!@_;==`-,'],
+            ['FooBar'],
+            ['Foo#Bar'],
+            ['Foo/Bar'],
+            ['Foo/#Bar'],
+            ['si/e#m%a'],
+            ['s~i/e#m%a'],
+            ['s~i/e#++m%a'],
+            ['s~i/e#++m%a!'],
+            ['s~i/e#++m%a!@'],
+            ['s~i/e#++m%a!@_'],
+            ['s~i/e#++m%a!@_;'],
+            ['s~i/e#++m%a!@_;`'],
+            ['s~i/e#++m%a!@_;`-'],
+            ['s~i/e#++m%a!@_;==`-'],
 
-            ['[foo]', '/[foo]/'],
-            ['{foo}', '/{foo}/'],
-            ['(foo)', '/(foo)/'],
-            ['<foo>', '/<foo>/'],
+            // Closable characters should not be treated as delimiters
+            ['[foo]'],
+            ['{foo}'],
+            ['(foo)'],
+            ['<foo>'],
         ];
     }
 
     /**
      * @test
      * @dataProvider patternsAndResults
-     * @param string $pattern
-     * @param string $expectedResult
+     * @param string $input
      */
-    public function shouldDelimiterPattern(string $pattern, string $expectedResult)
+    public function shouldDelimiterPattern(string $input)
     {
         // given
         $delimiterer = new Delimiterer();
 
         // when
-        $result = $delimiterer->delimiter($pattern);
+        $pattern = $delimiterer->delimiter("\Q$input\E");
 
         // then
-        $this->assertEquals($expectedResult, $result);
+        $this->assertTrue(preg::match($pattern, $input) === 1, "Failed asserting that $pattern matches $input");
     }
 
     public function alreadyDelimited()
