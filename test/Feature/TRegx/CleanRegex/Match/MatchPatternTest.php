@@ -50,12 +50,12 @@ class MatchPatternTest extends TestCase
     public function shouldGet_first_callback()
     {
         // when
-        $value = pattern('[A-Z]+')->match('Foo, Bar, Top')->first(function () {
-            return 'Different';
+        $value = pattern('[A-Za-z]{4}\.')->match('What do you need? - Guns.')->first(function (Match $match) {
+            return "Lots of $match";
         });
 
         // then
-        $this->assertEquals("Different", $value);
+        $this->assertEquals("Lots of Guns.", $value);
     }
 
     /**
@@ -401,5 +401,20 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertFalse($matches);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllMatches_asInt()
+    {
+        // given
+        $subject = "I’ll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.";
+
+        // when
+        $integers = pattern('\d+')->match($subject)->asInt();
+
+        // then
+        $this->assertSame([9, 9, 6, 7, 45], $integers);
     }
 }

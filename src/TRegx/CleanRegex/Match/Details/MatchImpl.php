@@ -83,10 +83,11 @@ class MatchImpl implements Match
 
     public function toInt(): int
     {
-        if ($this->isInt()) {
-            return $this->match->getMatch();
+        $match = $this->match->getMatch();
+        if (Integer::isValid($match)) {
+            return $match;
         }
-        throw IntegerFormatException::forMatch($this->match->getMatch());
+        throw IntegerFormatException::forMatch($match);
     }
 
     public function isInt(): bool

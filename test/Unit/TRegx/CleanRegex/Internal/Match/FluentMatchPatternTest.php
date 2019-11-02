@@ -3,6 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\FluentMatchPatternException;
+use TRegx\CleanRegex\Exception\CleanRegex\IntegerFormatException;
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
@@ -231,6 +233,53 @@ class FluentMatchPatternTest extends TestCase
 
         // then
         $this->assertEquals([10, 20, 30], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMapToIntegers()
+    {
+        // given
+        $pattern = new FluentMatchPattern(['a' => '9', '10', 'b' => 11, '100', 'c' => 12], $this->mock());
+
+        // when
+        $integers = $pattern->asInt()->all();
+
+        // then
+        $this->assertSame(['a' => 9, 10, 'b' => 11, 100, 'c' => 12], $integers);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForInvalidIntegers()
+    {
+        // given
+        $pattern = new FluentMatchPattern(['9', '10', '--10', '100'], $this->mock());
+
+        // then
+        $this->expectException(IntegerFormatException::class);
+        $this->expectExceptionMessage("Expected to parse '--10', but it is not a valid integer");
+
+        // when
+        $pattern->asInt();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForNonStringAndNonInt()
+    {
+        // given
+        $pattern = new FluentMatchPattern(['9', true], $this->mock());
+
+        // then
+        $this->expectException(FluentMatchPatternException::class);
+        $this->expectExceptionMessage("Invalid data types passed to `asInt()` method. Expected 'string' or 'int', but boolean (true) given");
+
+        // when
+        $pattern->asInt();
     }
 
     private function mock(): NotMatchedWorker

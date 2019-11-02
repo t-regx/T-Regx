@@ -128,7 +128,8 @@ class MatchPatternTest extends TestCase
         $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')
             ->match($subject)
             ->group('lowercase')
-            ->fluent()->map(function (MatchGroup $group) {
+            ->fluent()
+            ->map(function (MatchGroup $group) {
                 if ($group->matched()) {
                     return $group->text();
                 }
