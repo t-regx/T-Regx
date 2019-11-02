@@ -5,6 +5,7 @@ use ArrayIterator;
 use Countable;
 use EmptyIterator;
 use Iterator;
+use TRegx\CleanRegex\Exception\CleanRegex\IntegerFormatException;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
@@ -12,6 +13,7 @@ use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFactory;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
+use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
@@ -152,6 +154,19 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
             $this->getMatchObjects(),
             new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base)
         );
+    }
+
+    /**
+     * @return int[]
+     */
+    public function asInt(): array
+    {
+        return \array_map(function ($value) {
+            if (Integer::isValid($value)) {
+                return (int)$value;
+            }
+            throw IntegerFormatException::forMatch($value);
+        }, $this->base->matchAll()->getAll());
     }
 
     /**

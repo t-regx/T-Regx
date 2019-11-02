@@ -10,6 +10,7 @@ Incoming in 0.9.2
 * Features
     * Added `Match.group().replace()` 🔥
     * Added `pattern()->match()->fluent()` 🔥
+    * Added `pattern()->match()->asInt()`
     * Added `pattern()->match()->distinct()` (leaves only unique matches)
     * Added prepared pattern method `Pattern::inject()`/`Pattern::bind()` (see below)
     * In `pattern()->match()->groups()`:

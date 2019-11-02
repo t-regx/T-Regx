@@ -4,9 +4,12 @@ namespace TRegx\CleanRegex\Match;
 use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
+use TRegx\CleanRegex\Exception\CleanRegex\FluentMatchPatternException;
+use TRegx\CleanRegex\Exception\CleanRegex\IntegerFormatException;
 use TRegx\CleanRegex\Exception\CleanRegex\NoFirstElementFluentException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
+use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\NotMatchedFluentOptional;
@@ -110,6 +113,22 @@ class FluentMatchPattern implements MatchPatternInterface
     public function keys(): FluentMatchPattern
     {
         return $this->next(\array_keys($this->elements));
+    }
+
+    public function asInt(): FluentMatchPattern
+    {
+        return $this->map(function ($value) {
+            if (\is_int($value)) {
+                return (int)$value;
+            }
+            if (!\is_string($value)) {
+                throw FluentMatchPatternException::forInvalidInteger($value);
+            }
+            if (Integer::isValid($value)) {
+                return (int)$value;
+            }
+            throw IntegerFormatException::forMatch($value);
+        });
     }
 
     private function next(array $elements): FluentMatchPattern
