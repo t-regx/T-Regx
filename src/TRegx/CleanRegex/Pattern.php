@@ -102,17 +102,17 @@ class Pattern
 
     public static function prepare(array $input, string $flags = ''): Pattern
     {
-        return PatternBuilder::prepare($input, $flags);
+        return PatternBuilder::builder()->prepare($input, $flags);
     }
 
     public static function bind(string $input, array $values, string $flags = ''): Pattern
     {
-        return PatternBuilder::bind($input, $values, $flags);
+        return PatternBuilder::builder()->bind($input, $values, $flags);
     }
 
     public static function inject(string $input, array $values, string $flags = ''): Pattern
     {
-        return PatternBuilder::inject($input, $values, $flags);
+        return PatternBuilder::builder()->inject($input, $values, $flags);
     }
 
     public static function compose(array $patterns): CompositePattern

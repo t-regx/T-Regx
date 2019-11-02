@@ -10,15 +10,9 @@ use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 
 class PatternBuilder
 {
-    /**
-     * @param string $input
-     * @param string[] $values
-     * @param string $flags
-     * @return Pattern
-     */
-    public static function bind(string $input, array $values, string $flags = ''): Pattern
+    public static function builder()
     {
-        return self::build(new BindingParser($input, $values), $flags);
+        return new self();
     }
 
     /**
@@ -27,9 +21,20 @@ class PatternBuilder
      * @param string $flags
      * @return Pattern
      */
-    public static function inject(string $input, array $values, string $flags = ''): Pattern
+    public function bind(string $input, array $values, string $flags = ''): Pattern
     {
-        return self::build(new InjectParser($input, $values), $flags);
+        return $this->build(new BindingParser($input, $values), $flags);
+    }
+
+    /**
+     * @param string $input
+     * @param string[] $values
+     * @param string $flags
+     * @return Pattern
+     */
+    public function inject(string $input, array $values, string $flags = ''): Pattern
+    {
+        return $this->build(new InjectParser($input, $values), $flags);
     }
 
     /**
@@ -37,9 +42,9 @@ class PatternBuilder
      * @param string $flags
      * @return Pattern
      */
-    public static function prepare(array $input, string $flags = ''): Pattern
+    public function prepare(array $input, string $flags = ''): Pattern
     {
-        return self::build(new PreparedParser($input), $flags);
+        return $this->build(new PreparedParser($input), $flags);
     }
 
     /**
@@ -51,7 +56,7 @@ class PatternBuilder
         return new CompositePattern((new CompositePatternMapper($patterns))->createPatterns());
     }
 
-    private static function build(Parser $parser, string $flags = ''): Pattern
+    private function build(Parser $parser, string $flags = ''): Pattern
     {
         return new Pattern((new PrepareFacade($parser))->getPattern(), $flags);
     }

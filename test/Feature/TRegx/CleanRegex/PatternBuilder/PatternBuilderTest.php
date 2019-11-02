@@ -12,7 +12,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_prepared()
     {
         // given
-        $pattern = PatternBuilder::prepare(['You/her, (are|is) ', ['real? (or are you not real?)'], ' (you|her)']);
+        $pattern = PatternBuilder::builder()->prepare(['You/her, (are|is) ', ['real? (or are you not real?)'], ' (you|her)']);
 
         // when
         $pattern = $pattern->delimiter();
@@ -27,7 +27,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_bind()
     {
         // given
-        $pattern = PatternBuilder::bind('You/her, (are|is) @question (you|her)', [
+        $pattern = PatternBuilder::builder()->bind('You/her, (are|is) @question (you|her)', [
             'question' => 'real? (or are you not real?)'
         ]);
 
@@ -44,7 +44,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_inject()
     {
         // given
-        $pattern = PatternBuilder::inject('You/her, (are|is) @ (you|her)', [
+        $pattern = PatternBuilder::builder()->inject('You/her, (are|is) @ (you|her)', [
             'real? (or are you not real?)'
         ]);
 
