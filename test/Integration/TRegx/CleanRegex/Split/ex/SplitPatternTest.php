@@ -2,7 +2,7 @@
 namespace Test\Integration\TRegx\CleanRegex\Split\ex;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\SplitPattern;
 
@@ -41,6 +41,6 @@ class SplitPatternTest extends TestCase
 
     private function split($pattern, $subject): SplitPattern
     {
-        return new SplitPattern(new Pattern($pattern), new Subject($subject));
+        return new SplitPattern(InternalPattern::standard($pattern), new Subject($subject));
     }
 }

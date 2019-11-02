@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\only;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\PhpVersionDependent;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\SafeRegex\Exception\CompileSafeRegexException;
 
@@ -16,7 +16,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('([A-Z])?[a-z]+'), 'Nice matching pattern');
+        $pattern = new MatchPattern(InternalPattern::standard('([A-Z])?[a-z]+'), 'Nice matching pattern');
 
         // when
         $only = $pattern->only(2);
@@ -31,7 +31,7 @@ class MatchPatternTest extends TestCase
     public function shouldReturnEmptyArray_onNoMatches()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('([A-Z])?[a-z]+'), 'NOT MATCHING');
+        $pattern = new MatchPattern(InternalPattern::standard('([A-Z])?[a-z]+'), 'NOT MATCHING');
 
         // when
         $only = $pattern->only(2);
@@ -46,7 +46,7 @@ class MatchPatternTest extends TestCase
     public function shouldReturnEmptyArray_onNoMatches_onlyOne()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('([A-Z])?[a-z]+'), 'NOT MATCHING');
+        $pattern = new MatchPattern(InternalPattern::standard('([A-Z])?[a-z]+'), 'NOT MATCHING');
 
         // when
         $only = $pattern->only(1);
@@ -61,7 +61,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onNegativeLimit()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('([A-Z])?[a-z]+'), 'NOT MATCHING');
+        $pattern = new MatchPattern(InternalPattern::standard('([A-Z])?[a-z]+'), 'NOT MATCHING');
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -77,7 +77,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetOne_withPregMatch()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('(?<group>[A-Z])?(?<group2>[a-z]+)'), 'Nice matching pattern');
+        $pattern = new MatchPattern(InternalPattern::standard('(?<group>[A-Z])?(?<group2>[a-z]+)'), 'Nice matching pattern');
 
         // when
         $only = $pattern->only(1);
@@ -92,7 +92,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetNone()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('(?<group>[A-Z])?(?<group2>[a-z]+)'), 'Nice matching pattern');
+        $pattern = new MatchPattern(InternalPattern::standard('(?<group>[A-Z])?(?<group2>[a-z]+)'), 'Nice matching pattern');
 
         // when
         $only = $pattern->only(0);
@@ -107,7 +107,7 @@ class MatchPatternTest extends TestCase
     public function shouldValidatePattern_onOnly0()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('invalid)'), 'Nice matching pattern');
+        $pattern = new MatchPattern(InternalPattern::standard('invalid)'), 'Nice matching pattern');
 
         // then
         $this->expectException(CompileSafeRegexException::class);

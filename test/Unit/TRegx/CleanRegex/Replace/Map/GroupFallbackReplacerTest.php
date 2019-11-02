@@ -168,11 +168,11 @@ class GroupFallbackReplacerTest extends TestCase
     public function create($pattern, $subject): GroupFallbackReplacer
     {
         return new GroupFallbackReplacer(
-            new InternalPattern($pattern),
+            InternalPattern::standard($pattern),
             new Subject($subject),
             -1,
             new ConstantResultStrategy('Subject not matched'),
-            new ApiBase(new InternalPattern($pattern), $subject, new UserData())
+            new ApiBase(InternalPattern::standard($pattern), $subject, new UserData())
         );
     }
 }

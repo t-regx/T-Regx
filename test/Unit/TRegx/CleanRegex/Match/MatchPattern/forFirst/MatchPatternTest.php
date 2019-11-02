@@ -3,9 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\forFirst;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -23,7 +22,6 @@ class MatchPatternTest extends TestCase
         // when
         $pattern
             ->forFirst(function (Match $match) {
-
                 // then
                 $this->assertEquals(0, $match->index());
                 $this->assertEquals("Nice matching pattern", $match->subject());
@@ -79,11 +77,11 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $pattern->forFirst($this->assertFalseCallback())->orReturn(null);
-        $pattern->forFirst($this->assertFalseCallback())->orElse(function () {
+        $pattern->forFirst($this->failCallback())->orReturn(null);
+        $pattern->forFirst($this->failCallback())->orElse(function () {
         });
         try {
-            @$pattern->forFirst($this->assertFalseCallback())->orThrow();
+            @$pattern->forFirst($this->failCallback())->orThrow();
         } catch (SubjectNotMatchedException $ignored) {
         }
 
@@ -175,11 +173,10 @@ class MatchPatternTest extends TestCase
     public function should_onNotMatchingSubject_call_withDetails()
     {
         // given
-        $pattern = new MatchPattern(new Pattern("(?:[A-Z])?[a-z']+ (?<group>.)"), 'NOT MATCHING');
+        $pattern = new MatchPattern(InternalPattern::standard("(?:[A-Z])?[a-z']+ (?<group>.)"), 'NOT MATCHING');
 
         // when
         $pattern->forFirst('strrev')->orElse(function (NotMatched $details) {
-
             // then
             $this->assertEquals('NOT MATCHING', $details->subject());
             $this->assertEquals(['group'], $details->groupNames());
@@ -193,13 +190,13 @@ class MatchPatternTest extends TestCase
 
     private function getMatchPattern($subject): MatchPattern
     {
-        return new MatchPattern(new Pattern("([A-Z])?[a-z']+"), $subject);
+        return new MatchPattern(InternalPattern::standard("([A-Z])?[a-z']+"), $subject);
     }
 
-    private function assertFalseCallback(): callable
+    private function failCallback(): callable
     {
         return function () {
-            $this->assertTrue(false, "Failed asserting that forFirst() is not invoked for not matching subject");
+            $this->fail("Failed asserting that forFirst() is not invoked for not matching subject");
         };
     }
 }

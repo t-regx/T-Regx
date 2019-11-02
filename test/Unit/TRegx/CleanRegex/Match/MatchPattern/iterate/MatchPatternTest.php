@@ -1,7 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\iterate;
 
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\MatchPattern;
 use PHPUnit\Framework\TestCase;
@@ -50,6 +50,6 @@ class MatchPatternTest extends TestCase
 
     private function getMatchPattern($subject): MatchPattern
     {
-        return new MatchPattern(new Pattern("([A-Z])?[a-z']+"), $subject);
+        return new MatchPattern(InternalPattern::standard("([A-Z])?[a-z']+"), $subject);
     }
 }

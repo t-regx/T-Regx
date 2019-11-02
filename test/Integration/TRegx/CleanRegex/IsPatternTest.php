@@ -3,7 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\PhpVersionDependent;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\IsPattern;
 use TRegx\SafeRegex\Exception\MalformedPatternException;
 
@@ -15,7 +15,7 @@ class IsPatternTest extends TestCase
     public function shouldBeValid()
     {
         // given
-        $is = new IsPattern(new Pattern('/valid/'));
+        $is = new IsPattern(InternalPattern::manual('/valid/'));
 
         // when
         $valid = $is->valid();
@@ -30,7 +30,7 @@ class IsPatternTest extends TestCase
     public function shouldNotBeValid()
     {
         // given
-        $is = new IsPattern(new Pattern('/invalid)'));
+        $is = new IsPattern(InternalPattern::manual('/invalid)'));
 
         // when
         $valid = $is->valid();
@@ -45,7 +45,7 @@ class IsPatternTest extends TestCase
     public function shouldBeUsable_valid()
     {
         // given
-        $is = new IsPattern(new Pattern('/valid/'));
+        $is = new IsPattern(InternalPattern::manual('/valid/'));
 
         // when
         $valid = $is->usable();
@@ -60,7 +60,7 @@ class IsPatternTest extends TestCase
     public function shouldBeUsable_notDelimited()
     {
         // given
-        $is = new IsPattern(new Pattern('valid'));
+        $is = new IsPattern(InternalPattern::automatic('valid'));
 
         // when
         $usable = $is->usable();
@@ -75,7 +75,7 @@ class IsPatternTest extends TestCase
     public function shouldNotBeUsable_invalid()
     {
         // given
-        $is = new IsPattern(new Pattern('/invalid)/'));
+        $is = new IsPattern(InternalPattern::manual('/invalid)/'));
 
         // when
         $valid = $is->usable();
@@ -90,7 +90,7 @@ class IsPatternTest extends TestCase
     public function shouldNotBeUsable_invalid_notDelimited()
     {
         // given
-        $is = new IsPattern(new Pattern('invalid)'));
+        $is = new IsPattern(InternalPattern::manual('invalid)'));
 
         // when
         $usable = $is->usable();
@@ -105,7 +105,7 @@ class IsPatternTest extends TestCase
     public function shouldBeDelimited()
     {
         // given
-        $is = new IsPattern(new Pattern('/valid/'));
+        $is = new IsPattern(InternalPattern::manual('/valid/'));
 
         // when
         $delimited = $is->delimited();
@@ -120,7 +120,7 @@ class IsPatternTest extends TestCase
     public function shouldNotBeDelimited()
     {
         // given
-        $is = new IsPattern(new Pattern('/invalid'));
+        $is = new IsPattern(InternalPattern::automatic('/invalid'));
 
         // when
         $delimited = $is->delimited();
@@ -135,7 +135,7 @@ class IsPatternTest extends TestCase
     public function shouldThrow_onInvalidPattern()
     {
         // given
-        $is = new IsPattern(new Pattern('invalid)'));
+        $is = new IsPattern(InternalPattern::automatic('invalid)'));
 
         // then
         $this->expectException(MalformedPatternException::class);

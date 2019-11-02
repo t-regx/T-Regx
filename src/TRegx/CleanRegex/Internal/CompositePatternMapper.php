@@ -16,27 +16,16 @@ class CompositePatternMapper
 
     public function createPatterns(): array
     {
-        return \array_map(function ($pattern) {
-            return $this->map($pattern);
-        }, $this->patterns);
+        return \array_map([$this, 'mapToString'], $this->patterns);
     }
 
-    /**
-     * @param Pattern|string $pattern
-     * @return InternalPattern
-     */
-    private function map($pattern): InternalPattern
-    {
-        return new InternalPattern($this->mapToString($pattern));
-    }
-
-    private function mapToString($pattern): string
+    private function mapToString($pattern): InternalPattern
     {
         if (\is_string($pattern)) {
-            return \pattern($pattern)->delimiter();
+            return InternalPattern::standard($pattern);
         }
         if ($pattern instanceof Pattern) {
-            return $pattern->delimiter();
+            return InternalPattern::pcre($pattern->delimiter());
         }
         throw $this->throwInvalidPatternType($pattern);
     }

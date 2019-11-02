@@ -2,23 +2,21 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 
 class InternalPatternTest extends TestCase
 {
     /**
      * @test
      */
-    public function shouldDelimiterWithFlags()
+    public function shouldAutomaticallyDelimiter()
     {
         // given
-        $pattern = new Pattern('[a-z]+', 'mi');
+        $pattern = InternalPattern::standard('[a-z]+', 'mi');
 
-        // when
-        $delimited = $pattern->pattern;
-
-        // then
-        $this->assertEquals('/[a-z]+/mi', $delimited);
+        // when + then
+        $this->assertEquals('/[a-z]+/mi', $pattern->pattern);
+        $this->assertEquals('[a-z]+', $pattern->originalPattern);
     }
 
     /**
@@ -27,12 +25,25 @@ class InternalPatternTest extends TestCase
     public function shouldKeepOriginalPattern()
     {
         // given
-        $pattern = new Pattern('[a-z]+', 'mi');
+        $pattern = InternalPattern::standard('[a-z]+', 'mi');
 
         // when
         $original = $pattern->originalPattern;
 
         // then
         $this->assertEquals('[a-z]+', $original);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateManual()
+    {
+        // given
+        $pattern = InternalPattern::pcre('/[a-z]+/mi');
+
+        // when + then
+        $this->assertEquals('/[a-z]+/mi', $pattern->pattern);
+        $this->assertEquals('/[a-z]+/mi', $pattern->originalPattern);
     }
 }

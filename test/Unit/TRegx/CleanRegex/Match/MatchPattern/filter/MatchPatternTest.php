@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\filter;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\MatchPattern;
 
@@ -15,7 +15,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('([A-Z])?[a-z]+'), 'Nice matching pattern');
+        $pattern = new MatchPattern(InternalPattern::standard('([A-Z])?[a-z]+'), 'Nice matching pattern');
 
         // when
         $first = $pattern
@@ -34,7 +34,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onInvalidReturnType()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('([A-Z])?[a-z]+'), 'Nice matching pattern');
+        $pattern = new MatchPattern(InternalPattern::standard('([A-Z])?[a-z]+'), 'Nice matching pattern');
 
         // then
         $this->expectException(InvalidReturnValueException::class);

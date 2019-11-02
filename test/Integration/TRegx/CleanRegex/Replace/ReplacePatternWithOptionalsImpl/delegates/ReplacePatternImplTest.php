@@ -25,7 +25,7 @@ class ReplacePatternImplTest extends TestCase
         $delegate->method($methodName)->willReturn('delegated');
         $delegate->expects($this->exactly(1))->method($methodName)->with('number');
 
-        $underTest = new ReplacePatternImpl($delegate, new InternalPattern(''), '', 0, new ReplacePatternFactory());
+        $underTest = new ReplacePatternImpl($delegate, InternalPattern::pcre('//'), '', 0, new ReplacePatternFactory());
 
         // when
         $result = $underTest->$methodName('number');
@@ -57,7 +57,7 @@ class ReplacePatternImplTest extends TestCase
                 return $inputCallback() === 'input';
             }));
 
-        $underTest = new ReplacePatternImpl($delegate, new InternalPattern(''), '', 0, new ReplacePatternFactory());
+        $underTest = new ReplacePatternImpl($delegate, InternalPattern::pcre('//'), '', 0, new ReplacePatternFactory());
 
         // when
         $result = $underTest->callback(function () {
@@ -80,7 +80,7 @@ class ReplacePatternImplTest extends TestCase
         $delegate = $this->createMock(SpecificReplacePattern::class);
         $delegate->method('by')->willReturn($inputInstance);
 
-        $underTest = new ReplacePatternImpl($delegate, new InternalPattern(''), '', 0, new ReplacePatternFactory());
+        $underTest = new ReplacePatternImpl($delegate, InternalPattern::pcre('//'), '', 0, new ReplacePatternFactory());
 
         // when
         $result = $underTest->by();

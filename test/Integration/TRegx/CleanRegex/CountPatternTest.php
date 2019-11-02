@@ -3,7 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\CountPattern;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Subject;
 
 class CountPatternTest extends TestCase
@@ -18,7 +18,7 @@ class CountPatternTest extends TestCase
     public function shouldCountMatches(string $pattern, string $subject, int $expectedCount)
     {
         // given
-        $countPattern = new CountPattern(new Pattern($pattern), new Subject($subject));
+        $countPattern = new CountPattern(InternalPattern::pcre($pattern), new Subject($subject));
 
         // when
         $count = $countPattern->count();

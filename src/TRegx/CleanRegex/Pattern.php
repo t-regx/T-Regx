@@ -23,7 +23,7 @@ class Pattern
 
     public function __construct(string $pattern, string $flags = '')
     {
-        $this->pattern = new InternalPattern($pattern, $flags);
+        $this->pattern = InternalPattern::automatic($pattern, $flags);
     }
 
     public function test(string $subject): bool

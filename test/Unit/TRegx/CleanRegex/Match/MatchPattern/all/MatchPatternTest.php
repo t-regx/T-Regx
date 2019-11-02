@@ -1,7 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\all;
 
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 use PHPUnit\Framework\TestCase;
 
@@ -13,7 +13,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('([A-Z])?[a-z]+'), 'Nice matching pattern');
+        $pattern = new MatchPattern(InternalPattern::standard('([A-Z])?[a-z]+'), 'Nice matching pattern');
 
         // when
         $first = $pattern->all();
@@ -28,7 +28,7 @@ class MatchPatternTest extends TestCase
     public function shouldReturnEmptyArray_onNoMatches()
     {
         // given
-        $pattern = new MatchPattern(new Pattern('([A-Z])?[a-z]+'), 'NOT MATCHING');
+        $pattern = new MatchPattern(InternalPattern::standard('([A-Z])?[a-z]+'), 'NOT MATCHING');
 
         // when
         $all = $pattern->all();

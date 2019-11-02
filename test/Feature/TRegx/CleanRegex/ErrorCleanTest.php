@@ -32,7 +32,7 @@ class ErrorCleanTest extends TestCase
         }
 
         // when
-        $valid = pattern('/[a-z]/')->test("a");
+        $valid = pattern('[a-z]')->test("a");
 
         // then
         $this->assertTrue($valid);

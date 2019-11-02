@@ -3,7 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex\Replace;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
 use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
@@ -82,8 +82,8 @@ class ReplaceLimitImplTest extends TestCase
     private function chain(): ReplacePattern
     {
         return new ReplacePatternImpl(
-            new SpecificReplacePatternImpl(new Pattern(''), '', 0, new DefaultStrategy()),
-            new Pattern(''),
+            new SpecificReplacePatternImpl(InternalPattern::pcre('//'), '', 0, new DefaultStrategy()),
+            InternalPattern::pcre('//'),
             '',
             0,
             new ReplacePatternFactory()

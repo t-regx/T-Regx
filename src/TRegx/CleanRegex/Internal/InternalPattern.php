@@ -11,9 +11,19 @@ class InternalPattern
     /** @var string */
     public $originalPattern;
 
-    public function __construct(string $pattern, string $flags = '')
+    private function __construct(string $pattern, $originalPattern)
     {
-        $this->pattern = (new Delimiterer())->delimiter($pattern) . $flags;
-        $this->originalPattern = $pattern;
+        $this->pattern = $pattern;
+        $this->originalPattern = $originalPattern;
+    }
+
+    public static function standard(string $pattern, string $flags = ''): InternalPattern
+    {
+        return new self((new Delimiterer())->delimiter($pattern) . $flags, $pattern);
+    }
+
+    public static function pcre(string $pattern): InternalPattern
+    {
+        return new self($pattern, $pattern);
     }
 }

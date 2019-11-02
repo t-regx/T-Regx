@@ -4,7 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex\ForArray;
 use PHPUnit\Framework\TestCase;
 use Test\DataProviders;
 use TRegx\CleanRegex\ForArray\FilterArrayPattern;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CrossData\CrossDataProviders;
 
 class FilterArrayPatternTest extends TestCase
@@ -19,7 +19,7 @@ class FilterArrayPatternTest extends TestCase
     public function shouldFilterArray(string $pattern, array $subjects, array $expected)
     {
         // given
-        $filterArrayPattern = new FilterArrayPattern(new Pattern($pattern), $subjects);
+        $filterArrayPattern = new FilterArrayPattern(InternalPattern::pcre($pattern), $subjects);
 
         // when
         $filtered = $filterArrayPattern->filter();
@@ -59,7 +59,7 @@ class FilterArrayPatternTest extends TestCase
     public function shouldFilterArray_assoc(string $pattern, array $subjects, array $expected)
     {
         // given
-        $filterArrayPattern = new FilterArrayPattern(new Pattern($pattern), $subjects);
+        $filterArrayPattern = new FilterArrayPattern(InternalPattern::pcre($pattern), $subjects);
 
         // when
         $filtered = $filterArrayPattern->filterAssoc();
