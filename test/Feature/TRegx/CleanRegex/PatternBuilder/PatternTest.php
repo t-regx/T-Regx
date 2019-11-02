@@ -64,8 +64,8 @@ class PatternTest extends TestCase
         $name = 'Frodo';
         $pattern = Pattern::compose([
             pattern('^Fro'),
-            'rod',
-            '/do$/'
+            Pattern::of('rod'),
+            Pattern::pcre('/do$/'),
         ]);
 
         // when

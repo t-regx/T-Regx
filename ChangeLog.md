@@ -4,9 +4,13 @@ T-Regx Changelog
 Incoming in 0.9.2
 -----------------
 * Breaking changes
+    * Constructor `new Pattern()` is no longer a part of T-Regx API. Use `Pattern::of()`/`pattern()`
     * Renamed `Match.parseInt()` to `Match.toInt()` (the same for `MatchGroup`)
-    * Renamed `is()->delimitered()` to `is()->delimited()`
-    * Removed `pattern()->match()->test()` (and `fails()`). From now on, use `pattern()->test()` (and `fails()`)
+    * Removed `pattern()->match()->test()`/`fails()`. From now on, use `pattern()->test()`/`fails()`
+    * Removed `is()`:
+        - `is()->delimited()`
+        - `is()->usabled()`
+        - `is()->valid()` is changed to `valid()`
 * Features
     * Added `Match.group().replace()` 🔥
     * Added `pattern()->match()->fluent()` 🔥

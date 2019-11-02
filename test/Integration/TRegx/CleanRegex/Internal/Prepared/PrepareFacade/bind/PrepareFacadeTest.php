@@ -121,15 +121,8 @@ class PrepareFacadeTest extends TestCase
                 ],
                 '/(I|We) would like to match - empty colon : is ok/',
             ],
-            [
-                '/Hey @bind you/mi',
-                [
-                    'bind' => '(or)'
-                ],
-                '/Hey \(or\) you/mi'
-            ],
-            ['//', [], '//'],
-            ['//mi', [], '//mi'],
+            ['//', [], '#//#'],
+            ['//mi', [], '#//mi#'],
             ['', [], '//'],
         ];
     }

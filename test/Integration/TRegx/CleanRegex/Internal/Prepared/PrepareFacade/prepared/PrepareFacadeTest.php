@@ -63,15 +63,7 @@ class PrepareFacadeTest extends TestCase
             ],
             [
                 ['/(I|We) would like ', ['(input)'], '/'],
-                '/(I|We) would like \(input\)/'
-            ],
-            [
-                ['#(I|We) would like ', ['(input)'], '#'],
-                '#(I|We) would like \(input\)#'
-            ],
-            [
-                ['#(I|We) would like ', ['(input)'], '#mi'],
-                '#(I|We) would like \(input\)#mi'
+                '#/(I|We) would like \(input\)/#'
             ],
         ];
     }

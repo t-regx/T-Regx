@@ -12,7 +12,7 @@ class PatternTest extends TestCase
     public function shouldBeValid()
     {
         // given
-        $pattern = new Pattern('Foo');
+        $pattern = Pattern::of('Foo');
 
         // when
         $valid = $pattern->valid();
@@ -27,7 +27,7 @@ class PatternTest extends TestCase
     public function shouldNotBeValid()
     {
         // given
-        $pattern = new Pattern('invalid)');
+        $pattern = Pattern::of('invalid)');
 
         // when
         $valid = $pattern->valid();

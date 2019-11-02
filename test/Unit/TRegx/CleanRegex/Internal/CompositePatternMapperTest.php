@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use stdClass;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Pattern;
 
 class CompositePatternMapperTest extends TestCase
 {
@@ -17,8 +18,8 @@ class CompositePatternMapperTest extends TestCase
         // given
         $mapper = new CompositePatternMapper([
             '[A-Z]+',
-            '/[A-Z0-9]+/',
-            '/[A-Z+]/i',
+            Pattern::of('[A-Z0-9]+'),
+            Pattern::pcre('/[A-Z+]/i'),
             pattern('[A-Za-z]+', 'u'),
         ]);
 

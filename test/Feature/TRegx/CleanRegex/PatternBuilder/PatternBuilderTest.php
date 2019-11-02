@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\PatternBuilder;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PatternBuilder;
 
 class PatternBuilderTest extends TestCase
@@ -64,8 +65,8 @@ class PatternBuilderTest extends TestCase
         $name = 'Frodo';
         $pattern = PatternBuilder::compose([
             pattern('^Fro'),
-            'rod',
-            '/do$/'
+            Pattern::of('rod'),
+            Pattern::pcre('/do$/')
         ]);
 
         // when

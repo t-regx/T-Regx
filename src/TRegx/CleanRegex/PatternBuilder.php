@@ -58,6 +58,6 @@ class PatternBuilder
 
     private function build(Parser $parser, string $flags = ''): Pattern
     {
-        return new Pattern((new PrepareFacade($parser))->getPattern(), $flags);
+        return Pattern::pcre((new PrepareFacade($parser))->getPattern() . $flags);
     }
 }
