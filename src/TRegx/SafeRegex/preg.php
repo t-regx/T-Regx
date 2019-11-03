@@ -3,6 +3,7 @@ namespace TRegx\SafeRegex;
 
 use TRegx\SafeRegex\Constants\PregConstants;
 use TRegx\SafeRegex\Exception\CompileSafeRegexException;
+use TRegx\SafeRegex\Exception\InvalidReturnValueException;
 use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
 use TRegx\SafeRegex\Exception\SafeRegexException;
 use TRegx\SafeRegex\Exception\SuspectedReturnSafeRegexException;
@@ -342,7 +343,7 @@ class preg
     public static function replace_callback($pattern, callable $callback, $subject, $limit = -1, &$count = null)
     {
         return GuardedExecution::invoke('preg_replace_callback', function () use ($pattern, $limit, $subject, $callback, &$count) {
-            return @\preg_replace_callback($pattern, $callback, $subject, $limit, $count);
+            return @\preg_replace_callback($pattern, self::decorateCallback('preg_replace_callback', $callback), $subject, $limit, $count);
         });
     }
 
@@ -364,8 +365,24 @@ class preg
     public static function replace_callback_array($patterns_and_callbacks, $subject, $limit = -1, &$count = null)
     {
         return GuardedExecution::invoke('preg_replace_callback_array', function () use ($patterns_and_callbacks, $subject, $limit, &$count) {
-            return @\preg_replace_callback_array($patterns_and_callbacks, $subject, $limit, $count);
+            return @\preg_replace_callback_array(array_map(function ($callback) {
+                return self::decorateCallback('preg_replace_callback_array', $callback);
+            }, $patterns_and_callbacks), $subject, $limit, $count);
         });
+    }
+
+    private static function decorateCallback(string $methodName, $callback)
+    {
+        if (!is_callable($callback)) {
+            throw new \InvalidArgumentException("Invalid callback passed to '$methodName'");
+        }
+        return function (...$args) use ($callback, $methodName) {
+            $value = $callback(...$args);
+            if (!\is_object($value) || \method_exists($value, '__toString')) {
+                return $value;
+            }
+            throw new InvalidReturnValueException($methodName, gettype($value));
+        };
     }
 
     /**

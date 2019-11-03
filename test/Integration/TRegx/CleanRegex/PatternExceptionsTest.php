@@ -52,7 +52,7 @@ class PatternExceptionsTest extends TestCase
             ],
             'replace_callback_array' => [
                 function (string $pattern) {
-                    preg::replace_callback_array([$pattern], '');
+                    preg::replace_callback_array([$pattern => 'strtoupper'], '');
                 }
             ],
             'replace_callback'       => [

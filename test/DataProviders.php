@@ -61,7 +61,7 @@ class DataProviders
 
     public static function allPhpTypes(string ...$except)
     {
-        return array_values(array_diff_key(self::typesMap(), array_flip($except)));
+        return array_diff_key(self::typesMap(), array_flip($except));
     }
 
     private static function typesMap(): array

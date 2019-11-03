@@ -76,4 +76,21 @@ class pregTest extends TestCase
         // then
         $this->assertTrue(true);
     }
+
+    /**
+     * @test
+     */
+    public function testPregWarningsInsideCallbacksAreTransparent()
+    {
+        // given
+        preg::replace_callback('/./', function () {
+            trigger_error('some user error', E_USER_WARNING);
+        }, 'Foo');
+
+        // when
+        $warning = error_get_last();
+
+        // then
+        $this->assertEquals('some user error', $warning['message']);
+    }
 }
