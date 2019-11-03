@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Iterator;
 use TRegx\CleanRegex\Exception\CleanRegex\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\CleanRegex\IntegerFormatException;
+use TRegx\CleanRegex\Exception\CleanRegex\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\CleanRegex\NoFirstElementFluentException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
@@ -129,6 +130,20 @@ class FluentMatchPattern implements MatchPatternInterface
             }
             throw IntegerFormatException::forMatch($value);
         });
+    }
+
+    public function groupByCallback(callable $groupMapper): FluentMatchPattern
+    {
+        $map = [];
+        foreach ($this->elements as $element) {
+            $key = $groupMapper($element);
+            if (\is_int($key) || \is_string($key)) {
+                $map[$key][] = $element;
+            } else {
+                throw InvalidReturnValueException::forGroupBy($key);
+            }
+        }
+        return $this->next($map);
     }
 
     private function next(array $elements): FluentMatchPattern

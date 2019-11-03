@@ -282,6 +282,48 @@ class FluentMatchPatternTest extends TestCase
         $pattern->asInt();
     }
 
+    /**
+     * @test
+     */
+    public function shouldGroupBy()
+    {
+        // given
+        $pattern = new FluentMatchPattern(['Father', 'Mother', 'Maiden', 'Crone', 'Warrior', 'Smith', 'Stranger'], $this->mock());
+
+        // when
+        $result = $pattern->groupByCallback(function (string $fucker) {
+            return $fucker[0];
+        });
+
+        // then
+        $expected = [
+            'F' => ['Father'],
+            'M' => ['Mother', 'Maiden'],
+            'C' => ['Crone'],
+            'W' => ['Warrior'],
+            'S' => ['Smith', 'Stranger'],
+        ];
+        $this->assertSame($expected, $result->all());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForInvalidGroupByType()
+    {
+        // given
+        $pattern = new FluentMatchPattern([''], $this->mock());
+
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid groupBy() callback return type. Expected int|string, but array (0) given');
+
+        // when
+        $pattern->groupByCallback(function () {
+            return [];
+        });
+    }
+
     private function mock(): NotMatchedWorker
     {
         /** @var NotMatchedWorker $mockObject */
