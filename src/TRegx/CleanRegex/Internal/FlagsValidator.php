@@ -1,7 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use TRegx\CleanRegex\Exception\CleanRegex\DuplicateFlagsException;
 use TRegx\CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
+use TRegx\SafeRegex\Guard\Arrays;
 
 class FlagsValidator
 {
@@ -10,10 +12,12 @@ class FlagsValidator
         'm', // PCRE_MULTILINE
         'x', // PCRE_EXTENDED
         's', // PCRE_DOTALL
+        'u', // PCRE_UNICODE
 
         'U', // PCRE_UNGREEDY
         'X', // PCRE_EXTRA
         'A', // PCRE_ANCHORED
+        'J', // PCRE_INFO_JCHANGED
         'D', // PCRE_DOLLAR_ENDONLY
         'S', // Studying a pattern, before executing
     ];
@@ -24,6 +28,13 @@ class FlagsValidator
      * @throws FlagNotAllowedException
      */
     public function validate(string $flags): void
+    {
+        if ($flags === '') return;
+        $this->validateInvalidFlags($flags);
+        $this->validateDuplicatedFlags($flags);
+    }
+
+    private function validateInvalidFlags(string $flags): void
     {
         $invalid = $this->getInvalidFlags($flags);
         if (\count($invalid) === 1) {
@@ -36,14 +47,14 @@ class FlagsValidator
 
     private function getInvalidFlags(string $flags): array
     {
-        return \array_diff($this->toArray($flags), self::$flags);
+        return \array_diff(\str_split($flags), self::$flags);
     }
 
-    private function toArray(string $flags): array
+    private function validateDuplicatedFlags(string $flags): void
     {
-        if (empty($flags)) {
-            return [];
+        $duplicates = Arrays::getDuplicates(\str_split($flags));
+        if (!empty($duplicates)) {
+            throw DuplicateFlagsException::forFlag($duplicates[0], $flags);
         }
-        return \str_split($flags);
     }
 }
