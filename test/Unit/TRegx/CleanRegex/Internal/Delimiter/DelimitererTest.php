@@ -51,35 +51,6 @@ class DelimitererTest extends TestCase
         $this->assertTrue(preg::match($pattern, $input) === 1, "Failed asserting that $pattern matches $input");
     }
 
-    public function alreadyDelimited()
-    {
-        return [
-            ['/a/'],
-            ['#a#'],
-            ['%a%'],
-            ['~a~'],
-            ['+a+'],
-            ['!a!'],
-        ];
-    }
-
-    /**
-     * @test
-     * @dataProvider alreadyDelimited
-     * @param string $pattern
-     */
-    public function shouldDelimiterAlreadyDelimited(string $pattern)
-    {
-        // given
-        $delimited = new Delimiterer();
-
-        // when
-        $result = $delimited->delimiter($pattern);
-
-        // then
-        $this->assertEquals($pattern, $result);
-    }
-
     /**
      * @test
      */

@@ -2,7 +2,9 @@
 namespace TRegx\CleanRegex\Internal\Prepared;
 
 use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
-use TRegx\CleanRegex\Internal\Delimiter\Strategy\CrossDelimiterStrategy;
+use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
+use TRegx\CleanRegex\Internal\Delimiter\Strategy\PcreCallbackStrategy;
+use TRegx\CleanRegex\Internal\Delimiter\Strategy\CallbackStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 
 class PrepareFacade
@@ -21,5 +23,13 @@ class PrepareFacade
             return $this->parser->parse($delimiter)->quote($delimiter);
         }));
         return $delimiter->delimiter($this->parser->getDelimiterable());
+    }
+
+    private function strategy(callable $patternProducer): DelimiterStrategy
+    {
+        if ($this->pcre) {
+            return new PcreCallbackStrategy($patternProducer);
+        }
+        return new CallbackStrategy($patternProducer);
     }
 }

@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Delimiter;
 
 use TRegx\CleanRegex\Exception\CleanRegex\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
-use TRegx\CleanRegex\Internal\Delimiter\Strategy\IdentityDelimiterStrategy;
+use TRegx\CleanRegex\Internal\Delimiter\Strategy\IdentityStrategy;
 
 class Delimiterer
 {
@@ -18,25 +18,32 @@ class Delimiterer
     {
         $this->delimiters = new Delimiters();
         $this->parser = new DelimiterParser();
-        $this->delimiterStrategy = $strategy ?? new IdentityDelimiterStrategy();
+        $this->delimiterStrategy = $strategy ?? new IdentityStrategy();
     }
 
     public function delimiter(string $pattern): string
     {
-        $delimiter = $this->parser->getDelimiter($pattern);
-        if ($delimiter !== null) {
-            return $this->delimiterStrategy->alreadyDelimited($pattern, $delimiter);
-        }
+        return $this->delimiterStrategy->buildPattern($pattern, $this->getDelimiter($pattern));
+    }
 
+    private function getDelimiter(string $pattern): ?string
+    {
+        if ($this->delimiterStrategy->shouldGuessDelimiter()) {
+            return $this->chooseDelimiter($pattern);
+        }
+        return $this->parser->getDelimiter($pattern);
+    }
+
+    private function chooseDelimiter(string $pattern): string
+    {
         $delimiterNext = $this->getPossibleDelimiter($pattern);
         if ($delimiterNext !== null) {
-            return $this->delimiterStrategy->delimiter($pattern, $delimiterNext);
+            return $delimiterNext;
         }
-
         throw new ExplicitDelimiterRequiredException($pattern);
     }
 
-    public function getPossibleDelimiter(string $pattern): ?string
+    private function getPossibleDelimiter(string $pattern): ?string
     {
         foreach ($this->delimiters->getDelimiters() as $delimiter) {
             if (\strpos($pattern, $delimiter) === false) {
