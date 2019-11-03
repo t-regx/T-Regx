@@ -18,7 +18,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldBind(string $input, array $values, string $expected)
     {
         // given
-        $facade = new PrepareFacade(new BindingParser($input, $values));
+        $facade = new PrepareFacade(new BindingParser($input, $values), false);
 
         // when
         $pattern = $facade->getPattern();
@@ -74,7 +74,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldIgnorePlaceholders(string $input, array $values, string $expected)
     {
         // given
-        $facade = new PrepareFacade(new BindingParser($input, $values));
+        $facade = new PrepareFacade(new BindingParser($input, $values), false);
 
         // when
         $pattern = $facade->getPattern();
@@ -137,7 +137,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldThrow_onInvalidInput(string $input, array $values, string $message)
     {
         // given
-        $facade = new PrepareFacade(new BindingParser($input, $values));
+        $facade = new PrepareFacade(new BindingParser($input, $values), false);
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage($message);

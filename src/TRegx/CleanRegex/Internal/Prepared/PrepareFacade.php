@@ -11,15 +11,18 @@ class PrepareFacade
 {
     /** @var Parser */
     private $parser;
+    /** @var bool */
+    private $pcre;
 
-    public function __construct(Parser $parser)
+    public function __construct(Parser $parser, bool $pcre)
     {
         $this->parser = $parser;
+        $this->pcre = $pcre;
     }
 
     public function getPattern(): string
     {
-        $delimiter = new Delimiterer(new CrossDelimiterStrategy(function (string $delimiter) {
+        $delimiter = new Delimiterer($this->strategy(function (string $delimiter) {
             return $this->parser->parse($delimiter)->quote($delimiter);
         }));
         return $delimiter->delimiter($this->parser->getDelimiterable());

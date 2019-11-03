@@ -10,9 +10,22 @@ use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 
 class PatternBuilder
 {
-    public static function builder()
+    /** @var bool */
+    private $pcre;
+
+    private function __construct(bool $pcre)
     {
-        return new self();
+        $this->pcre = $pcre;
+    }
+
+    public static function builder(): PatternBuilder
+    {
+        return new self(false);
+    }
+
+    public function pcre(): PatternBuilder
+    {
+        return new self(true);
     }
 
     /**
@@ -58,6 +71,6 @@ class PatternBuilder
 
     private function build(Parser $parser, string $flags = ''): Pattern
     {
-        return Pattern::pcre((new PrepareFacade($parser))->getPattern() . $flags);
+        return Pattern::pcre((new PrepareFacade($parser, $this->pcre))->getPattern() . $flags);
     }
 }
