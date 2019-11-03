@@ -456,6 +456,9 @@ class preg
      */
     public static function grep($pattern, array $input, $flags = 0): array
     {
+        $input = \array_filter($input, function ($value) {
+            return !\is_object($value) || \method_exists($value, '__toString');
+        });
         return GuardedExecution::invoke('preg_grep', function () use ($flags, $input, $pattern) {
             return @\preg_grep($pattern, $input, $flags);
         }, new SilencedSuspectedReturnStrategy());
