@@ -365,7 +365,7 @@ class preg
     public static function replace_callback_array($patterns_and_callbacks, $subject, $limit = -1, &$count = null)
     {
         return GuardedExecution::invoke('preg_replace_callback_array', function () use ($patterns_and_callbacks, $subject, $limit, &$count) {
-            return @\preg_replace_callback_array(array_map(function ($callback) {
+            return @\preg_replace_callback_array(\array_map(function ($callback) {
                 return self::decorateCallback('preg_replace_callback_array', $callback);
             }, $patterns_and_callbacks), $subject, $limit, $count);
         });
@@ -373,7 +373,7 @@ class preg
 
     private static function decorateCallback(string $methodName, $callback)
     {
-        if (!is_callable($callback)) {
+        if (!\is_callable($callback)) {
             throw new \InvalidArgumentException("Invalid callback passed to '$methodName'");
         }
         return function (...$args) use ($callback, $methodName) {
@@ -381,7 +381,7 @@ class preg
             if (!\is_object($value) || \method_exists($value, '__toString')) {
                 return $value;
             }
-            throw new InvalidReturnValueException($methodName, gettype($value));
+            throw new InvalidReturnValueException($methodName, \gettype($value));
         };
     }
 

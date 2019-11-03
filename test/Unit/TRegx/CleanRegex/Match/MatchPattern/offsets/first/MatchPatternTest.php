@@ -35,7 +35,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(SubjectNotMatchedException::class);
 
         // when
-        $pattern->first();
+        $pattern->offsets()->first();
     }
 
     private function getMatchPattern($subject): MatchPattern

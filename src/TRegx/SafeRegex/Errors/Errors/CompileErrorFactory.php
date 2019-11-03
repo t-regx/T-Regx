@@ -22,6 +22,6 @@ class CompileErrorFactory
 
     private static function isPregError(PhpError $phpError): bool
     {
-        return substr($phpError->getMessage(), 0, 5) === 'preg_';
+        return \substr($phpError->getMessage(), 0, 5) === 'preg_';
     }
 }
