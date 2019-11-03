@@ -12,10 +12,10 @@ class ErrorCleanTest extends TestCase
     public function shouldNotInfluenceFurtherChecks()
     {
         // when
-        pattern('/[a-')->is()->valid();
+        pattern('/[a-')->valid();
 
         // when
-        $valid = pattern('/[a-z]/')->is()->valid();
+        $valid = pattern('/[a-z]/')->valid();
 
         // then
         $this->assertTrue($valid);
@@ -32,7 +32,7 @@ class ErrorCleanTest extends TestCase
         }
 
         // when
-        $valid = pattern('/[a-z]/')->test("a");
+        $valid = pattern('[a-z]')->test("a");
 
         // then
         $this->assertTrue($valid);

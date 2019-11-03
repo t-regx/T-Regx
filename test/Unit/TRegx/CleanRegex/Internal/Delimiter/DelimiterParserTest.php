@@ -2,6 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\DuplicateFlagsException;
+use TRegx\CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
 use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
 
 class DelimiterParserTest extends TestCase
@@ -9,16 +11,33 @@ class DelimiterParserTest extends TestCase
     public function delimited()
     {
         return [
+            // Standard delimiters
             ['//', '/'],
-            ['/a/', '/'],
-            ['/siema/', '/'],
-            ['/sie#ma/', '/'],
-            ['#sie/ma#', '#'],
-            ['%si/e#ma%', '%'],
-            ['~si/e#m%a~', '~'],
-            ['+s~i/e#m%a+', '+'],
-            ['!s~i/e#++m%a!', '!'],
-            ['@!s~i/e#++m%a!@', '@'],
+            [';;', ';'],
+            ['/Foo/', '/'],
+            ['%Foo%', '%'],
+            ['~Foo~', '~'],
+            ['+Foo+', '+'],
+            ['!Foo!', '!'],
+            ['@Foo@', '@'],
+            ['_Foo_', '_'],
+            [';Foo;', ';'],
+            ['`Foo`', '`'],
+            ['-Foo-', '-'],
+            ['=Foo=', '='],
+            [',Foo,', ','],
+
+            // Corner cases
+            ['/Foo\/Bar/', '/'],
+            ['+Foo\+Bar+', '+'],
+            ['/Foo#Bar/', '/'],
+            ['#Foo/Bar#', '#'],
+            ['/\/Foo/xu', '/'],
+
+            // Flags
+            ['/Foo/m', '/'],
+            ['/Foo/imsxuADSUXJ', '/'],
+            ['#Foo\#Bar#i', '#']
         ];
     }
 
@@ -44,25 +63,22 @@ class DelimiterParserTest extends TestCase
     {
         return [
             [''],
-            ['a'],
             ['/'],
-            ['siema'],
-            ['sie#ma'],
-            ['si/e#ma'],
-            ['s~i/e#m%a'],
-            ['s~i/e#++m%a'],
+            ['#'],
+            ['a'],
+            ['Foo#Bar'],
+            ['/Foo'],
+            ['/Foo#'],
 
-            ['/siema'],
-            ['/sie#ma'],
-            ['#sie/ma'],
-            ['%si/e#ma'],
-            ['si/e#m%a~'],
-            ['s~i/e#m%a+'],
-            ['s~i/e#++m%a!'],
+            // Closable characters should not be treated as delimiters
+            ['(__Foo__)'],
+            ['[__Foo__]'],
+            ['{__Foo__}'],
+            ['<__Foo__>'],
 
-            ['(s~i/e#++m%a!)'],
-            ['[s~i/e#++m%a!]'],
-            ['{s~i/e#++m%a!}'],
+            // Flags
+            ['/Foo/m4'],
+            ['#Foo#$'],
         ];
     }
 
@@ -80,40 +96,22 @@ class DelimiterParserTest extends TestCase
         $result = $delimiterer->getDelimiter($pattern);
 
         // then
-        $this->assertNull($result);
+        $this->assertNull($result, "Failed asserting that $pattern has no delimiter.");
     }
 
     /**
      * @test
-     * @dataProvider notDelimited
-     * @param string $pattern
      */
-    public function shouldNotBeDelimited(string $pattern)
+    public function shouldThrowForInvalidFlags()
     {
         // given
-        $delimiterer = new DelimiterParser();
-
-        // when
-        $result = $delimiterer->isDelimited($pattern);
+        $delimiter = new DelimiterParser();
 
         // then
-        $this->assertFalse($result);
-    }
-
-    /**
-     * @test
-     * @dataProvider delimited
-     * @param string $pattern
-     */
-    public function shouldBeDelimited(string $pattern)
-    {
-        // given
-        $delimiterer = new DelimiterParser();
+        $this->expectException(FlagNotAllowedException::class);
+        $this->expectExceptionMessage("Regular expression flags: ['a', 'f'] are not allowed");
 
         // when
-        $result = $delimiterer->isDelimited($pattern);
-
-        // then
-        $this->assertTrue($result);
+        $delimiter->getDelimiter('/Foo/amfx');
     }
 }

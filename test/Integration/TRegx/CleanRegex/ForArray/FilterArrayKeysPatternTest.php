@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Filter\PregGrepArrayIntersectStrategy;
 use TRegx\CleanRegex\Filter\PregMatchForEachStrategy;
 use TRegx\CleanRegex\ForArray\FilterArrayKeysPattern;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 
 class FilterArrayKeysPatternTest extends TestCase
 {
@@ -19,7 +19,7 @@ class FilterArrayKeysPatternTest extends TestCase
     public function shouldFilterArray(string $pattern, array $subjects, array $expected)
     {
         // given
-        $filterArrayPattern = new FilterArrayKeysPattern(new Pattern($pattern), $subjects);
+        $filterArrayPattern = new FilterArrayKeysPattern(InternalPattern::pcre($pattern), $subjects);
         $strategy1 = new PregGrepArrayIntersectStrategy();
         $strategy2 = new PregMatchForEachStrategy();
 

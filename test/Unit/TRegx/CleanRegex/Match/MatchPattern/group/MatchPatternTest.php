@@ -1,7 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\group;
 
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +14,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onInvalidGroupName()
     {
         // given
-        $pattern = new MatchPattern(new Pattern(''), '');
+        $pattern = new MatchPattern(InternalPattern::pcre('//'), '');
 
         // then
         $this->expectException(InvalidArgumentException::class);

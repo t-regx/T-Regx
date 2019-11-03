@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\offsets\first;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
@@ -40,6 +40,6 @@ class MatchPatternTest extends TestCase
 
     private function getMatchPattern($subject): MatchPattern
     {
-        return new MatchPattern(new Pattern("([A-Z])?[a-z']+"), $subject);
+        return new MatchPattern(InternalPattern::standard("([A-Z])?[a-z']+"), $subject);
     }
 }

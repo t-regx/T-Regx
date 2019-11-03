@@ -2,7 +2,9 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\CleanRegex\DuplicateFlagsException;
 use TRegx\CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
+use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
 use TRegx\CleanRegex\Internal\FlagsValidator;
 
 class FlagsValidatorTest extends TestCase
@@ -16,7 +18,7 @@ class FlagsValidatorTest extends TestCase
         $flags = new FlagsValidator();
 
         // when
-        $flags->validate('mi');
+        $flags->validate('imxsuUXAJDS');
 
         // then
         $this->assertTrue(true);
@@ -78,6 +80,22 @@ class FlagsValidatorTest extends TestCase
             ['/'],
             ['G'],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForDuplicateFlags()
+    {
+        // given
+        $flags = new FlagsValidator();
+
+        // then
+        $this->expectException(DuplicateFlagsException::class);
+        $this->expectExceptionMessage("Regular expression flag: 'm' is duplicated in 'UmDmS'");
+
+        // when
+        $flags->validate('UmDmS');
     }
 
     /**

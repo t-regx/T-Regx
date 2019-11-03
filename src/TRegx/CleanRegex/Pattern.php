@@ -21,9 +21,9 @@ class Pattern
     /** @var InternalPattern */
     private $pattern;
 
-    public function __construct(string $pattern, string $flags = '')
+    private function __construct(InternalPattern $pattern)
     {
-        $this->pattern = new InternalPattern($pattern, $flags);
+        $this->pattern = $pattern;
     }
 
     public function test(string $subject): bool
@@ -75,9 +75,9 @@ class Pattern
         return (new CountPattern($this->pattern, new Subject($subject)))->count();
     }
 
-    public function is(): IsPattern
+    public function valid(): bool
     {
-        return new IsPattern($this->pattern);
+        return (new ValidPattern($this->pattern->pattern))->isValid();
     }
 
     public function delimiter(): string
@@ -97,22 +97,34 @@ class Pattern
 
     public static function of(string $pattern, string $flags = ''): Pattern
     {
-        return new Pattern($pattern, $flags);
+        return new Pattern(InternalPattern::standard($pattern, $flags));
+    }
+
+    /**
+     * @param string $delimitedPattern
+     * @return Pattern
+     * @deprecated Please use method \TRegx\CleanRegex\Pattern::of. Method Pattern::pcre() is only present, in case
+     * if there's an automatic delimiters' bug, that would make "Pattern" error-prone.
+     * @see \TRegx\CleanRegex\Pattern::of
+     */
+    public static function pcre(string $delimitedPattern): Pattern
+    {
+        return new Pattern(InternalPattern::pcre($delimitedPattern));
     }
 
     public static function prepare(array $input, string $flags = ''): Pattern
     {
-        return PatternBuilder::prepare($input, $flags);
+        return PatternBuilder::builder()->prepare($input, $flags);
     }
 
     public static function bind(string $input, array $values, string $flags = ''): Pattern
     {
-        return PatternBuilder::bind($input, $values, $flags);
+        return PatternBuilder::builder()->bind($input, $values, $flags);
     }
 
     public static function inject(string $input, array $values, string $flags = ''): Pattern
     {
-        return PatternBuilder::inject($input, $values, $flags);
+        return PatternBuilder::builder()->inject($input, $values, $flags);
     }
 
     public static function compose(array $patterns): CompositePattern

@@ -10,15 +10,22 @@ use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 
 class PatternBuilder
 {
-    /**
-     * @param string $input
-     * @param string[] $values
-     * @param string $flags
-     * @return Pattern
-     */
-    public static function bind(string $input, array $values, string $flags = ''): Pattern
+    /** @var bool */
+    private $pcre;
+
+    private function __construct(bool $pcre)
     {
-        return self::build(new BindingParser($input, $values), $flags);
+        $this->pcre = $pcre;
+    }
+
+    public static function builder(): PatternBuilder
+    {
+        return new self(false);
+    }
+
+    public function pcre(): PatternBuilder
+    {
+        return new self(true);
     }
 
     /**
@@ -27,9 +34,20 @@ class PatternBuilder
      * @param string $flags
      * @return Pattern
      */
-    public static function inject(string $input, array $values, string $flags = ''): Pattern
+    public function bind(string $input, array $values, string $flags = ''): Pattern
     {
-        return self::build(new InjectParser($input, $values), $flags);
+        return $this->build(new BindingParser($input, $values), $flags);
+    }
+
+    /**
+     * @param string $input
+     * @param string[] $values
+     * @param string $flags
+     * @return Pattern
+     */
+    public function inject(string $input, array $values, string $flags = ''): Pattern
+    {
+        return $this->build(new InjectParser($input, $values), $flags);
     }
 
     /**
@@ -37,9 +55,9 @@ class PatternBuilder
      * @param string $flags
      * @return Pattern
      */
-    public static function prepare(array $input, string $flags = ''): Pattern
+    public function prepare(array $input, string $flags = ''): Pattern
     {
-        return self::build(new PreparedParser($input), $flags);
+        return $this->build(new PreparedParser($input), $flags);
     }
 
     /**
@@ -51,8 +69,8 @@ class PatternBuilder
         return new CompositePattern((new CompositePatternMapper($patterns))->createPatterns());
     }
 
-    private static function build(Parser $parser, string $flags = ''): Pattern
+    private function build(Parser $parser, string $flags = ''): Pattern
     {
-        return new Pattern((new PrepareFacade($parser))->getPattern(), $flags);
+        return Pattern::pcre((new PrepareFacade($parser, $this->pcre))->getPattern() . $flags);
     }
 }

@@ -327,12 +327,12 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldChain_filter()
     {
         // given
-        $pattern = '\w+';
+        $pattern = '/\w+/';
         $subject = '...you forgot one very important thing mate.';
         $predicate = function (Match $match) {
             return $match->text() != 'forgot';
         };
-        $pattern = new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(new InternalPattern($pattern), $subject, new UserData()), new Predicate($predicate)));
+        $pattern = new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(InternalPattern::pcre($pattern), $subject, new UserData()), new Predicate($predicate)));
 
         // when
         $filtered = $pattern
@@ -419,7 +419,7 @@ class FilteredMatchPatternTest extends TestCase
         return new FilteredMatchPattern(
             new FilteredBaseDecorator(
                 new ApiBase(
-                    new InternalPattern($this->pattern()),
+                    InternalPattern::standard($this->pattern()),
                     $this->subject(),
                     new UserData()
                 ),

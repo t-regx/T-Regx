@@ -185,7 +185,7 @@ class LazyMatchImplTest extends TestCase
 
     private function matchWithIndex(string $pattern, string $subject, int $index): LazyMatchImpl
     {
-        $pattern = new InternalPattern($pattern);
+        $pattern = InternalPattern::standard($pattern);
         $subject = new Subject($subject);
         return new LazyMatchImpl($pattern, $subject, $index, 14, new ApiBase($pattern, $subject->getSubject(), new UserData()));
     }

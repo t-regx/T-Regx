@@ -21,12 +21,13 @@ class ReplacePatternImplTest extends TestCase
      * @test
      * @dataProvider methodsAndStrategies
      * @param string $method
+     * @param array $arguments
      * @param ReplaceSubstitute $substitute
      */
     public function notReplaced_orThrow(string $method, array $arguments, ReplaceSubstitute $substitute)
     {
         // given
-        $pattern = new InternalPattern('');
+        $pattern = InternalPattern::pcre('//');
 
         $instance = $this->mock();
         $factory = $this->mockFactory($instance);

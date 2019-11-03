@@ -16,7 +16,7 @@ class MatchAllGroupVerifierTest extends TestCase
     public function shouldVerify(string $pattern, bool $expected)
     {
         // given
-        $verifier = new MatchAllGroupVerifier(new InternalPattern($pattern));
+        $verifier = new MatchAllGroupVerifier(InternalPattern::pcre($pattern));
 
         // when
         $results = $verifier->groupExists('group');

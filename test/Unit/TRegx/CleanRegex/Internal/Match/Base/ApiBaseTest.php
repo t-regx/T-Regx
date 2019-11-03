@@ -13,7 +13,7 @@ class ApiBaseTest extends TestCase
     public function testMatchGroupableInstance()
     {
         // given
-        $base = new ApiBase(new InternalPattern('\w+'), 'word', new UserData());
+        $base = new ApiBase(InternalPattern::standard('\w+'), 'word', new UserData());
 
         // when
         $groupable = $base->matchGroupable();

@@ -13,7 +13,7 @@ class DescriptorTest extends TestCase
     public function should_getGroup()
     {
         // given
-        $descriptor = new Descriptor(new InternalPattern('Pattern'));
+        $descriptor = new Descriptor(InternalPattern::standard('Pattern'));
 
         // when
         $groups = $descriptor->getGroups();
@@ -28,7 +28,7 @@ class DescriptorTest extends TestCase
     public function should_getGroups()
     {
         // given
-        $descriptor = new Descriptor(new InternalPattern('(First) (?<named>Second) (Third) (?<Fourth>. (?<nested>))'));
+        $descriptor = new Descriptor(InternalPattern::standard('(First) (?<named>Second) (Third) (?<Fourth>. (?<nested>))'));
 
         // when
         $groups = $descriptor->getGroups();
@@ -43,7 +43,7 @@ class DescriptorTest extends TestCase
     public function should_haveGroups()
     {
         // given
-        $descriptor = new Descriptor(new InternalPattern('Just a pattern with (group)'));
+        $descriptor = new Descriptor(InternalPattern::standard('Just a pattern with (group)'));
 
         // when
         $has = $descriptor->hasAnyGroup();
@@ -58,7 +58,7 @@ class DescriptorTest extends TestCase
     public function should_not_haveGroups()
     {
         // given
-        $descriptor = new Descriptor(new InternalPattern('Just a pattern'));
+        $descriptor = new Descriptor(InternalPattern::standard('Just a pattern'));
 
         // when
         $has = $descriptor->hasAnyGroup();

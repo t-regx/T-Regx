@@ -1,7 +1,7 @@
 <?php
 namespace Test;
 
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 
 class DataProviders
 {
@@ -76,7 +76,7 @@ class DataProviders
             'array'    => [[1, 2, 3], 'array (3)'],
             'resource' => [self::getResource(), 'resource'],
             'stdClass' => [new \stdClass(), 'stdClass'],
-            'class'    => [new Pattern(''), Pattern::class],
+            'class'    => [InternalPattern::pcre('//'), InternalPattern::class],
             'function' => [function () {
             }, 'Closure']
         ];

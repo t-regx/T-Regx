@@ -3,7 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex\Split\inc;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\MissingSplitDelimiterGroupException;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Split\FilteredSplitPattern;
 
@@ -71,6 +71,6 @@ class FilteredSplitPatternTest extends TestCase
 
     private function split($pattern, $subject): FilteredSplitPattern
     {
-        return new FilteredSplitPattern(new Pattern($pattern), new Subject($subject));
+        return new FilteredSplitPattern(InternalPattern::standard($pattern), new Subject($subject));
     }
 }

@@ -14,7 +14,7 @@ class AbstractMatchPatternTest extends TestCase
     public function test_asInt()
     {
         // given
-        $pattern = new MatchPattern(new InternalPattern('\d+'), 'Foo 1 Bar 34 Lorem 42 Ipsum');
+        $pattern = new MatchPattern(InternalPattern::pcre('/\d+/'), 'Foo 1 Bar 34 Lorem 42 Ipsum');
 
         // when
         $integers = $pattern->asInt();
@@ -29,7 +29,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrowOnInvalidInteger_asInt()
     {
         // given
-        $pattern = new MatchPattern(new InternalPattern('\d+s?'), 'One number 9 large, Two number 45s');
+        $pattern = new MatchPattern(InternalPattern::pcre('/\d+s?/'), 'One number 9 large, Two number 45s');
 
         // then
         $this->expectException(IntegerFormatException::class);

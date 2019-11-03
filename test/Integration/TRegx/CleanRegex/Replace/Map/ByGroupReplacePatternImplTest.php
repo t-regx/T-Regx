@@ -66,7 +66,7 @@ class ByReplacePatternImplTest extends TestCase
 
     public function create(string $pattern, string $subject): ByGroupReplacePatternImpl
     {
-        $internalPattern = new InternalPattern($pattern);
+        $internalPattern = InternalPattern::standard($pattern);
         $subjectable = new Subject($subject);
 
         return new ByGroupReplacePatternImpl(

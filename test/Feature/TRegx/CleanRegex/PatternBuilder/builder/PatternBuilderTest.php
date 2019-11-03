@@ -1,10 +1,11 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\PatternBuilder;
+namespace Test\Feature\TRegx\CleanRegex\PatternBuilder\builder;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
+use TRegx\CleanRegex\PatternBuilder;
 
-class PatternTest extends TestCase
+class PatternBuilderTest extends TestCase
 {
     /**
      * @test
@@ -12,7 +13,7 @@ class PatternTest extends TestCase
     public function shouldBuild_prepared()
     {
         // given
-        $pattern = Pattern::prepare(['You/her, (are|is) ', ['real? (or are you not real?)'], ' (you|her)']);
+        $pattern = PatternBuilder::builder()->prepare(['You/her, (are|is) ', ['real? (or are you not real?)'], ' (you|her)']);
 
         // when
         $pattern = $pattern->delimiter();
@@ -27,7 +28,7 @@ class PatternTest extends TestCase
     public function shouldBuild_bind()
     {
         // given
-        $pattern = Pattern::bind('You/her, (are|is) @question (you|her)', [
+        $pattern = PatternBuilder::builder()->bind('You/her, (are|is) @question (you|her)', [
             'question' => 'real? (or are you not real?)'
         ]);
 
@@ -44,7 +45,7 @@ class PatternTest extends TestCase
     public function shouldBuild_inject()
     {
         // given
-        $pattern = Pattern::inject('You/her, (are|is) @ (you|her)', [
+        $pattern = PatternBuilder::builder()->inject('You/her, (are|is) @ (you|her)', [
             'real? (or are you not real?)'
         ]);
 
@@ -53,25 +54,5 @@ class PatternTest extends TestCase
 
         // then
         $this->assertEquals('#You/her, (are|is) real\? \(or are you not real\?\) (you|her)#', $pattern);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldBuild_compose()
-    {
-        // given
-        $name = 'Frodo';
-        $pattern = Pattern::compose([
-            pattern('^Fro'),
-            Pattern::of('rod'),
-            Pattern::pcre('/do$/'),
-        ]);
-
-        // when
-        $matches = $pattern->allMatch($name);
-
-        // then
-        $this->assertTrue($matches);
     }
 }

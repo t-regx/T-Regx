@@ -17,7 +17,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldPrepare(array $input, string $expected)
     {
         // given
-        $facade = new PrepareFacade(new PreparedParser($input));
+        $facade = new PrepareFacade(new PreparedParser($input), false);
 
         // when
         $pattern = $facade->getPattern();
@@ -63,15 +63,7 @@ class PrepareFacadeTest extends TestCase
             ],
             [
                 ['/(I|We) would like ', ['(input)'], '/'],
-                '/(I|We) would like \(input\)/'
-            ],
-            [
-                ['#(I|We) would like ', ['(input)'], '#'],
-                '#(I|We) would like \(input\)#'
-            ],
-            [
-                ['#(I|We) would like ', ['(input)'], '#mi'],
-                '#(I|We) would like \(input\)#mi'
+                '#/(I|We) would like \(input\)/#'
             ],
         ];
     }
@@ -85,7 +77,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldThrow_onInvalidInput(array $input, string $message)
     {
         // given
-        $facade = new PrepareFacade(new PreparedParser($input));
+        $facade = new PrepareFacade(new PreparedParser($input), false);
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage($message);

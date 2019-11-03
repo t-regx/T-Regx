@@ -102,6 +102,6 @@ class FilteredMatchPatternTest extends TestCase
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): FilteredMatchPattern
     {
-        return new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(new InternalPattern($pattern), $subject, new UserData()), new Predicate($predicate)));
+        return new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()), new Predicate($predicate)));
     }
 }

@@ -26,7 +26,7 @@ class GroupLimitTest extends TestCase
         $first = new ClosureMock(function () {
             return new RawMatchOffset([0 => ['first', 1]]);
         });
-        $base = new ApiBase(new InternalPattern(''), 'unused', new UserData());
+        $base = new ApiBase(InternalPattern::pcre('//'), 'unused', new UserData());
         $limit = new GroupLimit($all, $first, new MatchOffsetLimitFactory($base, 0, false), $base, 0);
 
         // when
@@ -133,7 +133,7 @@ class GroupLimitTest extends TestCase
         $first = new ClosureMock(function () use ($firstValue) {
             return new RawMatchOffset([0 => [$firstValue, 0]]);
         });
-        $base = new ApiBase(new InternalPattern(''), 'unused', new UserData());
+        $base = new ApiBase(InternalPattern::pcre('//'), 'unused', new UserData());
         return [new GroupLimit($all, $first, new MatchOffsetLimitFactory($base, 0, false), $base, 0), $all, $first];
     }
 }

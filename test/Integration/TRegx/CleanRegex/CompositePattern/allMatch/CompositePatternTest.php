@@ -4,6 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex\CompositePattern\allMatch;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\CompositePattern;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
+use TRegx\CleanRegex\Pattern;
 
 class CompositePatternTest extends TestCase
 {
@@ -13,7 +14,7 @@ class CompositePatternTest extends TestCase
     public function shouldMatch()
     {
         // given
-        $pattern = new CompositePattern((new CompositePatternMapper(['/^fro/i', 'rod', 'odo$']))->createPatterns());
+        $pattern = new CompositePattern((new CompositePatternMapper($this->patterns()))->createPatterns());
 
         // when
         $match = $pattern->allMatch('Frodo');
@@ -25,12 +26,21 @@ class CompositePatternTest extends TestCase
     public function shouldNotMatch()
     {
         // given
-        $pattern = new CompositePattern((new CompositePatternMapper(['/^fro/i', 'rod', 'odo$']))->createPatterns());
+        $pattern = new CompositePattern((new CompositePatternMapper($this->patterns()))->createPatterns());
 
         // when
         $match = $pattern->allMatch('Frodo2');
 
         // then
         $this->assertFalse($match);
+    }
+
+    private function patterns(): array
+    {
+        return [
+            Pattern::pcre('/^fro/i'),
+            Pattern::of('rod'),
+            Pattern::of('odo$')
+        ];
     }
 }
