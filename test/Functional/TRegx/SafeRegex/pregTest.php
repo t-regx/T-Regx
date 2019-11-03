@@ -2,11 +2,14 @@
 namespace Test\Functional\TRegx\SafeRegex;
 
 use PHPUnit\Framework\TestCase;
+use Test\Warnings;
 use TRegx\SafeRegex\Exception\CompileSafeRegexException;
 use TRegx\SafeRegex\preg;
 
 class pregTest extends TestCase
 {
+    use Warnings;
+
     /**
      * @test
      */
@@ -46,23 +49,31 @@ class pregTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeIndependentOfCallback_preg_replace_callback()
+    public function shouldBeProneToRegexCallbackWarnings()
     {
         // then
         $this->expectException(CompileSafeRegexException::class);
         $this->expectExceptionMessage("No ending delimiter '/' found");
 
         // when
-        try {
-            preg::replace_callback('/valid/', function () {
-                preg_replace_callback('/invalid', 'strtoupper', '');
-                return 'maybe';
-            }, 'valid');
-        } catch (CompileSafeRegexException $exception) {
-            $this->assertEquals($exception->getMessage(), "No ending delimiter '/' found");
-            $this->assertEquals($exception->getInvokingMethod(), 'preg_replace_callback');
+        preg::replace_callback('/valid/', function () {
+            $this->causeCompileWarning();
+            return 'maybe';
+        }, 'valid');
+    }
 
-            throw $exception;
-        }
+    /**
+     * @test
+     */
+    public function shouldBeIndependentOfCallbackWarning()
+    {
+        // when
+        preg::replace_callback('/valid/', function () {
+            trigger_error('some other warning', E_USER_WARNING);
+            return 'maybe';
+        }, 'valid');
+
+        // then
+        $this->assertTrue(true);
     }
 }
