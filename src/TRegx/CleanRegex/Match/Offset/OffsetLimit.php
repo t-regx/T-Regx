@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Match\Offset;
 
 use TRegx\CleanRegex\Internal\PatternLimit;
+use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 interface OffsetLimit extends PatternLimit
 {
@@ -17,4 +18,6 @@ interface OffsetLimit extends PatternLimit
      * @return array (int|null)[]
      */
     public function only(int $limit): array;
+
+    public function fluent(): FluentMatchPattern;
 }

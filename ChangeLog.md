@@ -24,6 +24,8 @@ Incoming in 0.9.2
         * Added `group()->fluent()`
         * Added `groups()->names()` (and `namedGroups()->names()`)
         * Added `groups()->count()` (and `namedGroups()->count()`)
+    * Added `match()->offsets()->fluent()`
+    * Added `match()->group(string)->offsets()->fluent()`
     * Added `pattern()->forArray()->strict()` which throws for invalid values, instead of filtering them out
 * SafeRegex
     * Added `preg::grep_keys()` 🔥, that works exactly like `preg::grep()`, but filters by keys (also accepts [`PREG_GREP_INVERT`](https://www.php.net/manual/en/function.preg-grep.php))
