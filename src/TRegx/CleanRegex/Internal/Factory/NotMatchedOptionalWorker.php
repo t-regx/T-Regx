@@ -25,7 +25,7 @@ class NotMatchedOptionalWorker implements NotMatchedWorker
 
     public function orThrow(string $exceptionClassName): Throwable
     {
-        return (new SignatureExceptionFactory($exceptionClassName, $this->message))->create($this->subject);
+        return (new SignatureExceptionFactory($exceptionClassName, $this->message))->create($this->subject->getSubject());
     }
 
     public function orElse(callable $producer)

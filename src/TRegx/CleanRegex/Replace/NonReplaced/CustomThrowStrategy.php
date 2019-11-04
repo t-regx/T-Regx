@@ -22,7 +22,7 @@ class CustomThrowStrategy implements ReplaceSubstitute
     public function substitute(string $subject): ?string
     {
         throw (new SignatureExceptionFactory($this->className, $this->message))
-            ->create(new Subject($subject));
+            ->create($subject);
     }
 
     public function substituteGroup(Match $match): ?string

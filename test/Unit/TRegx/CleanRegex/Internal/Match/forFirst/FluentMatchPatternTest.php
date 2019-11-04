@@ -115,6 +115,6 @@ class FluentMatchPatternTest extends TestCase
 
     private function worker(): NotMatchedWorker
     {
-        return new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), new Subject('asd'));
+        return new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), 'asd');
     }
 }

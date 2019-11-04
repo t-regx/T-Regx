@@ -10,18 +10,22 @@ class NotMatchedFluentOptionalWorker implements NotMatchedWorker
 {
     /** @var NotMatchedMessage */
     private $message;
-    /** @var Subjectable */
-    private $subject;
+    /** @var array */
+    private $arguments;
 
-    public function __construct(NotMatchedMessage $message, Subjectable $subject)
+    public function __construct(NotMatchedMessage $message, ...$arguments)
     {
         $this->message = $message;
-        $this->subject = $subject;
+        $this->arguments = $arguments;
     }
 
     public function orThrow(string $exceptionClassName): Throwable
     {
-        return (new SignatureExceptionFactory($exceptionClassName, $this->message))->create($this->subject);
+        $factory = new SignatureExceptionFactory($exceptionClassName, $this->message);
+        if (empty($this->arguments)) {
+            return $factory->createWithoutSubject();
+        }
+        return $factory->create(...$this->arguments);
     }
 
     public function orElse(callable $producer)

@@ -152,7 +152,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         return new FluentMatchPattern(
             $this->getMatchObjects(),
-            new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base)
+            new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base->getSubject())
         );
     }
 

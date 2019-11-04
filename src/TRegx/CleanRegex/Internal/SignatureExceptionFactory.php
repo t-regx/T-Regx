@@ -5,8 +5,8 @@ use ArgumentCountError;
 use Error;
 use Throwable;
 use TRegx\CleanRegex\Exception\CleanRegex\ClassExpectedException;
-use TRegx\CleanRegex\Exception\CleanRegex\NoSuitableConstructorException;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
+use TRegx\CleanRegex\Exception\CleanRegex\NoSuitableConstructorException;
 use TypeError;
 use function class_exists;
 use function interface_exists;
@@ -25,11 +25,21 @@ class SignatureExceptionFactory
         $this->message = $message;
     }
 
-    public function create(Subjectable $subject): Throwable
+    public function create(string $subjectable): Throwable
+    {
+        return $this->createWithSignatures([$subjectable]);
+    }
+
+    public function createWithoutSubject(): Throwable
+    {
+        return $this->createWithSignatures([]);
+    }
+
+    private function createWithSignatures(array $arguments): Throwable
     {
         $this->validateNotInterface();
         $this->validateClassExists();
-        $exception = $this->tryCreate($subject);
+        $exception = $this->tryCreate($this->getSignatures($arguments));
         if ($exception instanceof Throwable) {
             return $exception;
         }
@@ -51,14 +61,14 @@ class SignatureExceptionFactory
     }
 
     /**
-     * @param Subjectable $subjectable
+     * @param array $signatures
      * @return mixed
      * @throws ClassExpectedException
      * @throws NoSuitableConstructorException
      */
-    private function tryCreate(Subjectable $subjectable)
+    private function tryCreate(array $signatures)
     {
-        foreach ($this->getSignatures($subjectable) as $signature) {
+        foreach ($signatures as $signature) {
             try {
                 return $signature();
             } catch (ArgumentCountError $error) {
@@ -78,20 +88,17 @@ class SignatureExceptionFactory
         throw new NoSuitableConstructorException($this->className);
     }
 
-    private function getSignatures(Subjectable $subject): array
+    private function getSignatures(array $arguments): array
     {
         return [
-            function () use ($subject) {
-                return new $this->className($this->message->getMessage(), $subject->getSubject());
+            function () use ($arguments) {
+                return new $this->className($this->message->getMessage(), ...$arguments);
             },
             function () {
                 return new $this->className($this->message->getMessage());
             },
             function () {
                 return new $this->className();
-            },
-            function () use ($subject) {
-                return new $this->className($this->message->getMessage(), $subject, null);
             },
         ];
     }

@@ -124,7 +124,7 @@ class GroupLimit implements PatternLimit
     {
         return new FluentMatchPattern(
             $this->getMatchGroupObjects(),
-            new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base));
+            new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base->getSubject()));
     }
 
     private function getMatchGroupObjects(): array
