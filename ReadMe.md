@@ -14,10 +14,8 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 [![GitHub last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
 [![Composer lock](https://img.shields.io/badge/.lock-uncommited-green.svg)](https://github.com/T-Regx/T-Regx)
-![PHP Version](https://img.shields.io/badge/Unit%20tests-1187-green.svg)
+![PHP Version](https://img.shields.io/badge/Unit%20tests-1256-green.svg)
 
-[![PHP Version](https://img.shields.io/badge/PHP-5.3%2B-blue.svg)](https://packagist.org/packages/rawr/t-regx)
-[![PHP Version](https://img.shields.io/badge/PHP-5.6%2B-blue.svg)](https://packagist.org/packages/rawr/t-regx)
 [![PHP Version](https://img.shields.io/badge/PHP-7.1-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/PHP-7.2-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/PHP-7.3-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
@@ -51,8 +49,6 @@ Installation for PHP 7.1 and later:
 ```bash
 composer require rawr/t-regx
 ```
-
-:bulb: See documentation if you need to use [earlier versions of PHP](https://t-regx.com/docs/installation).
 
 # API
 
@@ -181,6 +177,10 @@ $result   // 'WORD'
    * Descriptive interface
    * `SRP methods`, `UTF-8 support`
    * `No Reflection used`, `No (...varargs)`, `No (boolean arguments, true)`, `(No flags, 1)`, `[No [nested, [arrays]]]`
+
+* ### Protects your from fatal errors
+   * Certain arguments cause fatal errors with `preg_()` methods.
+   * T-Regx will throw a catchable exception in those cases.
 
 ## Ways of using T-Regx
 
