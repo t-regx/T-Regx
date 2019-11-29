@@ -11,6 +11,7 @@ Incoming in 0.9.2
         - `is()->delimited()`
         - `is()->usabled()`
         - `is()->valid()` is changed to `valid()`
+    * Removed `split()->ex()`, changed `split()->inc()` to `split()`
 * Features
     * Added `Match.group().replace()` 🔥
     * Added `pattern()->match()->fluent()` 🔥

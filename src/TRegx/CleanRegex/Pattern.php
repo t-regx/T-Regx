@@ -65,9 +65,9 @@ class Pattern
         return new ForArrayPatternImpl($this->pattern, $haystack);
     }
 
-    public function split(string $subject): SplitPattern
+    public function split(string $subject): array
     {
-        return new SplitPattern($this->pattern, new Subject($subject));
+        return (new SplitPattern($this->pattern, $subject))->split();
     }
 
     public function count(string $subject): int
