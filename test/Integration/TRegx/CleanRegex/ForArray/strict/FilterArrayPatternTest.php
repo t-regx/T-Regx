@@ -4,7 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex\ForArray\strict;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\DataProviders;
-use TRegx\CrossData\CrossDataProviders;
+use TRegx\DataProvider\CrossDataProviders;
 
 class FilterArrayPatternTest extends TestCase
 {

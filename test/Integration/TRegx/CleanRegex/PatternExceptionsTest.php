@@ -1,10 +1,9 @@
 <?php
-
 namespace Test\Integration\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use Test\Warnings;
-use TRegx\CrossData\DataProviders;
+use TRegx\DataProvider\DataProviders;
 use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\preg;
 

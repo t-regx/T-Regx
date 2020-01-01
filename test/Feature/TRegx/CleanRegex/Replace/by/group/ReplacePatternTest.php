@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Match;
-use TRegx\CrossData\DataProviders;
+use TRegx\DataProvider\DataProviders;
 
 class ReplacePatternTest extends TestCase
 {
