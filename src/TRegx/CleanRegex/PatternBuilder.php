@@ -32,9 +32,9 @@ class PatternBuilder
      * @param string $input
      * @param string[] $values
      * @param string $flags
-     * @return Pattern
+     * @return PatternInterface
      */
-    public function bind(string $input, array $values, string $flags = ''): Pattern
+    public function bind(string $input, array $values, string $flags = ''): PatternInterface
     {
         return $this->build(new BindingParser($input, $values), $flags);
     }
@@ -43,9 +43,9 @@ class PatternBuilder
      * @param string $input
      * @param string[] $values
      * @param string $flags
-     * @return Pattern
+     * @return PatternInterface
      */
-    public function inject(string $input, array $values, string $flags = ''): Pattern
+    public function inject(string $input, array $values, string $flags = ''): PatternInterface
     {
         return $this->build(new InjectParser($input, $values), $flags);
     }
@@ -53,15 +53,15 @@ class PatternBuilder
     /**
      * @param (string|string[])[] $input
      * @param string $flags
-     * @return Pattern
+     * @return PatternInterface
      */
-    public function prepare(array $input, string $flags = ''): Pattern
+    public function prepare(array $input, string $flags = ''): PatternInterface
     {
         return $this->build(new PreparedParser($input), $flags);
     }
 
     /**
-     * @param (string|Pattern)[] $patterns
+     * @param (string|PatternInterface)[] $patterns
      * @return CompositePattern
      */
     public static function compose(array $patterns): CompositePattern
@@ -69,7 +69,7 @@ class PatternBuilder
         return new CompositePattern((new CompositePatternMapper($patterns))->createPatterns());
     }
 
-    private function build(Parser $parser, string $flags = ''): Pattern
+    private function build(Parser $parser, string $flags = ''): PatternInterface
     {
         return Pattern::pcre((new PrepareFacade($parser, $this->pcre))->getPattern() . $flags);
     }

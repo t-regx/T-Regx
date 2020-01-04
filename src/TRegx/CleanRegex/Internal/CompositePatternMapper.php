@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal;
 
 use InvalidArgumentException;
-use TRegx\CleanRegex\Pattern;
+use TRegx\CleanRegex\PatternInterface;
 
 class CompositePatternMapper
 {
@@ -24,7 +24,7 @@ class CompositePatternMapper
         if (\is_string($pattern)) {
             return InternalPattern::standard($pattern);
         }
-        if ($pattern instanceof Pattern) {
+        if ($pattern instanceof PatternInterface) {
             return InternalPattern::pcre($pattern->delimiter());
         }
         throw $this->throwInvalidPatternType($pattern);

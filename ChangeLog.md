@@ -41,6 +41,8 @@ Incoming in 0.9.2
     * Returning `Match` from `replace()->callback()` (instead of `Match.text()` as `string`)
     * Match `+12` is no longer considered a valid integer for `isInt()`/`toInt()`
     * Unnamed group will be represented as `null` in `Match.groupNames()`, instead of being simply ignored
+    * `helper()` method, `Pattern` and `PatternBuilder` now return interface `PatternInterface`, instead of `Pattern` class.
+      `Pattern` class now only holds static utility methods, and `PatternImpl` holds the pattern implementation.
 * Maintenance
     * PhpUnit throws different exceptions because of [PHP `__toString()` exception policy change](https://wiki.php.net/rfc/tostring_exceptions).
 
