@@ -18,7 +18,6 @@ class preg
      * Perform a regular expression match
      * @link https://php.net/manual/en/function.preg-match.php
      *
-     * @param string[]|null $matches
      * @return int Returns 1 if the pattern matches given subject, 0 if it does not
      *
      * @throws SafeRegexException
@@ -37,7 +36,6 @@ class preg
      * Perform a global regular expression match
      * @link https://php.net/manual/en/function.preg-match-all.php
      *
-     * @param string[][]|null $matches
      * @return int Number of full pattern matches (which might be zero)
      *
      * @throws SafeRegexException
@@ -105,7 +103,7 @@ class preg
      * Perform a regular expression search and replace using callbacks
      * @link https://php.net/manual/en/function.preg-replace-callback-array.php
      *
-     * @param array|callable[] $patterns_and_callbacks An associative array mapping patterns (keys) to callbacks (values)
+     * @param array<string,callable> $patterns_and_callbacks An associative array mapping patterns (keys) to callbacks (values)
      * @param string|string[] $subject
      * @return string|string[]
      *
