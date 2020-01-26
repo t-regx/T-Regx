@@ -68,7 +68,7 @@ class preg
      * @throws SuspectedReturnSafeRegexException
      * @throws RuntimeSafeRegexException
      */
-    public static function replace($pattern, $replacement, $subject, int $limit = -1, ?int &$count = null)
+    public static function replace($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
     {
         return GuardedExecution::invoke('preg_replace', function () use ($limit, $subject, $replacement, $pattern, &$count) {
             return @\preg_replace($pattern, $replacement, $subject, $limit, $count);
@@ -92,7 +92,7 @@ class preg
      * @throws SuspectedReturnSafeRegexException
      * @throws RuntimeSafeRegexException
      */
-    public static function replace_callback($pattern, callable $callback, $subject, int $limit = -1, ?int &$count = null)
+    public static function replace_callback($pattern, callable $callback, $subject, int $limit = -1, int &$count = null)
     {
         return GuardedExecution::invoke('preg_replace_callback', function () use ($pattern, $limit, $subject, $callback, &$count) {
             return @\preg_replace_callback($pattern, self::decorateCallback('preg_replace_callback', $callback), $subject, $limit, $count);
@@ -116,7 +116,7 @@ class preg
      * @throws SuspectedReturnSafeRegexException
      * @throws RuntimeSafeRegexException
      */
-    public static function replace_callback_array($patterns_and_callbacks, $subject, int $limit = -1, ?int &$count = null)
+    public static function replace_callback_array($patterns_and_callbacks, $subject, int $limit = -1, int &$count = null)
     {
         return GuardedExecution::invoke('preg_replace_callback_array', function () use ($patterns_and_callbacks, $subject, $limit, &$count) {
             return @\preg_replace_callback_array(\array_map(function ($callback) {
@@ -157,7 +157,7 @@ class preg
      * @throws SuspectedReturnSafeRegexException
      * @throws RuntimeSafeRegexException
      */
-    public static function filter($pattern, $replacement, $subject, int $limit = -1, ?int &$count = null)
+    public static function filter($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
     {
         return GuardedExecution::invoke('preg_filter', function () use ($pattern, $replacement, $subject, $limit, &$count) {
             return @\preg_filter($pattern, $replacement, $subject, $limit, $count);
