@@ -20,6 +20,8 @@ class preg
      *
      * @return int Returns 1 if the pattern matches given subject, 0 if it does not
      *
+     * @param-out array $matches
+     *
      * @throws SafeRegexException
      * @throws CompileSafeRegexException
      * @throws SuspectedReturnSafeRegexException
@@ -37,6 +39,8 @@ class preg
      * @link https://php.net/manual/en/function.preg-match-all.php
      *
      * @return int Number of full pattern matches (which might be zero)
+     *
+     * @param-out array $matches
      *
      * @throws SafeRegexException
      * @throws CompileSafeRegexException
@@ -58,6 +62,8 @@ class preg
      * @param string|string[] $replacement
      * @param string|string[] $subject
      * @return string|string[]
+     *
+     * @param-out int $count
      *
      * @template T of string|string[]
      * @psalm-param T $subject
@@ -83,6 +89,8 @@ class preg
      * @param string|string[] $subject
      * @return string|string[]
      *
+     * @param-out int $count
+     *
      * @template T of string|string[]
      * @psalm-param T $subject
      * @psalm-return T
@@ -106,6 +114,8 @@ class preg
      * @param array<string,callable> $patterns_and_callbacks An associative array mapping patterns (keys) to callbacks (values)
      * @param string|string[] $subject
      * @return string|string[]
+     *
+     * @param-out int $count
      *
      * @template T of string|string[]
      * @psalm-param T $subject
@@ -147,6 +157,8 @@ class preg
      * @param string|string[] $replacement
      * @param string|string[] $subject
      * @return string|string[]
+     *
+     * @param-out int $count
      *
      * @template T of string|string[]
      * @psalm-param T $subject
@@ -201,7 +213,7 @@ class preg
         }, new SilencedSuspectedReturnStrategy());
     }
 
-    public static function grep_keys($pattern, array $input, $flags = 0): array
+    public static function grep_keys(string $pattern, array $input, int $flags = 0): array
     {
         return \array_intersect_key($input, \array_flip(self::grep($pattern, \array_keys($input), $flags)));
     }
