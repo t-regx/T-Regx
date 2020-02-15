@@ -10,6 +10,21 @@ class FilterArrayPatternTest extends TestCase
 {
     /**
      * @test
+     */
+    public function shouldFilterStrict()
+    {
+        // given
+        $input = ['Foo', 'Bar'];
+
+        // when
+        $output = pattern('Foo')->forArray($input)->strict()->filterAssoc();
+
+        // then
+        $this->assertEquals(['Foo'], $output);
+    }
+
+    /**
+     * @test
      * @dataProvider filterMethods
      * @param string $method
      * @param null|int|array|callable|resource $listElement

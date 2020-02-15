@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\ForArray\ForArrayPattern;
 use TRegx\CleanRegex\ForArray\ForArrayPatternImpl;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Subject;
@@ -60,7 +59,7 @@ class PatternImpl implements PatternInterface
         });
     }
 
-    public function forArray(array $haystack): ForArrayPattern
+    public function forArray(array $haystack): ForArrayPatternImpl
     {
         return new ForArrayPatternImpl($this->pattern, $haystack);
     }

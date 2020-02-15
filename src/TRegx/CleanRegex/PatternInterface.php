@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\ForArray\ForArrayPattern;
+use TRegx\CleanRegex\ForArray\ForArrayPatternImpl;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
@@ -36,7 +36,7 @@ interface PatternInterface
     /**
      * {@documentary:test}
      */
-    public function forArray(array $haystack): ForArrayPattern;
+    public function forArray(array $haystack): ForArrayPatternImpl;
 
     /**
      * {@documentary:test}
