@@ -25,6 +25,23 @@ class GroupNameValidatorTest extends TestCase
 
     /**
      * @test
+     * @dataProvider validGroups
+     * @param string $nameOrIndex
+     */
+    public function shouldBeValid($nameOrIndex)
+    {
+        // given
+        $validatorString = new GroupNameValidator($nameOrIndex);
+
+        // when
+        $isValid = $validatorString->isGroupValid();
+
+        // then
+        $this->assertTrue($isValid);
+    }
+
+    /**
+     * @test
      * @dataProvider invalidGroup
      * @param string $nameOrIndex
      * @param string $message
@@ -40,6 +57,24 @@ class GroupNameValidatorTest extends TestCase
 
         // when
         $validatorString->validate();
+    }
+
+    /**
+     * @test
+     * @dataProvider invalidGroup
+     * @param string $nameOrIndex
+     * @param string $message
+     */
+    public function shouldNotBeValid($nameOrIndex, string $message)
+    {
+        // given
+        $validatorString = new GroupNameValidator($nameOrIndex);
+
+        // when
+        $isValid = $validatorString->isGroupValid();
+
+        // then
+        $this->assertFalse($isValid);
     }
 
     public function validGroups(): array
