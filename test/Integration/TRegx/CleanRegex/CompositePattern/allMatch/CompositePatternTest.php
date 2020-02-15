@@ -23,6 +23,9 @@ class CompositePatternTest extends TestCase
         $this->assertTrue($match);
     }
 
+    /**
+     * @test
+     */
     public function shouldNotMatch()
     {
         // given
