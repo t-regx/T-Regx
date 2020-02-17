@@ -14,11 +14,6 @@ class GuardedExecution
         return $invocation->getResult();
     }
 
-    public static function catch(string $methodName, callable $callback): GuardedInvocation
-    {
-        return (new GuardedInvoker($methodName, $callback))->catch();
-    }
-
     public static function silenced(string $methodName, callable $callback): bool
     {
         $invocation = (new GuardedInvoker($methodName, $callback))->catch();
