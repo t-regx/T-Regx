@@ -26,6 +26,6 @@ class InternalPattern
 
     public static function pcre(string $pattern): InternalPattern
     {
-        return new self((new Delimiterer(new PcreIdentityStrategy()))->delimiter($pattern), $pattern);
+        return new self($pattern, $pattern);
     }
 }
