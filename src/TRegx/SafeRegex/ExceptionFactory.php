@@ -12,16 +12,19 @@ class ExceptionFactory
     private $strategy;
     /** @var ErrorsCleaner */
     private $errorsCleaner;
+    /** @var SuspectedReturnSafeRegexExceptionFactory */
+    private $exceptionFactory;
 
     public function __construct(SuspectedReturnStrategy $strategy)
     {
         $this->strategy = $strategy;
         $this->errorsCleaner = new ErrorsCleaner();
+        $this->exceptionFactory = new SuspectedReturnSafeRegexExceptionFactory();
     }
 
     /**
      * @param string $methodName
-     * @param mixed  $pregResult
+     * @param mixed $pregResult
      * @return SafeRegexException|null
      */
     public function retrieveGlobals(string $methodName, $pregResult): ?SafeRegexException
@@ -36,7 +39,7 @@ class ExceptionFactory
     private function getExceptionByReturnValue(string $methodName, $pregResult): ?SafeRegexException
     {
         if ($this->strategy->isSuspected($methodName, $pregResult)) {
-            return (new SuspectedReturnSafeRegexExceptionFactory())->create($methodName, $pregResult);
+            return $this->exceptionFactory->create($methodName, $pregResult);
         }
         return null;
     }

@@ -16,27 +16,25 @@ class GuardedInvoker
     private $methodName;
     /** @var ExceptionFactory */
     private $exceptionFactory;
+    /** @var ErrorsCleaner */
+    private $errorsCleaner;
 
     public function __construct(string $methodName, callable $callback, SuspectedReturnStrategy $strategy = null)
     {
         $this->callback = $callback;
         $this->methodName = $methodName;
         $this->exceptionFactory = new ExceptionFactory($strategy ?? new DefaultSuspectedReturnStrategy());
+        $this->errorsCleaner = new ErrorsCleaner();
     }
 
     public function catch(): GuardedInvocation
     {
-        $this->clearErrors();
+        $this->errorsCleaner->clear();
         $result = call_user_func($this->callback);
         $exception = $this->exception($result);
-        $this->clearErrors();
+        $this->errorsCleaner->clear();
 
         return new GuardedInvocation($result, $exception);
-    }
-
-    private function clearErrors(): void
-    {
-        (new ErrorsCleaner())->clear();
     }
 
     private function exception($result): ?SafeRegexException
