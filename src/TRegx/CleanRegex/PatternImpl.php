@@ -61,7 +61,7 @@ class PatternImpl implements PatternInterface
 
     public function forArray(array $haystack): ForArrayPatternImpl
     {
-        return new ForArrayPatternImpl($this->pattern, $haystack);
+        return new ForArrayPatternImpl($this->pattern, $haystack, false);
     }
 
     public function split(string $subject): array
