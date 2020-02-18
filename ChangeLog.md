@@ -4,12 +4,14 @@ T-Regx Changelog
 Incoming in 0.9.2
 -----------------
 * Breaking changes
+    * Methods `pattern()`/`Pattern::of()` no longer "magically" guess whether a pattern is delimited or not.
+      `Pattern::of()` assumes pattern *is* delimited, new `Pattern::pcre()` takes an old-school delimited pattern.
     * Constructor `new Pattern()` is no longer a part of T-Regx API. Use `Pattern::of()`/`pattern()`
     * Renamed `Match.parseInt()` to `Match.toInt()` (the same for `MatchGroup`)
     * Removed `pattern()->match()->test()`/`fails()`. From now on, use `pattern()->test()`/`fails()`
     * Removed `is()`:
         - `is()->delimited()`
-        - `is()->usabled()`
+        - `is()->usable()`
         - `is()->valid()` is changed to `valid()`
     * Removed `split()->ex()`, changed `split()->inc()` to `split()`
 * Features
@@ -35,7 +37,7 @@ Incoming in 0.9.2
     * Added `withReferences()` to `CompositePattern.chainedReplace()`
     * Previously named `Pattern::inject()` is renamed to `Pattern::bind()`
     * The `Pattern::bind()` (old `Pattern::inject()`) still accepts values as an associative array, but new `Pattern::inject()` receives values without regard for the keys.
-    * Fixed passing invalid types to `forArray()`. Previously, caused fatal error due to internal implementation.
+    * Fixed passing invalid types to `forArray()`. Previously, caused fatal error due to internal `preg_grep()` implementation.
 * Other
     * Now `MalformedPatternException` is thrown, instead of `CompileSafeRegexException`, when using invalid PCRE syntax.
     * Returning `Match` from `replace()->callback()` (instead of `Match.text()` as `string`)
@@ -45,6 +47,12 @@ Incoming in 0.9.2
       `Pattern` class now only holds static utility methods, and `PatternImpl` holds the pattern implementation.
 * Maintenance
     * PhpUnit throws different exceptions because of [PHP `__toString()` exception policy change](https://wiki.php.net/rfc/tostring_exceptions).
+
+Foot note:
+ - Apart from PHP type hints, every version up to this point could be run on PHP 5.3 (if one removes type hints from 
+   code, one can run T-Regx on PHP 5.3). Every error, exception, malfunction, inconsistency was handled correctly by 
+   T-Regx. From this version on (`0.9.2`), handling of the errors and inconsistencies is dropped, since T-Regx now 
+   only supports PHP 7.1.
 
 Added in 0.9.1
 --------------
