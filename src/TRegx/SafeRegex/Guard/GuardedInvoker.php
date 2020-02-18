@@ -14,17 +14,17 @@ class GuardedInvoker
     private $callback;
     /** @var string */
     private $methodName;
-    /** @var ExceptionFactory */
-    private $exceptionFactory;
     /** @var ErrorsCleaner */
     private $errorsCleaner;
+    /** @var ExceptionFactory */
+    private $exceptionFactory;
 
     public function __construct(string $methodName, callable $callback, SuspectedReturnStrategy $strategy = null)
     {
         $this->callback = $callback;
         $this->methodName = $methodName;
-        $this->exceptionFactory = new ExceptionFactory($strategy ?? new DefaultSuspectedReturnStrategy());
         $this->errorsCleaner = new ErrorsCleaner();
+        $this->exceptionFactory = new ExceptionFactory($strategy ?? new DefaultSuspectedReturnStrategy(), $this->errorsCleaner);
     }
 
     public function catch(): GuardedInvocation

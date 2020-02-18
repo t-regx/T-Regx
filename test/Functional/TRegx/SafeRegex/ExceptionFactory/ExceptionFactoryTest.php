@@ -67,6 +67,6 @@ class ExceptionFactoryTest extends TestCase
 
     private function create(): ExceptionFactory
     {
-        return new ExceptionFactory(new DefaultSuspectedReturnStrategy());
+        return new ExceptionFactory(new DefaultSuspectedReturnStrategy(), new ErrorsCleaner());
     }
 }

@@ -15,10 +15,10 @@ class ExceptionFactory
     /** @var SuspectedReturnSafeRegexExceptionFactory */
     private $exceptionFactory;
 
-    public function __construct(SuspectedReturnStrategy $strategy)
+    public function __construct(SuspectedReturnStrategy $strategy, ErrorsCleaner $errorsCleaner)
     {
         $this->strategy = $strategy;
-        $this->errorsCleaner = new ErrorsCleaner();
+        $this->errorsCleaner = $errorsCleaner;
         $this->exceptionFactory = new SuspectedReturnSafeRegexExceptionFactory();
     }
 
