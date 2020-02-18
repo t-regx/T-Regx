@@ -13,6 +13,9 @@ class IrrelevantCompileError implements CompileError
 
     public function clear(): void
     {
+        // @codeCoverageIgnoreStart
+        throw new InternalCleanRegexException();
+        // @codeCoverageIgnoreEnd
     }
 
     public function getSafeRegexpException(string $methodName): SafeRegexException
