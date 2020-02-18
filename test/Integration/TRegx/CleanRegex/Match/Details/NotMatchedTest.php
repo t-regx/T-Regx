@@ -19,9 +19,6 @@ class NotMatchedTest extends TestCase
         // pre
         $previous = error_reporting(E_ALL);
 
-        if (PHP_VERSION_ID <= 70100) {
-            $this->markTestSkipped("Prior to PHP 7.1.0, casting to string causes a fatal error, which can't be tested by PhpUnit");
-        }
         // given
         $notMatched = new NotMatched(new RawMatches([]), new Subject('subject'));
 
