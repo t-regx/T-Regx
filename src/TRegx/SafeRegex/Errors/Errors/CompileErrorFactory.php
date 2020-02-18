@@ -9,15 +9,12 @@ class CompileErrorFactory
     {
         $phpError = PhpError::getLast();
         if ($phpError === null) {
+            return new StandardCompileError(null);
+        }
+        if (CompileErrorFactory::isPregError($phpError)) {
             return new StandardCompileError($phpError);
         }
-        if (!CompileErrorFactory::isPregError($phpError)) {
-            return new IrrelevantCompileError();
-        }
-        if (StandardCompileError::isCompatible()) {
-            return new StandardCompileError($phpError);
-        }
-        return new OvertriggerCompileError($phpError);
+        return new IrrelevantCompileError();
     }
 
     private static function isPregError(PhpError $phpError): bool

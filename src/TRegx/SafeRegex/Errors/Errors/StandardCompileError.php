@@ -5,7 +5,6 @@ use TRegx\SafeRegex\Exception\Factory\CompileSafeRegexExceptionFactory;
 use TRegx\SafeRegex\Exception\SafeRegexException;
 use TRegx\SafeRegex\PhpError;
 use function error_clear_last;
-use function is_callable;
 
 class StandardCompileError implements CompileError
 {
@@ -25,11 +24,6 @@ class StandardCompileError implements CompileError
     public function clear(): void
     {
         error_clear_last();
-    }
-
-    public static function isCompatible(): bool
-    {
-        return is_callable('error_clear_last');
     }
 
     public function getSafeRegexpException(string $methodName): SafeRegexException

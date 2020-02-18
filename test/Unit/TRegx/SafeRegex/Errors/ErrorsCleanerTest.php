@@ -6,7 +6,6 @@ use Test\Warnings;
 use TRegx\SafeRegex\Errors\Errors\BothHostError;
 use TRegx\SafeRegex\Errors\Errors\CompileError;
 use TRegx\SafeRegex\Errors\Errors\EmptyHostError;
-use TRegx\SafeRegex\Errors\Errors\OvertriggerCompileError;
 use TRegx\SafeRegex\Errors\Errors\RuntimeError;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
 
@@ -137,10 +136,6 @@ class ErrorsCleanerTest extends TestCase
      */
     public function shouldClearCompileError()
     {
-        if (!function_exists('error_clear_last')) {
-            $this->markTestSkipped('Only for PHP 7.0 +, with error_clear_last() method');
-        }
-
         // given
         $cleaner = new ErrorsCleaner();
         $this->causeCompileWarning();
@@ -151,28 +146,6 @@ class ErrorsCleanerTest extends TestCase
         // then
         $error = error_get_last();
         $this->assertNull($error);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldClearCompileErrorPhpPre7()
-    {
-        if (function_exists('error_clear_last')) {
-            $this->markTestSkipped('For PHP 5.6 and earlier, without error_clear_last() method');
-        }
-
-        // given
-        $cleaner = new ErrorsCleaner();
-        $this->causeCompileWarning();
-
-        // when
-        $cleaner->clear();
-
-        // then
-        $error = error_get_last();
-        $this->assertNotNull($error);
-        $this->assertEquals(OvertriggerCompileError::OVERTRIGGER_MESSAGE, $error['message']);
     }
 
     /**
