@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\IdentityStrategy;
-use TRegx\CleanRegex\Internal\Delimiter\Strategy\PcreIdentityStrategy;
 
 class InternalPattern
 {

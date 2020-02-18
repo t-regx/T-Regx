@@ -5,5 +5,5 @@ interface DelimiterStrategy
 {
     public function buildPattern(string $pattern, string $delimiter): string;
 
-    public function shouldGuessDelimiter(): bool ;
+    public function shouldGuessDelimiter(): bool;
 }
