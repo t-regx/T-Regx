@@ -4,6 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\CleanRegex\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
+use TRegx\CleanRegex\Internal\Delimiter\Strategy\IdentityStrategy;
 use TRegx\SafeRegex\preg;
 
 class DelimitererTest extends TestCase
@@ -42,7 +43,7 @@ class DelimitererTest extends TestCase
     public function shouldDelimiterPattern(string $input)
     {
         // given
-        $delimiterer = new Delimiterer();
+        $delimiterer = new Delimiterer(new IdentityStrategy());
 
         // when
         $pattern = $delimiterer->delimiter("\Q$input\E");
@@ -57,7 +58,7 @@ class DelimitererTest extends TestCase
     public function shouldThrowOnNotEnoughDelimiters()
     {
         // given
-        $delimiterer = new Delimiterer();
+        $delimiterer = new Delimiterer(new IdentityStrategy());
 
         // then
         $this->expectException(ExplicitDelimiterRequiredException::class);

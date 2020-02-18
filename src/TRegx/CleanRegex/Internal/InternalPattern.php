@@ -12,7 +12,7 @@ class InternalPattern
     /** @var string */
     public $originalPattern;
 
-    private function __construct(string $pattern, $originalPattern)
+    private function __construct(string $pattern, string $originalPattern)
     {
         $this->pattern = $pattern;
         $this->originalPattern = $originalPattern;

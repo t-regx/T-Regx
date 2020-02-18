@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal\Delimiter;
 
 use TRegx\CleanRegex\Exception\CleanRegex\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
-use TRegx\CleanRegex\Internal\Delimiter\Strategy\IdentityStrategy;
 
 class Delimiterer
 {
@@ -14,11 +13,11 @@ class Delimiterer
     /** @var DelimiterStrategy */
     private $delimiterStrategy;
 
-    public function __construct(DelimiterStrategy $strategy = null)
+    public function __construct(DelimiterStrategy $strategy)
     {
         $this->delimiters = new Delimiters();
         $this->parser = new DelimiterParser();
-        $this->delimiterStrategy = $strategy ?? new IdentityStrategy();
+        $this->delimiterStrategy = $strategy;
     }
 
     public function delimiter(string $pattern): string
