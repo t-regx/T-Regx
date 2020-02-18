@@ -14,7 +14,7 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 [![GitHub last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
 [![Composer lock](https://img.shields.io/badge/.lock-uncommited-green.svg)](https://github.com/T-Regx/T-Regx)
-![PHP Version](https://img.shields.io/badge/Unit%20tests-1256-green.svg)
+![PHP Version](https://img.shields.io/badge/Unit%20tests-1272-green.svg)
 
 [![PHP Version](https://img.shields.io/badge/PHP-7.1-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/PHP-7.2-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
@@ -22,7 +22,7 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 [![PHP Version](https://img.shields.io/badge/PHP-7.4-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/PHP-8.0-yellow.svg)](https://travis-ci.org/T-Regx/T-Regx "Unofficially, but builds do run on 8.0")
 
-[![PRs Welcome](https://img.shields.io/badge/Stable-0.9.1-brightgreen.svg?style=popout)](https://github.com/T-Regx/T-Regx/releases)
+[![PRs Welcome](https://img.shields.io/badge/Stable-0.9.2-brightgreen.svg?style=popout)](https://github.com/T-Regx/T-Regx/releases)
 [![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 
 1. [Installation](#installation)
@@ -61,8 +61,7 @@ Full API documentation is available at [t-regx.com](https://t-regx.com/).
 These calls are identical:
 
 ```php
-pattern('\d{3}')->match()
-pattern('/\d{3}/')->match()
+pattern('\d{3}')->test('123')
 ```
 
 :bulb: See more about [automatic delimiters](https://t-regx.com/docs/delimiters)
@@ -79,13 +78,17 @@ You can pass any `callable` to the [`first()`](https://t-regx.com/docs/match) me
 
 ```php
 pattern('\d{3}')->match('My phone is 456-232-123')->first('str_split');   // ['4', '5', '6']
-pattern('\d{3}')->match('My phone is 456-232-123')->first('strlen')       // 3
+pattern('\d{3}')->match('My phone is 456-232-123')->first('strlen');      // 3
+
+// or use map()
+pattern('\d{3}')->match('My phone is 456-232-123')->map('strlen');        // [3, 3, 3]
 ```
 
 :bulb: See more about 
 [`first()`](https://t-regx.com/docs/match), 
-[`all()`](https://t-regx.com/docs/match) and 
-[`only($limit)`](https://t-regx.com/docs/match).
+[`all()`](https://t-regx.com/docs/match),
+[`only($limit)`](https://t-regx.com/docs/match) and
+[`map()`](https://t-regx.com/docs/match-map), 
 
 #### Replacing
 
@@ -99,12 +102,12 @@ pattern('er|ab|ay')
 ```
 
 ```php
-pattern('er|ab|ay')
+pattern('W.ll.by')
     ->replace('P. Sherman, 42 Wallaby way')
     ->first()
     ->callback('strtoupper');
 
-// 'P. ShERman, 42 Wallaby way'
+// 'P. Sherman, 42 WALLABY way'
 ```
 
 :bulb: See more about 
@@ -118,20 +121,33 @@ pattern('er|ab|ay')
 
 #### Prepared Patterns
 
+Handle unsafe data or user input, in a modern, safe way (no more `preg_quote()`). Think of it as SQL Prepared Statements, but for regexps ;)
+
 ```php
-Pattern::inject('(You|she) (are|is) @link (yours|hers)', [
+Pattern::bind('(You|she) (are|is) @link (yours|hers)', [
     'link' => 'https://t-regx.com/docs/prepared-patterns'
 ]);
 ```
-Above pattern can match both:
+or
+```php
+Pattern::inject('(You|she) (are|is) @ (yours|hers)', ['https://t-regx.com/docs/prepared-patterns']);
+```
+
+or even
+```php
+Pattern::prepare(['(You|she) (are|is) ',  ['https://t-regx.com/docs/prepared-patterns'], ' (yours|hers)']);
+```
+
+Above patterns can match both:
 ```
 You are https://t-regx.com/docs/prepared-patterns hers
 She is https://t-regx.com/docs/prepared-patterns yours
 ```
 
 Check out prepared patterns with 
-[`Pattern::prepare()`](https://t-regx.com/docs/prepared-patterns#with-pattern-prepare) and 
-[`Pattern::inject()`](https://t-regx.com/docs/prepared-patterns#with-pattern-inject)!
+[`Pattern::prepare()`](https://t-regx.com/docs/prepared-patterns#with-pattern-prepare),
+[`Pattern::bind()`](https://t-regx.com/docs/prepared-patterns#with-pattern-bind) and
+[`Pattern::inject()`](https://t-regx.com/docs/prepared-patterns#with-pattern-inject)
 
 #### Optional matches
 
@@ -157,15 +173,18 @@ $result   // 'WORD'
 :bulb: [See documentation at t-regx.com](https://t-regx.com/)
 
 * ### Working **with** the developer
-   * Not even touching your error handlers **in any way**
-   * Converts all PCRE notices/error/warnings to exceptions
-   * Calling `preg_last_error()` after each call, to validate your method
-   * Tracking offset and subjects while replacing strings
-   * Fixing error with multi-byte offset (utf-8 safe)
+  * Errors:
+    * Not even touching your error handlers **in any way**
+    * Converts all PCRE notices/error/warnings to exceptions
+    * Calling `preg_last_error()` after each call, to validate your method
+    * Checks and clears errors and warnings, to verify your regexp match/replace.
+  * Strings:
+    * Tracking offset and subjects while replacing strings
+    * Fixing error with multi-byte offset (utf-8 safe)
 
 * ### Automatic delimiters for your pattern
   Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. T-Regx's smart delimiter
-  will [conveniently add one of many delimiters](https://t-regx.com/docs/delimiters) for you, if they're not already present.
+  will [conveniently add one of many delimiters](https://t-regx.com/docs/delimiters) for you.
 
 * ### Converting Warnings to Exceptions
    * Warning or errors during `preg::` are converted to exceptions.
@@ -180,12 +199,12 @@ $result   // 'WORD'
 
 * ### Protects your from fatal errors
    * Certain arguments cause fatal errors with `preg_()` methods.
-   * T-Regx will throw a catchable exception in those cases.
+   * T-Regx will throw a catchable exception, instead of a Fatal Error.
 
 ## Ways of using T-Regx
 
 ```php
-// Class static method style
+// Static method style
 use TRegx\CleanRegex\Pattern;
 
 Pattern::of('[A-Z][a-z]+')->matches($subject)
@@ -194,13 +213,19 @@ Pattern::of('[A-Z][a-z]+')->matches($subject)
 // Global function style
 pattern('[A-Z][a-z]+')->matches($subject)
 ```
+```php
+// Old-school pattern
+use TRegx\CleanRegex\Pattern;
+
+Pattern::pcre('/[A-Z][a-z]+/i')->matches($subject)
+```
 
 :bulb: See more about [entry points](https://t-regx.com/docs/introduction) and 
 [`pattern()`](https://t-regx.com/docs/introduction).
 
 ## Safe regexps without changing your API?
 
-Would you like to protect yourself from any notices, errors and warnings?
+Would you like to protect yourself from any notices, errors,fatal errors and warnings; and use exceptions instead?
 
 Just swap `preg_` to `preg::` and yay! All warnings and errors are converted to exceptions!
 
@@ -225,28 +250,17 @@ if (preg::match('/\s+/', $input) === false) {
 The last line never happens, because if match failed (invalid regex syntax, malformed utf-8 subject, backtrack limit 
 exceeded, any other error) - then `SafeRegexException` is thrown.
 
-You can `try/catch` it, which is impossible with warnings.
+You can `try/catch` it, which is impossible with warnings and fatals.
 
 # Supported PHP versions
 
-T-Regx has 2 production branches: `master` and `master-php5.3`. As you might expect, `master` is the most recent
-release. Ever so often `master` is being merged `master-php5.3` and the most recent changes are also available for PHP `5.3+` - `< 7.1.0`.
-
- - `master-php5.3` runs on `PHP 5.3` - it just works
- - `master` runs on `PHP 7.1.3` - with`scalar params`, `nullable types`, `return type hints`, `PREG_EMPTY_AS_NULL`, `error_clear_last()`, `preg_replace_callback_array`, etc.
-
 Continuous integration builds are running for:
 
- - `PHP 5.3.0`, `PHP 5.3.29` (oldest and most recent)
- - `PHP 5.4.45` (newest)
- - `PHP 5.5.38` (newest)
- - `PHP 5.6.24` (newest)
- - `PHP 7.0` (`7.0.3`, `7.0.31` - oldest and most recent)
  - `PHP 7.1` (`7.1.0`, `7.1.12`, `7.1.13`, `7.1.21`)
  - `PHP 7.2` (`7.2.0`, `7.2.15`)
  - `PHP 7.3` (`7.3.0`, `7.3.1`, `7.3.2`, `7.3.0RC1`, `7.3.3`, `7.3.4`, `7.3.5`)
  - `PHP 7.4`
- - `PHP 8.0`
+ - `PHP 8.0` (nightly)
 
 # What's better
 ![Ugly api](https://t-regx.com/img/external/readme/preg.png)

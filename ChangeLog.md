@@ -1,8 +1,13 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.9.2
+Incoming in 0.9.3
 -----------------
+
+ * Soon
+
+Added in 0.9.2
+------------------
 * Breaking changes
     * Methods `pattern()`/`Pattern::of()` no longer "magically" guess whether a pattern is delimited or not.
       `Pattern::of()` assumes pattern *is* delimited, new `Pattern::pcre()` takes an old-school delimited pattern.
@@ -67,7 +72,7 @@ Added in 0.9.1
        - `by()->group()->callback()` which accepts `MatchGroup` as an argument
 
 Available in 0.9.0
----------------
+------------------
 
 * Features
     * Pass flags as `pattern()` second argument
