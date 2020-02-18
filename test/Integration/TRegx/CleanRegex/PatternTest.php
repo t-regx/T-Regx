@@ -8,31 +8,50 @@ class PatternTest extends TestCase
 {
     /**
      * @test
+     * @dataProvider patterns
+     * @param string $pattern
+     * @param bool $expected
+     * @param bool $_
      */
-    public function shouldBeValid()
+    public function testStandard(string $pattern, bool $expected, bool $_)
     {
         // given
-        $pattern = Pattern::of('Foo');
+        $pattern = Pattern::of($pattern);
 
         // when
         $valid = $pattern->valid();
 
         // then
-        $this->assertTrue($valid);
+        $this->assertEquals($expected, $valid);
     }
 
     /**
      * @test
+     * @dataProvider patterns
+     * @param string $pattern
+     * @param bool $_
+     * @param bool $expected
      */
-    public function shouldNotBeValid()
+    public function testPcre(string $pattern, bool $_, bool $expected)
     {
         // given
-        $pattern = Pattern::of('invalid)');
+        $pattern = Pattern::pcre($pattern);
 
         // when
         $valid = $pattern->valid();
 
         // then
-        $this->assertFalse($valid);
+        $this->assertEquals($expected, $valid);
+    }
+
+    public function patterns(): array
+    {
+        return [
+            'of'           => ['Foo', true, false],
+            'pcre'         => ['/Foo/', true, true],
+            'pcre,invalid' => ['/invalid)/', false, false],
+            'invalid'      => ['invalid)', false, false],
+            'empty'        => ['', true, false],
+        ];
     }
 }
