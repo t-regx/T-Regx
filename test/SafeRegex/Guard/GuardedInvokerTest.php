@@ -3,6 +3,7 @@ namespace Test\SafeRegex\Guard;
 
 use PHPUnit\Framework\TestCase;
 use Test\Warnings;
+use TRegx\SafeRegex\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Exception\CompileSafeRegexException;
 use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
 use TRegx\SafeRegex\Guard\GuardedInvoker;
@@ -103,6 +104,25 @@ class GuardedInvocationTest extends TestCase
         // then
         $this->assertNull($invocation->getException());
         $this->assertFalse($invocation->hasException());
+    }
+
+    /**
+     * @test
+     * @dataProvider possibleObsoleteWarnings
+     * @param callable $obsoleteWarning
+     */
+    public function shouldNotLeaveOutWarnings(callable $obsoleteWarning)
+    {
+        // given
+        $invoker = new GuardedInvoker('preg_match', function () use ($obsoleteWarning) {
+            $obsoleteWarning();
+        });
+
+        // when
+        $invoker->catch();
+
+        // then
+        $this->assertFalse((new ErrorsCleaner())->getError()->occurred());
     }
 
     public function possibleObsoleteWarnings()
