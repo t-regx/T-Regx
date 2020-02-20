@@ -63,23 +63,6 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotBeLimited_match_iterate()
-    {
-        // given
-        pattern('\d+')
-            ->match('111-222-333')
-            ->iterate(function (Match $match) {
-                // when
-                $limit = $match->limit();
-
-                // then
-                $this->assertEquals(-1, $limit);
-            });
-    }
-
-    /**
-     * @test
-     */
     public function shouldBeLimited_match_first()
     {
         // given

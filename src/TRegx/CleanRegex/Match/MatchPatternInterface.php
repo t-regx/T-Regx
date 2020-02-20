@@ -20,8 +20,6 @@ interface MatchPatternInterface
 
     public function forEach(callable $consumer): void;
 
-    public function iterate(callable $consumer): void;
-
     /**
      * @param callable $consumer
      * @return Optional

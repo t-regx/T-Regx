@@ -78,11 +78,6 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         }
     }
 
-    public function iterate(callable $consumer): void
-    {
-        $this->forEach($consumer);
-    }
-
     public function map(callable $mapper): array
     {
         return \array_map($mapper, $this->getMatchObjects());

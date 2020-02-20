@@ -1,10 +1,10 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\iterate;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\MatchPattern;
-use PHPUnit\Framework\TestCase;
 
 class MatchPatternTest extends TestCase
 {
@@ -19,8 +19,7 @@ class MatchPatternTest extends TestCase
         $matches = ['Nice', 'matching', 'pattern'];
 
         // when
-        $pattern->iterate(function (Match $match) use (&$counter, $matches) {
-
+        $pattern->forEach(function (Match $match) use (&$counter, $matches) {
             // then
             $this->assertEquals($matches[$counter], $match->text());
             $this->assertEquals($counter++, $match->index());
@@ -38,8 +37,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $pattern->iterate(function () {
-
+        $pattern->forEach(function () {
             // then
             $this->assertTrue(false, 'Failed asserting that first() is not invoked for not matching subject');
         });

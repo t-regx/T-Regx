@@ -9,6 +9,8 @@ Incoming in 0.9.3
       - `CompileSafeRegexException` to `CompilePregException`
       - `RuntimeSafeRegexException` to `RuntimePregException`
       - `SuspectedReturnSafeRegexException` to `SuspectedReturnPregException`
+    * Removed `pattern()->match()->iterate()` - it was only needed as a substitute for `forEach()`, pre PHP 7, where
+      methods couldn't be named with keywords.
 * Features
     * Added `preg::last_error_msg()`, which works like `preg::last_error()`, but returns a human-readable message, 
       instead of `int`.

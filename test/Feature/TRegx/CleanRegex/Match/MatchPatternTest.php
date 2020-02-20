@@ -176,12 +176,12 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotCall_iterate_onUnmatchedPattern()
+    public function shouldNotCall_forEach_onUnmatchedPattern()
     {
         // given
         pattern('dont match me')
             ->match('word')
-            ->iterate(function () {
+            ->forEach(function () {
                 // then
                 $this->assertTrue(false, "This shouldn't be invoked");
             });
