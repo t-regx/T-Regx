@@ -30,7 +30,7 @@ class preg
     public static function match(string $pattern, string $subject, array &$matches = null, int $flags = 0, int $offset = 0): int
     {
         return GuardedExecution::invoke('preg_match', function () use ($offset, $flags, &$matches, $subject, $pattern) {
-            return @\preg_match($pattern, $subject, $matches, $flags, $offset);
+            return @\preg_match($pattern, $subject, $matches, $flags, $offset) ? 1 : 0;
         });
     }
 

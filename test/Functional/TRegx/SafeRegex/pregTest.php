@@ -93,4 +93,17 @@ class pregTest extends TestCase
         // then
         $this->assertEquals('some user error', $warning['message']);
     }
+
+    /**
+     * @test
+     * @link https://bugs.php.net/bug.php?id=78853
+     */
+    public function shouldPregMatchReturn1_onAllPhpVersions()
+    {
+        // when
+        $value = preg::match('/^|\d{1,2}$/', "7");
+
+        // then
+        $this->assertEquals(1, $value);
+    }
 }

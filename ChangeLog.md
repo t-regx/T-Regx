@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming in 0.9.3
 -----------------
 
- * Soon
+ - `preg_match()` in some cases returns `2`, instead of `1`. T-Regx fixes this bug by always returning `1`, on every
+   PHP version (https://bugs.php.net/bug.php?id=78853).
 
 Added in 0.9.2
 ------------------
