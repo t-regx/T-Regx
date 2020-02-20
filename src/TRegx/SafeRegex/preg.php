@@ -3,11 +3,8 @@ namespace TRegx\SafeRegex;
 
 use TRegx\SafeRegex\Constants\PregConstants;
 use TRegx\SafeRegex\Constants\PregMessages;
-use TRegx\SafeRegex\Exception\CompileSafeRegexException;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
-use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
-use TRegx\SafeRegex\Exception\SafeRegexException;
-use TRegx\SafeRegex\Exception\SuspectedReturnSafeRegexException;
+use TRegx\SafeRegex\Exception\PregException;
 use TRegx\SafeRegex\Guard\GuardedExecution;
 use TRegx\SafeRegex\Guard\Strategy\PregFilterSuspectedReturnStrategy;
 use TRegx\SafeRegex\Guard\Strategy\PregReplaceSuspectedReturnStrategy;
@@ -23,10 +20,7 @@ class preg
      *
      * @param-out array $matches
      *
-     * @throws SafeRegexException
-     * @throws CompileSafeRegexException
-     * @throws SuspectedReturnSafeRegexException
-     * @throws RuntimeSafeRegexException
+     * @throws PregException
      */
     public static function match(string $pattern, string $subject, array &$matches = null, int $flags = 0, int $offset = 0): int
     {
@@ -43,10 +37,7 @@ class preg
      *
      * @param-out array $matches
      *
-     * @throws SafeRegexException
-     * @throws CompileSafeRegexException
-     * @throws SuspectedReturnSafeRegexException
-     * @throws RuntimeSafeRegexException
+     * @throws PregException
      */
     public static function match_all(string $pattern, string $subject, array &$matches = null, $flags = PREG_PATTERN_ORDER, $offset = 0): int
     {
@@ -70,10 +61,7 @@ class preg
      * @psalm-param T $subject
      * @psalm-return T
      *
-     * @throws SafeRegexException
-     * @throws CompileSafeRegexException
-     * @throws SuspectedReturnSafeRegexException
-     * @throws RuntimeSafeRegexException
+     * @throws PregException
      */
     public static function replace($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
     {
@@ -96,10 +84,7 @@ class preg
      * @psalm-param T $subject
      * @psalm-return T
      *
-     * @throws SafeRegexException
-     * @throws CompileSafeRegexException
-     * @throws SuspectedReturnSafeRegexException
-     * @throws RuntimeSafeRegexException
+     * @throws PregException
      */
     public static function replace_callback($pattern, callable $callback, $subject, int $limit = -1, int &$count = null)
     {
@@ -122,10 +107,7 @@ class preg
      * @psalm-param T $subject
      * @psalm-return T
      *
-     * @throws SafeRegexException
-     * @throws CompileSafeRegexException
-     * @throws SuspectedReturnSafeRegexException
-     * @throws RuntimeSafeRegexException
+     * @throws PregException
      */
     public static function replace_callback_array($patterns_and_callbacks, $subject, int $limit = -1, int &$count = null)
     {
@@ -165,10 +147,7 @@ class preg
      * @psalm-param T $subject
      * @psalm-return T
      *
-     * @throws SafeRegexException
-     * @throws CompileSafeRegexException
-     * @throws SuspectedReturnSafeRegexException
-     * @throws RuntimeSafeRegexException
+     * @throws PregException
      */
     public static function filter($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
     {
@@ -183,10 +162,7 @@ class preg
      *
      * @return string[]|array[]
      *
-     * @throws SafeRegexException
-     * @throws CompileSafeRegexException
-     * @throws SuspectedReturnSafeRegexException
-     * @throws RuntimeSafeRegexException
+     * @throws PregException
      */
     public static function split(string $pattern, string $subject, int $limit = -1, int $flags = 0)
     {
@@ -199,10 +175,7 @@ class preg
      * Return array entries that match the pattern
      * @link https://php.net/manual/en/function.preg-grep.php
      *
-     * @throws SafeRegexException
-     * @throws CompileSafeRegexException
-     * @throws SuspectedReturnSafeRegexException
-     * @throws RuntimeSafeRegexException
+     * @throws PregException
      */
     public static function grep(string $pattern, array $input, int $flags = 0): array
     {

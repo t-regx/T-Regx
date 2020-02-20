@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Pattern;
-use TRegx\SafeRegex\Exception\SafeRegexException;
+use TRegx\SafeRegex\Exception\PregException;
 use TRegx\SafeRegex\preg;
 
 class ReadMeTest extends TestCase
@@ -64,7 +64,7 @@ class ReadMeTest extends TestCase
             }
 
             preg::replace_callback('/(regexp/i', $myCallback, 'I very much like regexps');
-        } catch (SafeRegexException $e) {
+        } catch (PregException $e) {
             $this->assertRegExp(PhpVersionDependent::getUnmatchedParenthesisMessage_ReplaceCallback(7), $e->getMessage());
         }
         if (preg::match('/\s+/', $input) === false) {

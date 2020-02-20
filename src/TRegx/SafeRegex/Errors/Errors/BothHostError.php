@@ -2,7 +2,7 @@
 namespace TRegx\SafeRegex\Errors\Errors;
 
 use TRegx\SafeRegex\Errors\HostError;
-use TRegx\SafeRegex\Exception\SafeRegexException;
+use TRegx\SafeRegex\Exception\PregException;
 
 class BothHostError implements HostError
 {
@@ -28,7 +28,7 @@ class BothHostError implements HostError
         $this->runtime->occurred() && $this->runtime->clear();
     }
 
-    public function getSafeRegexpException(string $methodName): SafeRegexException
+    public function getSafeRegexpException(string $methodName): PregException
     {
         return $this->compile->getSafeRegexpException($methodName);
     }

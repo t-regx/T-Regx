@@ -4,8 +4,8 @@ namespace Test\SafeRegex\Guard;
 use PHPUnit\Framework\TestCase;
 use Test\Warnings;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
-use TRegx\SafeRegex\Exception\CompileSafeRegexException;
-use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
+use TRegx\SafeRegex\Exception\CompilePregException;
+use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Guard\GuardedInvoker;
 
 class GuardedInvocationTest extends TestCase
@@ -46,7 +46,7 @@ class GuardedInvocationTest extends TestCase
 
         // then
         $this->assertEquals(14, $result);
-        $this->assertInstanceOf(RuntimeSafeRegexException::class, $exception);
+        $this->assertInstanceOf(RuntimePregException::class, $exception);
     }
 
     /**
@@ -65,7 +65,7 @@ class GuardedInvocationTest extends TestCase
 
         // then
         $this->assertEquals(15, $result);
-        $this->assertInstanceOf(CompileSafeRegexException::class, $exception);
+        $this->assertInstanceOf(CompilePregException::class, $exception);
     }
 
     /**

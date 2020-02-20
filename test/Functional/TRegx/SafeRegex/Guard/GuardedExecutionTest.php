@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Test\Warnings;
 use TRegx\SafeRegex\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
-use TRegx\SafeRegex\Exception\CompileSafeRegexException;
-use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
+use TRegx\SafeRegex\Exception\CompilePregException;
+use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Guard\GuardedExecution;
 
 class GuardedExecutionTest extends TestCase
@@ -20,7 +20,7 @@ class GuardedExecutionTest extends TestCase
     public function shouldCatchRuntimeWarningWhenInvoking()
     {
         // then
-        $this->expectException(RuntimeSafeRegexException::class);
+        $this->expectException(RuntimePregException::class);
 
         // when
         GuardedExecution::invoke('preg_match', function () {
@@ -35,7 +35,7 @@ class GuardedExecutionTest extends TestCase
     public function shouldCatchCompileWarningWhenInvoking()
     {
         // then
-        $this->expectException(CompileSafeRegexException::class);
+        $this->expectException(CompilePregException::class);
 
         // when
         GuardedExecution::invoke('preg_match', function () {

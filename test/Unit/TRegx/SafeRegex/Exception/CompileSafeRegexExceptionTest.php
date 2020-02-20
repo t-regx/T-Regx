@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\SafeRegex\Exception;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\SafeRegex\Exception\CompileSafeRegexException;
+use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\PhpError;
 
 class CompileSafeRegexExceptionTest extends TestCase
@@ -10,7 +10,7 @@ class CompileSafeRegexExceptionTest extends TestCase
     public function testGetters()
     {
         // given
-        $exception = new CompileSafeRegexException('', '', new PhpError(2, 'message', '', 0), 'error');
+        $exception = new CompilePregException('', '', new PhpError(2, 'message', '', 0), 'error');
 
         // when
         $error = $exception->getError();
@@ -29,7 +29,7 @@ class CompileSafeRegexExceptionTest extends TestCase
     public function shouldGet_invokingMessage()
     {
         // given
-        $exception = new CompileSafeRegexException('preg_method', '', new PhpError(2, '', '', 0), '');
+        $exception = new CompilePregException('preg_method', '', new PhpError(2, '', '', 0), '');
 
         // when
         $method = $exception->getInvokingMethod();

@@ -3,9 +3,9 @@ namespace Test\Functional\TRegx\SafeRegex\ExceptionFactory;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
-use TRegx\SafeRegex\Exception\CompileSafeRegexException;
-use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
-use TRegx\SafeRegex\Exception\SuspectedReturnSafeRegexException;
+use TRegx\SafeRegex\Exception\CompilePregException;
+use TRegx\SafeRegex\Exception\RuntimePregException;
+use TRegx\SafeRegex\Exception\SuspectedReturnPregException;
 use TRegx\SafeRegex\ExceptionFactory;
 use TRegx\SafeRegex\Guard\Strategy\DefaultSuspectedReturnStrategy;
 
@@ -30,7 +30,7 @@ class ExceptionFactoryTest extends TestCase
         $exception = $exceptionFactory->retrieveGlobals('preg_match', false);
 
         // then
-        $this->assertInstanceOf(CompileSafeRegexException::class, $exception);
+        $this->assertInstanceOf(CompilePregException::class, $exception);
     }
 
     /**
@@ -48,7 +48,7 @@ class ExceptionFactoryTest extends TestCase
         $exception = $exceptionFactory->retrieveGlobals('preg_match', false);
 
         // then
-        $this->assertInstanceOf(RuntimeSafeRegexException::class, $exception);
+        $this->assertInstanceOf(RuntimePregException::class, $exception);
     }
 
     public function testUnexpectedReturnError()
@@ -61,7 +61,7 @@ class ExceptionFactoryTest extends TestCase
         $exception = $exceptionFactory->retrieveGlobals('preg_match', $result);
 
         // then
-        $this->assertInstanceOf(SuspectedReturnSafeRegexException::class, $exception);
+        $this->assertInstanceOf(SuspectedReturnPregException::class, $exception);
         $this->assertEquals("Invoking preg_match() resulted in 'false'.", $exception->getMessage());
     }
 

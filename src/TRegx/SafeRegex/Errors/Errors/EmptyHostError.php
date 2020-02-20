@@ -3,7 +3,7 @@ namespace TRegx\SafeRegex\Errors\Errors;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\SafeRegex\Errors\HostError;
-use TRegx\SafeRegex\Exception\SafeRegexException;
+use TRegx\SafeRegex\Exception\PregException;
 
 class EmptyHostError implements HostError
 {
@@ -16,7 +16,7 @@ class EmptyHostError implements HostError
     {
     }
 
-    public function getSafeRegexpException(string $methodName): SafeRegexException
+    public function getSafeRegexpException(string $methodName): PregException
     {
         throw new InternalCleanRegexException();
     }

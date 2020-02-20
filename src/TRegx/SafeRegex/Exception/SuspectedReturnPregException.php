@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-class SuspectedReturnSafeRegexException extends SafeRegexException
+class SuspectedReturnPregException extends PregException
 {
     /** @var mixed */
     private $returnValue;

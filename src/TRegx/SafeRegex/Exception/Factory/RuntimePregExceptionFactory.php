@@ -2,9 +2,9 @@
 namespace TRegx\SafeRegex\Exception\Factory;
 
 use TRegx\SafeRegex\Constants\PregConstants;
-use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
+use TRegx\SafeRegex\Exception\RuntimePregException;
 
-class RuntimeSafeRegexExceptionFactory
+class RuntimePregExceptionFactory
 {
     /** @var PregConstants */
     private $pregConstants;
@@ -20,7 +20,7 @@ class RuntimeSafeRegexExceptionFactory
         $this->errorCode = $errorCode;
     }
 
-    public function create(): RuntimeSafeRegexException
+    public function create(): RuntimePregException
     {
         return $this->instantiateException($this->getErrorName());
     }
@@ -30,9 +30,9 @@ class RuntimeSafeRegexExceptionFactory
         return $this->pregConstants->getConstant($this->errorCode);
     }
 
-    public function instantiateException(string $errorName): RuntimeSafeRegexException
+    public function instantiateException(string $errorName): RuntimePregException
     {
-        return new RuntimeSafeRegexException($this->getExceptionMessage($errorName), $this->methodName, $this->errorCode, $errorName);
+        return new RuntimePregException($this->getExceptionMessage($errorName), $this->methodName, $this->errorCode, $errorName);
     }
 
     public function getExceptionMessage(string $errorText): string

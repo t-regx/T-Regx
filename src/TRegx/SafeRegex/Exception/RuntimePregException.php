@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-class RuntimeSafeRegexException extends SafeRegexException
+class RuntimePregException extends PregException
 {
     /** @var int */
     private $errorCode;

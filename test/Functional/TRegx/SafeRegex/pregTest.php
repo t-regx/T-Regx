@@ -3,7 +3,7 @@ namespace Test\Functional\TRegx\SafeRegex;
 
 use PHPUnit\Framework\TestCase;
 use Test\Warnings;
-use TRegx\SafeRegex\Exception\CompileSafeRegexException;
+use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\preg;
 
 class pregTest extends TestCase
@@ -52,7 +52,7 @@ class pregTest extends TestCase
     public function shouldBeProneToRegexCallbackWarnings()
     {
         // then
-        $this->expectException(CompileSafeRegexException::class);
+        $this->expectException(CompilePregException::class);
         $this->expectExceptionMessage("No ending delimiter '/' found");
 
         // when

@@ -4,8 +4,8 @@ namespace TRegx\SafeRegex\Errors\Errors;
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\SafeRegex\Constants\PregConstants;
 use TRegx\SafeRegex\Errors\HostError;
-use TRegx\SafeRegex\Exception\Factory\RuntimeSafeRegexExceptionFactory;
-use TRegx\SafeRegex\Exception\SafeRegexException;
+use TRegx\SafeRegex\Exception\Factory\RuntimePregExceptionFactory;
+use TRegx\SafeRegex\Exception\PregException;
 use function preg_match;
 
 class RuntimeError implements HostError
@@ -32,10 +32,10 @@ class RuntimeError implements HostError
         preg_match('//', '');
     }
 
-    public function getSafeRegexpException(string $methodName): SafeRegexException
+    public function getSafeRegexpException(string $methodName): PregException
     {
         if ($this->occurred()) {
-            return (new RuntimeSafeRegexExceptionFactory($methodName, $this->pregError))->create();
+            return (new RuntimePregExceptionFactory($methodName, $this->pregError))->create();
         }
         throw new InternalCleanRegexException();
     }

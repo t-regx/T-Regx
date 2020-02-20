@@ -2,11 +2,11 @@
 namespace TRegx\SafeRegex\Exception\Factory;
 
 use TRegx\SafeRegex\Constants\PhpErrorConstants;
-use TRegx\SafeRegex\Exception\CompileSafeRegexException;
+use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\PhpError;
 
-class CompileSafeRegexExceptionFactory
+class CompilePregExceptionFactory
 {
     /** @var PhpErrorConstants */
     private $phpErrorConstants;
@@ -22,7 +22,7 @@ class CompileSafeRegexExceptionFactory
         $this->error = $error;
     }
 
-    public function create(): CompileSafeRegexException
+    public function create(): CompilePregException
     {
         [$class, $message] = $this->exceptionClassAndMessage($this->error->getMessage());
         return new $class(
@@ -37,7 +37,7 @@ class CompileSafeRegexExceptionFactory
         if ($this->matchMalformed($message, $result)) {
             return [MalformedPatternException::class, $result];
         }
-        return [CompileSafeRegexException::class, $message];
+        return [CompilePregException::class, $message];
     }
 
     private function matchMalformed(string $message, ?string &$result): bool

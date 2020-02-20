@@ -6,7 +6,7 @@ use Test\Warnings;
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
 use TRegx\SafeRegex\Errors\Errors\RuntimeError;
 use TRegx\SafeRegex\Errors\Errors\RuntimeErrorFactory;
-use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
+use TRegx\SafeRegex\Exception\RuntimePregException;
 
 class RuntimeErrorTest extends TestCase
 {
@@ -67,11 +67,11 @@ class RuntimeErrorTest extends TestCase
         $error = new RuntimeError(PREG_BAD_UTF8_ERROR);
 
         // when
-        /** @var RuntimeSafeRegexException $exception */
+        /** @var RuntimePregException $exception */
         $exception = $error->getSafeRegexpException('preg_replace');
 
         // then
-        $this->assertInstanceOf(RuntimeSafeRegexException::class, $exception);
+        $this->assertInstanceOf(RuntimePregException::class, $exception);
         $this->assertEquals('preg_replace', $exception->getInvokingMethod());
         $this->assertEquals(PREG_BAD_UTF8_ERROR, $exception->getError());
         $this->assertEquals('PREG_BAD_UTF8_ERROR', $exception->getErrorName());

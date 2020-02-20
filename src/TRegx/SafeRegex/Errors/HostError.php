@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Errors;
 
-use TRegx\SafeRegex\Exception\SafeRegexException;
+use TRegx\SafeRegex\Exception\PregException;
 
 interface HostError
 {
@@ -9,5 +9,5 @@ interface HostError
 
     public function clear(): void;
 
-    public function getSafeRegexpException(string $methodName): SafeRegexException;
+    public function getSafeRegexpException(string $methodName): PregException;
 }

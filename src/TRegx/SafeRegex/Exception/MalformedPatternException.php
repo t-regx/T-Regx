@@ -1,10 +1,9 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-use TRegx\SafeRegex\Exception\CompileSafeRegexException;
 use TRegx\SafeRegex\PhpError;
 
-class MalformedPatternException extends CompileSafeRegexException
+class MalformedPatternException extends CompilePregException
 {
     public function __construct(string $methodName, string $message, PhpError $error, string $errorName)
     {

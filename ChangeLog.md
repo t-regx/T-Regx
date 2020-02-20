@@ -3,7 +3,12 @@ T-Regx Changelog
 
 Incoming in 0.9.3
 -----------------
-
+* Breaking changes
+    * Renamed exceptions:
+      - `SafeRegexException` to `PregException`
+      - `CompileSafeRegexException` to `CompilePregException`
+      - `RuntimeSafeRegexException` to `RuntimePregException`
+      - `SuspectedReturnSafeRegexException` to `SuspectedReturnPregException`
 * Features
     * Added `preg::last_error_msg()`, which works like `preg::last_error()`, but returns a human-readable message, 
       instead of `int`.

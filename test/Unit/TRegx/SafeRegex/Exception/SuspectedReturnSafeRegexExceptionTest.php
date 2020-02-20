@@ -2,14 +2,14 @@
 namespace Test\Unit\TRegx\SafeRegex\Exception;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\SafeRegex\Exception\SuspectedReturnSafeRegexException;
+use TRegx\SafeRegex\Exception\SuspectedReturnPregException;
 
 class SuspectedReturnSafeRegexExceptionTest extends TestCase
 {
     public function testGetters()
     {
         // given
-        $exception = new SuspectedReturnSafeRegexException('method', 'value');
+        $exception = new SuspectedReturnPregException('method', 'value');
 
         // when
         $value = $exception->getReturnValue();

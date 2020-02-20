@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
-use TRegx\SafeRegex\Exception\CompileSafeRegexException;
+use TRegx\SafeRegex\Exception\CompilePregException;
 
 class MatchPatternTest extends TestCase
 {
@@ -110,7 +110,7 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(InternalPattern::standard('invalid)'), 'Nice matching pattern');
 
         // then
-        $this->expectException(CompileSafeRegexException::class);
+        $this->expectException(CompilePregException::class);
         $this->expectExceptionMessageRegExp(PhpVersionDependent::getUnmatchedParenthesisMessage(7));
 
         // when

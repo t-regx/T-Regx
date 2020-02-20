@@ -3,7 +3,7 @@ namespace TRegx\SafeRegex\Exception;
 
 use TRegx\SafeRegex\PhpError;
 
-class CompileSafeRegexException extends SafeRegexException
+class CompilePregException extends PregException
 {
     /** @var PhpError */
     private $error;

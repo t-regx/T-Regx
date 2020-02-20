@@ -2,7 +2,7 @@
 namespace TRegx\SafeRegex\Errors\Errors;
 
 use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
-use TRegx\SafeRegex\Exception\SafeRegexException;
+use TRegx\SafeRegex\Exception\PregException;
 
 class IrrelevantCompileError implements CompileError
 {
@@ -18,7 +18,7 @@ class IrrelevantCompileError implements CompileError
         // @codeCoverageIgnoreEnd
     }
 
-    public function getSafeRegexpException(string $methodName): SafeRegexException
+    public function getSafeRegexpException(string $methodName): PregException
     {
         // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();

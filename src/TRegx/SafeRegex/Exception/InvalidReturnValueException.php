@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-class InvalidReturnValueException extends SafeRegexException
+class InvalidReturnValueException extends PregException
 {
     public function __construct($methodName, $returnType)
     {
