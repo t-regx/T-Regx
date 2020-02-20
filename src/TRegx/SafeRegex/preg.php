@@ -2,6 +2,7 @@
 namespace TRegx\SafeRegex;
 
 use TRegx\SafeRegex\Constants\PregConstants;
+use TRegx\SafeRegex\Constants\PregMessages;
 use TRegx\SafeRegex\Exception\CompileSafeRegexException;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
 use TRegx\SafeRegex\Exception\RuntimeSafeRegexException;
@@ -259,11 +260,11 @@ class preg
 
     public static function last_error_constant(): string
     {
-        return preg::error_constant(\preg_last_error());
+        return (new PregConstants())->getConstant(\preg_last_error());
     }
 
-    public static function error_constant(int $error): string
+    public static function last_error_msg(): string
     {
-        return (new PregConstants())->getConstant($error);
+        return (new PregMessages())->getConstant(\preg_last_error());
     }
 }

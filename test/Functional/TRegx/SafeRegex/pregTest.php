@@ -106,4 +106,23 @@ class pregTest extends TestCase
         // then
         $this->assertEquals(1, $value);
     }
+
+    /**
+     * @test
+     */
+    public function shouldGetLastErrorMessage()
+    {
+        // given
+        $this->causeRuntimeWarning();
+
+        // when
+        $error = preg::last_error();
+        $message = preg::last_error_msg();
+        $constant = preg::last_error_constant();
+
+        // then
+        $this->assertEquals(PREG_BAD_UTF8_ERROR, $error);
+        $this->assertEquals('Malformed UTF-8 characters, possibly incorrectly encoded', $message);
+        $this->assertEquals('PREG_BAD_UTF8_ERROR', $constant);
+    }
 }

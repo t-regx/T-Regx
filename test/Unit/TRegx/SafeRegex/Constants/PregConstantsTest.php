@@ -12,11 +12,10 @@ class PregConstantsTest extends TestCase
     public function shouldGetConstant()
     {
         // given
-        $unknown = PREG_BAD_UTF8_ERROR;
         $constants = new PregConstants();
 
         // when
-        $constant = $constants->getConstant($unknown);
+        $constant = $constants->getConstant(PREG_BAD_UTF8_ERROR);
 
         // then
         $this->assertEquals('PREG_BAD_UTF8_ERROR', $constant);
