@@ -23,11 +23,11 @@ class GuardedInvocationTest extends TestCase
         });
 
         // when
-        $invocation = $invoker->catch();
+        [$result, $exception] = $invoker->catch();
 
         // then
-        $this->assertNull($invocation->getException());
-        $this->assertFalse($invocation->hasException());
+        $this->assertEquals(13, $result);
+        $this->assertNull($exception);
     }
 
     /**
@@ -38,15 +38,15 @@ class GuardedInvocationTest extends TestCase
         // given
         $invoker = new GuardedInvoker('preg_match', function () {
             $this->causeRuntimeWarning();
-            return false;
+            return 14;
         });
 
         // when
-        $invocation = ($invoker)->catch();
+        [$result, $exception] = $invoker->catch();
 
         // then
-        $this->assertTrue($invocation->hasException());
-        $this->assertInstanceOf(RuntimeSafeRegexException::class, $invocation->getException());
+        $this->assertEquals(14, $result);
+        $this->assertInstanceOf(RuntimeSafeRegexException::class, $exception);
     }
 
     /**
@@ -57,32 +57,33 @@ class GuardedInvocationTest extends TestCase
         // given
         $invoker = new GuardedInvoker('preg_match', function () {
             $this->causeCompileWarning();
-            return false;
+            return 15;
         });
 
         // when
-        $invocation = $invoker->catch();
+        [$result, $exception] = $invoker->catch();
 
         // then
-        $this->assertTrue($invocation->hasException());
-        $this->assertInstanceOf(CompileSafeRegexException::class, $invocation->getException());
+        $this->assertEquals(15, $result);
+        $this->assertInstanceOf(CompileSafeRegexException::class, $exception);
     }
 
     /**
      * @test
      */
-    public function shouldCatchReturnResult()
+    public function shouldReturnResult()
     {
         // given
         $invoker = new GuardedInvoker('preg_match', function () {
-            return 13;
+            return 16;
         });
 
         // when
-        $invocation = $invoker->catch();
+        [$result, $exception] = $invoker->catch();
 
         // then
-        $this->assertEquals(13, $invocation->getResult());
+        $this->assertEquals(16, $result);
+        $this->assertNull($exception);
     }
 
     /**
@@ -94,16 +95,16 @@ class GuardedInvocationTest extends TestCase
     {
         // given
         $obsoleteWarning();
+        $invoker = new GuardedInvoker('preg_match', function () {
+            return 17;
+        });
 
         // when
-        $callback = function () {
-            return 1;
-        };
-        $invocation = (new GuardedInvoker('preg_match', $callback))->catch();
+        [$result, $exception] = $invoker->catch();
 
         // then
-        $this->assertNull($invocation->getException());
-        $this->assertFalse($invocation->hasException());
+        $this->assertEquals(17, $result);
+        $this->assertNull($exception);
     }
 
     /**
@@ -125,7 +126,7 @@ class GuardedInvocationTest extends TestCase
         $this->assertFalse((new ErrorsCleaner())->getError()->occurred());
     }
 
-    public function possibleObsoleteWarnings()
+    public function possibleObsoleteWarnings(): array
     {
         return [
             [function () {
@@ -135,5 +136,23 @@ class GuardedInvocationTest extends TestCase
                 $this->causeCompileWarning();
             }],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotSilenceExceptions()
+    {
+        // given
+        $invoker = new GuardedInvoker('preg_match', function () {
+            throw new \Exception("For Frodo");
+        });
+
+        // then
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("For Frodo");
+
+        // when
+        $invoker->catch();
     }
 }

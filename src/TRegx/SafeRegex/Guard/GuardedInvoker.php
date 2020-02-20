@@ -27,14 +27,14 @@ class GuardedInvoker
         $this->exceptionFactory = new ExceptionFactory($strategy ?? new DefaultSuspectedReturnStrategy(), $this->errorsCleaner);
     }
 
-    public function catch(): GuardedInvocation
+    public function catch(): array
     {
         $this->errorsCleaner->clear();
         $result = call_user_func($this->callback);
         $exception = $this->exception($result);
         $this->errorsCleaner->clear();
 
-        return new GuardedInvocation($result, $exception);
+        return [$result, $exception];
     }
 
     private function exception($result): ?SafeRegexException
