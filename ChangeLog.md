@@ -1,8 +1,13 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.9.3
+Incoming in 0.9.4
 -----------------
+
+* Soon
+
+Added in 0.9.3
+------------------
 * Breaking changes
     * Renamed exceptions:
       - `SafeRegexException` to `PregException`
@@ -14,7 +19,7 @@ Incoming in 0.9.3
 * Features
     * Added `preg::last_error_msg()`, which works like `preg::last_error()`, but returns a human-readable message, 
       instead of `int`.
-* Other
+* Fixing PHP
     * `preg_match()` in some cases returns `2`, instead of `1`. T-Regx fixes this bug by always returning `1`, on every
    PHP version (https://bugs.php.net/bug.php?id=78853).
 

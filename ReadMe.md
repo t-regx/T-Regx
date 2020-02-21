@@ -14,7 +14,8 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 [![GitHub last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
 [![Composer lock](https://img.shields.io/badge/.lock-uncommited-green.svg)](https://github.com/T-Regx/T-Regx)
-![PHP Version](https://img.shields.io/badge/Unit%20tests-1272-green.svg)
+[![PHP Version](https://img.shields.io/badge/Unit%20tests-1272-green.svg)](https://github.com/T-Regx/T-Regx)
+[![PHP Version](https://img.shields.io/badge/FQN-used-blue.svg)](https://github.com/kelunik/fqn-check)
 
 [![PHP Version](https://img.shields.io/badge/PHP-7.1-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/PHP-7.2-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
@@ -22,7 +23,7 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 [![PHP Version](https://img.shields.io/badge/PHP-7.4-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/PHP-8.0-yellow.svg)](https://travis-ci.org/T-Regx/T-Regx "Unofficially, but builds do run on 8.0")
 
-[![PRs Welcome](https://img.shields.io/badge/Stable-0.9.2-brightgreen.svg?style=popout)](https://github.com/T-Regx/T-Regx/releases)
+[![PRs Welcome](https://img.shields.io/badge/Stable-0.9.3-brightgreen.svg?style=popout)](https://github.com/T-Regx/T-Regx/releases)
 [![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 
 1. [Installation](#installation)
@@ -37,7 +38,7 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 4. [Overview](#overview)
     * [Why T-Regx stands out?](#why-t-regx-stands-out)
     * [Ways of using T-Regx](#ways-of-using-t-regx)
-    * [Converting warnings to Exceptions](#saferegex)
+    * [Converting warnings to Exceptions](#converting-warnings-to-exceptions)
 5. [Supported PHP versions](#supported-php-versions)
 7. [Comparison](#whats-better)
 8. [License](#license)
@@ -61,7 +62,7 @@ Full API documentation is available at [t-regx.com](https://t-regx.com/).
 These calls are identical:
 
 ```php
-pattern('\d{3}')->test('123')
+pattern('\d{3}')->test('123');
 ```
 
 :bulb: See more about [automatic delimiters](https://t-regx.com/docs/delimiters)
@@ -207,17 +208,17 @@ $result   // 'WORD'
 // Static method style
 use TRegx\CleanRegex\Pattern;
 
-Pattern::of('[A-Z][a-z]+')->matches($subject)
+Pattern::of('[A-Z][a-z]+')->matches('Foo Bar');
 ```
 ```php
 // Global function style
-pattern('[A-Z][a-z]+')->matches($subject)
+pattern('[A-Z][a-z]+')->matches('Foo Bar');
 ```
 ```php
 // Old-school pattern
 use TRegx\CleanRegex\Pattern;
 
-Pattern::pcre('/[A-Z][a-z]+/i')->matches($subject)
+Pattern::pcre('/[A-Z][a-z]+/i')->matches('Foo Bar');
 ```
 
 :bulb: See more about [entry points](https://t-regx.com/docs/introduction) and 
