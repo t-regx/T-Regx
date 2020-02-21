@@ -41,11 +41,6 @@ class GroupNameIndexAssign
         }
     }
 
-    /**
-     * @param $group
-     * @return array
-     * @throws InsufficientMatchException
-     */
     private function tryGetNameAndIndex($group): array
     {
         if (is_string($group)) {
@@ -76,11 +71,6 @@ class GroupNameIndexAssign
         return null;
     }
 
-    /**
-     * @param $group
-     * @return int|string
-     * @throws InsufficientMatchException
-     */
     private function getKeyByGroup($group)
     {
         $key = array_search($group, $this->groupKeys, true);
