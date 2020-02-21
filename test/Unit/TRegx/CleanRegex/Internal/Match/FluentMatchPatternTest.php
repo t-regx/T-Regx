@@ -316,7 +316,7 @@ class FluentMatchPatternTest extends TestCase
 
         // then
         $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage('Invalid groupBy() callback return type. Expected int|string, but array (0) given');
+        $this->expectExceptionMessage('Invalid groupByCallback() callback return type. Expected int|string, but array (0) given');
 
         // when
         $pattern->groupByCallback(function () {

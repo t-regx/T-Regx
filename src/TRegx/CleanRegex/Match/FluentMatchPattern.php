@@ -140,7 +140,7 @@ class FluentMatchPattern implements MatchPatternInterface
             if (\is_int($key) || \is_string($key)) {
                 $map[$key][] = $element;
             } else {
-                throw InvalidReturnValueException::forGroupBy($key);
+                throw InvalidReturnValueException::forGroupByCallback($key);
             }
         }
         return $this->next($map);

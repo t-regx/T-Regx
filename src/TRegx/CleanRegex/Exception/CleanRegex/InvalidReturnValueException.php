@@ -26,8 +26,8 @@ class InvalidReturnValueException extends CleanRegexException
         return new self($value, 'filter', 'bool');
     }
 
-    public static function forGroupBy($value): self
+    public static function forGroupByCallback($value): self
     {
-        return new self($value, 'groupBy', 'int|string');
+        return new self($value, 'groupByCallback', 'int|string');
     }
 }
