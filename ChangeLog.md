@@ -4,7 +4,10 @@ T-Regx Changelog
 Incoming in 0.9.4
 -----------------
 
-* Soon
+* Features
+   * Added `match()->groupBy()`:
+     - `match()->groupBy()->texts()`
+     - `match()->groupBy()->map(callable<Match>)`
 
 Added in 0.9.3
 ------------------

@@ -52,6 +52,8 @@ interface IRawMatchesOffset extends IRawMatches, IRawWithGroups
 
     public function isGroupMatched($nameOrIndex, int $index);
 
+    public function getIndexedRawMatchOffset(int $index);
+
     public function getRawMatchOffset(int $index): RawMatchOffset;
 
     public function getRawMatch(int $index): RawMatch;

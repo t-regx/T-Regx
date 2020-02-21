@@ -152,6 +152,11 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         }, $this->base->matchAll()->getTexts());
     }
 
+    public function groupBy($nameOrIndex): GroupByPattern
+    {
+        return new GroupByPattern($this->base, $nameOrIndex);
+    }
+
     /**
      * @return Match[]
      */

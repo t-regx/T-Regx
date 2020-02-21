@@ -6,11 +6,12 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactory;
+use TRegx\CleanRegex\Internal\Model\Match\IndexedRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\Match;
 
-class RawMatchesOffset implements IRawMatchesOffset
+class RawMatchesOffset implements IRawMatchesOffset, IRawMatchesGroupable
 {
     private const GROUP_WHOLE_MATCH = 0;
     private const FIRST_MATCH = 0;
@@ -164,6 +165,14 @@ class RawMatchesOffset implements IRawMatchesOffset
             return $var[1] !== -1;
         }
         return false;
+    }
+
+    public function getIndexedRawMatchOffset(int $index): IndexedRawMatchOffset
+    {
+        $matches = \array_map(function (array $match) use ($index) {
+            return $match[$index];
+        }, $this->matches);
+        return new IndexedRawMatchOffset($matches, $index);
     }
 
     public function getRawMatchOffset(int $index): RawMatchOffset
