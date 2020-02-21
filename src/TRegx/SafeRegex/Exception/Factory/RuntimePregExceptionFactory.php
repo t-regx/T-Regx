@@ -32,7 +32,7 @@ class RuntimePregExceptionFactory
 
     public function instantiateException(string $errorName): RuntimePregException
     {
-        return new RuntimePregException($this->getExceptionMessage($errorName), $this->methodName, $this->errorCode, $errorName);
+        return new RuntimePregException($this->methodName, $this->getExceptionMessage($errorName), $this->errorCode, $errorName);
     }
 
     public function getExceptionMessage(string $errorText): string

@@ -8,7 +8,7 @@ class RuntimePregException extends PregException
     /** @var string */
     private $errorName;
 
-    public function __construct(string $message, string $methodName, int $errorCode, string $errorName)
+    public function __construct(string $methodName, string $message, int $errorCode, string $errorName)
     {
         parent::__construct($methodName, $message);
         $this->errorCode = $errorCode;
