@@ -6,8 +6,6 @@ use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 
 class RawMatches implements IRawMatches, IRawWithGroups
 {
-    private const GROUP_WHOLE_MATCH = 0;
-
     /** @var array */
     private $matches;
 
@@ -23,18 +21,9 @@ class RawMatches implements IRawMatches, IRawWithGroups
         // @codeCoverageIgnoreEnd
     }
 
-    public function getAll(): array
+    public function getTexts(): array
     {
-        return $this->getGroupTexts(self::GROUP_WHOLE_MATCH);
-    }
-
-    /**
-     * @param string|int $nameOrIndex
-     * @return string[]
-     */
-    public function getGroupTexts($nameOrIndex): array
-    {
-        return $this->matches[$nameOrIndex];
+        return $this->matches[0];
     }
 
     public function hasGroup($nameOrIndex): bool

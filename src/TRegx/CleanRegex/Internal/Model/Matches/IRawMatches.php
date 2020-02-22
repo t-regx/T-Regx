@@ -8,11 +8,5 @@ interface IRawMatches
     /**
      * @return string[]
      */
-    public function getAll(): array;
-
-    /**
-     * @param string|int $group
-     * @return array (string|null)[]
-     */
-    public function getGroupTexts($group): array;
+    public function getTexts(): array;
 }

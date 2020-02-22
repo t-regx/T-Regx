@@ -21,8 +21,6 @@ use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
 class MatchImpl implements Match
 {
-    private const WHOLE_MATCH = 0;
-
     /** @var Subjectable */
     private $subjectable;
     /** @var int */
@@ -164,7 +162,7 @@ class MatchImpl implements Match
 
     public function all(): array
     {
-        return $this->getMatches()->getGroupTexts(self::WHOLE_MATCH);
+        return $this->getMatches()->getTexts();
     }
 
     private function getMatches(): IRawMatchesOffset

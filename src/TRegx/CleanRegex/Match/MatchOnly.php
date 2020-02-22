@@ -64,6 +64,6 @@ class MatchOnly
 
     private function getAll(): array
     {
-        return $this->base->matchAll()->getAll();
+        return $this->base->matchAll()->getTexts();
     }
 }

@@ -28,17 +28,6 @@ class RawMatchesOffset implements IRawMatchesOffset
         return \count($this->matches[self::GROUP_WHOLE_MATCH]) > 0;
     }
 
-    /**
-     * @return (string|null)[]
-     */
-    public function getAll(): array
-    {
-        return \array_map(function ($match) {
-            [$text, $offset] = $match;
-            return $text;
-        }, $this->matches[self::GROUP_WHOLE_MATCH]);
-    }
-
     public function getMatchObjects(MatchObjectFactory $factory): array
     {
         $matchObjects = [];
@@ -161,6 +150,11 @@ class RawMatchesOffset implements IRawMatchesOffset
             [$text, $offset] = $group;
             return $text;
         }, $this->matches[$group]);
+    }
+
+    public function getTexts(): array
+    {
+        return $this->getGroupTexts(self::GROUP_WHOLE_MATCH);
     }
 
     public function isGroupMatched($nameOrIndex, int $index): bool

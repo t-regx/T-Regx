@@ -41,7 +41,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function all(): array
     {
-        return $this->base->matchAll()->getAll();
+        return $this->base->matchAll()->getTexts();
     }
 
     /**
@@ -149,7 +149,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
                 return (int)$value;
             }
             throw IntegerFormatException::forMatch($value);
-        }, $this->base->matchAll()->getAll());
+        }, $this->base->matchAll()->getTexts());
     }
 
     /**
