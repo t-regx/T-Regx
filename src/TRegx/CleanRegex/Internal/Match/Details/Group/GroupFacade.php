@@ -30,7 +30,11 @@ class GroupFacade
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(IRawWithGroups $groupAssignMatch, Subjectable $subject, $group, GroupFactoryStrategy $factoryStrategy, MatchAllFactory $allFactory)
+    public function __construct(IRawWithGroups $groupAssignMatch,
+                                Subjectable $subject,
+                                $group,
+                                GroupFactoryStrategy $factoryStrategy,
+                                MatchAllFactory $allFactory)
     {
         $this->groupAssign = new GroupNameIndexAssign($groupAssignMatch, $allFactory);
         $this->subject = $subject;
@@ -40,18 +44,18 @@ class GroupFacade
     }
 
     /**
-     * @param IRawMatchesOffset $match
+     * @param IRawMatchesOffset $matches
      * @return MatchGroup[]
      */
-    public function createGroups(IRawMatchesOffset $match): array
+    public function createGroups(IRawMatchesOffset $matches): array
     {
         $matchObjects = [];
-        foreach ($match->getGroupTextAndOffsetAll($this->group) as $index => $firstWhole) {
-            [$text, $offset] = $firstWhole;
-            if ($match->isGroupMatched($this->group, $index)) {
-                $matchObjects[] = $this->createdMatched(new RawMatchesToMatchAdapter($match, $index), new MatchedGroupOccurrence($text, $offset, $this->subject));
+        foreach ($matches->getGroupTextAndOffsetAll($this->group) as $index => $firstWhole) {
+            $match = new RawMatchesToMatchAdapter($matches, $index);
+            if ($matches->isGroupMatched($this->group, $index)) {
+                $matchObjects[] = $this->createdMatched($match, ...$firstWhole);
             } else {
-                $matchObjects[] = $this->createUnmatched(new RawMatchesToMatchAdapter($match, $index));
+                $matchObjects[] = $this->createUnmatched($match);
             }
         }
         return $matchObjects;
@@ -61,14 +65,17 @@ class GroupFacade
     {
         if ($match->isGroupMatched($this->group)) {
             [$text, $offset] = $match->getGroupTextAndOffset($this->group);
-            return $this->createdMatched($match, new MatchedGroupOccurrence($text, $offset, $this->subject));
+            return $this->createdMatched($match, $text, $offset);
         }
         return $this->createUnmatched($match);
     }
 
-    private function createdMatched(IRawMatchOffset $match, MatchedGroupOccurrence $details): MatchedGroup
+    private function createdMatched(IRawMatchOffset $match, string $text, int $offset): MatchedGroup
     {
-        return $this->factoryStrategy->createMatched($match, $this->createGroupDetails(), $details);
+        return $this->factoryStrategy->createMatched(
+            $match,
+            $this->createGroupDetails(),
+            new MatchedGroupOccurrence($text, $offset, $this->subject));
     }
 
     private function createUnmatched(IRawMatchOffset $match): NotMatchedGroup
