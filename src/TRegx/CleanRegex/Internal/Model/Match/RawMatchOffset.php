@@ -56,9 +56,6 @@ class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
         return $offset;
     }
 
-    /**
-     * @return (string|int)[]
-     */
     public function getGroupKeys(): array
     {
         return array_keys($this->match);
