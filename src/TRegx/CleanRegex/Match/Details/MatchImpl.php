@@ -73,17 +73,17 @@ class MatchImpl implements Match
 
     public function text(): string
     {
-        return $this->match->getMatch();
+        return $this->match->getText();
     }
 
     public function textLength(): int
     {
-        return \mb_strlen($this->match->getMatch());
+        return \mb_strlen($this->match->getText());
     }
 
     public function toInt(): int
     {
-        $match = $this->match->getMatch();
+        $match = $this->match->getText();
         if (Integer::isValid($match)) {
             return $match;
         }
@@ -92,7 +92,7 @@ class MatchImpl implements Match
 
     public function isInt(): bool
     {
-        return Integer::isValid($this->match->getMatch());
+        return Integer::isValid($this->match->getText());
     }
 
     /**

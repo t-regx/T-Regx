@@ -5,5 +5,5 @@ interface IRawMatch
 {
     public function matched(): bool;
 
-    public function getMatch(): string;
+    public function getText(): string;
 }

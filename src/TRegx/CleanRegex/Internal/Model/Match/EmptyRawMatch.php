@@ -25,7 +25,7 @@ class EmptyRawMatch implements IRawMatch, IRawMatchGroupable
         return null;
     }
 
-    public function getMatch(): string
+    public function getText(): string
     {
         throw new InternalCleanRegexException();
     }

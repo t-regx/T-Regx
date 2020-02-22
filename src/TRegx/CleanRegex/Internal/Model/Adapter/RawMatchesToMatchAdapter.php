@@ -23,7 +23,7 @@ class RawMatchesToMatchAdapter implements IRawMatchOffset
         return $this->matches->matched();
     }
 
-    public function getMatch(): string
+    public function getText(): string
     {
         $all = $this->matches->getAll();
         return $all[$this->index];

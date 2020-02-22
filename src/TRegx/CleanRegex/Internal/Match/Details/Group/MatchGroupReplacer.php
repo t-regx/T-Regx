@@ -7,7 +7,7 @@ class MatchGroupReplacer
 {
     public function replaceGroup(IRawMatchOffset $match, MatchedGroupOccurrence $occurrence, string $replacement): string
     {
-        $text = $match->getMatch();
+        $text = $match->getText();
         $matchOffset = $occurrence->offset - $match->byteOffset();
         $before = \substr($text, 0, $matchOffset);
         $after = \substr($text, $matchOffset + \strlen($occurrence->text));

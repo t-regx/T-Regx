@@ -49,7 +49,7 @@ class MatchOnly
     {
         $result = $this->base->match();
         if ($result->matched()) {
-            return [$result->getMatch()];
+            return [$result->getText()];
         }
         return [];
     }

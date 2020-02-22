@@ -18,7 +18,7 @@ class RawMatch implements IRawMatch
         return !empty($this->match);
     }
 
-    public function getMatch(): string
+    public function getText(): string
     {
         return $this->match[self::GROUP_WHOLE_MATCH];
     }

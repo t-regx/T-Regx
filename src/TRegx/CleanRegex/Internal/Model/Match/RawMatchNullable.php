@@ -18,7 +18,7 @@ class RawMatchNullable implements IRawMatch, IRawMatchGroupable
         return !empty($this->match);
     }
 
-    public function getMatch(): string
+    public function getText(): string
     {
         // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();
