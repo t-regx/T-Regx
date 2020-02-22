@@ -1,16 +1,16 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatches;
+use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 
 class MatchAllResults
 {
-    /** @var IRawMatches */
+    /** @var IRawMatchesOffset */
     private $matches;
     /** @var string|int */
     private $group;
 
-    public function __construct(IRawMatches $matches, $group)
+    public function __construct(IRawMatchesOffset $matches, $group)
     {
         $this->matches = $matches;
         $this->group = $group;
