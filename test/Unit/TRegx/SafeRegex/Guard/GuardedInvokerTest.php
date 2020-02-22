@@ -1,5 +1,5 @@
 <?php
-namespace Test\SafeRegex\Guard;
+namespace Test\Unit\TRegx\SafeRegex\Guard;
 
 use PHPUnit\Framework\TestCase;
 use Test\Warnings;
