@@ -13,7 +13,6 @@ use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatches;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
@@ -66,9 +65,7 @@ class GroupLimit implements PatternLimit
      */
     public function all(): array
     {
-        /** @var IRawMatches $rawMatches */
-        $rawMatches = \call_user_func($this->allFactory);
-        return $rawMatches->getGroupTexts($this->nameOrIndex);
+        return $this->allMatches()->getGroupTexts($this->nameOrIndex);
     }
 
     /**
@@ -77,8 +74,7 @@ class GroupLimit implements PatternLimit
      */
     public function only(int $limit): array
     {
-        /** @var IRawMatches $rawMatches */
-        $matches = \call_user_func($this->allFactory);
+        $matches = $this->allMatches();
         if ($limit < 0) {
             throw new InvalidArgumentException("Negative limit $limit");
         }
@@ -129,8 +125,12 @@ class GroupLimit implements PatternLimit
 
     private function getMatchGroupObjects(): array
     {
-        /** @var IRawMatchesOffset $rawMatches */
-        $rawMatches = \call_user_func($this->allFactory);
-        return (new GroupFacade($rawMatches, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), new EagerMatchAllFactory($rawMatches)))->createGroups($rawMatches);
+        $matches = $this->allMatches();
+        return (new GroupFacade($matches, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), new EagerMatchAllFactory($matches)))->createGroups($matches);
+    }
+
+    private function allMatches(): IRawMatchesOffset
+    {
+        return \call_user_func($this->allFactory);
     }
 }
