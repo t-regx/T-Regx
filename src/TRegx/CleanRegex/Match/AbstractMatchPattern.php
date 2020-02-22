@@ -17,14 +17,12 @@ use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
-use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactoryImpl;
-use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Match;
-use TRegx\CleanRegex\Match\Details\MatchImpl;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
 use TRegx\CleanRegex\Match\ForFirst\NotMatchedOptional;
@@ -47,23 +45,13 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     }
 
     /**
-     * @param callable|null $consumer
+     * @param null|callable $consumer
      * @return string|mixed
      * @throws SubjectNotMatchedException
      */
     public function first(callable $consumer = null)
     {
-        $match = $this->base->matchOffset();
-        if (!$match->matched()) {
-            throw SubjectNotMatchedException::forFirst($this->base);
-        }
-        if ($consumer === null) {
-            return $match->getText();
-        }
-        $factory = new LazyMatchAllFactory($this->base);
-        $polyfill = new GroupPolyfillDecorator($match, $factory, 0);
-        $matchObject = new MatchImpl($this->base, 0, 1, $polyfill, $factory, $this->base->getUserData());
-        return $consumer($matchObject);
+        return (new MatchFirst($this->base))->invoke($consumer);
     }
 
     public function only(int $limit): array
