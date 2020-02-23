@@ -4,6 +4,13 @@ T-Regx Changelog
 Incoming in 0.9.4
 -----------------
 
+* Breaking changes
+   * Updated the hierarchy of public exceptions
+     - `RegexExceptions` (moved to `/TRegx` from `/TRegx/CleanRegex/Exception`)
+       - `PregException` (extends `RegexExceptions`, instead of `\Exception`)
+       - `CleanRegexException` (unchanged)
+         - `IntegerFormatException` (extends `CleanRegexException`, instead of `\Exception`)
+         - `NoFirstElementFluentException` (extends `CleanRegexException`, instead of `\Exception`)
 * Features
    * Added `match()->groupBy()`:
      - `match()->groupBy()->texts()`
