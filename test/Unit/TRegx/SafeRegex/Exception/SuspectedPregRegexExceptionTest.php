@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\SafeRegex\Exception;
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Exception\SuspectedReturnPregException;
 
-class SuspectedReturnSafeRegexExceptionTest extends TestCase
+class SuspectedPregRegexExceptionTest extends TestCase
 {
     public function testGetters()
     {
