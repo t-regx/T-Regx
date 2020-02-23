@@ -29,12 +29,17 @@ class GroupByPattern
 
     public function map(callable $mapper): array
     {
-        return $this->groupBy(new MapStrategy($mapper, new MatchObjectFactoryImpl($this->base, -1, $this->base->getUserData())));
+        return $this->groupBy(new MapStrategy($mapper, $this->factory()));
     }
 
     public function flatMap(callable $mapper): array
     {
-        return $this->groupBy(new FlatMapStrategy($mapper));
+        return $this->groupBy(new FlatMapStrategy($mapper, $this->factory()));
+    }
+
+    private function factory(): MatchObjectFactoryImpl
+    {
+        return new MatchObjectFactoryImpl($this->base, -1, $this->base->getUserData());
     }
 
     private function groupBy(Strategy $strategy): array

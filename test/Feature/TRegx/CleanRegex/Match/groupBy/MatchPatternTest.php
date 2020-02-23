@@ -10,17 +10,11 @@ class MatchPatternTest extends TestCase
 {
     /**
      * @test
-     * @dataProvider mappers
-     * @param string $function
-     * @param array $arguments
      */
-    public function shouldGroup(string $function, array $arguments)
+    public function shouldGroupBy_texts()
     {
-        // given
-        $pattern = $this->groupBy();
-
         // when
-        $result = $pattern->$function(...$arguments);
+        $result = $this->groupBy()->texts();
 
         // then
         $this->assertEquals([
@@ -31,17 +25,48 @@ class MatchPatternTest extends TestCase
 
     /**
      * @test
-     * @dataProvider mappers
-     * @param string $function
-     * @param array $arguments
      */
-    public function shouldNotIncludeFilteredOut(string $function, array $arguments)
+    public function shouldGroupBy_map()
+    {
+        // when
+        $result = $this->groupBy()->map(function (Match $match) {
+            return "$match";
+        });
+
+        // then
+        $this->assertEquals([
+            'cm' => ['14cm', '19cm', '2cm'],
+            'mm' => ['13mm', '18mm'],
+        ], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupBy_flatMap()
+    {
+        // when
+        $result = $this->groupBy()->flatMap(function (Match $match) {
+            return ["$match", $match->offset()];
+        });
+
+        // then
+        $this->assertEquals([
+            'cm' => ['14cm', 4, '19cm', 14, '2cm', 24],
+            'mm' => ['13mm', 9, '18mm', 19],
+        ], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotIncludeFilteredOut_texts()
     {
         // given
         $groupByPattern = $this->filtered();
 
         // when
-        $result = $groupByPattern->$function(...$arguments);
+        $result = $groupByPattern->texts();
 
         // then
         $this->assertEquals([
@@ -50,21 +75,32 @@ class MatchPatternTest extends TestCase
         ], $result);
     }
 
-    public function mappers(): array
+    /**
+     * @test
+     * @dataProvider mappersWithMatch
+     * @param string $function
+     * @param array $expected
+     */
+    public function shouldNotIncludeFilteredOut(string $function, array $expected)
     {
-        return array_merge(
-            ['texts' => ['texts', []]],
-            $this->mappersWithMatch()
-        );
+        // given
+        $groupByPattern = $this->filtered();
+
+        // when
+        $result = $groupByPattern->$function(function (Match $match) {
+            return [$match->text(), $match->offset()];
+        });
+
+        // then
+        $this->assertEquals($expected, $result);
     }
 
     /**
      * @test
      * @dataProvider mappersWithMatch
      * @param string $function
-     * @param array $arguments
      */
-    public function shouldNotHaveLimit(string $function, array $arguments)
+    public function shouldNotHaveLimit(string $function)
     {
         // given
         $groupBy = $this->filtered();
@@ -72,8 +108,12 @@ class MatchPatternTest extends TestCase
 
         // when
         $groupBy->$function(function (Match $match) use (&$called) {
+            // when
             $called++;
             $this->assertEquals(-1, $match->limit());
+
+            // clean
+            return [];
         });
 
         // then
@@ -85,16 +125,19 @@ class MatchPatternTest extends TestCase
      * @test
      * @dataProvider mappersWithMatch
      * @param string $function
-     * @param array $arguments
      */
-    public function shouldReturnOtherMatches_whenFiltered(string $function, array $arguments)
+    public function shouldReturnOtherMatches_whenFiltered(string $function)
     {
         // given
         $groupByPattern = $this->filtered();
 
         // when
         $groupByPattern->$function(function (Match $match) {
+            // when
             $this->assertEquals(['12', '19cm', '18mm', '2cm'], $match->all());
+
+            // clean
+            return [];
         });
     }
 
@@ -102,16 +145,19 @@ class MatchPatternTest extends TestCase
      * @test
      * @dataProvider mappersWithMatch
      * @param string $function
-     * @param array $arguments
      */
-    public function shouldPreserveUserData(string $function, array $arguments)
+    public function shouldPreserveUserData(string $function)
     {
         // given
         $groupByPattern = $this->filtered();
 
         // when
         $groupByPattern->$function(function (Match $match) {
+            // when
             $this->assertEquals("verify me:$match", $match->getUserData());
+
+            // clean
+            return [];
         });
     }
 
@@ -119,9 +165,8 @@ class MatchPatternTest extends TestCase
      * @test
      * @dataProvider mappersWithMatch
      * @param string $function
-     * @param array $arguments
      */
-    public function shouldIndexMatches(string $function, array $arguments)
+    public function shouldIndexMatches(string $function)
     {
         // given
         $groupByPattern = $this->groupBy();
@@ -131,6 +176,9 @@ class MatchPatternTest extends TestCase
         $groupByPattern->$function(function (Match $match) use (&$indexes) {
             // when
             $indexes[$match->text()] = $match->index();
+
+            // clean
+            return [];
         });
 
         // then
@@ -141,9 +189,8 @@ class MatchPatternTest extends TestCase
      * @test
      * @dataProvider mappersWithMatch
      * @param string $function
-     * @param array $arguments
      */
-    public function shouldIndexMatches_filtered(string $function, array $arguments)
+    public function shouldIndexMatches_filtered(string $function)
     {
         // given
         $groupByPattern = $this->filtered();
@@ -153,6 +200,9 @@ class MatchPatternTest extends TestCase
         $groupByPattern->$function(function (Match $match) use (&$indexes) {
             // when
             $indexes[$match->text()] = $match->index();
+
+            // clean
+            return [];
         });
 
         // then
@@ -162,9 +212,14 @@ class MatchPatternTest extends TestCase
     public function mappersWithMatch(): array
     {
         return [
-            'map' => ['map', [function (Match $match) {
-                return "$match";
-            }]],
+            'map'     => ['map', [
+                'cm' => [['19cm', 14], ['2cm', 24]],
+                'mm' => [['18mm', 19]],
+            ]],
+            'flatMap' => ['flatMap', [
+                'cm' => ['19cm', 14, '2cm', 24],
+                'mm' => ['18mm', 19],
+            ]],
         ];
     }
 
