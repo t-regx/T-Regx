@@ -1,7 +1,9 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-abstract class PregException extends \Exception
+use TRegx\RegexException;
+
+abstract class PregException extends RegexException
 {
     /** @var string */
     private $methodName;

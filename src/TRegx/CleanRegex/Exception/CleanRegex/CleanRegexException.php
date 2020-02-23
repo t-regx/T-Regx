@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception\CleanRegex;
 
-use TRegx\CleanRegex\Exception\RegexException;
+use TRegx\RegexException;
 
 abstract class CleanRegexException extends RegexException
 {

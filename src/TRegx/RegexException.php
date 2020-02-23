@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Exception;
+namespace TRegx;
 
 abstract class RegexException extends \Exception
 {
