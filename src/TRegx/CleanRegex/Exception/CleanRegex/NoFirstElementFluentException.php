@@ -1,10 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Exception\CleanRegex;
 
-use Exception;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\NoFirstElementFluentMessage;
 
-class NoFirstElementFluentException extends Exception
+class NoFirstElementFluentException extends CleanRegexException
 {
     public function __construct()
     {
