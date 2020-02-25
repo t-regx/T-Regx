@@ -15,6 +15,10 @@ Incoming in 0.9.4
    * Added `match()->groupBy()`:
      - `match()->groupBy()->texts()`
      - `match()->groupBy()->map(callable<Match>)`
+     - `match()->groupBy()->flatMap(callable<Match>)`
+     - `match()->groupBy()->offsets()`/`byteOffsets()`
+
+     `groupBy()` can be preceded by `filter()`, it will take indexes, limits, order and user data into account.
 
 Added in 0.9.3
 ------------------
