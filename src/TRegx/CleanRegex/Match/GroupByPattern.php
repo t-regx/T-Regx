@@ -2,9 +2,9 @@
 namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\GroupBy\ByteOffsetsStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupBy\FlatMapStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupBy\MapStrategy;
+use TRegx\CleanRegex\Internal\Match\GroupBy\OffsetsStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupBy\Strategy;
 use TRegx\CleanRegex\Internal\Match\GroupBy\TextsStrategy;
 use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactoryImpl;
@@ -28,9 +28,14 @@ class GroupByPattern
         return $this->groupBy(new TextsStrategy());
     }
 
+    public function offsets(): array
+    {
+        return $this->groupBy(new OffsetsStrategy($this->base, true));
+    }
+
     public function byteOffsets(): array
     {
-        return $this->groupBy(new ByteOffsetsStrategy());
+        return $this->groupBy(new OffsetsStrategy(null, false));
     }
 
     public function map(callable $mapper): array

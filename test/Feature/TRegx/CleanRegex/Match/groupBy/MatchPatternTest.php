@@ -26,6 +26,21 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGroupBy_offsets()
+    {
+        // when
+        $result = $this->groupBy()->offsets();
+
+        // then
+        $this->assertEquals([
+            'cm' => [5, 15, 25],
+            'mm' => [10, 20],
+        ], $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGroupBy_byteOffsets()
     {
         // when
@@ -33,8 +48,8 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertEquals([
-            'cm' => [4, 14, 24],
-            'mm' => [9, 19],
+            'cm' => [7, 17, 27],
+            'mm' => [12, 22],
         ], $result);
     }
 
@@ -67,8 +82,8 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertEquals([
-            'cm' => ['14cm', 4, '19cm', 14, '2cm', 24],
-            'mm' => ['13mm', 9, '18mm', 19],
+            'cm' => ['14cm', 5, '19cm', 15, '2cm', 25],
+            'mm' => ['13mm', 10, '18mm', 20],
         ], $result);
     }
 
@@ -228,12 +243,12 @@ class MatchPatternTest extends TestCase
     {
         return [
             'map'     => ['map', [
-                'cm' => [['19cm', 14], ['2cm', 24]],
-                'mm' => [['18mm', 19]],
+                'cm' => [['19cm', 15], ['2cm', 25]],
+                'mm' => [['18mm', 20]],
             ]],
             'flatMap' => ['flatMap', [
-                'cm' => ['19cm', 14, '2cm', 24],
-                'mm' => ['18mm', 19],
+                'cm' => ['19cm', 15, '2cm', 25],
+                'mm' => ['18mm', 20],
             ]],
         ];
     }
@@ -257,6 +272,6 @@ class MatchPatternTest extends TestCase
 
     private function match(): AbstractMatchPattern
     {
-        return pattern('\d+(?<unit>cm|mm)?')->match('12, 14cm 13mm 19cm 18mm 2cm');
+        return pattern('\d+(?<unit>cm|mm)?')->match('€12, 14cm 13mm 19cm 18mm 2cm');
     }
 }
