@@ -417,4 +417,48 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertSame([9, 9, 6, 7, 45], $integers);
     }
+
+    /**
+     * @test
+     */
+    public function shouldGroupBy_group()
+    {
+        // given
+        $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
+
+        // when
+        $result = pattern('\d+(?<unit>cm|mm)')->match($subject)->groupBy('unit')->texts();
+
+        // then
+        $expected = [
+            'cm' => ['12cm', '13cm', '19cm'],
+            'mm' => ['14mm', '18mm', '2mm']
+        ];
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupBy_callback()
+    {
+        // given
+        $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
+
+        // when
+        $result = pattern('(?<value>\d+)(?<unit>cm|mm)')
+            ->match($subject)
+            ->fluent()
+            ->groupByCallback(function (Match $match) {
+                return $match->group('unit')->text();
+            })
+            ->all();
+
+        // then
+        $expected = [
+            'cm' => ['12cm', '13cm', '19cm'],
+            'mm' => ['14mm', '18mm', '2mm']
+        ];
+        $this->assertEquals($expected, $result);
+    }
 }
