@@ -1,5 +1,5 @@
 <?php
-namespace Test\CleanRegex\Internal\Model\Match;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Model\Match;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Model\Match\IndexedRawMatchOffset;
