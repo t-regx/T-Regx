@@ -26,6 +26,21 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGroupBy_byteOffsets()
+    {
+        // when
+        $result = $this->groupBy()->byteOffsets();
+
+        // then
+        $this->assertEquals([
+            'cm' => [4, 14, 24],
+            'mm' => [9, 19],
+        ], $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGroupBy_map()
     {
         // when
