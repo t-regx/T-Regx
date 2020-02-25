@@ -69,7 +69,7 @@ class ReadMeTest extends TestCase
         }
         if (preg::match('/\s+/', $input) === false) {
             // Never happens
-            $this->assertTrue(false);
+            $this->fail();
         }
     }
 

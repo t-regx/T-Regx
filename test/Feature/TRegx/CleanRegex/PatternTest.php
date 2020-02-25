@@ -10,31 +10,31 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function should_matches()
+    public function shouldTest_beFalse_forNotMatching()
     {
         // when
-        $matches = pattern('\d')->test('abc');
+        $test = pattern('\d')->test('abc');
 
         // then
-        $this->assertFalse($matches);
+        $this->assertFalse($test);
     }
 
     /**
      * @test
      */
-    public function should_fails()
+    public function shouldFails_beTrue_forNotMatched()
     {
         // when
-        $matches = pattern('\d')->fails('abc');
+        $fails = pattern('\d')->fails('abc');
 
         // then
-        $this->assertTrue($matches);
+        $this->assertTrue($fails);
     }
 
     /**
      * @test
      */
-    public function should_count()
+    public function shouldCount()
     {
         // when
         $count = pattern('\d+')->count('111-222-333');
@@ -46,7 +46,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function should_count_unmatched()
+    public function shouldCount_0_notMatched()
     {
         // when
         $count = pattern('[a-z]+')->count('111-222-333');
@@ -58,7 +58,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function should_quote()
+    public function shouldQuote()
     {
         // when
         $quoted = Pattern::quote('[a-z]+');
@@ -73,10 +73,10 @@ class PatternTest extends TestCase
     public function should_unquote()
     {
         // when
-        $unquote = Pattern::unquote('\[a\-z\]\+');
+        $unquoted = Pattern::unquote('\[a\-z\]\+');
 
         // then
-        $this->assertEquals('[a-z]+', $unquote);
+        $this->assertEquals('[a-z]+', $unquoted);
     }
 
     /**
@@ -96,8 +96,7 @@ class PatternTest extends TestCase
         $result = pattern('[A-Z][a-z]+')->forArray($array)->filter();
 
         // then
-        $expected = ['Uppercase', 'Uppercase again'];
-        $this->assertEquals($expected, $result);
+        $this->assertEquals(['Uppercase', 'Uppercase again'], $result);
     }
 
     /**
