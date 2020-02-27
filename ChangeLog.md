@@ -11,6 +11,14 @@ Incoming in 0.9.4
        - `CleanRegexException` (unchanged)
          - `IntegerFormatException` (extends `CleanRegexException`, instead of `\Exception`)
          - `NoFirstElementFluentException` (extends `CleanRegexException`, instead of `\Exception`)
+* Enhancements:
+   * Previously, `RuntimePregException` was used to indicate every error that was reported by [`preg_last_error()`].
+     Now, the following subclasses of `RuntimePregException` are thrown:
+     - `EncodingPregException` for `PREG_BAD_UTF8_ERROR`
+     - `Utf8OffsetPregException.php` for `PREG_BAD_UTF8_OFFSET_ERROR`
+     - `BacktrackLimitPregException` for `PREG_BACKTRACK_LIMIT_ERROR`
+     - `RecursionLimitPregException` for `PREG_RECURSION_LIMIT_ERROR`
+     - `JitStackLimitPregException` for `PREG_JIT_STACKLIMIT_ERROR`
 * Features
    * Added `match()->groupBy()`:
      - `match()->groupBy()->texts()`
@@ -34,7 +42,7 @@ Added in 0.9.3
     * Added `preg::last_error_msg()`, which works like `preg::last_error()`, but returns a human-readable message, 
       instead of `int`.
 * Fixing PHP
-    * `preg_match()` in some cases returns `2`, instead of `1`. T-Regx fixes this bug by always returning `1`, on every
+    * [`preg_match()`] in some cases returns `2`, instead of `1`. T-Regx fixes this bug by always returning `1`, on every
    PHP version (https://bugs.php.net/bug.php?id=78853).
 
 Added in 0.9.2
@@ -121,7 +129,7 @@ Available in 0.9.0
     * Add `match()->forFirst()`
         * with methods `orReturn()`, `orElse()` and `orThrow()`
         * `orThrow()` can instantiate exceptions by class name (with one of predefined constructor signatures)
-    * `match->only(i)` calls `preg_match()` for `i=1`, and `preg_match_all()` for other values
+    * `match->only(i)` calls [`preg_match()`] for `i=1`, and `preg_match_all()` for other values
     * `pattern()->match()` is `\Countable`
     * Add UTF-8 support for methods `offset()`, `modifiedOffset()` and `modifiedSubject()`
     * Add `split()->filter()`
@@ -137,7 +145,7 @@ Available in 0.9.0
 * Other
     * Set `\TRegx` namespace prefix
     * Add `ext-mbstring` requirement to `composer.json`.
-    * `preg_match()` won't return unmatched groups at the end of list, which makes validating groups and general
+    * [`preg_match()`] won't return unmatched groups at the end of list, which makes validating groups and general
       work with group names impossible. Thanks to `GroupPolyfillDecorator`, a second call to `preg_match_all()` is done
       to get a list of all groups (even unmatched ones). The call to `preg_match_all()` is of course only in the case
       of `Match.hasGroup()` or similar method. Regular methods like `Match.text()` won't call `preg_match_all()`
@@ -166,7 +174,7 @@ API (for 0.9.2)
     * Additional utility methods:
       * `preg::grep_keys()`, that works exactly like `preg::grep()`, but filters by keys (also accepts [`PREG_GREP_INVERT`](https://www.php.net/manual/en/function.preg-grep.php))
       * `preg::last_error_constant()` - which returns error constant as string
-        (ie. `'PREG_RECURSION_LIMIT_ERROR'`), where as `preg_last_error()` and `preg::last_error()` return constant
+        (ie. `'PREG_RECURSION_LIMIT_ERROR'`), where as [`preg_last_error()`] and `preg::last_error()` return constant
         as integer (ie. `3`).
       * `preg::error_constant(int)` - method to change error constant from integer to string
         (ie. `preg::error_constant(4) == 'PREG_BAD_UTF8_ERROR'`).
@@ -282,3 +290,7 @@ API (for 0.9.2)
         * `Pattern::bind()`/`PatternBuilder::bind()`
         * `Pattern::inject()`/`PatternBuilder::inject()`
         * `Pattern::prepare()`/`PatternBuilder::prepare()`
+
+
+[`preg_match()`]:https://www.php.net/manual/en/function.preg-match.php
+[`preg_last_error()`]:https://www.php.net/manual/en/function.preg-last-error.php
