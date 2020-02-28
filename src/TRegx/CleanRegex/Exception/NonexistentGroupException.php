@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class NonexistentGroupException extends CleanRegexException
+class NonexistentGroupException extends PatternException
 {
     /**
      * @param string|int $nameOrIndex

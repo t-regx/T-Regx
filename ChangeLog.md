@@ -5,15 +5,17 @@ Incoming in 0.9.4
 -----------------
 
 * Breaking changes
-   * Updated the hierarchy of public exceptions:
-     - `RegexExceptions` (moved to `/TRegx` from `/TRegx/CleanRegex/Exception`)
-       - `PregException` (extends `RegexExceptions`, instead of `\Exception`)
-       - `CleanRegexException` (unchanged)
-         - `IntegerFormatException` (extends `CleanRegexException`, instead of `\Exception`)
-         - `NoFirstElementFluentException` (extends `CleanRegexException`, instead of `\Exception`)
+   * Renamed `CleanRegexExceptions` to `PatternException`
+   * Moved `RegexExceptions` to  `/TRegx` from `/TRegx/CleanRegex/Exception`
    * Simplified namespace of public exceptions:
      - From `TRegx/CleanRegex/Exception/CleanRegex` to `TRegx/CleanRegex/Exception`
 * Enhancements:
+   * Updated the hierarchy of public exceptions:
+     - `RegexExceptions`
+       - `PregException` (extends `RegexExceptions`, instead of `\Exception`)
+       - `PatternException`
+         - `IntegerFormatException` (extends `PatternException`, instead of `\Exception`)
+         - `NoFirstElementFluentException` (extends `PatternException`, instead of `\Exception`)
    * Previously, `RuntimePregException` was used to indicate every error that was reported by [`preg_last_error()`].
      Now, the following subclasses of `RuntimePregException` are thrown:
      - `SubjectEncodingPregException` for `PREG_BAD_UTF8_ERROR`

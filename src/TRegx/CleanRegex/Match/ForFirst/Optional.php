@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Match\ForFirst;
 
-use TRegx\CleanRegex\Exception\CleanRegexException;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\PatternException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 
 interface Optional
@@ -14,9 +14,9 @@ interface Optional
      *
      * @param string $exceptionClassName
      * @return mixed
-     * @throws \Throwable|SubjectNotMatchedException|GroupNotMatchedException|CleanRegexException
+     * @throws \Throwable|SubjectNotMatchedException|GroupNotMatchedException|PatternException
      */
-    public function orThrow(string $exceptionClassName = CleanRegexException::class);
+    public function orThrow(string $exceptionClassName = PatternException::class);
 
     /**
      * @param mixed $substitute

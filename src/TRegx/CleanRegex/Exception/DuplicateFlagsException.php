@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class DuplicateFlagsException extends CleanRegexException
+class DuplicateFlagsException extends PatternException
 {
     public static function forFlag(string $flag, string $flags): DuplicateFlagsException
     {

@@ -1,6 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class MissingReplacementKeyException extends CleanRegexException
+class MissingReplacementKeyException extends PatternException
 {
 }

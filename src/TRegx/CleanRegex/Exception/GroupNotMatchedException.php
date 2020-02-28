@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Group\MethodGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Subjectable;
 
-class GroupNotMatchedException extends CleanRegexException
+class GroupNotMatchedException extends PatternException
 {
     /** @var string */
     private $subject; // Debugger

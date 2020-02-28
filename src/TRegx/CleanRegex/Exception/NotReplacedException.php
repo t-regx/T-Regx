@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class NotReplacedException extends CleanRegexException
+class NotReplacedException extends PatternException
 {
     public function __construct()
     {

@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class ClassExpectedException extends CleanRegexException
+class ClassExpectedException extends PatternException
 {
     public function __construct(string $message)
     {

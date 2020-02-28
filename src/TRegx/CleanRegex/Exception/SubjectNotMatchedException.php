@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Subjectable;
 
-class SubjectNotMatchedException extends CleanRegexException
+class SubjectNotMatchedException extends PatternException
 {
     /** @var string */
     private $subject; // Debugger

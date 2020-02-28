@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\Type;
 
-class InvalidReturnValueException extends CleanRegexException
+class InvalidReturnValueException extends PatternException
 {
     /**
      * @param $returnValue

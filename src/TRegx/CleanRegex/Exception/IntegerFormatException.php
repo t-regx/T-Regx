@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class IntegerFormatException extends CleanRegexException
+class IntegerFormatException extends PatternException
 {
     public static function forGroup($nameOrIndex, string $value): IntegerFormatException
     {

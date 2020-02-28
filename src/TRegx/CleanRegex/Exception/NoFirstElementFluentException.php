@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 
-class NoFirstElementFluentException extends CleanRegexException
+class NoFirstElementFluentException extends PatternException
 {
     public function __construct()
     {
