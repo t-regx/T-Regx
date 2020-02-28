@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\ForFirst;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NoFirstElementFluentException;
+use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
 
 class NotMatchedFluentOptional implements Optional

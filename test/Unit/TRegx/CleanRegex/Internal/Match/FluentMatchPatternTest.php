@@ -3,9 +3,9 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\FluentMatchPatternException;
-use TRegx\CleanRegex\Exception\CleanRegex\IntegerFormatException;
-use TRegx\CleanRegex\Exception\CleanRegex\InvalidReturnValueException;
+use TRegx\CleanRegex\Exception\FluentMatchPatternException;
+use TRegx\CleanRegex\Exception\IntegerFormatException;
+use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 

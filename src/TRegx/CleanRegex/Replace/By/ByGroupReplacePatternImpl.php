@@ -1,10 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Replace\By;
 
-use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\ReplacementWithUnmatchedGroupMessage;
-use TRegx\CleanRegex\Exception\CleanRegex\MissingReplacementKeyException;
+use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 use TRegx\CleanRegex\Replace\Callback\MatchGroupStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;

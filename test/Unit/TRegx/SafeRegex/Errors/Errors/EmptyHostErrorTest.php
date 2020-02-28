@@ -1,7 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\SafeRegex\Errors\Errors;
 
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Errors\Errors\EmptyHostError;
 

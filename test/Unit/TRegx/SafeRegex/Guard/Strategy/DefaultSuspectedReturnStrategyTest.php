@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\SafeRegex\Guard\Strategy;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Guard\Strategy\DefaultSuspectedReturnStrategy;
 
 class DefaultSuspectedReturnStrategyTest extends TestCase

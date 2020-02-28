@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Errors\Errors;
 
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Constants\PregConstants;
 use TRegx\SafeRegex\Errors\HostError;
 use TRegx\SafeRegex\Exception\Factory\RuntimePregExceptionFactory;

@@ -2,7 +2,7 @@
 namespace Test\Integration\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\IntegerFormatException;
+use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 

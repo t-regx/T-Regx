@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Replace\Map;
 
 use PHPUnit\Framework\TestCase;
 use Test\Feature\TRegx\CleanRegex\Replace\by\group\CustomException;
-use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;

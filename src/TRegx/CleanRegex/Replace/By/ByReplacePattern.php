@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\By;
 
-use TRegx\CleanRegex\Exception\CleanRegex\MissingReplacementKeyException;
+use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 
 interface ByReplacePattern
 {

@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\group;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 
 class MatchPatternTest extends TestCase

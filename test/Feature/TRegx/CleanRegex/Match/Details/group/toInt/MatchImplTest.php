@@ -2,8 +2,8 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\group\toInt;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\CleanRegex\IntegerFormatException;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Match\Details\Match;
 
 class MatchImplTest extends TestCase

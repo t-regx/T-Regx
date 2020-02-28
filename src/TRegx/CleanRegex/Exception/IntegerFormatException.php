@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Exception\CleanRegex;
+namespace TRegx\CleanRegex\Exception;
 
 class IntegerFormatException extends CleanRegexException
 {

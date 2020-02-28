@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Factory;
 
-use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Subjectable;
 
 class GroupExceptionFactory

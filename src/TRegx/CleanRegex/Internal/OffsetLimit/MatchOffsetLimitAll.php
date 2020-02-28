@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\OffsetLimit;
 
 use InvalidArgumentException;
-use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 
 class MatchOffsetLimitAll

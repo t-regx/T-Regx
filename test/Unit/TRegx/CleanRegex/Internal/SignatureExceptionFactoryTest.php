@@ -8,9 +8,9 @@ use Test\Utils\AbstractClass;
 use Test\Utils\ClassWithErrorInConstructor;
 use Test\Utils\ClassWithoutSuitableConstructor;
 use Throwable;
-use TRegx\CleanRegex\Exception\CleanRegex\ClassExpectedException;
+use TRegx\CleanRegex\Exception\ClassExpectedException;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstMatchMessage;
-use TRegx\CleanRegex\Exception\CleanRegex\NoSuitableConstructorException;
+use TRegx\CleanRegex\Exception\NoSuitableConstructorException;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Internal\Subject;
 

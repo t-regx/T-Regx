@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\GroupLimit;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NonexistentGroupException;
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatches;
 

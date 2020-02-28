@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
-use TRegx\CleanRegex\Exception\CleanRegex\NotReplacedException;
+use TRegx\CleanRegex\Exception\NotReplacedException;
 use TRegx\CleanRegex\Match\ForFirst\Optional;
 
 interface ReplacePattern extends SpecificReplacePattern, Optional

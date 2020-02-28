@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\ForFirst;
 
-use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
+use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
 
 class NotMatchedOptional implements Optional

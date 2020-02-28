@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Exception\CleanRegex;
+namespace TRegx\CleanRegex\Exception;
 
 class NonexistentGroupException extends CleanRegexException
 {

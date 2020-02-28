@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match;
 
-use TRegx\CleanRegex\Exception\CleanRegex\InvalidReturnValueException;
+use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\SafeRegex\Guard\Arrays;
 
 class FlatMapper

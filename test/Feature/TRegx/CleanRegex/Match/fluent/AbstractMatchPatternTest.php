@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\fluent;
 
 use PHPUnit\Framework\TestCase;
 use Test\Feature\TRegx\CleanRegex\Replace\by\group\CustomException;
-use TRegx\CleanRegex\Exception\CleanRegex\NoFirstElementFluentException;
+use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Match;
 

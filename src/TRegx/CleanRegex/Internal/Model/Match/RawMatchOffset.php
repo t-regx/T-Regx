@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use function array_key_exists;
 use function array_keys;
 use function array_map;

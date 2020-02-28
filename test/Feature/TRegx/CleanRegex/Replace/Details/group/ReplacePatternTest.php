@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\group;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 
 class ReplacePatternTest extends TestCase

@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Match\ForFirst;
 
-use TRegx\CleanRegex\Exception\CleanRegex\CleanRegexException;
-use TRegx\CleanRegex\Exception\CleanRegex\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
+use TRegx\CleanRegex\Exception\CleanRegexException;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 
 interface Optional
 {

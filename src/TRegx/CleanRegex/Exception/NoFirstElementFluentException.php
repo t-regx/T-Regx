@@ -1,7 +1,8 @@
 <?php
-namespace TRegx\CleanRegex\Exception\CleanRegex;
+namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\NoFirstElementFluentMessage;
+use TRegx\CleanRegex\Exception\CleanRegexException;
 
 class NoFirstElementFluentException extends CleanRegexException
 {

@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\SafeRegex\Errors\Errors;
 
 use PHPUnit\Framework\TestCase;
 use Test\Warnings;
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Errors\Errors\RuntimeError;
 use TRegx\SafeRegex\Errors\Errors\RuntimeErrorFactory;
 use TRegx\SafeRegex\Exception\RuntimePregException;

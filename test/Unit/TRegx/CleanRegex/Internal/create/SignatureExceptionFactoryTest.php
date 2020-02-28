@@ -9,7 +9,7 @@ use Test\Utils\ClassWithStringParamConstructor;
 use Test\Utils\ClassWithSubjectableConstructor;
 use Test\Utils\ClassWithTwoStringParamsConstructor;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstMatchMessage;
-use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
+use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 
 class SignatureExceptionFactoryTest extends TestCase

@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Match;
 
 use Iterator;
-use TRegx\CleanRegex\Exception\CleanRegex\SubjectNotMatchedException;
+use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\ForFirst\Optional;
 
 interface MatchPatternInterface

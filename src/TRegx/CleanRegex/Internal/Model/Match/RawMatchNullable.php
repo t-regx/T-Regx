@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 
 class RawMatchNullable implements IRawMatch, IRawMatchGroupable
 {

@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\DuplicateFlagsException;
-use TRegx\CleanRegex\Exception\CleanRegex\FlagNotAllowedException;
+use TRegx\CleanRegex\Exception\DuplicateFlagsException;
+use TRegx\CleanRegex\Exception\FlagNotAllowedException;
 use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
 use TRegx\CleanRegex\Internal\FlagsValidator;
 

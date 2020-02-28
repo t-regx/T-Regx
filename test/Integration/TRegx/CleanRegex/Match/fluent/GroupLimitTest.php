@@ -2,7 +2,7 @@
 namespace Test\Integration\TRegx\CleanRegex\Match\fluent;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\NoFirstElementFluentException;
+use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\GroupLimit;
 

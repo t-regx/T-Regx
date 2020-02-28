@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Exception\CleanRegex;
+namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstGroupOffsetMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstGroupSubjectMessage;

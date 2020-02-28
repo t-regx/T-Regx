@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Exception\CleanRegex;
+namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\FirstGroupMessage;
 use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\MethodGroupMessage;

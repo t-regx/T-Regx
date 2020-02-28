@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Guard\Strategy;
 
-use TRegx\CleanRegex\Exception\CleanRegex\InternalCleanRegexException;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 
 class DefaultSuspectedReturnStrategy implements SuspectedReturnStrategy
 {
