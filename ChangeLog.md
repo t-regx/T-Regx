@@ -1,8 +1,13 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.9.4
+Incoming in 0.9.5
 -----------------
+
+* Soon
+
+Added in 0.9.4
+--------------
 
 * Breaking changes
    * Renamed `CleanRegexExceptions` to `PatternException`
@@ -33,7 +38,7 @@ Incoming in 0.9.4
      when `groupBy()` is preceded by `filter()`, it will take indexes, limits, matches order and user data into account.
 
 Added in 0.9.3
-------------------
+--------------
 * Breaking changes
     * Renamed exceptions:
       - `SafeRegexException` to `PregException`
@@ -50,7 +55,7 @@ Added in 0.9.3
    PHP version (https://bugs.php.net/bug.php?id=78853).
 
 Added in 0.9.2
-------------------
+--------------
 * Breaking changes
     * Methods `pattern()`/`Pattern::of()` no longer "magically" guess whether a pattern is delimited or not.
       `Pattern::of()` assumes pattern *is* delimited, new `Pattern::pcre()` takes an old-school delimited pattern.
