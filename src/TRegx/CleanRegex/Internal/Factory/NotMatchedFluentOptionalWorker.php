@@ -2,9 +2,8 @@
 namespace TRegx\CleanRegex\Internal\Factory;
 
 use Throwable;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
-use TRegx\CleanRegex\Internal\Subjectable;
 
 class NotMatchedFluentOptionalWorker implements NotMatchedWorker
 {

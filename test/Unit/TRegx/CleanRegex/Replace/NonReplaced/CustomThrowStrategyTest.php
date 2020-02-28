@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Replace\NonReplaced;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\NonReplaced\NonMatchedMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\NonMatchedMessage;
 
 class CustomThrowStrategyTest extends TestCase
 {

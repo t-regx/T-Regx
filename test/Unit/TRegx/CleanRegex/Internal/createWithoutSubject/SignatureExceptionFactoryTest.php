@@ -6,8 +6,8 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ClassWithDefaultConstructor;
 use Test\Utils\ClassWithoutSuitableConstructor;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\NoSuitableConstructorException;
+use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 
 class SignatureExceptionFactoryTest extends TestCase

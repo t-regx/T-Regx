@@ -5,28 +5,30 @@ Incoming in 0.9.4
 -----------------
 
 * Breaking changes
-   * Updated the hierarchy of public exceptions
+   * Updated the hierarchy of public exceptions:
      - `RegexExceptions` (moved to `/TRegx` from `/TRegx/CleanRegex/Exception`)
        - `PregException` (extends `RegexExceptions`, instead of `\Exception`)
        - `CleanRegexException` (unchanged)
          - `IntegerFormatException` (extends `CleanRegexException`, instead of `\Exception`)
          - `NoFirstElementFluentException` (extends `CleanRegexException`, instead of `\Exception`)
+   * Simplified namespace of public exceptions:
+     - From `TRegx/CleanRegex/Exception/CleanRegex` to `TRegx/CleanRegex/Exception`
 * Enhancements:
    * Previously, `RuntimePregException` was used to indicate every error that was reported by [`preg_last_error()`].
      Now, the following subclasses of `RuntimePregException` are thrown:
-     - `EncodingPregException` for `PREG_BAD_UTF8_ERROR`
-     - `Utf8OffsetPregException.php` for `PREG_BAD_UTF8_OFFSET_ERROR`
+     - `SubjectEncodingPregException` for `PREG_BAD_UTF8_ERROR`
+     - `Utf8OffsetPregException` for `PREG_BAD_UTF8_OFFSET_ERROR`
      - `BacktrackLimitPregException` for `PREG_BACKTRACK_LIMIT_ERROR`
      - `RecursionLimitPregException` for `PREG_RECURSION_LIMIT_ERROR`
      - `JitStackLimitPregException` for `PREG_JIT_STACKLIMIT_ERROR`
 * Features
-   * Added `match()->groupBy()`:
+   * Added `match()->groupBy()`/`match()->filter()->groupBy()`:
      - `match()->groupBy()->texts()`
      - `match()->groupBy()->map(callable<Match>)`
      - `match()->groupBy()->flatMap(callable<Match>)`
      - `match()->groupBy()->offsets()`/`byteOffsets()`
 
-     `groupBy()` can be preceded by `filter()`, it will take indexes, limits, order and user data into account.
+     when `groupBy()` is preceded by `filter()`, it will take indexes, limits, matches order and user data into account.
 
 Added in 0.9.3
 ------------------

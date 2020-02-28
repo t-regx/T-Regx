@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Exception\CleanRegex\Messages;
+namespace TRegx\CleanRegex\Internal\Exception\Messages;
 
 interface NotMatchedMessage
 {

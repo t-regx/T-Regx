@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Replace\GroupMapper;
 
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\MissingReplacement\ForGroupMessage;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\MissingReplacement\ForMatchMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForGroupMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForMatchMessage;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
 
 class StrategyFallbackAdapter implements GroupMapper

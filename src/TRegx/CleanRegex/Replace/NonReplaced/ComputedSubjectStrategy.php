@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\NonReplaced;
 
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Match\Details\Match;
 
 class ComputedSubjectStrategy implements ReplaceSubstitute

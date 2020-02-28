@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\GroupMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;

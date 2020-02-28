@@ -1,7 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Exception\CleanRegex\Messages\Group;
+namespace TRegx\CleanRegex\Internal\Exception\Messages\Group;
 
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use function sprintf;
 
 class GroupMessage implements NotMatchedMessage

@@ -9,10 +9,9 @@ use Test\Utils\ClassWithErrorInConstructor;
 use Test\Utils\ClassWithoutSuitableConstructor;
 use Throwable;
 use TRegx\CleanRegex\Exception\ClassExpectedException;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Exception\NoSuitableConstructorException;
+use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
-use TRegx\CleanRegex\Internal\Subject;
 
 class SignatureExceptionFactoryTest extends TestCase
 {

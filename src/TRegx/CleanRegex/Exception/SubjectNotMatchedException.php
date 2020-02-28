@@ -1,10 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstGroupOffsetMessage;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstGroupSubjectMessage;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstMatchMessage;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject\FirstMatchOffsetMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupOffsetMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupSubjectMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Subjectable;
 
 class SubjectNotMatchedException extends CleanRegexException

@@ -1,7 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Exception\CleanRegex\Messages\Subject;
+namespace TRegx\CleanRegex\Internal\Exception\Messages\Subject;
 
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 
 class FirstMatchOffsetMessage implements NotMatchedMessage
 {

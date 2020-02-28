@@ -3,21 +3,21 @@ namespace Test\Unit\TRegx\CleanRegex\Replace\Map;
 
 use PHPUnit\Framework\TestCase;
 use Test\Feature\TRegx\CleanRegex\Replace\by\group\CustomException;
+use Test\Utils\ComputedMapper;
+use Test\Utils\NoReplacementMapper;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\Group\ReplacementWithUnmatchedGroupMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Subject;
-use Test\Utils\ComputedMapper;
+use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
+use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
-use Test\Utils\NoReplacementMapper;
-use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
-use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 
 class GroupFallbackReplacerTest extends TestCase
 {

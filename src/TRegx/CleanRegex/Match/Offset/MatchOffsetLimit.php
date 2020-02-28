@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\Offset;
 
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\NoFirstElementFluentMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 

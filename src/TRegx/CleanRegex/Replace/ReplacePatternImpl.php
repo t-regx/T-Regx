@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\NonReplaced\NonMatchedMessage;
 use TRegx\CleanRegex\Exception\NotReplacedException;
+use TRegx\CleanRegex\Internal\Exception\Messages\NonMatchedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;

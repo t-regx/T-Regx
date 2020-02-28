@@ -3,11 +3,10 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\forFirst;
 
 use PHPUnit\Framework\TestCase;
 use Test\Feature\TRegx\CleanRegex\Replace\by\group\CustomException;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
+use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
-use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 class FluentMatchPatternTest extends TestCase

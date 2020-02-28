@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Match;
 use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
-use TRegx\CleanRegex\Exception\CleanRegex\Messages\NoFirstElementFluentMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
