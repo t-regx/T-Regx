@@ -111,11 +111,6 @@ class GroupLimit implements PatternLimit
         }
     }
 
-    public function iterate(callable $consumer): void
-    {
-        $this->forEach($consumer);
-    }
-
     public function fluent(): FluentMatchPattern
     {
         return new FluentMatchPattern(

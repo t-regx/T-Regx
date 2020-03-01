@@ -85,8 +85,6 @@ class GroupLimitTest extends TestCase
             }]],
             ['forEach', [function () {
             }]],
-            ['iterate', [function () {
-            }]],
             ['iterator', []],
             ['fluent', []],
         ];
