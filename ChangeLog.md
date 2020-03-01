@@ -4,7 +4,13 @@ T-Regx Changelog
 Incoming in 0.9.5
 -----------------
 
-* Soon
+* Breaking changes
+    * Removed:
+       - `pattern()->match()->fluent()->iterate()` 
+       - `pattern()->match()->group()->iterate()` 
+       - `pattern()->match()->group()->fluent()->iterate()`
+
+      as `iterate()` was only needed as a substitute for `forEach()`, pre PHP 7, where methods couldn't be named with keywords.
 
 Added in 0.9.4
 --------------

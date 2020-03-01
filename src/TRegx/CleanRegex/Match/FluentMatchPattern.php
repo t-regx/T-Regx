@@ -71,11 +71,6 @@ class FluentMatchPattern implements MatchPatternInterface
         }
     }
 
-    public function iterate(callable $consumer): void
-    {
-        $this->forEach($consumer);
-    }
-
     public function count(): int
     {
         return \count($this->elements);

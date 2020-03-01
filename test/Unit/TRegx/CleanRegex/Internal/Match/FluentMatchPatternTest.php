@@ -74,27 +74,20 @@ class FluentMatchPatternTest extends TestCase
 
     /**
      * @test
-     * @dataProvider iteratingFunctions
-     * @param string $method
      */
-    public function shouldIterate(string $method)
+    public function shouldIterate()
     {
         // given
         $pattern = new FluentMatchPattern(['foo', 'bar'], $this->mock());
 
         // when
         $result = [];
-        $pattern->$method(function (string $input) use (&$result) {
+        $pattern->forEach(function (string $input) use (&$result) {
             $result[] = $input;
         });
 
         // then
         $this->assertEquals(['foo', 'bar'], $result);
-    }
-
-    function iteratingFunctions()
-    {
-        return [['forEach'], ['iterate']];
     }
 
     /**
