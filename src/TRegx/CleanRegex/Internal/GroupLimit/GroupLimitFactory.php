@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\GroupLimit;
 
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Match\GroupLimit;
 
@@ -30,16 +29,6 @@ class GroupLimitFactory
 
     public function create(): GroupLimit
     {
-        return new GroupLimit(
-            function () {
-                return $this->limitAll->getAllForGroup();
-            },
-            function () {
-                return $this->limitFirst->getFirstForGroup();
-            },
-            $this->offsetLimitFactory,
-            $this->base,
-            $this->nameOrIndex
-        );
+        return new GroupLimit($this->limitAll, $this->limitFirst, $this->offsetLimitFactory, $this->base, $this->nameOrIndex);
     }
 }

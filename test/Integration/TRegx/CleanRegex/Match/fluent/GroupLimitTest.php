@@ -14,7 +14,7 @@ class GroupLimitTest extends TestCase
     public function shouldReturnGroups(): void
     {
         // given
-        /** @var $limit GroupLimit */
+        /** @var GroupLimit $limit */
         [$limit] = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
 
         // when
@@ -32,7 +32,7 @@ class GroupLimitTest extends TestCase
     public function shouldThrow_first(): void
     {
         // given
-        /** @var $limit GroupLimit */
+        /** @var GroupLimit $limit */
         [$limit] = $this->mockGroupLimit([]);
 
         // then
@@ -52,7 +52,7 @@ class GroupLimitTest extends TestCase
     public function shouldThrow_first_callback(): void
     {
         // given
-        /** @var $limit GroupLimit */
+        /** @var GroupLimit $limit */
         [$limit] = $this->mockGroupLimit([]);
 
         // then
@@ -73,7 +73,7 @@ class GroupLimitTest extends TestCase
     public function shouldInvokeCallback_first(): void
     {
         // given
-        /** @var $limit GroupLimit */
+        /** @var GroupLimit $limit */
         [$limit] = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
 
         // when
