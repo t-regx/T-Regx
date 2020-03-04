@@ -4,8 +4,14 @@ namespace TRegx\CleanRegex\Match;
 use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
+use TRegx\CleanRegex\Internal\Exception\Messages\Group\FirstGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupSubjectMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
@@ -16,6 +22,11 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
+use TRegx\CleanRegex\Match\Details\NotMatched;
+use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
+use TRegx\CleanRegex\Match\ForFirst\NotMatchedGroupOptional;
+use TRegx\CleanRegex\Match\ForFirst\Optional;
+use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 use TRegx\CleanRegex\Match\Offset\OffsetLimit;
 
 class GroupLimit implements PatternLimit
@@ -43,6 +54,38 @@ class GroupLimit implements PatternLimit
     public function offsets(): OffsetLimit
     {
         return $this->offsetLimitFactory->create();
+    }
+
+    /**
+     * @param callable $consumer
+     * @return Optional
+     */
+    public function forFirst(callable $consumer): Optional
+    {
+        $first = $this->base->matchOffset();
+        if ($first->hasGroup($this->nameOrIndex)) {
+            $group = $first->getGroup($this->nameOrIndex);
+            if ($group !== null) {
+                $groupFacade = new GroupFacade($first, $this->base, $this->nameOrIndex,
+                    new MatchGroupFactoryStrategy(),
+                    new LazyMatchAllFactory($this->base));
+                $matchGroup = $groupFacade->createGroup($first);
+                return new MatchedOptional($consumer($matchGroup));
+            }
+        } else {
+            $verifier = new MatchAllGroupVerifier($this->base->getPattern());
+            if (!$verifier->groupExists($this->nameOrIndex)) {
+                throw new NonexistentGroupException($this->nameOrIndex);
+            }
+        }
+        [$default, $message] = $first->matched()
+            ? [GroupNotMatchedException::class, new FirstGroupMessage($this->nameOrIndex)]
+            : [SubjectNotMatchedException::class, new FirstGroupSubjectMessage($this->nameOrIndex)];
+
+        return new NotMatchedGroupOptional(
+            new NotMatchedOptionalWorker($message, $this->base, new NotMatched($first, $this->base)),
+            $default
+        );
     }
 
     /**
