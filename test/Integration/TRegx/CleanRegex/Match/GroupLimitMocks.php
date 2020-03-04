@@ -18,6 +18,6 @@ class GroupLimitMocks extends TestCase // this is a dirty hack, only to use prot
         $base->method('matchOffset')->willReturn(new RawMatchOffset([0 => [$firstValue, 0]]));
         $base->method('matchAllOffsets')->willReturn(new RawMatchesOffset([0 => $allValues]));
 
-        return new GroupLimit(new MatchOffsetLimitFactory($base, 0, false), $base, 0);
+        return new GroupLimit($base, 0, new MatchOffsetLimitFactory($base, 0, false));
     }
 }

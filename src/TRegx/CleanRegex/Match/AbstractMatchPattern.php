@@ -11,7 +11,6 @@ use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
-use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFactory;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
@@ -107,7 +106,8 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     public function group($nameOrIndex): GroupLimit
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return (new GroupLimitFactory($this->base, $nameOrIndex, false))->create();
+        return new GroupLimit($this->base, $nameOrIndex,
+            new MatchOffsetLimitFactory($this->base, $nameOrIndex, false));
     }
 
     public function offsets(): MatchOffsetLimit

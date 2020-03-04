@@ -4,29 +4,22 @@ namespace TRegx\CleanRegex\Match;
 use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Exception\Messages\Group\FirstGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupSubjectMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
-use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitAll;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFirst;
+use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitForFirst;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
-use TRegx\CleanRegex\Match\Details\NotMatched;
-use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
-use TRegx\CleanRegex\Match\ForFirst\NotMatchedGroupOptional;
+use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\ForFirst\Optional;
-use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 use TRegx\CleanRegex\Match\Offset\OffsetLimit;
 
 class GroupLimit implements PatternLimit
@@ -35,57 +28,24 @@ class GroupLimit implements PatternLimit
     private $allFactory;
     /** @var GroupLimitFirst */
     private $firstFactory;
-    /** @var MatchOffsetLimitFactory */
-    private $offsetLimitFactory;
+    /** @var GroupLimitForFirst */
+    private $forFirstFactory;
+
     /** @var Base */
     private $base;
     /** @var string|int */
     private $nameOrIndex;
+    /** @var MatchOffsetLimitFactory */
+    private $offsetLimitFactory;
 
-    public function __construct(GroupLimitAll $allFactory, GroupLimitFirst $firstFactory, MatchOffsetLimitFactory $offsetLimitFactory, Base $base, $nameOrIndex)
+    public function __construct(Base $base, $nameOrIndex, MatchOffsetLimitFactory $offsetLimitFactory)
     {
-        $this->allFactory = $allFactory;
-        $this->firstFactory = $firstFactory;
+        $this->allFactory = new GroupLimitAll($base, $nameOrIndex);
+        $this->firstFactory = new GroupLimitFirst($base, $nameOrIndex);
+        $this->forFirstFactory = new GroupLimitForFirst($base, $nameOrIndex);
         $this->offsetLimitFactory = $offsetLimitFactory;
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
-    }
-
-    public function offsets(): OffsetLimit
-    {
-        return $this->offsetLimitFactory->create();
-    }
-
-    /**
-     * @param callable $consumer
-     * @return Optional
-     */
-    public function forFirst(callable $consumer): Optional
-    {
-        $first = $this->base->matchOffset();
-        if ($first->hasGroup($this->nameOrIndex)) {
-            $group = $first->getGroup($this->nameOrIndex);
-            if ($group !== null) {
-                $groupFacade = new GroupFacade($first, $this->base, $this->nameOrIndex,
-                    new MatchGroupFactoryStrategy(),
-                    new LazyMatchAllFactory($this->base));
-                $matchGroup = $groupFacade->createGroup($first);
-                return new MatchedOptional($consumer($matchGroup));
-            }
-        } else {
-            $verifier = new MatchAllGroupVerifier($this->base->getPattern());
-            if (!$verifier->groupExists($this->nameOrIndex)) {
-                throw new NonexistentGroupException($this->nameOrIndex);
-            }
-        }
-        [$default, $message] = $first->matched()
-            ? [GroupNotMatchedException::class, new FirstGroupMessage($this->nameOrIndex)]
-            : [SubjectNotMatchedException::class, new FirstGroupSubjectMessage($this->nameOrIndex)];
-
-        return new NotMatchedGroupOptional(
-            new NotMatchedOptionalWorker($message, $this->base, new NotMatched($first, $this->base)),
-            $default
-        );
     }
 
     /**
@@ -98,8 +58,18 @@ class GroupLimit implements PatternLimit
         if ($consumer === null) {
             return $first->getGroup($this->nameOrIndex);
         }
-        $matchGroup = (new GroupFacade($first, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), new LazyMatchAllFactory($this->base)))->createGroup($first);
-        return $consumer($matchGroup);
+        return $consumer($this->matchGroupDetails($first));
+    }
+
+    private function matchGroupDetails(RawMatchOffset $first): MatchGroup
+    {
+        $facade = new GroupFacade($first, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), new LazyMatchAllFactory($this->base));
+        return $facade->createGroup($first);
+    }
+
+    public function forFirst(callable $consumer): Optional
+    {
+        return $this->forFirstFactory->getOptionalForGroup($consumer);
     }
 
     /**
@@ -151,6 +121,11 @@ class GroupLimit implements PatternLimit
         foreach ($this->getMatchGroupObjects() as $group) {
             $consumer($group);
         }
+    }
+
+    public function offsets(): OffsetLimit
+    {
+        return $this->offsetLimitFactory->create();
     }
 
     public function fluent(): FluentMatchPattern
