@@ -16,9 +16,9 @@ class MatchPatternTest extends TestCase
     public function shouldReturnMappedValue()
     {
         // when
-        $result = pattern('[A-Z](?<lowercase>[a-z]+)?')
-            ->match('Computer L Three Four')
-            ->group('lowercase')
+        $result = pattern('Computer')
+            ->match('Computer')
+            ->group(0)
             ->forFirst(function () {
                 return "result";
             })
@@ -46,6 +46,21 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldCall_withDetails_all()
+    {
+        // when
+        pattern('[A-Z](?<lowercase>[a-z]+)?')
+            ->match('Computer L Three Four')
+            ->group('lowercase')
+            ->forFirst(function (MatchGroup $group) {
+                $this->assertEquals(['omputer', null, 'hree', 'our'], $group->all());
+            })
+            ->orThrow();
+    }
+
+    /**
+     * @test
+     */
     public function shouldGet_forEmptyMatch()
     {
         // when
@@ -65,13 +80,14 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get group 'lowercase' from the first match, but subject was not matched at all");
+        $this->expectExceptionMessage("Expected to get group '0' from the first match, but subject was not matched at all");
 
         // when
-        pattern('[A-Z](?<lowercase>[a-z]+)?')
+        pattern('Foo')
             ->match('123')
-            ->group('lowercase')
+            ->group(0)
             ->forFirst(function () {
+                $this->fail();
             })
             ->orThrow();
     }
@@ -90,6 +106,7 @@ class MatchPatternTest extends TestCase
             ->match('Foo')
             ->group('group')
             ->forFirst(function () {
+                $this->fail();
             })
             ->orThrow();
     }
@@ -101,13 +118,14 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(CustomException::class);
-        $this->expectExceptionMessage("Expected to get group 'lowercase' from the first match, but subject was not matched at all");
+        $this->expectExceptionMessage("Expected to get group '0' from the first match, but subject was not matched at all");
 
         // when
-        pattern('[A-Z](?<lowercase>[a-z]+)?')
+        pattern('Foo')
             ->match('123')
-            ->group('lowercase')
+            ->group(0)
             ->forFirst(function () {
+                $this->fail();
             })
             ->orThrow(CustomException::class);
     }
@@ -123,9 +141,10 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('[A-Z](?<lowercase>[a-z]+)?')
-            ->match('L Three Four')
+            ->match('L')
             ->group('lowercase')
             ->forFirst(function () {
+                $this->fail();
             })
             ->orThrow(CustomException::class);
     }

@@ -56,6 +56,20 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldCall_withDetails_all()
+    {
+        // given
+        $subject = 'Computer L Three Four';
+
+        // when
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first(function (MatchGroup $group) {
+            $this->assertEquals(['omputer', null, 'hree', 'our'], $group->all());
+        });
+    }
+
+    /**
+     * @test
+     */
     public function shouldCall_withDetails_string()
     {
         // given
