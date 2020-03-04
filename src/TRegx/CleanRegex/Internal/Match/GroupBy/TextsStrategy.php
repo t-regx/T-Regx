@@ -9,7 +9,7 @@ class TextsStrategy implements Strategy
     function transform(array $groups, IRawMatchesOffset $matches): array
     {
         foreach ($groups as &$group) {
-            $group = array_map(function (IRawMatch $match) {
+            $group = \array_map(function (IRawMatch $match) {
                 return $match->getText();
             }, $group);
         }

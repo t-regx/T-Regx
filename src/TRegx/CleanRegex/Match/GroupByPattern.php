@@ -62,7 +62,7 @@ class GroupByPattern
     private function groupMatches(IRawMatchesOffset $matches): array
     {
         $map = [];
-        for ($i = 0; $i < count($matches->getTexts()); ++$i) {
+        for ($i = 0; $i < \count($matches->getTexts()); ++$i) {
             if ($matches->isGroupMatched($this->nameOrIndex, $i)) {
                 $key = $matches->getGroupTextAndOffset($this->nameOrIndex, $i)[0];
                 $map[$key][] = $matches->getIndexedRawMatchOffset($i);

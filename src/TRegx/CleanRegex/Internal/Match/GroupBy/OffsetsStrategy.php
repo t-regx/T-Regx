@@ -22,7 +22,7 @@ class OffsetsStrategy implements Strategy
     function transform(array $groups, IRawMatchesOffset $matches): array
     {
         foreach ($groups as &$group) {
-            $group = array_map(function (IRawMatchOffset $match) {
+            $group = \array_map(function (IRawMatchOffset $match) {
                 $byteOffset = $match->byteOffset();
                 if ($this->characterOffsets) {
                     return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $byteOffset);
