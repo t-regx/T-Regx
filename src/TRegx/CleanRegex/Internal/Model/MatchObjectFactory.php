@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Model\Factory;
+namespace TRegx\CleanRegex\Internal\Model;
 
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\MatchImpl;
 
-class MatchObjectFactoryImpl implements MatchObjectFactory
+class MatchObjectFactory
 {
     /** @var Subjectable */
     private $subjectable;

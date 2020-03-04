@@ -3,9 +3,9 @@ namespace TRegx\CleanRegex\Internal\Match\GroupBy;
 
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\Model\Match\IndexedRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 
 class FlatMapStrategy implements Strategy
 {

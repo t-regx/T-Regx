@@ -18,7 +18,7 @@ use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\Predicate;
-use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactoryImpl;
+use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -88,7 +88,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         $matches = $this->base->matchAllOffsets();
         if ($matches->matched()) {
-            $result = $consumer($matches->getFirstMatchObject(new MatchObjectFactoryImpl($this->base, 1, $this->base->getUserData())));
+            $result = $consumer($matches->getFirstMatchObject(new MatchObjectFactory($this->base, 1, $this->base->getUserData())));
             return new MatchedOptional($result);
         }
         return new NotMatchedOptional(
@@ -166,7 +166,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
      */
     protected function getMatchObjects(): array
     {
-        $factory = new MatchObjectFactoryImpl($this->base, -1, $this->base->getUserData());
+        $factory = new MatchObjectFactory($this->base, -1, $this->base->getUserData());
         return $this->base->matchAllOffsets()->getMatchObjects($factory);
     }
 }

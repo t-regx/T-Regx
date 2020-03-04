@@ -2,10 +2,10 @@
 namespace TRegx\CleanRegex\Internal\Model\Matches;
 
 use TRegx\CleanRegex\Internal\Match\Predicate;
-use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Match\Details\Match;
 
 interface IRawMatchesOffset extends IRawMatches, IRawWithGroups

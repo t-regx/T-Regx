@@ -4,14 +4,13 @@ namespace TRegx\CleanRegex\Internal\Match\Base;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactory;
-use TRegx\CleanRegex\Internal\Model\Factory\MatchObjectFactoryImpl;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchGroupable;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 
 class FilteredBaseDecorator implements Base
 {
@@ -61,7 +60,7 @@ class FilteredBaseDecorator implements Base
 
     private function getMatchFactory(): MatchObjectFactory
     {
-        return new MatchObjectFactoryImpl($this->base, -1, $this->base->getUserData());
+        return new MatchObjectFactory($this->base, -1, $this->base->getUserData());
     }
 
     public function matchGroupable(): IRawMatchGroupable
