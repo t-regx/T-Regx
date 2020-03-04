@@ -2,6 +2,7 @@
 namespace Test\Integration\TRegx\CleanRegex\Match\fluent;
 
 use PHPUnit\Framework\TestCase;
+use Test\Integration\TRegx\CleanRegex\Match\GroupLimitMocks;
 use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\GroupLimit;
@@ -14,8 +15,7 @@ class GroupLimitTest extends TestCase
     public function shouldReturnGroups(): void
     {
         // given
-        /** @var GroupLimit $limit */
-        [$limit] = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
+        $limit = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
 
         // when
         $chained = $limit->fluent();
@@ -32,8 +32,7 @@ class GroupLimitTest extends TestCase
     public function shouldThrow_first(): void
     {
         // given
-        /** @var GroupLimit $limit */
-        [$limit] = $this->mockGroupLimit([]);
+        $limit = $this->mockGroupLimit([]);
 
         // then
         $this->expectException(NoFirstElementFluentException::class);
@@ -52,8 +51,7 @@ class GroupLimitTest extends TestCase
     public function shouldThrow_first_callback(): void
     {
         // given
-        /** @var GroupLimit $limit */
-        [$limit] = $this->mockGroupLimit([]);
+        $limit = $this->mockGroupLimit([]);
 
         // then
         $this->expectException(NoFirstElementFluentException::class);
@@ -73,8 +71,7 @@ class GroupLimitTest extends TestCase
     public function shouldInvokeCallback_first(): void
     {
         // given
-        /** @var GroupLimit $limit */
-        [$limit] = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
+        $limit = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
 
         // when
         $chained = $limit->fluent();
@@ -85,8 +82,8 @@ class GroupLimitTest extends TestCase
         });
     }
 
-    private function mockGroupLimit(array $allValues = []): array
+    private function mockGroupLimit(array $allValues): GroupLimit
     {
-        return \Test\Integration\TRegx\CleanRegex\Match\GroupLimitTest::mockGroupLimit($allValues);
+        return GroupLimitMocks::mockGroupLimit($this, $allValues);
     }
 }
