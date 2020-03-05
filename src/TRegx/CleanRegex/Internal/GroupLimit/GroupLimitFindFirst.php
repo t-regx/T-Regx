@@ -21,7 +21,7 @@ use TRegx\CleanRegex\Match\ForFirst\Optional;
 use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 
-class GroupLimitForFirst
+class GroupLimitFindFirst
 {
     /** @var Base */
     private $base;

@@ -7,8 +7,8 @@ use Iterator;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitAll;
+use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFindFirst;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFirst;
-use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitForFirst;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
@@ -28,8 +28,8 @@ class GroupLimit implements PatternLimit
     private $allFactory;
     /** @var GroupLimitFirst */
     private $firstFactory;
-    /** @var GroupLimitForFirst */
-    private $forFirstFactory;
+    /** @var GroupLimitFindFirst */
+    private $findFirstFactory;
 
     /** @var Base */
     private $base;
@@ -42,7 +42,7 @@ class GroupLimit implements PatternLimit
     {
         $this->allFactory = new GroupLimitAll($base, $nameOrIndex);
         $this->firstFactory = new GroupLimitFirst($base, $nameOrIndex);
-        $this->forFirstFactory = new GroupLimitForFirst($base, $nameOrIndex);
+        $this->findFirstFactory = new GroupLimitFindFirst($base, $nameOrIndex);
         $this->offsetLimitFactory = $offsetLimitFactory;
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
@@ -69,7 +69,7 @@ class GroupLimit implements PatternLimit
 
     public function findFirst(callable $consumer): Optional
     {
-        return $this->forFirstFactory->getOptionalForGroup($consumer);
+        return $this->findFirstFactory->getOptionalForGroup($consumer);
     }
 
     /**
