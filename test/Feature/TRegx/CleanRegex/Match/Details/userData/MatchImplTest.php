@@ -31,7 +31,7 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldPreserveUserData_forFirst()
+    public function shouldPreserveUserData_findFirst()
     {
         // given
         $filtered = pattern('[A-Z][a-z]+')
@@ -43,7 +43,7 @@ class MatchImplTest extends TestCase
 
         // when
         $userData = $filtered
-            ->forFirst(function (Match $match) {
+            ->findFirst(function (Match $match) {
                 return $match->getUserData();
             })
             ->orThrow();

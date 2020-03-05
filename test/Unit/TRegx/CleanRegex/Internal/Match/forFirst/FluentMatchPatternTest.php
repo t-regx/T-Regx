@@ -14,15 +14,15 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldForFirst()
+    public function shouldFindFirst()
     {
         // given
         $pattern = new FluentMatchPattern(['foo', 'bar'], $this->worker());
 
         // when
-        $result1 = $pattern->forFirst('strtoupper')->orReturn('');
-        $result2 = $pattern->forFirst('strtoupper')->orElse('strtolower');
-        $result3 = $pattern->forFirst('strtoupper')->orThrow();
+        $result1 = $pattern->findFirst('strtoupper')->orReturn('');
+        $result2 = $pattern->findFirst('strtoupper')->orElse('strtolower');
+        $result3 = $pattern->findFirst('strtoupper')->orThrow();
 
         // then
         $this->assertEquals('FOO', $result1);
@@ -33,7 +33,7 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldForFirst_throwEmpty()
+    public function shouldFindFirst_throwEmpty()
     {
         // given
         $pattern = new FluentMatchPattern([], $this->worker());
@@ -43,19 +43,19 @@ class FluentMatchPatternTest extends TestCase
         $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed is empty");
 
         // when
-        $pattern->forFirst('strtoupper')->orThrow();
+        $pattern->findFirst('strtoupper')->orThrow();
     }
 
     /**
      * @test
      */
-    public function shouldForFirst_orReturn()
+    public function shouldFindFirst_orReturn()
     {
         // given
         $pattern = new FluentMatchPattern([], $this->worker());
 
         // when
-        $result = $pattern->forFirst('strtoupper')->orReturn('otherValue');
+        $result = $pattern->findFirst('strtoupper')->orReturn('otherValue');
 
         // then
         $this->assertEquals('otherValue', $result);
@@ -64,13 +64,13 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldForFirst_orElse()
+    public function shouldFindFirst_orElse()
     {
         // given
         $pattern = new FluentMatchPattern([], $this->worker());
 
         // when
-        $result = $pattern->forFirst('strtoupper')->orElse(function () {
+        $result = $pattern->findFirst('strtoupper')->orElse(function () {
             return 'otherValue';
         });
 
@@ -81,13 +81,13 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldForFirst_orElse_notPassArguments()
+    public function shouldFindFirst_orElse_notPassArguments()
     {
         // given
         $pattern = new FluentMatchPattern([], $this->worker());
 
         // when
-        $pattern->forFirst('strtoupper')->orElse(function () {
+        $pattern->findFirst('strtoupper')->orElse(function () {
             // when
             $arguments = func_get_args();
 
@@ -99,7 +99,7 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldForFirst_throwEmpty_custom()
+    public function shouldFindFirst_throwEmpty_custom()
     {
         // given
         $pattern = new FluentMatchPattern([], $this->worker());
@@ -109,7 +109,7 @@ class FluentMatchPatternTest extends TestCase
         $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed is empty");
 
         // when
-        $pattern->forFirst('strtoupper')->orThrow(CustomException::class);
+        $pattern->findFirst('strtoupper')->orThrow(CustomException::class);
     }
 
     private function worker(): NotMatchedWorker

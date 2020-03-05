@@ -26,12 +26,12 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIndex_match_forFirst()
+    public function shouldGetIndex_match_findFirst()
     {
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->forFirst(function (Match $match) {
+            ->findFirst(function (Match $match) {
                 // when
                 $index = $match->index();
 

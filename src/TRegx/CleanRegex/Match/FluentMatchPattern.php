@@ -56,7 +56,7 @@ class FluentMatchPattern implements MatchPatternInterface
         return $consumer ? $consumer($firstElement) : $firstElement;
     }
 
-    public function forFirst(callable $consumer): Optional
+    public function findFirst(callable $consumer): Optional
     {
         if (empty($this->elements)) {
             return new NotMatchedFluentOptional($this->worker);

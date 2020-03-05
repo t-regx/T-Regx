@@ -35,7 +35,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(NoFirstElementFluentException::class);
 
         // when
-        $pattern->offsets()->fluent()->forFirst(function () {
+        $pattern->offsets()->fluent()->findFirst(function () {
         })->orThrow();
     }
 

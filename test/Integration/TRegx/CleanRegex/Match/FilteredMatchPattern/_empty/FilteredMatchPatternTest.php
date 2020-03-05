@@ -139,7 +139,7 @@ class FilteredMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_ForFirst()
+    public function shouldGet_findFirst()
     {
         // given
         $matchPattern = $this->standardMatchPattern();
@@ -148,17 +148,17 @@ class FilteredMatchPatternTest extends TestCase
         };
 
         // when
-        $forFirst = $matchPattern->forFirst($callback);
+        $findFirst = $matchPattern->findFirst($callback);
 
         // then
-        $this->assertEquals('value: ', $forFirst->orThrow());
-        $this->assertInstanceOf(MatchedOptional::class, $forFirst);
+        $this->assertEquals('value: ', $findFirst->orThrow());
+        $this->assertInstanceOf(MatchedOptional::class, $findFirst);
     }
 
     /**
      * @test
      */
-    public function shouldGet_ForFirst_notFirst()
+    public function shouldGet_findFirst_notFirst()
     {
         // given
         $matchPattern = $this->standardMatchPattern_notFirst();
@@ -167,17 +167,17 @@ class FilteredMatchPatternTest extends TestCase
         };
 
         // when
-        $forFirst = $matchPattern->forFirst($callback);
+        $findFirst = $matchPattern->findFirst($callback);
 
         // then
-        $this->assertEquals('value: a', $forFirst->orThrow());
-        $this->assertInstanceOf(MatchedOptional::class, $forFirst);
+        $this->assertEquals('value: a', $findFirst->orThrow());
+        $this->assertInstanceOf(MatchedOptional::class, $findFirst);
     }
 
     /**
      * @test
      */
-    public function shouldNotGet_ForFirst_matchedButFiltered()
+    public function shouldNotGet_findFirst_matchedButFiltered()
     {
         // given
         $matchPattern = $this->standardMatchPattern_filtered();
@@ -186,10 +186,10 @@ class FilteredMatchPatternTest extends TestCase
         };
 
         // then
-        $forFirst = $matchPattern->forFirst($callback);
+        $findFirst = $matchPattern->findFirst($callback);
 
         // then
-        $this->assertInstanceOf(NotMatchedOptional::class, $forFirst);
+        $this->assertInstanceOf(NotMatchedOptional::class, $findFirst);
     }
 
     /**
@@ -306,7 +306,7 @@ class FilteredMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldForFirst()
+    public function shouldFindFirst()
     {
         // given
         $matchPattern = $this->standardMatchPattern();
@@ -315,7 +315,7 @@ class FilteredMatchPatternTest extends TestCase
         };
 
         // when
-        $first = $matchPattern->forFirst($callback)->orReturn('');
+        $first = $matchPattern->findFirst($callback)->orReturn('');
 
         // then
         $this->assertEquals('for first: ', $first);

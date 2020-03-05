@@ -187,7 +187,7 @@ class FilteredMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldForFirst_firstFiltered()
+    public function shouldFindFirst_firstFiltered()
     {
         // given
         $matchPattern = $this->standardMatchPattern_firstFiltered();
@@ -196,10 +196,10 @@ class FilteredMatchPatternTest extends TestCase
         };
 
         // when
-        $forFirst = $matchPattern->forFirst($callback)->orReturn('');
+        $findFirst = $matchPattern->findFirst($callback)->orReturn('');
 
         // then
-        $this->assertEquals('for first: second', $forFirst);
+        $this->assertEquals('for first: second', $findFirst);
     }
 
     /**
@@ -214,10 +214,10 @@ class FilteredMatchPatternTest extends TestCase
         };
 
         // when
-        $forFirst = $matchPattern->forFirst($callback)->orReturn('');
+        $findFirst = $matchPattern->findFirst($callback)->orReturn('');
 
         // then
-        $this->assertEquals('for first: first', $forFirst);
+        $this->assertEquals('for first: first', $findFirst);
     }
 
     /**

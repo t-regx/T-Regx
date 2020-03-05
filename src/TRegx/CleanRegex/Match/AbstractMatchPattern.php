@@ -84,7 +84,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
      * @param callable $consumer
      * @return Optional
      */
-    public function forFirst(callable $consumer): Optional
+    public function findFirst(callable $consumer): Optional
     {
         $matches = $this->base->matchAllOffsets();
         if ($matches->matched()) {

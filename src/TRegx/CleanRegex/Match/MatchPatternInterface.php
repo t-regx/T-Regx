@@ -24,7 +24,7 @@ interface MatchPatternInterface
      * @param callable $consumer
      * @return Optional
      */
-    public function forFirst(callable $consumer): Optional;
+    public function findFirst(callable $consumer): Optional;
 
     public function count(): int;
 

@@ -91,12 +91,12 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_forFirst_orElse()
+    public function shouldGet_findFirst_orElse()
     {
         // when
         $value = pattern('[A-Z]+')
             ->match('FOO')
-            ->forFirst(function () {
+            ->findFirst(function () {
                 return 'Different';
             })
             ->orElse(function () {
@@ -110,12 +110,12 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_forFirst_orElse_groupsCount()
+    public function shouldGet_findFirst_orElse_groupsCount()
     {
         // when
         $value = pattern('[a-z]+')
             ->match('NOT MATCHING')
-            ->forFirst(function () {
+            ->findFirst(function () {
                 $this->assertFalse(true);
             })
             ->orElse(function (NotMatched $notMatched) {

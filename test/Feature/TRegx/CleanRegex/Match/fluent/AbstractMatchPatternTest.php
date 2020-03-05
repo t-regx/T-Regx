@@ -62,7 +62,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_forFirst()
+    public function shouldFluent_findFirst()
     {
         // when
         pattern("(?<capital>[A-Z])?[\w']+")
@@ -71,7 +71,7 @@ class AbstractMatchPatternTest extends TestCase
             ->filter(function (Match $match) {
                 return $match->textLength() !== 3;
             })
-            ->forFirst(function (Match $match) {
+            ->findFirst(function (Match $match) {
                 $this->assertTrue(true);
             })
             ->orThrow();
@@ -80,7 +80,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_forFirst_orThrow()
+    public function shouldFluent_findFirst_orThrow()
     {
         // then
         $this->expectException(NoFirstElementFluentException::class);
@@ -90,7 +90,7 @@ class AbstractMatchPatternTest extends TestCase
         pattern("Foo")
             ->match("Bar")
             ->fluent()
-            ->forFirst(function (Match $match) {
+            ->findFirst(function (Match $match) {
                 $this->assertTrue(false);
             })
             ->orThrow();
@@ -99,7 +99,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_forFirst_orThrow_custom()
+    public function shouldFluent_findFirst_orThrow_custom()
     {
         // then
         $this->expectException(CustomException::class);
@@ -109,7 +109,7 @@ class AbstractMatchPatternTest extends TestCase
         pattern("Foo")
             ->match("Bar")
             ->fluent()
-            ->forFirst(function (Match $match) {
+            ->findFirst(function (Match $match) {
                 $this->assertTrue(false);
             })
             ->orThrow(CustomException::class);

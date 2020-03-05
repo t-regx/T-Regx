@@ -40,12 +40,12 @@ class ReadMeTest extends TestCase
 
         $this->assertEquals('P. ShERman, 42 Wallaby way', $replaceFirst);
 
-        $forFirst = pattern('word')
+        $findFirst = pattern('word')
             ->match('word')
-            ->forFirst('strtoupper')
+            ->findFirst('strtoupper')
             ->orThrow(InvalidArgumentException::class);
 
-        $this->assertEquals('WORD', $forFirst);
+        $this->assertEquals('WORD', $findFirst);
     }
 
     /**

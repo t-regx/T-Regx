@@ -80,12 +80,12 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeLimited_match_forFirst()
+    public function shouldBeLimited_match_findFirst()
     {
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->forFirst(function (Match $match) {
+            ->findFirst(function (Match $match) {
                 // when
                 $limit = $match->limit();
 

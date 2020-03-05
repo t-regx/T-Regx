@@ -21,7 +21,7 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern
-            ->forFirst(function (Match $match) {
+            ->findFirst(function (Match $match) {
                 // then
                 $this->assertEquals(0, $match->index());
                 $this->assertEquals("Nice matching pattern", $match->subject());
@@ -41,7 +41,7 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern
-            ->forFirst(function (Match $match) {
+            ->findFirst(function (Match $match) {
                 // then
                 $this->assertEquals("Nice matching pattern", $match->subject());
             });
@@ -57,9 +57,9 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern("Nice matching pattern");
 
         // when
-        $first1 = $pattern->forFirst('strtoupper')->orReturn(null);
-        $first2 = $pattern->forFirst('strtoupper')->orThrow();
-        $first3 = $pattern->forFirst('strtoupper')->orElse(function () {
+        $first1 = $pattern->findFirst('strtoupper')->orReturn(null);
+        $first2 = $pattern->findFirst('strtoupper')->orThrow();
+        $first3 = $pattern->findFirst('strtoupper')->orElse(function () {
         });
 
         // then
@@ -77,11 +77,11 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $pattern->forFirst($this->failCallback())->orReturn(null);
-        $pattern->forFirst($this->failCallback())->orElse(function () {
+        $pattern->findFirst($this->failCallback())->orReturn(null);
+        $pattern->findFirst($this->failCallback())->orElse(function () {
         });
         try {
-            @$pattern->forFirst($this->failCallback())->orThrow();
+            @$pattern->findFirst($this->failCallback())->orThrow();
         } catch (SubjectNotMatchedException $ignored) {
         }
 
@@ -101,7 +101,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(SubjectNotMatchedException::class);
 
         // when
-        $pattern->forFirst('strrev')->orThrow();
+        $pattern->findFirst('strrev')->orThrow();
     }
 
     /**
@@ -116,7 +116,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         // when
-        $pattern->forFirst('strrev')->orThrow(InvalidArgumentException::class);
+        $pattern->findFirst('strrev')->orThrow(InvalidArgumentException::class);
     }
 
     /**
@@ -132,7 +132,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
-        $pattern->forFirst('strrev')->orThrow(InvalidArgumentException::class);
+        $pattern->findFirst('strrev')->orThrow(InvalidArgumentException::class);
     }
 
     /**
@@ -144,7 +144,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $value = $pattern->forFirst('strrev')->orReturn('def');
+        $value = $pattern->findFirst('strrev')->orReturn('def');
 
         // then
         $this->assertEquals('def', $value);
@@ -159,7 +159,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $value = $pattern->forFirst('strrev')->orElse(function () {
+        $value = $pattern->findFirst('strrev')->orElse(function () {
             return 'new value';
         });
 
@@ -176,7 +176,7 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(InternalPattern::standard("(?:[A-Z])?[a-z']+ (?<group>.)"), 'NOT MATCHING');
 
         // when
-        $pattern->forFirst('strrev')->orElse(function (NotMatched $details) {
+        $pattern->findFirst('strrev')->orElse(function (NotMatched $details) {
             // then
             $this->assertEquals('NOT MATCHING', $details->subject());
             $this->assertEquals(['group'], $details->groupNames());
@@ -196,7 +196,7 @@ class MatchPatternTest extends TestCase
     private function failCallback(): callable
     {
         return function () {
-            $this->fail("Failed asserting that forFirst() is not invoked for not matching subject");
+            $this->fail("Failed asserting that findFirst() is not invoked for not matching subject");
         };
     }
 }
