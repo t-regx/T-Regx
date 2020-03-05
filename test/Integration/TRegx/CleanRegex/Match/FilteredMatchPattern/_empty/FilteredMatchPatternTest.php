@@ -10,8 +10,8 @@ use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FilteredMatchPattern;
-use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
-use TRegx\CleanRegex\Match\ForFirst\NotMatchedOptional;
+use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
+use TRegx\CleanRegex\Match\FindFirst\NotMatchedOptional;
 
 class FilteredMatchPatternTest extends TestCase
 {

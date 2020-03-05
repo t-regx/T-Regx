@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Match;
 
 use Iterator;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\ForFirst\Optional;
+use TRegx\CleanRegex\Match\FindFirst\Optional;
 
 interface MatchPatternInterface
 {

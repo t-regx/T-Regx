@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Match\ForFirst\Optional;
+use TRegx\CleanRegex\Match\FindFirst\Optional;
 
 interface OptionalStrategySelector extends Optional
 {

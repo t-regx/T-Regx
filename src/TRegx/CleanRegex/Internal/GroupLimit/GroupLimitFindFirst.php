@@ -15,9 +15,9 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\LazyRawWithGroups;
 use TRegx\CleanRegex\Match\Details\NotMatched;
-use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
-use TRegx\CleanRegex\Match\ForFirst\NotMatchedGroupOptional;
-use TRegx\CleanRegex\Match\ForFirst\Optional;
+use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
+use TRegx\CleanRegex\Match\FindFirst\NotMatchedGroupOptional;
+use TRegx\CleanRegex\Match\FindFirst\Optional;
 use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 

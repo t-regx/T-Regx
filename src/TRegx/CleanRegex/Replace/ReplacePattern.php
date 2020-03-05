@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Exception\NotReplacedException;
-use TRegx\CleanRegex\Match\ForFirst\Optional;
+use TRegx\CleanRegex\Match\FindFirst\Optional;
 
 interface ReplacePattern extends SpecificReplacePattern, Optional
 {

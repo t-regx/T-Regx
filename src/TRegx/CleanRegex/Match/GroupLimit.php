@@ -19,7 +19,7 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
-use TRegx\CleanRegex\Match\ForFirst\Optional;
+use TRegx\CleanRegex\Match\FindFirst\Optional;
 use TRegx\CleanRegex\Match\Offset\OffsetLimit;
 
 class GroupLimit implements PatternLimit

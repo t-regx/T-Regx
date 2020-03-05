@@ -23,9 +23,9 @@ use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
-use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
-use TRegx\CleanRegex\Match\ForFirst\NotMatchedOptional;
-use TRegx\CleanRegex\Match\ForFirst\Optional;
+use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
+use TRegx\CleanRegex\Match\FindFirst\NotMatchedOptional;
+use TRegx\CleanRegex\Match\FindFirst\Optional;
 use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 
 abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLimit, Countable

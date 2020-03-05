@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
-use TRegx\CleanRegex\Match\ForFirst\Optional;
+use TRegx\CleanRegex\Match\FindFirst\Optional;
 
 interface ByGroupReplacePattern extends Optional
 {

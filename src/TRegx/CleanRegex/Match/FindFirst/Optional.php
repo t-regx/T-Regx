@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Match\ForFirst;
+namespace TRegx\CleanRegex\Match\FindFirst;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\PatternException;

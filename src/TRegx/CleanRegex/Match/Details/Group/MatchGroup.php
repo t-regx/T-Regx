@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Match\ForFirst\Optional;
+use TRegx\CleanRegex\Match\FindFirst\Optional;
 
 interface MatchGroup extends Optional
 {

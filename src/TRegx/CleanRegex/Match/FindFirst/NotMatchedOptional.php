@@ -1,10 +1,10 @@
 <?php
-namespace TRegx\CleanRegex\Match\ForFirst;
+namespace TRegx\CleanRegex\Match\FindFirst;
 
-use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
+use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
 
-class NotMatchedFluentOptional implements Optional
+class NotMatchedOptional implements Optional
 {
     /** @var NotMatchedWorker */
     private $worker;
@@ -14,7 +14,7 @@ class NotMatchedFluentOptional implements Optional
         $this->worker = $worker;
     }
 
-    public function orThrow(string $exceptionClassName = NoFirstElementFluentException::class): void
+    public function orThrow(string $exceptionClassName = SubjectNotMatchedException::class): void
     {
         throw $this->worker->orThrow($exceptionClassName);
     }

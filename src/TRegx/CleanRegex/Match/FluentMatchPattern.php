@@ -12,9 +12,9 @@ use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
-use TRegx\CleanRegex\Match\ForFirst\MatchedOptional;
-use TRegx\CleanRegex\Match\ForFirst\NotMatchedFluentOptional;
-use TRegx\CleanRegex\Match\ForFirst\Optional;
+use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
+use TRegx\CleanRegex\Match\FindFirst\NotMatchedFluentOptional;
+use TRegx\CleanRegex\Match\FindFirst\Optional;
 
 class FluentMatchPattern implements MatchPatternInterface
 {
