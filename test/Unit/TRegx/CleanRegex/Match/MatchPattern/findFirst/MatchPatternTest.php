@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\forFirst;
+namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\findFirst;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

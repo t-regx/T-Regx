@@ -1,5 +1,5 @@
 <?php
-namespace Test\Integration\TRegx\CleanRegex\Match\FilteredMatchPattern\forFirst;
+namespace Test\Integration\TRegx\CleanRegex\Match\FilteredMatchPattern\findFirst;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;

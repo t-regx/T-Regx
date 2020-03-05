@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\group\forFirst;
+namespace Test\Feature\TRegx\CleanRegex\Match\group\findFirst;
 
 use PHPUnit\Framework\TestCase;
 use Test\Feature\TRegx\CleanRegex\Replace\by\group\CustomException;
