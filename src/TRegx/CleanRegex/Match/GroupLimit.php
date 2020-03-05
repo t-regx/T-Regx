@@ -67,7 +67,7 @@ class GroupLimit implements PatternLimit
         return $facade->createGroup($first);
     }
 
-    public function forFirst(callable $consumer): Optional
+    public function findFirst(callable $consumer): Optional
     {
         return $this->forFirstFactory->getOptionalForGroup($consumer);
     }
