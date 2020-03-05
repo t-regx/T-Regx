@@ -11,8 +11,10 @@ Incoming in 0.9.5
        - `pattern()->match()->group()->fluent()->iterate()`
 
       as `iterate()` was only needed as a substitute for `forEach()`, pre PHP 7, where methods couldn't be named with keywords.
+    * Renamed:
+       - `pattern()->match()->forFirst()` to `findFirst()` #70 
 * Features
-   * Added `match()->group()->forFirst()` #22
+   * Added `match()->group()->findFirst()` #22 #70
 
 Added in 0.9.4
 --------------
