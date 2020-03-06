@@ -14,7 +14,7 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 [![GitHub last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
 [![Composer lock](https://img.shields.io/badge/.lock-uncommited-green.svg)](https://github.com/T-Regx/T-Regx)
-[![PHP Version](https://img.shields.io/badge/Unit%20tests-1303-green.svg)](https://github.com/T-Regx/T-Regx)
+[![PHP Version](https://img.shields.io/badge/Unit%20tests-1307-green.svg)](https://github.com/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/FQN-used-blue.svg)](https://github.com/kelunik/fqn-check)
 
 [![PHP Version](https://img.shields.io/badge/PHP-7.1-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
@@ -156,7 +156,7 @@ Not sure if your pattern is matched or not?
 
 ```php
 $result = pattern('word')->match($text)
-  ->forFirst('strtoupper')
+  ->findFirst('strtoupper')
   ->orThrow(InvalidArgumentException::class);
 
 $result   // 'WORD'
