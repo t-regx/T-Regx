@@ -13,116 +13,149 @@ class PrepareFacadeTest extends TestCase
 {
     /**
      * @test
-     * @dataProvider validInput
+     * @dataProvider standard
+     * @param Parser $parser
+     */
+    public function test_standard(Parser $parser)
+    {
+        // given + when
+        $pattern = (new PrepareFacade($parser, false))->getPattern();
+
+        // then
+        $this->assertEquals('/(I|We) want: User \(input\) :)/', $pattern);
+    }
+
+    public function standard(): array
+    {
+        return [
+            'bind @' => [new BindingParser('(I|We) want: @input :)', ['input' => 'User (input)'])],
+            'bind ``' => [new BindingParser('(I|We) want: `input` :)', ['input' => 'User (input)'])],
+            'inject #' => [new InjectParser('(I|We) want: @ :)', ['User (input)'])],
+            'prepared []' => [new PreparedParser(['(I|We) want: ', ['User (input)'], ' :)'])]
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider empty
+     * @param Parser $parser
+     */
+    public function test_empty(Parser $parser)
+    {
+        // given + when
+        $pattern = (new PrepareFacade($parser, false))->getPattern();
+
+        // then
+        $this->assertEquals('//', $pattern);
+    }
+
+    public function empty(): array
+    {
+        return [
+            'bind @' => [new BindingParser('', [])],
+            'inject # ' => [new InjectParser('', [])],
+            'prepared \'\'' => [new PreparedParser([''])],
+            'prepared []' => [new PreparedParser(['', []])],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider pcre
      * @param Parser $parser
      * @param string $expected
      */
-    public function test(Parser $parser, string $expected)
+    public function test_ignoresPcre(Parser $parser, string $expected)
     {
-        // given
-        $facade = new PrepareFacade($parser, false);
-
-        // when
-        $pattern = $facade->getPattern();
+        // given + when
+        $pattern = (new PrepareFacade($parser, false))->getPattern();
 
         // then
         $this->assertEquals($expected, $pattern);
     }
 
-    public function validInput()
+    public function pcre(): array
     {
         return [
-            // Bind
+            'bind //' => [new BindingParser('//', []), '#//#'],
+            'inject //' => [new InjectParser('//', []), '#//#'],
+            'prepared //' => [new PreparedParser(['//']), '#//#'],
 
-            [
-                // find by @, quote regexp parenthesis
-                new BindingParser('(I|We) would like to match: @input (and|or) @input_2', [
-                    'input' => 'User (input)',
-                    'input_2' => 'User (input_2)',
-                ]),
-                '/(I|We) would like to match: User \(input\) (and|or) User \(input_2\)/'
-            ],
-            [
-                // find by ``, quote regexp parenthesis
-                new BindingParser('(I|We) would like to match: `input` (and|or) `input_2`', [
-                    'input' => 'User (input)',
-                    'input_2' => 'User (input_2)',
-                ]),
-                '/(I|We) would like to match: User \(input\) (and|or) User \(input_2\)/'
-            ],
-            [
-                // find placeholders without whitespace
-                new BindingParser('(I|We) would like to match: @input@input_2', [
-                    'input' => 'User (input)',
-                    'input_2' => 'User (input_2)',
-                ]),
-                '/(I|We) would like to match: User \(input\)User \(input_2\)/'
-            ],
-            [
-                // quote delimiters
-                new BindingParser('With delimiters / #@input', ['input' => 'Using / delimiters and %',]),
-                '%With delimiters / #Using / delimiters and \%%'
-            ],
+            'bind //mi' => [new BindingParser('//mi', []), '#//mi#'],
+            'inject //mi' => [new InjectParser('//mi', []), '#//mi#'],
+            'prepared //mi' => [new PreparedParser(['//mi']), '#//mi#'],
+        ];
+    }
 
-            // Injection
-            // Standard
-            [
-                // find by @, quote regexp parenthesis
-                new InjectParser('(I|We) would like to match: @ (and|or) @', ['User (input)', 'User (input_2)']),
-                '/(I|We) would like to match: User \(input\) (and|or) User \(input_2\)/'
-            ],
-            [
-                // find placeholders without whitespace
-                new InjectParser('(I|We) would like to match: @@', ['User (input)', 'User (input_2)']),
-                '/(I|We) would like to match: User \(input\)User \(input_2\)/'
-            ],
-            [
-                // quote delimiters
-                new InjectParser('With delimiters / #@', ['Using / delimiters and %']),
-                '%With delimiters / #Using / delimiters and \%%'
-            ],
-            // Alternation
-            [
-                new InjectParser('(Me|@) / would like to alternate none: @', ['%Hello%', []]),
-                '#(Me|%Hello%) / would like to alternate none: #',
-            ],
-            [
-                new InjectParser('(Me|@) / would like to alternate single: @', ['%Hello%', ['One']]),
-                '#(Me|%Hello%) / would like to alternate single: One#',
-            ],
-            [
-                new InjectParser('I / would # like to alternate many: @', [['On(e)#', 'Tw%o', 'Three']]),
-                '%I / would # like to alternate many: On\\(e\\)\\#|Tw\\%o|Three%',
-            ],
-            // Corner values
-            [new InjectParser('', []), '//'],
-            [new InjectParser('@', [['%']]), '/%/',],
+    /**
+     * @test
+     * @dataProvider onlyUserInput
+     * @param Parser $parser
+     */
+    public function test_onlyUserInput(Parser $parser)
+    {
+        // given + when
+        $pattern = (new PrepareFacade($parser, false))->getPattern();
 
-            [
-                // quote regexp parenthesis
-                new PreparedParser(['(I|We) would like to @match: ', ['User (input)'], ' (and|or) ', ['User (input_2)'], '']),
-                '/(I|We) would like to @match: User \(input\) (and|or) User \(input_2\)/'
-            ],
-            [
-                // quote regexp parenthesis - same placeholder
-                new PreparedParser(['(I|We) like ', ['User (input)', 'User (input_2)'], '']),
-                '/(I|We) like User \(input\)User \(input_2\)/'
-            ],
-            [
-                // quote delimiters
-                new PreparedParser(['With delimiters / #', ['Using / delimiters and %'], ' :D']),
-                '%With delimiters / #Using / delimiters and \% :D%',
-            ],
-            [
-                // Should treat pattern as not pcre
-                new PreparedParser(['/(I|We) would like ', ['(input)'], '/']),
-                '#/(I|We) would like \(input\)/#'
-            ],
+        // then
+        $this->assertEquals('/%/', $pattern);
+    }
 
-            // Corner values
-            [new PreparedParser(['']), '//',],
-            [new PreparedParser(['', []]), '//',],
-            [new PreparedParser(['a', 'b', 'c']), '/abc/',],
+    public function onlyUserInput(): array
+    {
+        return [
+            'bind @' => [new BindingParser('@name', ['name' => '%'])],
+            'inject # ' => [new InjectParser('@', ['%'])],
+            'prepared []' => [new PreparedParser(['%'])],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider delimiters
+     * @param Parser $parser
+     */
+    public function test_quotesDelimiters(Parser $parser)
+    {
+        // given + when
+        $pattern = (new PrepareFacade($parser, false))->getPattern();
+
+        // then
+        $this->assertEquals('%With delimiters / #Using / delimiters and \% :D%', $pattern);
+    }
+
+    public function delimiters(): array
+    {
+        return [
+            'bind @' => [new BindingParser('With delimiters / #@input :D', ['input' => 'Using / delimiters and %'])],
+            'inject #' => [new InjectParser('With delimiters / #@ :D', ['Using / delimiters and %'])],
+            'prepared []' => [new PreparedParser(['With delimiters / #', ['Using / delimiters and %'], ' :D'])],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider whitespace
+     * @param Parser $parser
+     */
+    public function test_whitespace(Parser $parser)
+    {
+        // given + when
+        $pattern = (new PrepareFacade($parser, false))->getPattern();
+
+        // then
+        $this->assertEquals('/(I|We) want: User \(input\)User \(input_2\)/', $pattern);
+    }
+
+    public function whitespace(): array
+    {
+        return [
+            'bind @' => [new BindingParser('(I|We) want: @input@input_2', [
+                'input' => 'User (input)',
+                'input_2' => 'User (input_2)',
+            ])],
+            'inject #' => [new InjectParser('(I|We) want: @@', ['User (input)', 'User (input_2)'])],
+            'prepared []' => [new PreparedParser(['(I|We) want: ', ['User (input)'], ['User (input_2)']])],
         ];
     }
 
@@ -132,7 +165,7 @@ class PrepareFacadeTest extends TestCase
      * @param Parser $parser
      * @param string $expected
      */
-    public function shouldIgnorePlaceholders(Parser $parser, string $expected)
+    public function shouldIgnoreBindPlaceholders(Parser $parser, string $expected)
     {
         // given
         $facade = new PrepareFacade($parser, false);
@@ -170,16 +203,7 @@ class PrepareFacadeTest extends TestCase
                     1 => 'input_2',
                 ]),
                 '/(I|We) would like to match: @input (and|or) @input_2@/',
-            ],
-            [
-                // Should allow no placeholders
-                new BindingParser('(I|We) would like to match', []),
-                '/(I|We) would like to match/',
-            ],
-            // Corner values
-            [new BindingParser('//', []), '#//#'],
-            [new BindingParser('//mi', []), '#//mi#'],
-            [new BindingParser('', []), '//'],
+            ]
         ];
     }
 
@@ -206,12 +230,12 @@ class PrepareFacadeTest extends TestCase
     {
         return [
             [
-                new BindingParser('@input2', []),
-                "Could not find a corresponding value for placeholder 'input2'",
+                new BindingParser('@placeholder', []),
+                "Could not find a corresponding value for placeholder 'placeholder'",
             ],
             [
-                new BindingParser('@input and @input3', ['input']),
-                "Could not find a corresponding value for placeholder 'input3'",
+                new BindingParser('@input1 and @input2', ['input1']),
+                "Could not find a corresponding value for placeholder 'input2'",
             ],
             [
                 new BindingParser('@input', ['input', 'input2']),
@@ -238,7 +262,6 @@ class PrepareFacadeTest extends TestCase
                 "Invalid name '(asd)'. Expected a string consisting only of alphanumeric characters and an underscore [a-zA-Z0-9_]",
             ],
 
-            // Standard
             [
                 new InjectParser('@', []),
                 "Could not find a corresponding value for placeholder #0",
@@ -254,15 +277,6 @@ class PrepareFacadeTest extends TestCase
             [
                 new InjectParser('@@@', ['', '', 'foo' => 4]),
                 "Invalid inject value for key - string ('foo'). Expected string, but integer (4) given",
-            ],
-            // Alternation
-            [
-                new InjectParser('@@@', ['', '', 'foo' => ['', 4]]),
-                "Invalid inject value for alternating key X. Expected string, but integer (4) given",
-            ],
-            [
-                new InjectParser('@@@', ['', '', 'foo' => ['', []]]),
-                "Invalid inject value for alternating key X. Expected string, but array (0) given",
             ],
 
             [
