@@ -2,11 +2,12 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use InvalidArgumentException;
+use TRegx\CleanRegex\Internal\Prepared\Quoteable\AlternationQuotable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\CompositeQuoteable;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\CompositeUserInput;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\EmptyQuoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quoteable\UserInputQuoteable;
 use TRegx\CleanRegex\Internal\Type;
 
 class PreparedParser implements Parser
@@ -22,20 +23,24 @@ class PreparedParser implements Parser
     public function parse(string $delimiter): Quoteable
     {
         $this->validateEmptyInput();
-        $quoteables = \array_map(function ($quoteable) {
-            return $this->mapToQuoteable($quoteable);
-        }, $this->input);
-        return new CompositeQuoteable($quoteables);
+        return new CompositeQuoteable(\array_map([$this, 'mapToQuoteable'], $this->input));
     }
 
     private function mapToQuoteable($quoteable): Quoteable
     {
         if (\is_array($quoteable)) {
-            $count = \count($quoteable);
-            if ($count === 0) {
+            if (empty($quoteable)) {
                 return new EmptyQuoteable();
             }
-            return new CompositeUserInput($quoteable);
+            return new CompositeQuoteable(\array_map(function ($element) {
+                if (\is_string($element)) {
+                    return new UserInputQuoteable($element);
+                }
+                if (\is_array($element)) {
+                    return new AlternationQuotable($element);
+                }
+                throw new InvalidArgumentException();
+            }, $quoteable));
         }
         if (\is_string($quoteable)) {
             return new RawQuoteable($quoteable);

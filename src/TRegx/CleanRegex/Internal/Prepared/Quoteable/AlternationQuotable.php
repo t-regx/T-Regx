@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Quoteable;
 use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\Type;
 
-class CompositeUserInput implements Quoteable
+class AlternationQuotable implements Quoteable
 {
     /** @var array */
     private $userInputs;
@@ -16,8 +16,7 @@ class CompositeUserInput implements Quoteable
 
     public function quote(string $delimiter): string
     {
-        $quoted = $this->getQuoted($delimiter);
-        return \implode($quoted);
+        return \implode('|', $this->getQuoted($delimiter));
     }
 
     /**

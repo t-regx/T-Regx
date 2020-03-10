@@ -29,7 +29,7 @@ class PrepareFacadeTest extends TestCase
         return [
             // 'bind @' => [new BindingParser('Either @one: @two :)', ['one' => '5/6', 'two' => []])],
             'inject #' => [new InjectParser('Either @ or @ :)', ['5/6', []])],
-            'prepare []' => [new PreparedParser(['Either ', ['5/6'], ' or ', [], ' :)'])],
+            'prepare []' => [new PreparedParser(['Either ', ['5/6'], ' or ', [[]], ' :)'])],
         ];
     }
 
@@ -52,7 +52,7 @@ class PrepareFacadeTest extends TestCase
         return [
             // 'bind @' => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => ['6/7', '7/8', '8/9']])],
             'inject #' => [new InjectParser('Either @ or @ :)', ['5/6', ['6/7', '7/8', '8/9']])],
-            // 'prepare []' => [new PreparedParser(['Either ', ['5/6'], ' or ', ['6/7', '7/8', '8/9'], ' :)'])],
+            'prepare []' => [new PreparedParser(['Either ', ['5/6'], ' or ', [['6/7', '7/8', '8/9']], ' :)'])],
         ];
     }
 
@@ -75,7 +75,7 @@ class PrepareFacadeTest extends TestCase
         return [
             // 'bind @' => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => ['6/7']])],
             'inject #' => [new InjectParser('Either /# @ :)', [['5%']])],
-            'prepare []' => [new PreparedParser(['Either /# ', ['5%'], ' :)'])],
+            'prepare []' => [new PreparedParser(['Either /# ', [['5%']], ' :)'])],
         ];
     }
 
