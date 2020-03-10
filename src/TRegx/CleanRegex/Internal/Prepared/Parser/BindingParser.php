@@ -2,8 +2,10 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use InvalidArgumentException;
+use TRegx\CleanRegex\Internal\Prepared\Quoteable\AlternationQuotable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quoteable\UserInputQuoteable;
 use TRegx\CleanRegex\Internal\Type;
 use TRegx\SafeRegex\preg;
 
@@ -44,13 +46,19 @@ class BindingParser implements Parser
             [$placeholder, $label] = $match;
             $this->iteratedPlaceholders[] = $label;
             $value = $this->getValueByLabel($label, $placeholder);
-            if (\is_string($value)) {
-                return preg::quote($value, $delimiter);
-            }
-            return \join('|', \array_map(function (string $value) use ($delimiter) {
-                return preg::quote($value, $delimiter);
-            }, $value));
+            return $this->quotable($value)->quote($delimiter);
         };
+    }
+
+    function quotable($value): Quoteable
+    {
+        if (\is_string($value)) {
+            return new UserInputQuoteable($value);
+        }
+        if (\is_array($value)) {
+            return new AlternationQuotable($value);
+        }
+        throw new InvalidArgumentException();
     }
 
     private function getValueByLabel(string $label, string $placeholder)

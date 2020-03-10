@@ -2,8 +2,10 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use InvalidArgumentException;
+use TRegx\CleanRegex\Internal\Prepared\Quoteable\AlternationQuotable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quoteable\UserInputQuoteable;
 use TRegx\CleanRegex\Internal\Type;
 use TRegx\SafeRegex\preg;
 
@@ -31,32 +33,19 @@ class InjectParser implements Parser
     private function callback(string $delimiter): callable
     {
         return function () use ($delimiter) {
-            return $this->quoteValue($this->getBindValue(), $delimiter);
+            return $this->quotable($this->getBindValue())->quote($delimiter);
         };
     }
 
-    function quoteValue($value, string $delimiter): string
+    function quotable($value): Quoteable
     {
         if (\is_string($value)) {
-            return preg::quote($value, $delimiter);
+            return new UserInputQuoteable($value);
         }
-        return $this->quoteAlternation($value, $delimiter);
-    }
-
-    public function quoteAlternation(array $value, string $delimiter): string
-    {
-        return \join('|', \array_map(function ($value) use ($delimiter) {
-            return $this->quoteAlternationValue($value, $delimiter);
-        }, $value));
-    }
-
-    function quoteAlternationValue($value, string $delimiter): string
-    {
-        if (\is_string($value)) {
-            return preg::quote($value, $delimiter);
+        if (\is_array($value)) {
+            return new AlternationQuotable($value);
         }
-        $type = Type::asString($value);
-        throw new InvalidArgumentException("Invalid inject value for alternating key X. Expected string, but $type given");
+        throw new InvalidArgumentException();
     }
 
     private function getBindValue()
