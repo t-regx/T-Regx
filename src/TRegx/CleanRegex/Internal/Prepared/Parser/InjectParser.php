@@ -2,10 +2,9 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use InvalidArgumentException;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\AlternationQuotable;
+use TRegx\CleanRegex\Internal\Prepared\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\UserInputQuoteable;
 use TRegx\CleanRegex\Internal\Type;
 use TRegx\SafeRegex\preg;
 
@@ -33,19 +32,8 @@ class InjectParser implements Parser
     private function callback(string $delimiter): callable
     {
         return function () use ($delimiter) {
-            return $this->quotable($this->getBindValue())->quote($delimiter);
+            return QuotableFactory::quotable($this->getBindValue())->quote($delimiter);
         };
-    }
-
-    function quotable($value): Quoteable
-    {
-        if (\is_string($value)) {
-            return new UserInputQuoteable($value);
-        }
-        if (\is_array($value)) {
-            return new AlternationQuotable($value);
-        }
-        throw new InvalidArgumentException();
     }
 
     private function getBindValue()

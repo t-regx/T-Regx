@@ -2,12 +2,10 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use InvalidArgumentException;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\AlternationQuotable;
+use TRegx\CleanRegex\Internal\Prepared\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\CompositeQuoteable;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\EmptyQuoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\UserInputQuoteable;
 use TRegx\CleanRegex\Internal\Type;
 
 class PreparedParser implements Parser
@@ -29,18 +27,7 @@ class PreparedParser implements Parser
     private function mapToQuoteable($quoteable): Quoteable
     {
         if (\is_array($quoteable)) {
-            if (empty($quoteable)) {
-                return new EmptyQuoteable();
-            }
-            return new CompositeQuoteable(\array_map(function ($element) {
-                if (\is_string($element)) {
-                    return new UserInputQuoteable($element);
-                }
-                if (\is_array($element)) {
-                    return new AlternationQuotable($element);
-                }
-                throw new InvalidArgumentException();
-            }, $quoteable));
+            return new CompositeQuoteable(\array_map([QuotableFactory::class, 'quotable'], $quoteable));
         }
         if (\is_string($quoteable)) {
             return new RawQuoteable($quoteable);
