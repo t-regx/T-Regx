@@ -35,20 +35,11 @@ class Delimiterer
 
     private function chooseDelimiter(string $pattern): string
     {
-        $delimiterNext = $this->getPossibleDelimiter($pattern);
-        if ($delimiterNext !== null) {
-            return $delimiterNext;
-        }
-        throw new ExplicitDelimiterRequiredException($pattern);
-    }
-
-    private function getPossibleDelimiter(string $pattern): ?string
-    {
         foreach ($this->delimiters->getDelimiters() as $delimiter) {
             if (\strpos($pattern, $delimiter) === false) {
                 return $delimiter;
             }
         }
-        return null;
+        throw new ExplicitDelimiterRequiredException($pattern);
     }
 }
