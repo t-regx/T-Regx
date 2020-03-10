@@ -2,9 +2,9 @@
 namespace TRegx\CleanRegex\Internal\Prepared;
 
 use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
+use TRegx\CleanRegex\Internal\Delimiter\Strategy\CallbackStrategy;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\PcreCallbackStrategy;
-use TRegx\CleanRegex\Internal\Delimiter\Strategy\CallbackStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 
 class PrepareFacade
@@ -22,10 +22,10 @@ class PrepareFacade
 
     public function getPattern(): string
     {
-        $delimiter = new Delimiterer($this->strategy(function (string $delimiter) {
+        $delimiterer = new Delimiterer($this->strategy(function (string $delimiter) {
             return $this->parser->parse($delimiter)->quote($delimiter);
         }));
-        return $delimiter->delimiter($this->parser->getDelimiterable());
+        return $delimiterer->delimiter($this->parser->getDelimiterable());
     }
 
     private function strategy(callable $patternProducer): DelimiterStrategy
