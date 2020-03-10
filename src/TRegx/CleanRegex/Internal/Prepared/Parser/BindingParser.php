@@ -44,11 +44,16 @@ class BindingParser implements Parser
             [$placeholder, $label] = $match;
             $this->iteratedPlaceholders[] = $label;
             $value = $this->getValueByLabel($label, $placeholder);
-            return preg::quote($value, $delimiter);
+            if (\is_string($value)) {
+                return preg::quote($value, $delimiter);
+            }
+            return \join('|', \array_map(function (string $value) use ($delimiter) {
+                return preg::quote($value, $delimiter);
+            }, $value));
         };
     }
 
-    private function getValueByLabel(string $label, string $placeholder): string
+    private function getValueByLabel(string $label, string $placeholder)
     {
         if (\array_key_exists($label, $this->values)) {
             $value = $this->values[$label];
@@ -100,7 +105,7 @@ class BindingParser implements Parser
         }
     }
 
-    private function getLabel($key, string $value)
+    private function getLabel($key, $value)
     {
         if (\is_int($key)) {
             return $value;
@@ -115,7 +120,7 @@ class BindingParser implements Parser
 
     private function validateBindValue(string $label, $value): void
     {
-        if (!\is_string($value)) {
+        if (!\is_string($value) && !\is_array($value)) {
             $type = Type::asString($value);
             throw new InvalidArgumentException("Invalid bound value for name '$label'. Expected string, but $type given");
         }
@@ -123,7 +128,7 @@ class BindingParser implements Parser
 
     private function validateValueType($value): void
     {
-        if (!\is_string($value)) {
+        if (!\is_string($value) && !\is_array($value)) {
             $type = Type::asString($value);
             throw new InvalidArgumentException("Invalid bound parameters. Expected string, but $type given. Should be [name] or [name => value]");
         }

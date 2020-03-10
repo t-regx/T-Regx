@@ -3,6 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex\Internal\Prepared\alternation;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
@@ -27,7 +28,7 @@ class PrepareFacadeTest extends TestCase
     public function alternation_empty(): array
     {
         return [
-            // 'bind @' => [new BindingParser('Either @one: @two :)', ['one' => '5/6', 'two' => []])],
+            'bind @' => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => []])],
             'inject #' => [new InjectParser('Either @ or @ :)', ['5/6', []])],
             'prepare []' => [new PreparedParser(['Either ', ['5/6'], ' or ', [[]], ' :)'])],
         ];
@@ -50,7 +51,7 @@ class PrepareFacadeTest extends TestCase
     public function alternation_triple(): array
     {
         return [
-            // 'bind @' => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => ['6/7', '7/8', '8/9']])],
+            'bind @' => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => ['6/7', '7/8', '8/9']])],
             'inject #' => [new InjectParser('Either @ or @ :)', ['5/6', ['6/7', '7/8', '8/9']])],
             'prepare []' => [new PreparedParser(['Either ', ['5/6'], ' or ', [['6/7', '7/8', '8/9']], ' :)'])],
         ];
@@ -73,7 +74,7 @@ class PrepareFacadeTest extends TestCase
     public function delimiters(): array
     {
         return [
-            // 'bind @' => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => ['6/7']])],
+            'bind @' => [new BindingParser('Either /# @one :)', ['one' => ['5%']])],
             'inject #' => [new InjectParser('Either /# @ :)', [['5%']])],
             'prepare []' => [new PreparedParser(['Either /# ', [['5%']], ' :)'])],
         ];
