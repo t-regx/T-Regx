@@ -250,10 +250,6 @@ class PrepareFacadeTest extends TestCase
                 "Invalid bound value for name 'input'. Expected string, but integer (4) given",
             ],
             [
-                new BindingParser('@input', ['input' => []]),
-                "Invalid bound value for name 'input'. Expected string, but array (0) given",
-            ],
-            [
                 new BindingParser('well', [0 => 21]),
                 'Invalid bound parameters. Expected string, but integer (21) given',
             ],
