@@ -31,20 +31,25 @@ class PrepareFacadeTest extends TestCase
     {
         return [
             [
+                // find by @, quote regexp parenthesis
                 '(I|We) would like to match: @ (and|or) @',
                 ['User (input)', 'User (input_2)'],
                 '/(I|We) would like to match: User \(input\) (and|or) User \(input_2\)/'
             ],
             [
+                // find placeholders without whitespace
                 '(I|We) would like to match: @@',
                 ['User (input)', 'User (input_2)'],
                 '/(I|We) would like to match: User \(input\)User \(input_2\)/'
             ],
             [
+                // quote delimiters
                 'With delimiters / #@',
-                ['Using / delimiters # and %',],
-                '%With delimiters / #Using / delimiters \# and \%%'
+                ['Using / delimiters and %',],
+                '%With delimiters / #Using / delimiters and \%%'
             ],
+            // Corner values
+            ['', [], '//'],
         ];
     }
 

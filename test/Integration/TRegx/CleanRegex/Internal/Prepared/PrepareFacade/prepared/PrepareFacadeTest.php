@@ -30,41 +30,30 @@ class PrepareFacadeTest extends TestCase
     {
         return [
             [
+                // quote regexp parenthesis
                 ['(I|We) would like to @match: ', ['User (input)'], ' (and|or) ', ['User (input_2)'], ''],
                 '/(I|We) would like to @match: User \(input\) (and|or) User \(input_2\)/'
             ],
             [
+                // quote regexp parenthesis - same placeholder
                 ['(I|We) like ', ['User (input)', 'User (input_2)'], ''],
                 '/(I|We) like User \(input\)User \(input_2\)/'
             ],
             [
-                ['(I|We) would like to match: ', ['User (input)'], ' ', ['User (input_2)']],
-                '/(I|We) would like to match: User \(input\) User \(input_2\)/'
+                // quote delimiters
+                ['With delimiters / #', ['Using / delimiters and %'], ' :D'],
+                '%With delimiters / #Using / delimiters and \% :D%',
             ],
             [
-                ['With delimiters / #', ['Using / delimiters # and %'], ' :D'],
-                '%With delimiters / #Using / delimiters \# and \% :D%',
-            ],
-            [
-                [''],
-                '//',
-            ],
-            [
-                ['', []],
-                '//',
-            ],
-            [
-                ['a', 'b', 'c'],
-                '/abc/',
-            ],
-            [
-                ['(I|We) would like to match: '],
-                '/(I|We) would like to match: /'
-            ],
-            [
+                // Should treat pattern as not pcre
                 ['/(I|We) would like ', ['(input)'], '/'],
                 '#/(I|We) would like \(input\)/#'
             ],
+
+            // Corner values
+            [[''], '//',],
+            [['', []], '//',],
+            [['a', 'b', 'c'], '/abc/',],
         ];
     }
 

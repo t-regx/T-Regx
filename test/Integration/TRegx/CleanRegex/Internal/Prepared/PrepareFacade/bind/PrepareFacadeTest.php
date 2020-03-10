@@ -31,6 +31,7 @@ class PrepareFacadeTest extends TestCase
     {
         return [
             [
+                // find by @, quote regexp parenthesis
                 '(I|We) would like to match: @input (and|or) @input_2',
                 [
                     'input' => 'User (input)',
@@ -39,6 +40,7 @@ class PrepareFacadeTest extends TestCase
                 '/(I|We) would like to match: User \(input\) (and|or) User \(input_2\)/'
             ],
             [
+                // find by ``, quote regexp parenthesis
                 '(I|We) would like to match: `input` (and|or) `input_2`',
                 [
                     'input' => 'User (input)',
@@ -47,6 +49,7 @@ class PrepareFacadeTest extends TestCase
                 '/(I|We) would like to match: User \(input\) (and|or) User \(input_2\)/'
             ],
             [
+                // find placeholders without whitespace
                 '(I|We) would like to match: @input@input_2',
                 [
                     'input' => 'User (input)',
@@ -55,11 +58,12 @@ class PrepareFacadeTest extends TestCase
                 '/(I|We) would like to match: User \(input\)User \(input_2\)/'
             ],
             [
+                // quote delimiters
                 'With delimiters / #@input',
                 [
-                    'input' => 'Using / delimiters # and %',
+                    'input' => 'Using / delimiters and %',
                 ],
-                '%With delimiters / #Using / delimiters \# and \%%'
+                '%With delimiters / #Using / delimiters and \%%'
             ],
         ];
     }
@@ -87,6 +91,7 @@ class PrepareFacadeTest extends TestCase
     {
         return [
             [
+                // Should allow for inserting @ placeholders again
                 '(I|We) would like to match: @input (and|or) @input2',
                 [
                     'input' => '@input',
@@ -95,6 +100,7 @@ class PrepareFacadeTest extends TestCase
                 '/(I|We) would like to match: @input (and|or) @input2/',
             ],
             [
+                // Should allow for inserting `` placeholders again
                 '(I|We) would like to match: `input` (and|or) `input2`',
                 [
                     'input' => '`input`',
@@ -103,6 +109,7 @@ class PrepareFacadeTest extends TestCase
                 '/(I|We) would like to match: `input` (and|or) `input2`/',
             ],
             [
+                // Should ignore @@ placeholders
                 '(I|We) would like to match: @input (and|or) @input_2@',
                 [
                     0 => 'input',
@@ -111,16 +118,12 @@ class PrepareFacadeTest extends TestCase
                 '/(I|We) would like to match: @input (and|or) @input_2@/',
             ],
             [
-                '(I|We) would like to match:',
+                // Should allow no placeholders
+                '(I|We) would like to match',
                 [],
-                '/(I|We) would like to match:/',
+                '/(I|We) would like to match/',
             ],
-            [
-                '(I|We) would like to match - empty colon : is ok',
-                [
-                ],
-                '/(I|We) would like to match - empty colon : is ok/',
-            ],
+            // Corner values
             ['//', [], '#//#'],
             ['//mi', [], '#//mi#'],
             ['', [], '//'],
@@ -151,15 +154,12 @@ class PrepareFacadeTest extends TestCase
         return [
             [
                 '@input2',
-                [
-                ],
+                [],
                 "Could not find a corresponding value for placeholder 'input2'",
             ],
             [
                 '@input and @input3',
-                [
-                    'input',
-                ],
+                ['input'],
                 "Could not find a corresponding value for placeholder 'input3'",
             ],
             [
