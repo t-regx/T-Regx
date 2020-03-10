@@ -52,8 +52,7 @@ class InjectParser implements Parser
     {
         if (!\is_string($value)) {
             $type = Type::asString($value);
-            $keyType = Type::asString($key);
-            throw new InvalidArgumentException("Invalid inject value for key - $keyType. Expected string, but $type given");
+            throw new InvalidArgumentException("Invalid inject value for key '$key'. Expected string, but $type given");
         }
     }
 

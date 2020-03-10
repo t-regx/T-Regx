@@ -276,7 +276,11 @@ class PrepareFacadeTest extends TestCase
             ],
             [
                 new InjectParser('@@@', ['', '', 'foo' => 4]),
-                "Invalid inject value for key - string ('foo'). Expected string, but integer (4) given",
+                "Invalid inject value for key 'foo'. Expected string, but integer (4) given",
+            ],
+            [
+                new InjectParser('@', [0 => 21]),
+                "Invalid inject value for key '0'. Expected string, but integer (21) given",
             ],
 
             [
