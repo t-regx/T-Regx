@@ -45,9 +45,39 @@ class AlternationQuotableTest extends TestCase
         $quotable = new AlternationQuotable(['a', 'b', 'a', 'c']);
 
         // when
-        $result = $quotable->quote('');
+        $result = $quotable->quote(''); // or should it throw maybe?
 
         // then
         $this->assertEquals('a|b|c', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddAnEmptyProduct_toIndicateAnEmptyString()
+    {
+        // given
+        $quotable = new AlternationQuotable(['a', '', '', 'b']);
+
+        // when
+        $result = $quotable->quote('');
+
+        // then
+        $this->assertEquals('a|b|', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldIgnoreOtherCharacters()
+    {
+        // given
+        $quotable = new AlternationQuotable(['|', ' ', '0']);
+
+        // when
+        $result = $quotable->quote('');
+
+        // then
+        $this->assertEquals('\|| |0', $result);
     }
 }

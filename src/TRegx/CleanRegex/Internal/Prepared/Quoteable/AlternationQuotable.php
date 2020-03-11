@@ -21,20 +21,17 @@ class AlternationQuotable implements Quoteable
 
     private function getQuoted(string $delimiter): array
     {
-        return \array_map(function (UserInputQuoteable $quotable) use ($delimiter) {
-            return $quotable->quote($delimiter);
-        }, $this->getAsUserInputs());
+        return \array_map(function (string $quotable) use ($delimiter) {
+            return (new UserInputQuoteable($quotable))->quote($delimiter);
+        }, $this->normalizedUserInput());
     }
 
-    /**
-     * @return UserInputQuoteable[]
-     */
-    private function getAsUserInputs(): array
+    private function normalizedUserInput(): array
     {
-        return \array_map(function ($quoteable) {
-            $this->validateQuoteable($quoteable);
-            return new UserInputQuoteable($quoteable);
-        }, $this->userInputs);
+        foreach ($this->userInputs as $input) {
+            $this->validateQuoteable($input);
+        }
+        return \array_unique($this->userInputEmptyLast());
     }
 
     private function validateQuoteable($quoteable): void
@@ -43,5 +40,16 @@ class AlternationQuotable implements Quoteable
             $type = Type::asString($quoteable);
             throw new InvalidArgumentException("Invalid bound alternate value. Expected string, but $type given");
         }
+    }
+
+    private function userInputEmptyLast(): array
+    {
+        // removes empty strings, and if there was any, appends it to the end
+        if (!\in_array('', $this->userInputs)) {
+            return $this->userInputs;
+        }
+        $result = \array_filter($this->userInputs);
+        $result[] = '';
+        return $result;
     }
 }
