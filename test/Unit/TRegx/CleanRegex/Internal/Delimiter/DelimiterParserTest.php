@@ -2,7 +2,6 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\DuplicateFlagsException;
 use TRegx\CleanRegex\Exception\FlagNotAllowedException;
 use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
 
@@ -50,10 +49,10 @@ class DelimiterParserTest extends TestCase
     public function shouldGetDelimiter(string $pattern, string $delimiter)
     {
         // given
-        $delimiterer = new DelimiterParser();
+        $parser = new DelimiterParser();
 
         // when
-        $result = $delimiterer->getDelimiter($pattern);
+        $result = $parser->getDelimiter($pattern);
 
         // then
         $this->assertEquals($delimiter, $result);
@@ -90,10 +89,10 @@ class DelimiterParserTest extends TestCase
     public function shouldNotGetDelimiter(string $pattern)
     {
         // given
-        $delimiterer = new DelimiterParser();
+        $parser = new DelimiterParser();
 
         // when
-        $result = $delimiterer->getDelimiter($pattern);
+        $result = $parser->getDelimiter($pattern);
 
         // then
         $this->assertNull($result, "Failed asserting that $pattern has no delimiter.");

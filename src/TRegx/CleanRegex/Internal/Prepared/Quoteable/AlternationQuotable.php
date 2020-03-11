@@ -19,10 +19,6 @@ class AlternationQuotable implements Quoteable
         return \implode('|', $this->getQuoted($delimiter));
     }
 
-    /**
-     * @param string $delimiter
-     * @return string[]
-     */
     private function getQuoted(string $delimiter): array
     {
         return \array_map(function (UserInputQuoteable $quotable) use ($delimiter) {

@@ -16,18 +16,13 @@ class CompositeQuoteable implements Quoteable
 
     public function quote(string $delimiter): string
     {
-        $strings = $this->mapToQuoteStrings($delimiter);
-        return implode($strings);
+        return implode($this->mapToQuoteStrings($delimiter));
     }
 
-    /**
-     * @param string $delimiterer
-     * @return array
-     */
-    private function mapToQuoteStrings(string $delimiterer): array
+    private function mapToQuoteStrings(string $delimiter): array
     {
-        return array_map(function (Quoteable $quoteable) use ($delimiterer) {
-            return $quoteable->quote($delimiterer);
+        return array_map(function (Quoteable $quoteable) use ($delimiter) {
+            return $quoteable->quote($delimiter);
         }, $this->quoteables);
     }
 }
