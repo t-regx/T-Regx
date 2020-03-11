@@ -92,7 +92,7 @@ class PrepareFacadeTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Invalid bound value for alternating key X. Expected string, but array (0) given");
+        $this->expectExceptionMessage("Invalid bound alternate value. Expected string, but array (0) given");
 
         // when
         $facade->getPattern();
@@ -102,8 +102,8 @@ class PrepareFacadeTest extends TestCase
     {
         return [
             'bind @' => [new BindingParser('@a@b@c', ['a' => '', 'b' => '', 'c' => ['', []]])],
-            'inject #' => [new InjectParser('@@@', ['', '', 'foo' => ['', []]])],
-            'prepared []' => [new InjectParser('@@@', ['', '', 'foo' => ['', []]])],
+            'inject #' => [new InjectParser('@@@', ['', '', ['', []]])],
+            'prepared []' => [new InjectParser('@@@', ['', '', ['', []]])],
         ];
     }
 
@@ -119,7 +119,7 @@ class PrepareFacadeTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Invalid bound value for alternating key X. Expected string, but integer (4) given");
+        $this->expectExceptionMessage("Invalid bound alternate value. Expected string, but integer (4) given");
 
         // when
         $facade->getPattern();
@@ -128,9 +128,9 @@ class PrepareFacadeTest extends TestCase
     public function invalidInputs_integers(): array
     {
         return [
-            'bind @' => [new BindingParser('@a@b@c', ['a' => '', 'b' => '', 'c' => ['', 4]]),],
-            'inject #' => [new InjectParser('@@@', ['', '', 'foo' => ['', 4]]),],
-            'prepared []' => [new PreparedParser(['', '', [['', 4]]]),]
+            'bind @' => [new BindingParser('@a@b@c', ['a' => '', 'b' => '', 'c' => ['', 4]])],
+            'inject #' => [new InjectParser('@@@', ['', '', ['', 4]])],
+            'prepared []' => [new PreparedParser(['', '', [['', 4]]])]
         ];
     }
 }

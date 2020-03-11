@@ -45,7 +45,7 @@ class AlternationQuotable implements Quoteable
     {
         if (!\is_string($quoteable)) {
             $type = Type::asString($quoteable);
-            throw new InvalidArgumentException("Invalid bound value. Expected string, but $type given");
+            throw new InvalidArgumentException("Invalid bound alternate value. Expected string, but $type given");
         }
     }
 }
