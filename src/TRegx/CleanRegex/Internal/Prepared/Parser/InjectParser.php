@@ -6,7 +6,6 @@ use TRegx\CleanRegex\Internal\Prepared\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
 use TRegx\CleanRegex\Internal\Type;
-use TRegx\SafeRegex\preg;
 
 class InjectParser implements Parser
 {
@@ -24,7 +23,7 @@ class InjectParser implements Parser
     public function parse(string $delimiter): Quoteable
     {
         \reset($this->values);
-        $result = preg::replace_callback('/@/', $this->callback($delimiter), $this->input);
+        $result = \preg_replace_callback('/@/', $this->callback($delimiter), $this->input);
         $this->validateSuperfluousBindValues();
         return new RawQuoteable($result);
     }

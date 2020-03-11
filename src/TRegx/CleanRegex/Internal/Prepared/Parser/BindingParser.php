@@ -6,7 +6,6 @@ use TRegx\CleanRegex\Internal\Prepared\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
 use TRegx\CleanRegex\Internal\Type;
-use TRegx\SafeRegex\preg;
 
 class BindingParser implements Parser
 {
@@ -28,7 +27,7 @@ class BindingParser implements Parser
     public function parse(string $delimiter): Quoteable
     {
         $this->iteratedPlaceholders = [];
-        $result = preg::replace_callback($this->getPlaceholderPatterns(), $this->getCallback($delimiter), $this->input);
+        $result = \preg_replace_callback($this->getPlaceholderPatterns(), $this->getCallback($delimiter), $this->input);
         $this->validatePotentiallyUnusedLabels();
         $this->validateDuplicateLabels();
         return new RawQuoteable($result);
@@ -132,7 +131,7 @@ class BindingParser implements Parser
 
     private function validateLabelFormat(string $label): void
     {
-        if (!preg::match('/^[a-zA-Z0-9_]+$/', $label)) {
+        if (!\preg_match('/^[a-zA-Z0-9_]+$/', $label)) {
             throw new InvalidArgumentException("Invalid name '$label'. Expected a string consisting only of alphanumeric characters and an underscore [a-zA-Z0-9_]");
         }
     }
