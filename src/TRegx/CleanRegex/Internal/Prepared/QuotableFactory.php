@@ -15,7 +15,7 @@ class QuotableFactory
             return new UserInputQuoteable($value);
         }
         if (\is_array($value)) {
-            return new AlternationQuotable($value);
+            return new AlternationQuotable($value, 'md5');
         }
         $type = Type::asString($value);
         throw new InvalidArgumentException("Invalid bound value. Expected string, but $type given");

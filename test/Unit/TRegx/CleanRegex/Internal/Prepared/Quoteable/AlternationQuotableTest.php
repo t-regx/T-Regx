@@ -12,7 +12,7 @@ class AlternationQuotableTest extends TestCase
     public function shouldQuote()
     {
         // given
-        $quotable = new AlternationQuotable(['/()', '^#$']);
+        $quotable = new AlternationQuotable(['/()', '^#$'], null);
 
         // when
         $result = $quotable->quote('');
@@ -27,7 +27,7 @@ class AlternationQuotableTest extends TestCase
     public function shouldQuoteDelimiter()
     {
         // given
-        $quotable = new AlternationQuotable(['a', '%b']);
+        $quotable = new AlternationQuotable(['a', '%b'], null);
 
         // when
         $result = $quotable->quote('%');
@@ -39,16 +39,31 @@ class AlternationQuotableTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveDuplicates()
+    public function shouldRemoveDuplicates_caseSensitive()
     {
         // given
-        $quotable = new AlternationQuotable(['a', 'b', 'a', 'c']);
+        $quotable = new AlternationQuotable(['a', 'FOO', 'a', 'c', 'foo'], $this->identity());
 
         // when
         $result = $quotable->quote(''); // or should it throw maybe?
 
         // then
-        $this->assertEquals('a|b|c', $result);
+        $this->assertEquals('a|FOO|c|foo', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveDuplicates_caseInsensitive()
+    {
+        // given
+        $quotable = new AlternationQuotable(['a', 'FOO', 'a', 'a', 'c', 'foo'], 'strtolower');
+
+        // when
+        $result = $quotable->quote('');
+
+        // then
+        $this->assertEquals('a|FOO|c', $result);
     }
 
     /**
@@ -57,7 +72,7 @@ class AlternationQuotableTest extends TestCase
     public function shouldAddAnEmptyProduct_toIndicateAnEmptyString()
     {
         // given
-        $quotable = new AlternationQuotable(['a', '', '', 'b']);
+        $quotable = new AlternationQuotable(['a', '', '', 'b'], null);
 
         // when
         $result = $quotable->quote('');
@@ -72,12 +87,19 @@ class AlternationQuotableTest extends TestCase
     public function shouldIgnoreOtherCharacters()
     {
         // given
-        $quotable = new AlternationQuotable(['|', ' ', '0']);
+        $quotable = new AlternationQuotable(['|', ' ', '0'], null);
 
         // when
         $result = $quotable->quote('');
 
         // then
         $this->assertEquals('\|| |0', $result);
+    }
+
+    private function identity(): callable
+    {
+        return function ($a) {
+            return $a;
+        };
     }
 }

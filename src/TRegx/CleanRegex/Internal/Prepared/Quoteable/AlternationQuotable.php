@@ -8,10 +8,13 @@ class AlternationQuotable implements Quoteable
 {
     /** @var array */
     private $userInputs;
+    /** @var callable|null */
+    private $duplicateMapper;
 
-    public function __construct(array $userInputs)
+    public function __construct(array $userInputs, ?callable $duplicateMapper)
     {
         $this->userInputs = $userInputs;
+        $this->duplicateMapper = $duplicateMapper;
     }
 
     public function quote(string $delimiter): string
@@ -31,7 +34,7 @@ class AlternationQuotable implements Quoteable
         foreach ($this->userInputs as $input) {
             $this->validateQuoteable($input);
         }
-        return \array_unique($this->userInputEmptyLast());
+        return $this->removeDuplicates($this->userInputEmptyLast());
     }
 
     private function validateQuoteable($quoteable): void
@@ -51,5 +54,13 @@ class AlternationQuotable implements Quoteable
         $result = \array_filter($this->userInputs);
         $result[] = '';
         return $result;
+    }
+
+    private function removeDuplicates(array $values): array
+    {
+        if ($this->duplicateMapper) {
+            return \array_intersect_key($values, \array_unique(\array_map($this->duplicateMapper, $values)));
+        }
+        return \array_unique($values);
     }
 }
