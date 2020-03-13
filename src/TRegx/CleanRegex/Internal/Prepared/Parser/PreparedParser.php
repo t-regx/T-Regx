@@ -18,16 +18,18 @@ class PreparedParser implements Parser
         $this->input = $input;
     }
 
-    public function parse(string $delimiter): Quoteable
+    public function parse(string $delimiter, QuotableFactory $quotableFactory): Quoteable
     {
         $this->validateEmptyInput();
-        return new CompositeQuoteable(\array_map([$this, 'mapToQuoteable'], $this->input));
+        return new CompositeQuoteable(\array_map(function ($quoteable) use ($quotableFactory) {
+            return $this->mapToQuoteable($quoteable, $quotableFactory);
+        }, $this->input));
     }
 
-    private function mapToQuoteable($quoteable): Quoteable
+    private function mapToQuoteable($quoteable, QuotableFactory $quotableFactory): Quoteable
     {
         if (\is_array($quoteable)) {
-            return new CompositeQuoteable(\array_map([QuotableFactory::class, 'quotable'], $quoteable));
+            return new CompositeQuoteable(\array_map([$quotableFactory, 'quotable'], $quoteable));
         }
         if (\is_string($quoteable)) {
             return new RawQuoteable($quoteable);

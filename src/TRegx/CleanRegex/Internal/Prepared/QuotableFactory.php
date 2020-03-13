@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\Type;
 
 class QuotableFactory
 {
-    public static function quotable($value): Quoteable
+    public function quotable($value): Quoteable
     {
         if (\is_string($value)) {
             return new UserInputQuoteable($value);

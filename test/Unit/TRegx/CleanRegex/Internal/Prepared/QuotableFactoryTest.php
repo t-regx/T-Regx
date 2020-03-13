@@ -12,8 +12,11 @@ class QuotableFactoryTest extends TestCase
      */
     public function shouldCreateQuotableString()
     {
+        // given
+        $factory = new QuotableFactory();
+
         // when
-        $quoteable = QuotableFactory::quotable('5% you (are|is) welcome');
+        $quoteable = $factory->quotable('5% you (are|is) welcome');
 
         // then
         $this->assertEquals('5\% you \(are\|is\) welcome', $quoteable->quote('%'));
@@ -24,8 +27,11 @@ class QuotableFactoryTest extends TestCase
      */
     public function shouldQuoteArray()
     {
+        // given
+        $factory = new QuotableFactory();
+
         // when
-        $quoteable = QuotableFactory::quotable(['first 1%', 'second 2%']);
+        $quoteable = $factory->quotable(['first 1%', 'second 2%']);
 
         // then
         $this->assertEquals('first 1\%|second 2\%', $quoteable->quote('%'));
@@ -36,11 +42,14 @@ class QuotableFactoryTest extends TestCase
      */
     public function shouldThrowForInvalidType()
     {
+        // given
+        $factory = new QuotableFactory();
+
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Invalid bound value. Expected string, but integer (4) given");
 
         // when
-        QuotableFactory::quotable(4);
+        $factory->quotable(4);
     }
 }

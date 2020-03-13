@@ -20,18 +20,18 @@ class InjectParser implements Parser
         $this->values = $values;
     }
 
-    public function parse(string $delimiter): Quoteable
+    public function parse(string $delimiter, QuotableFactory $quotableFactory): Quoteable
     {
         \reset($this->values);
-        $result = \preg_replace_callback('/@/', $this->callback($delimiter), $this->input);
+        $result = \preg_replace_callback('/@/', $this->callback($delimiter, $quotableFactory), $this->input);
         $this->validateSuperfluousBindValues();
         return new RawQuoteable($result);
     }
 
-    private function callback(string $delimiter): callable
+    private function callback(string $delimiter, QuotableFactory $quotableFactory): callable
     {
-        return function () use ($delimiter) {
-            return QuotableFactory::quotable($this->getBindValue())->quote($delimiter);
+        return function () use ($delimiter, $quotableFactory) {
+            return $quotableFactory->quotable($this->getBindValue())->quote($delimiter);
         };
     }
 

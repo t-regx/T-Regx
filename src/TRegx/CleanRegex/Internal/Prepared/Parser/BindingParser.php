@@ -24,10 +24,10 @@ class BindingParser implements Parser
         $this->values = $values;
     }
 
-    public function parse(string $delimiter): Quoteable
+    public function parse(string $delimiter, QuotableFactory $quotableFactory): Quoteable
     {
         $this->iteratedPlaceholders = [];
-        $result = \preg_replace_callback($this->getPlaceholderPatterns(), $this->getCallback($delimiter), $this->input);
+        $result = \preg_replace_callback($this->getPlaceholderPatterns(), $this->getCallback($delimiter, $quotableFactory), $this->input);
         $this->validatePotentiallyUnusedLabels();
         $this->validateDuplicateLabels();
         return new RawQuoteable($result);
@@ -38,13 +38,13 @@ class BindingParser implements Parser
         return ['/@([a-zA-Z0-9_]+)/', '/`([a-zA-Z0-9_]+)`/'];
     }
 
-    private function getCallback(string $delimiter): callable
+    private function getCallback(string $delimiter, QuotableFactory $quotableFactory): callable
     {
-        return function (array $match) use ($delimiter) {
+        return function (array $match) use ($delimiter, $quotableFactory) {
             [$placeholder, $label] = $match;
             $this->iteratedPlaceholders[] = $label;
             $value = $this->getValueByLabel($label, $placeholder);
-            return QuotableFactory::quotable($value)->quote($delimiter);
+            return $quotableFactory->quotable($value)->quote($delimiter);
         };
     }
 
