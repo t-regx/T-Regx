@@ -13,7 +13,7 @@ class QuotableFactoryTest extends TestCase
     public function shouldCreateQuotableString()
     {
         // given
-        $factory = new QuotableFactory();
+        $factory = new QuotableFactory('');
 
         // when
         $quoteable = $factory->quotable('5% you (are|is) welcome');
@@ -28,7 +28,7 @@ class QuotableFactoryTest extends TestCase
     public function shouldQuoteArray()
     {
         // given
-        $factory = new QuotableFactory();
+        $factory = new QuotableFactory('');
 
         // when
         $quoteable = $factory->quotable(['first 1%', 'second 2%']);
@@ -39,11 +39,39 @@ class QuotableFactoryTest extends TestCase
 
     /**
      * @test
+     * @dataProvider arrayDuplicatesByFlags
+     * @param string $flags
+     * @param string $expected
+     */
+    public function shouldRemoveDuplicates(string $flags, string $expected)
+    {
+        // given
+        $factory = new QuotableFactory($flags);
+
+        // when
+        $quoteable = $factory->quotable(['FOO', 'foo', 'PIęć', 'pięć', 'Żółć', 'ŻÓŁĆ']);
+
+        // then
+        $this->assertEquals($expected, $quoteable->quote('%'), "Failed to assert that duplicates were removed with flags '$flags'.");
+    }
+
+    public function arrayDuplicatesByFlags(): array
+    {
+        return [
+            ['UI', 'FOO|foo|PIęć|pięć|Żółć|ŻÓŁĆ'],
+            ['mu', 'FOO|foo|PIęć|pięć|Żółć|ŻÓŁĆ'],
+            ['im', 'FOO|PIęć|Żółć|ŻÓŁĆ'],
+            ['uim', 'FOO|PIęć|Żółć'],
+        ];
+    }
+
+    /**
+     * @test
      */
     public function shouldThrowForInvalidType()
     {
         // given
-        $factory = new QuotableFactory();
+        $factory = new QuotableFactory('');
 
         // then
         $this->expectException(InvalidArgumentException::class);
