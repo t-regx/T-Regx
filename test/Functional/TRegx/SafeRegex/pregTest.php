@@ -125,4 +125,40 @@ class pregTest extends TestCase
         $this->assertEquals('Malformed UTF-8 characters, possibly incorrectly encoded', $message);
         $this->assertEquals('PREG_BAD_UTF8_ERROR', $constant);
     }
+
+    /**
+     * @test
+     */
+    public function shouldQuoteHash()
+    {
+        // when
+        $quoted = preg::quote('Hello # there');
+
+        // then
+        $this->assertEquals('Hello \# there', $quoted);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldQuoteHashWithDelimiter()
+    {
+        // when
+        $quoted = preg::quote('Hello # % there', '%');
+
+        // then
+        $this->assertEquals('Hello \# \% there', $quoted);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldQuoteHashWithHashDelimiter()
+    {
+        // when
+        $quoted = preg::quote('Hello # % there', '#');
+
+        // then
+        $this->assertEquals('Hello \# % there', $quoted);
+    }
 }
