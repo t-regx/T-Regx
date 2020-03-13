@@ -13,11 +13,14 @@ class PrepareFacade
     private $parser;
     /** @var bool */
     private $pcre;
+    /** @var string */
+    private $flags;
 
-    public function __construct(Parser $parser, bool $pcre)
+    public function __construct(Parser $parser, bool $pcre, string $flags)
     {
         $this->parser = $parser;
         $this->pcre = $pcre;
+        $this->flags = $flags;
     }
 
     public function getPattern(): string

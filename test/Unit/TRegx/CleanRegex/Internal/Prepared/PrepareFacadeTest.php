@@ -15,7 +15,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldReturnPattern()
     {
         // given
-        $facade = new PrepareFacade($this->parser('Foo', '/', 'bar'), false);
+        $facade = new PrepareFacade($this->parser('Foo', '/', 'bar'), false, '');
 
         // when
         $pattern = $facade->getPattern();
@@ -30,7 +30,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldReturnPattern_pcre()
     {
         // given
-        $facade = new PrepareFacade($this->parser('/Foo/', '/', 'bar'), true);
+        $facade = new PrepareFacade($this->parser('/Foo/', '/', 'bar'), true, '');
 
         // when
         $pattern = $facade->getPattern();
@@ -45,7 +45,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldParseWithDelimiter()
     {
         // given
-        $facade = new PrepareFacade($this->parser('/#', '%', 'bar'), false);
+        $facade = new PrepareFacade($this->parser('/#', '%', 'bar'), false, '');
 
         // when
         $pattern = $facade->getPattern();
@@ -60,7 +60,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldParseWithDelimiter_pcre()
     {
         // given
-        $facade = new PrepareFacade($this->parser('~Foo~', '~', 'Word'), true);
+        $facade = new PrepareFacade($this->parser('~Foo~', '~', 'Word'), true, '');
 
         // when
         $pattern = $facade->getPattern();
@@ -75,7 +75,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldQuoteParserResult()
     {
         // given
-        $facade = new PrepareFacade($this->parser('Foo /#%', '~', 'HEAD~2'), false);
+        $facade = new PrepareFacade($this->parser('Foo /#%', '~', 'HEAD~2'), false, '');
 
         // when
         $pattern = $facade->getPattern();
@@ -90,7 +90,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldQuoteParserResult_pcre()
     {
         // given
-        $facade = new PrepareFacade($this->parser('~Foo~', '~', 'HEAD~2'), true);
+        $facade = new PrepareFacade($this->parser('~Foo~', '~', 'HEAD~2'), true, '');
 
         // when
         $pattern = $facade->getPattern();

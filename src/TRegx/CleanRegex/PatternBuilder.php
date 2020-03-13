@@ -71,6 +71,6 @@ class PatternBuilder
 
     private function build(Parser $parser, string $flags = ''): PatternInterface
     {
-        return Pattern::pcre((new PrepareFacade($parser, $this->pcre))->getPattern() . $flags);
+        return Pattern::pcre((new PrepareFacade($parser, $this->pcre, ''))->getPattern() . $flags);
     }
 }

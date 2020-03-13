@@ -19,7 +19,7 @@ class PrepareFacadeTest extends TestCase
     public function test_alternation_empty(Parser $parser)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false))->getPattern();
+        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
         $this->assertEquals('/Either 5\/6 or  :)/', $pattern);
@@ -42,7 +42,7 @@ class PrepareFacadeTest extends TestCase
     public function test_alternation_triple(Parser $parser)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false))->getPattern();
+        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
         $this->assertEquals('/Either 5\/6 or 6\/7|7\/8|8\/9 :)/', $pattern);
@@ -65,7 +65,7 @@ class PrepareFacadeTest extends TestCase
     public function test_alternation_quote_delimiters(Parser $parser)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false))->getPattern();
+        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
         $this->assertEquals('%Either /# 5\% :)%', $pattern);
@@ -88,7 +88,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldThrow_onInvalidInput_array(Parser $parser)
     {
         // given
-        $facade = new PrepareFacade($parser, false);
+        $facade = new PrepareFacade($parser, false, '');
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -115,7 +115,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldThrow_onInvalidInput_integer(Parser $parser)
     {
         // given
-        $facade = new PrepareFacade($parser, false);
+        $facade = new PrepareFacade($parser, false, '');
 
         // then
         $this->expectException(InvalidArgumentException::class);

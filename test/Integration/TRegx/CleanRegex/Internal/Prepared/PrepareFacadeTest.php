@@ -19,7 +19,7 @@ class PrepareFacadeTest extends TestCase
     public function test_standard(Parser $parser)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false))->getPattern();
+        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
         $this->assertEquals('/(I|We) want: User \(input\) :)/', $pattern);
@@ -43,7 +43,7 @@ class PrepareFacadeTest extends TestCase
     public function test_empty(Parser $parser)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false))->getPattern();
+        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
         $this->assertEquals('//', $pattern);
@@ -68,7 +68,7 @@ class PrepareFacadeTest extends TestCase
     public function test_ignoresPcre(Parser $parser, string $expected)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false))->getPattern();
+        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
         $this->assertEquals($expected, $pattern);
@@ -95,7 +95,7 @@ class PrepareFacadeTest extends TestCase
     public function test_onlyUserInput(Parser $parser)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false))->getPattern();
+        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
         $this->assertEquals('/%/', $pattern);
@@ -118,7 +118,7 @@ class PrepareFacadeTest extends TestCase
     public function test_quotesDelimiters(Parser $parser)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false))->getPattern();
+        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
         $this->assertEquals('%With delimiters / #Using / delimiters and \% :D%', $pattern);
@@ -141,7 +141,7 @@ class PrepareFacadeTest extends TestCase
     public function test_whitespace(Parser $parser)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false))->getPattern();
+        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
         $this->assertEquals('/(I|We) want: User \(input\)User \(input_2\)/', $pattern);
@@ -168,7 +168,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldIgnoreBindPlaceholders(Parser $parser, string $expected)
     {
         // given
-        $facade = new PrepareFacade($parser, false);
+        $facade = new PrepareFacade($parser, false, '');
 
         // when
         $pattern = $facade->getPattern();
@@ -216,7 +216,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldThrow_onInvalidInput(Parser $parser, string $message)
     {
         // given
-        $facade = new PrepareFacade($parser, false);
+        $facade = new PrepareFacade($parser, false, '');
 
         // then
         $this->expectException(InvalidArgumentException::class);
