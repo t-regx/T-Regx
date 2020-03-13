@@ -12,9 +12,28 @@ Incoming in 0.9.5
 
       as `iterate()` was only needed as a substitute for `forEach()`, pre PHP 7, where methods couldn't be named with keywords.
     * Renamed:
-       - `pattern()->match()->forFirst()` to `findFirst()` #70 
+       - `pattern()->match()->forFirst()` to `findFirst()` #70
+* Enhancements:
+   * When every of the automatic delimiters is exhausted (`/`, `#`, `%`, `~`, etc.), character
+     `0x01` is used (provided that it's not used anywhere else in the pattern). #71
 * Features
    * Added `match()->group()->findFirst()` #22 #70
+   * Added alternating groups in prepared patterns 🔥
+       - `Pattern::bind()`, `Pattern::inject()` and `Pattern::prepare()` still receive `string` (as an user input),
+       but they also receive `string[]`, which will be treated as a regex alternation group:
+         ```php
+         Pattern::bind('Choice: @values', [
+             'values' => ['apple?', 'orange', 'pear']
+         ]);
+         ```
+         is similar to
+         ```
+         Pattern::of('Choice: (apple\?|orange|pear)')
+         ```
+         Of course `'apple?'` and other values are protected against user-input malformed patterns.
+* Bug fixes:
+   * Previously, we added uniform quoting of `#` character on different PHP versions. Well, sorry to say that, we also
+     made a bug doing that, when `#` was also a delimiter. This bug is fixed now.
 
 Added in 0.9.4
 --------------
