@@ -19,7 +19,7 @@ class AlternationQuotable implements Quoteable
 
     public function quote(string $delimiter): string
     {
-        return \implode('|', $this->getQuoted($delimiter));
+        return '(?:' . \implode('|', $this->getQuoted($delimiter)) . ')';
     }
 
     private function getQuoted(string $delimiter): array

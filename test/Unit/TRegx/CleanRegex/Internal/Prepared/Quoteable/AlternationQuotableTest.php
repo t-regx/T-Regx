@@ -18,7 +18,7 @@ class AlternationQuotableTest extends TestCase
         $result = $quotable->quote('');
 
         // then
-        $this->assertEquals('/\(\)|\^\#\$', $result);
+        $this->assertEquals('(?:/\(\)|\^\#\$)', $result);
     }
 
     /**
@@ -33,7 +33,7 @@ class AlternationQuotableTest extends TestCase
         $result = $quotable->quote('%');
 
         // then
-        $this->assertEquals('a|\%b', $result);
+        $this->assertEquals('(?:a|\%b)', $result);
     }
 
     /**
@@ -48,7 +48,7 @@ class AlternationQuotableTest extends TestCase
         $result = $quotable->quote(''); // or should it throw maybe?
 
         // then
-        $this->assertEquals('a|FOO|c|foo', $result);
+        $this->assertEquals('(?:a|FOO|c|foo)', $result);
     }
 
     /**
@@ -63,7 +63,7 @@ class AlternationQuotableTest extends TestCase
         $result = $quotable->quote('');
 
         // then
-        $this->assertEquals('a|FOO|c', $result);
+        $this->assertEquals('(?:a|FOO|c)', $result);
     }
 
     /**
@@ -78,7 +78,7 @@ class AlternationQuotableTest extends TestCase
         $result = $quotable->quote('');
 
         // then
-        $this->assertEquals('a|b|', $result);
+        $this->assertEquals('(?:a|b|)', $result);
     }
 
     /**
@@ -93,7 +93,7 @@ class AlternationQuotableTest extends TestCase
         $result = $quotable->quote('');
 
         // then
-        $this->assertEquals('\|| |0', $result);
+        $this->assertEquals('(?:\|| |0)', $result);
     }
 
     private function identity(): callable

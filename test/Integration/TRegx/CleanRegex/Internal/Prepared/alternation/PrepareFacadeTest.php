@@ -22,7 +22,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
-        $this->assertEquals('/Either 5\/6 or  :)/', $pattern);
+        $this->assertEquals('/Either 5\/6 or (?:) :)/', $pattern);
     }
 
     public function alternation_empty(): array
@@ -45,7 +45,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
-        $this->assertEquals('/Either 5\/6 or 6\/7|7\/8|8\/9 :)/', $pattern);
+        $this->assertEquals('/Either 5\/6 or (?:6\/7|7\/8|8\/9) :)/', $pattern);
     }
 
     public function alternation_triple(): array
@@ -68,7 +68,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
-        $this->assertEquals('%Either /# 5\% :)%', $pattern);
+        $this->assertEquals('%Either /# (?:5\%) :)%', $pattern);
     }
 
     public function delimiters(): array

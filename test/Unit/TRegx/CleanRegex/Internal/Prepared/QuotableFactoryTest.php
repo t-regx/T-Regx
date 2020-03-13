@@ -34,7 +34,7 @@ class QuotableFactoryTest extends TestCase
         $quoteable = $factory->quotable(['first 1%', 'second 2%']);
 
         // then
-        $this->assertEquals('first 1\%|second 2\%', $quoteable->quote('%'));
+        $this->assertEquals('(?:first 1\%|second 2\%)', $quoteable->quote('%'));
     }
 
     /**
@@ -58,10 +58,10 @@ class QuotableFactoryTest extends TestCase
     public function arrayDuplicatesByFlags(): array
     {
         return [
-            ['UI', 'FOO|foo|PIęć|pięć|Żółć|ŻÓŁĆ'],
-            ['mu', 'FOO|foo|PIęć|pięć|Żółć|ŻÓŁĆ'],
-            ['im', 'FOO|PIęć|Żółć|ŻÓŁĆ'],
-            ['uim', 'FOO|PIęć|Żółć'],
+            ['UI', '(?:FOO|foo|PIęć|pięć|Żółć|ŻÓŁĆ)'],
+            ['mu', '(?:FOO|foo|PIęć|pięć|Żółć|ŻÓŁĆ)'],
+            ['im', '(?:FOO|PIęć|Żółć|ŻÓŁĆ)'],
+            ['uim', '(?:FOO|PIęć|Żółć)'],
         ];
     }
 
