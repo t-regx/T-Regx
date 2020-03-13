@@ -88,7 +88,7 @@ class GroupLimit implements PatternLimit
     {
         $matches = $this->allFactory->getAllForGroup();
         if ($limit < 0) {
-            throw new InvalidArgumentException("Negative limit $limit");
+            throw new InvalidArgumentException("Negative limit: $limit");
         }
         return \array_slice($matches->getGroupTexts($this->nameOrIndex), 0, $limit);
     }

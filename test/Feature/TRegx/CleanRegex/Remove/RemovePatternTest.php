@@ -49,7 +49,7 @@ class RemovePatternTest extends TestCase
     {
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Negative limit -2');
+        $this->expectExceptionMessage('Negative limit: -2');
 
         // when
         pattern('\d+')->remove('My ip is 192.168.2.14')->only(-2);

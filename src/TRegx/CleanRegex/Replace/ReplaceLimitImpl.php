@@ -26,7 +26,7 @@ class ReplaceLimitImpl implements ReplaceLimit
     public function only(int $limit): ReplacePattern
     {
         if ($limit < 0) {
-            throw new InvalidArgumentException("Negative limit $limit");
+            throw new InvalidArgumentException("Negative limit: $limit");
         }
         return \call_user_func($this->patternFactory, $limit);
     }

@@ -50,7 +50,7 @@ class ReplacePatternTest extends TestCase
     {
         // given
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Negative limit -1");
+        $this->expectExceptionMessage("Negative limit: -1");
 
         // when
         pattern('')->replace('')->only(-1);

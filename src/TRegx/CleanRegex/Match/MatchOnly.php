@@ -25,7 +25,7 @@ class MatchOnly
     public function get(): array
     {
         if ($this->limit < 0) {
-            throw new InvalidArgumentException("Negative limit $this->limit");
+            throw new InvalidArgumentException("Negative limit: $this->limit");
         }
         if ($this->limit === 0) {
             $this->validatePattern();

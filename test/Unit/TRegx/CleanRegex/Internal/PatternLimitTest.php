@@ -45,7 +45,7 @@ class PatternLimitTest extends TestCase
     {
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Negative limit -2');
+        $this->expectExceptionMessage('Negative limit: -2');
 
         // when
         $limit->only(-2);

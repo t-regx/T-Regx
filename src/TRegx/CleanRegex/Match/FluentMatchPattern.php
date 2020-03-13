@@ -37,7 +37,7 @@ class FluentMatchPattern implements MatchPatternInterface
     public function only(int $limit): array
     {
         if ($limit < 0) {
-            throw new InvalidArgumentException("Negative limit $limit");
+            throw new InvalidArgumentException("Negative limit: $limit");
         }
         return \array_slice($this->elements, 0, $limit);
     }

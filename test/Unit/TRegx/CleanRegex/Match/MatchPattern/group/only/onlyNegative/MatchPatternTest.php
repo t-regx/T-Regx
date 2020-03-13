@@ -19,7 +19,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Negative limit -2');
+        $this->expectExceptionMessage('Negative limit: -2');
 
         // when
         $pattern->group('two')->only(-2);
@@ -35,7 +35,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Negative limit -2');
+        $this->expectExceptionMessage('Negative limit: -2');
 
         // when
         $pattern->group('hour')->only(-2);
@@ -51,7 +51,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Negative limit -2');
+        $this->expectExceptionMessage('Negative limit: -2');
 
         // when
         $pattern->group('two')->only(-2);

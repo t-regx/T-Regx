@@ -25,7 +25,7 @@ class MatchOffsetLimitAll
             throw new NonexistentGroupException($this->nameOrIndex);
         }
         if (!$allowNegative && $limit < 0) {
-            throw new InvalidArgumentException("Negative limit $limit");
+            throw new InvalidArgumentException("Negative limit: $limit");
         }
         return $matches->getLimitedGroupOffsets($this->nameOrIndex, $limit);
     }

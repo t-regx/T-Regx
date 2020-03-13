@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Remove;
 
-use TRegx\CleanRegex\Internal\PatternLimit;
 use InvalidArgumentException;
+use TRegx\CleanRegex\Internal\PatternLimit;
 use function call_user_func;
 
 class RemoveLimit implements PatternLimit
@@ -28,7 +28,7 @@ class RemoveLimit implements PatternLimit
     public function only(int $limit): string
     {
         if ($limit < 0) {
-            throw new InvalidArgumentException("Negative limit $limit");
+            throw new InvalidArgumentException("Negative limit: $limit");
         }
         return call_user_func($this->patternFactory, $limit);
     }
