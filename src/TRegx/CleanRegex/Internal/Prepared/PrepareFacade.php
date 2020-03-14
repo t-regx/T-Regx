@@ -26,7 +26,7 @@ class PrepareFacade
     public function getPattern(): string
     {
         $delimiterer = new Delimiterer($this->strategy(function (string $delimiter) {
-            return $this->parser->parse($delimiter, new QuotableFactory(''))->quote($delimiter);
+            return $this->parser->parse($delimiter, new QuotableFactory($this->flags))->quote($delimiter);
         }));
         return $delimiterer->delimiter($this->parser->getDelimiterable());
     }

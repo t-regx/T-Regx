@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
+use TRegx\DataProvider\DataProviders;
 
 class PrepareFacadeTest extends TestCase
 {
@@ -28,8 +29,8 @@ class PrepareFacadeTest extends TestCase
     public function alternation_empty(): array
     {
         return [
-            'bind @' => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => []])],
-            'inject #' => [new InjectParser('Either @ or @ :)', ['5/6', []])],
+            'bind @'     => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => []])],
+            'inject #'   => [new InjectParser('Either @ or @ :)', ['5/6', []])],
             'prepare []' => [new PreparedParser(['Either ', ['5/6'], ' or ', [[]], ' :)'])],
         ];
     }
@@ -51,8 +52,8 @@ class PrepareFacadeTest extends TestCase
     public function alternation_triple(): array
     {
         return [
-            'bind @' => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => ['6/7', '7/8', '8/9']])],
-            'inject #' => [new InjectParser('Either @ or @ :)', ['5/6', ['6/7', '7/8', '8/9']])],
+            'bind @'     => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => ['6/7', '7/8', '8/9']])],
+            'inject #'   => [new InjectParser('Either @ or @ :)', ['5/6', ['6/7', '7/8', '8/9']])],
             'prepare []' => [new PreparedParser(['Either ', ['5/6'], ' or ', [['6/7', '7/8', '8/9']], ' :)'])],
         ];
     }
@@ -74,8 +75,8 @@ class PrepareFacadeTest extends TestCase
     public function delimiters(): array
     {
         return [
-            'bind @' => [new BindingParser('Either /# @one :)', ['one' => ['5%']])],
-            'inject #' => [new InjectParser('Either /# @ :)', [['5%']])],
+            'bind @'     => [new BindingParser('Either /# @one :)', ['one' => ['5%']])],
+            'inject #'   => [new InjectParser('Either /# @ :)', [['5%']])],
             'prepare []' => [new PreparedParser(['Either /# ', [['5%']], ' :)'])],
         ];
     }
@@ -101,8 +102,8 @@ class PrepareFacadeTest extends TestCase
     public function invalidInputs_arrays(): array
     {
         return [
-            'bind @' => [new BindingParser('@a@b@c', ['a' => '', 'b' => '', 'c' => ['', []]])],
-            'inject #' => [new InjectParser('@@@', ['', '', ['', []]])],
+            'bind @'      => [new BindingParser('@a@b@c', ['a' => '', 'b' => '', 'c' => ['', []]])],
+            'inject #'    => [new InjectParser('@@@', ['', '', ['', []]])],
             'prepared []' => [new InjectParser('@@@', ['', '', ['', []]])],
         ];
     }
@@ -125,11 +126,50 @@ class PrepareFacadeTest extends TestCase
         $facade->getPattern();
     }
 
+    /**
+     * @test
+     * @dataProvider flagsAndAlternationResults
+     * @param Parser $parser
+     * @param string $flags
+     * @param string $expected
+     */
+    public function shouldRemoveAlternationDuplicatesBasedOnFlags(Parser $parser, string $flags, string $expected)
+    {
+        // given
+        $facade = new PrepareFacade($parser, false, $flags);
+
+        // when
+        $pattern = $facade->getPattern();
+
+        // then
+        $this->assertEquals("/(?:$expected)/", $pattern);
+    }
+
+    public function flagsAndAlternationResults(): array
+    {
+        $values = ['Foo', 'foo', 'łóżko', 'ŁÓŻKO'];
+        return DataProviders::builder()
+            ->addSection(
+                new BindingParser('@a', ['a' => $values]),
+                new InjectParser('@', [$values]),
+                new PreparedParser([[$values]])
+            )
+            ->addJoinedSection(
+                ['i', 'Foo|łóżko|ŁÓŻKO'],
+                ['ui', 'Foo|łóżko']
+            )
+            ->entryKeyMapper(function (array $keys) {
+                [$parser, $flags] = $keys;
+                return ['bind', 'inject', 'prepared'][$parser] . ', ' . ['i', 'ui'][$flags];
+            })
+            ->build();
+    }
+
     public function invalidInputs_integers(): array
     {
         return [
-            'bind @' => [new BindingParser('@a@b@c', ['a' => '', 'b' => '', 'c' => ['', 4]])],
-            'inject #' => [new InjectParser('@@@', ['', '', ['', 4]])],
+            'bind @'      => [new BindingParser('@a@b@c', ['a' => '', 'b' => '', 'c' => ['', 4]])],
+            'inject #'    => [new InjectParser('@@@', ['', '', ['', 4]])],
             'prepared []' => [new PreparedParser(['', '', [['', 4]]])]
         ];
     }
