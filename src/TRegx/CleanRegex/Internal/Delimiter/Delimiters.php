@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Delimiter;
 class Delimiters
 {
     /** @var array */
-    private static $validDelimiters = ['/', '#', '%', '~', '+', '!', '@', '_', ';', '`', '-', '=', ','];
+    private static $validDelimiters = ['/', '#', '%', '~', '+', '!', '@', '_', ';', '`', '-', '=', ',', "\1"];
 
     public function getDelimiters(): array
     {

@@ -26,6 +26,7 @@ class DelimitererTest extends TestCase
             ['s~i/e#++m%a!@_;`'],
             ['s~i/e#++m%a!@_;`-'],
             ['s~i/e#++m%a!@_;==`-'],
+            ['s~i/e#++m%a!@_;==`-,'],
 
             // Closable characters should not be treated as delimiters
             ['[foo]'],
@@ -64,6 +65,6 @@ class DelimitererTest extends TestCase
         $this->expectException(ExplicitDelimiterRequiredException::class);
 
         // when
-        $delimiterer->delimiter('s~i/e#++m%a!@*`_-;=,');
+        $delimiterer->delimiter('s~i/e#++m%a!@*`_-;=,' . chr(1));
     }
 }
