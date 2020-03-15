@@ -36,6 +36,8 @@ interface MatchPatternInterface
      */
     public function map(callable $mapper);
 
+    public function asInt(): FluentMatchPattern;
+
     /**
      * @param callable $mapper
      * @return MatchPatternInterface|array

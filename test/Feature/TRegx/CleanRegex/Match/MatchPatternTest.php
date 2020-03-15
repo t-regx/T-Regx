@@ -412,10 +412,25 @@ class MatchPatternTest extends TestCase
         $subject = "I’ll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.";
 
         // when
-        $integers = pattern('\d+')->match($subject)->asInt();
+        $integers = pattern('\d+')->match($subject)->asInt()->all();
 
         // then
         $this->assertSame([9, 9, 6, 7, 45], $integers);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFirstMatch_asInt()
+    {
+        // given
+        $subject = "I’ll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.";
+
+        // when
+        $integer = pattern('\d+')->match($subject)->asInt()->first();
+
+        // then
+        $this->assertSame(9, $integer);
     }
 
     /**

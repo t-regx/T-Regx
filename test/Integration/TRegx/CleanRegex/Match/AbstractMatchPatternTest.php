@@ -17,7 +17,7 @@ class AbstractMatchPatternTest extends TestCase
         $pattern = new MatchPattern(InternalPattern::pcre('/\d+/'), 'Foo 1 Bar 34 Lorem 42 Ipsum');
 
         // when
-        $integers = $pattern->asInt();
+        $integers = $pattern->asInt()->all();
 
         // then
         $this->assertSame([1, 34, 42], $integers);
