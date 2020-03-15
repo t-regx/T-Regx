@@ -1,10 +1,10 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\map;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\MatchPattern;
-use PHPUnit\Framework\TestCase;
 
 class MatchPatternTest extends TestCase
 {
@@ -35,7 +35,6 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern->map(function (Match $match) use (&$counter, $matches) {
-
             // then
             $this->assertEquals($matches[$counter], $match->text());
             $this->assertEquals($counter++, $match->index());
@@ -54,9 +53,8 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern->map(function () {
-
             // then
-            $this->assertTrue(false, "Failed asserting that map() is not invoked for not matching subject");
+            $this->fail("Failed asserting that map() is not invoked for not matching subject");
         });
 
         // then

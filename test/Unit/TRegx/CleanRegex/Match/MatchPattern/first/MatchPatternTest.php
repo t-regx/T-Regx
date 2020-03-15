@@ -84,7 +84,7 @@ class MatchPatternTest extends TestCase
             // when
             $pattern->first(function () {
                 // then
-                $this->assertTrue(false, 'Failed asserting that first() is not invoked for not matching subject');
+                $this->fail('Failed asserting that first() is not invoked for not matching subject');
             });
         } catch (SubjectNotMatchedException $exception) {
             $this->assertTrue(true);

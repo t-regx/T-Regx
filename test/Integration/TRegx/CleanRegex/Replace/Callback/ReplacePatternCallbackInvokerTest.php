@@ -120,9 +120,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $invoker = new ReplacePatternCallbackInvoker(InternalPattern::pcre('//'), new Subject(''), 0, new DefaultStrategy());
 
         // when
-        $result = $invoker->invoke(function () {
-            $this->assertTrue(false);
-        }, new MatchStrategy());
+        $result = $invoker->invoke([$this, 'fail'], new MatchStrategy());
 
         // then
         $this->assertEquals('', $result);

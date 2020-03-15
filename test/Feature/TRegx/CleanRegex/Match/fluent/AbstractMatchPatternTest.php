@@ -91,7 +91,7 @@ class AbstractMatchPatternTest extends TestCase
             ->match("Bar")
             ->fluent()
             ->findFirst(function (Match $match) {
-                $this->assertTrue(false);
+                $this->fail();
             })
             ->orThrow();
     }
@@ -110,7 +110,7 @@ class AbstractMatchPatternTest extends TestCase
             ->match("Bar")
             ->fluent()
             ->findFirst(function (Match $match) {
-                $this->assertTrue(false);
+                $this->fail();
             })
             ->orThrow(CustomException::class);
     }

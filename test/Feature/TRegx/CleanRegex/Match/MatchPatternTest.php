@@ -100,7 +100,7 @@ class MatchPatternTest extends TestCase
                 return 'Different';
             })
             ->orElse(function () {
-                $this->assertFalse(true);
+                $this->fail();
             });
 
         // then
@@ -116,7 +116,7 @@ class MatchPatternTest extends TestCase
         $value = pattern('[a-z]+')
             ->match('NOT MATCHING')
             ->findFirst(function () {
-                $this->assertFalse(true);
+                $this->fail();
             })
             ->orElse(function (NotMatched $notMatched) {
                 // then
@@ -183,7 +183,7 @@ class MatchPatternTest extends TestCase
             ->match('word')
             ->forEach(function () {
                 // then
-                $this->assertTrue(false, "This shouldn't be invoked");
+                $this->fail("This shouldn't be invoked");
             });
 
         // then
@@ -204,7 +204,7 @@ class MatchPatternTest extends TestCase
             ->match('word')
             ->first(function () {
                 // then
-                $this->assertTrue(false, "This shouldn't be invoked");
+                $this->fail("Failed to assert that first() callback is not invoked for unmatched pattern");
             });
     }
 

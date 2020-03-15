@@ -39,7 +39,7 @@ class MatchPatternTest extends TestCase
         // when
         $pattern->forEach(function () {
             // then
-            $this->assertTrue(false, 'Failed asserting that first() is not invoked for not matching subject');
+            $this->fail('Failed asserting that first() is not invoked for not matching subject');
         });
 
         // then

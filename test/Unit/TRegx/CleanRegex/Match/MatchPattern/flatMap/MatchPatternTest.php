@@ -1,11 +1,11 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\flatMap;
 
+use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\MatchPattern;
-use PHPUnit\Framework\TestCase;
 
 class MatchPatternTest extends TestCase
 {
@@ -84,7 +84,7 @@ class MatchPatternTest extends TestCase
         // when
         $pattern->flatMap(function () {
             // then
-            $this->assertTrue(false, "Failed asserting that flatMap() is not invoked for not matching subject");
+            $this->fail("Failed asserting that flatMap() is not invoked for not matching subject");
         });
 
         // then
