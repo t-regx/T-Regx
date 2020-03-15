@@ -56,6 +56,7 @@ class IntegerTest extends TestCase
             ["\n1"],
             ['  '],
             [''],
+            ['+'],
             ['-'],
             ['1-1'],
             ['1 1'],
