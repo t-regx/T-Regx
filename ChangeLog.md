@@ -4,7 +4,25 @@ T-Regx Changelog
 Incoming in 0.9.6
 -----------------
 
-* Soon
+* Features:
+    * Added `pattern()->match()->asInt()` which can be then chained with any `match()` method:
+       - for `match()->all()`, there's `match()->asInt()->all()` which returns an array of integers
+       - for `match()->first()`, there's `match()->asInt()->first()` which returns an integer
+
+      Any `match()` method can be chained after `asInt()`:
+        - `all(): array;`
+        - `only(int $limit): array;`
+        - `first(callable $consumer = null);`
+        - `forEach(callable $consumer): void;`
+        - `findFirst(callable $consumer): Optional;`
+        - `count(): int;`
+        - `iterator(): \Iterator;`
+        - `map(callable $mapper);`
+        - `flatMap(callable $mapper);`
+        - `distinct();`
+        - `filter(callable $predicate);`
+
+      Callbacks passed to `first()`/`forEach()`/etc. receive `int`.
 
 Added in 0.9.5
 --------------
