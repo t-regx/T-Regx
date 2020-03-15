@@ -2,11 +2,14 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
+use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 class FluentMatchPatternTest extends TestCase
@@ -262,6 +265,36 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldMapMatchesToIntegers()
+    {
+        // given
+        $pattern = new FluentMatchPattern(['a' => $this->match(9), 'b' => $this->match(10)], $this->mock());
+
+        // when
+        $integers = $pattern->asInt()->all();
+
+        // then
+        $this->assertSame(['a' => 9, 'b' => 10], $integers);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMapMatchGroupsToIntegers()
+    {
+        // given
+        $pattern = new FluentMatchPattern(['a' => $this->matchGroup(9), 'b' => $this->matchGroup(10)], $this->mock());
+
+        // when
+        $integers = $pattern->asInt()->all();
+
+        // then
+        $this->assertSame(['a' => 9, 'b' => 10], $integers);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowForNonStringAndNonInt()
     {
         // given
@@ -321,6 +354,22 @@ class FluentMatchPatternTest extends TestCase
     {
         /** @var NotMatchedWorker $mockObject */
         $mockObject = $this->createMock(NotMatchedWorker::class);
+        return $mockObject;
+    }
+
+    private function match(int $value): Match
+    {
+        /** @var Match|MockObject $mockObject */
+        $mockObject = $this->createMock(Match::class);
+        $mockObject->method('toInt')->willReturn($value);
+        return $mockObject;
+    }
+
+    private function matchGroup(int $value): MatchGroup
+    {
+        /** @var MatchGroup|MockObject $mockObject */
+        $mockObject = $this->createMock(MatchGroup::class);
+        $mockObject->method('toInt')->willReturn($value);
         return $mockObject;
     }
 }

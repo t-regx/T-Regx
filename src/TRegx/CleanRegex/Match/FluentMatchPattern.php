@@ -12,6 +12,8 @@ use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
+use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
 use TRegx\CleanRegex\Match\FindFirst\NotMatchedFluentOptional;
 use TRegx\CleanRegex\Match\FindFirst\Optional;
@@ -115,7 +117,10 @@ class FluentMatchPattern implements MatchPatternInterface
     {
         return $this->map(function ($value) {
             if (\is_int($value)) {
-                return (int)$value;
+                return $value;
+            }
+            if ($value instanceof Match || $value instanceof MatchGroup) {
+                return $value->toInt();
             }
             if (!\is_string($value)) {
                 throw FluentMatchPatternException::forInvalidInteger($value);
