@@ -2,7 +2,6 @@
 namespace Test\Feature\TRegx\CleanRegex\PatternBuilder\builder;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PatternBuilder;
 
 class PatternBuilderTest extends TestCase

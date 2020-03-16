@@ -64,7 +64,7 @@ class ReplacePatternImplTest extends TestCase
      */
     public function mock(string $result = null): SpecificReplacePattern
     {
-        /** @var SpecificReplacePattern $delegate */
+        /** @var SpecificReplacePattern|MockObject $delegate */
         $delegate = $this->createMock(SpecificReplacePattern::class);
         $delegate->method('with')->willReturn($result ?? '');
         return $delegate;

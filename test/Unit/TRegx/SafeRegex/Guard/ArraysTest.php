@@ -3,12 +3,6 @@ namespace Test\Unit\TRegx\SafeRegex\Guard;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Guard\Arrays;
-use function array_diff_assoc;
-use function array_diff_assoc as array_diff_assoc1;
-use function array_intersect;
-use function array_intersect as array_intersect1;
-use function array_unique;
-use function array_unique as array_unique1;
 
 class ArraysTest extends TestCase
 {
