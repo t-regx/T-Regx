@@ -9,7 +9,6 @@ use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
-use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
@@ -25,7 +24,7 @@ class FluentMatchPattern implements MatchPatternInterface
     /** @var NotMatchedFluentOptionalWorker */
     private $worker;
 
-    public function __construct(array $elements, NotMatchedWorker $worker)
+    public function __construct(array $elements, NotMatchedFluentOptionalWorker $worker)
     {
         $this->elements = $elements;
         $this->worker = $worker;

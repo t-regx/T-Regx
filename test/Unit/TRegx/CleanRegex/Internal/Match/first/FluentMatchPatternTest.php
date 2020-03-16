@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\first;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
-use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
+use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 class FluentMatchPatternTest extends TestCase
@@ -71,10 +71,10 @@ class FluentMatchPatternTest extends TestCase
         });
     }
 
-    private function mock(): NotMatchedWorker
+    private function mock(): NotMatchedFluentOptionalWorker
     {
-        /** @var NotMatchedWorker $mockObject */
-        $mockObject = $this->createMock(NotMatchedWorker::class);
+        /** @var NotMatchedFluentOptionalWorker $mockObject */
+        $mockObject = $this->createMock(NotMatchedFluentOptionalWorker::class);
         return $mockObject;
     }
 }

@@ -6,7 +6,6 @@ use Test\Feature\TRegx\CleanRegex\Replace\by\group\CustomException;
 use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
-use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 class FluentMatchPatternTest extends TestCase
@@ -112,8 +111,8 @@ class FluentMatchPatternTest extends TestCase
         $pattern->findFirst('strtoupper')->orThrow(CustomException::class);
     }
 
-    private function worker(): NotMatchedWorker
+    private function worker(): NotMatchedFluentOptionalWorker
     {
-        return new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), 'asd');
+        return new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), 'foo bar');
     }
 }
