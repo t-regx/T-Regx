@@ -1,4 +1,4 @@
-<p align="center"><a href="https://t-regx.com"><img src="t.regx.png"></a></p>
+<p align="center"><a href="https://t-regx.com"><img src="t.regx.png" alt="T-Regx"></a></p>
 
 # T-Regx | Powerful Regular Expressions library
 
