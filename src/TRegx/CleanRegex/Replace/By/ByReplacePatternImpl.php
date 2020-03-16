@@ -56,7 +56,7 @@ class ByReplacePatternImpl implements ByReplacePattern
         return $this->replace($map, new DefaultStrategy());
     }
 
-    public function replace(array $map, ReplaceSubstitute $substitute): string
+    private function replace(array $map, ReplaceSubstitute $substitute): string
     {
         return $this->fallbackReplacer->replaceOrFallback(
             0,
