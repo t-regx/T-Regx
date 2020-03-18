@@ -12,4 +12,9 @@ class IntegerFormatException extends PatternException
     {
         return new self("Expected to parse '$value', but it is not a valid integer");
     }
+
+    public static function forFluent(string $value): IntegerFormatException
+    {
+        return new self("Expected to parse fluent element '$value', but it is not a valid integer");
+    }
 }
