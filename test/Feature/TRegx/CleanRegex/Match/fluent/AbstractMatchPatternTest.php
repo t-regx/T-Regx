@@ -39,6 +39,27 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldFluent_filterNth()
+    {
+        // when
+        $result = pattern("\w+")
+            ->match("Lorem ipsum dolor emet")
+            ->fluent()
+            ->filter(function (Match $match) {
+                return !in_array($match->text(), ['Lorem', 'ipsum']);
+            })
+            ->map(function (Match $match) {
+                return $match->text();
+            })
+            ->nth(1);
+
+        // then
+        $this->assertEquals('emet', $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldFluent_passUserData()
     {
         // given

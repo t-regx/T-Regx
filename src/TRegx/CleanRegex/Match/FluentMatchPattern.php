@@ -8,6 +8,8 @@ use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
+use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
+use TRegx\CleanRegex\Internal\Exception\Messages\NoSuchElementFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
@@ -16,18 +18,19 @@ use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
 use TRegx\CleanRegex\Match\FindFirst\NotMatchedFluentOptional;
 use TRegx\CleanRegex\Match\FindFirst\Optional;
+use TRegx\CleanRegex\Match\FindNth\NotMatchedFluentNthOptional;
 
 class FluentMatchPattern implements MatchPatternInterface
 {
     /** @var array */
     private $elements;
     /** @var NotMatchedFluentOptionalWorker */
-    private $worker;
+    private $firstWorker;
 
-    public function __construct(array $elements, NotMatchedFluentOptionalWorker $worker)
+    public function __construct(array $elements, NotMatchedFluentOptionalWorker $firstWorker)
     {
         $this->elements = $elements;
-        $this->worker = $worker;
+        $this->firstWorker = $firstWorker;
     }
 
     public function all(): array
@@ -60,9 +63,33 @@ class FluentMatchPattern implements MatchPatternInterface
     public function findFirst(callable $consumer): Optional
     {
         if (empty($this->elements)) {
-            return new NotMatchedFluentOptional($this->worker);
+            return new NotMatchedFluentOptional($this->firstWorker);
         }
         return new MatchedOptional($consumer(\reset($this->elements)));
+    }
+
+    public function nth(int $index)
+    {
+        if ($index < 0) {
+            throw new InvalidArgumentException("Negative index: $index");
+        }
+        $elements = \array_values($this->elements);
+        if (\array_key_exists($index, $elements)) {
+            return $elements[$index];
+        }
+        throw NoSuchElementFluentException::withMessage(new NoSuchElementFluentMessage($index, \count($elements)));
+    }
+
+    public function findNth(int $index): Optional
+    {
+        if ($index < 0) {
+            throw new InvalidArgumentException("Negative index: $index");
+        }
+        $elements = \array_values($this->elements);
+        if (\array_key_exists($index, $elements)) {
+            return new MatchedOptional($elements[$index]);
+        }
+        return new NotMatchedFluentNthOptional(new NotMatchedFluentOptionalWorker(new NoSuchElementFluentMessage($index, \count($elements))));
     }
 
     public function forEach(callable $consumer): void
@@ -147,6 +174,6 @@ class FluentMatchPattern implements MatchPatternInterface
 
     private function next(array $elements): FluentMatchPattern
     {
-        return new FluentMatchPattern($elements, $this->worker);
+        return new FluentMatchPattern($elements, $this->firstWorker);
     }
 }
