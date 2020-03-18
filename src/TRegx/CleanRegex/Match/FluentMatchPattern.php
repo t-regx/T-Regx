@@ -68,14 +68,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function nth(int $index)
     {
-        if ($index < 0) {
-            throw new InvalidArgumentException("Negative index: $index");
-        }
-        $elements = \array_values($this->elements);
-        if (\array_key_exists($index, $elements)) {
-            return $elements[$index];
-        }
-        throw NoSuchElementFluentException::withMessage(new NoSuchElementFluentMessage($index, \count($elements)));
+        return $this->findNth($index)->orThrow();
     }
 
     public function findNth(int $index): Optional
