@@ -3,7 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex\Match\fluent;
 
 use PHPUnit\Framework\TestCase;
 use Test\Integration\TRegx\CleanRegex\Match\GroupLimitMocks;
-use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
+use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\GroupLimit;
 
@@ -35,7 +35,7 @@ class GroupLimitTest extends TestCase
         $limit = $this->mockGroupLimit([]);
 
         // then
-        $this->expectException(NoFirstElementFluentException::class);
+        $this->expectException(NoSuchElementFluentException::class);
         $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed is empty.');
 
         // when
@@ -54,7 +54,8 @@ class GroupLimitTest extends TestCase
         $limit = $this->mockGroupLimit([]);
 
         // then
-        $this->expectException(NoFirstElementFluentException::class);
+        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed is empty.');
 
         // when
         $chained = $limit->fluent();

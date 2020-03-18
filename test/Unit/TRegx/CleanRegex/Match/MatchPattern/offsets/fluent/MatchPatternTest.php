@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\offsets\fluent;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
+use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 
@@ -32,7 +32,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // then
-        $this->expectException(NoFirstElementFluentException::class);
+        $this->expectException(NoSuchElementFluentException::class);
 
         // when
         $pattern->offsets()->fluent()->findFirst(function () {

@@ -1,8 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Match\FindFirst;
+namespace TRegx\CleanRegex\Match;
 
-use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
+use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
+use TRegx\CleanRegex\Match\FindFirst\Optional;
 
 class NotMatchedFluentOptional implements Optional
 {
@@ -14,7 +15,7 @@ class NotMatchedFluentOptional implements Optional
         $this->worker = $worker;
     }
 
-    public function orThrow(string $exceptionClassName = NoFirstElementFluentException::class): void
+    public function orThrow(string $exceptionClassName = NoSuchElementFluentException::class): void
     {
         throw $this->worker->orThrow($exceptionClassName);
     }

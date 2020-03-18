@@ -7,8 +7,8 @@ use Iterator;
 use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
+use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoSuchElementFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Integer;
@@ -16,9 +16,7 @@ use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
-use TRegx\CleanRegex\Match\FindFirst\NotMatchedFluentOptional;
 use TRegx\CleanRegex\Match\FindFirst\Optional;
-use TRegx\CleanRegex\Match\FindNth\NotMatchedFluentNthOptional;
 
 class FluentMatchPattern implements MatchPatternInterface
 {
@@ -49,12 +47,12 @@ class FluentMatchPattern implements MatchPatternInterface
     /**
      * @param callable|null $consumer
      * @return string|mixed
-     * @throws NoFirstElementFluentException
+     * @throws NoSuchElementFluentException
      */
     public function first(callable $consumer = null)
     {
         if (empty($this->elements)) {
-            throw new NoFirstElementFluentException();
+            throw NoSuchElementFluentException::withMessage(new NoFirstElementFluentMessage());
         }
         $firstElement = \reset($this->elements);
         return $consumer ? $consumer($firstElement) : $firstElement;
@@ -89,7 +87,7 @@ class FluentMatchPattern implements MatchPatternInterface
         if (\array_key_exists($index, $elements)) {
             return new MatchedOptional($elements[$index]);
         }
-        return new NotMatchedFluentNthOptional(new NotMatchedFluentOptionalWorker(new NoSuchElementFluentMessage($index, \count($elements))));
+        return new NotMatchedFluentOptional(new NotMatchedFluentOptionalWorker(new NoSuchElementFluentMessage($index, \count($elements))));
     }
 
     public function forEach(callable $consumer): void

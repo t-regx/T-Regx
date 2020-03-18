@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\first;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
+use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
@@ -48,7 +48,7 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern([], $this->mock());
 
         // then
-        $this->expectException(NoFirstElementFluentException::class);
+        $this->expectException(NoSuchElementFluentException::class);
 
         // when
         $pattern->first();
@@ -63,7 +63,7 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern([], $this->mock());
 
         // then
-        $this->expectException(NoFirstElementFluentException::class);
+        $this->expectException(NoSuchElementFluentException::class);
 
         // when
         $pattern->first(function () {

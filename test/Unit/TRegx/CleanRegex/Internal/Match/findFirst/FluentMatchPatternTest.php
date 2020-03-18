@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\findFirst;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
-use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
+use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
@@ -38,7 +38,7 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern([], $this->worker());
 
         // then
-        $this->expectException(NoFirstElementFluentException::class);
+        $this->expectException(NoSuchElementFluentException::class);
         $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed is empty");
 
         // when
