@@ -5,6 +5,7 @@ Incoming in 0.9.6
 -----------------
 
 * Features:
+    * Added `pattern()->match()->fluent()->nth()` used to get an element based on an ordinal number.
     * Added `pattern()->match()->asInt()` which can be then chained with any `match()` method:
        - for `match()->all()`, there's `match()->asInt()->all()` which returns an array of integers
        - for `match()->first()`, there's `match()->asInt()->first()` which returns an integer
