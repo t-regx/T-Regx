@@ -3,8 +3,10 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Switcher\BaseSwitcher;
+use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
@@ -39,6 +41,53 @@ class BaseSwitcherTest extends TestCase
 
         // then
         $this->assertEquals('Joffrey', $first->getText());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFirstThrow_unmatched()
+    {
+        // given
+        $switcher = new BaseSwitcher($this->baseFirstUnmatched());
+
+        // then
+        $this->expectException(NoFirstSwitcherException::class);
+
+        // when
+        $switcher->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAll_returnEmpty_unmatched()
+    {
+        // given
+        $switcher = new BaseSwitcher($this->baseAllUnmatched());
+
+        // when
+        $all = $switcher->all();
+
+        // then
+        $this->assertFalse($all->matched());
+        $this->assertEquals([], $all->getTexts());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFirstThrow_afterAll_unmatched()
+    {
+        // given
+        $switcher = new BaseSwitcher($this->baseAllUnmatched());
+
+        // then
+        $this->expectException(NoFirstSwitcherException::class);
+
+        // when
+        $switcher->all();
+        $switcher->first();
     }
 
     /**
@@ -117,10 +166,20 @@ class BaseSwitcherTest extends TestCase
 
     private function baseBoth(): Base
     {
+        return $this->baseBothWith($this->matchesOffset(), $this->matchOffset());
+    }
+
+    private function baseBothUnmatched(): Base
+    {
+        return $this->baseBothWith(new RawMatchesOffset([[]]), new RawMatchOffset([]));
+    }
+
+    private function baseBothWith(IRawMatchesOffset $matches, IRawMatchOffset $match): Base
+    {
         /** @var Base|MockObject $base */
         $base = $this->createMock(Base::class);
-        $base->expects($this->once())->method('matchAllOffsets')->willReturn($this->matchesOffset());
-        $base->expects($this->once())->method('matchOffset')->willReturn($this->matchOffset());
+        $base->expects($this->once())->method('matchAllOffsets')->willReturn($matches);
+        $base->expects($this->once())->method('matchOffset')->willReturn($match);
         $base->expects($this->never())->method($this->logicalNot($this->logicalOr(
             $this->matches('matchAllOffsets'),
             $this->matches('matchOffset')
@@ -128,20 +187,40 @@ class BaseSwitcherTest extends TestCase
         return $base;
     }
 
+    private function baseAllUnmatched(): Base
+    {
+        return $this->baseAllWith(new RawMatchesOffset([[]]));
+    }
+
     private function baseAll(): Base
+    {
+        return $this->baseAllWith($this->matchesOffset());
+    }
+
+    private function baseAllWith(IRawMatchesOffset $matches): Base
     {
         /** @var Base|MockObject $base */
         $base = $this->createMock(Base::class);
-        $base->expects($this->once())->method('matchAllOffsets')->willReturn($this->matchesOffset());
+        $base->expects($this->once())->method('matchAllOffsets')->willReturn($matches);
         $base->expects($this->never())->method($this->logicalNot($this->matches('matchAllOffsets')));
         return $base;
     }
 
     private function baseFirst(): Base
     {
+        return $this->baseFirstWith($this->matchOffset());
+    }
+
+    private function baseFirstUnmatched(): Base
+    {
+        return $this->baseFirstWith(new RawMatchOffset([]));
+    }
+
+    private function baseFirstWith(IRawMatchOffset $match): Base
+    {
         /** @var Base|MockObject $base */
         $base = $this->createMock(Base::class);
-        $base->expects($this->once())->method('matchOffset')->willReturn($this->matchOffset());
+        $base->expects($this->once())->method('matchOffset')->willReturn($match);
         $base->expects($this->never())->method($this->logicalNot($this->matches('matchOffset')));
         return $base;
     }

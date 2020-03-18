@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Switcher;
 
+use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
@@ -23,20 +24,24 @@ class BaseSwitcher implements Switcher
 
     public function all(): IRawMatchesOffset
     {
-        if ($this->matches === null) {
-            $this->matches = $this->base->matchAllOffsets();
-        }
+        $this->matches = $this->matches ?? $this->base->matchAllOffsets();
         return $this->matches;
     }
 
     public function first(): IRawMatchOffset
     {
-        if ($this->match === null) {
-            if ($this->matches !== null) {
-                return new RawMatchesToMatchAdapter($this->matches, 0);
-            }
-            $this->match = $this->base->matchOffset();
+        $this->match = $this->match ?? $this->getMatch();
+        if ($this->match->matched()) {
+            return $this->match;
         }
-        return $this->match;
+        throw new NoFirstSwitcherException();
+    }
+
+    private function getMatch(): IRawMatchOffset
+    {
+        if ($this->matches !== null) {
+            return new RawMatchesToMatchAdapter($this->matches, 0);
+        }
+        return $this->base->matchOffset();
     }
 }
