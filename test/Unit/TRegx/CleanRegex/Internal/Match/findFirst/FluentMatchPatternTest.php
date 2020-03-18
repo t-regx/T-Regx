@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\findFirst;
 
 use PHPUnit\Framework\TestCase;
-use Test\Feature\TRegx\CleanRegex\Replace\by\group\CustomException;
+use Test\Utils\CustomSubjectException;
 use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
@@ -104,11 +104,11 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern([], $this->worker());
 
         // then
-        $this->expectException(CustomException::class);
+        $this->expectException(CustomSubjectException::class);
         $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed is empty");
 
         // when
-        $pattern->findFirst('strtoupper')->orThrow(CustomException::class);
+        $pattern->findFirst('strtoupper')->orThrow(CustomSubjectException::class);
     }
 
     private function worker(): NotMatchedFluentOptionalWorker

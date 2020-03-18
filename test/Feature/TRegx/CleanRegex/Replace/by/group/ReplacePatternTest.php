@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\by\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\CustomSubjectException;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -96,11 +97,12 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      * @dataProvider groups
+     * @param string|int $nameOrIndex
      */
     public function shouldNotReplace_orThrow($nameOrIndex)
     {
         // then
-        $this->expectException(CustomException::class);
+        $this->expectException(CustomSubjectException::class);
         $this->expectExceptionMessage("Expected to replace with group '$nameOrIndex', but the group was not matched");
 
         // when
@@ -109,7 +111,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group($nameOrIndex)
-            ->orThrow(CustomException::class);
+            ->orThrow(CustomSubjectException::class);
     }
 
     function groups(): array
@@ -301,7 +303,7 @@ class ReplacePatternTest extends TestCase
     public function shouldThrow_custom_notMatchedGroup()
     {
         // then
-        $this->expectException(CustomException::class);
+        $this->expectException(CustomSubjectException::class);
         $this->expectExceptionMessage("Expected to replace with group '1', but the group was not matched");
 
         // when
@@ -310,6 +312,6 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group(1)
-            ->orThrow(CustomException::class);
+            ->orThrow(CustomSubjectException::class);
     }
 }

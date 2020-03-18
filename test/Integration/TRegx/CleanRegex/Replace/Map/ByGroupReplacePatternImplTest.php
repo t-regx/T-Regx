@@ -2,7 +2,7 @@
 namespace Test\Integration\TRegx\CleanRegex\Replace\Map;
 
 use PHPUnit\Framework\TestCase;
-use Test\Feature\TRegx\CleanRegex\Replace\by\group\CustomException;
+use Test\Utils\CustomSubjectException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -57,11 +57,11 @@ class ByReplacePatternImplTest extends TestCase
         $byReplacePattern = $this->create('word(\d+)?', 'word');
 
         // then
-        $this->expectException(CustomException::class);
+        $this->expectException(CustomSubjectException::class);
         $this->expectExceptionMessage("Expected to replace with group '1', but the group was not matched");
 
         // when
-        $byReplacePattern->orThrow(CustomException::class);
+        $byReplacePattern->orThrow(CustomSubjectException::class);
     }
 
     public function create(string $pattern, string $subject): ByGroupReplacePatternImpl

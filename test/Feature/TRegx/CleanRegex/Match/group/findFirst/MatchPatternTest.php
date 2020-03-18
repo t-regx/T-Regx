@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\group\findFirst;
 
 use PHPUnit\Framework\TestCase;
-use Test\Feature\TRegx\CleanRegex\Replace\by\group\CustomException;
+use Test\Utils\CustomSubjectException;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
@@ -118,7 +118,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_unmatchedSubject_customException()
     {
         // then
-        $this->expectException(CustomException::class);
+        $this->expectException(CustomSubjectException::class);
         $this->expectExceptionMessage("Expected to get group '0' from the first match, but subject was not matched at all");
 
         // when
@@ -128,7 +128,7 @@ class MatchPatternTest extends TestCase
             ->findFirst(function () {
                 $this->fail();
             })
-            ->orThrow(CustomException::class);
+            ->orThrow(CustomSubjectException::class);
     }
 
     /**
@@ -137,7 +137,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_unmatchedGroup_customException()
     {
         // then
-        $this->expectException(CustomException::class);
+        $this->expectException(CustomSubjectException::class);
         $this->expectExceptionMessage("Expected to get group 'lowercase' from the first match, but the group was not matched");
 
         // when
@@ -147,7 +147,7 @@ class MatchPatternTest extends TestCase
             ->findFirst(function () {
                 $this->fail();
             })
-            ->orThrow(CustomException::class);
+            ->orThrow(CustomSubjectException::class);
     }
 
     /**

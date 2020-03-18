@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Replace\Map;
 
 use PHPUnit\Framework\TestCase;
-use Test\Feature\TRegx\CleanRegex\Replace\by\group\CustomException;
 use Test\Utils\ComputedMapper;
+use Test\Utils\CustomSubjectException;
 use Test\Utils\NoReplacementMapper;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
@@ -134,14 +134,14 @@ class GroupFallbackReplacerTest extends TestCase
         $fallbackReplacer = $this->create('word:(\d)?', 'word:');
 
         // then
-        $this->expectException(CustomException::class);
+        $this->expectException(CustomSubjectException::class);
         $this->expectExceptionMessage("Expected to replace with group '1', but the group was not matched");
 
         // when
         $fallbackReplacer->replaceOrFallback(
             1,
             new NoReplacementMapper(),
-            new CustomThrowStrategy(CustomException::class, new ReplacementWithUnmatchedGroupMessage(1))
+            new CustomThrowStrategy(CustomSubjectException::class, new ReplacementWithUnmatchedGroupMessage(1))
         );
     }
 
@@ -154,14 +154,14 @@ class GroupFallbackReplacerTest extends TestCase
         $fallbackReplacer = $this->create('foo:(\d)?:(bar)', 'foo::bar');
 
         // then
-        $this->expectException(CustomException::class);
+        $this->expectException(CustomSubjectException::class);
         $this->expectExceptionMessage("Expected to replace with group '1', but the group was not matched");
 
         // when
         $fallbackReplacer->replaceOrFallback(
             1,
             new NoReplacementMapper(),
-            new CustomThrowStrategy(CustomException::class, new ReplacementWithUnmatchedGroupMessage(1))
+            new CustomThrowStrategy(CustomSubjectException::class, new ReplacementWithUnmatchedGroupMessage(1))
         );
     }
 

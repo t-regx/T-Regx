@@ -1,9 +1,9 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\by\group;
+namespace Test\Utils;
 
 use Exception;
 
-class CustomException extends Exception
+class CustomSubjectException extends Exception
 {
     public function __construct(string $message, string $subject)
     {

@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\fluent;
 
 use PHPUnit\Framework\TestCase;
-use Test\Feature\TRegx\CleanRegex\Replace\by\group\CustomException;
+use Test\Utils\CustomSubjectException;
 use TRegx\CleanRegex\Exception\NoFirstElementFluentException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -102,7 +102,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluent_findFirst_orThrow_custom()
     {
         // then
-        $this->expectException(CustomException::class);
+        $this->expectException(CustomSubjectException::class);
         $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed is empty");
 
         // when
@@ -112,6 +112,6 @@ class AbstractMatchPatternTest extends TestCase
             ->findFirst(function (Match $match) {
                 $this->fail();
             })
-            ->orThrow(CustomException::class);
+            ->orThrow(CustomSubjectException::class);
     }
 }
