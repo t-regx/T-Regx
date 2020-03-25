@@ -8,10 +8,11 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 
-class MatchOffsetLimit implements OffsetLimit
+class MatchOffsetLimit implements OffsetLimit, Switcher
 {
     /** @var Base */
     private $base;
@@ -83,6 +84,6 @@ class MatchOffsetLimit implements OffsetLimit
 
     public function fluent(): FluentMatchPattern
     {
-        return new FluentMatchPattern($this->all(), new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage()));
+        return new FluentMatchPattern($this, new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage()));
     }
 }

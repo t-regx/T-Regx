@@ -2,11 +2,13 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\findNth;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
+use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 class FluentMatchPatternTest extends TestCase
@@ -17,7 +19,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFindSecond()
     {
         // given
-        $pattern = new FluentMatchPattern(['a' => 'foo', 'b' => 'bar'], $this->worker());
+        $pattern = new FluentMatchPattern($this->switcher(['a' => 'foo', 'b' => 'bar'], 3), $this->worker());
 
         // when + then
         $this->assertEquals('bar', $pattern->findNth(1)->orReturn('missing'));
@@ -31,7 +33,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFindFirst_throwEmpty()
     {
         // given
-        $pattern = new FluentMatchPattern([], $this->worker());
+        $pattern = new FluentMatchPattern($this->switcher([]), $this->worker());
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -47,7 +49,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFindFirst_orReturn()
     {
         // given
-        $pattern = new FluentMatchPattern([], $this->worker());
+        $pattern = new FluentMatchPattern($this->switcher([]), $this->worker());
 
         // when
         $result = $pattern->findNth(0)->orReturn('otherValue');
@@ -62,7 +64,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFindFirst_orElse()
     {
         // given
-        $pattern = new FluentMatchPattern([], $this->worker());
+        $pattern = new FluentMatchPattern($this->switcher([]), $this->worker());
 
         // when
         $result = $pattern->findNth(0)->orElse(function () {
@@ -79,7 +81,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFindFirst_orElse_notPassArguments()
     {
         // given
-        $pattern = new FluentMatchPattern([], $this->worker());
+        $pattern = new FluentMatchPattern($this->switcher([]), $this->worker());
 
         // when
         $pattern->findNth(0)->orElse(function () {
@@ -97,7 +99,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFindFirst_throwEmpty_custom()
     {
         // given
-        $pattern = new FluentMatchPattern([], $this->worker());
+        $pattern = new FluentMatchPattern($this->switcher([]), $this->worker());
 
         // then
         $this->expectException(CustomException::class);
@@ -113,7 +115,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldReturnNull()
     {
         // given
-        $pattern = new FluentMatchPattern([null], $this->worker());
+        $pattern = new FluentMatchPattern($this->switcher([null]), $this->worker());
 
         // when
         $result = $pattern->findNth(0)->orThrow();
@@ -128,7 +130,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrow_onNegativeIndex()
     {
         // given
-        $pattern = new FluentMatchPattern([], $this->worker());
+        $pattern = new FluentMatchPattern($this->zeroInteraction(), $this->worker());
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -141,5 +143,22 @@ class FluentMatchPatternTest extends TestCase
     private function worker(): NotMatchedFluentOptionalWorker
     {
         return new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), 'foo bar');
+    }
+
+    private function switcher(array $return, int $times = 1): Switcher
+    {
+        /** @var Switcher|MockObject $switcher */
+        $switcher = $this->createMock(Switcher::class);
+        $switcher->expects($this->exactly($times))->method('all')->willReturn($return);
+        $switcher->expects($this->never())->method($this->logicalNot($this->matches('all')));
+        return $switcher;
+    }
+
+    private function zeroInteraction(): Switcher
+    {
+        /** @var Switcher|MockObject $switcher */
+        $switcher = $this->createMock(Switcher::class);
+        $switcher->expects($this->never())->method($this->anything());
+        return $switcher;
     }
 }

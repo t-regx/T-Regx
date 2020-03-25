@@ -1,9 +1,12 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\first;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
+use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
+use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 class FluentMatchPatternTest extends TestCase
@@ -14,7 +17,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $pattern = new FluentMatchPattern(['a' => 'foo', 'b' => 'bar', 6 => 'lorem', 7 => 'ipsum'], $this->mock());
+        $pattern = new FluentMatchPattern($this->firstSwitcher('foo'), $this->worker());
 
         // when
         $result = $pattern->first();
@@ -29,7 +32,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldInvoke_consumer()
     {
         // given
-        $pattern = new FluentMatchPattern(['a' => 'foo', 'b' => 'bar'], $this->mock());
+        $pattern = new FluentMatchPattern($this->firstSwitcher('foo'), $this->worker());
 
         // when
         $pattern->first(function ($value, $key = null) {
@@ -45,7 +48,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrowEmpty()
     {
         // given
-        $pattern = new FluentMatchPattern([], $this->mock());
+        $pattern = new FluentMatchPattern($this->unmatchedMock(), $this->worker());
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -60,7 +63,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrowEmpty_consumer()
     {
         // given
-        $pattern = new FluentMatchPattern([], $this->mock());
+        $pattern = new FluentMatchPattern($this->unmatchedMock(), $this->worker());
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -71,10 +74,28 @@ class FluentMatchPatternTest extends TestCase
         });
     }
 
-    private function mock(): NotMatchedFluentOptionalWorker
+    private function worker(): NotMatchedFluentOptionalWorker
     {
         /** @var NotMatchedFluentOptionalWorker $mockObject */
         $mockObject = $this->createMock(NotMatchedFluentOptionalWorker::class);
         return $mockObject;
+    }
+
+    private function firstSwitcher($return, int $times = 1): Switcher
+    {
+        /** @var Switcher|MockObject $switcher */
+        $switcher = $this->createMock(Switcher::class);
+        $switcher->expects($this->exactly($times))->method('first')->willReturn($return);
+        $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
+        return $switcher;
+    }
+
+    private function unmatchedMock(): Switcher
+    {
+        /** @var Switcher|MockObject $switcher */
+        $switcher = $this->createMock(Switcher::class);
+        $switcher->expects($this->once())->method('first')->willThrowException(new NoFirstSwitcherException());
+        $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
+        return $switcher;
     }
 }

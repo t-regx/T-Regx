@@ -16,6 +16,7 @@ use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\Predicate;
+use TRegx\CleanRegex\Internal\Match\Switcher\ArraySwitcher;
 use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -131,7 +132,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     public function fluent(): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            $this->getMatchObjects(),
+            new ArraySwitcher($this->getMatchObjects()), // TODO fix me
             new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base->getSubject())
         );
     }

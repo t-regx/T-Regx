@@ -28,9 +28,9 @@ class FluentMatchPattern implements MatchPatternInterface
     /** @var NotMatchedFluentOptionalWorker */
     private $firstWorker;
 
-    public function __construct(array $switcher, NotMatchedFluentOptionalWorker $firstWorker)
+    public function __construct(Switcher $switcher, NotMatchedFluentOptionalWorker $firstWorker)
     {
-        $this->switcher = new ArraySwitcher($switcher);
+        $this->switcher = $switcher;
         $this->firstWorker = $firstWorker;
     }
 
@@ -170,6 +170,6 @@ class FluentMatchPattern implements MatchPatternInterface
 
     private function next(array $elements): FluentMatchPattern
     {
-        return new FluentMatchPattern($elements, $this->firstWorker);
+        return new FluentMatchPattern(new ArraySwitcher($elements), $this->firstWorker); // TODO check
     }
 }

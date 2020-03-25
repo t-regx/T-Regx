@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
+use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
@@ -20,7 +21,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $pattern = new FluentMatchPattern(['foo', 'bar'], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['foo', 'bar']), $this->worker());
 
         // when
         $result = $pattern->all();
@@ -35,7 +36,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetOnly()
     {
         // given
-        $pattern = new FluentMatchPattern(['foo', 'bar', 'fail'], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['foo', 'bar', 'fail']), $this->worker());
 
         // when
         $result = $pattern->only(2);
@@ -50,7 +51,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetOnly_overflowing()
     {
         // given
-        $pattern = new FluentMatchPattern(['foo', 'bar'], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['foo', 'bar']), $this->worker());
 
         // when
         $result = $pattern->only(4);
@@ -65,7 +66,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetOnly_throw()
     {
         // given
-        $pattern = new FluentMatchPattern([], $this->mock());
+        $pattern = new FluentMatchPattern($this->zeroInteraction(), $this->worker());
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -81,7 +82,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldIterate()
     {
         // given
-        $pattern = new FluentMatchPattern(['foo', 'bar'], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['foo', 'bar']), $this->worker());
 
         // when
         $result = [];
@@ -99,7 +100,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldCount()
     {
         // given
-        $pattern = new FluentMatchPattern(['foo', 'bar', 'lorem', 'ipsum'], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['foo', 'bar', 'lorem', 'b' => 'ipsum']), $this->worker());
 
         // when
         $result = $pattern->count();
@@ -114,7 +115,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldIterator()
     {
         // given
-        $pattern = new FluentMatchPattern(['foo', 'bar', 'lorem', 'ipsum'], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['foo', 'bar', 'lorem', 'ipsum']), $this->worker());
 
         // when
         $result = $pattern->iterator();
@@ -129,7 +130,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldMap()
     {
         // given
-        $pattern = new FluentMatchPattern(['foo', 'foo', 'bar', 'foo', 'Bar', 'bar'], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['foo', 'foo', 'bar', 'foo', 'Bar', 'bar']), $this->worker());
 
         // when
         $result = $pattern->map('strtoupper')->all();
@@ -144,7 +145,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFlatMap()
     {
         // given
-        $pattern = new FluentMatchPattern(['foo', 'bar'], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['foo', 'bar']), $this->worker());
 
         // when
         $result = $pattern->flatMap('str_split')->all();
@@ -159,7 +160,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFlatMap_throw()
     {
         // given
-        $pattern = new FluentMatchPattern(['foo', 'bar'], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['Foo']), $this->worker());
 
         // then
         $this->expectException(InvalidReturnValueException::class);
@@ -177,7 +178,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFilter()
     {
         // given
-        $pattern = new FluentMatchPattern(['foo', 2, 'bar', 4], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['foo', 2, 'bar', 4]), $this->worker());
 
         // when
         $result = $pattern->filter('is_int')->all();
@@ -192,7 +193,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldUnique()
     {
         // given
-        $pattern = new FluentMatchPattern(['foo', 'foo', 'bar', 'foo', 'Bar', 'bar'], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['foo', 'foo', 'bar', 'foo', 'Bar', 'bar']), $this->worker());
 
         // when
         $result = $pattern->distinct()->all();
@@ -207,7 +208,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetValues()
     {
         // given
-        $pattern = new FluentMatchPattern([10 => 'foo', 20 => 'bar', 30 => 'lorem'], $this->mock());
+        $pattern = new FluentMatchPattern($this->all([10 => 'foo', 20 => 'bar', 30 => 'lorem']), $this->worker());
 
         // when
         $result = $pattern->values()->all();
@@ -222,7 +223,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetKeys()
     {
         // given
-        $pattern = new FluentMatchPattern([10 => 'foo', 20 => 'bar', 30 => 'lorem'], $this->mock());
+        $pattern = new FluentMatchPattern($this->all([10 => 'foo', 20 => 'bar', 30 => 'lorem']), $this->worker());
 
         // when
         $result = $pattern->keys()->all();
@@ -237,7 +238,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldMapToIntegers()
     {
         // given
-        $pattern = new FluentMatchPattern(['a' => '9', '10', 'b' => 11, '100', 'c' => 12], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['a' => '9', '10', 'b' => 11, '100', 'c' => 12]), $this->worker());
 
         // when
         $integers = $pattern->asInt()->all();
@@ -252,7 +253,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrowForInvalidIntegers()
     {
         // given
-        $pattern = new FluentMatchPattern(['9', '10', '--10', '100'], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['9', '10', '--10', '100']), $this->worker());
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -268,7 +269,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldMapMatchesToIntegers()
     {
         // given
-        $pattern = new FluentMatchPattern(['a' => $this->match(9), 'b' => $this->match(10)], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['a' => $this->match(9), 'b' => $this->match(10)]), $this->worker());
 
         // when
         $integers = $pattern->asInt()->all();
@@ -283,7 +284,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldMapMatchGroupsToIntegers()
     {
         // given
-        $pattern = new FluentMatchPattern(['a' => $this->matchGroup(9), 'b' => $this->matchGroup(10)], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['a' => $this->matchGroup(9), 'b' => $this->matchGroup(10)]), $this->worker());
 
         // when
         $integers = $pattern->asInt()->all();
@@ -298,7 +299,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrowForNonStringAndNonInt()
     {
         // given
-        $pattern = new FluentMatchPattern(['9', true], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['9', true]), $this->worker());
 
         // then
         $this->expectException(FluentMatchPatternException::class);
@@ -314,7 +315,8 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGroupBy()
     {
         // given
-        $pattern = new FluentMatchPattern(['Father', 'Mother', 'Maiden', 'Crone', 'Warrior', 'Smith', 'Stranger'], $this->mock());
+        $theSeven = ['Father', 'Mother', 'Maiden', 'Crone', 'Warrior', 'Smith', 'Stranger'];
+        $pattern = new FluentMatchPattern($this->all($theSeven), $this->worker());
 
         // when
         $result = $pattern->groupByCallback(function (string $fucker) {
@@ -338,7 +340,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrowForInvalidGroupByType()
     {
         // given
-        $pattern = new FluentMatchPattern([''], $this->mock());
+        $pattern = new FluentMatchPattern($this->all(['']), $this->worker());
 
         // then
         $this->expectException(InvalidReturnValueException::class);
@@ -350,7 +352,7 @@ class FluentMatchPatternTest extends TestCase
         });
     }
 
-    private function mock(): NotMatchedFluentOptionalWorker
+    private function worker(): NotMatchedFluentOptionalWorker
     {
         /** @var NotMatchedFluentOptionalWorker $mockObject */
         $mockObject = $this->createMock(NotMatchedFluentOptionalWorker::class);
@@ -371,5 +373,22 @@ class FluentMatchPatternTest extends TestCase
         $mockObject = $this->createMock(MatchGroup::class);
         $mockObject->method('toInt')->willReturn($value);
         return $mockObject;
+    }
+
+    private function all(array $return): Switcher
+    {
+        /** @var Switcher|MockObject $switcher */
+        $switcher = $this->createMock(Switcher::class);
+        $switcher->expects($this->once())->method('all')->willReturn($return);
+        $switcher->expects($this->never())->method($this->logicalNot($this->matches('all')));
+        return $switcher;
+    }
+
+    private function zeroInteraction(): Switcher
+    {
+        /** @var Switcher|MockObject $switcher */
+        $switcher = $this->createMock(Switcher::class);
+        $switcher->expects($this->never())->method($this->anything());
+        return $switcher;
     }
 }

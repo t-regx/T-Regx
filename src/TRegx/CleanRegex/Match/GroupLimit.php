@@ -15,6 +15,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\Switcher\ArraySwitcher;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
@@ -130,7 +131,7 @@ class GroupLimit implements PatternLimit
     public function fluent(): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            $this->getMatchGroupObjects(),
+            new ArraySwitcher($this->getMatchGroupObjects()), // TODO: Critical - implement getting group for first()
             new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base->getSubject()));
     }
 
