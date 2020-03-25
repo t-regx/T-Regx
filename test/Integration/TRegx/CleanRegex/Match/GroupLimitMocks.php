@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Match\GroupLimit;
+use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 
 class GroupLimitMocks extends TestCase // this is a dirty hack, only to use protected `createMock()` method
 {
@@ -18,6 +18,6 @@ class GroupLimitMocks extends TestCase // this is a dirty hack, only to use prot
         $base->method('matchOffset')->willReturn(new RawMatchOffset([0 => [$firstValue, 0]]));
         $base->method('matchAllOffsets')->willReturn(new RawMatchesOffset([0 => $allValues]));
 
-        return new GroupLimit($base, 0, new MatchOffsetLimitFactory($base, 0, false));
+        return new GroupLimit($base, 0, new MatchOffsetLimit($base, 0, false));
     }
 }

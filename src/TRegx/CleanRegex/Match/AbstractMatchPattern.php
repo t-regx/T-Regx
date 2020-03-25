@@ -17,7 +17,6 @@ use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
-use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -105,12 +104,12 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         (new GroupNameValidator($nameOrIndex))->validate();
         return new GroupLimit($this->base, $nameOrIndex,
-            new MatchOffsetLimitFactory($this->base, $nameOrIndex, false));
+            new MatchOffsetLimit($this->base, $nameOrIndex, false));
     }
 
     public function offsets(): MatchOffsetLimit
     {
-        return (new MatchOffsetLimitFactory($this->base, 0, true))->create();
+        return new MatchOffsetLimit($this->base, 0, true);
     }
 
     abstract public function count(): int;

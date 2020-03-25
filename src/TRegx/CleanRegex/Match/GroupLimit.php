@@ -16,7 +16,6 @@ use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\OffsetLimit\MatchOffsetLimitFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\FindFirst\Optional;
@@ -35,15 +34,15 @@ class GroupLimit implements PatternLimit
     private $base;
     /** @var string|int */
     private $nameOrIndex;
-    /** @var MatchOffsetLimitFactory */
-    private $offsetLimitFactory;
+    /** @var OffsetLimit */
+    private $offsetLimit;
 
-    public function __construct(Base $base, $nameOrIndex, MatchOffsetLimitFactory $offsetLimitFactory)
+    public function __construct(Base $base, $nameOrIndex, OffsetLimit $offsetLimit)
     {
         $this->allFactory = new GroupLimitAll($base, $nameOrIndex);
         $this->firstFactory = new GroupLimitFirst($base, $nameOrIndex);
         $this->findFirstFactory = new GroupLimitFindFirst($base, $nameOrIndex);
-        $this->offsetLimitFactory = $offsetLimitFactory;
+        $this->offsetLimit = $offsetLimit;
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
     }
@@ -125,7 +124,7 @@ class GroupLimit implements PatternLimit
 
     public function offsets(): OffsetLimit
     {
-        return $this->offsetLimitFactory->create();
+        return $this->offsetLimit;
     }
 
     public function fluent(): FluentMatchPattern

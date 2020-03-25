@@ -11,7 +11,7 @@ interface OffsetLimit extends PatternLimit
      */
     public function all(): array;
 
-    public function first();
+    public function first(): int;
 
     /**
      * @param int $limit
