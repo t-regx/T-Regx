@@ -107,6 +107,20 @@ class BaseSwitcherTest extends TestCase
     /**
      * @test
      */
+    public function shouldRaw_callBase_once()
+    {
+        // given
+        $switcher = new BaseSwitcher($this->baseAll());
+
+        // when
+        $switcher->getRawMatches();
+        $switcher->getRawMatches();
+        $switcher->getRawMatches();
+    }
+
+    /**
+     * @test
+     */
     public function shouldFirst_callBase_once()
     {
         // given

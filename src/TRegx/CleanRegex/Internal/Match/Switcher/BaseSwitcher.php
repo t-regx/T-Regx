@@ -3,11 +3,12 @@ namespace TRegx\CleanRegex\Internal\Match\Switcher;
 
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 
-class BaseSwitcher implements Switcher
+class BaseSwitcher implements Switcher, MatchAllFactory
 {
     /** @var Base */
     private $base;
@@ -24,8 +25,7 @@ class BaseSwitcher implements Switcher
 
     public function all(): IRawMatchesOffset
     {
-        $this->matches = $this->matches ?? $this->base->matchAllOffsets();
-        return $this->matches;
+        return $this->getRawMatches();
     }
 
     public function first(): IRawMatchOffset
@@ -43,5 +43,11 @@ class BaseSwitcher implements Switcher
             return new RawMatchesToMatchAdapter($this->matches, 0);
         }
         return $this->base->matchOffset();
+    }
+
+    public function getRawMatches(): IRawMatchesOffset
+    {
+        $this->matches = $this->matches ?? $this->base->matchAllOffsets();
+        return $this->matches;
     }
 }
