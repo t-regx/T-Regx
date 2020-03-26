@@ -30,6 +30,36 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetValuesFirst()
+    {
+        // given
+        $pattern = new FluentMatchPattern($this->firstSwitcher('foo'), $this->worker(''));
+
+        // when
+        $result = $pattern->values()->first();
+
+        // then
+        $this->assertEquals('foo', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetKeysFirst()
+    {
+        // given
+        $pattern = new FluentMatchPattern($this->firstSwitcher('foo'), $this->worker(''));
+
+        // when
+        $result = $pattern->keys()->first();
+
+        // then
+        $this->assertSame(0, $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldInvoke_consumer()
     {
         // given
