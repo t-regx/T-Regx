@@ -139,16 +139,18 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function groupByCallback(callable $groupMapper): FluentMatchPattern
     {
-        $map = [];
-        foreach ($this->switcher->all() as $element) {
-            $key = $groupMapper($element);
-            if (\is_int($key) || \is_string($key)) {
-                $map[$key][] = $element;
-            } else {
-                throw InvalidReturnValueException::forGroupByCallback($key);
+        return $this->next(new ArrayOnlySwitcher($this->switcher, function (array $all) use ($groupMapper) {
+            $map = [];
+            foreach ($all as $element) {
+                $key = $groupMapper($element);
+                if (\is_int($key) || \is_string($key)) {
+                    $map[$key][] = $element;
+                } else {
+                    throw InvalidReturnValueException::forGroupByCallback($key);
+                }
             }
-        }
-        return $this->next(new ArraySwitcher($map));
+            return $map;
+        }));
     }
 
     private function next(Switcher $switcher): FluentMatchPattern
