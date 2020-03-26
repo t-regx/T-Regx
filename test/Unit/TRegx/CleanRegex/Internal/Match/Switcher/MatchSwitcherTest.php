@@ -9,7 +9,6 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Match;
 
@@ -21,7 +20,7 @@ class MatchSwitcherTest extends TestCase
     public function shouldDelegateAll()
     {
         // given
-        $switcher = new MatchSwitcher($this->switcherAll('14'), $this->factory(), $this->mock());
+        $switcher = $this->matchSwitcher($this->switcherAll('14'));
 
         // when
         /** @var Match[] $all */
@@ -39,7 +38,7 @@ class MatchSwitcherTest extends TestCase
     public function shouldDelegateFirst()
     {
         // given
-        $switcher = new MatchSwitcher($this->switcherFirst('192'), $this->factory(), $this->mock());
+        $switcher = $this->matchSwitcher($this->switcherFirst('192'));
 
         // when
         $first = $switcher->first();
@@ -54,7 +53,7 @@ class MatchSwitcherTest extends TestCase
     public function shouldCreateFirstMatch_index()
     {
         // given
-        $switcher = new MatchSwitcher($this->switcherFirst('192'), $this->factory(), $this->mock());
+        $switcher = $this->matchSwitcher($this->switcherFirst('192'));
 
         // when
         $first = $switcher->first();
@@ -69,7 +68,7 @@ class MatchSwitcherTest extends TestCase
     public function shouldCreateAllMatches_index()
     {
         // given
-        $switcher = new MatchSwitcher($this->switcherAll('19'), $this->factory(), $this->mock());
+        $switcher = $this->matchSwitcher($this->switcherAll('19'));
 
         // when
         /** @var Match[] $all */
@@ -87,7 +86,7 @@ class MatchSwitcherTest extends TestCase
     public function shouldGetAll_all()
     {
         // given
-        $switcher = new MatchSwitcher($this->switcherAll('14'), $this->factory(), $this->mock());
+        $switcher = $this->matchSwitcher($this->switcherAll('14'));
 
         // when
         /** @var Match[] $all */
@@ -105,7 +104,7 @@ class MatchSwitcherTest extends TestCase
     public function shouldGetAll_first()
     {
         // given
-        $switcher = new MatchSwitcher($this->switcherFirst(''), $this->factory(), new EagerMatchAllFactory($this->matchesOffset('First')));
+        $switcher = $this->matchSwitcher($this->switcherFirst(''), new EagerMatchAllFactory($this->matchesOffset('First')));
 
         // when
         $first = $switcher->first();
@@ -146,9 +145,9 @@ class MatchSwitcherTest extends TestCase
         return new RawMatchOffset([[$value, 1]]);
     }
 
-    private function factory(int $limit = null): MatchObjectFactory
+    private function matchSwitcher(BaseSwitcher $switcher, MatchAllFactory $factory = null): MatchSwitcher
     {
-        return new MatchObjectFactory(new Subject('switch subject'), $limit ?? -4, new UserData());
+        return new MatchSwitcher($switcher, new Subject('switch subject'), new UserData(), $factory ?? $this->mock());
     }
 
     private function mock(): MatchAllFactory
