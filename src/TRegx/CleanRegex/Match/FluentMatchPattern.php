@@ -9,10 +9,10 @@ use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoSuchElementFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
-use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\FluentInteger;
 use TRegx\CleanRegex\Internal\Match\Switcher\ArrayOnlySwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\ArraySwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\FlatMappingSwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\MappingSwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
 use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
@@ -109,7 +109,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function flatMap(callable $mapper): FluentMatchPattern
     {
-        return $this->next(new ArraySwitcher((new FlatMapper($this->switcher->all(), $mapper))->get()));
+        return $this->next(new FlatMappingSwitcher($this->switcher, $mapper));
     }
 
     public function distinct(): FluentMatchPattern

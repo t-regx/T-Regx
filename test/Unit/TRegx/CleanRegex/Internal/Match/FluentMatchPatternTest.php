@@ -157,19 +157,52 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFlatMap_throw()
+    public function shouldFlatMap_first()
+    {
+        // given
+        $pattern = new FluentMatchPattern($this->first('foo'), $this->worker());
+
+        // when
+        $result = $pattern->flatMap('str_split')->first();
+
+        // then
+        $this->assertEquals(['f', 'o', 'o'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFlatMap_throw_callerAll()
     {
         // given
         $pattern = new FluentMatchPattern($this->all(['Foo']), $this->worker());
-
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage("Invalid flatMap() callback return type. Expected array, but integer (0) given");
-
         // when
-        $pattern->flatMap(function (string $input) {
-            return 0;
-        });
+        $pattern
+            ->flatMap(function (string $input) {
+                return 0;
+            })
+            ->all();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFlatMap_throw_callerFirst()
+    {
+        // given
+        $pattern = new FluentMatchPattern($this->first('Foo'), $this->worker());
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage("Invalid flatMap() callback return type. Expected array, but integer (0) given");
+        // when
+        $pattern
+            ->flatMap(function (string $input) {
+                return 0;
+            })
+            ->first();
     }
 
     /**
@@ -383,6 +416,15 @@ class FluentMatchPatternTest extends TestCase
         $switcher = $this->createMock(Switcher::class);
         $switcher->expects($this->once())->method('all')->willReturn($return);
         $switcher->expects($this->never())->method($this->logicalNot($this->matches('all')));
+        return $switcher;
+    }
+
+    private function first($return): Switcher
+    {
+        /** @var Switcher|MockObject $switcher */
+        $switcher = $this->createMock(Switcher::class);
+        $switcher->expects($this->once())->method('first')->willReturn($return);
+        $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
         return $switcher;
     }
 
