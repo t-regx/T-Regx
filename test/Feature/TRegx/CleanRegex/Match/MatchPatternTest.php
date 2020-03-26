@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
+use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 class MatchPatternTest extends TestCase
 {
@@ -495,13 +496,7 @@ class MatchPatternTest extends TestCase
         $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
 
         // when
-        $result = pattern('(?<value>\d+)(?<unit>cm|mm)')
-            ->match($subject)
-            ->fluent()
-            ->groupByCallback(function (Match $match) {
-                return $match->group('unit')->text();
-            })
-            ->all();
+        $result = $this->defaultGroupBy($subject)->all();
 
         // then
         $expected = [
@@ -509,5 +504,45 @@ class MatchPatternTest extends TestCase
             'mm' => ['14mm', '18mm', '2mm']
         ];
         $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupBy_callback_keys_all()
+    {
+        // given
+        $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
+
+        // when
+        $result = $this->defaultGroupBy($subject)->keys()->all();
+
+        // then
+        $this->assertEquals(['cm', 'mm'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupBy_callback_keys_first()
+    {
+        // given
+        $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
+
+        // when
+        $result = $this->defaultGroupBy($subject)->keys()->first();
+
+        // then
+        $this->assertEquals('cm', $result);
+    }
+
+    private function defaultGroupBy(string $subject): FluentMatchPattern
+    {
+        return pattern('(?<value>\d+)(?<unit>cm|mm)')
+            ->match($subject)
+            ->fluent()
+            ->groupByCallback(function (Match $match) {
+                return $match->group('unit')->text();
+            });
     }
 }
