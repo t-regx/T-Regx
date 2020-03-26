@@ -199,7 +199,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->distinct()->all();
 
         // then
-        $this->assertEquals(['foo', 'bar', 'Bar'], $result);
+        $this->assertEquals(['foo', 2 => 'bar', 4 => 'Bar'], $result);
     }
 
     /**

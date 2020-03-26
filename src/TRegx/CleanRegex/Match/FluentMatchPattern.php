@@ -118,7 +118,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function distinct(): FluentMatchPattern
     {
-        return $this->next(new ArraySwitcher(\array_values(\array_unique($this->switcher->all()))));
+        return $this->next(new ArrayOnlySwitcher($this->switcher, '\array_unique'));
     }
 
     public function filter(callable $predicate): FluentMatchPattern
