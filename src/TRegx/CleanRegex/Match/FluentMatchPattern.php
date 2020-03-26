@@ -8,7 +8,6 @@ use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
-use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoSuchElementFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
@@ -58,7 +57,7 @@ class FluentMatchPattern implements MatchPatternInterface
             $firstElement = $this->switcher->first();
             return $consumer ? $consumer($firstElement) : $firstElement;
         } catch (NoFirstSwitcherException $exception) {
-            throw NoSuchElementFluentException::withMessage(new NoFirstElementFluentMessage());
+            throw NoSuchElementFluentException::withMessage($this->firstWorker->getMessage());
         }
     }
 

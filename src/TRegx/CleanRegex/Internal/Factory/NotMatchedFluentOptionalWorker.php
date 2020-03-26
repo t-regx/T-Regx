@@ -31,4 +31,9 @@ class NotMatchedFluentOptionalWorker implements NotMatchedWorker
     {
         return $producer();
     }
+
+    public function getMessage(): NotMatchedMessage
+    {
+        return $this->message;
+    }
 }
