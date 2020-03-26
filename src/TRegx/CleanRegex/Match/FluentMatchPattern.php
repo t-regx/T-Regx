@@ -13,6 +13,7 @@ use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
+use TRegx\CleanRegex\Internal\Match\Switcher\ArrayOnlySwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\ArraySwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\MappingSwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
@@ -127,7 +128,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function values(): FluentMatchPattern
     {
-        return $this->next(new ArraySwitcher(\array_values($this->switcher->all())));
+        return $this->next(new ArrayOnlySwitcher($this->switcher, '\array_values'));
     }
 
     public function keys(): FluentMatchPattern
