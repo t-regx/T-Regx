@@ -367,26 +367,6 @@ class FluentMatchPatternTest extends TestCase
         $this->assertSame($expected, $result->all());
     }
 
-    /**
-     * @test
-     */
-    public function shouldThrowForInvalidGroupByType()
-    {
-        // given
-        $pattern = new FluentMatchPattern($this->all(['']), $this->worker());
-
-        // then
-        $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage('Invalid groupByCallback() callback return type. Expected int|string, but array (0) given');
-
-        // when
-        $pattern
-            ->groupByCallback(function () {
-                return [];
-            })
-            ->all();
-    }
-
     private function worker(): NotMatchedFluentOptionalWorker
     {
         /** @var NotMatchedFluentOptionalWorker $mockObject */
