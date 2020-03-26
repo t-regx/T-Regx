@@ -178,14 +178,24 @@ class BaseSwitcherTest extends TestCase
         $this->assertEquals('Joffrey', $matchOffset->getText());
     }
 
+    /**
+     * @test
+     */
+    public function shouldFirstKey_beAlwaysZero()
+    {
+        // given
+        $switcher = new BaseSwitcher($this->zeroInteraction());
+
+        // when
+        $firstKey = $switcher->firstKey();
+
+        // then
+        $this->assertSame(0, $firstKey);
+    }
+
     private function baseBoth(): Base
     {
         return $this->baseBothWith($this->matchesOffset(), $this->matchOffset());
-    }
-
-    private function baseBothUnmatched(): Base
-    {
-        return $this->baseBothWith(new RawMatchesOffset([[]]), new RawMatchOffset([]));
     }
 
     private function baseBothWith(IRawMatchesOffset $matches, IRawMatchOffset $match): Base
@@ -217,6 +227,14 @@ class BaseSwitcherTest extends TestCase
         $base = $this->createMock(Base::class);
         $base->expects($this->once())->method('matchAllOffsets')->willReturn($matches);
         $base->expects($this->never())->method($this->logicalNot($this->matches('matchAllOffsets')));
+        return $base;
+    }
+
+    private function zeroInteraction(): Base
+    {
+        /** @var Base|MockObject $base */
+        $base = $this->createMock(Base::class);
+        $base->expects($this->never())->method($this->anything());
         return $base;
     }
 

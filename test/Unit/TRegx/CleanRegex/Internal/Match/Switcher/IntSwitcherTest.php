@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Internal\Match\Switcher;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
@@ -17,7 +16,7 @@ class IntSwitcherTest extends TestCase
     public function shouldDelegateAll()
     {
         // given
-        $switcher = new IntSwitcher($this->switcherAll($this->matchesOffset('14')));
+        $switcher = new IntSwitcher($this->mock('all', 'willReturn', $this->matchesOffset('14')));
 
         // when
         $all = $switcher->all();
@@ -32,7 +31,7 @@ class IntSwitcherTest extends TestCase
     public function shouldDelegateAll_unmatched()
     {
         // given
-        $switcher = new IntSwitcher($this->switcherAll(new RawMatchesOffset([[]])));
+        $switcher = new IntSwitcher($this->mock('all', 'willReturn', new RawMatchesOffset([[]])));
 
         // when
         $all = $switcher->all();
@@ -47,7 +46,7 @@ class IntSwitcherTest extends TestCase
     public function shouldDelegateFirst()
     {
         // given
-        $switcher = new IntSwitcher($this->switcherFirst(new RawMatchOffset([['192', 1]])));
+        $switcher = new IntSwitcher($this->mock('first', 'willReturn', new RawMatchOffset([['192', 1]])));
 
         // when
         $first = $switcher->first();
@@ -59,10 +58,25 @@ class IntSwitcherTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetFirstKey()
+    {
+        // given
+        $switcher = new IntSwitcher($this->mock('firstKey', 'willReturn', 123));
+
+        // when
+        $firstKey = $switcher->firstKey();
+
+        // then
+        $this->assertSame(123, $firstKey);
+    }
+
+    /**
+     * @test
+     */
     public function shouldAll_throwForMalformedInteger()
     {
         // given
-        $switcher = new IntSwitcher($this->switcherAll($this->matchesOffset('Foo')));
+        $switcher = new IntSwitcher($this->mock('all', 'willreturn', $this->matchesOffset('Foo')));
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -78,7 +92,7 @@ class IntSwitcherTest extends TestCase
     public function shouldFirst_throwForMalformedInteger()
     {
         // given
-        $switcher = new IntSwitcher($this->switcherFirst(new RawMatchOffset([['Foo', 1]])));
+        $switcher = new IntSwitcher($this->mock('first', 'willReturn', new RawMatchOffset([['Foo', 1]])));
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -88,21 +102,12 @@ class IntSwitcherTest extends TestCase
         $switcher->first();
     }
 
-    private function switcherAll(IRawMatchesOffset $matches): BaseSwitcher
+    private function mock(string $methodName, string $setter, $value): BaseSwitcher
     {
         /** @var BaseSwitcher|MockObject $switcher */
         $switcher = $this->createMock(BaseSwitcher::class);
-        $switcher->expects($this->once())->method('all')->willReturn($matches);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('all')));
-        return $switcher;
-    }
-
-    private function switcherFirst(IRawMatchOffset $match): BaseSwitcher
-    {
-        /** @var BaseSwitcher|MockObject $switcher */
-        $switcher = $this->createMock(BaseSwitcher::class);
-        $switcher->expects($this->once())->method('first')->willReturn($match);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
+        $switcher->expects($this->once())->method($methodName)->$setter($value);
+        $switcher->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
         return $switcher;
     }
 

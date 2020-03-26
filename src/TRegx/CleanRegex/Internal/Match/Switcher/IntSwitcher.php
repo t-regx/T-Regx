@@ -31,4 +31,9 @@ class IntSwitcher implements Switcher
         }
         throw IntegerFormatException::forMatch($text);
     }
+
+    public function firstKey(): int
+    {
+        return $this->switcher->firstKey();
+    }
 }

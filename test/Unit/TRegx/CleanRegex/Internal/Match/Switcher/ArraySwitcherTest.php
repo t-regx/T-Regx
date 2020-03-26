@@ -39,6 +39,24 @@ class ArraySwitcherTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetFirstKey()
+    {
+        // given
+        $elements = [10 => 'One', 20 => 'Two', 30 => 'Three'];
+        next($elements);
+        next($elements); # Intentionally move internal pointer
+        $switcher = new ArraySwitcher($elements);
+
+        // when
+        $firstKey = $switcher->firstKey();
+
+        // then
+        $this->assertSame(10, $firstKey);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetFirst_assoc()
     {
         // given

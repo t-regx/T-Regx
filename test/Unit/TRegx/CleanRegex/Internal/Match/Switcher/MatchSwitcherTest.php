@@ -50,6 +50,21 @@ class MatchSwitcherTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetFirstKey()
+    {
+        // given
+        $switcher = $this->matchSwitcher($this->switcherFirstKey(123));
+
+        // when
+        $firstKey = $switcher->firstKey();
+
+        // then
+        $this->assertSame(123, $firstKey);
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateFirstMatch_index()
     {
         // given
@@ -128,6 +143,15 @@ class MatchSwitcherTest extends TestCase
         $switcher = $this->createMock(BaseSwitcher::class);
         $switcher->expects($this->once())->method('first')->willReturn($this->matchOffset($value));
         $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
+        return $switcher;
+    }
+
+    private function switcherFirstKey($value): BaseSwitcher
+    {
+        /** @var BaseSwitcher|MockObject $switcher */
+        $switcher = $this->createMock(BaseSwitcher::class);
+        $switcher->expects($this->once())->method('firstKey')->willReturn($value);
+        $switcher->expects($this->never())->method($this->logicalNot($this->matches('firstKey')));
         return $switcher;
     }
 

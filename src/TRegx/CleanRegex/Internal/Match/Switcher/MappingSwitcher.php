@@ -24,4 +24,9 @@ class MappingSwitcher implements Switcher
         $mapper = $this->mapper;
         return $mapper($this->switcher->first());
     }
+
+    public function firstKey()
+    {
+        return $this->switcher->firstKey();
+    }
 }

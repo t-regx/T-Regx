@@ -50,4 +50,9 @@ class BaseSwitcher implements Switcher, MatchAllFactory
         $this->matches = $this->matches ?? $this->base->matchAllOffsets();
         return $this->matches;
     }
+
+    public function firstKey(): int
+    {
+        return 0;
+    }
 }

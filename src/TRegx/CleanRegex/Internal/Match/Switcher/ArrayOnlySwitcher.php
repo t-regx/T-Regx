@@ -24,4 +24,9 @@ class ArrayOnlySwitcher implements Switcher
     {
         return $this->switcher->first();
     }
+
+    public function firstKey()
+    {
+        return $this->switcher->firstKey();
+    }
 }

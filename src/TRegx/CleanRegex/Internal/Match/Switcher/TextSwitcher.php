@@ -20,4 +20,9 @@ class TextSwitcher implements Switcher
     {
         return $this->switcher->first()->getText();
     }
+
+    public function firstKey(): int
+    {
+        return $this->switcher->firstKey();
+    }
 }

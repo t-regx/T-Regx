@@ -6,4 +6,9 @@ interface Switcher
     public function all();
 
     public function first();
+
+    /**
+     * @return string|int
+     */
+    public function firstKey();
 }

@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal\Match\Switcher;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
@@ -16,7 +15,7 @@ class TextSwitcherTest extends TestCase
     public function shouldDelegateAll()
     {
         // given
-        $switcher = new TextSwitcher($this->switcherAll($this->matchesOffset()));
+        $switcher = new TextSwitcher($this->mock('all', $this->matchesOffset()));
 
         // when
         $all = $switcher->all();
@@ -31,7 +30,7 @@ class TextSwitcherTest extends TestCase
     public function shouldDelegateFirst()
     {
         // given
-        $switcher = new TextSwitcher($this->switcherFirst(new RawMatchOffset([['Lorem ipsum', 1]])));
+        $switcher = new TextSwitcher($this->mock('first', new RawMatchOffset([['Lorem ipsum', 1]])));
 
         // when
         $first = $switcher->first();
@@ -40,21 +39,27 @@ class TextSwitcherTest extends TestCase
         $this->assertSame('Lorem ipsum', $first);
     }
 
-    private function switcherAll(IRawMatchesOffset $matches): BaseSwitcher
+    /**
+     * @test
+     */
+    public function shouldGetFirstKey()
     {
-        /** @var BaseSwitcher|MockObject $switcher */
-        $switcher = $this->createMock(BaseSwitcher::class);
-        $switcher->expects($this->once())->method('all')->willReturn($matches);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('all')));
-        return $switcher;
+        // given
+        $switcher = new TextSwitcher($this->mock('firstKey', 123));
+
+        // when
+        $firstKey = $switcher->firstKey();
+
+        // then
+        $this->assertSame(123, $firstKey);
     }
 
-    private function switcherFirst(IRawMatchOffset $match): BaseSwitcher
+    private function mock(string $methodName, $value): BaseSwitcher
     {
         /** @var BaseSwitcher|MockObject $switcher */
         $switcher = $this->createMock(BaseSwitcher::class);
-        $switcher->expects($this->once())->method('first')->willReturn($match);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
+        $switcher->expects($this->once())->method($methodName)->willReturn($value);
+        $switcher->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
         return $switcher;
     }
 

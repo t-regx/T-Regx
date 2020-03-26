@@ -86,4 +86,9 @@ class MatchOffsetLimit implements OffsetLimit, Switcher
     {
         return new FluentMatchPattern($this, new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage()));
     }
+
+    public function firstKey()
+    {
+        return 0;
+    }
 }

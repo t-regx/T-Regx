@@ -25,4 +25,9 @@ class FlatMappingSwitcher implements Switcher
     {
         return (new FlatMapper([], $this->mapper))->map($this->switcher->first());
     }
+
+    public function firstKey()
+    {
+        return $this->switcher->firstKey();
+    }
 }

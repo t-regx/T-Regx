@@ -43,6 +43,21 @@ class MappingSwitcherTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetFirstKey()
+    {
+        // given
+        $switcher = new MappingSwitcher($this->mock('firstKey', 'willReturn', 'foo'), [$this, 'fail']);
+
+        // when
+        $firstKey = $switcher->firstKey();
+
+        // then
+        $this->assertSame('foo', $firstKey);
+    }
+
+    /**
+     * @test
+     */
     public function shouldFirstThrow()
     {
         // given

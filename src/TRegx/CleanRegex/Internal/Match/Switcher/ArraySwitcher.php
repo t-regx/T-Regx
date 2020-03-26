@@ -25,4 +25,10 @@ class ArraySwitcher implements Switcher
         }
         return \reset($this->elements);
     }
+
+    public function firstKey()
+    {
+        \reset($this->elements);
+        return \key($this->elements);
+    }
 }

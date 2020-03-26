@@ -40,4 +40,9 @@ class MatchSwitcher implements Switcher
     {
         return new MatchObjectFactory($this->subjectable, $limit, $this->userData);
     }
+
+    public function firstKey(): int
+    {
+        return $this->switcher->firstKey();
+    }
 }
