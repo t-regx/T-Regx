@@ -3,8 +3,11 @@ T-Regx Changelog
 
 Incoming in 0.9.6
 -----------------
-
-* Features:
+* Breaking changes
+    * `pattern()->match()->fluent()->distinct()` will no longer re-index values (will not remove keys).
+      - For re-indexed values use `distinct()->values()`.
+      - `pattern()->match()->distinct()` still re-indexes values.
+* Features
     * Added `pattern()->match()->fluent()->nth()` used to get an element based on an ordinal number.
     * Added `pattern()->match()->asInt()` which can be then chained with any `match()` method:
        - for `match()->all()`, there's `match()->asInt()->all()` which returns an array of integers
@@ -37,7 +40,7 @@ Added in 0.9.5
       as `iterate()` was only needed as a substitute for `forEach()`, pre PHP 7, where methods couldn't be named with keywords.
     * Renamed:
        - `pattern()->match()->forFirst()` to `findFirst()` #70
-* Enhancements:
+* Enhancements
    * When every of the automatic delimiters is exhausted (`/`, `#`, `%`, `~`, etc.), character
      `0x01` is used (provided that it's not used anywhere else in the pattern). #71
 * Features
@@ -55,7 +58,7 @@ Added in 0.9.5
          Pattern::of('Choice: (apple\?|orange|pear)')
          ```
          Of course `'apple?'` and other values are protected against user-input malformed patterns.
-* Bug fixes:
+* Bug fixes
    * Previously, we added uniform quoting of `#` character on different PHP versions. Well, sorry to say that, we also
      made a bug doing that, when `#` was also a delimiter. This bug is fixed now.
 
@@ -67,7 +70,7 @@ Added in 0.9.4
    * Moved `RegexExceptions` to  `/TRegx` from `/TRegx/CleanRegex/Exception`
    * Simplified namespace of public exceptions:
      - From `TRegx/CleanRegex/Exception/CleanRegex` to `TRegx/CleanRegex/Exception`
-* Enhancements:
+* Enhancements
    * Updated the hierarchy of public exceptions:
      - `RegexExceptions`
        - `PregException` (extends `RegexExceptions`, instead of `\Exception`)
