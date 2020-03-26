@@ -51,6 +51,6 @@ class AbstractMatchPatternTest extends TestCase
         $this->expectExceptionMessage("Expected to parse '45s', but it is not a valid integer");
 
         // when
-        $pattern->asInt();
+        $pattern->asInt()->all();
     }
 }

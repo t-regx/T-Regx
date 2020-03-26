@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -245,6 +246,39 @@ class MatchPatternTest extends TestCase
             ->match('word')
             ->offsets()
             ->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_asInt_first_OnUnmatchedPattern()
+    {
+        // then
+        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage("Expected to get the first match as int, but subject was not matched");
+
+        // given
+        pattern('dont match me')
+            ->match('word')
+            ->asInt()
+            ->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_asInt_findFirst_OnUnmatchedPattern()
+    {
+        // then
+        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage("Expected to get the first match as int, but subject was not matched");
+
+        // given
+        pattern('dont match me')
+            ->match('word')
+            ->asInt()
+            ->findFirst([$this, 'fail'])
+            ->orThrow();
     }
 
     /**

@@ -7,6 +7,7 @@ use EmptyIterator;
 use Iterator;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchIntMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
@@ -17,6 +18,7 @@ use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\Switcher\BaseSwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\IntSwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\MatchSwitcher;
 use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
@@ -141,7 +143,10 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function asInt(): FluentMatchPattern
     {
-        return $this->fluent()->asInt();
+        return new FluentMatchPattern(
+            new IntSwitcher(new BaseSwitcher($this->base)),
+            new NotMatchedFluentOptionalWorker(new FirstMatchIntMessage(), $this->base->getSubject())
+        );
     }
 
     /**
