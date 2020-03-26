@@ -14,6 +14,7 @@ use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\Switcher\ArraySwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\MappingSwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -106,32 +107,32 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function map(callable $mapper): FluentMatchPattern
     {
-        return $this->next(\array_map($mapper, $this->switcher->all()));
+        return $this->next(new MappingSwitcher($this->switcher, $mapper));
     }
 
     public function flatMap(callable $mapper): FluentMatchPattern
     {
-        return $this->next((new FlatMapper($this->switcher->all(), $mapper))->get());
+        return $this->next(new ArraySwitcher((new FlatMapper($this->switcher->all(), $mapper))->get()));
     }
 
     public function distinct(): FluentMatchPattern
     {
-        return $this->next(\array_values(\array_unique($this->switcher->all())));
+        return $this->next(new ArraySwitcher(\array_values(\array_unique($this->switcher->all()))));
     }
 
     public function filter(callable $predicate): FluentMatchPattern
     {
-        return $this->next(\array_values(\array_filter($this->switcher->all(), $predicate)));
+        return $this->next(new ArraySwitcher(\array_values(\array_filter($this->switcher->all(), $predicate))));
     }
 
     public function values(): FluentMatchPattern
     {
-        return $this->next(\array_values($this->switcher->all()));
+        return $this->next(new ArraySwitcher(\array_values($this->switcher->all())));
     }
 
     public function keys(): FluentMatchPattern
     {
-        return $this->next(\array_keys($this->switcher->all()));
+        return $this->next(new ArraySwitcher(\array_keys($this->switcher->all())));
     }
 
     public function asInt(): FluentMatchPattern
@@ -164,11 +165,11 @@ class FluentMatchPattern implements MatchPatternInterface
                 throw InvalidReturnValueException::forGroupByCallback($key);
             }
         }
-        return $this->next($map);
+        return $this->next(new ArraySwitcher($map));
     }
 
-    private function next(array $elements): FluentMatchPattern
+    private function next(Switcher $switcher): FluentMatchPattern
     {
-        return new FluentMatchPattern(new ArraySwitcher($elements), $this->firstWorker); // TODO check
+        return new FluentMatchPattern($switcher, $this->firstWorker);
     }
 }

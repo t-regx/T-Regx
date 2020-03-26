@@ -260,7 +260,7 @@ class FluentMatchPatternTest extends TestCase
         $this->expectExceptionMessage("Expected to parse '--10', but it is not a valid integer");
 
         // when
-        $pattern->asInt();
+        $pattern->asInt()->all();
     }
 
     /**
@@ -306,7 +306,7 @@ class FluentMatchPatternTest extends TestCase
         $this->expectExceptionMessage("Invalid data types passed to `asInt()` method. Expected 'string' or 'int', but boolean (true) given");
 
         // when
-        $pattern->asInt();
+        $pattern->asInt()->all();
     }
 
     /**

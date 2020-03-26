@@ -21,9 +21,11 @@ class GroupLimitTest extends TestCase
         $chained = $limit->fluent();
 
         // then
-        $chained->map(function (MatchGroup $matchGroup) {
-            $this->assertEquals($matchGroup->byteOffset() === 1 ? 'Foo' : 'Bar', $matchGroup->text());
-        });
+        $chained
+            ->map(function (MatchGroup $matchGroup) {
+                $this->assertEquals($matchGroup->byteOffset() === 1 ? 'Foo' : 'Bar', $matchGroup->text());
+            })
+            ->all();
     }
 
     /**
