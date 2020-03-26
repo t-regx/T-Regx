@@ -3,6 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex\Internal;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
@@ -85,6 +86,7 @@ class GroupNameIndexAssignTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('');
 
         // when
         $assign->getNameAndIndex(true);
@@ -213,7 +215,7 @@ class GroupNameIndexAssignTest extends TestCase
         $assign = $this->createWithMatchAllFactory_uneven();
 
         // then
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InternalCleanRegexException::class);
 
         // when
         $assign->getNameAndIndex('missing');
@@ -228,7 +230,7 @@ class GroupNameIndexAssignTest extends TestCase
         $assign = $this->createWithMatchAllFactory_uneven();
 
         // then
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InternalCleanRegexException::class);
 
         // when
         $assign->getNameAndIndex(14);

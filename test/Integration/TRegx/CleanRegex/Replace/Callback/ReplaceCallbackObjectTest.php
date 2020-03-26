@@ -102,6 +102,7 @@ class ReplaceCallbackObjectTest extends TestCase
 
         // then
         $this->expectException(InvalidReplacementException::class);
+        $this->expectExceptionMessage('Invalid callback() callback return type. Expected string, but integer (2) given');
 
         // when
         $callback = $object->getCallback();

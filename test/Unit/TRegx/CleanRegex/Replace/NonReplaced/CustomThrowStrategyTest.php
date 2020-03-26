@@ -17,6 +17,7 @@ class CustomThrowStrategyTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('expected to replace, but didn\'t'); // TODO fix the message
 
         // when
         $strategy->substitute('');

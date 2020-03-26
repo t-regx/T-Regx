@@ -52,6 +52,7 @@ class FluentMatchPatternTest extends TestCase
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage('');
 
         // when
         $pattern->first();
@@ -67,6 +68,7 @@ class FluentMatchPatternTest extends TestCase
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage('');
 
         // when
         $pattern->first(function () {

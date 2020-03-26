@@ -68,6 +68,7 @@ class pregGrepKeysTest extends TestCase
     {
         // then
         $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Nothing to repeat at offset 0');
 
         // when
         preg::grep_keys('/+/', []);

@@ -101,6 +101,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
         $pattern->first();
@@ -116,6 +117,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
         $pattern->first('strrev');

@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal;
 
 use InvalidArgumentException;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Exception\InsufficientMatchException;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
@@ -37,7 +38,7 @@ class GroupNameIndexAssign
         try {
             return $this->tryGetNameAndIndex($group);
         } catch (InsufficientMatchException $exception) {
-            throw new InvalidArgumentException($group);
+            throw new InternalCleanRegexException();
         }
     }
 

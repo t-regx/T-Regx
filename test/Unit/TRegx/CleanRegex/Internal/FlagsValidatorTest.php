@@ -58,14 +58,17 @@ class FlagsValidatorTest extends TestCase
      * @test
      * @dataProvider invalidFlags
      * @param string $flag
+     * @param string $message
+     * @throws FlagNotAllowedException
      */
-    public function shouldNotAllowInvalidFlags(string $flag)
+    public function shouldNotAllowInvalidFlags(string $flag, string $message)
     {
         // given
         $flags = new FlagsValidator();
 
         // then
         $this->expectException(FlagNotAllowedException::class);
+        $this->expectExceptionMessage($message);
 
         // when
         $flags->validate($flag);
@@ -74,10 +77,10 @@ class FlagsValidatorTest extends TestCase
     public function invalidFlags()
     {
         return [
-            ['+g'],
-            ['-g'],
-            ['/'],
-            ['G'],
+            ['+g', "Regular expression flags: ['+', 'g'] are not allowed"],
+            ['-g', "Regular expression flags: ['-', 'g'] are not allowed"],
+            ['/', "Regular expression flag: '/' is not allowed"],
+            ['G', "Regular expression flag: 'G' is not allowed"],
         ];
     }
 

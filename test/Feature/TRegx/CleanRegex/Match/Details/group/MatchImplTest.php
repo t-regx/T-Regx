@@ -138,6 +138,7 @@ class MatchImplTest extends TestCase
     {
         // then
         $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'two'");
 
         // when
         pattern('(?<one>hello)')
