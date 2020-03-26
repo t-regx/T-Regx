@@ -4,21 +4,17 @@ namespace TRegx\CleanRegex\Match;
 use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
-use TRegx\CleanRegex\Exception\FluentMatchPatternException;
-use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoSuchElementFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
-use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
+use TRegx\CleanRegex\Internal\Match\FluentInteger;
 use TRegx\CleanRegex\Internal\Match\Switcher\ArrayOnlySwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\ArraySwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\MappingSwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
-use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
 use TRegx\CleanRegex\Match\FindFirst\Optional;
 
@@ -138,21 +134,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function asInt(): FluentMatchPattern
     {
-        return $this->map(function ($value) {
-            if (\is_int($value)) {
-                return $value;
-            }
-            if ($value instanceof Match || $value instanceof MatchGroup) {
-                return $value->toInt();
-            }
-            if (!\is_string($value)) {
-                throw FluentMatchPatternException::forInvalidInteger($value);
-            }
-            if (Integer::isValid($value)) {
-                return (int)$value;
-            }
-            throw IntegerFormatException::forFluent($value);
-        });
+        return $this->map([FluentInteger::class, 'parse']);
     }
 
     public function groupByCallback(callable $groupMapper): FluentMatchPattern
