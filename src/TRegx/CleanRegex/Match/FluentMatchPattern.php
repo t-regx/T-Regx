@@ -151,7 +151,7 @@ class FluentMatchPattern implements MatchPatternInterface
             if (Integer::isValid($value)) {
                 return (int)$value;
             }
-            throw IntegerFormatException::forMatch($value);
+            throw IntegerFormatException::forFluent($value);
         });
     }
 

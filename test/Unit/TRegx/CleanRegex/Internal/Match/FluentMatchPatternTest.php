@@ -257,7 +257,7 @@ class FluentMatchPatternTest extends TestCase
 
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse '--10', but it is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse fluent element '--10', but it is not a valid integer");
 
         // when
         $pattern->asInt()->all();
