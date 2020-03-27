@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Match;
 use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
-use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoSuchElementFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
@@ -13,6 +12,7 @@ use TRegx\CleanRegex\Internal\Match\FluentInteger;
 use TRegx\CleanRegex\Internal\Match\Switcher\ArrayOnlySwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\ArraySwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\FlatMappingSwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\GroupByCallbackSwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\MappingSwitcher;
 use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
 use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
@@ -139,18 +139,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function groupByCallback(callable $groupMapper): FluentMatchPattern
     {
-        return $this->next(new ArrayOnlySwitcher($this->switcher, function (array $all) use ($groupMapper) {
-            $map = [];
-            foreach ($all as $element) {
-                $key = $groupMapper($element);
-                if (\is_int($key) || \is_string($key)) {
-                    $map[$key][] = $element;
-                } else {
-                    throw InvalidReturnValueException::forGroupByCallback($key);
-                }
-            }
-            return $map;
-        }));
+        return $this->next(new GroupByCallbackSwitcher($this->switcher, $groupMapper));
     }
 
     private function next(Switcher $switcher): FluentMatchPattern
