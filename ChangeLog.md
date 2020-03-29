@@ -5,28 +5,57 @@ Incoming in 0.9.6
 -----------------
 * Breaking changes
     * `pattern()->match()->fluent()->distinct()` will no longer re-index values (will not remove keys).
-      - For re-indexed values use `distinct()->values()`.
+      - To re-index values, use `distinct()->values()`.
       - `pattern()->match()->distinct()` still re-indexes values.
+* Enhancements
+    * Every `match()->...()->first()` method calls `preg_match()`, instead of `preg_match_all()`. More below.
 * Features
-    * Added `pattern()->match()->fluent()->nth()` used to get an element based on an ordinal number.
-    * Added `pattern()->match()->asInt()` which can be then chained with any `match()` method:
-       - for `match()->all()`, there's `match()->asInt()->all()` which returns an array of integers
-       - for `match()->first()`, there's `match()->asInt()->first()` which returns an integer
+    * Added `pattern()->match()->fluent()->nth(int)` used to get an element based on an ordinal number.
+    * Added `pattern()->match()->asInt()`. More below.
 
-      Any `match()` method can be chained after `asInt()`:
-        - `all(): array;`
-        - `only(int $limit): array;`
-        - `first(callable $consumer = null);`
-        - `forEach(callable $consumer): void;`
-        - `findFirst(callable $consumer): Optional;`
-        - `count(): int;`
-        - `iterator(): \Iterator;`
-        - `map(callable $mapper);`
-        - `flatMap(callable $mapper);`
-        - `distinct();`
-        - `filter(callable $predicate);`
+---
 
-      Callbacks passed to `first()`/`forEach()`/etc. receive `int`.
+#### About `preg_match()` vs `preg_match_all()`:
+Previously `preg_match()` was called only by:
+- `match()->first()`
+- `match()->findFirst()`
+
+Any other `match()` method (e.g. `map()`, `forEach()`, etc.) used `preg_match_all()`. From now on, 
+where possible, `preg_match` is also used for:
+- `fluent()->first()`
+- `asInt()->first()` / `asInt()->fluent()->first()`
+- `group()->first()`
+- `offsets()->first()`
+- `group()->offsets()->first()`
+- Any method after `fluent()`, for example `fluent()->map()->first()`
+
+The same applies to the methods above ending with `findFirst()`.
+
+The change was made because of two reasons:
+- Performance (matching only the first occurrence obviously is faster than all of them)
+- There are cases where the 2nd (or 3rd, `n`-th) occurrence would have thrown an error (e.g. catastrophic backtracking).
+  Now, such string can be worked with, by calling `preg_match()` and returning right after first match.
+
+The only exception from this rule is `filter()->first()`, which still calls `preg_match_all()`. 
+
+#### About `asInt()` chain
+
+ - New method `asInt()` can be chained with any `match()` method:
+   - `match()->asInt()->all(): int[];`
+   - `match()->asInt()->only(int $limit): int[];`
+   - `match()->asInt()->first(callable $consumer = null): int;`
+   - `match()->asInt()->forEach(callable $consumer): void;`
+   - `match()->asInt()->findFirst(callable $consumer): Optional<int>;`
+   - `match()->asInt()->count(): int;` though it doesn't change anything
+   - `match()->asInt()->iterator(): \Iterator<int>;`
+   - `match()->asInt()->map(callable $mapper): int[];`
+   - `match()->asInt()->flatMap(callable $mapper);`
+   - `match()->asInt()->distinct(): int[];`
+   - `match()->asInt()->filter(callable $predicate);`
+ - Callbacks passed to `first()`/`map()`/`flatMap()` etc. receive `int`.
+ - `asInt()->fluent()` is slightly better than `fluent()->asInt()`:
+    - `fluent()->asInt()` creates `Match` details for each occurrence, which are then cast to `int`.
+    - `asInt()->fluent()` simply returns matches as `int`.
 
 Added in 0.9.5
 --------------
