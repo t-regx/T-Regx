@@ -1,8 +1,10 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match\Switcher;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Switcher;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Match\Switcher\KeysSwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
 
 class KeysSwitcherTest extends TestCase
 {

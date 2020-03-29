@@ -1,9 +1,11 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match\Switcher;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Switcher;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
+use TRegx\CleanRegex\Internal\Match\Switcher\MappingSwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
 
 class MappingSwitcherTest extends TestCase
 {

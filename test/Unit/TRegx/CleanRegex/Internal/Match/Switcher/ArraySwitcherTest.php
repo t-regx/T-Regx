@@ -1,8 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match\Switcher;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Switcher;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
+use TRegx\CleanRegex\Internal\Match\Switcher\ArraySwitcher;
 
 class ArraySwitcherTest extends TestCase
 {
