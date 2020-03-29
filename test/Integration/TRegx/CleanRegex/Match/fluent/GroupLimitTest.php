@@ -15,7 +15,7 @@ class GroupLimitTest extends TestCase
     public function shouldReturnGroups(): void
     {
         // given
-        $limit = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
+        $limit = $this->groupLimit([['Foo', 1], ['Bar', 2]]);
 
         // when
         $chained = $limit->fluent();
@@ -34,7 +34,7 @@ class GroupLimitTest extends TestCase
     public function shouldThrow_first(): void
     {
         // given
-        $limit = $this->mockGroupLimit([]);
+        $limit = $this->groupLimit([]);
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -53,7 +53,7 @@ class GroupLimitTest extends TestCase
     public function shouldThrow_first_callback(): void
     {
         // given
-        $limit = $this->mockGroupLimit([]);
+        $limit = $this->groupLimit([]);
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -64,7 +64,7 @@ class GroupLimitTest extends TestCase
 
         // then
         $chained->first(function () {
-            $this->fail();
+            $this->fail("Failed to assert that first() callback is not called for an empty feed");
         });
     }
 
@@ -74,7 +74,7 @@ class GroupLimitTest extends TestCase
     public function shouldInvokeCallback_first(): void
     {
         // given
-        $limit = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
+        $limit = $this->groupLimit([['Foo', 1], ['Bar', 2]]);
 
         // when
         $chained = $limit->fluent();
@@ -85,8 +85,8 @@ class GroupLimitTest extends TestCase
         });
     }
 
-    private function mockGroupLimit(array $allValues): GroupLimit
+    private function groupLimit(array $allValues): GroupLimit
     {
-        return GroupLimitMocks::mockGroupLimit($this, $allValues);
+        return GroupLimitMocks::createGroupLimit($this, $allValues);
     }
 }

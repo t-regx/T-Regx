@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 
 class GroupLimitMocks extends TestCase // this is a dirty hack, only to use protected `createMock()` method
 {
-    public static function mockGroupLimit(TestCase $test, array $allValues, string $firstValue = ''): GroupLimit
+    public static function createGroupLimit(TestCase $test, array $allValues, string $firstValue = ''): GroupLimit
     {
         /** @var Base|MockObject $base */
         $base = $test->createMock(Base::class);

@@ -13,7 +13,7 @@ class GroupLimitTest extends TestCase
     public function shouldReturnValues(): void
     {
         // given
-        $limit = $this->mockGroupLimit([['first', 0], ['second', 1], ['third', 2]], 'first');
+        $limit = $this->groupLimit([['first', 0], ['second', 1], ['third', 2]], 'first');
 
         // when
         $fromAll = $limit->all();
@@ -32,7 +32,7 @@ class GroupLimitTest extends TestCase
     public function shouldReturnValues_all(): void
     {
         // given
-        $limit = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
+        $limit = $this->groupLimit([['Foo', 1], ['Bar', 2]]);
 
         // when
         $result = $limit->all();
@@ -47,7 +47,7 @@ class GroupLimitTest extends TestCase
     public function shouldReturnValues_iterator(): void
     {
         // given
-        $limit = $this->mockGroupLimit([['Foo', 1], ['Bar', 2]]);
+        $limit = $this->groupLimit([['Foo', 1], ['Bar', 2]]);
 
         // when
         $iterator = $limit->iterator();
@@ -62,7 +62,7 @@ class GroupLimitTest extends TestCase
     public function shouldInvokeFirstConsumer()
     {
         // given
-        $limit = $this->mockGroupLimit([], 'Foo Bar');
+        $limit = $this->groupLimit([], 'Foo Bar');
 
         // when
         $limit->first(function (MatchGroup $group) {
@@ -71,8 +71,8 @@ class GroupLimitTest extends TestCase
         });
     }
 
-    public function mockGroupLimit(array $allValues = [], string $firstValue = ''): GroupLimit
+    public function groupLimit(array $allValues = [], string $firstValue = ''): GroupLimit
     {
-        return GroupLimitMocks::mockGroupLimit($this, $allValues, $firstValue);
+        return GroupLimitMocks::createGroupLimit($this, $allValues, $firstValue);
     }
 }
