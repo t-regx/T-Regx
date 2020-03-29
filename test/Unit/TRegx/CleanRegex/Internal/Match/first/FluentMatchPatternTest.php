@@ -18,7 +18,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $pattern = new FluentMatchPattern($this->firstSwitcher('foo'), $this->worker(''));
+        $pattern = new FluentMatchPattern($this->switcher('first', 'foo'), $this->worker(''));
 
         // when
         $result = $pattern->first();
@@ -33,7 +33,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetValuesFirst()
     {
         // given
-        $pattern = new FluentMatchPattern($this->firstSwitcher('foo'), $this->worker(''));
+        $pattern = new FluentMatchPattern($this->switcher('first', 'foo'), $this->worker(''));
 
         // when
         $result = $pattern->values()->first();
@@ -48,13 +48,13 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetKeysFirst()
     {
         // given
-        $pattern = new FluentMatchPattern($this->firstSwitcher('foo'), $this->worker(''));
+        $pattern = new FluentMatchPattern($this->switcher('firstKey', 4), $this->worker(''));
 
         // when
         $result = $pattern->keys()->first();
 
         // then
-        $this->assertSame(0, $result);
+        $this->assertSame(4, $result);
     }
 
     /**
@@ -63,7 +63,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldInvoke_consumer()
     {
         // given
-        $pattern = new FluentMatchPattern($this->firstSwitcher('foo'), $this->worker(''));
+        $pattern = new FluentMatchPattern($this->switcher('first', 'foo'), $this->worker(''));
 
         // when
         $pattern->first(function ($value, $key = null) {
@@ -117,12 +117,12 @@ class FluentMatchPatternTest extends TestCase
         return $mockObject;
     }
 
-    private function firstSwitcher($return, int $times = 1): Switcher
+    private function switcher(string $method, $return, int $times = 1): Switcher
     {
         /** @var Switcher|MockObject $switcher */
         $switcher = $this->createMock(Switcher::class);
-        $switcher->expects($this->exactly($times))->method('first')->willReturn($return);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
+        $switcher->expects($this->exactly($times))->method($method)->willReturn($return);
+        $switcher->expects($this->never())->method($this->logicalNot($this->matches($method)));
         return $switcher;
     }
 
