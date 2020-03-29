@@ -12,4 +12,12 @@ class PhpVersionDependent
     {
         return "/(preg_replace_callback\(\): )?(Compilation failed: )?([mM]issing|[Uu]matched) (closing parenthesis|parentheses|\)) at offset $offset/";
     }
+
+    public static function getAsymmetricQuantifierMessage(int $offset): string
+    {
+        if (PHP_VERSION_ID >= 70300) {
+            return "Quantifier does not follow a repeatable item at offset $offset";
+        }
+        return "Nothing to repeat at offset $offset";
+    }
 }
