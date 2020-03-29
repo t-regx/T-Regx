@@ -15,8 +15,11 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
-use TRegx\CleanRegex\Internal\Match\Switcher\ArraySwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\BaseSwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\MatchGroupSwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\FindFirst\Optional;
@@ -104,7 +107,7 @@ class GroupLimit implements PatternLimit
      */
     public function map(callable $mapper): array
     {
-        return \array_map($mapper, $this->getMatchGroupObjects());
+        return \array_map($mapper, $this->switcher()->all());
     }
 
     /**
@@ -113,12 +116,12 @@ class GroupLimit implements PatternLimit
      */
     public function flatMap(callable $mapper): array
     {
-        return (new FlatMapper($this->getMatchGroupObjects(), $mapper))->get();
+        return (new FlatMapper($this->switcher()->all(), $mapper))->get();
     }
 
     public function forEach(callable $consumer): void
     {
-        foreach ($this->getMatchGroupObjects() as $group) {
+        foreach ($this->switcher()->all() as $group) {
             $consumer($group);
         }
     }
@@ -131,16 +134,12 @@ class GroupLimit implements PatternLimit
     public function fluent(): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            new ArraySwitcher($this->getMatchGroupObjects()), // TODO: Critical - implement getting group for first()
+            $this->switcher(),
             new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base->getSubject()));
     }
 
-    private function getMatchGroupObjects(): array
+    private function switcher(): Switcher
     {
-        $matches = $this->allFactory->getAllForGroup();
-        $groupFacade = new GroupFacade($matches, $this->base, $this->nameOrIndex,
-            new MatchGroupFactoryStrategy(),
-            new EagerMatchAllFactory($matches));
-        return $groupFacade->createGroups($matches);
+        return new MatchGroupSwitcher(new BaseSwitcher($this->base), $this->base, $this->nameOrIndex, new EagerMatchAllFactory(new RawMatchesOffset([])));
     }
 }
