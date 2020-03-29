@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Match\Details\Match;
 
-class RawMatchesOffset implements IRawMatchesOffset, IRawMatchesGroupable
+class RawMatchesOffset implements IRawMatchesOffset
 {
     private const GROUP_WHOLE_MATCH = 0;
     private const FIRST_MATCH = 0;
