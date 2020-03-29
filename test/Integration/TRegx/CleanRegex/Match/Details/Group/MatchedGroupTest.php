@@ -4,7 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex\Match\Details\Group;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
-use TRegx\CleanRegex\Internal\MatchAllResults;
+use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
@@ -190,7 +190,7 @@ class MatchedGroupTest extends TestCase
                 'first' => ['Nice matching', 14],
                 1       => ['Nice matching', 14]
             ]),
-            new GroupDetails('first', 1, $nameOrIndex, new MatchAllResults(new RawMatchesOffset([]), 'first')),
+            new GroupDetails('first', 1, $nameOrIndex, new EagerMatchAllFactory(new RawMatchesOffset([]))),
             new MatchedGroupOccurrence('Nice matching', 14, new Subject('before- start(Nice matching)end -after match'))
         );
     }

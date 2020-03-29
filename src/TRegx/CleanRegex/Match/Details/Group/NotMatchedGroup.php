@@ -87,7 +87,7 @@ class NotMatchedGroup implements MatchGroup
 
     public function all(): array
     {
-        return $this->details->matchAll->all();
+        return $this->details->all();
     }
 
     public function orReturn($substitute)

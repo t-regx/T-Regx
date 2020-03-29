@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
-use TRegx\CleanRegex\Internal\MatchAllResults;
+use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
@@ -179,7 +179,7 @@ class NotMatchedGroupTest extends TestCase
     {
         $subject = new Subject('My super subject');
         return new NotMatchedGroup(
-            new GroupDetails('first', 1, 'first', new MatchAllResults(new RawMatchesOffset([]), 'first')),
+            new GroupDetails('first', 1, 'first', new EagerMatchAllFactory(new RawMatchesOffset([]))),
             new GroupExceptionFactory($subject, 'first'),
             new NotMatchedOptionalWorker(
                 new GroupMessage('first'),

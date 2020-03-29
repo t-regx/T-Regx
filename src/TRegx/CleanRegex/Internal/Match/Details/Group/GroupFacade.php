@@ -6,7 +6,6 @@ use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\MatchAllResults;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
@@ -93,6 +92,6 @@ class GroupFacade
     private function createGroupDetails(): GroupDetails
     {
         [$name, $index] = $this->groupAssign->getNameAndIndex($this->group);
-        return new GroupDetails($name, $index, $this->group, new MatchAllResults($this->allFactory->getRawMatches(), $index));
+        return new GroupDetails($name, $index, $this->group, $this->allFactory);
     }
 }

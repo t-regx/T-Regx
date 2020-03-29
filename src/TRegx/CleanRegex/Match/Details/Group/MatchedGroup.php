@@ -89,7 +89,7 @@ class MatchedGroup implements MatchGroup
 
     public function all(): array
     {
-        return $this->details->matchAll->all();
+        return $this->details->all();
     }
 
     public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string

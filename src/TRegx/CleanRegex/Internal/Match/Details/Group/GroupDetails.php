@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
-use TRegx\CleanRegex\Internal\MatchAllResults;
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 
 class GroupDetails
 {
@@ -11,14 +11,19 @@ class GroupDetails
     public $index;
     /** @var string|int */
     public $nameOrIndex;
-    /** @var MatchAllResults */
-    public $matchAll;
+    /** @var MatchAllFactory */
+    private $allFactory;
 
-    public function __construct(?string $name, int $index, $nameOrIndex, MatchAllResults $matchAll)
+    public function __construct(?string $name, int $index, $nameOrIndex, MatchAllFactory $allFactory)
     {
         $this->name = $name;
         $this->index = $index;
         $this->nameOrIndex = $nameOrIndex;
-        $this->matchAll = $matchAll;
+        $this->allFactory = $allFactory;
+    }
+
+    public function all(): array
+    {
+        return $this->allFactory->getRawMatches()->getGroupTexts($this->index);
     }
 }
