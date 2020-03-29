@@ -35,7 +35,21 @@ class AbstractMatchPatternTest extends TestCase
         $integers = $pattern->asInt()->first();
 
         // then
-        $this->assertEquals(1, $integers);
+        $this->assertSame(1, $integers);
+    }
+
+    /**
+     * @test
+     */
+    public function test_asInt_first_consumer()
+    {
+        // given
+        $pattern = new MatchPattern(InternalPattern::pcre('/\d+/'), 'Foo 1 Bar 34 Lorem 42 Ipsum');
+
+        // when
+        $pattern->asInt()->first(function ($argument) {
+            $this->assertSame(1, $argument);
+        });
     }
 
     /**
