@@ -3,36 +3,16 @@ namespace Test\Integration\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
-use TRegx\CleanRegex\Match\GroupLimit;
 
 class GroupLimitTest extends TestCase
 {
     /**
      * @test
      */
-    public function shouldReturnValues(): void
-    {
-        // given
-        $limit = $this->groupLimit([['first', 0], ['second', 1], ['third', 2]], 'first');
-
-        // when
-        $fromAll = $limit->all();
-        $fromOnly = $limit->only(2);
-        $fromFirst = $limit->first();
-
-        // then
-        $this->assertEquals($fromAll, ['first', 'second', 'third']);
-        $this->assertEquals($fromOnly, ['first', 'second']);
-        $this->assertEquals($fromFirst, 'first');
-    }
-
-    /**
-     * @test
-     */
     public function shouldReturnValues_all(): void
     {
         // given
-        $limit = $this->groupLimit([['Foo', 1], ['Bar', 2]]);
+        $limit = GroupLimitFactory::groupLimitAll($this, [['Foo', 1], ['Bar', 2]]);
 
         // when
         $result = $limit->all();
@@ -44,10 +24,40 @@ class GroupLimitTest extends TestCase
     /**
      * @test
      */
+    public function shouldReturnValues_only(): void
+    {
+        // given
+        $limit = GroupLimitFactory::groupLimitAll($this, [['first', 0], ['second', 1], ['third', 2]]);
+
+        // when
+        $fromOnly = $limit->only(2);
+
+        // then
+        $this->assertEquals($fromOnly, ['first', 'second']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnValue_first(): void
+    {
+        // given
+        $limit = GroupLimitFactory::groupLimitFirst($this, 'first');
+
+        // when
+        $fromFirst = $limit->first();
+
+        // then
+        $this->assertEquals($fromFirst, 'first');
+    }
+
+    /**
+     * @test
+     */
     public function shouldReturnValues_iterator(): void
     {
         // given
-        $limit = $this->groupLimit([['Foo', 1], ['Bar', 2]]);
+        $limit = GroupLimitFactory::groupLimitAll($this, [['Foo', 1], ['Bar', 2]]);
 
         // when
         $iterator = $limit->iterator();
@@ -62,17 +72,12 @@ class GroupLimitTest extends TestCase
     public function shouldInvokeFirstConsumer()
     {
         // given
-        $limit = $this->groupLimit([], 'Foo Bar');
+        $limit = GroupLimitFactory::groupLimitFirst($this, 'Foo Bar');
 
         // when
         $limit->first(function (MatchGroup $group) {
             // then
             $this->assertEquals('Foo Bar', $group->text());
         });
-    }
-
-    public function groupLimit(array $allValues = [], string $firstValue = ''): GroupLimit
-    {
-        return GroupLimitMocks::createGroupLimit($this, $allValues, $firstValue);
     }
 }

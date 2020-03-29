@@ -2,10 +2,9 @@
 namespace Test\Integration\TRegx\CleanRegex\Match\fluent;
 
 use PHPUnit\Framework\TestCase;
-use Test\Integration\TRegx\CleanRegex\Match\GroupLimitMocks;
+use Test\Integration\TRegx\CleanRegex\Match\GroupLimitFactory;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
-use TRegx\CleanRegex\Match\GroupLimit;
 
 class GroupLimitTest extends TestCase
 {
@@ -15,7 +14,7 @@ class GroupLimitTest extends TestCase
     public function shouldReturnGroups(): void
     {
         // given
-        $limit = $this->groupLimit([['Foo', 1], ['Bar', 2]]);
+        $limit = GroupLimitFactory::groupLimitAll($this, [['Foo', 1], ['Bar', 2]]);
 
         // when
         $chained = $limit->fluent();
@@ -34,7 +33,7 @@ class GroupLimitTest extends TestCase
     public function shouldThrow_first(): void
     {
         // given
-        $limit = $this->groupLimit([]);
+        $limit = GroupLimitFactory::groupLimitFirstUnmatched($this);
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -53,7 +52,7 @@ class GroupLimitTest extends TestCase
     public function shouldThrow_first_callback(): void
     {
         // given
-        $limit = $this->groupLimit([]);
+        $limit = GroupLimitFactory::groupLimitFirstUnmatched($this);
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -74,7 +73,7 @@ class GroupLimitTest extends TestCase
     public function shouldInvokeCallback_first(): void
     {
         // given
-        $limit = $this->groupLimit([['Foo', 1], ['Bar', 2]]);
+        $limit = GroupLimitFactory::groupLimitFirst($this, 'Foo');
 
         // when
         $chained = $limit->fluent();
@@ -83,10 +82,5 @@ class GroupLimitTest extends TestCase
         $chained->first(function (MatchGroup $matchGroup) {
             $this->assertEquals('Foo', $matchGroup->text());
         });
-    }
-
-    private function groupLimit(array $allValues): GroupLimit
-    {
-        return GroupLimitMocks::createGroupLimit($this, $allValues);
     }
 }
