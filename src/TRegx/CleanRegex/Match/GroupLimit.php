@@ -43,9 +43,9 @@ class GroupLimit implements PatternLimit
         $this->allFactory = new GroupLimitAll($base, $nameOrIndex);
         $this->firstFactory = new GroupLimitFirst($base, $nameOrIndex);
         $this->findFirstFactory = new GroupLimitFindFirst($base, $nameOrIndex);
-        $this->offsetLimit = $offsetLimit;
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
+        $this->offsetLimit = $offsetLimit;
     }
 
     /**

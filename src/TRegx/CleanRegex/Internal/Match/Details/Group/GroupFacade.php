@@ -52,7 +52,7 @@ class GroupFacade
         $matchObjects = [];
         foreach ($matches->getGroupTextAndOffsetAll($this->group) as $index => $firstWhole) {
             $match = new RawMatchesToMatchAdapter($matches, $index);
-            if ($matches->isGroupMatched($this->group, $index)) {
+            if ($match->isGroupMatched($this->group)) {
                 $matchObjects[] = $this->createdMatched($match, ...$firstWhole);
             } else {
                 $matchObjects[] = $this->createUnmatched($match);
@@ -64,8 +64,7 @@ class GroupFacade
     public function createGroup(IRawMatchOffset $match): MatchGroup
     {
         if ($match->isGroupMatched($this->group)) {
-            [$text, $offset] = $match->getGroupTextAndOffset($this->group);
-            return $this->createdMatched($match, $text, $offset);
+            return $this->createdMatched($match, ...$match->getGroupTextAndOffset($this->group));
         }
         return $this->createUnmatched($match);
     }
