@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\only;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\PhpunitPolyfill;
 use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -10,6 +11,8 @@ use TRegx\SafeRegex\Exception\CompilePregException;
 
 class MatchPatternTest extends TestCase
 {
+    use PhpunitPolyfill;
+
     /**
      * @test
      */
@@ -111,7 +114,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(CompilePregException::class);
-        $this->expectExceptionMessageRegExp(PhpVersionDependent::getUnmatchedParenthesisMessage(7));
+        $this->expectExceptionMessageMatches(PhpVersionDependent::getUnmatchedParenthesisMessage(7));
 
         // when
         $pattern->only(0);
