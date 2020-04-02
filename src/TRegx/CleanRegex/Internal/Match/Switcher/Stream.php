@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Switcher;
 
-interface Switcher
+interface Stream
 {
     public function all();
 

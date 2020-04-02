@@ -9,9 +9,9 @@ use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 
-class MatchGroupSwitcher implements Switcher
+class MatchGroupStream implements Stream
 {
-    /** @var BaseSwitcher */
+    /** @var BaseStream */
     private $switcher;
     /** @var Subjectable */
     private $subjectable;
@@ -20,7 +20,7 @@ class MatchGroupSwitcher implements Switcher
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(BaseSwitcher $switcher, Subjectable $subjectable, $nameOrIndex, MatchAllFactory $factory)
+    public function __construct(BaseStream $switcher, Subjectable $subjectable, $nameOrIndex, MatchAllFactory $factory)
     {
         $this->switcher = $switcher;
         $this->subjectable = $subjectable;

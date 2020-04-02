@@ -1,12 +1,12 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Switcher;
 
-class TextSwitcher implements Switcher
+class TextStream implements Stream
 {
-    /** @var BaseSwitcher */
+    /** @var BaseStream */
     private $switcher;
 
-    public function __construct(BaseSwitcher $switcher)
+    public function __construct(BaseStream $switcher)
     {
         $this->switcher = $switcher;
     }

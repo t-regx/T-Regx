@@ -4,12 +4,12 @@ namespace TRegx\CleanRegex\Internal\Match\Switcher;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\Integer;
 
-class IntSwitcher implements Switcher
+class IntStream implements Stream
 {
-    /** @var BaseSwitcher */
+    /** @var BaseStream */
     private $switcher;
 
-    public function __construct(BaseSwitcher $switcher)
+    public function __construct(BaseStream $switcher)
     {
         $this->switcher = $switcher;
     }

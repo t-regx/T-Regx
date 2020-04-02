@@ -4,10 +4,10 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Switcher;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
-use TRegx\CleanRegex\Internal\Match\Switcher\MappingSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\MappingStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\Stream;
 
-class MappingSwitcherTest extends TestCase
+class MappingStreamTest extends TestCase
 {
     /**
      * @test
@@ -15,7 +15,7 @@ class MappingSwitcherTest extends TestCase
     public function shouldMapAll()
     {
         // given
-        $switcher = new MappingSwitcher($this->mock('all', 'willReturn', ['One', 'Two', 'Three']), 'strtoupper');
+        $switcher = new MappingStream($this->mock('all', 'willReturn', ['One', 'Two', 'Three']), 'strtoupper');
 
         // when
         $all = $switcher->all();
@@ -30,7 +30,7 @@ class MappingSwitcherTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $switcher = new MappingSwitcher($this->mock('first', 'willReturn', 'One'), function (string $element) {
+        $switcher = new MappingStream($this->mock('first', 'willReturn', 'One'), function (string $element) {
             $this->assertEquals('One', $element, 'Failed to assert that callback is only called for the first element');
             return 'foo';
         });
@@ -48,7 +48,7 @@ class MappingSwitcherTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $switcher = new MappingSwitcher($this->mock('firstKey', 'willReturn', 'foo'), [$this, 'fail']);
+        $switcher = new MappingStream($this->mock('firstKey', 'willReturn', 'foo'), [$this, 'fail']);
 
         // when
         $firstKey = $switcher->firstKey();
@@ -63,7 +63,7 @@ class MappingSwitcherTest extends TestCase
     public function shouldFirstThrow()
     {
         // given
-        $switcher = new MappingSwitcher($this->mock('first', 'willThrowException', new NoFirstSwitcherException()), 'strtoupper');
+        $switcher = new MappingStream($this->mock('first', 'willThrowException', new NoFirstSwitcherException()), 'strtoupper');
 
         // then
         $this->expectException(NoFirstSwitcherException::class);
@@ -78,7 +78,7 @@ class MappingSwitcherTest extends TestCase
     public function shouldFirstReturnInteger()
     {
         // given
-        $switcher = new MappingSwitcher($this->mock('first', 'willReturn', 1), function (int $a) {
+        $switcher = new MappingStream($this->mock('first', 'willReturn', 1), function (int $a) {
             return $a;
         });
 
@@ -89,10 +89,10 @@ class MappingSwitcherTest extends TestCase
         $this->assertSame(1, $first);
     }
 
-    private function mock(string $methodName, string $setter, $value): Switcher
+    private function mock(string $methodName, string $setter, $value): Stream
     {
-        /** @var Switcher|MockObject $switcher */
-        $switcher = $this->createMock(Switcher::class);
+        /** @var Stream|MockObject $switcher */
+        $switcher = $this->createMock(Stream::class);
         $switcher->expects($this->once())->method($methodName)->$setter($value);
         $switcher->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
         return $switcher;

@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\Switcher;
 
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
 
-class ArraySwitcher implements Switcher
+class ArrayStream implements Stream
 {
     /** @var array */
     private $elements;

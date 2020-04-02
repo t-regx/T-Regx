@@ -3,14 +3,14 @@ namespace TRegx\CleanRegex\Internal\Match\Switcher;
 
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 
-class FlatMappingSwitcher implements Switcher
+class FlatMappingStream implements Stream
 {
     /** @var array */
     private $switcher;
     /** @var callable */
     private $mapper;
 
-    public function __construct(Switcher $switcher, callable $mapper)
+    public function __construct(Stream $switcher, callable $mapper)
     {
         $this->switcher = $switcher;
         $this->mapper = $mapper;

@@ -3,9 +3,9 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Switcher;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
-use TRegx\CleanRegex\Internal\Match\Switcher\ArraySwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\ArrayStream;
 
-class ArraySwitcherTest extends TestCase
+class ArrayStreamTest extends TestCase
 {
     /**
      * @test
@@ -13,7 +13,7 @@ class ArraySwitcherTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $switcher = new ArraySwitcher(['One', 'Two', 'Three']);
+        $switcher = new ArrayStream(['One', 'Two', 'Three']);
 
         // when
         $all = $switcher->all();
@@ -28,7 +28,7 @@ class ArraySwitcherTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $switcher = new ArraySwitcher(['One', 'Two', 'Three']);
+        $switcher = new ArrayStream(['One', 'Two', 'Three']);
 
         // when
         $first = $switcher->first();
@@ -46,7 +46,7 @@ class ArraySwitcherTest extends TestCase
         $elements = [10 => 'One', 20 => 'Two', 30 => 'Three'];
         next($elements);
         next($elements); # Intentionally move internal pointer
-        $switcher = new ArraySwitcher($elements);
+        $switcher = new ArrayStream($elements);
 
         // when
         $firstKey = $switcher->firstKey();
@@ -61,7 +61,7 @@ class ArraySwitcherTest extends TestCase
     public function shouldGetFirst_assoc()
     {
         // given
-        $switcher = new ArraySwitcher(['a' => 'One', 'b' => 'Two', 'c' => 'Three']);
+        $switcher = new ArrayStream(['a' => 'One', 'b' => 'Two', 'c' => 'Three']);
 
         // when
         $first = $switcher->first();
@@ -76,7 +76,7 @@ class ArraySwitcherTest extends TestCase
     public function shouldFirstThrow()
     {
         // given
-        $switcher = new ArraySwitcher([]);
+        $switcher = new ArrayStream([]);
 
         // then
         $this->expectException(NoFirstSwitcherException::class);
@@ -91,7 +91,7 @@ class ArraySwitcherTest extends TestCase
     public function shouldFirstReturnInteger()
     {
         // given
-        $switcher = new ArraySwitcher([1]);
+        $switcher = new ArrayStream([1]);
 
         // when
         $first = $switcher->first();

@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
-use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 class FluentMatchPatternTest extends TestCase
@@ -119,19 +119,19 @@ class FluentMatchPatternTest extends TestCase
         return new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), 'foo bar');
     }
 
-    private function firstSwitcher($return, int $times = 1): Switcher
+    private function firstSwitcher($return, int $times = 1): Stream
     {
-        /** @var Switcher|MockObject $switcher */
-        $switcher = $this->createMock(Switcher::class);
+        /** @var Stream|MockObject $switcher */
+        $switcher = $this->createMock(Stream::class);
         $switcher->expects($this->exactly($times))->method('first')->willReturn($return);
         $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
         return $switcher;
     }
 
-    private function unmatchedMock(): Switcher
+    private function unmatchedMock(): Stream
     {
-        /** @var Switcher|MockObject $switcher */
-        $switcher = $this->createMock(Switcher::class);
+        /** @var Stream|MockObject $switcher */
+        $switcher = $this->createMock(Stream::class);
         $switcher->expects($this->once())->method('first')->willThrowException(new NoFirstSwitcherException());
         $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
         return $switcher;

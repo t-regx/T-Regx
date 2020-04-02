@@ -3,10 +3,10 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Switcher;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Match\Switcher\KeysSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\KeysStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\Stream;
 
-class KeysSwitcherTest extends TestCase
+class KeysStreamTest extends TestCase
 {
     /**
      * @test
@@ -14,7 +14,7 @@ class KeysSwitcherTest extends TestCase
     public function shouldGetKeys()
     {
         // given
-        $switcher = new KeysSwitcher($this->mock('all', 'willReturn', ['a' => 'One', 'b' => 'Two', 'c' => 'Three']));
+        $switcher = new KeysStream($this->mock('all', 'willReturn', ['a' => 'One', 'b' => 'Two', 'c' => 'Three']));
 
         // when
         $keys = $switcher->all();
@@ -29,7 +29,7 @@ class KeysSwitcherTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $switcher = new KeysSwitcher($this->mock('firstKey', 'willReturn', 'One'));
+        $switcher = new KeysStream($this->mock('firstKey', 'willReturn', 'One'));
 
         // when
         $first = $switcher->first();
@@ -44,7 +44,7 @@ class KeysSwitcherTest extends TestCase
     public function shouldFirstKey_beAlwaysZero()
     {
         // given
-        $switcher = new KeysSwitcher($this->zeroInteraction());
+        $switcher = new KeysStream($this->zeroInteraction());
 
         // when
         $firstKey = $switcher->firstKey();
@@ -53,19 +53,19 @@ class KeysSwitcherTest extends TestCase
         $this->assertSame(0, $firstKey);
     }
 
-    private function mock(string $methodName, string $setter, $value): Switcher
+    private function mock(string $methodName, string $setter, $value): Stream
     {
-        /** @var Switcher|MockObject $switcher */
-        $switcher = $this->createMock(Switcher::class);
+        /** @var Stream|MockObject $switcher */
+        $switcher = $this->createMock(Stream::class);
         $switcher->expects($this->once())->method($methodName)->$setter($value);
         $switcher->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
         return $switcher;
     }
 
-    private function zeroInteraction(): Switcher
+    private function zeroInteraction(): Stream
     {
-        /** @var Switcher|MockObject $base */
-        $base = $this->createMock(Switcher::class);
+        /** @var Stream|MockObject $base */
+        $base = $this->createMock(Stream::class);
         $base->expects($this->never())->method($this->anything());
         return $base;
     }

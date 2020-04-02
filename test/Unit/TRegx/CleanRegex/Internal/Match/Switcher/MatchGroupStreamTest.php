@@ -5,15 +5,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Match\Switcher\BaseSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\MatchGroupSwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\BaseStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 
-class MatchGroupSwitcherTest extends TestCase
+class MatchGroupStreamTest extends TestCase
 {
     /**
      * @test
@@ -129,19 +129,19 @@ class MatchGroupSwitcherTest extends TestCase
         $this->assertSame(['sword', 'bow', 'axe'], $first->all());
     }
 
-    private function switcher(string $methodName, $value): BaseSwitcher
+    private function switcher(string $methodName, $value): BaseStream
     {
-        /** @var BaseSwitcher|MockObject $switcher */
-        $switcher = $this->createMock(BaseSwitcher::class);
+        /** @var BaseStream|MockObject $switcher */
+        $switcher = $this->createMock(BaseStream::class);
         $switcher->expects($this->once())->method($methodName)->willReturn($value);
         $switcher->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
         return $switcher;
     }
 
-    private function zeroInteraction(): BaseSwitcher
+    private function zeroInteraction(): BaseStream
     {
-        /** @var BaseSwitcher|MockObject $switcher */
-        $switcher = $this->createMock(BaseSwitcher::class);
+        /** @var BaseStream|MockObject $switcher */
+        $switcher = $this->createMock(BaseStream::class);
         $switcher->expects($this->never())->method($this->anything());
         return $switcher;
     }
@@ -181,9 +181,9 @@ class MatchGroupSwitcherTest extends TestCase
         ]);
     }
 
-    private function matchSwitcher(BaseSwitcher $switcher, $nameOrIndex, MatchAllFactory $factory = null): MatchGroupSwitcher
+    private function matchSwitcher(BaseStream $switcher, $nameOrIndex, MatchAllFactory $factory = null): MatchGroupStream
     {
-        return new MatchGroupSwitcher(
+        return new MatchGroupStream(
             $switcher,
             new Subject('switch subject'),
             $nameOrIndex,

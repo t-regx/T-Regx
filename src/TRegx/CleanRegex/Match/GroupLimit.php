@@ -15,9 +15,9 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
-use TRegx\CleanRegex\Internal\Match\Switcher\BaseSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\MatchGroupSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\BaseStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\MatchGroupStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\Stream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\PatternLimit;
@@ -138,8 +138,8 @@ class GroupLimit implements PatternLimit
             new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base->getSubject()));
     }
 
-    private function switcher(): Switcher
+    private function switcher(): Stream
     {
-        return new MatchGroupSwitcher(new BaseSwitcher($this->base), $this->base, $this->nameOrIndex, new EagerMatchAllFactory(new RawMatchesOffset([])));
+        return new MatchGroupStream(new BaseStream($this->base), $this->base, $this->nameOrIndex, new EagerMatchAllFactory(new RawMatchesOffset([])));
     }
 }

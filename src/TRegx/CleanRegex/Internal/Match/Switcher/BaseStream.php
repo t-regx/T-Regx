@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 
-class BaseSwitcher implements Switcher, MatchAllFactory
+class BaseStream implements Stream, MatchAllFactory
 {
     /** @var Base */
     private $base;

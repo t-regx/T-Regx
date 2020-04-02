@@ -5,12 +5,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
-use TRegx\CleanRegex\Internal\Match\Switcher\GroupByCallbackSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\GroupByCallbackStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\Stream;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Match;
 
-class GroupByCallbackSwitcherTest extends TestCase
+class GroupByCallbackStreamTest extends TestCase
 {
     /**
      * @test
@@ -18,7 +18,7 @@ class GroupByCallbackSwitcherTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $switcher = new GroupByCallbackSwitcher($this->mock('all', 'willReturn', [10 => 'One', 20 => 'Two', 30 => 'Three']), function (string $value) {
+        $switcher = new GroupByCallbackStream($this->mock('all', 'willReturn', [10 => 'One', 20 => 'Two', 30 => 'Three']), function (string $value) {
             return $value[0];
         });
 
@@ -38,7 +38,7 @@ class GroupByCallbackSwitcherTest extends TestCase
         $match = $this->matchMock('hello');
         $group = $this->matchGroupMock('hello');
         $input = ['hello', 2, $match, 2, $group,];
-        $switcher = new GroupByCallbackSwitcher($this->mock('all', 'willReturn', $input), function ($value) {
+        $switcher = new GroupByCallbackStream($this->mock('all', 'willReturn', $input), function ($value) {
             return $value;
         });
 
@@ -59,7 +59,7 @@ class GroupByCallbackSwitcherTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $switcher = new GroupByCallbackSwitcher($this->mock('first', 'willReturn', 'One'), 'strtoupper');
+        $switcher = new GroupByCallbackStream($this->mock('first', 'willReturn', 'One'), 'strtoupper');
 
         // when
         $first = $switcher->first();
@@ -74,7 +74,7 @@ class GroupByCallbackSwitcherTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $switcher = new GroupByCallbackSwitcher($this->mock('first', 'willReturn', 'One'), 'strtoupper');
+        $switcher = new GroupByCallbackStream($this->mock('first', 'willReturn', 'One'), 'strtoupper');
 
         // when
         $firstKey = $switcher->firstKey();
@@ -89,7 +89,7 @@ class GroupByCallbackSwitcherTest extends TestCase
     public function shouldFirstThrow()
     {
         // given
-        $switcher = new GroupByCallbackSwitcher($this->mock('first', 'willThrowException', new NoFirstSwitcherException()), 'strlen');
+        $switcher = new GroupByCallbackStream($this->mock('first', 'willThrowException', new NoFirstSwitcherException()), 'strlen');
 
         // then
         $this->expectException(NoFirstSwitcherException::class);
@@ -107,7 +107,7 @@ class GroupByCallbackSwitcherTest extends TestCase
     public function shouldThrowForInvalidGroupByType_all(string $caller, $returnValue)
     {
         // given
-        $switcher = new GroupByCallbackSwitcher($this->mock($caller, 'willReturn', $returnValue), function () {
+        $switcher = new GroupByCallbackStream($this->mock($caller, 'willReturn', $returnValue), function () {
             return [];
         });
 
@@ -127,10 +127,10 @@ class GroupByCallbackSwitcherTest extends TestCase
         ];
     }
 
-    private function mock(string $methodName, string $setter, $value): Switcher
+    private function mock(string $methodName, string $setter, $value): Stream
     {
-        /** @var Switcher|MockObject $switcher */
-        $switcher = $this->createMock(Switcher::class);
+        /** @var Stream|MockObject $switcher */
+        $switcher = $this->createMock(Stream::class);
         $switcher->expects($this->once())->method($methodName)->$setter($value);
         $switcher->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
         return $switcher;

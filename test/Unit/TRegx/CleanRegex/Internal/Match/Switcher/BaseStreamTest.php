@@ -5,13 +5,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Switcher\BaseSwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\BaseStream;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
-class BaseSwitcherTest extends TestCase
+class BaseStreamTest extends TestCase
 {
     /**
      * @test
@@ -19,7 +19,7 @@ class BaseSwitcherTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $switcher = new BaseSwitcher($this->baseAll());
+        $switcher = new BaseStream($this->baseAll());
 
         // when
         $all = $switcher->all();
@@ -34,7 +34,7 @@ class BaseSwitcherTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $switcher = new BaseSwitcher($this->baseFirst());
+        $switcher = new BaseStream($this->baseFirst());
 
         // when
         $first = $switcher->first();
@@ -49,7 +49,7 @@ class BaseSwitcherTest extends TestCase
     public function shouldFirstThrow_unmatched()
     {
         // given
-        $switcher = new BaseSwitcher($this->baseFirstUnmatched());
+        $switcher = new BaseStream($this->baseFirstUnmatched());
 
         // then
         $this->expectException(NoFirstSwitcherException::class);
@@ -64,7 +64,7 @@ class BaseSwitcherTest extends TestCase
     public function shouldAll_returnEmpty_unmatched()
     {
         // given
-        $switcher = new BaseSwitcher($this->baseAllUnmatched());
+        $switcher = new BaseStream($this->baseAllUnmatched());
 
         // when
         $all = $switcher->all();
@@ -80,7 +80,7 @@ class BaseSwitcherTest extends TestCase
     public function shouldFirstThrow_afterAll_unmatched()
     {
         // given
-        $switcher = new BaseSwitcher($this->baseAllUnmatched());
+        $switcher = new BaseStream($this->baseAllUnmatched());
 
         // then
         $this->expectException(NoFirstSwitcherException::class);
@@ -96,7 +96,7 @@ class BaseSwitcherTest extends TestCase
     public function shouldAll_callBase_once()
     {
         // given
-        $switcher = new BaseSwitcher($this->baseAll());
+        $switcher = new BaseStream($this->baseAll());
 
         // when
         $switcher->all();
@@ -110,7 +110,7 @@ class BaseSwitcherTest extends TestCase
     public function shouldRaw_callBase_once()
     {
         // given
-        $switcher = new BaseSwitcher($this->baseAll());
+        $switcher = new BaseStream($this->baseAll());
 
         // when
         $switcher->getRawMatches();
@@ -124,7 +124,7 @@ class BaseSwitcherTest extends TestCase
     public function shouldFirst_callBase_once()
     {
         // given
-        $switcher = new BaseSwitcher($this->baseFirst());
+        $switcher = new BaseStream($this->baseFirst());
 
         // when
         $switcher->first();
@@ -138,7 +138,7 @@ class BaseSwitcherTest extends TestCase
     public function shouldCallAll_afterFirst()
     {
         // given
-        $switcher = new BaseSwitcher($this->baseBoth());
+        $switcher = new BaseStream($this->baseBoth());
 
         // when
         $switcher->first();
@@ -151,7 +151,7 @@ class BaseSwitcherTest extends TestCase
     public function shouldNotCallFirst_afterAll()
     {
         // given
-        $switcher = new BaseSwitcher($this->baseAll());
+        $switcher = new BaseStream($this->baseAll());
 
         // when
         $switcher->all();
@@ -167,7 +167,7 @@ class BaseSwitcherTest extends TestCase
     public function shouldNotCallFirst_afterAllFirst()
     {
         // given
-        $switcher = new BaseSwitcher($this->baseBoth());
+        $switcher = new BaseStream($this->baseBoth());
 
         // when
         $switcher->first();
@@ -184,7 +184,7 @@ class BaseSwitcherTest extends TestCase
     public function shouldFirstKey_beAlwaysZero()
     {
         // given
-        $switcher = new BaseSwitcher($this->zeroInteraction());
+        $switcher = new BaseStream($this->zeroInteraction());
 
         // when
         $firstKey = $switcher->firstKey();

@@ -5,8 +5,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Match\Switcher\BaseSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\MatchSwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\BaseStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\MatchStream;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
@@ -14,7 +14,7 @@ use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Match;
 
-class MatchSwitcherTest extends TestCase
+class MatchStreamTest extends TestCase
 {
     /**
      * @test
@@ -130,28 +130,28 @@ class MatchSwitcherTest extends TestCase
         $this->assertSame(['First', '19', '25'], $first->all());
     }
 
-    private function switcherAll($firstValue): BaseSwitcher
+    private function switcherAll($firstValue): BaseStream
     {
-        /** @var BaseSwitcher|MockObject $switcher */
-        $switcher = $this->createMock(BaseSwitcher::class);
+        /** @var BaseStream|MockObject $switcher */
+        $switcher = $this->createMock(BaseStream::class);
         $switcher->expects($this->once())->method('all')->willReturn($this->matchesOffset($firstValue));
         $switcher->expects($this->never())->method($this->logicalNot($this->matches('all')));
         return $switcher;
     }
 
-    private function switcherFirst(string $value): BaseSwitcher
+    private function switcherFirst(string $value): BaseStream
     {
-        /** @var BaseSwitcher|MockObject $switcher */
-        $switcher = $this->createMock(BaseSwitcher::class);
+        /** @var BaseStream|MockObject $switcher */
+        $switcher = $this->createMock(BaseStream::class);
         $switcher->expects($this->once())->method('first')->willReturn($this->matchOffset($value));
         $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
         return $switcher;
     }
 
-    private function switcherFirstKey($value): BaseSwitcher
+    private function switcherFirstKey($value): BaseStream
     {
-        /** @var BaseSwitcher|MockObject $switcher */
-        $switcher = $this->createMock(BaseSwitcher::class);
+        /** @var BaseStream|MockObject $switcher */
+        $switcher = $this->createMock(BaseStream::class);
         $switcher->expects($this->once())->method('firstKey')->willReturn($value);
         $switcher->expects($this->never())->method($this->logicalNot($this->matches('firstKey')));
         return $switcher;
@@ -171,9 +171,9 @@ class MatchSwitcherTest extends TestCase
         return new RawMatchOffset([[$value, 1]]);
     }
 
-    private function matchSwitcher(BaseSwitcher $switcher, MatchAllFactory $factory = null): MatchSwitcher
+    private function matchSwitcher(BaseStream $switcher, MatchAllFactory $factory = null): MatchStream
     {
-        return new MatchSwitcher($switcher, new Subject('switch subject'), new UserData(), $factory ?? $this->mock());
+        return new MatchStream($switcher, new Subject('switch subject'), new UserData(), $factory ?? $this->mock());
     }
 
     private function mock(): MatchAllFactory

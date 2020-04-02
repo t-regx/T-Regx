@@ -9,24 +9,24 @@ use TRegx\CleanRegex\Internal\Exception\Messages\NoSuchElementFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\FluentInteger;
-use TRegx\CleanRegex\Internal\Match\Switcher\ArrayOnlySwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\ArraySwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\FlatMappingSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\GroupByCallbackSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\KeysSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\MappingSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\ArrayOnlyStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\ArrayStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\FlatMappingStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\GroupByCallbackStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\KeysStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\MappingStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\Stream;
 use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
 use TRegx\CleanRegex\Match\FindFirst\Optional;
 
 class FluentMatchPattern implements MatchPatternInterface
 {
-    /** @var Switcher */
+    /** @var Stream */
     private $switcher;
     /** @var NotMatchedFluentOptionalWorker */
     private $firstWorker;
 
-    public function __construct(Switcher $switcher, NotMatchedFluentOptionalWorker $firstWorker)
+    public function __construct(Stream $switcher, NotMatchedFluentOptionalWorker $firstWorker)
     {
         $this->switcher = $switcher;
         $this->firstWorker = $firstWorker;
@@ -105,32 +105,32 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function map(callable $mapper): FluentMatchPattern
     {
-        return $this->next(new MappingSwitcher($this->switcher, $mapper));
+        return $this->next(new MappingStream($this->switcher, $mapper));
     }
 
     public function flatMap(callable $mapper): FluentMatchPattern
     {
-        return $this->next(new FlatMappingSwitcher($this->switcher, $mapper));
+        return $this->next(new FlatMappingStream($this->switcher, $mapper));
     }
 
     public function distinct(): FluentMatchPattern
     {
-        return $this->next(new ArrayOnlySwitcher($this->switcher, '\array_unique'));
+        return $this->next(new ArrayOnlyStream($this->switcher, '\array_unique'));
     }
 
     public function filter(callable $predicate): FluentMatchPattern
     {
-        return $this->next(new ArraySwitcher(\array_values(\array_filter($this->switcher->all(), $predicate))));
+        return $this->next(new ArrayStream(\array_values(\array_filter($this->switcher->all(), $predicate))));
     }
 
     public function values(): FluentMatchPattern
     {
-        return $this->next(new ArrayOnlySwitcher($this->switcher, '\array_values'));
+        return $this->next(new ArrayOnlyStream($this->switcher, '\array_values'));
     }
 
     public function keys(): FluentMatchPattern
     {
-        return $this->next(new KeysSwitcher($this->switcher));
+        return $this->next(new KeysStream($this->switcher));
     }
 
     public function asInt(): FluentMatchPattern
@@ -140,10 +140,10 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function groupByCallback(callable $groupMapper): FluentMatchPattern
     {
-        return $this->next(new GroupByCallbackSwitcher($this->switcher, $groupMapper));
+        return $this->next(new GroupByCallbackStream($this->switcher, $groupMapper));
     }
 
-    private function next(Switcher $switcher): FluentMatchPattern
+    private function next(Stream $switcher): FluentMatchPattern
     {
         return new FluentMatchPattern($switcher, $this->firstWorker);
     }

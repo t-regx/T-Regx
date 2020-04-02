@@ -5,10 +5,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
-use TRegx\CleanRegex\Internal\Match\Switcher\FlatMappingSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\FlatMappingStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\Stream;
 
-class FlatMappingSwitcherTest extends TestCase
+class FlatMappingStreamTest extends TestCase
 {
     /**
      * @test
@@ -16,7 +16,7 @@ class FlatMappingSwitcherTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $switcher = new FlatMappingSwitcher($this->mock('all', 'willReturn', ['One', 'Two', 'Three']), 'str_split');
+        $switcher = new FlatMappingStream($this->mock('all', 'willReturn', ['One', 'Two', 'Three']), 'str_split');
 
         // when
         $all = $switcher->all();
@@ -31,7 +31,7 @@ class FlatMappingSwitcherTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $switcher = new FlatMappingSwitcher($this->mock('first', 'willReturn', 'One'), 'str_split');
+        $switcher = new FlatMappingStream($this->mock('first', 'willReturn', 'One'), 'str_split');
 
         // when
         $first = $switcher->first();
@@ -46,7 +46,7 @@ class FlatMappingSwitcherTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $switcher = new FlatMappingSwitcher($this->mock('firstKey', 'willReturn', 'foo'), [$this, 'fail']);
+        $switcher = new FlatMappingStream($this->mock('firstKey', 'willReturn', 'foo'), [$this, 'fail']);
 
         // when
         $firstKey = $switcher->firstKey();
@@ -61,7 +61,7 @@ class FlatMappingSwitcherTest extends TestCase
     public function shouldFirstThrow_forNoFirstElement()
     {
         // given
-        $switcher = new FlatMappingSwitcher($this->mock('first', 'willThrowException', new NoFirstSwitcherException()), 'strlen');
+        $switcher = new FlatMappingStream($this->mock('first', 'willThrowException', new NoFirstSwitcherException()), 'strlen');
 
         // then
         $this->expectException(NoFirstSwitcherException::class);
@@ -76,7 +76,7 @@ class FlatMappingSwitcherTest extends TestCase
     public function shouldReturn_forEmptyArray()
     {
         // given
-        $switcher = new FlatMappingSwitcher($this->mock('first', 'willReturn', []), function ($a) {
+        $switcher = new FlatMappingStream($this->mock('first', 'willReturn', []), function ($a) {
             return $a;
         });
 
@@ -93,7 +93,7 @@ class FlatMappingSwitcherTest extends TestCase
     public function shouldFirstThrow_invalidReturnType()
     {
         // given
-        $switcher = new FlatMappingSwitcher($this->mock('first', 'willReturn', 'Foo'), 'strlen');
+        $switcher = new FlatMappingStream($this->mock('first', 'willReturn', 'Foo'), 'strlen');
 
         // then
         $this->expectException(InvalidReturnValueException::class);
@@ -108,7 +108,7 @@ class FlatMappingSwitcherTest extends TestCase
     public function shouldAllThrow_invalidReturnType()
     {
         // given
-        $switcher = new FlatMappingSwitcher($this->mock('all', 'willReturn', ['Foo']), 'strlen');
+        $switcher = new FlatMappingStream($this->mock('all', 'willReturn', ['Foo']), 'strlen');
 
         // then
         $this->expectException(InvalidReturnValueException::class);
@@ -117,10 +117,10 @@ class FlatMappingSwitcherTest extends TestCase
         $switcher->all();
     }
 
-    private function mock(string $methodName, string $setter, $value): Switcher
+    private function mock(string $methodName, string $setter, $value): Stream
     {
-        /** @var Switcher|MockObject $switcher */
-        $switcher = $this->createMock(Switcher::class);
+        /** @var Stream|MockObject $switcher */
+        $switcher = $this->createMock(Stream::class);
         $switcher->expects($this->once())->method($methodName)->$setter($value);
         $switcher->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
         return $switcher;

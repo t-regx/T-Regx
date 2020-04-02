@@ -7,9 +7,9 @@ use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Match;
 
-class MatchSwitcher implements Switcher
+class MatchStream implements Stream
 {
-    /** @var BaseSwitcher */
+    /** @var BaseStream */
     private $switcher;
     /** @var Subjectable */
     private $subjectable;
@@ -18,7 +18,7 @@ class MatchSwitcher implements Switcher
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(BaseSwitcher $switcher, Subjectable $subjectable, UserData $userData, MatchAllFactory $allFactory)
+    public function __construct(BaseStream $switcher, Subjectable $subjectable, UserData $userData, MatchAllFactory $allFactory)
     {
         $this->switcher = $switcher;
         $this->subjectable = $subjectable;

@@ -5,14 +5,14 @@ use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Match;
 
-class GroupByCallbackSwitcher implements Switcher
+class GroupByCallbackStream implements Stream
 {
     /** @var array */
     private $switcher;
     /** @var callable */
     private $mapper;
 
-    public function __construct(Switcher $switcher, callable $mapper)
+    public function __construct(Stream $switcher, callable $mapper)
     {
         $this->switcher = $switcher;
         $this->mapper = $mapper;

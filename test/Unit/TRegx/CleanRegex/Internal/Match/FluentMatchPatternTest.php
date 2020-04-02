@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
-use TRegx\CleanRegex\Internal\Match\Switcher\Switcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\Stream;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
@@ -390,28 +390,28 @@ class FluentMatchPatternTest extends TestCase
         return $mockObject;
     }
 
-    private function all(array $return): Switcher
+    private function all(array $return): Stream
     {
-        /** @var Switcher|MockObject $switcher */
-        $switcher = $this->createMock(Switcher::class);
+        /** @var Stream|MockObject $switcher */
+        $switcher = $this->createMock(Stream::class);
         $switcher->expects($this->once())->method('all')->willReturn($return);
         $switcher->expects($this->never())->method($this->logicalNot($this->matches('all')));
         return $switcher;
     }
 
-    private function first($return): Switcher
+    private function first($return): Stream
     {
-        /** @var Switcher|MockObject $switcher */
-        $switcher = $this->createMock(Switcher::class);
+        /** @var Stream|MockObject $switcher */
+        $switcher = $this->createMock(Stream::class);
         $switcher->expects($this->once())->method('first')->willReturn($return);
         $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
         return $switcher;
     }
 
-    private function zeroInteraction(): Switcher
+    private function zeroInteraction(): Stream
     {
-        /** @var Switcher|MockObject $switcher */
-        $switcher = $this->createMock(Switcher::class);
+        /** @var Stream|MockObject $switcher */
+        $switcher = $this->createMock(Stream::class);
         $switcher->expects($this->never())->method($this->anything());
         return $switcher;
     }

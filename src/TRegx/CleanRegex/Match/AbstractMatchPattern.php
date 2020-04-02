@@ -17,9 +17,9 @@ use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\Predicate;
-use TRegx\CleanRegex\Internal\Match\Switcher\BaseSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\IntSwitcher;
-use TRegx\CleanRegex\Internal\Match\Switcher\MatchSwitcher;
+use TRegx\CleanRegex\Internal\Match\Switcher\BaseStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\IntStream;
+use TRegx\CleanRegex\Internal\Match\Switcher\MatchStream;
 use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -134,9 +134,9 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function fluent(): FluentMatchPattern
     {
-        $switcher = new BaseSwitcher($this->base);
+        $switcher = new BaseStream($this->base);
         return new FluentMatchPattern(
-            new MatchSwitcher($switcher, $this->base, $this->base->getUserData(), $switcher),
+            new MatchStream($switcher, $this->base, $this->base->getUserData(), $switcher),
             new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base->getSubject())
         );
     }
@@ -144,7 +144,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     public function asInt(): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            new IntSwitcher(new BaseSwitcher($this->base)),
+            new IntStream(new BaseStream($this->base)),
             new NotMatchedFluentOptionalWorker(new FirstMatchIntMessage(), $this->base->getSubject())
         );
     }
