@@ -1,10 +1,10 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Switcher;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Match\Switcher\KeysStream;
-use TRegx\CleanRegex\Internal\Match\Switcher\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\KeysStream;
+use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 
 class KeysStreamTest extends TestCase
 {

@@ -1,11 +1,11 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Switcher;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Internal\Match\Switcher\BaseStream;
-use TRegx\CleanRegex\Internal\Match\Switcher\IntStream;
+use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
+use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;

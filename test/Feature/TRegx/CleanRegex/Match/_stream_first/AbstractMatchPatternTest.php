@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\_switcher_first;
+namespace Test\Feature\TRegx\CleanRegex\Match\_stream_first;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\MatchPattern;

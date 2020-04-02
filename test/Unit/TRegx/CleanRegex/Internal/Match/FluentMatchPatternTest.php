@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
-use TRegx\CleanRegex\Internal\Match\Switcher\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FluentMatchPattern;

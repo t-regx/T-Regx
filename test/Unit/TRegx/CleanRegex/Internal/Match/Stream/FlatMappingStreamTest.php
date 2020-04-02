@@ -1,12 +1,12 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Switcher;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
-use TRegx\CleanRegex\Internal\Match\Switcher\FlatMappingStream;
-use TRegx\CleanRegex\Internal\Match\Switcher\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream;
+use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 
 class FlatMappingStreamTest extends TestCase
 {

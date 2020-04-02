@@ -1,9 +1,9 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Switcher;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
-use TRegx\CleanRegex\Internal\Match\Switcher\ArrayStream;
+use TRegx\CleanRegex\Internal\Match\Stream\ArrayStream;
 
 class ArrayStreamTest extends TestCase
 {

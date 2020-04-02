@@ -1,7 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match\Switcher;
+namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-class ArrayOnlyStream implements Stream
+use TRegx\CleanRegex\Internal\Match\FlatMapper;
+
+class FlatMappingStream implements Stream
 {
     /** @var array */
     private $switcher;
@@ -16,13 +18,12 @@ class ArrayOnlyStream implements Stream
 
     public function all(): array
     {
-        $mapper = $this->mapper;
-        return $mapper($this->switcher->all());
+        return (new FlatMapper($this->switcher->all(), $this->mapper))->get();
     }
 
     public function first()
     {
-        return $this->switcher->first();
+        return (new FlatMapper([], $this->mapper))->map($this->switcher->first());
     }
 
     public function firstKey()

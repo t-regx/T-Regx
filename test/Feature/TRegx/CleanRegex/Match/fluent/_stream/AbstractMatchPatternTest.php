@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\fluent\_switcher;
+namespace Test\Feature\TRegx\CleanRegex\Match\fluent\_stream;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Match;
