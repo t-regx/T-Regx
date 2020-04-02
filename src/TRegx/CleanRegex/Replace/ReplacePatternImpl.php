@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Exception\NotReplacedException;
-use TRegx\CleanRegex\Internal\Exception\Messages\NonMatchedMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
@@ -59,7 +59,7 @@ class ReplacePatternImpl implements ReplacePattern
 
     public function orThrow(string $exceptionClassName = NotReplacedException::class): SpecificReplacePattern
     {
-        return $this->replacePattern(new CustomThrowStrategy($exceptionClassName, new NonMatchedMessage()));
+        return $this->replacePattern(new CustomThrowStrategy($exceptionClassName, new NonReplacedMessage()));
     }
 
     public function orReturn($substitute): SpecificReplacePattern

@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Replace\NonReplaced;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Exception\Messages\NonMatchedMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 
 class CustomThrowStrategyTest extends TestCase
 {
@@ -13,11 +13,11 @@ class CustomThrowStrategyTest extends TestCase
     public function shouldThrow()
     {
         // given
-        $strategy = new CustomThrowStrategy(InvalidArgumentException::class, new NonMatchedMessage());
+        $strategy = new CustomThrowStrategy(InvalidArgumentException::class, new NonReplacedMessage());
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('expected to replace, but didn\'t'); // TODO fix the message
+        $this->expectExceptionMessage("Replacements were supposed to be performed, but subject doesn't match the pattern");
 
         // when
         $strategy->substitute('');

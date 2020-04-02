@@ -4,7 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex\Replace\ReplacePatternWithOptionalsI
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\NotReplacedException;
-use TRegx\CleanRegex\Internal\Exception\Messages\NonMatchedMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
@@ -47,8 +47,8 @@ class ReplacePatternImplTest extends TestCase
         };
         return [
             ['orReturn', ['arg'], new ConstantResultStrategy('arg')],
-            ['orThrow', [], new CustomThrowStrategy(NotReplacedException::class, new NonMatchedMessage())],
-            ['orThrow', [InvalidArgumentException::class], new CustomThrowStrategy(InvalidArgumentException::class, new NonMatchedMessage())],
+            ['orThrow', [], new CustomThrowStrategy(NotReplacedException::class, new NonReplacedMessage())],
+            ['orThrow', [InvalidArgumentException::class], new CustomThrowStrategy(InvalidArgumentException::class, new NonReplacedMessage())],
             ['orElse', [$callback], new ComputedSubjectStrategy($callback)],
         ];
     }

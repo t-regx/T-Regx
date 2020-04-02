@@ -3,8 +3,8 @@ namespace TRegx\CleanRegex\Exception;
 
 class NotReplacedException extends PatternException
 {
-    public function __construct()
+    public function __construct(string $message)
     {
-        parent::__construct("Replacements were supposed to be performed, but subject doesn't match the pattern");
+        parent::__construct($message);
     }
 }

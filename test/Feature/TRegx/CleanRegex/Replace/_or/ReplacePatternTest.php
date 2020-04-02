@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\_or;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\CustomException;
 
 class ReplacePatternTest extends TestCase
 {
@@ -38,6 +39,22 @@ class ReplacePatternTest extends TestCase
 
         // then
         $this->assertEquals('otherwise', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_with_orThrow()
+    {
+        // given
+        $replacePattern = pattern('Foo')->replace('Bar')->first();
+
+        // then
+        $this->expectException(CustomException::class);
+        $this->expectExceptionMessage("Replacements were supposed to be performed, but subject doesn't match the pattern");
+
+        // when
+        $replacePattern->orThrow(CustomException::class)->with('');
     }
 
     /**
