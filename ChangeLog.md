@@ -1,13 +1,18 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.9.6
+Incoming in 0.9.7
 -----------------
+
+* Soon
+
+Added in 0.9.6
+--------------
 * Breaking changes
     * `pattern()->match()->fluent()->distinct()` will no longer re-index values (will not remove keys).
       - To re-index values, use `distinct()->values()`.
       - `pattern()->match()->distinct()` still re-indexes values.
-* Enhancements
+* Enhancements 🔥
     * Every `match()->...()->first()` method calls `preg_match()`, instead of `preg_match_all()`. More below.
 * Features
     * Added `pattern()->match()->fluent()->nth(int)` used to get an element based on an ordinal number.
