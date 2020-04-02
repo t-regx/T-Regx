@@ -3,30 +3,30 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 class ArrayOnlyStream implements Stream
 {
-    /** @var array */
-    private $switcher;
+    /** @var Stream */
+    private $stream;
     /** @var callable */
     private $mapper;
 
-    public function __construct(Stream $switcher, callable $mapper)
+    public function __construct(Stream $stream, callable $mapper)
     {
-        $this->switcher = $switcher;
+        $this->stream = $stream;
         $this->mapper = $mapper;
     }
 
     public function all(): array
     {
         $mapper = $this->mapper;
-        return $mapper($this->switcher->all());
+        return $mapper($this->stream->all());
     }
 
     public function first()
     {
-        return $this->switcher->first();
+        return $this->stream->first();
     }
 
     public function firstKey()
     {
-        return $this->switcher->firstKey();
+        return $this->stream->firstKey();
     }
 }

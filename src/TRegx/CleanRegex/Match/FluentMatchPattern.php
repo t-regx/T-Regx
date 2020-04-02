@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use Iterator;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoSuchElementFluentMessage;
-use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
+use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\FluentInteger;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
@@ -22,19 +22,19 @@ use TRegx\CleanRegex\Match\FindFirst\Optional;
 class FluentMatchPattern implements MatchPatternInterface
 {
     /** @var Stream */
-    private $switcher;
+    private $stream;
     /** @var NotMatchedFluentOptionalWorker */
     private $firstWorker;
 
-    public function __construct(Stream $switcher, NotMatchedFluentOptionalWorker $firstWorker)
+    public function __construct(Stream $stream, NotMatchedFluentOptionalWorker $firstWorker)
     {
-        $this->switcher = $switcher;
+        $this->stream = $stream;
         $this->firstWorker = $firstWorker;
     }
 
     public function all(): array
     {
-        return $this->switcher->all();
+        return $this->stream->all();
     }
 
     public function only(int $limit): array
@@ -42,7 +42,7 @@ class FluentMatchPattern implements MatchPatternInterface
         if ($limit < 0) {
             throw new InvalidArgumentException("Negative limit: $limit");
         }
-        return \array_slice($this->switcher->all(), 0, $limit);
+        return \array_slice($this->stream->all(), 0, $limit);
     }
 
     /**
@@ -53,9 +53,9 @@ class FluentMatchPattern implements MatchPatternInterface
     public function first(callable $consumer = null)
     {
         try {
-            $firstElement = $this->switcher->first();
+            $firstElement = $this->stream->first();
             return $consumer ? $consumer($firstElement) : $firstElement;
-        } catch (NoFirstSwitcherException $exception) {
+        } catch (NoFirstStreamException $exception) {
             throw NoSuchElementFluentException::withMessage($this->firstWorker->getMessage());
         }
     }
@@ -63,8 +63,8 @@ class FluentMatchPattern implements MatchPatternInterface
     public function findFirst(callable $consumer): Optional
     {
         try {
-            return new MatchedOptional($consumer($this->switcher->first()));
-        } catch (NoFirstSwitcherException $exception) {
+            return new MatchedOptional($consumer($this->stream->first()));
+        } catch (NoFirstStreamException $exception) {
             return new NotMatchedFluentOptional($this->firstWorker);
         }
     }
@@ -79,7 +79,7 @@ class FluentMatchPattern implements MatchPatternInterface
         if ($index < 0) {
             throw new InvalidArgumentException("Negative index: $index");
         }
-        $elements = \array_values($this->switcher->all());
+        $elements = \array_values($this->stream->all());
         if (\array_key_exists($index, $elements)) {
             return new MatchedOptional($elements[$index]);
         }
@@ -88,49 +88,49 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function forEach(callable $consumer): void
     {
-        foreach ($this->switcher->all() as $key => $value) {
+        foreach ($this->stream->all() as $key => $value) {
             $consumer($value, $key);
         }
     }
 
     public function count(): int
     {
-        return \count($this->switcher->all());
+        return \count($this->stream->all());
     }
 
     public function iterator(): Iterator
     {
-        return new ArrayIterator($this->switcher->all());
+        return new ArrayIterator($this->stream->all());
     }
 
     public function map(callable $mapper): FluentMatchPattern
     {
-        return $this->next(new MappingStream($this->switcher, $mapper));
+        return $this->next(new MappingStream($this->stream, $mapper));
     }
 
     public function flatMap(callable $mapper): FluentMatchPattern
     {
-        return $this->next(new FlatMappingStream($this->switcher, $mapper));
+        return $this->next(new FlatMappingStream($this->stream, $mapper));
     }
 
     public function distinct(): FluentMatchPattern
     {
-        return $this->next(new ArrayOnlyStream($this->switcher, '\array_unique'));
+        return $this->next(new ArrayOnlyStream($this->stream, '\array_unique'));
     }
 
     public function filter(callable $predicate): FluentMatchPattern
     {
-        return $this->next(new ArrayStream(\array_values(\array_filter($this->switcher->all(), $predicate))));
+        return $this->next(new ArrayStream(\array_values(\array_filter($this->stream->all(), $predicate))));
     }
 
     public function values(): FluentMatchPattern
     {
-        return $this->next(new ArrayOnlyStream($this->switcher, '\array_values'));
+        return $this->next(new ArrayOnlyStream($this->stream, '\array_values'));
     }
 
     public function keys(): FluentMatchPattern
     {
-        return $this->next(new KeysStream($this->switcher));
+        return $this->next(new KeysStream($this->stream));
     }
 
     public function asInt(): FluentMatchPattern
@@ -140,11 +140,11 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function groupByCallback(callable $groupMapper): FluentMatchPattern
     {
-        return $this->next(new GroupByCallbackStream($this->switcher, $groupMapper));
+        return $this->next(new GroupByCallbackStream($this->stream, $groupMapper));
     }
 
-    private function next(Stream $switcher): FluentMatchPattern
+    private function next(Stream $stream): FluentMatchPattern
     {
-        return new FluentMatchPattern($switcher, $this->firstWorker);
+        return new FluentMatchPattern($stream, $this->firstWorker);
     }
 }

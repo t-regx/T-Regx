@@ -7,21 +7,21 @@ use TRegx\CleanRegex\Internal\Integer;
 class IntStream implements Stream
 {
     /** @var BaseStream */
-    private $switcher;
+    private $stream;
 
-    public function __construct(BaseStream $switcher)
+    public function __construct(BaseStream $stream)
     {
-        $this->switcher = $switcher;
+        $this->stream = $stream;
     }
 
     public function all(): array
     {
-        return \array_map([$this, 'parseInteger'], $this->switcher->all()->getTexts());
+        return \array_map([$this, 'parseInteger'], $this->stream->all()->getTexts());
     }
 
     public function first(): int
     {
-        return $this->parseInteger($this->switcher->first()->getText());
+        return $this->parseInteger($this->stream->first()->getText());
     }
 
     private function parseInteger(string $text): int
@@ -34,6 +34,6 @@ class IntStream implements Stream
 
     public function firstKey(): int
     {
-        return $this->switcher->firstKey();
+        return $this->stream->firstKey();
     }
 }

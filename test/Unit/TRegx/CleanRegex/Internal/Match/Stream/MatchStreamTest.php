@@ -22,11 +22,11 @@ class MatchStreamTest extends TestCase
     public function shouldDelegateAll()
     {
         // given
-        $switcher = $this->matchSwitcher($this->switcherAll('14'));
+        $stream = $this->matchStream($this->streamAll('14'));
 
         // when
         /** @var Match[] $all */
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertSame('14', $all[0]->text());
@@ -40,10 +40,10 @@ class MatchStreamTest extends TestCase
     public function shouldDelegateFirst()
     {
         // given
-        $switcher = $this->matchSwitcher($this->switcherFirst('192'));
+        $stream = $this->matchStream($this->streamFirst('192'));
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame('192', $first->text());
@@ -55,10 +55,10 @@ class MatchStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $switcher = $this->matchSwitcher($this->switcherFirstKey(123));
+        $stream = $this->matchStream($this->streamFirstKey(123));
 
         // when
-        $firstKey = $switcher->firstKey();
+        $firstKey = $stream->firstKey();
 
         // then
         $this->assertSame(123, $firstKey);
@@ -70,10 +70,10 @@ class MatchStreamTest extends TestCase
     public function shouldCreateFirstMatch_index()
     {
         // given
-        $switcher = $this->matchSwitcher($this->switcherFirst('192'));
+        $stream = $this->matchStream($this->streamFirst('192'));
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame(0, $first->index());
@@ -85,11 +85,11 @@ class MatchStreamTest extends TestCase
     public function shouldCreateAllMatches_index()
     {
         // given
-        $switcher = $this->matchSwitcher($this->switcherAll('19'));
+        $stream = $this->matchStream($this->streamAll('19'));
 
         // when
         /** @var Match[] $all */
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertSame(0, $all[0]->index());
@@ -103,11 +103,11 @@ class MatchStreamTest extends TestCase
     public function shouldGetAll_all()
     {
         // given
-        $switcher = $this->matchSwitcher($this->switcherAll('14'));
+        $stream = $this->matchStream($this->streamAll('14'));
 
         // when
         /** @var Match[] $all */
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertSame(['14', '19', '25'], $all[0]->all());
@@ -121,40 +121,40 @@ class MatchStreamTest extends TestCase
     public function shouldGetAll_first()
     {
         // given
-        $switcher = $this->matchSwitcher($this->switcherFirst(''), new EagerMatchAllFactory($this->matchesOffset('First')));
+        $stream = $this->matchStream($this->streamFirst(''), new EagerMatchAllFactory($this->matchesOffset('First')));
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame(['First', '19', '25'], $first->all());
     }
 
-    private function switcherAll($firstValue): BaseStream
+    private function streamAll($firstValue): BaseStream
     {
-        /** @var BaseStream|MockObject $switcher */
-        $switcher = $this->createMock(BaseStream::class);
-        $switcher->expects($this->once())->method('all')->willReturn($this->matchesOffset($firstValue));
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('all')));
-        return $switcher;
+        /** @var BaseStream|MockObject $stream */
+        $stream = $this->createMock(BaseStream::class);
+        $stream->expects($this->once())->method('all')->willReturn($this->matchesOffset($firstValue));
+        $stream->expects($this->never())->method($this->logicalNot($this->matches('all')));
+        return $stream;
     }
 
-    private function switcherFirst(string $value): BaseStream
+    private function streamFirst(string $value): BaseStream
     {
-        /** @var BaseStream|MockObject $switcher */
-        $switcher = $this->createMock(BaseStream::class);
-        $switcher->expects($this->once())->method('first')->willReturn($this->matchOffset($value));
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
-        return $switcher;
+        /** @var BaseStream|MockObject $stream */
+        $stream = $this->createMock(BaseStream::class);
+        $stream->expects($this->once())->method('first')->willReturn($this->matchOffset($value));
+        $stream->expects($this->never())->method($this->logicalNot($this->matches('first')));
+        return $stream;
     }
 
-    private function switcherFirstKey($value): BaseStream
+    private function streamFirstKey($value): BaseStream
     {
-        /** @var BaseStream|MockObject $switcher */
-        $switcher = $this->createMock(BaseStream::class);
-        $switcher->expects($this->once())->method('firstKey')->willReturn($value);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('firstKey')));
-        return $switcher;
+        /** @var BaseStream|MockObject $stream */
+        $stream = $this->createMock(BaseStream::class);
+        $stream->expects($this->once())->method('firstKey')->willReturn($value);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches('firstKey')));
+        return $stream;
     }
 
     private function matchesOffset(string $firstValue): IRawMatchesOffset
@@ -171,9 +171,9 @@ class MatchStreamTest extends TestCase
         return new RawMatchOffset([[$value, 1]]);
     }
 
-    private function matchSwitcher(BaseStream $switcher, MatchAllFactory $factory = null): MatchStream
+    private function matchStream(BaseStream $stream, MatchAllFactory $factory = null): MatchStream
     {
-        return new MatchStream($switcher, new Subject('switch subject'), new UserData(), $factory ?? $this->mock());
+        return new MatchStream($stream, new Subject('switch subject'), new UserData(), $factory ?? $this->mock());
     }
 
     private function mock(): MatchAllFactory

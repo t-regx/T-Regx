@@ -107,7 +107,7 @@ class GroupLimit implements PatternLimit
      */
     public function map(callable $mapper): array
     {
-        return \array_map($mapper, $this->switcher()->all());
+        return \array_map($mapper, $this->stream()->all());
     }
 
     /**
@@ -116,12 +116,12 @@ class GroupLimit implements PatternLimit
      */
     public function flatMap(callable $mapper): array
     {
-        return (new FlatMapper($this->switcher()->all(), $mapper))->get();
+        return (new FlatMapper($this->stream()->all(), $mapper))->get();
     }
 
     public function forEach(callable $consumer): void
     {
-        foreach ($this->switcher()->all() as $group) {
+        foreach ($this->stream()->all() as $group) {
             $consumer($group);
         }
     }
@@ -134,11 +134,11 @@ class GroupLimit implements PatternLimit
     public function fluent(): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            $this->switcher(),
+            $this->stream(),
             new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base->getSubject()));
     }
 
-    private function switcher(): Stream
+    private function stream(): Stream
     {
         return new MatchGroupStream(new BaseStream($this->base), $this->base, $this->nameOrIndex, new EagerMatchAllFactory(new RawMatchesOffset([])));
     }

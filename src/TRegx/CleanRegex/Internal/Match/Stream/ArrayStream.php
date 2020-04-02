@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
+use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 
 class ArrayStream implements Stream
 {
@@ -21,7 +21,7 @@ class ArrayStream implements Stream
     public function first()
     {
         if (\count($this->elements) === 0) {
-            throw new NoFirstSwitcherException();
+            throw new NoFirstStreamException();
         }
         return \reset($this->elements);
     }

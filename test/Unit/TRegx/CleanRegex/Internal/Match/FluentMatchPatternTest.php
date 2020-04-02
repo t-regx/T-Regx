@@ -392,27 +392,27 @@ class FluentMatchPatternTest extends TestCase
 
     private function all(array $return): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->once())->method('all')->willReturn($return);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('all')));
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->once())->method('all')->willReturn($return);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches('all')));
+        return $stream;
     }
 
     private function first($return): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->once())->method('first')->willReturn($return);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->once())->method('first')->willReturn($return);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches('first')));
+        return $stream;
     }
 
     private function zeroInteraction(): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->never())->method($this->anything());
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->never())->method($this->anything());
+        return $stream;
     }
 }

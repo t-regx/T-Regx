@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
+use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
@@ -18,12 +18,12 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $switcher = new GroupByCallbackStream($this->mock('all', 'willReturn', [10 => 'One', 20 => 'Two', 30 => 'Three']), function (string $value) {
+        $stream = new GroupByCallbackStream($this->mock('all', 'willReturn', [10 => 'One', 20 => 'Two', 30 => 'Three']), function (string $value) {
             return $value[0];
         });
 
         // when
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertSame(['O' => ['One'], 'T' => ['Two', 'Three']], $all);
@@ -38,12 +38,12 @@ class GroupByCallbackStreamTest extends TestCase
         $match = $this->matchMock('hello');
         $group = $this->matchGroupMock('hello');
         $input = ['hello', 2, $match, 2, $group,];
-        $switcher = new GroupByCallbackStream($this->mock('all', 'willReturn', $input), function ($value) {
+        $stream = new GroupByCallbackStream($this->mock('all', 'willReturn', $input), function ($value) {
             return $value;
         });
 
         // when
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $expected = [
@@ -59,10 +59,10 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $switcher = new GroupByCallbackStream($this->mock('first', 'willReturn', 'One'), 'strtoupper');
+        $stream = new GroupByCallbackStream($this->mock('first', 'willReturn', 'One'), 'strtoupper');
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame('One', $first);
@@ -74,10 +74,10 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $switcher = new GroupByCallbackStream($this->mock('first', 'willReturn', 'One'), 'strtoupper');
+        $stream = new GroupByCallbackStream($this->mock('first', 'willReturn', 'One'), 'strtoupper');
 
         // when
-        $firstKey = $switcher->firstKey();
+        $firstKey = $stream->firstKey();
 
         // then
         $this->assertSame('ONE', $firstKey);
@@ -89,13 +89,13 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldFirstThrow()
     {
         // given
-        $switcher = new GroupByCallbackStream($this->mock('first', 'willThrowException', new NoFirstSwitcherException()), 'strlen');
+        $stream = new GroupByCallbackStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strlen');
 
         // then
-        $this->expectException(NoFirstSwitcherException::class);
+        $this->expectException(NoFirstStreamException::class);
 
         // when
-        $switcher->first();
+        $stream->first();
     }
 
     /**
@@ -107,7 +107,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldThrowForInvalidGroupByType_all(string $caller, $returnValue)
     {
         // given
-        $switcher = new GroupByCallbackStream($this->mock($caller, 'willReturn', $returnValue), function () {
+        $stream = new GroupByCallbackStream($this->mock($caller, 'willReturn', $returnValue), function () {
             return [];
         });
 
@@ -116,7 +116,7 @@ class GroupByCallbackStreamTest extends TestCase
         $this->expectExceptionMessage('Invalid groupByCallback() callback return type. Expected int|string, but array (0) given');
 
         // when
-        $switcher->$caller();
+        $stream->$caller();
     }
 
     public function callers(): array
@@ -129,28 +129,28 @@ class GroupByCallbackStreamTest extends TestCase
 
     private function mock(string $methodName, string $setter, $value): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->once())->method($methodName)->$setter($value);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->once())->method($methodName)->$setter($value);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
+        return $stream;
     }
 
     private function matchMock(string $text): Match
     {
-        /** @var Match|MockObject $switcher */
-        $switcher = $this->createMock(Match::class);
-        $switcher->expects($this->once())->method('text')->willReturn($text);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('text')));
-        return $switcher;
+        /** @var Match|MockObject $match */
+        $match = $this->createMock(Match::class);
+        $match->expects($this->once())->method('text')->willReturn($text);
+        $match->expects($this->never())->method($this->logicalNot($this->matches('text')));
+        return $match;
     }
 
     private function matchGroupMock(string $text): MatchGroup
     {
-        /** @var MatchGroup|MockObject $switcher */
-        $switcher = $this->createMock(MatchGroup::class);
-        $switcher->expects($this->once())->method('text')->willReturn($text);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('text')));
-        return $switcher;
+        /** @var MatchGroup|MockObject $group */
+        $group = $this->createMock(MatchGroup::class);
+        $group->expects($this->once())->method('text')->willReturn($text);
+        $group->expects($this->never())->method($this->logicalNot($this->matches('text')));
+        return $group;
     }
 }

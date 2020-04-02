@@ -7,21 +7,21 @@ use TRegx\CleanRegex\Match\Details\Match;
 
 class GroupByCallbackStream implements Stream
 {
-    /** @var array */
-    private $switcher;
+    /** @var Stream */
+    private $stream;
     /** @var callable */
     private $mapper;
 
-    public function __construct(Stream $switcher, callable $mapper)
+    public function __construct(Stream $stream, callable $mapper)
     {
-        $this->switcher = $switcher;
+        $this->stream = $stream;
         $this->mapper = $mapper;
     }
 
     public function all(): array
     {
         $map = [];
-        foreach ($this->switcher->all() as $element) {
+        foreach ($this->stream->all() as $element) {
             $map[$this->mapAndValidateKey(\call_user_func($this->mapper, $element))][] = $element;
         }
         return $map;
@@ -29,14 +29,14 @@ class GroupByCallbackStream implements Stream
 
     public function first()
     {
-        $value = $this->switcher->first();
+        $value = $this->stream->first();
         $this->mapAndValidateKey(\call_user_func($this->mapper, $value));
         return $value;
     }
 
     public function firstKey()
     {
-        return $this->mapAndValidateKey(\call_user_func($this->mapper, $this->switcher->first()));
+        return $this->mapAndValidateKey(\call_user_func($this->mapper, $this->stream->first()));
     }
 
     private function mapAndValidateKey($key)

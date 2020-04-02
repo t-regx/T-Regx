@@ -19,7 +19,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFindSecond()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher(['a' => 'foo', 'b' => 'bar'], 3), $this->worker());
+        $pattern = new FluentMatchPattern($this->stream(['a' => 'foo', 'b' => 'bar'], 3), $this->worker());
 
         // when + then
         $this->assertEquals('bar', $pattern->findNth(1)->orReturn('missing'));
@@ -33,7 +33,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFindFirst_throwEmpty()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher([]), $this->worker());
+        $pattern = new FluentMatchPattern($this->stream([]), $this->worker());
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -49,7 +49,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFindFirst_orReturn()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher([]), $this->worker());
+        $pattern = new FluentMatchPattern($this->stream([]), $this->worker());
 
         // when
         $result = $pattern->findNth(0)->orReturn('otherValue');
@@ -64,7 +64,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFindFirst_orElse()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher([]), $this->worker());
+        $pattern = new FluentMatchPattern($this->stream([]), $this->worker());
 
         // when
         $result = $pattern->findNth(0)->orElse(function () {
@@ -81,7 +81,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFindFirst_orElse_notPassArguments()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher([]), $this->worker());
+        $pattern = new FluentMatchPattern($this->stream([]), $this->worker());
 
         // when
         $pattern->findNth(0)->orElse(function () {
@@ -99,7 +99,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFindFirst_throwEmpty_custom()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher([]), $this->worker());
+        $pattern = new FluentMatchPattern($this->stream([]), $this->worker());
 
         // then
         $this->expectException(CustomException::class);
@@ -115,7 +115,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldReturnNull()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher([null]), $this->worker());
+        $pattern = new FluentMatchPattern($this->stream([null]), $this->worker());
 
         // when
         $result = $pattern->findNth(0)->orThrow();
@@ -145,20 +145,20 @@ class FluentMatchPatternTest extends TestCase
         return new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), 'foo bar');
     }
 
-    private function switcher(array $return, int $times = 1): Stream
+    private function stream(array $return, int $times = 1): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->exactly($times))->method('all')->willReturn($return);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('all')));
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->exactly($times))->method('all')->willReturn($return);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches('all')));
+        return $stream;
     }
 
     private function zeroInteraction(): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->never())->method($this->anything());
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->never())->method($this->anything());
+        return $stream;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
+use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
@@ -34,7 +34,7 @@ class BaseStream implements Stream, MatchAllFactory
         if ($this->match->matched()) {
             return $this->match;
         }
-        throw new NoFirstSwitcherException();
+        throw new NoFirstStreamException();
     }
 
     private function getMatch(): IRawMatchOffset

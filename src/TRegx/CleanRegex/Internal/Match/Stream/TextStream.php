@@ -4,25 +4,25 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 class TextStream implements Stream
 {
     /** @var BaseStream */
-    private $switcher;
+    private $stream;
 
-    public function __construct(BaseStream $switcher)
+    public function __construct(BaseStream $stream)
     {
-        $this->switcher = $switcher;
+        $this->stream = $stream;
     }
 
     public function all(): array
     {
-        return $this->switcher->all()->getTexts();
+        return $this->stream->all()->getTexts();
     }
 
     public function first(): string
     {
-        return $this->switcher->first()->getText();
+        return $this->stream->first()->getText();
     }
 
     public function firstKey(): int
     {
-        return $this->switcher->firstKey();
+        return $this->stream->firstKey();
     }
 }

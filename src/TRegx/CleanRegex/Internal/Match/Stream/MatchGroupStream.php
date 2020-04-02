@@ -12,7 +12,7 @@ use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 class MatchGroupStream implements Stream
 {
     /** @var BaseStream */
-    private $switcher;
+    private $stream;
     /** @var Subjectable */
     private $subjectable;
     /** @var string|int */
@@ -20,9 +20,9 @@ class MatchGroupStream implements Stream
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(BaseStream $switcher, Subjectable $subjectable, $nameOrIndex, MatchAllFactory $factory)
+    public function __construct(BaseStream $stream, Subjectable $subjectable, $nameOrIndex, MatchAllFactory $factory)
     {
-        $this->switcher = $switcher;
+        $this->stream = $stream;
         $this->subjectable = $subjectable;
         $this->nameOrIndex = $nameOrIndex;
         $this->allFactory = $factory;
@@ -33,13 +33,13 @@ class MatchGroupStream implements Stream
      */
     public function all(): array
     {
-        $matches = $this->switcher->all();
+        $matches = $this->stream->all();
         return $this->facade($matches, new EagerMatchAllFactory($matches))->createGroups($matches);
     }
 
     public function first(): MatchGroup
     {
-        $match = $this->switcher->first();
+        $match = $this->stream->first();
         return $this->facade($match, $this->allFactory)->createGroup($match);
     }
 

@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
+use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 
@@ -15,10 +15,10 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $switcher = new ArrayOnlyStream($this->mock('all', 'willReturn', [10 => 'One', 20 => 'Two', 30 => 'Three']), 'array_values');
+        $stream = new ArrayOnlyStream($this->mock('all', 'willReturn', [10 => 'One', 20 => 'Two', 30 => 'Three']), 'array_values');
 
         // when
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertSame(['One', 'Two', 'Three'], $all);
@@ -30,10 +30,10 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $switcher = new ArrayOnlyStream($this->mock('first', 'willReturn', 'One'), 'strtoupper');
+        $stream = new ArrayOnlyStream($this->mock('first', 'willReturn', 'One'), 'strtoupper');
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame('One', $first);
@@ -45,10 +45,10 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $switcher = new ArrayOnlyStream($this->mock('firstKey', 'willReturn', 'foo'), [$this, 'fail']);
+        $stream = new ArrayOnlyStream($this->mock('firstKey', 'willReturn', 'foo'), [$this, 'fail']);
 
         // when
-        $firstKey = $switcher->firstKey();
+        $firstKey = $stream->firstKey();
 
         // then
         $this->assertSame('foo', $firstKey);
@@ -60,21 +60,21 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldFirstThrow()
     {
         // given
-        $switcher = new ArrayOnlyStream($this->mock('first', 'willThrowException', new NoFirstSwitcherException()), 'strlen');
+        $stream = new ArrayOnlyStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strlen');
 
         // then
-        $this->expectException(NoFirstSwitcherException::class);
+        $this->expectException(NoFirstStreamException::class);
 
         // when
-        $switcher->first();
+        $stream->first();
     }
 
     private function mock(string $methodName, string $setter, $value): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->once())->method($methodName)->$setter($value);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->once())->method($methodName)->$setter($value);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
+        return $stream;
     }
 }

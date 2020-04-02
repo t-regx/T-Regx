@@ -18,10 +18,10 @@ class IntStreamTest extends TestCase
     public function shouldDelegateAll()
     {
         // given
-        $switcher = new IntStream($this->mock('all', 'willReturn', $this->matchesOffset('14')));
+        $stream = new IntStream($this->mock('all', 'willReturn', $this->matchesOffset('14')));
 
         // when
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertSame([14, 19, 25], $all);
@@ -33,10 +33,10 @@ class IntStreamTest extends TestCase
     public function shouldDelegateAll_unmatched()
     {
         // given
-        $switcher = new IntStream($this->mock('all', 'willReturn', new RawMatchesOffset([[]])));
+        $stream = new IntStream($this->mock('all', 'willReturn', new RawMatchesOffset([[]])));
 
         // when
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertSame([], $all);
@@ -48,10 +48,10 @@ class IntStreamTest extends TestCase
     public function shouldDelegateFirst()
     {
         // given
-        $switcher = new IntStream($this->mock('first', 'willReturn', new RawMatchOffset([['192', 1]])));
+        $stream = new IntStream($this->mock('first', 'willReturn', new RawMatchOffset([['192', 1]])));
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame(192, $first);
@@ -63,10 +63,10 @@ class IntStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $switcher = new IntStream($this->mock('firstKey', 'willReturn', 123));
+        $stream = new IntStream($this->mock('firstKey', 'willReturn', 123));
 
         // when
-        $firstKey = $switcher->firstKey();
+        $firstKey = $stream->firstKey();
 
         // then
         $this->assertSame(123, $firstKey);
@@ -78,14 +78,14 @@ class IntStreamTest extends TestCase
     public function shouldAll_throwForMalformedInteger()
     {
         // given
-        $switcher = new IntStream($this->mock('all', 'willreturn', $this->matchesOffset('Foo')));
+        $stream = new IntStream($this->mock('all', 'willreturn', $this->matchesOffset('Foo')));
 
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer");
 
         // when
-        $switcher->all();
+        $stream->all();
     }
 
     /**
@@ -94,23 +94,23 @@ class IntStreamTest extends TestCase
     public function shouldFirst_throwForMalformedInteger()
     {
         // given
-        $switcher = new IntStream($this->mock('first', 'willReturn', new RawMatchOffset([['Foo', 1]])));
+        $stream = new IntStream($this->mock('first', 'willReturn', new RawMatchOffset([['Foo', 1]])));
 
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer");
 
         // when
-        $switcher->first();
+        $stream->first();
     }
 
     private function mock(string $methodName, string $setter, $value): BaseStream
     {
-        /** @var BaseStream|MockObject $switcher */
-        $switcher = $this->createMock(BaseStream::class);
-        $switcher->expects($this->once())->method($methodName)->$setter($value);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
-        return $switcher;
+        /** @var BaseStream|MockObject $stream */
+        $stream = $this->createMock(BaseStream::class);
+        $stream->expects($this->once())->method($methodName)->$setter($value);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
+        return $stream;
     }
 
     private function matchesOffset(string $firstValue): IRawMatchesOffset

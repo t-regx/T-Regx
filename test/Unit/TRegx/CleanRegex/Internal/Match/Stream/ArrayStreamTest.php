@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
+use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayStream;
 
 class ArrayStreamTest extends TestCase
@@ -13,10 +13,10 @@ class ArrayStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $switcher = new ArrayStream(['One', 'Two', 'Three']);
+        $stream = new ArrayStream(['One', 'Two', 'Three']);
 
         // when
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertSame(['One', 'Two', 'Three'], $all);
@@ -28,10 +28,10 @@ class ArrayStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $switcher = new ArrayStream(['One', 'Two', 'Three']);
+        $stream = new ArrayStream(['One', 'Two', 'Three']);
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame('One', $first);
@@ -46,10 +46,10 @@ class ArrayStreamTest extends TestCase
         $elements = [10 => 'One', 20 => 'Two', 30 => 'Three'];
         next($elements);
         next($elements); # Intentionally move internal pointer
-        $switcher = new ArrayStream($elements);
+        $stream = new ArrayStream($elements);
 
         // when
-        $firstKey = $switcher->firstKey();
+        $firstKey = $stream->firstKey();
 
         // then
         $this->assertSame(10, $firstKey);
@@ -61,10 +61,10 @@ class ArrayStreamTest extends TestCase
     public function shouldGetFirst_assoc()
     {
         // given
-        $switcher = new ArrayStream(['a' => 'One', 'b' => 'Two', 'c' => 'Three']);
+        $stream = new ArrayStream(['a' => 'One', 'b' => 'Two', 'c' => 'Three']);
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame('One', $first);
@@ -76,13 +76,13 @@ class ArrayStreamTest extends TestCase
     public function shouldFirstThrow()
     {
         // given
-        $switcher = new ArrayStream([]);
+        $stream = new ArrayStream([]);
 
         // then
-        $this->expectException(NoFirstSwitcherException::class);
+        $this->expectException(NoFirstStreamException::class);
 
         // when
-        $switcher->first();
+        $stream->first();
     }
 
     /**
@@ -91,10 +91,10 @@ class ArrayStreamTest extends TestCase
     public function shouldFirstReturnInteger()
     {
         // given
-        $switcher = new ArrayStream([1]);
+        $stream = new ArrayStream([1]);
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame(1, $first);

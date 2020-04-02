@@ -5,7 +5,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
+use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
@@ -18,7 +18,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher('first', 'foo'), $this->worker(''));
+        $pattern = new FluentMatchPattern($this->stream('first', 'foo'), $this->worker(''));
 
         // when
         $result = $pattern->first();
@@ -33,7 +33,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetValuesFirst()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher('first', 'foo'), $this->worker(''));
+        $pattern = new FluentMatchPattern($this->stream('first', 'foo'), $this->worker(''));
 
         // when
         $result = $pattern->values()->first();
@@ -48,7 +48,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetKeysFirst()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher('firstKey', 4), $this->worker(''));
+        $pattern = new FluentMatchPattern($this->stream('firstKey', 4), $this->worker(''));
 
         // when
         $result = $pattern->keys()->first();
@@ -63,7 +63,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldInvoke_consumer()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher('first', 'foo'), $this->worker(''));
+        $pattern = new FluentMatchPattern($this->stream('first', 'foo'), $this->worker(''));
 
         // when
         $pattern->first(function ($value, $key = null) {
@@ -117,21 +117,21 @@ class FluentMatchPatternTest extends TestCase
         return $mockObject;
     }
 
-    private function switcher(string $method, $return, int $times = 1): Stream
+    private function stream(string $method, $return, int $times = 1): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->exactly($times))->method($method)->willReturn($return);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches($method)));
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->exactly($times))->method($method)->willReturn($return);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches($method)));
+        return $stream;
     }
 
     private function unmatchedMock(): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->once())->method('first')->willThrowException(new NoFirstSwitcherException());
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->once())->method('first')->willThrowException(new NoFirstStreamException());
+        $stream->expects($this->never())->method($this->logicalNot($this->matches('first')));
+        return $stream;
     }
 }

@@ -17,10 +17,10 @@ class TextStreamTest extends TestCase
     public function shouldDelegateAll()
     {
         // given
-        $switcher = new TextStream($this->mock('all', $this->matchesOffset()));
+        $stream = new TextStream($this->mock('all', $this->matchesOffset()));
 
         // when
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertSame(['Lorem', 'Foo', 'Bar'], $all);
@@ -32,10 +32,10 @@ class TextStreamTest extends TestCase
     public function shouldDelegateFirst()
     {
         // given
-        $switcher = new TextStream($this->mock('first', new RawMatchOffset([['Lorem ipsum', 1]])));
+        $stream = new TextStream($this->mock('first', new RawMatchOffset([['Lorem ipsum', 1]])));
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame('Lorem ipsum', $first);
@@ -47,10 +47,10 @@ class TextStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $switcher = new TextStream($this->mock('firstKey', 123));
+        $stream = new TextStream($this->mock('firstKey', 123));
 
         // when
-        $firstKey = $switcher->firstKey();
+        $firstKey = $stream->firstKey();
 
         // then
         $this->assertSame(123, $firstKey);
@@ -58,11 +58,11 @@ class TextStreamTest extends TestCase
 
     private function mock(string $methodName, $value): BaseStream
     {
-        /** @var BaseStream|MockObject $switcher */
-        $switcher = $this->createMock(BaseStream::class);
-        $switcher->expects($this->once())->method($methodName)->willReturn($value);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
-        return $switcher;
+        /** @var BaseStream|MockObject $stream */
+        $stream = $this->createMock(BaseStream::class);
+        $stream->expects($this->once())->method($methodName)->willReturn($value);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
+        return $stream;
     }
 
     private function matchesOffset(): IRawMatchesOffset

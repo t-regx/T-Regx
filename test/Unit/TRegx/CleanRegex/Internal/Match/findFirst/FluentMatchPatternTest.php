@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
-use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
+use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
@@ -19,7 +19,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldFindFirst()
     {
         // given
-        $pattern = new FluentMatchPattern($this->firstSwitcher('FOO', 3), $this->worker());
+        $pattern = new FluentMatchPattern($this->firstStream('FOO', 3), $this->worker());
 
         // when
         $result1 = $pattern->findFirst('strtoupper')->orReturn('');
@@ -119,21 +119,21 @@ class FluentMatchPatternTest extends TestCase
         return new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), 'foo bar');
     }
 
-    private function firstSwitcher($return, int $times = 1): Stream
+    private function firstStream($return, int $times = 1): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->exactly($times))->method('first')->willReturn($return);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->exactly($times))->method('first')->willReturn($return);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches('first')));
+        return $stream;
     }
 
     private function unmatchedMock(): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->once())->method('first')->willThrowException(new NoFirstSwitcherException());
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('first')));
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->once())->method('first')->willThrowException(new NoFirstStreamException());
+        $stream->expects($this->never())->method($this->logicalNot($this->matches('first')));
+        return $stream;
     }
 }

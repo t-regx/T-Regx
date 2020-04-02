@@ -18,7 +18,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher(['a' => 'foo', 'b' => 'bar', 6 => 'lorem', 7 => 'ipsum']), $this->worker());
+        $pattern = new FluentMatchPattern($this->stream(['a' => 'foo', 'b' => 'bar', 6 => 'lorem', 7 => 'ipsum']), $this->worker());
 
         // when
         $result = $pattern->nth(0);
@@ -33,7 +33,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldReturnNull()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher([null]), $this->worker());
+        $pattern = new FluentMatchPattern($this->stream([null]), $this->worker());
 
         // when
         $result = $pattern->nth(0);
@@ -48,7 +48,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetThird()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher(['a' => 'foo', 'b' => 'bar', 6 => 'lorem', 7 => 'ipsum']), $this->worker());
+        $pattern = new FluentMatchPattern($this->stream(['a' => 'foo', 'b' => 'bar', 6 => 'lorem', 7 => 'ipsum']), $this->worker());
 
         // when
         $result = $pattern->nth(2);
@@ -79,7 +79,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrow_onTooHigher()
     {
         // given
-        $pattern = new FluentMatchPattern($this->switcher(['foo']), $this->worker());
+        $pattern = new FluentMatchPattern($this->stream(['foo']), $this->worker());
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -94,20 +94,20 @@ class FluentMatchPatternTest extends TestCase
         return new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), 'foo bar');
     }
 
-    private function switcher(array $return, int $times = 1): Stream
+    private function stream(array $return, int $times = 1): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->exactly($times))->method('all')->willReturn($return);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches('all')));
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->exactly($times))->method('all')->willReturn($return);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches('all')));
+        return $stream;
     }
 
     private function zeroInteraction(): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->never())->method($this->anything());
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->never())->method($this->anything());
+        return $stream;
     }
 }

@@ -14,10 +14,10 @@ class KeysStreamTest extends TestCase
     public function shouldGetKeys()
     {
         // given
-        $switcher = new KeysStream($this->mock('all', 'willReturn', ['a' => 'One', 'b' => 'Two', 'c' => 'Three']));
+        $stream = new KeysStream($this->mock('all', 'willReturn', ['a' => 'One', 'b' => 'Two', 'c' => 'Three']));
 
         // when
-        $keys = $switcher->all();
+        $keys = $stream->all();
 
         // then
         $this->assertSame(['a', 'b', 'c'], $keys);
@@ -29,10 +29,10 @@ class KeysStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $switcher = new KeysStream($this->mock('firstKey', 'willReturn', 'One'));
+        $stream = new KeysStream($this->mock('firstKey', 'willReturn', 'One'));
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame('One', $first);
@@ -44,10 +44,10 @@ class KeysStreamTest extends TestCase
     public function shouldFirstKey_beAlwaysZero()
     {
         // given
-        $switcher = new KeysStream($this->zeroInteraction());
+        $stream = new KeysStream($this->zeroInteraction());
 
         // when
-        $firstKey = $switcher->firstKey();
+        $firstKey = $stream->firstKey();
 
         // then
         $this->assertSame(0, $firstKey);
@@ -55,11 +55,11 @@ class KeysStreamTest extends TestCase
 
     private function mock(string $methodName, string $setter, $value): Stream
     {
-        /** @var Stream|MockObject $switcher */
-        $switcher = $this->createMock(Stream::class);
-        $switcher->expects($this->once())->method($methodName)->$setter($value);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
-        return $switcher;
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->once())->method($methodName)->$setter($value);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
+        return $stream;
     }
 
     private function zeroInteraction(): Stream

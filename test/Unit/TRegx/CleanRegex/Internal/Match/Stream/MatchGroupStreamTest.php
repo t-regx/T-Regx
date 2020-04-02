@@ -21,11 +21,11 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $switcher = $this->matchSwitcher($this->switcher('all', $this->matchesOffset('15')), 'group');
+        $stream = $this->matchStream($this->stream('all', $this->matchesOffset('15')), 'group');
 
         // when
         /** @var MatchGroup[] $all */
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertSame('g-15', $all[0]->text());
@@ -39,10 +39,10 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $switcher = $this->matchSwitcher($this->switcher('first', $this->matchOffset('192')), 'group');
+        $stream = $this->matchStream($this->stream('first', $this->matchOffset('192')), 'group');
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame('g-192', $first->text());
@@ -54,10 +54,10 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $switcher = $this->matchSwitcher($this->zeroInteraction(), 'group');
+        $stream = $this->matchStream($this->zeroInteraction(), 'group');
 
         // when
-        $firstKey = $switcher->firstKey();
+        $firstKey = $stream->firstKey();
 
         // then
         $this->assertSame(0, $firstKey);
@@ -69,10 +69,10 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGet_groupIndex_FirstMatch()
     {
         // given
-        $switcher = $this->matchSwitcher($this->switcher('first', $this->matchOffset('192')), 'group');
+        $stream = $this->matchStream($this->stream('first', $this->matchOffset('192')), 'group');
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame(2, $first->index());
@@ -84,11 +84,11 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGet_groupIndex_AllMatches()
     {
         // given
-        $switcher = $this->matchSwitcher($this->switcher('all', $this->matchesOffset('19')), 'group');
+        $stream = $this->matchStream($this->stream('all', $this->matchesOffset('19')), 'group');
 
         // when
         /** @var MatchGroup[] $all */
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertSame(2, $all[0]->index());
@@ -102,11 +102,11 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGet_matchAll_AllMatches()
     {
         // given
-        $switcher = $this->matchSwitcher($this->switcher('all', $this->matchesOffset('15')), 'group');
+        $stream = $this->matchStream($this->stream('all', $this->matchesOffset('15')), 'group');
 
         // when
         /** @var MatchGroup[] $all */
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertSame(['g-15', 'g-19', 'g-25'], $all[0]->all());
@@ -120,30 +120,30 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGet_matchAll_FirstMatch()
     {
         // given
-        $switcher = $this->matchSwitcher($this->switcher('first', $this->matchOffset()), 'group', $this->mockEagerFactory());
+        $stream = $this->matchStream($this->stream('first', $this->matchOffset()), 'group', $this->mockEagerFactory());
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertSame(['sword', 'bow', 'axe'], $first->all());
     }
 
-    private function switcher(string $methodName, $value): BaseStream
+    private function stream(string $methodName, $value): BaseStream
     {
-        /** @var BaseStream|MockObject $switcher */
-        $switcher = $this->createMock(BaseStream::class);
-        $switcher->expects($this->once())->method($methodName)->willReturn($value);
-        $switcher->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
-        return $switcher;
+        /** @var BaseStream|MockObject $stream */
+        $stream = $this->createMock(BaseStream::class);
+        $stream->expects($this->once())->method($methodName)->willReturn($value);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
+        return $stream;
     }
 
     private function zeroInteraction(): BaseStream
     {
-        /** @var BaseStream|MockObject $switcher */
-        $switcher = $this->createMock(BaseStream::class);
-        $switcher->expects($this->never())->method($this->anything());
-        return $switcher;
+        /** @var BaseStream|MockObject $stream */
+        $stream = $this->createMock(BaseStream::class);
+        $stream->expects($this->never())->method($this->anything());
+        return $stream;
     }
 
     private function matchesOffset(string $firstValue): IRawMatchesOffset
@@ -181,10 +181,10 @@ class MatchGroupStreamTest extends TestCase
         ]);
     }
 
-    private function matchSwitcher(BaseStream $switcher, $nameOrIndex, MatchAllFactory $factory = null): MatchGroupStream
+    private function matchStream(BaseStream $stream, $nameOrIndex, MatchAllFactory $factory = null): MatchGroupStream
     {
         return new MatchGroupStream(
-            $switcher,
+            $stream,
             new Subject('switch subject'),
             $nameOrIndex,
             $factory ?? $this->createMock(MatchAllFactory::class));

@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Exception\NoFirstSwitcherException;
+use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
@@ -19,10 +19,10 @@ class BaseStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $switcher = new BaseStream($this->baseAll());
+        $stream = new BaseStream($this->baseAll());
 
         // when
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertEquals(['Joffrey', 'Cersei', 'Ilyn Payne', 'The Hound'], $all->getTexts());
@@ -34,10 +34,10 @@ class BaseStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $switcher = new BaseStream($this->baseFirst());
+        $stream = new BaseStream($this->baseFirst());
 
         // when
-        $first = $switcher->first();
+        $first = $stream->first();
 
         // then
         $this->assertEquals('Joffrey', $first->getText());
@@ -49,13 +49,13 @@ class BaseStreamTest extends TestCase
     public function shouldFirstThrow_unmatched()
     {
         // given
-        $switcher = new BaseStream($this->baseFirstUnmatched());
+        $stream = new BaseStream($this->baseFirstUnmatched());
 
         // then
-        $this->expectException(NoFirstSwitcherException::class);
+        $this->expectException(NoFirstStreamException::class);
 
         // when
-        $switcher->first();
+        $stream->first();
     }
 
     /**
@@ -64,10 +64,10 @@ class BaseStreamTest extends TestCase
     public function shouldAll_returnEmpty_unmatched()
     {
         // given
-        $switcher = new BaseStream($this->baseAllUnmatched());
+        $stream = new BaseStream($this->baseAllUnmatched());
 
         // when
-        $all = $switcher->all();
+        $all = $stream->all();
 
         // then
         $this->assertFalse($all->matched());
@@ -80,14 +80,14 @@ class BaseStreamTest extends TestCase
     public function shouldFirstThrow_afterAll_unmatched()
     {
         // given
-        $switcher = new BaseStream($this->baseAllUnmatched());
+        $stream = new BaseStream($this->baseAllUnmatched());
 
         // then
-        $this->expectException(NoFirstSwitcherException::class);
+        $this->expectException(NoFirstStreamException::class);
 
         // when
-        $switcher->all();
-        $switcher->first();
+        $stream->all();
+        $stream->first();
     }
 
     /**
@@ -96,12 +96,12 @@ class BaseStreamTest extends TestCase
     public function shouldAll_callBase_once()
     {
         // given
-        $switcher = new BaseStream($this->baseAll());
+        $stream = new BaseStream($this->baseAll());
 
         // when
-        $switcher->all();
-        $switcher->all();
-        $switcher->all();
+        $stream->all();
+        $stream->all();
+        $stream->all();
     }
 
     /**
@@ -110,12 +110,12 @@ class BaseStreamTest extends TestCase
     public function shouldRaw_callBase_once()
     {
         // given
-        $switcher = new BaseStream($this->baseAll());
+        $stream = new BaseStream($this->baseAll());
 
         // when
-        $switcher->getRawMatches();
-        $switcher->getRawMatches();
-        $switcher->getRawMatches();
+        $stream->getRawMatches();
+        $stream->getRawMatches();
+        $stream->getRawMatches();
     }
 
     /**
@@ -124,12 +124,12 @@ class BaseStreamTest extends TestCase
     public function shouldFirst_callBase_once()
     {
         // given
-        $switcher = new BaseStream($this->baseFirst());
+        $stream = new BaseStream($this->baseFirst());
 
         // when
-        $switcher->first();
-        $switcher->first();
-        $switcher->first();
+        $stream->first();
+        $stream->first();
+        $stream->first();
     }
 
     /**
@@ -138,11 +138,11 @@ class BaseStreamTest extends TestCase
     public function shouldCallAll_afterFirst()
     {
         // given
-        $switcher = new BaseStream($this->baseBoth());
+        $stream = new BaseStream($this->baseBoth());
 
         // when
-        $switcher->first();
-        $switcher->all();
+        $stream->first();
+        $stream->all();
     }
 
     /**
@@ -151,11 +151,11 @@ class BaseStreamTest extends TestCase
     public function shouldNotCallFirst_afterAll()
     {
         // given
-        $switcher = new BaseStream($this->baseAll());
+        $stream = new BaseStream($this->baseAll());
 
         // when
-        $switcher->all();
-        $matchOffset = $switcher->first();
+        $stream->all();
+        $matchOffset = $stream->first();
 
         // then
         $this->assertEquals('Joffrey', $matchOffset->getText());
@@ -167,12 +167,12 @@ class BaseStreamTest extends TestCase
     public function shouldNotCallFirst_afterAllFirst()
     {
         // given
-        $switcher = new BaseStream($this->baseBoth());
+        $stream = new BaseStream($this->baseBoth());
 
         // when
-        $switcher->first();
-        $switcher->all();
-        $matchOffset = $switcher->first();
+        $stream->first();
+        $stream->all();
+        $matchOffset = $stream->first();
 
         // then
         $this->assertEquals('Joffrey', $matchOffset->getText());
@@ -184,10 +184,10 @@ class BaseStreamTest extends TestCase
     public function shouldFirstKey_beAlwaysZero()
     {
         // given
-        $switcher = new BaseStream($this->zeroInteraction());
+        $stream = new BaseStream($this->zeroInteraction());
 
         // when
-        $firstKey = $switcher->firstKey();
+        $firstKey = $stream->firstKey();
 
         // then
         $this->assertSame(0, $firstKey);

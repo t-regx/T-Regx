@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Match\Details\Match;
 class MatchStream implements Stream
 {
     /** @var BaseStream */
-    private $switcher;
+    private $stream;
     /** @var Subjectable */
     private $subjectable;
     /** @var UserData */
@@ -18,9 +18,9 @@ class MatchStream implements Stream
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(BaseStream $switcher, Subjectable $subjectable, UserData $userData, MatchAllFactory $allFactory)
+    public function __construct(BaseStream $stream, Subjectable $subjectable, UserData $userData, MatchAllFactory $allFactory)
     {
-        $this->switcher = $switcher;
+        $this->stream = $stream;
         $this->subjectable = $subjectable;
         $this->userData = $userData;
         $this->allFactory = $allFactory;
@@ -28,12 +28,12 @@ class MatchStream implements Stream
 
     public function all(): array
     {
-        return $this->switcher->all()->getMatchObjects($this->factory(-1));
+        return $this->stream->all()->getMatchObjects($this->factory(-1));
     }
 
     public function first(): Match
     {
-        return $this->factory(1)->create(0, $this->switcher->first(), $this->allFactory);
+        return $this->factory(1)->create(0, $this->stream->first(), $this->allFactory);
     }
 
     private function factory(int $limit): MatchObjectFactory
@@ -43,6 +43,6 @@ class MatchStream implements Stream
 
     public function firstKey(): int
     {
-        return $this->switcher->firstKey();
+        return $this->stream->firstKey();
     }
 }

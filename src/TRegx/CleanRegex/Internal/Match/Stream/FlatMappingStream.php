@@ -5,29 +5,29 @@ use TRegx\CleanRegex\Internal\Match\FlatMapper;
 
 class FlatMappingStream implements Stream
 {
-    /** @var array */
-    private $switcher;
+    /** @var Stream */
+    private $stream;
     /** @var callable */
     private $mapper;
 
-    public function __construct(Stream $switcher, callable $mapper)
+    public function __construct(Stream $stream, callable $mapper)
     {
-        $this->switcher = $switcher;
+        $this->stream = $stream;
         $this->mapper = $mapper;
     }
 
     public function all(): array
     {
-        return (new FlatMapper($this->switcher->all(), $this->mapper))->get();
+        return (new FlatMapper($this->stream->all(), $this->mapper))->get();
     }
 
     public function first()
     {
-        return (new FlatMapper([], $this->mapper))->map($this->switcher->first());
+        return (new FlatMapper([], $this->mapper))->map($this->stream->first());
     }
 
     public function firstKey()
     {
-        return $this->switcher->firstKey();
+        return $this->stream->firstKey();
     }
 }

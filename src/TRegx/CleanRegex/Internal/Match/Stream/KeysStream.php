@@ -4,21 +4,21 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 class KeysStream implements Stream
 {
     /** @var Stream */
-    private $switcher;
+    private $stream;
 
-    public function __construct(Stream $switcher)
+    public function __construct(Stream $stream)
     {
-        $this->switcher = $switcher;
+        $this->stream = $stream;
     }
 
     public function all(): array
     {
-        return \array_keys($this->switcher->all());
+        return \array_keys($this->stream->all());
     }
 
     public function first()
     {
-        return $this->switcher->firstKey();
+        return $this->stream->firstKey();
     }
 
     public function firstKey(): int
