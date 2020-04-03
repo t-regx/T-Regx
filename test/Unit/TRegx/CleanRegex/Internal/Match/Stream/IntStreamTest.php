@@ -7,7 +7,6 @@ use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 class IntStreamTest extends TestCase
@@ -113,7 +112,7 @@ class IntStreamTest extends TestCase
         return $stream;
     }
 
-    private function matchesOffset(string $firstValue): IRawMatchesOffset
+    private function matchesOffset(string $firstValue): RawMatchesOffset
     {
         return new RawMatchesOffset([[
             [$firstValue, 1],

@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Match\GroupBy\MapStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupBy\OffsetsStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupBy\Strategy;
 use TRegx\CleanRegex\Internal\Match\GroupBy\TextsStrategy;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 
 class GroupByPattern
@@ -59,7 +59,7 @@ class GroupByPattern
         return $strategy->transform($this->groupMatches($matches), $matches);
     }
 
-    private function groupMatches(IRawMatchesOffset $matches): array
+    private function groupMatches(RawMatchesOffset $matches): array
     {
         $map = [];
         for ($i = 0; $i < \count($matches->getTexts()); ++$i) {

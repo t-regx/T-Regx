@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\GroupLimit;
 
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 class GroupLimitAll
 {
@@ -18,7 +18,7 @@ class GroupLimitAll
         $this->nameOrIndex = $nameOrIndex;
     }
 
-    public function getAllForGroup(): IRawMatchesOffset
+    public function getAllForGroup(): RawMatchesOffset
     {
         $rawMatches = $this->base->matchAllOffsets();
         if ($rawMatches->hasGroup($this->nameOrIndex)) {

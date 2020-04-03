@@ -5,7 +5,6 @@ use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\SafeRegex\preg;
@@ -55,7 +54,7 @@ class ApiBase implements Base
         return new RawMatches($matches);
     }
 
-    public function matchAllOffsets(): IRawMatchesOffset
+    public function matchAllOffsets(): RawMatchesOffset
     {
         preg::match_all($this->pattern->pattern, $this->subject, $matches, $this->matchAllOffsetsFlags());
         return new RawMatchesOffset($matches);

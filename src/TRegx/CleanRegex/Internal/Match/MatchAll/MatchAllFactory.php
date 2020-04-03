@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\MatchAll;
 
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 interface MatchAllFactory
 {
-    public function getRawMatches(): IRawMatchesOffset;
+    public function getRawMatches(): RawMatchesOffset;
 }

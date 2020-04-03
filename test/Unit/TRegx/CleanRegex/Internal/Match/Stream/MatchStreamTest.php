@@ -9,7 +9,6 @@ use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -157,7 +156,7 @@ class MatchStreamTest extends TestCase
         return $stream;
     }
 
-    private function matchesOffset(string $firstValue): IRawMatchesOffset
+    private function matchesOffset(string $firstValue): RawMatchesOffset
     {
         return new RawMatchesOffset([[
             [$firstValue, 1],

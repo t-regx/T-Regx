@@ -1,19 +1,19 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\MatchAll;
 
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 class EagerMatchAllFactory implements MatchAllFactory
 {
-    /** @var IRawMatchesOffset */
+    /** @var RawMatchesOffset */
     private $matches;
 
-    public function __construct(IRawMatchesOffset $matches)
+    public function __construct(RawMatchesOffset $matches)
     {
         $this->matches = $matches;
     }
 
-    public function getRawMatches(): IRawMatchesOffset
+    public function getRawMatches(): RawMatchesOffset
     {
         return $this->matches;
     }

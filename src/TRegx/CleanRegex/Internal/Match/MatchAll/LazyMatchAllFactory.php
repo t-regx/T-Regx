@@ -2,13 +2,13 @@
 namespace TRegx\CleanRegex\Internal\Match\MatchAll;
 
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 class LazyMatchAllFactory implements MatchAllFactory
 {
     /** @var Base */
     private $base;
-    /** @var IRawMatchesOffset|null */
+    /** @var RawMatchesOffset|null */
     private $value;
 
     public function __construct(Base $base)
@@ -16,7 +16,7 @@ class LazyMatchAllFactory implements MatchAllFactory
         $this->base = $base;
     }
 
-    public function getRawMatches(): IRawMatchesOffset
+    public function getRawMatches(): RawMatchesOffset
     {
         if ($this->value === null) {
             $this->value = $this->base->matchAllOffsets();

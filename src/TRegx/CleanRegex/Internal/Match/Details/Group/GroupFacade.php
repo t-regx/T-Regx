@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
@@ -43,10 +43,10 @@ class GroupFacade
     }
 
     /**
-     * @param IRawMatchesOffset $matches
+     * @param RawMatchesOffset $matches
      * @return MatchGroup[]
      */
-    public function createGroups(IRawMatchesOffset $matches): array
+    public function createGroups(RawMatchesOffset $matches): array
     {
         $matchObjects = [];
         foreach ($matches->getGroupTextAndOffsetAll($this->group) as $index => $firstWhole) {

@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\Stream\TextStream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 class TextStreamTest extends TestCase
@@ -65,7 +64,7 @@ class TextStreamTest extends TestCase
         return $stream;
     }
 
-    private function matchesOffset(): IRawMatchesOffset
+    private function matchesOffset(): RawMatchesOffset
     {
         return new RawMatchesOffset([[
             ['Lorem', 1],

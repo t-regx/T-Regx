@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrate
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -27,7 +27,7 @@ class ReplaceCallbackObject
     private $callback;
     /** @var Subjectable */
     private $subject;
-    /** @var IRawMatchesOffset */
+    /** @var RawMatchesOffset */
     private $analyzedPattern;
 
     /** @var int */
@@ -43,7 +43,7 @@ class ReplaceCallbackObject
 
     public function __construct(callable $callback,
                                 Subjectable $subject,
-                                IRawMatchesOffset $analyzedPattern,
+                                RawMatchesOffset $analyzedPattern,
                                 int $limit,
                                 ReplaceCallbackArgumentStrategy $argumentStrategy)
     {

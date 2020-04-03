@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
@@ -165,7 +165,7 @@ class MatchImpl implements Match
         return $this->getMatches()->getTexts();
     }
 
-    private function getMatches(): IRawMatchesOffset
+    private function getMatches(): RawMatchesOffset
     {
         return $this->allFactory->getRawMatches();
     }

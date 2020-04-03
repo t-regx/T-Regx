@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
@@ -60,7 +59,7 @@ class ReplacePatternCallbackInvoker
         return $object->getCallback();
     }
 
-    private function analyzePattern(): IRawMatchesOffset
+    private function analyzePattern(): RawMatchesOffset
     {
         preg::match_all($this->pattern->pattern, $this->subject->getSubject(), $matches, PREG_OFFSET_CAPTURE);
         return new RawMatchesOffset($matches);

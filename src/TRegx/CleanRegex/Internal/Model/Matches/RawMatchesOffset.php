@@ -4,17 +4,15 @@ namespace TRegx\CleanRegex\Internal\Model\Matches;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
-use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
+use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\IndexedRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
-use TRegx\CleanRegex\Match\Details\Match;
 
-class RawMatchesOffset implements IRawMatchesOffset
+class RawMatchesOffset implements IRawMatches, IRawWithGroups
 {
     private const GROUP_WHOLE_MATCH = 0;
-    private const FIRST_MATCH = 0;
 
     /** @var array */
     private $matches;
@@ -67,15 +65,6 @@ class RawMatchesOffset implements IRawMatchesOffset
     private function mapToOffset(array $matches): array
     {
         return \array_map([$this, 'mapMatch'], $matches);
-    }
-
-    public function getFirstMatchObject(MatchObjectFactory $factory): Match
-    {
-        return $factory->create(
-            self::FIRST_MATCH,
-            new RawMatchesToMatchAdapter($this, self::FIRST_MATCH),
-            new EagerMatchAllFactory($this)
-        );
     }
 
     private function mapMatch($match): ?int

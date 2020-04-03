@@ -8,7 +8,6 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 class BaseStreamTest extends TestCase
@@ -198,7 +197,7 @@ class BaseStreamTest extends TestCase
         return $this->baseBothWith($this->matchesOffset(), $this->matchOffset());
     }
 
-    private function baseBothWith(IRawMatchesOffset $matches, IRawMatchOffset $match): Base
+    private function baseBothWith(RawMatchesOffset $matches, IRawMatchOffset $match): Base
     {
         /** @var Base|MockObject $base */
         $base = $this->createMock(Base::class);
@@ -221,7 +220,7 @@ class BaseStreamTest extends TestCase
         return $this->baseAllWith($this->matchesOffset());
     }
 
-    private function baseAllWith(IRawMatchesOffset $matches): Base
+    private function baseAllWith(RawMatchesOffset $matches): Base
     {
         /** @var Base|MockObject $base */
         $base = $this->createMock(Base::class);
@@ -257,7 +256,7 @@ class BaseStreamTest extends TestCase
         return $base;
     }
 
-    private function matchesOffset(): IRawMatchesOffset
+    private function matchesOffset(): RawMatchesOffset
     {
         return new RawMatchesOffset([[
             ['Joffrey', 1],

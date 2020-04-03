@@ -6,14 +6,14 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 class BaseStream implements Stream, MatchAllFactory
 {
     /** @var Base */
     private $base;
 
-    /** @var IRawMatchesOffset */
+    /** @var RawMatchesOffset */
     private $matches = null;
     /** @var IRawMatchOffset */
     private $match = null;
@@ -23,7 +23,7 @@ class BaseStream implements Stream, MatchAllFactory
         $this->base = $base;
     }
 
-    public function all(): IRawMatchesOffset
+    public function all(): RawMatchesOffset
     {
         return $this->getRawMatches();
     }
@@ -45,7 +45,7 @@ class BaseStream implements Stream, MatchAllFactory
         return $this->base->matchOffset();
     }
 
-    public function getRawMatches(): IRawMatchesOffset
+    public function getRawMatches(): RawMatchesOffset
     {
         $this->matches = $this->matches ?? $this->base->matchAllOffsets();
         return $this->matches;

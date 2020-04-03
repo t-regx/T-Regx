@@ -2,16 +2,16 @@
 namespace TRegx\CleanRegex\Internal\Model\Adapter;
 
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 class RawMatchesToMatchAdapter implements IRawMatchOffset
 {
-    /** @var IRawMatchesOffset */
+    /** @var RawMatchesOffset */
     private $matches;
     /** @var int */
     private $index;
 
-    public function __construct(IRawMatchesOffset $matches, int $index)
+    public function __construct(RawMatchesOffset $matches, int $index)
     {
         $this->matches = $matches;
         $this->index = $index;

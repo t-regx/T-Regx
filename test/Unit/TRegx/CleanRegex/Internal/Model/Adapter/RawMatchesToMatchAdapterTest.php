@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Model\Adapter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
-use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 class RawMatchesToMatchAdapterTest extends TestCase
 {
@@ -32,10 +32,10 @@ class RawMatchesToMatchAdapterTest extends TestCase
         ];
     }
 
-    private function getRawMatches(bool $expected): IRawMatchesOffset
+    private function getRawMatches(bool $expected): RawMatchesOffset
     {
-        /** @var IRawMatchesOffset|MockObject $rawMatches */
-        $rawMatches = $this->createMock(IRawMatchesOffset::class);
+        /** @var RawMatchesOffset|MockObject $rawMatches */
+        $rawMatches = $this->createMock(RawMatchesOffset::class);
         $rawMatches->method('matched')->willReturn($expected);
         return $rawMatches;
     }
