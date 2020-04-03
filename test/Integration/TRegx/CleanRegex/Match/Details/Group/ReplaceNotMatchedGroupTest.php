@@ -22,7 +22,7 @@ class ReplaceNotMatchedGroupTest extends TestCase
 
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call modifiedOffset() for group 'first', but group was not matched");
+        $this->expectExceptionMessage("Expected to call modifiedOffset() for group 'first', but the group was not matched");
 
         // when
         $matchGroup->modifiedOffset();

@@ -28,7 +28,7 @@ class NotMatchedGroupTest extends TestCase
 
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call text() for group 'first', but group was not matched");
+        $this->expectExceptionMessage("Expected to call text() for group 'first', but the group was not matched");
 
         // when
         $matchGroup->text();
@@ -59,7 +59,7 @@ class NotMatchedGroupTest extends TestCase
 
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call offset() for group 'first', but group was not matched");
+        $this->expectExceptionMessage("Expected to call offset() for group 'first', but the group was not matched");
 
         // when
         $matchGroup->offset();
@@ -75,7 +75,7 @@ class NotMatchedGroupTest extends TestCase
 
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call replace() for group 'first', but group was not matched");
+        $this->expectExceptionMessage("Expected to call replace() for group 'first', but the group was not matched");
 
         // when
         $matchGroup->replace('');
@@ -91,7 +91,7 @@ class NotMatchedGroupTest extends TestCase
 
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call byteOffset() for group 'first', but group was not matched");
+        $this->expectExceptionMessage("Expected to call byteOffset() for group 'first', but the group was not matched");
 
         // when
         $matchGroup->byteOffset();

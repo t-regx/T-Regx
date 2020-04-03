@@ -73,7 +73,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call text() for group 'lowercase', but group was not matched");
+        $this->expectExceptionMessage("Expected to call text() for group 'lowercase', but the group was not matched");
 
         // when
         pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->map(function (MatchGroup $group) {

@@ -6,7 +6,7 @@ use function sprintf;
 
 class MethodGroupMessage implements NotMatchedMessage
 {
-    private const MESSAGE = "Expected to call %s() for group '%s', but group was not matched";
+    private const MESSAGE = "Expected to call %s() for group '%s', but the group was not matched";
 
     /** @var string */
     private $message;

@@ -135,7 +135,7 @@ class MatchImplTest extends TestCase
     {
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call toInt() for group 'missing', but group was not matched");
+        $this->expectExceptionMessage("Expected to call toInt() for group 'missing', but the group was not matched");
 
         // given
         pattern('(?<name>\w+)(?<missing>\d+)?')
