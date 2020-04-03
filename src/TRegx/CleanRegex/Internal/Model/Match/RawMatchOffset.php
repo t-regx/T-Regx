@@ -109,7 +109,6 @@ class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
      */
     public function getGroupsOffsets(): array
     {
-        // TODO write a test for $match==null
         return array_map(function (array $match) {
             [$text, $offset] = $match;
             return $offset;

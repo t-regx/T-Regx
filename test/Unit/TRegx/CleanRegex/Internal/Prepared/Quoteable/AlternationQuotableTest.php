@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quoteable;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\AlternationQuotable;
 
 class AlternationQuotableTest extends TestCase
@@ -42,7 +43,7 @@ class AlternationQuotableTest extends TestCase
     public function shouldRemoveDuplicates_caseSensitive()
     {
         // given
-        $quotable = new AlternationQuotable(['a', 'FOO', 'a', 'c', 'foo'], $this->identity());
+        $quotable = new AlternationQuotable(['a', 'FOO', 'a', 'c', 'foo'], Functions::identity());
 
         // when
         $result = $quotable->quote(''); // or should it throw maybe?
@@ -94,12 +95,5 @@ class AlternationQuotableTest extends TestCase
 
         // then
         $this->assertEquals('(?:\|| |0)', $result);
-    }
-
-    private function identity(): callable
-    {
-        return function ($a) {
-            return $a;
-        };
     }
 }

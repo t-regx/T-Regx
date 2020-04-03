@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
@@ -38,9 +39,7 @@ class GroupByCallbackStreamTest extends TestCase
         $match = $this->matchMock('hello');
         $group = $this->matchGroupMock('hello');
         $input = ['hello', 2, $match, 2, $group,];
-        $stream = new GroupByCallbackStream($this->mock('all', 'willReturn', $input), function ($value) {
-            return $value;
-        });
+        $stream = new GroupByCallbackStream($this->mock('all', 'willReturn', $input), Functions::identity());
 
         // when
         $all = $stream->all();

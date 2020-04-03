@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\_stream_first;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\SafeRegex\Exception\BacktrackLimitPregException;
 
@@ -60,39 +61,26 @@ class AbstractMatchPatternTest extends TestCase
 
     public function test_fluent_map()
     {
-        // when
-        $first = $this->match()->fluent()
-            ->map(function ($a) {
-                return $a;
-            })
-            ->first();
         // then
-        $this->assertEquals('123', $first);
+        $this->assertEquals('123', $this->match()->fluent()->map(Functions::identity())->first());
     }
 
     public function test_fluent_groupByCallback()
     {
-        // when
-        $first = $this->match()->fluent()
-            ->groupByCallback(function ($a) {
-                return $a;
-            })
-            ->first();
         // then
-        $this->assertEquals('123', $first);
+        $this->assertEquals('123', $this->match()->fluent()->groupByCallback(Functions::identity())->first());
     }
 
     public function test_fluent_groupByCallback_keys()
     {
-        // when
-        $first = $this->match()->fluent()
-            ->groupByCallback(function ($a) {
-                return $a;
-            })
-            ->keys()
-            ->first();
         // then
-        $this->assertEquals('123', $first);
+        $this->assertEquals('123', $this->match()->fluent()->groupByCallback(Functions::identity())->keys()->first());
+    }
+
+    public function test_fluent_findFirst()
+    {
+        // then
+        $this->assertEquals('123', $this->match()->fluent()->findFirst(Functions::identity())->orThrow());
     }
 
     public function test_fluent_flatMap()
@@ -105,18 +93,6 @@ class AbstractMatchPatternTest extends TestCase
             ->first();
         // then
         $this->assertEquals(['123'], $first);
-    }
-
-    public function test_fluent_findFirst()
-    {
-        // when
-        $first = $this->match()->fluent()
-            ->findFirst(function ($a) {
-                return $a;
-            })
-            ->orThrow();
-        // then
-        $this->assertEquals('123', $first);
     }
 
     public function test_groups_and_offsets()
