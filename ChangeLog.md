@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming in 0.9.7
 -----------------
 
-* Soon
+* Bug fixes:
+    * Fixed a bug when `findFirst()` sometimes called `preg_match_all()`, despite previous change.
 
 Added in 0.9.6
 --------------

@@ -21,6 +21,8 @@ use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
+use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\LazyRawWithGroups;
@@ -56,6 +58,22 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return (new MatchFirst($this->base))->invoke($consumer);
     }
 
+    public function findFirst(callable $consumer): Optional
+    {
+        $match = $this->base->matchOffset();
+        if ($match->matched()) {
+            return new MatchedOptional($consumer($this->findFirstDetails($match)));
+        }
+        return new NotMatchedOptional(new NotMatchedOptionalWorker(new FirstMatchMessage(), $this->base, new NotMatched(new LazyRawWithGroups($this->base), $this->base)));
+    }
+
+    private function findFirstDetails(RawMatchOffset $match): Match
+    {
+        $allFactory = new LazyMatchAllFactory($this->base);
+        return (new MatchObjectFactory($this->base, 1, $this->base->getUserData()))
+            ->create(0, new GroupPolyfillDecorator($match, $allFactory, 0), $allFactory);
+    }
+
     public function only(int $limit): array
     {
         return (new MatchOnly($this->base, $limit))->get();
@@ -81,20 +99,6 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     public function distinct(): array
     {
         return \array_values(\array_unique($this->all()));
-    }
-
-    /**
-     * @param callable $consumer
-     * @return Optional
-     */
-    public function findFirst(callable $consumer): Optional
-    {
-        $match = $this->base->matchOffset();
-        if ($match->matched()) {
-            $result = $consumer((new MatchObjectFactory($this->base, 1, $this->base->getUserData()))->create(0, $match, new LazyMatchAllFactory($this->base)));
-            return new MatchedOptional($result);
-        }
-        return new NotMatchedOptional(new NotMatchedOptionalWorker(new FirstMatchMessage(), $this->base, new NotMatched(new LazyRawWithGroups($this->base), $this->base)));
     }
 
     /**

@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -280,6 +281,21 @@ class MatchPatternTest extends TestCase
             ->asInt()
             ->findFirst([$this, 'fail'])
             ->orThrow();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_findFirst_forUnmatchedGroup()
+    {
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to call text() for group '1', but the group was not matched");
+
+        // given
+        pattern('Foo(Bar)?')->match('Foo')->findFirst(function (Match $match) {
+            return $match->group(1)->text();
+        });
     }
 
     /**
