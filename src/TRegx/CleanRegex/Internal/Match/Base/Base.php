@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal\Match\Base;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchGroupable;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\IRawMatchesOffset;
@@ -17,8 +16,6 @@ interface Base extends Subjectable
     public function match(): RawMatch;
 
     public function matchOffset(): RawMatchOffset;
-
-    public function matchGroupable(): IRawMatchGroupable;
 
     public function matchAll(): RawMatches;
 

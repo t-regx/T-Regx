@@ -7,7 +7,7 @@ use function array_keys;
 use function array_map;
 use function is_array;
 
-class RawMatchOffset implements IRawMatchOffset, IRawMatchGroupable
+class RawMatchOffset implements IRawMatchOffset
 {
     /** @var array[] */
     private $match;
