@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 
-class ArrayStream implements Stream
+class FromArrayStream implements Stream
 {
     /** @var array */
     private $elements;

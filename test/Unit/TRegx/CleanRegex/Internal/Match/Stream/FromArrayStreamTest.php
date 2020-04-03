@@ -3,9 +3,9 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
-use TRegx\CleanRegex\Internal\Match\Stream\ArrayStream;
+use TRegx\CleanRegex\Internal\Match\Stream\FromArrayStream;
 
-class ArrayStreamTest extends TestCase
+class FromArrayStreamTest extends TestCase
 {
     /**
      * @test
@@ -13,7 +13,7 @@ class ArrayStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $stream = new ArrayStream(['One', 'Two', 'Three']);
+        $stream = new FromArrayStream(['One', 'Two', 'Three']);
 
         // when
         $all = $stream->all();
@@ -28,7 +28,7 @@ class ArrayStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $stream = new ArrayStream(['One', 'Two', 'Three']);
+        $stream = new FromArrayStream(['One', 'Two', 'Three']);
 
         // when
         $first = $stream->first();
@@ -46,7 +46,7 @@ class ArrayStreamTest extends TestCase
         $elements = [10 => 'One', 20 => 'Two', 30 => 'Three'];
         next($elements);
         next($elements); # Intentionally move internal pointer
-        $stream = new ArrayStream($elements);
+        $stream = new FromArrayStream($elements);
 
         // when
         $firstKey = $stream->firstKey();
@@ -61,7 +61,7 @@ class ArrayStreamTest extends TestCase
     public function shouldGetFirst_assoc()
     {
         // given
-        $stream = new ArrayStream(['a' => 'One', 'b' => 'Two', 'c' => 'Three']);
+        $stream = new FromArrayStream(['a' => 'One', 'b' => 'Two', 'c' => 'Three']);
 
         // when
         $first = $stream->first();
@@ -76,7 +76,7 @@ class ArrayStreamTest extends TestCase
     public function shouldFirstThrow()
     {
         // given
-        $stream = new ArrayStream([]);
+        $stream = new FromArrayStream([]);
 
         // then
         $this->expectException(NoFirstStreamException::class);
@@ -91,7 +91,7 @@ class ArrayStreamTest extends TestCase
     public function shouldFirstReturnInteger()
     {
         // given
-        $stream = new ArrayStream([1]);
+        $stream = new FromArrayStream([1]);
 
         // when
         $first = $stream->first();

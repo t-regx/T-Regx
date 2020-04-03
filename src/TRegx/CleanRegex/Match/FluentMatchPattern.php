@@ -10,8 +10,8 @@ use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\FluentInteger;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
-use TRegx\CleanRegex\Internal\Match\Stream\ArrayStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream;
+use TRegx\CleanRegex\Internal\Match\Stream\FromArrayStream;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeysStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MappingStream;
@@ -120,7 +120,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function filter(callable $predicate): FluentMatchPattern
     {
-        return $this->next(new ArrayStream(\array_values(\array_filter($this->stream->all(), $predicate))));
+        return $this->next(new FromArrayStream(\array_values(\array_filter($this->stream->all(), $predicate))));
     }
 
     public function values(): FluentMatchPattern
