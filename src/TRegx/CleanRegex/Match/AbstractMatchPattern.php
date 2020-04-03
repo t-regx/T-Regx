@@ -15,6 +15,7 @@ use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
+use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
@@ -22,6 +23,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
 use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
+use TRegx\CleanRegex\Match\Details\LazyRawWithGroups;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
@@ -87,17 +89,12 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
      */
     public function findFirst(callable $consumer): Optional
     {
-        $matches = $this->base->matchAllOffsets();
-        if ($matches->matched()) {
-            $result = $consumer($matches->getFirstMatchObject(new MatchObjectFactory($this->base, 1, $this->base->getUserData())));
+        $match = $this->base->matchOffset();
+        if ($match->matched()) {
+            $result = $consumer((new MatchObjectFactory($this->base, 1, $this->base->getUserData()))->create(0, $match, new LazyMatchAllFactory($this->base)));
             return new MatchedOptional($result);
         }
-        return new NotMatchedOptional(
-            new NotMatchedOptionalWorker(
-                new FirstMatchMessage(),
-                $this->base,
-                new NotMatched($matches, $this->base))
-        );
+        return new NotMatchedOptional(new NotMatchedOptionalWorker(new FirstMatchMessage(), $this->base, new NotMatched(new LazyRawWithGroups($this->base), $this->base)));
     }
 
     /**

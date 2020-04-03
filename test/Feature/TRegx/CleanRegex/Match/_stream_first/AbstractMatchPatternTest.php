@@ -77,6 +77,12 @@ class AbstractMatchPatternTest extends TestCase
         $this->assertEquals('123', $this->match()->fluent()->groupByCallback(Functions::identity())->keys()->first());
     }
 
+    public function test_findFirst()
+    {
+        // then
+        $this->assertEquals('123', $this->match()->findFirst(Functions::identity())->orThrow());
+    }
+
     public function test_fluent_findFirst()
     {
         // then
