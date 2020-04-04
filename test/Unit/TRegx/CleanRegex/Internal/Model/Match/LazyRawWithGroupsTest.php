@@ -1,12 +1,12 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\Details;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Model\Match;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Match\Details\LazyRawWithGroups;
+use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
 
 class LazyRawWithGroupsTest extends TestCase
 {

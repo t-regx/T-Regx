@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
 use TRegx\CleanRegex\Internal\RawMatchAsArray;
-use TRegx\CleanRegex\Match\Details\LazyRawWithGroups;
 use TRegx\SafeRegex\preg;
 
 class AsArrayStream implements Stream

@@ -1,8 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Match\Details;
+namespace TRegx\CleanRegex\Internal\Model;
 
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\SafeRegex\preg;
 

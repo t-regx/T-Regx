@@ -5,8 +5,8 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
+use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
 use TRegx\CleanRegex\Internal\RawMatchAsArray;
-use TRegx\CleanRegex\Match\Details\LazyRawWithGroups;
 
 class RawMatchAsArrayTest extends TestCase
 {
