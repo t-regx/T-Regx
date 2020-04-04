@@ -269,6 +269,22 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrow_asArray_first_OnUnmatchedPattern()
+    {
+        // then
+        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage("Expected to get the first match as array, but subject was not matched");
+
+        // given
+        pattern('dont match me')
+            ->match('word')
+            ->asArray()
+            ->first();
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_asInt_findFirst_OnUnmatchedPattern()
     {
         // then
@@ -467,6 +483,27 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertSame([9, 9, 6, 7, 45], $integers);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllMatches_asArray()
+    {
+        // given
+        $subject = "Foo:14-16 Bar Lorem:18 Ipsum";
+
+        // when
+        $matches = pattern('\w+(?<number>:\d+)?(-\d+)?')->match($subject)->asArray()->all();
+
+        // then
+        $expected = [
+            ['Foo:14-16', 'number' => ':14', ':14', '-16'],
+            ['Bar', 'number' => null, null, null],
+            ['Lorem:18', 'number' => ':18', ':18', null],
+            ['Ipsum', 'number' => null, null, null],
+        ];
+        $this->assertSame($expected, $matches);
     }
 
     /**

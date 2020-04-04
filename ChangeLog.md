@@ -4,8 +4,19 @@ T-Regx Changelog
 Incoming in 0.9.7
 -----------------
 
-* Bug fixes:
+* Features
+    * Added `pattern()->match()->asArray()->*` which returns results as an array (as if it was returned by `preg_match()`, but fixed). More below.
+* Bug fixes
     * Fixed a bug when `findFirst()` sometimes called `preg_match_all()`, despite previous change.
+
+---
+
+When using `preg_match()` or `preg_match_all()` with `PREG_SET_ORDER`, the last groups that are unmatched or matched an empty string
+are removed by PHP! Missing group, unmatched group and group that matched `""` are indistinguishable. Basically, PHP trims any `false`-y group.
+
+T-Regx fixes it by filling the results:
+ - `null` always means a group is present, but unmatched
+ - `""` means a matched group, that matched an empty string
 
 Added in 0.9.6
 --------------
