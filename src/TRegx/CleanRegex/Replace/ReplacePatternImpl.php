@@ -57,17 +57,17 @@ class ReplacePatternImpl implements ReplacePattern
         return $this->replacePattern->by();
     }
 
-    public function orThrow(string $exceptionClassName = NotReplacedException::class): SpecificReplacePattern
+    public function throwingOtherwise(string $exceptionClassName = NotReplacedException::class): SpecificReplacePattern
     {
         return $this->replacePattern(new CustomThrowStrategy($exceptionClassName, new NonReplacedMessage()));
     }
 
-    public function orReturn($substitute): SpecificReplacePattern
+    public function returningOtherwise($substitute): SpecificReplacePattern
     {
         return $this->replacePattern(new ConstantResultStrategy($substitute));
     }
 
-    public function orElse(callable $substituteProducer): SpecificReplacePattern
+    public function otherwise(callable $substituteProducer): SpecificReplacePattern
     {
         return $this->replacePattern(new ComputedSubjectStrategy($substituteProducer));
     }

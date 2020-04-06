@@ -45,10 +45,10 @@ class ReplacePatternImplTest extends TestCase
     function methodsAndStrategies(): array
     {
         return [
-            ['orReturn', ['arg'], new ConstantResultStrategy('arg')],
-            ['orThrow', [], new CustomThrowStrategy(NotReplacedException::class, new NonReplacedMessage())],
-            ['orThrow', [InvalidArgumentException::class], new CustomThrowStrategy(InvalidArgumentException::class, new NonReplacedMessage())],
-            ['orElse', [Functions::any()], new ComputedSubjectStrategy(Functions::any())],
+            ['returningOtherwise', ['arg'], new ConstantResultStrategy('arg')],
+            ['throwingOtherwise', [], new CustomThrowStrategy(NotReplacedException::class, new NonReplacedMessage())],
+            ['throwingOtherwise', [InvalidArgumentException::class], new CustomThrowStrategy(InvalidArgumentException::class, new NonReplacedMessage())],
+            ['otherwise', [Functions::any()], new ComputedSubjectStrategy(Functions::any())],
         ];
     }
 

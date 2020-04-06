@@ -4,6 +4,9 @@ T-Regx Changelog
 Incoming in 0.9.7
 -----------------
 
+* Breaking changes
+    * `pattern()->replace()->orElse/Throw/Return->with()` are renamed to
+      `otherwise()`/`throwingOtherwise()`/`returningOtherwise()`.
 * Features
     * Added `pattern()->match()->asArray()->*` which returns results as an array (as if it was returned by `preg_match()`, but fixed). More below.
 * Bug fixes

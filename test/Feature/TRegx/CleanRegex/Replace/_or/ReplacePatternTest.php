@@ -12,11 +12,20 @@ class ReplacePatternTest extends TestCase
      */
     public function shouldReturn_with()
     {
-        // given
-        $replacePattern = pattern('Foo')->replace('Bar')->first();
-
         // when
-        $result = $replacePattern->orReturn('otherwise')->with('');
+        $result = pattern('Foo')->replace('Bar')->first()->returningOtherwise('otherwise')->with('');
+
+        // then
+        $this->assertEquals('otherwise', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturn_withReferences()
+    {
+        // when
+        $result = pattern('Foo')->replace('Bar')->first()->returningOtherwise('otherwise')->withReferences('');
 
         // then
         $this->assertEquals('otherwise', $result);
@@ -27,12 +36,11 @@ class ReplacePatternTest extends TestCase
      */
     public function shouldReturn_with_orElse()
     {
-        // given
-        $replacePattern = pattern('Foo')->replace('Bar')->first();
-
         // when
-        $result = $replacePattern
-            ->orElse(function (string $subject) {
+        $result = pattern('Foo')
+            ->replace('Bar')
+            ->first()
+            ->otherwise(function (string $subject) {
                 $this->assertEquals('Bar', $subject);
                 return 'otherwise';
             })
@@ -48,29 +56,14 @@ class ReplacePatternTest extends TestCase
     public function shouldThrow_with_orThrow()
     {
         // given
-        $replacePattern = pattern('Foo')->replace('Bar')->first();
+        $replacePattern = pattern('Foo')->replace('Bar')->first()->throwingOtherwise(CustomException::class);
 
         // then
         $this->expectException(CustomException::class);
         $this->expectExceptionMessage("Replacements were supposed to be performed, but subject doesn't match the pattern");
 
         // when
-        $replacePattern->orThrow(CustomException::class)->with('');
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturn_withReferences()
-    {
-        // given
-        $replacePattern = pattern('Foo')->replace('Bar')->first();
-
-        // when
-        $result = $replacePattern->orReturn('otherwise')->withReferences('');
-
-        // then
-        $this->assertEquals('otherwise', $result);
+        $replacePattern->with('');
     }
 
     /**
@@ -82,7 +75,7 @@ class ReplacePatternTest extends TestCase
         $replacePattern = pattern('Foo')->replace('Bar')->first();
 
         // when
-        $result = $replacePattern->orReturn('otherwise')->callback(Functions::constant(''));
+        $result = $replacePattern->returningOtherwise('otherwise')->callback(Functions::constant(''));
 
         // then
         $this->assertEquals('otherwise', $result);
@@ -97,7 +90,7 @@ class ReplacePatternTest extends TestCase
         $replacePattern = pattern('Foo')->replace('Bar')->first();
 
         // when
-        $result = $replacePattern->orReturn('otherwise')->by()->map([]);
+        $result = $replacePattern->returningOtherwise('otherwise')->by()->map([]);
 
         // then
         $this->assertEquals('otherwise', $result);
@@ -112,7 +105,7 @@ class ReplacePatternTest extends TestCase
         $replacePattern = pattern('(Foo)')->replace('Bar')->first();
 
         // when
-        $result = $replacePattern->orReturn('otherwise')->by()->group(1)->map([])->orThrow();
+        $result = $replacePattern->returningOtherwise('otherwise')->by()->group(1)->map([])->orThrow();
 
         // then
         $this->assertEquals('otherwise', $result);
