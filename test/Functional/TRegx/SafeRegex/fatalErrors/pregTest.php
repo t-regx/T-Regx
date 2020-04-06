@@ -3,6 +3,7 @@ namespace Test\Functional\TRegx\SafeRegex\fatalErrors;
 
 use PHPUnit\Framework\TestCase;
 use Test\DataProviders;
+use Test\Utils\Functions;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
 use TRegx\SafeRegex\preg;
 
@@ -30,9 +31,7 @@ class pregTest extends TestCase
     public function shouldNotThrowFatalErrors_forAnyPhpType_replace_callback($input)
     {
         // when
-        preg::replace_callback('/./', function () use ($input) {
-            return $input;
-        }, 'word');
+        preg::replace_callback('/./', Functions::constant($input), 'word');
 
         // then
         $this->assertTrue(true);
@@ -50,9 +49,7 @@ class pregTest extends TestCase
         $this->expectExceptionMessage('Invalid preg_replace_callback() callback return type. Expected type that can be cast to string, but object given');
 
         // when
-        preg::replace_callback('/./', function () use ($input) {
-            return $input;
-        }, 'word');
+        preg::replace_callback('/./', Functions::constant($input), 'word');
     }
 
     /**
@@ -64,12 +61,8 @@ class pregTest extends TestCase
     {
         // when
         preg::replace_callback_array([
-            '/./' => function () use ($input) {
-                return $input;
-            },
-            '/a/' => function () use ($input) {
-                return $input;
-            },
+            '/./' => Functions::constant($input),
+            '/a/' => Functions::constant($input),
         ], 'word');
 
         // then
@@ -99,12 +92,8 @@ class pregTest extends TestCase
 
         // when
         preg::replace_callback_array([
-            '/./' => function () use ($input) {
-                return 'a';
-            },
-            '/a/' => function () use ($input) {
-                return $input;
-            },
+            '/./' => Functions::constant('a'),
+            '/a/' => Functions::constant($input),
         ], 'word');
     }
 

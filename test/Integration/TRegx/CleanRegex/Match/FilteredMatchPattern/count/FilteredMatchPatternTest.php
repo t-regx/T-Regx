@@ -2,6 +2,7 @@
 namespace Test\Integration\TRegx\CleanRegex\Match\FilteredMatchPattern\count;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
@@ -82,23 +83,17 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern_notMatches(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'NOT MATCHING', function () {
-            return true;
-        });
+        return $this->matchPattern('[a-z]+', 'NOT MATCHING', Functions::constant(true));
     }
 
     private function standardMatchPattern_all(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function () {
-            return true;
-        });
+        return $this->matchPattern('[a-z]+', 'nice matching pattern', Functions::constant(true));
     }
 
     private function standardMatchPattern_filtered(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern long', function (Match $match) {
-            return false;
-        });
+        return $this->matchPattern('[a-z]+', 'nice matching pattern long', Functions::constant(false));
     }
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern

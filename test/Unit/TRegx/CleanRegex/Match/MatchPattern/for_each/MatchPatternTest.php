@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\for_each;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -37,10 +38,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $pattern->forEach(function () {
-            // then
-            $this->fail('Failed asserting that first() is not invoked for not matching subject');
-        });
+        $pattern->forEach(Functions::fail());
 
         // then
         $this->assertTrue(true);

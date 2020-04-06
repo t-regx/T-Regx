@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\first;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -82,10 +83,7 @@ class MatchPatternTest extends TestCase
 
         try {
             // when
-            $pattern->first(function () {
-                // then
-                $this->fail('Failed asserting that first() is not invoked for not matching subject');
-            });
+            $pattern->first(Functions::fail());
         } catch (SubjectNotMatchedException $exception) {
             $this->assertTrue(true);
         }

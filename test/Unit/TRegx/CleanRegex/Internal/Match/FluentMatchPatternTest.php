@@ -4,6 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
@@ -176,15 +177,13 @@ class FluentMatchPatternTest extends TestCase
     {
         // given
         $pattern = new FluentMatchPattern($this->all(['Foo']), $this->worker());
+
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage("Invalid flatMap() callback return type. Expected array, but integer (0) given");
+
         // when
-        $pattern
-            ->flatMap(function (string $input) {
-                return 0;
-            })
-            ->all();
+        $pattern->flatMap(Functions::constant(0))->all();
     }
 
     /**
@@ -194,15 +193,13 @@ class FluentMatchPatternTest extends TestCase
     {
         // given
         $pattern = new FluentMatchPattern($this->first('Foo'), $this->worker());
+
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage("Invalid flatMap() callback return type. Expected array, but integer (0) given");
+
         // when
-        $pattern
-            ->flatMap(function (string $input) {
-                return 0;
-            })
-            ->first();
+        $pattern->flatMap(Functions::constant(0))->first();
     }
 
     /**

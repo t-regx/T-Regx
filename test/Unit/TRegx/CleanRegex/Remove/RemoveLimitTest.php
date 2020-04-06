@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Remove;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 
 class RemoveLimitTest extends TestCase
@@ -61,9 +62,7 @@ class RemoveLimitTest extends TestCase
     public function shouldThrowOnNegativeLimit()
     {
         // given
-        $limit = new RemoveLimit(function () {
-            return '';
-        });
+        $limit = new RemoveLimit(Functions::constant(''));
 
         // then
         $this->expectException(InvalidArgumentException::class);

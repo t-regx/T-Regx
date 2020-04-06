@@ -71,7 +71,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)
             ->replace($subject)
             ->first()
-            ->callback(function (ReplaceMatch $match) {
+            ->callback(function (ReplaceMatch $match) { // Testing this type-hint
                 // then
                 return $match;
             });

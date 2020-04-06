@@ -3,6 +3,7 @@ namespace Test\Functional\TRegx\SafeRegex\Guard;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use Test\Warnings;
 use TRegx\SafeRegex\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
@@ -56,9 +57,7 @@ class GuardedExecutionTest extends TestCase
         $this->expectExceptionMessage('Rethrown exception');
 
         // when
-        GuardedExecution::invoke('preg_match', function () {
-            throw new Exception('Rethrown exception');
-        });
+        GuardedExecution::invoke('preg_match', Functions::throws(new Exception('Rethrown exception')));
     }
 
     /**
@@ -67,9 +66,7 @@ class GuardedExecutionTest extends TestCase
     public function shouldInvokeReturnResult()
     {
         // when
-        $result = GuardedExecution::invoke('preg_match', function () {
-            return 13;
-        });
+        $result = GuardedExecution::invoke('preg_match', Functions::constant(13));
 
         // then
         $this->assertEquals(13, $result);
@@ -117,9 +114,7 @@ class GuardedExecutionTest extends TestCase
         $errorsCleaner = new ErrorsCleaner();
 
         // when
-        $silenced = GuardedExecution::silenced('preg_match', function () {
-            return 2;
-        });
+        $silenced = GuardedExecution::silenced('preg_match', Functions::constant(2));
 
         $error = $errorsCleaner->getError();
 

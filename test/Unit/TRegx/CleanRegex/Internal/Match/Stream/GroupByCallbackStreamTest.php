@@ -106,9 +106,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldThrowForInvalidGroupByType_all(string $caller, $returnValue)
     {
         // given
-        $stream = new GroupByCallbackStream($this->mock($caller, 'willReturn', $returnValue), function () {
-            return [];
-        });
+        $stream = new GroupByCallbackStream($this->mock($caller, 'willReturn', $returnValue), Functions::constant([]));
 
         // then
         $this->expectException(InvalidReturnValueException::class);

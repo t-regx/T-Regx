@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
@@ -69,9 +70,7 @@ class MatchPatternTest extends TestCase
         // when
         $value = pattern('[A-Z]+')
             ->match('F')
-            ->first(function () {
-                return new \stdClass();
-            });
+            ->first(Functions::constant(new \stdClass()));
 
         // then
         $this->assertInstanceOf(\stdClass::class, $value);
@@ -99,12 +98,8 @@ class MatchPatternTest extends TestCase
         // when
         $value = pattern('[A-Z]+')
             ->match('FOO')
-            ->findFirst(function () {
-                return 'Different';
-            })
-            ->orElse(function () {
-                $this->fail();
-            });
+            ->findFirst(Functions::constant('Different'))
+            ->orElse(Functions::fail());
 
         // then
         $this->assertEquals("Different", $value);
@@ -118,9 +113,7 @@ class MatchPatternTest extends TestCase
         // when
         $value = pattern('[a-z]+')
             ->match('NOT MATCHING')
-            ->findFirst(function () {
-                $this->fail();
-            })
+            ->findFirst(Functions::fail())
             ->orElse(function (NotMatched $notMatched) {
                 // then
                 $this->assertEquals(0, $notMatched->groupsCount());
@@ -184,10 +177,7 @@ class MatchPatternTest extends TestCase
         // given
         pattern('dont match me')
             ->match('word')
-            ->forEach(function () {
-                // then
-                $this->fail("This shouldn't be invoked");
-            });
+            ->forEach(Functions::fail());
 
         // then
         $this->assertTrue(true);
@@ -200,15 +190,12 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get the first match, but subject was not matched");
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // given
-        pattern('dont match me')
-            ->match('word')
-            ->first(function () {
-                // then
-                $this->fail("Failed to assert that first() callback is not invoked for unmatched pattern");
-            });
+        pattern('pattern')
+            ->match('dont match me')
+            ->first(Functions::fail());
     }
 
     /**
@@ -381,9 +368,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function () {
-                return false;
-            })
+            ->filter(Functions::constant(false))
             ->only(1);
 
         // then
@@ -445,9 +430,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $matches = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function () {
-                return false;
-            })
+            ->filter(Functions::constant(false))
             ->test();
 
         // then
@@ -461,9 +444,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $matches = pattern('[A-Z][a-z]+')->match('NOT MATCHING')
-            ->filter(function () {
-                return true;
-            })
+            ->filter(Functions::constant(true))
             ->test();
 
         // then

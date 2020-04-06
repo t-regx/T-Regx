@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\findFirst;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -59,8 +60,7 @@ class MatchPatternTest extends TestCase
         // when
         $first1 = $pattern->findFirst('strtoupper')->orReturn(null);
         $first2 = $pattern->findFirst('strtoupper')->orThrow();
-        $first3 = $pattern->findFirst('strtoupper')->orElse(function () {
-        });
+        $first3 = $pattern->findFirst('strtoupper')->orElse(Functions::fail());
 
         // then
         $this->assertEquals('NICE', $first1);
@@ -77,11 +77,10 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $pattern->findFirst($this->failCallback())->orReturn(null);
-        $pattern->findFirst($this->failCallback())->orElse(function () {
-        });
+        $pattern->findFirst(Functions::fail())->orReturn(null);
+        $pattern->findFirst(Functions::fail())->orElse(Functions::any());
         try {
-            @$pattern->findFirst($this->failCallback())->orThrow();
+            $pattern->findFirst(Functions::fail())->orThrow();
         } catch (SubjectNotMatchedException $ignored) {
         }
 
@@ -161,9 +160,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $value = $pattern->findFirst('strrev')->orElse(function () {
-            return 'new value';
-        });
+        $value = $pattern->findFirst('strrev')->orElse(Functions::constant('new value'));
 
         // then
         $this->assertEquals('new value', $value);
@@ -193,12 +190,5 @@ class MatchPatternTest extends TestCase
     private function getMatchPattern($subject): MatchPattern
     {
         return new MatchPattern(InternalPattern::standard("([A-Z])?[a-z']+"), $subject);
-    }
-
-    private function failCallback(): callable
-    {
-        return function () {
-            $this->fail("Failed asserting that findFirst() is not invoked for not matching subject");
-        };
     }
 }

@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Remove\RemoveLimit;
@@ -69,9 +70,7 @@ class PatternLimitTest extends TestCase
                 })
             ],
             [
-                new RemoveLimit(function () {
-                    return '';
-                })
+                new RemoveLimit(Functions::constant(''))
             ],
         ];
     }

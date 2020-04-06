@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\first;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
@@ -102,9 +103,7 @@ class FluentMatchPatternTest extends TestCase
         $this->expectExceptionMessage('Exception message');
 
         // when
-        $pattern->first(function () {
-            $this->fail();
-        });
+        $pattern->first(Functions::fail());
     }
 
     private function worker(string $message): NotMatchedFluentOptionalWorker

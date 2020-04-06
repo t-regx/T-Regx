@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\map;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -52,10 +53,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $pattern->map(function () {
-            // then
-            $this->fail("Failed asserting that map() is not invoked for not matching subject");
-        });
+        $pattern->map(Functions::fail());
 
         // then
         $this->assertTrue(true);
@@ -70,8 +68,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $map = $pattern->map(function () {
-        });
+        $map = $pattern->map(Functions::fail());
 
         // then
         $this->assertEquals([], $map, 'Failed asserting that map() returned an empty array');

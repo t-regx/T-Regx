@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\SafeRegex\Guard;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use Test\Warnings;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Exception\CompilePregException;
@@ -18,9 +19,7 @@ class GuardedInvocationTest extends TestCase
     public function shouldNotCatchException()
     {
         // given
-        $invoker = new GuardedInvoker('preg_match', function () {
-            return 13;
-        });
+        $invoker = new GuardedInvoker('preg_match', Functions::constant(13));
 
         // when
         [$result, $exception] = $invoker->catch();
@@ -74,9 +73,7 @@ class GuardedInvocationTest extends TestCase
     public function shouldReturnResult()
     {
         // given
-        $invoker = new GuardedInvoker('preg_match', function () {
-            return 16;
-        });
+        $invoker = new GuardedInvoker('preg_match', Functions::constant(16));
 
         // when
         [$result, $exception] = $invoker->catch();
@@ -95,9 +92,7 @@ class GuardedInvocationTest extends TestCase
     {
         // given
         $obsoleteWarning();
-        $invoker = new GuardedInvoker('preg_match', function () {
-            return 17;
-        });
+        $invoker = new GuardedInvoker('preg_match', Functions::constant(17));
 
         // when
         [$result, $exception] = $invoker->catch();
@@ -144,9 +139,7 @@ class GuardedInvocationTest extends TestCase
     public function shouldNotSilenceExceptions()
     {
         // given
-        $invoker = new GuardedInvoker('preg_match', function () {
-            throw new \Exception("For Frodo");
-        });
+        $invoker = new GuardedInvoker('preg_match', Functions::throws(new \Exception("For Frodo")));
 
         // then
         $this->expectException(\Exception::class);

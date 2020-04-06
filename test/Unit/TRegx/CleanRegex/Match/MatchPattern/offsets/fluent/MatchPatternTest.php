@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\offsets\fluent;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -36,8 +37,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Expected to get the first match offset, but subject was not matched');
 
         // when
-        $pattern->offsets()->fluent()->findFirst(function () {
-        })->orThrow();
+        $pattern->offsets()->fluent()->findFirst(Functions::identity())->orThrow();
     }
 
     private function getMatchPattern($subject): MatchPattern

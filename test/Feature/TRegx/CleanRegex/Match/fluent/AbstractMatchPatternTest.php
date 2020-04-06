@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\fluent;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -111,9 +112,7 @@ class AbstractMatchPatternTest extends TestCase
         pattern("Foo")
             ->match("Bar")
             ->fluent()
-            ->findFirst(function (Match $match) {
-                $this->fail();
-            })
+            ->findFirst(Functions::fail())
             ->orThrow();
     }
 
@@ -130,9 +129,7 @@ class AbstractMatchPatternTest extends TestCase
         pattern("Foo")
             ->match("Bar")
             ->fluent()
-            ->findFirst(function (Match $match) {
-                $this->fail();
-            })
+            ->findFirst(Functions::fail())
             ->orThrow(CustomSubjectException::class);
     }
 }

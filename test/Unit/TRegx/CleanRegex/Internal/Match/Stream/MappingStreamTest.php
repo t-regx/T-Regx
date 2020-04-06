@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\MappingStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
@@ -78,9 +79,7 @@ class MappingStreamTest extends TestCase
     public function shouldFirstReturnInteger()
     {
         // given
-        $stream = new MappingStream($this->mock('first', 'willReturn', 1), function (int $a) {
-            return $a;
-        });
+        $stream = new MappingStream($this->mock('first', 'willReturn', 1), Functions::identity());
 
         // when
         $first = $stream->first();

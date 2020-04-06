@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\_or;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomException;
+use Test\Utils\Functions;
 
 class ReplacePatternTest extends TestCase
 {
@@ -81,9 +82,7 @@ class ReplacePatternTest extends TestCase
         $replacePattern = pattern('Foo')->replace('Bar')->first();
 
         // when
-        $result = $replacePattern->orReturn('otherwise')->callback(function () {
-            return '';
-        });
+        $result = $replacePattern->orReturn('otherwise')->callback(Functions::constant(''));
 
         // then
         $this->assertEquals('otherwise', $result);

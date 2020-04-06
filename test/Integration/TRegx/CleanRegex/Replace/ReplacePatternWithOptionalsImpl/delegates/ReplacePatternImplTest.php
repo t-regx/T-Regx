@@ -4,6 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex\Replace\ReplacePatternWithOptionalsI
 use Closure;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
@@ -60,9 +61,7 @@ class ReplacePatternImplTest extends TestCase
         $underTest = new ReplacePatternImpl($delegate, InternalPattern::pcre('//'), '', 0, new ReplacePatternFactory());
 
         // when
-        $result = $underTest->callback(function () {
-            return 'input';
-        });
+        $result = $underTest->callback(Functions::constant('input'));
 
         // then
         $this->assertEquals('delegated', $result);

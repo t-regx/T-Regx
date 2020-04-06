@@ -3,6 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex\Replace;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
@@ -67,9 +68,7 @@ class ReplaceLimitImplTest extends TestCase
     public function shouldThrowOnNegativeLimit()
     {
         // given
-        $limit = new ReplaceLimitImpl(function () {
-            return '';
-        });
+        $limit = new ReplaceLimitImpl(Functions::constant(''));
 
         // then
         $this->expectException(InvalidArgumentException::class);

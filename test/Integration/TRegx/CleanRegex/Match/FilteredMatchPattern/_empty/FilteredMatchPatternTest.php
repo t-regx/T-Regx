@@ -2,6 +2,7 @@
 namespace Test\Integration\TRegx\CleanRegex\Match\FilteredMatchPattern\_empty;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
@@ -395,9 +396,7 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern_all(): FilteredMatchPattern
     {
-        return $this->matchPattern(function () {
-            return true;
-        });
+        return $this->matchPattern(Functions::constant(true));
     }
 
     private function standardMatchPattern_notFirst(): FilteredMatchPattern
@@ -409,9 +408,7 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern_filtered(): FilteredMatchPattern
     {
-        return $this->matchPattern(function () {
-            return false;
-        });
+        return $this->matchPattern(Functions::constant(false));
     }
 
     private function matchPattern(callable $predicate): FilteredMatchPattern

@@ -3,6 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex\Replace\Map;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -40,9 +41,7 @@ class ByReplacePatternImplTest extends TestCase
         $byReplacePattern = $this->create('word(\d+)?', 'word');
 
         // when
-        $result = $byReplacePattern->orElse(function () {
-            return 'failing';
-        });
+        $result = $byReplacePattern->orElse(Functions::constant('failing'));
 
         // then
         $this->assertEquals('failing', $result);

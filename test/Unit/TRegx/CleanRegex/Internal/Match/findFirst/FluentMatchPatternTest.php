@@ -4,6 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\findFirst;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
@@ -72,9 +73,7 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern($this->unmatchedMock(), $this->worker());
 
         // when
-        $result = $pattern->findFirst('strtoupper')->orElse(function () {
-            return 'otherValue';
-        });
+        $result = $pattern->findFirst('strtoupper')->orElse(Functions::constant('otherValue'));
 
         // then
         $this->assertEquals('otherValue', $result);

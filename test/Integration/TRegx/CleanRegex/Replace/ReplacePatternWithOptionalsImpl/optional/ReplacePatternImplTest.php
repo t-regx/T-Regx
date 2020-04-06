@@ -3,6 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex\Replace\ReplacePatternWithOptionalsI
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NotReplacedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
@@ -43,13 +44,11 @@ class ReplacePatternImplTest extends TestCase
 
     function methodsAndStrategies(): array
     {
-        $callback = function () {
-        };
         return [
             ['orReturn', ['arg'], new ConstantResultStrategy('arg')],
             ['orThrow', [], new CustomThrowStrategy(NotReplacedException::class, new NonReplacedMessage())],
             ['orThrow', [InvalidArgumentException::class], new CustomThrowStrategy(InvalidArgumentException::class, new NonReplacedMessage())],
-            ['orElse', [$callback], new ComputedSubjectStrategy($callback)],
+            ['orElse', [Functions::any()], new ComputedSubjectStrategy(Functions::any())],
         ];
     }
 

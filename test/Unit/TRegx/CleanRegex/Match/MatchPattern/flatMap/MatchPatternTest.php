@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\flatMap;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -82,10 +83,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $pattern->flatMap(function () {
-            // then
-            $this->fail("Failed asserting that flatMap() is not invoked for not matching subject");
-        });
+        $pattern->flatMap(Functions::fail());
 
         // then
         $this->assertTrue(true);
@@ -100,8 +98,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $map = $pattern->flatMap(function () {
-        });
+        $map = $pattern->flatMap(Functions::fail());
 
         // then
         $this->assertEquals([], $map, 'Failed asserting that flatMap() returned an empty array');
@@ -120,9 +117,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage("Invalid flatMap() callback return type. Expected array, but string ('word') given");
 
         // when
-        $pattern->flatMap(function () {
-            return 'word';
-        });
+        $pattern->flatMap(Functions::constant('word'));
     }
 
     private function getMatchPattern($subject): MatchPattern

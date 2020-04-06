@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\filter;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -42,9 +43,7 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern
-            ->filter(function () {
-                return 4;
-            })
+            ->filter(Functions::constant(4))
             ->all();
     }
 }

@@ -2,6 +2,7 @@
 namespace Test\Integration\TRegx\CleanRegex\Replace\Callback;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
@@ -46,9 +47,7 @@ class ReplaceCallbackObjectTest extends TestCase
         $pattern = '/[a-z]+/';
         $subject = '...hello there, general kenobi';
 
-        $object = $this->create($pattern, $subject, 3, function () {
-            return 'replacement';
-        });
+        $object = $this->create($pattern, $subject, 3, Functions::constant('replacement'));
 
         // when
         $callback = $object->getCallback();
@@ -95,9 +94,7 @@ class ReplaceCallbackObjectTest extends TestCase
     public function shouldThrow_OnNonStringReplacement()
     {
         // given
-        $object = $this->create('//', 'foo bar', 1, function () {
-            return 2;
-        });
+        $object = $this->create('//', 'foo bar', 1, Functions::constant(2));
 
         // then
         $this->expectException(InvalidReplacementException::class);

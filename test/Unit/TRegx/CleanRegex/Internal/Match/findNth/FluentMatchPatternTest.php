@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomException;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
@@ -67,9 +68,7 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern($this->stream([]), $this->worker());
 
         // when
-        $result = $pattern->findNth(0)->orElse(function () {
-            return 'otherValue';
-        });
+        $result = $pattern->findNth(0)->orElse(Functions::constant('otherValue'));
 
         // then
         $this->assertEquals('otherValue', $result);

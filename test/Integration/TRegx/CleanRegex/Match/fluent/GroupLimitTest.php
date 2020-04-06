@@ -3,6 +3,7 @@ namespace Test\Integration\TRegx\CleanRegex\Match\fluent;
 
 use PHPUnit\Framework\TestCase;
 use Test\Integration\TRegx\CleanRegex\Match\GroupLimitFactory;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 
@@ -62,9 +63,7 @@ class GroupLimitTest extends TestCase
         $chained = $limit->fluent();
 
         // then
-        $chained->first(function () {
-            $this->fail("Failed to assert that first() callback is not called for an empty feed");
-        });
+        $chained->first(Functions::fail("Failed to assert that first() callback is not called for an empty feed"));
     }
 
     /**

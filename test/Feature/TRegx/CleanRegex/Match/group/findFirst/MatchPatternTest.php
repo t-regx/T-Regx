@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group\findFirst;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
@@ -20,9 +21,7 @@ class MatchPatternTest extends TestCase
         $result = pattern('Computer')
             ->match('Computer')
             ->group(0)
-            ->findFirst(function () {
-                return "result";
-            })
+            ->findFirst(Functions::constant('result'))
             ->orThrow();
 
         // then
@@ -87,9 +86,7 @@ class MatchPatternTest extends TestCase
         pattern('Foo')
             ->match('123')
             ->group(0)
-            ->findFirst(function () {
-                $this->fail();
-            })
+            ->findFirst(Functions::fail())
             ->orThrow();
     }
 
@@ -106,9 +103,7 @@ class MatchPatternTest extends TestCase
         pattern('Foo(?<group>Bar)?')
             ->match('Foo')
             ->group('group')
-            ->findFirst(function () {
-                $this->fail();
-            })
+            ->findFirst(Functions::fail())
             ->orThrow();
     }
 
@@ -125,9 +120,7 @@ class MatchPatternTest extends TestCase
         pattern('Foo')
             ->match('123')
             ->group(0)
-            ->findFirst(function () {
-                $this->fail();
-            })
+            ->findFirst(Functions::fail())
             ->orThrow(CustomSubjectException::class);
     }
 
@@ -144,9 +137,7 @@ class MatchPatternTest extends TestCase
         pattern('[A-Z](?<lowercase>[a-z]+)?')
             ->match('L')
             ->group('lowercase')
-            ->findFirst(function () {
-                $this->fail();
-            })
+            ->findFirst(Functions::fail())
             ->orThrow(CustomSubjectException::class);
     }
 
@@ -159,9 +150,7 @@ class MatchPatternTest extends TestCase
         pattern('Foo(?<one>)(?<two>)')
             ->match('123')
             ->group(0)
-            ->findFirst(function () {
-                $this->fail();
-            })
+            ->findFirst(Functions::fail())
             ->orElse(function (NotMatched $notMatched) {
                 $this->assertEquals(['one', 'two'], $notMatched->groupNames());
             });
@@ -176,9 +165,7 @@ class MatchPatternTest extends TestCase
         pattern('Foo(?<one>Bar)?')
             ->match('Foo')
             ->group(1)
-            ->findFirst(function () {
-                $this->fail();
-            })
+            ->findFirst(Functions::fail())
             ->orElse(function (NotMatched $notMatched) {
                 $this->assertEquals(['one'], $notMatched->groupNames());
             });
@@ -199,8 +186,7 @@ class MatchPatternTest extends TestCase
         // when
         pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)
             ->group('missing')
-            ->findFirst(function () {
-            })
+            ->findFirst(Functions::fail())
             ->orReturn('');
     }
 }

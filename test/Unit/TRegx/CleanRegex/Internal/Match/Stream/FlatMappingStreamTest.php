@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream;
@@ -46,7 +47,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('firstKey', 'willReturn', 'foo'), [$this, 'fail']);
+        $stream = new FlatMappingStream($this->mock('firstKey', 'willReturn', 'foo'), Functions::fail());
 
         // when
         $firstKey = $stream->firstKey();
@@ -76,9 +77,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldReturn_forEmptyArray()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('first', 'willReturn', []), function (array $arg) {
-            return $arg;
-        });
+        $stream = new FlatMappingStream($this->mock('first', 'willReturn', []), Functions::identity());
 
         // when
         $first = $stream->first();
