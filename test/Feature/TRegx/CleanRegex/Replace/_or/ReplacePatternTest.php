@@ -7,8 +7,6 @@ use Test\Utils\Functions;
 
 class ReplacePatternTest extends TestCase
 {
-    // TODO user data providers for all those test cases
-
     /**
      * @test
      */
@@ -33,10 +31,12 @@ class ReplacePatternTest extends TestCase
         $replacePattern = pattern('Foo')->replace('Bar')->first();
 
         // when
-        $result = $replacePattern->orElse(function (string $subject) {
-            $this->assertEquals('Bar', $subject);
-            return 'otherwise';
-        })->with('');
+        $result = $replacePattern
+            ->orElse(function (string $subject) {
+                $this->assertEquals('Bar', $subject);
+                return 'otherwise';
+            })
+            ->with('');
 
         // then
         $this->assertEquals('otherwise', $result);

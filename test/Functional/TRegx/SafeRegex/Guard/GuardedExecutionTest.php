@@ -38,7 +38,7 @@ class GuardedExecutionTest extends TestCase
     {
         // then
         $this->expectException(CompilePregException::class);
-        $this->expectExceptionMessage('No ending delimiter \'/\' found');
+        $this->expectExceptionMessage("No ending delimiter '/' found");
 
         // when
         GuardedExecution::invoke('preg_match', function () {
@@ -114,9 +114,9 @@ class GuardedExecutionTest extends TestCase
         $errorsCleaner = new ErrorsCleaner();
 
         // when
-        $silenced = GuardedExecution::silenced('preg_match', Functions::constant(2));
+        $silenced = GuardedExecution::silenced('preg_match', Functions::constant(2)); // ...for this.
 
-        $error = $errorsCleaner->getError();
+        $error = $errorsCleaner->getError();  // This method is being tested...
 
         // then
         $this->assertFalse($silenced);

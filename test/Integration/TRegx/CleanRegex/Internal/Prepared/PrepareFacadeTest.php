@@ -28,9 +28,9 @@ class PrepareFacadeTest extends TestCase
     public function standard(): array
     {
         return [
-            'bind @' => [new BindingParser('(I|We) want: @input :)', ['input' => 'User (input)'])],
-            'bind ``' => [new BindingParser('(I|We) want: `input` :)', ['input' => 'User (input)'])],
-            'inject #' => [new InjectParser('(I|We) want: @ :)', ['User (input)'])],
+            'bind @'      => [new BindingParser('(I|We) want: @input :)', ['input' => 'User (input)'])],
+            'bind ``'     => [new BindingParser('(I|We) want: `input` :)', ['input' => 'User (input)'])],
+            'inject #'    => [new InjectParser('(I|We) want: @ :)', ['User (input)'])],
             'prepared []' => [new PreparedParser(['(I|We) want: ', ['User (input)'], ' :)'])]
         ];
     }
@@ -52,9 +52,9 @@ class PrepareFacadeTest extends TestCase
     public function empty(): array
     {
         return [
-            'bind @' => [new BindingParser('', [])],
-            'inject # ' => [new InjectParser('', [])],
-            'prepared \'\'' => [new PreparedParser([''])],
+            'bind @'      => [new BindingParser('', [])],
+            'inject # '   => [new InjectParser('', [])],
+            "prepared ''" => [new PreparedParser([''])],
             'prepared []' => [new PreparedParser(['', []])],
         ];
     }
@@ -77,12 +77,12 @@ class PrepareFacadeTest extends TestCase
     public function pcre(): array
     {
         return [
-            'bind //' => [new BindingParser('//', []), '#//#'],
-            'inject //' => [new InjectParser('//', []), '#//#'],
+            'bind //'     => [new BindingParser('//', []), '#//#'],
+            'inject //'   => [new InjectParser('//', []), '#//#'],
             'prepared //' => [new PreparedParser(['//']), '#//#'],
 
-            'bind //mi' => [new BindingParser('//mi', []), '#//mi#'],
-            'inject //mi' => [new InjectParser('//mi', []), '#//mi#'],
+            'bind //mi'     => [new BindingParser('//mi', []), '#//mi#'],
+            'inject //mi'   => [new InjectParser('//mi', []), '#//mi#'],
             'prepared //mi' => [new PreparedParser(['//mi']), '#//mi#'],
         ];
     }
@@ -104,8 +104,8 @@ class PrepareFacadeTest extends TestCase
     public function onlyUserInput(): array
     {
         return [
-            'bind @' => [new BindingParser('@name', ['name' => '%'])],
-            'inject # ' => [new InjectParser('@', ['%'])],
+            'bind @'      => [new BindingParser('@name', ['name' => '%'])],
+            'inject # '   => [new InjectParser('@', ['%'])],
             'prepared []' => [new PreparedParser(['%'])],
         ];
     }
@@ -127,8 +127,8 @@ class PrepareFacadeTest extends TestCase
     public function delimiters(): array
     {
         return [
-            'bind @' => [new BindingParser('With delimiters / #@input :D', ['input' => 'Using / delimiters and %'])],
-            'inject #' => [new InjectParser('With delimiters / #@ :D', ['Using / delimiters and %'])],
+            'bind @'      => [new BindingParser('With delimiters / #@input :D', ['input' => 'Using / delimiters and %'])],
+            'inject #'    => [new InjectParser('With delimiters / #@ :D', ['Using / delimiters and %'])],
             'prepared []' => [new PreparedParser(['With delimiters / #', ['Using / delimiters and %'], ' :D'])],
         ];
     }
@@ -150,11 +150,11 @@ class PrepareFacadeTest extends TestCase
     public function whitespace(): array
     {
         return [
-            'bind @' => [new BindingParser('(I|We) want: @input@input_2', [
-                'input' => 'User (input)',
+            'bind @'      => [new BindingParser('(I|We) want: @input@input_2', [
+                'input'   => 'User (input)',
                 'input_2' => 'User (input_2)',
             ])],
-            'inject #' => [new InjectParser('(I|We) want: @@', ['User (input)', 'User (input_2)'])],
+            'inject #'    => [new InjectParser('(I|We) want: @@', ['User (input)', 'User (input_2)'])],
             'prepared []' => [new PreparedParser(['(I|We) want: ', ['User (input)'], ['User (input_2)']])],
         ];
     }
@@ -183,7 +183,7 @@ class PrepareFacadeTest extends TestCase
             [
                 // Should allow for inserting @ placeholders again
                 new BindingParser('(I|We) would like to match: @input (and|or) @input2', [
-                    'input' => '@input',
+                    'input'  => '@input',
                     'input2' => '@input2',
                 ]),
                 '/(I|We) would like to match: @input (and|or) @input2/',
@@ -191,7 +191,7 @@ class PrepareFacadeTest extends TestCase
             [
                 // Should allow for inserting `` placeholders again
                 new BindingParser('(I|We) would like to match: `input` (and|or) `input2`', [
-                    'input' => '`input`',
+                    'input'  => '`input`',
                     'input2' => '`input2`',
                 ]),
                 '/(I|We) would like to match: `input` (and|or) `input2`/',
