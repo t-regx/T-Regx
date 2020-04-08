@@ -1,9 +1,12 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.9.7
+Incoming in 0.9.8
 -----------------
+* Soon
 
+Added in 0.9.7
+--------------
 * Breaking changes
     * `pattern()->replace()->orElse/Throw/Return->with()` are renamed to
       `otherwise()`/`throwingOtherwise()`/`returningOtherwise()`.
@@ -24,9 +27,9 @@ T-Regx fixes it by filling the results:
 Added in 0.9.6
 --------------
 * Breaking changes
-    * `pattern()->match()->fluent()->distinct()` will no longer re-index values (will not remove keys).
-      - To re-index values, use `distinct()->values()`.
-      - `pattern()->match()->distinct()` still re-indexes values.
+    * `pattern()->match()->fluent()->distinct()` will no longer re-index elements (will not remove keys).
+      - To re-index keys, use `distinct()->values()`.
+      - `pattern()->match()->distinct()` still re-indexes keys.
 * Enhancements 🔥
     * Every `match()->...()->first()` method calls `preg_match()`, instead of `preg_match_all()`. More below.
 * Features
