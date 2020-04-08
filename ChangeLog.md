@@ -3,7 +3,19 @@ T-Regx Changelog
 
 Incoming in 0.9.8
 -----------------
-* Soon
+* Features
+    * You can now use `foreach` on `match()`, instead of `forEach()`:
+      ```php
+      foreach (pattern('\d+')->match('127.0.0.1') as $match) {
+      ```
+      and also
+      ```php
+      foreach (pattern('\d+')->match('127.0.0.1')->asInt() as $digit) {
+      ```
+      or
+      ```php
+      foreach (pattern('\d+')->match('127.0.0.1')->all() as $text) {
+      ```
 
 Added in 0.9.7
 --------------

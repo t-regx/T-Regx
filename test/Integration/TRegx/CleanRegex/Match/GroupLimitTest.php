@@ -54,21 +54,6 @@ class GroupLimitTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnValues_iterator(): void
-    {
-        // given
-        $limit = GroupLimitFactory::groupLimitAll($this, [['Foo', 1], ['Bar', 2]]);
-
-        // when
-        $iterator = $limit->iterator();
-
-        // then
-        $this->assertEquals(['Foo', 'Bar'], iterator_to_array($iterator));
-    }
-
-    /**
-     * @test
-     */
     public function shouldInvokeFirstConsumer()
     {
         // given

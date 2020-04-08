@@ -98,7 +98,7 @@ class FluentMatchPattern implements MatchPatternInterface
         return \count($this->stream->all());
     }
 
-    public function iterator(): Iterator
+    public function getIterator(): Iterator
     {
         return new ArrayIterator($this->stream->all());
     }

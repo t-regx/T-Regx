@@ -25,21 +25,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_iterator()
-    {
-        // given
-        $subject = 'Computer L Three Four';
-
-        // when
-        $iterator = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->iterator();
-
-        // then
-        $this->assertEquals(['omputer', null, 'hree', 'our'], iterator_to_array($iterator));
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_all_unmatched()
     {
         // given

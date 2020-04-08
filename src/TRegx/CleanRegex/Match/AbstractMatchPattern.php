@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Match;
 
 use ArrayIterator;
-use Countable;
 use EmptyIterator;
 use Iterator;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
@@ -35,7 +34,7 @@ use TRegx\CleanRegex\Match\FindFirst\NotMatchedOptional;
 use TRegx\CleanRegex\Match\FindFirst\Optional;
 use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 
-abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLimit, Countable
+abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLimit
 {
     /** @var Base */
     protected $base;
@@ -121,7 +120,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     abstract public function count(): int;
 
-    public function iterator(): Iterator
+    public function getIterator(): Iterator
     {
         $objects = $this->getMatchObjects();
         if (empty($objects)) {

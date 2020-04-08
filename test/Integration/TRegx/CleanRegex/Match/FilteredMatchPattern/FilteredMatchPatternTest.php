@@ -314,7 +314,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_secondFiltered();
 
         // when
-        $iterator = $matchPattern->iterator();
+        $iterator = $matchPattern->getIterator();
 
         // then
         $array = [];

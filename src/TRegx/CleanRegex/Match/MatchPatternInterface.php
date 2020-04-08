@@ -1,11 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use Iterator;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\FindFirst\Optional;
 
-interface MatchPatternInterface
+interface MatchPatternInterface extends \Countable, \IteratorAggregate
 {
     public function all(): array;
 
@@ -27,8 +26,6 @@ interface MatchPatternInterface
     public function findFirst(callable $consumer): Optional;
 
     public function count(): int;
-
-    public function iterator(): Iterator;
 
     /**
      * @param callable $mapper

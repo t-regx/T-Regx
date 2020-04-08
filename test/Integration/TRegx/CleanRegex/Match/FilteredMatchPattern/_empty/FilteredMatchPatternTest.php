@@ -377,7 +377,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern();
 
         // when
-        $iterator = $matchPattern->iterator();
+        $iterator = $matchPattern->getIterator();
 
         // then
         $array = [];

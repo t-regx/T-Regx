@@ -17,7 +17,7 @@ class MatchPatternTest extends TestCase
         $matches = ['Nice', 'matching', 'pattern'];
 
         // when
-        $iterator = $pattern->iterator();
+        $iterator = $pattern->getIterator();
 
         // then
         foreach ($iterator as $index => $match) {
@@ -38,7 +38,7 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(InternalPattern::standard("[A-Z]+"), "Nice matching pattern");
 
         // when
-        $iterator = $pattern->iterator();
+        $iterator = $pattern->getIterator();
 
         // then
         $this->assertTrue($iterator->valid());
@@ -53,7 +53,7 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(InternalPattern::standard("[0-9]+"), "Nice matching pattern");
 
         // when
-        $iterator = $pattern->iterator();
+        $iterator = $pattern->getIterator();
 
         // then
         $this->assertFalse($iterator->valid());

@@ -25,7 +25,7 @@ use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\FindFirst\Optional;
 use TRegx\CleanRegex\Match\Offset\OffsetLimit;
 
-class GroupLimit implements PatternLimit
+class GroupLimit implements PatternLimit, \IteratorAggregate
 {
     /** @var GroupLimitAll */
     private $allFactory;
@@ -96,9 +96,9 @@ class GroupLimit implements PatternLimit
         return \array_slice($matches->getGroupTexts($this->nameOrIndex), 0, $limit);
     }
 
-    public function iterator(): Iterator
+    public function getIterator(): Iterator
     {
-        return new ArrayIterator($this->all());
+        return new ArrayIterator($this->stream()->all());
     }
 
     /**

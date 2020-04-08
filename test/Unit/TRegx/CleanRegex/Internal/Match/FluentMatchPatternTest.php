@@ -119,10 +119,10 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern($this->all(['foo', 'bar', 'lorem', 'ipsum']), $this->worker());
 
         // when
-        $result = $pattern->iterator();
+        $result = $pattern->getIterator();
 
         // then
-        $this->assertEquals(['foo', 'bar', 'lorem', 'ipsum'], iterator_to_array($result));
+        $this->assertSame(['foo', 'bar', 'lorem', 'ipsum'], iterator_to_array($result));
     }
 
     /**
