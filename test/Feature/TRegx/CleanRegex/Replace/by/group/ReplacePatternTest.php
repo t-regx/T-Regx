@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Match\Details\LazyMatchImpl;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\DataProvider\DataProviders;
 
@@ -55,10 +56,15 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('unit')
-            ->orElse(function (Match $match) {
+            ->orElse(function (LazyMatchImpl $match) {
                 $this->assertEquals('14', $match->text());
+                $this->assertEquals('14', $match->get('value'));
                 $this->assertEquals('14', $match->group('value')->text());
+                $this->assertEquals(['cm', null, 'cm'], $match->group('unit')->all());
+                // Not, really testable
                 $this->assertEquals(1, $match->index());
+                $this->assertEquals(-1, $match->limit());
+                $this->assertEquals('15cm 14 16cm', $match->subject());
             });
     }
 

@@ -79,7 +79,7 @@ class GroupFallbackReplacer
     {
         $occurrence = $this->occurrence($match, $nameOrIndex);
         if ($occurrence === null) {
-            return $substitute->substituteGroup(new LazyMatchImpl($this->pattern, $this->subject, $this->counter, $this->limit, $this->base)) ?? $match[0];
+            return $substitute->substituteGroup(new LazyMatchImpl($this->base, $this->counter, $this->limit)) ?? $match[0];
         }
         $mapper->useExceptionValues($occurrence, $nameOrIndex, $match[0]);
         return $mapper->map($occurrence) ?? $match[0];

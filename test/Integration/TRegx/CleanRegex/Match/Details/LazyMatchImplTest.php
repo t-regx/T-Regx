@@ -1,11 +1,13 @@
 <?php
 namespace Test\Integration\TRegx\CleanRegex\Match\Details;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Match\Details\LazyMatchImpl;
 
 class LazyMatchImplTest extends TestCase
@@ -178,6 +180,37 @@ class LazyMatchImplTest extends TestCase
         $this->assertEquals('welcome', $result);
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetOffset()
+    {
+        // given
+        $match = $this->match('2', '€ 2');
+
+        // when
+        $offset = $match->offset();
+        $byteOffset = $match->byteOffset();
+
+        // then
+        $this->assertEquals(2, $offset);
+        $this->assertEquals(4, $byteOffset);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCallBaseOnce()
+    {
+        // given
+        $match = new LazyMatchImpl($this->baseMock(), 0, -1);
+
+        // when
+        $match->text();
+        $match->get(0);
+        $match->offset();
+    }
+
     private function match(string $pattern = '\b[a-z]+', string $subject = 'Word: word two three'): LazyMatchImpl
     {
         return $this->matchWithIndex($pattern, $subject, 0);
@@ -185,8 +218,14 @@ class LazyMatchImplTest extends TestCase
 
     private function matchWithIndex(string $pattern, string $subject, int $index): LazyMatchImpl
     {
-        $pattern = InternalPattern::standard($pattern);
-        $subject = new Subject($subject);
-        return new LazyMatchImpl($pattern, $subject, $index, 14, new ApiBase($pattern, $subject->getSubject(), new UserData()));
+        return new LazyMatchImpl(new ApiBase(InternalPattern::standard($pattern, 'u'), $subject, new UserData()), $index, 14);
+    }
+
+    private function baseMock(): Base
+    {
+        /** @var Base|MockObject $base */
+        $base = $this->createMock(Base::class);
+        $base->expects($this->once())->method('matchAllOffsets')->willReturn(new RawMatchesOffset([[['', 14]]]));
+        return $base;
     }
 }

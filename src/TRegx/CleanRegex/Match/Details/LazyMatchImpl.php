@@ -1,68 +1,54 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
-use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
 class LazyMatchImpl implements Match
 {
-    /** @var Pattern */
-    private $pattern;
-    /** @var Subjectable */
-    private $subject;
+    /** @var Base */
+    private $base;
     /** @var int */
     private $index;
     /** @var int */
     private $limit;
-    /** @var Base */
-    private $base;
-
-    /** @var UserData */
-    private $userData;
 
     /** @var Match|null */
     private $lazyMatch = null;
 
-    public function __construct(Pattern $pattern, Subjectable $subject, int $index, int $limit, Base $base)
+    public function __construct(Base $base, int $index, int $limit)
     {
-        $this->pattern = $pattern;
-        $this->subject = $subject;
+        $this->base = $base;
         $this->index = $index;
         $this->limit = $limit;
-        $this->base = $base;
-        $this->userData = new UserData();
     }
 
     private function match(): Match
     {
-        if ($this->lazyMatch === null) {
-            $this->lazyMatch = $this->createLazyMatch();
-        }
+        $this->lazyMatch = $this->lazyMatch ?? $this->createLazyMatch();
         return $this->lazyMatch;
     }
 
     private function createLazyMatch(): Match
     {
-        $IRawMatchesOffset = $this->base->matchAllOffsets();
+        $matches = $this->base->matchAllOffsets();
         return new MatchImpl(
-            $this->subject,
-            $this->index,
-            $this->limit,
-            new RawMatchesToMatchAdapter($IRawMatchesOffset, $this->index),
-            new EagerMatchAllFactory($IRawMatchesOffset),
-            $this->userData
+            $this->base,
+            -99, // These values are never used  `index()` and `limit()` in LazyMatch aren't
+            -99, // proxied to `Match()`, because they can be read from fields.
+            new RawMatchesToMatchAdapter($matches, $this->index),
+            new EagerMatchAllFactory($matches),
+            new UserData()
         );
     }
 
     public function subject(): string
     {
-        return $this->subject->getSubject();
+        return $this->base->getSubject();
     }
 
     public function groupNames(): array
@@ -112,7 +98,7 @@ class LazyMatchImpl implements Match
 
     public function get($nameOrIndex): string
     {
-        return 'xd';
+        return $this->match()->get($nameOrIndex);
     }
 
     public function group($nameOrIndex)
