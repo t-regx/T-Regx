@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\ByteOffset;
@@ -91,6 +92,23 @@ class MatchImpl implements Match
     public function isInt(): bool
     {
         return Integer::isValid($this->match->getText());
+    }
+
+    public function get($nameOrIndex): string
+    {
+        if (!$this->hasGroup($nameOrIndex)) {
+            throw new NonexistentGroupException($nameOrIndex);
+        }
+        return $this->getGroupText($nameOrIndex);
+    }
+
+    private function getGroupText($nameOrIndex): string
+    {
+        if ($this->match->isGroupMatched($nameOrIndex)) {
+            [$text, $offset] = $this->match->getGroupTextAndOffset($nameOrIndex);
+            return $text;
+        }
+        throw GroupNotMatchedException::forGet($this->subjectable, $nameOrIndex);
     }
 
     /**

@@ -32,6 +32,11 @@ class ReplaceMatchImpl implements ReplaceMatch
         return $this->subjectModification;
     }
 
+    public function get($nameOrIndex): string
+    {
+        return $this->match->get($nameOrIndex);
+    }
+
     /**
      * @param string|int $nameOrIndex
      * @return ReplaceMatchGroup

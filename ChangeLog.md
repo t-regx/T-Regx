@@ -16,6 +16,7 @@ Incoming in 0.9.8
       ```php
       foreach (pattern('\d+')->match('127.0.0.1')->all() as $text) {
       ```
+    * Added `Match.get(string|int)`, which is a shorthand for `Match.group(string|int).text()`.
     * Restored `pattern()->match()->test()`/`fails()` that were removed in version `0.9.2`.
 
 Added in 0.9.7

@@ -2,8 +2,10 @@
 namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\FirstGroupMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Group\MethodGetGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\MethodGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Subjectable;
 
 class GroupNotMatchedException extends PatternException
@@ -23,19 +25,26 @@ class GroupNotMatchedException extends PatternException
 
     public static function forFirst(Subjectable $subject, $group): GroupNotMatchedException
     {
-        $message = new FirstGroupMessage($group);
-        return new GroupNotMatchedException($message->getMessage(), $subject->getSubject(), $group);
+        return self::exception($subject, $group, new FirstGroupMessage($group));
     }
 
     public static function forMethod(Subjectable $subject, $group, string $method): GroupNotMatchedException
     {
-        $message = new MethodGroupMessage($method, $group);
-        return new GroupNotMatchedException($message->getMessage(), $subject->getSubject(), $group);
+        return self::exception($subject, $group, new MethodGroupMessage($method, $group));
     }
 
     public static function forReplacement(Subjectable $subject, $group): GroupNotMatchedException
     {
-        $message = new ReplacementWithUnmatchedGroupMessage($group);
+        return self::exception($subject, $group, new ReplacementWithUnmatchedGroupMessage($group));
+    }
+
+    public static function forGet(Subjectable $subject, $group): GroupNotMatchedException
+    {
+        return self::exception($subject, $group, new MethodGetGroupMessage($group));
+    }
+
+    private static function exception(Subjectable $subject, $group, NotMatchedMessage $message): GroupNotMatchedException
+    {
         return new GroupNotMatchedException($message->getMessage(), $subject->getSubject(), $group);
     }
 }

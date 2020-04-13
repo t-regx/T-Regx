@@ -22,6 +22,13 @@ interface Match extends Details
 
     /**
      * @param string|int $nameOrIndex
+     * @return string
+     * @throws NonexistentGroupException
+     */
+    public function get($nameOrIndex): string;
+
+    /**
+     * @param string|int $nameOrIndex
      * @return MatchGroup
      * @throws NonexistentGroupException
      */

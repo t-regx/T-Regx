@@ -110,6 +110,11 @@ class LazyMatchImpl implements Match
         return $this->limit;
     }
 
+    public function get($nameOrIndex): string
+    {
+        return 'xd';
+    }
+
     public function group($nameOrIndex)
     {
         return $this->match()->group($nameOrIndex);
