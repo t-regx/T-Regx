@@ -1,8 +1,12 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.9.8
+Incoming in 0.9.9
 -----------------
+* Soon
+
+Added in 0.9.8
+--------------
 * Features
     * You can now use `foreach` on `match()`, instead of `forEach()`:
       ```php
