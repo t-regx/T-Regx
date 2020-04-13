@@ -20,6 +20,11 @@ class MatchPattern extends AbstractMatchPattern
         $this->subject = $subject;
     }
 
+    public function test(): bool
+    {
+        return preg::match($this->pattern->pattern, $this->base->getSubject()) === 1;
+    }
+
     public function count(): int
     {
         return preg::match_all($this->pattern->pattern, $this->subject);

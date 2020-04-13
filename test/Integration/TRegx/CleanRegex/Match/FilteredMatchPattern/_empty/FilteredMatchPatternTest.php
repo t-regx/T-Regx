@@ -203,9 +203,11 @@ class FilteredMatchPatternTest extends TestCase
 
         // when
         $matches = $matchPattern->test();
+        $fails = $matchPattern->fails();
 
         // then
         $this->assertTrue($matches);
+        $this->assertFalse($fails);
     }
 
     /**
@@ -218,9 +220,11 @@ class FilteredMatchPatternTest extends TestCase
 
         // when
         $matches = $matchPattern->test();
+        $fails = $matchPattern->fails();
 
         // then
         $this->assertTrue($matches);
+        $this->assertFalse($fails);
     }
 
     /**
@@ -233,9 +237,11 @@ class FilteredMatchPatternTest extends TestCase
 
         // when
         $matches = $matchPattern->test();
+        $fails = $matchPattern->fails();
 
         // then
         $this->assertFalse($matches);
+        $this->assertTrue($fails);
     }
 
     /**
