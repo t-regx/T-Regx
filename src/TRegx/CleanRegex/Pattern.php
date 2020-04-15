@@ -23,7 +23,7 @@ class Pattern
     /**
      * @param string $delimitedPattern
      * @return PatternInterface
-     * @deprecated Please use method \TRegx\CleanRegex\Pattern::of. Method Pattern::pcre() is only present, in case
+     * Please use method \TRegx\CleanRegex\Pattern::of. Method Pattern::pcre() is only present, in case
      * if there's an automatic delimiters' bug, that would make {@link Pattern::of()} error-prone.
      * {@link Pattern::pcre()} is error-prone to MalformedPatternException, because of delimiters.
      * @see \TRegx\CleanRegex\Pattern::of
