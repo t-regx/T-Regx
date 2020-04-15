@@ -16,6 +16,8 @@ interface MatchGroup extends Optional
 
     public function matched(): bool;
 
+    public function equals(string $expected): bool;
+
     public function name(): ?string;
 
     public function index(): int;

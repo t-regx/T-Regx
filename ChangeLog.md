@@ -3,7 +3,8 @@ T-Regx Changelog
 
 Incoming in 0.9.9
 -----------------
-* Soon
+* Features
+    * Add `MatchGroup.equals()`, that allows to compare a potentially unmatched group with a string. 
 
 Added in 0.9.8
 --------------

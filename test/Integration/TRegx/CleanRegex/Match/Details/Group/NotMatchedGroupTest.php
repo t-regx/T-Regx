@@ -12,7 +12,6 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
@@ -21,7 +20,7 @@ class NotMatchedGroupTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetText()
+    public function testGetText()
     {
         // given
         $matchGroup = $this->matchGroup();
@@ -37,7 +36,7 @@ class NotMatchedGroupTest extends TestCase
     /**
      * @test
      */
-    public function shouldMatch()
+    public function testMatch()
     {
         // given
         $matchGroup = $this->matchGroup();
@@ -52,7 +51,22 @@ class NotMatchedGroupTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetOffset()
+    public function testEquals_shouldAwaysBeNotEqual()
+    {
+        // given
+        $matchGroup = $this->matchGroup();
+
+        // when
+        $equals = $matchGroup->equals("any");
+
+        // then
+        $this->assertFalse($equals);
+    }
+
+    /**
+     * @test
+     */
+    public function testGetOffset()
     {
         // given
         $matchGroup = $this->matchGroup();
@@ -68,7 +82,7 @@ class NotMatchedGroupTest extends TestCase
     /**
      * @test
      */
-    public function shouldReplace()
+    public function testReplace()
     {
         // given
         $matchGroup = $this->matchGroup();
@@ -84,7 +98,7 @@ class NotMatchedGroupTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetByteOffset()
+    public function testGetByteOffset()
     {
         // given
         $matchGroup = $this->matchGroup();
@@ -175,7 +189,7 @@ class NotMatchedGroupTest extends TestCase
         $this->assertEquals(13, $orReturn);
     }
 
-    private function matchGroup(): MatchGroup
+    private function matchGroup(): NotMatchedGroup
     {
         $subject = new Subject('My super subject');
         return new NotMatchedGroup(

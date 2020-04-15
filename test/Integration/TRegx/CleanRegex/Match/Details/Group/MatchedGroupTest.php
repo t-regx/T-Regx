@@ -9,7 +9,6 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 
 class MatchedGroupTest extends TestCase
 {
@@ -41,6 +40,19 @@ class MatchedGroupTest extends TestCase
 
         // then
         $this->assertTrue($matches);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldEqual()
+    {
+        // given
+        $matchGroup = $this->matchGroup();
+
+        // when + then
+        $this->assertTrue($matchGroup->equals("Nice matching"));
+        $this->assertFalse($matchGroup->equals("some other"));
     }
 
     /**
@@ -177,12 +189,12 @@ class MatchedGroupTest extends TestCase
         ];
     }
 
-    private function matchGroup(): MatchGroup
+    private function matchGroup(): MatchedGroup
     {
         return $this->matchGroupWithIndexAndName('first');
     }
 
-    private function matchGroupWithIndexAndName($nameOrIndex): MatchGroup
+    private function matchGroupWithIndexAndName($nameOrIndex): MatchedGroup
     {
         return new MatchedGroup(
             new RawMatchOffset([

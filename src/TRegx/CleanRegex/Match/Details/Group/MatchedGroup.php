@@ -54,6 +54,11 @@ class MatchedGroup implements MatchGroup
         return true;
     }
 
+    public function equals(string $expected): bool
+    {
+        return $this->occurrence->text === $expected;
+    }
+
     public function index(): int
     {
         return $this->details->index;

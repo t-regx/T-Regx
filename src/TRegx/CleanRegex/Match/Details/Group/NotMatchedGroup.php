@@ -52,6 +52,11 @@ class NotMatchedGroup implements MatchGroup
         return false;
     }
 
+    public function equals(string $expected): bool
+    {
+        return false;
+    }
+
     public function name(): ?string
     {
         return $this->details->name;
