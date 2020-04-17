@@ -198,6 +198,9 @@ class preg
      */
     public static function quote(string $string, ?string $delimiter = null): string
     {
+        if (!\is_null($delimiter) && \strlen($delimiter) !== 1) {
+            throw new \InvalidArgumentException('Delimiter must be one alpha-numeric character');
+        }
         if (\preg_quote('#', $delimiter) === '#') {
             return \str_replace('#', '\#', \preg_quote($string, $delimiter));
         }

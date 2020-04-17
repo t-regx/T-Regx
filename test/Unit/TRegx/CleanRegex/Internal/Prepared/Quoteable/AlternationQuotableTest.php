@@ -16,7 +16,7 @@ class AlternationQuotableTest extends TestCase
         $quotable = new AlternationQuotable(['/()', '^#$'], null);
 
         // when
-        $result = $quotable->quote('');
+        $result = $quotable->quote('~');
 
         // then
         $this->assertEquals('(?:/\(\)|\^\#\$)', $result);
@@ -46,7 +46,7 @@ class AlternationQuotableTest extends TestCase
         $quotable = new AlternationQuotable(['a', 'FOO', 'a', 'c', 'foo'], Functions::identity());
 
         // when
-        $result = $quotable->quote(''); // or should it throw maybe?
+        $result = $quotable->quote('/');
 
         // then
         $this->assertEquals('(?:a|FOO|c|foo)', $result);
@@ -61,7 +61,7 @@ class AlternationQuotableTest extends TestCase
         $quotable = new AlternationQuotable(['a', 'FOO', 'a', 'a', 'c', 'foo'], 'strtolower');
 
         // when
-        $result = $quotable->quote('');
+        $result = $quotable->quote('/');
 
         // then
         $this->assertEquals('(?:a|FOO|c)', $result);
@@ -76,7 +76,7 @@ class AlternationQuotableTest extends TestCase
         $quotable = new AlternationQuotable(['a', '', '', 'b'], null);
 
         // when
-        $result = $quotable->quote('');
+        $result = $quotable->quote('/');
 
         // then
         $this->assertEquals('(?:a|b|)', $result);
@@ -91,7 +91,7 @@ class AlternationQuotableTest extends TestCase
         $quotable = new AlternationQuotable(['|', ' ', '0'], null);
 
         // when
-        $result = $quotable->quote('');
+        $result = $quotable->quote('/');
 
         // then
         $this->assertEquals('(?:\|| |0)', $result);

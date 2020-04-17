@@ -1,6 +1,7 @@
 <?php
 namespace Test\Functional\TRegx\SafeRegex;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Warnings;
 use TRegx\SafeRegex\Exception\CompilePregException;
@@ -160,5 +161,31 @@ class pregTest extends TestCase
 
         // then
         $this->assertEquals('Hello \# % there', $quoted);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldQuoteThrow_forInvalidDelimiter_long()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Delimiter must be one alpha-numeric character');
+
+        // when
+        preg::quote('Hello # % there', '##');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldQuoteThrow_forInvalidDelimiter_empty()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Delimiter must be one alpha-numeric character');
+
+        // when
+        preg::quote('Hello # % there', '');
     }
 }
