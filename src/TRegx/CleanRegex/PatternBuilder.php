@@ -30,7 +30,7 @@ class PatternBuilder
 
     /**
      * @param string $input
-     * @param string[] $values
+     * @param string[]|string[][] $values
      * @param string $flags
      * @return PatternInterface
      */
@@ -41,7 +41,7 @@ class PatternBuilder
 
     /**
      * @param string $input
-     * @param string[] $values
+     * @param string[]|string[][] $values
      * @param string $flags
      * @return PatternInterface
      */
