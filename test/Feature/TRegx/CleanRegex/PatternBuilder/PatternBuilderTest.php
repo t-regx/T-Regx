@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\PatternBuilder;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PatternBuilder;
+use TRegx\SafeRegex\Exception\MalformedPatternException;
 
 class PatternBuilderTest extends TestCase
 {
@@ -24,5 +25,18 @@ class PatternBuilderTest extends TestCase
 
         // then
         $this->assertTrue($matches);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowMalformedPatternException_forUndelimitedPcrePattern()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage("No ending delimiter '%' found");
+
+        // when
+        PatternBuilder::builder()->pcre()->inject("%Foo", [])->test('bar');
     }
 }

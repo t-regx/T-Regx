@@ -13,8 +13,20 @@ class PcreCallbackStrategy implements DelimiterStrategy
         $this->patternProducer = $patternProducer;
     }
 
-    public function buildPattern(string $pattern, string $delimiter): string
+    public function buildPattern(string $pattern, ?string $delimiter): string
     {
+        /**
+         * It may be possible that prepared patterns, are used in PCRE mode,
+         * and are fed a pattern that's not properly delimited. In that case,
+         * DelimiterParser won't be able to extract the delimiter, and
+         * this DelimiterStrategy will be fed `null` in place of $delimiter.
+         * I could throw an exception here, but I decided that it's better
+         * to ignore it here, let that pattern be further passed to PCRE
+         * and let the preg_*() method throw the proper exception and message
+         * to the user.
+         */
+        $delimiter = $delimiter ?? '/';
+
         return call_user_func($this->patternProducer, $delimiter);
     }
 

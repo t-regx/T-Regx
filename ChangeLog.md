@@ -6,9 +6,12 @@ Incoming in 0.9.9
 * Features
     * Add `MatchGroup.equals()`, that allows to compare a potentially unmatched group with a string. 
 * Enhancements
-    * Prepared patterns correctly handle whitespace when `x` (`PCRE_EXTENDED`) flag is used. #40
+    * [Prepared patterns] correctly handle whitespace when `x` (`PCRE_EXTENDED`) flag is used. #40
 * SafeRegex
     * `preg::quote()` throws [`InvalidArgumentException`] when it's called with a delimiter that's not a single character.
+* Bug fixes
+    * Fixed a bug in [Prepared patterns] (PCRE mode), when using a malformed pattern caused `TypeError`,
+     instead of `MalformedPatternException`. 
 
 Added in 0.9.8
 --------------
@@ -299,3 +302,4 @@ Available in 0.9.0
 [`preg_match()`]: https://www.php.net/manual/en/function.preg-match.php
 [`preg_last_error()`]: https://www.php.net/manual/en/function.preg-last-error.php
 [`InvalidArgumentException`]: https://www.php.net/manual/en/class.invalidargumentexception.php
+[Prepared patterns]: https://t-regx.com/docs/handling-user-input
