@@ -9,6 +9,8 @@ Incoming in 0.9.9
     * [Prepared patterns] correctly handle whitespace when `x` (`PCRE_EXTENDED`) flag is used. #40
 * SafeRegex
     * `preg::quote()` throws [`InvalidArgumentException`] when it's called with a delimiter that's not a single character.
+    * Handled PHP Bug [#77827](https://bugs.php.net/bug.php?id=77827), when `\r` was passed at then 
+    end of a pattern.
 * Bug fixes
     * Fixed a bug in [Prepared patterns] (PCRE mode), when using a malformed pattern caused `TypeError`,
      instead of `MalformedPatternException`. 
