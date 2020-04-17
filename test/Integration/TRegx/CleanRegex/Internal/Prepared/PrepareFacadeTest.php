@@ -22,7 +22,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
-        $this->assertEquals('/(I|We) want: User \(input\) :)/', $pattern);
+        $this->assertEquals('/(I|We) want: User\ \(input\) :)/', $pattern);
     }
 
     public function standard(): array
@@ -121,7 +121,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
-        $this->assertEquals('%With delimiters / #Using / delimiters and \% :D%', $pattern);
+        $this->assertEquals('%With delimiters / #Using\ /\ delimiters\ and\ \% :D%', $pattern);
     }
 
     public function delimiters(): array
@@ -144,7 +144,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
-        $this->assertEquals('/(I|We) want: User \(input\)User \(input_2\)/', $pattern);
+        $this->assertEquals('/(I|We) want: User\ \(input\)User\ \(input_2\)/', $pattern);
     }
 
     public function whitespace(): array

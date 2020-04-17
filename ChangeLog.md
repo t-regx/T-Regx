@@ -5,6 +5,8 @@ Incoming in 0.9.9
 -----------------
 * Features
     * Add `MatchGroup.equals()`, that allows to compare a potentially unmatched group with a string. 
+* Enhancements
+    * Prepared patterns correctly handle whitespace when `x` (`PCRE_EXTENDED`) flag is used. #40
 * SafeRegex
     * `preg::quote()` throws [`InvalidArgumentException`] when it's called with a delimiter that's not a single character.
 

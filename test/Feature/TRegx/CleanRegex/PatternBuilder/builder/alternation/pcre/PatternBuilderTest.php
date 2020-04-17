@@ -18,7 +18,7 @@ class PatternBuilderTest extends TestCase
         $pattern = $pattern->delimiter();
 
         // then
-        $this->assertEquals('%You/her, (are|is) (?:Hello \%5|Yes\?\:\)) (you|her)%', $pattern);
+        $this->assertEquals('%You/her, (are|is) (?:Hello\ \%5|Yes\?\:\)) (you|her)%', $pattern);
     }
 
     /**
@@ -35,7 +35,7 @@ class PatternBuilderTest extends TestCase
         $pattern = $pattern->delimiter();
 
         // then
-        $this->assertEquals('%You/her, (are|is) (?:Hello \%5|Yes\?\:\)) (you|her)%', $pattern);
+        $this->assertEquals('%You/her, (are|is) (?:Hello\ \%5|Yes\?\:\)) (you|her)%', $pattern);
     }
 
     /**
@@ -52,6 +52,6 @@ class PatternBuilderTest extends TestCase
         $pattern = $pattern->delimiter();
 
         // then
-        $this->assertEquals('%You/her, (are|is) (?:Hello \%5|Yes\?\:\)) (you|her)%', $pattern);
+        $this->assertEquals('%You/her, (are|is) (?:Hello\ \%5|Yes\?\:\)) (you|her)%', $pattern);
     }
 }

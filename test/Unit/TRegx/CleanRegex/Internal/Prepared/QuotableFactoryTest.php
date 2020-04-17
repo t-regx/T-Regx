@@ -19,7 +19,7 @@ class QuotableFactoryTest extends TestCase
         $quoteable = $factory->quotable('5% you (are|is) welcome');
 
         // then
-        $this->assertEquals('5\% you \(are\|is\) welcome', $quoteable->quote('%'));
+        $this->assertEquals('5\%\ you\ \(are\|is\)\ welcome', $quoteable->quote('%'));
     }
 
     /**
@@ -34,7 +34,7 @@ class QuotableFactoryTest extends TestCase
         $quoteable = $factory->quotable(['first 1%', 'second 2%']);
 
         // then
-        $this->assertEquals('(?:first 1\%|second 2\%)', $quoteable->quote('%'));
+        $this->assertEquals('(?:first\ 1\%|second\ 2\%)', $quoteable->quote('%'));
     }
 
     /**

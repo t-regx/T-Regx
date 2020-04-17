@@ -94,6 +94,6 @@ class AlternationQuotableTest extends TestCase
         $result = $quotable->quote('/');
 
         // then
-        $this->assertEquals('(?:\|| |0)', $result);
+        $this->assertEquals('(?:\||\ |0)', $result);
     }
 }
