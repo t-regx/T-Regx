@@ -1,21 +1,28 @@
-<p align="center"><a href="https://t-regx.com"><img src="t.regx.png" alt="T-Regx"></a></p>
+<p align="center">
+    <a href="https://t-regx.com"><img src="t.regx.png" alt="T-Regx"></a>
+</p>
+<p align="center">
+    <a href="https://travis-ci.org/T-Regx/T-Regx"><img src="https://travis-ci.org/T-Regx/T-Regx.svg?branch=master"/></a>
+    <a href="https://coveralls.io/github/T-Regx/T-Regx?branch=master"><img src="https://coveralls.io/repos/github/T-Regx/T-Regx/badge.svg?branch=master"/></a>
+    <a href="https://github.com/T-Regx/T-Regx/releases"><img src="https://img.shields.io/badge/Stable-v0.9.8-brightgreen.svg?style=popout"/></a>
+    <a href="https://github.com/T-Regx/T-Regx"><img src="https://img.shields.io/badge/dependencies-0-brightgreen.svg"/></a>
+</p>
 
-# T-Regx | Powerful Regular Expressions library
+# T-Regx | Regular Expressions library
 
-The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions enhancing PCRE methods.
+PHP regular expressions brought up to modern standards.
 
-[See documentation](https://t-regx.com/).
+You, choose the interface:
+ - I choose to **keep PHP methods** *(but with exceptions, instead of warnings)* ([Scroll to see](#safe-regexps-without-changing-your-api))
+ - I choose the **modern regular expression API** ([Scroll to see](#matching))
 
-[![Build Status](https://travis-ci.org/T-Regx/T-Regx.svg?branch=master)](https://travis-ci.org/T-Regx/T-Regx)
-[![Coverage Status](https://coveralls.io/repos/github/T-Regx/T-Regx/badge.svg?branch=master)](https://coveralls.io/github/T-Regx/T-Regx?branch=master)
-[![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](https://github.com/T-Regx/T-Regx)
-[![Repository Size](https://github-size-badge.herokuapp.com/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
-[![License](https://img.shields.io/github/license/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
-[![GitHub last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
-[![Composer lock](https://img.shields.io/badge/.lock-uncommited-green.svg)](https://github.com/T-Regx/T-Regx)
-[![PHP Version](https://img.shields.io/badge/Unit%20tests-1511-green.svg)](https://github.com/T-Regx/T-Regx)
-[![PHP Version](https://img.shields.io/badge/FQN-used-blue.svg)](https://github.com/kelunik/fqn-check)
+[See documentation](https://t-regx.com/) at [t-regx.com](https://t-regx.com/).
+
+[![last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
+[![commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
+[![Unit tests](https://img.shields.io/badge/Unit%20tests-1511-green.svg)](https://github.com/T-Regx/T-Regx)
+[![FQN](https://img.shields.io/badge/FQN-used-blue.svg)](https://github.com/kelunik/fqn-check)
+[![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 
 [![PHP Version](https://img.shields.io/badge/PHP-7.1-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/PHP-7.2-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
@@ -23,13 +30,11 @@ The most advanced PHP regexp library. Clean, descriptive, fast wrapper functions
 [![PHP Version](https://img.shields.io/badge/PHP-7.4-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/PHP-8.0-yellow.svg)](https://travis-ci.org/T-Regx/T-Regx "Unofficially, but builds do run on 8.0")
 
-[![PRs Welcome](https://img.shields.io/badge/Stable-0.9.8-brightgreen.svg?style=popout)](https://github.com/T-Regx/T-Regx/releases)
-[![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 
 1. [Installation](#installation)
     * [Composer](#installation)
-2. [API](#api)
-3. [Quick Examples](#quick-examples)
+2. [Documentation](#documentation)
+3. [Examples](#examples)
     * [Automatic delimiters](#automatic-delimiters)
     * [Matching](#matching)
     * [Replacing](#replacing)
@@ -51,11 +56,11 @@ Installation for PHP 7.1 and later:
 composer require rawr/t-regx
 ```
 
-# API
+# Documentation
 
 Full API documentation is available at [t-regx.com](https://t-regx.com/).
 
-# Quick Examples
+# Examples
 
 #### Automatic delimiters
 
@@ -78,10 +83,10 @@ pattern('\d{3}')->match('My phone is 456-232-123')->only(2);  // ['456', '232']
 You can pass any `callable` to the [`first()`](https://t-regx.com/docs/match) method:
 
 ```php
+// first()
 pattern('\d{3}')->match('My phone is 456-232-123')->first('str_split');   // ['4', '5', '6']
-pattern('\d{3}')->match('My phone is 456-232-123')->first('strlen');      // 3
 
-// or use map()
+// map()
 pattern('\d{3}')->match('My phone is 456-232-123')->map('strlen');        // [3, 3, 3]
 ```
 
@@ -94,19 +99,13 @@ pattern('\d{3}')->match('My phone is 456-232-123')->map('strlen');        // [3,
 #### Replacing
 
 ```php
-pattern('er|ab|ay')
-    ->replace('P. Sherman, 42 Wallaby way')
-    ->all()
-    ->with('__$1__');
+pattern('er|ab|ay') ->replace('P. Sherman, 42 Wallaby way') ->all() ->with('__$1__');
 
 // 'P. Sh__$1__man, 42 Wall__$1__y w__$1__'
 ```
 
 ```php
-pattern('W.ll.by')
-    ->replace('P. Sherman, 42 Wallaby way')
-    ->first()
-    ->callback('strtoupper');
+pattern('W.ll.by') ->replace('P. Sherman, 42 Wallaby way') ->first() ->callback('strtoupper');
 
 // 'P. Sherman, 42 WALLABY way'
 ```
@@ -155,17 +154,19 @@ Check out prepared patterns with
 Not sure if your pattern is matched or not?
 
 ```php
-$result = pattern('word')->match($text)
+$result = pattern('word')->match('sentence')
   ->findFirst('strtoupper')
-  ->orThrow(InvalidArgumentException::class);
+  ->orElse(function (NotMatched $notMatched) {
+    return "Match not found in " . $notMatched->subject();
+  });
 
-$result   // 'WORD'
+$result   // 'Match not found in sentence'
 ```
 
 :bulb: See more about 
-[`orThrow()`](https://t-regx.com/docs/match-for-first), 
-[`orElse(callback)`](https://t-regx.com/docs/match-for-first) or 
-[`orReturn(var)`](https://t-regx.com/docs/match-for-first).
+[`orElse(callback)`](https://t-regx.com/docs/match-for-first),
+[`orReturn(var)`](https://t-regx.com/docs/match-for-first) or
+[`orThrow()`](https://t-regx.com/docs/match-for-first).
 
 # Overview
 
@@ -178,7 +179,8 @@ $result   // 'WORD'
     * Not even touching your error handlers **in any way**
     * Converts all PCRE notices/error/warnings to exceptions
     * Calling `preg_last_error()` after each call, to validate your method
-    * Checks and clears errors and warnings, to verify your regexp match/replace.
+    * Warnings/errors don't interfere with each other
+    * Not letting fatal errors happen
   * Strings:
     * Tracking offset and subjects while replacing strings
     * Fixing error with multi-byte offset (utf-8 safe)
@@ -189,9 +191,9 @@ $result   // 'WORD'
 
 * ### Converting Warnings to Exceptions
    * Warning or errors during `preg::` are converted to exceptions.
-   * `preg_()` can never fail, because it throws `SafeRegexException` on warning/error.
+   * `preg_()` can never fail, because it throws `PregException` on warning/error.
    * In some cases, `preg_()` methods might fail, return `false`/`null` and **NOT** trigger a warning. Separate exception,
-     `SuspectedReturnSafeRegexException` is then thrown by T-Regx.
+     `SuspectedReturnPregException` is then thrown by T-Regx.
 
 * ### Written with clean API
    * Descriptive interface
@@ -226,9 +228,9 @@ Pattern::pcre('/[A-Z][a-z]+/i')->matches('Foo Bar');
 
 ## Safe regexps without changing your API?
 
-Would you like to protect yourself from any notices, errors,fatal errors and warnings; and use exceptions instead?
+Would you like to protect yourself from any notices, errors, fatal errors and warnings; and use exceptions instead?
 
-Just swap `preg_` to `preg::` and yay! All warnings and errors are converted to exceptions!
+Just swap `preg_` to `preg::`! *All warnings and errors are converted to exceptions!*
 
 ```php
 try {
@@ -237,8 +239,8 @@ try {
 
     return preg::replace_callback('/(regexp/i', $myCallback, 'I very much like regexps');
 }
-catch (SafeRegexException $e) {
-    $e->getMessage(); // `preg_replace_callback(): Compilation failed: missing ) at offset 7`
+catch (PregException $e) {
+    $e->getMessage(); // `preg_replace_callback(): missing ) at offset 7`
 }
 
 if (preg::match('/\s+/', $input) === false) {
@@ -251,16 +253,14 @@ if (preg::match('/\s+/', $input) === false) {
 The last line never happens, because if match failed (invalid regex syntax, malformed utf-8 subject, backtrack limit 
 exceeded, any other error) - then `SafeRegexException` is thrown.
 
-You can `try/catch` it, which is impossible with warnings and fatals.
-
 # Supported PHP versions
 
 Continuous integration builds are running for:
 
- - `PHP 7.1` (`7.1.0`, `7.1.12`, `7.1.13`, `7.1.21`)
- - `PHP 7.2` (`7.2.0`, `7.2.15`)
- - `PHP 7.3` (`7.3.0`, `7.3.1`, `7.3.2`, `7.3.0RC1`, `7.3.3`, `7.3.4`, `7.3.5`)
- - `PHP 7.4`
+ - `PHP 7.1` (`7.1.0`, `7.1.12`, `7.1.13`, `7.1.27`)
+ - `PHP 7.2` (`7.2.0`, `7.2.15`, `7.2.28`)
+ - `PHP 7.3` (`7.3.0`, `7.3.6`, `7.3.15`)
+ - `PHP 7.4` (`7.4.0`, `7.4.3`)
  - `PHP 8.0` (nightly)
 
 # What's better
