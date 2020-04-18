@@ -4,7 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex\Match\fluent;
 use PHPUnit\Framework\TestCase;
 use Test\Integration\TRegx\CleanRegex\Match\GroupLimitFactory;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
+use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 
 class GroupLimitTest extends TestCase
@@ -37,7 +37,7 @@ class GroupLimitTest extends TestCase
         $limit = GroupLimitFactory::groupLimitFirstUnmatched($this);
 
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(SubjectNotMatchedException::class);
         $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed is empty.');
 
         // when
@@ -56,7 +56,7 @@ class GroupLimitTest extends TestCase
         $limit = GroupLimitFactory::groupLimitFirstUnmatched($this);
 
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(SubjectNotMatchedException::class);
         $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed is empty.');
 
         // when

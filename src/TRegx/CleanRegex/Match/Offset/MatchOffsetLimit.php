@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
-use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\SecondLevelFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
@@ -90,7 +90,7 @@ class MatchOffsetLimit implements OffsetLimit, Stream, \IteratorAggregate
 
     public function fluent(): FluentMatchPattern
     {
-        return new FluentMatchPattern($this, new FluentOptionalWorker(new FirstFluentMessage()));
+        return new FluentMatchPattern($this, new SecondLevelFluentOptionalWorker(new FirstFluentMessage()));
     }
 
     public function firstKey(): int

@@ -7,6 +7,7 @@ use Iterator;
 use TRegx\CleanRegex\Internal\Exception\Messages\NthFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\SecondLevelFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\FluentInteger;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream;
@@ -81,7 +82,7 @@ class FluentMatchPattern implements MatchPatternInterface
         if (\array_key_exists($index, $elements)) {
             return new MatchedOptional($elements[$index]);
         }
-        return new NotMatchedFluentOptional(new FluentOptionalWorker(new NthFluentMessage($index, \count($elements))));
+        return new NotMatchedFluentOptional(new SecondLevelFluentOptionalWorker(new NthFluentMessage($index, \count($elements))));
     }
 
     public function forEach(callable $consumer): void

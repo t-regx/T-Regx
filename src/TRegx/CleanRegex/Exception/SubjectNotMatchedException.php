@@ -39,7 +39,7 @@ class SubjectNotMatchedException extends PatternException
         return self::withMessage(new FirstGroupSubjectMessage($group), $subjectable);
     }
 
-    private static function withMessage(NotMatchedMessage $message, Subjectable $subjectable): SubjectNotMatchedException
+    public static function withMessage(NotMatchedMessage $message, Subjectable $subjectable): SubjectNotMatchedException
     {
         return new SubjectNotMatchedException($message->getMessage(), $subjectable->getSubject());
     }

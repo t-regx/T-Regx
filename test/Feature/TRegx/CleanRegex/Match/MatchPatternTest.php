@@ -243,7 +243,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_asInt_first_OnUnmatchedPattern()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(SubjectNotMatchedException::class);
         $this->expectExceptionMessage("Expected to get the first match as int, but subject was not matched");
 
         // given
@@ -259,7 +259,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_asArray_first_OnUnmatchedPattern()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(SubjectNotMatchedException::class);
         $this->expectExceptionMessage("Expected to get the first match as array, but subject was not matched");
 
         // given
