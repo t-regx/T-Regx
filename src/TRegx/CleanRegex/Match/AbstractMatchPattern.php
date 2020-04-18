@@ -5,7 +5,7 @@ use ArrayIterator;
 use EmptyIterator;
 use Iterator;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchAsArrayMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchIntMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
@@ -146,7 +146,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         $stream = new BaseStream($this->base);
         return new FluentMatchPattern(
             new MatchStream($stream, $this->base, $this->base->getUserData(), $stream),
-            new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base->getSubject())
+            new NotMatchedFluentOptionalWorker(new FirstFluentMessage(), $this->base->getSubject())
         );
     }
 

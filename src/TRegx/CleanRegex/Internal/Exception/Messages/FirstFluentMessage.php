@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Exception\Messages;
 
-class NoFirstElementFluentMessage implements NotMatchedMessage
+class FirstFluentMessage implements NotMatchedMessage
 {
     public function getMessage(): string
     {

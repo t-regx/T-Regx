@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
-use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
@@ -141,7 +141,7 @@ class FluentMatchPatternTest extends TestCase
 
     private function worker(): NotMatchedFluentOptionalWorker
     {
-        return new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), 'foo bar');
+        return new NotMatchedFluentOptionalWorker(new FirstFluentMessage(), 'foo bar');
     }
 
     private function stream(array $return, int $times = 1): Stream

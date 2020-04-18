@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Match;
 use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
-use TRegx\CleanRegex\Internal\Exception\Messages\NoFirstElementFluentMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitAll;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFindFirst;
@@ -135,7 +135,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
     {
         return new FluentMatchPattern(
             $this->stream(),
-            new NotMatchedFluentOptionalWorker(new NoFirstElementFluentMessage(), $this->base->getSubject()));
+            new NotMatchedFluentOptionalWorker(new FirstFluentMessage(), $this->base->getSubject()));
     }
 
     private function stream(): Stream
