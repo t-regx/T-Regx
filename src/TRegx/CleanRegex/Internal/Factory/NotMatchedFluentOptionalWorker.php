@@ -1,7 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Factory;
 
+use Exception;
 use Throwable;
+use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 
@@ -32,8 +34,8 @@ class NotMatchedFluentOptionalWorker implements NotMatchedWorker
         return $producer();
     }
 
-    public function getMessage(): NotMatchedMessage
+    public function noFirstElementException(): Exception
     {
-        return $this->message;
+        return NoSuchElementFluentException::withMessage($this->message);
     }
 }

@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Match;
 use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
-use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NoSuchElementFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
@@ -48,7 +47,6 @@ class FluentMatchPattern implements MatchPatternInterface
     /**
      * @param callable|null $consumer
      * @return string|mixed
-     * @throws NoSuchElementFluentException
      */
     public function first(callable $consumer = null)
     {
@@ -56,7 +54,7 @@ class FluentMatchPattern implements MatchPatternInterface
             $firstElement = $this->stream->first();
             return $consumer ? $consumer($firstElement) : $firstElement;
         } catch (NoFirstStreamException $exception) {
-            throw NoSuchElementFluentException::withMessage($this->firstWorker->getMessage());
+            throw $this->firstWorker->noFirstElementException();
         }
     }
 

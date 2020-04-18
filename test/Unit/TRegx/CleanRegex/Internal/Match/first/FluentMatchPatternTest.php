@@ -112,7 +112,7 @@ class FluentMatchPatternTest extends TestCase
         $mockObject = $this->createMock(NotMatchedFluentOptionalWorker::class);
         $mock = $this->createMock(NotMatchedMessage::class);
         $mock->method('getMessage')->willReturn($message);
-        $mockObject->method('getMessage')->willReturn($mock);
+        $mockObject->method('noFirstElementException')->willReturn(NoSuchElementFluentException::withMessage($mock));
         return $mockObject;
     }
 
