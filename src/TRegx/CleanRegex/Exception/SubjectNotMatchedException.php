@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
+use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupOffsetMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupSubjectMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
@@ -20,21 +21,26 @@ class SubjectNotMatchedException extends PatternException
 
     public static function forFirst(Subjectable $subjectable): SubjectNotMatchedException
     {
-        return new SubjectNotMatchedException((new FirstMatchMessage())->getMessage(), $subjectable->getSubject());
+        return self::withMessage(new FirstMatchMessage(), $subjectable);
     }
 
     public static function forFirstOffset(Subjectable $subjectable): SubjectNotMatchedException
     {
-        return new SubjectNotMatchedException((new FirstMatchOffsetMessage())->getMessage(), $subjectable->getSubject());
+        return self::withMessage(new FirstMatchOffsetMessage(), $subjectable);
     }
 
     public static function forFirstGroupOffset(Subjectable $subjectable, $group): SubjectNotMatchedException
     {
-        return new SubjectNotMatchedException((new FirstGroupOffsetMessage($group))->getMessage(), $subjectable->getSubject());
+        return self::withMessage(new FirstGroupOffsetMessage($group), $subjectable);
     }
 
     public static function forFirstGroup(Subjectable $subjectable, $group): SubjectNotMatchedException
     {
-        return new SubjectNotMatchedException((new FirstGroupSubjectMessage($group))->getMessage(), $subjectable->getSubject());
+        return self::withMessage(new FirstGroupSubjectMessage($group), $subjectable);
+    }
+
+    private static function withMessage(NotMatchedMessage $message, Subjectable $subjectable): SubjectNotMatchedException
+    {
+        return new SubjectNotMatchedException($message->getMessage(), $subjectable->getSubject());
     }
 }
