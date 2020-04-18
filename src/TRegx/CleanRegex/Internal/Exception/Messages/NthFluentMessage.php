@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Exception\Messages;
 
-class NoSuchElementFluentMessage implements NotMatchedMessage
+class NthFluentMessage implements NotMatchedMessage
 {
     /** @var int */
     private $index;

@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Match;
 use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
-use TRegx\CleanRegex\Internal\Exception\Messages\NoSuchElementFluentMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\NthFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\FluentInteger;
@@ -81,7 +81,7 @@ class FluentMatchPattern implements MatchPatternInterface
         if (\array_key_exists($index, $elements)) {
             return new MatchedOptional($elements[$index]);
         }
-        return new NotMatchedFluentOptional(new NotMatchedFluentOptionalWorker(new NoSuchElementFluentMessage($index, \count($elements))));
+        return new NotMatchedFluentOptional(new NotMatchedFluentOptionalWorker(new NthFluentMessage($index, \count($elements))));
     }
 
     public function forEach(callable $consumer): void
