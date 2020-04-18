@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use Iterator;
 use TRegx\CleanRegex\Internal\Exception\Messages\NthFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
-use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\FluentInteger;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream;
@@ -22,10 +22,10 @@ class FluentMatchPattern implements MatchPatternInterface
 {
     /** @var Stream */
     private $stream;
-    /** @var NotMatchedFluentOptionalWorker */
+    /** @var FluentOptionalWorker */
     private $firstWorker;
 
-    public function __construct(Stream $stream, NotMatchedFluentOptionalWorker $firstWorker)
+    public function __construct(Stream $stream, FluentOptionalWorker $firstWorker)
     {
         $this->stream = $stream;
         $this->firstWorker = $firstWorker;
@@ -81,7 +81,7 @@ class FluentMatchPattern implements MatchPatternInterface
         if (\array_key_exists($index, $elements)) {
             return new MatchedOptional($elements[$index]);
         }
-        return new NotMatchedFluentOptional(new NotMatchedFluentOptionalWorker(new NthFluentMessage($index, \count($elements))));
+        return new NotMatchedFluentOptional(new FluentOptionalWorker(new NthFluentMessage($index, \count($elements))));
     }
 
     public function forEach(callable $consumer): void

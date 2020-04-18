@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 
-class NotMatchedFluentOptionalWorker implements NotMatchedWorker
+class FluentOptionalWorker implements NotMatchedWorker
 {
     /** @var NotMatchedMessage */
     private $message;

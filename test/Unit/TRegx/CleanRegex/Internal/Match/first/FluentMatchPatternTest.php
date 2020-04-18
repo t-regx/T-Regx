@@ -7,7 +7,7 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
-use TRegx\CleanRegex\Internal\Factory\NotMatchedFluentOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
@@ -106,10 +106,10 @@ class FluentMatchPatternTest extends TestCase
         $pattern->first(Functions::fail());
     }
 
-    private function worker(string $message): NotMatchedFluentOptionalWorker
+    private function worker(string $message): FluentOptionalWorker
     {
-        /** @var NotMatchedFluentOptionalWorker|MockObject $mockObject */
-        $mockObject = $this->createMock(NotMatchedFluentOptionalWorker::class);
+        /** @var FluentOptionalWorker|MockObject $mockObject */
+        $mockObject = $this->createMock(FluentOptionalWorker::class);
         $mock = $this->createMock(NotMatchedMessage::class);
         $mock->method('getMessage')->willReturn($message);
         $mockObject->method('noFirstElementException')->willReturn(NoSuchElementFluentException::withMessage($mock));
