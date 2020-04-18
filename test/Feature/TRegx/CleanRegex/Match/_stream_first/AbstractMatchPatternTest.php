@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\_stream_first;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\SafeRegex\Exception\BacktrackLimitPregException;
 
@@ -30,8 +31,8 @@ class AbstractMatchPatternTest extends TestCase
     public function test_first()
     {
         // then
-        $this->assertEquals('123', $this->match()->first());
-        $this->assertEquals('123', $this->match()->fluent()->first());
+        $this->assertSame('123', $this->match()->first());
+        $this->assertSame('123', $this->match()->fluent()->first()->text());
     }
 
     public function test_asInt_first()
@@ -44,61 +45,61 @@ class AbstractMatchPatternTest extends TestCase
     public function test_distinct_first()
     {
         // then
-        $this->assertEquals('123', $this->match()->fluent()->distinct()->first());
+        $this->assertSame('123', $this->match()->fluent()->distinct()->first()->text());
     }
 
     public function test_values_first()
     {
         // then
-        $this->assertEquals('123', $this->match()->fluent()->values()->first());
+        $this->assertSame('123', $this->match()->fluent()->values()->first()->text());
     }
 
     public function test_keys_first()
     {
         // then
-        $this->assertEquals(0, $this->match()->fluent()->keys()->first());
+        $this->assertSame(0, $this->match()->fluent()->keys()->first());
     }
 
     public function test_fluent_map()
     {
         // then
-        $this->assertEquals('123', $this->match()->fluent()->map(Functions::identity())->first());
+        $this->assertSame('123', $this->match()->fluent()->map(Functions::identity())->first()->text());
     }
 
     public function test_fluent_groupByCallback()
     {
         // then
-        $this->assertEquals('123', $this->match()->fluent()->groupByCallback(Functions::identity())->first());
+        $this->assertSame('123', $this->match()->fluent()->groupByCallback(Functions::identity())->first()->text());
     }
 
     public function test_fluent_groupByCallback_keys()
     {
         // then
-        $this->assertEquals('123', $this->match()->fluent()->groupByCallback(Functions::identity())->keys()->first());
+        $this->assertSame('123', $this->match()->fluent()->groupByCallback(Functions::identity())->keys()->first());
     }
 
     public function test_findFirst()
     {
         // then
-        $this->assertEquals('123', $this->match()->findFirst(Functions::identity())->orThrow());
+        $this->assertSame('123', $this->match()->findFirst(Functions::identity())->orThrow()->text());
     }
 
     public function test_fluent_findFirst()
     {
         // then
-        $this->assertEquals('123', $this->match()->fluent()->findFirst(Functions::identity())->orThrow());
+        $this->assertSame('123', $this->match()->fluent()->findFirst(Functions::identity())->orThrow()->text());
     }
 
     public function test_fluent_flatMap()
     {
         // when
         $first = $this->match()->fluent()
-            ->flatMap(function ($a) {
-                return [$a];
+            ->flatMap(function (Match $a) {
+                return [$a->text(), $a->text()];
             })
             ->first();
         // then
-        $this->assertEquals(['123'], $first);
+        $this->assertSame(['123', '123'], $first);
     }
 
     public function test_groups_and_offsets()
@@ -109,7 +110,7 @@ class AbstractMatchPatternTest extends TestCase
         $this->assertSame(2, $this->match()->offsets()->first());
 
         $this->assertSame(2, $this->match()->offsets()->fluent()->first());
-        $this->assertEquals('123', $this->match()->group(0)->fluent()->first());
+        $this->assertSame('123', $this->match()->group(0)->fluent()->first()->text());
         $this->assertSame(0, $this->match()->offsets()->fluent()->keys()->first());
         $this->assertSame(2, $this->match()->group(0)->offsets()->fluent()->first());
     }
