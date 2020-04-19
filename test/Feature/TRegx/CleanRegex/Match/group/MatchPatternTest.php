@@ -104,14 +104,31 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_fluent()
+    public function shouldMap()
     {
-        // given
-        $subject = 'D Computer';
-
         // when
         $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')
-            ->match($subject)
+            ->match('D Computer')
+            ->group('lowercase')
+            ->map(function (MatchGroup $group) {
+                if ($group->matched()) {
+                    return $group->text();
+                }
+                return "unmatched";
+            });
+
+        // then
+        $this->assertEquals(['unmatched', 'omputer'], $groups);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMap_fluent()
+    {
+        // when
+        $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')
+            ->match('D Computer')
             ->group('lowercase')
             ->fluent()
             ->map(function (MatchGroup $group) {
