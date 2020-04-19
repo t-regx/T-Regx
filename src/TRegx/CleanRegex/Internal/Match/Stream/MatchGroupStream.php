@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
@@ -45,7 +46,10 @@ class MatchGroupStream implements Stream
 
     private function facade(IRawWithGroups $matches, MatchAllFactory $allFactory): GroupFacade
     {
-        return new GroupFacade($matches, $this->subjectable, $this->nameOrIndex, new MatchGroupFactoryStrategy(), $allFactory);
+        if ($matches->hasGroup($this->nameOrIndex)) {
+            return new GroupFacade($matches, $this->subjectable, $this->nameOrIndex, new MatchGroupFactoryStrategy(), $allFactory);
+        }
+        throw new NonexistentGroupException($this->nameOrIndex);
     }
 
     public function firstKey(): int

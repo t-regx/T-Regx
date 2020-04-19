@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\group;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 
@@ -57,15 +58,51 @@ class MatchPatternTest extends TestCase
      */
     public function shouldThrow_all_nonexistent()
     {
-        // given
-        $subject = 'L Three Four';
-
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'missing'");
 
         // when
-        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('missing')->all();
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match('L Three Four')->group('missing')->all();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_fluent_nonexistent()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+
+        // when
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match('L Three Four')->group('missing')->fluent()->all();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_first_nonexistent()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+
+        // when
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match('L Three Four')->group('missing')->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_first_consumer_nonexistent()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+
+        // when
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match('L Three Four')->group('missing')->findFirst(Functions::fail());
     }
 
     /**
@@ -73,15 +110,12 @@ class MatchPatternTest extends TestCase
      */
     public function shouldThrow_onlyOne_nonexistent()
     {
-        // given
-        $subject = 'L Three Four';
-
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'missing'");
 
         // when
-        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('missing')->only(1);
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match('L Three Four')->group('missing')->only(1);
     }
 
     /**
