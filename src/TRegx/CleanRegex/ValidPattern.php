@@ -16,10 +16,8 @@ class ValidPattern
 
     public function isValid(): bool
     {
-        $hadError = GuardedExecution::silenced('preg_match', function () {
+        return !GuardedExecution::silenced('preg_match', function () {
             return @preg_match($this->pattern, null);
         });
-
-        return $hadError === false;
     }
 }
