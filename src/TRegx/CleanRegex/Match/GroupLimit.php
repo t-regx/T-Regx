@@ -119,6 +119,23 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         return (new FlatMapper($this->stream()->all(), $mapper))->get();
     }
 
+    /**
+     * @param callable $consumer
+     * @return string[]
+     */
+    public function filter(callable $consumer): array
+    {
+        /**
+         * I use foreach to eliminate the overhead of PHP function call.
+         * I use array_filter(), because we have to call user function no matter what,
+         */
+        $result = [];
+        foreach (\array_filter($this->stream()->all(), $consumer) as $group) {
+            $result[] = $group->text();
+        }
+        return $result;
+    }
+
     public function forEach(callable $consumer): void
     {
         foreach ($this->stream()->all() as $group) {
