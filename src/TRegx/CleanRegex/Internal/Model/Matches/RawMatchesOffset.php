@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Model\Matches;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
+use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\IndexedRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
@@ -31,10 +32,7 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
     {
         $matchObjects = [];
         foreach ($this->matches[self::GROUP_WHOLE_MATCH] as $index => $firstWhole) {
-            $match = \array_map(function ($match) use ($index) {
-                return $match[$index];
-            }, $this->matches);
-            $matchObjects[] = $factory->create($index, new RawMatchOffset($match), new EagerMatchAllFactory($this));
+            $matchObjects[] = $factory->create($index, new RawMatchesToMatchAdapter($this, $index), new EagerMatchAllFactory($this));
         }
         return $matchObjects;
     }
