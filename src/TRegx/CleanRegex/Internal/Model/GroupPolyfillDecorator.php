@@ -52,6 +52,24 @@ class GroupPolyfillDecorator implements IRawMatchOffset
         return $this->match->isGroupMatched($nameOrIndex);
     }
 
+    public function getGroup($nameOrIndex): ?string
+    {
+        if ($this->match->hasGroup($nameOrIndex)) {
+            return $this->read($nameOrIndex);
+        }
+        $this->polyfillGroups();
+        return $this->read($nameOrIndex);
+    }
+
+    private function read($nameOrIndex): ?string
+    {
+        [$text, $offset] = $this->match->getGroupTextAndOffset($nameOrIndex);
+        if ($offset === -1) {
+            return null;
+        }
+        return $text;
+    }
+
     public function getGroupTextAndOffset($nameOrIndex): array
     {
         if (!$this->match->hasGroup($nameOrIndex)) {

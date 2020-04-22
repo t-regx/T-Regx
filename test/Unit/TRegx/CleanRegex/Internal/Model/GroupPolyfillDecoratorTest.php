@@ -235,6 +235,58 @@ class GroupPolyfillDecoratorTest extends TestCase
         $this->assertSame(['foo', 'lorem'], $decorator->getGroupKeys());
     }
 
+    /**
+     * @test
+     */
+    public function test_getGroup_true()
+    {
+        // given
+        $decorator = new GroupPolyfillDecorator($this->match(['group' => ['value', 0]]), $this->noInteraction(), -10);
+
+        // when + then
+        $this->assertSame('value', $decorator->getGroup('group'));
+    }
+
+    /**
+     * @test
+     */
+    public function test_getGroup_call()
+    {
+        // given
+        $decorator = new GroupPolyfillDecorator($this->empty(), $this->all(['group' => [['value', 0]]]), 0);
+
+        // when + then
+        $this->assertSame('value', $decorator->getGroup('group'));
+    }
+
+    /**
+     * @test
+     */
+    public function test_getGroup_call_explicitlyNotMatched()
+    {
+        // This is the current assumption, that GroupPolyfillDecorator should
+        // not try to re-fetch groups that are explicitly not matched (offset -1)
+        // but it's not certain whether this assumption will always be true.
+
+        // given
+        $decorator = new GroupPolyfillDecorator($this->match(['group' => ['value', -1]]), $this->noInteraction(), -10);
+
+        // when + then
+        $this->assertNull($decorator->getGroup('group'));
+    }
+
+    /**
+     * @test
+     */
+    public function test_getGroup_null()
+    {
+        // given
+        $decorator = new GroupPolyfillDecorator($this->empty(), $this->all(['group' => [[null, -1]]]), 0);
+
+        // when + then
+        $this->assertNull($decorator->getGroup('group'));
+    }
+
     private function match(array $match): IRawMatchOffset
     {
         return new RawMatchOffset($match);
