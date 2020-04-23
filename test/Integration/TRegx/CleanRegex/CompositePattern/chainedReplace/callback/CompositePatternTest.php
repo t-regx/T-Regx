@@ -4,6 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex\CompositePattern\chainedReplace\call
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\CompositePattern;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
+use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use function array_slice;
 
@@ -37,6 +38,24 @@ class CompositePatternTest extends TestCase
 
         // then
         $this->assertEquals($expected, $replaced);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetLimit()
+    {
+        // given
+        $pattern = new CompositePattern((new CompositePatternMapper(['Foo']))->createPatterns());
+
+        // when
+        $pattern->chainedReplace("Foo")->callback(function (Match $match) {
+            // then
+            $this->assertEquals(-1, $match->limit());
+
+            // clean up
+            return '__';
+        });
     }
 
     public function times()
