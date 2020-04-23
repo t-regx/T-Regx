@@ -20,7 +20,7 @@ class FlatMapStrategy implements Strategy
         $this->factory = $factory;
     }
 
-    function transform(array $groups, RawMatchesOffset $matches): array
+    public function transform(array $groups, RawMatchesOffset $matches): array
     {
         foreach ($groups as &$group) {
             $group = (new FlatMapper($group, function (IndexedRawMatchOffset $match) use ($matches) {

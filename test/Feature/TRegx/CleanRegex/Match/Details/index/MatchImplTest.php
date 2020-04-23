@@ -66,7 +66,7 @@ class MatchImplTest extends TestCase
         $this->assertEquals([0, 1, 2], $indexes);
     }
 
-    function iteratingMatchMethods(): array
+    public function iteratingMatchMethods(): array
     {
         return [
             ['forEach'],

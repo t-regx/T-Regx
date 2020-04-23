@@ -123,12 +123,9 @@ class MatchPatternTest extends TestCase
      */
     public function shouldGet_only()
     {
-        // given
-        $subject = 'D Computer';
-
         // when
-        $groups1 = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->only(1);
-        $groups2 = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->only(2);
+        $groups1 = pattern('[A-Z](?<lowercase>[a-z]+)?')->match('D Computer')->group('lowercase')->only(1);
+        $groups2 = pattern('[A-Z](?<lowercase>[a-z]+)?')->match('D Computer')->group('lowercase')->only(2);
 
         // then
         $this->assertEquals([null], $groups1);

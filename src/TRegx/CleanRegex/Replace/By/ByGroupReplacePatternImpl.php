@@ -98,7 +98,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         return $this->replaceGroupOptional(new ComputedSubjectStrategy($substituteProducer));
     }
 
-    public function replaceGroupOptional(ReplaceSubstitute $substitute): string
+    private function replaceGroupOptional(ReplaceSubstitute $substitute): string
     {
         if ($this->nameOrIndex === 0) {
             // @codeCoverageIgnoreStart

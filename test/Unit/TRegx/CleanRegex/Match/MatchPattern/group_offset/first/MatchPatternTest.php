@@ -41,8 +41,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage("Expected to get group 'two' offset from the first match, but subject was not matched at all");
 
         // when
-        $offsetLimit = $pattern->group('two')->offsets();
-        $offsetLimit->first();
+        $pattern->group('two')->offsets()->first();
     }
 
     /**

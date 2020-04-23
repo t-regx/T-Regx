@@ -33,7 +33,7 @@ class ReplacePatternTest extends TestCase
         $this->assertEquals('Replace O!, T! and O!', $result);
     }
 
-    function optionals(): array
+    public function optionals(): array
     {
         return [
             'orReturn' => ['orReturn', ['word']],
@@ -86,7 +86,7 @@ class ReplacePatternTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    function shouldNotReplaceGroups(): array
+    public function shouldNotReplaceGroups(): array
     {
         return DataProviders::builder()
             ->addSection('name', 1)
@@ -120,11 +120,9 @@ class ReplacePatternTest extends TestCase
             ->orThrow(CustomSubjectException::class);
     }
 
-    function groups(): array
+    public function groups(): array
     {
-        return [
-            ['name'], [1]
-        ];
+        return [['name'], [1]];
     }
 
     /**
@@ -295,7 +293,7 @@ class ReplacePatternTest extends TestCase
             ->orReturn('failing');
     }
 
-    function nonexistentGroups(): array
+    public function nonexistentGroups(): array
     {
         return [
             ['missing'],

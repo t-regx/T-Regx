@@ -8,7 +8,7 @@ class ComputedMapper implements GroupMapper
     /** @var callable */
     private $mapper;
 
-    function __construct(callable $mapper)
+    public function __construct(callable $mapper)
     {
         $this->mapper = $mapper;
     }

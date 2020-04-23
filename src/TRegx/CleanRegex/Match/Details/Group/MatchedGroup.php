@@ -21,9 +21,9 @@ class MatchedGroup implements MatchGroup
 
     public function __construct(IRawMatchOffset $match, GroupDetails $details, MatchedGroupOccurrence $matchedDetails)
     {
+        $this->match = $match;
         $this->details = $details;
         $this->occurrence = $matchedDetails;
-        $this->match = $match;
     }
 
     public function text(): string

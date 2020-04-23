@@ -10,7 +10,7 @@ class OffsetsStrategy implements Strategy
 {
     /** @var Subjectable */
     private $subjectable;
-    /** @var boolean */
+    /** @var bool */
     private $characterOffsets;
 
     public function __construct(?Subjectable $subjectable, bool $characterOffsets)
@@ -19,7 +19,7 @@ class OffsetsStrategy implements Strategy
         $this->characterOffsets = $characterOffsets;
     }
 
-    function transform(array $groups, RawMatchesOffset $matches): array
+    public function transform(array $groups, RawMatchesOffset $matches): array
     {
         foreach ($groups as &$group) {
             $group = \array_map(function (IRawMatchOffset $match) {

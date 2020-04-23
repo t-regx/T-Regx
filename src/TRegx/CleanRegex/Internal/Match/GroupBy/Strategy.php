@@ -5,5 +5,5 @@ use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 interface Strategy
 {
-    function transform(array $groups, RawMatchesOffset $matches): array;
+    public function transform(array $groups, RawMatchesOffset $matches): array;
 }

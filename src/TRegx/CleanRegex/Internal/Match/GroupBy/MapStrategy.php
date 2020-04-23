@@ -19,7 +19,7 @@ class MapStrategy implements Strategy
         $this->factory = $factory;
     }
 
-    function transform(array $groups, RawMatchesOffset $matches): array
+    public function transform(array $groups, RawMatchesOffset $matches): array
     {
         foreach ($groups as &$group) {
             /** @var IndexedRawMatchOffset $match */
