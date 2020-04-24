@@ -25,7 +25,7 @@ class CompositePatternMapper
             return InternalPattern::standard($pattern);
         }
         if ($pattern instanceof PatternInterface) {
-            return InternalPattern::pcre($pattern->delimiter());
+            return InternalPattern::pcre($pattern->delimited());
         }
         throw $this->throwInvalidPatternType($pattern);
     }

@@ -3,6 +3,8 @@ T-Regx Changelog
 
 Incoming in 0.9.9
 -----------------
+* Breaking changes
+    * Renamed `pattern()->delimiter()` to `pattern()->delimited()`
 * Features
     * Add `MatchGroup.equals()`, that allows to compare a potentially unmatched group with a string. 
     * Add `pattern()->match()->group()->filter()` method. #22

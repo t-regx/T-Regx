@@ -82,7 +82,7 @@ class ReadMeTest extends TestCase
         $instance = Pattern::of('[A-Z][a-z]+');
 
         // then
-        $this->assertEquals('/[A-Z][a-z]+/', $instance->delimiter());
+        $this->assertEquals('/[A-Z][a-z]+/', $instance->delimited());
     }
 
     /**
@@ -94,6 +94,6 @@ class ReadMeTest extends TestCase
         $instance = pattern('[A-Z][a-z]+');
 
         // then
-        $this->assertEquals('/[A-Z][a-z]+/', $instance->delimiter());
+        $this->assertEquals('/[A-Z][a-z]+/', $instance->delimited());
     }
 }

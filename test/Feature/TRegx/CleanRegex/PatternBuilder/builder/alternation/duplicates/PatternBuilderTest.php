@@ -18,7 +18,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::prepare(['Foo', [$this->alternation()]], $flags);
 
         // when
-        $patter = $pattern->delimiter();
+        $patter = $pattern->delimited();
 
         // then
         $this->assertEquals("/Foo(?:$expected)/$flags", $patter);
@@ -36,7 +36,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::bind('Foo@bar', ['bar' => $this->alternation()], $flags);
 
         // when
-        $patter = $pattern->delimiter();
+        $patter = $pattern->delimited();
 
         // then
         $this->assertEquals("/Foo(?:$expected)/$flags", $patter);
@@ -54,7 +54,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::inject('Foo@', [$this->alternation()], $flags);
 
         // when
-        $patter = $pattern->delimiter();
+        $patter = $pattern->delimited();
 
         // then
         $this->assertEquals("/Foo(?:$expected)/$flags", $patter);

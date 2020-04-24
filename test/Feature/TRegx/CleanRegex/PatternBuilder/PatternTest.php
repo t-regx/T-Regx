@@ -15,7 +15,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::prepare(['You/her, (are|is) ', ['real? (or are you not real?)'], ' (you|her)']);
 
         // when
-        $pattern = $pattern->delimiter();
+        $pattern = $pattern->delimited();
 
         // then
         $this->assertEquals('#You/her, (are|is) real\?\ \(or\ are\ you\ not\ real\?\) (you|her)#', $pattern);
@@ -32,7 +32,7 @@ class PatternTest extends TestCase
         ]);
 
         // when
-        $pattern = $pattern->delimiter();
+        $pattern = $pattern->delimited();
 
         // then
         $this->assertEquals('#You/her, (are|is) real\?\ \(or\ are\ you\ not\ real\?\) (you|her)#', $pattern);
@@ -49,7 +49,7 @@ class PatternTest extends TestCase
         ]);
 
         // when
-        $pattern = $pattern->delimiter();
+        $pattern = $pattern->delimited();
 
         // then
         $this->assertEquals('#You/her, (are|is) real\?\ \(or\ are\ you\ not\ real\?\) (you|her)#', $pattern);

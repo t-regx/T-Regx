@@ -56,5 +56,5 @@ interface PatternInterface
     /**
      * {@documentary:test}
      */
-    public function delimiter(): string;
+    public function delimited(): string;
 }

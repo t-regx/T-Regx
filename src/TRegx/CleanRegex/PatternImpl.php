@@ -79,7 +79,7 @@ class PatternImpl implements PatternInterface
         return (new ValidPattern($this->pattern->pattern))->isValid();
     }
 
-    public function delimiter(): string
+    public function delimited(): string
     {
         return $this->pattern->pattern;
     }
