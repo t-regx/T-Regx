@@ -19,7 +19,7 @@ class FilterArrayPatternTest extends TestCase
     public function shouldFilterArray(string $pattern, array $subjects, array $expected)
     {
         // given
-        $filterArrayPattern = new FilterArrayPattern(InternalPattern::pcre($pattern), $subjects);
+        $filterArrayPattern = new FilterArrayPattern(InternalPattern::pcre($pattern), $subjects, false);
 
         // when
         $filtered = $filterArrayPattern->filter();
@@ -59,7 +59,7 @@ class FilterArrayPatternTest extends TestCase
     public function shouldFilterArray_assoc(string $pattern, array $subjects, array $expected)
     {
         // given
-        $filterArrayPattern = new FilterArrayPattern(InternalPattern::pcre($pattern), $subjects);
+        $filterArrayPattern = new FilterArrayPattern(InternalPattern::pcre($pattern), $subjects, false);
 
         // when
         $filtered = $filterArrayPattern->filterAssoc();

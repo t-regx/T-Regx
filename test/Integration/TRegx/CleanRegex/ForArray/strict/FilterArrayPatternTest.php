@@ -43,7 +43,7 @@ class FilterArrayPatternTest extends TestCase
         pattern('')->forArray($input)->strict()->$method();
     }
 
-    function filterMethods(): array
+    public function filterMethods(): array
     {
         return CrossDataProviders::cross(
             [['filter'], ['filterAssoc']],

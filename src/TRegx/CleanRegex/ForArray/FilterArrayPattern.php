@@ -15,7 +15,7 @@ class FilterArrayPattern
     /** @var bool */
     private $throwOnNonStringElements;
 
-    public function __construct(InternalPattern $pattern, array $array, bool $strict = false)
+    public function __construct(InternalPattern $pattern, array $array, bool $strict)
     {
         $this->pattern = $pattern;
         $this->array = $array;
