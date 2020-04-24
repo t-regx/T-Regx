@@ -8,6 +8,8 @@ Incoming in 0.9.9
 * Features
     * Add `MatchGroup.equals()`, that allows to compare a potentially unmatched group with a string. 
     * Add `pattern()->match()->group()->filter()` method. #22
+    * Add `pattern()->replace()->by()->mapAndCallback()`, which first translates a match by a dictionary (like `map()`),
+        and then passes it through callback, before replacing (like `callback()`).
 * Enhancements
     * [Prepared patterns] correctly handle whitespace when `x` (`PCRE_EXTENDED`) flag is used. #40
 * SafeRegex

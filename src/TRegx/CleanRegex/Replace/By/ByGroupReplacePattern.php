@@ -29,4 +29,12 @@ interface ByGroupReplacePattern extends Optional
     public function mapIfExists(array $occurrencesAndReplacements): OptionalStrategySelector;
 
     public function callback(callable $callback): string;
+
+    /**
+     * @param string[] $occurrencesAndReplacements
+     * @return OptionalStrategySelector
+     * @throws \InvalidArgumentException
+     * @throws MissingReplacementKeyException
+     */
+    public function mapAndCallback(array $occurrencesAndReplacements, callable $mapper): OptionalStrategySelector;
 }

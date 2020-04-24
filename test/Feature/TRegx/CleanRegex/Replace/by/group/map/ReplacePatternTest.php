@@ -37,7 +37,7 @@ class ReplacePatternTest extends TestCase
         $this->assertEquals('Replace 1!, 2! and 1!', $result);
     }
 
-    function optionals(): array
+    public function optionals(): array
     {
         return [
             'orReturn' => ['orReturn', ['word']],

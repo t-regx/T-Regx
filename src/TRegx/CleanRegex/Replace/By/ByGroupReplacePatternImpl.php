@@ -8,7 +8,9 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedG
 use TRegx\CleanRegex\Replace\Callback\MatchGroupStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
+use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
+use TRegx\CleanRegex\Replace\GroupMapper\MapGroupMapperDecorator;
 use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
@@ -45,13 +47,21 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 
     public function map(array $map): OptionalStrategySelector
     {
+        return $this->performMap(new DictionaryMapper($map));
+    }
+
+    public function mapAndCallback(array $map, callable $mapper): OptionalStrategySelector
+    {
+        return $this->performMap(new MapGroupMapperDecorator(new DictionaryMapper($map), $mapper));
+    }
+
+    private function performMap(GroupMapper $mapper): OptionalStrategySelectorImpl
+    {
         return new OptionalStrategySelectorImpl(
             $this->fallbackReplacer,
             $this->nameOrIndex,
-            new StrategyFallbackAdapter(
-                new DictionaryMapper($map),
-                new LazyMessageThrowStrategy(MissingReplacementKeyException::class),
-                $this->subject)
+            new StrategyFallbackAdapter($mapper,
+                new LazyMessageThrowStrategy(MissingReplacementKeyException::class), $this->subject)
         );
     }
 
