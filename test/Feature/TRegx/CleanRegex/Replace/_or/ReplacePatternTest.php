@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\_or;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CustomException;
+use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
 
 class ReplacePatternTest extends TestCase
@@ -56,14 +56,16 @@ class ReplacePatternTest extends TestCase
     public function shouldThrow_with_orThrow()
     {
         // given
-        $replacePattern = pattern('Foo')->replace('Bar')->first()->throwingOtherwise(CustomException::class);
-
-        // then
-        $this->expectException(CustomException::class);
-        $this->expectExceptionMessage("Replacements were supposed to be performed, but subject doesn't match the pattern");
+        $replacePattern = pattern('Foo')->replace('Bar')->first()->throwingOtherwise(CustomSubjectException::class);
 
         // when
-        $replacePattern->with('');
+        try {
+            $replacePattern->with('');
+        } catch (CustomSubjectException $e) {
+            // then
+            $this->assertEquals("Replacements were supposed to be performed, but subject doesn't match the pattern", $e->getMessage());
+            $this->assertEquals('Bar', $e->subject);
+        }
     }
 
     /**

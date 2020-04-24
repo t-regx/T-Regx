@@ -121,15 +121,17 @@ class AbstractMatchPatternTest extends TestCase
      */
     public function shouldFluent_findFirst_orThrow_custom()
     {
-        // then
-        $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed is empty");
-
-        // when
-        pattern("Foo")
-            ->match("Bar")
-            ->fluent()
-            ->findFirst(Functions::fail())
-            ->orThrow(CustomSubjectException::class);
+        try {
+            // when
+            pattern("Foo")
+                ->match("Bar")
+                ->fluent()
+                ->findFirst(Functions::fail())
+                ->orThrow(CustomSubjectException::class);
+        } catch (CustomSubjectException $exception) {
+            // then
+            $this->assertEquals("Expected to get the first element from fluent pattern, but the elements feed is empty.", $exception->getMessage());
+            $this->assertEquals("Bar", $exception->subject);
+        }
     }
 }
