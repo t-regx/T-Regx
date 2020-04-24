@@ -4,7 +4,7 @@
 <p align="center">
     <a href="https://travis-ci.org/T-Regx/T-Regx"><img src="https://travis-ci.org/T-Regx/T-Regx.svg?branch=master"/></a>
     <a href="https://coveralls.io/github/T-Regx/T-Regx?branch=master"><img src="https://coveralls.io/repos/github/T-Regx/T-Regx/badge.svg?branch=master"/></a>
-    <a href="https://github.com/T-Regx/T-Regx/releases"><img src="https://img.shields.io/badge/Stable-v0.9.8-brightgreen.svg?style=popout"/></a>
+    <a href="https://github.com/T-Regx/T-Regx/releases"><img src="https://img.shields.io/badge/Stable-v0.9.9-brightgreen.svg?style=popout"/></a>
     <a href="https://github.com/T-Regx/T-Regx"><img src="https://img.shields.io/badge/dependencies-0-brightgreen.svg"/></a>
 </p>
 
@@ -20,7 +20,7 @@ You, choose the interface:
 
 [![last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
 [![commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
-[![Unit tests](https://img.shields.io/badge/Unit%20tests-1511-green.svg)](https://github.com/T-Regx/T-Regx)
+[![Unit tests](https://img.shields.io/badge/Unit%20tests-1608-green.svg)](https://github.com/T-Regx/T-Regx)
 [![FQN](https://img.shields.io/badge/FQN-used-blue.svg)](https://github.com/kelunik/fqn-check)
 [![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 
@@ -64,10 +64,8 @@ Full API documentation is available at [t-regx.com](https://t-regx.com/).
 
 #### Automatic delimiters
 
-These calls are identical:
-
 ```php
-pattern('\d{3}')->test('123');
+pattern('\d{3}')->test('123');  // true
 ```
 
 :bulb: See more about [automatic delimiters](https://t-regx.com/docs/delimiters)
@@ -180,10 +178,10 @@ $result   // 'Match not found in sentence'
     * Converts all PCRE notices/error/warnings to exceptions
     * Calling `preg_last_error()` after each call, to validate your method
     * Warnings/errors don't interfere with each other
-    * Not letting fatal errors happen
+    * Preventing fatal errors (instead of catching them)
   * Strings:
-    * Tracking offset and subjects while replacing strings
-    * Fixing error with multi-byte offset (utf-8 safe)
+    * [Tracking offset](https://t-regx.com/docs/replace-match-details) and subjects while replacing strings
+    * [Fixing error with multi-byte offset (utf-8 safe)](https://t-regx.com/docs/match-details#offsets)
 
 * ### Automatic delimiters for your pattern
   Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory. T-Regx's smart delimiter

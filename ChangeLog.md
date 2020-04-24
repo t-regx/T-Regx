@@ -1,8 +1,13 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.9.9
+Incoming in 0.9.10
 -----------------
+
+* Soon
+
+Added in 0.9.9
+--------------
 * Breaking changes
     * Renamed `pattern()->delimiter()` to `pattern()->delimited()`
 * Features
@@ -11,7 +16,7 @@ Incoming in 0.9.9
     * Add `pattern()->replace()->by()->mapAndCallback()`, which first translates a match by a dictionary (like `map()`),
         and then passes it through callback, before replacing (like `callback()`).
 * Enhancements
-    * [Prepared patterns] correctly handle whitespace when `x` (`PCRE_EXTENDED`) flag is used. #40
+    * [Prepared patterns] correctly handle whitespace when `x` ([`PCRE_EXTENDED`]) flag is used. #40
 * SafeRegex
     * `preg::quote()` throws [`InvalidArgumentException`] when it's called with a delimiter that's not a single character.
     * Handled PHP Bug [#77827](https://bugs.php.net/bug.php?id=77827), when `\r` was passed at then 
@@ -310,3 +315,4 @@ Available in 0.9.0
 [`preg_last_error()`]: https://www.php.net/manual/en/function.preg-last-error.php
 [`InvalidArgumentException`]: https://www.php.net/manual/en/class.invalidargumentexception.php
 [Prepared patterns]: https://t-regx.com/docs/handling-user-input
+[`PCRE_EXTENDED`]: https://www.php.net/manual/en/reference.pcre.pattern.modifiers.php
