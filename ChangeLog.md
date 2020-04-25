@@ -3,8 +3,8 @@ T-Regx Changelog
 
 Incoming in 0.9.10
 -----------------
-
-* Soon
+* Breaking changes
+    * Renamed `BacktrackLimitPregException` to `CatastrophicBacktrackingPregException`
 
 Added in 0.9.9
 --------------

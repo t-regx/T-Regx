@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-class BacktrackLimitPregException extends RuntimePregException
+class CatastrophicBacktrackingPregException extends RuntimePregException
 {
     public function __construct(string $methodName, string $message, int $errorCode, string $errorName)
     {

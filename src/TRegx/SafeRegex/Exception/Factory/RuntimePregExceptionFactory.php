@@ -2,7 +2,7 @@
 namespace TRegx\SafeRegex\Exception\Factory;
 
 use TRegx\SafeRegex\Constants\PregConstants;
-use TRegx\SafeRegex\Exception\BacktrackLimitPregException;
+use TRegx\SafeRegex\Exception\CatastrophicBacktrackingPregException;
 use TRegx\SafeRegex\Exception\JitStackLimitPregException;
 use TRegx\SafeRegex\Exception\RecursionLimitPregException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
@@ -46,7 +46,7 @@ class RuntimePregExceptionFactory
         $classes = [
             PREG_BAD_UTF8_ERROR        => SubjectEncodingPregException::class,
             PREG_BAD_UTF8_OFFSET_ERROR => Utf8OffsetPregException::class,
-            PREG_BACKTRACK_LIMIT_ERROR => BacktrackLimitPregException::class,
+            PREG_BACKTRACK_LIMIT_ERROR => CatastrophicBacktrackingPregException::class,
             PREG_RECURSION_LIMIT_ERROR => RecursionLimitPregException::class,
             PREG_JIT_STACKLIMIT_ERROR  => JitStackLimitPregException::class
         ];

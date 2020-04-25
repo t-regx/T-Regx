@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\SafeRegex\Exception\Factory;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\SafeRegex\Exception\BacktrackLimitPregException;
+use TRegx\SafeRegex\Exception\CatastrophicBacktrackingPregException;
 use TRegx\SafeRegex\Exception\Factory\RuntimePregExceptionFactory;
 use TRegx\SafeRegex\Exception\JitStackLimitPregException;
 use TRegx\SafeRegex\Exception\RecursionLimitPregException;
@@ -60,7 +60,7 @@ class RuntimePregExceptionFactoryTest extends TestCase
             'PREG_BACKTRACK_LIMIT_ERROR' => [
                 PREG_BACKTRACK_LIMIT_ERROR,
                 'PREG_BACKTRACK_LIMIT_ERROR',
-                BacktrackLimitPregException::class,
+                CatastrophicBacktrackingPregException::class,
                 "After invoking preg_method(), preg_last_error() returned PREG_BACKTRACK_LIMIT_ERROR."
             ],
             'PREG_RECURSION_LIMIT_ERROR' => [

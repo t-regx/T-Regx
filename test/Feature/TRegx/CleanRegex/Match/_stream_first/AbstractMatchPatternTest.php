@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\MatchPattern;
-use TRegx\SafeRegex\Exception\BacktrackLimitPregException;
+use TRegx\SafeRegex\Exception\CatastrophicBacktrackingPregException;
 
 /**
  * There are cases, when calling `preg_match()` on a subject is safe, but calling
@@ -22,7 +22,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrowBacktrackingLimitError_forAll()
     {
         // then
-        $this->expectException(BacktrackLimitPregException::class);
+        $this->expectException(CatastrophicBacktrackingPregException::class);
 
         // when
         $this->match()->all();
