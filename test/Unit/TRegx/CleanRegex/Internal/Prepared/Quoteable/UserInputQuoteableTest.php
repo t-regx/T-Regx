@@ -1,5 +1,5 @@
 <?php
-namespace Test\TRegx\CleanRegex\Internal\Prepared\Quoteable;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quoteable;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\UserInputQuoteable;
