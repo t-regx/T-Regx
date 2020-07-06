@@ -16,11 +16,11 @@ Added in 0.9.9
     * Add `pattern()->replace()->by()->mapAndCallback()`, which first translates a match by a dictionary (like `map()`),
         and then passes it through callback, before replacing (like `callback()`).
 * Enhancements
-    * [Prepared patterns] correctly handle whitespace when `x` ([`PCRE_EXTENDED`]) flag is used. #40
+    * [Prepared patterns] correctly handle whitespace with `x` ([`PCRE_EXTENDED`]) flag. #40
 * SafeRegex
     * `preg::quote()` throws [`InvalidArgumentException`] when it's called with a delimiter that's not a single character.
     * Handled PHP Bug [#77827](https://bugs.php.net/bug.php?id=77827), when `\r` was passed at then 
-    end of a pattern.
+    end of a pattern to [`preg_match()`]/[`preg_match_all()`].
 * Bug fixes
     * Fixed a bug in [Prepared patterns] (PCRE mode), when using a malformed pattern caused `TypeError`,
      instead of `MalformedPatternException`. 
@@ -81,8 +81,8 @@ Previously `preg_match()` was called only by:
 - `match()->first()`
 - `match()->findFirst()`
 
-Any other `match()` method (e.g. `map()`, `forEach()`, etc.) used `preg_match_all()`. From now on, 
-where possible, `preg_match` is also used for:
+Any other `match()` method (e.g. `map()`, `forEach()`, etc.) used [`preg_match_all()`]. From now on, 
+where possible, [`preg_match()`] is also used for:
 - `fluent()->first()`
 - `asInt()->first()` / `asInt()->fluent()->first()`
 - `group()->first()`
@@ -93,11 +93,11 @@ where possible, `preg_match` is also used for:
 The same applies to the methods above ending with `findFirst()`.
 
 The change was made because of two reasons:
-- Performance (matching only the first occurrence obviously is faster than all of them)
+- Performance (matching only the first occurrence is faster than all of them)
 - There are cases where the 2nd (or 3rd, `n`-th) occurrence would have thrown an error (e.g. catastrophic backtracking).
-  Now, such string can be worked with, by calling `preg_match()` and returning right after first match.
+  Now, such string can be worked with, by calling [`preg_match()`] and returning right after first match.
 
-The only exception from this rule is `filter()->first()`, which still calls `preg_match_all()`. 
+The only exception to this rule is `filter()->first()`, which still calls [`preg_match_all()`]. 
 
 #### About `asInt()` chain
 
@@ -112,7 +112,7 @@ The only exception from this rule is `filter()->first()`, which still calls `pre
    - `match()->asInt()->map(callable $mapper): int[];`
    - `match()->asInt()->flatMap(callable $mapper);`
    - `match()->asInt()->distinct(): int[];`
-   - `match()->asInt()->filter(callable $predicate);`
+   - `match()->asInt()->filter(callable $predicate): int[];`
  - Callbacks passed to `first()`/`map()`/`flatMap()` etc. receive `int`.
  - `asInt()->fluent()` is slightly better than `fluent()->asInt()`:
     - `fluent()->asInt()` creates `Match` details for each occurrence, which are then cast to `int`.
@@ -131,13 +131,13 @@ Added in 0.9.5
     * Renamed:
        - `pattern()->match()->forFirst()` to `findFirst()` #70
 * Enhancements
-   * When every of the automatic delimiters is exhausted (`/`, `#`, `%`, `~`, etc.), character
+   * When no automatic delimiter (`/`, `#`, `%`, `~`, etc.) is applicable, character
      `0x01` is used (provided that it's not used anywhere else in the pattern). #71
 * Features
    * Added `match()->group()->findFirst()` #22 #70
    * Added alternating groups in prepared patterns 🔥
        - `Pattern::bind()`, `Pattern::inject()` and `Pattern::prepare()` still receive `string` (as an user input),
-       but they also receive `string[]`, which will be treated as a regex alternation group:
+       but they can also receive `string[]`, which will be treated as a regex *alternation group*:
          ```php
          Pattern::bind('Choice: @values', [
              'values' => ['apple?', 'orange', 'pear']
@@ -242,7 +242,7 @@ Added in 0.9.2
     * Returning `Match` from `replace()->callback()` (instead of `Match.text()` as `string`)
     * Match `+12` is no longer considered a valid integer for `isInt()`/`toInt()`
     * Unnamed group will be represented as `null` in `Match.groupNames()`, instead of being simply ignored
-    * `helper()` method, `Pattern` and `PatternBuilder` now return interface `PatternInterface`, instead of `Pattern` class.
+    * helper `pattern()` method, `Pattern` and `PatternBuilder` now return `PatternInterface`, instead of `Pattern` class.
       `Pattern` class now only holds static utility methods, and `PatternImpl` holds the pattern implementation.
 * Maintenance
     * PhpUnit throws different exceptions because of [PHP `__toString()` exception policy change](https://wiki.php.net/rfc/tostring_exceptions).
@@ -312,6 +312,7 @@ Available in 0.9.0
     * `preg::replace()` and `preg::filter()` only consider `[]` error prone if input subject was also an empty array.
 
 [`preg_match()`]: https://www.php.net/manual/en/function.preg-match.php
+[`preg_match_all()`]: https://www.php.net/manual/en/function.preg-match-all.php
 [`preg_last_error()`]: https://www.php.net/manual/en/function.preg-last-error.php
 [`InvalidArgumentException`]: https://www.php.net/manual/en/class.invalidargumentexception.php
 [Prepared patterns]: https://t-regx.com/docs/handling-user-input
