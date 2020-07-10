@@ -14,47 +14,47 @@ interface PatternInterface
     public function test(string $subject): bool;
 
     /**
-     * {@documentary:test}
+     * {@documentary:fails}
      */
     public function fails(string $subject): bool;
 
     /**
-     * {@documentary:test}
+     * {@documentary:match}
      */
     public function match(string $subject): MatchPattern;
 
     /**
-     * {@documentary:test}
+     * {@documentary:replace}
      */
     public function replace(string $subject): ReplaceLimit;
 
     /**
-     * {@documentary:test}
+     * {@documentary:remove}
      */
     public function remove(string $subject): RemoveLimit;
 
     /**
-     * {@documentary:test}
+     * {@documentary:forArray}
      */
     public function forArray(array $haystack): ForArrayPatternImpl;
 
     /**
-     * {@documentary:test}
+     * {@documentary:split}
      */
     public function split(string $subject): array;
 
     /**
-     * {@documentary:test}
+     * {@documentary:count}
      */
     public function count(string $subject): int;
 
     /**
-     * {@documentary:test}
+     * {@documentary:valid}
      */
     public function valid(): bool;
 
     /**
-     * {@documentary:test}
+     * {@documentary:delimited}
      */
     public function delimited(): string;
 }
