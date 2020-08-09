@@ -268,6 +268,10 @@ or
 
 ![Pretty api](https://t-regx.com/img/external/readme/t-regx.png)
 
+# Sponsors
+
+[Andreas Leathley](https://github.com/iquito) - developing [SquirrelPHP](https://github.com/squirrelphp)
+
 # T-Regx is developed thanks to
 
 <a href="https://www.jetbrains.com/?from=T-Regx">
