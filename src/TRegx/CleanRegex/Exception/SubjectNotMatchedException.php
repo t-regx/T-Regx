@@ -6,6 +6,8 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupOffsetMessage
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupSubjectMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchOffsetMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstTripleSubjectMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstTupleSubjectMessage;
 use TRegx\CleanRegex\Internal\Subjectable;
 
 class SubjectNotMatchedException extends PatternException
@@ -37,6 +39,16 @@ class SubjectNotMatchedException extends PatternException
     public static function forFirstGroup(Subjectable $subjectable, $group): SubjectNotMatchedException
     {
         return self::withMessage(new FirstGroupSubjectMessage($group), $subjectable);
+    }
+
+    public static function forFirstTuple(Subjectable $subjectable, $group1, $group2): SubjectNotMatchedException
+    {
+        throw SubjectNotMatchedException::withMessage(new FirstTupleSubjectMessage($group1, $group2), $subjectable);
+    }
+
+    public static function forFirstTriple(Subjectable $subjectable, $group1, $group2, $group3): SubjectNotMatchedException
+    {
+        throw SubjectNotMatchedException::withMessage(new FirstTripleSubjectMessage($group1, $group2, $group3), $subjectable);
     }
 
     public static function withMessage(NotMatchedMessage $message, Subjectable $subjectable): SubjectNotMatchedException

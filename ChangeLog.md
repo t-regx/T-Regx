@@ -5,6 +5,9 @@ Incoming in 0.9.10
 -----------------
 * Breaking changes
     * Renamed `BacktrackLimitPregException` to `CatastrophicBacktrackingPregException`
+* Features
+    * Add `pattern()->match()->tuple()` method. #76
+    * Add `pattern()->match()->triple()` method. #76
 
 Added in 0.9.9
 --------------

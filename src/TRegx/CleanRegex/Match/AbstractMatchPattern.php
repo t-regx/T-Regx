@@ -22,6 +22,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\AsArrayStream;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
+use TRegx\CleanRegex\Internal\MatchPatternHelpers;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -36,6 +37,8 @@ use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 
 abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLimit
 {
+    use MatchPatternHelpers;
+
     /** @var Base */
     protected $base;
 
