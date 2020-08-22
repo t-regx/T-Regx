@@ -21,6 +21,8 @@ class preg
      *
      * @param-out array $matches
      *
+     * @psalm-pure Output is only dependent on input parameters values
+     *
      * @throws PregException
      */
     public static function match(string $pattern, string $subject, array &$matches = null, int $flags = 0, int $offset = 0): int
@@ -37,6 +39,8 @@ class preg
      * @return int Number of full pattern matches (which might be zero)
      *
      * @param-out array $matches
+     *
+     * @psalm-pure Output is only dependent on input parameters values
      *
      * @throws PregException
      */
@@ -62,6 +66,8 @@ class preg
      * @psalm-param T $subject
      * @psalm-return T
      *
+     * @psalm-pure Output is only dependent on input parameters values
+     *
      * @throws PregException
      */
     public static function replace($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
@@ -85,6 +91,8 @@ class preg
      * @psalm-param T $subject
      * @psalm-return T
      *
+     * @psalm-pure Output is only dependent on input parameters values
+     *
      * @throws PregException
      */
     public static function replace_callback($pattern, callable $callback, $subject, int $limit = -1, int &$count = null)
@@ -107,6 +115,8 @@ class preg
      * @template T of string|string[]
      * @psalm-param T $subject
      * @psalm-return T
+     *
+     * @psalm-pure Output is only dependent on input parameters values
      *
      * @throws PregException
      */
@@ -148,6 +158,8 @@ class preg
      * @psalm-param T $subject
      * @psalm-return T
      *
+     * @psalm-pure Output is only dependent on input parameters values
+     *
      * @throws PregException
      */
     public static function filter($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
@@ -160,6 +172,8 @@ class preg
     /**
      * Split string by a regular expression
      * @link https://php.net/manual/en/function.preg-split.php
+     *
+     * @psalm-pure Output is only dependent on input parameters values
      *
      * @return string[]|array[]
      *
@@ -176,6 +190,8 @@ class preg
      * Return array entries that match the pattern
      * @link https://php.net/manual/en/function.preg-grep.php
      *
+     * @psalm-pure Output is only dependent on input parameters values
+     *
      * @throws PregException
      */
     public static function grep(string $pattern, array $input, int $flags = 0): array
@@ -188,6 +204,9 @@ class preg
         }, new SilencedSuspectedReturnStrategy());
     }
 
+    /**
+     * @psalm-pure Output is only dependent on input parameters values
+     */
     public static function grep_keys(string $pattern, array $input, int $flags = 0): array
     {
         return \array_intersect_key($input, \array_flip(self::grep($pattern, \array_keys($input), $flags)));
@@ -196,6 +215,8 @@ class preg
     /**
      * Quote regular expression characters
      * @link https://php.net/manual/en/function.preg-quote.php
+     *
+     * @psalm-pure Output is only dependent on input parameters values
      */
     public static function quote(string $string, ?string $delimiter = null): string
     {
