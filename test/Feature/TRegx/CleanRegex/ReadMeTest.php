@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\PhpunitPolyfill;
 use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Pattern;
 use TRegx\SafeRegex\Exception\PregException;
@@ -10,6 +11,8 @@ use TRegx\SafeRegex\preg;
 
 class ReadMeTest extends TestCase
 {
+    use PhpunitPolyfill;
+
     /**
      * @test
      */
@@ -65,7 +68,7 @@ class ReadMeTest extends TestCase
 
             preg::replace_callback('/(regexp/i', $myCallback, 'I very much like regexps');
         } catch (PregException $e) {
-            $this->assertRegExp(PhpVersionDependent::getUnmatchedParenthesisMessage_ReplaceCallback(7), $e->getMessage());
+            $this->assertMatchRegularExpression(PhpVersionDependent::getUnmatchedParenthesisMessage_ReplaceCallback(7), $e->getMessage());
         }
         if (preg::match('/\s+/', $input) === false) {
             // Never happens
