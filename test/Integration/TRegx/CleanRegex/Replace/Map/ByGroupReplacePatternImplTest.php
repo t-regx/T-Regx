@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Replace\By\ByGroupReplacePattern;
 use TRegx\CleanRegex\Replace\By\ByGroupReplacePatternImpl;
 use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\By\PerformanceEmptyGroupReplace;
@@ -63,7 +64,7 @@ class ByGroupReplacePatternImplTest extends TestCase
         $byReplacePattern->orThrow(CustomSubjectException::class);
     }
 
-    public function create(string $pattern, string $subject): ByGroupReplacePatternImpl
+    public function create(string $pattern, string $subject): ByGroupReplacePattern
     {
         $internalPattern = InternalPattern::standard($pattern);
         $subjectable = new Subject($subject);
