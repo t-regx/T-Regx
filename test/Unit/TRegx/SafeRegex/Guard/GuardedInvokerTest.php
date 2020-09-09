@@ -9,7 +9,7 @@ use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Guard\GuardedInvoker;
 
-class GuardedInvocationTest extends TestCase
+class GuardedInvokerTest extends TestCase
 {
     use Warnings;
 

@@ -15,7 +15,7 @@ use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\LazyMessageThrowStrategy;
 
-class ByReplacePatternImplTest extends TestCase
+class ByGroupReplacePatternImplTest extends TestCase
 {
     /**
      * @test

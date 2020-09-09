@@ -4,7 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\PatternBuilder\builder\alternation\dupli
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
 
-class PatternTest extends TestCase
+class PatternBuilderTest extends TestCase
 {
     /**
      * @test
