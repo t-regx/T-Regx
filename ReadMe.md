@@ -13,8 +13,8 @@
 PHP regular expressions brought up to modern standards.
 
 You, choose the interface:
- - I choose to **keep PHP methods** *(but with exceptions, instead of warnings)* ([Scroll to](#safe-regexps-without-changing-your-api))
- - I choose the **modern regular expression API** ([Scroll to](#matching))
+ - I choose to **keep PHP methods** *(but with exceptions, instead of warnings)* ([Scroll to](#no-change-in-api))
+ - I choose the **modern regular expression API** ([Scroll to](#written-with-clean-api))
 
 [See documentation](https://t-regx.com/) at [t-regx.com](https://t-regx.com/).
 
@@ -50,6 +50,8 @@ composer require rawr/t-regx
 # Documentation
 
 Full API documentation is available at [t-regx.com](https://t-regx.com/).
+
+List of changes is available in [ChangeLog.md](https://github.com/T-Regx/T-Regx/blob/develop/ChangeLog.md).
 
 # Why T-Regx stands out?
 
