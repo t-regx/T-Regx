@@ -67,17 +67,18 @@ class DataProviders
     private static function typesMap(): array
     {
         return [
-            'null'     => [null, 'null'],
-            'true'     => [true, 'boolean (true)'],
-            'false'    => [false, 'boolean (false)'],
-            'int'      => [2, 'integer (2)'],
-            'float'    => [2.23, 'double (2.23)'],
-            'string'   => ["She's sexy", "string ('She\'s sexy')"],
-            'array'    => [[1, new \stdClass(), 3], 'array (3)'],
-            'resource' => [self::getResource(), 'resource'],
-            'stdClass' => [new \stdClass(), 'stdClass'],
-            'class'    => [InternalPattern::pcre('//'), InternalPattern::class],
-            'function' => [function () {
+            'null'       => [null, 'null'],
+            'true'       => [true, 'boolean (true)'],
+            'false'      => [false, 'boolean (false)'],
+            'int'        => [2, 'integer (2)'],
+            'float'      => [2.23, 'double (2.23)'],
+            'string'     => ["She's sexy", "string ('She\'s sexy')"],
+            'array'      => [[1, new \stdClass(), 3], 'array (3)'],
+            'resource'   => [self::getResource(), 'resource'],
+            'stdClass'   => [new \stdClass(), 'stdClass'],
+            '__toString' => [new ClassWithToString('string'), 'Test\ClassWithToString'],
+            'class'      => [InternalPattern::pcre('//'), InternalPattern::class],
+            'function'   => [function () {
             }, 'Closure']
         ];
     }

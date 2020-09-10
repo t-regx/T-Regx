@@ -3,6 +3,7 @@ namespace Test\Functional\TRegx\SafeRegex;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\ClassWithToString;
 use Test\Warnings;
 use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\preg;
@@ -161,6 +162,20 @@ class pregTest extends TestCase
 
         // then
         $this->assertEquals('Hello \# % there', $quoted);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReplaceWithStringObject()
+    {
+        // when
+        $result = preg::replace_callback('/valid/', function () {
+            return new ClassWithToString("replaced");
+        }, 'valid');
+
+        // then
+        $this->assertEquals("replaced", $result);
     }
 
     /**
