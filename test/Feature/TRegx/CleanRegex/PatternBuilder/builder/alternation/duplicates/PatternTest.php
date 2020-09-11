@@ -4,26 +4,8 @@ namespace Test\Feature\TRegx\CleanRegex\PatternBuilder\builder\alternation\dupli
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
 
-class PatternBuilderTest extends TestCase
+class PatternTest extends TestCase
 {
-    /**
-     * @test
-     * @dataProvider flagsAndAlternationResults
-     * @param string $flags
-     * @param string $expected
-     */
-    public function shouldBuild_prepared(string $flags, string $expected)
-    {
-        // given
-        $pattern = Pattern::prepare(['Foo', [$this->alternation()]], $flags);
-
-        // when
-        $patter = $pattern->delimited();
-
-        // then
-        $this->assertEquals("/Foo(?:$expected)/$flags", $patter);
-    }
-
     /**
      * @test
      * @dataProvider flagsAndAlternationResults

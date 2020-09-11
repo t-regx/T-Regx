@@ -9,21 +9,6 @@ class PatternBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_prepared()
-    {
-        // given
-        $pattern = PatternBuilder::builder()->pcre()->prepare(['%You/her, (are|is) ', [['Hello %5', 'Yes?:)']], ' (you|her)%']);
-
-        // when
-        $pattern = $pattern->delimited();
-
-        // then
-        $this->assertEquals('%You/her, (are|is) (?:Hello\ \%5|Yes\?\:\)) (you|her)%', $pattern);
-    }
-
-    /**
-     * @test
-     */
     public function shouldBuild_bind()
     {
         // given
