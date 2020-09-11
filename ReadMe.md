@@ -12,10 +12,6 @@
 
 PHP regular expressions brought up to modern standards.
 
-You, choose the interface:
- - I choose to **keep PHP methods** *(but with exceptions, instead of warnings)* ([Scroll to](#no-change-in-api))
- - I choose the **modern regular expression API** ([Scroll to](#written-with-clean-api))
-
 [See documentation](https://t-regx.com/) at [t-regx.com](https://t-regx.com/).
 
 [![last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
@@ -33,11 +29,13 @@ You, choose the interface:
 
 1. [Installation](#installation)
     * [Composer](#installation)
-2. [Documentation](#documentation)
-3. [Overview](#why-t-regx-stands-out)
-4. [Supported PHP versions](#supported-php-versions)
-5. [Comparison](#whats-better)
-6. [License](#license)
+2. [API](#api)
+3. [Documentation](#documentation)
+4. [T-Regx fiddle - Try online](#try-it-online-in-your-browser)
+5. [Overview](#why-t-regx-stands-out)
+6. [Supported PHP versions](#supported-php-versions)
+7. [Comparison](#whats-better)
+8. [License](#license)
 
 # Installation
 
@@ -47,11 +45,23 @@ Installation for PHP 7.1 and later:
 composer require rawr/t-regx
 ```
 
+# API
+
+You, choose the interface:
+ - I choose to **keep PHP methods** *(but protected from errors)*:
+
+   [Scroll to see](#no-change-in-api) - `preg::match_all()`, `preg::replace_callback()`, `preg::split()`
+ - I choose the **modern regex API**:
+
+   [Scroll to see](#written-with-clean-api) - `pattern()->test()`, `pattern()->match()`, `pattern()->replace()`
+
 # Documentation
 
-Full API documentation is available at [t-regx.com](https://t-regx.com/).
+Full API documentation is available at [t-regx.com](https://t-regx.com/). List of changes is available in [ChangeLog.md](https://github.com/T-Regx/T-Regx/blob/develop/ChangeLog.md).
 
-List of changes is available in [ChangeLog.md](https://github.com/T-Regx/T-Regx/blob/develop/ChangeLog.md).
+# Try it online, in your browser!
+
+Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing around.
 
 # Why T-Regx stands out?
 
@@ -91,6 +101,12 @@ List of changes is available in [ChangeLog.md](https://github.com/T-Regx/T-Regx/
 * ### Protects your from fatal errors
    Certain arguments cause fatal errors with `preg_()` methods. T-Regx will throw a catchable 
    exception, instead of a Fatal Error.
+
+* ### Prepared patterns
+
+   Using user data (for example with `preg_quote()`) isn't always safe with PCRE, as well as just not
+   being that convenient to use. T-Regx provides `Pattern::inject()` and `Pattern::bind()` methods,
+   designed specifically for handling potentially unsafe data.
 
 # Supported PHP versions
 
