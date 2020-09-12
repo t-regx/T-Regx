@@ -109,7 +109,7 @@ class ReplacePatternTest extends TestCase
     public function shouldReturn_nonReplacedStrategy()
     {
         // when
-        $result = pattern('Foo')->replace('Bar')->all()->returningOtherwise('otherwise')->with('');
+        $result = pattern('Foo')->replace('Bar')->all()->otherwiseReturning('otherwise')->with('');
 
         // then
         $this->assertEquals('otherwise', $result);

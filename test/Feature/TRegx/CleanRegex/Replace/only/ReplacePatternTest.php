@@ -114,7 +114,7 @@ class ReplacePatternTest extends TestCase
     public function shouldReturn_substitute()
     {
         // when
-        $result = pattern('Foo')->replace('Bar')->only(2)->returningOtherwise('otherwise')->with('');
+        $result = pattern('Foo')->replace('Bar')->only(2)->otherwiseReturning('otherwise')->with('');
 
         // then
         $this->assertEquals('otherwise', $result);

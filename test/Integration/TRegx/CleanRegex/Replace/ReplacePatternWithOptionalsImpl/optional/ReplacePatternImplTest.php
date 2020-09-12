@@ -2,6 +2,7 @@
 namespace Test\Integration\TRegx\CleanRegex\Replace\ReplacePatternWithOptionalsImplTest\optional;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NotReplacedException;
@@ -45,15 +46,16 @@ class ReplacePatternImplTest extends TestCase
     function methodsAndStrategies(): array
     {
         return [
-            ['returningOtherwise', ['arg'], new ConstantResultStrategy('arg')],
-            ['throwingOtherwise', [], new CustomThrowStrategy(NotReplacedException::class, new NonReplacedMessage())],
-            ['throwingOtherwise', [InvalidArgumentException::class], new CustomThrowStrategy(InvalidArgumentException::class, new NonReplacedMessage())],
+            ['otherwiseReturning', ['arg'], new ConstantResultStrategy('arg')],
+            ['otherwiseThrowing', [], new CustomThrowStrategy(NotReplacedException::class, new NonReplacedMessage())],
+            ['otherwiseThrowing', [InvalidArgumentException::class], new CustomThrowStrategy(InvalidArgumentException::class, new NonReplacedMessage())],
             ['otherwise', [Functions::any()], new ComputedSubjectStrategy(Functions::any())],
         ];
     }
 
     public function mock(string $result = null): SpecificReplacePattern
     {
+        /** @var SpecificReplacePattern|MockObject $delegate */
         $delegate = $this->createMock(SpecificReplacePattern::class);
         $delegate->method('with')->willReturn($result ?? '');
         return $delegate;
@@ -61,6 +63,7 @@ class ReplacePatternImplTest extends TestCase
 
     private function mockFactory(InternalPattern $pattern, ReplaceSubstitute $substitute, $instance): ReplacePatternFactory
     {
+        /** @var ReplacePatternFactory|MockObject $factory */
         $factory = $this->createMock(ReplacePatternFactory::class);
         $factory->expects($this->once())->method('create')->with($pattern, 'subject', 0, $substitute)->willReturn($instance);
         return $factory;

@@ -5,7 +5,10 @@ Incoming in 0.9.10
 -----------------
 * Breaking changes
     * Renamed `BacktrackLimitPregException` to `CatastrophicBacktrackingPregException`
-    * Removed `Pattern::prepare()` and `PatternBuilder::prepare()`
+    * Removed `Pattern::prepare()`
+    * Removed `PatternBuilder::prepare()`
+    * Renamed `throwingOtherwise()` to `otherwiseThrowing()`
+    * Renamed `returningOtherwise()` to `otherwiseReturning()`
 * Features
     * Add `pattern()->match()->tuple()` method. #76
     * Add `pattern()->match()->triple()` method. #76

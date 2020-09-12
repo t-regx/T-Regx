@@ -57,12 +57,12 @@ class ReplacePatternImpl implements ReplacePattern
         return $this->replacePattern->by();
     }
 
-    public function throwingOtherwise(string $exceptionClassName = NotReplacedException::class): SpecificReplacePattern
+    public function otherwiseThrowing(string $exceptionClassName = NotReplacedException::class): SpecificReplacePattern
     {
         return $this->replacePattern(new CustomThrowStrategy($exceptionClassName, new NonReplacedMessage()));
     }
 
-    public function returningOtherwise($substitute): SpecificReplacePattern
+    public function otherwiseReturning($substitute): SpecificReplacePattern
     {
         return $this->replacePattern(new ConstantResultStrategy($substitute));
     }
