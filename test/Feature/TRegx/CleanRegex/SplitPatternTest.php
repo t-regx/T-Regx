@@ -16,4 +16,16 @@ class SplitPatternTest extends TestCase
         // then
         $this->assertEquals(['Foo', 'Bar', 'Cat'], $matches);
     }
+
+    /**
+     * @test
+     */
+    public function testDelimiter()
+    {
+        // when
+        $matches = pattern('(,)')->split('Foo,Bar,Cat');
+
+        // then
+        $this->assertEquals(['Foo', ',', 'Bar', ',', 'Cat'], $matches);
+    }
 }
