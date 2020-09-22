@@ -80,6 +80,7 @@ Added in 0.9.6
     * `pattern()->match()->fluent()->distinct()` will no longer re-index elements (will not remove keys).
       - To re-index keys, use `distinct()->values()`.
       - `pattern()->match()->distinct()` still re-indexes keys.
+    * Rename `NoFirstElementFluentException` to `NoSuchElementFluentException`
 * Enhancements 🔥
     * Every `match()->...()->first()` method calls `preg_match()`, instead of `preg_match_all()`. More below.
 * Features
