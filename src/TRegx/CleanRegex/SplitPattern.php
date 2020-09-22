@@ -22,6 +22,6 @@ class SplitPattern
      */
     public function split(): array
     {
-        return preg::split($this->pattern->pattern, $this->subject, -1, PREG_SPLIT_DELIM_CAPTURE);
+        return preg::split($this->pattern->pattern, $this->subject, -1, \PREG_SPLIT_DELIM_CAPTURE);
     }
 }

@@ -24,7 +24,7 @@ class RuntimeError implements HostError
 
     public function occurred(): bool
     {
-        return $this->pregError !== PREG_NO_ERROR;
+        return $this->pregError !== \PREG_NO_ERROR;
     }
 
     public function clear(): void

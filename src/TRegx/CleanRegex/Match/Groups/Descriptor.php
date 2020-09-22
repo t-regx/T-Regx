@@ -26,7 +26,7 @@ class Descriptor
 
     private function getMatches(): array
     {
-        preg::match_all($this->pattern->pattern, '', $matches, PREG_PATTERN_ORDER);
+        preg::match_all($this->pattern->pattern, '', $matches, \PREG_PATTERN_ORDER);
         return $matches;
     }
 }

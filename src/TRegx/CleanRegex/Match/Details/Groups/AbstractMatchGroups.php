@@ -53,7 +53,7 @@ abstract class AbstractMatchGroups implements MatchGroups
 
     private function filterValues(array $values): array
     {
-        return \array_filter($values, [$this, 'validateAndFilterGroupKey'], ARRAY_FILTER_USE_BOTH);
+        return \array_filter($values, [$this, 'validateAndFilterGroupKey'], \ARRAY_FILTER_USE_BOTH);
     }
 
     private function validateAndFilterGroupKey($value, $key): bool

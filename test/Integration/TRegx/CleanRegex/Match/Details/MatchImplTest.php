@@ -377,7 +377,7 @@ class MatchImplTest extends TestCase
     private function getMatch(int $index): Match
     {
         $pattern = '/(?<firstName>(?<initial>\p{Lu})[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/u';
-        preg::match_all($pattern, self::subject, $matches, PREG_OFFSET_CAPTURE);
+        preg::match_all($pattern, self::subject, $matches, \PREG_OFFSET_CAPTURE);
 
         $rawMatches = new RawMatchesOffset($matches);
         return new MatchImpl(

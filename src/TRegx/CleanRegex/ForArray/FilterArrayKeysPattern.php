@@ -28,7 +28,7 @@ class FilterArrayKeysPattern
     {
         return array_filter($this->array, function ($key) {
             return preg::match($this->pattern->pattern, $key) === 1;
-        }, ARRAY_FILTER_USE_KEY);
+        }, \ARRAY_FILTER_USE_KEY);
     }
 
     public function strategy_PregGrep_ArrayIntersect(): array

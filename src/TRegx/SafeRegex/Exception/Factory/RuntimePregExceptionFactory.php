@@ -44,11 +44,11 @@ class RuntimePregExceptionFactory
     private function className(): string
     {
         $classes = [
-            PREG_BAD_UTF8_ERROR        => SubjectEncodingPregException::class,
-            PREG_BAD_UTF8_OFFSET_ERROR => Utf8OffsetPregException::class,
-            PREG_BACKTRACK_LIMIT_ERROR => CatastrophicBacktrackingPregException::class,
-            PREG_RECURSION_LIMIT_ERROR => RecursionLimitPregException::class,
-            PREG_JIT_STACKLIMIT_ERROR  => JitStackLimitPregException::class
+            \PREG_BAD_UTF8_ERROR        => SubjectEncodingPregException::class,
+            \PREG_BAD_UTF8_OFFSET_ERROR => Utf8OffsetPregException::class,
+            \PREG_BACKTRACK_LIMIT_ERROR => CatastrophicBacktrackingPregException::class,
+            \PREG_RECURSION_LIMIT_ERROR => RecursionLimitPregException::class,
+            \PREG_JIT_STACKLIMIT_ERROR  => JitStackLimitPregException::class
         ];
         return $classes[$this->errorCode] ?? RuntimePregException::class;
     }

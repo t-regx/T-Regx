@@ -44,7 +44,7 @@ class ApiBase implements Base
 
     public function matchOffset(): RawMatchOffset
     {
-        preg::match($this->pattern->pattern, $this->subject, $match, PREG_OFFSET_CAPTURE);
+        preg::match($this->pattern->pattern, $this->subject, $match, \PREG_OFFSET_CAPTURE);
         return new RawMatchOffset($match);
     }
 
@@ -63,9 +63,9 @@ class ApiBase implements Base
     private function matchAllOffsetsFlags(): int
     {
         if (defined('PREG_UNMATCHED_AS_NULL')) {
-            return PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL;
+            return \PREG_OFFSET_CAPTURE | \PREG_UNMATCHED_AS_NULL;
         }
-        return PREG_OFFSET_CAPTURE;
+        return \PREG_OFFSET_CAPTURE;
     }
 
     public function getUserData(): UserData
