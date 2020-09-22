@@ -168,14 +168,14 @@ Added in 0.9.4
 --------------
 
 * Breaking changes
-   * Renamed `CleanRegexExceptions` to `PatternException`
-   * Moved `RegexExceptions` to  `/TRegx` from `/TRegx/CleanRegex/Exception`
+   * Renamed `CleanRegexException` to `PatternException`
+   * Moved `RegexException` to  `/TRegx` from `/TRegx/CleanRegex/Exception`
    * Simplified namespace of public exceptions:
      - From `TRegx/CleanRegex/Exception/CleanRegex` to `TRegx/CleanRegex/Exception`
 * Enhancements
    * Updated the hierarchy of public exceptions:
-     - `RegexExceptions`
-       - `PregException` (extends `RegexExceptions`, instead of `\Exception`)
+     - `RegexException`
+       - `PregException` (extends `RegexException`, instead of `\Exception`)
        - `PatternException`
          - `IntegerFormatException` (extends `PatternException`, instead of `\Exception`)
          - `NoFirstElementFluentException` (extends `PatternException`, instead of `\Exception`)
