@@ -1,8 +1,13 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.9.10
------------------
+Incoming in 0.9.11
+------------------
+
+Soon
+
+Added in 0.9.10
+---------------
 * Breaking changes
     * Renamed `BacktrackLimitPregException` to `CatastrophicBacktrackingPregException`
     * Removed `Pattern::prepare()`
