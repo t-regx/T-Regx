@@ -11,23 +11,17 @@ class SecondLevelFluentOptionalWorker extends FluentOptionalWorker
 {
     /** @var NotMatchedMessage */
     private $message;
-    /** @var string|null */
-    private $subject;
 
     public function __construct(NotMatchedMessage $message)
     {
         parent::__construct($message, '');
         $this->message = $message;
-        $this->subject = null;
     }
 
     public function orThrow(string $exceptionClassName): Throwable
     {
         $factory = new SignatureExceptionFactory($exceptionClassName, $this->message);
-        if ($this->subject === null) {
-            return $factory->createWithoutSubject();
-        }
-        return $factory->create($this->subject);
+        return $factory->createWithoutSubject();
     }
 
     public function orElse(callable $producer)
