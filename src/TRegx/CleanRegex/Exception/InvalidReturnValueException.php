@@ -30,4 +30,9 @@ class InvalidReturnValueException extends PatternException
     {
         return new self($value, 'groupByCallback', 'int|string');
     }
+
+    public static function forOtherwise($value): self
+    {
+        return new self($value, 'otherwise', 'string');
+    }
 }

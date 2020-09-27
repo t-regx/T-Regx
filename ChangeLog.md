@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming in 0.9.11
 ------------------
 
-Soon
+* Breaking changes
+    * Returning `null` from `replace()->otherwise()` throws `InvalidReturnValueException`.
 
 Added in 0.9.10
 ---------------

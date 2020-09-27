@@ -5,9 +5,9 @@ use TRegx\CleanRegex\Exception\NotReplacedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
-use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\OtherwiseStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
 use TRegx\CleanRegex\Replace\NonReplaced\SubjectRs;
 
@@ -69,7 +69,7 @@ class ReplacePatternImpl implements ReplacePattern
 
     public function otherwise(callable $substituteProducer): SpecificReplacePattern
     {
-        return $this->replacePattern(new ComputedSubjectStrategy($substituteProducer));
+        return $this->replacePattern(new OtherwiseStrategy($substituteProducer));
     }
 
     private function replacePattern(SubjectRs $substitute): SpecificReplacePattern

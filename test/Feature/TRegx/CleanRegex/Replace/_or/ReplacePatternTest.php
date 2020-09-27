@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\_or;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 
 class ReplacePatternTest extends TestCase
 {
@@ -48,6 +49,26 @@ class ReplacePatternTest extends TestCase
 
         // then
         $this->assertEquals('otherwise', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_with_orElse_returnNull()
+    {
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid otherwise() callback return type. Expected string, but null given');
+
+        // when
+        pattern('Foo')
+            ->replace('Bar')
+            ->first()
+            ->otherwise(function (string $subject) {
+                $this->assertEquals('Bar', $subject);
+                return null;
+            })
+            ->with('');
     }
 
     /**
