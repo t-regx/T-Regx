@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\LazyMatchImpl;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -65,6 +66,32 @@ class ReplacePatternTest extends TestCase
                 $this->assertEquals(1, $match->index());
                 $this->assertEquals(-1, $match->limit());
                 $this->assertEquals('15cm 14 16cm', $match->subject());
+
+                // clean up
+                return 'else';
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_orElse_returnNull()
+    {
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid orElse() callback return type. Expected string, but null given');
+
+        // when
+        pattern('(?<value>\d+)(?<unit>cm)?')
+            ->replace('15cm 14 16cm')
+            ->all()
+            ->by()
+            ->group('unit')
+            ->orElse(function (LazyMatchImpl $match) {
+                $this->assertEquals('14', $match->text());
+
+                // when
+                return null;
             });
     }
 

@@ -5,7 +5,9 @@ Incoming in 0.9.11
 ------------------
 
 * Breaking changes
+    * Returning `null` from `replace()->callback()` throws `InvalidReturnValueException`.
     * Returning `null` from `replace()->otherwise()` throws `InvalidReturnValueException`.
+    * Returning `null` from `replace()->by()->group()->orElse()` throws `InvalidReturnValueException`.
 
 Added in 0.9.10
 ---------------

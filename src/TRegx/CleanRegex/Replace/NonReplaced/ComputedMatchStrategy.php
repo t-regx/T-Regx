@@ -13,7 +13,7 @@ class ComputedMatchStrategy implements MatchRs
         $this->mapper = $mapper;
     }
 
-    public function substituteGroup(Match $match): ?string
+    public function substituteGroup(Match $match): string
     {
         return \call_user_func($this->mapper, $match);
     }
