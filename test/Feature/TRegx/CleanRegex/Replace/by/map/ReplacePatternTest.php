@@ -98,7 +98,7 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Invalid replacement map key. Expected string, but integer (2) given");
 
         // when
-        pattern('(one|two)')->replace('')->first()->by()->map($map)->orThrow();
+        pattern('(one|two)')->replace('')->first()->by()->map($map);
     }
 
     /**
@@ -114,6 +114,6 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Invalid replacement map value. Expected string, but boolean (true) given");
 
         // when
-        pattern('(one|two)')->replace('')->first()->by()->map($map)->orThrow();
+        pattern('(one|two)')->replace('')->first()->by()->map($map);
     }
 }

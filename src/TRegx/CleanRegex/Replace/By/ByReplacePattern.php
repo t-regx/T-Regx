@@ -14,7 +14,7 @@ interface ByReplacePattern
 
     /**
      * @param string[] $occurrencesAndReplacements
-     * @return OptionalStrategySelector
+     * @return string
      * @throws \InvalidArgumentException
      * @throws MissingReplacementKeyException
      */
@@ -22,7 +22,7 @@ interface ByReplacePattern
 
     /**
      * @param string[] $occurrencesAndReplacements
-     * @return OptionalStrategySelector
+     * @return string
      * @throws \InvalidArgumentException
      */
     public function mapIfExists(array $occurrencesAndReplacements): string;
