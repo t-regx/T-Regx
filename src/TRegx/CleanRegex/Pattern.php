@@ -2,12 +2,13 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\SafeRegex\preg;
 
 class Pattern
 {
     public static function quote(string $pattern): string
     {
-        return (new QuotePattern($pattern))->quote();
+        return preg::quote($pattern);
     }
 
     public static function unquote(string $pattern): string
