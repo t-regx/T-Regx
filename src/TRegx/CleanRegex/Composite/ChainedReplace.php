@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
+use TRegx\CleanRegex\Replace\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Replace\ReplaceReferences;
 use TRegx\SafeRegex\preg;
 
@@ -15,14 +15,14 @@ class ChainedReplace
     private $patterns;
     /** @var string */
     private $subject;
-    /** @var ReplaceSubstitute */
+    /** @var SubjectRs */
     private $substitute;
 
-    public function __construct(array $patterns, string $subject, ReplaceSubstitute $replaceSubstitute)
+    public function __construct(array $patterns, string $subject, SubjectRs $substitute)
     {
         $this->patterns = $patterns;
         $this->subject = $subject;
-        $this->substitute = $replaceSubstitute;
+        $this->substitute = $substitute;
     }
 
     public function with(string $replacement): string

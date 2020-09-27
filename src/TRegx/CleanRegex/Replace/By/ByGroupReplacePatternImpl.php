@@ -12,12 +12,12 @@ use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\MapGroupMapperDecorator;
 use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
-use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ComputedMatchStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\LazyMessageThrowStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
+use TRegx\CleanRegex\Replace\NonReplaced\MatchRs;
 
 class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 {
@@ -77,7 +77,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 
     public function orReturn($substitute): string
     {
-        return $this->replaceGroupOptional(new ConstantResultStrategy($substitute));
+        return $this->replaceGroupOptional(new ConstantReturnStrategy($substitute));
     }
 
     public function orIgnore(): string
@@ -90,15 +90,15 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         if (\is_int($this->nameOrIndex)) {
             return $this->performanceReplace->replaceWithGroupOrEmpty($this->nameOrIndex);
         }
-        return $this->replaceGroupOptional(new ConstantResultStrategy(''));
+        return $this->replaceGroupOptional(new ConstantReturnStrategy(''));
     }
 
     public function orElse(callable $substituteProducer): string
     {
-        return $this->replaceGroupOptional(new ComputedSubjectStrategy($substituteProducer));
+        return $this->replaceGroupOptional(new ComputedMatchStrategy($substituteProducer));
     }
 
-    private function replaceGroupOptional(ReplaceSubstitute $substitute): string
+    private function replaceGroupOptional(MatchRs $substitute): string
     {
         if ($this->nameOrIndex === 0) {
             // @codeCoverageIgnoreStart

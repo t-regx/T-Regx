@@ -1,7 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Replace\NonReplaced;
 
-class ComputedSubjectStrategy implements SubjectRs
+use TRegx\CleanRegex\Match\Details\Match;
+
+class ComputedMatchStrategy implements MatchRs
 {
     /** @var callable */
     private $mapper;
@@ -11,8 +13,8 @@ class ComputedSubjectStrategy implements SubjectRs
         $this->mapper = $mapper;
     }
 
-    public function substitute(string $subject): ?string
+    public function substituteGroup(Match $match): ?string
     {
-        return \call_user_func($this->mapper, $subject);
+        return \call_user_func($this->mapper, $match);
     }
 }

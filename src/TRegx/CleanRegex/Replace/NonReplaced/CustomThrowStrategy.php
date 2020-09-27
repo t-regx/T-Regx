@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Match\Details\Match;
 
-class CustomThrowStrategy implements ReplaceSubstitute
+class CustomThrowStrategy implements SubjectRs, MatchRs
 {
     /** @var string */
     private $className;
@@ -18,20 +18,18 @@ class CustomThrowStrategy implements ReplaceSubstitute
         $this->message = $message;
     }
 
-    public function substitute(string $subject): ?string
+    public function substitute(string $subject): string
     {
-        throw (new SignatureExceptionFactory($this->className, $this->message))
-            ->create($subject);
+        return $this->throwWithSubject($subject);
     }
 
-    public function substituteGroup(Match $match): ?string
+    public function substituteGroup(Match $match): string
     {
-        return $this->substitute($match->subject());
+        return $this->throwWithSubject($match->subject());
     }
 
-    // @codeCoverageIgnoreStart
-    public function useExceptionMessage(NotMatchedMessage $message): void
+    private function throwWithSubject(string $subject): string
     {
+        throw (new SignatureExceptionFactory($this->className, $this->message))->create($subject);
     }
-    // @codeCoverageIgnoreEnd
 }

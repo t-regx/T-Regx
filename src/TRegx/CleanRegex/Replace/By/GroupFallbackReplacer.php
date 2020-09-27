@@ -8,7 +8,8 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\LazyMatchImpl;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
+use TRegx\CleanRegex\Replace\NonReplaced\MatchRs;
+use TRegx\CleanRegex\Replace\NonReplaced\SubjectRs;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
 
@@ -20,14 +21,14 @@ class GroupFallbackReplacer
     private $subject;
     /** @var int */
     private $limit;
-    /** @var ReplaceSubstitute */
+    /** @var SubjectRs */
     private $substitute;
     /** @var Base */
     private $base;
     /** @var int */
     private $counter = -1;
 
-    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, ReplaceSubstitute $substitute, Base $base)
+    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, SubjectRs $substitute, Base $base)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
@@ -36,7 +37,7 @@ class GroupFallbackReplacer
         $this->base = $base;
     }
 
-    public function replaceOrFallback($nameOrIndex, GroupMapper $mapper, ReplaceSubstitute $substitute): string
+    public function replaceOrFallback($nameOrIndex, GroupMapper $mapper, MatchRs $substitute): string
     {
         $this->counter = -1;
         return $this->replaceUsingCallback(function (array $match) use ($nameOrIndex, $mapper, $substitute) {
@@ -75,11 +76,13 @@ class GroupFallbackReplacer
         }
     }
 
-    private function getReplacementOrHandle(array $match, $nameOrIndex, GroupMapper $mapper, ReplaceSubstitute $substitute): string
+    private function getReplacementOrHandle(array $match, $nameOrIndex, GroupMapper $mapper, MatchRs $substitute): string
     {
         $occurrence = $this->occurrence($match, $nameOrIndex);
-        if ($occurrence === null) {
-            return $substitute->substituteGroup(new LazyMatchImpl($this->base, $this->counter, $this->limit)) ?? $match[0];
+        if ($occurrence === null) { // here "null" means group was not matched
+            $replacement = $substitute->substituteGroup(new LazyMatchImpl($this->base, $this->counter, $this->limit));
+            // here "null" means "no replacement provided, ignore me, use the full match"
+            return $replacement ?? $match[0];
         }
         $mapper->useExceptionValues($occurrence, $nameOrIndex, $match[0]);
         return $mapper->map($occurrence) ?? $match[0];

@@ -15,7 +15,7 @@ use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
-use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 
@@ -88,7 +88,7 @@ class GroupFallbackReplacerTest extends TestCase
         $fallbackReplacer = $this->create('\[(\w+)?\]', '[two] [] [four]');
 
         // when
-        $result = $fallbackReplacer->replaceOrFallback(1, new NoReplacementMapper(), new ConstantResultStrategy('fallback'));
+        $result = $fallbackReplacer->replaceOrFallback(1, new NoReplacementMapper(), new ConstantReturnStrategy('fallback'));
 
         // then
         $this->assertEquals('[two] fallback [four]', $result);
@@ -171,7 +171,7 @@ class GroupFallbackReplacerTest extends TestCase
             InternalPattern::standard($pattern),
             new Subject($subject),
             -1,
-            new ConstantResultStrategy('Subject not matched'),
+            new ConstantReturnStrategy('Subject not matched'),
             new ApiBase(InternalPattern::standard($pattern), $subject, new UserData())
         );
     }

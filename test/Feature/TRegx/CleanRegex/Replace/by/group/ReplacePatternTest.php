@@ -92,7 +92,7 @@ class ReplacePatternTest extends TestCase
             ->addSection('name', 1)
             ->addJoinedSection(
                 ['orReturn', ['default'], 'Links: default,default.'],
-                ['orElse', [function (Match $notMatched) {
+                ['orElse', [function (Match $whenGroupWasNotMatched) {
                     return 'else';
                 }], 'Links: else,else.'],
                 ['orIgnore', [], 'Links: https://.com,http://.com.'],

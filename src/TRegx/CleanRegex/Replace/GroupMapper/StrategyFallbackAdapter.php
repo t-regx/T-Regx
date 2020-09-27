@@ -3,18 +3,18 @@ namespace TRegx\CleanRegex\Replace\GroupMapper;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForMatchMessage;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
+use TRegx\CleanRegex\Replace\NonReplaced\LazySubjectRs;
 
 class StrategyFallbackAdapter implements GroupMapper
 {
     /** @var GroupMapper */
     private $mapper;
-    /** @var ReplaceSubstitute */
+    /** @var LazySubjectRs */
     private $substitute;
     /** @var string */
     private $subject;
 
-    public function __construct(GroupMapper $mapper, ReplaceSubstitute $substitute, string $subject)
+    public function __construct(GroupMapper $mapper, LazySubjectRs $substitute, string $subject)
     {
         $this->mapper = $mapper;
         $this->substitute = $substitute;

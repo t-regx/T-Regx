@@ -9,10 +9,10 @@ use TRegx\CleanRegex\Exception\NotReplacedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
+use TRegx\CleanRegex\Replace\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 
@@ -23,9 +23,9 @@ class ReplacePatternImplTest extends TestCase
      * @dataProvider methodsAndStrategies
      * @param string $method
      * @param array $arguments
-     * @param ReplaceSubstitute $substitute
+     * @param SubjectRs $substitute
      */
-    public function notReplaced_orThrow(string $method, array $arguments, ReplaceSubstitute $substitute)
+    public function notReplaced_orThrow(string $method, array $arguments, SubjectRs $substitute)
     {
         // given
         $instance = $this->mock();
@@ -46,7 +46,7 @@ class ReplacePatternImplTest extends TestCase
     function methodsAndStrategies(): array
     {
         return [
-            ['otherwiseReturning', ['arg'], new ConstantResultStrategy('arg')],
+            ['otherwiseReturning', ['arg'], new ConstantReturnStrategy('arg')],
             ['otherwiseThrowing', [], new CustomThrowStrategy(NotReplacedException::class, new NonReplacedMessage())],
             ['otherwiseThrowing', [InvalidArgumentException::class], new CustomThrowStrategy(InvalidArgumentException::class, new NonReplacedMessage())],
             ['otherwise', [Functions::any()], new ComputedSubjectStrategy(Functions::any())],
@@ -61,7 +61,7 @@ class ReplacePatternImplTest extends TestCase
         return $delegate;
     }
 
-    private function mockFactory(InternalPattern $pattern, ReplaceSubstitute $substitute, $instance): ReplacePatternFactory
+    private function mockFactory(InternalPattern $pattern, SubjectRs $substitute, $instance): ReplacePatternFactory
     {
         /** @var ReplacePatternFactory|MockObject $factory */
         $factory = $this->createMock(ReplacePatternFactory::class);

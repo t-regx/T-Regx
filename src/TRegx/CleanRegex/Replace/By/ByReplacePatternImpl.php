@@ -6,14 +6,13 @@ use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\LazyMessageThrowStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
+use TRegx\CleanRegex\Replace\NonReplaced\LazySubjectRs;
 
 class ByReplacePatternImpl implements ByReplacePattern
 {
     /** @var GroupFallbackReplacer */
     private $fallbackReplacer;
-    /** @var ReplaceSubstitute */
+    /** @var LazySubjectRs */
     private $substitute;
     /** @var string */
     private $subject;
@@ -23,7 +22,7 @@ class ByReplacePatternImpl implements ByReplacePattern
     private $replaceCallbackInvoker;
 
     public function __construct(GroupFallbackReplacer $fallbackReplacer,
-                                ReplaceSubstitute $substitute,
+                                LazySubjectRs $substitute,
                                 PerformanceEmptyGroupReplace $performanceReplace,
                                 ReplacePatternCallbackInvoker $replaceCallbackInvoker,
                                 string $subject)
@@ -56,11 +55,11 @@ class ByReplacePatternImpl implements ByReplacePattern
         return $this->replace($map, new DefaultStrategy());
     }
 
-    private function replace(array $map, ReplaceSubstitute $substitute): string
+    private function replace(array $map, LazySubjectRs $substitute): string
     {
         return $this->fallbackReplacer->replaceOrFallback(
             0,
             new StrategyFallbackAdapter(new DictionaryMapper($map), $substitute, $this->subject),
-            LazyMessageThrowStrategy::internalException());
+            new ThrowMatchRs()); // ThrowMatchRs, because impossible for group 0 not to be matched
     }
 }

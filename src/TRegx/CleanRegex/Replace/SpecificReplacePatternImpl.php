@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\NonReplaced\LazyMessageThrowStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
+use TRegx\CleanRegex\Replace\NonReplaced\SubjectRs;
 use TRegx\SafeRegex\preg;
 
 class SpecificReplacePatternImpl implements SpecificReplacePattern, Subjectable
@@ -27,10 +27,10 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, Subjectable
     /** @var int */
     private $limit;
 
-    /** @var ReplaceSubstitute */
+    /** @var SubjectRs */
     private $substitute;
 
-    public function __construct(Pattern $pattern, string $subject, int $limit, ReplaceSubstitute $substitute)
+    public function __construct(Pattern $pattern, string $subject, int $limit, SubjectRs $substitute)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;

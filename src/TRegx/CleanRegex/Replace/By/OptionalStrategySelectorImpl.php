@@ -4,10 +4,10 @@ namespace TRegx\CleanRegex\Replace\By;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
-use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ComputedMatchStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
+use TRegx\CleanRegex\Replace\NonReplaced\MatchRs;
 
 class OptionalStrategySelectorImpl implements OptionalStrategySelector
 {
@@ -27,12 +27,12 @@ class OptionalStrategySelectorImpl implements OptionalStrategySelector
 
     public function orReturn($substitute): string
     {
-        return $this->replace(new ConstantResultStrategy($substitute));
+        return $this->replace(new ConstantReturnStrategy($substitute));
     }
 
     public function orElse(callable $substituteProducer): string
     {
-        return $this->replace(new ComputedSubjectStrategy($substituteProducer));
+        return $this->replace(new ComputedMatchStrategy($substituteProducer));
     }
 
     public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string
@@ -40,7 +40,7 @@ class OptionalStrategySelectorImpl implements OptionalStrategySelector
         return $this->replace(new CustomThrowStrategy($exceptionClassName, new ReplacementWithUnmatchedGroupMessage($this->nameOrIndex)));
     }
 
-    public function replace(ReplaceSubstitute $substitute): string
+    public function replace(MatchRs $substitute): string
     {
         return $this->replacer->replaceOrFallback($this->nameOrIndex, $this->mapper, $substitute);
     }

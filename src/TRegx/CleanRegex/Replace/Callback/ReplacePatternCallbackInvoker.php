@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Replace\Callback;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
+use TRegx\CleanRegex\Replace\NonReplaced\SubjectRs;
 use TRegx\SafeRegex\preg;
 
 class ReplacePatternCallbackInvoker
@@ -15,10 +15,10 @@ class ReplacePatternCallbackInvoker
     private $subject;
     /** @var int */
     private $limit;
-    /** @var ReplaceSubstitute */
+    /** @var SubjectRs */
     private $substitute;
 
-    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, ReplaceSubstitute $substitute)
+    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, SubjectRs $substitute)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;

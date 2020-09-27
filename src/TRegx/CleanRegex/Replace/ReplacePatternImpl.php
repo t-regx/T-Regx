@@ -6,10 +6,10 @@ use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedSubjectStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ConstantResultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplaceSubstitute;
+use TRegx\CleanRegex\Replace\NonReplaced\SubjectRs;
 
 class ReplacePatternImpl implements ReplacePattern
 {
@@ -64,7 +64,7 @@ class ReplacePatternImpl implements ReplacePattern
 
     public function otherwiseReturning($substitute): SpecificReplacePattern
     {
-        return $this->replacePattern(new ConstantResultStrategy($substitute));
+        return $this->replacePattern(new ConstantReturnStrategy($substitute));
     }
 
     public function otherwise(callable $substituteProducer): SpecificReplacePattern
@@ -72,7 +72,7 @@ class ReplacePatternImpl implements ReplacePattern
         return $this->replacePattern(new ComputedSubjectStrategy($substituteProducer));
     }
 
-    private function replacePattern(ReplaceSubstitute $substitute): SpecificReplacePattern
+    private function replacePattern(SubjectRs $substitute): SpecificReplacePattern
     {
         return $this->replacePatternFactory->create($this->pattern, $this->subject, $this->limit, $substitute);
     }
