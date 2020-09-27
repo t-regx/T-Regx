@@ -1,10 +1,9 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\by\group\map;
+namespace Test\Feature\TRegx\CleanRegex\Replace\by\group\mapIfExists;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Match;
 
@@ -30,7 +29,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('capital')
-            ->map($map)
+            ->mapIfExists($map)
             ->$method(...$arguments);
 
         // then
@@ -65,7 +64,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group($groupName)
-            ->map([])
+            ->mapIfExists([])
             ->orReturn('failing');
     }
 
@@ -84,7 +83,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('missing')
-            ->map([])
+            ->mapIfExists([])
             ->orReturn('failing');
     }
 
@@ -103,7 +102,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('bar')
-            ->map(['' => 'failure'])
+            ->mapIfExists(['' => 'failure'])
             ->orThrow();
     }
 
@@ -122,7 +121,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('bar')
-            ->map([
+            ->mapIfExists([
                 'Bar' => 'ok',
                 ''    => 'failure'
             ])
@@ -146,7 +145,7 @@ class ReplacePatternTest extends TestCase
 
         try {
             $group
-                ->map([
+                ->mapIfExists([
                     'Bar' => 'ok',
                     ''    => 'failure'
                 ])
@@ -156,7 +155,7 @@ class ReplacePatternTest extends TestCase
 
         // when
         $group
-            ->map([
+            ->mapIfExists([
                 'Bar' => 'ok',
                 ''    => 'failure'
             ])
@@ -178,14 +177,14 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('bar')
-            ->map([])
+            ->mapIfExists([])
             ->orThrow();
     }
 
     /**
      * @test
      */
-    public function shouldThrow_onMissingReplacementsKey()
+    public function shouldNotReplace_onMissingReplacementsKey()
     {
         // given
         $subject = 'Replace One and Two, and maybe Four';
@@ -194,18 +193,17 @@ class ReplacePatternTest extends TestCase
             'T' => '2'
         ];
 
-        // then
-        $this->expectException(MissingReplacementKeyException::class);
-        $this->expectExceptionMessage("Expected to replace value 'Four' by group 'capital' ('F'), but such key is not found in replacement map");
-
         // when
-        pattern('(?<capital>[OTF])(ne|wo|our)')
+        $result = pattern('(?<capital>[OTF])(ne|wo|our)')
             ->replace($subject)
             ->all()
             ->by()
             ->group('capital')
-            ->map($map)
-            ->orReturn('failing');
+            ->mapIfExists($map)
+            ->orThrow();
+
+        // then
+        $this->assertEquals('Replace 1 and 2, and maybe Four', $result);
     }
 
     /**
@@ -221,7 +219,7 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Invalid replacement map key. Expected string, but integer (2) given");
 
         // when
-        pattern('(One|Two)')->replace('')->first()->by()->group(1)->map($map)->orReturn('failing');
+        pattern('(One|Two)')->replace('')->first()->by()->group(1)->mapIfExists($map)->orReturn('failing');
     }
 
     /**
@@ -237,6 +235,6 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Invalid replacement map value. Expected string, but boolean (true) given");
 
         // when
-        pattern('(One|Two)')->replace('')->first()->by()->group(1)->map($map)->orReturn('failing');
+        pattern('(One|Two)')->replace('')->first()->by()->group(1)->mapIfExists($map)->orReturn('failing');
     }
 }

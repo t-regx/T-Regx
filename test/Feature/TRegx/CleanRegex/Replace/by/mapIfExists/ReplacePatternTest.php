@@ -1,9 +1,8 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\by\map;
+namespace Test\Feature\TRegx\CleanRegex\Replace\by\mapIfExists;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 
 class ReplacePatternTest extends TestCase
 {
@@ -21,7 +20,7 @@ class ReplacePatternTest extends TestCase
         ];
 
         // when
-        $result = pattern('(one|two)')->replace($subject)->first()->by()->map($map);
+        $result = pattern('(one|two)')->replace($subject)->first()->by()->mapIfExists($map);
 
         // then
         $this->assertEquals('Replace first and two', $result);
@@ -42,7 +41,7 @@ class ReplacePatternTest extends TestCase
         ];
 
         // when
-        $result = pattern('(one|two|three)!')->replace($subject)->all()->by()->map($map);
+        $result = pattern('(one|two|three)!')->replace($subject)->all()->by()->mapIfExists($map);
 
         // then
         $this->assertEquals('Replace first, second and third, and first', $result);
@@ -51,20 +50,16 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_onMissingReplacementsKey()
+    public function shouldIgnore_missingReplacementsKey()
     {
         // given
         $subject = 'Replace one, two and three, and one';
-        $map = [
-            'one' => 'first'
-        ];
-
-        // then
-        $this->expectException(MissingReplacementKeyException::class);
-        $this->expectExceptionMessage("Expected to replace value 'two', but such key is not found in replacement map");
 
         // when
-        pattern('(one|two)')->replace($subject)->all()->by()->map($map);
+        $result = pattern('(one|two)')->replace($subject)->all()->by()->mapIfExists(['one' => 'first']);
+
+        // then
+        $this->assertEquals('Replace first, two and three, and first', $result);
     }
 
     /**
@@ -80,7 +75,7 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Invalid replacement map key. Expected string, but integer (2) given");
 
         // when
-        pattern('(one|two)')->replace('')->first()->by()->map($map);
+        pattern('(one|two)')->replace('')->first()->by()->mapIfExists($map);
     }
 
     /**
@@ -96,6 +91,6 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Invalid replacement map value. Expected string, but boolean (true) given");
 
         // when
-        pattern('(one|two)')->replace('')->first()->by()->map($map);
+        pattern('(one|two)')->replace('')->first()->by()->mapIfExists($map);
     }
 }
