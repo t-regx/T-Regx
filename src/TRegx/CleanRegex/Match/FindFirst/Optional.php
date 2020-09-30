@@ -18,15 +18,7 @@ interface Optional
      */
     public function orThrow(string $exceptionClassName = PatternException::class);
 
-    /**
-     * @param mixed $substitute
-     * @return mixed
-     */
     public function orReturn($substitute);
 
-    /**
-     * @param callable $substituteProducer
-     * @return mixed
-     */
     public function orElse(callable $substituteProducer);
 }

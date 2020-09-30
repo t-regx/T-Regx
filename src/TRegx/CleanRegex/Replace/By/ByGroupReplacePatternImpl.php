@@ -75,7 +75,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         return $this->replaceGroupOptional(new ThrowStrategy($exceptionClassName, new ReplacementWithUnmatchedGroupMessage($this->nameOrIndex)));
     }
 
-    public function orReturn($substitute): string
+    public function orReturn(string $substitute): string
     {
         return $this->replaceGroupOptional(new ConstantReturnStrategy($substitute));
     }
@@ -93,9 +93,9 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         return $this->replaceGroupOptional(new ConstantReturnStrategy(''));
     }
 
-    public function orElse(callable $substituteProducer): string
+    public function orElse(callable $replacementProducer): string
     {
-        return $this->replaceGroupOptional(new ComputedMatchStrategy($substituteProducer));
+        return $this->replaceGroupOptional(new ComputedMatchStrategy($replacementProducer));
     }
 
     private function replaceGroupOptional(MatchRs $substitute): string

@@ -3,15 +3,18 @@ namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
-use TRegx\CleanRegex\Match\FindFirst\Optional;
 
-interface ByGroupReplacePattern extends Optional
+interface ByGroupReplacePattern
 {
     public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string;
 
     public function orIgnore(): string;
 
     public function orEmpty(): string;
+
+    public function orReturn(string $replacement);
+
+    public function orElse(callable $replacementProducer);
 
     /**
      * @param string[] $occurrencesAndReplacements
@@ -32,6 +35,7 @@ interface ByGroupReplacePattern extends Optional
 
     /**
      * @param string[] $occurrencesAndReplacements
+     * @param callable $mapper
      * @return OptionalStrategySelector
      * @throws \InvalidArgumentException
      * @throws MissingReplacementKeyException
