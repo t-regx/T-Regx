@@ -6,8 +6,8 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedG
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\NonReplaced\ComputedMatchStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\MatchRs;
+use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 
 class OptionalStrategySelectorImpl implements OptionalStrategySelector
 {
@@ -37,7 +37,7 @@ class OptionalStrategySelectorImpl implements OptionalStrategySelector
 
     public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string
     {
-        return $this->replace(new CustomThrowStrategy($exceptionClassName, new ReplacementWithUnmatchedGroupMessage($this->nameOrIndex)));
+        return $this->replace(new ThrowStrategy($exceptionClassName, new ReplacementWithUnmatchedGroupMessage($this->nameOrIndex)));
     }
 
     public function replace(MatchRs $substitute): string

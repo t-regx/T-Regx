@@ -6,10 +6,10 @@ use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\OtherwiseStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
 use TRegx\CleanRegex\Replace\NonReplaced\SubjectRs;
+use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 
 class ReplacePatternImpl implements ReplacePattern
 {
@@ -59,7 +59,7 @@ class ReplacePatternImpl implements ReplacePattern
 
     public function otherwiseThrowing(string $exceptionClassName = NotReplacedException::class): SpecificReplacePattern
     {
-        return $this->replacePattern(new CustomThrowStrategy($exceptionClassName, new NonReplacedMessage()));
+        return $this->replacePattern(new ThrowStrategy($exceptionClassName, new NonReplacedMessage()));
     }
 
     public function otherwiseReturning($substitute): SpecificReplacePattern

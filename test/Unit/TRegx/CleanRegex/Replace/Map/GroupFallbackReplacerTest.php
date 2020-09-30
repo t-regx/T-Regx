@@ -16,8 +16,8 @@ use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 
 class GroupFallbackReplacerTest extends TestCase
 {
@@ -141,7 +141,7 @@ class GroupFallbackReplacerTest extends TestCase
         $fallbackReplacer->replaceOrFallback(
             1,
             new NoReplacementMapper(),
-            new CustomThrowStrategy(CustomSubjectException::class, new ReplacementWithUnmatchedGroupMessage(1))
+            new ThrowStrategy(CustomSubjectException::class, new ReplacementWithUnmatchedGroupMessage(1))
         );
     }
 
@@ -161,7 +161,7 @@ class GroupFallbackReplacerTest extends TestCase
         $fallbackReplacer->replaceOrFallback(
             1,
             new NoReplacementMapper(),
-            new CustomThrowStrategy(CustomSubjectException::class, new ReplacementWithUnmatchedGroupMessage(1))
+            new ThrowStrategy(CustomSubjectException::class, new ReplacementWithUnmatchedGroupMessage(1))
         );
     }
 

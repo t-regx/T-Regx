@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Replace\NonReplaced;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
-use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
+use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 
 class CustomThrowStrategyTest extends TestCase
 {
@@ -14,7 +14,7 @@ class CustomThrowStrategyTest extends TestCase
     public function shouldThrow()
     {
         // given
-        $strategy = new CustomThrowStrategy(InvalidArgumentException::class, new NonReplacedMessage());
+        $strategy = new ThrowStrategy(InvalidArgumentException::class, new NonReplacedMessage());
 
         // then
         $this->expectException(InvalidArgumentException::class);

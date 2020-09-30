@@ -9,10 +9,10 @@ use TRegx\CleanRegex\Exception\NotReplacedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\CustomThrowStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\OtherwiseStrategy;
 use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
 use TRegx\CleanRegex\Replace\NonReplaced\SubjectRs;
+use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 
@@ -47,8 +47,8 @@ class ReplacePatternImplTest extends TestCase
     {
         return [
             ['otherwiseReturning', ['arg'], new ConstantReturnStrategy('arg')],
-            ['otherwiseThrowing', [], new CustomThrowStrategy(NotReplacedException::class, new NonReplacedMessage())],
-            ['otherwiseThrowing', [InvalidArgumentException::class], new CustomThrowStrategy(InvalidArgumentException::class, new NonReplacedMessage())],
+            ['otherwiseThrowing', [], new ThrowStrategy(NotReplacedException::class, new NonReplacedMessage())],
+            ['otherwiseThrowing', [InvalidArgumentException::class], new ThrowStrategy(InvalidArgumentException::class, new NonReplacedMessage())],
             ['otherwise', [Functions::any()], new OtherwiseStrategy(Functions::any())],
         ];
     }
