@@ -15,6 +15,12 @@ Incoming in 0.9.11
         * Renamed `orEmpty()` to `orElseEmpty()`.
         * Renamed `orReturn(string)` to `orElseWith(string)`.
         * Renamed `orElse(callable)` to `orElseCalling(callable)`.
+    * Renamed and added `pattern()->replace()->by()->group()->map()` methods:
+        * Renamed `orThrow(string)` to `orElseThrow(string)`.
+        * Added `orElseIgnore()`.
+        * Added `orElseEmpty()`.
+        * Renamed `orReturn(string)` to `orElseWith(string)`.
+        * Renamed `orElse(callable)` to `orElseCalling(callable)`.
 
 Added in 0.9.10
 ---------------

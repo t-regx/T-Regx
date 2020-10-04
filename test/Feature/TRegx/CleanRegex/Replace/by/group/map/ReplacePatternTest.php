@@ -14,6 +14,8 @@ class ReplacePatternTest extends TestCase
      * @test
      * @happyPath
      * @dataProvider optionals
+     * @param string $method
+     * @param array $arguments
      */
     public function shouldReplace(string $method, array $arguments)
     {
@@ -40,10 +42,12 @@ class ReplacePatternTest extends TestCase
     public function optionals(): array
     {
         return [
-            'orReturn' => ['orReturn', ['word']],
-            'orElse'   => ['orElse', [function (Match $match) {
+            'orElseWith'    => ['orElseWith', ['word']],
+            'orElseCalling' => ['orElseCalling', [function (Match $match) {
             }]],
-            'orThrow'  => ['orThrow', []],
+            'orElseThrow'   => ['orElseThrow', []],
+            'orElseEmpty'   => ['orElseEmpty', []],
+            'orElseIgnore'  => ['orElseIgnore', []],
         ];
     }
 
@@ -66,7 +70,7 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group($groupName)
             ->map([])
-            ->orReturn('failing');
+            ->orElseWith('failing');
     }
 
     /**
@@ -85,7 +89,7 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group('missing')
             ->map([])
-            ->orReturn('failing');
+            ->orElseWith('failing');
     }
 
     /**
@@ -104,7 +108,7 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group('bar')
             ->map(['' => 'failure'])
-            ->orThrow();
+            ->orElseThrow();
     }
 
     /**
@@ -126,7 +130,7 @@ class ReplacePatternTest extends TestCase
                 'Bar' => 'ok',
                 ''    => 'failure'
             ])
-            ->orThrow();
+            ->orElseThrow();
     }
 
     /**
@@ -150,7 +154,7 @@ class ReplacePatternTest extends TestCase
                     'Bar' => 'ok',
                     ''    => 'failure'
                 ])
-                ->orThrow();
+                ->orElseThrow();
         } catch (GroupNotMatchedException $ignored) {
         }
 
@@ -160,7 +164,7 @@ class ReplacePatternTest extends TestCase
                 'Bar' => 'ok',
                 ''    => 'failure'
             ])
-            ->orThrow();
+            ->orElseThrow();
     }
 
     /**
@@ -179,7 +183,7 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group('bar')
             ->map([])
-            ->orThrow();
+            ->orElseThrow();
     }
 
     /**
@@ -205,7 +209,7 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group('capital')
             ->map($map)
-            ->orReturn('failing');
+            ->orElseWith('failing');
     }
 
     /**
@@ -221,7 +225,7 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Invalid replacement map key. Expected string, but integer (2) given");
 
         // when
-        pattern('(One|Two)')->replace('')->first()->by()->group(1)->map($map)->orReturn('failing');
+        pattern('(One|Two)')->replace('')->first()->by()->group(1)->map($map)->orElseWith('failing');
     }
 
     /**
@@ -237,6 +241,6 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Invalid replacement map value. Expected string, but boolean (true) given");
 
         // when
-        pattern('(One|Two)')->replace('')->first()->by()->group(1)->map($map)->orReturn('failing');
+        pattern('(One|Two)')->replace('')->first()->by()->group(1)->map($map)->orElseWith('failing');
     }
 }

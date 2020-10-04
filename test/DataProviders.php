@@ -2,6 +2,7 @@
 namespace Test;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Match\Details\Match;
 
 class DataProviders
 {
@@ -87,5 +88,18 @@ class DataProviders
     {
         $resources = get_resources();
         return reset($resources);
+    }
+
+    public function groupReplaceFallbacks(): array
+    {
+        return [
+            'orElseThrow'   => ['orElseThrow', []],
+            'orElseIgnore'  => ['orElseIgnore', []],
+            'orElseEmpty'   => ['orElseEmpty', []],
+            'orElseWith'    => ['orElseWith', ['word']],
+            'orElseCalling' => ['orElseCalling', [function (Match $match) {
+                return "fallback: '$match'";
+            }]],
+        ];
     }
 }

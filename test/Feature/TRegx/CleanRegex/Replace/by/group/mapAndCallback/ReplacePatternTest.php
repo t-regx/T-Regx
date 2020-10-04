@@ -67,10 +67,12 @@ class ReplacePatternTest extends TestCase
     public function optionals(): array
     {
         return [
-            'orReturn' => ['orReturn', ['word']],
-            'orElse' => ['orElse', [function (Match $match) {
+            'orElseWith'    => ['orElseWith', ['word']],
+            'orElseCalling' => ['orElseCalling', [function (Match $match) {
             }]],
-            'orThrow' => ['orThrow', []],
+            'orElseThrow'   => ['orElseThrow', []],
+            'orElseIgnore'  => ['orElseIgnore', []],
+            'orElseEmpty'   => ['orElseEmpty', []],
         ];
     }
 }

@@ -128,7 +128,7 @@ class ReplacePatternTest extends TestCase
         $replacePattern = pattern('(Foo)')->replace('Bar')->first();
 
         // when
-        $result = $replacePattern->otherwiseReturning('otherwise')->by()->group(1)->map([])->orThrow();
+        $result = $replacePattern->otherwiseReturning('otherwise')->by()->group(1)->map([])->orElseThrow();
 
         // then
         $this->assertEquals('otherwise', $result);

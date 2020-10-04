@@ -45,19 +45,19 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         $this->replaceCallbackInvoker = $replaceCallbackInvoker;
     }
 
-    public function map(array $map): OptionalStrategySelector
+    public function map(array $map): UnmatchedGroupStrategy
     {
         return $this->performMap(new DictionaryMapper($map));
     }
 
-    public function mapAndCallback(array $map, callable $mapper): OptionalStrategySelector
+    public function mapAndCallback(array $map, callable $mapper): UnmatchedGroupStrategy
     {
         return $this->performMap(new MapGroupMapperDecorator(new DictionaryMapper($map), $mapper));
     }
 
-    private function performMap(GroupMapper $mapper): OptionalStrategySelectorImpl
+    private function performMap(GroupMapper $mapper): UnmatchedGroupStrategy
     {
-        return new OptionalStrategySelectorImpl(
+        return new UnmatchedGroupStrategy(
             $this->fallbackReplacer,
             $this->nameOrIndex,
             new StrategyFallbackAdapter($mapper,
@@ -65,9 +65,9 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         );
     }
 
-    public function mapIfExists(array $map): OptionalStrategySelector
+    public function mapIfExists(array $map): UnmatchedGroupStrategy
     {
-        return new OptionalStrategySelectorImpl($this->fallbackReplacer, $this->nameOrIndex, new DictionaryMapper($map));
+        return new UnmatchedGroupStrategy($this->fallbackReplacer, $this->nameOrIndex, new DictionaryMapper($map));
     }
 
     public function orElseThrow(string $exceptionClassName = GroupNotMatchedException::class): string
