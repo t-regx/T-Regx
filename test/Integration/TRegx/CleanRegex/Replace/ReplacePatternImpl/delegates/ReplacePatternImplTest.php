@@ -1,5 +1,5 @@
 <?php
-namespace Test\Integration\TRegx\CleanRegex\Replace\ReplacePatternWithOptionalsImplTest\delegates;
+namespace Test\Integration\TRegx\CleanRegex\Replace\ReplacePatternImpl\delegates;
 
 use Closure;
 use PHPUnit\Framework\MockObject\MockObject;

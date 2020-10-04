@@ -3,51 +3,32 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\by\group\mapIfExists;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Match;
 
 class ReplacePatternTest extends TestCase
 {
     /**
      * @test
      * @happyPath
-     * @dataProvider optionals
-     * @param string $method
-     * @param array $arguments
      */
-    public function shouldReplace(string $method, array $arguments)
+    public function shouldReplace()
     {
-        // given
-        $subject = 'Replace One!, Two! and One!';
-        $map = [
-            'O' => '1',
-            'T' => '2'
-        ];
-
         // when
         $result = pattern('(?<capital>[OT])(ne|wo)')
-            ->replace($subject)
+            ->replace('Replace One!, Two! and One!')
             ->all()
             ->by()
             ->group('capital')
-            ->mapIfExists($map)
-            ->$method(...$arguments);
+            ->mapIfExists([
+                'O' => '1',
+                'T' => '2'
+            ])
+            ->orElseThrow();
 
         // then
         $this->assertEquals('Replace 1!, 2! and 1!', $result);
-    }
-
-    public function optionals(): array
-    {
-        return [
-            'orElseWith'    => ['orElseWith', ['word']],
-            'orElseCalling' => ['orElseCalling', [function (Match $match) {
-            }]],
-            'orElseThrow'   => ['orElseThrow', []],
-            'orElseIgnore'  => ['orElseIgnore', []],
-            'orElseEmpty'   => ['orElseEmpty', []],
-        ];
     }
 
     /**
@@ -69,7 +50,7 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group($groupName)
             ->mapIfExists([])
-            ->orElseWith('failing');
+            ->orElseCalling(Functions::fail());
     }
 
     /**

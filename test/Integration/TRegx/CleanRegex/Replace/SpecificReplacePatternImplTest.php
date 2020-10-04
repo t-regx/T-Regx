@@ -3,12 +3,12 @@ namespace Test\Integration\TRegx\CleanRegex\Replace;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
 
-class ReplacePatternTest extends TestCase
+class SpecificReplacePatternImplTest extends TestCase
 {
     /**
      * @test
@@ -34,8 +34,8 @@ class ReplacePatternTest extends TestCase
         $replace = $this->createReplacePattern('192.168.173.180');
 
         // when
-        $result = $replace->callback(function (ReplaceMatch $match) {
-            if ((string)$match < 175) {
+        $result = $replace->callback(function (Match $match) {
+            if ($match->toInt() < 175) {
                 return '___';
             }
             return '^^^';

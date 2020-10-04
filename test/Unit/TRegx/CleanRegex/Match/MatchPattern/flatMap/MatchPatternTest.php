@@ -114,10 +114,10 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage("Invalid flatMap() callback return type. Expected array, but string ('word') given");
+        $this->expectExceptionMessage("Invalid flatMap() callback return type. Expected array, but string ('string') given");
 
         // when
-        $pattern->flatMap(Functions::constant('word'));
+        $pattern->flatMap(Functions::constant('string'));
     }
 
     private function getMatchPattern($subject): MatchPattern

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Integration\TRegx\CleanRegex\Replace\Map;
+namespace Test\Integration\TRegx\CleanRegex\Replace\By;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
@@ -8,7 +8,6 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Replace\By\ByGroupReplacePattern;
 use TRegx\CleanRegex\Replace\By\ByGroupReplacePatternImpl;
 use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\By\PerformanceEmptyGroupReplace;
@@ -42,10 +41,10 @@ class ByGroupReplacePatternImplTest extends TestCase
         $byReplacePattern = $this->create('word(\d+)?', 'word');
 
         // when
-        $result = $byReplacePattern->orElseCalling(Functions::constant('failing'));
+        $result = $byReplacePattern->orElseCalling(Functions::constant('called'));
 
         // then
-        $this->assertEquals('failing', $result);
+        $this->assertEquals('called', $result);
     }
 
     /**
@@ -64,7 +63,7 @@ class ByGroupReplacePatternImplTest extends TestCase
         $byReplacePattern->orElseThrow(CustomSubjectException::class);
     }
 
-    public function create(string $pattern, string $subject): ByGroupReplacePattern
+    public function create(string $pattern, string $subject): ByGroupReplacePatternImpl
     {
         $internalPattern = InternalPattern::standard($pattern);
         $subjectable = new Subject($subject);

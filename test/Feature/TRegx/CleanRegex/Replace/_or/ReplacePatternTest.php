@@ -98,7 +98,7 @@ class ReplacePatternTest extends TestCase
         $replacePattern = pattern('Foo')->replace('Bar')->first();
 
         // when
-        $result = $replacePattern->otherwiseReturning('otherwise')->callback(Functions::constant(''));
+        $result = $replacePattern->otherwiseReturning('otherwise')->callback(Functions::fail());
 
         // then
         $this->assertEquals('otherwise', $result);

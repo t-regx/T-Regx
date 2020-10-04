@@ -1,5 +1,5 @@
 <?php
-namespace Test\Integration\CleanRegex\Match;
+namespace Test\Integration\TRegx\CleanRegex\Match\Details;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;

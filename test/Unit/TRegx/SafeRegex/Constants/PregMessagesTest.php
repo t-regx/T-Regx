@@ -27,11 +27,10 @@ class PregMessagesTest extends TestCase
     public function shouldGetDefault()
     {
         // given
-        $unknown = 101;
         $messages = new PregMessages();
 
         // when
-        $constant = $messages->getConstant($unknown);
+        $constant = $messages->getConstant(101);
 
         // then
         $this->assertEquals('Unknown error', $constant);

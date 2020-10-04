@@ -27,11 +27,10 @@ class PregConstantsTest extends TestCase
     public function shouldGetDefault()
     {
         // given
-        $unknown = 101;
         $constants = new PregConstants();
 
         // when
-        $constant = $constants->getConstant($unknown);
+        $constant = $constants->getConstant(101);
 
         // then
         $this->assertEquals('UNKNOWN_PREG_ERROR', $constant);

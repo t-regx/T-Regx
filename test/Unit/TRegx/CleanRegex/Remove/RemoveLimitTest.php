@@ -62,7 +62,7 @@ class RemoveLimitTest extends TestCase
     public function shouldThrowOnNegativeLimit()
     {
         // given
-        $limit = new RemoveLimit(Functions::constant(''));
+        $limit = new RemoveLimit(Functions::fail());
 
         // then
         $this->expectException(InvalidArgumentException::class);

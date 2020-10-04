@@ -1,5 +1,5 @@
 <?php
-namespace Test\Integration\TRegx\CleanRegex\Replace\ReplacePatternWithOptionalsImplTest\optional;
+namespace Test\Integration\TRegx\CleanRegex\Replace\ReplacePatternImpl\otherwise;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
