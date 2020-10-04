@@ -32,7 +32,7 @@ class OptionalStrategySelectorImpl implements OptionalStrategySelector
 
     public function orElse(callable $substituteProducer): string
     {
-        return $this->replace(new ComputedMatchStrategy($substituteProducer));
+        return $this->replace(new ComputedMatchStrategy($substituteProducer, "orElse"));
     }
 
     public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string

@@ -5,18 +5,25 @@ Incoming in 0.9.11
 ------------------
 
 * Breaking changes
-    * Returning `null` from `replace()->callback()` throws `InvalidReturnValueException`.
-    * Returning `null` from `replace()->otherwise()` throws `InvalidReturnValueException`.
-    * Returning `null` from `replace()->by()->group()->orElse()` throws `InvalidReturnValueException`.
+    * Added `null`-safety to `pattern()->replace()`:
+        * Returning `null` from `replace()->callback()` throws `InvalidReturnValueException`.
+        * Returning `null` from `replace()->otherwise()` throws `InvalidReturnValueException`.
+        * Returning `null` from `replace()->by()->group()->orElse()` throws `InvalidReturnValueException`.
+    * Renamed `pattern()->replace()->by()->group()` methods:
+        * Renamed `orThrow(string)` to `orElseThrow(string)`.
+        * Renamed `orIgnore()` to `orElseIgnore()`.
+        * Renamed `orEmpty()` to `orElseEmpty()`.
+        * Renamed `orReturn(string)` to `orElseWith(string)`.
+        * Renamed `orElse(callable)` to `orElseCalling(callable)`.
 
 Added in 0.9.10
 ---------------
 * Breaking changes
-    * Renamed `BacktrackLimitPregException` to `CatastrophicBacktrackingPregException`
-    * Removed `Pattern::prepare()`
-    * Removed `PatternBuilder::prepare()`
-    * Renamed `throwingOtherwise()` to `otherwiseThrowing()`
-    * Renamed `returningOtherwise()` to `otherwiseReturning()`
+    * Renamed `BacktrackLimitPregException` to `CatastrophicBacktrackingPregException`.
+    * Removed `Pattern::prepare()`.
+    * Removed `PatternBuilder::prepare()`.
+    * Renamed `throwingOtherwise()` to `otherwiseThrowing()`.
+    * Renamed `returningOtherwise()` to `otherwiseReturning()`.
 * Features
     * Add `pattern()->match()->tuple()` method. #76
     * Add `pattern()->match()->triple()` method. #76

@@ -65,7 +65,7 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group($groupName)
             ->mapIfExists([])
-            ->orReturn('failing');
+            ->orElseWith('failing');
     }
 
     /**

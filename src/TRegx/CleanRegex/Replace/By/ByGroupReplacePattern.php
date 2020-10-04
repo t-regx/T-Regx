@@ -6,15 +6,15 @@ use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 
 interface ByGroupReplacePattern
 {
-    public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string;
+    public function orElseThrow(string $exceptionClassName = GroupNotMatchedException::class): string;
 
-    public function orIgnore(): string;
+    public function orElseIgnore(): string;
 
-    public function orEmpty(): string;
+    public function orElseEmpty(): string;
 
-    public function orReturn(string $replacement);
+    public function orElseWith(string $replacement): string;
 
-    public function orElse(callable $replacementProducer);
+    public function orElseCalling(callable $replacementProducer): string;
 
     /**
      * @param string[] $occurrencesAndReplacements

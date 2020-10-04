@@ -70,22 +70,22 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         return new OptionalStrategySelectorImpl($this->fallbackReplacer, $this->nameOrIndex, new DictionaryMapper($map));
     }
 
-    public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string
+    public function orElseThrow(string $exceptionClassName = GroupNotMatchedException::class): string
     {
         return $this->replaceGroupOptional(new ThrowStrategy($exceptionClassName, new ReplacementWithUnmatchedGroupMessage($this->nameOrIndex)));
     }
 
-    public function orReturn(string $substitute): string
+    public function orElseWith(string $substitute): string
     {
         return $this->replaceGroupOptional(new ConstantReturnStrategy($substitute));
     }
 
-    public function orIgnore(): string
+    public function orElseIgnore(): string
     {
         return $this->replaceGroupOptional(new DefaultStrategy());
     }
 
-    public function orEmpty(): string
+    public function orElseEmpty(): string
     {
         if (\is_int($this->nameOrIndex)) {
             return $this->performanceReplace->replaceWithGroupOrEmpty($this->nameOrIndex);
@@ -93,9 +93,9 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         return $this->replaceGroupOptional(new ConstantReturnStrategy(''));
     }
 
-    public function orElse(callable $replacementProducer): string
+    public function orElseCalling(callable $replacementProducer): string
     {
-        return $this->replaceGroupOptional(new ComputedMatchStrategy($replacementProducer));
+        return $this->replaceGroupOptional(new ComputedMatchStrategy($replacementProducer, "orElseCalling"));
     }
 
     private function replaceGroupOptional(MatchRs $substitute): string

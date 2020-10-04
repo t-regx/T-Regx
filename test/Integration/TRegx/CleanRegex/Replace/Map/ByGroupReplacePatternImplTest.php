@@ -27,7 +27,7 @@ class ByGroupReplacePatternImplTest extends TestCase
         $byReplacePattern = $this->create('word(\d+)?', 'word');
 
         // when
-        $result = $byReplacePattern->orReturn('failing');
+        $result = $byReplacePattern->orElseWith('failing');
 
         // then
         $this->assertEquals('failing', $result);
@@ -42,7 +42,7 @@ class ByGroupReplacePatternImplTest extends TestCase
         $byReplacePattern = $this->create('word(\d+)?', 'word');
 
         // when
-        $result = $byReplacePattern->orElse(Functions::constant('failing'));
+        $result = $byReplacePattern->orElseCalling(Functions::constant('failing'));
 
         // then
         $this->assertEquals('failing', $result);
@@ -61,7 +61,7 @@ class ByGroupReplacePatternImplTest extends TestCase
         $this->expectExceptionMessage("Expected to replace with group '1', but the group was not matched");
 
         // when
-        $byReplacePattern->orThrow(CustomSubjectException::class);
+        $byReplacePattern->orElseThrow(CustomSubjectException::class);
     }
 
     public function create(string $pattern, string $subject): ByGroupReplacePattern

@@ -16,6 +16,8 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      * @dataProvider optionals
+     * @param string $method
+     * @param array $arguments
      */
     public function shouldReplace(string $method, array $arguments)
     {
@@ -37,12 +39,12 @@ class ReplacePatternTest extends TestCase
     public function optionals(): array
     {
         return [
-            'orReturn' => ['orReturn', ['word']],
-            'orElse'   => ['orElse', [function (Match $match) {
+            'orElseThrow'   => ['orElseThrow', []],
+            'orElseIgnore'  => ['orElseIgnore', []],
+            'orElseEmpty'   => ['orElseEmpty', []],
+            'orElseWith'    => ['orElseWith', ['word']],
+            'orElseCalling' => ['orElseCalling', [function (Match $match) {
             }]],
-            'orThrow'  => ['orThrow', []],
-            'orIgnore' => ['orIgnore', []],
-            'orEmpty'  => ['orEmpty', []],
         ];
     }
 
@@ -57,7 +59,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('unit')
-            ->orElse(function (LazyMatchImpl $match) {
+            ->orElseCalling(function (LazyMatchImpl $match) {
                 $this->assertEquals('14', $match->text());
                 $this->assertEquals('14', $match->get('value'));
                 $this->assertEquals('14', $match->group('value')->text());
@@ -79,7 +81,7 @@ class ReplacePatternTest extends TestCase
     {
         // then
         $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage('Invalid orElse() callback return type. Expected string, but null given');
+        $this->expectExceptionMessage('Invalid orElseCalling() callback return type. Expected string, but null given');
 
         // when
         pattern('(?<value>\d+)(?<unit>cm)?')
@@ -87,7 +89,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('unit')
-            ->orElse(function (LazyMatchImpl $match) {
+            ->orElseCalling(function (LazyMatchImpl $match) {
                 $this->assertEquals('14', $match->text());
 
                 // when
@@ -118,12 +120,13 @@ class ReplacePatternTest extends TestCase
         return DataProviders::builder()
             ->addSection('name', 1)
             ->addJoinedSection(
-                ['orReturn', ['default'], 'Links: default,default.'],
-                ['orElse', [function (Match $whenGroupWasNotMatched) {
+                ['orElseIgnore', [], 'Links: https://.com,http://.com.'],
+                ['orElseEmpty', [], 'Links: ,.'],
+                ['orElseWith', ['default'], 'Links: default,default.'],
+                ['orElseCalling', [function (Match $whenGroupWasNotMatched) {
                     return 'else';
-                }], 'Links: else,else.'],
-                ['orIgnore', [], 'Links: https://.com,http://.com.'],
-                ['orEmpty', [], 'Links: ,.'])
+                }], 'Links: else,else.']
+            )
             ->build();
     }
 
@@ -144,7 +147,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group($nameOrIndex)
-            ->orThrow(CustomSubjectException::class);
+            ->orElseThrow(CustomSubjectException::class);
     }
 
     public function groups(): array
@@ -167,7 +170,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('bar')
-            ->orThrow();
+            ->orElseThrow();
     }
 
     /**
@@ -185,7 +188,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('bar')
-            ->orThrow();
+            ->orElseThrow();
     }
 
     /**
@@ -204,12 +207,12 @@ class ReplacePatternTest extends TestCase
             ->group('bar');
 
         try {
-            $group->orThrow();
+            $group->orElseThrow();
         } catch (GroupNotMatchedException $ignored) {
         }
 
         // when
-        $group->orThrow();
+        $group->orElseThrow();
     }
 
     /**
@@ -223,7 +226,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group(1)
-            ->orThrow();
+            ->orElseThrow();
 
         // then
         $this->assertEquals('Links: google and facebook', $result);
@@ -240,7 +243,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('domain')
-            ->orThrow();
+            ->orElseThrow();
 
         // then
         $this->assertEquals('Links: google and facebook', $result);
@@ -261,7 +264,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('bar')
-            ->orThrow();
+            ->orElseThrow();
     }
 
     /**
@@ -279,7 +282,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('missing')
-            ->orReturn('failing');
+            ->orElseWith('failing');
     }
 
     /**
@@ -297,7 +300,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('2group')
-            ->orReturn('');
+            ->orElseWith('');
     }
 
     /**
@@ -317,7 +320,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group($group)
-            ->orReturn('failing');
+            ->orElseWith('failing');
     }
 
     public function nonexistentGroups(): array
@@ -343,6 +346,6 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group(1)
-            ->orThrow(CustomSubjectException::class);
+            ->orElseThrow(CustomSubjectException::class);
     }
 }
