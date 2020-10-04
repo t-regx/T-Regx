@@ -6,18 +6,14 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Match;
 
 class ReplacePatternTest extends TestCase
 {
     /**
      * @test
      * @happyPath
-     * @dataProvider optionals
-     * @param string $method
-     * @param array $arguments
      */
-    public function shouldReplace(string $method, array $arguments)
+    public function shouldReplace()
     {
         // given
         $subject = 'Replace One!, Two! and One!';
@@ -27,28 +23,10 @@ class ReplacePatternTest extends TestCase
         ];
 
         // when
-        $result = pattern('(?<capital>[OT])(ne|wo)')
-            ->replace($subject)
-            ->all()
-            ->by()
-            ->group('capital')
-            ->map($map)
-            ->$method(...$arguments);
+        $result = pattern('(?<capital>[OT])(ne|wo)')->replace($subject)->all()->by()->group('capital')->map($map)->orElseThrow();
 
         // then
         $this->assertEquals('Replace 1!, 2! and 1!', $result);
-    }
-
-    public function optionals(): array
-    {
-        return [
-            'orElseWith'    => ['orElseWith', ['word']],
-            'orElseCalling' => ['orElseCalling', [function (Match $match) {
-            }]],
-            'orElseThrow'   => ['orElseThrow', []],
-            'orElseEmpty'   => ['orElseEmpty', []],
-            'orElseIgnore'  => ['orElseIgnore', []],
-        ];
     }
 
     /**

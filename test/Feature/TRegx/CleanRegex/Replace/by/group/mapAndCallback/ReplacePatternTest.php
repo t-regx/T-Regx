@@ -3,16 +3,14 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\by\group\mapAndCallback;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
-use TRegx\CleanRegex\Match\Details\Match;
 
 class ReplacePatternTest extends TestCase
 {
     /**
      * @test
      * @happyPath
-     * @dataProvider optionals
      */
-    public function shouldReplace(string $method, array $arguments)
+    public function shouldReplace()
     {
         // given
         $subject = 'Replace One!, Two! and One!';
@@ -30,7 +28,7 @@ class ReplacePatternTest extends TestCase
             ->mapAndCallback($map, function (string $key) {
                 return "**$key**";
             })
-            ->$method(...$arguments);
+            ->orElseThrow();
 
         // then
         $this->assertEquals('Replace **1**!, **2**! and **1**!', $result);
@@ -38,10 +36,8 @@ class ReplacePatternTest extends TestCase
 
     /**
      * @test
-     * @happyPath
-     * @dataProvider optionals
      */
-    public function shouldThrow_forMissingReplacement(string $method, array $arguments)
+    public function shouldThrow_forMissingReplacement()
     {
         // given
         $map = [
@@ -61,18 +57,6 @@ class ReplacePatternTest extends TestCase
             ->mapAndCallback($map, function ($key) {
                 return "**$key**";
             })
-            ->$method(...$arguments);
-    }
-
-    public function optionals(): array
-    {
-        return [
-            'orElseWith'    => ['orElseWith', ['word']],
-            'orElseCalling' => ['orElseCalling', [function (Match $match) {
-            }]],
-            'orElseThrow'   => ['orElseThrow', []],
-            'orElseIgnore'  => ['orElseIgnore', []],
-            'orElseEmpty'   => ['orElseEmpty', []],
-        ];
+            ->orElseThrow();
     }
 }
