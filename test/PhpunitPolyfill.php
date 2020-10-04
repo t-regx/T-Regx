@@ -17,12 +17,12 @@ trait PhpunitPolyfill
         }
     }
 
-    public function assertMatchRegularExpression(string $pattern, string $string)
+    public function expectError(): void
     {
-        if (!method_exists(TestCase::class, 'assertMatchesRegularExpression')) {
-            parent::assertRegExp($pattern, $string);
+        if (method_exists(TestCase::class, 'expectError')) {
+            parent::expectError();
         } else {
-            parent::assertMatchesRegularExpression($pattern, $string);
+            parent::expectException(\PHPUnit\Framework\Error\Error::class);
         }
     }
 }

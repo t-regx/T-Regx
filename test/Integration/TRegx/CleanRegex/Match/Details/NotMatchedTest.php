@@ -2,8 +2,8 @@
 namespace Test\Integration\TRegx\CleanRegex\Match\Details;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
+use Test\PhpunitPolyfill;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\Subjectable;
@@ -11,6 +11,8 @@ use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class NotMatchedTest extends TestCase
 {
+    use PhpunitPolyfill;
+
     /**
      * @test
      */
@@ -24,7 +26,7 @@ class NotMatchedTest extends TestCase
 
         // then
         if (PHP_VERSION_ID < 70400) {
-            $this->expectException(Error::class);
+            $this->expectError();
         } else {
             $this->expectException(\Error::class);
         }
