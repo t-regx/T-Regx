@@ -1,9 +1,10 @@
 <?php
-namespace TRegx\CleanRegex\Match\FindFirst;
+namespace TRegx\CleanRegex\Internal\Match\FindFirst;
 
 use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
+use TRegx\CleanRegex\Match\Optional;
 
-class NotMatchedGroupOptional implements Optional
+class EmptyOptional implements Optional
 {
     /** @var NotMatchedWorker */
     private $worker;

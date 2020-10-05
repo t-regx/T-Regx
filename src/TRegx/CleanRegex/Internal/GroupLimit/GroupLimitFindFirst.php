@@ -11,15 +11,15 @@ use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
+use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
+use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\NotMatched;
-use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
-use TRegx\CleanRegex\Match\FindFirst\NotMatchedGroupOptional;
-use TRegx\CleanRegex\Match\FindFirst\Optional;
 use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
+use TRegx\CleanRegex\Match\Optional;
 
 class GroupLimitFindFirst
 {
@@ -59,9 +59,9 @@ class GroupLimitFindFirst
         return $this->groupVerifier->groupExists($this->nameOrIndex);
     }
 
-    private function matchedOptional(RawMatchOffset $match, callable $consumer): MatchedOptional
+    private function matchedOptional(RawMatchOffset $match, callable $consumer): OptionalImpl
     {
-        return new MatchedOptional($consumer($this->facade($match)->createGroup($match)));
+        return new YesOptional($consumer($this->facade($match)->createGroup($match)));
     }
 
     private function facade(RawMatchOffset $match): GroupFacade
@@ -69,9 +69,11 @@ class GroupLimitFindFirst
         return new GroupFacade($match, $this->base, $this->nameOrIndex,
             new MatchGroupFactoryStrategy(),
             new LazyMatchAllFactory($this->base));
+
+        return new OptionalImpl($consumer($facade->createGroup($match)));
     }
 
-    private function notMatchedOptional(RawMatchOffset $first): NotMatchedGroupOptional
+    private function notMatchedOptional(RawMatchOffset $first): EmptyOptional
     {
         if ($first->matched()) {
             return $this->notMatched(GroupNotMatchedException::class, new FirstGroupMessage($this->nameOrIndex));
@@ -79,9 +81,9 @@ class GroupLimitFindFirst
         return $this->notMatched(SubjectNotMatchedException::class, new FirstGroupSubjectMessage($this->nameOrIndex));
     }
 
-    private function notMatched(string $exception, NotMatchedMessage $message): NotMatchedGroupOptional
+    private function notMatched(string $exception, NotMatchedMessage $message): EmptyOptional
     {
-        return new NotMatchedGroupOptional(
+        return new EmptyOptional(
             new NotMatchedOptionalWorker(
                 $message,
                 $this->base,

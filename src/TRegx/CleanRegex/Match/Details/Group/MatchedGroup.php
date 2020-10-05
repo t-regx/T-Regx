@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Integer;
@@ -97,7 +96,7 @@ class MatchedGroup implements MatchGroup
         return $this->details->all();
     }
 
-    public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): string
+    public function orThrow(string $exceptionClassName = null): string
     {
         return $this->text();
     }

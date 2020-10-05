@@ -1,8 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Match\FindFirst\Optional;
+use TRegx\CleanRegex\Match\Optional;
 
 interface MatchGroup extends Optional
 {
@@ -34,6 +33,4 @@ interface MatchGroup extends Optional
     public function replace(string $replacement): string;
 
     public function all(): array;
-
-    public function orThrow(string $exceptionClassName = GroupNotMatchedException::class);
 }

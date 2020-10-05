@@ -7,12 +7,12 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
+use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\FilteredMatchPattern;
-use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
-use TRegx\CleanRegex\Match\FindFirst\NotMatchedOptional;
 
 class FilteredMatchPatternTest extends TestCase
 {
@@ -153,7 +153,7 @@ class FilteredMatchPatternTest extends TestCase
 
         // then
         $this->assertEquals('value: ', $findFirst->orThrow());
-        $this->assertInstanceOf(MatchedOptional::class, $findFirst);
+        $this->assertInstanceOf(OptionalImpl::class, $findFirst);
     }
 
     /**
@@ -172,7 +172,7 @@ class FilteredMatchPatternTest extends TestCase
 
         // then
         $this->assertEquals('value: a', $findFirst->orThrow());
-        $this->assertInstanceOf(MatchedOptional::class, $findFirst);
+        $this->assertInstanceOf(OptionalImpl::class, $findFirst);
     }
 
     /**
@@ -190,7 +190,7 @@ class FilteredMatchPatternTest extends TestCase
         $findFirst = $matchPattern->findFirst($callback);
 
         // then
-        $this->assertInstanceOf(NotMatchedOptional::class, $findFirst);
+        $this->assertInstanceOf(EmptyOptional::class, $findFirst);
     }
 
     /**

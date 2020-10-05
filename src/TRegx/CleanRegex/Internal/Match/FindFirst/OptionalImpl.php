@@ -1,9 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Match\FindFirst;
+namespace TRegx\CleanRegex\Internal\Match\FindFirst;
 
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
+use TRegx\CleanRegex\Match\Optional;
 
-class MatchedOptional implements Optional
+class OptionalImpl implements Optional
 {
     /** @var mixed */
     private $result;
@@ -13,7 +13,7 @@ class MatchedOptional implements Optional
         $this->result = $result;
     }
 
-    public function orThrow(string $exceptionClassName = SubjectNotMatchedException::class)
+    public function orThrow(string $exceptionClassName = null)
     {
         return $this->result;
     }

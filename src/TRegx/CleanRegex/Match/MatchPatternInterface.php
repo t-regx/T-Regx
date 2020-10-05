@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\FindFirst\Optional;
 
 interface MatchPatternInterface extends \Countable, \IteratorAggregate
 {

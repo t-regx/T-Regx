@@ -100,7 +100,7 @@ class NotMatchedGroup implements MatchGroup
         return $substitute;
     }
 
-    public function orThrow(string $exceptionClassName = GroupNotMatchedException::class): void
+    public function orThrow(string $exceptionClassName = null): void
     {
         throw $this->optionalWorker->orThrow($exceptionClassName);
     }

@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
-use TRegx\CleanRegex\Match\FindFirst\Optional;
+use TRegx\CleanRegex\Match\Optional;
 
 trait MatchPatternHelpers
 {

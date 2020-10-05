@@ -14,6 +14,8 @@ use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
+use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
@@ -30,9 +32,6 @@ use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Match;
 use TRegx\CleanRegex\Match\Details\NotMatched;
-use TRegx\CleanRegex\Match\FindFirst\MatchedOptional;
-use TRegx\CleanRegex\Match\FindFirst\NotMatchedOptional;
-use TRegx\CleanRegex\Match\FindFirst\Optional;
 use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 
 abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLimit
@@ -73,9 +72,11 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         $match = $this->base->matchOffset();
         if ($match->matched()) {
-            return new MatchedOptional($consumer($this->findFirstDetails($match)));
+            return new OptionalImpl($consumer($this->findFirstDetails($match)));
         }
-        return new NotMatchedOptional(new NotMatchedOptionalWorker(new FirstMatchMessage(), $this->base, new NotMatched(new LazyRawWithGroups($this->base), $this->base)));
+        return new EmptyOptional(
+            new NotMatchedOptionalWorker(new FirstMatchMessage(), $this->base, new NotMatched(new LazyRawWithGroups($this->base), $this->base)),
+            SubjectNotMatchedException::class);
     }
 
     private function findFirstDetails(RawMatchOffset $match): Match
