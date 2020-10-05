@@ -17,7 +17,6 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\NotMatched;
-use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
 use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 use TRegx\CleanRegex\Match\Optional;
 
@@ -27,14 +26,11 @@ class GroupLimitFindFirst
     private $base;
     /** @var string|int */
     private $nameOrIndex;
-    /** @var GroupVerifier */
-    private $groupVerifier;
 
     public function __construct(Base $base, $nameOrIndex)
     {
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
-        $this->groupVerifier = new MatchAllGroupVerifier($this->base->getPattern());
     }
 
     public function getOptionalForGroup(callable $consumer): Optional
@@ -56,17 +52,12 @@ class GroupLimitFindFirst
 
     private function groupExists(): bool
     {
-        return $this->groupVerifier->groupExists($this->nameOrIndex);
+        return (new MatchAllGroupVerifier($this->base->getPattern()))->groupExists($this->nameOrIndex);
     }
 
     private function matchedOptional(RawMatchOffset $match, callable $consumer): OptionalImpl
     {
-        return new YesOptional($consumer($this->facade($match)->createGroup($match)));
-    }
-
-    private function facade(RawMatchOffset $match): GroupFacade
-    {
-        return new GroupFacade($match, $this->base, $this->nameOrIndex,
+        $facade = new GroupFacade($match, $this->base, $this->nameOrIndex,
             new MatchGroupFactoryStrategy(),
             new LazyMatchAllFactory($this->base));
 
