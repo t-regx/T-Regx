@@ -155,6 +155,26 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldForEach()
+    {
+        // given
+        $groups = [];
+
+        // when
+        pattern('[A-Z](?<lowercase>[a-z]+)?')
+            ->match('D Computer')
+            ->group('lowercase')
+            ->forEach(function (MatchGroup $group) use (&$groups) {
+                $groups[] = $group->orReturn("unmatched");
+            });
+
+        // then
+        $this->assertEquals(['unmatched', 'omputer'], $groups);
+    }
+
+    /**
+     * @test
+     */
     public function shouldFilter()
     {
         // when
