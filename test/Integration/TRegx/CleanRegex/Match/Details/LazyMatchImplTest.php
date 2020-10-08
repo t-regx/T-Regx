@@ -30,6 +30,21 @@ class LazyMatchImplTest extends TestCase
     /**
      * @test
      */
+    public function shouldTextLength()
+    {
+        // given
+        $match = $this->match();
+
+        // when
+        $result = $match->textLength();
+
+        // then
+        $this->assertEquals(4, $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldText_castToString()
     {
         // given
@@ -92,6 +107,21 @@ class LazyMatchImplTest extends TestCase
     /**
      * @test
      */
+    public function shouldToInt()
+    {
+        // given
+        $match = $this->match('\d+', '123cm');
+
+        // when
+        $int = $match->toInt();
+
+        // then
+        $this->assertEquals(123, $int);
+    }
+
+    /**
+     * @test
+     */
     public function shouldSubject()
     {
         // given
@@ -137,6 +167,81 @@ class LazyMatchImplTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetGroupsCount()
+    {
+        // given
+        $match = $this->match('!(?<first>one)(?<second>two)!', '!onetwo!');
+
+        // when
+        $count = $match->groupsCount();
+
+        // then
+        $this->assertEquals(2, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldHasGroup_true()
+    {
+        // given
+        $match = $this->match('!(?<first>one)(?<second>two)!', '!onetwo!');
+
+        // when
+        $hasGroup = $match->hasGroup('second');
+
+        // then
+        $this->assertTrue($hasGroup);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldHasGroup_false()
+    {
+        // given
+        $match = $this->match('!(?<first>one)(?<second>two)!', '!onetwo!');
+
+        // when
+        $hasGroup = $match->hasGroup('foo');
+
+        // then
+        $this->assertFalse($hasGroup);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldIsInt_true()
+    {
+        // given
+        $match = $this->match('\d+', '!123!');
+
+        // when
+        $isInt = $match->isInt();
+
+        // then
+        $this->assertTrue($isInt);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldIsInt_false()
+    {
+        // given
+        $match = $this->match('\w+', '!123e4!');
+
+        // when
+        $isInt = $match->isInt();
+
+        // then
+        $this->assertFalse($isInt);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetGroup()
     {
         // given
@@ -162,6 +267,21 @@ class LazyMatchImplTest extends TestCase
 
         // then
         $this->assertEquals(['one', null], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNamedGroups()
+    {
+        // given
+        $match = $this->match('!(?<first>one)(?<second>two)!', '!onetwo!');
+
+        // when
+        $result = $match->namedGroups()->texts();
+
+        // then
+        $this->assertEquals(['first' => 'one', 'second' => 'two'], $result);
     }
 
     /**
