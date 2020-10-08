@@ -2,7 +2,6 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\isInt;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Match;
 
 class MatchImplTest extends TestCase
@@ -10,14 +9,14 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldBsInt()
+    public function shouldBeInt()
     {
         // given
         $result = pattern('(?<name>-?\w+)')
             ->match('11')
             ->first(function (Match $match) {
                 // when
-                return $match->group(1)->isInt();
+                return $match->isInt();
             });
 
         // then
@@ -34,7 +33,7 @@ class MatchImplTest extends TestCase
             ->match('1e3')
             ->first(function (Match $match) {
                 // when
-                return $match->group(1)->isInt();
+                return $match->isInt();
             });
 
         // then
@@ -44,86 +43,17 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldBesInt_byName()
-    {
-        // given
-        pattern('(?<value>\d+)')
-            ->match('12cm 14mm 13cm 19cm 18mm 2mm')
-            ->forEach(function (Match $match) {
-                // when
-                $isInt = $match->group('value')->isInt();
-
-                // then
-                $this->assertTrue($isInt);
-            });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldBsInt_byIndex()
-    {
-        // given
-        pattern('(?<value>\d+)')
-            ->match('12cm 14mm 13cm 19cm 18mm 2mm')
-            ->map(function (Match $match) {
-                // when
-                $isInt = $match->group(1)->isInt();
-
-                // then
-                $this->assertTrue($isInt);
-            });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotBeInteger_byName()
+    public function shouldNotBeInteger()
     {
         // given
         pattern('(?<name>\w+)')
             ->match('Foo bar')
             ->first(function (Match $match) {
                 // when
-                $result = $match->group('name')->isInt();
+                $result = $match->isInt();
 
                 // then
                 $this->assertFalse($result);
-            });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotBeInteger_byIndex()
-    {
-        // given
-        pattern('(?<name>\w+)')
-            ->match('Foo bar')
-            ->first(function (Match $match) {
-                // when
-                $result = $match->group(1)->isInt();
-
-                // then
-                $this->assertFalse($result);
-            });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForUnmatchedGroup()
-    {
-        // then
-        $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call isInt() for group 'missing', but the group was not matched");
-
-        // given
-        pattern('(?<name>\w+)(?<missing>\d+)?')
-            ->match('Foo bar')
-            ->first(function (Match $match) {
-                // when
-                return $match->group('missing')->isInt();
             });
     }
 }

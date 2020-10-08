@@ -10,7 +10,7 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldBsInt()
+    public function shouldBeInt()
     {
         // given
         $result = pattern('(?<name>-?\w+)')
@@ -44,7 +44,7 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldBesInt_byName()
+    public function shouldBeInt_byName()
     {
         // given
         pattern('(?<value>\d+)')
@@ -61,7 +61,7 @@ class MatchImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldBsInt_byIndex()
+    public function shouldBeInt_byIndex()
     {
         // given
         pattern('(?<value>\d+)')
