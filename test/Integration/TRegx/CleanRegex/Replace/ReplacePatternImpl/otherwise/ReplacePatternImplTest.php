@@ -49,7 +49,7 @@ class ReplacePatternImplTest extends TestCase
             ['otherwiseReturning', ['arg'], new ConstantReturnStrategy('arg')],
             ['otherwiseThrowing', [], new ThrowStrategy(NotReplacedException::class, new NonReplacedMessage())],
             ['otherwiseThrowing', [InvalidArgumentException::class], new ThrowStrategy(InvalidArgumentException::class, new NonReplacedMessage())],
-            ['otherwise', [Functions::any()], new OtherwiseStrategy(Functions::any())],
+            ['otherwise', [Functions::any()], new OtherwiseStrategy(Functions::fail())],
         ];
     }
 
