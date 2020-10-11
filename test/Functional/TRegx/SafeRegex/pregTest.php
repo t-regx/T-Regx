@@ -3,7 +3,7 @@ namespace Test\Functional\TRegx\SafeRegex;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\ClassWithToString;
+use Test\Utils\ClassWithToString;
 use Test\Warnings;
 use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\preg;

@@ -1,6 +1,7 @@
 <?php
 namespace Test;
 
+use Test\Utils\ClassWithToString;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Match;
 
@@ -77,7 +78,7 @@ class DataProviders
             'array'      => [[1, new \stdClass(), 3], 'array (3)'],
             'resource'   => [self::getResource(), 'resource'],
             'stdClass'   => [new \stdClass(), 'stdClass'],
-            '__toString' => [new ClassWithToString('string'), 'Test\ClassWithToString'],
+            '__toString' => [new ClassWithToString('string'), 'Test\Utils\ClassWithToString'],
             'class'      => [InternalPattern::pcre('//'), InternalPattern::class],
             'function'   => [function () {
             }, 'Closure']
