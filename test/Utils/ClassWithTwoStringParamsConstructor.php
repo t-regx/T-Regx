@@ -14,9 +14,6 @@ class ClassWithTwoStringParamsConstructor extends Exception
         $this->subject = $subject;
     }
 
-    /**
-     * @return string
-     */
     public function getSubject(): string
     {
         return $this->subject;
