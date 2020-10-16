@@ -1,9 +1,11 @@
 <?php
 namespace TRegx\CleanRegex;
 
+use TRegx\CleanRegex\ForArray\ForArrayPattern;
 use TRegx\CleanRegex\ForArray\ForArrayPatternImpl;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\ValidPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Remove\RemovePattern;
@@ -59,7 +61,7 @@ class PatternImpl implements PatternInterface
         });
     }
 
-    public function forArray(array $haystack): ForArrayPatternImpl
+    public function forArray(array $haystack): ForArrayPattern
     {
         return new ForArrayPatternImpl($this->pattern, $haystack, false);
     }
@@ -76,7 +78,7 @@ class PatternImpl implements PatternInterface
 
     public function valid(): bool
     {
-        return (new ValidPattern($this->pattern->pattern))->isValid();
+        return ValidPattern::isValid($this->pattern->pattern);
     }
 
     public function delimited(): string

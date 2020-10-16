@@ -1,8 +1,8 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex;
+namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\ValidPattern;
+use TRegx\CleanRegex\Internal\ValidPattern;
 use TRegx\SafeRegex\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
 
@@ -15,11 +15,8 @@ class ValidPatternTest extends TestCase
      */
     public function shouldValidatePattern(string $string)
     {
-        // given
-        $pattern = new ValidPattern($string);
-
         // when
-        $isValid = $pattern->isValid();
+        $isValid = ValidPattern::isValid($string);
 
         // then
         $this->assertTrue($isValid, "Failed asserting that pattern is valid");
@@ -40,11 +37,8 @@ class ValidPatternTest extends TestCase
      */
     public function shouldNotValidatePattern(string $string)
     {
-        // given
-        $pattern = new ValidPattern($string);
-
         // when
-        $isValid = $pattern->isValid();
+        $isValid = ValidPattern::isValid($string);
 
         // then
         $this->assertFalse($isValid, "Failed asserting that pattern is invalid");
@@ -58,11 +52,10 @@ class ValidPatternTest extends TestCase
     public function shouldNotLeaveErrors(string $string)
     {
         // given
-        $pattern = new ValidPattern($string);
         $errorsCleaner = new ErrorsCleaner();
 
         // when
-        $pattern->isValid();
+        ValidPattern::isValid($string);
         $error = $errorsCleaner->getError();
 
         // then
