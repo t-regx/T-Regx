@@ -5,14 +5,9 @@ about: Create a report to help us improve
 ---
 
 **Description**
-// A clear description of what the bug is.
+// A short description of what the bug is.
 
-Details:
- - Platform: // (Linux, Mac, Windows...)
- - PHP Version: // (7.1.2, 7.3.14)
- - Did your PHP have `mbstring` extension enabled? // Yes, No, I don't know
-
-**To Reproduce**
+**To Reproduce (choose one)**
   - Fast bug report:
 
     Just paste a code that works unexpected
