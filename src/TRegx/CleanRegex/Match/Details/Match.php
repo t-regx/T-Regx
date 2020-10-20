@@ -52,7 +52,11 @@ interface Match extends Details
 
     public function offset(): int;
 
+    public function tail(): int;
+
     public function byteOffset(): int;
+
+    public function byteTail(): int;
 
     public function setUserData($userData): void;
 

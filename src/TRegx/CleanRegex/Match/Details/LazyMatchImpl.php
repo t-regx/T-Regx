@@ -131,9 +131,19 @@ class LazyMatchImpl implements Match
         return $this->match()->offset();
     }
 
+    public function tail(): int
+    {
+        return $this->match()->tail();
+    }
+
     public function byteOffset(): int
     {
         return $this->match()->byteOffset();
+    }
+
+    public function byteTail(): int
+    {
+        return $this->match()->byteTail();
     }
 
     public function setUserData($userData): void

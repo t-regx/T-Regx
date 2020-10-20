@@ -60,16 +60,16 @@ class LazyMatchImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldOffset()
+    public function shouldTail()
     {
         // given
         $match = $this->match();
 
         // when
-        $result = $match->offset();
+        $result = $match->tail();
 
         // then
-        $this->assertEquals(6, $result);
+        $this->assertEquals(10, $result);
     }
 
     /**
@@ -315,6 +315,23 @@ class LazyMatchImplTest extends TestCase
         // then
         $this->assertEquals(2, $offset);
         $this->assertEquals(4, $byteOffset);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetTail()
+    {
+        // given
+        $match = $this->match('2ę', '€ 2ę');
+
+        // when
+        $tail = $match->tail();
+        $byteTail = $match->byteTail();
+
+        // then
+        $this->assertEquals(4, $tail);
+        $this->assertEquals(7, $byteTail);
     }
 
     /**

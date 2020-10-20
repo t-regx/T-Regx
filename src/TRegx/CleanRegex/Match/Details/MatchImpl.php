@@ -193,9 +193,19 @@ class MatchImpl implements Match
         return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $this->byteOffset());
     }
 
+    public function tail(): int
+    {
+        return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $this->byteTail());
+    }
+
     public function byteOffset(): int
     {
         return $this->match->byteOffset();
+    }
+
+    public function byteTail(): int
+    {
+        return $this->match->byteOffset() + \strlen($this->match->getText());
     }
 
     public function setUserData($userData): void

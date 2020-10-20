@@ -165,6 +165,21 @@ class ReplaceMatchImplTest extends TestCase
     /**
      * @test
      */
+    public function shouldGet_tail()
+    {
+        // given
+        $match = $this->getMatch_mockedMethod('tail', 15);
+
+        // when
+        $offset = $match->tail();
+
+        // then
+        $this->assertEquals(15, $offset);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGet_byteOffset()
     {
         // given
@@ -175,6 +190,21 @@ class ReplaceMatchImplTest extends TestCase
 
         // then
         $this->assertEquals(14, $byteOffset);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_byteTail()
+    {
+        // given
+        $match = $this->getMatch_mockedMethod('byteTail', 16);
+
+        // when
+        $byteOffset = $match->byteTail();
+
+        // then
+        $this->assertEquals(16, $byteOffset);
     }
 
     /**

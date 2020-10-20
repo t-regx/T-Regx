@@ -25,6 +25,8 @@ Incoming in 0.10.0
 * Features
     * Restored `Pattern::prepare()`, but without alteration. #78
     * Restored `PatternBuilder::prepare()`, but without alteration. #78
+    * Add `Match.tail()`. #83
+    * Add `Match.byteTail()`. #83
 
 Added in 0.9.10
 ---------------
