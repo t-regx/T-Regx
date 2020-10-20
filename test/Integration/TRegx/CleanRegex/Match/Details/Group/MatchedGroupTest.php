@@ -61,28 +61,15 @@ class MatchedGroupTest extends TestCase
     public function shouldGetOffset()
     {
         // given
-        $matchGroup = $this->matchGroup();
+        $matchGroup = $this->buildMatchGroup("ść Łukasz ść", "Łukasz", "Łu", 1, 5);
 
         // when
         $offset = $matchGroup->offset();
+        $byteOffset = $matchGroup->byteOffset();
 
         // then
-        $this->assertEquals(14, $offset);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetByteOffset()
-    {
-        // given
-        $matchGroup = $this->matchGroup();
-
-        // when
-        $offset = $matchGroup->byteOffset();
-
-        // then
-        $this->assertEquals(14, $offset);
+        $this->assertEquals(3, $offset);
+        $this->assertEquals(5, $byteOffset);
     }
 
     /**
@@ -172,7 +159,7 @@ class MatchedGroupTest extends TestCase
     public function shouldGet_usedIdentifier($usedIdentifier)
     {
         // given
-        $matchGroup = $this->matchGroupWithIndexAndName($usedIdentifier);
+        $matchGroup = $this->buildMatchGroup('before- start(Nice matching)end -after match', 'start(Nice matching)end', 'Nice matching', $usedIdentifier, 14);
 
         // when
         $result = $matchGroup->usedIdentifier();
@@ -191,19 +178,24 @@ class MatchedGroupTest extends TestCase
 
     private function matchGroup(): MatchedGroup
     {
-        return $this->matchGroupWithIndexAndName('first');
+        return $this->buildMatchGroup(
+            'before- start(Nice matching)end -after match',
+            'start(Nice matching)end',
+            'Nice matching',
+            'first',
+            14);
     }
 
-    private function matchGroupWithIndexAndName($nameOrIndex): MatchedGroup
+    private function buildMatchGroup(string $subject, string $match, string $group, $nameOrIndex, $groupOffset): MatchedGroup
     {
         return new MatchedGroup(
             new RawMatchOffset([
-                0       => ['start(Nice matching)end', 8],
-                'first' => ['Nice matching', 14],
-                1       => ['Nice matching', 14]
+                0       => [$match, 8],
+                'first' => [$group, $groupOffset],
+                1       => [$group, $groupOffset]
             ]),
             new GroupDetails('first', 1, $nameOrIndex, new EagerMatchAllFactory(new RawMatchesOffset([]))),
-            new MatchedGroupOccurrence('Nice matching', 14, new Subject('before- start(Nice matching)end -after match'))
+            new MatchedGroupOccurrence($group, $groupOffset, new Subject($subject))
         );
     }
 }
