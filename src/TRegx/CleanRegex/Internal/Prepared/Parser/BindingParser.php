@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use InvalidArgumentException;
-use TRegx\CleanRegex\Internal\Prepared\QuotableFactory;
+use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
 use TRegx\CleanRegex\Internal\Type;

@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared;
+namespace TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory;
 
 use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\AlternationQuotable;
