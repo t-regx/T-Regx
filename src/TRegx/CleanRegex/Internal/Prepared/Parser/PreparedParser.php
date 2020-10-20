@@ -31,7 +31,13 @@ class PreparedParser implements Parser
     private function mapToQuoteable($quoteable, QuotableFactory $quotableFactory): Quoteable
     {
         if (\is_array($quoteable)) {
-            return new CompositeQuoteable(\array_map([$quotableFactory, 'quotable'], $quoteable));
+            if (\count($quoteable) === 1) {
+                return new CompositeQuoteable(\array_map([$quotableFactory, 'quotable'], $quoteable));
+            }
+            if (empty($quoteable)) {
+                throw new InvalidArgumentException("Method prepare() doesn't support alteration; bound value is required");
+            }
+            throw new InvalidArgumentException("Method prepare() doesn't support alteration; only one bound value allowed");
         }
         if (\is_string($quoteable)) {
             return new RawQuoteable($quoteable);

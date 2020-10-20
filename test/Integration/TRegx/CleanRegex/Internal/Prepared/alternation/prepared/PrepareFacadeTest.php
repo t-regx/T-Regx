@@ -13,11 +13,43 @@ class PrepareFacadeTest extends TestCase
     public function shouldThrow_getPattern_onAlteration()
     {
         // given
-        $parser = new PreparedParser(['Either ', ['5/6'], ' or ', [[]], ' :)']);
+        $parser = new PreparedParser(['Either ', [[]], ' :)']);
 
         // then
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Method prepare() doesn't support alteration; expected string, but array (0) given");
+
+        // when
+        (new PrepareFacade($parser, false, ''))->getPattern();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_getPattern_onMultipleValues()
+    {
+        // given
+        $parser = new PreparedParser(['Either ', ['one', 'two'], ' :)']);
+
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Method prepare() doesn't support alteration; only one bound value allowed");
+
+        // when
+        (new PrepareFacade($parser, false, ''))->getPattern();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_getPattern_onMissingBoundValue()
+    {
+        // given
+        $parser = new PreparedParser(['Foo', []]);
+
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Method prepare() doesn't support alteration; bound value is required");
 
         // when
         (new PrepareFacade($parser, false, ''))->getPattern();
