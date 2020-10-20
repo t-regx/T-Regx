@@ -1,7 +1,7 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.9.11
+Incoming in 0.10.0
 ------------------
 
 * Breaking changes
@@ -21,6 +21,10 @@ Incoming in 0.9.11
         * Added `orElseEmpty()`.
         * Renamed `orReturn(string)` to `orElseWith(string)`.
         * Renamed `orElse(callable)` to `orElseCalling(callable)`.
+
+* Features
+    * Restored `Pattern::prepare()`, but without alteration. #78
+    * Restored `PatternBuilder::prepare()`, but without alteration. #78
 
 Added in 0.9.10
 ---------------

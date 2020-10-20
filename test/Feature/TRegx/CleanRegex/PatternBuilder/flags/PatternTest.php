@@ -9,6 +9,21 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldBuild_prepared()
+    {
+        // given
+        $pattern = Pattern::prepare(['Foo', ['(Bar']], 'i');
+
+        // when
+        $flagIsAdded = $pattern->test('foo(bar');
+
+        // then
+        $this->assertTrue($flagIsAdded);
+    }
+
+    /**
+     * @test
+     */
     public function shouldBuild_bind()
     {
         // given

@@ -34,6 +34,11 @@ class Pattern
         return new PatternImpl(InternalPattern::pcre($delimitedPattern));
     }
 
+    public static function prepare(array $input, string $flags = ''): PatternInterface
+    {
+        return PatternBuilder::builder()->prepare($input, $flags);
+    }
+
     public static function bind(string $input, array $values, string $flags = ''): PatternInterface
     {
         return PatternBuilder::builder()->bind($input, $values, $flags);

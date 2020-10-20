@@ -98,9 +98,8 @@ class PrepareFacadeTest extends TestCase
     public function invalidInputs_arrays(): array
     {
         return [
-            'bind @'      => [new BindingParser('@a@b@c', ['a' => '', 'b' => '', 'c' => ['', []]])],
-            'inject #'    => [new InjectParser('@@@', ['', '', ['', []]])],
-            'prepared []' => [new InjectParser('@@@', ['', '', ['', []]])],
+            'bind @'   => [new BindingParser('@a@b@c', ['a' => '', 'b' => '', 'c' => ['', []]])],
+            'inject #' => [new InjectParser('@@@', ['', '', ['', []]])],
         ];
     }
 

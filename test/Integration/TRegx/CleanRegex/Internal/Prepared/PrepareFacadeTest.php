@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 
 class PrepareFacadeTest extends TestCase
@@ -27,9 +28,10 @@ class PrepareFacadeTest extends TestCase
     public function standard(): array
     {
         return [
-            'bind @'   => [new BindingParser('(I|We) want: @input :)', ['input' => 'User (input)'])],
-            'bind ``'  => [new BindingParser('(I|We) want: `input` :)', ['input' => 'User (input)'])],
-            'inject #' => [new InjectParser('(I|We) want: @ :)', ['User (input)'])],
+            'bind @'      => [new BindingParser('(I|We) want: @input :)', ['input' => 'User (input)'])],
+            'bind ``'     => [new BindingParser('(I|We) want: `input` :)', ['input' => 'User (input)'])],
+            'inject #'    => [new InjectParser('(I|We) want: @ :)', ['User (input)'])],
+            'prepared []' => [new PreparedParser(['(I|We) want: ', ['User (input)'], ' :)'])]
         ];
     }
 
@@ -50,8 +52,10 @@ class PrepareFacadeTest extends TestCase
     public function empty(): array
     {
         return [
-            'bind @'    => [new BindingParser('', [])],
-            'inject # ' => [new InjectParser('', [])],
+            'bind @'        => [new BindingParser('', [])],
+            'inject # '     => [new InjectParser('', [])],
+            "prepared ''"   => [new PreparedParser([''])],
+            "prepared ['']" => [new PreparedParser([['']])],
         ];
     }
 
@@ -73,11 +77,13 @@ class PrepareFacadeTest extends TestCase
     public function pcre(): array
     {
         return [
-            'bind //'   => [new BindingParser('//', []), '#//#'],
-            'inject //' => [new InjectParser('//', []), '#//#'],
+            'bind //'     => [new BindingParser('//', []), '#//#'],
+            'inject //'   => [new InjectParser('//', []), '#//#'],
+            'prepared //' => [new PreparedParser(['//']), '#//#'],
 
-            'bind //mi'   => [new BindingParser('//mi', []), '#//mi#'],
-            'inject //mi' => [new InjectParser('//mi', []), '#//mi#'],
+            'bind //mi'     => [new BindingParser('//mi', []), '#//mi#'],
+            'inject //mi'   => [new InjectParser('//mi', []), '#//mi#'],
+            'prepared //mi' => [new PreparedParser(['//mi']), '#//mi#'],
         ];
     }
 
@@ -92,14 +98,15 @@ class PrepareFacadeTest extends TestCase
         $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
-        $this->assertEquals('/%/', $pattern);
+        $this->assertEquals('/\(/', $pattern);
     }
 
     public function onlyUserInput(): array
     {
         return [
-            'bind @'    => [new BindingParser('@name', ['name' => '%'])],
-            'inject # ' => [new InjectParser('@', ['%'])],
+            'bind @'      => [new BindingParser('@name', ['name' => '('])],
+            'inject # '   => [new InjectParser('@', ['('])],
+            'prepared []' => [new PreparedParser([['(']])],
         ];
     }
 
@@ -120,8 +127,9 @@ class PrepareFacadeTest extends TestCase
     public function delimiters(): array
     {
         return [
-            'bind @'   => [new BindingParser('With delimiters / #@input :D', ['input' => 'Using / delimiters and %'])],
-            'inject #' => [new InjectParser('With delimiters / #@ :D', ['Using / delimiters and %'])],
+            'bind @'      => [new BindingParser('With delimiters / #@input :D', ['input' => 'Using / delimiters and %'])],
+            'inject #'    => [new InjectParser('With delimiters / #@ :D', ['Using / delimiters and %'])],
+            'prepared []' => [new PreparedParser(['With delimiters / #', ['Using / delimiters and %'], ' :D'])],
         ];
     }
 
@@ -142,11 +150,12 @@ class PrepareFacadeTest extends TestCase
     public function whitespace(): array
     {
         return [
-            'bind @'   => [new BindingParser('(I|We) want: @input@input_2', [
+            'bind @'      => [new BindingParser('(I|We) want: @input@input_2', [
                 'input'   => 'User (input)',
                 'input_2' => 'User (input_2)',
             ])],
-            'inject #' => [new InjectParser('(I|We) want: @@', ['User (input)', 'User (input_2)'])],
+            'inject #'    => [new InjectParser('(I|We) want: @@', ['User (input)', 'User (input_2)'])],
+            'prepared []' => [new PreparedParser(['(I|We) want: ', ['User (input)'], ['User (input_2)']])],
         ];
     }
 
@@ -268,6 +277,19 @@ class PrepareFacadeTest extends TestCase
             [
                 new InjectParser('@', [0 => 21]),
                 "Invalid inject value for key '0'. Expected string, but integer (21) given",
+            ],
+
+            [
+                new PreparedParser(['input', 5]),
+                'Invalid prepared pattern part. Expected string, but integer (5) given',
+            ],
+            [
+                new PreparedParser(['input', [4], 'input']),
+                'Invalid bound value. Expected string, but integer (4) given',
+            ],
+            [
+                new PreparedParser([]),
+                'Empty array of prepared pattern parts',
             ],
         ];
     }

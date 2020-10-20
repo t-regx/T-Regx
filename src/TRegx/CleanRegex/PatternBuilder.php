@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 
 class PatternBuilder
@@ -47,6 +48,16 @@ class PatternBuilder
     public function inject(string $input, array $values, string $flags = ''): PatternInterface
     {
         return $this->build(new InjectParser($input, $values), $flags);
+    }
+
+    /**
+     * @param (string|string[])[] $input
+     * @param string $flags
+     * @return PatternInterface
+     */
+    public function prepare(array $input, string $flags = ''): PatternInterface
+    {
+        return $this->build(new PreparedParser($input), $flags);
     }
 
     /**
