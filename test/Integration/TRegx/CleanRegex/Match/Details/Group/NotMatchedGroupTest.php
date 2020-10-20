@@ -82,6 +82,22 @@ class NotMatchedGroupTest extends TestCase
     /**
      * @test
      */
+    public function testGetTail()
+    {
+        // given
+        $matchGroup = $this->matchGroup();
+
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to call tail() for group 'first', but the group was not matched");
+
+        // when
+        $matchGroup->tail();
+    }
+
+    /**
+     * @test
+     */
     public function testReplace()
     {
         // given
@@ -109,6 +125,22 @@ class NotMatchedGroupTest extends TestCase
 
         // when
         $matchGroup->byteOffset();
+    }
+
+    /**
+     * @test
+     */
+    public function testGetByteTail()
+    {
+        // given
+        $matchGroup = $this->matchGroup();
+
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to call byteTail() for group 'first', but the group was not matched");
+
+        // when
+        $matchGroup->byteTail();
     }
 
     /**

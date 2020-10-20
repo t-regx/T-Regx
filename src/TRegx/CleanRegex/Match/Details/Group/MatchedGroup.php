@@ -81,9 +81,19 @@ class MatchedGroup implements MatchGroup
         return ByteOffset::toCharacterOffset($this->occurrence->subject->getSubject(), $this->occurrence->offset);
     }
 
+    public function tail(): int
+    {
+        return ByteOffset::toCharacterOffset($this->occurrence->subject->getSubject(), $this->byteTail());
+    }
+
     public function byteOffset(): int
     {
         return $this->occurrence->offset;
+    }
+
+    public function byteTail(): int
+    {
+        return $this->occurrence->offset + \strlen($this->occurrence->text);
     }
 
     public function replace(string $replacement): string

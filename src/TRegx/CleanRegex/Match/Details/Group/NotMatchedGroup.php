@@ -80,9 +80,19 @@ class NotMatchedGroup implements MatchGroup
         throw $this->groupNotMatched('offset');
     }
 
+    public function tail(): int
+    {
+        throw $this->groupNotMatched('tail');
+    }
+
     public function byteOffset(): int
     {
         throw $this->groupNotMatched('byteOffset');
+    }
+
+    public function byteTail(): int
+    {
+        throw $this->groupNotMatched('byteTail');
     }
 
     public function replace(string $replacement): string

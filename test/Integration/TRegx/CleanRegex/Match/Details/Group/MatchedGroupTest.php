@@ -75,6 +75,23 @@ class MatchedGroupTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetTail()
+    {
+        // given
+        $matchGroup = $this->buildMatchGroup("ść Łukaśz ść", "Łukaśz", "Łu", 1, 5);
+
+        // when
+        $tail = $matchGroup->tail();
+        $byteTail = $matchGroup->byteTail();
+
+        // then
+        $this->assertEquals(5, $tail);
+        $this->assertEquals(8, $byteTail);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetName()
     {
         // given

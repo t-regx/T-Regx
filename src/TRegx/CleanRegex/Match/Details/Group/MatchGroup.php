@@ -28,7 +28,11 @@ interface MatchGroup extends Optional
 
     public function offset(): int;
 
+    public function tail(): int;
+
     public function byteOffset(): int;
+
+    public function byteTail(): int;
 
     public function replace(string $replacement): string;
 
