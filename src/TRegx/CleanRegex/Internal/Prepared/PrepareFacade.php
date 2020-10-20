@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Delimiter\Strategy\CallbackStrategy;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\PcreCallbackStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\QuotableFactory;
+use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\AlterationFactory;
 
 class PrepareFacade
 {
@@ -27,7 +27,7 @@ class PrepareFacade
     public function getPattern(): string
     {
         $delimiterer = new Delimiterer($this->strategy(function (string $delimiter) {
-            return $this->parser->parse($delimiter, new QuotableFactory($this->flags))->quote($delimiter);
+            return $this->parser->parse($delimiter, new AlterationFactory($this->flags))->quote($delimiter);
         }));
         return $delimiterer->delimiter($this->parser->getDelimiterable());
     }

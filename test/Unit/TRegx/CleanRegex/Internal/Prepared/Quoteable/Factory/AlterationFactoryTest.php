@@ -3,9 +3,9 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\QuotableFactory;
+use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\AlterationFactory;
 
-class QuotableFactoryTest extends TestCase
+class AlterationFactoryTest extends TestCase
 {
     /**
      * @test
@@ -13,7 +13,7 @@ class QuotableFactoryTest extends TestCase
     public function shouldCreateQuotableString()
     {
         // given
-        $factory = new QuotableFactory('');
+        $factory = new AlterationFactory('');
 
         // when
         $quoteable = $factory->quotable('5% you (are|is) welcome');
@@ -28,7 +28,7 @@ class QuotableFactoryTest extends TestCase
     public function shouldQuoteArray()
     {
         // given
-        $factory = new QuotableFactory('');
+        $factory = new AlterationFactory('');
 
         // when
         $quoteable = $factory->quotable(['first 1%', 'second 2%']);
@@ -46,7 +46,7 @@ class QuotableFactoryTest extends TestCase
     public function shouldRemoveDuplicates(string $flags, string $expected)
     {
         // given
-        $factory = new QuotableFactory($flags);
+        $factory = new AlterationFactory($flags);
 
         // when
         $quoteable = $factory->quotable(['FOO', 'foo', 'PIęć', 'pięć', 'Żółć', 'ŻÓŁĆ']);
@@ -71,7 +71,7 @@ class QuotableFactoryTest extends TestCase
     public function shouldThrowForInvalidType()
     {
         // given
-        $factory = new QuotableFactory('');
+        $factory = new AlterationFactory('');
 
         // then
         $this->expectException(InvalidArgumentException::class);
