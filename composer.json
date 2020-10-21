@@ -51,7 +51,7 @@
   "require-dev": {
     "phpunit/phpunit": "^9.0 || ^8.0 || ^7.5",
     "php-coveralls/php-coveralls": "^2.0",
-    "rawr/cross-data-providers": "^2.1",
+    "rawr/cross-data-providers": "^2.2.0",
     "kelunik/fqn-check": "^0.1.3"
   },
   "archive": {
