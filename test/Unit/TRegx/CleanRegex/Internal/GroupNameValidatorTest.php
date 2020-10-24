@@ -95,7 +95,7 @@ class GroupNameValidatorTest extends TestCase
             ['9group', "Group name must be an alphanumeric string starting with a letter, given: '9group'"],
             ['_group', "Group name must be an alphanumeric string starting with a letter, given: '_group'"],
             ['group space', "Group name must be an alphanumeric string starting with a letter, given: 'group space'"],
-            [-15, 'Group index can only be a positive integer, given: -15'],
+            [-15, 'Group index can only be a non-negative integer, given: -15'],
             [2.23, 'Group index can only be an integer or a string, given: double (2.23)'],
             [null, 'Group index can only be an integer or a string, given: null'],
         ];
