@@ -5,7 +5,7 @@ use TRegx\SafeRegex\Constants\PregConstants;
 use TRegx\SafeRegex\Constants\PregMessages;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
 use TRegx\SafeRegex\Exception\PregException;
-use TRegx\SafeRegex\Guard\GuardedExecution;
+use TRegx\SafeRegex\Guard\GuardedExecution as Guard;
 use TRegx\SafeRegex\Guard\Strategy\PregFilterSuspectedReturnStrategy;
 use TRegx\SafeRegex\Guard\Strategy\PregReplaceSuspectedReturnStrategy;
 use TRegx\SafeRegex\Guard\Strategy\SilencedSuspectedReturnStrategy;
@@ -27,7 +27,7 @@ class preg
      */
     public static function match(string $pattern, string $subject, array &$matches = null, int $flags = 0, int $offset = 0): int
     {
-        return GuardedExecution::invoke('preg_match', static function () use ($offset, $flags, &$matches, $subject, $pattern) {
+        return Guard::invoke('preg_match', static function () use ($offset, $flags, &$matches, $subject, $pattern) {
             return @\preg_match(Bug::fix($pattern), $subject, $matches, $flags, $offset) ? 1 : 0;
         });
     }
@@ -46,7 +46,7 @@ class preg
      */
     public static function match_all(string $pattern, string $subject, array &$matches = null, $flags = \PREG_PATTERN_ORDER, $offset = 0): int
     {
-        return GuardedExecution::invoke('preg_match_all', static function () use ($offset, $flags, &$matches, $subject, $pattern) {
+        return Guard::invoke('preg_match_all', static function () use ($offset, $flags, &$matches, $subject, $pattern) {
             return @\preg_match_all(Bug::fix($pattern), $subject, $matches, $flags, $offset);
         });
     }
@@ -72,7 +72,7 @@ class preg
      */
     public static function replace($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
     {
-        return GuardedExecution::invoke('preg_replace', static function () use ($limit, $subject, $replacement, $pattern, &$count) {
+        return Guard::invoke('preg_replace', static function () use ($limit, $subject, $replacement, $pattern, &$count) {
             return @\preg_replace(Bug::fix($pattern), $replacement, $subject, $limit, $count);
         }, new PregReplaceSuspectedReturnStrategy($subject));
     }
@@ -97,7 +97,7 @@ class preg
      */
     public static function replace_callback($pattern, callable $callback, $subject, int $limit = -1, int &$count = null)
     {
-        return GuardedExecution::invoke('preg_replace_callback', static function () use ($pattern, $limit, $subject, $callback, &$count) {
+        return Guard::invoke('preg_replace_callback', static function () use ($pattern, $limit, $subject, $callback, &$count) {
             return @\preg_replace_callback(Bug::fix($pattern), self::decorateCallback('preg_replace_callback', $callback), $subject, $limit, $count);
         });
     }
@@ -122,7 +122,7 @@ class preg
      */
     public static function replace_callback_array($patterns_and_callbacks, $subject, int $limit = -1, int &$count = null)
     {
-        return GuardedExecution::invoke('preg_replace_callback_array', static function () use ($patterns_and_callbacks, $subject, $limit, &$count) {
+        return Guard::invoke('preg_replace_callback_array', static function () use ($patterns_and_callbacks, $subject, $limit, &$count) {
             return @\preg_replace_callback_array(\array_map(static function ($callback) {
                 return self::decorateCallback('preg_replace_callback_array', $callback);
             }, Bug::fixArrayKeys($patterns_and_callbacks)), $subject, $limit, $count);
@@ -164,7 +164,7 @@ class preg
      */
     public static function filter($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
     {
-        return GuardedExecution::invoke('preg_filter', static function () use ($pattern, $replacement, $subject, $limit, &$count) {
+        return Guard::invoke('preg_filter', static function () use ($pattern, $replacement, $subject, $limit, &$count) {
             return @\preg_filter(Bug::fix($pattern), $replacement, $subject, $limit, $count);
         }, new PregFilterSuspectedReturnStrategy($subject));
     }
@@ -181,7 +181,7 @@ class preg
      */
     public static function split(string $pattern, string $subject, int $limit = -1, int $flags = 0)
     {
-        return GuardedExecution::invoke('preg_split', static function () use ($pattern, $subject, $limit, $flags) {
+        return Guard::invoke('preg_split', static function () use ($pattern, $subject, $limit, $flags) {
             return @\preg_split(Bug::fix($pattern), $subject, $limit, $flags);
         });
     }
@@ -199,7 +199,7 @@ class preg
         $input = \array_filter($input, function ($value) {
             return !\is_object($value) || \method_exists($value, '__toString');
         });
-        return GuardedExecution::invoke('preg_grep', static function () use ($flags, $input, $pattern) {
+        return Guard::invoke('preg_grep', static function () use ($flags, $input, $pattern) {
             return @\preg_grep(Bug::fix($pattern), $input, $flags);
         }, new SilencedSuspectedReturnStrategy());
     }
