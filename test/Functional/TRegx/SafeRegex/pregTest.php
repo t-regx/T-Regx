@@ -4,8 +4,11 @@ namespace Test\Functional\TRegx\SafeRegex;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ClassWithToString;
+use Test\Utils\Functions;
 use Test\Warnings;
 use TRegx\SafeRegex\Exception\CompilePregException;
+use TRegx\SafeRegex\Exception\InvalidReturnValueException;
+use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\preg;
 
 class pregTest extends TestCase
@@ -202,5 +205,45 @@ class pregTest extends TestCase
 
         // when
         preg::quote('Hello # % there', '');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowRuntimeException_withPregPattern()
+    {
+        // given
+        $patterns = [
+            '/./'  => Functions::constant('a'),
+            '/a(/' => Functions::constant('b'),
+        ];
+
+        // when
+        try {
+            preg::replace_callback_array($patterns, 'word');
+        } catch (MalformedPatternException $exception) {
+            // then
+            $this->assertEquals(['/./', '/a(/'], $exception->getPregPattern());
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowInvalidReturnValueException_withPregPattern()
+    {
+        // given
+        $patterns = [
+            '/./' => Functions::constant('a'),
+            '/a/' => Functions::constant(new \stdClass()),
+        ];
+
+        // when
+        try {
+            preg::replace_callback_array($patterns, 'word');
+        } catch (InvalidReturnValueException $exception) {
+            // then
+            $this->assertEquals(['/./', '/a/'], $exception->getPregPattern());
+        }
     }
 }

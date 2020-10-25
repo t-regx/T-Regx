@@ -28,8 +28,8 @@ class BothHostError implements HostError
         $this->runtime->occurred() && $this->runtime->clear();
     }
 
-    public function getSafeRegexpException(string $methodName): PregException
+    public function getSafeRegexpException(string $methodName, $pattern): PregException
     {
-        return $this->compile->getSafeRegexpException($methodName);
+        return $this->compile->getSafeRegexpException($methodName, $pattern);
     }
 }

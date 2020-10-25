@@ -25,7 +25,7 @@ class GuardedExecutionTest extends TestCase
         $this->expectExceptionMessage('After invoking preg_match(), preg_last_error() returned PREG_BAD_UTF8_ERROR.');
 
         // when
-        GuardedExecution::invoke('preg_match', function () {
+        GuardedExecution::invoke('preg_match', '', function () {
             $this->causeRuntimeWarning();
             return false;
         });
@@ -41,7 +41,7 @@ class GuardedExecutionTest extends TestCase
         $this->expectExceptionMessage("No ending delimiter '/' found");
 
         // when
-        GuardedExecution::invoke('preg_match', function () {
+        GuardedExecution::invoke('preg_match', '', function () {
             $this->causeCompileWarning();
             return false;
         });
@@ -57,7 +57,7 @@ class GuardedExecutionTest extends TestCase
         $this->expectExceptionMessage('Rethrown exception');
 
         // when
-        GuardedExecution::invoke('preg_match', Functions::throws(new Exception('Rethrown exception')));
+        GuardedExecution::invoke('preg_match', '', Functions::throws(new Exception('Rethrown exception')));
     }
 
     /**
@@ -66,7 +66,7 @@ class GuardedExecutionTest extends TestCase
     public function shouldInvokeReturnResult()
     {
         // when
-        $result = GuardedExecution::invoke('preg_match', Functions::constant(13));
+        $result = GuardedExecution::invoke('preg_match', '', Functions::constant(13));
 
         // then
         $this->assertEquals(13, $result);
@@ -123,4 +123,39 @@ class GuardedExecutionTest extends TestCase
         $this->assertFalse($error->occurred());
         $this->assertInstanceOf(EmptyHostError::class, $error);
     }
+
+    /**
+     * @test
+     */
+    public function shouldRethrowRuntime_withPregPattern()
+    {
+        // when
+        try {
+            GuardedExecution::invoke('preg_match', '/runtime/', function () {
+                $this->causeRuntimeWarning();
+                return false;
+            });
+        } catch (RuntimePregException $exception) {
+            // then
+            $this->assertEquals('/runtime/', $exception->getPregPattern());
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRethrowCompile_withPregPattern()
+    {
+        // when
+        try {
+            GuardedExecution::invoke('preg_match', '/compile/', function () {
+                $this->causeCompileWarning();
+                return false;
+            });
+        } catch (CompilePregException $exception) {
+            // then
+            $this->assertEquals('/compile/', $exception->getPregPattern());
+        }
+    }
+
 }

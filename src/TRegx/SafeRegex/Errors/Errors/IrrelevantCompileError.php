@@ -18,7 +18,7 @@ class IrrelevantCompileError implements CompileError
         // @codeCoverageIgnoreEnd
     }
 
-    public function getSafeRegexpException(string $methodName): PregException
+    public function getSafeRegexpException(string $methodName, $pattern): PregException
     {
         // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();

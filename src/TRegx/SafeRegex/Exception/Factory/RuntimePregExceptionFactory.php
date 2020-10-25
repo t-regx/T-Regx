@@ -15,13 +15,16 @@ class RuntimePregExceptionFactory
     private $pregConstants;
     /** @var string */
     private $methodName;
+    /** @var string|array */
+    private $pattern;
     /** @var int */
     private $errorCode;
 
-    public function __construct(string $methodName, int $errorCode)
+    public function __construct(string $methodName, $pattern, int $errorCode)
     {
         $this->pregConstants = new PregConstants();
         $this->methodName = $methodName;
+        $this->pattern = $pattern;
         $this->errorCode = $errorCode;
     }
 
@@ -38,7 +41,7 @@ class RuntimePregExceptionFactory
     private function instantiateException(string $errorName): RuntimePregException
     {
         $class = $this->className();
-        return new $class($this->methodName, $this->getExceptionMessage($errorName), $this->errorCode, $errorName);
+        return new $class($this->methodName, $this->pattern, $this->getExceptionMessage($errorName), $this->errorCode, $errorName);
     }
 
     private function className(): string

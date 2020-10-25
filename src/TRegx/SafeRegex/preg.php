@@ -28,7 +28,7 @@ class preg
     public static function match(string $pattern, string $subject, array &$matches = null, int $flags = 0, int $offset = 0): int
     {
         $pr = Bug::fix($pattern);
-        return Guard::invoke('preg_match', static function () use ($pr, $subject, &$matches, $flags, $offset) {
+        return Guard::invoke('preg_match', $pr, static function () use ($pr, $subject, &$matches, $flags, $offset) {
             return @\preg_match($pr, $subject, $matches, $flags, $offset) ? 1 : 0;
         });
     }
@@ -48,7 +48,7 @@ class preg
     public static function match_all(string $pattern, string $subject, array &$matches = null, $flags = \PREG_PATTERN_ORDER, int $offset = 0): int
     {
         $pr = Bug::fix($pattern);
-        return Guard::invoke('preg_match_all', static function () use ($pr, $subject, &$matches, $flags, $offset) {
+        return Guard::invoke('preg_match_all', $pr, static function () use ($pr, $subject, &$matches, $flags, $offset) {
             return @\preg_match_all($pr, $subject, $matches, $flags, $offset);
         });
     }
@@ -75,7 +75,7 @@ class preg
     public static function replace($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
     {
         $pr = Bug::fix($pattern);
-        return Guard::invoke('preg_replace', static function () use ($pr, $replacement, $subject, $limit, &$count) {
+        return Guard::invoke('preg_replace', $pr, static function () use ($pr, $replacement, $subject, $limit, &$count) {
             return @\preg_replace($pr, $replacement, $subject, $limit, $count);
         }, new PregReplaceSuspectedReturnStrategy($subject));
     }
@@ -101,8 +101,8 @@ class preg
     public static function replace_callback($pattern, callable $callback, $subject, int $limit = -1, int &$count = null)
     {
         $pr = Bug::fix($pattern);
-        return Guard::invoke('preg_replace_callback', static function () use ($pr, $callback, $subject, $limit, &$count) {
-            return @\preg_replace_callback($pr, self::decorateCallback('preg_replace_callback', $callback), $subject, $limit, $count);
+        return Guard::invoke('preg_replace_callback', $pr, static function () use ($pr, $callback, $subject, $limit, &$count) {
+            return @\preg_replace_callback($pr, self::decorateCallback('preg_replace_callback', $pr, $callback), $subject, $limit, $count);
         });
     }
 
@@ -127,24 +127,24 @@ class preg
     public static function replace_callback_array($patterns_and_callbacks, $subject, int $limit = -1, int &$count = null)
     {
         $prs = Bug::fixArrayKeys($patterns_and_callbacks);
-        return Guard::invoke('preg_replace_callback_array', static function () use ($prs, $subject, $limit, &$count) {
-            return @\preg_replace_callback_array(\array_map(static function ($callback) {
-                return self::decorateCallback('preg_replace_callback_array', $callback);
+        return Guard::invoke('preg_replace_callback_array', \array_keys($prs), static function () use ($prs, $subject, $limit, &$count) {
+            return @\preg_replace_callback_array(\array_map(static function ($callback) use ($prs) {
+                return self::decorateCallback('preg_replace_callback_array', \array_keys($prs), $callback);
             }, $prs), $subject, $limit, $count);
         });
     }
 
-    private static function decorateCallback(string $methodName, $callback)
+    private static function decorateCallback(string $methodName, $pattern, $callback)
     {
         if (!\is_callable($callback)) {
             throw new \InvalidArgumentException("Invalid callback passed to '$methodName'");
         }
-        return static function (...$args) use ($callback, $methodName) {
+        return static function (...$args) use ($methodName, $pattern, $callback) {
             $value = $callback(...$args);
             if (!\is_object($value) || \method_exists($value, '__toString')) {
                 return $value;
             }
-            throw new InvalidReturnValueException($methodName, \gettype($value));
+            throw new InvalidReturnValueException($methodName, $pattern, \gettype($value));
         };
     }
 
@@ -170,7 +170,7 @@ class preg
     public static function filter($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
     {
         $pr = Bug::fix($pattern);
-        return Guard::invoke('preg_filter', static function () use ($pr, $replacement, $subject, $limit, &$count) {
+        return Guard::invoke('preg_filter', $pr, static function () use ($pr, $replacement, $subject, $limit, &$count) {
             return @\preg_filter($pr, $replacement, $subject, $limit, $count);
         }, new PregFilterSuspectedReturnStrategy($subject));
     }
@@ -188,7 +188,7 @@ class preg
     public static function split(string $pattern, string $subject, int $limit = -1, int $flags = 0)
     {
         $pr = Bug::fix($pattern);
-        return Guard::invoke('preg_split', static function () use ($pr, $subject, $limit, $flags) {
+        return Guard::invoke('preg_split', $pr, static function () use ($pr, $subject, $limit, $flags) {
             return @\preg_split($pr, $subject, $limit, $flags);
         });
     }
@@ -207,7 +207,7 @@ class preg
             return !\is_object($value) || \method_exists($value, '__toString');
         });
         $pr = Bug::fix($pattern);
-        return Guard::invoke('preg_grep', static function () use ($pr, $input, $flags) {
+        return Guard::invoke('preg_grep', $pr, static function () use ($pr, $input, $flags) {
             return @\preg_grep($pr, $input, $flags);
         }, new SilencedSuspectedReturnStrategy());
     }

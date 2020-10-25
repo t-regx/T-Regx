@@ -8,6 +8,8 @@ use TRegx\SafeRegex\Guard\Strategy\SuspectedReturnStrategy;
 
 class ExceptionFactory
 {
+    /** @var string|array */
+    private $pattern;
     /** @var SuspectedReturnStrategy */
     private $strategy;
     /** @var ErrorsCleaner */
@@ -15,8 +17,9 @@ class ExceptionFactory
     /** @var SuspectedReturnPregExceptionFactory */
     private $exceptionFactory;
 
-    public function __construct(SuspectedReturnStrategy $strategy, ErrorsCleaner $errorsCleaner)
+    public function __construct($pattern, SuspectedReturnStrategy $strategy, ErrorsCleaner $errorsCleaner)
     {
+        $this->pattern = $pattern;
         $this->strategy = $strategy;
         $this->errorsCleaner = $errorsCleaner;
         $this->exceptionFactory = new SuspectedReturnPregExceptionFactory();
@@ -31,7 +34,7 @@ class ExceptionFactory
     {
         $hostError = $this->errorsCleaner->getError();
         if ($hostError->occurred()) {
-            return $hostError->getSafeRegexpException($methodName);
+            return $hostError->getSafeRegexpException($methodName, $this->pattern);
         }
         return $this->getExceptionByReturnValue($methodName, $pregResult);
     }
@@ -39,7 +42,7 @@ class ExceptionFactory
     private function getExceptionByReturnValue(string $methodName, $pregResult): ?PregException
     {
         if ($this->strategy->isSuspected($methodName, $pregResult)) {
-            return $this->exceptionFactory->create($methodName, $pregResult);
+            return $this->exceptionFactory->create($methodName, $this->pattern, $pregResult);
         }
         return null;
     }

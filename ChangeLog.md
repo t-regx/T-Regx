@@ -23,14 +23,27 @@ Incoming in 0.10.0
         * Renamed `orElse(callable)` to `orElseCalling(callable)`.
 
 * Features
-    * Restored `Pattern::prepare()`, but without alteration. #78
-    * Restored `PatternBuilder::prepare()`, but without alteration. #78
-    * Add `Match.tail()`. #83
-    * Add `Match.byteTail()`. #83
-    * Add `MatchGroup.tail()`. #83
-    * Add `MatchGroup.byteTail()`. #83
-    * Add `ReplaceMatchGroup.tail()`. #83
-    * Add `ReplaceMatchGroup.byteTail()`. #83
+    * Prepared patterns:
+        * Restored `Pattern::prepare()`, but without alteration. #78
+        * Restored `PatternBuilder::prepare()`, but without alteration. #78
+    * Match tail (as `offset()`, but from the end-side):  #83
+        * Add `Match.tail()`.
+        * Add `Match.byteTail()`.
+        * Add `MatchGroup.tail()`.
+        * Add `MatchGroup.byteTail()`.
+        * Add `ReplaceMatchGroup.tail()`.
+        * Add `ReplaceMatchGroup.byteTail()`.
+    * Added method `getPregPattern()` to exceptions: #85
+        * `PregException`
+            * `CompilePregException`
+                * `MalformedPatternException`
+            * `RuntimePregException`
+                * `SubjectEncodingPregException`
+                * `Utf8OffsetPregException`
+                * `CatastrophicBacktrackingPregException`
+                * `RecursionLimitPregException`
+                * `JitStackLimitPregException`
+            * `InvalidReturnValueException`
 
 Added in 0.9.10
 ---------------

@@ -10,9 +10,9 @@ class CompilePregException extends PregException
     /** @var string */
     private $errorName;
 
-    public function __construct(string $methodName, string $message, PhpError $error, string $errorName)
+    public function __construct(string $methodName, $pattern, string $message, PhpError $error, string $errorName)
     {
-        parent::__construct($methodName, $message);
+        parent::__construct($methodName, $pattern, $message);
         $this->error = $error;
         $this->errorName = $errorName;
     }

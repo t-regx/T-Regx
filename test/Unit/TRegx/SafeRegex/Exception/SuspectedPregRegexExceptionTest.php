@@ -9,14 +9,16 @@ class SuspectedPregRegexExceptionTest extends TestCase
     public function testGetters()
     {
         // given
-        $exception = new SuspectedReturnPregException('method', 'value');
+        $exception = new SuspectedReturnPregException('method', '/pattern/', 'value');
 
         // when
         $value = $exception->getReturnValue();
         $method = $exception->getInvokingMethod();
+        $pattern = $exception->getPregPattern();
 
         // then
         $this->assertEquals('value', $value);
         $this->assertEquals('method', $method);
+        $this->assertEquals('/pattern/', $pattern);
     }
 }

@@ -5,8 +5,8 @@ use TRegx\SafeRegex\PhpError;
 
 class MalformedPatternException extends CompilePregException
 {
-    public function __construct(string $methodName, string $message, PhpError $error, string $errorName)
+    public function __construct(string $methodName, $pattern, string $message, PhpError $error, string $errorName)
     {
-        parent::__construct($methodName, $message, $error, $errorName);
+        parent::__construct($methodName, $pattern, $message, $error, $errorName);
     }
 }

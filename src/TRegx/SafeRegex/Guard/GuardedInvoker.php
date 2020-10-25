@@ -18,12 +18,12 @@ class GuardedInvoker
     /** @var ExceptionFactory */
     private $exceptionFactory;
 
-    public function __construct(string $methodName, callable $callback, SuspectedReturnStrategy $strategy = null)
+    public function __construct(string $methodName, $pattern, callable $callback, SuspectedReturnStrategy $strategy = null)
     {
         $this->callback = $callback;
         $this->methodName = $methodName;
         $this->errorsCleaner = new ErrorsCleaner();
-        $this->exceptionFactory = new ExceptionFactory($strategy ?? new DefaultSuspectedReturnStrategy(), $this->errorsCleaner);
+        $this->exceptionFactory = new ExceptionFactory($pattern, $strategy ?? new DefaultSuspectedReturnStrategy(), $this->errorsCleaner);
     }
 
     public function catch(): array

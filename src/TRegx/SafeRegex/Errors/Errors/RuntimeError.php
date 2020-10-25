@@ -32,10 +32,10 @@ class RuntimeError implements HostError
         preg_match('//', '');
     }
 
-    public function getSafeRegexpException(string $methodName): PregException
+    public function getSafeRegexpException(string $methodName, $pattern): PregException
     {
         if ($this->occurred()) {
-            return (new RuntimePregExceptionFactory($methodName, $this->pregError))->create();
+            return (new RuntimePregExceptionFactory($methodName, $pattern, $this->pregError))->create();
         }
         throw new InternalCleanRegexException();
     }

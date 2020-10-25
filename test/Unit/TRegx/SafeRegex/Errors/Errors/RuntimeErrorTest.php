@@ -68,7 +68,7 @@ class RuntimeErrorTest extends TestCase
 
         // when
         /** @var RuntimePregException $exception */
-        $exception = $error->getSafeRegexpException('preg_replace');
+        $exception = $error->getSafeRegexpException('preg_replace', 'TODO FIX ME PLEASE');
 
         // then
         $this->assertInstanceOf(RuntimePregException::class, $exception);
@@ -91,6 +91,6 @@ class RuntimeErrorTest extends TestCase
         $this->expectException(InternalCleanRegexException::class);
 
         // when
-        $error->getSafeRegexpException('preg_match');
+        $error->getSafeRegexpException('preg_match', '/pattern/');
     }
 }

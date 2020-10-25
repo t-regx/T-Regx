@@ -12,13 +12,16 @@ class CompilePregExceptionFactory
     private $phpErrorConstants;
     /** @var string */
     private $methodName;
+    /** @var string|array */
+    private $pattern;
     /** @var PhpError */
     private $error;
 
-    public function __construct(string $methodName, PhpError $error)
+    public function __construct(string $methodName, $pattern, PhpError $error)
     {
         $this->phpErrorConstants = new PhpErrorConstants();
         $this->methodName = $methodName;
+        $this->pattern = $pattern;
         $this->error = $error;
     }
 
@@ -27,6 +30,7 @@ class CompilePregExceptionFactory
         [$class, $message] = $this->exceptionClassAndMessage($this->error->getMessage());
         return new $class(
             $this->methodName,
+            $this->pattern,
             $message,
             $this->error,
             $this->phpErrorConstants->getConstant($this->error->getType()));

@@ -23,7 +23,7 @@ class RuntimePregExceptionFactoryTest extends TestCase
     public function shouldCreateException(int $errorCode, string $name, string $className, string $message)
     {
         // given
-        $factory = new RuntimePregExceptionFactory('preg_method', $errorCode);
+        $factory = new RuntimePregExceptionFactory('preg_method', '/pattern/', $errorCode);
 
         // when
         $exception = $factory->create();
@@ -34,6 +34,7 @@ class RuntimePregExceptionFactoryTest extends TestCase
         $this->assertEquals($errorCode, $exception->getError());
         $this->assertEquals($name, $exception->getErrorName());
         $this->assertEquals($message, $exception->getMessage());
+        $this->assertEquals('/pattern/', $exception->getPregPattern());
     }
 
     public function errors(): array

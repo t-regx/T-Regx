@@ -1,8 +1,8 @@
 <?php
 namespace Test\Unit\TRegx\SafeRegex\Errors\Errors;
 
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Errors\Errors\EmptyHostError;
 
 class EmptyHostErrorTest extends TestCase
@@ -34,6 +34,6 @@ class EmptyHostErrorTest extends TestCase
         $this->expectException(InternalCleanRegexException::class);
 
         // when
-        $error->getSafeRegexpException('preg_replace');
+        $error->getSafeRegexpException('preg_replace', '/pattern/');
     }
 }

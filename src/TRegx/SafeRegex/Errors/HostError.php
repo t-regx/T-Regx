@@ -9,5 +9,5 @@ interface HostError
 
     public function clear(): void;
 
-    public function getSafeRegexpException(string $methodName): PregException;
+    public function getSafeRegexpException(string $methodName, $pattern): PregException;
 }

@@ -10,7 +10,7 @@ class CompilePregExceptionTest extends TestCase
     public function testGetters()
     {
         // given
-        $exception = new CompilePregException('', '', new PhpError(2, 'message', '', 0), 'error');
+        $exception = new CompilePregException('', '', '', new PhpError(2, 'message', '', 0), 'error');
 
         // when
         $error = $exception->getError();
@@ -29,12 +29,27 @@ class CompilePregExceptionTest extends TestCase
     public function shouldGet_invokingMessage()
     {
         // given
-        $exception = new CompilePregException('preg_method', '', new PhpError(2, '', '', 0), '');
+        $exception = new CompilePregException('preg_method', null, '', new PhpError(2, '', '', 0), '');
 
         // when
         $method = $exception->getInvokingMethod();
 
         // then
         $this->assertEquals('preg_method', $method);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_pattern()
+    {
+        // given
+        $exception = new CompilePregException('', '/pattern/', '', new PhpError(2, '', '', 0), '');
+
+        // when
+        $pattern = $exception->getPregPattern();
+
+        // then
+        $this->assertEquals('/pattern/', $pattern);
     }
 }

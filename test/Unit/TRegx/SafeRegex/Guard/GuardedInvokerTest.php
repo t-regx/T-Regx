@@ -19,7 +19,7 @@ class GuardedInvokerTest extends TestCase
     public function shouldNotCatchException()
     {
         // given
-        $invoker = new GuardedInvoker('preg_match', Functions::constant(13));
+        $invoker = new GuardedInvoker('preg_match', '/p/', Functions::constant(13));
 
         // when
         [$result, $exception] = $invoker->catch();
@@ -35,7 +35,7 @@ class GuardedInvokerTest extends TestCase
     public function shouldCatchRuntimeWarning()
     {
         // given
-        $invoker = new GuardedInvoker('preg_match', function () {
+        $invoker = new GuardedInvoker('preg_match', '/p/', function () {
             $this->causeRuntimeWarning();
             return 14;
         });
@@ -46,6 +46,7 @@ class GuardedInvokerTest extends TestCase
         // then
         $this->assertEquals(14, $result);
         $this->assertInstanceOf(RuntimePregException::class, $exception);
+        $this->assertEquals("/p/", $exception->getPregPattern());
     }
 
     /**
@@ -54,7 +55,7 @@ class GuardedInvokerTest extends TestCase
     public function shouldCatchCompileWarning()
     {
         // given
-        $invoker = new GuardedInvoker('preg_match', function () {
+        $invoker = new GuardedInvoker('preg_match', '/p/', function () {
             $this->causeCompileWarning();
             return 15;
         });
@@ -65,6 +66,7 @@ class GuardedInvokerTest extends TestCase
         // then
         $this->assertEquals(15, $result);
         $this->assertInstanceOf(CompilePregException::class, $exception);
+        $this->assertEquals("/p/", $exception->getPregPattern());
     }
 
     /**
@@ -73,7 +75,7 @@ class GuardedInvokerTest extends TestCase
     public function shouldReturnResult()
     {
         // given
-        $invoker = new GuardedInvoker('preg_match', Functions::constant(16));
+        $invoker = new GuardedInvoker('preg_match', '/p/', Functions::constant(16));
 
         // when
         [$result, $exception] = $invoker->catch();
@@ -92,7 +94,7 @@ class GuardedInvokerTest extends TestCase
     {
         // given
         $obsoleteWarning();
-        $invoker = new GuardedInvoker('preg_match', Functions::constant(17));
+        $invoker = new GuardedInvoker('preg_match', '/p/', Functions::constant(17));
 
         // when
         [$result, $exception] = $invoker->catch();
@@ -110,7 +112,7 @@ class GuardedInvokerTest extends TestCase
     public function shouldNotLeaveOutWarnings(callable $obsoleteWarning)
     {
         // given
-        $invoker = new GuardedInvoker('preg_match', function () use ($obsoleteWarning) {
+        $invoker = new GuardedInvoker('preg_match', '/p/', function () use ($obsoleteWarning) {
             $obsoleteWarning();
         });
 
@@ -139,7 +141,7 @@ class GuardedInvokerTest extends TestCase
     public function shouldNotSilenceExceptions()
     {
         // given
-        $invoker = new GuardedInvoker('preg_match', Functions::throws(new \Exception("For Frodo")));
+        $invoker = new GuardedInvoker('preg_match', '/p/', Functions::throws(new \Exception("For Frodo")));
 
         // then
         $this->expectException(\Exception::class);

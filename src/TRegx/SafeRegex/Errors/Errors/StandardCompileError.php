@@ -26,8 +26,8 @@ class StandardCompileError implements CompileError
         error_clear_last();
     }
 
-    public function getSafeRegexpException(string $methodName): PregException
+    public function getSafeRegexpException(string $methodName, $pattern): PregException
     {
-        return (new CompilePregExceptionFactory($methodName, $this->error))->create();
+        return (new CompilePregExceptionFactory($methodName, $pattern, $this->error))->create();
     }
 }

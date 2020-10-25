@@ -16,7 +16,7 @@ class EmptyHostError implements HostError
     {
     }
 
-    public function getSafeRegexpException(string $methodName): PregException
+    public function getSafeRegexpException(string $methodName, $pattern): PregException
     {
         throw new InternalCleanRegexException();
     }

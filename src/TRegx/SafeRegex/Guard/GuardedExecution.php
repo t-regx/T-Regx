@@ -5,9 +5,9 @@ use TRegx\SafeRegex\Guard\Strategy\SuspectedReturnStrategy;
 
 class GuardedExecution
 {
-    public static function invoke(string $methodName, callable $callback, SuspectedReturnStrategy $strategy = null)
+    public static function invoke(string $methodName, $pattern, callable $callback, SuspectedReturnStrategy $strategy = null)
     {
-        [$result, $exception] = (new GuardedInvoker($methodName, $callback, $strategy))->catch();
+        [$result, $exception] = (new GuardedInvoker($methodName, $pattern, $callback, $strategy))->catch();
         if ($exception !== null) {
             throw $exception;
         }
@@ -16,7 +16,7 @@ class GuardedExecution
 
     public static function silenced(string $methodName, callable $callback): bool
     {
-        [$result, $exception] = (new GuardedInvoker($methodName, $callback))->catch();
+        [$result, $exception] = (new GuardedInvoker($methodName, null, $callback))->catch();
         return $exception !== null;
     }
 }
