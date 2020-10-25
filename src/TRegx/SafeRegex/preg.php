@@ -27,7 +27,7 @@ class preg
      */
     public static function match(string $pattern, string $subject, array &$matches = null, int $flags = 0, int $offset = 0): int
     {
-        return Guard::invoke('preg_match', static function () use ($offset, $flags, &$matches, $subject, $pattern) {
+        return Guard::invoke('preg_match', static function () use ($pattern, $subject, &$matches, $flags, $offset) {
             return @\preg_match(Bug::fix($pattern), $subject, $matches, $flags, $offset) ? 1 : 0;
         });
     }
@@ -46,7 +46,7 @@ class preg
      */
     public static function match_all(string $pattern, string $subject, array &$matches = null, $flags = \PREG_PATTERN_ORDER, int $offset = 0): int
     {
-        return Guard::invoke('preg_match_all', static function () use ($offset, $flags, &$matches, $subject, $pattern) {
+        return Guard::invoke('preg_match_all', static function () use ($pattern, $subject, &$matches, $flags, $offset) {
             return @\preg_match_all(Bug::fix($pattern), $subject, $matches, $flags, $offset);
         });
     }
@@ -72,7 +72,7 @@ class preg
      */
     public static function replace($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
     {
-        return Guard::invoke('preg_replace', static function () use ($limit, $subject, $replacement, $pattern, &$count) {
+        return Guard::invoke('preg_replace', static function () use ($pattern, $replacement, $subject, $limit, &$count) {
             return @\preg_replace(Bug::fix($pattern), $replacement, $subject, $limit, $count);
         }, new PregReplaceSuspectedReturnStrategy($subject));
     }
@@ -97,7 +97,7 @@ class preg
      */
     public static function replace_callback($pattern, callable $callback, $subject, int $limit = -1, int &$count = null)
     {
-        return Guard::invoke('preg_replace_callback', static function () use ($pattern, $limit, $subject, $callback, &$count) {
+        return Guard::invoke('preg_replace_callback', static function () use ($pattern, $callback, $subject, $limit, &$count) {
             return @\preg_replace_callback(Bug::fix($pattern), self::decorateCallback('preg_replace_callback', $callback), $subject, $limit, $count);
         });
     }
@@ -199,7 +199,7 @@ class preg
         $input = \array_filter($input, function ($value) {
             return !\is_object($value) || \method_exists($value, '__toString');
         });
-        return Guard::invoke('preg_grep', static function () use ($flags, $input, $pattern) {
+        return Guard::invoke('preg_grep', static function () use ($pattern, $input, $flags) {
             return @\preg_grep(Bug::fix($pattern), $input, $flags);
         }, new SilencedSuspectedReturnStrategy());
     }
@@ -218,7 +218,7 @@ class preg
      *
      * @psalm-pure Output is only dependent on input parameters values
      */
-    public static function quote(string $string, ?string $delimiter = null): string
+    public static function quote(string $string, string $delimiter = null): string
     {
         if (!\is_null($delimiter) && \strlen($delimiter) !== 1) {
             throw new \InvalidArgumentException('Delimiter must be one alpha-numeric character');
