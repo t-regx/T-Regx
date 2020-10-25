@@ -44,7 +44,7 @@ class preg
      *
      * @throws PregException
      */
-    public static function match_all(string $pattern, string $subject, array &$matches = null, $flags = \PREG_PATTERN_ORDER, $offset = 0): int
+    public static function match_all(string $pattern, string $subject, array &$matches = null, $flags = \PREG_PATTERN_ORDER, int $offset = 0): int
     {
         return Guard::invoke('preg_match_all', static function () use ($offset, $flags, &$matches, $subject, $pattern) {
             return @\preg_match_all(Bug::fix($pattern), $subject, $matches, $flags, $offset);
