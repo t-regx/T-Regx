@@ -31,7 +31,7 @@ class CompilePregExceptionFactory
         return new $class(
             $this->methodName,
             $this->pattern,
-            $message,
+            $this->cleanMessage($message),
             $this->error,
             $this->phpErrorConstants->getConstant($this->error->getType()));
     }
@@ -52,5 +52,10 @@ class CompilePregExceptionFactory
             return true;
         }
         return false;
+    }
+
+    private function cleanMessage(string $message): string
+    {
+        return str_replace('(PCRE2_DUPNAMES not set) ', '', $message);
     }
 }

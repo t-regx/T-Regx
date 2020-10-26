@@ -153,4 +153,17 @@ class PatternTest extends TestCase
         // when
         Pattern::pcre("foo")->test('bar');
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrowPrettyErrorMessage(): void
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage("Two named subpatterns have the same name at offset 21");
+
+        // when
+        pattern('First(?<one>)?(?<one>)?')->test('Test');
+    }
 }
