@@ -44,6 +44,9 @@ Incoming in 0.10.0
                 * `RecursionLimitPregException`
                 * `JitStackLimitPregException`
             * `InvalidReturnValueException`
+* Fixed inconsistencies
+    * Duplicated pattern exception message changes offset after PHP 7.3. Since now,
+      the messages will be identical on every PHP version.
 
 Added in 0.9.10
 ---------------
