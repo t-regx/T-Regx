@@ -36,10 +36,9 @@ class ExceptionFactoryTest extends TestCase
 
     /**
      * @dataProvider \Test\DataProviders::invalidUtf8Sequences()
-     * @param $description
      * @param $utf8
      */
-    public function testRuntimeErrors(string $description, string $utf8)
+    public function testRuntimeErrors(string $utf8)
     {
         // given
         @preg_match("/pattern/u", $utf8);
