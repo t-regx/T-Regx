@@ -1,8 +1,12 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.10.0
-------------------
+Incoming in 0.9.12
+-----------------
+* Soon
+
+Added in 0.9.11
+---------------
 
 * Breaking changes
     * Added `null`-safety to `pattern()->replace()`:
