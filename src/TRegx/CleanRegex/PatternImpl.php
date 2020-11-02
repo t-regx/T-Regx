@@ -67,7 +67,7 @@ class PatternImpl implements PatternInterface
 
     public function split(string $subject): array
     {
-        return (new SplitPattern($this->pattern, $subject))->split();
+        return preg::split($this->pattern->pattern, $subject, -1, \PREG_SPLIT_DELIM_CAPTURE);
     }
 
     public function count(string $subject): int
