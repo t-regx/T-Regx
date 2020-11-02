@@ -1,8 +1,8 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex;
+namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\UnquotePattern;
+use TRegx\CleanRegex\Internal\UnquotePattern;
 use TRegx\SafeRegex\preg;
 
 class UnquotePatternTest extends TestCase

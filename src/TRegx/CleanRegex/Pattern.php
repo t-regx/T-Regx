@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\UnquotePattern;
 use TRegx\SafeRegex\preg;
 
 class Pattern

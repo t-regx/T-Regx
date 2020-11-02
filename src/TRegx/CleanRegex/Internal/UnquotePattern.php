@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex;
+namespace TRegx\CleanRegex\Internal;
 
 class UnquotePattern
 {
