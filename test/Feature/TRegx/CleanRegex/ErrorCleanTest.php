@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\SafeRegex\Exception\CompilePregException;
+use TRegx\SafeRegex\Exception\MalformedPatternException;
 
 class ErrorCleanTest extends TestCase
 {
@@ -28,7 +28,7 @@ class ErrorCleanTest extends TestCase
     {
         try {
             pattern('/[a-')->test("");
-        } catch (CompilePregException $e) {
+        } catch (MalformedPatternException $e) {
         }
 
         // when

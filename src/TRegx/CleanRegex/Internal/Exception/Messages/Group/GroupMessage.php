@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 
 class GroupMessage implements NotMatchedMessage
 {
+    /** @var string|int */
     private $nameOrIndex;
 
     public function __construct($nameOrIndex)

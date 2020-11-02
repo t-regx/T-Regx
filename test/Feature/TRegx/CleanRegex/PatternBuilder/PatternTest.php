@@ -61,7 +61,6 @@ class PatternTest extends TestCase
     public function shouldBuild_compose()
     {
         // given
-        $name = 'Frodo';
         $pattern = Pattern::compose([
             pattern('^Fro'),
             Pattern::of('rod'),
@@ -69,7 +68,7 @@ class PatternTest extends TestCase
         ]);
 
         // when
-        $matches = $pattern->allMatch($name);
+        $matches = $pattern->allMatch('Frodo');
 
         // then
         $this->assertTrue($matches);

@@ -25,22 +25,12 @@ class ExceptionFactory
         $this->exceptionFactory = new SuspectedReturnPregExceptionFactory();
     }
 
-    /**
-     * @param string $methodName
-     * @param mixed $pregResult
-     * @return PregException|null
-     */
     public function retrieveGlobals(string $methodName, $pregResult): ?PregException
     {
         $hostError = $this->errorsCleaner->getError();
         if ($hostError->occurred()) {
             return $hostError->getSafeRegexpException($methodName, $this->pattern);
         }
-        return $this->getExceptionByReturnValue($methodName, $pregResult);
-    }
-
-    private function getExceptionByReturnValue(string $methodName, $pregResult): ?PregException
-    {
         if ($this->strategy->isSuspected($methodName, $pregResult)) {
             return $this->exceptionFactory->create($methodName, $this->pattern, $pregResult);
         }
