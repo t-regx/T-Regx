@@ -10,14 +10,14 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedG
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
-use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 
 class GroupFallbackReplacerTest extends TestCase
 {

@@ -2,10 +2,10 @@
 namespace TRegx\CleanRegex\Composite;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
-use TRegx\CleanRegex\Replace\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Replace\ReplaceReferences;
 use TRegx\SafeRegex\preg;
 

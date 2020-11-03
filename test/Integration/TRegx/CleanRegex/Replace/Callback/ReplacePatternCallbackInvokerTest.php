@@ -3,11 +3,11 @@ namespace Test\Integration\TRegx\CleanRegex\Replace\Callback;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
-use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 
 class ReplacePatternCallbackInvokerTest extends TestCase
 {

@@ -3,13 +3,13 @@ namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\ComputedMatchStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\MatchRs;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\GroupReplace;
-use TRegx\CleanRegex\Replace\NonReplaced\ComputedMatchStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\MatchRs;
-use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 
 class UnmatchedGroupStrategy implements GroupReplace
 {

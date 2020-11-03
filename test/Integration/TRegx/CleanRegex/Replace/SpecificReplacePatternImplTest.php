@@ -3,8 +3,8 @@ namespace Test\Integration\TRegx\CleanRegex\Replace;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Match\Details\Match;
-use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
 

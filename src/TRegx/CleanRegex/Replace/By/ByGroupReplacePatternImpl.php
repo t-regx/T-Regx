@@ -5,6 +5,12 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\ComputedMatchStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\LazyMessageThrowStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\MatchRs;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Replace\Callback\MatchGroupStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
@@ -12,12 +18,6 @@ use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\MapGroupMapperDecorator;
 use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
-use TRegx\CleanRegex\Replace\NonReplaced\ComputedMatchStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\LazyMessageThrowStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\MatchRs;
-use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 
 class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 {

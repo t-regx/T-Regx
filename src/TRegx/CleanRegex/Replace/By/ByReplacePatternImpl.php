@@ -2,11 +2,11 @@
 namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Internal\GroupNameValidator;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\LazySubjectRs;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
-use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\LazySubjectRs;
 
 class ByReplacePatternImpl implements ByReplacePattern
 {

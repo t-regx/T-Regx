@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Replace\NonReplaced;
+namespace TRegx\CleanRegex\Internal\Replace\NonReplaced;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;

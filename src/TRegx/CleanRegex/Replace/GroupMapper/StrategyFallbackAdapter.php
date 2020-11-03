@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Replace\GroupMapper;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForMatchMessage;
-use TRegx\CleanRegex\Replace\NonReplaced\LazySubjectRs;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\LazySubjectRs;
 
 class StrategyFallbackAdapter implements GroupMapper
 {

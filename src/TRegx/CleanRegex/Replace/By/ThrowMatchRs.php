@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Match\Details\Match;
-use TRegx\CleanRegex\Replace\NonReplaced\MatchRs;
 
 class ThrowMatchRs implements MatchRs
 {

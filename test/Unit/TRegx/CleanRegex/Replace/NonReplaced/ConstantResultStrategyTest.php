@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Replace\NonReplaced;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
 
 class ConstantResultStrategyTest extends TestCase
 {

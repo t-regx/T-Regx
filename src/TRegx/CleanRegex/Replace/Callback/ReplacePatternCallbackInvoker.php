@@ -3,8 +3,8 @@ namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Replace\NonReplaced\SubjectRs;
 use TRegx\SafeRegex\preg;
 
 class ReplacePatternCallbackInvoker

@@ -8,11 +8,11 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NotReplacedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Replace\NonReplaced\ConstantReturnStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\OtherwiseStrategy;
-use TRegx\CleanRegex\Replace\NonReplaced\ReplacePatternFactory;
-use TRegx\CleanRegex\Replace\NonReplaced\SubjectRs;
-use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\OtherwiseStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\ReplacePatternFactory;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\SubjectRs;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 

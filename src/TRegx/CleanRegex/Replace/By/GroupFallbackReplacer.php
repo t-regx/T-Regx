@@ -5,11 +5,11 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\MatchRs;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\LazyMatchImpl;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
-use TRegx\CleanRegex\Replace\NonReplaced\MatchRs;
-use TRegx\CleanRegex\Replace\NonReplaced\SubjectRs;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
 

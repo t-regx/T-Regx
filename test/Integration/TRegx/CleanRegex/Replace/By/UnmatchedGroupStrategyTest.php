@@ -8,12 +8,12 @@ use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\LazyMatchImpl;
 use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\By\UnmatchedGroupStrategy;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
-use TRegx\CleanRegex\Replace\NonReplaced\ThrowStrategy;
 
 class UnmatchedGroupStrategyTest extends TestCase
 {

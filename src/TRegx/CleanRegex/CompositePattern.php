@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Composite\ChainedReplace;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Replace\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
 use TRegx\SafeRegex\preg;
 
 class CompositePattern
