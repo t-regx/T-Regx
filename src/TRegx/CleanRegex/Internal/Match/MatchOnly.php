@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Match;
+namespace TRegx\CleanRegex\Internal\Match;
 
 use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
