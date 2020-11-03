@@ -47,7 +47,7 @@ class ReplacePatternCallbackInvoker
     private function getObjectCallback(callable $callback, ReplaceCallbackArgumentStrategy $strategy): callable
     {
         if ($this->limit === 0) {
-            return function () {
+            return static function () {
             };
         }
         return $this->createObjectCallback($callback, $strategy);
