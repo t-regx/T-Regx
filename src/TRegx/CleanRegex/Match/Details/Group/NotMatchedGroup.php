@@ -112,7 +112,7 @@ class NotMatchedGroup implements MatchGroup
 
     public function orThrow(string $exceptionClassName = null): void
     {
-        throw $this->optionalWorker->orThrow($exceptionClassName);
+        throw $this->optionalWorker->orThrow($exceptionClassName ?? GroupNotMatchedException::class);
     }
 
     public function orElse(callable $substituteProducer)

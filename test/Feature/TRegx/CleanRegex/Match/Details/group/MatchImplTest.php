@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Match;
 
@@ -158,6 +159,23 @@ class MatchImplTest extends TestCase
             ->first(function (Match $match) {
                 // when
                 $match->group(true);
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowGroupNotMatchedException()
+    {
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to get group 'group', but it was not matched");
+
+        // when
+        pattern('(?<group>Foo)?')
+            ->match('Bar')
+            ->first(function (Match $match) {
+                $match->group('group')->orThrow();
             });
     }
 }
