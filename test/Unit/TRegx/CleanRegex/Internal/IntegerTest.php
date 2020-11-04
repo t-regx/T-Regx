@@ -17,7 +17,7 @@ class IntegerTest extends TestCase
         $result = Integer::isValid($string);
 
         // then
-        $this->assertTrue($result);
+        $this->assertTrue($result, "Failed asserting that '$string' is a valid integer");
     }
 
     public function validIntegers()
@@ -87,7 +87,7 @@ class IntegerTest extends TestCase
         $result = Integer::isValid($string);
 
         // then
-        $this->assertFalse($result);
+        $this->assertFalse($result, "Failed asserting that '$string' is not a valid integer");
     }
 
     public function integerOverflowingStrings()
