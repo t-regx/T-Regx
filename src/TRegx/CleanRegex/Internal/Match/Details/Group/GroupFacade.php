@@ -18,12 +18,14 @@ use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class GroupFacade
 {
-    /** @var GroupNameIndexAssign */
-    private $groupAssign;
     /** @var Subjectable */
     private $subject;
     /** @var string|int */
-    private $group;
+    private $usedIdentifier;
+    /** @var int */
+    private $index;
+    /** @var string|null */
+    private $name;
     /** @var GroupFactoryStrategy */
     private $factoryStrategy;
     /** @var MatchAllFactory */
@@ -35,9 +37,9 @@ class GroupFacade
                                 GroupFactoryStrategy $factoryStrategy,
                                 MatchAllFactory $allFactory)
     {
-        $this->groupAssign = new GroupNameIndexAssign($groupAssignMatch, $allFactory);
         $this->subject = $subject;
-        $this->group = $group;
+        $this->usedIdentifier = $group;
+        [$this->name, $this->index] = (new GroupNameIndexAssign($groupAssignMatch, $allFactory))->getNameAndIndex($group);
         $this->factoryStrategy = $factoryStrategy;
         $this->allFactory = $allFactory;
     }
@@ -49,9 +51,9 @@ class GroupFacade
     public function createGroups(RawMatchesOffset $matches): array
     {
         $matchObjects = [];
-        foreach ($matches->getGroupTextAndOffsetAll($this->group) as $index => $firstWhole) {
+        foreach ($matches->getGroupTextAndOffsetAll($this->index) as $index => $firstWhole) {
             $match = new RawMatchesToMatchAdapter($matches, $index);
-            if ($match->isGroupMatched($this->group)) {
+            if ($match->isGroupMatched($this->index)) {
                 $matchObjects[] = $this->createdMatched($match, ...$firstWhole);
             } else {
                 $matchObjects[] = $this->createUnmatched($match);
@@ -62,8 +64,8 @@ class GroupFacade
 
     public function createGroup(IRawMatchOffset $match): MatchGroup
     {
-        if ($match->isGroupMatched($this->group)) {
-            return $this->createdMatched($match, ...$match->getGroupTextAndOffset($this->group));
+        if ($match->isGroupMatched($this->index)) {
+            return $this->createdMatched($match, ...$match->getGroupTextAndOffset($this->index));
         }
         return $this->createUnmatched($match);
     }
@@ -80,9 +82,9 @@ class GroupFacade
     {
         return $this->factoryStrategy->createUnmatched(
             $this->createGroupDetails(),
-            new GroupExceptionFactory($this->subject, $this->group),
+            new GroupExceptionFactory($this->subject, $this->usedIdentifier),
             new NotMatchedOptionalWorker(
-                new GroupMessage($this->group),
+                new GroupMessage($this->usedIdentifier),
                 $this->subject,
                 new NotMatched($match, $this->subject)
             )
@@ -91,7 +93,6 @@ class GroupFacade
 
     private function createGroupDetails(): GroupDetails
     {
-        [$name, $index] = $this->groupAssign->getNameAndIndex($this->group);
-        return new GroupDetails($name, $index, $this->group, $this->allFactory);
+        return new GroupDetails($this->name, $this->index, $this->usedIdentifier, $this->allFactory);
     }
 }

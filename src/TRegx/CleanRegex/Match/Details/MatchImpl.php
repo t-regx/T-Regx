@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\ByteOffset;
+use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Integer;
@@ -99,13 +100,10 @@ class MatchImpl implements Match
         if (!$this->hasGroup($nameOrIndex)) {
             throw new NonexistentGroupException($nameOrIndex);
         }
-        return $this->getGroupText($nameOrIndex);
-    }
-
-    private function getGroupText($nameOrIndex): string
-    {
-        if ($this->match->isGroupMatched($nameOrIndex)) {
-            [$text, $offset] = $this->match->getGroupTextAndOffset($nameOrIndex);
+        $nameAssign = new GroupNameIndexAssign($this->match, $this->allFactory); // To handle J flag
+        [$name, $index] = $nameAssign->getNameAndIndex($nameOrIndex);
+        if ($this->match->isGroupMatched($index)) {
+            [$text, $offset] = $this->match->getGroupTextAndOffset($index);
             return $text;
         }
         throw GroupNotMatchedException::forGet($this->subjectable, $nameOrIndex);

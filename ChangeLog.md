@@ -6,6 +6,15 @@ Incoming in 0.9.13
 
 * Features
     * Add `NotReplacedException.getSubject()`
+    * Added proper handling of `/J` flag #84
+
+      Previously, duplicate patterns added a form of unpredictability, that is
+      the structure of the group (order, index, name) depended on the group
+      appearance in the pattern, but its value (text, offset) depended on which
+      group was matched. That's the consequence of php storing only one named
+      group in the result, since PHP arrays can't hold duplicate keys.
+      
+      Since now, everything depends on the order of the group in the pattern.
 
 Added in 0.9.12
 ---------------
