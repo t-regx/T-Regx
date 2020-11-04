@@ -1,8 +1,8 @@
 <?php
 namespace Test\Integration\TRegx\CleanRegex\Match\Details\Group;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\CustomSubjectException;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
@@ -182,11 +182,11 @@ class NotMatchedGroupTest extends TestCase
         $matchGroup = $this->matchGroup();
 
         // then
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(CustomSubjectException::class);
         $this->expectExceptionMessage("Expected to get group 'first', but it was not matched");
 
         // when
-        $matchGroup->orThrow(InvalidArgumentException::class);
+        $matchGroup->orThrow(CustomSubjectException::class);
     }
 
     /**
