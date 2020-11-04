@@ -1,9 +1,17 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.9.12
------------------
+Incoming in 0.9.13
+------------------
 * Soon
+
+Added in 0.9.12
+---------------
+
+* Bug fixes
+    * Fixed an occasional `TypeError` (Bug introduced in 0.9.11, fixed in 0.9.12)
+
+      Calling `group()->orThrow()` on a non-matched group without argument would cause `TypeError`.
 
 Added in 0.9.11
 ---------------
