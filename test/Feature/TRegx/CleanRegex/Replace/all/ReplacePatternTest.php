@@ -33,7 +33,7 @@ class ReplacePatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals($result, 'Links: google, other and website.');
+        $this->assertEquals('Links: google, other and website.', $result);
     }
 
     /**

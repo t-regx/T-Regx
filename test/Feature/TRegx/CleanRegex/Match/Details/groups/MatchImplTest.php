@@ -169,8 +169,8 @@ class MatchImplTest extends TestCase
                 $namedGroups = $match->namedGroups()->names();
 
                 // then
-                $this->assertEquals($groupNames, [null, 'existing', 'two_existing']);
-                $this->assertEquals($namedGroups, ['existing', 'two_existing']);
+                $this->assertEquals([null, 'existing', 'two_existing'], $groupNames);
+                $this->assertEquals(['existing', 'two_existing'], $namedGroups);
             });
     }
 
@@ -188,8 +188,8 @@ class MatchImplTest extends TestCase
                 $namedGroups = $match->namedGroups()->count();
 
                 // then
-                $this->assertEquals($groups, 3);
-                $this->assertEquals($namedGroups, 2);
+                $this->assertEquals(3, $groups);
+                $this->assertEquals(2, $namedGroups);
             });
     }
 

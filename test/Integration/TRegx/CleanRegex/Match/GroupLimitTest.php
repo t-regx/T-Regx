@@ -33,7 +33,7 @@ class GroupLimitTest extends TestCase
         $fromOnly = $limit->only(2);
 
         // then
-        $this->assertEquals($fromOnly, ['first', 'second']);
+        $this->assertEquals(['first', 'second'], $fromOnly);
     }
 
     /**
@@ -48,7 +48,7 @@ class GroupLimitTest extends TestCase
         $fromFirst = $limit->first();
 
         // then
-        $this->assertEquals($fromFirst, 'first');
+        $this->assertEquals('first', $fromFirst);
     }
 
     /**

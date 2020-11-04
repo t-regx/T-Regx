@@ -27,7 +27,7 @@ class FilteredMatchPatternTest extends TestCase
         $first = $matchPattern->first();
 
         // then
-        $this->assertEquals($first, 'nice');
+        $this->assertEquals('nice', $first);
     }
 
     /**
@@ -44,7 +44,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals($all, ['nice', 'pattern']);
+        $this->assertEquals(['nice', 'pattern'], $all);
     }
 
     /**
@@ -61,7 +61,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals($all, ['nice', 'pattern']);
+        $this->assertEquals(['nice', 'pattern'], $all);
     }
 
     /**
@@ -76,7 +76,7 @@ class FilteredMatchPatternTest extends TestCase
         $first = $matchPattern->first();
 
         // then
-        $this->assertEquals($first, 'matching');
+        $this->assertEquals('matching', $first);
     }
 
     /**

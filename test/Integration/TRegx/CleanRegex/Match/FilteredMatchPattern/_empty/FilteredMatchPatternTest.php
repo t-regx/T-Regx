@@ -103,7 +103,7 @@ class FilteredMatchPatternTest extends TestCase
         $first = $matchPattern->first();
 
         // then
-        $this->assertEquals($first, '');
+        $this->assertEquals('', $first);
     }
 
     /**
