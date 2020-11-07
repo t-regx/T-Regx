@@ -127,6 +127,11 @@ class MatchImpl implements Match
         return new GroupFacade($this->match, $this->subjectable, $nameOrIndex, $this->strategy, $this->allFactory);
     }
 
+    public function usingDuplicateName(): DuplicateName
+    {
+        return new DuplicateName($this->match, $this->subjectable, $this->strategy, $this->allFactory);
+    }
+
     /**
      * @return string[]
      */

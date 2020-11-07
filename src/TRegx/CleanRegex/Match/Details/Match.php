@@ -34,6 +34,8 @@ interface Match extends Details
      */
     public function group($nameOrIndex);
 
+    public function usingDuplicateName(): DuplicateName;
+
     public function groups(): IndexedGroups;
 
     public function namedGroups(): NamedGroups;

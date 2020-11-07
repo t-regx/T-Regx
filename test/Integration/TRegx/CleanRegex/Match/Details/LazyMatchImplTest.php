@@ -289,6 +289,25 @@ class LazyMatchImplTest extends TestCase
         $match->offset();
     }
 
+    /**
+     * @test
+     */
+    public function shouldDuplicateGroups()
+    {
+        // given
+        $pattern = '(?<group>One)(?<group>Two)';
+        $subject = 'OneTwo';
+        $match = new LazyMatchImpl(new ApiBase(InternalPattern::standard($pattern, 'J'), $subject, new UserData()), 0, -1);
+
+        // when
+        $text1 = $match->group('group')->text();
+        $text2 = $match->usingDuplicateName()->group('group')->text();
+
+        // then
+        $this->assertEquals('One', $text1);
+        $this->assertEquals('Two', $text2);
+    }
+
     private function match(string $pattern = '\b[a-z]+', string $subject = 'Word: word two three'): LazyMatchImpl
     {
         return $this->matchWithIndex($pattern, $subject, 0);

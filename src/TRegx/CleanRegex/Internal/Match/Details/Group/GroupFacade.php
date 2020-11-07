@@ -21,7 +21,7 @@ class GroupFacade
     /** @var Subjectable */
     private $subject;
     /** @var string|int */
-    private $usedIdentifier;
+    protected $usedIdentifier;
     /** @var int */
     private $index;
     /** @var string|null */
@@ -51,9 +51,9 @@ class GroupFacade
     public function createGroups(RawMatchesOffset $matches): array
     {
         $matchObjects = [];
-        foreach ($matches->getGroupTextAndOffsetAll($this->index) as $index => $firstWhole) {
+        foreach ($matches->getGroupTextAndOffsetAll($this->directIdentifier()) as $index => $firstWhole) {
             $match = new RawMatchesToMatchAdapter($matches, $index);
-            if ($match->isGroupMatched($this->index)) {
+            if ($match->isGroupMatched($this->directIdentifier())) {
                 $matchObjects[] = $this->createdMatched($match, ...$firstWhole);
             } else {
                 $matchObjects[] = $this->createUnmatched($match);
@@ -64,8 +64,8 @@ class GroupFacade
 
     public function createGroup(IRawMatchOffset $match): MatchGroup
     {
-        if ($match->isGroupMatched($this->index)) {
-            return $this->createdMatched($match, ...$match->getGroupTextAndOffset($this->index));
+        if ($match->isGroupMatched($this->directIdentifier())) {
+            return $this->createdMatched($match, ...$match->getGroupTextAndOffset($this->directIdentifier()));
         }
         return $this->createUnmatched($match);
     }
@@ -94,5 +94,13 @@ class GroupFacade
     private function createGroupDetails(): GroupDetails
     {
         return new GroupDetails($this->name, $this->index, $this->usedIdentifier, $this->allFactory);
+    }
+
+    /**
+     * @return string|int
+     */
+    protected function directIdentifier()
+    {
+        return $this->index; // when index is used, then compiled (pattern) group is used
     }
 }

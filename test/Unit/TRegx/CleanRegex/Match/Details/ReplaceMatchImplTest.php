@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\Details;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 use TRegx\CleanRegex\Match\Details\Match;
@@ -23,6 +24,24 @@ class ReplaceMatchImplTest extends TestCase
 
         // then
         $this->assertEquals('subject', $subject);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUsingDuplicateName_get()
+    {
+        // given
+        /** @var ReplaceMatchImpl $match */
+        [$match, $mockMatch] = $this->getReplaceMatchAndMock();
+        $input = $this->createMock(DuplicateName::class);
+        $mockMatch->method('usingDuplicateName')->willReturn($input);
+
+        // when
+        $duplicateName = $match->usingDuplicateName();
+
+        // then
+        $this->assertSame($input, $duplicateName);
     }
 
     /**
@@ -302,8 +321,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_hasGroup()
     {
         // given
-        /** @var ReplaceMatchImpl $match */
-        /** @var MockObject $mockMatch */
+        /**
+         * @var ReplaceMatchImpl $match
+         * @var MockObject $mockMatch
+         */
         [$match, $mockMatch] = $this->getReplaceMatchAndMock();
 
         // expects

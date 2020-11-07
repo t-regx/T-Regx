@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details;
 
-use TRegx\CleanRegex\Match\Details\DuplicateNamedGroup;
+use TRegx\CleanRegex\Match\Details\Group\DuplicateNamedGroup;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 
 class DuplicateNamedGroupAdapter implements DuplicateNamedGroup

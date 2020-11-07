@@ -106,6 +106,11 @@ class LazyMatchImpl implements Match
         return $this->match()->group($nameOrIndex);
     }
 
+    public function usingDuplicateName(): DuplicateName
+    {
+        return $this->match()->usingDuplicateName();
+    }
+
     public function groups(): IndexedGroups
     {
         return $this->match()->groups();

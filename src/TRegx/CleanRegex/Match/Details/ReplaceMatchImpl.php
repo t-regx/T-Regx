@@ -49,6 +49,11 @@ class ReplaceMatchImpl implements ReplaceMatch
         return $matchGroup;
     }
 
+    public function usingDuplicateName(): DuplicateName
+    {
+        return $this->match->usingDuplicateName();
+    }
+
     public function subject(): string
     {
         return $this->match->subject();

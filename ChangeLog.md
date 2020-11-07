@@ -11,10 +11,24 @@ Incoming in 0.9.13
       Previously, duplicate patterns added a form of unpredictability, that is
       the structure of the group (order, index, name) depended on the group
       appearance in the pattern, but its value (text, offset) depended on which
-      group was matched. That's the consequence of php storing only one named
-      group in the result, since PHP arrays can't hold duplicate keys.
+      group was matched (strategy 2). That's the consequence of php storing only 
+      one named group in the result, since PHP arrays can't hold duplicate keys.
+
+      Since now, every method (inline groups, group in `Match`, etc.)  predictably 
+      depends on the order of the group in the pattern (strategy 1).
+
+    * Added `Match.usingDuplicateName()` method, which allows the user to use the
+      less predictable behaviour (which was the default, previously). 
+
+      For safety, groups returned from `usingDuplicateName()` don't have `index()` 
+      method, since it allows strategy 2, and strategy 2 indexes of groups are
+      sometimes unpredictable.
+
+      * `Match.group('group')` previously would return strategy 2, now returns strategy 1.
+      * `Match.usingDuplicateName().group('group')` returns group by strategy 2, previously default
       
-      Since now, everything depends on the order of the group in the pattern.
+      There is currently no way to use strategy 2 for inline groups or aggregate group methods,
+      only for `Match` details.
 
 Added in 0.9.12
 ---------------
@@ -107,15 +121,15 @@ Added in 0.9.8
 * Features
     * You can now use `foreach` on `match()`, instead of `forEach()`:
       ```php
-      foreach (pattern('\d+')->match('127.0.0.1') as $match) {
+      foreach (pattern('\d+')->match('127.0.0.1') as $match) {}
       ```
       and also
       ```php
-      foreach (pattern('\d+')->match('127.0.0.1')->asInt() as $digit) {
+      foreach (pattern('\d+')->match('127.0.0.1')->asInt() as $digit) {}
       ```
       or
       ```php
-      foreach (pattern('\d+')->match('127.0.0.1')->all() as $text) {
+      foreach (pattern('\d+')->match('127.0.0.1')->all() as $text) {}
       ```
     * Added `Match.get(string|int)`, which is a shorthand for `Match.group(string|int).text()`.
     * Restored `pattern()->match()->test()`/`fails()` that were removed in version `0.9.2`.
