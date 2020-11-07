@@ -3,7 +3,9 @@ T-Regx Changelog
 
 Incoming in 0.9.13
 ------------------
-* Soon
+
+* Features
+    * Add `NotReplacedException.getSubject()`
 
 Added in 0.9.12
 ---------------

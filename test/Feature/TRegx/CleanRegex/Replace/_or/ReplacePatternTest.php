@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Exception\NotReplacedException;
 
 class ReplacePatternTest extends TestCase
 {
@@ -74,7 +75,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_with_orThrow()
+    public function shouldThrow_with_orThrow_custom()
     {
         // given
         $replacePattern = pattern('Foo')->replace('Bar')->first()->otherwiseThrowing(CustomSubjectException::class);
@@ -86,6 +87,24 @@ class ReplacePatternTest extends TestCase
             // then
             $this->assertEquals("Replacements were supposed to be performed, but subject doesn't match the pattern", $e->getMessage());
             $this->assertEquals('Bar', $e->subject);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_with_orThrow()
+    {
+        // given
+        $replacePattern = pattern('Foo')->replace('Bar')->first()->otherwiseThrowing();
+
+        // when
+        try {
+            $replacePattern->with('');
+        } catch (NotReplacedException $e) {
+            // then
+            $this->assertEquals("Replacements were supposed to be performed, but subject doesn't match the pattern", $e->getMessage());
+            $this->assertEquals('Bar', $e->getSubject());
         }
     }
 
