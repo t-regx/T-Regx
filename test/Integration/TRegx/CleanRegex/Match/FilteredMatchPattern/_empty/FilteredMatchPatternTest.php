@@ -144,12 +144,11 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern();
-        $callback = function (Match $match) {
-            return 'value: ' . $match->text();
-        };
 
         // when
-        $findFirst = $matchPattern->findFirst($callback);
+        $findFirst = $matchPattern->findFirst(function (Match $match) {
+            return "value: $match";
+        });
 
         // then
         $this->assertEquals('value: ', $findFirst->orThrow());
@@ -163,12 +162,11 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern_notFirst();
-        $callback = function (Match $match) {
-            return 'value: ' . $match->text();
-        };
 
         // when
-        $findFirst = $matchPattern->findFirst($callback);
+        $findFirst = $matchPattern->findFirst(function (Match $match) {
+            return "value: $match";
+        });
 
         // then
         $this->assertEquals('value: a', $findFirst->orThrow());
@@ -182,12 +180,11 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern_filtered();
-        $callback = function (Match $match) {
-            return 'value: ' . $match->text();
-        };
 
-        // then
-        $findFirst = $matchPattern->findFirst($callback);
+        // when
+        $findFirst = $matchPattern->findFirst(function (Match $match) {
+            return "value: $match";
+        });
 
         // then
         $this->assertInstanceOf(EmptyOptional::class, $findFirst);
@@ -251,12 +248,11 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern_notFirst();
-        $callback = function (Match $match) {
-            return str_split(str_repeat($match, 2));
-        };
 
         // when
-        $flatMap = $matchPattern->flatMap($callback);
+        $flatMap = $matchPattern->flatMap(function (Match $match) {
+            return str_split(str_repeat($match, 2));
+        });
 
         // then
         $this->assertEquals(['a', 'a', 'b', 'b', '', 'c', 'c'], $flatMap);
@@ -317,12 +313,13 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern();
-        $callback = function (Match $match) {
-            return 'for first: ' . $match->text();
-        };
 
         // when
-        $first = $matchPattern->findFirst($callback)->orReturn('');
+        $first = $matchPattern
+            ->findFirst(function (Match $match) {
+                return "for first: $match";
+            })
+            ->orReturn('');
 
         // then
         $this->assertEquals('for first: ', $first);
@@ -363,12 +360,11 @@ class FilteredMatchPatternTest extends TestCase
         // given
         $matchPattern = $this->standardMatchPattern();
         $matches = [];
-        $callback = function (Match $match) use (&$matches) {
-            $matches[] = $match->text();
-        };
 
         // when
-        $matchPattern->forEach($callback);
+        $matchPattern->forEach(function (Match $match) use (&$matches) {
+            $matches[] = $match->text();
+        });
 
         // then
         $this->assertEquals(['', 'a', '', 'c'], $matches);
@@ -422,22 +418,12 @@ class FilteredMatchPatternTest extends TestCase
         return new FilteredMatchPattern(
             new FilteredBaseDecorator(
                 new ApiBase(
-                    InternalPattern::standard($this->pattern()),
-                    $this->subject(),
+                    InternalPattern::standard('(?<=\()[a-z]?(?=\))'),
+                    '() (a) (b) () (c)',
                     new UserData()
                 ),
                 new Predicate($predicate)
             )
         );
-    }
-
-    private function pattern(): string
-    {
-        return '(?<=\()[a-z]?(?=\))';
-    }
-
-    private function subject(): string
-    {
-        return '() (a) (b) () (c)';
     }
 }

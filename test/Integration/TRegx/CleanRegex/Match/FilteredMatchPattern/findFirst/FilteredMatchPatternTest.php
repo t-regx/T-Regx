@@ -23,12 +23,11 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern();
-        $callback = function (Match $match) {
-            return 'value: ' . $match->text();
-        };
 
         // when
-        $findFirst = $matchPattern->findFirst($callback);
+        $findFirst = $matchPattern->findFirst(function (Match $match) {
+            return 'value: ' . $match->text();
+        });
 
         // then
         $this->assertEquals('value: nice', $findFirst->orThrow());
@@ -42,12 +41,11 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern_notFirst();
-        $callback = function (Match $match) {
-            return 'value: ' . $match->text();
-        };
 
         // when
-        $findFirst = $matchPattern->findFirst($callback);
+        $findFirst = $matchPattern->findFirst(function (Match $match) {
+            return 'value: ' . $match->text();
+        });
 
         // then
         $this->assertEquals('value: matching', $findFirst->orThrow());
@@ -61,12 +59,11 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern_notMatches();
-        $callback = function (Match $match) {
-            return 'value: ' . $match->text();
-        };
 
         // when
-        $findFirst = $matchPattern->findFirst($callback);
+        $findFirst = $matchPattern->findFirst(function (Match $match) {
+            return 'value: ' . $match->text();
+        });
 
         // then
         $this->assertInstanceOf(EmptyOptional::class, $findFirst);
@@ -79,12 +76,11 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern_filtered();
-        $callback = function (Match $match) {
-            return 'value: ' . $match->text();
-        };
 
-        // then
-        $findFirst = $matchPattern->findFirst($callback);
+        // when
+        $findFirst = $matchPattern->findFirst(function (Match $match) {
+            return 'value: ' . $match->text();
+        });
 
         // then
         $this->assertInstanceOf(EmptyOptional::class, $findFirst);

@@ -8,7 +8,6 @@ class InternalPattern
 {
     /** @var string */
     public $pattern;
-
     /** @var string */
     public $originalPattern;
 

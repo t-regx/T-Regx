@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Test\PhpunitPolyfill;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class NotMatchedTest extends TestCase
@@ -118,9 +117,7 @@ class NotMatchedTest extends TestCase
     public function shouldThrow_invalidGroupName($nameOrIndex, string $message)
     {
         // given
-        /** @var Subjectable $subject */
-        $subject = $this->createMock(Subjectable::class);
-        $notMatched = new NotMatched(new RawMatches([]), $subject);
+        $notMatched = new NotMatched(new RawMatches([]), new Subject(''));
 
         // then
         $this->expectException(InvalidArgumentException::class);

@@ -9,7 +9,6 @@ class DictionaryMapperTest extends TestCase
 {
     /**
      * @test
-     * @happyPath
      */
     public function shouldReplace()
     {

@@ -34,7 +34,7 @@ class MatchOnly
         if ($this->limit === 1) {
             return $this->getOneMatch();
         }
-        return $this->getSlicedAll();
+        return array_slice($this->base->matchAll()->getTexts(), 0, $this->limit);
     }
 
     private function validatePattern(): void
@@ -52,18 +52,5 @@ class MatchOnly
             return [$result->getText()];
         }
         return [];
-    }
-
-    /**
-     * @return (string|null)[]
-     */
-    private function getSlicedAll(): array
-    {
-        return array_slice($this->getAll(), 0, $this->limit);
-    }
-
-    private function getAll(): array
-    {
-        return $this->base->matchAll()->getTexts();
     }
 }

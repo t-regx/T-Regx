@@ -8,7 +8,6 @@ class ReplacePatternTest extends TestCase
 {
     /**
      * @test
-     * @happyPath
      */
     public function shouldReplace()
     {
@@ -52,7 +51,6 @@ class ReplacePatternTest extends TestCase
 
     /**
      * @test
-     * @happyPath
      */
     public function shouldCall_withNonMatchedGroup()
     {

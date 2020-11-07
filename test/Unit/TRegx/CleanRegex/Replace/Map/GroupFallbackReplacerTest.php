@@ -23,12 +23,11 @@ class GroupFallbackReplacerTest extends TestCase
 {
     /**
      * @test
-     * @happyPath
      * @dataProvider strategies
      * @param GroupMapper $mapper
      * @param $expected
      */
-    public function shouldReplace_usingStrategy(GroupMapper $mapper, $expected)
+    public function shouldReplace_usingStrategy(GroupMapper $mapper, string $expected)
     {
         // given
         $mapReplacer = $this->create('\[(\w+)\]', '[two], [three], [four]');

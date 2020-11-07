@@ -11,7 +11,6 @@ class ReplacePatternTest extends TestCase
 {
     /**
      * @test
-     * @happyPath
      */
     public function shouldReplace()
     {

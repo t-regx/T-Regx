@@ -15,9 +15,9 @@ class InvalidReplacementExceptionTest extends TestCase
         $exception = new InvalidReplacementException(true);
 
         // when
-        $actualMessage = $exception->getMessage();
+        $message = $exception->getMessage();
 
         // then
-        $this->assertEquals('Invalid callback() callback return type. Expected string, but boolean (true) given', $actualMessage);
+        $this->assertEquals('Invalid callback() callback return type. Expected string, but boolean (true) given', $message);
     }
 }

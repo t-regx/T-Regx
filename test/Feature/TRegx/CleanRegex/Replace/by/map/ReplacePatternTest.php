@@ -9,7 +9,6 @@ class ReplacePatternTest extends TestCase
 {
     /**
      * @test
-     * @happyPath
      */
     public function shouldReplace_first()
     {
@@ -29,7 +28,6 @@ class ReplacePatternTest extends TestCase
 
     /**
      * @test
-     * @happyPath
      */
     public function shouldReplace_all()
     {
@@ -55,9 +53,7 @@ class ReplacePatternTest extends TestCase
     {
         // given
         $subject = 'Replace one, two and three, and one';
-        $map = [
-            'one' => 'first'
-        ];
+        $map = ['one' => 'first'];
 
         // then
         $this->expectException(MissingReplacementKeyException::class);
