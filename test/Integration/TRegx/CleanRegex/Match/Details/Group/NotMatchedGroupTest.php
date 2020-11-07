@@ -19,158 +19,67 @@ class NotMatchedGroupTest extends TestCase
 {
     /**
      * @test
+     * @dataProvider optionalMethods
+     * @param string $method
+     * @param array $arguments
+     * @param $expected
      */
-    public function testGetText()
+    public function testMethodOptional(string $method, array $arguments, $expected)
+    {
+        // given
+        $matchGroup = $this->matchGroup();
+
+        // when
+        $matches = $matchGroup->$method(...$arguments);
+
+        // then
+        $this->assertEquals($expected, $matches);
+    }
+
+    public function optionalMethods(): array
+    {
+        return [
+            ['matched', [], false],
+            ['equals', ['any'], false],
+            ['name', [], 'first'],
+            ['index', [], 1],
+            ['orElse', [function (NotMatched $notMatched) {
+                return $notMatched->subject();
+            }], 'My super subject'],
+            ['orReturn', [13], 13],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider nonOptionalMethods
+     * @param string $method
+     * @param array $arguments
+     */
+    public function testMethodNonOptional(string $method, array $arguments = [])
     {
         // given
         $matchGroup = $this->matchGroup();
 
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call text() for group 'first', but the group was not matched");
+        $this->expectExceptionMessage("Expected to call $method() for group 'first', but the group was not matched");
 
         // when
-        $matchGroup->text();
+        $matchGroup->$method(...$arguments);
     }
 
-    /**
-     * @test
-     */
-    public function testMatch()
+    public function nonOptionalMethods(): array
     {
-        // given
-        $matchGroup = $this->matchGroup();
-
-        // when
-        $matches = $matchGroup->matched();
-
-        // then
-        $this->assertFalse($matches);
-    }
-
-    /**
-     * @test
-     */
-    public function testEquals_shouldAwaysBeNotEqual()
-    {
-        // given
-        $matchGroup = $this->matchGroup();
-
-        // when
-        $equals = $matchGroup->equals("any");
-
-        // then
-        $this->assertFalse($equals);
-    }
-
-    /**
-     * @test
-     */
-    public function testGetOffset()
-    {
-        // given
-        $matchGroup = $this->matchGroup();
-
-        // then
-        $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call offset() for group 'first', but the group was not matched");
-
-        // when
-        $matchGroup->offset();
-    }
-
-    /**
-     * @test
-     */
-    public function testGetTail()
-    {
-        // given
-        $matchGroup = $this->matchGroup();
-
-        // then
-        $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call tail() for group 'first', but the group was not matched");
-
-        // when
-        $matchGroup->tail();
-    }
-
-    /**
-     * @test
-     */
-    public function testReplace()
-    {
-        // given
-        $matchGroup = $this->matchGroup();
-
-        // then
-        $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call replace() for group 'first', but the group was not matched");
-
-        // when
-        $matchGroup->replace('');
-    }
-
-    /**
-     * @test
-     */
-    public function testGetByteOffset()
-    {
-        // given
-        $matchGroup = $this->matchGroup();
-
-        // then
-        $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call byteOffset() for group 'first', but the group was not matched");
-
-        // when
-        $matchGroup->byteOffset();
-    }
-
-    /**
-     * @test
-     */
-    public function testGetByteTail()
-    {
-        // given
-        $matchGroup = $this->matchGroup();
-
-        // then
-        $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call byteTail() for group 'first', but the group was not matched");
-
-        // when
-        $matchGroup->byteTail();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetName()
-    {
-        // given
-        $matchGroup = $this->matchGroup();
-
-        // when
-        $name = $matchGroup->name();
-
-        // then
-        $this->assertEquals('first', $name);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetIndex()
-    {
-        // given
-        $matchGroup = $this->matchGroup();
-
-        // when
-        $index = $matchGroup->index();
-
-        // then
-        $this->assertEquals(1, $index);
+        return [
+            ['text', ['']],
+            ['textLength', ['']],
+            ['replace', ['']],
+            ['offset'],
+            ['byteOffset'],
+            ['tail'],
+            ['byteTail'],
+        ];
     }
 
     /**
@@ -187,38 +96,6 @@ class NotMatchedGroupTest extends TestCase
 
         // when
         $matchGroup->orThrow(CustomSubjectException::class);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldControlMatched_orElse()
-    {
-        // given
-        $matchGroup = $this->matchGroup();
-
-        // when
-        $orElse = $matchGroup->orElse(function (NotMatched $notMatched) {
-            return $notMatched->subject();
-        });
-
-        // then
-        $this->assertEquals('My super subject', $orElse);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldControlMatched_orReturn()
-    {
-        // given
-        $matchGroup = $this->matchGroup();
-
-        // when
-        $orReturn = $matchGroup->orReturn(13);
-
-        // then
-        $this->assertEquals(13, $orReturn);
     }
 
     private function matchGroup(): NotMatchedGroup
