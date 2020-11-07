@@ -14,32 +14,33 @@ class LazyMatchImplTest extends TestCase
 {
     /**
      * @test
+     * @dataProvider methods
+     * @param string $method
+     * @param array $arguments
+     * @param $expected
      */
-    public function shouldText()
+    public function testMethod(string $method, array $arguments, $expected)
     {
         // given
         $match = $this->match();
 
         // when
-        $result = $match->text();
+        $result = $match->$method(...$arguments);
 
         // then
-        $this->assertEquals('word', $result);
+        $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @test
-     */
-    public function shouldTextLength()
+    public function methods(): array
     {
-        // given
-        $match = $this->match();
-
-        // when
-        $result = $match->textLength();
-
-        // then
-        $this->assertEquals(4, $result);
+        return [
+            ['text', [], 'word'],
+            ['textLength', [], 4],
+            ['tail', [], 10],
+            ['limit', [], 14],
+            ['subject', [], 'Word: word two three'],
+            ['all', [], ['word', 'two', 'three']],
+        ];
     }
 
     /**
@@ -55,36 +56,6 @@ class LazyMatchImplTest extends TestCase
 
         // then
         $this->assertEquals('word', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldTail()
-    {
-        // given
-        $match = $this->match();
-
-        // when
-        $result = $match->tail();
-
-        // then
-        $this->assertEquals(10, $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldLimit()
-    {
-        // given
-        $match = $this->match();
-
-        // when
-        $result = $match->limit();
-
-        // then
-        $this->assertEquals(14, $result);
     }
 
     /**
@@ -117,36 +88,6 @@ class LazyMatchImplTest extends TestCase
 
         // then
         $this->assertEquals(123, $int);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldSubject()
-    {
-        // given
-        $match = $this->match();
-
-        // when
-        $result = $match->subject();
-
-        // then
-        $this->assertEquals('Word: word two three', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldAll()
-    {
-        // given
-        $match = $this->match();
-
-        // when
-        $result = $match->all();
-
-        // then
-        $this->assertEquals(['word', 'two', 'three'], $result);
     }
 
     /**
