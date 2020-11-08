@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Match\Optional;
 
 trait MatchPatternHelpers
 {
-    abstract public function findFirst(callable $consumer = null): Optional;
+    abstract public function findFirst(callable $consumer): Optional;
 
     public function tuple($nameOrIndex1, $nameOrIndex2): array
     {
