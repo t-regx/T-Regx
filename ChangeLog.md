@@ -4,6 +4,14 @@ T-Regx Changelog
 Incoming in 0.9.13
 ------------------
 
+* Deprecation
+    * Deprecate `Match`, use `Detail` instead.
+    * Deprecate `ReplaceMatch`, use `ReplaceDetail` instead.
+
+      In preparation for incoming PHP 8, in which `match` is the new keyword,
+      we deprecate `Match` and `ReplaceMatch`. `Match` will become an invalid
+      class name in PHP 8.
+
 * Features
     * Add `NotReplacedException.getSubject()`
     * Added proper handling of `/J` flag #84
