@@ -6,7 +6,7 @@ use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class AbstractMatchPatternTest extends TestCase
 {
@@ -19,10 +19,10 @@ class AbstractMatchPatternTest extends TestCase
         $result = pattern("(?<capital>[A-Z])?[\w']+")
             ->match("I'm rather old, He likes Apples")
             ->fluent()
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return $match->textLength() !== 3;
             })
-            ->map(function (Match $match) {
+            ->map(function (Detail $match) {
                 return $match->group('capital');
             })
             ->map(function (MatchGroup $matchGroup) {
@@ -46,10 +46,10 @@ class AbstractMatchPatternTest extends TestCase
         $result = pattern("\w+")
             ->match("Lorem ipsum dolor emet")
             ->fluent()
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return !in_array($match->text(), ['Lorem', 'ipsum']);
             })
-            ->map(function (Match $match) {
+            ->map(function (Detail $match) {
                 return $match->text();
             })
             ->nth(1);
@@ -67,13 +67,13 @@ class AbstractMatchPatternTest extends TestCase
         pattern("\w+")
             ->match("Foo, Bar")
             ->fluent()
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 // when
                 $match->setUserData($match === 'Foo' ? 'hey' : 'hello');
 
                 return true;
             })
-            ->forEach(function (Match $match) {
+            ->forEach(function (Detail $match) {
                 // then
                 $userData = $match->getUserData();
 
@@ -90,10 +90,10 @@ class AbstractMatchPatternTest extends TestCase
         pattern("(?<capital>[A-Z])?[\w']+")
             ->match("I'm rather old, He likes Apples")
             ->fluent()
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return $match->textLength() !== 3;
             })
-            ->findFirst(function (Match $match) {
+            ->findFirst(function (Detail $match) {
                 $this->assertTrue(true);
             })
             ->orThrow();

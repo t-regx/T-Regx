@@ -7,8 +7,8 @@ use Test\Utils\CustomSubjectException;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\LazyMatchImpl;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\DataProvider\DataProviders;
 
 class ReplacePatternTest extends TestCase
@@ -43,7 +43,7 @@ class ReplacePatternTest extends TestCase
             'orElseIgnore'  => ['orElseIgnore', []],
             'orElseEmpty'   => ['orElseEmpty', []],
             'orElseWith'    => ['orElseWith', ['word']],
-            'orElseCalling' => ['orElseCalling', [function (Match $match) {
+            'orElseCalling' => ['orElseCalling', [function (Detail $match) {
             }]],
         ];
     }
@@ -59,7 +59,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('unit')
-            ->orElseCalling(function (LazyMatchImpl $match) {
+            ->orElseCalling(function (LazyDetailImpl $match) {
                 $this->assertEquals('14', $match->text());
                 $this->assertEquals('14', $match->get('value'));
                 $this->assertEquals('14', $match->group('value')->text());
@@ -89,7 +89,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('unit')
-            ->orElseCalling(function (LazyMatchImpl $match) {
+            ->orElseCalling(function (LazyDetailImpl $match) {
                 $this->assertEquals('14', $match->text());
 
                 // when
@@ -123,7 +123,7 @@ class ReplacePatternTest extends TestCase
                 ['orElseIgnore', [], 'Links: https://.com,http://.com.'],
                 ['orElseEmpty', [], 'Links: ,.'],
                 ['orElseWith', ['default'], 'Links: default,default.'],
-                ['orElseCalling', [function (Match $whenGroupWasNotMatched) {
+                ['orElseCalling', [function (Detail $whenGroupWasNotMatched) {
                     return 'else';
                 }], 'Links: else,else.']
             )

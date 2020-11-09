@@ -7,8 +7,8 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
-use TRegx\CleanRegex\Match\Details\Match;
-use TRegx\CleanRegex\Match\Details\MatchImpl;
+use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\DetailImpl;
 
 class MatchFirst
 {
@@ -35,7 +35,7 @@ class MatchFirst
         return $match->getText();
     }
 
-    private function matchDetails(): Match
+    private function matchDetails(): Detail
     {
         $match = $this->base->matchOffset();
         $this->validateMatched($match);
@@ -49,10 +49,10 @@ class MatchFirst
         }
     }
 
-    private function createMatchObject(IRawMatchOffset $match): Match
+    private function createMatchObject(IRawMatchOffset $match): Detail
     {
         $factory = new LazyMatchAllFactory($this->base);
-        return new MatchImpl($this->base, 0, 1, new GroupPolyfillDecorator($match, $factory, 0),
+        return new DetailImpl($this->base, 0, 1, new GroupPolyfillDecorator($match, $factory, 0),
             $factory, $this->base->getUserData());
     }
 }

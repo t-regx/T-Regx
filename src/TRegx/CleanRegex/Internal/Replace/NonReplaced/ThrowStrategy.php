@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Replace\NonReplaced;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class ThrowStrategy implements SubjectRs, MatchRs
 {
@@ -20,7 +20,7 @@ class ThrowStrategy implements SubjectRs, MatchRs
         throw $this->factory->create($subject);
     }
 
-    public function substituteGroup(Match $match): string
+    public function substituteGroup(Detail $match): string
     {
         throw $this->factory->create($match->subject());
     }

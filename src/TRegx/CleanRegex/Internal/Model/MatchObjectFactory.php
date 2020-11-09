@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Match\Details\MatchImpl;
+use TRegx\CleanRegex\Match\Details\DetailImpl;
 
 class MatchObjectFactory
 {
@@ -25,6 +25,6 @@ class MatchObjectFactory
 
     public function create(int $index, IRawMatchOffset $matchOffset, MatchAllFactory $matchAllFactory)
     {
-        return new MatchImpl($this->subjectable, $index, $this->limit, $matchOffset, $matchAllFactory, $this->userData);
+        return new DetailImpl($this->subjectable, $index, $this->limit, $matchOffset, $matchAllFactory, $this->userData);
     }
 }

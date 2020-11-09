@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class UserDataTest extends TestCase
 {
@@ -45,8 +45,8 @@ class UserDataTest extends TestCase
 
     private function createMockWithByteOffset(int $byteOffset)
     {
-        /** @var Match|MockObject $match */
-        $match = $this->createMock(Match::class);
+        /** @var Detail|MockObject $match */
+        $match = $this->createMock(Detail::class);
         $match->method('byteOffset')->willReturn($byteOffset);
         return $match;
     }

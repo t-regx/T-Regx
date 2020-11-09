@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\FilteredMatchPattern;
 
 class FilteredMatchPatternTest extends TestCase
@@ -22,7 +22,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_one();
 
         // when
-        $all = $matchPattern->first(function (Match $match) {
+        $all = $matchPattern->first(function (Detail $match) {
             return $match->all();
         });
 
@@ -39,7 +39,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_one();
 
         // when
-        $all = $matchPattern->first(function (Match $match) {
+        $all = $matchPattern->first(function (Detail $match) {
             return $match->group(1)->all();
         });
 
@@ -49,7 +49,7 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern_one(): AbstractMatchPattern
     {
-        return $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', function (Match $match) {
+        return $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', function (Detail $match) {
             return $match->index() == 1;
         });
     }
@@ -63,7 +63,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_two();
 
         // when
-        $all = $matchPattern->first(function (Match $match) {
+        $all = $matchPattern->first(function (Detail $match) {
             return $match->all();
         });
 
@@ -80,7 +80,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_two();
 
         // when
-        $all = $matchPattern->first(function (Match $match) {
+        $all = $matchPattern->first(function (Detail $match) {
             return $match->group(1)->all();
         });
 
@@ -90,7 +90,7 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern_two(): AbstractMatchPattern
     {
-        return $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', function (Match $match) {
+        return $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', function (Detail $match) {
             return $match->index() > 0;
         });
     }

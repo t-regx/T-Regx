@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\group\isInt;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -15,7 +15,7 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('(?<name>-?\w+)')
             ->match('11')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 return $match->group(1)->isInt();
             });
@@ -32,7 +32,7 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('(.*)', 's')
             ->match('1e3')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 return $match->group(1)->isInt();
             });
@@ -49,7 +49,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<value>\d+)')
             ->match('12cm 14mm 13cm 19cm 18mm 2mm')
-            ->forEach(function (Match $match) {
+            ->forEach(function (Detail $match) {
                 // when
                 $isInt = $match->group('value')->isInt();
 
@@ -66,7 +66,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<value>\d+)')
             ->match('12cm 14mm 13cm 19cm 18mm 2mm')
-            ->map(function (Match $match) {
+            ->map(function (Detail $match) {
                 // when
                 $isInt = $match->group(1)->isInt();
 
@@ -83,7 +83,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<name>\w+)')
             ->match('Foo bar')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $result = $match->group('name')->isInt();
 
@@ -100,7 +100,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<name>\w+)')
             ->match('Foo bar')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $result = $match->group(1)->isInt();
 
@@ -121,7 +121,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<name>\w+)(?<missing>\d+)?')
             ->match('Foo bar')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 return $match->group('missing')->isInt();
             });

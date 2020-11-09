@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Replace\NonReplaced;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class ComputedMatchStrategy implements MatchRs
 {
@@ -17,7 +17,7 @@ class ComputedMatchStrategy implements MatchRs
         $this->callingMethod = $callingMethod;
     }
 
-    public function substituteGroup(Match $match): string
+    public function substituteGroup(Detail $match): string
     {
         $result = \call_user_func($this->mapper, $match);
         if ($result === null) {

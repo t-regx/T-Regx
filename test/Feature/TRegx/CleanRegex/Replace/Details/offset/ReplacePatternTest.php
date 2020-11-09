@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\offset;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class ReplacePatternTest extends TestCase
 {
@@ -15,7 +15,7 @@ class ReplacePatternTest extends TestCase
         pattern('\w{4,}')
             ->replace('Cześć, Tomek')
             ->first()
-            ->callback(function (Match $match) {
+            ->callback(function (Detail $match) {
                 // when
                 $offset = $match->offset();
                 $byteOffset = $match->byteOffset();
@@ -38,7 +38,7 @@ class ReplacePatternTest extends TestCase
         pattern('\w{4,}')
             ->replace('Cześć, Tomek i Kamil')
             ->all()
-            ->callback(function (Match $match) {
+            ->callback(function (Detail $match) {
                 if ($match->index() !== 1) return '';
 
                 // when

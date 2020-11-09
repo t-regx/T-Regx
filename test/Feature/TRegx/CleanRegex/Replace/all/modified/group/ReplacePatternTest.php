@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\all\modified\group;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
 class ReplacePatternTest extends TestCase
 {
@@ -18,7 +18,7 @@ class ReplacePatternTest extends TestCase
         $offsets = [];
         $mOffsets = [];
 
-        $callback = function (ReplaceMatch $match) use (&$offsets, &$mOffsets) {
+        $callback = function (ReplaceDetail $match) use (&$offsets, &$mOffsets) {
             $offsets[] = $match->group('name')->offset();
             $mOffsets[] = $match->group('name')->modifiedOffset();
             return 'ę';

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
 
 class ReplaceMatchImplTest extends TestCase
@@ -429,12 +429,12 @@ class ReplaceMatchImplTest extends TestCase
     }
 
     /**
-     * @return Match|MockObject
+     * @return Detail|MockObject
      */
-    private function getMatchMock(): Match
+    private function getMatchMock(): Detail
     {
-        /** @var Match|MockObject $mock */
-        $mock = $this->createMock(Match::class);
+        /** @var Detail|MockObject $mock */
+        $mock = $this->createMock(Detail::class);
         return $mock;
     }
 }

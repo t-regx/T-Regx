@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\first;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
 class ReplacePatternTest extends TestCase
 {
@@ -49,7 +49,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)
             ->replace($subject)
             ->first()
-            ->callback(function (ReplaceMatch $match) {
+            ->callback(function (ReplaceDetail $match) {
                 // then
                 return $match->group('name');
             });
@@ -71,7 +71,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)
             ->replace($subject)
             ->first()
-            ->callback(function (ReplaceMatch $match) { // Testing this type-hint
+            ->callback(function (ReplaceDetail $match) { // Testing this type-hint
                 // then
                 return $match;
             });
@@ -93,7 +93,7 @@ class ReplacePatternTest extends TestCase
         pattern($pattern)
             ->replace($subject)
             ->first()
-            ->callback(function (ReplaceMatch $match) {
+            ->callback(function (ReplaceDetail $match) {
                 // then
                 $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->all());
 

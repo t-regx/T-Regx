@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\FilteredMatchPattern;
 
 class FilteredMatchPatternTest extends TestCase
@@ -83,7 +83,7 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern(): FilteredMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Match $match) {
+        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $match) {
             return $match->index() != 1;
         });
     }

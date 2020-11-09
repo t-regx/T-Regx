@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\_stream_first;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\SafeRegex\Exception\CatastrophicBacktrackingPregException;
 
@@ -94,7 +94,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // when
         $first = $this->match()->fluent()
-            ->flatMap(function (Match $a) {
+            ->flatMap(function (Detail $a) {
                 return [$a->text(), $a->text()];
             })
             ->first();

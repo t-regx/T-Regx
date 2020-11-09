@@ -4,7 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\tuples;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchPatternTest extends TestCase
 {
@@ -70,7 +70,7 @@ class MatchPatternTest extends TestCase
         // when
         [$value, $unit] = pattern('(\d+)(?<unit>cm|mm)')
             ->match('12cm 14mm')
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return $match->text() === '14mm';
             })
             ->tuple(1, 'unit');
@@ -87,7 +87,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         [$a, $b, $c] = pattern('([ab])([12])([$%])')->match('a1% b2$')
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return $match->text() !== 'a1%';
             })
             ->triple(1, 3, 2);

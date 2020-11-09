@@ -11,9 +11,9 @@ use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroupDetails;
-use TRegx\CleanRegex\Match\Details\Match;
-use TRegx\CleanRegex\Match\Details\MatchImpl;
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\DetailImpl;
+use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
 use function call_user_func;
 use function is_string;
@@ -76,11 +76,11 @@ class ReplaceCallbackObject
         return $this->argumentStrategy->mapArgument($this->createMatchObject());
     }
 
-    private function createMatchObject(): ReplaceMatch
+    private function createMatchObject(): ReplaceDetail
     {
         $index = $this->counter++;
         return new ReplaceMatchImpl(
-            new MatchImpl(
+            new DetailImpl(
                 $this->subject,
                 $index,
                 $this->limit,
@@ -102,7 +102,7 @@ class ReplaceCallbackObject
         if ($replacement instanceof MatchGroupDetails) {
             return $this->groupAsReplacement($replacement);
         }
-        if ($replacement instanceof Match) {
+        if ($replacement instanceof Detail) {
             return $replacement;
         }
         throw new InvalidReplacementException($replacement);

@@ -3,7 +3,7 @@ namespace Test;
 
 use Test\Utils\ClassWithToString;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class DataProviders
 {
@@ -98,7 +98,7 @@ class DataProviders
             'orElseIgnore'  => ['orElseIgnore', []],
             'orElseEmpty'   => ['orElseEmpty', []],
             'orElseWith'    => ['orElseWith', ['word']],
-            'orElseCalling' => ['orElseCalling', [function (Match $match) {
+            'orElseCalling' => ['orElseCalling', [function (Detail $match) {
                 return "fallback: '$match'";
             }]],
         ];

@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\Optional;
 
@@ -14,7 +14,7 @@ trait MatchPatternHelpers
     public function tuple($nameOrIndex1, $nameOrIndex2): array
     {
         return $this
-            ->findFirst(function (Match $match) use ($nameOrIndex1, $nameOrIndex2) {
+            ->findFirst(function (Detail $match) use ($nameOrIndex1, $nameOrIndex2) {
                 return [
                     $match->group($nameOrIndex1)->orReturn(null),
                     $match->group($nameOrIndex2)->orReturn(null),
@@ -32,7 +32,7 @@ trait MatchPatternHelpers
     public function triple($nameOrIndex1, $nameOrIndex2, $nameOrIndex3): array
     {
         return $this
-            ->findFirst(function (Match $match) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
+            ->findFirst(function (Detail $match) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
                 return [
                     $match->group($nameOrIndex1)->orReturn(null),
                     $match->group($nameOrIndex2)->orReturn(null),

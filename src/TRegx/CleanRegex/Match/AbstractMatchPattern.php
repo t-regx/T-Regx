@@ -31,7 +31,7 @@ use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 
@@ -80,7 +80,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
             SubjectNotMatchedException::class);
     }
 
-    private function findFirstDetails(RawMatchOffset $match): Match
+    private function findFirstDetails(RawMatchOffset $match): Detail
     {
         $allFactory = new LazyMatchAllFactory($this->base);
         return (new MatchObjectFactory($this->base, 1, $this->base->getUserData()))
@@ -181,7 +181,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     }
 
     /**
-     * @return Match[]
+     * @return Detail[]
      */
     protected function getMatchObjects(): array
     {

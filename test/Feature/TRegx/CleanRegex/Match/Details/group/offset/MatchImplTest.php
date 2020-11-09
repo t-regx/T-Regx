@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\group\offset;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -14,7 +14,7 @@ class MatchImplTest extends TestCase
         // when
         pattern('(?<capital>[A-Z])(?<lowercase>[a-z]{3,})')
             ->match('Cześć, Tomek')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
 
                 // when
                 $offset = $match->group('lowercase')->offset();
@@ -34,7 +34,7 @@ class MatchImplTest extends TestCase
         // when
         pattern('(?<capital>[A-Z])(?<lowercase>[a-z]{3,})')
             ->match('Cześć, Tomek i Kamil')
-            ->forEach(function (Match $match) {
+            ->forEach(function (Detail $match) {
                 if ($match->index() !== 1) return;
 
                 // when

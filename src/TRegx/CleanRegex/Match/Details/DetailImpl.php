@@ -21,7 +21,7 @@ use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
-class MatchImpl implements Match
+class DetailImpl implements Detail
 {
     /** @var Subjectable */
     private $subjectable;

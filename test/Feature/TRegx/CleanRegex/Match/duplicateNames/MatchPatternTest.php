@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\duplicateNames;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchPatternTest extends TestCase
 {
@@ -72,7 +72,7 @@ class MatchPatternTest extends TestCase
         $this->assertEquals(1, $declared->index());
     }
 
-    public function match(): Match
+    public function match(): Detail
     {
         return pattern('(?<group>One)(?<group>Two)', 'J')
             ->match('OneTwo')

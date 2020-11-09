@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\FilteredMatchPattern;
 
 class FilteredMatchPatternTest extends TestCase
@@ -25,7 +25,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern();
 
         // when
-        $findFirst = $matchPattern->findFirst(function (Match $match) {
+        $findFirst = $matchPattern->findFirst(function (Detail $match) {
             return 'value: ' . $match->text();
         });
 
@@ -43,7 +43,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_notFirst();
 
         // when
-        $findFirst = $matchPattern->findFirst(function (Match $match) {
+        $findFirst = $matchPattern->findFirst(function (Detail $match) {
             return 'value: ' . $match->text();
         });
 
@@ -61,7 +61,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_notMatches();
 
         // when
-        $findFirst = $matchPattern->findFirst(function (Match $match) {
+        $findFirst = $matchPattern->findFirst(function (Detail $match) {
             return 'value: ' . $match->text();
         });
 
@@ -78,7 +78,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_filtered();
 
         // when
-        $findFirst = $matchPattern->findFirst(function (Match $match) {
+        $findFirst = $matchPattern->findFirst(function (Detail $match) {
             return 'value: ' . $match->text();
         });
 
@@ -88,14 +88,14 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern_notFirst(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Match $match) {
+        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $match) {
             return $match->index() > 0;
         });
     }
 
     private function standardMatchPattern(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Match $match) {
+        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $match) {
             return $match->index() != 1;
         });
     }

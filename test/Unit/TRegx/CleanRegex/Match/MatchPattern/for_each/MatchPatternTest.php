@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\for_each;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
@@ -20,7 +20,7 @@ class MatchPatternTest extends TestCase
         $matches = ['Nice', 'matching', 'pattern'];
 
         // when
-        $pattern->forEach(function (Match $match) use (&$counter, $matches) {
+        $pattern->forEach(function (Detail $match) use (&$counter, $matches) {
             // then
             $this->assertEquals($matches[$counter], $match->text());
             $this->assertEquals($counter++, $match->index());

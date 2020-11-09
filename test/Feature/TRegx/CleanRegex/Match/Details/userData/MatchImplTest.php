@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\userData;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -14,13 +14,13 @@ class MatchImplTest extends TestCase
         // given
         $filtered = pattern('[A-Z][a-z]+')
             ->match('First, Second, Third')
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 $match->setUserData($match . $match);
                 return true;
             });
 
         // when
-        $userData = $filtered->first(function (Match $match) {
+        $userData = $filtered->first(function (Detail $match) {
             return $match->getUserData();
         });
 
@@ -36,14 +36,14 @@ class MatchImplTest extends TestCase
         // given
         $filtered = pattern('[A-Z][a-z]+')
             ->match('First, Second, Third')
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 $match->setUserData($match . $match);
                 return true;
             });
 
         // when
         $userData = $filtered
-            ->findFirst(function (Match $match) {
+            ->findFirst(function (Detail $match) {
                 return $match->getUserData();
             })
             ->orThrow();
@@ -60,13 +60,13 @@ class MatchImplTest extends TestCase
         // given
         $filtered = pattern('[A-Z][a-z]+')
             ->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 $match->setUserData($match . $match);
                 return true;
             });
 
         // when
-        $userData = $filtered->map(function (Match $match) {
+        $userData = $filtered->map(function (Detail $match) {
             return $match->getUserData();
         });
 

@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\FilteredMatchPattern;
 
 class FilteredMatchPatternTest extends TestCase
@@ -146,7 +146,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern();
 
         // when
-        $findFirst = $matchPattern->findFirst(function (Match $match) {
+        $findFirst = $matchPattern->findFirst(function (Detail $match) {
             return "value: $match";
         });
 
@@ -164,7 +164,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_notFirst();
 
         // when
-        $findFirst = $matchPattern->findFirst(function (Match $match) {
+        $findFirst = $matchPattern->findFirst(function (Detail $match) {
             return "value: $match";
         });
 
@@ -182,7 +182,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_filtered();
 
         // when
-        $findFirst = $matchPattern->findFirst(function (Match $match) {
+        $findFirst = $matchPattern->findFirst(function (Detail $match) {
             return "value: $match";
         });
 
@@ -250,7 +250,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_notFirst();
 
         // when
-        $flatMap = $matchPattern->flatMap(function (Match $match) {
+        $flatMap = $matchPattern->flatMap(function (Detail $match) {
             return str_split(str_repeat($match, 2));
         });
 
@@ -295,7 +295,7 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern();
-        $mapper = function (Match $match) {
+        $mapper = function (Detail $match) {
             return lcfirst($match) . ucfirst($match);
         };
 
@@ -316,7 +316,7 @@ class FilteredMatchPatternTest extends TestCase
 
         // when
         $first = $matchPattern
-            ->findFirst(function (Match $match) {
+            ->findFirst(function (Detail $match) {
                 return "for first: $match";
             })
             ->orReturn('');
@@ -333,17 +333,17 @@ class FilteredMatchPatternTest extends TestCase
         // given
         $pattern = '/\w+/';
         $subject = '...you forgot one very important thing mate.';
-        $predicate = function (Match $match) {
+        $predicate = function (Detail $match) {
             return $match->text() != 'forgot';
         };
         $pattern = new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(InternalPattern::pcre($pattern), $subject, new UserData()), new Predicate($predicate)));
 
         // when
         $filtered = $pattern
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return $match->text() !== 'very';
             })
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return $match->text() !== 'mate';
             })
             ->all();
@@ -362,7 +362,7 @@ class FilteredMatchPatternTest extends TestCase
         $matches = [];
 
         // when
-        $matchPattern->forEach(function (Match $match) use (&$matches) {
+        $matchPattern->forEach(function (Detail $match) use (&$matches) {
             $matches[] = $match->text();
         });
 
@@ -391,7 +391,7 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern(): FilteredMatchPattern
     {
-        return $this->matchPattern(function (Match $match) {
+        return $this->matchPattern(function (Detail $match) {
             return $match->text() !== 'b';
         });
     }
@@ -403,7 +403,7 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern_notFirst(): FilteredMatchPattern
     {
-        return $this->matchPattern(function (Match $match) {
+        return $this->matchPattern(function (Detail $match) {
             return $match->index() > 0;
         });
     }

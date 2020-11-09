@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchStreamTest extends TestCase
 {
@@ -24,7 +24,7 @@ class MatchStreamTest extends TestCase
         $stream = $this->matchStream($this->streamAll('14'));
 
         // when
-        /** @var Match[] $all */
+        /** @var Detail[] $all */
         $all = $stream->all();
 
         // then
@@ -87,7 +87,7 @@ class MatchStreamTest extends TestCase
         $stream = $this->matchStream($this->streamAll('19'));
 
         // when
-        /** @var Match[] $all */
+        /** @var Detail[] $all */
         $all = $stream->all();
 
         // then
@@ -105,7 +105,7 @@ class MatchStreamTest extends TestCase
         $stream = $this->matchStream($this->streamAll('14'));
 
         // when
-        /** @var Match[] $all */
+        /** @var Detail[] $all */
         $all = $stream->all();
 
         // then

@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
@@ -39,7 +39,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('Nice 1 matching 2 pattern');
 
         // when
-        $map = $pattern->flatMap(function (Match $match) {
+        $map = $pattern->flatMap(function (Detail $match) {
             return [$match->text() => $match->offset()];
         });
 
@@ -63,7 +63,7 @@ class MatchPatternTest extends TestCase
         $matches = ['Nice', 'matching', 'pattern'];
 
         // when
-        $pattern->flatMap(function (Match $match) use (&$counter, $matches) {
+        $pattern->flatMap(function (Detail $match) use (&$counter, $matches) {
             // then
             $this->assertEquals($matches[$counter], $match->text());
             $this->assertEquals($counter++, $match->index());

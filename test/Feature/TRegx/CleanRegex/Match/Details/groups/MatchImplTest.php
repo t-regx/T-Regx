@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\groups;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -15,7 +15,7 @@ class MatchImplTest extends TestCase
         // when
         $groups = pattern('([a-z]+)(?:\((\d*)\))?')
             ->match('sin(20) + cos() + tan')
-            ->map(function (Match $match) {
+            ->map(function (Detail $match) {
                 return $match->groups()->texts();
             });
 
@@ -36,7 +36,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $groupNames = $match->namedGroups()->texts();
 
@@ -57,7 +57,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first ę) and (?<two>second)')
             ->match('first ę and second')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $offsets = $match->groups()->offsets();
                 $byteOffsets = $match->groups()->byteOffsets();
@@ -76,7 +76,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first ę) and (?<two>second)')
             ->match('first ę and second')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $offsets = $match->namedGroups()->offsets();
                 $byteOffsets = $match->namedGroups()->byteOffsets();
@@ -95,7 +95,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) (and) (?<two>second)')
             ->match('first and second')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $groupNames = $match->groupNames();
 
@@ -112,7 +112,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) and (second)')
             ->match('first and second')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $groupsCount = $match->groupsCount();
 
@@ -129,7 +129,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $has = $match->hasGroup('nonexistent');
 
@@ -146,7 +146,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<existing>first) and (?<two_existing>second)')
             ->match('first and second')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $has = $match->hasGroup('existing');
 
@@ -163,7 +163,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(zero) (?<existing>first) and (?<two_existing>second)')
             ->match('zero first and second')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $groupNames = $match->groups()->names();
                 $namedGroups = $match->namedGroups()->names();
@@ -182,7 +182,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(zero) (?<existing>first) and (?<two_existing>second)')
             ->match('zero first and second')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $groups = $match->groups()->count();
                 $namedGroups = $match->namedGroups()->count();
@@ -205,7 +205,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $match->hasGroup('2sd');
             });

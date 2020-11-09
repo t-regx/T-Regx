@@ -6,7 +6,7 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
@@ -54,7 +54,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_first_callback()
     {
         // when
-        $value = pattern('[A-Za-z]{4}\.')->match('What do you need? - Guns.')->first(function (Match $match) {
+        $value = pattern('[A-Za-z]{4}\.')->match('What do you need? - Guns.')->first(function (Detail $match) {
             return "Lots of $match";
         });
 
@@ -84,7 +84,7 @@ class MatchPatternTest extends TestCase
         // when
         pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
             ->match('Foo, Leszek Ziom, Bar')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // then
                 $this->assertEquals(['Foo', 'Leszek', 'Ziom', 'Bar'], $match->all());
             });
@@ -130,7 +130,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_map()
     {
         // when
-        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->map(function (Match $match) {
+        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->map(function (Detail $match) {
             return str_split(strtoupper($match));
         });
 
@@ -161,7 +161,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_flatMap()
     {
         // when
-        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->flatMap(function (Match $match) {
+        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->flatMap(function (Detail $match) {
             return str_split(strtoupper($match));
         });
 
@@ -296,7 +296,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage("Expected to call text() for group '1', but the group was not matched");
 
         // given
-        pattern('Foo(Bar)?')->match('Foo')->findFirst(function (Match $match) {
+        pattern('Foo(Bar)?')->match('Foo')->findFirst(function (Detail $match) {
             return $match->group(1)->text();
         });
     }
@@ -320,7 +320,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return strlen($match) === 5;
             })
             ->all();
@@ -336,7 +336,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return strlen($match) === 5;
             })
             ->only(2);
@@ -352,7 +352,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return strlen($match) === 5;
             })
             ->only(1);
@@ -382,7 +382,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return strlen($match) === 5;
             })
             ->count();
@@ -398,7 +398,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return $match->index() > 1;
             })
             ->first();
@@ -414,7 +414,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $matches = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return $match->text() === 'Fifth';
             })
             ->test();
@@ -575,7 +575,7 @@ class MatchPatternTest extends TestCase
         return pattern('(?<value>\d+)(?<unit>cm|mm)')
             ->match($subject)
             ->fluent()
-            ->groupByCallback(function (Match $match) {
+            ->groupByCallback(function (Detail $match) {
                 return $match->group('unit')->text();
             });
     }

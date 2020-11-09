@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -17,7 +17,7 @@ class MatchImplTest extends TestCase
         // when
         pattern('(?<group>Foo)(?<group>Bar)', 'J')
             ->match('FooBar')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // given
                 $group = $match->group('group');
 
@@ -38,7 +38,7 @@ class MatchImplTest extends TestCase
         // when
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
             ->match('Lorem')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // given
                 $group = $match->group('group');
 
@@ -61,7 +61,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
             ->match('Lorem')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $match->get('group');
             });

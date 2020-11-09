@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\limit;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class ReplacePatternTest extends TestCase
 {
@@ -15,7 +15,7 @@ class ReplacePatternTest extends TestCase
         pattern('\d+')
             ->replace('111-222-333')
             ->first()
-            ->callback(function (Match $match) {
+            ->callback(function (Detail $match) {
                 // when
                 $limit = $match->limit();
 
@@ -36,7 +36,7 @@ class ReplacePatternTest extends TestCase
         pattern('\d+')
             ->replace('111-222-333')
             ->all()
-            ->callback(function (Match $match) {
+            ->callback(function (Detail $match) {
                 // when
                 $limit = $match->limit();
 
@@ -57,7 +57,7 @@ class ReplacePatternTest extends TestCase
         pattern('\d+')
             ->replace('111-222-333')
             ->only(3)
-            ->callback(function (Match $match) {
+            ->callback(function (Detail $match) {
                 // when
                 $limit = $match->limit();
 

@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\Details\get;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
 class ReplacePatternTest extends TestCase
 {
@@ -17,7 +17,7 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: http://google.com';
 
         // when
-        $result = pattern($pattern)->replace($subject)->first()->callback(function (ReplaceMatch $match) {
+        $result = pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
             // then
             return $match->get('domain');
         });
@@ -39,7 +39,7 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Expected to get group '2', but the group was not matched");
 
         // when
-        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceMatch $match) {
+        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
             // then
             return $match->get(2);
         });
@@ -61,7 +61,7 @@ class ReplacePatternTest extends TestCase
         pattern($pattern)
             ->replace($subject)
             ->first()
-            ->callback(function (ReplaceMatch $match) {
+            ->callback(function (ReplaceDetail $match) {
                 // then
                 return $match->get('domain');
             });

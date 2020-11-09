@@ -4,7 +4,7 @@ namespace Test\Integration\TRegx\CleanRegex\Replace;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
 
@@ -34,7 +34,7 @@ class SpecificReplacePatternImplTest extends TestCase
         $replace = $this->createReplacePattern('192.168.173.180');
 
         // when
-        $result = $replace->callback(function (Match $match) {
+        $result = $replace->callback(function (Detail $match) {
             if ($match->toInt() < 175) {
                 return '___';
             }

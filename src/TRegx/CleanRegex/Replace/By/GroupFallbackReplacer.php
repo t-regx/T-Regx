@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Match\Details\LazyMatchImpl;
+use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
@@ -80,7 +80,7 @@ class GroupFallbackReplacer
     {
         $occurrence = $this->occurrence($match, $nameOrIndex);
         if ($occurrence === null) { // here "null" means group was not matched
-            $replacement = $substitute->substituteGroup(new LazyMatchImpl($this->base, $this->counter, $this->limit));
+            $replacement = $substitute->substituteGroup(new LazyDetailImpl($this->base, $this->counter, $this->limit));
             // here "null" means "no replacement provided, ignore me, use the full match"
             return $replacement ?? $match[0];
         }

@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 class FluentMatchPatternTest extends TestCase
@@ -371,10 +371,10 @@ class FluentMatchPatternTest extends TestCase
         return $mockObject;
     }
 
-    private function match(int $value): Match
+    private function match(int $value): Detail
     {
-        /** @var Match|MockObject $mockObject */
-        $mockObject = $this->createMock(Match::class);
+        /** @var Detail|MockObject $mockObject */
+        $mockObject = $this->createMock(Detail::class);
         $mockObject->method('toInt')->willReturn($value);
         return $mockObject;
     }

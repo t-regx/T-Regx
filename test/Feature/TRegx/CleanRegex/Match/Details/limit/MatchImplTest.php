@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\limit;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -14,7 +14,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->forEach(function (Match $match) {
+            ->forEach(function (Detail $match) {
                 // when
                 $limit = $match->limit();
 
@@ -31,7 +31,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->map(function (Match $match) {
+            ->map(function (Detail $match) {
                 // when
                 $limit = $match->limit();
 
@@ -48,7 +48,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->flatMap(function (Match $match) {
+            ->flatMap(function (Detail $match) {
                 // when
                 $limit = $match->limit();
 
@@ -68,7 +68,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $limit = $match->limit();
 
@@ -85,7 +85,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->findFirst(function (Match $match) {
+            ->findFirst(function (Detail $match) {
                 // when
                 $limit = $match->limit();
 

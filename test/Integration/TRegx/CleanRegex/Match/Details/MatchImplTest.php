@@ -9,8 +9,8 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Match;
-use TRegx\CleanRegex\Match\Details\MatchImpl;
+use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\DetailImpl;
 use TRegx\SafeRegex\preg;
 
 class MatchImplTest extends TestCase
@@ -374,13 +374,13 @@ class MatchImplTest extends TestCase
         $this->assertEquals($expected, $userData);
     }
 
-    private function getMatch(int $index): Match
+    private function getMatch(int $index): Detail
     {
         $pattern = '/(?<firstName>(?<initial>\p{Lu})[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/u';
         preg::match_all($pattern, self::subject, $matches, \PREG_OFFSET_CAPTURE);
 
         $rawMatches = new RawMatchesOffset($matches);
-        return new MatchImpl(
+        return new DetailImpl(
             new Subject(self::subject),
             $index,
             -1,

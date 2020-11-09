@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
-interface Match extends BaseDetail
+interface Detail extends BaseDetail
 {
     public function text(): string;
 

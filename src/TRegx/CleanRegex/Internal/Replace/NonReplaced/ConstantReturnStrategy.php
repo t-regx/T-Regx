@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace\NonReplaced;
 
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class ConstantReturnStrategy implements SubjectRs, MatchRs
 {
@@ -18,7 +18,7 @@ class ConstantReturnStrategy implements SubjectRs, MatchRs
         return $this->constant;
     }
 
-    public function substituteGroup(Match $match): string
+    public function substituteGroup(Detail $match): string
     {
         return $this->constant;
     }

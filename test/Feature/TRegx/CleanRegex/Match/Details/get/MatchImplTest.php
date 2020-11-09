@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -15,7 +15,7 @@ class MatchImplTest extends TestCase
     public function shouldGetGroup()
     {
         // given
-        pattern('Hello (?<one>there)')->match('Hello there, General Kenobi')->first(function (Match $match) {
+        pattern('Hello (?<one>there)')->match('Hello there, General Kenobi')->first(function (Detail $match) {
             // when
             $group = $match->get('one');
 
@@ -37,7 +37,7 @@ class MatchImplTest extends TestCase
         $this->expectExceptionMessage("Expected to get group 'one', but the group was not matched");
 
         // given
-        pattern($pattern)->match($subject)->first(function (Match $match) {
+        pattern($pattern)->match($subject)->first(function (Detail $match) {
             // when
             $match->get('one');
         });
@@ -61,7 +61,7 @@ class MatchImplTest extends TestCase
         $this->expectExceptionMessage("Nonexistent group: 'two'");
 
         // given
-        pattern('(?<one>hello)')->match('hello')->first(function (Match $match) {
+        pattern('(?<one>hello)')->match('hello')->first(function (Detail $match) {
             // when
             $match->get('two');
         });
@@ -79,7 +79,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $match->group(true);
             });

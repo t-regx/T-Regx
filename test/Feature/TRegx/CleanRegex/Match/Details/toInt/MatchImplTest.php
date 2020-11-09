@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\toInt;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -18,7 +18,7 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('-?\w+')
             ->match($string)
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 return $match->toInt();
             });
@@ -51,7 +51,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('.*', 's')
             ->match('1e3')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 return $match->toInt();
             });
@@ -69,7 +69,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('\w+')
             ->match('Foo bar')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 return $match->toInt();
             });

@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\isInt;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -14,7 +14,7 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('(?<name>-?\w+)')
             ->match('11')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 return $match->isInt();
             });
@@ -31,7 +31,7 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('(.*)', 's')
             ->match('1e3')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 return $match->isInt();
             });
@@ -48,7 +48,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<name>\w+)')
             ->match('Foo bar')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $result = $match->isInt();
 

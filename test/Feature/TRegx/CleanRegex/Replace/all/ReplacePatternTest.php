@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\all;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
 class ReplacePatternTest extends TestCase
 {
@@ -28,7 +28,7 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: http://google.com, http://other.org and http://website.org.';
 
         // when
-        $result = pattern($pattern)->replace($subject)->all()->callback(function (ReplaceMatch $match) {
+        $result = pattern($pattern)->replace($subject)->all()->callback(function (ReplaceDetail $match) {
             return $match->group('name');
         });
 
@@ -46,7 +46,7 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
 
         // when
-        pattern($pattern)->replace($subject)->all()->callback(function (ReplaceMatch $match) {
+        pattern($pattern)->replace($subject)->all()->callback(function (ReplaceDetail $match) {
             // then
             $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->all());
 
@@ -65,7 +65,7 @@ class ReplacePatternTest extends TestCase
 
         $offsets = [];
 
-        $callback = function (ReplaceMatch $match) use (&$offsets) {
+        $callback = function (ReplaceDetail $match) use (&$offsets) {
             $offsets[] = $match->offset();
             return 'ę';
         };
@@ -87,7 +87,7 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
 
         // when
-        pattern($pattern)->replace($subject)->all()->callback(function (ReplaceMatch $match) {
+        pattern($pattern)->replace($subject)->all()->callback(function (ReplaceDetail $match) {
             $matchGroup = $match->group('name');
             if ($matchGroup->text() !== 'other') return '';
 

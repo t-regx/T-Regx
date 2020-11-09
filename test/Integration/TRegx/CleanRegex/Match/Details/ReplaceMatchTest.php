@@ -8,8 +8,8 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\MatchImpl;
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Details\DetailImpl;
+use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
 use TRegx\SafeRegex\preg;
 
@@ -73,14 +73,14 @@ class ReplaceMatchTest extends TestCase
         $this->assertEquals(53, $modifiedOffset);
     }
 
-    private function getMatch(int $offsetModification): ReplaceMatch
+    private function getMatch(int $offsetModification): ReplaceDetail
     {
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
         preg::match_all($pattern, self::subject, $matches, \PREG_OFFSET_CAPTURE);
 
         $matches = new RawMatchesOffset($matches);
         return new ReplaceMatchImpl(
-            new MatchImpl(
+            new DetailImpl(
                 new Subject(self::subject),
                 0,
                 -1,

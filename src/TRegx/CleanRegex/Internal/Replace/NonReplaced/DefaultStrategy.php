@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Replace\NonReplaced;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class DefaultStrategy implements LazySubjectRs, MatchRs
 {
@@ -11,7 +11,7 @@ class DefaultStrategy implements LazySubjectRs, MatchRs
         return null;
     }
 
-    public function substituteGroup(Match $match): ?string
+    public function substituteGroup(Detail $match): ?string
     {
         return null;
     }

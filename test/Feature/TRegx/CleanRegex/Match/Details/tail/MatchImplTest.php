@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\tail;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -14,7 +14,7 @@ class MatchImplTest extends TestCase
         // when
         pattern('K[^ ]+')
             ->match(' Cześć, Kraśko ')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // given
                 $this->assertEquals("Kraśko", $match);
 
@@ -36,7 +36,7 @@ class MatchImplTest extends TestCase
         // when
         pattern('K[^ ]+')
             ->match('Cześć, Kraśko i Księciuniu')
-            ->forEach(function (Match $match) {
+            ->forEach(function (Detail $match) {
                 // given
                 if ($match->index() !== 1) return;
                 $this->assertEquals("Księciuniu", $match);

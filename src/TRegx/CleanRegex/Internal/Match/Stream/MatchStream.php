@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchStream implements Stream
 {
@@ -31,7 +31,7 @@ class MatchStream implements Stream
         return $this->stream->all()->getMatchObjects($this->factory(-1));
     }
 
-    public function first(): Match
+    public function first(): Detail
     {
         return $this->factory(1)->create(0, $this->stream->first(), $this->allFactory);
     }

@@ -6,16 +6,16 @@ use TRegx\CleanRegex\Match\Details\Group\ReplaceMatchGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
-class ReplaceMatchImpl implements ReplaceMatch
+class ReplaceMatchImpl implements ReplaceDetail
 {
-    /** @var Match */
+    /** @var Detail */
     private $match;
     /** @var int */
     private $offsetModification;
     /** @var string */
     private $subjectModification;
 
-    public function __construct(Match $match, int $offsetModification, string $subjectModification)
+    public function __construct(Detail $match, int $offsetModification, string $subjectModification)
     {
         $this->match = $match;
         $this->offsetModification = $offsetModification;

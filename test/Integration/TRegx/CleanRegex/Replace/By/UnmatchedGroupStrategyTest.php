@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\LazyMatchImpl;
+use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
 use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\By\UnmatchedGroupStrategy;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
@@ -121,7 +121,7 @@ class UnmatchedGroupStrategyTest extends TestCase
         $strategy = $this->objectUnderTest('length: 14!');
 
         // when
-        $result = $strategy->orElseCalling(function (LazyMatchImpl $match) {
+        $result = $strategy->orElseCalling(function (LazyDetailImpl $match) {
             return 'called';
         });
 

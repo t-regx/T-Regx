@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\MatchPattern;
 
@@ -22,7 +22,7 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern
-            ->findFirst(function (Match $match) {
+            ->findFirst(function (Detail $match) {
                 // then
                 $this->assertEquals(0, $match->index());
                 $this->assertEquals("Nice matching pattern", $match->subject());
@@ -42,7 +42,7 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern
-            ->findFirst(function (Match $match) {
+            ->findFirst(function (Detail $match) {
                 // then
                 $this->assertEquals("Nice matching pattern", $match->subject());
             });

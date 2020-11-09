@@ -4,8 +4,8 @@ namespace Test\Integration\TRegx\CleanRegex\CompositePattern\chainedReplace\call
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\CompositePattern;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
-use TRegx\CleanRegex\Match\Details\Match;
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 use function array_slice;
 
 class CompositePatternTest extends TestCase
@@ -32,7 +32,7 @@ class CompositePatternTest extends TestCase
         // when
         $replaced = $pattern
             ->chainedReplace("Do you think that's air you're breathing now?")
-            ->callback(function (ReplaceMatch $match) {
+            ->callback(function (ReplaceDetail $match) {
                 return '__';
             });
 
@@ -49,7 +49,7 @@ class CompositePatternTest extends TestCase
         $pattern = new CompositePattern((new CompositePatternMapper(['Foo']))->createPatterns());
 
         // when
-        $pattern->chainedReplace("Foo")->callback(function (Match $match) {
+        $pattern->chainedReplace("Foo")->callback(function (Detail $match) {
             // then
             $this->assertEquals(-1, $match->limit());
 
@@ -85,7 +85,7 @@ class CompositePatternTest extends TestCase
         $modified = [];
 
         // when
-        $result = $chainedReplace->callback(function (ReplaceMatch $match) use (&$matches, &$subjects, &$modified) {
+        $result = $chainedReplace->callback(function (ReplaceDetail $match) use (&$matches, &$subjects, &$modified) {
             $matches[] = $match->text();
             $subjects[] = $match->subject();
             $modified[] = $match->modifiedSubject();

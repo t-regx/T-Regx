@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
@@ -20,7 +20,7 @@ class MatchPatternTest extends TestCase
 
         // when
         $first = $pattern
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 return strlen($match) > 4;
             })
             ->all();

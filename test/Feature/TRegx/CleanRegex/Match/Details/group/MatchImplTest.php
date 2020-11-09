@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -17,7 +17,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('Hello (?<one>there)')
             ->match('Hello there, General Kenobi')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // then
                 $this->assertEquals('there', $match->group('one'));
                 $this->assertEquals('there', $match->group('one')->text());
@@ -37,7 +37,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(\p{L}+)', 'u')
             ->match('Łomża')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // then
                 $this->assertEquals('Łomża', $match->group(1)->text());
                 $this->assertEquals(5, $match->group(1)->textLength());
@@ -52,7 +52,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('Hello (?<one>there|here)?')
             ->match('Hello there, General Kenobi, maybe Hello and Hello here')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $all = $match->all();
                 $groupAll = $match->group('one')->all();
@@ -71,7 +71,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('Hello (?<one>there|here)?')
             ->match('Hello , General Kenobi, maybe Hello there and Hello here')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $groupAll = $match->group('one')->all();
 
@@ -88,7 +88,7 @@ class MatchImplTest extends TestCase
         // when
         pattern('Hello (?<one>there|here|)')
             ->match('Hello there, General Kenobi, maybe Hello and Hello here')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $all = $match->all();
                 $groupAll = $match->group('one')->all();
@@ -108,7 +108,7 @@ class MatchImplTest extends TestCase
     public function shouldGroup_notMatch(string $pattern, string $subject)
     {
         // given
-        pattern($pattern)->match($subject)->first(function (Match $match) {
+        pattern($pattern)->match($subject)->first(function (Detail $match) {
             $group = $match->group('one');
 
             // when
@@ -139,7 +139,7 @@ class MatchImplTest extends TestCase
         // when
         pattern('(?<one>hello)')
             ->match('hello')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 $match->group('two');
             });
     }
@@ -156,7 +156,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $match->group(true);
             });
@@ -174,7 +174,7 @@ class MatchImplTest extends TestCase
         // when
         pattern('(?<group>Foo)?')
             ->match('Bar')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 $match->group('group')->orThrow();
             });
     }

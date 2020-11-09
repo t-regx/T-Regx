@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\groups;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class ReplacePatternTest extends TestCase
 {
@@ -15,7 +15,7 @@ class ReplacePatternTest extends TestCase
         pattern('(zero) (?<existing>first) and (?<two_existing>second)')
             ->replace('zero first and second')
             ->all()
-            ->callback(function (Match $match) {
+            ->callback(function (Detail $match) {
                 // when
                 $groupNames = $match->groups()->names();
                 $namedGroups = $match->namedGroups()->names();
@@ -38,7 +38,7 @@ class ReplacePatternTest extends TestCase
         pattern('(zero) (?<existing>first) and (?<two_existing>second)')
             ->replace('zero first and second')
             ->all()
-            ->callback(function (Match $match) {
+            ->callback(function (Detail $match) {
                 // when
                 $groups = $match->groups()->count();
                 $namedGroups = $match->namedGroups()->count();

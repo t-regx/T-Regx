@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class GroupByCallbackStreamTest extends TestCase
 {
@@ -133,10 +133,10 @@ class GroupByCallbackStreamTest extends TestCase
         return $stream;
     }
 
-    private function matchMock(string $text): Match
+    private function matchMock(string $text): Detail
     {
-        /** @var Match|MockObject $match */
-        $match = $this->createMock(Match::class);
+        /** @var Detail|MockObject $match */
+        $match = $this->createMock(Detail::class);
         $match->expects($this->once())->method('text')->willReturn($text);
         $match->expects($this->never())->method($this->logicalNot($this->matches('text')));
         return $match;

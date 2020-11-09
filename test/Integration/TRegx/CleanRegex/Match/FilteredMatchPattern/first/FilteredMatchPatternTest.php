@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\FilteredMatchPattern;
 
 class FilteredMatchPatternTest extends TestCase
@@ -39,7 +39,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern();
 
         // when
-        $all = $matchPattern->first(function (Match $match) {
+        $all = $matchPattern->first(function (Detail $match) {
             return $match->all();
         });
 
@@ -56,7 +56,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern();
 
         // when
-        $all = $matchPattern->first(function (Match $match) {
+        $all = $matchPattern->first(function (Detail $match) {
             return $match->group(0)->all();
         });
 
@@ -118,7 +118,7 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $invoked = [];
-        $matchPattern = $this->matchPattern('\w+', 'One, two, three, four, five', function (Match $match) use (&$invoked) {
+        $matchPattern = $this->matchPattern('\w+', 'One, two, three, four, five', function (Detail $match) use (&$invoked) {
             $invoked[] = $match->text();
             return true;
         });
@@ -132,14 +132,14 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern_notFirst(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Match $match) {
+        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $match) {
             return $match->index() > 0;
         });
     }
 
     private function standardMatchPattern(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Match $match) {
+        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $match) {
             return $match->index() != 1;
         });
     }

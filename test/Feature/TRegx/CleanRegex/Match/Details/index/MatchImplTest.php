@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\index;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -14,7 +14,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 $index = $match->index();
 
@@ -31,7 +31,7 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->findFirst(function (Match $match) {
+            ->findFirst(function (Detail $match) {
                 // when
                 $index = $match->index();
 
@@ -53,7 +53,7 @@ class MatchImplTest extends TestCase
 
         pattern('\d+')
             ->match('111-222-333')
-            ->$method(function (Match $match) use (&$indexes) {
+            ->$method(function (Detail $match) use (&$indexes) {
                 // when
                 $index = $match->index();
                 // then

@@ -6,7 +6,7 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplaceCallbackObject;
 use TRegx\SafeRegex\preg;
@@ -22,7 +22,7 @@ class ReplaceCallbackObjectTest extends TestCase
         $pattern = '/[a-z]+/';
         $subject = '...hello there, general kenobi';
 
-        $object = $this->create($pattern, $subject, 3, function (ReplaceMatch $match) use ($subject) {
+        $object = $this->create($pattern, $subject, 3, function (ReplaceDetail $match) use ($subject) {
             // then
             $this->assertEquals(['hello', 'there', 'general', 'kenobi'], $match->all());
             $this->assertEquals($subject, $match->subject());
@@ -69,7 +69,7 @@ class ReplaceCallbackObjectTest extends TestCase
         $offsets = [];
         $modifiedOffsets = [];
 
-        $object = $this->create($pattern, $subject, 5, function (ReplaceMatch $match) use (&$offsets, &$modifiedOffsets) {
+        $object = $this->create($pattern, $subject, 5, function (ReplaceDetail $match) use (&$offsets, &$modifiedOffsets) {
             $offsets[] = $match->offset();
             $modifiedOffsets[] = $match->modifiedOffset();
             return 'tiger';
@@ -111,7 +111,7 @@ class ReplaceCallbackObjectTest extends TestCase
     public function shouldNotThrow_OnMatchGroupReplacement()
     {
         // given
-        $object = $this->create('/(?<g>\d)cm/', 'foo 2cm bar', 1, function (ReplaceMatch $match) {
+        $object = $this->create('/(?<g>\d)cm/', 'foo 2cm bar', 1, function (ReplaceDetail $match) {
             return $match->group('g');
         });
 

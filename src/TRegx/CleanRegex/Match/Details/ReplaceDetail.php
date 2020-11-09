@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Match\Details\Group\ReplaceMatchGroup;
 
-interface ReplaceMatch extends Match
+interface ReplaceDetail extends Detail
 {
     public function modifiedOffset(): int;
 

@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\only;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
 class ReplacePatternTest extends TestCase
 {
@@ -35,7 +35,7 @@ class ReplacePatternTest extends TestCase
         pattern($pattern)
             ->replace($subject)
             ->only(2)
-            ->callback(function (ReplaceMatch $match) {
+            ->callback(function (ReplaceDetail $match) {
                 // then
                 $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->all());
 
@@ -92,7 +92,7 @@ class ReplacePatternTest extends TestCase
 
         $subjects = [];
 
-        $callback = function (ReplaceMatch $match) use (&$subjects) {
+        $callback = function (ReplaceDetail $match) use (&$subjects) {
             $subjects[] = $match->modifiedSubject();
             return '+' . $match->group('domain')->text() . '+';
         };

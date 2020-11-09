@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
-use TRegx\CleanRegex\Match\Details\LazyMatchImpl;
+use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
 
 class LazyMatchImplTest extends TestCase
 {
@@ -281,7 +281,7 @@ class LazyMatchImplTest extends TestCase
     public function shouldCallBaseOnce()
     {
         // given
-        $match = new LazyMatchImpl($this->baseMock(), 0, -1);
+        $match = new LazyDetailImpl($this->baseMock(), 0, -1);
 
         // when
         $match->text();
@@ -297,7 +297,7 @@ class LazyMatchImplTest extends TestCase
         // given
         $pattern = '(?<group>One)(?<group>Two)';
         $subject = 'OneTwo';
-        $match = new LazyMatchImpl(new ApiBase(InternalPattern::standard($pattern, 'J'), $subject, new UserData()), 0, -1);
+        $match = new LazyDetailImpl(new ApiBase(InternalPattern::standard($pattern, 'J'), $subject, new UserData()), 0, -1);
 
         // when
         $text1 = $match->group('group')->text();
@@ -308,14 +308,14 @@ class LazyMatchImplTest extends TestCase
         $this->assertEquals('Two', $text2);
     }
 
-    private function match(string $pattern = '\b[a-z]+', string $subject = 'Word: word two three'): LazyMatchImpl
+    private function match(string $pattern = '\b[a-z]+', string $subject = 'Word: word two three'): LazyDetailImpl
     {
         return $this->matchWithIndex($pattern, $subject, 0);
     }
 
-    private function matchWithIndex(string $pattern, string $subject, int $index): LazyMatchImpl
+    private function matchWithIndex(string $pattern, string $subject, int $index): LazyDetailImpl
     {
-        return new LazyMatchImpl(new ApiBase(InternalPattern::standard($pattern, 'u'), $subject, new UserData()), $index, 14);
+        return new LazyDetailImpl(new ApiBase(InternalPattern::standard($pattern, 'u'), $subject, new UserData()), $index, 14);
     }
 
     private function baseMock(): Base

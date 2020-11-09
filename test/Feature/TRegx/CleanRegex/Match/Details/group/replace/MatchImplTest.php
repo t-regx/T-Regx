@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\group\replace;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -14,7 +14,7 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('https?://(?<domain>[\w.]+)/users')
             ->match('Link: http://facebook.com/users and https://google.com/users guys')
-            ->map(function (Match $match) {
+            ->map(function (Detail $match) {
                 // when
                 return $match->group('domain')->replace('XD');
             });
@@ -31,7 +31,7 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('https?://(?<domain>([\w.]+)?)/users')
             ->match('Link: http:///users')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 return $match->group('domain')->replace('Welp');
             });
@@ -48,7 +48,7 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('hłłps?://(?<domain>ąść)/users')
             ->match('Link: hłłp://ąść/users')
-            ->first(function (Match $match) {
+            ->first(function (Detail $match) {
                 // when
                 return $match->group('domain')->replace('ś');
             });

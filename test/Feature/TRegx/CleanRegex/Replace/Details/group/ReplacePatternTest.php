@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\Details\group;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Match\Details\ReplaceMatch;
+use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
 class ReplacePatternTest extends TestCase
 {
@@ -17,7 +17,7 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: http://google.com';
 
         // when
-        $result = pattern($pattern)->replace($subject)->first()->callback(function (ReplaceMatch $match) {
+        $result = pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
             // then
             return $match->group('domain');
         });
@@ -36,7 +36,7 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: http://google.com';
 
         // when
-        $result = pattern($pattern)->replace($subject)->first()->callback(function (ReplaceMatch $match) {
+        $result = pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
             // then
             return $match->usingDuplicateName()->group('domain');
         });
@@ -58,7 +58,7 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Expected to replace with group '2', but the group was not matched");
 
         // when
-        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceMatch $match) {
+        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
             // then
             return $match->group(2);
         });
@@ -77,7 +77,7 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Expected to replace with group 'domain', but the group was not matched");
 
         // when
-        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceMatch $match) {
+        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
             // then
             return $match->usingDuplicateName()->group('domain');
         });
@@ -96,7 +96,7 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Expected to replace with group 'domain', but the group was not matched");
 
         // when
-        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceMatch $match) {
+        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
             // then
             return $match->group('domain');
         });

@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\index;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class ReplacePatternTest extends TestCase
 {
@@ -15,7 +15,7 @@ class ReplacePatternTest extends TestCase
         pattern('\d+')
             ->replace('111-222-333')
             ->first()
-            ->callback(function (Match $match) {
+            ->callback(function (Detail $match) {
                 // when
                 $index = $match->index();
 
@@ -41,7 +41,7 @@ class ReplacePatternTest extends TestCase
         pattern('\d+')
             ->replace('111-222-333')
             ->$method(...$arguments)
-            ->callback(function (Match $match) use (&$indexes) {
+            ->callback(function (Detail $match) use (&$indexes) {
                 // when
                 $index = $match->index();
 

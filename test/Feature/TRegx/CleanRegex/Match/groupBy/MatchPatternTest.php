@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\groupBy;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\GroupByPattern;
 
 class MatchPatternTest extends TestCase
@@ -59,7 +59,7 @@ class MatchPatternTest extends TestCase
     public function shouldGroupBy_map()
     {
         // when
-        $result = $this->groupBy()->map(function (Match $match) {
+        $result = $this->groupBy()->map(function (Detail $match) {
             return "$match";
         });
 
@@ -76,7 +76,7 @@ class MatchPatternTest extends TestCase
     public function shouldGroupBy_flatMap()
     {
         // when
-        $result = $this->groupBy()->flatMap(function (Match $match) {
+        $result = $this->groupBy()->flatMap(function (Detail $match) {
             return ["$match", $match->offset()];
         });
 
@@ -117,7 +117,7 @@ class MatchPatternTest extends TestCase
         $groupByPattern = $this->filtered();
 
         // when
-        $result = $groupByPattern->$function(function (Match $match) {
+        $result = $groupByPattern->$function(function (Detail $match) {
             return [$match->text(), $match->offset()];
         });
 
@@ -137,7 +137,7 @@ class MatchPatternTest extends TestCase
         $called = 0;
 
         // when
-        $groupBy->$function(function (Match $match) use (&$called) {
+        $groupBy->$function(function (Detail $match) use (&$called) {
             // when
             $called++;
             $this->assertEquals(-1, $match->limit());
@@ -162,7 +162,7 @@ class MatchPatternTest extends TestCase
         $groupByPattern = $this->filtered();
 
         // when
-        $groupByPattern->$function(function (Match $match) {
+        $groupByPattern->$function(function (Detail $match) {
             // when
             $this->assertEquals(['12', '19cm', '18mm', '2cm'], $match->all());
 
@@ -182,7 +182,7 @@ class MatchPatternTest extends TestCase
         $groupByPattern = $this->filtered();
 
         // when
-        $groupByPattern->$function(function (Match $match) {
+        $groupByPattern->$function(function (Detail $match) {
             // when
             $this->assertEquals("verify me:$match", $match->getUserData());
 
@@ -203,7 +203,7 @@ class MatchPatternTest extends TestCase
         $indexes = [];
 
         // when
-        $groupByPattern->$function(function (Match $match) use (&$indexes) {
+        $groupByPattern->$function(function (Detail $match) use (&$indexes) {
             // when
             $indexes[$match->text()] = $match->index();
 
@@ -227,7 +227,7 @@ class MatchPatternTest extends TestCase
         $indexes = [];
 
         // when
-        $groupByPattern->$function(function (Match $match) use (&$indexes) {
+        $groupByPattern->$function(function (Detail $match) use (&$indexes) {
             // when
             $indexes[$match->text()] = $match->index();
 
@@ -263,7 +263,7 @@ class MatchPatternTest extends TestCase
     {
         return $this
             ->match()
-            ->filter(function (Match $match) {
+            ->filter(function (Detail $match) {
                 $match->setUserData("verify me:$match");
                 return !in_array($match->text(), ['14cm', '13mm']);
             })

@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\equals;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -12,7 +12,7 @@ class MatchImplTest extends TestCase
     public function shouldEqual_findFirst()
     {
         // given
-        pattern('Foo(Bar)')->match('FooBar')->findFirst(function (Match $match) {
+        pattern('Foo(Bar)')->match('FooBar')->findFirst(function (Detail $match) {
             $this->assertTrue($match->group(1)->equals('Bar'));
         });
     }
@@ -23,7 +23,7 @@ class MatchImplTest extends TestCase
     public function shouldNotEqual_findFirst_forUnequal()
     {
         // given
-        pattern('Foo(Bar)')->match('FooBar')->findFirst(function (Match $match) {
+        pattern('Foo(Bar)')->match('FooBar')->findFirst(function (Detail $match) {
             $this->assertFalse($match->group(1)->equals('something else'));
         });
     }
@@ -34,7 +34,7 @@ class MatchImplTest extends TestCase
     public function shouldNotEqual_findFirst_forUnmatchedGroup()
     {
         // given
-        pattern('Foo(Bar)?')->match('Foo')->findFirst(function (Match $match) {
+        pattern('Foo(Bar)?')->match('Foo')->findFirst(function (Detail $match) {
             $this->assertFalse($match->group(1)->equals('irrelevant'));
         });
     }
