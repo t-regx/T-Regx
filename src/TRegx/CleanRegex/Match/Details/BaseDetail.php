@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
-interface Details
+interface BaseDetail
 {
     public function subject(): string;
 

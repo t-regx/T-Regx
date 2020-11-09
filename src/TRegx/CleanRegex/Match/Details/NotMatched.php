@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Subjectable;
 use function array_filter;
 use function count;
 
-class NotMatched implements Details
+class NotMatched implements BaseDetail
 {
     /** @var IRawWithGroups */
     private $match;
