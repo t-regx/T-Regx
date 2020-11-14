@@ -36,7 +36,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturn_with_orElse()
+    public function shouldReturn_otherwise_with()
     {
         // when
         $result = pattern('Foo')
@@ -55,7 +55,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_with_orElse_returnNull()
+    public function shouldThrow_otherwise_with_returnNull()
     {
         // then
         $this->expectException(InvalidReturnValueException::class);
@@ -75,7 +75,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_with_orThrow_custom()
+    public function shouldThrow_otherwiseThrowing_with_custom()
     {
         // given
         $replacePattern = pattern('Foo')->replace('Bar')->first()->otherwiseThrowing(CustomSubjectException::class);
@@ -93,7 +93,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_with_orThrow()
+    public function shouldThrow_otherwiseThrowing_with()
     {
         // given
         $replacePattern = pattern('Foo')->replace('Bar')->first()->otherwiseThrowing();

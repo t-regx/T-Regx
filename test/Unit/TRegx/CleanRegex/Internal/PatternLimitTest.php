@@ -7,7 +7,6 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\ReplacePatternFactory;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
@@ -61,11 +60,7 @@ class PatternLimitTest extends TestCase
             [
                 new ReplaceLimitImpl(function (int $limit) {
                     return new ReplacePatternImpl(
-                        new SpecificReplacePatternImpl(InternalPattern::pcre('//'), '', $limit, new DefaultStrategy()),
-                        InternalPattern::pcre('//'),
-                        '',
-                        $limit,
-                        new ReplacePatternFactory()
+                        new SpecificReplacePatternImpl(InternalPattern::pcre('//'), '', $limit, new DefaultStrategy()), InternalPattern::pcre('//'), '', $limit
                     );
                 })
             ],

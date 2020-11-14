@@ -6,7 +6,6 @@ use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\OtherwiseStrategy;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\ReplacePatternFactory;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
@@ -21,20 +20,13 @@ class ReplacePatternImpl implements ReplacePattern
     private $subject;
     /** @var int */
     private $limit;
-    /** @var ReplacePatternFactory */
-    private $replacePatternFactory;
 
-    public function __construct(SpecificReplacePattern $replacePattern,
-                                InternalPattern $pattern,
-                                string $subject,
-                                int $limit,
-                                ReplacePatternFactory $replacePatternFactory)
+    public function __construct(SpecificReplacePattern $replacePattern, InternalPattern $pattern, string $subject, int $limit)
     {
         $this->replacePattern = $replacePattern;
         $this->pattern = $pattern;
         $this->subject = $subject;
         $this->limit = $limit;
-        $this->replacePatternFactory = $replacePatternFactory;
     }
 
     public function with(string $replacement): string
@@ -74,6 +66,6 @@ class ReplacePatternImpl implements ReplacePattern
 
     private function replacePattern(SubjectRs $substitute): SpecificReplacePattern
     {
-        return $this->replacePatternFactory->create($this->pattern, $this->subject, $this->limit, $substitute);
+        return new SpecificReplacePatternImpl($this->pattern, $this->subject, $this->limit, $substitute);
     }
 }
