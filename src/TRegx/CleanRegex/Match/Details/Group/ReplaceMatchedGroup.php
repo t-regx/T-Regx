@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 
-class ReplaceMatchedGroup extends MatchedGroup implements ReplaceDetailGroup
+class ReplaceMatchedGroup extends MatchedGroup implements ReplaceDetailGroup, ReplaceMatchGroup
 {
     /** @var int */
     private $offsetModification;

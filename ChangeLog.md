@@ -7,6 +7,8 @@ Incoming in 0.9.13
 * Deprecation
     * Deprecate `Match`, use `Detail` instead.
     * Deprecate `ReplaceMatch`, use `ReplaceDetail` instead.
+    * Deprecate `MatchGroup`, use `DetailGroup` instead.
+    * Deprecate `ReplaceMatchGroup`, use `ReplaceDetailGroup` instead.
 
       In preparation for incoming PHP 8, in which `match` is the new keyword,
       we deprecate `Match` and `ReplaceMatch`. `Match` will become an invalid

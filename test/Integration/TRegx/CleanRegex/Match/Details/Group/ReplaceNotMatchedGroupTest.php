@@ -28,7 +28,7 @@ class ReplaceNotMatchedGroupTest extends TestCase
         $matchGroup->modifiedOffset();
     }
 
-    private function matchGroup(string $group): ReplaceDetailGroup
+    private function matchGroup(string $group): ReplaceNotMatchedGroup
     {
         /** @var Subjectable $subject */
         /** @var GroupDetails $groupDetails */
