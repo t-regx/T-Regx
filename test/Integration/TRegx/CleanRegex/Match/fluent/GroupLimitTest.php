@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Integration\TRegx\CleanRegex\Match\GroupLimitFactory;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class GroupLimitTest extends TestCase
 {
@@ -22,7 +22,7 @@ class GroupLimitTest extends TestCase
 
         // then
         $chained
-            ->map(function (MatchGroup $matchGroup) {
+            ->map(function (DetailGroup $matchGroup) {
                 $this->assertEquals($matchGroup->byteOffset() === 1 ? 'Foo' : 'Bar', $matchGroup->text());
             })
             ->all();
@@ -78,7 +78,7 @@ class GroupLimitTest extends TestCase
         $chained = $limit->fluent();
 
         // then
-        $chained->first(function (MatchGroup $matchGroup) {
+        $chained->first(function (DetailGroup $matchGroup) {
             $this->assertEquals('Foo', $matchGroup->text());
         });
     }

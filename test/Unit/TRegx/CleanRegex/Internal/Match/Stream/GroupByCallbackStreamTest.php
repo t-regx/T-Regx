@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class GroupByCallbackStreamTest extends TestCase
@@ -142,10 +142,10 @@ class GroupByCallbackStreamTest extends TestCase
         return $match;
     }
 
-    private function matchGroupMock(string $text): MatchGroup
+    private function matchGroupMock(string $text): DetailGroup
     {
-        /** @var MatchGroup|MockObject $group */
-        $group = $this->createMock(MatchGroup::class);
+        /** @var DetailGroup|MockObject $group */
+        $group = $this->createMock(DetailGroup::class);
         $group->expects($this->once())->method('text')->willReturn($text);
         $group->expects($this->never())->method($this->logicalNot($this->matches('text')));
         return $group;

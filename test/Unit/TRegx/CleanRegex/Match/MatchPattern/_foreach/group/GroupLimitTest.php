@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\_foreach\group;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 use TRegx\CleanRegex\Match\GroupLimit;
 
 class GroupLimitTest extends TestCase
@@ -16,7 +16,7 @@ class GroupLimitTest extends TestCase
         $result = [];
 
         // when
-        /** @var MatchGroup $group */
+        /** @var DetailGroup $group */
         foreach ($this->matchGroup() as $group) {
             $result[] = [$group->text(), $group->usedIdentifier()];
         }

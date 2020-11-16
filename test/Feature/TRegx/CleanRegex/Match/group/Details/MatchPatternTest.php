@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group\Details;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class MatchPatternTest extends TestCase
 {
@@ -16,7 +16,7 @@ class MatchPatternTest extends TestCase
         $subject = 'Foo Bar Car';
 
         // when
-        $result = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->map(function (MatchGroup $group) {
+        $result = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->map(function (DetailGroup $group) {
             return $group->text();
         });
 
@@ -33,7 +33,7 @@ class MatchPatternTest extends TestCase
         $subject = 'XXX:abc YYY:efg ZZZ:ijk';
 
         // when
-        $result = pattern('[A-Z]+:(?<lowercase>[a-z]+)')->match($subject)->group('lowercase')->flatMap(function (MatchGroup $group) {
+        $result = pattern('[A-Z]+:(?<lowercase>[a-z]+)')->match($subject)->group('lowercase')->flatMap(function (DetailGroup $group) {
             return ['word:' . $group->text() => 'offset:' . $group->offset(), $group->all()];
         });
 
@@ -55,7 +55,7 @@ class MatchPatternTest extends TestCase
         $subject = 'Foo Bar Car';
 
         // when
-        $result = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->map(function (MatchGroup $group) {
+        $result = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->map(function (DetailGroup $group) {
             return $group->offset();
         });
 
@@ -76,7 +76,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage("Expected to call text() for group 'lowercase', but the group was not matched");
 
         // when
-        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->map(function (MatchGroup $group) {
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->map(function (DetailGroup $group) {
             return $group->text();
         });
     }

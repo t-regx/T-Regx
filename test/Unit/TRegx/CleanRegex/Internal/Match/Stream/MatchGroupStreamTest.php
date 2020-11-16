@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class MatchGroupStreamTest extends TestCase
 {
@@ -23,7 +23,7 @@ class MatchGroupStreamTest extends TestCase
         $stream = $this->matchStream($this->stream('all', $this->matchesOffset('15')), 'group');
 
         // when
-        /** @var MatchGroup[] $all */
+        /** @var DetailGroup[] $all */
         $all = $stream->all();
 
         // then
@@ -86,7 +86,7 @@ class MatchGroupStreamTest extends TestCase
         $stream = $this->matchStream($this->stream('all', $this->matchesOffset('19')), 'group');
 
         // when
-        /** @var MatchGroup[] $all */
+        /** @var DetailGroup[] $all */
         $all = $stream->all();
 
         // then
@@ -104,7 +104,7 @@ class MatchGroupStreamTest extends TestCase
         $stream = $this->matchStream($this->stream('all', $this->matchesOffset('15')), 'group');
 
         // when
-        /** @var MatchGroup[] $all */
+        /** @var DetailGroup[] $all */
         $all = $stream->all();
 
         // then

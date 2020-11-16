@@ -2,7 +2,7 @@
 namespace Test\Integration\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class GroupLimitTest extends TestCase
 {
@@ -60,7 +60,7 @@ class GroupLimitTest extends TestCase
         $limit = GroupLimitFactory::groupLimitFirst($this, 'Foo Bar');
 
         // when
-        $limit->first(function (MatchGroup $group) {
+        $limit->first(function (DetailGroup $group) {
             // then
             $this->assertEquals('Foo Bar', $group->text());
         });

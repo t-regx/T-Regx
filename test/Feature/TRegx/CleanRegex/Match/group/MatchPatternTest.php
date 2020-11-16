@@ -4,7 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class MatchPatternTest extends TestCase
 {
@@ -141,7 +141,7 @@ class MatchPatternTest extends TestCase
         $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')
             ->match('D Computer')
             ->group('lowercase')
-            ->map(function (MatchGroup $group) {
+            ->map(function (DetailGroup $group) {
                 if ($group->matched()) {
                     return $group->text();
                 }
@@ -164,7 +164,7 @@ class MatchPatternTest extends TestCase
         pattern('[A-Z](?<lowercase>[a-z]+)?')
             ->match('D Computer')
             ->group('lowercase')
-            ->forEach(function (MatchGroup $group) use (&$groups) {
+            ->forEach(function (DetailGroup $group) use (&$groups) {
                 $groups[] = $group->orReturn("unmatched");
             });
 
@@ -181,7 +181,7 @@ class MatchPatternTest extends TestCase
         $groups = pattern('\d+(?<unit>kg|[cm]?m)')
             ->match('15mm 12kg 16m 17cm 27kg')
             ->group('unit')
-            ->filter(function (MatchGroup $group) {
+            ->filter(function (DetailGroup $group) {
                 return $group->text() !== "kg";
             });
 
@@ -199,7 +199,7 @@ class MatchPatternTest extends TestCase
             ->match('15mm 12kg 16m 17cm 27kg')
             ->group('unit')
             ->fluent()
-            ->filter(function (MatchGroup $group) {
+            ->filter(function (DetailGroup $group) {
                 return $group->text() !== "kg";
             })
             ->all();
@@ -218,7 +218,7 @@ class MatchPatternTest extends TestCase
             ->match('D Computer')
             ->group('lowercase')
             ->fluent()
-            ->map(function (MatchGroup $group) {
+            ->map(function (DetailGroup $group) {
                 if ($group->matched()) {
                     return $group->text();
                 }

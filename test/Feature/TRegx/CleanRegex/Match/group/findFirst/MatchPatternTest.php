@@ -7,7 +7,7 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class MatchPatternTest extends TestCase
@@ -37,7 +37,7 @@ class MatchPatternTest extends TestCase
         pattern('[A-Z](?<lowercase>[a-z]+)?')
             ->match('Computer L Three Four')
             ->group('lowercase')
-            ->findFirst(function (MatchGroup $group) {
+            ->findFirst(function (DetailGroup $group) {
                 $this->assertEquals('omputer', $group->text());
             })
             ->orThrow();
@@ -52,7 +52,7 @@ class MatchPatternTest extends TestCase
         pattern('[A-Z](?<lowercase>[a-z]+)?')
             ->match('Computer L Three Four')
             ->group('lowercase')
-            ->findFirst(function (MatchGroup $group) {
+            ->findFirst(function (DetailGroup $group) {
                 $this->assertEquals(['omputer', null, 'hree', 'our'], $group->all());
             })
             ->orThrow();
@@ -67,7 +67,7 @@ class MatchPatternTest extends TestCase
         pattern('Foo (?<bar>[a-z]*)')
             ->match('Foo NOT MATCH')
             ->group('bar')
-            ->findFirst(function (MatchGroup $group) {
+            ->findFirst(function (DetailGroup $group) {
                 $this->assertEquals('', $group->text());
             })
             ->orThrow();

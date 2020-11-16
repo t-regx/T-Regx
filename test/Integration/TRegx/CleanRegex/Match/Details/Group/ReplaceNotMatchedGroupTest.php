@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Match\Details\Group\ReplaceMatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\ReplaceDetailGroup;
 use TRegx\CleanRegex\Match\Details\Group\ReplaceNotMatchedGroup;
 
 class ReplaceNotMatchedGroupTest extends TestCase
@@ -28,7 +28,7 @@ class ReplaceNotMatchedGroupTest extends TestCase
         $matchGroup->modifiedOffset();
     }
 
-    private function matchGroup(string $group): ReplaceMatchGroup
+    private function matchGroup(string $group): ReplaceDetailGroup
     {
         /** @var Subjectable $subject */
         /** @var GroupDetails $groupDetails */

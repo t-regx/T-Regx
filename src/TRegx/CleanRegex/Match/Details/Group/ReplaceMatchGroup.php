@@ -1,7 +1,12 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
-interface ReplaceMatchGroup extends MatchGroup
+/**
+ * In PHP 8, "match" will become a keyword and thus will be unfit
+ * for class names and namespaces.
+ *
+ * @deprecated Use {@see \TRegx\CleanRegex\Match\Details\Group\ReplaceDetailGroup} instead
+ */
+interface ReplaceMatchGroup extends ReplaceDetailGroup
 {
-    public function modifiedOffset(): int;
 }

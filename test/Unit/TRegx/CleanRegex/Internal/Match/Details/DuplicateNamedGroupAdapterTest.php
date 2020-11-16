@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Details;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\Details\DuplicateNamedGroupAdapter;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class DuplicateNamedGroupAdapterTest extends TestCase
 {
@@ -65,10 +65,10 @@ class DuplicateNamedGroupAdapterTest extends TestCase
         ];
     }
 
-    private function matchGroup(string $method, $arguments, $result, int $count = 1): MatchGroup
+    private function matchGroup(string $method, $arguments, $result, int $count = 1): DetailGroup
     {
-        /** @var MockObject|MatchGroup $group */
-        $group = $this->createMock(MatchGroup::class);
+        /** @var MockObject|DetailGroup $group */
+        $group = $this->createMock(DetailGroup::class);
 
         $group
             ->expects($this->exactly($count))

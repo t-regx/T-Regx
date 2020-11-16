@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class MatchGroupStream implements Stream
 {
@@ -30,7 +30,7 @@ class MatchGroupStream implements Stream
     }
 
     /**
-     * @return MatchGroup[]
+     * @return DetailGroup[]
      */
     public function all(): array
     {
@@ -38,7 +38,7 @@ class MatchGroupStream implements Stream
         return $this->facade($matches, new EagerMatchAllFactory($matches))->createGroups($matches);
     }
 
-    public function first(): MatchGroup
+    public function first(): DetailGroup
     {
         $match = $this->stream->first();
         return $this->facade($match, $this->allFactory)->createGroup($match);

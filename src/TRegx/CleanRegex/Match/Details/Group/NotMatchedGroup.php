@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 
-class NotMatchedGroup implements MatchGroup
+class NotMatchedGroup implements DetailGroup
 {
     /** @var GroupDetails */
     private $details;

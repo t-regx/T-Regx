@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
-use TRegx\CleanRegex\Match\Details\Group\ReplaceMatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\ReplaceDetailGroup;
 
 interface ReplaceDetail extends Detail
 {
@@ -9,5 +9,5 @@ interface ReplaceDetail extends Detail
 
     public function modifiedSubject(): string;
 
-    public function group($nameOrIndex): ReplaceMatchGroup;
+    public function group($nameOrIndex): ReplaceDetailGroup;
 }

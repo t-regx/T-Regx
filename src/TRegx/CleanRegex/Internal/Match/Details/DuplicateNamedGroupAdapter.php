@@ -2,16 +2,16 @@
 namespace TRegx\CleanRegex\Internal\Match\Details;
 
 use TRegx\CleanRegex\Match\Details\Group\DuplicateNamedGroup;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class DuplicateNamedGroupAdapter implements DuplicateNamedGroup
 {
     /** @var string */
     private $name;
-    /** @var MatchGroup */
+    /** @var DetailGroup */
     private $group;
 
-    public function __construct(string $name, MatchGroup $group)
+    public function __construct(string $name, DetailGroup $group)
     {
         $this->name = $name;
         $this->group = $group;

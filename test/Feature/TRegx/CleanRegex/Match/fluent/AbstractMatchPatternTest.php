@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroup;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class AbstractMatchPatternTest extends TestCase
@@ -25,7 +25,7 @@ class AbstractMatchPatternTest extends TestCase
             ->map(function (Detail $match) {
                 return $match->group('capital');
             })
-            ->map(function (MatchGroup $matchGroup) {
+            ->map(function (DetailGroup $matchGroup) {
                 if ($matchGroup->matched()) {
                     return "yes: $matchGroup";
                 }

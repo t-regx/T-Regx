@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupReplacer;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 
-class MatchedGroup implements MatchGroup
+class MatchedGroup implements DetailGroup
 {
     /** @var IRawMatchOffset */
     private $match;
