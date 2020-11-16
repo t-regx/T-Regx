@@ -35,7 +35,7 @@ class ReplacePatternCallbackInvoker
         return $result;
     }
 
-    public function pregReplaceCallback(callable $callback, ?int &$replaced, ReplaceCallbackArgumentStrategy $strategy): string
+    private function pregReplaceCallback(callable $callback, ?int &$replaced, ReplaceCallbackArgumentStrategy $strategy): string
     {
         return preg::replace_callback($this->pattern->pattern,
             $this->getObjectCallback($callback, $strategy),
