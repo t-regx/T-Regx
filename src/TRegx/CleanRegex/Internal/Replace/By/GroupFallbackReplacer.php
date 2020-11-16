@@ -79,13 +79,14 @@ class GroupFallbackReplacer
     private function getReplacementOrHandle(array $match, $nameOrIndex, GroupMapper $mapper, MatchRs $substitute): string
     {
         $occurrence = $this->occurrence($match, $nameOrIndex);
+        $detail = new LazyDetailImpl($this->base, $this->counter, $this->limit);
         if ($occurrence === null) { // here "null" means group was not matched
-            $replacement = $substitute->substituteGroup(new LazyDetailImpl($this->base, $this->counter, $this->limit));
+            $replacement = $substitute->substituteGroup($detail);
             // here "null" means "no replacement provided, ignore me, use the full match"
             return $replacement ?? $match[0];
         }
         $mapper->useExceptionValues($occurrence, $nameOrIndex, $match[0]);
-        return $mapper->map($occurrence) ?? $match[0];
+        return $mapper->map($occurrence, $detail) ?? $match[0];
     }
 
     private function occurrence(array $match, $nameOrIndex): ?string

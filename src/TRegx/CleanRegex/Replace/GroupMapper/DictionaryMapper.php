@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Replace\GroupMapper;
 
 use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class DictionaryMapper implements GroupMapper
 {
@@ -15,7 +16,7 @@ class DictionaryMapper implements GroupMapper
         $this->validateMap($map);
     }
 
-    public function map(string $occurrence): ?string
+    public function map(string $occurrence, Detail $initialDetail): ?string
     {
         if (\array_key_exists($occurrence, $this->map)) {
             return $this->map[$occurrence];

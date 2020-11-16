@@ -1,9 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Replace\GroupMapper;
 
+use TRegx\CleanRegex\Match\Details\Detail;
+
 class IdentityMapper implements GroupMapper
 {
-    public function map(string $occurrence): string
+    public function map(string $occurrence, Detail $initialDetail): string
     {
         return $occurrence;
     }

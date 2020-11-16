@@ -39,4 +39,11 @@ class Functions
             Assert::fail($message ?? 'Failed to assert that callback is not invoked');
         };
     }
+
+    public static function singleArg(callable $callable): callable
+    {
+        return function ($argument) use ($callable) { // ignore remaining arguments
+            return $callable($argument);
+        };
+    }
 }

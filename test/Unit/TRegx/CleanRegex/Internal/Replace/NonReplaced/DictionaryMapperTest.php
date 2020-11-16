@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\NonReplaced;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 
 class DictionaryMapperTest extends TestCase
@@ -16,7 +17,7 @@ class DictionaryMapperTest extends TestCase
         $mapReplace = new DictionaryMapper(['old' => 'new']);
 
         // when
-        $result = $mapReplace->map('old');
+        $result = $mapReplace->map('old', $this->detail());
 
         // then
         $this->assertEquals('new', $result);
@@ -31,7 +32,7 @@ class DictionaryMapperTest extends TestCase
         $mapReplace = new DictionaryMapper(['old' => 'new']);
 
         // when
-        $result = $mapReplace->map('missing');
+        $result = $mapReplace->map('missing', $this->detail());
 
         // then
         $this->assertNull($result);
@@ -61,5 +62,10 @@ class DictionaryMapperTest extends TestCase
 
         // when
         new DictionaryMapper(['old' => 1]);
+    }
+
+    private function detail(): Detail
+    {
+        return $this->createMock(Detail::class);
     }
 }

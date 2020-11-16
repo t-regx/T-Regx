@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Replace\GroupMapper;
 
+use TRegx\CleanRegex\Match\Details\Detail;
+
 class MapGroupMapperDecorator implements GroupMapper
 {
     /** @var GroupMapper */
@@ -14,9 +16,9 @@ class MapGroupMapperDecorator implements GroupMapper
         $this->mappingFunction = $mappingFunction;
     }
 
-    public function map(?string $occurrence): ?string
+    public function map(string $occurrence, Detail $initialDetail): ?string
     {
-        $occurrence = $this->mapper->map($occurrence);
+        $occurrence = $this->mapper->map($occurrence, $initialDetail);
         if ($occurrence === null) {
             return null;
         }
