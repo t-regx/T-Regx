@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Replace\NonReplaced;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\NonReplaced;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
