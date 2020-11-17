@@ -21,9 +21,10 @@ class PcreCallbackStrategy implements DelimiterStrategy
          * DelimiterParser won't be able to extract the delimiter, and
          * this DelimiterStrategy will be fed `null` in place of $delimiter.
          * I could throw an exception here, but I decided that it's better
-         * to ignore it here, let that pattern be further passed to PCRE
-         * and let the preg_*() method throw the proper exception and message
-         * to the user.
+         * to ignore it here, let invalid that pattern be further passed to
+         * PCRE and let the preg_*() method throw the proper exception and
+         * message to the user. That way, it will be obvious that it's a
+         * problem with the pattern, and not the library.
          */
         $delimiter = $delimiter ?? '/';
 
