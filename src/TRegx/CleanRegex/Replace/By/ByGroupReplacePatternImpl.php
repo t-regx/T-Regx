@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
+use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ComputedMatchStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;

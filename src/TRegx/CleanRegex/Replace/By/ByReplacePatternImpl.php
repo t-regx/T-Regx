@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
+use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\LazySubjectRs;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowMatchRs;
