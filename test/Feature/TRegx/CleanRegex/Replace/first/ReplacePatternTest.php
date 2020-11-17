@@ -51,7 +51,7 @@ class ReplacePatternTest extends TestCase
             ->first()
             ->callback(function (ReplaceDetail $match) {
                 // then
-                return $match->group('name');
+                return $match->group('name'); // Should accept ReplaceDetailGroup as return type
             });
 
         // then
@@ -73,7 +73,7 @@ class ReplacePatternTest extends TestCase
             ->first()
             ->callback(function (ReplaceDetail $match) { // Testing this type-hint
                 // then
-                return $match;
+                return $match; // Should accept ReplaceDetail as return type
             });
 
         // then
@@ -107,7 +107,7 @@ class ReplacePatternTest extends TestCase
     public function shouldReturn_nonReplacedStrategy()
     {
         // when
-        $result = pattern('Foo')->replace('Bar')->first()->otherwiseReturning('otherwise')->with('');
+        $result = pattern('Foo')->replace('Bar')->first()->otherwiseReturning('otherwise')->with('XXX');
 
         // then
         $this->assertEquals('otherwise', $result);
