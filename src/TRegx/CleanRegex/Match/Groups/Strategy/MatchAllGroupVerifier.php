@@ -17,11 +17,6 @@ class MatchAllGroupVerifier implements GroupVerifier
 
     public function groupExists($nameOrIndex): bool
     {
-        return in_array($nameOrIndex, $this->getGroups(), true);
-    }
-
-    private function getGroups(): array
-    {
-        return (new Descriptor($this->pattern))->getGroups();
+        return in_array($nameOrIndex, (new Descriptor($this->pattern))->getGroups(), true);
     }
 }

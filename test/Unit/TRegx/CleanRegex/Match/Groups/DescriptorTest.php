@@ -36,34 +36,4 @@ class DescriptorTest extends TestCase
         // then
         $this->assertEquals([0, 1, 'named', 2, 3, 'Fourth', 4, 'nested', 5], $groups);
     }
-
-    /**
-     * @test
-     */
-    public function should_haveGroups()
-    {
-        // given
-        $descriptor = new Descriptor(InternalPattern::standard('Just a pattern with (group)'));
-
-        // when
-        $has = $descriptor->hasAnyGroup();
-
-        // then
-        $this->assertTrue($has);
-    }
-
-    /**
-     * @test
-     */
-    public function should_not_haveGroups()
-    {
-        // given
-        $descriptor = new Descriptor(InternalPattern::standard('Just a pattern'));
-
-        // when
-        $has = $descriptor->hasAnyGroup();
-
-        // then
-        $this->assertFalse($has);
-    }
 }
