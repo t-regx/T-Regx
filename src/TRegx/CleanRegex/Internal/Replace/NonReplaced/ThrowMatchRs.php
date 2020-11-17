@@ -1,8 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Replace\By;
+namespace TRegx\CleanRegex\Internal\Replace\NonReplaced;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class ThrowMatchRs implements MatchRs
