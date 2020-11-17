@@ -49,7 +49,7 @@ class CompositePatternMapperTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("CompositePattern accepts only type Pattern or string, but stdClass given");
+        $this->expectExceptionMessage("CompositePattern only accepts type PatternInterface or string, but stdClass given");
 
         // when
         $mapper->createPatterns();
