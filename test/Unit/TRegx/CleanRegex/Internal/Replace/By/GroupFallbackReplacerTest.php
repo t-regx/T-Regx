@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Replace\Map;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ComputedMapper;
@@ -14,7 +14,7 @@ use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
+use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;

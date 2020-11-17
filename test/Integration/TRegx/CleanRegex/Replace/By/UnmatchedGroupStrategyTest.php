@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
-use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
+use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\By\UnmatchedGroupStrategy;
 use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 

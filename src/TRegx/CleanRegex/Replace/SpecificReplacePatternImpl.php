@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Replace\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePatternImpl;
-use TRegx\CleanRegex\Replace\By\GroupFallbackReplacer;
+use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
