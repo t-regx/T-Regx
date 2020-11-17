@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Match\Groups;
+namespace TRegx\CleanRegex\Internal\Match\Groups;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\SafeRegex\preg;

@@ -1,9 +1,9 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\Groups;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Groups;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Match\Groups\Descriptor;
+use TRegx\CleanRegex\Internal\Match\Groups\Descriptor;
 
 class DescriptorTest extends TestCase
 {

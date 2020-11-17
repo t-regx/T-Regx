@@ -1,8 +1,8 @@
 <?php
-namespace TRegx\CleanRegex\Match\Groups\Strategy;
+namespace TRegx\CleanRegex\Internal\Match\Groups\Strategy;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Match\Groups\Descriptor;
+use TRegx\CleanRegex\Internal\Match\Groups\Descriptor;
 use function in_array;
 
 class MatchAllGroupVerifier implements GroupVerifier

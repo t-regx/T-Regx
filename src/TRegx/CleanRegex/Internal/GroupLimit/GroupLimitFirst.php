@@ -5,9 +5,9 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Match\Groups\Strategy\GroupVerifier;
+use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Match\Groups\Strategy\GroupVerifier;
-use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
 
 class GroupLimitFirst
 {

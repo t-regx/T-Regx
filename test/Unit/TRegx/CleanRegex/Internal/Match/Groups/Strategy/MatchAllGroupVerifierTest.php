@@ -1,9 +1,9 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\Groups\Strategy;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Groups\Strategy;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
+use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
 
 class MatchAllGroupVerifierTest extends TestCase
 {

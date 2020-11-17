@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\Factory\SecondLevelFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
-use TRegx\CleanRegex\Match\Groups\Strategy\MatchAllGroupVerifier;
+use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
 
 class MatchOffsetLimit implements OffsetLimit, Stream, \IteratorAggregate
 {

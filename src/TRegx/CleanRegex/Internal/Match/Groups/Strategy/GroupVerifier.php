@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Match\Groups\Strategy;
+namespace TRegx\CleanRegex\Internal\Match\Groups\Strategy;
 
 interface GroupVerifier
 {

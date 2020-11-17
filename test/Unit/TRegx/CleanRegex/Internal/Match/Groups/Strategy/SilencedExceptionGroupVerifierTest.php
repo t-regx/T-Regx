@@ -1,8 +1,8 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\Groups\Strategy;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Groups\Strategy;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Groups\Strategy\SilencedExceptionGroupVerifier;
+use TRegx\CleanRegex\Internal\Match\Groups\Strategy\SilencedExceptionGroupVerifier;
 
 class SilencedExceptionGroupVerifierTest extends TestCase
 {

@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Match\Groups\Strategy;
+namespace TRegx\CleanRegex\Internal\Match\Groups\Strategy;
 
 class SilencedExceptionGroupVerifier implements GroupVerifier
 {
