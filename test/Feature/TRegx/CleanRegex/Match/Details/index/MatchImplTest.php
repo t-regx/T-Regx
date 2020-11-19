@@ -14,9 +14,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $index = $match->index();
+                $index = $detail->index();
 
                 // then
                 $this->assertEquals(0, $index);
@@ -31,9 +31,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->findFirst(function (Detail $match) {
+            ->findFirst(function (Detail $detail) {
                 // when
-                $index = $match->index();
+                $index = $detail->index();
 
                 // then
                 $this->assertEquals(0, $index);
@@ -53,9 +53,9 @@ class MatchImplTest extends TestCase
 
         pattern('\d+')
             ->match('111-222-333')
-            ->$method(function (Detail $match) use (&$indexes) {
+            ->$method(function (Detail $detail) use (&$indexes) {
                 // when
-                $index = $match->index();
+                $index = $detail->index();
                 // then
                 $indexes[] = $index;
                 // clean up for flatMap()

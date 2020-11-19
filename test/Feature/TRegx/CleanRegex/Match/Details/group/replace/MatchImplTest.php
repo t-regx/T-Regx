@@ -14,9 +14,9 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('https?://(?<domain>[\w.]+)/users')
             ->match('Link: http://facebook.com/users and https://google.com/users guys')
-            ->map(function (Detail $match) {
+            ->map(function (Detail $detail) {
                 // when
-                return $match->group('domain')->replace('XD');
+                return $detail->group('domain')->replace('XD');
             });
 
         // then
@@ -31,9 +31,9 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('https?://(?<domain>([\w.]+)?)/users')
             ->match('Link: http:///users')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->group('domain')->replace('Welp');
+                return $detail->group('domain')->replace('Welp');
             });
 
         // then
@@ -48,9 +48,9 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('hłłps?://(?<domain>ąść)/users')
             ->match('Link: hłłp://ąść/users')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->group('domain')->replace('ś');
+                return $detail->group('domain')->replace('ś');
             });
 
         // then

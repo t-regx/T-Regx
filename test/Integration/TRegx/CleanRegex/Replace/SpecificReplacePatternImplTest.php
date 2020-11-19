@@ -34,8 +34,8 @@ class SpecificReplacePatternImplTest extends TestCase
         $replace = $this->createReplacePattern('192.168.173.180');
 
         // when
-        $result = $replace->callback(function (Detail $match) {
-            if ($match->toInt() < 175) {
+        $result = $replace->callback(function (Detail $detail) {
+            if ($detail->toInt() < 175) {
                 return '___';
             }
             return '^^^';

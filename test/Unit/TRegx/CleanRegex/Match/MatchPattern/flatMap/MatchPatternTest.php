@@ -39,8 +39,8 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('Nice 1 matching 2 pattern');
 
         // when
-        $map = $pattern->flatMap(function (Detail $match) {
-            return [$match->text() => $match->offset()];
+        $map = $pattern->flatMap(function (Detail $detail) {
+            return [$detail->text() => $detail->offset()];
         });
 
         // then
@@ -63,12 +63,12 @@ class MatchPatternTest extends TestCase
         $matches = ['Nice', 'matching', 'pattern'];
 
         // when
-        $pattern->flatMap(function (Detail $match) use (&$counter, $matches) {
+        $pattern->flatMap(function (Detail $detail) use (&$counter, $matches) {
             // then
-            $this->assertEquals($matches[$counter], $match->text());
-            $this->assertEquals($counter++, $match->index());
-            $this->assertEquals("Nice matching pattern", $match->subject());
-            $this->assertEquals($matches, $match->all());
+            $this->assertEquals($matches[$counter], $detail->text());
+            $this->assertEquals($counter++, $detail->index());
+            $this->assertEquals("Nice matching pattern", $detail->subject());
+            $this->assertEquals($matches, $detail->all());
 
             return [];
         });

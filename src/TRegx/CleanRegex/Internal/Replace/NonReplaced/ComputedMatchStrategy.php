@@ -17,9 +17,9 @@ class ComputedMatchStrategy implements MatchRs
         $this->callingMethod = $callingMethod;
     }
 
-    public function substituteGroup(Detail $match): string
+    public function substituteGroup(Detail $detail): string
     {
-        $result = \call_user_func($this->mapper, $match);
+        $result = \call_user_func($this->mapper, $detail);
         if ($result === null) {
             throw new InvalidReturnValueException(null, $this->callingMethod, "string");
         }

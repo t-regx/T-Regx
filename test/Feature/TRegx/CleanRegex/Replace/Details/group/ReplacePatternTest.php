@@ -17,9 +17,9 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: http://google.com';
 
         // when
-        $result = pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
+        $result = pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $detail) {
             // then
-            return $match->group('domain');
+            return $detail->group('domain');
         });
 
         // then
@@ -36,9 +36,9 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: http://google.com';
 
         // when
-        $result = pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
+        $result = pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $detail) {
             // then
-            return $match->usingDuplicateName()->group('domain');
+            return $detail->usingDuplicateName()->group('domain');
         });
 
         // then
@@ -58,9 +58,9 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Expected to replace with group '2', but the group was not matched");
 
         // when
-        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
+        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $detail) {
             // then
-            return $match->group(2);
+            return $detail->group(2);
         });
     }
 
@@ -77,9 +77,9 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Expected to replace with group 'domain', but the group was not matched");
 
         // when
-        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
+        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $detail) {
             // then
-            return $match->usingDuplicateName()->group('domain');
+            return $detail->usingDuplicateName()->group('domain');
         });
     }
 
@@ -96,9 +96,9 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Expected to replace with group 'domain', but the group was not matched");
 
         // when
-        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
+        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $detail) {
             // then
-            return $match->group('domain');
+            return $detail->group('domain');
         });
     }
 }

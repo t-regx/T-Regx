@@ -18,9 +18,9 @@ class ReplacePatternTest extends TestCase
         $offsets = [];
         $mOffsets = [];
 
-        $callback = function (ReplaceDetail $match) use (&$offsets, &$mOffsets) {
-            $offsets[] = $match->offset();
-            $mOffsets[] = $match->modifiedOffset();
+        $callback = function (ReplaceDetail $detail) use (&$offsets, &$mOffsets) {
+            $offsets[] = $detail->offset();
+            $mOffsets[] = $detail->modifiedOffset();
             return 'ę';
         };
 
@@ -43,8 +43,8 @@ class ReplacePatternTest extends TestCase
 
         $subjects = [];
 
-        $callback = function (ReplaceDetail $match) use (&$subjects) {
-            $subjects[] = $match->modifiedSubject();
+        $callback = function (ReplaceDetail $detail) use (&$subjects) {
+            $subjects[] = $detail->modifiedSubject();
             return 'a';
         };
 

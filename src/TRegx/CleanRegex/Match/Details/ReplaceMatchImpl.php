@@ -9,15 +9,15 @@ use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 class ReplaceMatchImpl implements ReplaceDetail, ReplaceMatch
 {
     /** @var Detail */
-    private $match;
+    private $detail;
     /** @var int */
     private $offsetModification;
     /** @var string */
     private $subjectModification;
 
-    public function __construct(Detail $match, int $offsetModification, string $subjectModification)
+    public function __construct(Detail $detail, int $offsetModification, string $subjectModification)
     {
-        $this->match = $match;
+        $this->detail = $detail;
         $this->offsetModification = $offsetModification;
         $this->subjectModification = $subjectModification;
     }
@@ -34,7 +34,7 @@ class ReplaceMatchImpl implements ReplaceDetail, ReplaceMatch
 
     public function get($nameOrIndex): string
     {
-        return $this->match->get($nameOrIndex);
+        return $this->detail->get($nameOrIndex);
     }
 
     /**
@@ -43,17 +43,17 @@ class ReplaceMatchImpl implements ReplaceDetail, ReplaceMatch
      */
     public function group($nameOrIndex): ReplaceDetailGroup
     {
-        return $this->match->group($nameOrIndex);
+        return $this->detail->group($nameOrIndex);
     }
 
     public function usingDuplicateName(): DuplicateName
     {
-        return $this->match->usingDuplicateName();
+        return $this->detail->usingDuplicateName();
     }
 
     public function subject(): string
     {
-        return $this->match->subject();
+        return $this->detail->subject();
     }
 
     /**
@@ -61,12 +61,12 @@ class ReplaceMatchImpl implements ReplaceDetail, ReplaceMatch
      */
     public function groupNames(): array
     {
-        return $this->match->groupNames();
+        return $this->detail->groupNames();
     }
 
     public function groupsCount(): int
     {
-        return $this->match->groupsCount();
+        return $this->detail->groupsCount();
     }
 
     /**
@@ -75,47 +75,47 @@ class ReplaceMatchImpl implements ReplaceDetail, ReplaceMatch
      */
     public function hasGroup($nameOrIndex): bool
     {
-        return $this->match->hasGroup($nameOrIndex);
+        return $this->detail->hasGroup($nameOrIndex);
     }
 
     public function text(): string
     {
-        return $this->match->text();
+        return $this->detail->text();
     }
 
     public function textLength(): int
     {
-        return $this->match->textLength();
+        return $this->detail->textLength();
     }
 
     public function toInt(): int
     {
-        return $this->match->toInt();
+        return $this->detail->toInt();
     }
 
     public function isInt(): bool
     {
-        return $this->match->isInt();
+        return $this->detail->isInt();
     }
 
     public function index(): int
     {
-        return $this->match->index();
+        return $this->detail->index();
     }
 
     public function limit(): int
     {
-        return $this->match->limit();
+        return $this->detail->limit();
     }
 
     public function groups(): IndexedGroups
     {
-        return $this->match->groups();
+        return $this->detail->groups();
     }
 
     public function namedGroups(): NamedGroups
     {
-        return $this->match->namedGroups();
+        return $this->detail->namedGroups();
     }
 
     /**
@@ -125,7 +125,7 @@ class ReplaceMatchImpl implements ReplaceDetail, ReplaceMatch
      */
     public function matched($nameOrIndex): bool
     {
-        return $this->match->matched($nameOrIndex);
+        return $this->detail->matched($nameOrIndex);
     }
 
     /**
@@ -133,41 +133,41 @@ class ReplaceMatchImpl implements ReplaceDetail, ReplaceMatch
      */
     public function all(): array
     {
-        return $this->match->all();
+        return $this->detail->all();
     }
 
     public function offset(): int
     {
-        return $this->match->offset();
+        return $this->detail->offset();
     }
 
     public function tail(): int
     {
-        return $this->match->tail();
+        return $this->detail->tail();
     }
 
     public function byteOffset(): int
     {
-        return $this->match->byteOffset();
+        return $this->detail->byteOffset();
     }
 
     public function byteTail(): int
     {
-        return $this->match->byteTail();
+        return $this->detail->byteTail();
     }
 
     public function setUserData($userData): void
     {
-        $this->match->setUserData($userData);
+        $this->detail->setUserData($userData);
     }
 
     public function getUserData()
     {
-        return $this->match->getUserData();
+        return $this->detail->getUserData();
     }
 
     public function __toString(): string
     {
-        return $this->match->__toString();
+        return $this->detail->__toString();
     }
 }

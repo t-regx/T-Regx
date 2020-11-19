@@ -32,7 +32,7 @@ class CompositePatternTest extends TestCase
         // when
         $replaced = $pattern
             ->chainedReplace("Do you think that's air you're breathing now?")
-            ->callback(function (ReplaceDetail $match) {
+            ->callback(function (ReplaceDetail $detail) {
                 return '__';
             });
 
@@ -49,9 +49,9 @@ class CompositePatternTest extends TestCase
         $pattern = new CompositePattern((new CompositePatternMapper(['Foo']))->createPatterns());
 
         // when
-        $pattern->chainedReplace("Foo")->callback(function (Detail $match) {
+        $pattern->chainedReplace("Foo")->callback(function (Detail $detail) {
             // then
-            $this->assertEquals(-1, $match->limit());
+            $this->assertEquals(-1, $detail->limit());
 
             // clean up
             return '__';
@@ -85,10 +85,10 @@ class CompositePatternTest extends TestCase
         $modified = [];
 
         // when
-        $result = $chainedReplace->callback(function (ReplaceDetail $match) use (&$matches, &$subjects, &$modified) {
-            $matches[] = $match->text();
-            $subjects[] = $match->subject();
-            $modified[] = $match->modifiedSubject();
+        $result = $chainedReplace->callback(function (ReplaceDetail $detail) use (&$matches, &$subjects, &$modified) {
+            $matches[] = $detail->text();
+            $subjects[] = $detail->subject();
+            $modified[] = $detail->modifiedSubject();
             return '_';
         });
 

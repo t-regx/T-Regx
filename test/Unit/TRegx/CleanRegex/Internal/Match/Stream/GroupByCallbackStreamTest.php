@@ -8,8 +8,8 @@ use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class GroupByCallbackStreamTest extends TestCase
 {
@@ -36,9 +36,9 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGroupDifferentDataTypes()
     {
         // given
-        $match = $this->matchMock('hello');
+        $detail = $this->detailMock('hello');
         $group = $this->matchGroupMock('hello');
-        $input = ['hello', 2, $match, 2, $group,];
+        $input = ['hello', 2, $detail, 2, $group,];
         $stream = new GroupByCallbackStream($this->mock('all', 'willReturn', $input), Functions::identity());
 
         // when
@@ -46,7 +46,7 @@ class GroupByCallbackStreamTest extends TestCase
 
         // then
         $expected = [
-            'hello' => ['hello', $match, $group],
+            'hello' => ['hello', $detail, $group],
             2       => [2, 2],
         ];
         $this->assertSame($expected, $all);
@@ -133,13 +133,13 @@ class GroupByCallbackStreamTest extends TestCase
         return $stream;
     }
 
-    private function matchMock(string $text): Detail
+    private function detailMock(string $text): Detail
     {
-        /** @var Detail|MockObject $match */
-        $match = $this->createMock(Detail::class);
-        $match->expects($this->once())->method('text')->willReturn($text);
-        $match->expects($this->never())->method($this->logicalNot($this->matches('text')));
-        return $match;
+        /** @var Detail|MockObject $detail */
+        $detail = $this->createMock(Detail::class);
+        $detail->expects($this->once())->method('text')->willReturn($text);
+        $detail->expects($this->never())->method($this->logicalNot($this->matches('text')));
+        return $detail;
     }
 
     private function matchGroupMock(string $text): DetailGroup

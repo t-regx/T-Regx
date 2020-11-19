@@ -5,5 +5,5 @@ use TRegx\CleanRegex\Match\Details\Detail;
 
 interface MatchRs
 {
-    public function substituteGroup(Detail $match): ?string;
+    public function substituteGroup(Detail $detail): ?string;
 }

@@ -15,8 +15,8 @@ class AbstractMatchPatternTest extends TestCase
         $indexes = pattern("\w+")
             ->match("Foo, Bar, Lorem")
             ->fluent()
-            ->map(function (Detail $match) {
-                return $match->index();
+            ->map(function (Detail $detail) {
+                return $detail->index();
             })
             ->all();
 
@@ -31,9 +31,9 @@ class AbstractMatchPatternTest extends TestCase
     {
         // given
         pattern("\w+")->match("Foo, Bar")->fluent()
-            ->map(function (Detail $match) {
+            ->map(function (Detail $detail) {
                 // then
-                $this->assertEquals(-1, $match->limit());
+                $this->assertEquals(-1, $detail->limit());
             })
             ->all();
     }
@@ -46,16 +46,16 @@ class AbstractMatchPatternTest extends TestCase
         // given
         pattern("\w+")
             ->match("Foo, Bar, Lorem")
-            ->filter(function (Detail $match) {
+            ->filter(function (Detail $detail) {
                 // when
-                $match->setUserData('Foo');
+                $detail->setUserData('Foo');
 
                 // cleanup
                 return true;
             })
             ->fluent()
-            ->forEach(function (Detail $match) {
-                $this->assertEquals('Foo', $match->getUserData());
+            ->forEach(function (Detail $detail) {
+                $this->assertEquals('Foo', $detail->getUserData());
             });
     }
 
@@ -68,8 +68,8 @@ class AbstractMatchPatternTest extends TestCase
         $indexes = pattern("\w+")
             ->match("Foo, Bar, Lorem")
             ->fluent()
-            ->map(function (Detail $match) {
-                return $match->all();
+            ->map(function (Detail $detail) {
+                return $detail->all();
             })
             ->all();
 
@@ -84,9 +84,9 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluentFirst_keepIndex()
     {
         // given
-        pattern("\w+")->match("Foo, Bar")->fluent()->first(function (Detail $match) {
+        pattern("\w+")->match("Foo, Bar")->fluent()->first(function (Detail $detail) {
             // then
-            $this->assertEquals(0, $match->index());
+            $this->assertEquals(0, $detail->index());
         });
     }
 
@@ -96,8 +96,8 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluentFirst_keepLimit()
     {
         // given
-        pattern("\w+")->match("Foo, Bar")->fluent()->first(function (Detail $match) {
-            $this->assertEquals(1, $match->limit());
+        pattern("\w+")->match("Foo, Bar")->fluent()->first(function (Detail $detail) {
+            $this->assertEquals(1, $detail->limit());
         });
     }
 
@@ -109,16 +109,16 @@ class AbstractMatchPatternTest extends TestCase
         // given
         pattern("\w+")
             ->match("Foo, Bar, Lorem")
-            ->filter(function (Detail $match) {
+            ->filter(function (Detail $detail) {
                 // when
-                $match->setUserData('Foo');
+                $detail->setUserData('Foo');
 
                 // cleanup
                 return true;
             })
             ->fluent()
-            ->first(function (Detail $match) {
-                $this->assertEquals('Foo', $match->getUserData());
+            ->first(function (Detail $detail) {
+                $this->assertEquals('Foo', $detail->getUserData());
             });
     }
 
@@ -131,8 +131,8 @@ class AbstractMatchPatternTest extends TestCase
         $indexes = pattern("\w+")
             ->match("Foo, Bar, Lorem")
             ->fluent()
-            ->first(function (Detail $match) {
-                return $match->all();
+            ->first(function (Detail $detail) {
+                return $detail->all();
             });
 
         // then

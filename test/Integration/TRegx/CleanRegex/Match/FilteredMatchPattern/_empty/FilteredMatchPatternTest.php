@@ -146,8 +146,8 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern();
 
         // when
-        $findFirst = $matchPattern->findFirst(function (Detail $match) {
-            return "value: $match";
+        $findFirst = $matchPattern->findFirst(function (Detail $detail) {
+            return "value: $detail";
         });
 
         // then
@@ -164,8 +164,8 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_notFirst();
 
         // when
-        $findFirst = $matchPattern->findFirst(function (Detail $match) {
-            return "value: $match";
+        $findFirst = $matchPattern->findFirst(function (Detail $detail) {
+            return "value: $detail";
         });
 
         // then
@@ -182,8 +182,8 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_filtered();
 
         // when
-        $findFirst = $matchPattern->findFirst(function (Detail $match) {
-            return "value: $match";
+        $findFirst = $matchPattern->findFirst(function (Detail $detail) {
+            return "value: $detail";
         });
 
         // then
@@ -250,8 +250,8 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_notFirst();
 
         // when
-        $flatMap = $matchPattern->flatMap(function (Detail $match) {
-            return str_split(str_repeat($match, 2));
+        $flatMap = $matchPattern->flatMap(function (Detail $detail) {
+            return str_split(str_repeat($detail, 2));
         });
 
         // then
@@ -295,8 +295,8 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern();
-        $mapper = function (Detail $match) {
-            return lcfirst($match) . ucfirst($match);
+        $mapper = function (Detail $detail) {
+            return lcfirst($detail) . ucfirst($detail);
         };
 
         // when
@@ -316,8 +316,8 @@ class FilteredMatchPatternTest extends TestCase
 
         // when
         $first = $matchPattern
-            ->findFirst(function (Detail $match) {
-                return "for first: $match";
+            ->findFirst(function (Detail $detail) {
+                return "for first: $detail";
             })
             ->orReturn('');
 
@@ -331,20 +331,19 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldChain_filter()
     {
         // given
-        $pattern = '/\w+/';
         $subject = '...you forgot one very important thing mate.';
-        $predicate = function (Detail $match) {
-            return $match->text() != 'forgot';
+        $predicate = function (Detail $detail) {
+            return $detail->text() != 'forgot';
         };
-        $pattern = new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(InternalPattern::pcre($pattern), $subject, new UserData()), new Predicate($predicate)));
+        $pattern = new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(InternalPattern::pcre('/\w+/'), $subject, new UserData()), new Predicate($predicate)));
 
         // when
         $filtered = $pattern
-            ->filter(function (Detail $match) {
-                return $match->text() !== 'very';
+            ->filter(function (Detail $detail) {
+                return $detail->text() !== 'very';
             })
-            ->filter(function (Detail $match) {
-                return $match->text() !== 'mate';
+            ->filter(function (Detail $detail) {
+                return $detail->text() !== 'mate';
             })
             ->all();
 
@@ -362,8 +361,8 @@ class FilteredMatchPatternTest extends TestCase
         $matches = [];
 
         // when
-        $matchPattern->forEach(function (Detail $match) use (&$matches) {
-            $matches[] = $match->text();
+        $matchPattern->forEach(function (Detail $detail) use (&$matches) {
+            $matches[] = $detail->text();
         });
 
         // then
@@ -383,16 +382,16 @@ class FilteredMatchPatternTest extends TestCase
 
         // then
         $array = [];
-        foreach ($iterator as $match) {
-            $array[] = $match->text();
+        foreach ($iterator as $detail) {
+            $array[] = $detail->text();
         }
         $this->assertEquals(['', 'a', '', 'c'], $array);
     }
 
     private function standardMatchPattern(): FilteredMatchPattern
     {
-        return $this->matchPattern(function (Detail $match) {
-            return $match->text() !== 'b';
+        return $this->matchPattern(function (Detail $detail) {
+            return $detail->text() !== 'b';
         });
     }
 
@@ -403,8 +402,8 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern_notFirst(): FilteredMatchPattern
     {
-        return $this->matchPattern(function (Detail $match) {
-            return $match->index() > 0;
+        return $this->matchPattern(function (Detail $detail) {
+            return $detail->index() > 0;
         });
     }
 

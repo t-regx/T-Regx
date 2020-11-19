@@ -80,8 +80,8 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern_firstFiltered();
-        $callback = function (Detail $match) {
-            return str_split($match, 3);
+        $callback = function (Detail $detail) {
+            return str_split($detail, 3);
         };
 
         // when
@@ -173,8 +173,8 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern_secondFiltered();
-        $mapper = function (Detail $match) {
-            return lcfirst(strtoupper($match));
+        $mapper = function (Detail $detail) {
+            return lcfirst(strtoupper($detail));
         };
 
         // when
@@ -191,8 +191,8 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern_firstFiltered();
-        $callback = function (Detail $match) {
-            return 'for first: ' . $match->text();
+        $callback = function (Detail $detail) {
+            return 'for first: ' . $detail->text();
         };
 
         // when
@@ -209,8 +209,8 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->standardMatchPattern_secondFiltered();
-        $callback = function (Detail $match) {
-            return 'for first: ' . $match->text();
+        $callback = function (Detail $detail) {
+            return 'for first: ' . $detail->text();
         };
 
         // when
@@ -231,14 +231,14 @@ class FilteredMatchPatternTest extends TestCase
 
         // when
         $filtered = $this
-            ->matchPattern($pattern, $subject, function (Detail $match) {
-                return $match->text() != 'forgot';
+            ->matchPattern($pattern, $subject, function (Detail $detail) {
+                return $detail->text() != 'forgot';
             })
-            ->filter(function (Detail $match) {
-                return $match->text() != 'very';
+            ->filter(function (Detail $detail) {
+                return $detail->text() != 'very';
             })
-            ->filter(function (Detail $match) {
-                return $match->text() != 'mate';
+            ->filter(function (Detail $detail) {
+                return $detail->text() != 'mate';
             })
             ->all();
 
@@ -253,9 +253,9 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $invokedFor = [];
-        $pattern = $this->matchPattern('\w+', 'One two three four five six', function (Detail $match) use (&$invokedFor) {
-            $invokedFor[] = $match->text();
-            return $match->text() === 'four';
+        $pattern = $this->matchPattern('\w+', 'One two three four five six', function (Detail $detail) use (&$invokedFor) {
+            $invokedFor[] = $detail->text();
+            return $detail->text() === 'four';
         });
 
         // when
@@ -273,9 +273,9 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $invokedFor = [];
-        $pattern = $this->matchPattern('\w+', 'One two three four five six', function (Detail $match) use (&$invokedFor) {
-            $invokedFor[] = $match->text();
-            return $match->text() === 'four';
+        $pattern = $this->matchPattern('\w+', 'One two three four five six', function (Detail $detail) use (&$invokedFor) {
+            $invokedFor[] = $detail->text();
+            return $detail->text() === 'four';
         });
 
         // when
@@ -294,8 +294,8 @@ class FilteredMatchPatternTest extends TestCase
         // given
         $matchPattern = $this->standardMatchPattern_secondFiltered();
         $matches = [];
-        $callback = function (Detail $match) use (&$matches) {
-            $matches[] = $match->text();
+        $callback = function (Detail $detail) use (&$matches) {
+            $matches[] = $detail->text();
         };
 
         // when
@@ -326,22 +326,22 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern_secondFiltered(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'first second third fourth', function (Detail $match) {
-            return $match->index() != 1;
+        return $this->matchPattern('[a-z]+', 'first second third fourth', function (Detail $detail) {
+            return $detail->index() != 1;
         });
     }
 
     private function standardMatchPattern_firstFiltered(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'first second third fourth', function (Detail $match) {
-            return $match->index() > 0;
+        return $this->matchPattern('[a-z]+', 'first second third fourth', function (Detail $detail) {
+            return $detail->index() > 0;
         });
     }
 
     private function standardMatchPattern_group(string $subject, string $filteredOut): AbstractMatchPattern
     {
-        return $this->matchPattern('(?<capital>[A-Z])[a-z]+', $subject, function (Detail $match) use ($filteredOut) {
-            return $match->text() !== $filteredOut;
+        return $this->matchPattern('(?<capital>[A-Z])[a-z]+', $subject, function (Detail $detail) use ($filteredOut) {
+            return $detail->text() !== $filteredOut;
         });
     }
 

@@ -12,11 +12,11 @@ class MatchPatternTest extends TestCase
     public function shouldGetText()
     {
         // given
-        $match = $this->match();
+        $detail = $this->detail();
 
         // when
-        $declared = $match->group('group');
-        $parsed = $match->usingDuplicateName()->group('group');
+        $declared = $detail->group('group');
+        $parsed = $detail->usingDuplicateName()->group('group');
 
         // then
         $this->assertEquals('One', $declared->text());
@@ -29,11 +29,11 @@ class MatchPatternTest extends TestCase
     public function shouldGetOffset()
     {
         // given
-        $match = $this->match();
+        $detail = $this->detail();
 
         // when
-        $declared = $match->group('group');
-        $parsed = $match->usingDuplicateName()->group('group');
+        $declared = $detail->group('group');
+        $parsed = $detail->usingDuplicateName()->group('group');
 
         // then
         $this->assertEquals(0, $declared->offset());
@@ -46,11 +46,11 @@ class MatchPatternTest extends TestCase
     public function shouldGetName()
     {
         // given
-        $match = $this->match();
+        $detail = $this->detail();
 
         // when
-        $declared = $match->group('group');
-        $parsed = $match->usingDuplicateName()->group('group');
+        $declared = $detail->group('group');
+        $parsed = $detail->usingDuplicateName()->group('group');
 
         // then
         $this->assertEquals('group', $declared->name());
@@ -63,16 +63,16 @@ class MatchPatternTest extends TestCase
     public function shouldGetIndex()
     {
         // given
-        $match = $this->match();
+        $detail = $this->detail();
 
         // when
-        $declared = $match->group('group');
+        $declared = $detail->group('group');
 
         // then
         $this->assertEquals(1, $declared->index());
     }
 
-    public function match(): Detail
+    public function detail(): Detail
     {
         return pattern('(?<group>One)(?<group>Two)', 'J')
             ->match('OneTwo')

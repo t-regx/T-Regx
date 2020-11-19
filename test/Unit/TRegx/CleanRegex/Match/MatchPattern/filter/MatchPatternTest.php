@@ -20,8 +20,8 @@ class MatchPatternTest extends TestCase
 
         // when
         $first = $pattern
-            ->filter(function (Detail $match) {
-                return strlen($match) > 4;
+            ->filter(function (Detail $detail) {
+                return strlen($detail) > 4;
             })
             ->all();
 

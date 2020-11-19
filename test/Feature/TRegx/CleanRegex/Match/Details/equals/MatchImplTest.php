@@ -12,8 +12,8 @@ class MatchImplTest extends TestCase
     public function shouldEqual_findFirst()
     {
         // given
-        pattern('Foo(Bar)')->match('FooBar')->findFirst(function (Detail $match) {
-            $this->assertTrue($match->group(1)->equals('Bar'));
+        pattern('Foo(Bar)')->match('FooBar')->findFirst(function (Detail $detail) {
+            $this->assertTrue($detail->group(1)->equals('Bar'));
         });
     }
 
@@ -23,8 +23,8 @@ class MatchImplTest extends TestCase
     public function shouldNotEqual_findFirst_forUnequal()
     {
         // given
-        pattern('Foo(Bar)')->match('FooBar')->findFirst(function (Detail $match) {
-            $this->assertFalse($match->group(1)->equals('something else'));
+        pattern('Foo(Bar)')->match('FooBar')->findFirst(function (Detail $detail) {
+            $this->assertFalse($detail->group(1)->equals('something else'));
         });
     }
 
@@ -34,8 +34,8 @@ class MatchImplTest extends TestCase
     public function shouldNotEqual_findFirst_forUnmatchedGroup()
     {
         // given
-        pattern('Foo(Bar)?')->match('Foo')->findFirst(function (Detail $match) {
-            $this->assertFalse($match->group(1)->equals('irrelevant'));
+        pattern('Foo(Bar)?')->match('Foo')->findFirst(function (Detail $detail) {
+            $this->assertFalse($detail->group(1)->equals('irrelevant'));
         });
     }
 }

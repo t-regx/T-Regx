@@ -15,8 +15,8 @@ class MatchImplTest extends TestCase
         // when
         $groups = pattern('([a-z]+)(?:\((\d*)\))?')
             ->match('sin(20) + cos() + tan')
-            ->map(function (Detail $match) {
-                return $match->groups()->texts();
+            ->map(function (Detail $detail) {
+                return $detail->groups()->texts();
             });
 
         // then
@@ -36,9 +36,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $groupNames = $match->namedGroups()->texts();
+                $groupNames = $detail->namedGroups()->texts();
 
                 // then
                 $expected = [
@@ -57,10 +57,10 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first ę) and (?<two>second)')
             ->match('first ę and second')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $offsets = $match->groups()->offsets();
-                $byteOffsets = $match->groups()->byteOffsets();
+                $offsets = $detail->groups()->offsets();
+                $byteOffsets = $detail->groups()->byteOffsets();
 
                 // then
                 $this->assertEquals([0, 12], $offsets);
@@ -76,10 +76,10 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first ę) and (?<two>second)')
             ->match('first ę and second')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $offsets = $match->namedGroups()->offsets();
-                $byteOffsets = $match->namedGroups()->byteOffsets();
+                $offsets = $detail->namedGroups()->offsets();
+                $byteOffsets = $detail->namedGroups()->byteOffsets();
 
                 // then
                 $this->assertEquals(['one' => 0, 'two' => 12], $offsets);
@@ -95,9 +95,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) (and) (?<two>second)')
             ->match('first and second')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $groupNames = $match->groupNames();
+                $groupNames = $detail->groupNames();
 
                 // then
                 $this->assertEquals(['one', null, 'two'], $groupNames);
@@ -112,9 +112,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) and (second)')
             ->match('first and second')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $groupsCount = $match->groupsCount();
+                $groupsCount = $detail->groupsCount();
 
                 // then
                 $this->assertEquals(2, $groupsCount);
@@ -129,9 +129,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $has = $match->hasGroup('nonexistent');
+                $has = $detail->hasGroup('nonexistent');
 
                 // then
                 $this->assertFalse($has);
@@ -146,9 +146,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<existing>first) and (?<two_existing>second)')
             ->match('first and second')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $has = $match->hasGroup('existing');
+                $has = $detail->hasGroup('existing');
 
                 // then
                 $this->assertTrue($has);
@@ -163,10 +163,10 @@ class MatchImplTest extends TestCase
         // given
         pattern('(zero) (?<existing>first) and (?<two_existing>second)')
             ->match('zero first and second')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $groupNames = $match->groups()->names();
-                $namedGroups = $match->namedGroups()->names();
+                $groupNames = $detail->groups()->names();
+                $namedGroups = $detail->namedGroups()->names();
 
                 // then
                 $this->assertEquals([null, 'existing', 'two_existing'], $groupNames);
@@ -182,10 +182,10 @@ class MatchImplTest extends TestCase
         // given
         pattern('(zero) (?<existing>first) and (?<two_existing>second)')
             ->match('zero first and second')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $groups = $match->groups()->count();
-                $namedGroups = $match->namedGroups()->count();
+                $groups = $detail->groups()->count();
+                $namedGroups = $detail->namedGroups()->count();
 
                 // then
                 $this->assertEquals(3, $groups);
@@ -205,9 +205,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $match->hasGroup('2sd');
+                $detail->hasGroup('2sd');
             });
     }
 }

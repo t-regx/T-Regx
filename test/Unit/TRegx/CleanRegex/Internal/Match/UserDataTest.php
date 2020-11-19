@@ -15,13 +15,13 @@ class UserDataTest extends TestCase
     {
         // given
         $container = new UserData();
-        $match = $this->createMockWithByteOffset(14);
+        $detail = $this->createMockWithByteOffset(14);
         $otherMatch = $this->createMockWithByteOffset(15);
 
         // when
-        $container->set($match, false);
+        $container->set($detail, false);
         $container->set($otherMatch, 'value 2');
-        $result = $container->get($match);
+        $result = $container->get($detail);
 
         // then
         $this->assertFalse($result);
@@ -34,20 +34,20 @@ class UserDataTest extends TestCase
     {
         // given
         $container = new UserData();
-        $match = $this->createMockWithByteOffset(14);
+        $detail = $this->createMockWithByteOffset(14);
 
         // when
-        $result = $container->get($match);
+        $result = $container->get($detail);
 
         // then
         $this->assertNull($result);
     }
 
-    private function createMockWithByteOffset(int $byteOffset)
+    private function createMockWithByteOffset(int $byteOffset): Detail
     {
-        /** @var Detail|MockObject $match */
-        $match = $this->createMock(Detail::class);
-        $match->method('byteOffset')->willReturn($byteOffset);
-        return $match;
+        /** @var Detail|MockObject $detail */
+        $detail = $this->createMock(Detail::class);
+        $detail->method('byteOffset')->willReturn($byteOffset);
+        return $detail;
     }
 }

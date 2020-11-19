@@ -39,8 +39,8 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern();
 
         // when
-        $all = $matchPattern->first(function (Detail $match) {
-            return $match->all();
+        $all = $matchPattern->first(function (Detail $detail) {
+            return $detail->all();
         });
 
         // then
@@ -56,8 +56,8 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern();
 
         // when
-        $all = $matchPattern->first(function (Detail $match) {
-            return $match->group(0)->all();
+        $all = $matchPattern->first(function (Detail $detail) {
+            return $detail->group(0)->all();
         });
 
         // then
@@ -118,8 +118,8 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $invoked = [];
-        $matchPattern = $this->matchPattern('\w+', 'One, two, three, four, five', function (Detail $match) use (&$invoked) {
-            $invoked[] = $match->text();
+        $matchPattern = $this->matchPattern('\w+', 'One, two, three, four, five', function (Detail $detail) use (&$invoked) {
+            $invoked[] = $detail->text();
             return true;
         });
 
@@ -132,15 +132,15 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern_notFirst(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $match) {
-            return $match->index() > 0;
+        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $detail) {
+            return $detail->index() > 0;
         });
     }
 
     private function standardMatchPattern(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $match) {
-            return $match->index() != 1;
+        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $detail) {
+            return $detail->index() != 1;
         });
     }
 

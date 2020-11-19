@@ -15,10 +15,10 @@ class ReplacePatternTest extends TestCase
         pattern('(zero) (?<existing>first) and (?<two_existing>second)')
             ->replace('zero first and second')
             ->all()
-            ->callback(function (Detail $match) {
+            ->callback(function (Detail $detail) {
                 // when
-                $groupNames = $match->groups()->names();
-                $namedGroups = $match->namedGroups()->names();
+                $groupNames = $detail->groups()->names();
+                $namedGroups = $detail->namedGroups()->names();
 
                 // then
                 $this->assertEquals([null, 'existing', 'two_existing'], $groupNames);
@@ -38,10 +38,10 @@ class ReplacePatternTest extends TestCase
         pattern('(zero) (?<existing>first) and (?<two_existing>second)')
             ->replace('zero first and second')
             ->all()
-            ->callback(function (Detail $match) {
+            ->callback(function (Detail $detail) {
                 // when
-                $groups = $match->groups()->count();
-                $namedGroups = $match->namedGroups()->count();
+                $groups = $detail->groups()->count();
+                $namedGroups = $detail->namedGroups()->count();
 
                 // then
                 $this->assertEquals(3, $groups);

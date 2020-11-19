@@ -15,9 +15,9 @@ class ReplacePatternTest extends TestCase
         pattern('(?<one>first) and (second)')
             ->replace('first and second')
             ->all()
-            ->callback(function (Detail $match) {
+            ->callback(function (Detail $detail) {
                 // when
-                $groupsCount = $match->groupsCount();
+                $groupsCount = $detail->groupsCount();
 
                 // then
                 $this->assertEquals(2, $groupsCount);

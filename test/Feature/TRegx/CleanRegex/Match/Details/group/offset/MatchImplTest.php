@@ -14,11 +14,10 @@ class MatchImplTest extends TestCase
         // when
         pattern('(?<capital>[A-Z])(?<lowercase>[a-z]{3,})')
             ->match('Cześć, Tomek')
-            ->first(function (Detail $match) {
-
+            ->first(function (Detail $detail) {
                 // when
-                $offset = $match->group('lowercase')->offset();
-                $byteOffset = $match->group('lowercase')->byteOffset();
+                $offset = $detail->group('lowercase')->offset();
+                $byteOffset = $detail->group('lowercase')->byteOffset();
 
                 // then
                 $this->assertEquals(8, $offset);
@@ -34,12 +33,12 @@ class MatchImplTest extends TestCase
         // when
         pattern('(?<capital>[A-Z])(?<lowercase>[a-z]{3,})')
             ->match('Cześć, Tomek i Kamil')
-            ->forEach(function (Detail $match) {
-                if ($match->index() !== 1) return;
+            ->forEach(function (Detail $detail) {
+                if ($detail->index() !== 1) return;
 
                 // when
-                $offset = $match->group('lowercase')->offset();
-                $byteOffset = $match->group('lowercase')->byteOffset();
+                $offset = $detail->group('lowercase')->offset();
+                $byteOffset = $detail->group('lowercase')->byteOffset();
 
                 // then
                 $this->assertEquals(16, $offset);

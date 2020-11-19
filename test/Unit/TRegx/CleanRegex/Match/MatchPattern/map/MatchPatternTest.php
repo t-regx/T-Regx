@@ -35,12 +35,12 @@ class MatchPatternTest extends TestCase
         $matches = ['Nice', 'matching', 'pattern'];
 
         // when
-        $pattern->map(function (Detail $match) use (&$counter, $matches) {
+        $pattern->map(function (Detail $detail) use (&$counter, $matches) {
             // then
-            $this->assertEquals($matches[$counter], $match->text());
-            $this->assertEquals($counter++, $match->index());
-            $this->assertEquals("Nice matching pattern", $match->subject());
-            $this->assertEquals($matches, $match->all());
+            $this->assertEquals($matches[$counter], $detail->text());
+            $this->assertEquals($counter++, $detail->index());
+            $this->assertEquals("Nice matching pattern", $detail->subject());
+            $this->assertEquals($matches, $detail->all());
         });
     }
 

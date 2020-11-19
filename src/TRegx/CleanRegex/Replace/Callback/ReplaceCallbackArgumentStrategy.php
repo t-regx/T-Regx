@@ -5,5 +5,5 @@ use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
 interface ReplaceCallbackArgumentStrategy
 {
-    public function mapArgument(ReplaceDetail $match);
+    public function mapArgument(ReplaceDetail $detail);
 }

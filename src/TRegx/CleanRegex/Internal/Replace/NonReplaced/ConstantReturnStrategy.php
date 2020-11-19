@@ -18,7 +18,7 @@ class ConstantReturnStrategy implements SubjectRs, MatchRs
         return $this->constant;
     }
 
-    public function substituteGroup(Detail $match): string
+    public function substituteGroup(Detail $detail): string
     {
         return $this->constant;
     }

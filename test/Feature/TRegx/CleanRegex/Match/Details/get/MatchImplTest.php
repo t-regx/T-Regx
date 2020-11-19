@@ -15,9 +15,9 @@ class MatchImplTest extends TestCase
     public function shouldGetGroup()
     {
         // given
-        pattern('Hello (?<one>there)')->match('Hello there, General Kenobi')->first(function (Detail $match) {
+        pattern('Hello (?<one>there)')->match('Hello there, General Kenobi')->first(function (Detail $detail) {
             // when
-            $group = $match->get('one');
+            $group = $detail->get('one');
 
             // then
             $this->assertSame('there', $group);
@@ -37,13 +37,13 @@ class MatchImplTest extends TestCase
         $this->expectExceptionMessage("Expected to get group 'one', but the group was not matched");
 
         // given
-        pattern($pattern)->match($subject)->first(function (Detail $match) {
+        pattern($pattern)->match($subject)->first(function (Detail $detail) {
             // when
-            $match->get('one');
+            $detail->get('one');
         });
     }
 
-    public function shouldGroup_notMatch_dataProvider()
+    public function shouldGroup_notMatch_dataProvider(): array
     {
         return [
             ['Hello (?<one>there)?', 'Hello XX, General Kenobi'],
@@ -61,9 +61,9 @@ class MatchImplTest extends TestCase
         $this->expectExceptionMessage("Nonexistent group: 'two'");
 
         // given
-        pattern('(?<one>hello)')->match('hello')->first(function (Detail $match) {
+        pattern('(?<one>hello)')->match('hello')->first(function (Detail $detail) {
             // when
-            $match->get('two');
+            $detail->get('two');
         });
     }
 
@@ -79,9 +79,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $match->group(true);
+                $detail->group(true);
             });
     }
 }

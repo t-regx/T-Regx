@@ -18,9 +18,9 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('-?\w+')
             ->match($string)
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->toInt();
+                return $detail->toInt();
             });
 
         // then
@@ -51,9 +51,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('.*', 's')
             ->match('1e3')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->toInt();
+                return $detail->toInt();
             });
     }
 
@@ -67,11 +67,9 @@ class MatchImplTest extends TestCase
         $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer");
 
         // given
-        pattern('\w+')
-            ->match('Foo bar')
-            ->first(function (Detail $match) {
-                // when
-                return $match->toInt();
-            });
+        pattern('\w+')->match('Foo bar')->first(function (Detail $detail) {
+            // when
+            return $detail->toInt();
+        });
     }
 }

@@ -14,9 +14,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->forEach(function (Detail $match) {
+            ->forEach(function (Detail $detail) {
                 // when
-                $limit = $match->limit();
+                $limit = $detail->limit();
 
                 // then
                 $this->assertEquals(-1, $limit);
@@ -31,9 +31,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->map(function (Detail $match) {
+            ->map(function (Detail $detail) {
                 // when
-                $limit = $match->limit();
+                $limit = $detail->limit();
 
                 // then
                 $this->assertEquals(-1, $limit);
@@ -48,9 +48,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->flatMap(function (Detail $match) {
+            ->flatMap(function (Detail $detail) {
                 // when
-                $limit = $match->limit();
+                $limit = $detail->limit();
 
                 // then
                 $this->assertEquals(-1, $limit);
@@ -68,9 +68,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $limit = $match->limit();
+                $limit = $detail->limit();
 
                 // then
                 $this->assertEquals(1, $limit);
@@ -85,9 +85,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('\d+')
             ->match('111-222-333')
-            ->findFirst(function (Detail $match) {
+            ->findFirst(function (Detail $detail) {
                 // when
-                $limit = $match->limit();
+                $limit = $detail->limit();
 
                 // then
                 $this->assertEquals(1, $limit);

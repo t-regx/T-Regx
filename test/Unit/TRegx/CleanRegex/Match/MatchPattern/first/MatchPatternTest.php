@@ -64,12 +64,12 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('Nice matching pattern');
 
         // when
-        $pattern->first(function (Detail $match) {
+        $pattern->first(function (Detail $detail) {
             // then
-            $this->assertEquals(0, $match->index());
-            $this->assertEquals('Nice matching pattern', $match->subject());
-            $this->assertEquals(['Nice', 'matching', 'pattern'], $match->all());
-            $this->assertEquals(['N'], $match->groups()->texts());
+            $this->assertEquals(0, $detail->index());
+            $this->assertEquals('Nice matching pattern', $detail->subject());
+            $this->assertEquals(['Nice', 'matching', 'pattern'], $detail->all());
+            $this->assertEquals(['N'], $detail->groups()->texts());
         });
     }
 

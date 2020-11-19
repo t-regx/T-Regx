@@ -49,9 +49,9 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)
             ->replace($subject)
             ->first()
-            ->callback(function (ReplaceDetail $match) {
+            ->callback(function (ReplaceDetail $detail) {
                 // then
-                return $match->group('name'); // Should accept ReplaceDetailGroup as return type
+                return $detail->group('name');
             });
 
         // then
@@ -71,9 +71,9 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)
             ->replace($subject)
             ->first()
-            ->callback(function (ReplaceDetail $match) { // Testing this type-hint
+            ->callback(function (ReplaceDetail $detail) {
                 // then
-                return $match; // Should accept ReplaceDetail as return type
+                return $detail;
             });
 
         // then
@@ -93,9 +93,9 @@ class ReplacePatternTest extends TestCase
         pattern($pattern)
             ->replace($subject)
             ->first()
-            ->callback(function (ReplaceDetail $match) {
+            ->callback(function (ReplaceDetail $detail) {
                 // then
-                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->all());
+                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $detail->all());
 
                 return '';
             });

@@ -28,8 +28,8 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: http://google.com, http://other.org and http://website.org.';
 
         // when
-        $result = pattern($pattern)->replace($subject)->all()->callback(function (ReplaceDetail $match) {
-            return $match->group('name');
+        $result = pattern($pattern)->replace($subject)->all()->callback(function (ReplaceDetail $detail) {
+            return $detail->group('name');
         });
 
         // then
@@ -46,9 +46,9 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
 
         // when
-        pattern($pattern)->replace($subject)->all()->callback(function (ReplaceDetail $match) {
+        pattern($pattern)->replace($subject)->all()->callback(function (ReplaceDetail $detail) {
             // then
-            $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->all());
+            $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $detail->all());
 
             return '';
         });
@@ -65,8 +65,8 @@ class ReplacePatternTest extends TestCase
 
         $offsets = [];
 
-        $callback = function (ReplaceDetail $match) use (&$offsets) {
-            $offsets[] = $match->offset();
+        $callback = function (ReplaceDetail $detail) use (&$offsets) {
+            $offsets[] = $detail->offset();
             return 'ę';
         };
 
@@ -87,13 +87,13 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
 
         // when
-        pattern($pattern)->replace($subject)->all()->callback(function (ReplaceDetail $match) {
-            $matchGroup = $match->group('name');
+        pattern($pattern)->replace($subject)->all()->callback(function (ReplaceDetail $detail) {
+            $matchGroup = $detail->group('name');
             if ($matchGroup->text() !== 'other') return '';
 
             // then
-            $offset = $match->offset();
-            $groupOffset = $match->group('name')->offset();
+            $offset = $detail->offset();
+            $groupOffset = $detail->group('name')->offset();
 
             // when
             $this->assertEquals(29, $offset);

@@ -17,15 +17,15 @@ class MatchImplTest extends TestCase
         // given
         pattern('Hello (?<one>there)')
             ->match('Hello there, General Kenobi')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // then
-                $this->assertEquals('there', $match->group('one'));
-                $this->assertEquals('there', $match->group('one')->text());
-                $this->assertEquals(6, $match->group('one')->offset());
-                $this->assertTrue($match->group('one')->matched());
+                $this->assertEquals('there', $detail->group('one'));
+                $this->assertEquals('there', $detail->group('one')->text());
+                $this->assertEquals(6, $detail->group('one')->offset());
+                $this->assertTrue($detail->group('one')->matched());
 
-                $this->assertTrue($match->hasGroup('one'));
-                $this->assertFalse($match->hasGroup('two'));
+                $this->assertTrue($detail->hasGroup('one'));
+                $this->assertFalse($detail->hasGroup('two'));
             });
     }
 
@@ -37,10 +37,10 @@ class MatchImplTest extends TestCase
         // given
         pattern('(\p{L}+)', 'u')
             ->match('Łomża')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // then
-                $this->assertEquals('Łomża', $match->group(1)->text());
-                $this->assertEquals(5, $match->group(1)->textLength());
+                $this->assertEquals('Łomża', $detail->group(1)->text());
+                $this->assertEquals(5, $detail->group(1)->textLength());
             });
     }
 
@@ -52,10 +52,10 @@ class MatchImplTest extends TestCase
         // given
         pattern('Hello (?<one>there|here)?')
             ->match('Hello there, General Kenobi, maybe Hello and Hello here')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $all = $match->all();
-                $groupAll = $match->group('one')->all();
+                $all = $detail->all();
+                $groupAll = $detail->group('one')->all();
 
                 // then
                 $this->assertEquals(['Hello there', 'Hello ', 'Hello here'], $all);
@@ -71,9 +71,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('Hello (?<one>there|here)?')
             ->match('Hello , General Kenobi, maybe Hello there and Hello here')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $groupAll = $match->group('one')->all();
+                $groupAll = $detail->group('one')->all();
 
                 // then
                 $this->assertEquals([null, 'there', 'here'], $groupAll);
@@ -88,10 +88,10 @@ class MatchImplTest extends TestCase
         // when
         pattern('Hello (?<one>there|here|)')
             ->match('Hello there, General Kenobi, maybe Hello and Hello here')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $all = $match->all();
-                $groupAll = $match->group('one')->all();
+                $all = $detail->all();
+                $groupAll = $detail->group('one')->all();
 
                 // then
                 $this->assertEquals(['Hello there', 'Hello ', 'Hello here'], $all);
@@ -108,8 +108,8 @@ class MatchImplTest extends TestCase
     public function shouldGroup_notMatch(string $pattern, string $subject)
     {
         // given
-        pattern($pattern)->match($subject)->first(function (Detail $match) {
-            $group = $match->group('one');
+        pattern($pattern)->match($subject)->first(function (Detail $detail) {
+            $group = $detail->group('one');
 
             // when
             $matches = $group->matched();
@@ -139,8 +139,8 @@ class MatchImplTest extends TestCase
         // when
         pattern('(?<one>hello)')
             ->match('hello')
-            ->first(function (Detail $match) {
-                $match->group('two');
+            ->first(function (Detail $detail) {
+                $detail->group('two');
             });
     }
 
@@ -156,9 +156,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $match->group(true);
+                $detail->group(true);
             });
     }
 
@@ -174,8 +174,8 @@ class MatchImplTest extends TestCase
         // when
         pattern('(?<group>Foo)?')
             ->match('Bar')
-            ->first(function (Detail $match) {
-                $match->group('group')->orThrow();
+            ->first(function (Detail $detail) {
+                $detail->group('group')->orThrow();
             });
     }
 }

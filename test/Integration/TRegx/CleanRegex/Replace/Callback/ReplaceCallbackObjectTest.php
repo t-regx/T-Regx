@@ -22,14 +22,14 @@ class ReplaceCallbackObjectTest extends TestCase
         $pattern = '/[a-z]+/';
         $subject = '...hello there, general kenobi';
 
-        $object = $this->create($pattern, $subject, 3, function (ReplaceDetail $match) use ($subject) {
+        $object = $this->create($pattern, $subject, 3, function (ReplaceDetail $detail) use ($subject) {
             // then
-            $this->assertEquals(['hello', 'there', 'general', 'kenobi'], $match->all());
-            $this->assertEquals($subject, $match->subject());
-            $this->assertEquals('hello', $match->text());
-            $this->assertEquals(0, $match->index());
-            $this->assertEquals(3, $match->offset());
-            $this->assertEquals(3, $match->modifiedOffset());
+            $this->assertEquals(['hello', 'there', 'general', 'kenobi'], $detail->all());
+            $this->assertEquals($subject, $detail->subject());
+            $this->assertEquals('hello', $detail->text());
+            $this->assertEquals(0, $detail->index());
+            $this->assertEquals(3, $detail->offset());
+            $this->assertEquals(3, $detail->modifiedOffset());
             return 'replacement';
         });
 
@@ -69,9 +69,9 @@ class ReplaceCallbackObjectTest extends TestCase
         $offsets = [];
         $modifiedOffsets = [];
 
-        $object = $this->create($pattern, $subject, 5, function (ReplaceDetail $match) use (&$offsets, &$modifiedOffsets) {
-            $offsets[] = $match->offset();
-            $modifiedOffsets[] = $match->modifiedOffset();
+        $object = $this->create($pattern, $subject, 5, function (ReplaceDetail $detail) use (&$offsets, &$modifiedOffsets) {
+            $offsets[] = $detail->offset();
+            $modifiedOffsets[] = $detail->modifiedOffset();
             return 'tiger';
         });
 
@@ -111,8 +111,8 @@ class ReplaceCallbackObjectTest extends TestCase
     public function shouldNotThrow_OnMatchGroupReplacement()
     {
         // given
-        $object = $this->create('/(?<g>\d)cm/', 'foo 2cm bar', 1, function (ReplaceDetail $match) {
-            return $match->group('g');
+        $object = $this->create('/(?<g>\d)cm/', 'foo 2cm bar', 1, function (ReplaceDetail $detail) {
+            return $detail->group('g');
         });
 
         // when

@@ -14,10 +14,10 @@ trait MatchPatternHelpers
     public function tuple($nameOrIndex1, $nameOrIndex2): array
     {
         return $this
-            ->findFirst(function (Detail $match) use ($nameOrIndex1, $nameOrIndex2) {
+            ->findFirst(function (Detail $detail) use ($nameOrIndex1, $nameOrIndex2) {
                 return [
-                    $match->group($nameOrIndex1)->orReturn(null),
-                    $match->group($nameOrIndex2)->orReturn(null),
+                    $detail->group($nameOrIndex1)->orReturn(null),
+                    $detail->group($nameOrIndex2)->orReturn(null),
                 ];
             })
             ->orElse(function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2) {
@@ -32,11 +32,11 @@ trait MatchPatternHelpers
     public function triple($nameOrIndex1, $nameOrIndex2, $nameOrIndex3): array
     {
         return $this
-            ->findFirst(function (Detail $match) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
+            ->findFirst(function (Detail $detail) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
                 return [
-                    $match->group($nameOrIndex1)->orReturn(null),
-                    $match->group($nameOrIndex2)->orReturn(null),
-                    $match->group($nameOrIndex3)->orReturn(null),
+                    $detail->group($nameOrIndex1)->orReturn(null),
+                    $detail->group($nameOrIndex2)->orReturn(null),
+                    $detail->group($nameOrIndex3)->orReturn(null),
                 ];
             })
             ->orElse(function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {

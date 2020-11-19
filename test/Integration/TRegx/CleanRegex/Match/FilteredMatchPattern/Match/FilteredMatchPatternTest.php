@@ -22,8 +22,8 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_one();
 
         // when
-        $all = $matchPattern->first(function (Detail $match) {
-            return $match->all();
+        $all = $matchPattern->first(function (Detail $detail) {
+            return $detail->all();
         });
 
         // then
@@ -39,8 +39,8 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_one();
 
         // when
-        $all = $matchPattern->first(function (Detail $match) {
-            return $match->group(1)->all();
+        $all = $matchPattern->first(function (Detail $detail) {
+            return $detail->group(1)->all();
         });
 
         // then
@@ -49,8 +49,8 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern_one(): AbstractMatchPattern
     {
-        return $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', function (Detail $match) {
-            return $match->index() == 1;
+        return $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', function (Detail $detail) {
+            return $detail->index() == 1;
         });
     }
 
@@ -63,8 +63,8 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_two();
 
         // when
-        $all = $matchPattern->first(function (Detail $match) {
-            return $match->all();
+        $all = $matchPattern->first(function (Detail $detail) {
+            return $detail->all();
         });
 
         // then
@@ -80,8 +80,8 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern = $this->standardMatchPattern_two();
 
         // when
-        $all = $matchPattern->first(function (Detail $match) {
-            return $match->group(1)->all();
+        $all = $matchPattern->first(function (Detail $detail) {
+            return $detail->group(1)->all();
         });
 
         // then
@@ -90,8 +90,8 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern_two(): AbstractMatchPattern
     {
-        return $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', function (Detail $match) {
-            return $match->index() > 0;
+        return $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', function (Detail $detail) {
+            return $detail->index() > 0;
         });
     }
 

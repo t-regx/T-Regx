@@ -98,8 +98,8 @@ class DataProviders
             'orElseIgnore'  => ['orElseIgnore', []],
             'orElseEmpty'   => ['orElseEmpty', []],
             'orElseWith'    => ['orElseWith', ['word']],
-            'orElseCalling' => ['orElseCalling', [function (Detail $match) {
-                return "fallback: '$match'";
+            'orElseCalling' => ['orElseCalling', [function (Detail $detail) {
+                return "fallback: '$detail'";
             }]],
         ];
     }

@@ -16,9 +16,9 @@ class Predicate
         $this->predicate = $predicate;
     }
 
-    public function test(Detail $match): bool
+    public function test(Detail $detail): bool
     {
-        $result = call_user_func($this->predicate, $match);
+        $result = call_user_func($this->predicate, $detail);
         if (is_bool($result)) {
             return $result;
         }

@@ -14,8 +14,8 @@ class MatchGroupStrategy implements ReplaceCallbackArgumentStrategy
         $this->nameOrIndex = $nameOrIndex;
     }
 
-    public function mapArgument(ReplaceDetail $match): ReplaceDetailGroup
+    public function mapArgument(ReplaceDetail $detail): ReplaceDetailGroup
     {
-        return $match->group($this->nameOrIndex);
+        return $detail->group($this->nameOrIndex);
     }
 }

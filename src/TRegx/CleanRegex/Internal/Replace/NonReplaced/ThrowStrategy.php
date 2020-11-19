@@ -20,8 +20,8 @@ class ThrowStrategy implements SubjectRs, MatchRs
         throw $this->factory->create($subject);
     }
 
-    public function substituteGroup(Detail $match): string
+    public function substituteGroup(Detail $detail): string
     {
-        throw $this->factory->create($match->subject());
+        throw $this->factory->create($detail->subject());
     }
 }

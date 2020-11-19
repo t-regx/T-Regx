@@ -22,10 +22,10 @@ class LazyMatchImplTest extends TestCase
     public function testMethod(string $method, array $arguments, $expected)
     {
         // given
-        $match = $this->match();
+        $detail = $this->detail();
 
         // when
-        $result = $match->$method(...$arguments);
+        $result = $detail->$method(...$arguments);
 
         // then
         $this->assertEquals($expected, $result);
@@ -49,10 +49,10 @@ class LazyMatchImplTest extends TestCase
     public function shouldText_castToString()
     {
         // given
-        $match = $this->match();
+        $detail = $this->detail();
 
         // when
-        $result = (string)$match;
+        $result = (string)$detail;
 
         // then
         $this->assertEquals('word', $result);
@@ -64,11 +64,11 @@ class LazyMatchImplTest extends TestCase
     public function shouldIndex()
     {
         // given
-        $match = $this->matchWithIndex('\w+', 'One, two, three', 2);
+        $detail = $this->detailWithIndex('\w+', 'One, two, three', 2);
 
         // when
-        $text = $match->text();
-        $index = $match->index();
+        $text = $detail->text();
+        $index = $detail->index();
 
         // then
         $this->assertEquals('three', $text);
@@ -81,10 +81,10 @@ class LazyMatchImplTest extends TestCase
     public function shouldToInt()
     {
         // given
-        $match = $this->match('\d+', '123cm');
+        $detail = $this->detail('\d+', '123cm');
 
         // when
-        $int = $match->toInt();
+        $int = $detail->toInt();
 
         // then
         $this->assertEquals(123, $int);
@@ -96,10 +96,10 @@ class LazyMatchImplTest extends TestCase
     public function shouldGetGroupNames()
     {
         // given
-        $match = $this->match('!(?<first>one)(?<second>two)!', '!onetwo!');
+        $detail = $this->detail('!(?<first>one)(?<second>two)!', '!onetwo!');
 
         // when
-        $result = $match->groupNames();
+        $result = $detail->groupNames();
 
         // then
         $this->assertEquals(['first', 'second'], $result);
@@ -111,10 +111,10 @@ class LazyMatchImplTest extends TestCase
     public function shouldGetGroupsCount()
     {
         // given
-        $match = $this->match('!(?<first>one)(?<second>two)!', '!onetwo!');
+        $detail = $this->detail('!(?<first>one)(?<second>two)!', '!onetwo!');
 
         // when
-        $count = $match->groupsCount();
+        $count = $detail->groupsCount();
 
         // then
         $this->assertEquals(2, $count);
@@ -126,10 +126,10 @@ class LazyMatchImplTest extends TestCase
     public function shouldHasGroup_true()
     {
         // given
-        $match = $this->match('!(?<first>one)(?<second>two)!', '!onetwo!');
+        $detail = $this->detail('!(?<first>one)(?<second>two)!', '!onetwo!');
 
         // when
-        $hasGroup = $match->hasGroup('second');
+        $hasGroup = $detail->hasGroup('second');
 
         // then
         $this->assertTrue($hasGroup);
@@ -141,10 +141,10 @@ class LazyMatchImplTest extends TestCase
     public function shouldHasGroup_false()
     {
         // given
-        $match = $this->match('!(?<first>one)(?<second>two)!', '!onetwo!');
+        $detail = $this->detail('!(?<first>one)(?<second>two)!', '!onetwo!');
 
         // when
-        $hasGroup = $match->hasGroup('foo');
+        $hasGroup = $detail->hasGroup('foo');
 
         // then
         $this->assertFalse($hasGroup);
@@ -156,10 +156,10 @@ class LazyMatchImplTest extends TestCase
     public function shouldIsInt_true()
     {
         // given
-        $match = $this->match('\d+', '!123!');
+        $detail = $this->detail('\d+', '!123!');
 
         // when
-        $isInt = $match->isInt();
+        $isInt = $detail->isInt();
 
         // then
         $this->assertTrue($isInt);
@@ -171,10 +171,10 @@ class LazyMatchImplTest extends TestCase
     public function shouldIsInt_false()
     {
         // given
-        $match = $this->match('\w+', '!123e4!');
+        $detail = $this->detail('\w+', '!123e4!');
 
         // when
-        $isInt = $match->isInt();
+        $isInt = $detail->isInt();
 
         // then
         $this->assertFalse($isInt);
@@ -186,10 +186,10 @@ class LazyMatchImplTest extends TestCase
     public function shouldGetGroup()
     {
         // given
-        $match = $this->match('!(?<first>one)!', '!one!');
+        $detail = $this->detail('!(?<first>one)!', '!one!');
 
         // when
-        $result = $match->group('first')->text();
+        $result = $detail->group('first')->text();
 
         // then
         $this->assertEquals('one', $result);
@@ -201,10 +201,10 @@ class LazyMatchImplTest extends TestCase
     public function shouldGetGroups()
     {
         // given
-        $match = $this->match('(one)(two)?', 'one');
+        $detail = $this->detail('(one)(two)?', 'one');
 
         // when
-        $result = $match->groups()->texts();
+        $result = $detail->groups()->texts();
 
         // then
         $this->assertEquals(['one', null], $result);
@@ -216,10 +216,10 @@ class LazyMatchImplTest extends TestCase
     public function shouldGetNamedGroups()
     {
         // given
-        $match = $this->match('!(?<first>one)(?<second>two)!', '!onetwo!');
+        $detail = $this->detail('!(?<first>one)(?<second>two)!', '!onetwo!');
 
         // when
-        $result = $match->namedGroups()->texts();
+        $result = $detail->namedGroups()->texts();
 
         // then
         $this->assertEquals(['first' => 'one', 'second' => 'two'], $result);
@@ -231,11 +231,11 @@ class LazyMatchImplTest extends TestCase
     public function shouldGetUserData()
     {
         // given
-        $match = $this->match();
+        $detail = $this->detail();
 
         // when
-        $match->setUserData('welcome');
-        $result = $match->getUserData();
+        $detail->setUserData('welcome');
+        $result = $detail->getUserData();
 
         // then
         $this->assertEquals('welcome', $result);
@@ -247,11 +247,11 @@ class LazyMatchImplTest extends TestCase
     public function shouldGetOffset()
     {
         // given
-        $match = $this->match('2', '€ 2');
+        $detail = $this->detail('2', '€ 2');
 
         // when
-        $offset = $match->offset();
-        $byteOffset = $match->byteOffset();
+        $offset = $detail->offset();
+        $byteOffset = $detail->byteOffset();
 
         // then
         $this->assertEquals(2, $offset);
@@ -264,11 +264,11 @@ class LazyMatchImplTest extends TestCase
     public function shouldGetTail()
     {
         // given
-        $match = $this->match('2ę', '€ 2ę');
+        $detail = $this->detail('2ę', '€ 2ę');
 
         // when
-        $tail = $match->tail();
-        $byteTail = $match->byteTail();
+        $tail = $detail->tail();
+        $byteTail = $detail->byteTail();
 
         // then
         $this->assertEquals(4, $tail);
@@ -281,12 +281,12 @@ class LazyMatchImplTest extends TestCase
     public function shouldCallBaseOnce()
     {
         // given
-        $match = new LazyDetailImpl($this->baseMock(), 0, -1);
+        $detail = new LazyDetailImpl($this->baseMock(), 0, -1);
 
         // when
-        $match->text();
-        $match->get(0);
-        $match->offset();
+        $detail->text();
+        $detail->get(0);
+        $detail->offset();
     }
 
     /**
@@ -297,23 +297,23 @@ class LazyMatchImplTest extends TestCase
         // given
         $pattern = '(?<group>One)(?<group>Two)';
         $subject = 'OneTwo';
-        $match = new LazyDetailImpl(new ApiBase(InternalPattern::standard($pattern, 'J'), $subject, new UserData()), 0, -1);
+        $detail = new LazyDetailImpl(new ApiBase(InternalPattern::standard($pattern, 'J'), $subject, new UserData()), 0, -1);
 
         // when
-        $text1 = $match->group('group')->text();
-        $text2 = $match->usingDuplicateName()->group('group')->text();
+        $text1 = $detail->group('group')->text();
+        $text2 = $detail->usingDuplicateName()->group('group')->text();
 
         // then
         $this->assertEquals('One', $text1);
         $this->assertEquals('Two', $text2);
     }
 
-    private function match(string $pattern = '\b[a-z]+', string $subject = 'Word: word two three'): LazyDetailImpl
+    private function detail(string $pattern = '\b[a-z]+', string $subject = 'Word: word two three'): LazyDetailImpl
     {
-        return $this->matchWithIndex($pattern, $subject, 0);
+        return $this->detailWithIndex($pattern, $subject, 0);
     }
 
-    private function matchWithIndex(string $pattern, string $subject, int $index): LazyDetailImpl
+    private function detailWithIndex(string $pattern, string $subject, int $index): LazyDetailImpl
     {
         return new LazyDetailImpl(new ApiBase(InternalPattern::standard($pattern, 'u'), $subject, new UserData()), $index, 14);
     }

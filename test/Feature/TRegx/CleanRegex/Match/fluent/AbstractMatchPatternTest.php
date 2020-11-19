@@ -5,8 +5,8 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class AbstractMatchPatternTest extends TestCase
 {
@@ -19,15 +19,15 @@ class AbstractMatchPatternTest extends TestCase
         $result = pattern("(?<capital>[A-Z])?[\w']+")
             ->match("I'm rather old, He likes Apples")
             ->fluent()
-            ->filter(function (Detail $match) {
-                return $match->textLength() !== 3;
+            ->filter(function (Detail $detail) {
+                return $detail->textLength() !== 3;
             })
-            ->map(function (Detail $match) {
-                return $match->group('capital');
+            ->map(function (Detail $detail) {
+                return $detail->group('capital');
             })
-            ->map(function (DetailGroup $matchGroup) {
-                if ($matchGroup->matched()) {
-                    return "yes: $matchGroup";
+            ->map(function (DetailGroup $detailGroup) {
+                if ($detailGroup->matched()) {
+                    return "yes: $detailGroup";
                 }
                 return "no";
             })
@@ -46,11 +46,11 @@ class AbstractMatchPatternTest extends TestCase
         $result = pattern("\w+")
             ->match("Lorem ipsum dolor emet")
             ->fluent()
-            ->filter(function (Detail $match) {
-                return !in_array($match->text(), ['Lorem', 'ipsum']);
+            ->filter(function (Detail $detail) {
+                return !in_array($detail->text(), ['Lorem', 'ipsum']);
             })
-            ->map(function (Detail $match) {
-                return $match->text();
+            ->map(function (Detail $detail) {
+                return $detail->text();
             })
             ->nth(1);
 
@@ -67,17 +67,17 @@ class AbstractMatchPatternTest extends TestCase
         pattern("\w+")
             ->match("Foo, Bar")
             ->fluent()
-            ->filter(function (Detail $match) {
+            ->filter(function (Detail $detail) {
                 // when
-                $match->setUserData($match === 'Foo' ? 'hey' : 'hello');
+                $detail->setUserData($detail === 'Foo' ? 'hey' : 'hello');
 
                 return true;
             })
-            ->forEach(function (Detail $match) {
+            ->forEach(function (Detail $detail) {
                 // then
-                $userData = $match->getUserData();
+                $userData = $detail->getUserData();
 
-                $this->assertEquals($match === 'Foo' ? 'hey' : 'hello', $userData);
+                $this->assertEquals($detail === 'Foo' ? 'hey' : 'hello', $userData);
             });
     }
 
@@ -90,10 +90,10 @@ class AbstractMatchPatternTest extends TestCase
         pattern("(?<capital>[A-Z])?[\w']+")
             ->match("I'm rather old, He likes Apples")
             ->fluent()
-            ->filter(function (Detail $match) {
-                return $match->textLength() !== 3;
+            ->filter(function (Detail $detail) {
+                return $detail->textLength() !== 3;
             })
-            ->findFirst(function (Detail $match) {
+            ->findFirst(function (Detail $detail) {
                 $this->assertTrue(true);
             })
             ->orThrow();

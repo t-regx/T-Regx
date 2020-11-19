@@ -15,9 +15,9 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('(?<name>-?\w+)')
             ->match('11')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->group(1)->isInt();
+                return $detail->group(1)->isInt();
             });
 
         // then
@@ -32,9 +32,9 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('(.*)', 's')
             ->match('1e3')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->group(1)->isInt();
+                return $detail->group(1)->isInt();
             });
 
         // then
@@ -49,9 +49,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<value>\d+)')
             ->match('12cm 14mm 13cm 19cm 18mm 2mm')
-            ->forEach(function (Detail $match) {
+            ->forEach(function (Detail $detail) {
                 // when
-                $isInt = $match->group('value')->isInt();
+                $isInt = $detail->group('value')->isInt();
 
                 // then
                 $this->assertTrue($isInt);
@@ -66,9 +66,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<value>\d+)')
             ->match('12cm 14mm 13cm 19cm 18mm 2mm')
-            ->map(function (Detail $match) {
+            ->map(function (Detail $detail) {
                 // when
-                $isInt = $match->group(1)->isInt();
+                $isInt = $detail->group(1)->isInt();
 
                 // then
                 $this->assertTrue($isInt);
@@ -83,9 +83,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<name>\w+)')
             ->match('Foo bar')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $result = $match->group('name')->isInt();
+                $result = $detail->group('name')->isInt();
 
                 // then
                 $this->assertFalse($result);
@@ -100,9 +100,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<name>\w+)')
             ->match('Foo bar')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $result = $match->group(1)->isInt();
+                $result = $detail->group(1)->isInt();
 
                 // then
                 $this->assertFalse($result);
@@ -121,9 +121,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<name>\w+)(?<missing>\d+)?')
             ->match('Foo bar')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->group('missing')->isInt();
+                return $detail->group('missing')->isInt();
             });
     }
 }

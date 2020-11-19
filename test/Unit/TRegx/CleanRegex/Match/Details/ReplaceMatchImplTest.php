@@ -3,10 +3,10 @@ namespace Test\Unit\TRegx\CleanRegex\Match\Details;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
-use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
 
 class ReplaceMatchImplTest extends TestCase
@@ -17,10 +17,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_modifiedSubject()
     {
         // given
-        $match = new ReplaceMatchImpl($this->getMatchMock(), 0, 'subject');
+        $detail = new ReplaceMatchImpl($this->getMatchMock(), 0, 'subject');
 
         // when
-        $subject = $match->modifiedSubject();
+        $subject = $detail->modifiedSubject();
 
         // then
         $this->assertEquals('subject', $subject);
@@ -32,13 +32,13 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldUsingDuplicateName_get()
     {
         // given
-        /** @var ReplaceMatchImpl $match */
-        [$match, $mockMatch] = $this->getReplaceMatchAndMock();
+        /** @var ReplaceMatchImpl $detail */
+        [$detail, $detailMock] = $this->getReplaceDetailAndMock();
         $input = $this->createMock(DuplicateName::class);
-        $mockMatch->method('usingDuplicateName')->willReturn($input);
+        $detailMock->method('usingDuplicateName')->willReturn($input);
 
         // when
-        $duplicateName = $match->usingDuplicateName();
+        $duplicateName = $detail->usingDuplicateName();
 
         // then
         $this->assertSame($input, $duplicateName);
@@ -50,12 +50,12 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_modifiedOffset()
     {
         // given
-        /** @var ReplaceMatchImpl $match */
-        [$match, $mockMatch] = $this->getReplaceMatchAndMock(6);
-        $mockMatch->method('offset')->willReturn(14);
+        /** @var ReplaceMatchImpl $detail */
+        [$detail, $detailMock] = $this->getReplaceDetailAndMock(6);
+        $detailMock->method('offset')->willReturn(14);
 
         // when
-        $offset = $match->modifiedOffset();
+        $offset = $detail->modifiedOffset();
 
         // then
         $this->assertEquals(20, $offset);
@@ -67,10 +67,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_subject()
     {
         // given
-        $match = $this->getMatch_mockedMethod('subject', 'subject result');
+        $detail = $this->getDetail_mockedMethod('subject', 'subject result');
 
         // when
-        $subject = $match->subject();
+        $subject = $detail->subject();
 
         // then
         $this->assertEquals('subject result', $subject);
@@ -82,10 +82,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_groupNames()
     {
         // given
-        $match = $this->getMatch_mockedMethod('groupNames', ['one', 'two']);
+        $detail = $this->getDetail_mockedMethod('groupNames', ['one', 'two']);
 
         // when
-        $groupNames = $match->groupNames();
+        $groupNames = $detail->groupNames();
 
         // then
         $this->assertEquals(['one', 'two'], $groupNames);
@@ -97,10 +97,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_text()
     {
         // given
-        $match = $this->getMatch_mockedMethod('text', 'text result');
+        $detail = $this->getDetail_mockedMethod('text', 'text result');
 
         // when
-        $text = $match->text();
+        $text = $detail->text();
 
         // then
         $this->assertEquals('text result', $text);
@@ -112,10 +112,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_textLength()
     {
         // given
-        $match = $this->getMatch_mockedMethod('textLength', 11);
+        $detail = $this->getDetail_mockedMethod('textLength', 11);
 
         // when
-        $length = $match->textLength();
+        $length = $detail->textLength();
 
         // then
         $this->assertEquals(11, $length);
@@ -127,10 +127,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_all()
     {
         // given
-        $match = $this->getMatch_mockedMethod('all', ['all', 'one', 'two']);
+        $detail = $this->getDetail_mockedMethod('all', ['all', 'one', 'two']);
 
         // when
-        $all = $match->all();
+        $all = $detail->all();
 
         // then
         $this->assertEquals(['all', 'one', 'two'], $all);
@@ -142,10 +142,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_index()
     {
         // given
-        $match = $this->getMatch_mockedMethod('index', 14);
+        $detail = $this->getDetail_mockedMethod('index', 14);
 
         // when
-        $index = $match->index();
+        $index = $detail->index();
 
         // then
         $this->assertEquals(14, $index);
@@ -157,10 +157,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_limit()
     {
         // given
-        $match = $this->getMatch_mockedMethod('limit', 14);
+        $detail = $this->getDetail_mockedMethod('limit', 14);
 
         // when
-        $limit = $match->limit();
+        $limit = $detail->limit();
 
         // then
         $this->assertEquals(14, $limit);
@@ -172,10 +172,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_offset()
     {
         // given
-        $match = $this->getMatch_mockedMethod('offset', 14);
+        $detail = $this->getDetail_mockedMethod('offset', 14);
 
         // when
-        $offset = $match->offset();
+        $offset = $detail->offset();
 
         // then
         $this->assertEquals(14, $offset);
@@ -187,10 +187,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_tail()
     {
         // given
-        $match = $this->getMatch_mockedMethod('tail', 15);
+        $detail = $this->getDetail_mockedMethod('tail', 15);
 
         // when
-        $offset = $match->tail();
+        $offset = $detail->tail();
 
         // then
         $this->assertEquals(15, $offset);
@@ -202,10 +202,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_byteOffset()
     {
         // given
-        $match = $this->getMatch_mockedMethod('byteOffset', 14);
+        $detail = $this->getDetail_mockedMethod('byteOffset', 14);
 
         // when
-        $byteOffset = $match->byteOffset();
+        $byteOffset = $detail->byteOffset();
 
         // then
         $this->assertEquals(14, $byteOffset);
@@ -217,10 +217,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_byteTail()
     {
         // given
-        $match = $this->getMatch_mockedMethod('byteTail', 16);
+        $detail = $this->getDetail_mockedMethod('byteTail', 16);
 
         // when
-        $byteOffset = $match->byteTail();
+        $byteOffset = $detail->byteTail();
 
         // then
         $this->assertEquals(16, $byteOffset);
@@ -232,10 +232,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_getUserData()
     {
         // given
-        $match = $this->getMatch_mockedMethod('getUserData', 14);
+        $detail = $this->getDetail_mockedMethod('getUserData', 14);
 
         // when
-        $userData = $match->getUserData();
+        $userData = $detail->getUserData();
 
         // then
         $this->assertEquals(14, $userData);
@@ -247,10 +247,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_toInt()
     {
         // given
-        $match = $this->getMatch_mockedMethod('toInt', 14);
+        $detail = $this->getDetail_mockedMethod('toInt', 14);
 
         // when
-        $int = $match->toInt();
+        $int = $detail->toInt();
 
         // then
         $this->assertEquals(14, $int);
@@ -262,10 +262,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_isInt()
     {
         // given
-        $match = $this->getMatch_mockedMethod('isInt', true);
+        $detail = $this->getDetail_mockedMethod('isInt', true);
 
         // when
-        $isInt = $match->isInt();
+        $isInt = $detail->isInt();
 
         // then
         $this->assertTrue($isInt);
@@ -277,16 +277,16 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_setUserData()
     {
         // given
-        /** @var ReplaceMatchImpl $match */
-        [$match, $mockMatch] = $this->getReplaceMatchAndMock();
+        /** @var ReplaceMatchImpl $detail */
+        [$detail, $detailMock] = $this->getReplaceDetailAndMock();
 
         // expects
-        $mockMatch->expects($this->once())
+        $detailMock->expects($this->once())
             ->method('setUserData')
             ->with($this->equalTo('14'));
 
         // when
-        $match->setUserData('14');
+        $detail->setUserData('14');
     }
 
     /**
@@ -295,21 +295,21 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_matched()
     {
         // given
-        /** @var ReplaceMatchImpl $match */
-        /** @var MockObject $mockMatch */
-        [$match, $mockMatch] = $this->getReplaceMatchAndMock();
+        /** @var ReplaceMatchImpl $detail */
+        /** @var MockObject $detailMock */
+        [$detail, $detailMock] = $this->getReplaceDetailAndMock();
 
         // expects
-        $mockMatch
+        $detailMock
             ->method('matched')
             ->willReturn(true);
 
-        $mockMatch->expects($this->once())
+        $detailMock->expects($this->once())
             ->method('matched')
             ->with($this->equalTo('group'));
 
         // when
-        $matched = $match->matched('group');
+        $matched = $detail->matched('group');
 
         // then
         $this->assertTrue($matched);
@@ -321,23 +321,21 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_hasGroup()
     {
         // given
-        /**
-         * @var ReplaceMatchImpl $match
-         * @var MockObject $mockMatch
-         */
-        [$match, $mockMatch] = $this->getReplaceMatchAndMock();
+        /** @var ReplaceMatchImpl $detail */
+        /** @var MockObject $detailMock */
+        [$detail, $detailMock] = $this->getReplaceDetailAndMock();
 
         // expects
-        $mockMatch
+        $detailMock
             ->method('hasGroup')
             ->willReturn(true);
 
-        $mockMatch->expects($this->once())
+        $detailMock->expects($this->once())
             ->method('hasGroup')
             ->with($this->equalTo('group'));
 
         // when
-        $hasGroup = $match->hasGroup('group');
+        $hasGroup = $detail->hasGroup('group');
 
         // then
         $this->assertTrue($hasGroup);
@@ -349,10 +347,10 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_toString()
     {
         // given
-        $match = $this->getMatch_mockedMethod('__toString', 'text');
+        $detail = $this->getDetail_mockedMethod('__toString', 'text');
 
         // when
-        $text = (string)$match;
+        $text = (string)$detail;
 
         // then
         $this->assertEquals('text', $text);
@@ -364,9 +362,9 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_groups()
     {
         // given
-        /** @var ReplaceMatchImpl $match */
-        /** @var MockObject $mockMatch */
-        [$match, $mockMatch] = $this->getReplaceMatchAndMock();
+        /** @var ReplaceMatchImpl $detail */
+        /** @var MockObject $detailMock */
+        [$detail, $detailMock] = $this->getReplaceDetailAndMock();
 
         // expects
         $indexedGroups = $this->createMock(IndexedGroups::class);
@@ -374,16 +372,15 @@ class ReplaceMatchImplTest extends TestCase
             ->method('texts')
             ->willReturn(['one', 'two']);
 
-        $mockMatch
+        $detailMock
             ->method('groups')
             ->willReturn($indexedGroups);
 
         // when
-        $groups = $match->groups();
+        $groups = $detail->groups();
 
         // then
-        $texts = $groups->texts();
-        $this->assertEquals(['one', 'two'], $texts);
+        $this->assertEquals(['one', 'two'], $groups->texts());
     }
 
     /**
@@ -392,9 +389,9 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_namedGroups()
     {
         // given
-        /** @var ReplaceMatchImpl $match */
-        /** @var MockObject $mockMatch */
-        [$match, $mockMatch] = $this->getReplaceMatchAndMock();
+        /** @var ReplaceMatchImpl $detail */
+        /** @var MockObject $detailMock */
+        [$detail, $detailMock] = $this->getReplaceDetailAndMock();
 
         // expects
         $indexedGroups = $this->createMock(NamedGroups::class);
@@ -402,39 +399,33 @@ class ReplaceMatchImplTest extends TestCase
             ->method('texts')
             ->willReturn(['first' => 'one', 'second' => 'two']);
 
-        $mockMatch
+        $detailMock
             ->method('namedGroups')
             ->willReturn($indexedGroups);
 
         // when
-        $groups = $match->namedGroups();
+        $groups = $detail->namedGroups();
 
         // then
-        $texts = $groups->texts();
-        $this->assertEquals(['first' => 'one', 'second' => 'two'], $texts);
+        $this->assertEquals(['first' => 'one', 'second' => 'two'], $groups->texts());
     }
 
-    private function getMatch_mockedMethod(string $method, $result): ReplaceMatchImpl
+    private function getDetail_mockedMethod(string $method, $result): ReplaceMatchImpl
     {
-        [$match, $mockMatch] = $this->getReplaceMatchAndMock();
+        [$detail, $mockMatch] = $this->getReplaceDetailAndMock();
         $mockMatch->method($method)->willReturn($result);
-        return $match;
+        return $detail;
     }
 
-    private function getReplaceMatchAndMock(int $offset = 0, string $subject = ''): array
+    private function getReplaceDetailAndMock(int $offset = 0, string $subject = ''): array
     {
         $mock = $this->getMatchMock();
-        $match = new ReplaceMatchImpl($mock, $offset, $subject);
-        return [$match, $mock];
+        $detail = new ReplaceMatchImpl($mock, $offset, $subject);
+        return [$detail, $mock];
     }
 
-    /**
-     * @return Detail|MockObject
-     */
     private function getMatchMock(): Detail
     {
-        /** @var Detail|MockObject $mock */
-        $mock = $this->createMock(Detail::class);
-        return $mock;
+        return $this->createMock(Detail::class);
     }
 }

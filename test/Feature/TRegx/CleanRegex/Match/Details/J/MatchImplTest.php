@@ -3,9 +3,9 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\J;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
-use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchImplTest extends TestCase
 {
@@ -17,16 +17,16 @@ class MatchImplTest extends TestCase
         // when
         pattern('(?<group>Foo)(?<group>Bar)', 'J')
             ->match('FooBar')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // given
-                $group = $match->group('group');
+                $group = $detail->group('group');
 
                 // when + then
-                $this->assertEquals(['group', null], $match->groups()->names());
+                $this->assertEquals(['group', null], $detail->groups()->names());
                 $this->assertEquals(1, $group->index());
                 $this->assertEquals(0, $group->offset());
                 $this->assertEquals('Foo', $group->text());
-                $this->assertEquals('Foo', $match->get('group'));
+                $this->assertEquals('Foo', $detail->get('group'));
             });
     }
 
@@ -38,12 +38,12 @@ class MatchImplTest extends TestCase
         // when
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
             ->match('Lorem')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // given
-                $group = $match->group('group');
+                $group = $detail->group('group');
 
                 // when + then
-                $this->assertEquals(['group', null, null], $match->groups()->names());
+                $this->assertEquals(['group', null, null], $detail->groups()->names());
                 $this->assertEquals(1, $group->index());
                 $this->assertFalse($group->matched(), "Failed asserting that the last group was not matched");
             });
@@ -61,9 +61,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
             ->match('Lorem')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $match->get('group');
+                $detail->get('group');
             });
     }
 

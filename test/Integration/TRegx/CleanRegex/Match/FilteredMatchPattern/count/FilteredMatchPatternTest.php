@@ -76,8 +76,8 @@ class FilteredMatchPatternTest extends TestCase
 
     private function standardMatchPattern(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $match) {
-            return $match->index() != 1;
+        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $detail) {
+            return $detail->index() != 1;
         });
     }
 

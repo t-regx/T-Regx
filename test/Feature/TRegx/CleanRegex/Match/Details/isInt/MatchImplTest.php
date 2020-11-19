@@ -14,9 +14,9 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('(?<name>-?\w+)')
             ->match('11')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->isInt();
+                return $detail->isInt();
             });
 
         // then
@@ -31,9 +31,9 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('(.*)', 's')
             ->match('1e3')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->isInt();
+                return $detail->isInt();
             });
 
         // then
@@ -48,9 +48,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<name>\w+)')
             ->match('Foo bar')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                $result = $match->isInt();
+                $result = $detail->isInt();
 
                 // then
                 $this->assertFalse($result);

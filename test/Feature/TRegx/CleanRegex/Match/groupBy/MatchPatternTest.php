@@ -59,8 +59,8 @@ class MatchPatternTest extends TestCase
     public function shouldGroupBy_map()
     {
         // when
-        $result = $this->groupBy()->map(function (Detail $match) {
-            return "$match";
+        $result = $this->groupBy()->map(function (Detail $detail) {
+            return "$detail";
         });
 
         // then
@@ -76,8 +76,8 @@ class MatchPatternTest extends TestCase
     public function shouldGroupBy_flatMap()
     {
         // when
-        $result = $this->groupBy()->flatMap(function (Detail $match) {
-            return ["$match", $match->offset()];
+        $result = $this->groupBy()->flatMap(function (Detail $detail) {
+            return ["$detail", $detail->offset()];
         });
 
         // then
@@ -99,10 +99,7 @@ class MatchPatternTest extends TestCase
         $result = $groupByPattern->texts();
 
         // then
-        $this->assertEquals([
-            'cm' => ['19cm', '2cm'],
-            'mm' => ['18mm'],
-        ], $result);
+        $this->assertEquals(['cm' => ['19cm', '2cm'], 'mm' => ['18mm']], $result);
     }
 
     /**
@@ -117,8 +114,8 @@ class MatchPatternTest extends TestCase
         $groupByPattern = $this->filtered();
 
         // when
-        $result = $groupByPattern->$function(function (Detail $match) {
-            return [$match->text(), $match->offset()];
+        $result = $groupByPattern->$function(function (Detail $detail) {
+            return [$detail->text(), $detail->offset()];
         });
 
         // then
@@ -137,10 +134,10 @@ class MatchPatternTest extends TestCase
         $called = 0;
 
         // when
-        $groupBy->$function(function (Detail $match) use (&$called) {
+        $groupBy->$function(function (Detail $detail) use (&$called) {
             // when
             $called++;
-            $this->assertEquals(-1, $match->limit());
+            $this->assertEquals(-1, $detail->limit());
 
             // clean
             return [];
@@ -162,9 +159,9 @@ class MatchPatternTest extends TestCase
         $groupByPattern = $this->filtered();
 
         // when
-        $groupByPattern->$function(function (Detail $match) {
+        $groupByPattern->$function(function (Detail $detail) {
             // when
-            $this->assertEquals(['12', '19cm', '18mm', '2cm'], $match->all());
+            $this->assertEquals(['12', '19cm', '18mm', '2cm'], $detail->all());
 
             // clean
             return [];
@@ -182,9 +179,9 @@ class MatchPatternTest extends TestCase
         $groupByPattern = $this->filtered();
 
         // when
-        $groupByPattern->$function(function (Detail $match) {
+        $groupByPattern->$function(function (Detail $detail) {
             // when
-            $this->assertEquals("verify me:$match", $match->getUserData());
+            $this->assertEquals("verify me:$detail", $detail->getUserData());
 
             // clean
             return [];
@@ -203,9 +200,9 @@ class MatchPatternTest extends TestCase
         $indexes = [];
 
         // when
-        $groupByPattern->$function(function (Detail $match) use (&$indexes) {
+        $groupByPattern->$function(function (Detail $detail) use (&$indexes) {
             // when
-            $indexes[$match->text()] = $match->index();
+            $indexes[$detail->text()] = $detail->index();
 
             // clean
             return [];
@@ -227,9 +224,9 @@ class MatchPatternTest extends TestCase
         $indexes = [];
 
         // when
-        $groupByPattern->$function(function (Detail $match) use (&$indexes) {
+        $groupByPattern->$function(function (Detail $detail) use (&$indexes) {
             // when
-            $indexes[$match->text()] = $match->index();
+            $indexes[$detail->text()] = $detail->index();
 
             // clean
             return [];
@@ -263,9 +260,9 @@ class MatchPatternTest extends TestCase
     {
         return $this
             ->match()
-            ->filter(function (Detail $match) {
-                $match->setUserData("verify me:$match");
-                return !in_array($match->text(), ['14cm', '13mm']);
+            ->filter(function (Detail $detail) {
+                $detail->setUserData("verify me:$detail");
+                return !in_array($detail->text(), ['14cm', '13mm']);
             })
             ->groupBy('unit');
     }

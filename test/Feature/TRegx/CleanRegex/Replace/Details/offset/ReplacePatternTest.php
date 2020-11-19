@@ -15,10 +15,10 @@ class ReplacePatternTest extends TestCase
         pattern('\w{4,}')
             ->replace('Cześć, Tomek')
             ->first()
-            ->callback(function (Detail $match) {
+            ->callback(function (Detail $detail) {
                 // when
-                $offset = $match->offset();
-                $byteOffset = $match->byteOffset();
+                $offset = $detail->offset();
+                $byteOffset = $detail->byteOffset();
 
                 // then
                 $this->assertEquals(7, $offset);
@@ -38,12 +38,12 @@ class ReplacePatternTest extends TestCase
         pattern('\w{4,}')
             ->replace('Cześć, Tomek i Kamil')
             ->all()
-            ->callback(function (Detail $match) {
-                if ($match->index() !== 1) return '';
+            ->callback(function (Detail $detail) {
+                if ($detail->index() !== 1) return '';
 
                 // when
-                $offset = $match->offset();
-                $byteOffset = $match->byteOffset();
+                $offset = $detail->offset();
+                $byteOffset = $detail->byteOffset();
 
                 // then
                 $this->assertEquals(15, $offset);

@@ -14,11 +14,10 @@ class MatchImplTest extends TestCase
         // when
         pattern('\w{4,}')
             ->match('Cześć, Tomek')
-            ->first(function (Detail $match) {
-
+            ->first(function (Detail $detail) {
                 // when
-                $offset = $match->offset();
-                $byteOffset = $match->byteOffset();
+                $offset = $detail->offset();
+                $byteOffset = $detail->byteOffset();
 
                 // then
                 $this->assertEquals(7, $offset);
@@ -34,12 +33,12 @@ class MatchImplTest extends TestCase
         // when
         pattern('\w{4,}')
             ->match('Cześć, Tomek i Kamil')
-            ->forEach(function (Detail $match) {
-                if ($match->index() !== 1) return;
+            ->forEach(function (Detail $detail) {
+                if ($detail->index() !== 1) return;
 
                 // when
-                $offset = $match->offset();
-                $byteOffset = $match->byteOffset();
+                $offset = $detail->offset();
+                $byteOffset = $detail->byteOffset();
 
                 // then
                 $this->assertEquals(15, $offset);

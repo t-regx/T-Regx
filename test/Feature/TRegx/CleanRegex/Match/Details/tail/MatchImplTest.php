@@ -14,13 +14,13 @@ class MatchImplTest extends TestCase
         // when
         pattern('K[^ ]+')
             ->match(' Cześć, Kraśko ')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // given
-                $this->assertEquals("Kraśko", $match);
+                $this->assertEquals("Kraśko", $detail);
 
                 // when
-                $tail = $match->tail();
-                $byteTail = $match->byteTail();
+                $tail = $detail->tail();
+                $byteTail = $detail->byteTail();
 
                 // then
                 $this->assertEquals(14, $tail);
@@ -36,14 +36,14 @@ class MatchImplTest extends TestCase
         // when
         pattern('K[^ ]+')
             ->match('Cześć, Kraśko i Księciuniu')
-            ->forEach(function (Detail $match) {
+            ->forEach(function (Detail $detail) {
                 // given
-                if ($match->index() !== 1) return;
-                $this->assertEquals("Księciuniu", $match);
+                if ($detail->index() !== 1) return;
+                $this->assertEquals("Księciuniu", $detail);
 
                 // when
-                $tail = $match->tail();
-                $byteTail = $match->byteTail();
+                $tail = $detail->tail();
+                $byteTail = $detail->byteTail();
 
                 // then
                 $this->assertEquals(26, $tail);

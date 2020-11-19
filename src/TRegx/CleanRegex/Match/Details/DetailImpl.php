@@ -83,11 +83,11 @@ class DetailImpl implements Detail, Match
 
     public function toInt(): int
     {
-        $match = $this->match->getText();
-        if (Integer::isValid($match)) {
-            return $match;
+        $text = $this->match->getText();
+        if (Integer::isValid($text)) {
+            return $text;
         }
-        throw IntegerFormatException::forMatch($match);
+        throw IntegerFormatException::forMatch($text);
     }
 
     public function isInt(): bool

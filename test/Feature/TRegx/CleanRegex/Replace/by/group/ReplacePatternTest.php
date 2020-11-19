@@ -7,8 +7,8 @@ use Test\Utils\CustomSubjectException;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
 use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
 use TRegx\DataProvider\DataProviders;
 
 class ReplacePatternTest extends TestCase
@@ -43,7 +43,7 @@ class ReplacePatternTest extends TestCase
             'orElseIgnore'  => ['orElseIgnore', []],
             'orElseEmpty'   => ['orElseEmpty', []],
             'orElseWith'    => ['orElseWith', ['word']],
-            'orElseCalling' => ['orElseCalling', [function (Detail $match) {
+            'orElseCalling' => ['orElseCalling', [function (Detail $detail) {
             }]],
         ];
     }
@@ -59,15 +59,15 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('unit')
-            ->orElseCalling(function (LazyDetailImpl $match) {
-                $this->assertEquals('14', $match->text());
-                $this->assertEquals('14', $match->get('value'));
-                $this->assertEquals('14', $match->group('value')->text());
-                $this->assertEquals(['cm', null, 'cm'], $match->group('unit')->all());
+            ->orElseCalling(function (LazyDetailImpl $detail) {
+                $this->assertEquals('14', $detail->text());
+                $this->assertEquals('14', $detail->get('value'));
+                $this->assertEquals('14', $detail->group('value')->text());
+                $this->assertEquals(['cm', null, 'cm'], $detail->group('unit')->all());
                 // Not, really testable
-                $this->assertEquals(1, $match->index());
-                $this->assertEquals(-1, $match->limit());
-                $this->assertEquals('15cm 14 16cm', $match->subject());
+                $this->assertEquals(1, $detail->index());
+                $this->assertEquals(-1, $detail->limit());
+                $this->assertEquals('15cm 14 16cm', $detail->subject());
 
                 // clean up
                 return 'else';
@@ -89,8 +89,8 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('unit')
-            ->orElseCalling(function (LazyDetailImpl $match) {
-                $this->assertEquals('14', $match->text());
+            ->orElseCalling(function (LazyDetailImpl $detail) {
+                $this->assertEquals('14', $detail->text());
 
                 // when
                 return null;
@@ -100,8 +100,12 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      * @dataProvider shouldNotReplaceGroups
+     * @param string|int $nameOrIndex
+     * @param string $method
+     * @param array $arguments
+     * @param string $expected
      */
-    public function shouldNotReplace($nameOrIndex, $method, $arguments, $expected)
+    public function shouldNotReplace($nameOrIndex, string $method, array $arguments, string $expected)
     {
         // when
         $result = pattern('https?://(?<name>\w+)?\.com')

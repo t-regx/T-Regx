@@ -11,7 +11,7 @@ class DefaultStrategy implements LazySubjectRs, MatchRs
         return null;
     }
 
-    public function substituteGroup(Detail $match): ?string
+    public function substituteGroup(Detail $detail): ?string
     {
         return null;
     }

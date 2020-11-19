@@ -18,9 +18,9 @@ class ReplacePatternTest extends TestCase
         $offsets = [];
         $mOffsets = [];
 
-        $callback = function (ReplaceDetail $match) use (&$offsets, &$mOffsets) {
-            $offsets[] = $match->group('name')->offset();
-            $mOffsets[] = $match->group('name')->modifiedOffset();
+        $callback = function (ReplaceDetail $detail) use (&$offsets, &$mOffsets) {
+            $offsets[] = $detail->group('name')->offset();
+            $mOffsets[] = $detail->group('name')->modifiedOffset();
             return 'ę';
         };
 

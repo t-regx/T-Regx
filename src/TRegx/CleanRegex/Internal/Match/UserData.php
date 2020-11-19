@@ -8,19 +8,19 @@ class UserData
     /** @var mixed[] */
     private $values = [];
 
-    public function set(Detail $match, $value): void
+    public function set(Detail $detail, $value): void
     {
-        $this->values[$this->getKey($match)] = $value;
+        $this->values[$this->getKey($detail)] = $value;
     }
 
-    public function get(Detail $match)
+    public function get(Detail $detail)
     {
-        $key = $this->getKey($match);
+        $key = $this->getKey($detail);
         return $this->values[$key] ?? null;
     }
 
-    private function getKey(Detail $match): int
+    private function getKey(Detail $detail): int
     {
-        return $match->byteOffset();
+        return $detail->byteOffset();
     }
 }

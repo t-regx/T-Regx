@@ -19,9 +19,8 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         // given
         $subject = 'Tom Cruise is 21 years old and has 192cm';
         $invoker = new ReplacePatternCallbackInvoker(InternalPattern::standard('[0-9]+'), new Subject($subject), 2, new DefaultStrategy());
-        $callback = function (ReplaceDetail $match) {
-            $value = (int)$match->text();
-            return '*' . ($value + 1) . '*';
+        $callback = function (ReplaceDetail $detail) {
+            return "*" . ($detail->toInt() + 1) . '*';
         };
 
         // when
@@ -40,9 +39,9 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $subject = 'Tom Cruise is 21 years old and has 192cm';
         $invoker = new ReplacePatternCallbackInvoker(InternalPattern::standard('[0-9]+'), new Subject($subject), 2, new DefaultStrategy());
         $offsets = [];
-        $callback = function (ReplaceDetail $match) use (&$offsets) {
-            $offsets[] = $match->offset();
-            return (string)$match;
+        $callback = function (ReplaceDetail $detail) use (&$offsets) {
+            $offsets[] = $detail->offset();
+            return (string)$detail;
         };
 
         // when
@@ -61,8 +60,8 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $subject = '192.168.17.20';
         $invoker = new ReplacePatternCallbackInvoker(InternalPattern::standard('[0-9]+'), new Subject($subject), 3, new DefaultStrategy());
         $values = [];
-        $callback = function (ReplaceDetail $match) use (&$values) {
-            $values[] = $match;
+        $callback = function (ReplaceDetail $detail) use (&$values) {
+            $values[] = $detail;
             return '';
         };
 
@@ -81,9 +80,9 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         // given
         $subject = '192.168.17.20';
         $invoker = new ReplacePatternCallbackInvoker(InternalPattern::standard('[0-9]+'), new Subject($subject), 3, new DefaultStrategy());
-        $callback = function (ReplaceDetail $match) {
+        $callback = function (ReplaceDetail $detail) {
             // then
-            $this->assertEquals(['192', '168', '17', '20'], $match->all());
+            $this->assertEquals(['192', '168', '17', '20'], $detail->all());
 
             return '';
         };
@@ -100,9 +99,9 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         // given
         $subject = 'Tom Cruise is 21 years old and has 192cm';
         $invoker = new ReplacePatternCallbackInvoker(InternalPattern::standard('[0-9]+'), new Subject($subject), 2, new DefaultStrategy());
-        $callback = function (ReplaceDetail $match) use ($subject) {
+        $callback = function (ReplaceDetail $detail) use ($subject) {
             // then
-            $this->assertEquals($subject, $match->subject());
+            $this->assertEquals($subject, $detail->subject());
 
             return '';
         };

@@ -17,9 +17,9 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: http://google.com';
 
         // when
-        $result = pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
+        $result = pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $detail) {
             // then
-            return $match->get('domain');
+            return $detail->get('domain');
         });
 
         // then
@@ -39,9 +39,9 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Expected to get group '2', but the group was not matched");
 
         // when
-        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $match) {
+        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $detail) {
             // then
-            return $match->get(2);
+            return $detail->get(2);
         });
     }
 
@@ -61,9 +61,9 @@ class ReplacePatternTest extends TestCase
         pattern($pattern)
             ->replace($subject)
             ->first()
-            ->callback(function (ReplaceDetail $match) {
+            ->callback(function (ReplaceDetail $detail) {
                 // then
-                return $match->get('domain');
+                return $detail->get('domain');
             });
     }
 }

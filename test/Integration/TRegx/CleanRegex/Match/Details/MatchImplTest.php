@@ -34,10 +34,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetSubject()
     {
         // given
-        $match = $this->getMatch(self::INDEX_ROBERT_PAULSON);
+        $detail = $this->detail(self::INDEX_ROBERT_PAULSON);
 
         // when
-        $subject = $match->subject();
+        $subject = $detail->subject();
 
         // then
         $this->assertEquals(self::subject, $subject);
@@ -49,10 +49,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetIndex()
     {
         // given
-        $match = $this->getMatch(self::INDEX_ROBERT_PAULSON);
+        $detail = $this->detail(self::INDEX_ROBERT_PAULSON);
 
         // when
-        $index = $match->index();
+        $index = $detail->index();
 
         // then
         $this->assertEquals(2, $index);
@@ -64,10 +64,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetOffset()
     {
         // given
-        $match = $this->getMatch(self::INDEX_MARLA_SINGER);
+        $detail = $this->detail(self::INDEX_MARLA_SINGER);
 
         // when
-        $offset = $match->offset();
+        $offset = $detail->offset();
 
         // then
         $this->assertEquals(174, $offset);
@@ -79,10 +79,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetGroupsOffset()
     {
         // given
-        $match = $this->getMatch(self::INDEX_MARLA_SINGER);
+        $detail = $this->detail(self::INDEX_MARLA_SINGER);
 
         // when
-        $offsets = $match->groups()->offsets();
+        $offsets = $detail->groups()->offsets();
 
         // then
         $this->assertEquals([174, 174, 180], $offsets);
@@ -94,10 +94,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetNamedGroupsOffset()
     {
         // given
-        $match = $this->getMatch(self::INDEX_MARLA_SINGER);
+        $detail = $this->detail(self::INDEX_MARLA_SINGER);
 
         // when
-        $offsets = $match->namedGroups()->offsets();
+        $offsets = $detail->namedGroups()->offsets();
 
         // then
         $expectedOffsets = [
@@ -114,10 +114,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetMatch()
     {
         // given
-        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+        $detail = $this->detail(self::INDEX_JACK_SPARROW);
 
         // when
-        $text = $match->text();
+        $text = $detail->text();
 
         // then
         $this->assertEquals('Jack Sparrow', $text);
@@ -129,10 +129,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetMatchLength()
     {
         // given
-        $match = $this->getMatch(self::INDEX_EDWARD);
+        $detail = $this->detail(self::INDEX_EDWARD);
 
         // when
-        $length = $match->textLength();
+        $length = $detail->textLength();
 
         // then
         $this->assertEquals(6, $length);
@@ -144,10 +144,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetMatchCastingToString()
     {
         // given
-        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+        $detail = $this->detail(self::INDEX_JACK_SPARROW);
 
         // when
-        $text = (string)$match;
+        $text = (string)$detail;
 
         // then
         $this->assertEquals('Jack Sparrow', $text);
@@ -159,10 +159,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetGroups()
     {
         // given
-        $match = $this->getMatch(self::INDEX_TYLER_DURDEN);
+        $detail = $this->detail(self::INDEX_TYLER_DURDEN);
 
         // when
-        $groups = $match->groups()->texts();
+        $groups = $detail->groups()->texts();
 
         // then
         $this->assertEquals(['Tyler', 'T', 'Durden'], $groups);
@@ -174,10 +174,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetNamedGroups()
     {
         // given
-        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+        $detail = $this->detail(self::INDEX_JACK_SPARROW);
 
         // when
-        $named = $match->namedGroups()->texts();
+        $named = $detail->namedGroups()->texts();
 
         // then
         $expected = [
@@ -194,12 +194,12 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetSingleGroups()
     {
         // given
-        $match = $this->getMatch(self::INDEX_MARLA_SINGER);
+        $detail = $this->detail(self::INDEX_MARLA_SINGER);
 
         // then
-        $firstName = $match->group('firstName');
-        $initial = $match->group('initial');
-        $surname = $match->group('surname');
+        $firstName = $detail->group('firstName');
+        $initial = $detail->group('initial');
+        $surname = $detail->group('surname');
 
         // then
         $this->assertEquals('Marla', $firstName);
@@ -213,10 +213,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetGroupNames()
     {
         // given
-        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+        $detail = $this->detail(self::INDEX_JACK_SPARROW);
 
         // when
-        $names = $match->groupNames();
+        $names = $detail->groupNames();
 
         // then
         $this->assertEquals(['firstName', 'initial', 'surname'], $names);
@@ -228,11 +228,11 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldHaveGroup()
     {
         // given
-        $match = $this->getMatch(self::INDEX_TYLER_DURDEN);
+        $detail = $this->detail(self::INDEX_TYLER_DURDEN);
 
         // when
-        $existent = $match->hasGroup('firstName');
-        $nonExistent = $match->hasGroup('xd');
+        $existent = $detail->hasGroup('firstName');
+        $nonExistent = $detail->hasGroup('xd');
 
         // then
         $this->assertTrue($existent);
@@ -245,10 +245,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldMatchGroup()
     {
         // given
-        $match = $this->getMatch(self::INDEX_MARLA_SINGER);
+        $detail = $this->detail(self::INDEX_MARLA_SINGER);
 
         // when
-        $matched = $match->matched('firstName');
+        $matched = $detail->matched('firstName');
 
         // then
         $this->assertTrue($matched);
@@ -260,10 +260,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldNotMatchGroup()
     {
         // given
-        $match = $this->getMatch(self::INDEX_ROBERT_PAULSON);
+        $detail = $this->detail(self::INDEX_ROBERT_PAULSON);
 
         // when
-        $surname = $match->matched('surname');
+        $surname = $detail->matched('surname');
 
         // then
         $this->assertFalse($surname);
@@ -275,14 +275,14 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldThrowOnNonExistentGroup()
     {
         // given
-        $match = $this->getMatch(self::INDEX_MARLA_SINGER);
+        $detail = $this->detail(self::INDEX_MARLA_SINGER);
 
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'xd'");
 
         // when
-        $match->matched('xd');
+        $detail->matched('xd');
     }
 
     /**
@@ -291,10 +291,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetAll()
     {
         // given
-        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+        $detail = $this->detail(self::INDEX_JACK_SPARROW);
 
         // when
-        $all = $match->all();
+        $all = $detail->all();
 
         // then
         $this->assertEquals(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow', 'Ędward'], $all);
@@ -306,10 +306,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGet_groupAll()
     {
         // given
-        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+        $detail = $this->detail(self::INDEX_JACK_SPARROW);
 
         // when
-        $all = $match->group('surname')->all();
+        $all = $detail->group('surname')->all();
 
         // then
         $this->assertEquals(['Durden', 'Singer', null, 'Sparrow', null], $all);
@@ -321,14 +321,14 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldThrow_onNonexistentGroup()
     {
         // given
-        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+        $detail = $this->detail(self::INDEX_JACK_SPARROW);
 
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'missing'");
 
         // when
-        $match->group('missing')->all();
+        $detail->group('missing')->all();
     }
 
     /**
@@ -337,14 +337,14 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldValidateGroupNameType()
     {
         // given
-        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+        $detail = $this->detail(self::INDEX_JACK_SPARROW);
 
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Group index can only be an integer or a string, given: boolean (true)');
 
         // when
-        $match->group(true);
+        $detail->group(true);
     }
 
     /**
@@ -353,13 +353,13 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldPreserveUserData()
     {
         // given
-        $match = $this->getMatch(self::INDEX_JACK_SPARROW);
+        $detail = $this->detail(self::INDEX_JACK_SPARROW);
         $mixed = new \stdClass();
         $mixed->value = 'foo';
 
         // when
-        $match->setUserData($mixed);
-        $userData = $match->getUserData();
+        $detail->setUserData($mixed);
+        $userData = $detail->getUserData();
 
         // then
         $expected = new \stdClass();
@@ -367,8 +367,14 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $this->assertEquals($expected, $userData);
     }
 
-    private function getMatch(int $index): Detail
+    private function detail(int $index): Detail
     {
+        /**
+         * We could hardcore the matches here, instead of calculating it, but this way,
+         * if there's a compatibility break in `preg_match_all()` between versions,
+         * we'll know about it.
+         * Secondly, now nobody can mess the hardcoded values up.
+         */
         $pattern = '/(?<firstName>(?<initial>\p{Lu})[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/u';
         preg::match_all($pattern, self::subject, $matches, \PREG_OFFSET_CAPTURE);
 

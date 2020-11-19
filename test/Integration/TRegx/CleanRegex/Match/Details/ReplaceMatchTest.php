@@ -32,10 +32,10 @@ class ReplaceMatchTest extends TestCase
     public function shouldSliceAllToLimit()
     {
         // given
-        $match = $this->getMatch(0);
+        $detail = $this->detail(0);
 
         // when
-        $all = $match->all();
+        $all = $detail->all();
 
         // then
         $this->assertEquals(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow'], $all);
@@ -47,10 +47,10 @@ class ReplaceMatchTest extends TestCase
     public function shouldNotSliceAllForNegativeLimit()
     {
         // given
-        $match = $this->getMatch(0);
+        $detail = $this->detail(0);
 
         // when
-        $all = $match->all();
+        $all = $detail->all();
 
         // then
         $this->assertEquals(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow'], $all);
@@ -62,19 +62,25 @@ class ReplaceMatchTest extends TestCase
     public function shouldModifyOffset()
     {
         // given
-        $match = $this->getMatch(15);
+        $detail = $this->detail(15);
 
         // when
-        $offset = $match->offset();
-        $modifiedOffset = $match->modifiedOffset();
+        $offset = $detail->offset();
+        $modifiedOffset = $detail->modifiedOffset();
 
         // then
         $this->assertEquals(38, $offset);
         $this->assertEquals(53, $modifiedOffset);
     }
 
-    private function getMatch(int $offsetModification): ReplaceDetail
+    private function detail(int $offsetModification): ReplaceDetail
     {
+        /**
+         * We could hardcore the matches here, instead of calculating it, but this way,
+         * if there's a compatibility break in `preg_match_all()` between versions,
+         * we'll know about it.
+         * Secondly, now nobody can mess the hardcoded values up.
+         */
         $pattern = '/(?<firstName>(?<initial>[A-Z])[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/';
         preg::match_all($pattern, self::subject, $matches, \PREG_OFFSET_CAPTURE);
 

@@ -17,10 +17,10 @@ class CompositePatternTest extends TestCase
         $pattern = new CompositePattern((new CompositePatternMapper($this->patterns()))->createPatterns());
 
         // when
-        $match = $pattern->anyMatches('http');
+        $matches = $pattern->anyMatches('http');
 
         // then
-        $this->assertTrue($match);
+        $this->assertTrue($matches);
     }
 
     /**
@@ -32,10 +32,10 @@ class CompositePatternTest extends TestCase
         $pattern = new CompositePattern((new CompositePatternMapper($this->patterns()))->createPatterns());
 
         // when
-        $match = $pattern->anyMatches('Foo');
+        $matches = $pattern->anyMatches('Foo');
 
         // then
-        $this->assertFalse($match);
+        $this->assertFalse($matches);
     }
 
     private function patterns(): array

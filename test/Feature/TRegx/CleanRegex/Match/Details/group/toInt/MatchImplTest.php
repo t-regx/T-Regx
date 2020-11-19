@@ -19,9 +19,9 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('(?<name>-?\w+)')
             ->match($string)
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->group(1)->toInt();
+                return $detail->group(1)->toInt();
             });
 
         // then
@@ -52,9 +52,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(.*)', 's')
             ->match('1e3')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->group(1)->toInt();
+                return $detail->group(1)->toInt();
             });
     }
 
@@ -66,9 +66,9 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('(?<value>\d+)')
             ->match('12cm 14mm 13cm 19cm 18mm 2mm')
-            ->map(function (Detail $match) {
+            ->map(function (Detail $detail) {
                 // when
-                return $match->group('value')->toInt();
+                return $detail->group('value')->toInt();
             });
 
         // then
@@ -83,9 +83,9 @@ class MatchImplTest extends TestCase
         // given
         $result = pattern('(?<value>\d+)')
             ->match('12cm 14mm 13cm 19cm 18mm 2mm')
-            ->map(function (Detail $match) {
+            ->map(function (Detail $detail) {
                 // when
-                return $match->group(1)->toInt();
+                return $detail->group(1)->toInt();
             });
 
         // then
@@ -104,9 +104,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<name>\w+)')
             ->match('Foo bar')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->group('name')->toInt();
+                return $detail->group('name')->toInt();
             });
     }
 
@@ -122,9 +122,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<name>\w+)')
             ->match('Foo bar')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->group(1)->toInt();
+                return $detail->group(1)->toInt();
             });
     }
 
@@ -140,9 +140,9 @@ class MatchImplTest extends TestCase
         // given
         pattern('(?<name>\w+)(?<missing>\d+)?')
             ->match('Foo bar')
-            ->first(function (Detail $match) {
+            ->first(function (Detail $detail) {
                 // when
-                return $match->group('missing')->toInt();
+                return $detail->group('missing')->toInt();
             });
     }
 }

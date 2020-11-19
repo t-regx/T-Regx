@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Match\Details\Detail;
 
 class ThrowMatchRs implements MatchRs
 {
-    public function substituteGroup(Detail $match): string
+    public function substituteGroup(Detail $detail): string
     {
         // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();

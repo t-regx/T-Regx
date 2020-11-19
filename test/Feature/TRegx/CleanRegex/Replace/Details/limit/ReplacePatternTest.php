@@ -15,9 +15,9 @@ class ReplacePatternTest extends TestCase
         pattern('\d+')
             ->replace('111-222-333')
             ->first()
-            ->callback(function (Detail $match) {
+            ->callback(function (Detail $detail) {
                 // when
-                $limit = $match->limit();
+                $limit = $detail->limit();
 
                 // then
                 $this->assertEquals(1, $limit);
@@ -36,9 +36,9 @@ class ReplacePatternTest extends TestCase
         pattern('\d+')
             ->replace('111-222-333')
             ->all()
-            ->callback(function (Detail $match) {
+            ->callback(function (Detail $detail) {
                 // when
-                $limit = $match->limit();
+                $limit = $detail->limit();
 
                 // then
                 $this->assertEquals(-1, $limit);
@@ -57,9 +57,9 @@ class ReplacePatternTest extends TestCase
         pattern('\d+')
             ->replace('111-222-333')
             ->only(3)
-            ->callback(function (Detail $match) {
+            ->callback(function (Detail $detail) {
                 // when
-                $limit = $match->limit();
+                $limit = $detail->limit();
 
                 // then
                 $this->assertEquals(3, $limit);

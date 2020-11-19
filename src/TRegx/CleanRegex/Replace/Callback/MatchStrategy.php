@@ -5,8 +5,8 @@ use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
 class MatchStrategy implements ReplaceCallbackArgumentStrategy
 {
-    public function mapArgument(ReplaceDetail $match): ReplaceDetail
+    public function mapArgument(ReplaceDetail $detail): ReplaceDetail
     {
-        return $match;
+        return $detail;
     }
 }

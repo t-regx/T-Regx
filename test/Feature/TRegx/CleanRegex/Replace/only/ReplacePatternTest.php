@@ -35,9 +35,9 @@ class ReplacePatternTest extends TestCase
         pattern($pattern)
             ->replace($subject)
             ->only(2)
-            ->callback(function (ReplaceDetail $match) {
+            ->callback(function (ReplaceDetail $detail) {
                 // then
-                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $match->all());
+                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $detail->all());
 
                 return '';
             });
@@ -92,9 +92,9 @@ class ReplacePatternTest extends TestCase
 
         $subjects = [];
 
-        $callback = function (ReplaceDetail $match) use (&$subjects) {
-            $subjects[] = $match->modifiedSubject();
-            return '+' . $match->group('domain')->text() . '+';
+        $callback = function (ReplaceDetail $detail) use (&$subjects) {
+            $subjects[] = $detail->modifiedSubject();
+            return "+{$detail->get('domain')}+";
         };
 
         // when

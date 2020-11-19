@@ -15,9 +15,9 @@ class ReplacePatternTest extends TestCase
         pattern('\d+')
             ->replace('111-222-333')
             ->first()
-            ->callback(function (Detail $match) {
+            ->callback(function (Detail $detail) {
                 // when
-                $index = $match->index();
+                $index = $detail->index();
 
                 // then
                 $this->assertEquals(0, $index);
@@ -41,9 +41,9 @@ class ReplacePatternTest extends TestCase
         pattern('\d+')
             ->replace('111-222-333')
             ->$method(...$arguments)
-            ->callback(function (Detail $match) use (&$indexes) {
+            ->callback(function (Detail $detail) use (&$indexes) {
                 // when
-                $index = $match->index();
+                $index = $detail->index();
 
                 // then
                 $indexes[] = $index;
