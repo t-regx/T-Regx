@@ -84,7 +84,7 @@ class RawMatchOffset implements IRawMatchOffset
      */
     public function getGroupsTexts(): array
     {
-        return array_map(function ($match) {
+        return array_map(static function ($match) {
             if ($match === null) {
                 return null;
             }
@@ -109,7 +109,7 @@ class RawMatchOffset implements IRawMatchOffset
      */
     public function getGroupsOffsets(): array
     {
-        return array_map(function (array $match) {
+        return array_map(static function (array $match) {
             [$text, $offset] = $match;
             return $offset;
         }, $this->match);

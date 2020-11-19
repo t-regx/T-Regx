@@ -23,12 +23,12 @@ class PreparedParser implements Parser
     {
         $this->validateEmptyInput();
         $factory = new NoAlterationDecorator($quotableFactory);
-        return new CompositeQuoteable(\array_map(function ($quoteable) use ($factory) {
-            return $this->mapToQuoteable($quoteable, $factory);
+        return new CompositeQuoteable(\array_map(static function ($quoteable) use ($factory) {
+            return self::mapToQuoteable($quoteable, $factory);
         }, $this->input));
     }
 
-    private function mapToQuoteable($quoteable, QuotableFactory $quotableFactory): Quoteable
+    private static function mapToQuoteable($quoteable, QuotableFactory $quotableFactory): Quoteable
     {
         if (\is_array($quoteable)) {
             if (\count($quoteable) === 1) {

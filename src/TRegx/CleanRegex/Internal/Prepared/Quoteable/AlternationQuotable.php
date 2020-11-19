@@ -24,7 +24,7 @@ class AlternationQuotable implements Quoteable
 
     private function getQuoted(string $delimiter): array
     {
-        return \array_map(function (string $quotable) use ($delimiter) {
+        return \array_map(static function (string $quotable) use ($delimiter) {
             return (new UserInputQuoteable($quotable))->quote($delimiter);
         }, $this->normalizedUserInput());
     }

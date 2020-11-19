@@ -14,14 +14,14 @@ trait MatchPatternHelpers
     public function tuple($nameOrIndex1, $nameOrIndex2): array
     {
         return $this
-            ->findFirst(function (Detail $detail) use ($nameOrIndex1, $nameOrIndex2) {
+            ->findFirst(static function (Detail $detail) use ($nameOrIndex1, $nameOrIndex2) {
                 return [
                     $detail->group($nameOrIndex1)->orReturn(null),
                     $detail->group($nameOrIndex2)->orReturn(null),
                 ];
             })
-            ->orElse(function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2) {
-                $this->validateGroups($notMatched, [$nameOrIndex1, $nameOrIndex2]);
+            ->orElse(static function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2) {
+                self::validateGroups($notMatched, [$nameOrIndex1, $nameOrIndex2]);
                 throw SubjectNotMatchedException::forFirstTuple(
                     new Subject($notMatched->subject()),
                     $nameOrIndex1,
@@ -32,15 +32,15 @@ trait MatchPatternHelpers
     public function triple($nameOrIndex1, $nameOrIndex2, $nameOrIndex3): array
     {
         return $this
-            ->findFirst(function (Detail $detail) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
+            ->findFirst(static function (Detail $detail) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
                 return [
                     $detail->group($nameOrIndex1)->orReturn(null),
                     $detail->group($nameOrIndex2)->orReturn(null),
                     $detail->group($nameOrIndex3)->orReturn(null),
                 ];
             })
-            ->orElse(function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
-                $this->validateGroups($notMatched, [$nameOrIndex1, $nameOrIndex2, $nameOrIndex3]);
+            ->orElse(static function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
+                self::validateGroups($notMatched, [$nameOrIndex1, $nameOrIndex2, $nameOrIndex3]);
                 throw SubjectNotMatchedException::forFirstTriple(
                     new Subject($notMatched->subject()),
                     $nameOrIndex1,
@@ -49,7 +49,7 @@ trait MatchPatternHelpers
             });
     }
 
-    private function validateGroups(NotMatched $notMatched, array $groups): void
+    private static function validateGroups(NotMatched $notMatched, array $groups): void
     {
         foreach ($groups as $group) {
             if (!$notMatched->hasGroup($group)) {

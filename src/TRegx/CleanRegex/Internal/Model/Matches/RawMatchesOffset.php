@@ -114,7 +114,7 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
      */
     public function getGroupsOffsets(int $index): array
     {
-        return \array_map(function (array $match) use ($index) {
+        return \array_map(static function (array $match) use ($index) {
             [$text, $offset] = $match[$index];
             return $offset;
         }, $this->matches);
@@ -126,7 +126,7 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
      */
     public function getGroupsTexts(int $index): array
     {
-        return \array_map(function (array $match) use ($index) {
+        return \array_map(static function (array $match) use ($index) {
             [$text, $offset] = $match[$index];
             return $text;
         }, $this->matches);
@@ -134,7 +134,7 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
 
     public function getGroupTexts($group): array
     {
-        return \array_map(function ($group) {
+        return \array_map(static function ($group) {
             [$text, $offset] = $group;
             return $text;
         }, $this->matches[$group]);
@@ -156,7 +156,7 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
 
     public function getIndexedRawMatchOffset(int $index): IndexedRawMatchOffset
     {
-        $matches = \array_map(function (array $match) use ($index) {
+        $matches = \array_map(static function (array $match) use ($index) {
             return $match[$index];
         }, $this->matches);
         return new IndexedRawMatchOffset($matches, $index);
@@ -164,7 +164,7 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
 
     public function getRawMatchOffset(int $index): RawMatchOffset
     {
-        $matches = \array_map(function (array $match) use ($index) {
+        $matches = \array_map(static function (array $match) use ($index) {
             return $match[$index];
         }, $this->matches);
         return new RawMatchOffset($matches);
@@ -172,7 +172,7 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
 
     public function getRawMatch(int $index): RawMatch
     {
-        return new RawMatch(\array_map(function (array $match) use ($index) {
+        return new RawMatch(\array_map(static function (array $match) use ($index) {
             [$text, $offset] = $match[$index];
             return $text;
         }, $this->matches));
@@ -183,7 +183,7 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
         $matchObjects = $this->getMatchObjects($factory);
         $filteredMatches = \array_filter($matchObjects, [$predicate, 'test']);
 
-        return \array_map(function (array $match) use ($filteredMatches) {
+        return \array_map(static function (array $match) use ($filteredMatches) {
             return \array_values(\array_intersect_key($match, $filteredMatches));
         }, $this->matches);
     }
