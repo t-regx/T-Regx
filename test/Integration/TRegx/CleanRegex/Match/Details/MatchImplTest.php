@@ -21,12 +21,12 @@ class MatchImplTest extends TestCase
     const INDEX_JACK_SPARROW = 3;
     const INDEX_EDWARD = 4;
 
-    const subject = 'people are always asking me if I know Tyler Durden. and suddenly I realize that all of this: ' . PHP_EOL
-    . 'the gun, the bombs, the revolution... has got something to do with a girl named Marla Singer. ' . PHP_EOL
-    . 'in death a member of project mayhem has a name. his name is Robert P***son.' . PHP_EOL
-    . PHP_EOL
-    . "when you marooned me on that god forsaken spit of land, you forgot one very important thing mate. i'm captain Jack Sparrow." . PHP_EOL
-    . "Ędward.";
+    const subject = "people are always asking me if I know Tyler Durden. and suddenly I realize that all of this: 
+the gun, the bombs, the revolution... has got something to do with a girl named Marla Singer. 
+in death a member of project mayhem has a name. his name is Robert P***son.
+
+when you marooned me on that god forsaken spit of land, you forgot one very important thing mate. i'm captain Jack Sparrow.
+Ędward.";
 
     /**
      * @test
@@ -70,7 +70,7 @@ class MatchImplTest extends TestCase
         $offset = $match->offset();
 
         // then
-        $this->assertEquals(173 + strlen(PHP_EOL), $offset);
+        $this->assertEquals(174, $offset);
     }
 
     /**
@@ -85,13 +85,7 @@ class MatchImplTest extends TestCase
         $offsets = $match->groups()->offsets();
 
         // then
-        $rn = strlen(PHP_EOL);
-        $expectedOffsets = [
-            173 + $rn,
-            173 + $rn,
-            179 + $rn,
-        ];
-        $this->assertEquals($expectedOffsets, $offsets);
+        $this->assertEquals([174, 174, 180], $offsets);
     }
 
     /**
@@ -106,11 +100,10 @@ class MatchImplTest extends TestCase
         $offsets = $match->namedGroups()->offsets();
 
         // then
-        $rn = strlen(PHP_EOL);
         $expectedOffsets = [
-            'firstName' => 173 + $rn,
-            'initial'   => 173 + $rn,
-            'surname'   => 179 + $rn,
+            'firstName' => 174,
+            'initial'   => 174,
+            'surname'   => 180,
         ];
         $this->assertEquals($expectedOffsets, $offsets);
     }
