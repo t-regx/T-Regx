@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
@@ -102,11 +101,6 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 
     private function replaceGroupOptional(MatchRs $substitute): string
     {
-        if ($this->nameOrIndex === 0) {
-            // @codeCoverageIgnoreStart
-            throw new InternalCleanRegexException();
-            // @codeCoverageIgnoreEnd
-        }
         return $this->fallbackReplacer->replaceOrFallback($this->nameOrIndex, new IdentityMapper(), $substitute);
     }
 

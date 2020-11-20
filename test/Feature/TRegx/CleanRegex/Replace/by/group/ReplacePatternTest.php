@@ -239,6 +239,21 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldReplace_wholeMatch()
+    {
+        // given
+        $subject = 'Links: https://google.com and http://facebook.com';
+
+        // when
+        $result = pattern('https?://(\w+)\.com')->replace($subject)->all()->by()->group(0)->orElseThrow();
+
+        // then
+        $this->assertEquals($subject, $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldReplace_named()
     {
         // when
