@@ -4,12 +4,12 @@ namespace TRegx\CleanRegex\Replace\By;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\DictionaryMapper;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\StrategyFallbackAdapter;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\LazySubjectRs;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowMatchRs;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
-use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
-use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
 
 class ByReplacePatternImpl implements ByReplacePattern
 {

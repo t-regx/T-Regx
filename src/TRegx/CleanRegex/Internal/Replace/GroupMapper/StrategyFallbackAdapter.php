@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Replace\GroupMapper;
+namespace TRegx\CleanRegex\Internal\Replace\GroupMapper;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForMatchMessage;

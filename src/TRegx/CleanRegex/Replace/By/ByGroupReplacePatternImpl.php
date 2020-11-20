@@ -6,6 +6,11 @@ use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\DictionaryMapper;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\GroupMapper;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\IdentityMapper;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\MapGroupMapperDecorator;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\StrategyFallbackAdapter;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ComputedMatchStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
@@ -14,11 +19,6 @@ use TRegx\CleanRegex\Internal\Replace\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Replace\Callback\MatchGroupStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
-use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
-use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
-use TRegx\CleanRegex\Replace\GroupMapper\IdentityMapper;
-use TRegx\CleanRegex\Replace\GroupMapper\MapGroupMapperDecorator;
-use TRegx\CleanRegex\Replace\GroupMapper\StrategyFallbackAdapter;
 
 class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 {

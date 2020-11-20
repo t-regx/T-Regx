@@ -1,10 +1,10 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\NonReplaced;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\GroupMapper;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Replace\GroupMapper\DictionaryMapper;
 
 class DictionaryMapperTest extends TestCase
 {

@@ -1,8 +1,8 @@
 <?php
 namespace Test\Utils;
 
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Replace\GroupMapper\GroupMapper;
 
 class NoReplacementMapper implements GroupMapper
 {
