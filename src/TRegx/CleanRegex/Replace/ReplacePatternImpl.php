@@ -49,23 +49,28 @@ class ReplacePatternImpl implements ReplacePattern
         return $this->replacePattern->by();
     }
 
-    public function otherwiseThrowing(string $exceptionClassName = null): SpecificReplacePattern
+    public function otherwiseThrowing(string $exceptionClassName = null): CompositeReplacePattern
     {
         return $this->replacePattern(new ThrowStrategy($exceptionClassName ?? NotReplacedException::class, new NonReplacedMessage()));
     }
 
-    public function otherwiseReturning($substitute): SpecificReplacePattern
+    public function otherwiseReturning($substitute): CompositeReplacePattern
     {
         return $this->replacePattern(new ConstantReturnStrategy($substitute));
     }
 
-    public function otherwise(callable $substituteProducer): SpecificReplacePattern
+    public function otherwise(callable $substituteProducer): CompositeReplacePattern
     {
         return $this->replacePattern(new OtherwiseStrategy($substituteProducer));
     }
 
-    private function replacePattern(SubjectRs $substitute): SpecificReplacePattern
+    private function replacePattern(SubjectRs $substitute): CompositeReplacePattern
     {
         return new SpecificReplacePatternImpl($this->pattern, $this->subject, $this->limit, $substitute);
+    }
+
+    public function focus($nameOrIndex): FocusReplacePattern
+    {
+        return new FocusReplacePattern($this->replacePattern, $this->pattern, $this->subject, $this->limit, $nameOrIndex);
     }
 }

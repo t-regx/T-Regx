@@ -16,6 +16,12 @@ Incoming in 0.9.13
 
 * Features
     * Add `NotReplacedException.getSubject()`
+    * Add `pattern()->replace()->focus(group)` #82
+
+      It allows the replacement mechanism to **focus** on a single group,
+      so only that group will change; the rest of the whole match will be 
+      left as it was.
+
     * Added proper handling of `/J` flag #84
 
       Previously, duplicate patterns added a form of unpredictability, that is

@@ -6,6 +6,8 @@ use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\StrategyFallbackAdapter;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\Wrapper;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\WrappingMapper;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\LazySubjectRs;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowMatchRs;
@@ -23,18 +25,22 @@ class ByReplacePatternImpl implements ByReplacePattern
     private $performanceReplace;
     /** @var ReplacePatternCallbackInvoker */
     private $replaceCallbackInvoker;
+    /** @var Wrapper */
+    private $wrapper;
 
     public function __construct(GroupFallbackReplacer $fallbackReplacer,
                                 LazySubjectRs $substitute,
                                 PerformanceEmptyGroupReplace $performanceReplace,
                                 ReplacePatternCallbackInvoker $replaceCallbackInvoker,
-                                string $subject)
+                                string $subject,
+                                Wrapper $middlewareMapper)
     {
         $this->fallbackReplacer = $fallbackReplacer;
         $this->substitute = $substitute;
         $this->subject = $subject;
         $this->performanceReplace = $performanceReplace;
         $this->replaceCallbackInvoker = $replaceCallbackInvoker;
+        $this->wrapper = $middlewareMapper;
     }
 
     public function group($nameOrIndex): ByGroupReplacePattern
@@ -45,7 +51,8 @@ class ByReplacePatternImpl implements ByReplacePattern
             $this->performanceReplace,
             $this->replaceCallbackInvoker,
             $nameOrIndex,
-            $this->subject);
+            $this->subject,
+            $this->wrapper);
     }
 
     public function map(array $map): string
@@ -62,7 +69,10 @@ class ByReplacePatternImpl implements ByReplacePattern
     {
         return $this->fallbackReplacer->replaceOrFallback(
             0,
-            new StrategyFallbackAdapter(new DictionaryMapper($map), $substitute, $this->subject),
+            new StrategyFallbackAdapter(
+                new WrappingMapper(new DictionaryMapper($map), $this->wrapper),
+                $substitute,
+                $this->subject),
             new ThrowMatchRs()); // ThrowMatchRs, because impossible for group 0 not to be matched
     }
 }

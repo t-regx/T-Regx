@@ -39,6 +39,22 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldReplace_focus_with()
+    {
+        // given
+        $pattern = 'http://(?<name>[a-z]+)\.(com|org)';
+        $subject = 'Links: http://google.com, http://other.org and http://website.org.';
+
+        // when
+        $result = pattern($pattern)->replace($subject)->all()->focus('name')->with('xxx');
+
+        // then
+        $this->assertEquals('Links: http://xxx.com, http://xxx.org and http://xxx.org.', $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetFromReplaceMatch_all()
     {
         // given

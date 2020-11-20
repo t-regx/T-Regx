@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Subject;
@@ -79,7 +80,8 @@ class ByGroupReplacePatternImplTest extends TestCase
             new PerformanceEmptyGroupReplace($internalPattern, $subjectable, -1),
             new ReplacePatternCallbackInvoker($internalPattern, $subjectable, -1, new LazyMessageThrowStrategy(\AssertionError::class)),
             1,
-            $subject
+            $subject,
+            new IdentityWrapper()
         );
     }
 }
