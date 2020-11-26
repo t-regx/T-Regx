@@ -58,7 +58,7 @@ class CompilePregExceptionFactory
     {
         $value = \str_replace('(PCRE2_DUPNAMES not set) ', '', $message);
 
-        if (\version_compare(PHP_VERSION, '7.3.0', '<')) {
+        if (\version_compare(\PHP_VERSION, '7.3.0', '<')) {
             if (\preg_match("/^Two named subpatterns have the same name at offset (\d+)$/", $value, $match)) {
                 $offset = $match[1] + 1; // increase offset by 1, to fix php inconsistencies
                 return "Two named subpatterns have the same name at offset $offset";

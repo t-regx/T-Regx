@@ -20,14 +20,14 @@ class ReferencesReplacer
                 if ($values[0] === '\\\\') {
                     return '\\';
                 }
-                if (array_key_exists(3, $values)) {
+                if (\array_key_exists(3, $values)) {
                     $key = $values[3];
-                } else if (array_key_exists(2, $values)) {
+                } else if (\array_key_exists(2, $values)) {
                     $key = $values[2];
                 } else {
                     $key = $values[1];
                 }
-                if (array_key_exists((int)$key, $groups)) {
+                if (\array_key_exists((int)$key, $groups)) {
                     return $groups[(int)$key];
                 }
                 throw new InternalCleanRegexException();
