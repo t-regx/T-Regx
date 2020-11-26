@@ -4,15 +4,21 @@ T-Regx Changelog
 Incoming in 0.9.13
 ------------------
 
+* Breaking changes:
+    * None
+
 * Deprecation
     * Deprecate `Match`, use `Detail` instead.
     * Deprecate `ReplaceMatch`, use `ReplaceDetail` instead.
     * Deprecate `MatchGroup`, use `DetailGroup` instead.
     * Deprecate `ReplaceMatchGroup`, use `ReplaceDetailGroup` instead.
 
-      In preparation for incoming PHP 8, in which `match` is the new keyword,
+      In preparation for PHP 8, in which `match` is a new keyword,
       we deprecate `Match` and `ReplaceMatch`. `Match` will become an invalid
-      class name in PHP 8.
+      class name in PHP 8. 
+      
+      Classes `Match`, `ReplaceMatch`, `MatchGroup` and `ReplaceMatchGroup` will 
+      remain in T-Regx (as deprecated) until T-Regx drops support for PHP 7.
 
 * Features
     * Add `NotReplacedException.getSubject()`
@@ -21,29 +27,38 @@ Incoming in 0.9.13
     * Add `pattern()->replace()->focus(group)` #82
 
       It allows the replacement mechanism to **focus** on a single group,
-      so only that group will change; the rest of the whole match will be 
-      left as it was.
+      so only the focused capturing group will change; the rest of the whole 
+      match will be left as it was.
 
     * Added proper handling of `/J` flag #84
 
-      Previously, duplicate patterns added a form of unpredictability, that is
+      Previously, duplicate patterns added a form of unpredictability -
       the structure of the group (order, index, name) depended on the group
-      appearance in the pattern, but its value (text, offset) depended on which
-      group was matched (strategy 2). That's the consequence of php storing only 
-      one named group in the result, since PHP arrays can't hold duplicate keys.
+      appearance in the pattern, which is fine. However, its value (text, offset) 
+      depended on which group was matched (that's what we call strategy 2).
+      That's the consequence of php storing only one named group in the result, 
+      since PHP arrays can't hold duplicate keys.
 
-      Since now, every method (inline groups, group in `Match`, etc.)  predictably 
-      depends on the order of the group in the pattern (strategy 1).
+      That's another gotcha trap set by PHP, and we need a reasonable mechanism
+      in T-Regx to handle it.
+
+      Since now, every method (inline groups, group in `Match`, etc.) predictably 
+      depends on the order of the group in the pattern (that's what we call strategy 1),
+      even the value (text, offset), which previously were kind of random.
 
     * Added `Match.usingDuplicateName()` method, which allows the user to use the
       less predictable behaviour (which was the default, previously). 
 
       For safety, groups returned from `usingDuplicateName()` don't have `index()` 
       method, since it allows strategy 2, and strategy 2 indexes of groups are
-      sometimes unpredictable.
+      sometimes unpredictable. Group returned there extends a different interface,
+      not `DetailGroup` as usual, but `DuplicateNamedGroup` - that's an otherwise 
+      identical interface, except it doesn't have `index()` method. Of course, 
+      regular `group(int|string)` groups still have `index()` method, since they 
+      use strategy 1 now.
 
       * `Match.group('group')` previously would return strategy 2, now returns strategy 1.
-      * `Match.usingDuplicateName().group('group')` returns group by strategy 2, previously default
+      * `Match.usingDuplicateName().group('group')` returns group by strategy 2 (previously default)
       
       There is currently no way to use strategy 2 for inline groups or aggregate group methods,
       only for `Match` details.
