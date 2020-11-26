@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
+use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Detail;
 
@@ -28,7 +28,7 @@ class MatchStream implements Stream
 
     public function all(): array
     {
-        return $this->stream->all()->getMatchObjects($this->factory(-1));
+        return $this->stream->all()->getDetailObjects($this->factory(-1));
     }
 
     public function first(): Detail
@@ -36,9 +36,9 @@ class MatchStream implements Stream
         return $this->factory(1)->create(0, $this->stream->first(), $this->allFactory);
     }
 
-    private function factory(int $limit): MatchObjectFactory
+    private function factory(int $limit): DetailObjectFactory
     {
-        return new MatchObjectFactory($this->subjectable, $limit, $this->userData);
+        return new DetailObjectFactory($this->subjectable, $limit, $this->userData);
     }
 
     public function firstKey(): int

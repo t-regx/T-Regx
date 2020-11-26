@@ -39,7 +39,7 @@ class MatchFirst
     {
         $match = $this->base->matchOffset();
         $this->validateMatched($match);
-        return $this->createMatchObject($match);
+        return $this->createDetail($match);
     }
 
     private function validateMatched(IRawMatch $match): void
@@ -49,7 +49,7 @@ class MatchFirst
         }
     }
 
-    private function createMatchObject(IRawMatchOffset $match): Detail
+    private function createDetail(IRawMatchOffset $match): Detail
     {
         $factory = new LazyMatchAllFactory($this->base);
         return new DetailImpl($this->base, 0, 1, new GroupPolyfillDecorator($match, $factory, 0),

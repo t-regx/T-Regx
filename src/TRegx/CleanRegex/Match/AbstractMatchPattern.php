@@ -26,10 +26,10 @@ use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
 use TRegx\CleanRegex\Internal\MatchPatternHelpers;
+use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -73,17 +73,17 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         $match = $this->base->matchOffset();
         if ($match->matched()) {
-            return new OptionalImpl($consumer($this->findFirstDetails($match)));
+            return new OptionalImpl($consumer($this->findFirstDetail($match)));
         }
         return new EmptyOptional(
             new NotMatchedOptionalWorker(new FirstMatchMessage(), $this->base, new NotMatched(new LazyRawWithGroups($this->base), $this->base)),
             SubjectNotMatchedException::class);
     }
 
-    private function findFirstDetails(RawMatchOffset $match): Detail
+    private function findFirstDetail(RawMatchOffset $match): Detail
     {
         $allFactory = new LazyMatchAllFactory($this->base);
-        return (new MatchObjectFactory($this->base, 1, $this->base->getUserData()))
+        return (new DetailObjectFactory($this->base, 1, $this->base->getUserData()))
             ->create(0, new GroupPolyfillDecorator($match, $allFactory, 0), $allFactory);
     }
 
@@ -185,7 +185,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
      */
     protected function getMatchObjects(): array
     {
-        $factory = new MatchObjectFactory($this->base, -1, $this->base->getUserData());
-        return $this->base->matchAllOffsets()->getMatchObjects($factory);
+        $factory = new DetailObjectFactory($this->base, -1, $this->base->getUserData());
+        return $this->base->matchAllOffsets()->getDetailObjects($factory);
     }
 }

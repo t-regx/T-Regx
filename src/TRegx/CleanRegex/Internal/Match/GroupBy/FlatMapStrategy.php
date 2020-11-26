@@ -3,18 +3,18 @@ namespace TRegx\CleanRegex\Internal\Match\GroupBy;
 
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\Match\IndexedRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 
 class FlatMapStrategy implements Strategy
 {
     /** @var callable */
     private $mapper;
-    /** @var MatchObjectFactory */
+    /** @var DetailObjectFactory */
     private $factory;
 
-    public function __construct(callable $mapper, MatchObjectFactory $factory)
+    public function __construct(callable $mapper, DetailObjectFactory $factory)
     {
         $this->mapper = $mapper;
         $this->factory = $factory;

@@ -5,11 +5,11 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
+use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\IndexedRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\MatchObjectFactory;
 
 class RawMatchesOffset implements IRawMatches, IRawWithGroups
 {
@@ -28,7 +28,7 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
         return \count($this->matches[self::GROUP_WHOLE_MATCH]) > 0;
     }
 
-    public function getMatchObjects(MatchObjectFactory $factory): array
+    public function getDetailObjects(DetailObjectFactory $factory): array
     {
         $matchObjects = [];
         foreach ($this->matches[self::GROUP_WHOLE_MATCH] as $index => $firstWhole) {
@@ -178,9 +178,9 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
         }, $this->matches));
     }
 
-    public function filterMatchesByMatchObjects(Predicate $predicate, MatchObjectFactory $factory): array
+    public function filterMatchesByMatchObjects(Predicate $predicate, DetailObjectFactory $factory): array
     {
-        $matchObjects = $this->getMatchObjects($factory);
+        $matchObjects = $this->getDetailObjects($factory);
         $filteredMatches = \array_filter($matchObjects, [$predicate, 'test']);
 
         return \array_map(static function (array $match) use ($filteredMatches) {
