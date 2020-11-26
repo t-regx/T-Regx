@@ -108,7 +108,8 @@ class NotMatchedGroupTest extends TestCase
                 new GroupMessage('first'),
                 $subject,
                 new NotMatched(new RawMatches([]), $subject)
-            )
+            ),
+            '$unused'
         );
     }
 }

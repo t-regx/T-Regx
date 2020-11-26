@@ -14,12 +14,18 @@ class NotMatchedGroup implements DetailGroup, MatchGroup
     private $exceptionFactory;
     /** @var NotMatchedOptionalWorker */
     private $optionalWorker;
+    /** @var string */
+    private $subject;
 
-    public function __construct(GroupDetails $details, GroupExceptionFactory $exceptionFactory, NotMatchedOptionalWorker $optionalWorker)
+    public function __construct(GroupDetails $details,
+                                GroupExceptionFactory $exceptionFactory,
+                                NotMatchedOptionalWorker $optionalWorker,
+                                string $subject)
     {
         $this->details = $details;
         $this->exceptionFactory = $exceptionFactory;
         $this->optionalWorker = $optionalWorker;
+        $this->subject = $subject;
     }
 
     public function text(): string
@@ -98,6 +104,11 @@ class NotMatchedGroup implements DetailGroup, MatchGroup
     public function replace(string $replacement): string
     {
         throw $this->groupNotMatched('replace');
+    }
+
+    public function subject(): string
+    {
+        return $this->subject;
     }
 
     public function all(): array

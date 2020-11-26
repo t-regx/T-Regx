@@ -16,8 +16,9 @@ class MatchGroupFactoryStrategy implements GroupFactoryStrategy
 
     public function createUnmatched(GroupDetails $details,
                                     GroupExceptionFactory $exceptionFactory,
-                                    NotMatchedOptionalWorker $optionalFactory): NotMatchedGroup
+                                    NotMatchedOptionalWorker $optionalFactory,
+                                    string $subject): NotMatchedGroup
     {
-        return new NotMatchedGroup($details, $exceptionFactory, $optionalFactory);
+        return new NotMatchedGroup($details, $exceptionFactory, $optionalFactory, $subject);
     }
 }

@@ -11,8 +11,8 @@ use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
@@ -87,7 +87,8 @@ class GroupFacade
                 new GroupMessage($this->usedIdentifier),
                 $this->subject,
                 new NotMatched($match, $this->subject)
-            )
+            ),
+            $this->subject->getSubject()
         );
     }
 

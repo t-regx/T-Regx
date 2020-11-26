@@ -15,5 +15,6 @@ interface GroupFactoryStrategy
 
     public function createUnmatched(GroupDetails $details,
                                     GroupExceptionFactory $exceptionFactory,
-                                    NotMatchedOptionalWorker $optionalFactory): NotMatchedGroup;
+                                    NotMatchedOptionalWorker $optionalFactory,
+                                    string $subject): NotMatchedGroup;
 }

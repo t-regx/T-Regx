@@ -26,8 +26,9 @@ class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
 
     public function createUnmatched(GroupDetails $details,
                                     GroupExceptionFactory $exceptionFactory,
-                                    NotMatchedOptionalWorker $optionalFactory): NotMatchedGroup
+                                    NotMatchedOptionalWorker $optionalFactory,
+                                    string $subject): NotMatchedGroup
     {
-        return new ReplaceNotMatchedGroup($details, $exceptionFactory, $optionalFactory);
+        return new ReplaceNotMatchedGroup($details, $exceptionFactory, $optionalFactory, $subject);
     }
 }

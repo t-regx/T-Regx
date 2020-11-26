@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details;
 
-use TRegx\CleanRegex\Match\Details\Group\DuplicateNamedGroup;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\DuplicateNamedGroup;
 
 class DuplicateNamedGroupAdapter implements DuplicateNamedGroup
 {
@@ -80,6 +80,11 @@ class DuplicateNamedGroupAdapter implements DuplicateNamedGroup
     public function replace(string $replacement): string
     {
         return $this->group->replace($replacement);
+    }
+
+    public function subject(): string
+    {
+        return $this->group->subject();
     }
 
     public function all(): array

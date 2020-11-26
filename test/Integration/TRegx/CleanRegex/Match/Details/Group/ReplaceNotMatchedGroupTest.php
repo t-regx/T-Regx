@@ -7,7 +7,6 @@ use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Match\Details\Group\ReplaceDetailGroup;
 use TRegx\CleanRegex\Match\Details\Group\ReplaceNotMatchedGroup;
 
 class ReplaceNotMatchedGroupTest extends TestCase
@@ -36,6 +35,6 @@ class ReplaceNotMatchedGroupTest extends TestCase
         $subject = $this->createMock(Subjectable::class);
         $groupDetails = $this->createMock(GroupDetails::class);
         $worker = $this->createMock(NotMatchedOptionalWorker::class);
-        return new ReplaceNotMatchedGroup($groupDetails, new GroupExceptionFactory($subject, $group), $worker);
+        return new ReplaceNotMatchedGroup($groupDetails, new GroupExceptionFactory($subject, $group), $worker, '$unused');
     }
 }

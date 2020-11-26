@@ -101,6 +101,11 @@ class MatchedGroup implements DetailGroup, MatchGroup
         return (new MatchGroupReplacer())->replaceGroup($this->match, $this->occurrence, $replacement);
     }
 
+    public function subject(): string
+    {
+        return $this->occurrence->subject->getSubject();
+    }
+
     public function all(): array
     {
         return $this->details->all();

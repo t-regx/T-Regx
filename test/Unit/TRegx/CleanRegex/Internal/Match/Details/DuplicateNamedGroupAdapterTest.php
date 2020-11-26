@@ -57,6 +57,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
             'tail'           => ['tail', [], 12],
             'byteOffset'     => ['byteOffset', [], 12],
             'byteTail'       => ['byteTail', [], 12],
+            'subject'        => ['subject', [], 'the subject'],
             'all'            => ['all', [], ['a', 'b']],
             'orThrow []'     => ['orThrow', [], 'substitute'],
             'orThrow [arg]'  => ['orThrow', [\stdClass::class], 'substitute'],

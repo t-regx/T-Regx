@@ -16,6 +16,8 @@ Incoming in 0.9.13
 
 * Features
     * Add `NotReplacedException.getSubject()`
+    * Add `DetailGroup.subject()`
+    * Add `ReplaceDetailGroup.subject()`
     * Add `pattern()->replace()->focus(group)` #82
 
       It allows the replacement mechanism to **focus** on a single group,

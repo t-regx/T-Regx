@@ -34,5 +34,7 @@ interface MatchGroupDetails extends Optional
 
     public function replace(string $replacement): string;
 
+    public function subject(): string;
+
     public function all(): array;
 }

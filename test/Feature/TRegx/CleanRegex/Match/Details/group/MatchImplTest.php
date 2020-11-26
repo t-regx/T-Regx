@@ -101,6 +101,29 @@ class MatchImplTest extends TestCase
 
     /**
      * @test
+     */
+    public function shouldGetSubject()
+    {
+        // when
+        pattern('(?<matched>Foo)(?<unmatched>Bar)?')
+            ->match('Hello:Foo')
+            ->first(function (Detail $detail) {
+                // given
+                $matched = $detail->group('matched');
+                $unmatched = $detail->group('unmatched');
+
+                // when
+                $matchedSubject = $matched->subject();
+                $unmatchedSubject = $unmatched->subject();
+
+                // then
+                $this->assertEquals('Hello:Foo', $matchedSubject);
+                $this->assertEquals('Hello:Foo', $unmatchedSubject);
+            });
+    }
+
+    /**
+     * @test
      * @dataProvider shouldGroup_notMatch_dataProvider
      * @param string $pattern
      * @param string $subject
