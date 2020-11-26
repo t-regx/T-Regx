@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\DictionaryMapper;
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\StrategyFallbackAdapter;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\SubstituteFallbackMapper;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\Wrapper;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\WrappingMapper;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
@@ -69,7 +69,7 @@ class ByReplacePatternImpl implements ByReplacePattern
     {
         return $this->fallbackReplacer->replaceOrFallback(
             0,
-            new StrategyFallbackAdapter(
+            new SubstituteFallbackMapper(
                 new WrappingMapper(new DictionaryMapper($map), $this->wrapper),
                 $substitute,
                 $this->subject),

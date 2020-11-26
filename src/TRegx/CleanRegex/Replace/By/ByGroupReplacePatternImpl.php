@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\IdentityMapper;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\MapGroupMapperDecorator;
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\StrategyFallbackAdapter;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\SubstituteFallbackMapper;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\Wrapper;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\WrappingMapper;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ComputedMatchStrategy;
@@ -67,7 +67,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         return new UnmatchedGroupStrategy(
             $this->fallbackReplacer,
             $this->nameOrIndex,
-            new StrategyFallbackAdapter($mapper,
+            new SubstituteFallbackMapper($mapper,
                 new LazyMessageThrowStrategy(MissingReplacementKeyException::class), $this->subject)
         );
     }

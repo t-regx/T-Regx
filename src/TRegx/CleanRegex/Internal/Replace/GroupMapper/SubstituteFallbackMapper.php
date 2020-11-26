@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForMatchMess
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\LazySubjectRs;
 use TRegx\CleanRegex\Match\Details\Detail;
 
-class StrategyFallbackAdapter implements GroupMapper
+class SubstituteFallbackMapper implements GroupMapper
 {
     /** @var GroupMapper */
     private $mapper;
