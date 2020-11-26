@@ -4,12 +4,12 @@ namespace TRegx\CleanRegex\Internal\Match;
 use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\Integer;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class FluentInteger
 {
-    public static function parse($value)
+    public static function parse($value): int
     {
         if (\is_int($value)) {
             return $value;
