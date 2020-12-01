@@ -10,7 +10,7 @@ class NoSuchElementFluentException extends PatternException
         parent::__construct($message);
     }
 
-    public static function withMessage(NotMatchedMessage $message): NoSuchElementFluentException
+    public static function withMessage(NotMatchedMessage $message): self
     {
         return new self($message->getMessage());
     }

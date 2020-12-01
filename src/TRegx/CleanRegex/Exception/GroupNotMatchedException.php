@@ -23,28 +23,28 @@ class GroupNotMatchedException extends PatternException
         $this->group = $group;
     }
 
-    public static function forFirst(Subjectable $subject, $group): GroupNotMatchedException
-    {
-        return self::exception($subject, $group, new FirstGroupMessage($group));
-    }
-
-    public static function forMethod(Subjectable $subject, $group, string $method): GroupNotMatchedException
-    {
-        return self::exception($subject, $group, new MethodGroupMessage($method, $group));
-    }
-
-    public static function forReplacement(Subjectable $subject, $group): GroupNotMatchedException
-    {
-        return self::exception($subject, $group, new ReplacementWithUnmatchedGroupMessage($group));
-    }
-
-    public static function forGet(Subjectable $subject, $group): GroupNotMatchedException
-    {
-        return self::exception($subject, $group, new MethodGetGroupMessage($group));
-    }
-
-    private static function exception(Subjectable $subject, $group, NotMatchedMessage $message): GroupNotMatchedException
+    private static function exception(NotMatchedMessage $message, Subjectable $subject, $group): self
     {
         return new GroupNotMatchedException($message->getMessage(), $subject->getSubject(), $group);
+    }
+
+    public static function forFirst(Subjectable $subject, $group): self
+    {
+        return self::exception(new FirstGroupMessage($group), $subject, $group);
+    }
+
+    public static function forMethod(Subjectable $subject, $group, string $method): self
+    {
+        return self::exception(new MethodGroupMessage($method, $group), $subject, $group);
+    }
+
+    public static function forReplacement(Subjectable $subject, $group): self
+    {
+        return self::exception(new ReplacementWithUnmatchedGroupMessage($group), $subject, $group);
+    }
+
+    public static function forGet(Subjectable $subject, $group): self
+    {
+        return self::exception(new MethodGetGroupMessage($group), $subject, $group);
     }
 }
