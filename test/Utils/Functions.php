@@ -6,12 +6,6 @@ use Throwable;
 
 class Functions
 {
-    public static function any(): callable
-    {
-        return function () {
-        };
-    }
-
     public static function identity(): callable
     {
         return function ($arg) {
@@ -26,7 +20,7 @@ class Functions
         };
     }
 
-    public static function throws(Throwable $throwable)
+    public static function throws(Throwable $throwable): callable
     {
         return function () use ($throwable) {
             throw $throwable;
@@ -37,6 +31,15 @@ class Functions
     {
         return function () use ($message) {
             Assert::fail($message ?? 'Failed to assert that callback is not invoked');
+        };
+    }
+
+    public static function pass(): callable
+    {
+        return function () {
+            // Let PhpUnit know that missing assertions
+            // are expected, not accidental
+            Assert::assertTrue(true);
         };
     }
 

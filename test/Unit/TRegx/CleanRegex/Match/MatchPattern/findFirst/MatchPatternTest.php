@@ -78,14 +78,11 @@ class MatchPatternTest extends TestCase
 
         // when
         $pattern->findFirst(Functions::fail())->orReturn(null);
-        $pattern->findFirst(Functions::fail())->orElse(Functions::any());
+        $pattern->findFirst(Functions::fail())->orElse(Functions::pass());
         try {
             $pattern->findFirst(Functions::fail())->orThrow();
         } catch (SubjectNotMatchedException $ignored) {
         }
-
-        // then
-        $this->assertTrue(true);
     }
 
     /**
