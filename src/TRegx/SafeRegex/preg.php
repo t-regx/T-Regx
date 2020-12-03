@@ -144,7 +144,7 @@ class preg
             if (!\is_object($value) || \method_exists($value, '__toString')) {
                 return $value;
             }
-            throw new InvalidReturnValueException($methodName, $pattern, \gettype($value));
+            throw new InvalidReturnValueException($pattern, $methodName, \gettype($value));
         };
     }
 

@@ -41,7 +41,7 @@ class RuntimePregExceptionFactory
     private function instantiateException(string $errorName): RuntimePregException
     {
         $class = $this->className();
-        return new $class($this->methodName, $this->pattern, $this->getExceptionMessage($errorName), $this->errorCode, $errorName);
+        return new $class($this->getExceptionMessage($errorName), $this->pattern, $this->methodName, $this->errorCode, $errorName);
     }
 
     private function className(): string

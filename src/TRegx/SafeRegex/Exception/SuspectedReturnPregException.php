@@ -8,7 +8,7 @@ class SuspectedReturnPregException extends PregException
 
     public function __construct(string $methodName, $pattern, string $returnValue)
     {
-        parent::__construct($methodName, $pattern, "Invoking $methodName() resulted in '$returnValue'.");
+        parent::__construct("Invoking $methodName() resulted in '$returnValue'.", $pattern, $methodName);
         $this->returnValue = $returnValue;
     }
 

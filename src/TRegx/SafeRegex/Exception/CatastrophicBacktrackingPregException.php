@@ -3,8 +3,8 @@ namespace TRegx\SafeRegex\Exception;
 
 class CatastrophicBacktrackingPregException extends RuntimePregException
 {
-    public function __construct(string $methodName, $pattern, string $message, int $errorCode, string $errorName)
+    public function __construct(string $message, $pattern, string $methodName, int $errorCode, string $errorName)
     {
-        parent::__construct($methodName, $pattern, $message, $errorCode, $errorName);
+        parent::__construct($message, $pattern, $methodName, $errorCode, $errorName);
     }
 }

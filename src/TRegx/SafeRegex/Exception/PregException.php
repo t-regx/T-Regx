@@ -5,16 +5,16 @@ use TRegx\RegexException;
 
 abstract class PregException extends RegexException
 {
-    /** @var string */
-    private $methodName;
     /** @var string|array */
     private $pattern;
+    /** @var string */
+    private $methodName;
 
-    public function __construct(string $methodName, $pattern, ?string $message)
+    public function __construct(?string $message, $pattern, string $methodName)
     {
         parent::__construct($message);
-        $this->methodName = $methodName;
         $this->pattern = $pattern;
+        $this->methodName = $methodName;
     }
 
     public function getInvokingMethod(): string

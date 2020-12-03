@@ -12,7 +12,7 @@ class CompilePregException extends PregException
 
     public function __construct(string $methodName, $pattern, string $message, PhpError $error, string $errorName)
     {
-        parent::__construct($methodName, $pattern, $message);
+        parent::__construct($message, $pattern, $methodName);
         $this->error = $error;
         $this->errorName = $errorName;
     }
