@@ -2,6 +2,8 @@
 namespace TRegx\CleanRegex\Internal\Replace\GroupMapper;
 
 use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;
+use TRegx\CleanRegex\Internal\Replace\Wrappable;
+use TRegx\CleanRegex\Internal\Replace\Wrapper;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class FocusWrapper implements Wrapper

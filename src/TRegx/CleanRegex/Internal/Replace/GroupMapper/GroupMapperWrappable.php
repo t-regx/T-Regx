@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace\GroupMapper;
 
+use TRegx\CleanRegex\Internal\Replace\Wrappable;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class GroupMapperWrappable implements Wrappable

@@ -11,15 +11,15 @@ use TRegx\CleanRegex\Internal\Replace\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\IdentityMapper;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\MapGroupMapperDecorator;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\SubstituteFallbackMapper;
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\Wrapper;
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\WrappingMapper;
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\WrappingMatchRs;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ComputedMatchStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
+use TRegx\CleanRegex\Internal\Replace\Wrapper;
+use TRegx\CleanRegex\Internal\Replace\WrappingMapper;
+use TRegx\CleanRegex\Internal\Replace\WrappingMatchRs;
 use TRegx\CleanRegex\Replace\Callback\MatchGroupStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 

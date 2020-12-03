@@ -6,11 +6,11 @@ use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\SubstituteFallbackMapper;
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\Wrapper;
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\WrappingMapper;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\LazySubjectRs;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowMatchRs;
+use TRegx\CleanRegex\Internal\Replace\Wrapper;
+use TRegx\CleanRegex\Internal\Replace\WrappingMapper;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 
 class ByReplacePatternImpl implements ByReplacePattern

@@ -1,7 +1,8 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Replace\GroupMapper;
+namespace TRegx\CleanRegex\Internal\Replace;
 
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\MatchRs;
+use TRegx\CleanRegex\Internal\Replace\NonReplaced\MatchRsWrappable;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class WrappingMatchRs implements MatchRs
