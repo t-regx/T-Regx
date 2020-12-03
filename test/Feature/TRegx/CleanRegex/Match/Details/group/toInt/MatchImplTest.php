@@ -47,7 +47,7 @@ class MatchImplTest extends TestCase
     {
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse group '1', but '1e3' is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse group #1, but '1e3' is not a valid integer");
 
         // given
         pattern('(.*)', 's')
@@ -117,7 +117,7 @@ class MatchImplTest extends TestCase
     {
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse group '1', but 'Foo' is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse group #1, but 'Foo' is not a valid integer");
 
         // given
         pattern('(?<name>\w+)')

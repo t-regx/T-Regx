@@ -38,7 +38,7 @@ class FluentMatchPatternTest extends TestCase
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the #0 element from fluent pattern, but the elements feed has 0 elements.");
+        $this->expectExceptionMessage("Expected to get the 0-th element from fluent pattern, but the elements feed has 0 element(s).");
 
         // when
         $pattern->findNth(0)->orThrow();
@@ -102,7 +102,7 @@ class FluentMatchPatternTest extends TestCase
 
         // then
         $this->expectException(CustomException::class);
-        $this->expectExceptionMessage("Expected to get the #2 element from fluent pattern, but the elements feed has 0 elements.");
+        $this->expectExceptionMessage("Expected to get the 2-th element from fluent pattern, but the elements feed has 0 element(s).");
 
         // when
         $pattern->findNth(2)->orThrow(CustomException::class);

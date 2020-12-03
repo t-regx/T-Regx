@@ -108,7 +108,7 @@ class DelimiterParserTest extends TestCase
 
         // then
         $this->expectException(FlagNotAllowedException::class);
-        $this->expectExceptionMessage("Regular expression flags: ['a', 'f'] are not allowed");
+        $this->expectExceptionMessage("Regular expression flags ['a', 'f'] are not allowed");
 
         // when
         $delimiter->getDelimiter('/Foo/amfx');

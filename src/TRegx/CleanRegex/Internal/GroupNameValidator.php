@@ -40,7 +40,7 @@ class GroupNameValidator
     private function validateGroupIndex(): void
     {
         if ($this->groupNameOrIndex < 0) {
-            throw new InvalidArgumentException("Group index can only be a non-negative integer, given: $this->groupNameOrIndex");
+            throw new InvalidArgumentException("Group index must be a non-negative integer, given: $this->groupNameOrIndex");
         }
     }
 
@@ -59,6 +59,6 @@ class GroupNameValidator
     private function throwInvalidGroupNameType(): void
     {
         $type = Type::asString($this->groupNameOrIndex);
-        throw new InvalidArgumentException("Group index can only be an integer or a string, given: $type");
+        throw new InvalidArgumentException("Group index must be an integer or a string, given: $type");
     }
 }

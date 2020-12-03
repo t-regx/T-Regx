@@ -80,7 +80,7 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get group '0' from the first match, but subject was not matched at all");
+        $this->expectExceptionMessage("Expected to get group #0 from the first match, but subject was not matched at all");
 
         // when
         pattern('Foo')
@@ -114,7 +114,7 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage("Expected to get group '0' from the first match, but subject was not matched at all");
+        $this->expectExceptionMessage("Expected to get group #0 from the first match, but subject was not matched at all");
 
         // when
         pattern('Foo')

@@ -244,7 +244,7 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get the first match as int, but subject was not matched");
+        $this->expectExceptionMessage("Expected to get the first match as integer, but subject was not matched");
 
         // given
         pattern('dont match me')
@@ -276,7 +276,7 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the first match as int, but subject was not matched");
+        $this->expectExceptionMessage("Expected to get the first match as integer, but subject was not matched");
 
         // given
         pattern('dont match me')
@@ -293,7 +293,7 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call text() for group '1', but the group was not matched");
+        $this->expectExceptionMessage("Expected to call text() for group #1, but the group was not matched");
 
         // given
         pattern('Foo(Bar)?')->match('Foo')->findFirst(function (Detail $detail) {

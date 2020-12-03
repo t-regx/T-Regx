@@ -119,7 +119,7 @@ class GroupFallbackReplacerTest extends TestCase
 
         // then
         $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage("Nonexistent group: '1'");
+        $this->expectExceptionMessage("Nonexistent group: #1");
 
         // when
         $fallbackReplacer->replaceOrFallback(1, new NoReplacementMapper(), new DefaultStrategy());
@@ -135,7 +135,7 @@ class GroupFallbackReplacerTest extends TestCase
 
         // then
         $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage("Expected to replace with group '1', but the group was not matched");
+        $this->expectExceptionMessage("Expected to replace with group #1, but the group was not matched");
 
         // when
         $fallbackReplacer->replaceOrFallback(
@@ -155,7 +155,7 @@ class GroupFallbackReplacerTest extends TestCase
 
         // then
         $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage("Expected to replace with group '1', but the group was not matched");
+        $this->expectExceptionMessage("Expected to replace with group #1, but the group was not matched");
 
         // when
         $fallbackReplacer->replaceOrFallback(

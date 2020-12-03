@@ -16,6 +16,6 @@ class NthFluentMessage implements NotMatchedMessage
 
     public function getMessage(): string
     {
-        return "Expected to get the #$this->index element from fluent pattern, but the elements feed has $this->count elements.";
+        return "Expected to get the $this->index-th element from fluent pattern, but the elements feed has $this->count element(s).";
     }
 }

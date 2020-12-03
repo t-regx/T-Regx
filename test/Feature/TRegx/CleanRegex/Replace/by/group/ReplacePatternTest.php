@@ -138,12 +138,13 @@ class ReplacePatternTest extends TestCase
      * @test
      * @dataProvider groups
      * @param string|int $nameOrIndex
+     * @param string $group
      */
-    public function shouldNotReplace_orThrow($nameOrIndex)
+    public function shouldNotReplace_orThrow($nameOrIndex, string $group)
     {
         // then
         $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage("Expected to replace with group '$nameOrIndex', but the group was not matched");
+        $this->expectExceptionMessage("Expected to replace with group $group, but the group was not matched");
 
         // when
         pattern('https?://(?<name>\w+)?\.com')
@@ -156,7 +157,7 @@ class ReplacePatternTest extends TestCase
 
     public function groups(): array
     {
-        return [['name'], [1]];
+        return [['name', "'name'"], [1, '#1']];
     }
 
     /**
@@ -325,28 +326,29 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      * @dataProvider nonexistentGroups
-     * @param $group
+     * @param $nameOrIndex
+     * @param string $group
      */
-    public function shouldThrow_forNonExistentGroup($group)
+    public function shouldThrow_forNonExistentGroup($nameOrIndex, string $group)
     {
         // then
         $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage("Nonexistent group: '$group'");
+        $this->expectExceptionMessage("Nonexistent group: $group");
 
         // when
         pattern('https?://(\w+)\.com')
             ->replace('Links: https://google.com and http://facebook.com')
             ->all()
             ->by()
-            ->group($group)
+            ->group($nameOrIndex)
             ->orElseWith('failing');
     }
 
     public function nonexistentGroups(): array
     {
         return [
-            ['missing'],
-            [40],
+            ['missing', "'missing'"],
+            [40, '#40'],
         ];
     }
 
@@ -357,7 +359,7 @@ class ReplacePatternTest extends TestCase
     {
         // then
         $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage("Expected to replace with group '1', but the group was not matched");
+        $this->expectExceptionMessage("Expected to replace with group #1, but the group was not matched");
 
         // when
         pattern('(https?)?://(\w+)\.com')

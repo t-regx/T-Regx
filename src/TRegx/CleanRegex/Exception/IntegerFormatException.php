@@ -1,11 +1,14 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
+use TRegx\CleanRegex\Internal\Type;
+
 class IntegerFormatException extends PatternException
 {
     public static function forGroup($nameOrIndex, string $value): self
     {
-        return new self("Expected to parse group '$nameOrIndex', but '$value' is not a valid integer");
+        $group = Type::group($nameOrIndex);
+        return new self("Expected to parse group $group, but '$value' is not a valid integer");
     }
 
     public static function forMatch(string $value): self

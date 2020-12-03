@@ -147,10 +147,10 @@ class preg
         });
     }
 
-    private static function decorateCallback(string $methodName, $pattern, $callback)
+    private static function decorateCallback(string $methodName, $pattern, $callback): callable
     {
         if (!\is_callable($callback)) {
-            throw new \InvalidArgumentException("Invalid callback passed to '$methodName'");
+            throw new \InvalidArgumentException("Invalid callback passed to $methodName()");
         }
         return static function (...$args) use ($methodName, $pattern, $callback) {
             $value = $callback(...$args);

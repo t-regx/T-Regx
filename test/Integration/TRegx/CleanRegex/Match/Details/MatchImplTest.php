@@ -341,7 +341,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Group index can only be an integer or a string, given: boolean (true)');
+        $this->expectExceptionMessage('Group index must be an integer or a string, given: boolean (true)');
 
         // when
         $detail->group(true);

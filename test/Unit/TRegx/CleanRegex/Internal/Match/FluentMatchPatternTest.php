@@ -333,7 +333,7 @@ class FluentMatchPatternTest extends TestCase
 
         // then
         $this->expectException(FluentMatchPatternException::class);
-        $this->expectExceptionMessage("Invalid data types passed to asInt() method. Expected 'string' or 'int', but boolean (true) given");
+        $this->expectExceptionMessage("Invalid data types passed to asInt() method. Expected integer|string, but boolean (true) given");
 
         // when
         $pattern->asInt()->all();

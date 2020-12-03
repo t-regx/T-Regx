@@ -10,21 +10,21 @@ class ClassExpectedException extends PatternException
 
     public static function notFound(string $className): self
     {
-        return new ClassExpectedException("Class '$className' does not exists");
+        return new ClassExpectedException("Class \\$className does not exists");
     }
 
     public static function notThrowable(string $className): self
     {
-        return new ClassExpectedException("Class '$className' is not throwable");
+        return new ClassExpectedException("Class \\$className is not throwable");
     }
 
     public static function isInterface(string $className): self
     {
-        return new ClassExpectedException("'$className' is not a class, but an interface");
+        return new ClassExpectedException("\\$className is not a class, but an interface");
     }
 
     public static function isAbstract(string $className): self
     {
-        return new ClassExpectedException("Class '$className' is an abstract class");
+        return new ClassExpectedException("Class \\$className is an abstract class");
     }
 }

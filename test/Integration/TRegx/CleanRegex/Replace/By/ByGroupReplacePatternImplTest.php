@@ -58,7 +58,7 @@ class ByGroupReplacePatternImplTest extends TestCase
 
         // then
         $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage("Expected to replace with group '1', but the group was not matched");
+        $this->expectExceptionMessage("Expected to replace with group #1, but the group was not matched");
 
         // when
         $byReplacePattern->orElseThrow(CustomSubjectException::class);

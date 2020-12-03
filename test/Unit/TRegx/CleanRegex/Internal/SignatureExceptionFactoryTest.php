@@ -27,7 +27,7 @@ class SignatureExceptionFactoryTest extends TestCase
 
         // then
         $this->expectException(ClassExpectedException::Class);
-        $this->expectExceptionMessage("Class 'Namespace\NoSuchClass' does not exists");
+        $this->expectExceptionMessage("Class \Namespace\NoSuchClass does not exists");
 
         // when
         $factory->$create('');
@@ -45,7 +45,7 @@ class SignatureExceptionFactoryTest extends TestCase
 
         // then
         $this->expectException(ClassExpectedException::Class);
-        $this->expectExceptionMessage("'Throwable' is not a class, but an interface");
+        $this->expectExceptionMessage("\Throwable is not a class, but an interface");
 
         // when
         $factory->$create('');
@@ -63,7 +63,7 @@ class SignatureExceptionFactoryTest extends TestCase
 
         // then
         $this->expectException(ClassExpectedException::Class);
-        $this->expectExceptionMessage("'Test\Utils\AbstractClass' is an abstract class");
+        $this->expectExceptionMessage("\Test\Utils\AbstractClass is an abstract class");
 
         // when
         $factory->$create('');
@@ -81,7 +81,7 @@ class SignatureExceptionFactoryTest extends TestCase
 
         // then
         $this->expectException(ClassExpectedException::Class);
-        $this->expectExceptionMessage("Class 'stdClass' is not throwable");
+        $this->expectExceptionMessage("Class \stdClass is not throwable");
 
         // when
         $factory->$create('');

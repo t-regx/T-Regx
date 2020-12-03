@@ -7,6 +7,6 @@ class FirstMatchIntMessage implements NotMatchedMessage
 {
     public function getMessage(): string
     {
-        return 'Expected to get the first match as int, but subject was not matched';
+        return 'Expected to get the first match as integer, but subject was not matched';
     }
 }

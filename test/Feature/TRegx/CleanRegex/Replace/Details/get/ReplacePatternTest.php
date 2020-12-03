@@ -36,7 +36,7 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: http://google';
 
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get group '2', but the group was not matched");
+        $this->expectExceptionMessage("Expected to get group #2, but the group was not matched");
 
         // when
         pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $detail) {

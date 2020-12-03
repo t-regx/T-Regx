@@ -104,7 +104,7 @@ class pregTest extends TestCase
     {
         // given
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Invalid callback passed to 'preg_replace_callback_array'");
+        $this->expectExceptionMessage("Invalid callback passed to preg_replace_callback_array()");
 
         // when
         preg::replace_callback_array(['/a/' => 4,], 'word');

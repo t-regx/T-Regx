@@ -105,7 +105,7 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get a tuple of groups '0' and '0' from the first match, but subject was not matched at all");
+        $this->expectExceptionMessage("Expected to get a tuple of groups #0 and #0 from the first match, but subject was not matched at all");
 
         // then
         pattern('Foo')->match('Bar')->tuple(0, 0);
@@ -118,7 +118,7 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get a triple of groups '0', '0' and '0' from the first match, but subject was not matched at all");
+        $this->expectExceptionMessage("Expected to get a triple of groups #0, #0 and #0 from the first match, but subject was not matched at all");
 
         // then
         pattern('Foo')->match('Bar')->triple(0, 0, 0);

@@ -74,7 +74,7 @@ class MatchImplTest extends TestCase
     {
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Group index can only be an integer or a string, given: boolean (true)');
+        $this->expectExceptionMessage('Group index must be an integer or a string, given: boolean (true)');
 
         // given
         pattern('(?<one>first) and (?<two>second)')

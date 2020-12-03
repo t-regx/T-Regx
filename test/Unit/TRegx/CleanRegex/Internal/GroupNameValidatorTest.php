@@ -9,7 +9,7 @@ class GroupNameValidatorTest extends TestCase
     /**
      * @test
      * @dataProvider validGroups
-     * @param string $nameOrIndex
+     * @param string|int $nameOrIndex
      */
     public function shouldValidate($nameOrIndex)
     {
@@ -26,7 +26,7 @@ class GroupNameValidatorTest extends TestCase
     /**
      * @test
      * @dataProvider validGroups
-     * @param string $nameOrIndex
+     * @param string|int $nameOrIndex
      */
     public function shouldBeValid($nameOrIndex)
     {
@@ -43,7 +43,7 @@ class GroupNameValidatorTest extends TestCase
     /**
      * @test
      * @dataProvider invalidGroup
-     * @param string $nameOrIndex
+     * @param string|int $nameOrIndex
      * @param string $message
      */
     public function shouldNotValidate($nameOrIndex, string $message)
@@ -62,7 +62,7 @@ class GroupNameValidatorTest extends TestCase
     /**
      * @test
      * @dataProvider invalidGroup
-     * @param string $nameOrIndex
+     * @param string|int $nameOrIndex
      * @param string $message
      */
     public function shouldNotBeValid($nameOrIndex, string $message)
@@ -95,9 +95,9 @@ class GroupNameValidatorTest extends TestCase
             ['9group', "Group name must be an alphanumeric string starting with a letter, given: '9group'"],
             ['_group', "Group name must be an alphanumeric string starting with a letter, given: '_group'"],
             ['group space', "Group name must be an alphanumeric string starting with a letter, given: 'group space'"],
-            [-15, 'Group index can only be a non-negative integer, given: -15'],
-            [2.23, 'Group index can only be an integer or a string, given: double (2.23)'],
-            [null, 'Group index can only be an integer or a string, given: null'],
+            [-15, 'Group index must be a non-negative integer, given: -15'],
+            [2.23, 'Group index must be an integer or a string, given: double (2.23)'],
+            [null, 'Group index must be an integer or a string, given: null'],
         ];
     }
 }

@@ -48,7 +48,7 @@ class FlagsValidatorTest extends TestCase
 
         // then
         $this->expectException(FlagNotAllowedException::class);
-        $this->expectExceptionMessage("Regular expression flag: ' ' is not allowed");
+        $this->expectExceptionMessage("Regular expression flag ' ' is not allowed");
 
         // when
         $flags->validate(' i');
@@ -77,10 +77,10 @@ class FlagsValidatorTest extends TestCase
     public function invalidFlags()
     {
         return [
-            ['+g', "Regular expression flags: ['+', 'g'] are not allowed"],
-            ['-g', "Regular expression flags: ['-', 'g'] are not allowed"],
-            ['/', "Regular expression flag: '/' is not allowed"],
-            ['G', "Regular expression flag: 'G' is not allowed"],
+            ['+g', "Regular expression flags ['+', 'g'] are not allowed"],
+            ['-g', "Regular expression flags ['-', 'g'] are not allowed"],
+            ['/', "Regular expression flag '/' is not allowed"],
+            ['G', "Regular expression flag 'G' is not allowed"],
         ];
     }
 
@@ -94,7 +94,7 @@ class FlagsValidatorTest extends TestCase
 
         // then
         $this->expectException(DuplicateFlagsException::class);
-        $this->expectExceptionMessage("Regular expression flag: 'm' is duplicated in 'UmDmS'");
+        $this->expectExceptionMessage("Regular expression flag 'm' is duplicated in 'UmDmS'");
 
         // when
         $flags->validate('UmDmS');
@@ -110,7 +110,7 @@ class FlagsValidatorTest extends TestCase
 
         // then
         $this->expectException(FlagNotAllowedException::class);
-        $this->expectExceptionMessage("Regular expression flags: ['f', 'c'] are not allowed");
+        $this->expectExceptionMessage("Regular expression flags ['f', 'c'] are not allowed");
 
         // when
         $flags->validate('fc');

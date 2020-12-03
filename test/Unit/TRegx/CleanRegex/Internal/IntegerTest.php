@@ -20,7 +20,7 @@ class IntegerTest extends TestCase
         $this->assertTrue($result, "Failed asserting that '$string' is a valid integer");
     }
 
-    public function validIntegers()
+    public function validIntegers(): array
     {
         return [
             ['1'],
@@ -46,7 +46,7 @@ class IntegerTest extends TestCase
         $this->assertFalse($result, "Failed asserting that '$pseudoInteger' is not a valid integer");
     }
 
-    public function pseudoIntegers()
+    public function pseudoIntegers(): array
     {
         return [
             [' 1'],
@@ -90,7 +90,7 @@ class IntegerTest extends TestCase
         $this->assertFalse($result, "Failed asserting that '$string' is not a valid integer");
     }
 
-    public function integerOverflowingStrings()
+    public function integerOverflowingStrings(): array
     {
         return [
             [PHP_INT_MAX . '0'],

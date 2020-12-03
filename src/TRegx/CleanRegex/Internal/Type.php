@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use function count;
 use function get_class;
 use function gettype;
@@ -28,5 +29,18 @@ class Type
             return 'resource';
         }
         return get_class($value);
+    }
+
+    public static function group($nameOrIndex): string
+    {
+        if (\is_string($nameOrIndex)) {
+            return "'$nameOrIndex'";
+        }
+        if (\is_int($nameOrIndex)) {
+            return "#$nameOrIndex";
+        }
+        // @codeCoverageIgnoreStart
+        throw new InternalCleanRegexException();
+        // @codeCoverageIgnoreEnd
     }
 }
