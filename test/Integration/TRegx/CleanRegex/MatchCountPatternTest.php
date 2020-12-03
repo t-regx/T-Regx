@@ -26,7 +26,7 @@ class MatchCountPatternTest extends TestCase
         $this->assertEquals($expectedCount, $count, "Failed asserting that count() returned $expectedCount.");
     }
 
-    public function patternsAndSubjects()
+    public function patternsAndSubjects(): array
     {
         return [
             ['/dog/', 'cat', 0],

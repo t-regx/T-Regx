@@ -22,7 +22,7 @@ class ValidPatternTest extends TestCase
         $this->assertTrue($isValid, "Failed asserting that pattern is valid");
     }
 
-    public function validPatterns()
+    public function validPatterns(): array
     {
         return [
             ['~((https?|ftp)://(\S*?\.\S*?))([\s)\[\]{},;"\':<]|\.\s | $)~'],

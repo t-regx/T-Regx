@@ -57,6 +57,18 @@ class pregTest extends TestCase
     /**
      * @dataProvider flags
      */
+    public function testFilterArray(string $flag)
+    {
+        // when
+        $result = preg::filter(["~foo~$flag"], 'bar', 'foo');
+
+        // then
+        $this->assertSame('bar', $result);
+    }
+
+    /**
+     * @dataProvider flags
+     */
     public function testReplaceCallback(string $flag)
     {
         // when

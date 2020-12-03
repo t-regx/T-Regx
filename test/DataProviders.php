@@ -22,7 +22,7 @@ class DataProviders
         ];
     }
 
-    public function invalidUtf8Sequences()
+    public function invalidUtf8Sequences(): array
     {
         return \TRegx\DataProvider\DataProviders::each([
             'Invalid 2 Octet Sequence'                => "\xc3\x28",
@@ -61,7 +61,7 @@ class DataProviders
         ];
     }
 
-    public static function allPhpTypes(string ...$except)
+    public static function allPhpTypes(string ...$except): array
     {
         return array_diff_key(self::typesMap(), array_flip($except));
     }

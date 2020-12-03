@@ -74,13 +74,13 @@ class FlagsValidatorTest extends TestCase
         $flags->validate($flag);
     }
 
-    public function invalidFlags()
+    public function invalidFlags(): array
     {
         return [
             ['+g', "Regular expression flags ['+', 'g'] are not allowed"],
             ['-g', "Regular expression flags ['-', 'g'] are not allowed"],
             ['/', "Regular expression flag '/' is not allowed"],
-            ['G', "Regular expression flag 'G' is not allowed"],
+            ['I', "Regular expression flag 'I' is not allowed"],
         ];
     }
 

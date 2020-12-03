@@ -13,7 +13,7 @@ class UnquotePatternTest extends TestCase
     public function shouldUnquote()
     {
         // given
-        $unquotePattern = new UnquotePattern('Did you\\?');
+        $unquotePattern = new UnquotePattern('Did you\?');
 
         // when
         $unquoted = $unquotePattern->unquote();
@@ -39,11 +39,11 @@ class UnquotePatternTest extends TestCase
         $this->assertEquals($input, $output);
     }
 
-    function quotable()
+    function quotable(): array
     {
         return [
             ['https://stackoverflow.com/search?q=preg_match#anchor'],
-            ['preg_quote(\'an\\y s … \.tri\*ng\') //'],
+            ['preg_quote(\'an\y s … \.tri\*ng\') //'],
             ['.\+*?[^]$(){}=!<>|:-'],
             ['\\\\\\'],
             ['\\\\'],
@@ -57,7 +57,7 @@ class UnquotePatternTest extends TestCase
     public function shouldNotUnquote_regularCharacters()
     {
         // given
-        $input = '\\\' \\" \\/ \\;';
+        $input = '\\\' \" \/ \;';
         $unquotePattern = new UnquotePattern($input);
 
         // when
