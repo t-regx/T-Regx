@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\SafeRegex\Errors\Errors;
+namespace Test\Functional\TRegx\SafeRegex\Errors\Errors;
 
 use PHPUnit\Framework\TestCase;
 use Test\Warnings;
@@ -67,16 +67,16 @@ class RuntimeErrorTest extends TestCase
         $error = new RuntimeError(PREG_BAD_UTF8_ERROR);
 
         // when
-        /** @var RuntimePregException $exception */
-        $exception = $error->getSafeRegexpException('preg_replace', 'TODO FIX ME PLEASE');
+        /** @var RuntimePregException $exception TODO Remove stupid type from PHP 7.4 */
+        $exception = $error->getSafeRegexpException('preg_replace', '/pattern/');
 
         // then
         $this->assertInstanceOf(RuntimePregException::class, $exception);
         $this->assertEquals('preg_replace', $exception->getInvokingMethod());
         $this->assertEquals(PREG_BAD_UTF8_ERROR, $exception->getError());
         $this->assertEquals('PREG_BAD_UTF8_ERROR', $exception->getErrorName());
-        $this->assertEquals('After invoking preg_replace(), preg_last_error() returned PREG_BAD_UTF8_ERROR.',
-            $exception->getMessage());
+        $this->assertEquals('/pattern/', $exception->getPregPattern());
+        $this->assertEquals('After invoking preg_replace(), preg_last_error() returned PREG_BAD_UTF8_ERROR.', $exception->getMessage());
     }
 
     /**

@@ -1,10 +1,10 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex;
+namespace Test\Feature\TRegx\SafeRegex\Errors;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Exception\MalformedPatternException;
 
-class ErrorCleanTest extends TestCase
+class ErrorsCleanerTest extends TestCase
 {
     /**
      * @test

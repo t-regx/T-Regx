@@ -8,7 +8,9 @@ class IrrelevantCompileError implements CompileError
 {
     public function occurred(): bool
     {
-        return false; // It really occurred, but let T-Regx think nothing happened
+        // It really occurred, but let T-Regx think nothing happened.
+        // We don't care about that error anyway.
+        return false;
     }
 
     public function clear(): void

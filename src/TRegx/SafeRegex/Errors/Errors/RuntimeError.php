@@ -37,6 +37,8 @@ class RuntimeError implements HostError
         if ($this->occurred()) {
             return (new RuntimePregExceptionFactory($methodName, $pattern, $this->pregError))->create();
         }
+        // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();
+        // @codeCoverageIgnoreEnd
     }
 }
