@@ -6,23 +6,22 @@ use TRegx\CleanRegex\Match\Details\Detail;
 class WrappingMapper implements GroupMapper
 {
     /** @var GroupMapper */
-    private $first;
+    private $groupMapper;
     /** @var Wrapper */
     private $mapperWrapper;
 
-    public function __construct(GroupMapper $first, Wrapper $mapperWrapper)
+    public function __construct(GroupMapper $groupMapper, Wrapper $mapperWrapper)
     {
-        $this->first = $first;
+        $this->groupMapper = $groupMapper;
         $this->mapperWrapper = $mapperWrapper;
     }
 
     public function map(string $occurrence, Detail $initialDetail): ?string
     {
-        return $this->mapperWrapper->map($this->first, $occurrence, $initialDetail);
+        return $this->mapperWrapper->wrap(new GroupMapperWrappable($this->groupMapper, $occurrence), $initialDetail);
     }
 
     public function useExceptionValues(string $occurrence, $nameOrIndex, string $match): void
     {
-        $this->first->useExceptionValues($occurrence, $nameOrIndex, $match);
     }
 }

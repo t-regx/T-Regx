@@ -26,5 +26,5 @@ use TRegx\CleanRegex\Match\Details\Detail;
  */
 interface Wrapper
 {
-    public function map(GroupMapper $mapper, string $occurrence, Detail $initialDetail): ?string;
+    public function wrap(Wrappable $wrappable, Detail $initialDetail): ?string;
 }

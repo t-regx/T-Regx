@@ -2,6 +2,8 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\focus\by\group\mapAndCallback;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\CustomException;
+use Test\Utils\FocusGroupPairs;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;
 
@@ -10,10 +12,10 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReplace_focus_group_by_map()
+    public function shouldReplace_focus_group_by_mapAndCallback()
     {
         // given
-        [$pattern, $subject] = $this->patternAndSubject();
+        [$pattern, $subject] = FocusGroupPairs::patternAndSubject();
         $map = [
             'com' => 'four',
             'org' => 'sevennn',
@@ -25,10 +27,10 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group('domain')
             ->mapAndCallback($map, Functions::singleArg('strlen'))
-            ->orElseThrow();
+            ->orElseWith('Foo');
 
         // then
-        $this->assertEquals('Links: https://4.com and http://7.org. and again http://4.com', $result);
+        $this->assertEquals('Links are http://4.com/ and http://7.org http://Foo/ :)', $result);
     }
 
     /**
@@ -37,7 +39,7 @@ class ReplacePatternTest extends TestCase
     public function shouldThrow_focus_by_map()
     {
         // given
-        [$pattern, $subject] = $this->patternAndSubjectUnmatched();
+        [$pattern, $subject] = FocusGroupPairs::patternAndSubjectUnmatched();
 
         // then
         $this->expectException(FocusGroupNotMatchedException::class);
@@ -49,23 +51,7 @@ class ReplacePatternTest extends TestCase
             ->focus('name')
             ->by()
             ->group('domain')
-            ->mapAndCallback([], 'strtoupper')
-            ->orElseThrow();
-    }
-
-    private function patternAndSubject(): array
-    {
-        return [
-            'https?://(?<name>[a-z]+)\.(?<domain>com|org)',
-            'Links: https://google.com and http://other.org. and again http://danon.com'
-        ];
-    }
-
-    private function patternAndSubjectUnmatched(): array
-    {
-        return [
-            'https?://(?<name>[a-z]+)?\.(?<domain>com|org)',
-            'Links: http://.org.'
-        ];
+            ->mapAndCallback([], Functions::fail())
+            ->orElseThrow(CustomException::class);
     }
 }

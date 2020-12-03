@@ -14,13 +14,13 @@ class FocusWrapper implements Wrapper
         $this->nameOrIndex = $nameOrIndex;
     }
 
-    public function map(GroupMapper $mapper, string $occurrence, Detail $initialDetail): ?string
+    public function wrap(Wrappable $wrappable, Detail $initialDetail): ?string
     {
         $group = $initialDetail->group($this->nameOrIndex);
         if (!$group->matched()) {
             throw new FocusGroupNotMatchedException($initialDetail->subject(), $this->nameOrIndex);
         }
-        $replacement = $mapper->map($occurrence, $initialDetail);
+        $replacement = $wrappable->apply($initialDetail);
         if ($replacement === null) {
             return null;
         }

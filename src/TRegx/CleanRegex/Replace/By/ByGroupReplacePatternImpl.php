@@ -13,6 +13,7 @@ use TRegx\CleanRegex\Internal\Replace\GroupMapper\MapGroupMapperDecorator;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\SubstituteFallbackMapper;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\Wrapper;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\WrappingMapper;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\WrappingMatchRs;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ComputedMatchStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
@@ -54,12 +55,12 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 
     public function map(array $map): UnmatchedGroupStrategy
     {
-        return $this->performMap(new WrappingMapper(new DictionaryMapper($map), $this->middlewareMapper));
+        return $this->performMap(new DictionaryMapper($map));
     }
 
     public function mapAndCallback(array $map, callable $mapper): UnmatchedGroupStrategy
     {
-        return $this->performMap(new WrappingMapper(new MapGroupMapperDecorator(new DictionaryMapper($map), $mapper), $this->middlewareMapper));
+        return $this->performMap(new MapGroupMapperDecorator(new DictionaryMapper($map), $mapper));
     }
 
     private function performMap(GroupMapper $mapper): UnmatchedGroupStrategy
@@ -67,8 +68,9 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         return new UnmatchedGroupStrategy(
             $this->fallbackReplacer,
             $this->nameOrIndex,
-            new SubstituteFallbackMapper($mapper,
-                new LazyMessageThrowStrategy(MissingReplacementKeyException::class), $this->subject)
+            new SubstituteFallbackMapper(new WrappingMapper($mapper, $this->middlewareMapper),
+                new LazyMessageThrowStrategy(MissingReplacementKeyException::class), $this->subject),
+            $this->middlewareMapper
         );
     }
 
@@ -77,7 +79,8 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         return new UnmatchedGroupStrategy(
             $this->fallbackReplacer,
             $this->nameOrIndex,
-            new WrappingMapper(new DictionaryMapper($map), $this->middlewareMapper));
+            new WrappingMapper(new DictionaryMapper($map), $this->middlewareMapper),
+            $this->middlewareMapper);
     }
 
     public function orElseThrow(string $exceptionClassName = GroupNotMatchedException::class): string
@@ -110,7 +113,10 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 
     private function replaceGroupOptional(MatchRs $substitute): string
     {
-        return $this->fallbackReplacer->replaceOrFallback($this->nameOrIndex, new IdentityMapper(), $substitute);
+        return $this->fallbackReplacer->replaceOrFallback($this->nameOrIndex,
+            new WrappingMapper(new IdentityMapper(), $this->middlewareMapper),
+            new WrappingMatchRs($substitute, $this->middlewareMapper)
+        );
     }
 
     public function callback(callable $callback): string

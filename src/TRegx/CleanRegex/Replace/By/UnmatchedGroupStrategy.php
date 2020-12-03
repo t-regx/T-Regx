@@ -5,6 +5,8 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\GroupMapper\GroupMapper;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\Wrapper;
+use TRegx\CleanRegex\Internal\Replace\GroupMapper\WrappingMatchRs;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ComputedMatchStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
@@ -20,12 +22,15 @@ class UnmatchedGroupStrategy implements GroupReplace
     private $nameOrIndex;
     /** @var GroupMapper */
     private $mapper;
+    /** @var Wrapper */
+    private $middlewareMapper;
 
-    public function __construct(GroupFallbackReplacer $replacer, $nameOrIndex, GroupMapper $mapper)
+    public function __construct(GroupFallbackReplacer $replacer, $nameOrIndex, GroupMapper $mapper, Wrapper $middlewareMapper)
     {
         $this->replacer = $replacer;
         $this->nameOrIndex = $nameOrIndex;
         $this->mapper = $mapper;
+        $this->middlewareMapper = $middlewareMapper;
     }
 
     public function orElseWith(string $replacement): string
@@ -57,6 +62,6 @@ class UnmatchedGroupStrategy implements GroupReplace
 
     private function replace(MatchRs $substitute): string
     {
-        return $this->replacer->replaceOrFallback($this->nameOrIndex, $this->mapper, $substitute);
+        return $this->replacer->replaceOrFallback($this->nameOrIndex, $this->mapper, new WrappingMatchRs($substitute, $this->middlewareMapper));
     }
 }
