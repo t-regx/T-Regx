@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Replace\GroupMapper;
+namespace TRegx\CleanRegex\Internal\Replace\By\GroupMapper;
 
 use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Replace\Wrappable;

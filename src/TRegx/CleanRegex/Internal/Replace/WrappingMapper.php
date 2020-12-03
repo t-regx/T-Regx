@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace;
 
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\GroupMapper;
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\GroupMapperWrappable;
+use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
+use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapperWrappable;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class WrappingMapper implements GroupMapper

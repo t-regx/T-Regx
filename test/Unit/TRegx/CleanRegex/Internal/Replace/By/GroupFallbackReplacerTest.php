@@ -12,12 +12,12 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\DictionaryMapper;
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\GroupMapper;
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\IdentityMapper;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
+use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DictionaryMapper;
+use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
+use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\IdentityMapper;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Subject;
 
 class GroupFallbackReplacerTest extends TestCase

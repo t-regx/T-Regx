@@ -1,9 +1,9 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\GroupMapper;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By\GroupMapper;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\DictionaryMapper;
+use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class DictionaryMapperTest extends TestCase

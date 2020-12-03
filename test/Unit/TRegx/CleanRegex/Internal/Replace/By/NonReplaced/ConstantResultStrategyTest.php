@@ -1,8 +1,8 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\NonReplaced;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
 
 class ConstantResultStrategyTest extends TestCase
 {

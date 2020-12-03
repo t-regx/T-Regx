@@ -1,8 +1,8 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\NonReplaced;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 
 class DefaultStrategyTest extends TestCase
 {

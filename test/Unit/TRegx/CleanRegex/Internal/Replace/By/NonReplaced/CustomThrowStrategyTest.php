@@ -1,10 +1,10 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\NonReplaced;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 
 class CustomThrowStrategyTest extends TestCase
 {

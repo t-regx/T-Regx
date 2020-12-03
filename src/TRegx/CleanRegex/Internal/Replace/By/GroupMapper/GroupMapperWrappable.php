@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Replace\GroupMapper;
+namespace TRegx\CleanRegex\Internal\Replace\By\GroupMapper;
 
 use TRegx\CleanRegex\Internal\Replace\Wrappable;
 use TRegx\CleanRegex\Match\Details\Detail;

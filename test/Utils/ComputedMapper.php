@@ -1,7 +1,7 @@
 <?php
 namespace Test\Utils;
 
-use TRegx\CleanRegex\Internal\Replace\GroupMapper\GroupMapper;
+use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class ComputedMapper implements GroupMapper

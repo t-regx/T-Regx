@@ -4,10 +4,10 @@ namespace TRegx\CleanRegex\Replace;
 use TRegx\CleanRegex\Exception\NotReplacedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\ConstantReturnStrategy;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\OtherwiseStrategy;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\SubjectRs;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\ThrowStrategy;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\OtherwiseStrategy;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 
 class ReplacePatternImpl implements ReplacePattern

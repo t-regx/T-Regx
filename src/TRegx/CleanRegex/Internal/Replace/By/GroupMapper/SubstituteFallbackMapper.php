@@ -1,9 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Replace\GroupMapper;
+namespace TRegx\CleanRegex\Internal\Replace\By\GroupMapper;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForMatchMessage;
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\LazySubjectRs;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazySubjectRs;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class SubstituteFallbackMapper implements GroupMapper

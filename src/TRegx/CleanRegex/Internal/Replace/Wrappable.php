@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace;
 
-use TRegx\CleanRegex\Internal\Replace\NonReplaced\MatchRs;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 /**
