@@ -2,13 +2,15 @@
 namespace TRegx\CleanRegex\Internal\Replace;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
+use TRegx\CleanRegex\Replace\FocusReplacePattern;
 
 /**
- * When doing focus() replacement with references, it's impossible
- * to use PHP PCRE built in `preg_replace()`, but `focus()` does
- * have a method `withReferences()`, so we must provide a way to
- * replace references elements (`$1`, `\1`, `${1}`) in the string
- * with groups.
+ * When doing {@see CompositeReplacePattern::focus} replacement with
+ * references, it's impossible to use PHP PCRE built-in {@see preg_replace},
+ * but {@see CompositeReplacePattern::focus} does have a method
+ * {@see FocusReplacePattern::withReferences}. Hence, we must provide
+ * a way to replace references elements (`$1`, `\1`, `${1}`) in the
+ * string with groups.
  */
 class ReferencesReplacer
 {

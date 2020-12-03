@@ -14,7 +14,9 @@ use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
  * Test cases below:
  *  - shouldGetGroupsNames()
  *  - shouldGetGroupsCount()
- * should be copy-pastes of one another (with the exception of `count()`) assertion.
+ *
+ * ...should be copy-pastes of one another, with the exception of
+ * {@see NamedGroups::names} and {@see NamedGroups::count} assertions.
  *
  * NamedGroupsTest and IndexedGroupsTest should have exactly alike structure
  * (because they test API that should be similar) and when one changes, so should
@@ -64,7 +66,7 @@ class NamedGroupsTest extends TestCase
         $mock = $this->createMock(IRawMatchOffset::class);
         /**
          * This test knows the implementation details of IndexedGroups, so it knows
-         * only to mock `getGroupKeys()` method, to remain a unit test.
+         * only to mock {@see IRawMatchOffset::getGroupKeys} method, to remain a unit test.
          * We could de-couple it from the implementation and create a real RawMatchOffset,
          * that doesn't break a contract, but then we'd get an integration test, not a unit test.
          */

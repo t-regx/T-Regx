@@ -252,8 +252,14 @@ class preg
 
     /**
      * Returns the error code of the last PCRE regex execution
-     * @link https://php.net/manual/en/function.preg-last-error.php
      *
+     * Please, keep in mind that calling {@see preg::last_error}, by design, is useless,
+     * because {@see preg} methods never fail with {@see false}, {@see null} or set
+     * error code for the purpose of {@see preg_last_error}.
+     *
+     * So in normal situations, this function will always return {@see PREG_NO_ERROR}.
+     *
+     * @link https://php.net/manual/en/function.preg-last-error.php
      * @return int one of the following constants (explained on their own page):
      * <b>PREG_NO_ERROR</b>
      * <b>PREG_INTERNAL_ERROR</b>
@@ -264,14 +270,6 @@ class preg
      */
     public static function last_error(): int
     {
-        /**
-         * Please, keep in mind that calling `preg::last_error()`, by design, is useless,
-         * because `preg::*()` functions never fail with `false`, `null` or by
-         * using `preg_last_error()` method.
-         *
-         * So in normal situations, this function will always return `PREG_NO_ERROR`.
-         */
-
         // @codeCoverageIgnoreStart
         return \preg_last_error();
         // @codeCoverageIgnoreEnd

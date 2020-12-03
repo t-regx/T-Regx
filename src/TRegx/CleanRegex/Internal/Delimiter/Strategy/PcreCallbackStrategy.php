@@ -19,7 +19,7 @@ class PcreCallbackStrategy implements DelimiterStrategy
          * It may be possible that prepared patterns, are used in PCRE mode,
          * and are fed a pattern that's not properly delimited. In that case,
          * DelimiterParser won't be able to extract the delimiter, and
-         * this DelimiterStrategy will be fed `null` in place of $delimiter.
+         * this DelimiterStrategy will be fed {@see null} in place of $delimiter.
          * I could throw an exception here, but I decided that it's better
          * to ignore it here, let invalid that pattern be further passed to
          * PCRE and let the preg_*() method throw the proper exception and
