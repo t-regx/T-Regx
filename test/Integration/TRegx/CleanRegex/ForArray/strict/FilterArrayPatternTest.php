@@ -37,7 +37,7 @@ class FilterArrayPatternTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Only elements of type `string` can be filtered, but $type given");
+        $this->expectExceptionMessage("Only elements of type 'string' can be filtered, but $type given");
 
         // when
         pattern('')->forArray($input)->strict()->$method();

@@ -63,6 +63,10 @@ Incoming in 0.9.13
       There is currently no way to use strategy 2 for inline groups or aggregate group methods,
       only for `Match`/`Detail` details.
 
+* Other
+    * Updated some exceptions' messages format; most notably, indexed groups as formatted as `#2`, 
+      and named groups as `'group'`.
+
 * SafeRegex
     * After calling [`preg_match()`] with overflowing offset, [`preg_last_error()`] would return
      [`PREG_INTERNAL_ERROR`], which T-Regx would handle, throwing `RuntimePregException` with proper message. 

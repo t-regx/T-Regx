@@ -41,7 +41,7 @@ class FilterArrayPattern
         if (\count($filteredArray) != \count($this->array)) {
             $invalidValues = \array_diff_key($this->array, $filteredArray);
             $invalidTypeText = Type::asString(\reset($invalidValues));
-            throw new InvalidArgumentException("Only elements of type `string` can be filtered, but $invalidTypeText given");
+            throw new InvalidArgumentException("Only elements of type 'string' can be filtered, but $invalidTypeText given");
         }
     }
 }
