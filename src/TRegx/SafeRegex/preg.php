@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\SafeRegex;
 
+use InvalidArgumentException;
 use TRegx\SafeRegex\Constants\PregConstants;
 use TRegx\SafeRegex\Constants\PregMessages;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
@@ -29,8 +30,20 @@ class preg
     {
         $pr = Bug::fix($pattern);
         return Guard::invoke('preg_match', $pr, static function () use ($pr, $subject, &$matches, $flags, $offset) {
-            return @\preg_match($pr, $subject, $matches, $flags, $offset) ? 1 : 0;
+            return @\preg_match($pr, $subject, $matches, $flags, self::offset($subject, $offset)) ? 1 : 0;
         });
+    }
+
+    private static function offset(string $subject, int $offset): int
+    {
+        if ($offset < 0) {
+            throw new InvalidArgumentException("Negative offset: $offset");
+        }
+        $length = \strlen($subject);
+        if ($length < $offset) {
+            throw new InvalidArgumentException("Overflowing offset: $offset (subject has length: $length)");
+        }
+        return $offset;
     }
 
     /**
@@ -49,7 +62,7 @@ class preg
     {
         $pr = Bug::fix($pattern);
         return Guard::invoke('preg_match_all', $pr, static function () use ($pr, $subject, &$matches, $flags, $offset) {
-            return @\preg_match_all($pr, $subject, $matches, $flags, $offset);
+            return @\preg_match_all($pr, $subject, $matches, $flags, self::offset($subject, $offset));
         });
     }
 

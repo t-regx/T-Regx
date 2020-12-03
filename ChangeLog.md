@@ -61,7 +61,14 @@ Incoming in 0.9.13
       * `Match.usingDuplicateName().group('group')` returns group by strategy 2 (previously default)
       
       There is currently no way to use strategy 2 for inline groups or aggregate group methods,
-      only for `Match` details.
+      only for `Match`/`Detail` details.
+
+* SafeRegex
+    * After calling [`preg_match()`] with overflowing offset, [`preg_last_error()`] would return
+     [`PREG_INTERNAL_ERROR`], which T-Regx would handle, throwing `RuntimePregException` with proper message. 
+      Negative offsets would be ignored.
+
+      Since now, T-Regx throws [`\InvalidArgumentException`] in both cases.
 
 Added in 0.9.12
 ---------------
@@ -440,5 +447,7 @@ Available in 0.9.0
 [`preg_match_all()`]: https://www.php.net/manual/en/function.preg-match-all.php
 [`preg_last_error()`]: https://www.php.net/manual/en/function.preg-last-error.php
 [`InvalidArgumentException`]: https://www.php.net/manual/en/class.invalidargumentexception.php
+[`\InvalidArgumentException`]: https://www.php.net/manual/en/class.invalidargumentexception.php
 [Prepared patterns]: https://t-regx.com/docs/handling-user-input
 [`PCRE_EXTENDED`]: https://www.php.net/manual/en/reference.pcre.pattern.modifiers.php
+[`PREG_INTERNAL_ERROR`]: https://www.php.net/manual/en/pcre.constants.php
