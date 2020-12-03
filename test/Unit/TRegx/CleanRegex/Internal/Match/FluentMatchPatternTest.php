@@ -10,8 +10,8 @@ use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 class FluentMatchPatternTest extends TestCase
@@ -333,7 +333,7 @@ class FluentMatchPatternTest extends TestCase
 
         // then
         $this->expectException(FluentMatchPatternException::class);
-        $this->expectExceptionMessage("Invalid data types passed to `asInt()` method. Expected 'string' or 'int', but boolean (true) given");
+        $this->expectExceptionMessage("Invalid data types passed to asInt() method. Expected 'string' or 'int', but boolean (true) given");
 
         // when
         $pattern->asInt()->all();
