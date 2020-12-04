@@ -33,7 +33,7 @@
       "helper/helper.php"
     ],
     "psr-4": {
-      "\\": "src/"
+      "TRegx\\": "src/TRegx"
     }
   },
   "autoload-dev": {
