@@ -58,6 +58,6 @@ class RuntimePregExceptionFactory
 
     private function getExceptionMessage(string $errorText): string
     {
-        return "After invoking $this->methodName(), preg_last_error() returned $errorText.";
+        return "After invoking $this->methodName(), preg_last_error() returned $errorText";
     }
 }

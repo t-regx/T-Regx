@@ -44,43 +44,43 @@ class RuntimePregExceptionFactoryTest extends TestCase
                 PREG_NO_ERROR,
                 'PREG_NO_ERROR',
                 RuntimePregException::class,
-                "After invoking preg_method(), preg_last_error() returned PREG_NO_ERROR."
+                "After invoking preg_method(), preg_last_error() returned PREG_NO_ERROR"
             ],
             'PREG_BAD_UTF8_ERROR'        => [
                 PREG_BAD_UTF8_ERROR,
                 'PREG_BAD_UTF8_ERROR',
                 SubjectEncodingPregException::class,
-                "After invoking preg_method(), preg_last_error() returned PREG_BAD_UTF8_ERROR."
+                "After invoking preg_method(), preg_last_error() returned PREG_BAD_UTF8_ERROR"
             ],
             'PREG_INTERNAL_ERROR'        => [
                 PREG_INTERNAL_ERROR,
                 'PREG_INTERNAL_ERROR',
                 RuntimePregException::class,
-                "After invoking preg_method(), preg_last_error() returned PREG_INTERNAL_ERROR."
+                "After invoking preg_method(), preg_last_error() returned PREG_INTERNAL_ERROR"
             ],
             'PREG_BACKTRACK_LIMIT_ERROR' => [
                 PREG_BACKTRACK_LIMIT_ERROR,
                 'PREG_BACKTRACK_LIMIT_ERROR',
                 CatastrophicBacktrackingPregException::class,
-                "After invoking preg_method(), preg_last_error() returned PREG_BACKTRACK_LIMIT_ERROR."
+                "After invoking preg_method(), preg_last_error() returned PREG_BACKTRACK_LIMIT_ERROR"
             ],
             'PREG_RECURSION_LIMIT_ERROR' => [
                 PREG_RECURSION_LIMIT_ERROR,
                 'PREG_RECURSION_LIMIT_ERROR',
                 RecursionLimitPregException::class,
-                "After invoking preg_method(), preg_last_error() returned PREG_RECURSION_LIMIT_ERROR."
+                "After invoking preg_method(), preg_last_error() returned PREG_RECURSION_LIMIT_ERROR"
             ],
             'PREG_BAD_UTF8_OFFSET_ERROR' => [
                 PREG_BAD_UTF8_OFFSET_ERROR,
                 'PREG_BAD_UTF8_OFFSET_ERROR',
                 Utf8OffsetPregException::class,
-                "Invalid UTF-8 offset parameter was passed to preg_method()."
+                "Invalid UTF-8 offset parameter was passed to preg_method()"
             ],
             'PREG_JIT_STACKLIMIT_ERROR'  => [
                 PREG_JIT_STACKLIMIT_ERROR,
                 'PREG_JIT_STACKLIMIT_ERROR',
                 JitStackLimitPregException::class,
-                "After invoking preg_method(), preg_last_error() returned PREG_JIT_STACKLIMIT_ERROR."
+                "After invoking preg_method(), preg_last_error() returned PREG_JIT_STACKLIMIT_ERROR"
             ],
         ];
     }

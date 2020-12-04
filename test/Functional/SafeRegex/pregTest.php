@@ -9,6 +9,7 @@ use Test\Warnings;
 use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
 use TRegx\SafeRegex\Exception\MalformedPatternException;
+use TRegx\SafeRegex\Exception\Utf8OffsetPregException;
 use TRegx\SafeRegex\preg;
 
 class pregTest extends TestCase
@@ -225,6 +226,19 @@ class pregTest extends TestCase
             // then
             $this->assertEquals(['/./', '/a(/'], $exception->getPregPattern());
         }
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForInvalidUtf8Offset(): void
+    {
+        // given
+        $this->expectException(Utf8OffsetPregException::class);
+        $this->expectExceptionMessage('Invalid UTF-8 offset parameter was passed to preg_match()');
+
+        // when
+        preg::match('/€/u', '€', $match, 0, 1);
     }
 
     /**
