@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class GroupByCallbackStream implements Stream
 {

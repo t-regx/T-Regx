@@ -33,7 +33,7 @@
       "helper/helper.php"
     ],
     "psr-4": {
-      "TRegx\\": "src/TRegx"
+      "TRegx\\": "src/"
     }
   },
   "autoload-dev": {
@@ -41,12 +41,11 @@
       "test/"
     ],
     "psr-4": {
-      "Test\\": "test/",
-      "Test\\Compatibility\\": "test/Compatibility/",
-      "Test\\Feature\\": "test/Feature/",
-      "Test\\Functional\\": "test/Functional/",
-      "Test\\Integration\\": "test/Integration/",
-      "Test\\Unit\\": "test/Unit/"
+      "Test\\Compatibility\\TRegx\\": "test/Compatibility/",
+      "Test\\Feature\\TRegx\\": "test/Feature/",
+      "Test\\Functional\\TRegx\\": "test/Functional/",
+      "Test\\Integration\\TRegx\\": "test/Integration/",
+      "Test\\Unit\\TRegx\\": "test/Unit/"
     }
   },
   "require": {
