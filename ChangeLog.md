@@ -1,8 +1,13 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.9.13
+Incoming in 0.10.0
 ------------------
+
+* Soon
+
+Added in 0.9.13
+---------------
 
 * Breaking changes:
     * None
