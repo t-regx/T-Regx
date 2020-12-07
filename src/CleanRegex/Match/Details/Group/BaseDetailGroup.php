@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Match\Optional;
 
-interface MatchGroupDetails extends Optional
+interface BaseDetailGroup extends Optional
 {
     public function text(): string;
 

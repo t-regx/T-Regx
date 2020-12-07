@@ -10,9 +10,9 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Match\Details\Group\MatchGroupDetails;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DetailImpl;
+use TRegx\CleanRegex\Match\Details\Group\BaseDetailGroup;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
 use function call_user_func;
@@ -99,7 +99,7 @@ class ReplaceCallbackObject
         if (is_string($replacement)) {
             return $replacement;
         }
-        if ($replacement instanceof MatchGroupDetails) {
+        if ($replacement instanceof BaseDetailGroup) {
             return $this->groupAsReplacement($replacement);
         }
         if ($replacement instanceof Detail) {
@@ -108,7 +108,7 @@ class ReplaceCallbackObject
         throw new InvalidReplacementException($replacement);
     }
 
-    private function groupAsReplacement(MatchGroupDetails $group): string
+    private function groupAsReplacement(BaseDetailGroup $group): string
     {
         if ($group->matched()) {
             return $group->text();
