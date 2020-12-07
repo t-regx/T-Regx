@@ -50,7 +50,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
             'toInt'          => ['toInt', [], 14],
             'isInt'          => ['isInt', [], true],
             'equals'         => ['equals', ['arg'], true],
-            'replace'        => ['replace', ['arg'], 'value'],
+            'substitute'     => ['substitute', ['arg'], 'value'],
             'matched'        => ['matched', [], true],
             'usedIdentifier' => ['usedIdentifier', [], 12],
             'offset'         => ['offset', [], 12],

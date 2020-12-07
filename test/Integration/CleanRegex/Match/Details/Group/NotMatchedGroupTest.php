@@ -74,7 +74,7 @@ class NotMatchedGroupTest extends TestCase
         return [
             ['text', ['']],
             ['textLength', ['']],
-            ['replace', ['']],
+            ['substitute', ['']],
             ['offset'],
             ['byteOffset'],
             ['tail'],

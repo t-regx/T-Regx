@@ -1,10 +1,11 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.10.0
+Incoming in 0.9.14
 ------------------
 
-* Soon
+* Breaking changes:
+    * Rename `DetailGroup.replace()` to `DetailGroup.substitute()`
 
 Added in 0.9.13
 ---------------

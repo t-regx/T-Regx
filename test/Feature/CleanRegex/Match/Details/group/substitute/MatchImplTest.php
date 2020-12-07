@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\Details\group\replace;
+namespace Test\Feature\TRegx\CleanRegex\Match\Details\group\substitute;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -16,7 +16,7 @@ class MatchImplTest extends TestCase
             ->match('Link: http://facebook.com/users and https://google.com/users guys')
             ->map(function (Detail $detail) {
                 // when
-                return $detail->group('domain')->replace('XD');
+                return $detail->group('domain')->substitute('XD');
             });
 
         // then
@@ -33,7 +33,7 @@ class MatchImplTest extends TestCase
             ->match('Link: http:///users')
             ->first(function (Detail $detail) {
                 // when
-                return $detail->group('domain')->replace('Welp');
+                return $detail->group('domain')->substitute('Welp');
             });
 
         // then
@@ -50,7 +50,7 @@ class MatchImplTest extends TestCase
             ->match('Link: hłłp://ąść/users')
             ->first(function (Detail $detail) {
                 // when
-                return $detail->group('domain')->replace('ś');
+                return $detail->group('domain')->substitute('ś');
             });
 
         // then

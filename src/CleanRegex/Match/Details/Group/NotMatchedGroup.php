@@ -101,9 +101,9 @@ class NotMatchedGroup implements DetailGroup, MatchGroup
         throw $this->groupNotMatched('byteTail');
     }
 
-    public function replace(string $replacement): string
+    public function substitute(string $replacement): string
     {
-        throw $this->groupNotMatched('replace');
+        throw $this->groupNotMatched('substitute');
     }
 
     public function subject(): string

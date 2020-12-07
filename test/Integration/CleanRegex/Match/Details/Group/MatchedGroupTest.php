@@ -128,7 +128,7 @@ class MatchedGroupTest extends TestCase
         $matchGroup = $this->matchGroup();
 
         // when
-        $result = $matchGroup->replace('<replaced value>');
+        $result = $matchGroup->substitute('<replaced value>');
 
         // then
         $this->assertEquals('start(<replaced value>)end', $result);

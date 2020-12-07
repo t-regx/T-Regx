@@ -26,6 +26,6 @@ class FocusWrapper implements Wrapper
         if ($replacement === null) {
             return null;
         }
-        return $group->replace($replacement);
+        return $group->substitute($replacement);
     }
 }

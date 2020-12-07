@@ -77,9 +77,9 @@ class DuplicateNamedGroupAdapter implements DuplicateNamedGroup
         return $this->group->byteTail();
     }
 
-    public function replace(string $replacement): string
+    public function substitute(string $replacement): string
     {
-        return $this->group->replace($replacement);
+        return $this->group->substitute($replacement);
     }
 
     public function subject(): string

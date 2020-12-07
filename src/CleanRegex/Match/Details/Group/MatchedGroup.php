@@ -96,7 +96,7 @@ class MatchedGroup implements DetailGroup, MatchGroup
         return $this->occurrence->offset + \strlen($this->occurrence->text);
     }
 
-    public function replace(string $replacement): string
+    public function substitute(string $replacement): string
     {
         return (new MatchGroupReplacer())->replaceGroup($this->match, $this->occurrence, $replacement);
     }

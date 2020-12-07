@@ -17,7 +17,7 @@ class GroupExceptionFactory
         $this->nameOrIndex = $nameOrIndex;
     }
 
-    public function create(string $method)
+    public function create(string $method): GroupNotMatchedException
     {
         return GroupNotMatchedException::forMethod($this->subject, $this->nameOrIndex, $method);
     }

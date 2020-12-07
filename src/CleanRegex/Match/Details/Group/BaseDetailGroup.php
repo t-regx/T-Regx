@@ -32,7 +32,7 @@ interface BaseDetailGroup extends Optional
 
     public function byteTail(): int;
 
-    public function replace(string $replacement): string;
+    public function substitute(string $replacement): string;
 
     public function subject(): string;
 
