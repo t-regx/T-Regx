@@ -69,6 +69,11 @@ class FluentMatchPattern implements MatchPatternInterface
         }
     }
 
+    /*
+     * There is no regular match()->nth(int), because regular patterns
+     * can be filtered, and it could be ambiguous to the user/reader
+     * what index is going to be taken into account.
+     */
     public function nth(int $index)
     {
         return $this->findNth($index)->orThrow();
