@@ -38,6 +38,11 @@ class NotMatchedGroup implements DetailGroup, MatchGroup
         throw $this->groupNotMatched('textLength');
     }
 
+    public function textByteLength(): int
+    {
+        throw $this->groupNotMatched('textByteLength');
+    }
+
     public function toInt(): int
     {
         throw $this->groupNotMatched('toInt');

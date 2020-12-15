@@ -124,6 +124,21 @@ class ReplaceMatchImplTest extends TestCase
     /**
      * @test
      */
+    public function shouldGet_textByteLength()
+    {
+        // given
+        $detail = $this->getDetail_mockedMethod('textByteLength', 6);
+
+        // when
+        $length = $detail->textByteLength();
+
+        // then
+        $this->assertEquals(6, $length);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGet_all()
     {
         // given

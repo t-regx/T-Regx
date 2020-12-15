@@ -88,6 +88,11 @@ class ReplaceMatchImpl implements ReplaceDetail, ReplaceMatch
         return $this->detail->textLength();
     }
 
+    public function textByteLength(): int
+    {
+        return $this->detail->textByteLength();
+    }
+
     public function toInt(): int
     {
         return $this->detail->toInt();

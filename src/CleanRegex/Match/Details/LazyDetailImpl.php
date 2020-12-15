@@ -76,6 +76,11 @@ class LazyDetailImpl implements Detail, Match
         return $this->match()->textLength();
     }
 
+    public function textByteLength(): int
+    {
+        return $this->match()->textByteLength();
+    }
+
     public function toInt(): int
     {
         return $this->match()->toInt();

@@ -13,6 +13,8 @@ interface Detail extends BaseDetail
 
     public function textLength(): int;
 
+    public function textByteLength(): int;
+
     public function toInt(): int;
 
     public function isInt(): bool;

@@ -41,6 +41,7 @@ class MatchImplTest extends TestCase
                 // then
                 $this->assertEquals('Łomża', $detail->group(1)->text());
                 $this->assertEquals(5, $detail->group(1)->textLength());
+                $this->assertEquals(7, $detail->group(1)->textByteLength());
             });
     }
 

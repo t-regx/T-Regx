@@ -34,12 +34,12 @@ class LazyMatchImplTest extends TestCase
     public function methods(): array
     {
         return [
-            ['text', [], 'word'],
-            ['textLength', [], 4],
-            ['tail', [], 10],
+            ['text', [], 'word€€'],
+            ['textLength', [], 6],
+            ['textByteLength', [], 10],
             ['limit', [], 14],
-            ['subject', [], 'Word: word two three'],
-            ['all', [], ['word', 'two', 'three']],
+            ['subject', [], 'Word: word€€ two three'],
+            ['all', [], ['word€€', 'two', 'three']],
         ];
     }
 
@@ -55,7 +55,7 @@ class LazyMatchImplTest extends TestCase
         $result = (string)$detail;
 
         // then
-        $this->assertEquals('word', $result);
+        $this->assertEquals('word€€', $result);
     }
 
     /**
@@ -308,7 +308,7 @@ class LazyMatchImplTest extends TestCase
         $this->assertEquals('Two', $text2);
     }
 
-    private function detail(string $pattern = '\b[a-z]+', string $subject = 'Word: word two three'): LazyDetailImpl
+    private function detail(string $pattern = '\b[a-z€]+', string $subject = 'Word: word€€ two three'): LazyDetailImpl
     {
         return $this->detailWithIndex($pattern, $subject, 0);
     }

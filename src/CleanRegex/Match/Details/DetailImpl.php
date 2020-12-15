@@ -81,6 +81,11 @@ class DetailImpl implements Detail, Match
         return \mb_strlen($this->match->getText());
     }
 
+    public function textByteLength(): int
+    {
+        return \strlen($this->match->getText());
+    }
+
     public function toInt(): int
     {
         $text = $this->match->getText();

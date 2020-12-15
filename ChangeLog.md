@@ -4,13 +4,17 @@ T-Regx Changelog
 Incoming in 0.9.14
 ------------------
 
-* Breaking changes:
+* Breaking changes
     * Rename `DetailGroup.replace()` to `DetailGroup.substitute()`
+
+* Features
+    * Add `Detail.textByteLength()` #88
+    * Add `DetailGroup.textByteLength()` #88
 
 Added in 0.9.13
 ---------------
 
-* Breaking changes:
+* Breaking changes
     * None
 
 * Deprecation
@@ -19,12 +23,11 @@ Added in 0.9.13
     * Deprecate `MatchGroup`, use `DetailGroup` instead.
     * Deprecate `ReplaceMatchGroup`, use `ReplaceDetailGroup` instead.
 
-      In preparation for PHP 8, in which `match` is a new keyword,
-      we deprecate `Match` and `ReplaceMatch`. `Match` will become an invalid
-      class name in PHP 8. 
-      
-      Classes `Match`, `ReplaceMatch`, `MatchGroup` and `ReplaceMatchGroup` will 
-      remain in T-Regx (as deprecated) until T-Regx drops support for PHP 7.
+      In preparation for PHP 8, in which `match` is a new keyword, we deprecate
+      `Match` and `ReplaceMatch`. `Match` will become an invalid class name in PHP 8.
+
+      Classes `Match`, `ReplaceMatch`, `MatchGroup` and `ReplaceMatchGroup` will remain 
+      in T-Regx (as deprecated) until T-Regx drops support for PHP 7.
 
 * Features
     * Add `NotReplacedException.getSubject()`

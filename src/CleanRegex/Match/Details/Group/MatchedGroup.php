@@ -35,6 +35,11 @@ class MatchedGroup implements DetailGroup, MatchGroup
         return \mb_strlen($this->occurrence->text);
     }
 
+    public function textByteLength(): int
+    {
+        return \strlen($this->occurrence->text);
+    }
+
     public function toInt(): int
     {
         if ($this->isInt()) {

@@ -47,6 +47,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
         return [
             'text'           => ['text', [], 'value'],
             'textLength'     => ['textLength', [], 14],
+            'textByteLength' => ['textByteLength', [], 14],
             'toInt'          => ['toInt', [], 14],
             'isInt'          => ['isInt', [], true],
             'equals'         => ['equals', ['arg'], true],

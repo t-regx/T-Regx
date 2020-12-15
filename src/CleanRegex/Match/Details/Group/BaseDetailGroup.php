@@ -9,6 +9,8 @@ interface BaseDetailGroup extends Optional
 
     public function textLength(): int;
 
+    public function textByteLength(): int;
+
     public function toInt(): int;
 
     public function isInt(): bool;
