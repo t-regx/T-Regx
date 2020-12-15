@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DetailImpl;
 use TRegx\SafeRegex\preg;
 
-class MatchImplTest extends TestCase
+class DetailImplTest extends TestCase
 {
     private const INDEX_TYLER_DURDEN = 0;
     private const INDEX_MARLA_SINGER = 1;
