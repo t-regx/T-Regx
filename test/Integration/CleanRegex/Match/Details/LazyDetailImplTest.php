@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
 
-class LazyMatchImplTest extends TestCase
+class LazyDetailImplTest extends TestCase
 {
     /**
      * @test
