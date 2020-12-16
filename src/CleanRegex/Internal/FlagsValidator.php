@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Exception\DuplicateFlagsException;
 use TRegx\CleanRegex\Exception\FlagNotAllowedException;
-use TRegx\SafeRegex\Guard\Arrays;
 
 class FlagsValidator
 {

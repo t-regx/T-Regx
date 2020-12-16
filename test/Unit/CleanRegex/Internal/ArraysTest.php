@@ -1,8 +1,8 @@
 <?php
-namespace Test\Unit\TRegx\SafeRegex\Guard;
+namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\SafeRegex\Guard\Arrays;
+use TRegx\CleanRegex\Internal\Arrays;
 
 class ArraysTest extends TestCase
 {

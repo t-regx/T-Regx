@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\SafeRegex\Guard;
+namespace TRegx\CleanRegex\Internal;
 
 use function array_merge;
 

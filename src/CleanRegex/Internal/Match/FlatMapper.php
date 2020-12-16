@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\SafeRegex\Guard\Arrays;
+use TRegx\CleanRegex\Internal\Arrays;
 
 class FlatMapper
 {
