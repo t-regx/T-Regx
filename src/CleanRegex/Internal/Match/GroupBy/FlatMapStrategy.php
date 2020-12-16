@@ -22,11 +22,12 @@ class FlatMapStrategy implements Strategy
 
     public function transform(array $groups, RawMatchesOffset $matches): array
     {
+        $closure = function (IndexedRawMatchOffset $match) use ($matches) {
+            $mapper = $this->mapper;
+            return $mapper($this->factory->create($match->getIndex(), $match, new EagerMatchAllFactory($matches)));
+        };
         foreach ($groups as &$group) {
-            $group = (new FlatMapper($group, function (IndexedRawMatchOffset $match) use ($matches) {
-                $mapper = $this->mapper;
-                return $mapper($this->factory->create($match->getIndex(), $match, new EagerMatchAllFactory($matches)));
-            }))->get();
+            $group = (new FlatMapper($group, $closure))->get();
         }
         return $groups;
     }
