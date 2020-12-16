@@ -21,14 +21,15 @@ class OffsetsStrategy implements Strategy
 
     public function transform(array $groups, RawMatchesOffset $matches): array
     {
+        $closure = function (IRawMatchOffset $match) {
+            $byteOffset = $match->byteOffset();
+            if ($this->characterOffsets) {
+                return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $byteOffset);
+            }
+            return $byteOffset;
+        };
         foreach ($groups as &$group) {
-            $group = \array_map(function (IRawMatchOffset $match) {
-                $byteOffset = $match->byteOffset();
-                if ($this->characterOffsets) {
-                    return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $byteOffset);
-                }
-                return $byteOffset;
-            }, $group);
+            $group = \array_map($closure, $group);
         }
         return $groups;
     }
