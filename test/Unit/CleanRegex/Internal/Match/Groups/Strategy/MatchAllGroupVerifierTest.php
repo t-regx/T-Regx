@@ -25,7 +25,7 @@ class MatchAllGroupVerifierTest extends TestCase
         $this->assertEquals($expected, $results);
     }
 
-    public function existingGroupsAndVerifiers()
+    public function existingGroupsAndVerifiers(): array
     {
         return [
             ['/ab (?<group>c)/', true],

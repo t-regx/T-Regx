@@ -72,7 +72,7 @@ class GuardedExecutionTest extends TestCase
         $this->assertEquals(13, $result);
     }
 
-    public function possibleObsoleteWarnings()
+    public function possibleObsoleteWarnings(): array
     {
         return [
             [function () {

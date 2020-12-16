@@ -71,7 +71,7 @@ class ReplacePatternTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    function limitAndExpectedResults()
+    function limitAndExpectedResults(): array
     {
         return [
             [0, '0 1 2 3'],

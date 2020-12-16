@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
 
 class DelimiterParserTest extends TestCase
 {
-    public function delimited()
+    public function delimited(): array
     {
         return [
             // Standard delimiters
@@ -58,7 +58,7 @@ class DelimiterParserTest extends TestCase
         $this->assertEquals($delimiter, $result);
     }
 
-    public function notDelimited()
+    public function notDelimited(): array
     {
         return [
             [''],

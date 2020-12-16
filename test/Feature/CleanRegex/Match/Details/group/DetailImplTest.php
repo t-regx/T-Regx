@@ -143,7 +143,7 @@ class DetailImplTest extends TestCase
         });
     }
 
-    public function shouldGroup_notMatch_dataProvider()
+    public function shouldGroup_notMatch_dataProvider(): array
     {
         return [
             ['Hello (?<one>there)?', 'Hello XX, General Kenobi'],

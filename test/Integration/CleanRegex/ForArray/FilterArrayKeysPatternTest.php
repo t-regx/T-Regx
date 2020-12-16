@@ -32,7 +32,7 @@ class FilterArrayKeysPatternTest extends TestCase
         $this->assertEquals($expected, $filtered2);
     }
 
-    public function patternsAndSubjects()
+    public function patternsAndSubjects(): array
     {
         return [
             [

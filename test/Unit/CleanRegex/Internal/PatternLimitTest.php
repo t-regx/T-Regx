@@ -54,7 +54,7 @@ class PatternLimitTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function implementations()
+    public function implementations(): array
     {
         return [
             [

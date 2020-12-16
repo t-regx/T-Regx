@@ -34,7 +34,7 @@ class ReplacePatternImplTest extends TestCase
         $this->assertEquals('delegated', $result);
     }
 
-    function withMethods()
+    function withMethods(): array
     {
         return [
             ['with'],

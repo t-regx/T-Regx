@@ -9,7 +9,7 @@ use TRegx\SafeRegex\preg;
 
 class DelimitererTest extends TestCase
 {
-    public function patternsAndResults()
+    public function patternsAndResults(): array
     {
         return [
             ['FooBar'],

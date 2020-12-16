@@ -35,7 +35,7 @@ class CompositePatternTest extends TestCase
         $this->assertEquals($expected, $replaced);
     }
 
-    public function times()
+    public function times(): array
     {
         return [
             [0, "Do you think that's air you're breathing now?"],

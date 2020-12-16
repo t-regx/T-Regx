@@ -28,7 +28,7 @@ class FilterArrayPatternTest extends TestCase
         $this->assertEquals($expected, $filtered, 'Failed asserting that filter() returned expected results.');
     }
 
-    public function patternsAndSubjects()
+    public function patternsAndSubjects(): array
     {
         return [
             [
@@ -68,7 +68,7 @@ class FilterArrayPatternTest extends TestCase
         $this->assertEquals($expected, $filtered, 'Failed asserting that filterAssoc() returned expected results.');
     }
 
-    public function patternsAndSubjects_assoc()
+    public function patternsAndSubjects_assoc(): array
     {
         return [
             [

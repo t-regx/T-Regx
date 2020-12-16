@@ -80,7 +80,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $this->assertEquals('Expected to get the first match, but subject was not matched', $exception->getMessage());
     }
 
-    public function exceptions()
+    public function exceptions(): array
     {
         return [
             [Exception::class],
