@@ -16,6 +16,7 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
+use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
@@ -106,7 +107,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function flatMap(callable $mapper): array
     {
-        return (new FlatMapper($this->getMatchObjects(), $mapper))->get();
+        return (new FlatMapper($this->getMatchObjects(), new ArrayMergeStrategy(), $mapper))->get();
     }
 
     public function distinct(): array

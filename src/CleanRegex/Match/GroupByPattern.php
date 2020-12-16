@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupBy\FlatMapStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupBy\MapStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupBy\OffsetsStrategy;
@@ -45,7 +46,7 @@ class GroupByPattern
 
     public function flatMap(callable $mapper): array
     {
-        return $this->groupBy(new FlatMapStrategy($mapper, $this->factory()));
+        return $this->groupBy(new FlatMapStrategy($mapper, new ArrayMergeStrategy(), $this->factory()));
     }
 
     private function factory(): DetailObjectFactory

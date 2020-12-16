@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\GroupBy;
 
+use TRegx\CleanRegex\Internal\Match\FlatMap;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
@@ -11,12 +12,15 @@ class FlatMapStrategy implements Strategy
 {
     /** @var callable */
     private $mapper;
+    /** @var FlatMapStrategy */
+    private $strategy;
     /** @var DetailObjectFactory */
     private $factory;
 
-    public function __construct(callable $mapper, DetailObjectFactory $factory)
+    public function __construct(callable $mapper, FlatMap\FlatMapStrategy $strategy, DetailObjectFactory $factory)
     {
         $this->mapper = $mapper;
+        $this->strategy = $strategy;
         $this->factory = $factory;
     }
 
@@ -27,7 +31,7 @@ class FlatMapStrategy implements Strategy
             return $mapper($this->factory->create($match->getIndex(), $match, new EagerMatchAllFactory($matches)));
         };
         foreach ($groups as &$group) {
-            $group = (new FlatMapper($group, $closure))->get();
+            $group = (new FlatMapper($group, $this->strategy, $closure))->get();
         }
         return $groups;
     }

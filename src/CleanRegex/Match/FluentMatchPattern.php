@@ -11,6 +11,7 @@ use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\SecondLevelFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
+use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FluentInteger;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream;
@@ -117,7 +118,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function flatMap(callable $mapper): FluentMatchPattern
     {
-        return $this->next(new FlatMappingStream($this->stream, $mapper));
+        return $this->next(new FlatMappingStream($this->stream, new ArrayMergeStrategy(), $mapper));
     }
 
     public function distinct(): FluentMatchPattern

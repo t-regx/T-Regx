@@ -12,6 +12,7 @@ use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFirst;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
+use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
@@ -115,7 +116,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
      */
     public function flatMap(callable $mapper): array
     {
-        return (new FlatMapper($this->stream()->all(), $mapper))->get();
+        return (new FlatMapper($this->stream()->all(), new ArrayMergeStrategy(), $mapper))->get();
     }
 
     /**

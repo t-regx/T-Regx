@@ -2,18 +2,21 @@
 namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\Arrays;
+use TRegx\CleanRegex\Internal\Match\FlatMap\FlatMapStrategy;
 
 class FlatMapper
 {
     /** @var array */
     private $elements;
+    /** @var FlatMapStrategy */
+    private $strategy;
     /** @var callable */
     private $callback;
 
-    public function __construct(array $elements, callable $callback)
+    public function __construct(array $elements, FlatMapStrategy $strategy, callable $callback)
     {
         $this->elements = $elements;
+        $this->strategy = $strategy;
         $this->callback = $callback;
     }
 
@@ -23,7 +26,7 @@ class FlatMapper
         if (empty($results)) {
             return [];
         }
-        return Arrays::flatten($results);
+        return $this->strategy->flatten($results);
     }
 
     public function map($object)
