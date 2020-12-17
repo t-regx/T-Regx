@@ -10,6 +10,14 @@ Incoming in 0.9.14
 * Features
     * Add `Detail.textByteLength()` #88
     * Add `DetailGroup.textByteLength()` #88
+    * Add `match()->flatMapAssoc()` #88
+    * Add `match()->groupBy()->flatMapAssoc()` #88
+
+     Otherwise identical to `flatMap()`, but since `flatMapAssoc()` doesn't use
+     [`array_merge()`], the `integer` keys won't be reindexed - returning an integer
+     key from a `flatMapAssoc()`, if that key was already returned previously, the
+     later value will be preserved. It's useful for associative arrays with `integer` keys.
+     For sequential arrays (or arrays with `string` keys) use `flatMap()`.
 
 Added in 0.9.13
 ---------------

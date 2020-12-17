@@ -172,6 +172,20 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGet_flatMapAssoc()
+    {
+        // when
+        $mapped = pattern('[A-Za-z]+')->match('Docker, Duck, Foo')->flatMapAssoc(function (Detail $detail) {
+            return str_split(strtoupper($detail));
+        });
+
+        // then
+        $this->assertEquals(['F', 'O', 'O', 'K', 'E', 'R'], $mapped);
+    }
+
+    /**
+     * @test
+     */
     public function shouldNotCall_forEach_onUnmatchedPattern()
     {
         // given

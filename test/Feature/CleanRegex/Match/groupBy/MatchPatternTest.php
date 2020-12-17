@@ -77,13 +77,37 @@ class MatchPatternTest extends TestCase
     {
         // when
         $result = $this->groupBy()->flatMap(function (Detail $detail) {
-            return ["$detail", $detail->offset()];
+            return [$detail->offset() => "$detail", $detail->offset()];
         });
 
         // then
         $this->assertEquals([
             'cm' => ['14cm', 5, '19cm', 15, '2cm', 25],
             'mm' => ['13mm', 10, '18mm', 20],
+        ], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupBy_flatMapAssoc()
+    {
+        // when
+        $result = $this->groupBy()->flatMapAssoc(function (Detail $detail) {
+            return [$detail->offset() => "$detail"];
+        });
+
+        // then
+        $this->assertEquals([
+            'cm' => [
+                5  => '14cm',
+                15 => '19cm',
+                25 => '2cm',
+            ],
+            'mm' => [
+                10 => '13mm',
+                20 => '18mm',
+            ],
         ], $result);
     }
 

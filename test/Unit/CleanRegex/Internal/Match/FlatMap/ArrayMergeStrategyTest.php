@@ -9,6 +9,21 @@ class ArrayMergeStrategyTest extends TestCase
     /**
      * @test
      */
+    public function shouldLaterAppend()
+    {
+        // given
+        $strategy = new ArrayMergeStrategy();
+
+        // when
+        $result = $strategy->flatten([['One', 'Two'], ['Cat', 'Dog', 'Duck'],]);
+
+        // then
+        $this->assertSame(['One', 'Two', 'Cat', 'Dog', 'Duck'], $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldFlatten()
     {
         // given
