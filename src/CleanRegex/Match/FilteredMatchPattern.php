@@ -13,11 +13,11 @@ class FilteredMatchPattern extends AbstractMatchPattern
 
     public function test(): bool
     {
-        return !empty($this->getMatchObjects());
+        return !empty($this->getDetailObjects());
     }
 
     public function count(): int
     {
-        return count($this->getMatchObjects());
+        return count($this->getDetailObjects());
     }
 }

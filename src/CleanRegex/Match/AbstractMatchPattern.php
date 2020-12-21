@@ -96,24 +96,24 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function forEach(callable $consumer): void
     {
-        foreach ($this->getMatchObjects() as $object) {
+        foreach ($this->getDetailObjects() as $object) {
             $consumer($object);
         }
     }
 
     public function map(callable $mapper): array
     {
-        return \array_map($mapper, $this->getMatchObjects());
+        return \array_map($mapper, $this->getDetailObjects());
     }
 
     public function flatMap(callable $mapper): array
     {
-        return (new FlatMapper($this->getMatchObjects(), new ArrayMergeStrategy(), $mapper, 'flatMap'))->get();
+        return (new FlatMapper($this->getDetailObjects(), new ArrayMergeStrategy(), $mapper, 'flatMap'))->get();
     }
 
     public function flatMapAssoc(callable $mapper): array
     {
-        return (new FlatMapper($this->getMatchObjects(), new AssignStrategy(), $mapper, 'flatMapAssoc'))->get();
+        return (new FlatMapper($this->getDetailObjects(), new AssignStrategy(), $mapper, 'flatMapAssoc'))->get();
     }
 
     public function distinct(): array
@@ -141,7 +141,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function getIterator(): Iterator
     {
-        $objects = $this->getMatchObjects();
+        $objects = $this->getDetailObjects();
         if (empty($objects)) {
             return new EmptyIterator();
         }
@@ -190,7 +190,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     public function groupByCallback(callable $groupMapper): array
     {
         $result = [];
-        foreach ($this->getMatchObjects() as $detail) {
+        foreach ($this->getDetailObjects() as $detail) {
             $key = $groupMapper($detail);
             $result[$key][] = $detail->text();
         }
@@ -200,7 +200,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     /**
      * @return Detail[]
      */
-    protected function getMatchObjects(): array
+    protected function getDetailObjects(): array
     {
         $factory = new DetailObjectFactory($this->base, -1, $this->base->getUserData());
         return $this->base->matchAllOffsets()->getDetailObjects($factory);
