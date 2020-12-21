@@ -373,16 +373,14 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGroupBy()
+    public function shouldGroupByCallback()
     {
         // given
         $theSeven = ['Father', 'Mother', 'Maiden', 'Crone', 'Warrior', 'Smith', 'Stranger'];
         $pattern = new FluentMatchPattern($this->all($theSeven), $this->worker());
 
         // when
-        $result = $pattern->groupByCallback(function (string $fucker) {
-            return $fucker[0];
-        });
+        $result = $pattern->groupByCallback(Functions::stringIndex(0));
 
         // then
         $expected = [

@@ -18,6 +18,7 @@ Incoming in 0.9.14
      key from a `flatMapAssoc()`. If a given key was already returned previously, the
      later value will be preserved. It's useful for associative arrays with `integer` keys.
      For sequential arrays (or arrays with `string` keys), feel free to use `flatMap()`.
+    * Add `match()->groupByCallback()` (previously only `match()->fluent()->groupByCallback()`) #80
 
 Added in 0.9.13
 ---------------

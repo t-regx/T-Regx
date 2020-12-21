@@ -56,4 +56,10 @@ interface MatchPatternInterface extends \Countable, \IteratorAggregate
      * @return MatchPatternInterface|array
      */
     public function filter(callable $predicate);
+
+    /**
+     * @param callable $groupMapper
+     * @return GroupByPattern|array
+     */
+    public function groupByCallback(callable $groupMapper);
 }

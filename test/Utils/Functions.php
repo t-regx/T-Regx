@@ -49,4 +49,11 @@ class Functions
             return $callable($argument);
         };
     }
+
+    public static function stringIndex(int $index): callable
+    {
+        return function (string $fucker) use ($index) {
+            return $fucker[$index];
+        };
+    }
 }

@@ -187,6 +187,16 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return new GroupByPattern($this->base, $nameOrIndex);
     }
 
+    public function groupByCallback(callable $groupMapper): array
+    {
+        $result = [];
+        foreach ($this->getMatchObjects() as $detail) {
+            $key = $groupMapper($detail);
+            $result[$key][] = $detail->text();
+        }
+        return $result;
+    }
+
     /**
      * @return Detail[]
      */

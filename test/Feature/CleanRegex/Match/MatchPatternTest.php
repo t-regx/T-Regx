@@ -544,7 +544,7 @@ class MatchPatternTest extends TestCase
         $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
 
         // when
-        $result = $this->defaultGroupBy($subject)->all();
+        $result = $this->fluentGroupByCallback($subject)->all();
 
         // then
         $expected = [
@@ -563,7 +563,7 @@ class MatchPatternTest extends TestCase
         $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
 
         // when
-        $result = $this->defaultGroupBy($subject)->keys()->all();
+        $result = $this->fluentGroupByCallback($subject)->keys()->all();
 
         // then
         $this->assertEquals(['cm', 'mm'], $result);
@@ -578,13 +578,13 @@ class MatchPatternTest extends TestCase
         $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
 
         // when
-        $result = $this->defaultGroupBy($subject)->keys()->first();
+        $result = $this->fluentGroupByCallback($subject)->keys()->first();
 
         // then
         $this->assertEquals('cm', $result);
     }
 
-    private function defaultGroupBy(string $subject): FluentMatchPattern
+    private function fluentGroupByCallback(string $subject): FluentMatchPattern
     {
         return pattern('(?<value>\d+)(?<unit>cm|mm)')
             ->match($subject)
@@ -592,5 +592,26 @@ class MatchPatternTest extends TestCase
             ->groupByCallback(function (Detail $detail) {
                 return $detail->get('unit');
             });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupByCallback()
+    {
+        // given
+        $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
+
+        // when
+        $result = pattern('(?<value>\d+)(?<unit>cm|mm)')->match($subject)->groupByCallback(function (Detail $detail) {
+            return $detail->get('unit');
+        });
+
+        // then
+        $expected = [
+            'cm' => ['12cm', '13cm', '19cm'],
+            'mm' => ['14mm', '18mm', '2mm']
+        ];
+        $this->assertEquals($expected, $result);
     }
 }
