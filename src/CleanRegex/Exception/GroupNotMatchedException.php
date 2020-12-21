@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Exception;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\FirstGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\MethodGetGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\MethodGroupMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Group\NthGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Subjectable;
@@ -31,6 +32,11 @@ class GroupNotMatchedException extends PatternException
     public static function forFirst(Subjectable $subject, $group): self
     {
         return self::exception(new FirstGroupMessage($group), $subject, $group);
+    }
+
+    public static function forNth(Subjectable $subject, $group, int $index): self
+    {
+        return self::exception(new NthGroupMessage($group, $index), $subject, $group);
     }
 
     public static function forMethod(Subjectable $subject, $group, string $method): self

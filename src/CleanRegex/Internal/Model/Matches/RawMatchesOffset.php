@@ -28,6 +28,11 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
         return \count($this->matches[self::GROUP_WHOLE_MATCH]) > 0;
     }
 
+    public function getCount(): int
+    {
+        return \count($this->matches[self::GROUP_WHOLE_MATCH]);
+    }
+
     public function getDetailObjects(DetailObjectFactory $factory): array
     {
         $matchObjects = [];

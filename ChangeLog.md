@@ -19,6 +19,7 @@ Incoming in 0.9.14
      later value will be preserved. It's useful for associative arrays with `integer` keys.
      For sequential arrays (or arrays with `string` keys), feel free to use `flatMap()`.
     * Add `match()->groupByCallback()` (previously only `match()->fluent()->groupByCallback()`) #80
+    * Add `match()->nth()` (previously only `match()->fluent()->nth()`) #80
 
 Added in 0.9.13
 ---------------

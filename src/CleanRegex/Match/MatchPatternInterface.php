@@ -16,6 +16,8 @@ interface MatchPatternInterface extends \Countable, \IteratorAggregate
      */
     public function first(callable $consumer = null);
 
+    public function nth(int $index);
+
     public function forEach(callable $consumer): void;
 
     /**

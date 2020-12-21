@@ -4,6 +4,10 @@ namespace TRegx\CleanRegex\Match;
 use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Exception\NoSuchNthElementException;
+use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitAll;
@@ -96,24 +100,39 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         return \array_slice($matches->getGroupTexts($this->nameOrIndex), 0, $limit);
     }
 
+    public function nth(int $index): string
+    {
+        $match = $this->base->matchAllOffsets();
+        $count = $match->getCount();
+        if (!$match->hasGroup($this->nameOrIndex)) {
+            throw new NonexistentGroupException($this->nameOrIndex);
+        }
+        if ($index < 0) {
+            throw new InvalidArgumentException("Negative group nth: $index");
+        }
+        if ($count === 0) {
+            throw SubjectNotMatchedException::forNthGroup($this->base, $this->nameOrIndex, $index);
+        }
+        if ($count <= $index) {
+            throw NoSuchNthElementException::forGroup($this->nameOrIndex, $index, $count);
+        }
+        if (!$match->isGroupMatched($this->nameOrIndex, $index)) {
+            throw GroupNotMatchedException::forNth($this->base, $this->nameOrIndex, $index);
+        }
+        [$text, $offset] = $match->getGroupTextAndOffset($this->nameOrIndex, $index);
+        return $text;
+    }
+
     public function getIterator(): Iterator
     {
         return new ArrayIterator($this->stream()->all());
     }
 
-    /**
-     * @param callable $mapper
-     * @return mixed[]
-     */
     public function map(callable $mapper): array
     {
         return \array_map($mapper, $this->stream()->all());
     }
 
-    /**
-     * @param callable $mapper
-     * @return mixed[]
-     */
     public function flatMap(callable $mapper): array
     {
         return (new FlatMapper($this->stream()->all(), new ArrayMergeStrategy(), $mapper, 'flatMap'))->get();
@@ -126,8 +145,8 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
     public function filter(callable $consumer): array
     {
         /**
-         * I use foreach to eliminate the overhead of PHP function call.
-         * I use array_filter(), because we have to call user function no matter what,
+         * I use foreach, instead of \array_map() to eliminate the overhead of PHP function call.
+         * I use \array_filter(), because we have to call user function no matter what,
          */
         $result = [];
         foreach (\array_filter($this->stream()->all(), $consumer) as $group) {
@@ -150,9 +169,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     public function fluent(): FluentMatchPattern
     {
-        return new FluentMatchPattern(
-            $this->stream(),
-            new FluentOptionalWorker(new FirstFluentMessage(), $this->base->getSubject()));
+        return new FluentMatchPattern($this->stream(), new FluentOptionalWorker(new FirstFluentMessage(), $this->base->getSubject()));
     }
 
     private function stream(): Stream

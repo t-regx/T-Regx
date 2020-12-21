@@ -3,7 +3,10 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Exception\NoSuchNthElementException;
+use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class MatchPatternTest extends TestCase
@@ -268,5 +271,20 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertEquals([null], $only1);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_nth()
+    {
+        // given
+        $subject = '12cm 14mm 13cm 19cm';
+
+        // when
+        $result = pattern('(?<value>\d+)(?<unit>cm|mm)')->match($subject)->group('value')->nth(3);
+
+        // then
+        $this->assertEquals('19', $result);
     }
 }

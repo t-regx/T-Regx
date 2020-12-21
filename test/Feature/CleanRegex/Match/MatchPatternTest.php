@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
+use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -613,5 +614,65 @@ class MatchPatternTest extends TestCase
             'mm' => ['14mm', '18mm', '2mm']
         ];
         $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNth()
+    {
+        // given
+        $subject = '12cm 14mm 13cm 19cm';
+
+        // when
+        $result = pattern('\d+(cm|mm)')->match($subject)->nth(3);
+
+        // then
+        $this->assertEquals('19cm', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_nth_forMissingMatch()
+    {
+        // given
+        $subject = '12cm 14mm';
+
+        // then
+        $this->expectException(NoSuchNthElementException::class);
+        $this->expectExceptionMessage("Expected to get the 6-nth match, but only 2 occurrences were matched");
+
+        // when
+        pattern('\d+(cm|mm)')->match($subject)->nth(6);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_nth_forUnmatchedSubject()
+    {
+        // given
+        $subject = 'Lorem Ipsum';
+
+        // then
+        $this->expectException(SubjectNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to get the 6-nth match, but subject was not matched");
+
+        // when
+        pattern('Not matching')->match($subject)->nth(6);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_nth_forNegativeArgument()
+    {
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Negative nth: -6");
+
+        // when
+        pattern('Bar')->match('Bar')->nth(-6);
     }
 }

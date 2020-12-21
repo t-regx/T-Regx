@@ -11,14 +11,14 @@ use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
 
 class GroupLimitFactory extends TestCase // this is a dirty hack, only to use protected `createMock()` method
 {
-    public static function groupLimitAll(TestCase $test, array $allValues): GroupLimit
+    public static function groupLimitAll(TestCase $test, array $allValues, $nameOrIndex = 0): GroupLimit
     {
         /** @var Base|MockObject $base */
         $base = $test->createMock(Base::class);
         $base->expects($test->never())->method('matchOffset');
-        $base->method('matchAllOffsets')->willReturn(new RawMatchesOffset([0 => $allValues]));
+        $base->method('matchAllOffsets')->willReturn(new RawMatchesOffset([0 => $allValues, $nameOrIndex => $allValues]));
 
-        return new GroupLimit($base, 0, new MatchOffsetLimit($base, 0, false));
+        return new GroupLimit($base, $nameOrIndex, new MatchOffsetLimit($base, $nameOrIndex, false));
     }
 
     public static function groupLimitFirst(TestCase $test, string $firstValue = ''): GroupLimit

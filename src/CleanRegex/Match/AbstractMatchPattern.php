@@ -3,7 +3,9 @@ namespace TRegx\CleanRegex\Match;
 
 use ArrayIterator;
 use EmptyIterator;
+use InvalidArgumentException;
 use Iterator;
+use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchAsArrayMessage;
@@ -92,6 +94,21 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     public function only(int $limit): array
     {
         return (new MatchOnly($this->base, $limit))->get();
+    }
+
+    public function nth(int $index): string
+    {
+        if ($index < 0) {
+            throw new InvalidArgumentException("Negative nth: $index");
+        }
+        $texts = $this->base->matchAll()->getTexts();
+        if (\array_key_exists($index, $texts)) {
+            return $texts[$index];
+        }
+        if (empty($texts)) {
+            throw SubjectNotMatchedException::forNth($this->base, $index);
+        }
+        throw NoSuchNthElementException::forSubject($index, \count($texts));
     }
 
     public function forEach(callable $consumer): void

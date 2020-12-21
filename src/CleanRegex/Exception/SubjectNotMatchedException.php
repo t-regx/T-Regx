@@ -8,6 +8,8 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstTripleSubjectMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstTupleSubjectMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Subject\NthGroupMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Subject\NthMatchMessage;
 use TRegx\CleanRegex\Internal\Subjectable;
 
 class SubjectNotMatchedException extends PatternException
@@ -24,6 +26,16 @@ class SubjectNotMatchedException extends PatternException
     public static function forFirst(Subjectable $subjectable): self
     {
         return self::withMessage(new FirstMatchMessage(), $subjectable);
+    }
+
+    public static function forNth(Subjectable $subjectable, int $index): self
+    {
+        return self::withMessage(new NthMatchMessage($index), $subjectable);
+    }
+
+    public static function forNthGroup(Subjectable $subjectable, $group, int $index): self
+    {
+        return self::withMessage(new NthGroupMessage($group, $index), $subjectable);
     }
 
     public static function forFirstOffset(Subjectable $subjectable): self
