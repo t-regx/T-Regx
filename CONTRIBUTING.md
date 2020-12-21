@@ -82,10 +82,12 @@ We value consistency. Knowing a part of a library, should aid in learning the re
 
 Keep in mind:
  - When editing a feature, see if there's also a similar feature. Consider, whether they both should be edited, or only the one?
+ - For example, at first, there were only methods `flatMap()` in `match()`, `match()->group()` and others. When we added
+   `flatMapAssoc()`, we didn't only add it to the most obvious group, but everywhere where `flatMap()` was.
 
 ### Simple and clean design
 We'd like you to try to avoid unnecessary setters and getters, just for the sake of them. All classes, whichever are fit for it, 
-should be **immutable**. If there's a need for an object that has to persists state, it should be extracted to a dedicated class 
+should be **immutable**. If there's a need for an object that has to persist state, it should be extracted to a dedicated class 
 that's sole purpose is to maintain the state.
   
 ### Formality
