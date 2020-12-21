@@ -41,6 +41,12 @@ interface MatchPatternInterface extends \Countable, \IteratorAggregate
     public function flatMap(callable $mapper);
 
     /**
+     * @param callable $mapper
+     * @return MatchPatternInterface|array
+     */
+    public function flatMapAssoc(callable $mapper);
+
+    /**
      * @return MatchPatternInterface|array
      */
     public function distinct();

@@ -158,6 +158,21 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldFlatMapAssoc()
+    {
+        // given
+        $pattern = new FluentMatchPattern($this->all(['Quizzacious', 'Lorem', 'Foo']), $this->worker());
+
+        // when
+        $result = $pattern->flatMapAssoc('str_split')->all();
+
+        // then
+        $this->assertEquals(['F', 'o', 'o', 'e', 'm', 'a', 'c', 'i', 'o', 'u', 's'], $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldFlatMap_first()
     {
         // given
@@ -184,6 +199,22 @@ class FluentMatchPatternTest extends TestCase
 
         // when
         $pattern->flatMap(Functions::constant(0))->all();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFlatMapAssoc_throw_callerAll()
+    {
+        // given
+        $pattern = new FluentMatchPattern($this->all(['Foo']), $this->worker());
+
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage("Invalid flatMapAssoc() callback return type. Expected array, but integer (0) given");
+
+        // when
+        $pattern->flatMapAssoc(Functions::constant(0))->all();
     }
 
     /**

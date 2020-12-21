@@ -47,12 +47,12 @@ class GroupByPattern
 
     public function flatMap(callable $mapper): array
     {
-        return $this->groupBy(new FlatMapStrategy($mapper, new ArrayMergeStrategy(), $this->factory()));
+        return $this->groupBy(new FlatMapStrategy($mapper, new ArrayMergeStrategy(), $this->factory(), 'flatMap'));
     }
 
     public function flatMapAssoc(callable $mapper): array
     {
-        return $this->groupBy(new FlatMapStrategy($mapper, new AssignStrategy(), $this->factory()));
+        return $this->groupBy(new FlatMapStrategy($mapper, new AssignStrategy(), $this->factory(), 'flatMapAssoc'));
     }
 
     private function factory(): DetailObjectFactory

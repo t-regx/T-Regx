@@ -2,6 +2,7 @@
 namespace Test\Integration\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class GroupLimitTest extends TestCase
@@ -63,6 +64,24 @@ class GroupLimitTest extends TestCase
         $limit->first(function (DetailGroup $group) {
             // then
             $this->assertEquals('Foo Bar', $group->text());
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFlatMapThrowException_forInvalidReturnType()
+    {
+        // given
+        $limit = GroupLimitFactory::groupLimitAll($this, ['Foo Bar']);
+
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid flatMap() callback return type. Expected array, but integer (4) given');
+
+        // when
+        $limit->flatMap(function (DetailGroup $group) {
+            return 4;
         });
     }
 }

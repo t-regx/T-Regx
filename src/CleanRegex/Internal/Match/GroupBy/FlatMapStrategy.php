@@ -16,12 +16,15 @@ class FlatMapStrategy implements Strategy
     private $strategy;
     /** @var DetailObjectFactory */
     private $factory;
+    /** @var string */
+    private $methodName;
 
-    public function __construct(callable $mapper, FlatMap\FlatMapStrategy $strategy, DetailObjectFactory $factory)
+    public function __construct(callable $mapper, FlatMap\FlatMapStrategy $strategy, DetailObjectFactory $factory, string $methodName)
     {
         $this->mapper = $mapper;
         $this->strategy = $strategy;
         $this->factory = $factory;
+        $this->methodName = $methodName;
     }
 
     public function transform(array $groups, RawMatchesOffset $matches): array
@@ -31,7 +34,7 @@ class FlatMapStrategy implements Strategy
             return $mapper($this->factory->create($match->getIndex(), $match, new EagerMatchAllFactory($matches)));
         };
         foreach ($groups as &$group) {
-            $group = (new FlatMapper($group, $this->strategy, $closure))->get();
+            $group = (new FlatMapper($group, $this->strategy, $closure, $this->methodName))->get();
         }
         return $groups;
     }

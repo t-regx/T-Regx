@@ -12,12 +12,15 @@ class FlatMapper
     private $strategy;
     /** @var callable */
     private $callback;
+    /** @var string */
+    private $methodName;
 
-    public function __construct(array $elements, FlatMapStrategy $strategy, callable $callback)
+    public function __construct(array $elements, FlatMapStrategy $strategy, callable $callback, string $methodName)
     {
         $this->elements = $elements;
         $this->strategy = $strategy;
         $this->callback = $callback;
+        $this->methodName = $methodName;
     }
 
     public function get(): array
@@ -35,6 +38,6 @@ class FlatMapper
         if (\is_array($value)) {
             return $value;
         }
-        throw InvalidReturnValueException::forFlatMap($value);
+        throw InvalidReturnValueException::forArrayReturning($this->methodName,$value);
     }
 }

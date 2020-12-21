@@ -15,9 +15,9 @@ Incoming in 0.9.14
 
      Otherwise identical to `flatMap()`, but since `flatMapAssoc()` doesn't use
      [`array_merge()`], the `integer` keys won't be reindexed - returning an integer
-     key from a `flatMapAssoc()`, if that key was already returned previously, the
+     key from a `flatMapAssoc()`. If a given key was already returned previously, the
      later value will be preserved. It's useful for associative arrays with `integer` keys.
-     For sequential arrays (or arrays with `string` keys) use `flatMap()`.
+     For sequential arrays (or arrays with `string` keys), feel free to use `flatMap()`.
 
 Added in 0.9.13
 ---------------

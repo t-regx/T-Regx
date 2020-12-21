@@ -108,12 +108,12 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function flatMap(callable $mapper): array
     {
-        return (new FlatMapper($this->getMatchObjects(), new ArrayMergeStrategy(), $mapper))->get();
+        return (new FlatMapper($this->getMatchObjects(), new ArrayMergeStrategy(), $mapper, 'flatMap'))->get();
     }
 
     public function flatMapAssoc(callable $mapper): array
     {
-        return (new FlatMapper($this->getMatchObjects(), new AssignStrategy(), $mapper))->get();
+        return (new FlatMapper($this->getMatchObjects(), new AssignStrategy(), $mapper, 'flatMapAssoc'))->get();
     }
 
     public function distinct(): array

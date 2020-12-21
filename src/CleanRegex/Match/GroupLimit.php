@@ -116,7 +116,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
      */
     public function flatMap(callable $mapper): array
     {
-        return (new FlatMapper($this->stream()->all(), new ArrayMergeStrategy(), $mapper))->get();
+        return (new FlatMapper($this->stream()->all(), new ArrayMergeStrategy(), $mapper, 'flatMap'))->get();
     }
 
     /**

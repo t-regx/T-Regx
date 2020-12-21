@@ -19,7 +19,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('all', 'willReturn', ['One', 'Two', 'Three']), new ReverseFlatMap(), 'str_split');
+        $stream = new FlatMappingStream($this->mock('all', 'willReturn', ['One', 'Two', 'Three']), new ReverseFlatMap(), 'str_split', '');
 
         // when
         $all = $stream->all();
@@ -34,7 +34,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('first', 'willReturn', 'One'), new ThrowFlatMap(), 'str_split');
+        $stream = new FlatMappingStream($this->mock('first', 'willReturn', 'One'), new ThrowFlatMap(), 'str_split', '');
 
         // when
         $first = $stream->first();
@@ -49,7 +49,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('firstKey', 'willReturn', 'foo'), new ThrowFlatMap(), Functions::fail());
+        $stream = new FlatMappingStream($this->mock('firstKey', 'willReturn', 'foo'), new ThrowFlatMap(), Functions::fail(), '');
 
         // when
         $firstKey = $stream->firstKey();
@@ -64,7 +64,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldFirstThrow_forNoFirstElement()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), new ThrowFlatMap(), 'strlen');
+        $stream = new FlatMappingStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), new ThrowFlatMap(), 'strlen', '');
 
         // then
         $this->expectException(NoFirstStreamException::class);
@@ -79,7 +79,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldReturn_forEmptyArray()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('first', 'willReturn', []), new ThrowFlatMap(), Functions::identity());
+        $stream = new FlatMappingStream($this->mock('first', 'willReturn', []), new ThrowFlatMap(), Functions::identity(), '');
 
         // when
         $first = $stream->first();
@@ -94,10 +94,11 @@ class FlatMappingStreamTest extends TestCase
     public function shouldFirstThrow_invalidReturnType()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('first', 'willReturn', 'Foo'), new ThrowFlatMap(), 'strlen');
+        $stream = new FlatMappingStream($this->mock('first', 'willReturn', 'Book'), new ThrowFlatMap(), 'strlen', 'lorem');
 
         // then
         $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid lorem() callback return type. Expected array, but integer (4) given');
 
         // when
         $stream->first();
@@ -109,10 +110,11 @@ class FlatMappingStreamTest extends TestCase
     public function shouldAllThrow_invalidReturnType()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('all', 'willReturn', ['Foo']), new ThrowFlatMap(), 'strlen');
+        $stream = new FlatMappingStream($this->mock('all', 'willReturn', ['Foo']), new ThrowFlatMap(), 'strlen', 'hello');
 
         // then
         $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid hello() callback return type. Expected array, but integer (3) given');
 
         // when
         $stream->all();

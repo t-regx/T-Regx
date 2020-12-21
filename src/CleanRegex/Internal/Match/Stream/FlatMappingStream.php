@@ -12,22 +12,25 @@ class FlatMappingStream implements Stream
     private $strategy;
     /** @var callable */
     private $mapper;
+    /** @var string */
+    private $methodName;
 
-    public function __construct(Stream $stream, FlatMapStrategy $strategy, callable $mapper)
+    public function __construct(Stream $stream, FlatMapStrategy $strategy, callable $mapper, string $methodName)
     {
         $this->stream = $stream;
         $this->strategy = $strategy;
         $this->mapper = $mapper;
+        $this->methodName = $methodName;
     }
 
     public function all(): array
     {
-        return (new FlatMapper($this->stream->all(), $this->strategy, $this->mapper))->get();
+        return (new FlatMapper($this->stream->all(), $this->strategy, $this->mapper, $this->methodName))->get();
     }
 
     public function first()
     {
-        return (new FlatMapper([], $this->strategy, $this->mapper))->map($this->stream->first());
+        return (new FlatMapper([], $this->strategy, $this->mapper, $this->methodName))->map($this->stream->first());
     }
 
     public function firstKey()

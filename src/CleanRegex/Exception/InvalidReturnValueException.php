@@ -16,9 +16,9 @@ class InvalidReturnValueException extends PatternException
         parent::__construct("Invalid $methodName() callback return type. Expected $expectedReturnType, but $type given");
     }
 
-    public static function forFlatMap($value): self
+    public static function forArrayReturning(string $method, $value): self
     {
-        return new self($value, 'flatMap', 'array');
+        return new self($value, $method, 'array');
     }
 
     public static function forFilter($value): self
