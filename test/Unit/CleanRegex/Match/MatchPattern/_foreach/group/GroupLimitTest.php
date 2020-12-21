@@ -10,7 +10,7 @@ class GroupLimitTest extends TestCase
     /**
      * @test
      */
-    public function shouldIterateMatchGroup()
+    public function shouldGroupLimitBeIterable()
     {
         // given
         $result = [];
