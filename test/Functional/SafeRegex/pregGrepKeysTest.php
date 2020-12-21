@@ -59,7 +59,7 @@ class pregGrepKeysTest extends TestCase
         $result = preg::grep_keys('//', []);
 
         // then
-        $this->assertEquals([], $result);
+        $this->assertEmpty($result);
     }
 
     /**

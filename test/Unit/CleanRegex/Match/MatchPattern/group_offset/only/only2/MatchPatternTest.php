@@ -55,7 +55,7 @@ class MatchPatternTest extends TestCase
         $groups = $pattern->group('two')->offsets()->only(2);
 
         // then
-        $this->assertEquals([], $groups);
+        $this->assertEmpty($groups);
     }
 
     /**

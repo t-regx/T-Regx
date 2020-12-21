@@ -70,7 +70,7 @@ class BaseStreamTest extends TestCase
 
         // then
         $this->assertFalse($all->matched());
-        $this->assertEquals([], $all->getTexts());
+        $this->assertEmpty($all->getTexts());
     }
 
     /**

@@ -386,7 +386,7 @@ class MatchPatternTest extends TestCase
             ->only(1);
 
         // then
-        $this->assertEquals([], $filtered);
+        $this->assertEmpty($filtered);
     }
 
     /**

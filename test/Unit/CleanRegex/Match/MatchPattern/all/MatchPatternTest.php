@@ -34,6 +34,6 @@ class MatchPatternTest extends TestCase
         $all = $pattern->all();
 
         // then
-        $this->assertEquals([], $all, 'Failed asserting that all() returned an empty array');
+        $this->assertEmpty($all, 'Failed asserting that all() returned an empty array');
     }
 }

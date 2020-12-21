@@ -25,7 +25,7 @@ class pregTest extends TestCase
         $result = preg::replace([], [], []);
 
         // then
-        $this->assertEquals([], $result);
+        $this->assertEmpty($result);
     }
 
     /**
@@ -37,7 +37,7 @@ class pregTest extends TestCase
         $result = preg::filter([], [], []);
 
         // then
-        $this->assertEquals([], $result);
+        $this->assertEmpty($result);
     }
 
     /**
@@ -49,7 +49,7 @@ class pregTest extends TestCase
         $result = preg::filter('/c/', '', ['a', 'b']);
 
         // then
-        $this->assertEquals([], $result);
+        $this->assertEmpty($result);
     }
 
     /**

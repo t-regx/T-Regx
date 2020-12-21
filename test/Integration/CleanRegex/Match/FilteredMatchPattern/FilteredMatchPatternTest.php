@@ -70,7 +70,7 @@ class FilteredMatchPatternTest extends TestCase
         $only = $matchPattern->only(0);
 
         // then
-        $this->assertEquals([], $only);
+        $this->assertEmpty($only);
     }
 
     /**

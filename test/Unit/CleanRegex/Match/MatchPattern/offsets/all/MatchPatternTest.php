@@ -34,6 +34,6 @@ class MatchPatternTest extends TestCase
         $offsets = $pattern->offsets()->all();
 
         // then
-        $this->assertEquals([], $offsets, 'Failed asserting that offsets() returned an empty array');
+        $this->assertEmpty($offsets, 'Failed asserting that offsets() returned an empty array');
     }
 }

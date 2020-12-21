@@ -71,7 +71,7 @@ class MatchPatternTest extends TestCase
         $map = $pattern->map(Functions::fail());
 
         // then
-        $this->assertEquals([], $map, 'Failed asserting that map() returned an empty array');
+        $this->assertEmpty($map, 'Failed asserting that map() returned an empty array');
     }
 
     private function getMatchPattern($subject): MatchPattern

@@ -101,7 +101,7 @@ class MatchPatternTest extends TestCase
         $map = $pattern->flatMap(Functions::fail());
 
         // then
-        $this->assertEquals([], $map, 'Failed asserting that flatMap() returned an empty array');
+        $this->assertEmpty($map, 'Failed asserting that flatMap() returned an empty array');
     }
 
     /**

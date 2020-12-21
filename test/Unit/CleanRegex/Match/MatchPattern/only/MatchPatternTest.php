@@ -40,7 +40,7 @@ class MatchPatternTest extends TestCase
         $only = $pattern->only(2);
 
         // then
-        $this->assertEquals([], $only, 'Failed asserting that only() returned an empty array');
+        $this->assertEmpty($only, 'Failed asserting that only() returned an empty array');
     }
 
     /**
@@ -55,7 +55,7 @@ class MatchPatternTest extends TestCase
         $only = $pattern->only(1);
 
         // then
-        $this->assertEquals([], $only, 'Failed asserting that only() returned an empty array');
+        $this->assertEmpty($only, 'Failed asserting that only() returned an empty array');
     }
 
     /**
@@ -101,7 +101,7 @@ class MatchPatternTest extends TestCase
         $only = $pattern->only(0);
 
         // then
-        $this->assertEquals([], $only);
+        $this->assertEmpty($only);
     }
 
     /**
