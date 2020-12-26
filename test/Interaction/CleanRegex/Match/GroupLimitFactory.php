@@ -16,7 +16,7 @@ class GroupLimitFactory extends TestCase // this is a dirty hack, only to use pr
         /** @var Base|MockObject $base */
         $base = $test->createMock(Base::class);
         $base->expects($test->never())->method('matchOffset');
-        $base->method('matchAllOffsets')->willReturn(new RawMatchesOffset([0 => $allValues, $nameOrIndex => $allValues]));
+        $base->method('matchAllOffsets')->willReturn(new RawMatchesOffset([0 => $allValues, $nameOrIndex => $allValues, 1 => $allValues]));
 
         return new GroupLimit($base, $nameOrIndex, new OffsetLimit($base, $nameOrIndex, false));
     }

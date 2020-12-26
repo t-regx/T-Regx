@@ -11,6 +11,8 @@ Incoming in 0.9.14
     * Add `Detail.textByteLength()` #88
     * Add `DetailGroup.textByteLength()` #88
     * Add `match()->flatMapAssoc()` #88
+    * Add `match()->group()->flatMapAssoc()` #88
+    * Add `match()->fluent()->flatMapAssoc()` #88
     * Add `match()->groupBy()->flatMapAssoc()` #88
 
      Otherwise identical to `flatMap()`, but since `flatMapAssoc()` doesn't use

@@ -56,6 +56,8 @@ class GroupNameIndexAssign
     private function getIndexByName(string $name): int
     {
         $key = $this->getKeyByGroup($name);
+        // We're relying on the assumption, that the string-key, representing the name
+        // of the group, is always one index before the integer-key representing the group.
         return $this->groupKeys[$key + 1];
     }
 

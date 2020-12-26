@@ -2,13 +2,77 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class GroupLimitTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function shouldGetFlatMap()
+    {
+        // given
+        $matches = [['Foo Bar', 1], ['Lorem', 1]];
+        $limit = GroupLimitFactory::groupLimitAll($this, $matches, 'value');
+
+        // when
+        $result = $limit->flatMap('str_split');
+
+        // then
+        $this->assertSame(['F', 'o', 'o', ' ', 'B', 'a', 'r', 'L', 'o', 'r', 'e', 'm'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFlatMapAssoc()
+    {
+        // given
+        $matches = [['Lorem', 1], ['Dog', 1], ['C', 1]];
+        $limit = GroupLimitFactory::groupLimitAll($this, $matches, 'value');
+
+        // when
+        $result = $limit->flatMapAssoc('str_split');
+
+        // then
+        $this->assertSame(['C', 'o', 'g', 'e', 'm'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_flatMap_forInvalidArgument()
+    {
+        // given
+        $limit = GroupLimitFactory::groupLimitAll($this, ['Foo Bar', 1]);
+
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage("Invalid flatMap() callback return type. Expected array, but string ('text') given");
+
+        // when
+        $limit->flatMap(Functions::constant('text'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_flatMapAssoc_forInvalidArgument()
+    {
+        // given
+        $limit = GroupLimitFactory::groupLimitAll($this, ['Foo Bar', 1]);
+
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage("Invalid flatMapAssoc() callback return type. Expected array, but string ('word') given");
+
+        // when
+        $limit->flatMapAssoc(Functions::constant('word'));
+    }
+
     /**
      * @test
      */

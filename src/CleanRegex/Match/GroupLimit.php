@@ -17,6 +17,7 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
+use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
@@ -27,7 +28,6 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
-use TRegx\CleanRegex\Match\OffsetLimit;
 
 class GroupLimit implements PatternLimit, \IteratorAggregate
 {
@@ -136,6 +136,11 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
     public function flatMap(callable $mapper): array
     {
         return (new FlatMapper($this->stream()->all(), new ArrayMergeStrategy(), $mapper, 'flatMap'))->get();
+    }
+
+    public function flatMapAssoc(callable $mapper): array
+    {
+        return (new FlatMapper($this->stream()->all(), new AssignStrategy(), $mapper, 'flatMapAssoc'))->get();
     }
 
     /**
