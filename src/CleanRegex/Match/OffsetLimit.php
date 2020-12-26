@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Match\Offset;
+namespace TRegx\CleanRegex\Match;
 
 use InvalidArgumentException;
 use Iterator;
@@ -10,10 +10,10 @@ use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\SecondLevelFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
-use TRegx\CleanRegex\Internal\Match\Offset\MatchOffsetStream;
-use TRegx\CleanRegex\Match\FluentMatchPattern;
+use TRegx\CleanRegex\Internal\Match\OffsetLimitStream;
+use TRegx\CleanRegex\Internal\PatternLimit;
 
-class MatchOffsetLimit implements OffsetLimit, \IteratorAggregate
+class OffsetLimit implements PatternLimit, \IteratorAggregate
 {
     /** @var Base */
     private $base;
@@ -89,6 +89,6 @@ class MatchOffsetLimit implements OffsetLimit, \IteratorAggregate
 
     public function fluent(): FluentMatchPattern
     {
-        return new FluentMatchPattern(new MatchOffsetStream($this), new SecondLevelFluentOptionalWorker(new FirstFluentMessage()));
+        return new FluentMatchPattern(new OffsetLimitStream($this), new SecondLevelFluentOptionalWorker(new FirstFluentMessage()));
     }
 }

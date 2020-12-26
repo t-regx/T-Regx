@@ -37,7 +37,7 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
-use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
+use TRegx\CleanRegex\Match\OffsetLimit;
 
 abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLimit
 {
@@ -146,12 +146,12 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         (new GroupNameValidator($nameOrIndex))->validate();
         return new GroupLimit($this->base, $nameOrIndex,
-            new MatchOffsetLimit($this->base, $nameOrIndex, false));
+            new OffsetLimit($this->base, $nameOrIndex, false));
     }
 
-    public function offsets(): MatchOffsetLimit
+    public function offsets(): OffsetLimit
     {
-        return new MatchOffsetLimit($this->base, 0, true);
+        return new OffsetLimit($this->base, 0, true);
     }
 
     abstract public function count(): int;

@@ -1,10 +1,10 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\_foreach\Offset;
+namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\_foreach;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\MatchPattern;
 
-class MatchOffsetLimitTest extends TestCase
+class OffsetLimitTest extends TestCase
 {
     /**
      * @test

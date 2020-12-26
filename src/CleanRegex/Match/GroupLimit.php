@@ -27,7 +27,7 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
-use TRegx\CleanRegex\Match\Offset\OffsetLimit;
+use TRegx\CleanRegex\Match\OffsetLimit;
 
 class GroupLimit implements PatternLimit, \IteratorAggregate
 {

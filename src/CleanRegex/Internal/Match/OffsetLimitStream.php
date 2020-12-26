@@ -1,15 +1,15 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match\Offset;
+namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
-use TRegx\CleanRegex\Match\Offset\MatchOffsetLimit;
+use TRegx\CleanRegex\Match\OffsetLimit;
 
-class MatchOffsetStream implements Stream
+class OffsetLimitStream implements Stream
 {
-    /** @var MatchOffsetLimit */
+    /** @var OffsetLimit */
     private $limit;
 
-    public function __construct(MatchOffsetLimit $limit)
+    public function __construct(OffsetLimit $limit)
     {
         $this->limit = $limit;
     }
