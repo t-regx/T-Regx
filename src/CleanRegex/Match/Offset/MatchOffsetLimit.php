@@ -9,11 +9,11 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\SecondLevelFluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
-use TRegx\CleanRegex\Match\FluentMatchPattern;
 use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
+use TRegx\CleanRegex\Internal\Match\Offset\MatchOffsetStream;
+use TRegx\CleanRegex\Match\FluentMatchPattern;
 
-class MatchOffsetLimit implements OffsetLimit, Stream, \IteratorAggregate
+class MatchOffsetLimit implements OffsetLimit, \IteratorAggregate
 {
     /** @var Base */
     private $base;
@@ -89,11 +89,6 @@ class MatchOffsetLimit implements OffsetLimit, Stream, \IteratorAggregate
 
     public function fluent(): FluentMatchPattern
     {
-        return new FluentMatchPattern($this, new SecondLevelFluentOptionalWorker(new FirstFluentMessage()));
-    }
-
-    public function firstKey(): int
-    {
-        return 0;
+        return new FluentMatchPattern(new MatchOffsetStream($this), new SecondLevelFluentOptionalWorker(new FirstFluentMessage()));
     }
 }
