@@ -40,19 +40,18 @@ class MatchOffsetLimit implements OffsetLimit, Stream, \IteratorAggregate
             if ($group !== null) {
                 return $group;
             }
-        } else {
-            if (!$this->groupVerifier->groupExists($this->nameOrIndex)) {
-                throw new NonexistentGroupException($this->nameOrIndex);
-            }
-            if (!$rawMatch->matched()) {
-                if ($this->isWholeMatch) {
-                    throw SubjectNotMatchedException::forFirstOffset($this->base);
-                } else {
-                    throw SubjectNotMatchedException::forFirstGroupOffset($this->base, $this->nameOrIndex);
-                }
-            }
+            throw GroupNotMatchedException::forFirst($this->base, $this->nameOrIndex);
         }
-        throw GroupNotMatchedException::forFirst($this->base, $this->nameOrIndex);
+        if (!$this->groupVerifier->groupExists($this->nameOrIndex)) {
+            throw new NonexistentGroupException($this->nameOrIndex);
+        }
+        if ($rawMatch->matched()) {
+            throw GroupNotMatchedException::forFirst($this->base, $this->nameOrIndex);
+        }
+        if ($this->isWholeMatch) {
+            throw SubjectNotMatchedException::forFirstOffset($this->base);
+        }
+        throw SubjectNotMatchedException::forFirstGroupOffset($this->base, $this->nameOrIndex);
     }
 
     /**
