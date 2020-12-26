@@ -18,7 +18,7 @@ class PatternBuilderTest extends TestCase
         $pattern = $pattern->delimited();
 
         // then
-        $this->assertEquals('%You/her, (are|is) real\?\ \%\ \(or\ are\ you\ not\ real\?\) (you|her)%', $pattern);
+        $this->assertSame('%You/her, (are|is) real\?\ \%\ \(or\ are\ you\ not\ real\?\) (you|her)%', $pattern);
     }
 
     /**
@@ -35,7 +35,7 @@ class PatternBuilderTest extends TestCase
         $pattern = $pattern->delimited();
 
         // then
-        $this->assertEquals('%You/her, (are|is) real\?\ \%\ \(or\ are\ you\ not\ real\?\) (you|her)%', $pattern);
+        $this->assertSame('%You/her, (are|is) real\?\ \%\ \(or\ are\ you\ not\ real\?\) (you|her)%', $pattern);
     }
 
     /**
@@ -52,6 +52,6 @@ class PatternBuilderTest extends TestCase
         $pattern = $pattern->delimited();
 
         // then
-        $this->assertEquals('%You/her, (are|is) real\?\ \%\ \(or\ are\ you\ not\ real\?\) (you|her)%', $pattern);
+        $this->assertSame('%You/her, (are|is) real\?\ \%\ \(or\ are\ you\ not\ real\?\) (you|her)%', $pattern);
     }
 }

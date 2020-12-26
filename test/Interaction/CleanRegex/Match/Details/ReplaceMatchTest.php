@@ -33,7 +33,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $all = $detail->all();
 
         // then
-        $this->assertEquals(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow'], $all);
+        $this->assertSame(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow'], $all);
     }
 
     /**
@@ -48,7 +48,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $all = $detail->all();
 
         // then
-        $this->assertEquals(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow'], $all);
+        $this->assertSame(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow'], $all);
     }
 
     /**
@@ -64,8 +64,8 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $modifiedOffset = $detail->modifiedOffset();
 
         // then
-        $this->assertEquals(38, $offset);
-        $this->assertEquals(53, $modifiedOffset);
+        $this->assertSame(38, $offset);
+        $this->assertSame(53, $modifiedOffset);
     }
 
     private function detail(int $offsetModification): ReplaceDetail

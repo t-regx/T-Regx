@@ -21,7 +21,7 @@ class RawMatchesToMatchAdapterTest extends TestCase
         $matched = $adapter->matched();
 
         // then
-        $this->assertEquals($expected, $matched);
+        $this->assertSame($expected, $matched);
     }
 
     public function booleans(): array

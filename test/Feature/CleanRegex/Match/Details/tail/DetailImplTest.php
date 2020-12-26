@@ -16,15 +16,15 @@ class DetailImplTest extends TestCase
             ->match(' Cześć, Kraśko ')
             ->first(function (Detail $detail) {
                 // given
-                $this->assertEquals("Kraśko", $detail);
+                $this->assertSame("Kraśko", "$detail");
 
                 // when
                 $tail = $detail->tail();
                 $byteTail = $detail->byteTail();
 
                 // then
-                $this->assertEquals(14, $tail);
-                $this->assertEquals(17, $byteTail);
+                $this->assertSame(14, $tail);
+                $this->assertSame(17, $byteTail);
             });
     }
 
@@ -39,15 +39,15 @@ class DetailImplTest extends TestCase
             ->forEach(function (Detail $detail) {
                 // given
                 if ($detail->index() !== 1) return;
-                $this->assertEquals("Księciuniu", $detail);
+                $this->assertSame("Księciuniu", "$detail");
 
                 // when
                 $tail = $detail->tail();
                 $byteTail = $detail->byteTail();
 
                 // then
-                $this->assertEquals(26, $tail);
-                $this->assertEquals(30, $byteTail);
+                $this->assertSame(26, $tail);
+                $this->assertSame(30, $byteTail);
             });
     }
 }

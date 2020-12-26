@@ -19,8 +19,8 @@ class MatchPatternTest extends TestCase
         $parsed = $detail->usingDuplicateName()->group('group');
 
         // then
-        $this->assertEquals('One', $declared->text());
-        $this->assertEquals('Two', $parsed->text());
+        $this->assertSame('One', $declared->text());
+        $this->assertSame('Two', $parsed->text());
     }
 
     /**
@@ -36,8 +36,8 @@ class MatchPatternTest extends TestCase
         $parsed = $detail->usingDuplicateName()->group('group');
 
         // then
-        $this->assertEquals(0, $declared->offset());
-        $this->assertEquals(3, $parsed->offset());
+        $this->assertSame(0, $declared->offset());
+        $this->assertSame(3, $parsed->offset());
     }
 
     /**
@@ -53,8 +53,8 @@ class MatchPatternTest extends TestCase
         $parsed = $detail->usingDuplicateName()->group('group');
 
         // then
-        $this->assertEquals('group', $declared->name());
-        $this->assertEquals('group', $parsed->name());
+        $this->assertSame('group', $declared->name());
+        $this->assertSame('group', $parsed->name());
     }
 
     /**
@@ -69,7 +69,7 @@ class MatchPatternTest extends TestCase
         $declared = $detail->group('group');
 
         // then
-        $this->assertEquals(1, $declared->index());
+        $this->assertSame(1, $declared->index());
     }
 
     public function detail(): Detail

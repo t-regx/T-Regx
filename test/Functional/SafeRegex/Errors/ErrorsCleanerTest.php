@@ -162,6 +162,6 @@ class ErrorsCleanerTest extends TestCase
 
         // then
         $error = preg_last_error();
-        $this->assertEquals(PREG_NO_ERROR, $error);
+        $this->assertSame(PREG_NO_ERROR, $error);
     }
 }

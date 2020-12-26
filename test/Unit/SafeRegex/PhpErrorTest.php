@@ -18,10 +18,10 @@ class PhpErrorTest extends TestCase
         $line = $error->getLine();
 
         // then
-        $this->assertEquals(E_WARNING, $type);
-        $this->assertEquals('Something failed', $message);
-        $this->assertEquals('file.php', $file);
-        $this->assertEquals(12, $line);
+        $this->assertSame(E_WARNING, $type);
+        $this->assertSame('Something failed', $message);
+        $this->assertSame('file.php', $file);
+        $this->assertSame(12, $line);
     }
 
     public function testStaticMethodFactory()
@@ -38,9 +38,9 @@ class PhpErrorTest extends TestCase
         $error = PhpError::fromArray($array);
 
         // then
-        $this->assertEquals(E_WARNING, $error->getType());
-        $this->assertEquals('Something failed', $error->getMessage());
-        $this->assertEquals('file.php', $error->getFile());
-        $this->assertEquals(12, $error->getLine());
+        $this->assertSame(E_WARNING, $error->getType());
+        $this->assertSame('Something failed', $error->getMessage());
+        $this->assertSame('file.php', $error->getFile());
+        $this->assertSame(12, $error->getLine());
     }
 }

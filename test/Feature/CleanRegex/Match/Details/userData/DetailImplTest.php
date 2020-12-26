@@ -25,7 +25,7 @@ class DetailImplTest extends TestCase
         });
 
         // then
-        $this->assertEquals('FirstFirst', $userData);
+        $this->assertSame('FirstFirst', $userData);
     }
 
     /**
@@ -49,7 +49,7 @@ class DetailImplTest extends TestCase
             ->orThrow();
 
         // then
-        $this->assertEquals('FirstFirst', $userData);
+        $this->assertSame('FirstFirst', $userData);
     }
 
     /**
@@ -71,6 +71,6 @@ class DetailImplTest extends TestCase
         });
 
         // then
-        $this->assertEquals(['FirstFirst', 'SecondSecond', 'ThirdThird', 'FourthFourth', 'FifthFifth'], $userData);
+        $this->assertSame(['FirstFirst', 'SecondSecond', 'ThirdThird', 'FourthFourth', 'FifthFifth'], $userData);
     }
 }

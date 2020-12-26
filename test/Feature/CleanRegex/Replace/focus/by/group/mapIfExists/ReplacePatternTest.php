@@ -20,7 +20,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)->replace($subject)->all()->focus('name')->by()->group('domain')->mapIfExists(['com' => 'GG'])->orElseWith('Foo');
 
         // then
-        $this->assertEquals('Links are http://GG.com/ and http://wikipedia.org http://Foo/ :)', $result);
+        $this->assertSame('Links are http://GG.com/ and http://wikipedia.org http://Foo/ :)', $result);
     }
 
     /**

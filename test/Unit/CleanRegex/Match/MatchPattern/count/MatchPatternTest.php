@@ -19,7 +19,7 @@ class MatchPatternTest extends TestCase
         $count = $pattern->count();
 
         // then
-        $this->assertEquals(3, $count);
+        $this->assertSame(3, $count);
     }
 
     /**
@@ -34,7 +34,7 @@ class MatchPatternTest extends TestCase
         $count = count($pattern);
 
         // then
-        $this->assertEquals(3, $count);
+        $this->assertSame(3, $count);
     }
 
     /**
@@ -49,7 +49,7 @@ class MatchPatternTest extends TestCase
         $count = $pattern->count();
 
         // then
-        $this->assertEquals(0, $count);
+        $this->assertSame(0, $count);
     }
 
     private function getMatchPattern(string $subject): MatchPattern

@@ -97,7 +97,7 @@ class pregTest extends TestCase
         $warning = error_get_last();
 
         // then
-        $this->assertEquals('some user error', $warning['message']);
+        $this->assertSame('some user error', $warning['message']);
     }
 
     /**
@@ -110,7 +110,7 @@ class pregTest extends TestCase
         $value = preg::match('/^|\d{1,2}$/', "7");
 
         // then
-        $this->assertEquals(1, $value);
+        $this->assertSame(1, $value);
     }
 
     /**
@@ -127,9 +127,9 @@ class pregTest extends TestCase
         $constant = preg::last_error_constant();
 
         // then
-        $this->assertEquals(PREG_BAD_UTF8_ERROR, $error);
-        $this->assertEquals('Malformed UTF-8 characters, possibly incorrectly encoded', $message);
-        $this->assertEquals('PREG_BAD_UTF8_ERROR', $constant);
+        $this->assertSame(PREG_BAD_UTF8_ERROR, $error);
+        $this->assertSame('Malformed UTF-8 characters, possibly incorrectly encoded', $message);
+        $this->assertSame('PREG_BAD_UTF8_ERROR', $constant);
     }
 
     /**
@@ -141,7 +141,7 @@ class pregTest extends TestCase
         $quoted = preg::quote('Hello # there');
 
         // then
-        $this->assertEquals('Hello \# there', $quoted);
+        $this->assertSame('Hello \# there', $quoted);
     }
 
     /**
@@ -153,7 +153,7 @@ class pregTest extends TestCase
         $quoted = preg::quote('Hello # % there', '%');
 
         // then
-        $this->assertEquals('Hello \# \% there', $quoted);
+        $this->assertSame('Hello \# \% there', $quoted);
     }
 
     /**
@@ -165,7 +165,7 @@ class pregTest extends TestCase
         $quoted = preg::quote('Hello # % there', '#');
 
         // then
-        $this->assertEquals('Hello \# % there', $quoted);
+        $this->assertSame('Hello \# % there', $quoted);
     }
 
     /**
@@ -179,7 +179,7 @@ class pregTest extends TestCase
         }, 'valid');
 
         // then
-        $this->assertEquals("replaced", $result);
+        $this->assertSame("replaced", $result);
     }
 
     /**
@@ -224,7 +224,7 @@ class pregTest extends TestCase
             preg::replace_callback_array($patterns, 'word');
         } catch (MalformedPatternException $exception) {
             // then
-            $this->assertEquals(['/./', '/a(/'], $exception->getPregPattern());
+            $this->assertSame(['/./', '/a(/'], $exception->getPregPattern());
         }
     }
 
@@ -257,7 +257,7 @@ class pregTest extends TestCase
             preg::replace_callback_array($patterns, 'word');
         } catch (InvalidReturnValueException $exception) {
             // then
-            $this->assertEquals(['/./', '/a/'], $exception->getPregPattern());
+            $this->assertSame(['/./', '/a/'], $exception->getPregPattern());
         }
     }
 }

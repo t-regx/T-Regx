@@ -31,7 +31,7 @@ class ReplacePatternImplTest extends TestCase
         $result = $underTest->$methodName('number');
 
         // then
-        $this->assertEquals('delegated', $result);
+        $this->assertSame('delegated', $result);
     }
 
     function withMethods(): array
@@ -63,7 +63,7 @@ class ReplacePatternImplTest extends TestCase
         $result = $underTest->callback(Functions::constant('input'));
 
         // then
-        $this->assertEquals('delegated', $result);
+        $this->assertSame('delegated', $result);
     }
 
     /**
@@ -84,6 +84,6 @@ class ReplacePatternImplTest extends TestCase
         $result = $underTest->by();
 
         // then
-        $this->assertEquals($inputInstance, $result);
+        $this->assertSame($inputInstance, $result);
     }
 }

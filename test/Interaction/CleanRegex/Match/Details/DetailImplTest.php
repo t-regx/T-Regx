@@ -40,7 +40,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $subject = $detail->subject();
 
         // then
-        $this->assertEquals(self::subject, $subject);
+        $this->assertSame(self::subject, $subject);
     }
 
     /**
@@ -55,7 +55,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $index = $detail->index();
 
         // then
-        $this->assertEquals(2, $index);
+        $this->assertSame(2, $index);
     }
 
     /**
@@ -70,7 +70,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $offset = $detail->offset();
 
         // then
-        $this->assertEquals(174, $offset);
+        $this->assertSame(174, $offset);
     }
 
     /**
@@ -85,7 +85,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $offsets = $detail->groups()->offsets();
 
         // then
-        $this->assertEquals([174, 174, 180], $offsets);
+        $this->assertSame([174, 174, 180], $offsets);
     }
 
     /**
@@ -105,7 +105,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
             'initial'   => 174,
             'surname'   => 180,
         ];
-        $this->assertEquals($expectedOffsets, $offsets);
+        $this->assertSame($expectedOffsets, $offsets);
     }
 
     /**
@@ -120,7 +120,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $text = $detail->text();
 
         // then
-        $this->assertEquals('Jack Sparrow', $text);
+        $this->assertSame('Jack Sparrow', $text);
     }
 
     /**
@@ -135,7 +135,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $length = $detail->textLength();
 
         // then
-        $this->assertEquals(6, $length);
+        $this->assertSame(6, $length);
     }
 
     /**
@@ -150,7 +150,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $text = (string)$detail;
 
         // then
-        $this->assertEquals('Jack Sparrow', $text);
+        $this->assertSame('Jack Sparrow', $text);
     }
 
     /**
@@ -165,7 +165,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $groups = $detail->groups()->texts();
 
         // then
-        $this->assertEquals(['Tyler', 'T', 'Durden'], $groups);
+        $this->assertSame(['Tyler', 'T', 'Durden'], $groups);
     }
 
     /**
@@ -185,7 +185,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
             'initial'   => 'J',
             'surname'   => 'Sparrow'
         ];
-        $this->assertEquals($expected, $named);
+        $this->assertSame($expected, $named);
     }
 
     /**
@@ -202,9 +202,9 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $surname = $detail->group('surname');
 
         // then
-        $this->assertEquals('Marla', $firstName);
-        $this->assertEquals('M', $initial);
-        $this->assertEquals('Singer', $surname);
+        $this->assertSame('Marla', "$firstName");
+        $this->assertSame('M', "$initial");
+        $this->assertSame('Singer', "$surname");
     }
 
     /**
@@ -219,7 +219,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $names = $detail->groupNames();
 
         // then
-        $this->assertEquals(['firstName', 'initial', 'surname'], $names);
+        $this->assertSame(['firstName', 'initial', 'surname'], $names);
     }
 
     /**
@@ -297,7 +297,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $all = $detail->all();
 
         // then
-        $this->assertEquals(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow', 'Ędward'], $all);
+        $this->assertSame(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow', 'Ędward'], $all);
     }
 
     /**
@@ -312,7 +312,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $all = $detail->group('surname')->all();
 
         // then
-        $this->assertEquals(['Durden', 'Singer', null, 'Sparrow', null], $all);
+        $this->assertSame(['Durden', 'Singer', null, 'Sparrow', null], $all);
     }
 
     /**
@@ -362,9 +362,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $userData = $detail->getUserData();
 
         // then
-        $expected = new \stdClass();
-        $expected->value = 'foo';
-        $this->assertEquals($expected, $userData);
+        $this->assertSame($mixed, $userData);
     }
 
     private function detail(int $index): Detail

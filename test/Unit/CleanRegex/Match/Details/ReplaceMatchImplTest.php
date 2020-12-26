@@ -23,7 +23,7 @@ class ReplaceMatchImplTest extends TestCase
         $subject = $detail->modifiedSubject();
 
         // then
-        $this->assertEquals('subject', $subject);
+        $this->assertSame('subject', $subject);
     }
 
     /**
@@ -58,7 +58,7 @@ class ReplaceMatchImplTest extends TestCase
         $offset = $detail->modifiedOffset();
 
         // then
-        $this->assertEquals(20, $offset);
+        $this->assertSame(20, $offset);
     }
 
     /**
@@ -73,7 +73,7 @@ class ReplaceMatchImplTest extends TestCase
         $subject = $detail->subject();
 
         // then
-        $this->assertEquals('subject result', $subject);
+        $this->assertSame('subject result', $subject);
     }
 
     /**
@@ -88,7 +88,7 @@ class ReplaceMatchImplTest extends TestCase
         $groupNames = $detail->groupNames();
 
         // then
-        $this->assertEquals(['one', 'two'], $groupNames);
+        $this->assertSame(['one', 'two'], $groupNames);
     }
 
     /**
@@ -103,7 +103,7 @@ class ReplaceMatchImplTest extends TestCase
         $text = $detail->text();
 
         // then
-        $this->assertEquals('text result', $text);
+        $this->assertSame('text result', $text);
     }
 
     /**
@@ -118,7 +118,7 @@ class ReplaceMatchImplTest extends TestCase
         $length = $detail->textLength();
 
         // then
-        $this->assertEquals(11, $length);
+        $this->assertSame(11, $length);
     }
 
     /**
@@ -133,7 +133,7 @@ class ReplaceMatchImplTest extends TestCase
         $length = $detail->textByteLength();
 
         // then
-        $this->assertEquals(6, $length);
+        $this->assertSame(6, $length);
     }
 
     /**
@@ -148,7 +148,7 @@ class ReplaceMatchImplTest extends TestCase
         $all = $detail->all();
 
         // then
-        $this->assertEquals(['all', 'one', 'two'], $all);
+        $this->assertSame(['all', 'one', 'two'], $all);
     }
 
     /**
@@ -163,7 +163,7 @@ class ReplaceMatchImplTest extends TestCase
         $index = $detail->index();
 
         // then
-        $this->assertEquals(14, $index);
+        $this->assertSame(14, $index);
     }
 
     /**
@@ -178,7 +178,7 @@ class ReplaceMatchImplTest extends TestCase
         $limit = $detail->limit();
 
         // then
-        $this->assertEquals(14, $limit);
+        $this->assertSame(14, $limit);
     }
 
     /**
@@ -193,7 +193,7 @@ class ReplaceMatchImplTest extends TestCase
         $offset = $detail->offset();
 
         // then
-        $this->assertEquals(14, $offset);
+        $this->assertSame(14, $offset);
     }
 
     /**
@@ -208,7 +208,7 @@ class ReplaceMatchImplTest extends TestCase
         $offset = $detail->tail();
 
         // then
-        $this->assertEquals(15, $offset);
+        $this->assertSame(15, $offset);
     }
 
     /**
@@ -223,7 +223,7 @@ class ReplaceMatchImplTest extends TestCase
         $byteOffset = $detail->byteOffset();
 
         // then
-        $this->assertEquals(14, $byteOffset);
+        $this->assertSame(14, $byteOffset);
     }
 
     /**
@@ -238,7 +238,7 @@ class ReplaceMatchImplTest extends TestCase
         $byteOffset = $detail->byteTail();
 
         // then
-        $this->assertEquals(16, $byteOffset);
+        $this->assertSame(16, $byteOffset);
     }
 
     /**
@@ -253,7 +253,7 @@ class ReplaceMatchImplTest extends TestCase
         $userData = $detail->getUserData();
 
         // then
-        $this->assertEquals(14, $userData);
+        $this->assertSame(14, $userData);
     }
 
     /**
@@ -268,7 +268,7 @@ class ReplaceMatchImplTest extends TestCase
         $int = $detail->toInt();
 
         // then
-        $this->assertEquals(14, $int);
+        $this->assertSame(14, $int);
     }
 
     /**
@@ -368,7 +368,7 @@ class ReplaceMatchImplTest extends TestCase
         $text = (string)$detail;
 
         // then
-        $this->assertEquals('text', $text);
+        $this->assertSame('text', $text);
     }
 
     /**
@@ -395,7 +395,7 @@ class ReplaceMatchImplTest extends TestCase
         $groups = $detail->groups();
 
         // then
-        $this->assertEquals(['one', 'two'], $groups->texts());
+        $this->assertSame(['one', 'two'], $groups->texts());
     }
 
     /**
@@ -422,7 +422,7 @@ class ReplaceMatchImplTest extends TestCase
         $groups = $detail->namedGroups();
 
         // then
-        $this->assertEquals(['first' => 'one', 'second' => 'two'], $groups->texts());
+        $this->assertSame(['first' => 'one', 'second' => 'two'], $groups->texts());
     }
 
     private function getDetail_mockedMethod(string $method, $result): ReplaceMatchImpl

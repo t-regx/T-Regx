@@ -23,7 +23,7 @@ class ReferencesReplacerTest extends TestCase
 
         // then
         $this->validateContract($pattern, $subject, $replacement, $expected);
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     public function subjects(): array
@@ -89,7 +89,7 @@ class ReferencesReplacerTest extends TestCase
         $result = preg_replace($pattern, $replacement, $subject);
 
         // then
-        $this->assertEquals($expected, $result, "Failed to assert that $replacement matches the contract");
+        $this->assertSame($expected, $result, "Failed to assert that $replacement matches the contract");
     }
 
     /**

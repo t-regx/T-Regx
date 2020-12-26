@@ -26,7 +26,7 @@ class MatchPatternTest extends TestCase
             ->all();
 
         // then
-        $this->assertEquals(['matching', 'pattern'], $first);
+        $this->assertSame(['matching', 'pattern'], $first);
     }
 
     /**

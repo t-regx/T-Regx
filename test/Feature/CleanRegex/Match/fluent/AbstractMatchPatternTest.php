@@ -34,7 +34,7 @@ class AbstractMatchPatternTest extends TestCase
             ->all();
 
         // then
-        $this->assertEquals(['no', 'yes: H', 'no', 'yes: A'], $result);
+        $this->assertSame(['no', 'yes: H', 'no', 'yes: A'], $result);
     }
 
     /**
@@ -55,7 +55,7 @@ class AbstractMatchPatternTest extends TestCase
             ->nth(1);
 
         // then
-        $this->assertEquals('emet', $result);
+        $this->assertSame('emet', $result);
     }
 
     /**
@@ -77,7 +77,7 @@ class AbstractMatchPatternTest extends TestCase
                 // then
                 $userData = $detail->getUserData();
 
-                $this->assertEquals($detail === 'Foo' ? 'hey' : 'hello', $userData);
+                $this->assertSame($detail === 'Foo' ? 'hey' : 'hello', $userData);
             });
     }
 
@@ -130,8 +130,8 @@ class AbstractMatchPatternTest extends TestCase
                 ->orThrow(CustomSubjectException::class);
         } catch (CustomSubjectException $exception) {
             // then
-            $this->assertEquals("Expected to get the first element from fluent pattern, but the elements feed is empty.", $exception->getMessage());
-            $this->assertEquals("Bar", $exception->subject);
+            $this->assertSame("Expected to get the first element from fluent pattern, but the elements feed is empty.", $exception->getMessage());
+            $this->assertSame("Bar", $exception->subject);
         }
     }
 }

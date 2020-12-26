@@ -22,7 +22,7 @@ class PatternTest extends TestCase
         $valid = $pattern->valid();
 
         // then
-        $this->assertEquals($expected, $valid);
+        $this->assertSame($expected, $valid);
     }
 
     /**
@@ -41,7 +41,7 @@ class PatternTest extends TestCase
         $valid = $pattern->valid();
 
         // then
-        $this->assertEquals($expected, $valid);
+        $this->assertSame($expected, $valid);
     }
 
     public function patterns(): array

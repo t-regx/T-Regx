@@ -18,7 +18,7 @@ class PregMessagesTest extends TestCase
         $constant = $messages->getConstant(PREG_BAD_UTF8_ERROR);
 
         // then
-        $this->assertEquals('Malformed UTF-8 characters, possibly incorrectly encoded', $constant);
+        $this->assertSame('Malformed UTF-8 characters, possibly incorrectly encoded', $constant);
     }
 
     /**
@@ -33,6 +33,6 @@ class PregMessagesTest extends TestCase
         $constant = $messages->getConstant(101);
 
         // then
-        $this->assertEquals('Unknown error', $constant);
+        $this->assertSame('Unknown error', $constant);
     }
 }

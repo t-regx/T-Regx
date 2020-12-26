@@ -21,7 +21,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)->replace($subject)->all()->focus('name')->with('xxx');
 
         // then
-        $this->assertEquals('Links: https://xxx.com and http://xxx.org. and again http://xxx.com', $result);
+        $this->assertSame('Links: https://xxx.com and http://xxx.org. and again http://xxx.com', $result);
     }
 
     /**
@@ -86,7 +86,7 @@ class ReplacePatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals('Links: https://|google|.com and http://|other|.org. and again http://|danon|.com', $result);
+        $this->assertSame('Links: https://|google|.com and http://|other|.org. and again http://|danon|.com', $result);
     }
 
     /**
@@ -119,7 +119,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)->replace($subject)->all()->focus('name')->withReferences(':\1|$1:');
 
         // then
-        $this->assertEquals('Links: https://:google|google:.com and http://:other|other:.org. and again http://:danon|danon:.com', $result);
+        $this->assertSame('Links: https://:google|google:.com and http://:other|other:.org. and again http://:danon|danon:.com', $result);
     }
 
     /**
@@ -150,7 +150,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)->replace($subject)->all()->focus('name')->withReferences(':\0:');
 
         // then
-        $this->assertEquals('Links: https://:google:.com and http://:other:.org. and again http://:danon:.com', $result);
+        $this->assertSame('Links: https://:google:.com and http://:other:.org. and again http://:danon:.com', $result);
     }
 
     private function patternAndSubject(): array

@@ -17,8 +17,8 @@ class MatchPatternTest extends TestCase
         [$value, $unit] = pattern('(\d+)(?<unit>cm|mm)')->match('12cm 14mm')->tuple(1, 'unit');
 
         // then
-        $this->assertEquals(12, $value);
-        $this->assertEquals('cm', $unit);
+        $this->assertSame('12', $value);
+        $this->assertSame('cm', $unit);
     }
 
     /**
@@ -30,9 +30,9 @@ class MatchPatternTest extends TestCase
         [$a, $b, $c] = pattern('([ab])([12])([$%])')->match('a1% b2$')->triple(1, 3, 2);
 
         // then
-        $this->assertEquals('a', $a);
-        $this->assertEquals('%', $b);
-        $this->assertEquals('1', $c);
+        $this->assertSame('a', $a);
+        $this->assertSame('%', $b);
+        $this->assertSame('1', $c);
     }
 
     /**
@@ -76,8 +76,8 @@ class MatchPatternTest extends TestCase
             ->tuple(1, 'unit');
 
         // then
-        $this->assertEquals(14, $value);
-        $this->assertEquals('mm', $unit);
+        $this->assertSame('14', $value);
+        $this->assertSame('mm', $unit);
     }
 
     /**
@@ -93,9 +93,9 @@ class MatchPatternTest extends TestCase
             ->triple(1, 3, 2);
 
         // then
-        $this->assertEquals('b', $a);
-        $this->assertEquals('$', $b);
-        $this->assertEquals('2', $c);
+        $this->assertSame('b', $a);
+        $this->assertSame('$', $b);
+        $this->assertSame('2', $c);
     }
 
     /**

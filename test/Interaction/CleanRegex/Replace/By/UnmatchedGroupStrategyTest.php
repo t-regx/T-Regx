@@ -33,7 +33,7 @@ class UnmatchedGroupStrategyTest extends TestCase
         $result = $strategy->$method(...$arguments);
 
         // then
-        $this->assertEquals('length: 14cm!', $result);
+        $this->assertSame('length: 14cm!', $result);
     }
 
     /**
@@ -48,7 +48,7 @@ class UnmatchedGroupStrategyTest extends TestCase
         $result = $strategy->orElseWith('with');
 
         // then
-        $this->assertEquals('length: with!', $result);
+        $this->assertSame('length: with!', $result);
     }
 
     /**
@@ -95,7 +95,7 @@ class UnmatchedGroupStrategyTest extends TestCase
         $result = $strategy->orElseEmpty();
 
         // then
-        $this->assertEquals('length: !', $result);
+        $this->assertSame('length: !', $result);
     }
 
     /**
@@ -110,7 +110,7 @@ class UnmatchedGroupStrategyTest extends TestCase
         $result = $strategy->orElseIgnore();
 
         // then
-        $this->assertEquals('length: 14!', $result);
+        $this->assertSame('length: 14!', $result);
     }
 
     /**
@@ -127,7 +127,7 @@ class UnmatchedGroupStrategyTest extends TestCase
         });
 
         // then
-        $this->assertEquals('length: called!', $result);
+        $this->assertSame('length: called!', $result);
     }
 
     public function objectUnderTest($subject): UnmatchedGroupStrategy

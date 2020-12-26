@@ -30,11 +30,11 @@ class RuntimePregExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf($className, $exception);
-        $this->assertEquals('preg_method', $exception->getInvokingMethod());
-        $this->assertEquals($errorCode, $exception->getError());
-        $this->assertEquals($name, $exception->getErrorName());
-        $this->assertEquals($message, $exception->getMessage());
-        $this->assertEquals('/pattern/', $exception->getPregPattern());
+        $this->assertSame('preg_method', $exception->getInvokingMethod());
+        $this->assertSame($errorCode, $exception->getError());
+        $this->assertSame($name, $exception->getErrorName());
+        $this->assertSame($message, $exception->getMessage());
+        $this->assertSame('/pattern/', $exception->getPregPattern());
     }
 
     public function errors(): array

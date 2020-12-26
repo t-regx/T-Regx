@@ -21,7 +21,7 @@ class GroupLimitTest extends TestCase
         $result = $limit->nth(0);
 
         // then
-        $this->assertEquals('Foo Bar', $result);
+        $this->assertSame('Foo Bar', $result);
     }
 
     /**
@@ -118,9 +118,9 @@ class GroupLimitTest extends TestCase
             $this->fail();
         } catch (NoSuchNthElementException $exception) {
             // then
-            $this->assertEquals(4, $exception->getIndex());
-            $this->assertEquals(1, $exception->getTotal());
-            $this->assertEquals("Expected to get group 'foo' from the 4-nth match, but only 1 occurrences were matched", $exception->getMessage());
+            $this->assertSame(4, $exception->getIndex());
+            $this->assertSame(1, $exception->getTotal());
+            $this->assertSame("Expected to get group 'foo' from the 4-nth match, but only 1 occurrences were matched", $exception->getMessage());
         }
     }
 }

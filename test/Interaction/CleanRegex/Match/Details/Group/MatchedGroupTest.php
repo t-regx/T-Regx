@@ -24,7 +24,7 @@ class MatchedGroupTest extends TestCase
         $text = $matchGroup->text();
 
         // then
-        $this->assertEquals('Nice matching', $text);
+        $this->assertSame('Nice matching', $text);
     }
 
     /**
@@ -68,8 +68,8 @@ class MatchedGroupTest extends TestCase
         $byteOffset = $matchGroup->byteOffset();
 
         // then
-        $this->assertEquals(3, $offset);
-        $this->assertEquals(5, $byteOffset);
+        $this->assertSame(3, $offset);
+        $this->assertSame(5, $byteOffset);
     }
 
     /**
@@ -85,8 +85,8 @@ class MatchedGroupTest extends TestCase
         $byteTail = $matchGroup->byteTail();
 
         // then
-        $this->assertEquals(5, $tail);
-        $this->assertEquals(8, $byteTail);
+        $this->assertSame(5, $tail);
+        $this->assertSame(8, $byteTail);
     }
 
     /**
@@ -101,7 +101,7 @@ class MatchedGroupTest extends TestCase
         $name = $matchGroup->name();
 
         // then
-        $this->assertEquals('first', $name);
+        $this->assertSame('first', $name);
     }
 
     /**
@@ -116,7 +116,7 @@ class MatchedGroupTest extends TestCase
         $index = $matchGroup->index();
 
         // then
-        $this->assertEquals(1, $index);
+        $this->assertSame(1, $index);
     }
 
     /**
@@ -131,7 +131,7 @@ class MatchedGroupTest extends TestCase
         $result = $matchGroup->substitute('<replaced value>');
 
         // then
-        $this->assertEquals('start(<replaced value>)end', $result);
+        $this->assertSame('start(<replaced value>)end', $result);
     }
 
     /**
@@ -146,7 +146,7 @@ class MatchedGroupTest extends TestCase
         $text = (string)$matchGroup;
 
         // then
-        $this->assertEquals('Nice matching', $text);
+        $this->assertSame('Nice matching', $text);
     }
 
     /**
@@ -163,9 +163,9 @@ class MatchedGroupTest extends TestCase
         $orThrow = $matchGroup->orThrow();
 
         // then
-        $this->assertEquals('Nice matching', $orElse);
-        $this->assertEquals('Nice matching', $orReturn);
-        $this->assertEquals('Nice matching', $orThrow);
+        $this->assertSame('Nice matching', $orElse);
+        $this->assertSame('Nice matching', $orReturn);
+        $this->assertSame('Nice matching', $orThrow);
     }
 
     /**
@@ -182,7 +182,7 @@ class MatchedGroupTest extends TestCase
         $result = $matchGroup->usedIdentifier();
 
         // then
-        $this->assertEquals($usedIdentifier, $result);
+        $this->assertSame($usedIdentifier, $result);
     }
 
     public function identifiers(): array

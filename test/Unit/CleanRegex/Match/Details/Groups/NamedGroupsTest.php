@@ -39,7 +39,7 @@ class NamedGroupsTest extends TestCase
         $names = $matchGroups->names();
 
         // then
-        $this->assertEquals(array_values(array_filter($expectedNames, 'is_string')), $names);
+        $this->assertSame(array_values(array_filter($expectedNames, 'is_string')), $names);
     }
 
     /**
@@ -57,7 +57,7 @@ class NamedGroupsTest extends TestCase
         $count = $matchGroups->count();
 
         // then
-        $this->assertEquals(count(array_values(array_filter($expectedNames, 'is_string'))), $count);
+        $this->assertSame(count(array_values(array_filter($expectedNames, 'is_string'))), $count);
     }
 
     private function match(array $keys): IRawMatchOffset

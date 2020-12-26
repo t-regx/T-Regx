@@ -21,7 +21,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = $facade->getPattern();
 
         // then
-        $this->assertEquals('/bar/', $pattern);
+        $this->assertSame('/bar/', $pattern);
     }
 
     /**
@@ -36,7 +36,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = $facade->getPattern();
 
         // then
-        $this->assertEquals('bar', $pattern);
+        $this->assertSame('bar', $pattern);
     }
 
     /**
@@ -51,7 +51,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = $facade->getPattern();
 
         // then
-        $this->assertEquals('%bar%', $pattern);
+        $this->assertSame('%bar%', $pattern);
     }
 
     /**
@@ -66,7 +66,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = $facade->getPattern();
 
         // then
-        $this->assertEquals('Word', $pattern);
+        $this->assertSame('Word', $pattern);
     }
 
     /**
@@ -81,7 +81,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = $facade->getPattern();
 
         // then
-        $this->assertEquals('~HEAD\~2~', $pattern);
+        $this->assertSame('~HEAD\~2~', $pattern);
     }
 
     /**
@@ -96,7 +96,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = $facade->getPattern();
 
         // then
-        $this->assertEquals('HEAD\~2', $pattern);
+        $this->assertSame('HEAD\~2', $pattern);
     }
 
     public function parser(string $input, string $expectDelimiter, string $result): Parser

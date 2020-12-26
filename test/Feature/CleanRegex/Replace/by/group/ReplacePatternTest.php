@@ -33,7 +33,7 @@ class ReplacePatternTest extends TestCase
             ->$method(...$arguments);
 
         // then
-        $this->assertEquals('Replace O!, T! and O!', $result);
+        $this->assertSame('Replace O!, T! and O!', $result);
     }
 
     public function optionals(): array
@@ -60,14 +60,14 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group('unit')
             ->orElseCalling(function (LazyDetailImpl $detail) {
-                $this->assertEquals('14', $detail->text());
-                $this->assertEquals('14', $detail->get('value'));
-                $this->assertEquals('14', $detail->group('value')->text());
-                $this->assertEquals(['cm', null, 'cm'], $detail->group('unit')->all());
+                $this->assertSame('14', $detail->text());
+                $this->assertSame('14', $detail->get('value'));
+                $this->assertSame('14', $detail->group('value')->text());
+                $this->assertSame(['cm', null, 'cm'], $detail->group('unit')->all());
                 // Not, really testable
-                $this->assertEquals(1, $detail->index());
-                $this->assertEquals(-1, $detail->limit());
-                $this->assertEquals('15cm 14 16cm', $detail->subject());
+                $this->assertSame(1, $detail->index());
+                $this->assertSame(-1, $detail->limit());
+                $this->assertSame('15cm 14 16cm', $detail->subject());
 
                 // clean up
                 return 'else';
@@ -90,7 +90,7 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group('unit')
             ->orElseCalling(function (LazyDetailImpl $detail) {
-                $this->assertEquals('14', $detail->text());
+                $this->assertSame('14', $detail->text());
 
                 // when
                 return null;
@@ -116,7 +116,7 @@ class ReplacePatternTest extends TestCase
             ->$method(...$arguments);
 
         // then
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     public function shouldNotReplaceGroups(): array
@@ -234,7 +234,7 @@ class ReplacePatternTest extends TestCase
             ->orElseThrow();
 
         // then
-        $this->assertEquals('Links: google and facebook', $result);
+        $this->assertSame('Links: google and facebook', $result);
     }
 
     /**
@@ -249,7 +249,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern('https?://(\w+)\.com')->replace($subject)->all()->by()->group(0)->orElseThrow();
 
         // then
-        $this->assertEquals($subject, $result);
+        $this->assertSame($subject, $result);
     }
 
     /**
@@ -266,7 +266,7 @@ class ReplacePatternTest extends TestCase
             ->orElseThrow();
 
         // then
-        $this->assertEquals('Links: google and facebook', $result);
+        $this->assertSame('Links: google and facebook', $result);
     }
 
     /**

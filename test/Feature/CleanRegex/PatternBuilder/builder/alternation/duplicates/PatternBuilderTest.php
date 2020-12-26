@@ -21,7 +21,7 @@ class PatternBuilderTest extends TestCase
         $patter = $pattern->delimited();
 
         // then
-        $this->assertEquals("/Foo(?:$expected)/$flags", $patter);
+        $this->assertSame("/Foo(?:$expected)/$flags", $patter);
     }
 
     /**
@@ -39,7 +39,7 @@ class PatternBuilderTest extends TestCase
         $patter = $pattern->delimited();
 
         // then
-        $this->assertEquals("/Foo(?:$expected)/$flags", $patter);
+        $this->assertSame("/Foo(?:$expected)/$flags", $patter);
     }
 
     public function flagsAndAlternationResults(): array

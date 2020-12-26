@@ -19,7 +19,7 @@ class DetailImplTest extends TestCase
                 $index = $detail->index();
 
                 // then
-                $this->assertEquals(0, $index);
+                $this->assertSame(0, $index);
             });
     }
 
@@ -36,7 +36,7 @@ class DetailImplTest extends TestCase
                 $index = $detail->index();
 
                 // then
-                $this->assertEquals(0, $index);
+                $this->assertSame(0, $index);
             })
             ->orThrow();
     }
@@ -63,7 +63,7 @@ class DetailImplTest extends TestCase
             });
 
         // then
-        $this->assertEquals([0, 1, 2], $indexes);
+        $this->assertSame([0, 1, 2], $indexes);
     }
 
     public function iteratingMatchMethods(): array

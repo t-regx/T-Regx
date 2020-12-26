@@ -15,7 +15,7 @@ class RemovePatternTest extends TestCase
         $result = pattern('\d+')->remove('My ip is 192.168.2.14')->all();
 
         // then
-        $this->assertEquals('My ip is ...', $result);
+        $this->assertSame('My ip is ...', $result);
     }
 
     /**
@@ -27,7 +27,7 @@ class RemovePatternTest extends TestCase
         $result = pattern('\d+')->remove('My ip is 192.168.2.14')->first();
 
         // then
-        $this->assertEquals('My ip is .168.2.14', $result);
+        $this->assertSame('My ip is .168.2.14', $result);
     }
 
     /**
@@ -39,7 +39,7 @@ class RemovePatternTest extends TestCase
         $result = pattern('\d+')->remove('My ip is 192.168.2.14')->only(3);
 
         // then
-        $this->assertEquals('My ip is ...14', $result);
+        $this->assertSame('My ip is ...14', $result);
     }
 
     /**

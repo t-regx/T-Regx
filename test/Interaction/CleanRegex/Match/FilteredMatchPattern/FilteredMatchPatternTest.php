@@ -25,7 +25,7 @@ class FilteredMatchPatternTest extends TestCase
         $all = $matchPattern->all();
 
         // then
-        $this->assertEquals(['first', 'third', 'fourth'], $all);
+        $this->assertSame(['first', 'third', 'fourth'], $all);
     }
 
     /**
@@ -40,7 +40,7 @@ class FilteredMatchPatternTest extends TestCase
         $only = $matchPattern->only(2);
 
         // then
-        $this->assertEquals(['first', 'third'], $only);
+        $this->assertSame(['first', 'third'], $only);
     }
 
     /**
@@ -55,7 +55,7 @@ class FilteredMatchPatternTest extends TestCase
         $only = $matchPattern->only(1);
 
         // then
-        $this->assertEquals(['first'], $only);
+        $this->assertSame(['first'], $only);
     }
 
     /**
@@ -88,7 +88,7 @@ class FilteredMatchPatternTest extends TestCase
         $flatMap = $matchPattern->flatMap($callback);
 
         // then
-        $this->assertEquals(['sec', 'ond', 'thi', 'rd', 'fou', 'rth'], $flatMap);
+        $this->assertSame(['sec', 'ond', 'thi', 'rd', 'fou', 'rth'], $flatMap);
     }
 
     /**
@@ -103,7 +103,7 @@ class FilteredMatchPatternTest extends TestCase
         $first = $matchPattern->first();
 
         // then
-        $this->assertEquals('second', $first);
+        $this->assertSame('second', $first);
     }
 
     /**
@@ -118,7 +118,7 @@ class FilteredMatchPatternTest extends TestCase
         $first = $matchPattern->first();
 
         // then
-        $this->assertEquals('first', $first);
+        $this->assertSame('first', $first);
     }
 
     /**
@@ -133,7 +133,7 @@ class FilteredMatchPatternTest extends TestCase
         $offsets = $matchPattern->offsets()->all();
 
         // then
-        $this->assertEquals([0, 13, 19], $offsets);
+        $this->assertSame([0, 13, 19], $offsets);
     }
 
     /**
@@ -148,7 +148,7 @@ class FilteredMatchPatternTest extends TestCase
         $all = $matchPattern->group('capital')->all();
 
         // then
-        $this->assertEquals(['F', 'T', 'F'], $all);
+        $this->assertSame(['F', 'T', 'F'], $all);
     }
 
     /**
@@ -163,7 +163,7 @@ class FilteredMatchPatternTest extends TestCase
         $firstGroup = $matchPattern->group('capital')->first();
 
         // then
-        $this->assertEquals('S', $firstGroup);
+        $this->assertSame('S', $firstGroup);
     }
 
     /**
@@ -181,7 +181,7 @@ class FilteredMatchPatternTest extends TestCase
         $mapped = $matchPattern->map($mapper);
 
         // then
-        $this->assertEquals(['fIRST', 'tHIRD', 'fOURTH'], $mapped);
+        $this->assertSame(['fIRST', 'tHIRD', 'fOURTH'], $mapped);
     }
 
     /**
@@ -199,7 +199,7 @@ class FilteredMatchPatternTest extends TestCase
         $findFirst = $matchPattern->findFirst($callback)->orReturn('');
 
         // then
-        $this->assertEquals('for first: second', $findFirst);
+        $this->assertSame('for first: second', $findFirst);
     }
 
     /**
@@ -217,7 +217,7 @@ class FilteredMatchPatternTest extends TestCase
         $findFirst = $matchPattern->findFirst($callback)->orReturn('');
 
         // then
-        $this->assertEquals('for first: first', $findFirst);
+        $this->assertSame('for first: first', $findFirst);
     }
 
     /**
@@ -243,7 +243,7 @@ class FilteredMatchPatternTest extends TestCase
             ->all();
 
         // then
-        $this->assertEquals(['you', 'one', 'important', 'thing'], $filtered);
+        $this->assertSame(['you', 'one', 'important', 'thing'], $filtered);
     }
 
     /**
@@ -262,8 +262,8 @@ class FilteredMatchPatternTest extends TestCase
         $first = $pattern->first();
 
         // then
-        $this->assertEquals('four', $first);
-        $this->assertEquals(['One', 'two', 'three', 'four'], $invokedFor);
+        $this->assertSame('four', $first);
+        $this->assertSame(['One', 'two', 'three', 'four'], $invokedFor);
     }
 
     /**
@@ -282,8 +282,8 @@ class FilteredMatchPatternTest extends TestCase
         $all = $pattern->all();
 
         // then
-        $this->assertEquals(['four'], $all);
-        $this->assertEquals(['One', 'two', 'three', 'four', 'five', 'six'], $invokedFor);
+        $this->assertSame(['four'], $all);
+        $this->assertSame(['One', 'two', 'three', 'four', 'five', 'six'], $invokedFor);
     }
 
     /**
@@ -302,7 +302,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern->forEach($callback);
 
         // then
-        $this->assertEquals(['first', 'third', 'fourth'], $matches);
+        $this->assertSame(['first', 'third', 'fourth'], $matches);
     }
 
     /**
@@ -321,7 +321,7 @@ class FilteredMatchPatternTest extends TestCase
         foreach ($iterator as $match) {
             $array[] = $match->text();
         }
-        $this->assertEquals(['first', 'third', 'fourth'], $array);
+        $this->assertSame(['first', 'third', 'fourth'], $array);
     }
 
     private function standardMatchPattern_secondFiltered(): AbstractMatchPattern

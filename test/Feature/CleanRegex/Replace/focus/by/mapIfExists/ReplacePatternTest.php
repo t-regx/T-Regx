@@ -23,7 +23,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)->replace($subject)->all()->focus('name')->by()->mapIfExists($map);
 
         // then
-        $this->assertEquals('Links: https://GG.com and http://EZ.org. and again http://DW.com', $result);
+        $this->assertSame('Links: https://GG.com and http://EZ.org. and again http://DW.com', $result);
     }
 
     /**

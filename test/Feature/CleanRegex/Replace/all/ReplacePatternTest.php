@@ -15,7 +15,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->all()->with('*');
 
         // then
-        $this->assertEquals('P. Sh*man, 42 Wall*y w*, Sydn*', $result);
+        $this->assertSame('P. Sh*man, 42 Wall*y w*, Sydn*', $result);
     }
 
     /**
@@ -33,7 +33,7 @@ class ReplacePatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals('Links: google, other and website.', $result);
+        $this->assertSame('Links: google, other and website.', $result);
     }
 
     /**
@@ -49,7 +49,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)->replace($subject)->all()->focus('name')->with('xxx');
 
         // then
-        $this->assertEquals('Links: http://xxx.com, http://xxx.org and http://xxx.org.', $result);
+        $this->assertSame('Links: http://xxx.com, http://xxx.org and http://xxx.org.', $result);
     }
 
     /**
@@ -64,7 +64,7 @@ class ReplacePatternTest extends TestCase
         // when
         pattern($pattern)->replace($subject)->all()->callback(function (ReplaceDetail $detail) {
             // then
-            $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $detail->all());
+            $this->assertSame(['http://google.com', 'http://other.org', 'http://danon.com'], $detail->all());
 
             return '';
         });
@@ -90,7 +90,7 @@ class ReplacePatternTest extends TestCase
         pattern($pattern)->replace($subject)->all()->callback($callback);
 
         // then
-        $this->assertEquals([7, 29, 57], $offsets);
+        $this->assertSame([7, 29, 57], $offsets);
     }
 
     /**
@@ -112,8 +112,8 @@ class ReplacePatternTest extends TestCase
             $groupOffset = $detail->group('name')->offset();
 
             // when
-            $this->assertEquals(29, $offset);
-            $this->assertEquals(36, $groupOffset);
+            $this->assertSame(29, $offset);
+            $this->assertSame(36, $groupOffset);
 
             return '';
         });
@@ -128,6 +128,6 @@ class ReplacePatternTest extends TestCase
         $result = pattern('Foo')->replace('Bar')->all()->otherwiseReturning('otherwise')->with('');
 
         // then
-        $this->assertEquals('otherwise', $result);
+        $this->assertSame('otherwise', $result);
     }
 }

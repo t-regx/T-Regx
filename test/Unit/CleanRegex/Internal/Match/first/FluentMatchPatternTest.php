@@ -25,7 +25,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->first();
 
         // then
-        $this->assertEquals('foo', $result);
+        $this->assertSame('foo', $result);
     }
 
     /**
@@ -40,7 +40,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->values()->first();
 
         // then
-        $this->assertEquals('foo', $result);
+        $this->assertSame('foo', $result);
     }
 
     /**
@@ -69,7 +69,7 @@ class FluentMatchPatternTest extends TestCase
         // when
         $pattern->first(function ($value, $key = null) {
             // then
-            $this->assertEquals('foo', $value);
+            $this->assertSame('foo', $value);
             $this->assertNull($key); // For now, `first()` won't receive key as a second argument
         });
     }

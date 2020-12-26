@@ -23,7 +23,7 @@ class MatchCountPatternTest extends TestCase
         $count = $matchPattern->count();
 
         // then
-        $this->assertEquals($expectedCount, $count, "Failed asserting that count() returned $expectedCount.");
+        $this->assertSame($expectedCount, $count, "Failed asserting that count() returned $expectedCount.");
     }
 
     public function patternsAndSubjects(): array

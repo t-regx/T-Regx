@@ -21,7 +21,7 @@ class MatchPatternTest extends TestCase
         }
 
         // then
-        $this->assertEquals(['127', '0', '0', '1'], $result);
+        $this->assertSame(['127', '0', '0', '1'], $result);
     }
 
     /**

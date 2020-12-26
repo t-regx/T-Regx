@@ -28,7 +28,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->all();
 
         // then
-        $this->assertEquals(['foo', 'bar'], $result);
+        $this->assertSame(['foo', 'bar'], $result);
     }
 
     /**
@@ -43,7 +43,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->only(2);
 
         // then
-        $this->assertEquals(['foo', 'bar'], $result);
+        $this->assertSame(['foo', 'bar'], $result);
     }
 
     /**
@@ -58,7 +58,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->only(4);
 
         // then
-        $this->assertEquals(['foo', 'bar'], $result);
+        $this->assertSame(['foo', 'bar'], $result);
     }
 
     /**
@@ -92,7 +92,7 @@ class FluentMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals(['foo', 'bar'], $result);
+        $this->assertSame(['foo', 'bar'], $result);
     }
 
     /**
@@ -107,7 +107,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->count();
 
         // then
-        $this->assertEquals(4, $result);
+        $this->assertSame(4, $result);
     }
 
     /**
@@ -137,7 +137,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->map('strtoupper')->all();
 
         // then
-        $this->assertEquals(['FOO', 'FOO', 'BAR', 'FOO', 'BAR', 'BAR'], $result);
+        $this->assertSame(['FOO', 'FOO', 'BAR', 'FOO', 'BAR', 'BAR'], $result);
     }
 
     /**
@@ -152,7 +152,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->flatMap('str_split')->all();
 
         // then
-        $this->assertEquals(['f', 'o', 'o', 'b', 'a', 'r'], $result);
+        $this->assertSame(['f', 'o', 'o', 'b', 'a', 'r'], $result);
     }
 
     /**
@@ -167,7 +167,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->flatMapAssoc('str_split')->all();
 
         // then
-        $this->assertEquals(['F', 'o', 'o', 'e', 'm', 'a', 'c', 'i', 'o', 'u', 's'], $result);
+        $this->assertSame(['F', 'o', 'o', 'e', 'm', 'a', 'c', 'i', 'o', 'u', 's'], $result);
     }
 
     /**
@@ -182,7 +182,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->flatMap('str_split')->first();
 
         // then
-        $this->assertEquals(['f', 'o', 'o'], $result);
+        $this->assertSame(['f', 'o', 'o'], $result);
     }
 
     /**
@@ -245,7 +245,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->filter('is_int')->all();
 
         // then
-        $this->assertEquals([2, 4], $result);
+        $this->assertSame([2, 4], $result);
     }
 
     /**
@@ -260,7 +260,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->distinct()->all();
 
         // then
-        $this->assertEquals(['foo', 2 => 'bar', 4 => 'Bar'], $result);
+        $this->assertSame(['foo', 2 => 'bar', 4 => 'Bar'], $result);
     }
 
     /**
@@ -275,7 +275,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->values()->all();
 
         // then
-        $this->assertEquals(['foo', 'bar', 'lorem'], $result);
+        $this->assertSame(['foo', 'bar', 'lorem'], $result);
     }
 
     /**
@@ -290,7 +290,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->keys()->all();
 
         // then
-        $this->assertEquals([10, 20, 30], $result);
+        $this->assertSame([10, 20, 30], $result);
     }
 
     /**

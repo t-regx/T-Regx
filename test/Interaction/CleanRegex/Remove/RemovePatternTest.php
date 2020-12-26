@@ -19,7 +19,7 @@ class RemovePatternTest extends TestCase
         $result = $pattern->remove();
 
         // then
-        $this->assertEquals('My ip ... address', $result);
+        $this->assertSame('My ip ... address', $result);
     }
 
     /**
@@ -34,6 +34,6 @@ class RemovePatternTest extends TestCase
         $result = $pattern->remove();
 
         // then
-        $this->assertEquals('My ip ..13.2 address', $result);
+        $this->assertSame('My ip ..13.2 address', $result);
     }
 }

@@ -20,7 +20,7 @@ class FilterArrayPatternTest extends TestCase
         $output = pattern('Foo')->forArray($input)->strict()->filterAssoc();
 
         // then
-        $this->assertEquals(['Foo'], $output);
+        $this->assertSame(['Foo'], $output);
     }
 
     /**

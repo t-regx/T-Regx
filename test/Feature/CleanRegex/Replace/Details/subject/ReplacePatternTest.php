@@ -25,8 +25,8 @@ class ReplacePatternTest extends TestCase
                 $unmatchedSubject = $unmatched->subject();
 
                 // then
-                $this->assertEquals('Hello:Foo', $matchedSubject);
-                $this->assertEquals('Hello:Foo', $unmatchedSubject);
+                $this->assertSame('Hello:Foo', $matchedSubject);
+                $this->assertSame('Hello:Foo', $unmatchedSubject);
 
                 // cleanup
                 return '';

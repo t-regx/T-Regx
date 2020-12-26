@@ -18,7 +18,7 @@ class DetailImplTest extends TestCase
         $length = $detail->textLength();
 
         // then
-        $this->assertEquals(8, $length);
+        $this->assertSame(8, $length);
     }
 
     /**
@@ -33,7 +33,7 @@ class DetailImplTest extends TestCase
         $length = $detail->textByteLength();
 
         // then
-        $this->assertEquals(13, $length);
+        $this->assertSame(13, $length);
     }
 
     public function detail(): Detail

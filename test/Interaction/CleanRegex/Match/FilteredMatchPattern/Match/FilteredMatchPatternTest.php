@@ -27,7 +27,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals(['matching'], $all);
+        $this->assertSame(['matching'], $all);
     }
 
     /**
@@ -44,7 +44,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals([null], $all);
+        $this->assertSame([null], $all);
     }
 
     private function standardMatchPattern_one(): AbstractMatchPattern
@@ -68,7 +68,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals(['matching', 'Pattern'], $all);
+        $this->assertSame(['matching', 'Pattern'], $all);
     }
 
     /**
@@ -85,7 +85,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals([null, 'P'], $all);
+        $this->assertSame([null, 'P'], $all);
     }
 
     private function standardMatchPattern_two(): AbstractMatchPattern

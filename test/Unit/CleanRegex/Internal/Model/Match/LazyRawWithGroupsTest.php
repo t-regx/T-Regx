@@ -22,7 +22,7 @@ class LazyRawWithGroupsTest extends TestCase
         $keys = $rawWithGroups->getGroupKeys();
 
         // then
-        $this->assertEquals([0, 1, 2], $keys);
+        $this->assertSame([0, 1, 2], $keys);
     }
 
     /**

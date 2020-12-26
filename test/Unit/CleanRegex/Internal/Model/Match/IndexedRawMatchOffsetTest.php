@@ -18,6 +18,6 @@ class IndexedRawMatchOffsetTest extends TestCase
         $index = $match->getIndex();
 
         // then
-        $this->assertEquals(14, $index);
+        $this->assertSame(14, $index);
     }
 }

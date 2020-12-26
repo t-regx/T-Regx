@@ -26,7 +26,7 @@ class ReplacePatternTest extends TestCase
         pattern($pattern)->replace($subject)->only(2)->callback($callback);
 
         // then
-        $this->assertEquals([7, 13], $offsets);
+        $this->assertSame([7, 13], $offsets);
     }
 
     /**
@@ -57,7 +57,7 @@ class ReplacePatternTest extends TestCase
             'words: *ó* *ę* *ó*',
             'words: a *ę* *ó*',
         ];
-        $this->assertEquals($expected, $subjects);
-        $this->assertEquals('words: a a *ó*', $result);
+        $this->assertSame($expected, $subjects);
+        $this->assertSame('words: a a *ó*', $result);
     }
 }

@@ -26,7 +26,7 @@ class FilteredMatchPatternTest extends TestCase
         $count = $matchPattern->count();
 
         // then
-        $this->assertEquals(2, $count);
+        $this->assertSame(2, $count);
     }
 
     /**
@@ -41,7 +41,7 @@ class FilteredMatchPatternTest extends TestCase
         $count = $matchPattern->count();
 
         // then
-        $this->assertEquals(3, $count);
+        $this->assertSame(3, $count);
     }
 
     /**
@@ -56,7 +56,7 @@ class FilteredMatchPatternTest extends TestCase
         $count = $matchPattern->count();
 
         // then
-        $this->assertEquals(0, $count);
+        $this->assertSame(0, $count);
     }
 
     /**
@@ -71,7 +71,7 @@ class FilteredMatchPatternTest extends TestCase
         $count = $matchPattern->count();
 
         // then
-        $this->assertEquals(0, $count);
+        $this->assertSame(0, $count);
     }
 
     private function standardMatchPattern(): AbstractMatchPattern

@@ -21,8 +21,8 @@ class ReplacePatternTest extends TestCase
                 $namedGroups = $detail->namedGroups()->names();
 
                 // then
-                $this->assertEquals([null, 'existing', 'two_existing'], $groupNames);
-                $this->assertEquals(['existing', 'two_existing'], $namedGroups);
+                $this->assertSame([null, 'existing', 'two_existing'], $groupNames);
+                $this->assertSame(['existing', 'two_existing'], $namedGroups);
 
                 // clean up
                 return '';
@@ -44,8 +44,8 @@ class ReplacePatternTest extends TestCase
                 $namedGroups = $detail->namedGroups()->count();
 
                 // then
-                $this->assertEquals(3, $groups);
-                $this->assertEquals(2, $namedGroups);
+                $this->assertSame(3, $groups);
+                $this->assertSame(2, $namedGroups);
 
                 // clean up
                 return '';

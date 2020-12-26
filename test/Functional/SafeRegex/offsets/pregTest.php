@@ -35,7 +35,7 @@ class pregTest extends TestCase
         preg::match_all('/.+/', $twoBytesPerLetter, $match, 0, 8);
 
         // then
-        $this->assertEquals('ćź', $match[0][0]);
+        $this->assertSame('ćź', $match[0][0]);
     }
 
     /**
@@ -67,7 +67,7 @@ class pregTest extends TestCase
         preg::match_all('/.+/', $twoBytesPerLetter, $match, 0, 8);
 
         // then
-        $this->assertEquals('ćź', $match[0][0]);
+        $this->assertSame('ćź', $match[0][0]);
     }
 
     public function subjectsAndOffsets(): array

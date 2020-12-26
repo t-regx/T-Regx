@@ -30,7 +30,7 @@ class ByGroupReplacePatternImplTest extends TestCase
         $result = $byReplacePattern->orElseWith('failing');
 
         // then
-        $this->assertEquals('failing', $result);
+        $this->assertSame('failing', $result);
     }
 
     /**
@@ -45,7 +45,7 @@ class ByGroupReplacePatternImplTest extends TestCase
         $result = $byReplacePattern->orElseCalling(Functions::constant('called'));
 
         // then
-        $this->assertEquals('called', $result);
+        $this->assertSame('called', $result);
     }
 
     /**

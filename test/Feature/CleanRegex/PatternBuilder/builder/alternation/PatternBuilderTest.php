@@ -20,7 +20,7 @@ class PatternBuilderTest extends TestCase
         $pattern = $pattern->delimited();
 
         // then
-        $this->assertEquals('#You/her, (are|is) (?:Hello\ \#5|Yes\?\:\)) (you|her)#', $pattern);
+        $this->assertSame('#You/her, (are|is) (?:Hello\ \#5|Yes\?\:\)) (you|her)#', $pattern);
     }
 
     /**
@@ -37,6 +37,6 @@ class PatternBuilderTest extends TestCase
         $pattern = $pattern->delimited();
 
         // then
-        $this->assertEquals('#You/her, (are|is) (?:Hello\ \#5|Yes\?\:\)) (you|her)#', $pattern);
+        $this->assertSame('#You/her, (are|is) (?:Hello\ \#5|Yes\?\:\)) (you|her)#', $pattern);
     }
 }

@@ -19,9 +19,9 @@ class DetailImplTest extends TestCase
             ->match('Hello there, General Kenobi')
             ->first(function (Detail $detail) {
                 // then
-                $this->assertEquals('there', $detail->group('one'));
-                $this->assertEquals('there', $detail->group('one')->text());
-                $this->assertEquals(6, $detail->group('one')->offset());
+                $this->assertSame('there', "" . $detail->group('one'));
+                $this->assertSame('there', $detail->group('one')->text());
+                $this->assertSame(6, $detail->group('one')->offset());
                 $this->assertTrue($detail->group('one')->matched());
 
                 $this->assertTrue($detail->hasGroup('one'));
@@ -39,9 +39,9 @@ class DetailImplTest extends TestCase
             ->match('Łomża')
             ->first(function (Detail $detail) {
                 // then
-                $this->assertEquals('Łomża', $detail->group(1)->text());
-                $this->assertEquals(5, $detail->group(1)->textLength());
-                $this->assertEquals(7, $detail->group(1)->textByteLength());
+                $this->assertSame('Łomża', $detail->group(1)->text());
+                $this->assertSame(5, $detail->group(1)->textLength());
+                $this->assertSame(7, $detail->group(1)->textByteLength());
             });
     }
 
@@ -59,8 +59,8 @@ class DetailImplTest extends TestCase
                 $groupAll = $detail->group('one')->all();
 
                 // then
-                $this->assertEquals(['Hello there', 'Hello ', 'Hello here'], $all);
-                $this->assertEquals(['there', null, 'here'], $groupAll);
+                $this->assertSame(['Hello there', 'Hello ', 'Hello here'], $all);
+                $this->assertSame(['there', null, 'here'], $groupAll);
             });
     }
 
@@ -77,7 +77,7 @@ class DetailImplTest extends TestCase
                 $groupAll = $detail->group('one')->all();
 
                 // then
-                $this->assertEquals([null, 'there', 'here'], $groupAll);
+                $this->assertSame([null, 'there', 'here'], $groupAll);
             });
     }
 
@@ -95,8 +95,8 @@ class DetailImplTest extends TestCase
                 $groupAll = $detail->group('one')->all();
 
                 // then
-                $this->assertEquals(['Hello there', 'Hello ', 'Hello here'], $all);
-                $this->assertEquals(['there', '', 'here'], $groupAll);
+                $this->assertSame(['Hello there', 'Hello ', 'Hello here'], $all);
+                $this->assertSame(['there', '', 'here'], $groupAll);
             });
     }
 
@@ -118,8 +118,8 @@ class DetailImplTest extends TestCase
                 $unmatchedSubject = $unmatched->subject();
 
                 // then
-                $this->assertEquals('Hello:Foo', $matchedSubject);
-                $this->assertEquals('Hello:Foo', $unmatchedSubject);
+                $this->assertSame('Hello:Foo', $matchedSubject);
+                $this->assertSame('Hello:Foo', $unmatchedSubject);
             });
     }
 

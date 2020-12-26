@@ -25,7 +25,7 @@ class MatchPatternTest extends TestCase
             ->orThrow();
 
         // then
-        $this->assertEquals('result', $result);
+        $this->assertSame('result', $result);
     }
 
     /**
@@ -38,7 +38,7 @@ class MatchPatternTest extends TestCase
             ->match('Computer L Three Four')
             ->group('lowercase')
             ->findFirst(function (DetailGroup $group) {
-                $this->assertEquals('omputer', $group->text());
+                $this->assertSame('omputer', $group->text());
             })
             ->orThrow();
     }
@@ -53,7 +53,7 @@ class MatchPatternTest extends TestCase
             ->match('Computer L Three Four')
             ->group('lowercase')
             ->findFirst(function (DetailGroup $group) {
-                $this->assertEquals(['omputer', null, 'hree', 'our'], $group->all());
+                $this->assertSame(['omputer', null, 'hree', 'our'], $group->all());
             })
             ->orThrow();
     }
@@ -68,7 +68,7 @@ class MatchPatternTest extends TestCase
             ->match('Foo NOT MATCH')
             ->group('bar')
             ->findFirst(function (DetailGroup $group) {
-                $this->assertEquals('', $group->text());
+                $this->assertSame('', $group->text());
             })
             ->orThrow();
     }
@@ -152,7 +152,7 @@ class MatchPatternTest extends TestCase
             ->group(0)
             ->findFirst(Functions::fail())
             ->orElse(function (NotMatched $notMatched) {
-                $this->assertEquals(['one', 'two'], $notMatched->groupNames());
+                $this->assertSame(['one', 'two'], $notMatched->groupNames());
             });
     }
 
@@ -167,7 +167,7 @@ class MatchPatternTest extends TestCase
             ->group(1)
             ->findFirst(Functions::fail())
             ->orElse(function (NotMatched $notMatched) {
-                $this->assertEquals(['one'], $notMatched->groupNames());
+                $this->assertSame(['one'], $notMatched->groupNames());
             });
     }
 

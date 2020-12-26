@@ -25,7 +25,7 @@ class ReplacePatternTest extends TestCase
             });
 
         // then
-        $this->assertEquals('Replace O:1!, T:1! and O:1!', $result);
+        $this->assertSame('Replace O:1!, T:1! and O:1!', $result);
     }
 
     /**
@@ -46,7 +46,7 @@ class ReplacePatternTest extends TestCase
             ->callback('base64_encode');
 
         // then
-        $this->assertEquals('TXlfd29yZA==', $result);
+        $this->assertSame('TXlfd29yZA==', $result);
     }
 
     /**
@@ -69,6 +69,6 @@ class ReplacePatternTest extends TestCase
             });
 
         // then
-        $this->assertEquals('Replace replaced!, replaced! and replaced!', $result);
+        $this->assertSame('Replace replaced!, replaced! and replaced!', $result);
     }
 }

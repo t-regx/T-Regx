@@ -22,7 +22,7 @@ class GroupNamesTest extends TestCase
         $names = $groupNames->groupNames();
 
         // then
-        $this->assertEquals($expected, $names);
+        $this->assertSame($expected, $names);
     }
 
     function inputArrays(): array

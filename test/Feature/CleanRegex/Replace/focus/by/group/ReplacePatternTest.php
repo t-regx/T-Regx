@@ -19,7 +19,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)->replace($subject)->all()->focus('name')->by()->group('domain')->orElseIgnore();
 
         // then
-        $this->assertEquals('Links are http://com.com/ and http://org.org http://localhost/ :)', $result);
+        $this->assertSame('Links are http://com.com/ and http://org.org http://localhost/ :)', $result);
     }
 
     /**
@@ -34,7 +34,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)->replace($subject)->all()->focus('name')->by()->group('domain')->orElseEmpty();
 
         // then
-        $this->assertEquals('Links are http://com.com/ and http://org.org http:/// :)', $result);
+        $this->assertSame('Links are http://com.com/ and http://org.org http:/// :)', $result);
     }
 
     /**
@@ -49,7 +49,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)->replace($subject)->all()->focus('name')->by()->group('domain')->orElseWith('XX');
 
         // then
-        $this->assertEquals('Links are http://com.com/ and http://org.org http://XX/ :)', $result);
+        $this->assertSame('Links are http://com.com/ and http://org.org http://XX/ :)', $result);
     }
 
     /**
@@ -62,11 +62,11 @@ class ReplacePatternTest extends TestCase
 
         // when
         $result = pattern($pattern)->replace($subject)->all()->focus('name')->by()->group('domain')->orElseCalling(function (Detail $detail) {
-            $this->assertEquals("http://localhost/", "$detail");
+            $this->assertSame("http://localhost/", "$detail");
             return 'YY';
         });
 
         // then
-        $this->assertEquals('Links are http://com.com/ and http://org.org http://YY/ :)', $result);
+        $this->assertSame('Links are http://com.com/ and http://org.org http://YY/ :)', $result);
     }
 }

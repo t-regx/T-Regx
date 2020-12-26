@@ -22,7 +22,7 @@ class MatchPatternTest extends TestCase
         $first = $pattern->first();
 
         // then
-        $this->assertEquals('Nice', $first);
+        $this->assertSame('Nice', $first);
     }
 
     /**
@@ -37,7 +37,7 @@ class MatchPatternTest extends TestCase
         $first = $pattern->first();
 
         // then
-        $this->assertEquals('', $first);
+        $this->assertSame('', $first);
     }
 
     /**
@@ -52,7 +52,7 @@ class MatchPatternTest extends TestCase
         $first = $pattern->first('strrev');
 
         // then
-        $this->assertEquals('eciN', $first);
+        $this->assertSame('eciN', $first);
     }
 
     /**
@@ -66,10 +66,10 @@ class MatchPatternTest extends TestCase
         // when
         $pattern->first(function (Detail $detail) {
             // then
-            $this->assertEquals(0, $detail->index());
-            $this->assertEquals('Nice matching pattern', $detail->subject());
-            $this->assertEquals(['Nice', 'matching', 'pattern'], $detail->all());
-            $this->assertEquals(['N'], $detail->groups()->texts());
+            $this->assertSame(0, $detail->index());
+            $this->assertSame('Nice matching pattern', $detail->subject());
+            $this->assertSame(['Nice', 'matching', 'pattern'], $detail->all());
+            $this->assertSame(['N'], $detail->groups()->texts());
         });
     }
 

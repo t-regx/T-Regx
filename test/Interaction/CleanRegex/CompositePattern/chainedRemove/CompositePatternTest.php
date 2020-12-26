@@ -32,7 +32,7 @@ class CompositePatternTest extends TestCase
         $replaced = $pattern->chainedRemove("Do you think that's air you're breathing now?");
 
         // then
-        $this->assertEquals($expected, $replaced);
+        $this->assertSame($expected, $replaced);
     }
 
     public function times(): array

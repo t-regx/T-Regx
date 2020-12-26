@@ -20,7 +20,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
         $name = $adapter->name();
 
         // then
-        $this->assertEquals('foo', $name);
+        $this->assertSame('foo', $name);
     }
 
     /**
@@ -39,7 +39,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
         $result = $adapter->$method(...$arguments);
 
         // then
-        $this->assertEquals($value, $result);
+        $this->assertSame($value, $result);
     }
 
     public function methods(): array

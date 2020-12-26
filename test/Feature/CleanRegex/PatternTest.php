@@ -40,7 +40,7 @@ class PatternTest extends TestCase
         $count = pattern('\d+')->count('111-222-333');
 
         // then
-        $this->assertEquals(3, $count);
+        $this->assertSame(3, $count);
     }
 
     /**
@@ -52,7 +52,7 @@ class PatternTest extends TestCase
         $count = pattern('[a-z]+')->count('111-222-333');
 
         // then
-        $this->assertEquals(0, $count);
+        $this->assertSame(0, $count);
     }
 
     /**
@@ -64,7 +64,7 @@ class PatternTest extends TestCase
         $quoted = Pattern::quote('[a-z]+');
 
         // then
-        $this->assertEquals('\[a\-z\]\+', $quoted);
+        $this->assertSame('\[a\-z\]\+', $quoted);
     }
 
     /**
@@ -76,7 +76,7 @@ class PatternTest extends TestCase
         $unquoted = Pattern::unquote('\[a\-z\]\+');
 
         // then
-        $this->assertEquals('[a-z]+', $unquoted);
+        $this->assertSame('[a-z]+', $unquoted);
     }
 
     /**
@@ -96,7 +96,7 @@ class PatternTest extends TestCase
         $result = pattern('[A-Z][a-z]+')->forArray($array)->filter();
 
         // then
-        $this->assertEquals(['Uppercase', 'Uppercase again'], $result);
+        $this->assertSame(['Uppercase', 'Uppercase again'], $result);
     }
 
     /**
@@ -117,7 +117,7 @@ class PatternTest extends TestCase
 
         // then
         $expected = ['a' => 'Uppercase', 'c' => 'Uppercase again'];
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -138,7 +138,7 @@ class PatternTest extends TestCase
 
         // then
         $expected = ['Uppercase' => 0, 'Uppercase again' => 2];
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     /**

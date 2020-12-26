@@ -31,7 +31,7 @@ class ExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf(CompilePregException::class, $exception);
-        $this->assertEquals('/pattern/', $exception->getPregPattern());
+        $this->assertSame('/pattern/', $exception->getPregPattern());
     }
 
     /**
@@ -49,7 +49,7 @@ class ExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf(RuntimePregException::class, $exception);
-        $this->assertEquals('/pattern/', $exception->getPregPattern());
+        $this->assertSame('/pattern/', $exception->getPregPattern());
     }
 
     public function testUnexpectedReturnError()
@@ -62,8 +62,8 @@ class ExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf(SuspectedReturnPregException::class, $exception);
-        $this->assertEquals("Invoking preg_match() resulted in 'false'.", $exception->getMessage());
-        $this->assertEquals('/pattern/', $exception->getPregPattern());
+        $this->assertSame("Invoking preg_match() resulted in 'false'.", $exception->getMessage());
+        $this->assertSame('/pattern/', $exception->getPregPattern());
     }
 
     private function create(): ExceptionFactory

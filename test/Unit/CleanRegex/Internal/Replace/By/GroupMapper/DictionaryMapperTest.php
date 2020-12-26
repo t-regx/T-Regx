@@ -20,7 +20,7 @@ class DictionaryMapperTest extends TestCase
         $result = $mapReplace->map('old', $this->detail());
 
         // then
-        $this->assertEquals('new', $result);
+        $this->assertSame('new', $result);
     }
 
     /**

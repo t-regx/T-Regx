@@ -24,12 +24,12 @@ class ReplaceCallbackObjectTest extends TestCase
 
         $object = $this->create($pattern, $subject, 3, function (ReplaceDetail $detail) use ($subject) {
             // then
-            $this->assertEquals(['hello', 'there', 'general', 'kenobi'], $detail->all());
-            $this->assertEquals($subject, $detail->subject());
-            $this->assertEquals('hello', $detail->text());
-            $this->assertEquals(0, $detail->index());
-            $this->assertEquals(3, $detail->offset());
-            $this->assertEquals(3, $detail->modifiedOffset());
+            $this->assertSame(['hello', 'there', 'general', 'kenobi'], $detail->all());
+            $this->assertSame($subject, $detail->subject());
+            $this->assertSame('hello', $detail->text());
+            $this->assertSame(0, $detail->index());
+            $this->assertSame(3, $detail->offset());
+            $this->assertSame(3, $detail->modifiedOffset());
             return 'replacement';
         });
 
@@ -54,7 +54,7 @@ class ReplaceCallbackObjectTest extends TestCase
         $result = $callback(['hello']);
 
         // then
-        $this->assertEquals('replacement', $result);
+        $this->assertSame('replacement', $result);
     }
 
     /**
@@ -84,8 +84,8 @@ class ReplaceCallbackObjectTest extends TestCase
         $callback(['cat']);
 
         // then
-        $this->assertEquals([1, 6, 12, 19, 28], $offsets);
-        $this->assertEquals([1, 8, 15, 22, 29], $modifiedOffsets);
+        $this->assertSame([1, 6, 12, 19, 28], $offsets);
+        $this->assertSame([1, 8, 15, 22, 29], $modifiedOffsets);
     }
 
     /**
@@ -120,7 +120,7 @@ class ReplaceCallbackObjectTest extends TestCase
         $result = $callback(['2cm']);
 
         // then
-        $this->assertEquals('2', $result);
+        $this->assertSame('2', $result);
     }
 
     private function create(string $pattern, string $subject, int $limit, callable $callback): ReplaceCallbackObject

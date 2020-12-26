@@ -17,7 +17,7 @@ class ReplacePatternTest extends TestCase
             ->with('$1');
 
         // then
-        $this->assertEquals('P. Sh$1man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh$1man, 42 Wallaby way, Sydney', $result);
     }
 
     /**
@@ -32,7 +32,7 @@ class ReplacePatternTest extends TestCase
             ->with('<$0>');
 
         // then
-        $this->assertEquals('P. Sh<$0>man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh<$0>man, 42 Wallaby way, Sydney', $result);
     }
 
     /**
@@ -47,7 +47,7 @@ class ReplacePatternTest extends TestCase
             ->with('<${0}>');
 
         // then
-        $this->assertEquals('P. Sh<${0}>man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh<${0}>man, 42 Wallaby way, Sydney', $result);
     }
 
     /**
@@ -62,7 +62,7 @@ class ReplacePatternTest extends TestCase
             ->with('<${11}>');
 
         // then
-        $this->assertEquals('P. Sh<${11}>man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh<${11}>man, 42 Wallaby way, Sydney', $result);
     }
 
     /**
@@ -77,7 +77,7 @@ class ReplacePatternTest extends TestCase
             ->with('<\\0>');
 
         // then
-        $this->assertEquals('P. Sh<\\0>man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh<\\0>man, 42 Wallaby way, Sydney', $result);
     }
 
     /**
@@ -92,7 +92,7 @@ class ReplacePatternTest extends TestCase
             ->with('<\\11>');
 
         // then
-        $this->assertEquals('P. Sh<\\11>man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh<\\11>man, 42 Wallaby way, Sydney', $result);
     }
 
     /**
@@ -107,6 +107,6 @@ class ReplacePatternTest extends TestCase
             ->with('\\\\');
 
         // then
-        $this->assertEquals('P. Sh\\\\man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh\\\\man, 42 Wallaby way, Sydney', $result);
     }
 }

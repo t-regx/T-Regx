@@ -25,7 +25,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern('(?<capital>[OT])(ne|wo)')->replace($subject)->all()->by()->group('capital')->map($map)->orElseThrow();
 
         // then
-        $this->assertEquals('Replace 1!, 2! and 1!', $result);
+        $this->assertSame('Replace 1!, 2! and 1!', $result);
     }
 
     /**

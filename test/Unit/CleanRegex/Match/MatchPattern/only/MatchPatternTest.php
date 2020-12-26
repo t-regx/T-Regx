@@ -25,7 +25,7 @@ class MatchPatternTest extends TestCase
         $only = $pattern->only(2);
 
         // then
-        $this->assertEquals(['Nice', 'matching'], $only);
+        $this->assertSame(['Nice', 'matching'], $only);
     }
 
     /**
@@ -86,7 +86,7 @@ class MatchPatternTest extends TestCase
         $only = $pattern->only(1);
 
         // then
-        $this->assertEquals(['Nice'], $only);
+        $this->assertSame(['Nice'], $only);
     }
 
     /**

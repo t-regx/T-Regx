@@ -32,7 +32,7 @@ class MappingStreamTest extends TestCase
     {
         // given
         $stream = new MappingStream($this->mock('first', 'willReturn', 'One'), function (string $element) {
-            $this->assertEquals('One', $element, 'Failed to assert that callback is only called for the first element');
+            $this->assertSame('One', $element, 'Failed to assert that callback is only called for the first element');
             return 'foo';
         });
 

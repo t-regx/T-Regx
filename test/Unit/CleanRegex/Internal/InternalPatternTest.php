@@ -15,8 +15,8 @@ class InternalPatternTest extends TestCase
         $pattern = InternalPattern::standard('[a-z]+', 'mi');
 
         // when + then
-        $this->assertEquals('/[a-z]+/mi', $pattern->pattern);
-        $this->assertEquals('[a-z]+', $pattern->originalPattern);
+        $this->assertSame('/[a-z]+/mi', $pattern->pattern);
+        $this->assertSame('[a-z]+', $pattern->originalPattern);
     }
 
     /**
@@ -31,7 +31,7 @@ class InternalPatternTest extends TestCase
         $original = $pattern->originalPattern;
 
         // then
-        $this->assertEquals('[a-z]+', $original);
+        $this->assertSame('[a-z]+', $original);
     }
 
     /**
@@ -43,7 +43,7 @@ class InternalPatternTest extends TestCase
         $pattern = InternalPattern::pcre('/[a-z]+/mi');
 
         // when + then
-        $this->assertEquals('/[a-z]+/mi', $pattern->pattern);
-        $this->assertEquals('/[a-z]+/mi', $pattern->originalPattern);
+        $this->assertSame('/[a-z]+/mi', $pattern->pattern);
+        $this->assertSame('/[a-z]+/mi', $pattern->originalPattern);
     }
 }

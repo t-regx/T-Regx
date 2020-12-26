@@ -28,7 +28,7 @@ class ReplacePatternTest extends TestCase
         pattern($pattern)->replace($subject)->all()->callback($callback);
 
         // then
-        $this->assertEquals([14, 36, 64], $offsets);
-        $this->assertEquals([14, 20, 33], $mOffsets);
+        $this->assertSame([14, 36, 64], $offsets);
+        $this->assertSame([14, 20, 33], $mOffsets);
     }
 }

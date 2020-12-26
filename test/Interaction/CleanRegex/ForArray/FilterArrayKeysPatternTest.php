@@ -28,8 +28,8 @@ class FilterArrayKeysPatternTest extends TestCase
         $filtered2 = $filterArrayPattern->filterByKeys($strategy2);
 
         // then
-        $this->assertEquals($expected, $filtered1);
-        $this->assertEquals($expected, $filtered2);
+        $this->assertSame($expected, $filtered1);
+        $this->assertSame($expected, $filtered2);
     }
 
     public function patternsAndSubjects(): array

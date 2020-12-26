@@ -27,7 +27,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $result = $invoker->invoke($callback, new MatchStrategy());
 
         // then
-        $this->assertEquals('Tom Cruise is *22* years old and has *193*cm', $result);
+        $this->assertSame('Tom Cruise is *22* years old and has *193*cm', $result);
     }
 
     /**
@@ -48,7 +48,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $invoker->invoke($callback, new MatchStrategy());
 
         // then
-        $this->assertEquals([14, 35], $offsets);
+        $this->assertSame([14, 35], $offsets);
     }
 
     /**
@@ -82,7 +82,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $invoker = new ReplacePatternCallbackInvoker(InternalPattern::standard('[0-9]+'), new Subject($subject), 3, new DefaultStrategy());
         $callback = function (ReplaceDetail $detail) {
             // then
-            $this->assertEquals(['192', '168', '17', '20'], $detail->all());
+            $this->assertSame(['192', '168', '17', '20'], $detail->all());
 
             return '';
         };
@@ -101,7 +101,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $invoker = new ReplacePatternCallbackInvoker(InternalPattern::standard('[0-9]+'), new Subject($subject), 2, new DefaultStrategy());
         $callback = function (ReplaceDetail $detail) use ($subject) {
             // then
-            $this->assertEquals($subject, $detail->subject());
+            $this->assertSame($subject, $detail->subject());
 
             return '';
         };
@@ -122,6 +122,6 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $result = $invoker->invoke([$this, 'fail'], new MatchStrategy());
 
         // then
-        $this->assertEquals('', $result);
+        $this->assertSame('', $result);
     }
 }

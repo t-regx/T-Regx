@@ -21,7 +21,7 @@ class MatchPatternTest extends TestCase
         $map = $pattern->map('strrev');
 
         // then
-        $this->assertEquals(['eciN', 'gnihctam', 'nrettap'], $map);
+        $this->assertSame(['eciN', 'gnihctam', 'nrettap'], $map);
     }
 
     /**
@@ -37,10 +37,10 @@ class MatchPatternTest extends TestCase
         // when
         $pattern->map(function (Detail $detail) use (&$counter, $matches) {
             // then
-            $this->assertEquals($matches[$counter], $detail->text());
-            $this->assertEquals($counter++, $detail->index());
-            $this->assertEquals("Nice matching pattern", $detail->subject());
-            $this->assertEquals($matches, $detail->all());
+            $this->assertSame($matches[$counter], $detail->text());
+            $this->assertSame($counter++, $detail->index());
+            $this->assertSame("Nice matching pattern", $detail->subject());
+            $this->assertSame($matches, $detail->all());
         });
     }
 

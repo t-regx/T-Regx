@@ -23,7 +23,7 @@ class GroupLimitTest extends TestCase
         // then
         $chained
             ->map(function (DetailGroup $matchGroup) {
-                $this->assertEquals($matchGroup->byteOffset() === 1 ? 'Foo' : 'Bar', $matchGroup->text());
+                $this->assertSame($matchGroup->byteOffset() === 1 ? 'Foo' : 'Bar', $matchGroup->text());
             })
             ->all();
     }
@@ -79,7 +79,7 @@ class GroupLimitTest extends TestCase
 
         // then
         $chained->first(function (DetailGroup $matchGroup) {
-            $this->assertEquals('Foo', $matchGroup->text());
+            $this->assertSame('Foo', $matchGroup->text());
         });
     }
 }

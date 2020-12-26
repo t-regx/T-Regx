@@ -16,7 +16,7 @@ class RemoveLimitTest extends TestCase
         // given
         $limit = new RemoveLimit(function (int $limit) {
             // then
-            $this->assertEquals(1, $limit);
+            $this->assertSame(1, $limit);
             return '';
         });
 
@@ -32,7 +32,7 @@ class RemoveLimitTest extends TestCase
         // given
         $limit = new RemoveLimit(function (int $limit) {
             // then
-            $this->assertEquals(-1, $limit);
+            $this->assertSame(-1, $limit);
             return '';
         });
 
@@ -48,7 +48,7 @@ class RemoveLimitTest extends TestCase
         // given
         $limit = new RemoveLimit(function (int $limit) {
             // then
-            $this->assertEquals(20, $limit);
+            $this->assertSame(20, $limit);
             return '';
         });
 

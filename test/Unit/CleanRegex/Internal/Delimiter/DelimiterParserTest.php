@@ -55,7 +55,7 @@ class DelimiterParserTest extends TestCase
         $result = $parser->getDelimiter($pattern);
 
         // then
-        $this->assertEquals($delimiter, $result);
+        $this->assertSame($delimiter, $result);
     }
 
     public function notDelimited(): array

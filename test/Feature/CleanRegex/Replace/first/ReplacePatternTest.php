@@ -18,7 +18,7 @@ class ReplacePatternTest extends TestCase
             ->with('*');
 
         // then
-        $this->assertEquals('P. Sh*man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh*man, 42 Wallaby way, Sydney', $result);
     }
 
     /**
@@ -33,7 +33,7 @@ class ReplacePatternTest extends TestCase
             ->withReferences('*$1*');
 
         // then
-        $this->assertEquals('P. Sh*er*man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh*er*man, 42 Wallaby way, Sydney', $result);
     }
 
     /**
@@ -55,7 +55,7 @@ class ReplacePatternTest extends TestCase
             });
 
         // then
-        $this->assertEquals('Links: google and http://other.org. and again http://danon.com', $result);
+        $this->assertSame('Links: google and http://other.org. and again http://danon.com', $result);
     }
 
     /**
@@ -77,7 +77,7 @@ class ReplacePatternTest extends TestCase
             });
 
         // then
-        $this->assertEquals($subject, $result);
+        $this->assertSame($subject, $result);
     }
 
     /**
@@ -95,7 +95,7 @@ class ReplacePatternTest extends TestCase
             ->first()
             ->callback(function (ReplaceDetail $detail) {
                 // then
-                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $detail->all());
+                $this->assertSame(['http://google.com', 'http://other.org', 'http://danon.com'], $detail->all());
 
                 return '';
             });
@@ -110,6 +110,6 @@ class ReplacePatternTest extends TestCase
         $result = pattern('Foo')->replace('Bar')->first()->otherwiseReturning('otherwise')->with('XXX');
 
         // then
-        $this->assertEquals('otherwise', $result);
+        $this->assertSame('otherwise', $result);
     }
 }

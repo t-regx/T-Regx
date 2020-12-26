@@ -21,7 +21,7 @@ class MatchPatternTest extends TestCase
         $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first();
 
         // then
-        $this->assertEquals('omputer', $groups);
+        $this->assertSame('omputer', $groups);
     }
 
     /**
@@ -36,7 +36,7 @@ class MatchPatternTest extends TestCase
         $groups = pattern('Foo (?<bar>[a-z]*)')->match($subject)->group('bar')->first();
 
         // then
-        $this->assertEquals('', $groups);
+        $this->assertSame('', $groups);
     }
 
     /**
@@ -49,7 +49,7 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first(function (DetailGroup $group) {
-            $this->assertEquals('omputer', $group->text());
+            $this->assertSame('omputer', $group->text());
         });
     }
 
@@ -63,7 +63,7 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first(function (DetailGroup $group) {
-            $this->assertEquals(['omputer', null, 'hree', 'our'], $group->all());
+            $this->assertSame(['omputer', null, 'hree', 'our'], $group->all());
         });
     }
 
@@ -77,7 +77,7 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first(function (string $group) {
-            $this->assertEquals('omputer', $group);
+            $this->assertSame('omputer', $group);
         });
     }
 
@@ -139,6 +139,6 @@ class MatchPatternTest extends TestCase
             ->first();
 
         // then
-        $this->assertEquals(4, $first);
+        $this->assertSame(4, $first);
     }
 }

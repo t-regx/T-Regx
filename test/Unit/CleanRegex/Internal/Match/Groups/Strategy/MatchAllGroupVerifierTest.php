@@ -22,7 +22,7 @@ class MatchAllGroupVerifierTest extends TestCase
         $results = $verifier->groupExists('group');
 
         // then
-        $this->assertEquals($expected, $results);
+        $this->assertSame($expected, $results);
     }
 
     public function existingGroupsAndVerifiers(): array

@@ -22,7 +22,7 @@ class SpecificReplacePatternImplTest extends TestCase
         $result = $replace->with('*');
 
         // then
-        $this->assertEquals('*.*.*.180', $result);
+        $this->assertSame('*.*.*.180', $result);
     }
 
     /**
@@ -42,7 +42,7 @@ class SpecificReplacePatternImplTest extends TestCase
         });
 
         // then
-        $this->assertEquals('^^^.___.___.180', $result);
+        $this->assertSame('^^^.___.___.180', $result);
     }
 
     private function createReplacePattern(string $subject): SpecificReplacePattern

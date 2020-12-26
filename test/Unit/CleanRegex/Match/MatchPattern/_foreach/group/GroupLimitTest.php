@@ -22,7 +22,7 @@ class GroupLimitTest extends TestCase
         }
 
         // then
-        $this->assertEquals([['cm', 1], ['mm', 1], ['m', 1]], $result);
+        $this->assertSame([['cm', 1], ['mm', 1], ['m', 1]], $result);
     }
 
     private function matchGroup(): GroupLimit

@@ -58,7 +58,7 @@ class SignatureExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf($className, $exception);
-        $this->assertEquals('Expected to get the first match, but subject was not matched', $exception->getMessage());
+        $this->assertSame('Expected to get the first match, but subject was not matched', $exception->getMessage());
     }
 
     public function exceptions(): array

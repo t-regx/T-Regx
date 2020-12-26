@@ -19,7 +19,7 @@ class UnquotePatternTest extends TestCase
         $unquoted = $unquotePattern->unquote();
 
         // then
-        $this->assertEquals('Did you?', $unquoted);
+        $this->assertSame('Did you?', $unquoted);
     }
 
     /**
@@ -36,7 +36,7 @@ class UnquotePatternTest extends TestCase
         $output = $unquotePattern->unquote();
 
         // then
-        $this->assertEquals($input, $output);
+        $this->assertSame($input, $output);
     }
 
     function quotable(): array
@@ -64,7 +64,7 @@ class UnquotePatternTest extends TestCase
         $unquoted = $unquotePattern->unquote();
 
         // then
-        $this->assertEquals($input, $unquoted);
+        $this->assertSame($input, $unquoted);
     }
 
     /**

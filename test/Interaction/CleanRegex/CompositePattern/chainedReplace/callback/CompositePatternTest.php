@@ -37,7 +37,7 @@ class CompositePatternTest extends TestCase
             });
 
         // then
-        $this->assertEquals($expected, $replaced);
+        $this->assertSame($expected, $replaced);
     }
 
     /**
@@ -51,7 +51,7 @@ class CompositePatternTest extends TestCase
         // when
         $pattern->chainedReplace("Foo")->callback(function (Detail $detail) {
             // then
-            $this->assertEquals(-1, $detail->limit());
+            $this->assertSame(-1, $detail->limit());
 
             // clean up
             return '__';
@@ -105,9 +105,9 @@ class CompositePatternTest extends TestCase
         ];
         $expectedResult = '_ _ _ _ _ _';
 
-        $this->assertEquals(['a', 'b', 'c', '1', '2', '3'], $matches);
-        $this->assertEquals([$first, $first, $first, $second, $second, $second], $subjects);
-        $this->assertEquals($expectedModified, $modified);
-        $this->assertEquals($expectedResult, $result);
+        $this->assertSame(['a', 'b', 'c', '1', '2', '3'], $matches);
+        $this->assertSame([$first, $first, $first, $second, $second, $second], $subjects);
+        $this->assertSame($expectedModified, $modified);
+        $this->assertSame($expectedResult, $result);
     }
 }

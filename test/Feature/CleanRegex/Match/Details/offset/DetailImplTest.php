@@ -20,8 +20,8 @@ class DetailImplTest extends TestCase
                 $byteOffset = $detail->byteOffset();
 
                 // then
-                $this->assertEquals(7, $offset);
-                $this->assertEquals(9, $byteOffset);
+                $this->assertSame(7, $offset);
+                $this->assertSame(9, $byteOffset);
             });
     }
 
@@ -41,8 +41,8 @@ class DetailImplTest extends TestCase
                 $byteOffset = $detail->byteOffset();
 
                 // then
-                $this->assertEquals(15, $offset);
-                $this->assertEquals(17, $byteOffset);
+                $this->assertSame(15, $offset);
+                $this->assertSame(17, $byteOffset);
             });
     }
 }

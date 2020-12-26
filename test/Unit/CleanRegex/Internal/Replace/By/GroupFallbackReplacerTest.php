@@ -37,7 +37,7 @@ class GroupFallbackReplacerTest extends TestCase
         $result = $mapReplacer->replaceOrFallback(1, $mapper, new DefaultStrategy());
 
         // then
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     function strategies(): array
@@ -76,7 +76,7 @@ class GroupFallbackReplacerTest extends TestCase
             new DefaultStrategy());
 
         // then
-        $this->assertEquals('3 0 4', $result);
+        $this->assertSame('3 0 4', $result);
     }
 
     /**
@@ -91,7 +91,7 @@ class GroupFallbackReplacerTest extends TestCase
         $result = $fallbackReplacer->replaceOrFallback(1, new NoReplacementMapper(), new ConstantReturnStrategy('fallback'));
 
         // then
-        $this->assertEquals('[two] fallback [four]', $result);
+        $this->assertSame('[two] fallback [four]', $result);
     }
 
     /**
@@ -106,7 +106,7 @@ class GroupFallbackReplacerTest extends TestCase
         $result = $fallbackReplacer->replaceOrFallback(1, new NoReplacementMapper(), new DefaultStrategy());
 
         // then
-        $this->assertEquals('Subject not matched', $result);
+        $this->assertSame('Subject not matched', $result);
     }
 
     /**

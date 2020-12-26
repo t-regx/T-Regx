@@ -28,7 +28,7 @@ class LazyDetailImplTest extends TestCase
         $result = $detail->$method(...$arguments);
 
         // then
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     public function methods(): array
@@ -55,7 +55,7 @@ class LazyDetailImplTest extends TestCase
         $result = (string)$detail;
 
         // then
-        $this->assertEquals('word€€', $result);
+        $this->assertSame('word€€', $result);
     }
 
     /**
@@ -71,8 +71,8 @@ class LazyDetailImplTest extends TestCase
         $index = $detail->index();
 
         // then
-        $this->assertEquals('three', $text);
-        $this->assertEquals(2, $index);
+        $this->assertSame('three', $text);
+        $this->assertSame(2, $index);
     }
 
     /**
@@ -87,7 +87,7 @@ class LazyDetailImplTest extends TestCase
         $int = $detail->toInt();
 
         // then
-        $this->assertEquals(123, $int);
+        $this->assertSame(123, $int);
     }
 
     /**
@@ -102,7 +102,7 @@ class LazyDetailImplTest extends TestCase
         $result = $detail->groupNames();
 
         // then
-        $this->assertEquals(['first', 'second'], $result);
+        $this->assertSame(['first', 'second'], $result);
     }
 
     /**
@@ -117,7 +117,7 @@ class LazyDetailImplTest extends TestCase
         $count = $detail->groupsCount();
 
         // then
-        $this->assertEquals(2, $count);
+        $this->assertSame(2, $count);
     }
 
     /**
@@ -192,7 +192,7 @@ class LazyDetailImplTest extends TestCase
         $result = $detail->group('first')->text();
 
         // then
-        $this->assertEquals('one', $result);
+        $this->assertSame('one', $result);
     }
 
     /**
@@ -207,7 +207,7 @@ class LazyDetailImplTest extends TestCase
         $result = $detail->groups()->texts();
 
         // then
-        $this->assertEquals(['one', null], $result);
+        $this->assertSame(['one', null], $result);
     }
 
     /**
@@ -222,7 +222,7 @@ class LazyDetailImplTest extends TestCase
         $result = $detail->namedGroups()->texts();
 
         // then
-        $this->assertEquals(['first' => 'one', 'second' => 'two'], $result);
+        $this->assertSame(['first' => 'one', 'second' => 'two'], $result);
     }
 
     /**
@@ -238,7 +238,7 @@ class LazyDetailImplTest extends TestCase
         $result = $detail->getUserData();
 
         // then
-        $this->assertEquals('welcome', $result);
+        $this->assertSame('welcome', $result);
     }
 
     /**
@@ -254,8 +254,8 @@ class LazyDetailImplTest extends TestCase
         $byteOffset = $detail->byteOffset();
 
         // then
-        $this->assertEquals(2, $offset);
-        $this->assertEquals(4, $byteOffset);
+        $this->assertSame(2, $offset);
+        $this->assertSame(4, $byteOffset);
     }
 
     /**
@@ -271,8 +271,8 @@ class LazyDetailImplTest extends TestCase
         $byteTail = $detail->byteTail();
 
         // then
-        $this->assertEquals(4, $tail);
-        $this->assertEquals(7, $byteTail);
+        $this->assertSame(4, $tail);
+        $this->assertSame(7, $byteTail);
     }
 
     /**
@@ -304,8 +304,8 @@ class LazyDetailImplTest extends TestCase
         $text2 = $detail->usingDuplicateName()->group('group')->text();
 
         // then
-        $this->assertEquals('One', $text1);
-        $this->assertEquals('Two', $text2);
+        $this->assertSame('One', $text1);
+        $this->assertSame('Two', $text2);
     }
 
     private function detail(string $pattern = '\b[a-z€]+', string $subject = 'Word: word€€ two three'): LazyDetailImpl

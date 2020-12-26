@@ -22,7 +22,7 @@ class MatchPatternTest extends TestCase
         $matches = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->all();
 
         // then
-        $this->assertEquals(['Foo Bar', 'Foo Bar', 'Foo Bar'], $matches);
+        $this->assertSame(['Foo Bar', 'Foo Bar', 'Foo Bar'], $matches);
     }
 
     /**
@@ -34,7 +34,7 @@ class MatchPatternTest extends TestCase
         $matches = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->only(2);
 
         // then
-        $this->assertEquals(['Foo Bar', 'Foo Bar'], $matches);
+        $this->assertSame(['Foo Bar', 'Foo Bar'], $matches);
     }
 
     /**
@@ -46,7 +46,7 @@ class MatchPatternTest extends TestCase
         $text = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->first();
 
         // then
-        $this->assertEquals('Foo Bar', $text);
+        $this->assertSame('Foo Bar', $text);
     }
 
     /**
@@ -60,7 +60,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals("Lots of Guns.", $value);
+        $this->assertSame("Lots of Guns.", $value);
     }
 
     /**
@@ -87,7 +87,7 @@ class MatchPatternTest extends TestCase
             ->match('Foo, Leszek Ziom, Bar')
             ->first(function (Detail $detail) {
                 // then
-                $this->assertEquals(['Foo', 'Leszek', 'Ziom', 'Bar'], $detail->all());
+                $this->assertSame(['Foo', 'Leszek', 'Ziom', 'Bar'], $detail->all());
             });
     }
 
@@ -103,7 +103,7 @@ class MatchPatternTest extends TestCase
             ->orElse(Functions::fail());
 
         // then
-        $this->assertEquals("Different", $value);
+        $this->assertSame("Different", $value);
     }
 
     /**
@@ -117,12 +117,12 @@ class MatchPatternTest extends TestCase
             ->findFirst(Functions::fail())
             ->orElse(function (NotMatched $notMatched) {
                 // then
-                $this->assertEquals(0, $notMatched->groupsCount());
+                $this->assertSame(0, $notMatched->groupsCount());
                 return 'Different';
             });
 
         // then
-        $this->assertEquals('Different', $value);
+        $this->assertSame('Different', $value);
     }
 
     /**
@@ -141,7 +141,7 @@ class MatchPatternTest extends TestCase
             ['B', 'A', 'R'],
             ['T', 'O', 'P']
         ];
-        $this->assertEquals($expected, $mapped);
+        $this->assertSame($expected, $mapped);
     }
 
     /**
@@ -153,7 +153,7 @@ class MatchPatternTest extends TestCase
         $mapped = pattern('[A-Za-z]+')->match('One, One, Two, One, Three, Two, One')->distinct();
 
         // then
-        $this->assertEquals(['One', 'Two', 'Three'], $mapped);
+        $this->assertSame(['One', 'Two', 'Three'], $mapped);
     }
 
     /**
@@ -167,7 +167,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals(['F', 'O', 'O', 'B', 'A', 'R', 'T', 'O', 'P'], $mapped);
+        $this->assertSame(['F', 'O', 'O', 'B', 'A', 'R', 'T', 'O', 'P'], $mapped);
     }
 
     /**
@@ -181,7 +181,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals(['F', 'O', 'O', 'K', 'E', 'R'], $mapped);
+        $this->assertSame(['F', 'O', 'O', 'K', 'E', 'R'], $mapped);
     }
 
     /**
@@ -230,10 +230,10 @@ class MatchPatternTest extends TestCase
         $all = $offsets->all();
 
         // then
-        $this->assertEquals(3, $first);
-        $this->assertEquals([3], $only1);
-        $this->assertEquals([3, 12], $only2);
-        $this->assertEquals([3, 12, 14, 20], $all);
+        $this->assertSame(3, $first);
+        $this->assertSame([3], $only1);
+        $this->assertSame([3, 12], $only2);
+        $this->assertSame([3, 12, 14, 20], $all);
     }
 
     /**
@@ -325,7 +325,7 @@ class MatchPatternTest extends TestCase
         $count = count(pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar'));
 
         // then
-        $this->assertEquals(3, $count);
+        $this->assertSame(3, $count);
     }
 
     /**
@@ -341,7 +341,7 @@ class MatchPatternTest extends TestCase
             ->all();
 
         // then
-        $this->assertEquals(['First', 'Third', 'Fifth'], $filtered);
+        $this->assertSame(['First', 'Third', 'Fifth'], $filtered);
     }
 
     /**
@@ -357,7 +357,7 @@ class MatchPatternTest extends TestCase
             ->only(2);
 
         // then
-        $this->assertEquals(['First', 'Third'], $filtered);
+        $this->assertSame(['First', 'Third'], $filtered);
     }
 
     /**
@@ -373,7 +373,7 @@ class MatchPatternTest extends TestCase
             ->only(1);
 
         // then
-        $this->assertEquals(['First'], $filtered);
+        $this->assertSame(['First'], $filtered);
     }
 
     /**
@@ -403,7 +403,7 @@ class MatchPatternTest extends TestCase
             ->count();
 
         // then
-        $this->assertEquals(3, $filtered);
+        $this->assertSame(3, $filtered);
     }
 
     /**
@@ -419,7 +419,7 @@ class MatchPatternTest extends TestCase
             ->first();
 
         // then
-        $this->assertEquals('Third', $filtered);
+        $this->assertSame('Third', $filtered);
     }
 
     /**
@@ -533,7 +533,7 @@ class MatchPatternTest extends TestCase
             'cm' => ['12cm', '13cm', '19cm'],
             'mm' => ['14mm', '18mm', '2mm']
         ];
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -567,7 +567,7 @@ class MatchPatternTest extends TestCase
         $result = $this->fluentGroupByCallback($subject)->keys()->all();
 
         // then
-        $this->assertEquals(['cm', 'mm'], $result);
+        $this->assertSame(['cm', 'mm'], $result);
     }
 
     /**
@@ -582,7 +582,7 @@ class MatchPatternTest extends TestCase
         $result = $this->fluentGroupByCallback($subject)->keys()->first();
 
         // then
-        $this->assertEquals('cm', $result);
+        $this->assertSame('cm', $result);
     }
 
     private function fluentGroupByCallback(string $subject): FluentMatchPattern
@@ -613,7 +613,7 @@ class MatchPatternTest extends TestCase
             'cm' => ['12cm', '13cm', '19cm'],
             'mm' => ['14mm', '18mm', '2mm']
         ];
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -628,7 +628,7 @@ class MatchPatternTest extends TestCase
         $result = pattern('\d+(cm|mm)')->match($subject)->nth(3);
 
         // then
-        $this->assertEquals('19cm', $result);
+        $this->assertSame('19cm', $result);
     }
 
     /**

@@ -23,7 +23,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern('(one|two)')->replace($subject)->first()->by()->map($map);
 
         // then
-        $this->assertEquals('Replace first and two', $result);
+        $this->assertSame('Replace first and two', $result);
     }
 
     /**
@@ -43,7 +43,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern('(one|two|three)!')->replace($subject)->all()->by()->map($map);
 
         // then
-        $this->assertEquals('Replace first, second and third, and first', $result);
+        $this->assertSame('Replace first, second and third, and first', $result);
     }
 
     /**

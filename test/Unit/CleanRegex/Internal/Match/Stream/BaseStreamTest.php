@@ -24,7 +24,7 @@ class BaseStreamTest extends TestCase
         $all = $stream->all();
 
         // then
-        $this->assertEquals(['Joffrey', 'Cersei', 'Ilyn Payne', 'The Hound'], $all->getTexts());
+        $this->assertSame(['Joffrey', 'Cersei', 'Ilyn Payne', 'The Hound'], $all->getTexts());
     }
 
     /**
@@ -39,7 +39,7 @@ class BaseStreamTest extends TestCase
         $first = $stream->first();
 
         // then
-        $this->assertEquals('Joffrey', $first->getText());
+        $this->assertSame('Joffrey', $first->getText());
     }
 
     /**
@@ -157,7 +157,7 @@ class BaseStreamTest extends TestCase
         $matchOffset = $stream->first();
 
         // then
-        $this->assertEquals('Joffrey', $matchOffset->getText());
+        $this->assertSame('Joffrey', $matchOffset->getText());
     }
 
     /**
@@ -174,7 +174,7 @@ class BaseStreamTest extends TestCase
         $matchOffset = $stream->first();
 
         // then
-        $this->assertEquals('Joffrey', $matchOffset->getText());
+        $this->assertSame('Joffrey', $matchOffset->getText());
     }
 
     /**

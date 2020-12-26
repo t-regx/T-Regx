@@ -21,7 +21,7 @@ class AbstractMatchPatternTest extends TestCase
             ->all();
 
         // then
-        $this->assertEquals([0, 1, 2], $indexes);
+        $this->assertSame([0, 1, 2], $indexes);
     }
 
     /**
@@ -33,7 +33,7 @@ class AbstractMatchPatternTest extends TestCase
         pattern("\w+")->match("Foo, Bar")->fluent()
             ->map(function (Detail $detail) {
                 // then
-                $this->assertEquals(-1, $detail->limit());
+                $this->assertSame(-1, $detail->limit());
             })
             ->all();
     }
@@ -55,7 +55,7 @@ class AbstractMatchPatternTest extends TestCase
             })
             ->fluent()
             ->forEach(function (Detail $detail) {
-                $this->assertEquals('Foo', $detail->getUserData());
+                $this->assertSame('Foo', $detail->getUserData());
             });
     }
 
@@ -75,7 +75,7 @@ class AbstractMatchPatternTest extends TestCase
 
         // then
         $value = ['Foo', 'Bar', 'Lorem'];
-        $this->assertEquals([$value, $value, $value], $indexes);
+        $this->assertSame([$value, $value, $value], $indexes);
     }
 
     /**
@@ -86,7 +86,7 @@ class AbstractMatchPatternTest extends TestCase
         // given
         pattern("\w+")->match("Foo, Bar")->fluent()->first(function (Detail $detail) {
             // then
-            $this->assertEquals(0, $detail->index());
+            $this->assertSame(0, $detail->index());
         });
     }
 
@@ -97,7 +97,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // given
         pattern("\w+")->match("Foo, Bar")->fluent()->first(function (Detail $detail) {
-            $this->assertEquals(1, $detail->limit());
+            $this->assertSame(1, $detail->limit());
         });
     }
 
@@ -118,7 +118,7 @@ class AbstractMatchPatternTest extends TestCase
             })
             ->fluent()
             ->first(function (Detail $detail) {
-                $this->assertEquals('Foo', $detail->getUserData());
+                $this->assertSame('Foo', $detail->getUserData());
             });
     }
 
@@ -136,6 +136,6 @@ class AbstractMatchPatternTest extends TestCase
             });
 
         // then
-        $this->assertEquals(['Foo', 'Bar', 'Lorem'], $indexes);
+        $this->assertSame(['Foo', 'Bar', 'Lorem'], $indexes);
     }
 }

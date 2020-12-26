@@ -19,7 +19,7 @@ class ReplacePatternTest extends TestCase
             ->with('*');
 
         // then
-        $this->assertEquals('P. Sh*man, 42 Wall*y way, Sydney', $result);
+        $this->assertSame('P. Sh*man, 42 Wall*y way, Sydney', $result);
     }
 
     /**
@@ -37,7 +37,7 @@ class ReplacePatternTest extends TestCase
             ->only(2)
             ->callback(function (ReplaceDetail $detail) {
                 // then
-                $this->assertEquals(['http://google.com', 'http://other.org', 'http://danon.com'], $detail->all());
+                $this->assertSame(['http://google.com', 'http://other.org', 'http://danon.com'], $detail->all());
 
                 return '';
             });
@@ -68,7 +68,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern('[0-3]')->replace('0 1 2 3')->only($limit)->with('*');
 
         // then
-        $this->assertEquals($expectedResult, $result);
+        $this->assertSame($expectedResult, $result);
     }
 
     function limitAndExpectedResults(): array
@@ -105,7 +105,7 @@ class ReplacePatternTest extends TestCase
             'Links: http://google.com and http://other.org. and again http://google.com',
             'Links: +com+ and http://other.org. and again http://google.com'
         ];
-        $this->assertEquals($expected, $subjects);
+        $this->assertSame($expected, $subjects);
     }
 
     /**
@@ -117,6 +117,6 @@ class ReplacePatternTest extends TestCase
         $result = pattern('Foo')->replace('Bar')->only(2)->otherwiseReturning('otherwise')->with('');
 
         // then
-        $this->assertEquals('otherwise', $result);
+        $this->assertSame('otherwise', $result);
     }
 }

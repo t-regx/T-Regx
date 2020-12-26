@@ -17,7 +17,7 @@ class MatchPatternTest extends TestCase
         $result = $this->groupBy()->texts();
 
         // then
-        $this->assertEquals([
+        $this->assertSame([
             'cm' => ['14cm', '19cm', '2cm'],
             'mm' => ['13mm', '18mm']
         ], $result);
@@ -32,7 +32,7 @@ class MatchPatternTest extends TestCase
         $result = $this->groupBy()->offsets();
 
         // then
-        $this->assertEquals([
+        $this->assertSame([
             'cm' => [5, 15, 25],
             'mm' => [10, 20],
         ], $result);
@@ -47,7 +47,7 @@ class MatchPatternTest extends TestCase
         $result = $this->groupBy()->byteOffsets();
 
         // then
-        $this->assertEquals([
+        $this->assertSame([
             'cm' => [7, 17, 27],
             'mm' => [12, 22],
         ], $result);
@@ -64,7 +64,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals([
+        $this->assertSame([
             'cm' => ['14cm', '19cm', '2cm'],
             'mm' => ['13mm', '18mm'],
         ], $result);
@@ -81,7 +81,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals([
+        $this->assertSame([
             'cm' => ['14cm', 5, '19cm', 15, '2cm', 25],
             'mm' => ['13mm', 10, '18mm', 20],
         ], $result);
@@ -98,7 +98,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals([
+        $this->assertSame([
             'cm' => [
                 5  => '14cm',
                 15 => '19cm',
@@ -123,7 +123,7 @@ class MatchPatternTest extends TestCase
         $result = $groupByPattern->texts();
 
         // then
-        $this->assertEquals(['cm' => ['19cm', '2cm'], 'mm' => ['18mm']], $result);
+        $this->assertSame(['cm' => ['19cm', '2cm'], 'mm' => ['18mm']], $result);
     }
 
     /**
@@ -143,7 +143,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -155,20 +155,20 @@ class MatchPatternTest extends TestCase
     {
         // given
         $groupBy = $this->filtered();
-        $called = 0;
+        $called = [];
 
         // when
         $groupBy->$function(function (Detail $detail) use (&$called) {
             // when
-            $called++;
-            $this->assertEquals(-1, $detail->limit());
+            $called[] = $detail->text();
+            $this->assertSame(-1, $detail->limit());
 
             // clean
             return [];
         });
 
         // then
-        $this->assertEquals(3, $called, "Failed to assert that $function() was called 3 times");
+        $this->assertSame(['19cm', '2cm', '18mm'], $called, "Failed to assert that $function() was called 3 times");
         // There are 6 entries: '12' doesn't have 'unit' group matched, '14cm' and '13mm' are filtered out, 3 are left
     }
 
@@ -185,7 +185,7 @@ class MatchPatternTest extends TestCase
         // when
         $groupByPattern->$function(function (Detail $detail) {
             // when
-            $this->assertEquals(['12', '19cm', '18mm', '2cm'], $detail->all());
+            $this->assertSame(['12', '19cm', '18mm', '2cm'], $detail->all());
 
             // clean
             return [];
@@ -205,7 +205,7 @@ class MatchPatternTest extends TestCase
         // when
         $groupByPattern->$function(function (Detail $detail) {
             // when
-            $this->assertEquals("verify me:$detail", $detail->getUserData());
+            $this->assertSame("verify me:$detail", $detail->getUserData());
 
             // clean
             return [];
@@ -233,7 +233,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals(['14cm' => 1, '13mm' => 2, '19cm' => 3, '18mm' => 4, '2cm' => 5], $indexes);
+        $this->assertSame(['14cm' => 1, '13mm' => 2, '19cm' => 3, '18mm' => 4, '2cm' => 5], $indexes);
     }
 
     /**
@@ -257,7 +257,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals(['19cm' => 1, '18mm' => 2, '2cm' => 3], $indexes);
+        $this->assertSame(['19cm' => 1, '18mm' => 2, '2cm' => 3], $indexes);
     }
 
     public function mappersWithMatch(): array

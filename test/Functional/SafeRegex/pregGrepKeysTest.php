@@ -26,7 +26,7 @@ class pregGrepKeysTest extends TestCase
         $result = preg::grep_keys('/\d+/', $input);
 
         // then
-        $this->assertEquals(['9' => ['Foo', 'Bar'], '10' => true, '11' => true], $result);
+        $this->assertSame(['9' => ['Foo', 'Bar'], '10' => true, '11' => true], $result);
     }
 
     /**
@@ -35,11 +35,12 @@ class pregGrepKeysTest extends TestCase
     public function shouldGrepKeys_inverted()
     {
         // given
+        $object = new \stdClass();
         $input = [
             '9'  => ['Foo', 'Bar'],
             'a'  => false,
             '10' => true,
-            'b'  => new \stdClass(),
+            'b'  => $object,
             '11' => true
         ];
 
@@ -47,7 +48,7 @@ class pregGrepKeysTest extends TestCase
         $result = preg::grep_keys('/\d+/', $input, PREG_GREP_INVERT);
 
         // then
-        $this->assertEquals(['a' => false, 'b' => new \stdClass()], $result);
+        $this->assertSame(['a' => false, 'b' => $object], $result);
     }
 
     /**

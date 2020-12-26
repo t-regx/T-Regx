@@ -28,9 +28,9 @@ class FluentMatchPatternTest extends TestCase
         $result3 = $pattern->findFirst('strtoupper')->orThrow();
 
         // then
-        $this->assertEquals('FOO', $result1);
-        $this->assertEquals('FOO', $result2);
-        $this->assertEquals('FOO', $result3);
+        $this->assertSame('FOO', $result1);
+        $this->assertSame('FOO', $result2);
+        $this->assertSame('FOO', $result3);
     }
 
     /**
@@ -61,7 +61,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->findFirst('strtoupper')->orReturn('otherValue');
 
         // then
-        $this->assertEquals('otherValue', $result);
+        $this->assertSame('otherValue', $result);
     }
 
     /**
@@ -76,7 +76,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->findFirst('strtoupper')->orElse(Functions::constant('otherValue'));
 
         // then
-        $this->assertEquals('otherValue', $result);
+        $this->assertSame('otherValue', $result);
     }
 
     /**

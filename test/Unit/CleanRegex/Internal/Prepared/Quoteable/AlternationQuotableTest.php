@@ -19,7 +19,7 @@ class AlternationQuotableTest extends TestCase
         $result = $quotable->quote('~');
 
         // then
-        $this->assertEquals('(?:/\(\)|\^\#\$)', $result);
+        $this->assertSame('(?:/\(\)|\^\#\$)', $result);
     }
 
     /**
@@ -34,7 +34,7 @@ class AlternationQuotableTest extends TestCase
         $result = $quotable->quote('%');
 
         // then
-        $this->assertEquals('(?:a|\%b)', $result);
+        $this->assertSame('(?:a|\%b)', $result);
     }
 
     /**
@@ -49,7 +49,7 @@ class AlternationQuotableTest extends TestCase
         $result = $quotable->quote('/');
 
         // then
-        $this->assertEquals('(?:a|FOO|c|foo)', $result);
+        $this->assertSame('(?:a|FOO|c|foo)', $result);
     }
 
     /**
@@ -64,7 +64,7 @@ class AlternationQuotableTest extends TestCase
         $result = $quotable->quote('/');
 
         // then
-        $this->assertEquals('(?:a|FOO|c)', $result);
+        $this->assertSame('(?:a|FOO|c)', $result);
     }
 
     /**
@@ -79,7 +79,7 @@ class AlternationQuotableTest extends TestCase
         $result = $quotable->quote('/');
 
         // then
-        $this->assertEquals('(?:a|b|)', $result);
+        $this->assertSame('(?:a|b|)', $result);
     }
 
     /**
@@ -94,6 +94,6 @@ class AlternationQuotableTest extends TestCase
         $result = $quotable->quote('/');
 
         // then
-        $this->assertEquals('(?:\||\ |0)', $result);
+        $this->assertSame('(?:\||\ |0)', $result);
     }
 }

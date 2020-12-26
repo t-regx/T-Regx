@@ -28,7 +28,7 @@ class FilteredMatchPatternTest extends TestCase
         $all = $matchPattern->all();
 
         // then
-        $this->assertEquals(['', 'a', '', 'c'], $all);
+        $this->assertSame(['', 'a', '', 'c'], $all);
     }
 
     /**
@@ -43,7 +43,7 @@ class FilteredMatchPatternTest extends TestCase
         $only = $matchPattern->only(2);
 
         // then
-        $this->assertEquals(['', 'a'], $only);
+        $this->assertSame(['', 'a'], $only);
     }
 
     /**
@@ -58,7 +58,7 @@ class FilteredMatchPatternTest extends TestCase
         $only = $matchPattern->only(1);
 
         // then
-        $this->assertEquals([''], $only);
+        $this->assertSame([''], $only);
     }
 
     /**
@@ -73,7 +73,7 @@ class FilteredMatchPatternTest extends TestCase
         $count = $matchPattern->count();
 
         // then
-        $this->assertEquals(4, $count);
+        $this->assertSame(4, $count);
     }
 
     /**
@@ -88,7 +88,7 @@ class FilteredMatchPatternTest extends TestCase
         $count = $matchPattern->count();
 
         // then
-        $this->assertEquals(5, $count);
+        $this->assertSame(5, $count);
     }
 
     /**
@@ -103,7 +103,7 @@ class FilteredMatchPatternTest extends TestCase
         $first = $matchPattern->first();
 
         // then
-        $this->assertEquals('', $first);
+        $this->assertSame('', $first);
     }
 
     /**
@@ -118,7 +118,7 @@ class FilteredMatchPatternTest extends TestCase
         $first = $matchPattern->first();
 
         // then
-        $this->assertEquals('a', $first);
+        $this->assertSame('a', $first);
     }
 
     /**
@@ -151,7 +151,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals('value: ', $findFirst->orThrow());
+        $this->assertSame('value: ', $findFirst->orThrow());
         $this->assertInstanceOf(OptionalImpl::class, $findFirst);
     }
 
@@ -169,7 +169,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals('value: a', $findFirst->orThrow());
+        $this->assertSame('value: a', $findFirst->orThrow());
         $this->assertInstanceOf(OptionalImpl::class, $findFirst);
     }
 
@@ -255,7 +255,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals(['a', 'a', 'b', 'b', '', 'c', 'c'], $flatMap);
+        $this->assertSame(['a', 'a', 'b', 'b', '', 'c', 'c'], $flatMap);
     }
 
     /**
@@ -270,7 +270,7 @@ class FilteredMatchPatternTest extends TestCase
         $offsets = $matchPattern->offsets()->all();
 
         // then
-        $this->assertEquals([1, 4, 12, 15], $offsets);
+        $this->assertSame([1, 4, 12, 15], $offsets);
     }
 
     /**
@@ -285,7 +285,7 @@ class FilteredMatchPatternTest extends TestCase
         $offset = $matchPattern->offsets()->first();
 
         // then
-        $this->assertEquals(1, $offset);
+        $this->assertSame(1, $offset);
     }
 
     /**
@@ -303,7 +303,7 @@ class FilteredMatchPatternTest extends TestCase
         $mapped = $matchPattern->map($mapper);
 
         // then
-        $this->assertEquals(['', 'aA', '', 'cC'], $mapped);
+        $this->assertSame(['', 'aA', '', 'cC'], $mapped);
     }
 
     /**
@@ -322,7 +322,7 @@ class FilteredMatchPatternTest extends TestCase
             ->orReturn('');
 
         // then
-        $this->assertEquals('for first: ', $first);
+        $this->assertSame('for first: ', $first);
     }
 
     /**
@@ -348,7 +348,7 @@ class FilteredMatchPatternTest extends TestCase
             ->all();
 
         // then
-        $this->assertEquals(['you', 'one', 'important', 'thing'], $filtered);
+        $this->assertSame(['you', 'one', 'important', 'thing'], $filtered);
     }
 
     /**
@@ -366,7 +366,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals(['', 'a', '', 'c'], $matches);
+        $this->assertSame(['', 'a', '', 'c'], $matches);
     }
 
     /**
@@ -385,7 +385,7 @@ class FilteredMatchPatternTest extends TestCase
         foreach ($iterator as $detail) {
             $array[] = $detail->text();
         }
-        $this->assertEquals(['', 'a', '', 'c'], $array);
+        $this->assertSame(['', 'a', '', 'c'], $array);
     }
 
     private function standardMatchPattern(): FilteredMatchPattern

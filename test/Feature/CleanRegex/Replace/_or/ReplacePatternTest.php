@@ -18,7 +18,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern('Foo')->replace('Bar')->first()->otherwiseReturning('otherwise')->with('');
 
         // then
-        $this->assertEquals('otherwise', $result);
+        $this->assertSame('otherwise', $result);
     }
 
     /**
@@ -30,7 +30,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern('Foo')->replace('Bar')->first()->otherwiseReturning('otherwise')->withReferences('');
 
         // then
-        $this->assertEquals('otherwise', $result);
+        $this->assertSame('otherwise', $result);
     }
 
     /**
@@ -43,13 +43,13 @@ class ReplacePatternTest extends TestCase
             ->replace('Bar')
             ->first()
             ->otherwise(function (string $subject) {
-                $this->assertEquals('Bar', $subject);
+                $this->assertSame('Bar', $subject);
                 return 'otherwise';
             })
             ->with('');
 
         // then
-        $this->assertEquals('otherwise', $result);
+        $this->assertSame('otherwise', $result);
     }
 
     /**
@@ -66,7 +66,7 @@ class ReplacePatternTest extends TestCase
             ->replace('Bar')
             ->first()
             ->otherwise(function (string $subject) {
-                $this->assertEquals('Bar', $subject);
+                $this->assertSame('Bar', $subject);
                 return null;
             })
             ->with('');
@@ -85,8 +85,8 @@ class ReplacePatternTest extends TestCase
             $replacePattern->with('');
         } catch (CustomSubjectException $e) {
             // then
-            $this->assertEquals("Replacements were supposed to be performed, but subject doesn't match the pattern", $e->getMessage());
-            $this->assertEquals('Bar', $e->subject);
+            $this->assertSame("Replacements were supposed to be performed, but subject doesn't match the pattern", $e->getMessage());
+            $this->assertSame('Bar', $e->subject);
         }
     }
 
@@ -103,8 +103,8 @@ class ReplacePatternTest extends TestCase
             $replacePattern->with('');
         } catch (NotReplacedException $e) {
             // then
-            $this->assertEquals("Replacements were supposed to be performed, but subject doesn't match the pattern", $e->getMessage());
-            $this->assertEquals('Bar', $e->getSubject());
+            $this->assertSame("Replacements were supposed to be performed, but subject doesn't match the pattern", $e->getMessage());
+            $this->assertSame('Bar', $e->getSubject());
         }
     }
 
@@ -120,7 +120,7 @@ class ReplacePatternTest extends TestCase
         $result = $replacePattern->otherwiseReturning('otherwise')->callback(Functions::fail());
 
         // then
-        $this->assertEquals('otherwise', $result);
+        $this->assertSame('otherwise', $result);
     }
 
     /**
@@ -135,7 +135,7 @@ class ReplacePatternTest extends TestCase
         $result = $replacePattern->otherwiseReturning('otherwise')->by()->map([]);
 
         // then
-        $this->assertEquals('otherwise', $result);
+        $this->assertSame('otherwise', $result);
     }
 
     /**
@@ -150,6 +150,6 @@ class ReplacePatternTest extends TestCase
         $result = $replacePattern->otherwiseReturning('otherwise')->by()->group(1)->map([])->orElseThrow();
 
         // then
-        $this->assertEquals('otherwise', $result);
+        $this->assertSame('otherwise', $result);
     }
 }

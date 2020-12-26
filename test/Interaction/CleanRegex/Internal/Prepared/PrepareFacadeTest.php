@@ -22,7 +22,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
-        $this->assertEquals('/(I|We) want: User\ \(input\) :)/', $pattern);
+        $this->assertSame('/(I|We) want: User\ \(input\) :)/', $pattern);
     }
 
     public function standard(): array
@@ -46,7 +46,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
-        $this->assertEquals('//', $pattern);
+        $this->assertSame('//', $pattern);
     }
 
     public function empty(): array
@@ -71,7 +71,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
-        $this->assertEquals($expected, $pattern);
+        $this->assertSame($expected, $pattern);
     }
 
     public function pcre(): array
@@ -98,7 +98,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
-        $this->assertEquals('/\(/', $pattern);
+        $this->assertSame('/\(/', $pattern);
     }
 
     public function onlyUserInput(): array
@@ -121,7 +121,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
-        $this->assertEquals('%With delimiters / #Using\ /\ delimiters\ and\ \% :D%', $pattern);
+        $this->assertSame('%With delimiters / #Using\ /\ delimiters\ and\ \% :D%', $pattern);
     }
 
     public function delimiters(): array
@@ -144,7 +144,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
 
         // then
-        $this->assertEquals('/(I|We) want: User\ \(input\)User\ \(input_2\)/', $pattern);
+        $this->assertSame('/(I|We) want: User\ \(input\)User\ \(input_2\)/', $pattern);
     }
 
     public function whitespace(): array
@@ -174,7 +174,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = $facade->getPattern();
 
         // then
-        $this->assertEquals($expected, $pattern);
+        $this->assertSame($expected, $pattern);
     }
 
     public function ignoredInputs(): array

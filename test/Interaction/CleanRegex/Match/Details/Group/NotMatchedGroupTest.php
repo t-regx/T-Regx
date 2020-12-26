@@ -33,7 +33,7 @@ class NotMatchedGroupTest extends TestCase
         $matches = $matchGroup->$method(...$arguments);
 
         // then
-        $this->assertEquals($expected, $matches);
+        $this->assertSame($expected, $matches);
     }
 
     public function optionalMethods(): array

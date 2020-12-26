@@ -25,7 +25,7 @@ class DetailImplTest extends TestCase
             });
 
         // then
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     public function validIntegers(): array
@@ -72,7 +72,7 @@ class DetailImplTest extends TestCase
             });
 
         // then
-        $this->assertEquals([12, 14, 13, 19, 18, 2], $result);
+        $this->assertSame([12, 14, 13, 19, 18, 2], $result);
     }
 
     /**
@@ -89,7 +89,7 @@ class DetailImplTest extends TestCase
             });
 
         // then
-        $this->assertEquals([12, 14, 13, 19, 18, 2], $result);
+        $this->assertSame([12, 14, 13, 19, 18, 2], $result);
     }
 
     /**

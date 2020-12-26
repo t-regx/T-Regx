@@ -23,7 +23,7 @@ class ReplacePatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals('Links: com', $result);
+        $this->assertSame('Links: com', $result);
     }
 
     /**
@@ -42,7 +42,7 @@ class ReplacePatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals('Links: com', $result);
+        $this->assertSame('Links: com', $result);
     }
 
     /**

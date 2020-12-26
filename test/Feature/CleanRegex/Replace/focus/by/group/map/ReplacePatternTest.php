@@ -24,7 +24,7 @@ class ReplacePatternTest extends TestCase
         $result = pattern($pattern)->replace($subject)->all()->focus('name')->by()->group('domain')->map($map)->orElseWith('Foo');
 
         // then
-        $this->assertEquals('Links are http://GG.com/ and http://EZ.org http://Foo/ :)', $result);
+        $this->assertSame('Links are http://GG.com/ and http://EZ.org http://Foo/ :)', $result);
     }
 
     /**

@@ -27,7 +27,7 @@ class MatchPatternTest extends TestCase
             'm', 'a', 't', 'c', 'h', 'i', 'n', 'g',
             'p', 'a', 't', 't', 'e', 'r', 'n'
         ];
-        $this->assertEquals($expected, $map);
+        $this->assertSame($expected, $map);
     }
 
     /**
@@ -49,7 +49,7 @@ class MatchPatternTest extends TestCase
             'matching' => 7,
             'pattern'  => 18
         ];
-        $this->assertEquals($expected, $map);
+        $this->assertSame($expected, $map);
     }
 
     /**
@@ -65,10 +65,10 @@ class MatchPatternTest extends TestCase
         // when
         $pattern->flatMap(function (Detail $detail) use (&$counter, $matches) {
             // then
-            $this->assertEquals($matches[$counter], $detail->text());
-            $this->assertEquals($counter++, $detail->index());
-            $this->assertEquals("Nice matching pattern", $detail->subject());
-            $this->assertEquals($matches, $detail->all());
+            $this->assertSame($matches[$counter], $detail->text());
+            $this->assertSame($counter++, $detail->index());
+            $this->assertSame("Nice matching pattern", $detail->subject());
+            $this->assertSame($matches, $detail->all());
 
             return [];
         });

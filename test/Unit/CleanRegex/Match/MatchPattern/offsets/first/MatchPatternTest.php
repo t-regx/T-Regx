@@ -20,7 +20,7 @@ class MatchPatternTest extends TestCase
         $first = $pattern->offsets()->first();
 
         // then
-        $this->assertEquals(3, $first);
+        $this->assertSame(3, $first);
     }
 
     /**

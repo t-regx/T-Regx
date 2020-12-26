@@ -18,6 +18,6 @@ class ConstantResultStrategyTest extends TestCase
         $result = $strategy->substitute('');
 
         // then
-        $this->assertEquals('constant', $result);
+        $this->assertSame('constant', $result);
     }
 }

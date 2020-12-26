@@ -18,7 +18,7 @@ class PregConstantsTest extends TestCase
         $constant = $constants->getConstant(PREG_BAD_UTF8_ERROR);
 
         // then
-        $this->assertEquals('PREG_BAD_UTF8_ERROR', $constant);
+        $this->assertSame('PREG_BAD_UTF8_ERROR', $constant);
     }
 
     /**
@@ -33,6 +33,6 @@ class PregConstantsTest extends TestCase
         $constant = $constants->getConstant(101);
 
         // then
-        $this->assertEquals('UNKNOWN_PREG_ERROR', $constant);
+        $this->assertSame('UNKNOWN_PREG_ERROR', $constant);
     }
 }

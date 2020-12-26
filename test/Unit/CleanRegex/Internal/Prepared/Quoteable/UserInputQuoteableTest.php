@@ -9,6 +9,8 @@ class UserInputQuoteableTest extends TestCase
     /**
      * @test
      * @dataProvider extended
+     * @param string $input
+     * @param string $expected
      */
     public function shouldQuoteExtended(string $input, string $expected)
     {
@@ -19,7 +21,7 @@ class UserInputQuoteableTest extends TestCase
         $result = $quotable->quote('/');
 
         // then
-        $this->assertEqual($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     public function extended(): array

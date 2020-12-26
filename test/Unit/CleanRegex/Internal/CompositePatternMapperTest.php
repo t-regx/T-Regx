@@ -36,7 +36,7 @@ class CompositePatternMapperTest extends TestCase
         $actual = array_map(function (InternalPattern $pattern) {
             return $pattern->pattern;
         }, $patterns);
-        $this->assertEquals($expected, $actual);
+        $this->assertSame($expected, $actual);
     }
 
     /**

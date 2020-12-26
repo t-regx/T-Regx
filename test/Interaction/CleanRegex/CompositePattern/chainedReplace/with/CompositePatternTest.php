@@ -31,7 +31,7 @@ class CompositePatternTest extends TestCase
         $replaced = $pattern->chainedReplace("Do you think that's air you're breathing now?")->with('__');
 
         // then
-        $this->assertEquals($expected, $replaced);
+        $this->assertSame($expected, $replaced);
     }
 
     public function times(): array
@@ -61,7 +61,7 @@ class CompositePatternTest extends TestCase
         $replaced = $pattern->chainedReplace("One1 Two2 Three3")->with('$1');
 
         // then
-        $this->assertEquals('$1 $1 $1', $replaced);
+        $this->assertSame('$1 $1 $1', $replaced);
     }
 
     /**
@@ -76,6 +76,6 @@ class CompositePatternTest extends TestCase
         $replaced = $pattern->chainedReplace("One1 Two2 Three3")->withReferences('$1');
 
         // then
-        $this->assertEquals('1 2 3', $replaced);
+        $this->assertSame('1 2 3', $replaced);
     }
 }

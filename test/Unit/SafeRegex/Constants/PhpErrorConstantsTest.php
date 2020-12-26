@@ -18,7 +18,7 @@ class PhpErrorConstantsTest extends TestCase
         $constant = $constants->getConstant(E_WARNING);
 
         // then
-        $this->assertEquals('E_WARNING', $constant);
+        $this->assertSame('E_WARNING', $constant);
     }
 
     /**
@@ -33,6 +33,6 @@ class PhpErrorConstantsTest extends TestCase
         $constant = $constants->getConstant(101);
 
         // then
-        $this->assertEquals('E_UNKNOWN_CODE', $constant);
+        $this->assertSame('E_UNKNOWN_CODE', $constant);
     }
 }

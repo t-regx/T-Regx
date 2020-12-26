@@ -18,9 +18,9 @@ class CompilePregExceptionTest extends TestCase
         $errorMessage = $exception->getPregErrorMessage();
 
         // then
-        $this->assertEquals(2, $error);
-        $this->assertEquals('error', $errorName);
-        $this->assertEquals('message', $errorMessage);
+        $this->assertSame(2, $error);
+        $this->assertSame('error', $errorName);
+        $this->assertSame('message', $errorMessage);
     }
 
     /**
@@ -35,7 +35,7 @@ class CompilePregExceptionTest extends TestCase
         $method = $exception->getInvokingMethod();
 
         // then
-        $this->assertEquals('preg_method', $method);
+        $this->assertSame('preg_method', $method);
     }
 
     /**
@@ -50,6 +50,6 @@ class CompilePregExceptionTest extends TestCase
         $pattern = $exception->getPregPattern();
 
         // then
-        $this->assertEquals('/pattern/', $pattern);
+        $this->assertSame('/pattern/', $pattern);
     }
 }

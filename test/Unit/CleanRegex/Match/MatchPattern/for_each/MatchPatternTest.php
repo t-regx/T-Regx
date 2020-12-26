@@ -22,10 +22,10 @@ class MatchPatternTest extends TestCase
         // when
         $pattern->forEach(function (Detail $detail) use (&$counter, $matches) {
             // then
-            $this->assertEquals($matches[$counter], $detail->text());
-            $this->assertEquals($counter++, $detail->index());
-            $this->assertEquals('Nice matching pattern', $detail->subject());
-            $this->assertEquals(['Nice', 'matching', 'pattern'], $detail->all());
+            $this->assertSame($matches[$counter], $detail->text());
+            $this->assertSame($counter++, $detail->index());
+            $this->assertSame('Nice matching pattern', $detail->subject());
+            $this->assertSame(['Nice', 'matching', 'pattern'], $detail->all());
         });
     }
 

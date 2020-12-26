@@ -19,7 +19,7 @@ class DetailImplTest extends TestCase
                 $limit = $detail->limit();
 
                 // then
-                $this->assertEquals(-1, $limit);
+                $this->assertSame(-1, $limit);
             });
     }
 
@@ -36,7 +36,7 @@ class DetailImplTest extends TestCase
                 $limit = $detail->limit();
 
                 // then
-                $this->assertEquals(-1, $limit);
+                $this->assertSame(-1, $limit);
             });
     }
 
@@ -53,7 +53,7 @@ class DetailImplTest extends TestCase
                 $limit = $detail->limit();
 
                 // then
-                $this->assertEquals(-1, $limit);
+                $this->assertSame(-1, $limit);
 
                 // clean up
                 return [];
@@ -73,7 +73,7 @@ class DetailImplTest extends TestCase
                 $limit = $detail->limit();
 
                 // then
-                $this->assertEquals(1, $limit);
+                $this->assertSame(1, $limit);
             });
     }
 
@@ -90,7 +90,7 @@ class DetailImplTest extends TestCase
                 $limit = $detail->limit();
 
                 // then
-                $this->assertEquals(1, $limit);
+                $this->assertSame(1, $limit);
             })
             ->orThrow();
     }

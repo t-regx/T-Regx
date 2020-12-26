@@ -25,7 +25,7 @@ class MatchPatternTest extends TestCase
         $only = $pattern->offsets()->only(2);
 
         // then
-        $this->assertEquals([2, 7], $only);
+        $this->assertSame([2, 7], $only);
     }
 
     /**
@@ -86,7 +86,7 @@ class MatchPatternTest extends TestCase
         $only = $pattern->offsets()->only(1);
 
         // then
-        $this->assertEquals([3], $only);
+        $this->assertSame([3], $only);
     }
 
     /**

@@ -27,8 +27,8 @@ class SignatureExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf(ClassWithTwoStringParamsConstructor::class, $exception);
-        $this->assertEquals('Expected to get the first match, but subject was not matched', $exception->getMessage());
-        $this->assertEquals('my subject', $exception->getSubject());
+        $this->assertSame('Expected to get the first match, but subject was not matched', $exception->getMessage());
+        $this->assertSame('my subject', $exception->getSubject());
     }
 
     /**
@@ -44,7 +44,7 @@ class SignatureExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf(ClassWithStringParamConstructor::class, $exception);
-        $this->assertEquals('Expected to get the first match, but subject was not matched', $exception->getMessage());
+        $this->assertSame('Expected to get the first match, but subject was not matched', $exception->getMessage());
     }
 
     /**
@@ -77,7 +77,7 @@ class SignatureExceptionFactoryTest extends TestCase
 
         // then
         $this->assertInstanceOf($className, $exception);
-        $this->assertEquals('Expected to get the first match, but subject was not matched', $exception->getMessage());
+        $this->assertSame('Expected to get the first match, but subject was not matched', $exception->getMessage());
     }
 
     public function exceptions(): array

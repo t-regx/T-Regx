@@ -23,9 +23,9 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern($this->stream(['a' => 'foo', 'b' => 'bar'], 3), $this->worker());
 
         // when + then
-        $this->assertEquals('bar', $pattern->findNth(1)->orReturn('missing'));
-        $this->assertEquals('bar', $pattern->findNth(1)->orElse('strtolower'));
-        $this->assertEquals('bar', $pattern->findNth(1)->orThrow());
+        $this->assertSame('bar', $pattern->findNth(1)->orReturn('missing'));
+        $this->assertSame('bar', $pattern->findNth(1)->orElse('strtolower'));
+        $this->assertSame('bar', $pattern->findNth(1)->orThrow());
     }
 
     /**
@@ -56,7 +56,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->findNth(0)->orReturn('otherValue');
 
         // then
-        $this->assertEquals('otherValue', $result);
+        $this->assertSame('otherValue', $result);
     }
 
     /**
@@ -71,7 +71,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->findNth(0)->orElse(Functions::constant('otherValue'));
 
         // then
-        $this->assertEquals('otherValue', $result);
+        $this->assertSame('otherValue', $result);
     }
 
     /**

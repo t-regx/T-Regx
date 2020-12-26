@@ -19,7 +19,7 @@ class AlterationFactoryTest extends TestCase
         $quoteable = $factory->quotable('5% you (are|is) welcome');
 
         // then
-        $this->assertEquals('5\%\ you\ \(are\|is\)\ welcome', $quoteable->quote('%'));
+        $this->assertSame('5\%\ you\ \(are\|is\)\ welcome', $quoteable->quote('%'));
     }
 
     /**
@@ -34,7 +34,7 @@ class AlterationFactoryTest extends TestCase
         $quoteable = $factory->quotable(['first 1%', 'second 2%']);
 
         // then
-        $this->assertEquals('(?:first\ 1\%|second\ 2\%)', $quoteable->quote('%'));
+        $this->assertSame('(?:first\ 1\%|second\ 2\%)', $quoteable->quote('%'));
     }
 
     /**
@@ -52,7 +52,7 @@ class AlterationFactoryTest extends TestCase
         $quoteable = $factory->quotable(['FOO', 'foo', 'PIęć', 'pięć', 'Żółć', 'ŻÓŁĆ']);
 
         // then
-        $this->assertEquals($expected, $quoteable->quote('%'), "Failed to assert that duplicates were removed with flags '$flags'.");
+        $this->assertSame($expected, $quoteable->quote('%'), "Failed to assert that duplicates were removed with flags '$flags'.");
     }
 
     public function arrayDuplicatesByFlags(): array

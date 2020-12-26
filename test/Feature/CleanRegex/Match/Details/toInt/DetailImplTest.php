@@ -24,7 +24,7 @@ class DetailImplTest extends TestCase
             });
 
         // then
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     public function validIntegers(): array

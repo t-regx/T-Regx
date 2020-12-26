@@ -20,7 +20,7 @@ class ReplacePatternTest extends TestCase
                 $groupsCount = $detail->groupsCount();
 
                 // then
-                $this->assertEquals(2, $groupsCount);
+                $this->assertSame(2, $groupsCount);
 
                 // clean up
                 return '';

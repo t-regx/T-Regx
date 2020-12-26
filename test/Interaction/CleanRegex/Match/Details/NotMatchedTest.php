@@ -50,7 +50,7 @@ class NotMatchedTest extends TestCase
         $subject = $notMatched->subject();
 
         // then
-        $this->assertEquals('subject', $subject);
+        $this->assertSame('subject', $subject);
     }
 
     /**
@@ -149,7 +149,7 @@ class NotMatchedTest extends TestCase
         $groupNames = $notMatched->groupNames();
 
         // then
-        $this->assertEquals(['group', 'xd'], $groupNames);
+        $this->assertSame(['group', 'xd'], $groupNames);
     }
 
     /**
@@ -164,7 +164,7 @@ class NotMatchedTest extends TestCase
         $groupNames = $notMatched->groupNames();
 
         // then
-        $this->assertEquals(['group', null, 'xd', null], $groupNames);
+        $this->assertSame(['group', null, 'xd', null], $groupNames);
     }
 
     private function createNotMatched(): NotMatched
@@ -191,7 +191,7 @@ class NotMatchedTest extends TestCase
         $groupsCount = $notMatched->groupsCount();
 
         // then
-        $this->assertEquals(4, $groupsCount);
+        $this->assertSame(4, $groupsCount);
     }
 
     private function createNotMatched_jagged(): NotMatched

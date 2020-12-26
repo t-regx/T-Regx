@@ -24,10 +24,10 @@ class MatchPatternTest extends TestCase
         $pattern
             ->findFirst(function (Detail $detail) {
                 // then
-                $this->assertEquals(0, $detail->index());
-                $this->assertEquals("Nice matching pattern", $detail->subject());
-                $this->assertEquals(['Nice', 'matching', 'pattern'], $detail->all());
-                $this->assertEquals(['N'], $detail->groups()->texts());
+                $this->assertSame(0, $detail->index());
+                $this->assertSame("Nice matching pattern", $detail->subject());
+                $this->assertSame(['Nice', 'matching', 'pattern'], $detail->all());
+                $this->assertSame(['N'], $detail->groups()->texts());
             })
             ->orThrow();
     }
@@ -44,7 +44,7 @@ class MatchPatternTest extends TestCase
         $pattern
             ->findFirst(function (Detail $detail) {
                 // then
-                $this->assertEquals("Nice matching pattern", $detail->subject());
+                $this->assertSame("Nice matching pattern", $detail->subject());
             });
         // ->orThrow();
     }
@@ -63,9 +63,9 @@ class MatchPatternTest extends TestCase
         $first3 = $pattern->findFirst('strtoupper')->orElse(Functions::fail());
 
         // then
-        $this->assertEquals('NICE', $first1);
-        $this->assertEquals('NICE', $first2);
-        $this->assertEquals('NICE', $first3);
+        $this->assertSame('NICE', $first1);
+        $this->assertSame('NICE', $first2);
+        $this->assertSame('NICE', $first3);
     }
 
     /**
@@ -145,7 +145,7 @@ class MatchPatternTest extends TestCase
         $value = $pattern->findFirst('strrev')->orReturn('def');
 
         // then
-        $this->assertEquals('def', $value);
+        $this->assertSame('def', $value);
     }
 
     /**
@@ -160,7 +160,7 @@ class MatchPatternTest extends TestCase
         $value = $pattern->findFirst('strrev')->orElse(Functions::constant('new value'));
 
         // then
-        $this->assertEquals('new value', $value);
+        $this->assertSame('new value', $value);
     }
 
     /**
@@ -174,8 +174,8 @@ class MatchPatternTest extends TestCase
         // when
         $pattern->findFirst('strrev')->orElse(function (NotMatched $details) {
             // then
-            $this->assertEquals('NOT MATCHING', $details->subject());
-            $this->assertEquals(['group'], $details->groupNames());
+            $this->assertSame('NOT MATCHING', $details->subject());
+            $this->assertSame(['group'], $details->groupNames());
             $this->assertTrue($details->hasGroup('group'));
             $this->assertTrue($details->hasGroup(0));
             $this->assertTrue($details->hasGroup(1));

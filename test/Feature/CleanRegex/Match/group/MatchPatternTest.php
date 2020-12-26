@@ -23,7 +23,7 @@ class MatchPatternTest extends TestCase
         $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->all();
 
         // then
-        $this->assertEquals(['omputer', null, 'hree', 'our'], $groups);
+        $this->assertSame(['omputer', null, 'hree', 'our'], $groups);
     }
 
     /**
@@ -131,8 +131,8 @@ class MatchPatternTest extends TestCase
         $groups2 = pattern('[A-Z](?<lowercase>[a-z]+)?')->match('D Computer')->group('lowercase')->only(2);
 
         // then
-        $this->assertEquals([null], $groups1);
-        $this->assertEquals([null, 'omputer'], $groups2);
+        $this->assertSame([null], $groups1);
+        $this->assertSame([null, 'omputer'], $groups2);
     }
 
     /**
@@ -152,7 +152,7 @@ class MatchPatternTest extends TestCase
             });
 
         // then
-        $this->assertEquals(['unmatched', 'omputer'], $groups);
+        $this->assertSame(['unmatched', 'omputer'], $groups);
     }
 
     /**
@@ -172,7 +172,7 @@ class MatchPatternTest extends TestCase
             });
 
         // then
-        $this->assertEquals(['unmatched', 'omputer'], $groups);
+        $this->assertSame(['unmatched', 'omputer'], $groups);
     }
 
     /**
@@ -189,7 +189,7 @@ class MatchPatternTest extends TestCase
             });
 
         // then
-        $this->assertEquals(['mm', 'm', 'cm'], $groups);
+        $this->assertSame(['mm', 'm', 'cm'], $groups);
     }
 
     /**
@@ -230,7 +230,7 @@ class MatchPatternTest extends TestCase
             ->all();
 
         // then
-        $this->assertEquals(['unmatched', 'omputer'], $groups);
+        $this->assertSame(['unmatched', 'omputer'], $groups);
     }
 
     /**
@@ -250,9 +250,9 @@ class MatchPatternTest extends TestCase
         $all = $offsets->all();
 
         // then
-        $this->assertEquals([4], $only1);
-        $this->assertEquals([4, null], $only2);
-        $this->assertEquals([4, null, 15, 21], $all);
+        $this->assertSame([4], $only1);
+        $this->assertSame([4, null], $only2);
+        $this->assertSame([4, null, 15, 21], $all);
     }
 
     /**
@@ -270,7 +270,7 @@ class MatchPatternTest extends TestCase
         $only1 = $offsets->only(1);
 
         // then
-        $this->assertEquals([null], $only1);
+        $this->assertSame([null], $only1);
     }
 
     /**
@@ -285,6 +285,6 @@ class MatchPatternTest extends TestCase
         $result = pattern('(?<value>\d+)(?<unit>cm|mm)')->match($subject)->group('value')->nth(3);
 
         // then
-        $this->assertEquals('19', $result);
+        $this->assertSame('19', $result);
     }
 }

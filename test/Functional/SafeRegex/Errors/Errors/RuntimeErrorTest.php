@@ -72,11 +72,11 @@ class RuntimeErrorTest extends TestCase
 
         // then
         $this->assertInstanceOf(RuntimePregException::class, $exception);
-        $this->assertEquals('preg_replace', $exception->getInvokingMethod());
-        $this->assertEquals(PREG_BAD_UTF8_ERROR, $exception->getError());
-        $this->assertEquals('PREG_BAD_UTF8_ERROR', $exception->getErrorName());
-        $this->assertEquals('/pattern/', $exception->getPregPattern());
-        $this->assertEquals('After invoking preg_replace(), preg_last_error() returned PREG_BAD_UTF8_ERROR', $exception->getMessage());
+        $this->assertSame('preg_replace', $exception->getInvokingMethod());
+        $this->assertSame(PREG_BAD_UTF8_ERROR, $exception->getError());
+        $this->assertSame('PREG_BAD_UTF8_ERROR', $exception->getErrorName());
+        $this->assertSame('/pattern/', $exception->getPregPattern());
+        $this->assertSame('After invoking preg_replace(), preg_last_error() returned PREG_BAD_UTF8_ERROR', $exception->getMessage());
     }
 
     /**

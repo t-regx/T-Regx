@@ -19,7 +19,7 @@ class RawMatchAsArrayTest extends TestCase
         $array = RawMatchAsArray::fromMatch($this->base()->matchOffset(), new LazyRawWithGroups($this->base()));
 
         // then
-        $this->assertEquals([0 => 'Foo:cm', 1 => null, 'group1' => null, 2 => 'cm', 'group2' => 'cm', 3 => null, 'group3' => null], $array);
+        $this->assertSame([0 => 'Foo:cm', 1 => null, 'group1' => null, 2 => 'cm', 'group2' => 'cm', 3 => null, 'group3' => null], $array);
     }
 
     private function base(): ApiBase

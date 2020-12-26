@@ -22,8 +22,8 @@ class MatchPatternTest extends TestCase
         $restGroups = $pattern->group('rest')->only(2);
 
         // then
-        $this->assertEquals(['Ni', 'Ma'], $twoGroups);
-        $this->assertEquals(['ce', 'tching'], $restGroups);
+        $this->assertSame(['Ni', 'Ma'], $twoGroups);
+        $this->assertSame(['ce', 'tching'], $restGroups);
     }
 
     /**
@@ -39,8 +39,8 @@ class MatchPatternTest extends TestCase
         $minutes = $pattern->group('minute')->only(2);
 
         // then
-        $this->assertEquals(['11', null], $hours);
-        $this->assertEquals([null, '12'], $minutes);
+        $this->assertSame(['11', null], $hours);
+        $this->assertSame([null, '12'], $minutes);
     }
 
     /**

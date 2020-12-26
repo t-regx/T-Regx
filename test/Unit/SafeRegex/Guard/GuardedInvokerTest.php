@@ -25,7 +25,7 @@ class GuardedInvokerTest extends TestCase
         [$result, $exception] = $invoker->catch();
 
         // then
-        $this->assertEquals(13, $result);
+        $this->assertSame(13, $result);
         $this->assertNull($exception);
     }
 
@@ -44,9 +44,9 @@ class GuardedInvokerTest extends TestCase
         [$result, $exception] = $invoker->catch();
 
         // then
-        $this->assertEquals(14, $result);
+        $this->assertSame(14, $result);
         $this->assertInstanceOf(RuntimePregException::class, $exception);
-        $this->assertEquals("/p/", $exception->getPregPattern());
+        $this->assertSame("/p/", $exception->getPregPattern());
     }
 
     /**
@@ -64,9 +64,9 @@ class GuardedInvokerTest extends TestCase
         [$result, $exception] = $invoker->catch();
 
         // then
-        $this->assertEquals(15, $result);
+        $this->assertSame(15, $result);
         $this->assertInstanceOf(CompilePregException::class, $exception);
-        $this->assertEquals("/p/", $exception->getPregPattern());
+        $this->assertSame("/p/", $exception->getPregPattern());
     }
 
     /**
@@ -81,7 +81,7 @@ class GuardedInvokerTest extends TestCase
         [$result, $exception] = $invoker->catch();
 
         // then
-        $this->assertEquals(16, $result);
+        $this->assertSame(16, $result);
         $this->assertNull($exception);
     }
 
@@ -100,7 +100,7 @@ class GuardedInvokerTest extends TestCase
         [$result, $exception] = $invoker->catch();
 
         // then
-        $this->assertEquals(17, $result);
+        $this->assertSame(17, $result);
         $this->assertNull($exception);
     }
 

@@ -24,8 +24,8 @@ class MatchPatternTest extends TestCase
         $restGroups = $pattern->group('rest')->first();
 
         // then
-        $this->assertEquals('Ni', $twoGroups);
-        $this->assertEquals('ce', $restGroups);
+        $this->assertSame('Ni', $twoGroups);
+        $this->assertSame('ce', $restGroups);
     }
 
     /**

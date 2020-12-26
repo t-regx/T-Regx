@@ -30,7 +30,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals('value: nice', $findFirst->orThrow());
+        $this->assertSame('value: nice', $findFirst->orThrow());
         $this->assertInstanceOf(OptionalImpl::class, $findFirst);
     }
 
@@ -48,7 +48,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals('value: matching', $findFirst->orThrow());
+        $this->assertSame('value: matching', $findFirst->orThrow());
         $this->assertInstanceOf(OptionalImpl::class, $findFirst);
     }
 

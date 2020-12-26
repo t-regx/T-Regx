@@ -24,7 +24,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->nth(0);
 
         // then
-        $this->assertEquals('foo', $result);
+        $this->assertSame('foo', $result);
     }
 
     /**
@@ -54,7 +54,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->nth(2);
 
         // then
-        $this->assertEquals('lorem', $result);
+        $this->assertSame('lorem', $result);
     }
 
     /**

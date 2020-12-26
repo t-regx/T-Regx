@@ -22,8 +22,8 @@ class MatchPatternTest extends TestCase
         $restGroups = $pattern->group('rest')->offsets()->fluent()->all();
 
         // then
-        $this->assertEquals([0, 5, 14], $twoGroups);
-        $this->assertEquals([2, 7, 16], $restGroups);
+        $this->assertSame([0, 5, 14], $twoGroups);
+        $this->assertSame([2, 7, 16], $restGroups);
     }
 
     /**
@@ -39,8 +39,8 @@ class MatchPatternTest extends TestCase
         $minutes = $pattern->group('minute')->offsets()->fluent()->all();
 
         // then
-        $this->assertEquals([7, null, 38], $hours);
-        $this->assertEquals([null, 26, 41], $minutes);
+        $this->assertSame([7, null, 38], $hours);
+        $this->assertSame([null, 26, 41], $minutes);
     }
 
     /**

@@ -19,7 +19,7 @@ class DescriptorTest extends TestCase
         $groups = $descriptor->getGroups();
 
         // then
-        $this->assertEquals([0], $groups);
+        $this->assertSame([0], $groups);
     }
 
     /**
@@ -34,6 +34,6 @@ class DescriptorTest extends TestCase
         $groups = $descriptor->getGroups();
 
         // then
-        $this->assertEquals([0, 1, 'named', 2, 3, 'Fourth', 4, 'nested', 5], $groups);
+        $this->assertSame([0, 1, 'named', 2, 3, 'Fourth', 4, 'nested', 5], $groups);
     }
 }

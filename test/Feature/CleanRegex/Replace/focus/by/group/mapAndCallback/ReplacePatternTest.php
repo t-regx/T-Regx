@@ -30,7 +30,7 @@ class ReplacePatternTest extends TestCase
             ->orElseWith('Foo');
 
         // then
-        $this->assertEquals('Links are http://4.com/ and http://7.org http://Foo/ :)', $result);
+        $this->assertSame('Links are http://4.com/ and http://7.org http://Foo/ :)', $result);
     }
 
     /**

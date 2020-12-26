@@ -25,7 +25,7 @@ class FilterArrayPatternTest extends TestCase
         $filtered = $filterArrayPattern->filter();
 
         // then
-        $this->assertEquals($expected, $filtered, 'Failed asserting that filter() returned expected results.');
+        $this->assertSame($expected, $filtered, 'Failed asserting that filter() returned expected results.');
     }
 
     public function patternsAndSubjects(): array
@@ -65,7 +65,7 @@ class FilterArrayPatternTest extends TestCase
         $filtered = $filterArrayPattern->filterAssoc();
 
         // then
-        $this->assertEquals($expected, $filtered, 'Failed asserting that filterAssoc() returned expected results.');
+        $this->assertSame($expected, $filtered, 'Failed asserting that filterAssoc() returned expected results.');
     }
 
     public function patternsAndSubjects_assoc(): array
@@ -104,7 +104,7 @@ class FilterArrayPatternTest extends TestCase
         $output = pattern('')->forArray($input)->$method();
 
         // then
-        $this->assertEquals(['Foo'], $output);
+        $this->assertSame(['Foo'], $output);
     }
 
     function filterMethods(): array

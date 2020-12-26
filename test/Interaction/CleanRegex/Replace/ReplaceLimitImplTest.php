@@ -21,7 +21,7 @@ class ReplaceLimitImplTest extends TestCase
         // given
         $limit = new ReplaceLimitImpl(function (int $limit) {
             // then
-            $this->assertEquals(1, $limit);
+            $this->assertSame(1, $limit);
             return $this->chain();
         });
 
@@ -37,7 +37,7 @@ class ReplaceLimitImplTest extends TestCase
         // given
         $limit = new ReplaceLimitImpl(function (int $limit) {
             // then
-            $this->assertEquals(-1, $limit);
+            $this->assertSame(-1, $limit);
             return $this->chain();
         });
 
@@ -53,7 +53,7 @@ class ReplaceLimitImplTest extends TestCase
         // given
         $limit = new ReplaceLimitImpl(function (int $limit) {
             // then
-            $this->assertEquals(20, $limit);
+            $this->assertSame(20, $limit);
             return $this->chain();
         });
 

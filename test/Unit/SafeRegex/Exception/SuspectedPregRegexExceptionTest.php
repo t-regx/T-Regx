@@ -17,8 +17,8 @@ class SuspectedPregRegexExceptionTest extends TestCase
         $pattern = $exception->getPregPattern();
 
         // then
-        $this->assertEquals('value', $value);
-        $this->assertEquals('method', $method);
-        $this->assertEquals('/pattern/', $pattern);
+        $this->assertSame('value', $value);
+        $this->assertSame('method', $method);
+        $this->assertSame('/pattern/', $pattern);
     }
 }

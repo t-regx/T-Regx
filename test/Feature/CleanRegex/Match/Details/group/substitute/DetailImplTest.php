@@ -20,7 +20,7 @@ class DetailImplTest extends TestCase
             });
 
         // then
-        $this->assertEquals(['http://XD/users', 'https://XD/users'], $result);
+        $this->assertSame(['http://XD/users', 'https://XD/users'], $result);
     }
 
     /**
@@ -37,7 +37,7 @@ class DetailImplTest extends TestCase
             });
 
         // then
-        $this->assertEquals('http://Welp/users', $result);
+        $this->assertSame('http://Welp/users', $result);
     }
 
     /**
@@ -54,6 +54,6 @@ class DetailImplTest extends TestCase
             });
 
         // then
-        $this->assertEquals('hłłp://ś/users', $result);
+        $this->assertSame('hłłp://ś/users', $result);
     }
 }

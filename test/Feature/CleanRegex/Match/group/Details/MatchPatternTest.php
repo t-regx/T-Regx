@@ -21,7 +21,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals(['oo', 'ar', 'ar'], $result);
+        $this->assertSame(['oo', 'ar', 'ar'], $result);
     }
 
     /**
@@ -43,7 +43,7 @@ class MatchPatternTest extends TestCase
             'word:efg' => 'offset:12', ['abc', 'efg', 'ijk'],
             'word:ijk' => 'offset:20', ['abc', 'efg', 'ijk'],
         ];
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -60,7 +60,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals([1, 5, 9], $result);
+        $this->assertSame([1, 5, 9], $result);
     }
 
     /**

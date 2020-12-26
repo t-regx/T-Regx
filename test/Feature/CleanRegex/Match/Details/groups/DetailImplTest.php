@@ -25,7 +25,7 @@ class DetailImplTest extends TestCase
             ['cos', ''],   // empty braces
             ['tan', null], // no braces
         ];
-        $this->assertEquals($expected, $groups);
+        $this->assertSame($expected, $groups);
     }
 
     /**
@@ -45,7 +45,7 @@ class DetailImplTest extends TestCase
                     'one' => 'first',
                     'two' => 'second'
                 ];
-                $this->assertEquals($expected, $groupNames);
+                $this->assertSame($expected, $groupNames);
             });
     }
 
@@ -63,8 +63,8 @@ class DetailImplTest extends TestCase
                 $byteOffsets = $detail->groups()->byteOffsets();
 
                 // then
-                $this->assertEquals([0, 12], $offsets);
-                $this->assertEquals([0, 13], $byteOffsets);
+                $this->assertSame([0, 12], $offsets);
+                $this->assertSame([0, 13], $byteOffsets);
             });
     }
 
@@ -82,8 +82,8 @@ class DetailImplTest extends TestCase
                 $byteOffsets = $detail->namedGroups()->byteOffsets();
 
                 // then
-                $this->assertEquals(['one' => 0, 'two' => 12], $offsets);
-                $this->assertEquals(['one' => 0, 'two' => 13], $byteOffsets);
+                $this->assertSame(['one' => 0, 'two' => 12], $offsets);
+                $this->assertSame(['one' => 0, 'two' => 13], $byteOffsets);
             });
     }
 
@@ -100,7 +100,7 @@ class DetailImplTest extends TestCase
                 $groupNames = $detail->groupNames();
 
                 // then
-                $this->assertEquals(['one', null, 'two'], $groupNames);
+                $this->assertSame(['one', null, 'two'], $groupNames);
             });
     }
 
@@ -117,7 +117,7 @@ class DetailImplTest extends TestCase
                 $groupsCount = $detail->groupsCount();
 
                 // then
-                $this->assertEquals(2, $groupsCount);
+                $this->assertSame(2, $groupsCount);
             });
     }
 
@@ -169,8 +169,8 @@ class DetailImplTest extends TestCase
                 $namedGroups = $detail->namedGroups()->names();
 
                 // then
-                $this->assertEquals([null, 'existing', 'two_existing'], $groupNames);
-                $this->assertEquals(['existing', 'two_existing'], $namedGroups);
+                $this->assertSame([null, 'existing', 'two_existing'], $groupNames);
+                $this->assertSame(['existing', 'two_existing'], $namedGroups);
             });
     }
 
@@ -188,8 +188,8 @@ class DetailImplTest extends TestCase
                 $namedGroups = $detail->namedGroups()->count();
 
                 // then
-                $this->assertEquals(3, $groups);
-                $this->assertEquals(2, $namedGroups);
+                $this->assertSame(3, $groups);
+                $this->assertSame(2, $namedGroups);
             });
     }
 

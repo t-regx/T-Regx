@@ -20,7 +20,7 @@ class ReplacePatternTest extends TestCase
                 $limit = $detail->limit();
 
                 // then
-                $this->assertEquals(1, $limit);
+                $this->assertSame(1, $limit);
 
                 // clean up
                 return '';
@@ -41,7 +41,7 @@ class ReplacePatternTest extends TestCase
                 $limit = $detail->limit();
 
                 // then
-                $this->assertEquals(-1, $limit);
+                $this->assertSame(-1, $limit);
 
                 // clean up
                 return '';
@@ -62,7 +62,7 @@ class ReplacePatternTest extends TestCase
                 $limit = $detail->limit();
 
                 // then
-                $this->assertEquals(3, $limit);
+                $this->assertSame(3, $limit);
 
                 // clean up
                 return '';

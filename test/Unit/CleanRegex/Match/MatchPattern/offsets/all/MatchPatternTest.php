@@ -19,7 +19,7 @@ class MatchPatternTest extends TestCase
         $first = $pattern->offsets()->all();
 
         // then
-        $this->assertEquals([3, 8, 17], $first);
+        $this->assertSame([3, 8, 17], $first);
     }
 
     /**

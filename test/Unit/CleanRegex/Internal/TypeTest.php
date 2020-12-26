@@ -18,6 +18,6 @@ class TypeTest extends TestCase
         $string = Type::asString($value);
 
         // then
-        $this->assertEquals($expectedString, $string);
+        $this->assertSame($expectedString, $string);
     }
 }

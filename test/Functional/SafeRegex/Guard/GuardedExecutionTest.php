@@ -69,7 +69,7 @@ class GuardedExecutionTest extends TestCase
         $result = GuardedExecution::invoke('preg_match', '', Functions::constant(13));
 
         // then
-        $this->assertEquals(13, $result);
+        $this->assertSame(13, $result);
     }
 
     public function possibleObsoleteWarnings(): array
@@ -137,7 +137,7 @@ class GuardedExecutionTest extends TestCase
             });
         } catch (RuntimePregException $exception) {
             // then
-            $this->assertEquals('/runtime/', $exception->getPregPattern());
+            $this->assertSame('/runtime/', $exception->getPregPattern());
         }
     }
 
@@ -154,7 +154,7 @@ class GuardedExecutionTest extends TestCase
             });
         } catch (CompilePregException $exception) {
             // then
-            $this->assertEquals('/compile/', $exception->getPregPattern());
+            $this->assertSame('/compile/', $exception->getPregPattern());
         }
     }
 

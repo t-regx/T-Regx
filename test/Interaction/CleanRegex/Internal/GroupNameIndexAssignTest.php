@@ -24,8 +24,8 @@ class GroupNameIndexAssignTest extends TestCase
         [$name, $index] = $assign->getNameAndIndex('third');
 
         // then
-        $this->assertEquals('third', $name);
-        $this->assertEquals(3, $index);
+        $this->assertSame('third', $name);
+        $this->assertSame(3, $index);
     }
 
     /**
@@ -40,8 +40,8 @@ class GroupNameIndexAssignTest extends TestCase
         [$name, $index] = $assign->getNameAndIndex(5);
 
         // then
-        $this->assertEquals('fifth', $name);
-        $this->assertEquals(5, $index);
+        $this->assertSame('fifth', $name);
+        $this->assertSame(5, $index);
     }
 
     /**
@@ -56,8 +56,8 @@ class GroupNameIndexAssignTest extends TestCase
         [$name, $index] = $assign->getNameAndIndex(2);
 
         // then
-        $this->assertEquals(null, $name);
-        $this->assertEquals(2, $index);
+        $this->assertSame(null, $name);
+        $this->assertSame(2, $index);
     }
 
     /**
@@ -72,8 +72,8 @@ class GroupNameIndexAssignTest extends TestCase
         [$name, $index] = $assign->getNameAndIndex(0);
 
         // then
-        $this->assertEquals(null, $name);
-        $this->assertEquals(0, $index);
+        $this->assertSame(null, $name);
+        $this->assertSame(0, $index);
     }
 
     /**
@@ -125,8 +125,8 @@ class GroupNameIndexAssignTest extends TestCase
         [$name, $index] = $assign->getNameAndIndex('name2');
 
         // then
-        $this->assertEquals('name2', $name);
-        $this->assertEquals(3, $index);
+        $this->assertSame('name2', $name);
+        $this->assertSame(3, $index);
     }
 
     /**
@@ -141,8 +141,8 @@ class GroupNameIndexAssignTest extends TestCase
         [$name, $index] = $assign->getNameAndIndex(3);
 
         // then
-        $this->assertEquals('name2', $name);
-        $this->assertEquals(3, $index);
+        $this->assertSame('name2', $name);
+        $this->assertSame(3, $index);
     }
 
     private function createWithMatchAllFactory_uneven(): GroupNameIndexAssign
@@ -172,8 +172,8 @@ class GroupNameIndexAssignTest extends TestCase
         [$name, $index] = $assign->getNameAndIndex('name2');
 
         // then
-        $this->assertEquals('name2', $name);
-        $this->assertEquals(3, $index);
+        $this->assertSame('name2', $name);
+        $this->assertSame(3, $index);
     }
 
     /**
@@ -188,8 +188,8 @@ class GroupNameIndexAssignTest extends TestCase
         [$name, $index] = $assign->getNameAndIndex(3);
 
         // then
-        $this->assertEquals('name2', $name);
-        $this->assertEquals(3, $index);
+        $this->assertSame('name2', $name);
+        $this->assertSame(3, $index);
     }
 
     private function createWithMatchAllFactory_even(): GroupNameIndexAssign

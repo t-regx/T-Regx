@@ -22,11 +22,11 @@ class DetailImplTest extends TestCase
                 $group = $detail->group('group');
 
                 // when + then
-                $this->assertEquals(['group', null], $detail->groups()->names());
-                $this->assertEquals(1, $group->index());
-                $this->assertEquals(0, $group->offset());
-                $this->assertEquals('Foo', $group->text());
-                $this->assertEquals('Foo', $detail->get('group'));
+                $this->assertSame(['group', null], $detail->groups()->names());
+                $this->assertSame(1, $group->index());
+                $this->assertSame(0, $group->offset());
+                $this->assertSame('Foo', $group->text());
+                $this->assertSame('Foo', $detail->get('group'));
             });
     }
 
@@ -43,8 +43,8 @@ class DetailImplTest extends TestCase
                 $group = $detail->group('group');
 
                 // when + then
-                $this->assertEquals(['group', null, null], $detail->groups()->names());
-                $this->assertEquals(1, $group->index());
+                $this->assertSame(['group', null, null], $detail->groups()->names());
+                $this->assertSame(1, $group->index());
                 $this->assertFalse($group->matched(), "Failed asserting that the last group was not matched");
             });
     }
@@ -108,7 +108,7 @@ class DetailImplTest extends TestCase
             ->group('group')
             ->fluent()
             ->forEach(function (MatchedGroup $group) {
-                $this->assertEquals('Foo', $group->text());
+                $this->assertSame('Foo', $group->text());
             });
     }
 
@@ -161,7 +161,7 @@ class DetailImplTest extends TestCase
             ->group('group')
             ->forEach(function (NotMatchedGroup $group) {
                 // when
-                $this->assertEquals('group', $group->usedIdentifier());
+                $this->assertSame('group', $group->usedIdentifier());
             });
     }
 }

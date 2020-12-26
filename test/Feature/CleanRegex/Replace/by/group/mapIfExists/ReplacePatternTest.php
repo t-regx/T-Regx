@@ -27,7 +27,7 @@ class ReplacePatternTest extends TestCase
             ->orElseThrow();
 
         // then
-        $this->assertEquals('Replace 1!, 2! and 1!', $result);
+        $this->assertSame('Replace 1!, 2! and 1!', $result);
     }
 
     /**
@@ -187,7 +187,7 @@ class ReplacePatternTest extends TestCase
             ->orElseThrow();
 
         // then
-        $this->assertEquals('Replace 1 and 2, and maybe Four', $result);
+        $this->assertSame('Replace 1 and 2, and maybe Four', $result);
     }
 
     /**

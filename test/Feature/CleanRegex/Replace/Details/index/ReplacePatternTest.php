@@ -20,7 +20,7 @@ class ReplacePatternTest extends TestCase
                 $index = $detail->index();
 
                 // then
-                $this->assertEquals(0, $index);
+                $this->assertSame(0, $index);
 
                 // clean up
                 return '';
@@ -53,7 +53,7 @@ class ReplacePatternTest extends TestCase
             });
 
         // then
-        $this->assertEquals([0, 1, 2], $indexes);
+        $this->assertSame([0, 1, 2], $indexes);
     }
 
     public function iteratingReplaceMethods(): array

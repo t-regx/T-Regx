@@ -27,7 +27,7 @@ class FilteredMatchPatternTest extends TestCase
         $first = $matchPattern->first();
 
         // then
-        $this->assertEquals('nice', $first);
+        $this->assertSame('nice', $first);
     }
 
     /**
@@ -44,7 +44,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals(['nice', 'pattern'], $all);
+        $this->assertSame(['nice', 'pattern'], $all);
     }
 
     /**
@@ -61,7 +61,7 @@ class FilteredMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertEquals(['nice', 'pattern'], $all);
+        $this->assertSame(['nice', 'pattern'], $all);
     }
 
     /**
@@ -76,7 +76,7 @@ class FilteredMatchPatternTest extends TestCase
         $first = $matchPattern->first();
 
         // then
-        $this->assertEquals('matching', $first);
+        $this->assertSame('matching', $first);
     }
 
     /**
@@ -127,7 +127,7 @@ class FilteredMatchPatternTest extends TestCase
         $matchPattern->first();
 
         // then
-        $this->assertEquals(['One'], $invoked);
+        $this->assertSame(['One'], $invoked);
     }
 
     private function standardMatchPattern_notFirst(): AbstractMatchPattern
