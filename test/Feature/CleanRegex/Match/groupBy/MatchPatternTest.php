@@ -233,7 +233,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame(['14cm' => 1, '13mm' => 2, '19cm' => 3, '18mm' => 4, '2cm' => 5], $indexes);
+        $this->assertSame(['14cm' => 1, '19cm' => 3, '2cm' => 5, '13mm' => 2, '18mm' => 4], $indexes);
     }
 
     /**
@@ -257,7 +257,8 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame(['19cm' => 1, '18mm' => 2, '2cm' => 3], $indexes);
+        $expected = ['19cm' => 1, '2cm' => 3, '18mm' => 2];
+        $this->assertSame($expected, $indexes);
     }
 
     public function mappersWithMatch(): array
@@ -276,8 +277,7 @@ class MatchPatternTest extends TestCase
 
     private function groupBy(): GroupByPattern
     {
-        return $this->match()
-            ->groupBy('unit');
+        return $this->match()->groupBy('unit');
     }
 
     private function filtered(): GroupByPattern
@@ -293,6 +293,6 @@ class MatchPatternTest extends TestCase
 
     private function match(): AbstractMatchPattern
     {
-        return pattern('\d+(?<unit>cm|mm)?')->match('€12, 14cm 13mm 19cm 18mm 2cm');
+        return pattern('\d+(?<unit>cm|mm)?', 'u')->match('€12, 14cm 13mm 19cm 18mm 2cm');
     }
 }
