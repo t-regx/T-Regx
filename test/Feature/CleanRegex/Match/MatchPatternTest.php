@@ -529,7 +529,7 @@ class MatchPatternTest extends TestCase
         $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
 
         // when
-        $result = pattern('\d+(?<unit>cm|mm)')->match($subject)->groupBy('unit')->texts();
+        $result = pattern('\d+(?<unit>cm|mm)')->match($subject)->groupBy('unit')->all();
 
         // then
         $expected = [

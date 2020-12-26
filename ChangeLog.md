@@ -6,6 +6,7 @@ Incoming in 0.9.14
 
 * Breaking changes
     * Rename `DetailGroup.replace()` to `DetailGroup.substitute()`
+    * Rename `match().groupBy().texts()` to `match().groupBy().all()`
 
 * Features
     * Add `Detail.textByteLength()` #88

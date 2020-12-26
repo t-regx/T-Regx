@@ -14,7 +14,7 @@ class MatchPatternTest extends TestCase
     public function shouldGroupBy_texts()
     {
         // when
-        $result = $this->groupBy()->texts();
+        $result = $this->groupBy()->all();
 
         // then
         $this->assertSame([
@@ -120,7 +120,7 @@ class MatchPatternTest extends TestCase
         $groupByPattern = $this->filtered();
 
         // when
-        $result = $groupByPattern->texts();
+        $result = $groupByPattern->all();
 
         // then
         $this->assertSame(['cm' => ['19cm', '2cm'], 'mm' => ['18mm']], $result);

@@ -25,7 +25,7 @@ class GroupByPattern
         $this->nameOrIndex = $nameOrIndex;
     }
 
-    public function texts(): array
+    public function all(): array
     {
         return $this->groupBy(new TextsStrategy());
     }
