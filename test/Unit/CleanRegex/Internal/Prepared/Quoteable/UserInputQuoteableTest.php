@@ -40,17 +40,4 @@ class UserInputQuoteableTest extends TestCase
             '\x0B'  => ["Foo\x0BBar", "Foo\\\x0BBar"],
         ];
     }
-
-    public function assertEqual(string $expected, string $actual): void
-    {
-        $this->assertSame($expected, $actual, "Their byte representation: " . "\n"
-            . 'Expected: ' . $this->bytes($expected) . "\n"
-            . 'Actual:   ' . $this->bytes($actual)
-        );
-    }
-
-    private function bytes(string $expected): string
-    {
-        return join(", ", array_map('ord', str_split($expected)));
-    }
 }

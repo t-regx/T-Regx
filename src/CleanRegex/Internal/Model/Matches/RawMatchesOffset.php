@@ -141,6 +141,9 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
     {
         return \array_map(static function ($group) {
             [$text, $offset] = $group;
+            if ($offset === -1) {
+                return null;
+            }
             return $text;
         }, $this->matches[$group]);
     }
