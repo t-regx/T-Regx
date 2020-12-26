@@ -45,6 +45,11 @@ class Pattern
         return PatternBuilder::compose($patterns);
     }
 
+    public static function format(string $input, array $tokens, string $flags = ''): PatternInterface
+    {
+        return PatternBuilder::builder()->format($input, $tokens, $flags);
+    }
+
     public static function quote(string $string): string
     {
         return preg::quote($string);

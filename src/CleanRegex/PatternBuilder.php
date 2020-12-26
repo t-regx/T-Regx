@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\FormatParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
@@ -67,6 +68,11 @@ class PatternBuilder
     public static function compose(array $patterns): CompositePattern
     {
         return new CompositePattern((new CompositePatternMapper($patterns))->createPatterns());
+    }
+
+    public function format(string $pattern, array $tokens, string $flags = ''): PatternInterface
+    {
+        return $this->build(new FormatParser($pattern, $tokens), $flags);
     }
 
     private function build(Parser $parser, string $flags = ''): PatternInterface
