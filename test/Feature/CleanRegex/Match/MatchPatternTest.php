@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
@@ -13,6 +14,8 @@ use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 class MatchPatternTest extends TestCase
 {
+    use AssertsSameMatches;
+
     /**
      * @test
      */
@@ -552,7 +555,7 @@ class MatchPatternTest extends TestCase
             'cm' => ['12cm', '13cm', '19cm'],
             'mm' => ['14mm', '18mm', '2mm']
         ];
-        $this->assertEquals($expected, $result);
+        $this->assertSameMatches($expected, $result);
     }
 
     /**

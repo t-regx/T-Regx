@@ -2,15 +2,15 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\group;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\NoSuchNthElementException;
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class MatchPatternTest extends TestCase
 {
+    use AssertsSameMatches;
+
     /**
      * @test
      */
@@ -208,7 +208,7 @@ class MatchPatternTest extends TestCase
             ->all();
 
         // then
-        $this->assertEquals(['mm', 'm', 'cm'], $groups);
+        $this->assertSameMatches(['mm', 'm', 'cm'], $groups);
     }
 
     /**

@@ -2,6 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\Replace\Callback;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsSameMatches;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Subject;
@@ -11,6 +12,8 @@ use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 
 class ReplacePatternCallbackInvokerTest extends TestCase
 {
+    use AssertsSameMatches;
+
     /**
      * @test
      */
@@ -69,7 +72,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $invoker->invoke($callback, new MatchStrategy());
 
         // then
-        $this->assertEquals(['192', '168', '17'], $values);
+        $this->assertSameMatches(['192', '168', '17'], $values);
     }
 
     /**
