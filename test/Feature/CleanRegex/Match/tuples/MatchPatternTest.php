@@ -105,10 +105,10 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get a tuple of groups #0 and #0 from the first match, but subject was not matched at all");
+        $this->expectExceptionMessage("Expected to get a tuple of groups #2 and #3 from the first match, but subject was not matched at all");
 
         // then
-        pattern('Foo')->match('Bar')->tuple(0, 0);
+        pattern('(F)(o)(o)')->match('Bar')->tuple(2, 3);
     }
 
     /**
@@ -118,17 +118,17 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get a triple of groups #0, #0 and #0 from the first match, but subject was not matched at all");
+        $this->expectExceptionMessage("Expected to get a triple of groups #0, #1 and #2 from the first match, but subject was not matched at all");
 
         // then
-        pattern('Foo')->match('Bar')->triple(0, 0, 0);
+        pattern('(F)(o)(o)')->match('Bar')->triple(0, 1, 2);
     }
 
     /**
      * @test
      * @dataProvider tupleGroups
-     * @param int $group1
-     * @param int $group2
+     * @param int|string $group1
+     * @param int|string $group2
      */
     public function shouldThrow_tuple_onMissingGroup($group1, $group2)
     {
@@ -151,9 +151,9 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      * @dataProvider tripleGroups
-     * @param int $group1
-     * @param int $group2
-     * @param int $group3
+     * @param int|string $group1
+     * @param int|string $group2
+     * @param int|string $group3
      */
     public function shouldThrow_triple_onMissingGroup($group1, $group2, $group3)
     {

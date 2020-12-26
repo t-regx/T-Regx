@@ -22,6 +22,6 @@ class FirstTripleSubjectMessage implements NotMatchedMessage
 
     public function getMessage(): string
     {
-        return "Expected to get a triple of groups $this->group1, $this->group2 and $this->group2 from the first match, but subject was not matched at all";
+        return "Expected to get a triple of groups $this->group1, $this->group2 and $this->group3 from the first match, but subject was not matched at all";
     }
 }
