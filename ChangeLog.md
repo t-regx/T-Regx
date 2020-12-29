@@ -8,6 +8,9 @@ Incoming in 0.9.14
     * Rename `DetailGroup.replace()` to `DetailGroup.substitute()`
     * Rename `match().groupBy().texts()` to `match().groupBy().all()`
 
+* Bug fixes
+    * Fixed a security bug in `Pattern::bind()`
+
 * Features
     * Add `Detail.textByteLength()` #88
     * Add `DetailGroup.textByteLength()` #88
@@ -16,12 +19,13 @@ Incoming in 0.9.14
     * Add `match()->fluent()->flatMapAssoc()` #88
     * Add `match()->groupBy()->flatMapAssoc()` #88
 
-     Otherwise identical to `flatMap()`, but since `flatMapAssoc()` doesn't use
-     [`array_merge()`], the `integer` keys won't be reindexed - returning an integer
-     key from a `flatMapAssoc()`. If a given key was already returned previously, the
-     later value will be preserved. It's useful for associative arrays with `integer` keys.
-     For sequential arrays (or arrays with `string` keys), feel free to use `flatMap()`.
-    * Add `match()->groupByCallback()` (previously only `match()->fluent()->groupByCallback()`) #80
+      Otherwise identical to `flatMap()`, but since `flatMapAssoc()` doesn't use
+      [`array_merge()`], the `integer` keys won't be reindexed - returning an integer
+      key from a `flatMapAssoc()`. If a given key was already returned previously, the
+      later value will be preserved. It's useful for associative arrays with `integer` keys.
+      For sequential arrays (or arrays with `string` keys), feel free to use `flatMap()`.
+
+    * Add `match()->groupByCallback()` (previously only `match()->fluent()->groupByCallback()` and `match()->groupBy()`) #80
     * Add `match()->nth()` (previously only `match()->fluent()->nth()`) #80
 
 Added in 0.9.13
@@ -472,6 +476,7 @@ Available in 0.9.0
 [`preg_match()`]: https://www.php.net/manual/en/function.preg-match.php
 [`preg_match_all()`]: https://www.php.net/manual/en/function.preg-match-all.php
 [`preg_last_error()`]: https://www.php.net/manual/en/function.preg-last-error.php
+[`array_merge()`]: https://www.php.net/manual/en/function.array-merge.php
 [`InvalidArgumentException`]: https://www.php.net/manual/en/class.invalidargumentexception.php
 [`\InvalidArgumentException`]: https://www.php.net/manual/en/class.invalidargumentexception.php
 [Prepared patterns]: https://t-regx.com/docs/handling-user-input

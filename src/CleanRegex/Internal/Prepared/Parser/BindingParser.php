@@ -27,27 +27,29 @@ class BindingParser implements Parser
     public function parse(string $delimiter, QuotableFactory $quotableFactory): Quoteable
     {
         $this->iteratedPlaceholders = [];
-        $result = \preg_replace_callback($this->getPlaceholderPatterns(), $this->getCallback($delimiter, $quotableFactory), $this->input);
+        $result = $this->replacePlaceholder($delimiter, $quotableFactory);
         $this->validatePotentiallyUnusedLabels();
         $this->validateDuplicateLabels();
         return new RawQuoteable($result);
     }
 
-    private function getPlaceholderPatterns(): array
+    public function replacePlaceholder(string $delimiter, QuotableFactory $quotableFactory): string
     {
-        return ['/@([a-zA-Z0-9_]+)/', '/`([a-zA-Z0-9_]+)`/'];
+        return \preg_replace_callback(
+            '/(?:@(?<label>[a-zA-Z0-9_]+)|`(?<label>[a-zA-Z0-9_]+)`)/J',
+            function (array $match) use ($delimiter, $quotableFactory) {
+                $this->iteratedPlaceholders[] = $match['label'];
+                $value = $this->getValueByLabel($match['label'], $match[0]);
+                return $quotableFactory->quotable($value)->quote($delimiter);
+            },
+            $this->input);
     }
 
-    private function getCallback(string $delimiter, QuotableFactory $quotableFactory): callable
-    {
-        return function (array $match) use ($delimiter, $quotableFactory) {
-            [$placeholder, $label] = $match;
-            $this->iteratedPlaceholders[] = $label;
-            $value = $this->getValueByLabel($label, $placeholder);
-            return $quotableFactory->quotable($value)->quote($delimiter);
-        };
-    }
-
+    /**
+     * @param string $label
+     * @param string $placeholder
+     * @return string|string[]
+     */
     private function getValueByLabel(string $label, string $placeholder)
     {
         if (\array_key_exists($label, $this->values)) {
