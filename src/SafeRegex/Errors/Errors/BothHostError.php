@@ -19,13 +19,13 @@ class BothHostError implements HostError
 
     public function occurred(): bool
     {
-        return $this->compile->occurred() || $this->runtime->occurred();
+        return true;
     }
 
     public function clear(): void
     {
-        $this->compile->occurred() && $this->compile->clear();
-        $this->runtime->occurred() && $this->runtime->clear();
+        $this->compile->clear();
+        $this->runtime->clear();
     }
 
     public function getSafeRegexpException(string $methodName, $pattern): PregException

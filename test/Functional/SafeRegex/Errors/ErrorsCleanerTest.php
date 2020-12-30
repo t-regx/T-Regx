@@ -8,6 +8,7 @@ use TRegx\SafeRegex\Errors\Errors\CompileError;
 use TRegx\SafeRegex\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Errors\Errors\RuntimeError;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
+use TRegx\SafeRegex\Exception\CompilePregException;
 
 class ErrorsCleanerTest extends TestCase
 {
@@ -107,6 +108,30 @@ class ErrorsCleanerTest extends TestCase
         // then
         $this->assertInstanceOf(BothHostError::class, $error);
         $this->assertTrue($error->occurred());
+
+        // cleanup
+        $error->clear();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBothHostErrorGetSafeRegexException()
+    {
+        // given
+        $cleaner = new ErrorsCleaner();
+        $this->causeCompileWarning();
+        $this->causeRuntimeWarning();
+        $error = $cleaner->getError();
+
+        // when
+        $exception = $error->getSafeRegexpException('method_name', '/foo/');
+
+        // then
+        /** @var CompilePregException $exception */
+        $this->assertInstanceOf(CompilePregException::class, $exception);
+        $this->assertSame('method_name', $exception->getInvokingMethod());
+        $this->assertSame('/foo/', $exception->getPregPattern());
 
         // cleanup
         $error->clear();
