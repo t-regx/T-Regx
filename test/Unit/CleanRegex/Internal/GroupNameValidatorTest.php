@@ -81,6 +81,7 @@ class GroupNameValidatorTest extends TestCase
     {
         return [
             ['group'],
+            ['_group'],
             ['GROUP'],
             ['g'],
             ['a123_'],
@@ -89,11 +90,26 @@ class GroupNameValidatorTest extends TestCase
         ];
     }
 
+    /**
+     * @test
+     */
+    public function shouldNotLetFuckedUpPhpRuinGroupValidation(): void
+    {
+        // given
+        setlocale(LC_CTYPE, "pl");
+        $validator = new GroupNameValidator('grópa');
+
+        // when
+        $valid = $validator->isGroupValid();
+
+        // then
+        $this->assertFalse($valid, 'Failed asserting that group validator ignores locale');
+    }
+
     public function invalidGroup(): array
     {
         return [
             ['9group', "Group name must be an alphanumeric string starting with a letter, given: '9group'"],
-            ['_group', "Group name must be an alphanumeric string starting with a letter, given: '_group'"],
             ['group space', "Group name must be an alphanumeric string starting with a letter, given: 'group space'"],
             [-15, 'Group index must be a non-negative integer, given: -15'],
             [2.23, 'Group index must be an integer or a string, given: double (2.23)'],
