@@ -79,4 +79,36 @@ class MatchPatternTest extends TestCase
             ->fluent()
             ->first();
     }
+
+    /**
+     * @test
+     */
+    public function shouldValidateGroupName()
+    {
+        // given
+        $detail = $this->detail();
+
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string starting with a letter, given: '!@#'");
+
+        // when
+        $detail->usingDuplicateName()->group('!@#');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotAcceptIntegerGroups()
+    {
+        // given
+        $detail = $this->detail();
+
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string starting with a letter, given: '2'");
+
+        // when
+        $detail->usingDuplicateName()->group(2);
+    }
 }
