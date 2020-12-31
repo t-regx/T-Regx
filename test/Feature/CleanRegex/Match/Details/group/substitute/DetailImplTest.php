@@ -12,7 +12,7 @@ class DetailImplTest extends TestCase
     public function shouldReplaceGroup()
     {
         // given
-        $result = pattern('https?://(?<domain>[\w.]+)/users')
+        $result = pattern('https?://(?<domain>[a-z.]+)/users')
             ->match('Link: http://facebook.com/users and https://google.com/users guys')
             ->map(function (Detail $detail) {
                 // when
@@ -29,7 +29,7 @@ class DetailImplTest extends TestCase
     public function shouldReplaceEmpty()
     {
         // given
-        $result = pattern('https?://(?<domain>([\w.]+)?)/users')
+        $result = pattern('https?://(?<domain>)/users')
             ->match('Link: http:///users')
             ->first(function (Detail $detail) {
                 // when

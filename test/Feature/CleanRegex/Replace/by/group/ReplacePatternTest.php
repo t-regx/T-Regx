@@ -100,19 +100,19 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      * @dataProvider shouldNotReplaceGroups
-     * @param string|int $nameOrIndex
+     * @param string|int $group
      * @param string $method
      * @param array $arguments
      * @param string $expected
      */
-    public function shouldNotReplace($nameOrIndex, string $method, array $arguments, string $expected)
+    public function shouldNotReplace($group, string $method, array $arguments, string $expected)
     {
         // when
-        $result = pattern('https?://(?<name>\w+)?\.com')
+        $result = pattern('https?://(?<name>NotMatched)?\.com')
             ->replace('Links: https://.com,http://.com.')
             ->all()
             ->by()
-            ->group($nameOrIndex)
+            ->group($group)
             ->$method(...$arguments);
 
         // then
@@ -147,7 +147,7 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Expected to replace with group $group, but the group was not matched");
 
         // when
-        pattern('https?://(?<name>\w+)?\.com')
+        pattern('https?://(?<name>NotMatched)?\.com')
             ->replace('Links: https://.com,http://.com.')
             ->all()
             ->by()
@@ -226,7 +226,7 @@ class ReplacePatternTest extends TestCase
     public function shouldReplace_indexed()
     {
         // when
-        $result = pattern('https?://(\w+)\.com')
+        $result = pattern('https?://(google|facebook)\.com')
             ->replace('Links: https://google.com and http://facebook.com')
             ->all()
             ->by()
@@ -246,7 +246,7 @@ class ReplacePatternTest extends TestCase
         $subject = 'Links: https://google.com and http://facebook.com';
 
         // when
-        $result = pattern('https?://(\w+)\.com')->replace($subject)->all()->by()->group(0)->orElseThrow();
+        $result = pattern('https?://(google|facebook)\.com')->replace($subject)->all()->by()->group(0)->orElseThrow();
 
         // then
         $this->assertSame($subject, $result);
@@ -258,7 +258,7 @@ class ReplacePatternTest extends TestCase
     public function shouldReplace_named()
     {
         // when
-        $result = pattern('https?://(?<domain>\w+)\.com')
+        $result = pattern('https?://(?<domain>google|facebook)\.com')
             ->replace('Links: https://google.com and http://facebook.com')
             ->all()
             ->by()
@@ -315,12 +315,7 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '2group'");
 
         // when
-        pattern('')
-            ->replace('')
-            ->all()
-            ->by()
-            ->group('2group')
-            ->orElseWith('');
+        pattern('')->replace('')->all()->by()->group('2group')->orElseWith('');
     }
 
     /**
@@ -336,7 +331,7 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Nonexistent group: $group");
 
         // when
-        pattern('https?://(\w+)\.com')
+        pattern('https?://(google|facebook)\.com')
             ->replace('Links: https://google.com and http://facebook.com')
             ->all()
             ->by()
@@ -362,7 +357,7 @@ class ReplacePatternTest extends TestCase
         $this->expectExceptionMessage("Expected to replace with group #1, but the group was not matched");
 
         // when
-        pattern('(https?)?://(\w+)\.com')
+        pattern('(https?)?://(google|facebook)\.com')
             ->replace('Links: https://google.com and ://facebook.com')
             ->all()
             ->by()

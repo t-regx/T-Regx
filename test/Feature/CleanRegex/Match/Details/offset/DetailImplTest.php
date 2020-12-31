@@ -12,7 +12,7 @@ class DetailImplTest extends TestCase
     public function shouldGetOffset_first()
     {
         // when
-        pattern('\w{4,}')
+        pattern('Tomek')
             ->match('€€€€, Tomek')
             ->first(function (Detail $detail) {
                 // when
@@ -31,7 +31,7 @@ class DetailImplTest extends TestCase
     public function shouldGetOffset_forEach()
     {
         // when
-        pattern('\w{4,}')
+        pattern('(Tomek|Kamil)')
             ->match('€€€€, Tomek i Kamil')
             ->forEach(function (Detail $detail) {
                 if ($detail->index() !== 1) return;

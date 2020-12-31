@@ -226,7 +226,7 @@ class FilteredMatchPatternTest extends TestCase
     public function shouldChain_filter()
     {
         // given
-        $pattern = '\w+';
+        $pattern = '[a-z]+';
         $subject = '...you forgot one very important thing mate.';
 
         // when
@@ -253,7 +253,7 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $invokedFor = [];
-        $pattern = $this->matchPattern('\w+', 'One two three four five six', function (Detail $detail) use (&$invokedFor) {
+        $pattern = $this->matchPattern('(one|two|three|four|five|six)', 'one two three four five six', function (Detail $detail) use (&$invokedFor) {
             $invokedFor[] = $detail->text();
             return $detail->text() === 'four';
         });
@@ -263,7 +263,7 @@ class FilteredMatchPatternTest extends TestCase
 
         // then
         $this->assertSame('four', $first);
-        $this->assertSame(['One', 'two', 'three', 'four'], $invokedFor);
+        $this->assertSame(['one', 'two', 'three', 'four'], $invokedFor);
     }
 
     /**
@@ -273,7 +273,7 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $invokedFor = [];
-        $pattern = $this->matchPattern('\w+', 'One two three four five six', function (Detail $detail) use (&$invokedFor) {
+        $pattern = $this->matchPattern('(one|two|three|four|five|six)', 'one two three four five six', function (Detail $detail) use (&$invokedFor) {
             $invokedFor[] = $detail->text();
             return $detail->text() === 'four';
         });
@@ -283,7 +283,7 @@ class FilteredMatchPatternTest extends TestCase
 
         // then
         $this->assertSame(['four'], $all);
-        $this->assertSame(['One', 'two', 'three', 'four', 'five', 'six'], $invokedFor);
+        $this->assertSame(['one', 'two', 'three', 'four', 'five', 'six'], $invokedFor);
     }
 
     /**

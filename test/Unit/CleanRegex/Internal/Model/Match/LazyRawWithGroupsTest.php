@@ -42,6 +42,10 @@ class LazyRawWithGroupsTest extends TestCase
 
     private function base(): Base
     {
-        return new ApiBase(InternalPattern::standard("((\w+\w+)+3)"), '  123 aaaaaaaaaaaaaaaaaaaa 3', new UserData());
+        /*
+         * This is supposed to cause catastrophic backtracking when used with preg_match_all(),
+         * but find `123`, when used with preg_match()
+         */
+        return new ApiBase(InternalPattern::standard("(([a\d]+[a\d]+)+3)"), '  123 aaaaaaaaaaaaaaaaaaaa 3', new UserData());
     }
 }

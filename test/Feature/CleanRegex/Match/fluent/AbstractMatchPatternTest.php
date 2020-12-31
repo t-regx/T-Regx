@@ -16,7 +16,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluent()
     {
         // when
-        $result = pattern("(?<capital>[A-Z])?[\w']+")
+        $result = pattern("(?<capital>[A-Z])?[a-zA-Z']+")
             ->match("I'm rather old, He likes Apples")
             ->fluent()
             ->filter(function (Detail $detail) {
@@ -43,7 +43,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluent_filterNth()
     {
         // when
-        $result = pattern("\w+")
+        $result = pattern("(Lorem|ipsum|dolor|emet)")
             ->match("Lorem ipsum dolor emet")
             ->fluent()
             ->filter(function (Detail $detail) {
@@ -64,7 +64,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluent_passUserData()
     {
         // given
-        pattern("\w+")
+        pattern("(Foo|Bar)")
             ->match("Foo, Bar")
             ->fluent()
             ->filter(function (Detail $detail) {
@@ -87,7 +87,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluent_findFirst()
     {
         // when
-        pattern("(?<capital>[A-Z])?[\w']+")
+        pattern("(?<capital>[A-Z])?[a-z']+")
             ->match("I'm rather old, He likes Apples")
             ->fluent()
             ->filter(function (Detail $detail) {
@@ -109,11 +109,7 @@ class AbstractMatchPatternTest extends TestCase
         $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed is empty");
 
         // when
-        pattern("Foo")
-            ->match("Bar")
-            ->fluent()
-            ->findFirst(Functions::fail())
-            ->orThrow();
+        pattern("Foo")->match("Bar")->fluent()->findFirst(Functions::fail())->orThrow();
     }
 
     /**

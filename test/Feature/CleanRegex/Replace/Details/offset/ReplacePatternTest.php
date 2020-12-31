@@ -12,7 +12,7 @@ class ReplacePatternTest extends TestCase
     public function shouldGetOffset_first()
     {
         // when
-        pattern('\w{4,}')
+        pattern('Tomek')
             ->replace('€€€€, Tomek')
             ->first()
             ->callback(function (Detail $detail) {
@@ -35,7 +35,7 @@ class ReplacePatternTest extends TestCase
     public function shouldGetOffset_forEach()
     {
         // when
-        pattern('\w{4,}')
+        pattern('(Tomek|Kamil)')
             ->replace('€€€€, Tomek i Kamil')
             ->all()
             ->callback(function (Detail $detail) {

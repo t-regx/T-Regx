@@ -12,12 +12,10 @@ class DetailImplTest extends TestCase
     public function shouldBeInt()
     {
         // given
-        $result = pattern('(?<name>-?\w+)')
-            ->match('11')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->isInt();
-            });
+        $result = pattern('(?<name>\d+)')->match('11')->first(function (Detail $detail) {
+            // when
+            return $detail->isInt();
+        });
 
         // then
         $this->assertTrue($result);
@@ -29,12 +27,10 @@ class DetailImplTest extends TestCase
     public function shouldPseudoInteger_notBeInt_becausePhpSucks()
     {
         // given
-        $result = pattern('(.*)', 's')
-            ->match('1e3')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->isInt();
-            });
+        $result = pattern('(.*)', 's')->match('1e3')->first(function (Detail $detail) {
+            // when
+            return $detail->isInt();
+        });
 
         // then
         $this->assertFalse($result);
@@ -46,14 +42,12 @@ class DetailImplTest extends TestCase
     public function shouldNotBeInteger()
     {
         // given
-        pattern('(?<name>\w+)')
-            ->match('Foo bar')
-            ->first(function (Detail $detail) {
-                // when
-                $result = $detail->isInt();
+        pattern('(?<name>Foo)')->match('Foo')->first(function (Detail $detail) {
+            // when
+            $result = $detail->isInt();
 
-                // then
-                $this->assertFalse($result);
-            });
+            // then
+            $this->assertFalse($result);
+        });
     }
 }

@@ -30,23 +30,19 @@ class ReplacePatternTest extends TestCase
 
     /**
      * @test
-     * @happyPath
      */
     public function shouldReplace_byVariableCallback()
     {
-        // given
-        $subject = 'My_word';
-
         // when
-        $result = pattern('(?<group>\w+)')
-            ->replace($subject)
+        $result = pattern('(?<group>My_word)')
+            ->replace('Word is: My_word')
             ->first()
             ->by()
             ->group('group')
             ->callback('base64_encode');
 
         // then
-        $this->assertSame('TXlfd29yZA==', $result);
+        $this->assertSame('Word is: TXlfd29yZA==', $result);
     }
 
     /**

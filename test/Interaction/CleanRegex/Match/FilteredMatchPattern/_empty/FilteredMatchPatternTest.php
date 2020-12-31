@@ -335,7 +335,7 @@ class FilteredMatchPatternTest extends TestCase
         $predicate = function (Detail $detail) {
             return $detail->text() != 'forgot';
         };
-        $pattern = new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(InternalPattern::pcre('/\w+/'), $subject, new UserData()), new Predicate($predicate)));
+        $pattern = new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(InternalPattern::pcre('/[a-z]+/'), $subject, new UserData()), new Predicate($predicate)));
 
         // when
         $filtered = $pattern

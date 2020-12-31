@@ -13,7 +13,7 @@ class DetailImplTest extends TestCase
     public function shouldBeInt()
     {
         // given
-        $result = pattern('(?<name>-?\w+)')
+        $result = pattern('(?<name>\d+)')
             ->match('11')
             ->first(function (Detail $detail) {
                 // when
@@ -30,7 +30,7 @@ class DetailImplTest extends TestCase
     public function shouldPseudoInteger_notBeInt_becausePhpSucks()
     {
         // given
-        $result = pattern('(.*)', 's')
+        $result = pattern('(1e3)')
             ->match('1e3')
             ->first(function (Detail $detail) {
                 // when
@@ -81,7 +81,7 @@ class DetailImplTest extends TestCase
     public function shouldNotBeInteger_byName()
     {
         // given
-        pattern('(?<name>\w+)')
+        pattern('(?<name>Foo)')
             ->match('Foo bar')
             ->first(function (Detail $detail) {
                 // when
@@ -98,7 +98,7 @@ class DetailImplTest extends TestCase
     public function shouldNotBeInteger_byIndex()
     {
         // given
-        pattern('(?<name>\w+)')
+        pattern('(?<name>Foo)')
             ->match('Foo bar')
             ->first(function (Detail $detail) {
                 // when
@@ -119,7 +119,7 @@ class DetailImplTest extends TestCase
         $this->expectExceptionMessage("Expected to call isInt() for group 'missing', but the group was not matched");
 
         // given
-        pattern('(?<name>\w+)(?<missing>\d+)?')
+        pattern('(?<name>Foo)(?<missing>\d+)?')
             ->match('Foo bar')
             ->first(function (Detail $detail) {
                 // when

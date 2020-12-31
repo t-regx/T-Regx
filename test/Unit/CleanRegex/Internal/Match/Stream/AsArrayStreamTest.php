@@ -65,7 +65,7 @@ class AsArrayStreamTest extends TestCase
     private function baseStream(): array
     {
         $base = new ApiBase(
-            InternalPattern::standard('\w+:(\d+)?:(?<type>true|false|null)?'),
+            InternalPattern::standard('(?:Foo|Bar|Lorem):(\d+)?:(?<type>true|false|null)?'),
             'Foo::true Bar:13: Lorem:997:',
             new UserData()
         );

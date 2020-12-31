@@ -31,7 +31,7 @@ class GroupFallbackReplacerTest extends TestCase
     public function shouldReplace_usingStrategy(GroupMapper $mapper, string $expected)
     {
         // given
-        $mapReplacer = $this->create('\[(\w+)\]', '[two], [three], [four]');
+        $mapReplacer = $this->create('\[(two|three|four)\]', '[two], [three], [four]');
 
         // when
         $result = $mapReplacer->replaceOrFallback(1, $mapper, new DefaultStrategy());
@@ -68,7 +68,7 @@ class GroupFallbackReplacerTest extends TestCase
     public function shouldReplace_emptyString()
     {
         // given
-        $fallbackReplacer = $this->create('\[(\w*)\]', '[two] [] [four]');
+        $fallbackReplacer = $this->create('\[(two|four|)\]', '[two] [] [four]');
 
         // when
         $result = $fallbackReplacer->replaceOrFallback(1,
@@ -85,7 +85,7 @@ class GroupFallbackReplacerTest extends TestCase
     public function shouldFallback_toStrategy_unmatchedGroup()
     {
         // given
-        $fallbackReplacer = $this->create('\[(\w+)?\]', '[two] [] [four]');
+        $fallbackReplacer = $this->create('\[(two|four)?\]', '[two] [] [four]');
 
         // when
         $result = $fallbackReplacer->replaceOrFallback(1, new NoReplacementMapper(), new ConstantReturnStrategy('fallback'));
@@ -100,7 +100,7 @@ class GroupFallbackReplacerTest extends TestCase
     public function shouldFallback_toDefault()
     {
         // given
-        $fallbackReplacer = $this->create('\[(\w+)\]', '');
+        $fallbackReplacer = $this->create('\[()\]', '');
 
         // when
         $result = $fallbackReplacer->replaceOrFallback(1, new NoReplacementMapper(), new DefaultStrategy());

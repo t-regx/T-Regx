@@ -64,7 +64,7 @@ class LazyDetailImplTest extends TestCase
     public function shouldIndex()
     {
         // given
-        $detail = $this->detailWithIndex('\w+', 'One, two, three', 2);
+        $detail = $this->detailWithIndex('[a-z]+', 'one, two, three', 2);
 
         // when
         $text = $detail->text();
@@ -171,7 +171,7 @@ class LazyDetailImplTest extends TestCase
     public function shouldIsInt_false()
     {
         // given
-        $detail = $this->detail('\w+', '!123e4!');
+        $detail = $this->detail('[1234e]+', '!123e4!');
 
         // when
         $isInt = $detail->isInt();

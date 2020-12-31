@@ -17,7 +17,7 @@ class DetailImplTest extends TestCase
     public function shouldParseInt(string $string, int $expected)
     {
         // given
-        $result = pattern('(?<name>-?\w+)')
+        $result = pattern('(?<name>-?\d+)')
             ->match($string)
             ->first(function (Detail $detail) {
                 // when
@@ -102,7 +102,7 @@ class DetailImplTest extends TestCase
         $this->expectExceptionMessage("Expected to parse group 'name', but 'Foo' is not a valid integer");
 
         // given
-        pattern('(?<name>\w+)')
+        pattern('(?<name>Foo)')
             ->match('Foo bar')
             ->first(function (Detail $detail) {
                 // when
@@ -120,7 +120,7 @@ class DetailImplTest extends TestCase
         $this->expectExceptionMessage("Expected to parse group #1, but 'Foo' is not a valid integer");
 
         // given
-        pattern('(?<name>\w+)')
+        pattern('(?<name>Foo)')
             ->match('Foo bar')
             ->first(function (Detail $detail) {
                 // when
@@ -138,7 +138,7 @@ class DetailImplTest extends TestCase
         $this->expectExceptionMessage("Expected to call toInt() for group 'missing', but the group was not matched");
 
         // given
-        pattern('(?<name>\w+)(?<missing>\d+)?')
+        pattern('(?<name>Foo)(?<missing>\d+)?')
             ->match('Foo bar')
             ->first(function (Detail $detail) {
                 // when

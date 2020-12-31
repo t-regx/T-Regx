@@ -16,7 +16,7 @@ class DetailImplTest extends TestCase
     public function shouldParseInt(string $string, int $expected)
     {
         // given
-        $result = pattern('-?\w+')
+        $result = pattern('-?\d+')
             ->match($string)
             ->first(function (Detail $detail) {
                 // when
@@ -67,7 +67,7 @@ class DetailImplTest extends TestCase
         $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer");
 
         // given
-        pattern('\w+')->match('Foo bar')->first(function (Detail $detail) {
+        pattern('Foo')->match('Foo')->first(function (Detail $detail) {
             // when
             return $detail->toInt();
         });

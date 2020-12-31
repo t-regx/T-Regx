@@ -490,17 +490,17 @@ class MatchPatternTest extends TestCase
     public function shouldGetAllMatches_asArray()
     {
         // given
-        $subject = "Foo:14-16 Bar Lorem:18 Ipsum";
+        $subject = "foo:14-16 bar lorem:18 ipsum";
 
         // when
-        $matches = pattern('\w+(?<number>:\d+)?(-\d+)?')->match($subject)->asArray()->all();
+        $matches = pattern('[a-z]+(?<number>:\d+)?(-\d+)?')->match($subject)->asArray()->all();
 
         // then
         $expected = [
-            ['Foo:14-16', 'number' => ':14', ':14', '-16'],
-            ['Bar', 'number' => null, null, null],
-            ['Lorem:18', 'number' => ':18', ':18', null],
-            ['Ipsum', 'number' => null, null, null],
+            ['foo:14-16', 'number' => ':14', ':14', '-16'],
+            ['bar', 'number' => null, null, null],
+            ['lorem:18', 'number' => ':18', ':18', null],
+            ['ipsum', 'number' => null, null, null],
         ];
         $this->assertSame($expected, $matches);
     }

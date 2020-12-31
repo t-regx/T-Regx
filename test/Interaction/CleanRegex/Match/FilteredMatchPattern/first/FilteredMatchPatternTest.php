@@ -118,10 +118,12 @@ class FilteredMatchPatternTest extends TestCase
     {
         // given
         $invoked = [];
-        $matchPattern = $this->matchPattern('\w+', 'One, two, three, four, five', function (Detail $detail) use (&$invoked) {
-            $invoked[] = $detail->text();
-            return true;
-        });
+        $matchPattern = $this->matchPattern(
+            '(One|two|three|four|five)', 'One, two, three, four, five',
+            function (Detail $detail) use (&$invoked) {
+                $invoked[] = $detail->text();
+                return true;
+            });
 
         // when
         $matchPattern->first();

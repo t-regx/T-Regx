@@ -117,6 +117,6 @@ class AbstractMatchPatternTest extends TestCase
 
     private function match(): MatchPattern
     {
-        return pattern("((\w+\w+)+3)")->match('  123 aaaaaaaaaaaaaaaaaaaa 3');
+        return pattern("(([a\d]+[a\d]+)+3)")->match('  123 aaaaaaaaaaaaaaaaaaaa 3');
     }
 }
