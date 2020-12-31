@@ -90,7 +90,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Group name must be an alphanumeric string starting with a letter, given: '!@#'");
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '!@#'");
 
         // when
         $detail->usingDuplicateName()->group('!@#');
@@ -106,7 +106,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Group name must be an alphanumeric string starting with a letter, given: '2'");
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '2'");
 
         // when
         $detail->usingDuplicateName()->group(2);

@@ -99,7 +99,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Group name must be an alphanumeric string starting with a letter, given: '2invalid'");
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '2invalid'");
 
         // when
         $pattern->group('2invalid')->only(-2);

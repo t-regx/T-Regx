@@ -200,7 +200,7 @@ class DetailImplTest extends TestCase
     {
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Group name must be an alphanumeric string starting with a letter, given: '2sd'");
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '2sd'");
 
         // given
         pattern('(?<one>first) and (?<two>second)')
