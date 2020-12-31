@@ -13,7 +13,7 @@ class ReplacePatternTest extends TestCase
     {
         // when
         pattern('\w{4,}')
-            ->replace('Cześć, Tomek')
+            ->replace('€€€€, Tomek')
             ->first()
             ->callback(function (Detail $detail) {
                 // when
@@ -21,8 +21,8 @@ class ReplacePatternTest extends TestCase
                 $byteOffset = $detail->byteOffset();
 
                 // then
-                $this->assertSame(7, $offset);
-                $this->assertSame(9, $byteOffset);
+                $this->assertSame(6, $offset);
+                $this->assertSame(14, $byteOffset);
 
                 // clean
                 return '';
@@ -36,7 +36,7 @@ class ReplacePatternTest extends TestCase
     {
         // when
         pattern('\w{4,}')
-            ->replace('Cześć, Tomek i Kamil')
+            ->replace('€€€€, Tomek i Kamil')
             ->all()
             ->callback(function (Detail $detail) {
                 if ($detail->index() !== 1) return '';
@@ -46,8 +46,8 @@ class ReplacePatternTest extends TestCase
                 $byteOffset = $detail->byteOffset();
 
                 // then
-                $this->assertSame(15, $offset);
-                $this->assertSame(17, $byteOffset);
+                $this->assertSame(14, $offset);
+                $this->assertSame(22, $byteOffset);
 
                 // clean
                 return '';

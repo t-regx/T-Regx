@@ -13,15 +13,15 @@ class DetailImplTest extends TestCase
     {
         // when
         pattern('\w{4,}')
-            ->match('Cześć, Tomek')
+            ->match('€€€€, Tomek')
             ->first(function (Detail $detail) {
                 // when
                 $offset = $detail->offset();
                 $byteOffset = $detail->byteOffset();
 
                 // then
-                $this->assertSame(7, $offset);
-                $this->assertSame(9, $byteOffset);
+                $this->assertSame(6, $offset);
+                $this->assertSame(14, $byteOffset);
             });
     }
 
@@ -32,7 +32,7 @@ class DetailImplTest extends TestCase
     {
         // when
         pattern('\w{4,}')
-            ->match('Cześć, Tomek i Kamil')
+            ->match('€€€€, Tomek i Kamil')
             ->forEach(function (Detail $detail) {
                 if ($detail->index() !== 1) return;
 
@@ -41,8 +41,8 @@ class DetailImplTest extends TestCase
                 $byteOffset = $detail->byteOffset();
 
                 // then
-                $this->assertSame(15, $offset);
-                $this->assertSame(17, $byteOffset);
+                $this->assertSame(14, $offset);
+                $this->assertSame(22, $byteOffset);
             });
     }
 }
