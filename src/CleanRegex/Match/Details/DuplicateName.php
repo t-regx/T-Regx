@@ -97,9 +97,9 @@ class DuplicateName
         $this->all = $allFactory;
     }
 
-    public function group(string $group): DuplicateNamedGroup
+    public function group(string $groupName): DuplicateNamedGroup
     {
-        $facade = new RuntimeGroupFacade($this->match, $this->subject, $group, $this->factory, $this->all);
-        return new DuplicateNamedGroupAdapter($group, $facade->createGroup($this->match));
+        $facade = new RuntimeGroupFacade($this->match, $this->subject, $groupName, $this->factory, $this->all);
+        return new DuplicateNamedGroupAdapter($groupName, $facade->createGroup($this->match));
     }
 }
