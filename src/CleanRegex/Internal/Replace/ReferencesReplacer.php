@@ -32,7 +32,7 @@ class ReferencesReplacer
                 if (\array_key_exists((int)$key, $groups)) {
                     return $groups[(int)$key];
                 }
-                throw new InternalCleanRegexException();
+                return ''; // preg_replace() dictates a contract, where missing group is represented with an empty string
             }, $subject);
     }
 }

@@ -39,6 +39,10 @@ class ReferencesReplacerTest extends TestCase
             ['/(Bar)/', 'Bar', 'Foo:$1', [1 => 'Bar'], 'Foo:Bar'],
             ['/(Bar)/', 'Bar', 'Foo:${1}', [1 => 'Bar'], 'Foo:Bar'],
 
+            // Missing group
+            ['/(Bar)/', 'Bar', 'Foo:$2', [], 'Foo:'],
+            ['/(Bar)/', 'Bar', '\4', [], ''],
+
             // Two digit
             ["/$l(Bar)/", 'Bar', 'Foo:\11', [11 => 'Bar'], 'Foo:Bar'],
             ["/$l(Bar)/", 'Bar', 'Foo:$11', [11 => 'Bar'], 'Foo:Bar'],
@@ -97,22 +101,10 @@ class ReferencesReplacerTest extends TestCase
      */
     public function shouldInterpretGroupsAsInteger(): void
     {
-        // then
-        $this->expectException(InternalCleanRegexException::class);
-
-        //
-        ReferencesReplacer::replace('\00', ['00' => 'Bar']);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForUnknownGroup(): void
-    {
-        // then
-        $this->expectException(InternalCleanRegexException::class);
-
         // when
-        ReferencesReplacer::replace('\4', ['Bar']);
+        $replaced = ReferencesReplacer::replace('\00', ['00' => 'Bar', '0' => 'Foo']);
+
+        // then
+        $this->assertSame('Foo', $replaced);
     }
 }

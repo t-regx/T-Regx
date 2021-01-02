@@ -10,6 +10,13 @@ Incoming in 0.9.14
 
 * Bug fixes
     * Fixed a security bug in `Pattern::bind()`
+    * Adapted `focus()->withReferences()` so it works exactly as `preg_replace()`.
+
+      Previously, using a nonexistent or unmatched group with `focus()->withReferences()`
+      would throw an exception. But of course, `preg_replace()` references `$1` and `\1`
+      simply are ignored by PCRE, being replaced by an empty string. So, as of this version
+      both `withReferences()` and `focus()->withReferences()` ignore the unmatched
+      or nonexistent group as well.
 
 * Features
     * Add `Detail.textByteLength()` #88
