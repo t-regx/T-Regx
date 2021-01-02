@@ -7,16 +7,6 @@ use TRegx\SafeRegex\preg;
 
 class Pattern
 {
-    public static function quote(string $pattern): string
-    {
-        return preg::quote($pattern);
-    }
-
-    public static function unquote(string $pattern): string
-    {
-        return (new UnquotePattern($pattern))->unquote();
-    }
-
     public static function of(string $pattern, string $flags = ''): PatternInterface
     {
         return new PatternImpl(InternalPattern::standard($pattern, $flags));
@@ -53,5 +43,15 @@ class Pattern
     public static function compose(array $patterns): CompositePattern
     {
         return PatternBuilder::compose($patterns);
+    }
+
+    public static function quote(string $string): string
+    {
+        return preg::quote($string);
+    }
+
+    public static function unquote(string $quotedString): string
+    {
+        return (new UnquotePattern($quotedString))->unquote();
     }
 }
