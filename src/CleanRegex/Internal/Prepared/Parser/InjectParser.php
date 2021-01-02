@@ -23,16 +23,11 @@ class InjectParser implements Parser
     public function parse(string $delimiter, QuotableFactory $quotableFactory): Quoteable
     {
         \reset($this->values);
-        $result = \preg_replace_callback('/@/', $this->callback($delimiter, $quotableFactory), $this->input);
+        $result = \preg_replace_callback('/@/', function () use ($delimiter, $quotableFactory) {
+            return $quotableFactory->quotable($this->getBindValue())->quote($delimiter);
+        }, $this->input);
         $this->validateSuperfluousBindValues();
         return new RawQuoteable($result);
-    }
-
-    private function callback(string $delimiter, QuotableFactory $quotableFactory): callable
-    {
-        return function () use ($delimiter, $quotableFactory) {
-            return $quotableFactory->quotable($this->getBindValue())->quote($delimiter);
-        };
     }
 
     private function getBindValue()
@@ -67,8 +62,7 @@ class InjectParser implements Parser
         if ($key !== null) {
             $value = \current($this->values);
             $valueType = Type::asString($value);
-            $keyType = Type::asString($key);
-            throw new InvalidArgumentException("Superfluous bind value [$keyType => $valueType]");
+            throw new InvalidArgumentException("Superfluous inject value [$key => $valueType]");
         }
     }
 }

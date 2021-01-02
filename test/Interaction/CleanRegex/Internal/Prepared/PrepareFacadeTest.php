@@ -268,7 +268,7 @@ class PrepareFacadeTest extends TestCase
             ],
             [
                 new InjectParser('@', ['input', 'input2']),
-                "Superfluous bind value [integer (1) => string ('input2')]",
+                "Superfluous inject value [1 => string ('input2')]",
             ],
             [
                 new InjectParser('@@@', ['', '', 'foo' => 4]),
