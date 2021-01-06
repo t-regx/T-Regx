@@ -16,7 +16,7 @@ class ReplaceCallbackObjectTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateReplaceMatchObject()
+    public function shouldCreateReplaceDetailObject()
     {
         // given
         $pattern = '/[a-z]+/';

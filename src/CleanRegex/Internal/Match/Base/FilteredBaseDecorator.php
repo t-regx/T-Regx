@@ -63,12 +63,12 @@ class FilteredBaseDecorator implements Base
 
     public function matchAll(): RawMatches
     {
-        return new RawMatches($this->removeOffsets($this->base->matchAllOffsets()->filterMatchesByMatchObjects($this->predicate, $this->getDetailFactory())));
+        return new RawMatches($this->removeOffsets($this->base->matchAllOffsets()->filterMatchesByDetailObjects($this->predicate, $this->getDetailFactory())));
     }
 
     public function matchAllOffsets(): RawMatchesOffset
     {
-        return new RawMatchesOffset($this->base->matchAllOffsets()->filterMatchesByMatchObjects($this->predicate, $this->getDetailFactory()));
+        return new RawMatchesOffset($this->base->matchAllOffsets()->filterMatchesByDetailObjects($this->predicate, $this->getDetailFactory()));
     }
 
     private function removeOffsets(array $filterMatches): array

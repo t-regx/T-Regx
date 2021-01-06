@@ -73,10 +73,10 @@ class ReplaceCallbackObject
 
     private function matchObject()
     {
-        return $this->argumentStrategy->mapArgument($this->createMatchObject());
+        return $this->argumentStrategy->mapArgument($this->createDetailObject());
     }
 
-    private function createMatchObject(): ReplaceDetail
+    private function createDetailObject(): ReplaceDetail
     {
         $index = $this->counter++;
         return new ReplaceMatchImpl(

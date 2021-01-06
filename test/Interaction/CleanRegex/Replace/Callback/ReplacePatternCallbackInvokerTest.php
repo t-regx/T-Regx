@@ -97,7 +97,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateMatchObjectWithSubject()
+    public function shouldCreateDetailObjectWithSubject()
     {
         // given
         $subject = 'Tom Cruise is 21 years old and has 192cm';

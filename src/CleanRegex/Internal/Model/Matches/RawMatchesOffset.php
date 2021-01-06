@@ -186,7 +186,7 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
         }, $this->matches));
     }
 
-    public function filterMatchesByMatchObjects(Predicate $predicate, DetailObjectFactory $factory): array
+    public function filterMatchesByDetailObjects(Predicate $predicate, DetailObjectFactory $factory): array
     {
         $matchObjects = $this->getDetailObjects($factory);
         $filteredMatches = \array_filter($matchObjects, [$predicate, 'test']);
