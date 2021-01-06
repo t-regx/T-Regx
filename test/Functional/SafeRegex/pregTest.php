@@ -63,7 +63,7 @@ class pregTest extends TestCase
 
         // when
         preg::replace_callback('/valid/', function () {
-            $this->causeCompileWarning();
+            $this->causeMalformedPatternWarning();
             return 'maybe';
         }, 'valid');
     }

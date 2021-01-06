@@ -6,6 +6,7 @@ use Test\Utils\Functions;
 use Test\Warnings;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Exception\CompilePregException;
+use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Guard\GuardedInvoker;
 
@@ -52,6 +53,26 @@ class GuardedInvokerTest extends TestCase
     /**
      * @test
      */
+    public function shouldCatchMalformedWarning()
+    {
+        // given
+        $invoker = new GuardedInvoker('preg_match', '/p/', function () {
+            $this->causeMalformedPatternWarning();
+            return 15;
+        });
+
+        // when
+        [$result, $exception] = $invoker->catch();
+
+        // then
+        $this->assertSame(15, $result);
+        $this->assertSame(MalformedPatternException::class, get_class($exception));
+        $this->assertSame("/p/", $exception->getPregPattern());
+    }
+
+    /**
+     * @test
+     */
     public function shouldCatchCompileWarning()
     {
         // given
@@ -65,7 +86,7 @@ class GuardedInvokerTest extends TestCase
 
         // then
         $this->assertSame(15, $result);
-        $this->assertInstanceOf(CompilePregException::class, $exception);
+        $this->assertSame(CompilePregException::class, get_class($exception));
         $this->assertSame("/p/", $exception->getPregPattern());
     }
 
@@ -130,7 +151,7 @@ class GuardedInvokerTest extends TestCase
                 $this->causeRuntimeWarning();
             }],
             [function () {
-                $this->causeCompileWarning();
+                $this->causeMalformedPatternWarning();
             }],
         ];
     }

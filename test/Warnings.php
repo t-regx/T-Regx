@@ -8,8 +8,13 @@ trait Warnings
         @preg_match('/pattern/u', "\xc3\x28");
     }
 
-    public function causeCompileWarning(): void
+    public function causeMalformedPatternWarning(): void
     {
         @preg_match('/unclosed pattern', '');
+    }
+
+    public function causeCompileWarning(): void
+    {
+        @preg_match('/pattern/', []);
     }
 }

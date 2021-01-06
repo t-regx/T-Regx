@@ -42,7 +42,7 @@ class GuardedExecutionTest extends TestCase
 
         // when
         GuardedExecution::invoke('preg_match', '', function () {
-            $this->causeCompileWarning();
+            $this->causeMalformedPatternWarning();
             return false;
         });
     }
@@ -79,7 +79,7 @@ class GuardedExecutionTest extends TestCase
                 $this->causeRuntimeWarning();
             }],
             [function () {
-                $this->causeCompileWarning();
+                $this->causeMalformedPatternWarning();
             }],
         ];
     }
@@ -94,7 +94,7 @@ class GuardedExecutionTest extends TestCase
 
         // when
         $silenced = GuardedExecution::silenced('preg_match', function () {
-            $this->causeCompileWarning();
+            $this->causeMalformedPatternWarning();
         });
 
         $error = $errorsCleaner->getError();
@@ -149,7 +149,7 @@ class GuardedExecutionTest extends TestCase
         // when
         try {
             GuardedExecution::invoke('preg_match', '/compile/', function () {
-                $this->causeCompileWarning();
+                $this->causeMalformedPatternWarning();
                 return false;
             });
         } catch (CompilePregException $exception) {
@@ -157,5 +157,4 @@ class GuardedExecutionTest extends TestCase
             $this->assertSame('/compile/', $exception->getPregPattern());
         }
     }
-
 }

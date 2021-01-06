@@ -46,7 +46,7 @@ class ErrorsCleanerTest extends TestCase
 
         // given
         $cleaner = new ErrorsCleaner();
-        $this->causeCompileWarning();
+        $this->causeMalformedPatternWarning();
 
         // when
         $error = $cleaner->getError();
@@ -71,7 +71,7 @@ class ErrorsCleanerTest extends TestCase
 
         // given
         $cleaner = new ErrorsCleaner();
-        $this->causeCompileWarning();
+        $this->causeMalformedPatternWarning();
 
         // when
         $error = $cleaner->getError();
@@ -99,7 +99,7 @@ class ErrorsCleanerTest extends TestCase
     {
         // given
         $cleaner = new ErrorsCleaner();
-        $this->causeCompileWarning();
+        $this->causeMalformedPatternWarning();
         $this->causeRuntimeWarning();
 
         // when
@@ -120,7 +120,7 @@ class ErrorsCleanerTest extends TestCase
     {
         // given
         $cleaner = new ErrorsCleaner();
-        $this->causeCompileWarning();
+        $this->causeMalformedPatternWarning();
         $this->causeRuntimeWarning();
         $error = $cleaner->getError();
 
@@ -163,7 +163,7 @@ class ErrorsCleanerTest extends TestCase
     {
         // given
         $cleaner = new ErrorsCleaner();
-        $this->causeCompileWarning();
+        $this->causeMalformedPatternWarning();
 
         // when
         $cleaner->clear();
