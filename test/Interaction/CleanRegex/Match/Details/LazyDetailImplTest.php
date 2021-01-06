@@ -38,6 +38,7 @@ class LazyDetailImplTest extends TestCase
             ['textLength', [], 6],
             ['textByteLength', [], 10],
             ['limit', [], 14],
+            ['matched', [0], true],
             ['subject', [], 'Word: word€€ two three'],
             ['all', [], ['word€€', 'two', 'three']],
         ];
