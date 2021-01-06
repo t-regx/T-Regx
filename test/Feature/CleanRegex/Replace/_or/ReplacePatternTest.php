@@ -55,6 +55,23 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldReturn_otherwise_focus_with()
+    {
+        // when
+        $result = pattern('Foo:(\d+)')
+            ->replace('Foo:14')
+            ->first()
+            ->otherwise(Functions::fail())
+            ->focus(1)
+            ->with('replaced');
+
+        // then
+        $this->assertSame('Foo:replaced', $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_otherwise_with_returnNull()
     {
         // then
