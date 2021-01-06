@@ -79,7 +79,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         return new UnmatchedGroupStrategy(
             $this->fallbackReplacer,
             $this->nameOrIndex,
-            new WrappingMapper(new DictionaryMapper($map), $this->middlewareMapper),
+            new IgnoreMessages(new WrappingMapper(new DictionaryMapper($map), $this->middlewareMapper)),
             $this->middlewareMapper);
     }
 
@@ -88,9 +88,9 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         return $this->replaceGroupOptional(new ThrowStrategy($exceptionClassName, new ReplacementWithUnmatchedGroupMessage($this->nameOrIndex)));
     }
 
-    public function orElseWith(string $substitute): string
+    public function orElseWith(string $replacement): string
     {
-        return $this->replaceGroupOptional(new ConstantReturnStrategy($substitute));
+        return $this->replaceGroupOptional(new ConstantReturnStrategy($replacement));
     }
 
     public function orElseIgnore(): string
@@ -114,7 +114,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
     private function replaceGroupOptional(MatchRs $substitute): string
     {
         return $this->fallbackReplacer->replaceOrFallback($this->nameOrIndex,
-            new WrappingMapper(new IdentityMapper(), $this->middlewareMapper),
+            new IgnoreMessages(new WrappingMapper(new IdentityMapper(), $this->middlewareMapper)),
             new WrappingMatchRs($substitute, $this->middlewareMapper)
         );
     }

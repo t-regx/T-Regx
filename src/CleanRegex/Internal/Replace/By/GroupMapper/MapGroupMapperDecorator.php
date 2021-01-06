@@ -25,9 +25,4 @@ class MapGroupMapperDecorator implements GroupMapper
         $mapper = $this->mappingFunction;
         return $mapper($occurrence);
     }
-
-    public function useExceptionValues(string $occurrence, $nameOrIndex, string $match): void
-    {
-        $this->mapper->useExceptionValues($occurrence, $nameOrIndex, $match);
-    }
 }

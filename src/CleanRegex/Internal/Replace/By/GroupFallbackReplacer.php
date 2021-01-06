@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
+use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Subjectable;
@@ -37,7 +37,7 @@ class GroupFallbackReplacer
         $this->base = $base;
     }
 
-    public function replaceOrFallback($nameOrIndex, GroupMapper $mapper, MatchRs $substitute): string
+    public function replaceOrFallback($nameOrIndex, DetailGroupMapper $mapper, MatchRs $substitute): string
     {
         $this->counter = -1;
         return $this->replaceUsingCallback(function (array $match) use ($nameOrIndex, $mapper, $substitute) {
@@ -76,7 +76,7 @@ class GroupFallbackReplacer
         }
     }
 
-    private function getReplacementOrHandle(array $match, $nameOrIndex, GroupMapper $mapper, MatchRs $substitute): string
+    private function getReplacementOrHandle(array $match, $nameOrIndex, DetailGroupMapper $mapper, MatchRs $substitute): string
     {
         $occurrence = $this->occurrence($match, $nameOrIndex);
         $detail = new LazyDetailImpl($this->base, $this->counter, $this->limit);

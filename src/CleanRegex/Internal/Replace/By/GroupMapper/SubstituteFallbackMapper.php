@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForMatchMess
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazySubjectRs;
 use TRegx\CleanRegex\Match\Details\Detail;
 
-class SubstituteFallbackMapper implements GroupMapper
+class SubstituteFallbackMapper implements DetailGroupMapper
 {
     /** @var GroupMapper */
     private $mapper;
@@ -36,6 +36,5 @@ class SubstituteFallbackMapper implements GroupMapper
         $this->substitute->useExceptionMessage($nameOrIndex === 0
             ? new ForMatchMessage($occurrence)
             : new ForGroupMessage($match, $nameOrIndex, $occurrence));
-        $this->mapper->useExceptionValues($occurrence, $nameOrIndex, $match);
     }
 }

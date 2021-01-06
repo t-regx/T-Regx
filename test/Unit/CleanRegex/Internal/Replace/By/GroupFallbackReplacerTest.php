@@ -12,9 +12,6 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
-use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DictionaryMapper;
-use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
-use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\IdentityMapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
@@ -24,42 +21,18 @@ class GroupFallbackReplacerTest extends TestCase
 {
     /**
      * @test
-     * @dataProvider strategies
-     * @param GroupMapper $mapper
-     * @param $expected
      */
-    public function shouldReplace_usingStrategy(GroupMapper $mapper, string $expected)
+    public function shouldReplace_usingStrategy()
     {
         // given
         $mapReplacer = $this->create('\[(two|three|four)\]', '[two], [three], [four]');
+        $mapper = new ComputedMapper(Functions::singleArg('strtoupper'));
 
         // when
         $result = $mapReplacer->replaceOrFallback(1, $mapper, new DefaultStrategy());
 
         // then
-        $this->assertSame($expected, $result);
-    }
-
-    function strategies(): array
-    {
-        return [
-            'computed' => [
-                new ComputedMapper(Functions::singleArg('strlen')),
-                '3, 5, 4'
-            ],
-            'identity' => [
-                new IdentityMapper(),
-                'two, three, four'
-            ],
-            'ignoring' => [
-                new NoReplacementMapper(),
-                '[two], [three], [four]'
-            ],
-            'map'      => [
-                new DictionaryMapper(['two' => 'dwa', 'three' => 'trzy', 'four' => 'cztery']),
-                'dwa, trzy, cztery'
-            ]
-        ];
+        $this->assertSame('TWO, THREE, FOUR', $result);
     }
 
     /**

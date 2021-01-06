@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\by\group\map;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
@@ -186,6 +187,32 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group('capital')
             ->map($map)
+            ->orElseWith('failing');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReplaceByMapAndCallback()
+    {
+        // given
+        $subject = 'Replace One and Two, and maybe Four';
+        $map = [
+            'O' => 'Short',
+            'T' => 'Very long'
+        ];
+
+        // then
+        $this->expectException(MissingReplacementKeyException::class);
+        $this->expectExceptionMessage("Expected to replace value 'Four' by group 'capital' ('F'), but such key is not found in replacement map");
+
+        // when
+        pattern('(?<capital>[OTF])(ne|wo|our)')
+            ->replace($subject)
+            ->all()
+            ->by()
+            ->group('capital')
+            ->mapAndCallback($map, Functions::singleArg('strlen'))
             ->orElseWith('failing');
     }
 

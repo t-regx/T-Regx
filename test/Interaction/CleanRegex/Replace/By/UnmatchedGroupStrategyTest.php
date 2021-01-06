@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
-use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
+use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Subject;
@@ -133,7 +133,7 @@ class UnmatchedGroupStrategyTest extends TestCase
     public function objectUnderTest($subject): UnmatchedGroupStrategy
     {
         return new UnmatchedGroupStrategy($this->replacer($subject), 'group',
-            $this->createMock(GroupMapper::class), new IdentityWrapper());
+            $this->createMock(DetailGroupMapper::class), new IdentityWrapper());
     }
 
     public function replacer(string $subject): GroupFallbackReplacer

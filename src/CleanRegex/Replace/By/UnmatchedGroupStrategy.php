@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Replace\By;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
+use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ComputedMatchStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
@@ -25,7 +26,7 @@ class UnmatchedGroupStrategy implements GroupReplace
     /** @var Wrapper */
     private $middlewareMapper;
 
-    public function __construct(GroupFallbackReplacer $replacer, $nameOrIndex, GroupMapper $mapper, Wrapper $middlewareMapper)
+    public function __construct(GroupFallbackReplacer $replacer, $nameOrIndex, DetailGroupMapper $mapper, Wrapper $middlewareMapper)
     {
         $this->replacer = $replacer;
         $this->nameOrIndex = $nameOrIndex;

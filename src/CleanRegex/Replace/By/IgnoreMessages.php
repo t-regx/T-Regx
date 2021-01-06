@@ -1,22 +1,23 @@
 <?php
-namespace Test\Utils;
+namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
+use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Match\Details\Detail;
 
-class ComputedMapper implements DetailGroupMapper
+class IgnoreMessages implements DetailGroupMapper
 {
-    /** @var callable */
+    /** @var GroupMapper */
     private $mapper;
 
-    public function __construct(callable $mapper)
+    public function __construct(GroupMapper $mapper)
     {
         $this->mapper = $mapper;
     }
 
     public function map(string $occurrence, Detail $initialDetail): ?string
     {
-        return call_user_func($this->mapper, $occurrence, $initialDetail);
+        return $this->mapper->map($occurrence, $initialDetail);
     }
 
     public function useExceptionValues(string $occurrence, $nameOrIndex, string $match): void

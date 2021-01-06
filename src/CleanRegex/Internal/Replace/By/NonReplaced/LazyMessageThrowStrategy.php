@@ -7,7 +7,6 @@ class LazyMessageThrowStrategy implements LazySubjectRs
 {
     /** @var string */
     private $className;
-
     /** @var NotMatchedMessage */
     private $message = null;
 
