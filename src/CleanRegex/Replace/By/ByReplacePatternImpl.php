@@ -55,14 +55,14 @@ class ByReplacePatternImpl implements ByReplacePattern
             $this->wrapper);
     }
 
-    public function map(array $map): string
+    public function map(array $occurrencesAndReplacements): string
     {
-        return $this->replace($map, $this->substitute);
+        return $this->replace($occurrencesAndReplacements, $this->substitute);
     }
 
-    public function mapIfExists(array $map): string
+    public function mapIfExists(array $occurrencesAndReplacements): string
     {
-        return $this->replace($map, new DefaultStrategy());
+        return $this->replace($occurrencesAndReplacements, new DefaultStrategy());
     }
 
     private function replace(array $map, LazySubjectRs $substitute): string

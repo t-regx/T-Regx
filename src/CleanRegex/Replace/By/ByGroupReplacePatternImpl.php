@@ -53,14 +53,14 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         $this->middlewareMapper = $middlewareMapper;
     }
 
-    public function map(array $map): UnmatchedGroupStrategy
+    public function map(array $occurrencesAndReplacements): UnmatchedGroupStrategy
     {
-        return $this->performMap(new DictionaryMapper($map));
+        return $this->performMap(new DictionaryMapper($occurrencesAndReplacements));
     }
 
-    public function mapAndCallback(array $map, callable $mapper): UnmatchedGroupStrategy
+    public function mapAndCallback(array $occurrencesAndReplacements, callable $mapper): UnmatchedGroupStrategy
     {
-        return $this->performMap(new MapGroupMapperDecorator(new DictionaryMapper($map), $mapper));
+        return $this->performMap(new MapGroupMapperDecorator(new DictionaryMapper($occurrencesAndReplacements), $mapper));
     }
 
     private function performMap(GroupMapper $mapper): UnmatchedGroupStrategy
@@ -74,12 +74,12 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         );
     }
 
-    public function mapIfExists(array $map): UnmatchedGroupStrategy
+    public function mapIfExists(array $occurrencesAndReplacements): UnmatchedGroupStrategy
     {
         return new UnmatchedGroupStrategy(
             $this->fallbackReplacer,
             $this->nameOrIndex,
-            new IgnoreMessages(new WrappingMapper(new DictionaryMapper($map), $this->middlewareMapper)),
+            new IgnoreMessages(new WrappingMapper(new DictionaryMapper($occurrencesAndReplacements), $this->middlewareMapper)),
             $this->middlewareMapper);
     }
 
