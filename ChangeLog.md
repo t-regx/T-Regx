@@ -19,7 +19,9 @@ Incoming in 0.9.14
       or nonexistent group as well.
 
 * Features
-    * Add `Pattern::format()` #79
+    * Add pattern formats and pattern templates, a new way of creating pseudo-patterns for user supplied data:
+        * Add `Pattern::format()` #79
+        * Add `Pattern::template()` #79
     * Add `Detail.textByteLength()` #88
     * Add `DetailGroup.textByteLength()` #88
     * Add `match()->flatMapAssoc()` #88

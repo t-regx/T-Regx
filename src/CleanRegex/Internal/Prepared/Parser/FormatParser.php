@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\UserInputQuoteable;
 
 class FormatParser implements Parser
 {
@@ -18,13 +17,13 @@ class FormatParser implements Parser
         $this->tokens = $tokens;
     }
 
-    public function getDelimiterable(): string
-    {
-        return '';
-    }
-
     public function parse(string $delimiter, QuotableFactory $quotableFactory): Quoteable
     {
-        return new UserInputQuoteable($this->pattern);
+        return (new FormatTokenValue($this->pattern, $this->tokens))->formatAsQuotable();
+    }
+
+    public function getDelimiterable(): string
+    {
+        return \implode($this->tokens);
     }
 }

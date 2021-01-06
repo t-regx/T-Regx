@@ -11,17 +11,18 @@ class BindingParser implements Parser
 {
     /** @var string */
     private $input;
-
     /** @var array */
     private $values;
-
     /** @var array */
     private $iteratedPlaceholders;
+    /** @var TokenStrategy */
+    private $strategy;
 
-    public function __construct(string $input, array $values)
+    public function __construct(string $input, array $values, TokenStrategy $strategy)
     {
         $this->input = $input;
         $this->values = $values;
+        $this->strategy = $strategy;
     }
 
     public function parse(string $delimiter, QuotableFactory $quotableFactory): Quoteable
@@ -36,8 +37,11 @@ class BindingParser implements Parser
     public function replacePlaceholder(string $delimiter, QuotableFactory $quotableFactory): string
     {
         return \preg_replace_callback(
-            '/(?:@(?<label>[a-zA-Z0-9_]+)|`(?<label>[a-zA-Z0-9_]+)`)/J',
+            '/(?:@(?<label>[a-zA-Z0-9_]+)|`(?<label>[a-zA-Z0-9_]+)`|&)/J',
             function (array $match) use ($delimiter, $quotableFactory) {
+                if ($match[0] === '&') {
+                    return $this->strategy->nextAsQuotable()->quote($delimiter);
+                }
                 $this->iteratedPlaceholders[] = $match['label'];
                 $value = $this->getValueByLabel($match['label'], $match[0]);
                 return $quotableFactory->quotable($value)->quote($delimiter);

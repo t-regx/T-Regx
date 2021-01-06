@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\IgnoreStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 use TRegx\DataProvider\DataProviders;
@@ -28,8 +29,8 @@ class PrepareFacadeTest extends TestCase
     public function alternation_empty(): array
     {
         return [
-            'bind @'   => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => []])],
-            'inject #' => [new InjectParser('Either @ or @ :)', ['5/6', []])],
+            'bind @'   => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => []], new IgnoreStrategy())],
+            'inject #' => [new InjectParser('Either @ or @ :)', ['5/6', []], new IgnoreStrategy())],
         ];
     }
 
@@ -50,8 +51,8 @@ class PrepareFacadeTest extends TestCase
     public function alternation_triple(): array
     {
         return [
-            'bind @'   => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => ['6/7', '7/8', '8/9']])],
-            'inject #' => [new InjectParser('Either @ or @ :)', ['5/6', ['6/7', '7/8', '8/9']])],
+            'bind @'   => [new BindingParser('Either @one or @two :)', ['one' => '5/6', 'two' => ['6/7', '7/8', '8/9']], new IgnoreStrategy())],
+            'inject #' => [new InjectParser('Either @ or @ :)', ['5/6', ['6/7', '7/8', '8/9']], new IgnoreStrategy())],
         ];
     }
 
@@ -72,8 +73,8 @@ class PrepareFacadeTest extends TestCase
     public function delimiters(): array
     {
         return [
-            'bind @'   => [new BindingParser('Either /# @one :)', ['one' => ['5%']])],
-            'inject #' => [new InjectParser('Either /# @ :)', [['5%']])],
+            'bind @'   => [new BindingParser('Either /# @one :)', ['one' => ['5%']], new IgnoreStrategy())],
+            'inject #' => [new InjectParser('Either /# @ :)', [['5%']], new IgnoreStrategy())],
         ];
     }
 
@@ -98,8 +99,8 @@ class PrepareFacadeTest extends TestCase
     public function invalidInputs_arrays(): array
     {
         return [
-            'bind @'   => [new BindingParser('@a@b@c', ['a' => '', 'b' => '', 'c' => ['', []]])],
-            'inject #' => [new InjectParser('@@@', ['', '', ['', []]])],
+            'bind @'   => [new BindingParser('@a@b@c', ['a' => '', 'b' => '', 'c' => ['', []]], new IgnoreStrategy())],
+            'inject #' => [new InjectParser('@@@', ['', '', ['', []]], new IgnoreStrategy())],
         ];
     }
 
@@ -145,8 +146,8 @@ class PrepareFacadeTest extends TestCase
         $values = ['Foo', 'foo', 'łóżko', 'ŁÓŻKO'];
         return DataProviders::builder()
             ->addSection(
-                new BindingParser('@a', ['a' => $values]),
-                new InjectParser('@', [$values])
+                new BindingParser('@a', ['a' => $values], new IgnoreStrategy()),
+                new InjectParser('@', [$values], new IgnoreStrategy())
             )
             ->addJoinedSection(
                 ['i', 'Foo|łóżko|ŁÓŻKO'],
@@ -162,8 +163,8 @@ class PrepareFacadeTest extends TestCase
     public function invalidInputs_integers(): array
     {
         return [
-            'bind @'   => [new BindingParser('@a@b@c', ['a' => '', 'b' => '', 'c' => ['', 4]])],
-            'inject #' => [new InjectParser('@@@', ['', '', ['', 4]])],
+            'bind @'   => [new BindingParser('@a@b@c', ['a' => '', 'b' => '', 'c' => ['', 4]], new IgnoreStrategy())],
+            'inject #' => [new InjectParser('@@@', ['', '', ['', 4]], new IgnoreStrategy())],
         ];
     }
 }

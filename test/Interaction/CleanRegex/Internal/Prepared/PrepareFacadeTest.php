@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\IgnoreStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
@@ -28,9 +29,9 @@ class PrepareFacadeTest extends TestCase
     public function standard(): array
     {
         return [
-            'bind @'      => [new BindingParser('(I|We) want: @input :)', ['input' => 'User (input)'])],
-            'bind ``'     => [new BindingParser('(I|We) want: `input` :)', ['input' => 'User (input)'])],
-            'inject #'    => [new InjectParser('(I|We) want: @ :)', ['User (input)'])],
+            'bind @'      => [new BindingParser('(I|We) want: @input :)', ['input' => 'User (input)'], new IgnoreStrategy())],
+            'bind ``'     => [new BindingParser('(I|We) want: `input` :)', ['input' => 'User (input)'], new IgnoreStrategy())],
+            'inject #'    => [new InjectParser('(I|We) want: @ :)', ['User (input)'], new IgnoreStrategy())],
             'prepared []' => [new PreparedParser(['(I|We) want: ', ['User (input)'], ' :)'])]
         ];
     }
@@ -52,8 +53,8 @@ class PrepareFacadeTest extends TestCase
     public function empty(): array
     {
         return [
-            'bind @'        => [new BindingParser('', [])],
-            'inject # '     => [new InjectParser('', [])],
+            'bind @'        => [new BindingParser('', [], new IgnoreStrategy())],
+            'inject # '     => [new InjectParser('', [], new IgnoreStrategy())],
             "prepared ''"   => [new PreparedParser([''])],
             "prepared ['']" => [new PreparedParser([['']])],
         ];
@@ -77,12 +78,12 @@ class PrepareFacadeTest extends TestCase
     public function pcre(): array
     {
         return [
-            'bind //'     => [new BindingParser('//', []), '#//#'],
-            'inject //'   => [new InjectParser('//', []), '#//#'],
+            'bind //'     => [new BindingParser('//', [], new IgnoreStrategy()), '#//#'],
+            'inject //'   => [new InjectParser('//', [], new IgnoreStrategy()), '#//#'],
             'prepared //' => [new PreparedParser(['//']), '#//#'],
 
-            'bind //mi'     => [new BindingParser('//mi', []), '#//mi#'],
-            'inject //mi'   => [new InjectParser('//mi', []), '#//mi#'],
+            'bind //mi'     => [new BindingParser('//mi', [], new IgnoreStrategy()), '#//mi#'],
+            'inject //mi'   => [new InjectParser('//mi', [], new IgnoreStrategy()), '#//mi#'],
             'prepared //mi' => [new PreparedParser(['//mi']), '#//mi#'],
         ];
     }
@@ -104,8 +105,8 @@ class PrepareFacadeTest extends TestCase
     public function onlyUserInput(): array
     {
         return [
-            'bind @'      => [new BindingParser('@name', ['name' => '('])],
-            'inject # '   => [new InjectParser('@', ['('])],
+            'bind @'      => [new BindingParser('@name', ['name' => '('], new IgnoreStrategy())],
+            'inject # '   => [new InjectParser('@', ['('], new IgnoreStrategy())],
             'prepared []' => [new PreparedParser([['(']])],
         ];
     }
@@ -127,8 +128,8 @@ class PrepareFacadeTest extends TestCase
     public function delimiters(): array
     {
         return [
-            'bind @'      => [new BindingParser('With delimiters / #@input :D', ['input' => 'Using / delimiters and %'])],
-            'inject #'    => [new InjectParser('With delimiters / #@ :D', ['Using / delimiters and %'])],
+            'bind @'      => [new BindingParser('With delimiters / #@input :D', ['input' => 'Using / delimiters and %'], new IgnoreStrategy())],
+            'inject #'    => [new InjectParser('With delimiters / #@ :D', ['Using / delimiters and %'], new IgnoreStrategy())],
             'prepared []' => [new PreparedParser(['With delimiters / #', ['Using / delimiters and %'], ' :D'])],
         ];
     }
@@ -153,8 +154,8 @@ class PrepareFacadeTest extends TestCase
             'bind @'      => [new BindingParser('(I|We) want: @input@input_2', [
                 'input'   => 'User (input)',
                 'input_2' => 'User (input_2)',
-            ])],
-            'inject #'    => [new InjectParser('(I|We) want: @@', ['User (input)', 'User (input_2)'])],
+            ], new IgnoreStrategy())],
+            'inject #'    => [new InjectParser('(I|We) want: @@', ['User (input)', 'User (input_2)'], new IgnoreStrategy())],
             'prepared []' => [new PreparedParser(['(I|We) want: ', ['User (input)'], ['User (input_2)']])],
         ];
     }
@@ -185,7 +186,7 @@ class PrepareFacadeTest extends TestCase
                 new BindingParser('(I|We) would like to match: @input (and|or) @input2', [
                     'input'  => '@input',
                     'input2' => '@input2',
-                ]),
+                ], new IgnoreStrategy()),
                 '/(I|We) would like to match: @input (and|or) @input2/',
             ],
             [
@@ -193,7 +194,7 @@ class PrepareFacadeTest extends TestCase
                 new BindingParser('(I|We) would like to match: `input` (and|or) `input2`', [
                     'input'  => '`input`',
                     'input2' => '`input2`',
-                ]),
+                ], new IgnoreStrategy()),
                 '/(I|We) would like to match: `input` (and|or) `input2`/',
             ],
             [
@@ -201,7 +202,7 @@ class PrepareFacadeTest extends TestCase
                 new BindingParser('(I|We) would like to match: @input (and|or) @input_2@', [
                     0 => 'input',
                     1 => 'input_2',
-                ]),
+                ], new IgnoreStrategy()),
                 '/(I|We) would like to match: @input (and|or) @input_2@/',
             ]
         ];
@@ -230,52 +231,52 @@ class PrepareFacadeTest extends TestCase
     {
         return [
             [
-                new BindingParser('@placeholder', []),
+                new BindingParser('@placeholder', [], new IgnoreStrategy()),
                 "Could not find a corresponding value for placeholder 'placeholder'",
             ],
             [
-                new BindingParser('@input1 and @input2', ['input1']),
+                new BindingParser('@input1 and @input2', ['input1'], new IgnoreStrategy()),
                 "Could not find a corresponding value for placeholder 'input2'",
             ],
             [
-                new BindingParser('@input', ['input', 'input2']),
+                new BindingParser('@input', ['input', 'input2'], new IgnoreStrategy()),
                 "Could not find a corresponding placeholder for name 'input2'",
             ],
             [
-                new BindingParser('@input', ['input' => 'some value', 0 => 'input']),
+                new BindingParser('@input', ['input' => 'some value', 0 => 'input'], new IgnoreStrategy()),
                 "Name 'input' is used more than once (as a key or as ignored value)",
             ],
             [
-                new BindingParser('@input', ['input' => 4]),
+                new BindingParser('@input', ['input' => 4], new IgnoreStrategy()),
                 "Invalid bound value for name 'input'. Expected string, but integer (4) given",
             ],
             [
-                new BindingParser('well', [0 => 21]),
+                new BindingParser('well', [0 => 21], new IgnoreStrategy()),
                 'Invalid bound parameters. Expected string, but integer (21) given',
             ],
             [
-                new BindingParser('well', ['(asd)' => 21]),
+                new BindingParser('well', ['(asd)' => 21], new IgnoreStrategy()),
                 "Invalid name '(asd)'. Expected a string consisting only of alphanumeric characters and an underscore [a-zA-Z0-9_]",
             ],
 
             [
-                new InjectParser('@', []),
+                new InjectParser('@', [], new IgnoreStrategy()),
                 "Could not find a corresponding value for placeholder #0",
             ],
             [
-                new InjectParser('@ and @', ['input']),
+                new InjectParser('@ and @', ['input'], new IgnoreStrategy()),
                 "Could not find a corresponding value for placeholder #1",
             ],
             [
-                new InjectParser('@', ['input', 'input2']),
+                new InjectParser('@', ['input', 'input2'], new IgnoreStrategy()),
                 "Superfluous inject value [1 => string ('input2')]",
             ],
             [
-                new InjectParser('@@@', ['', '', 'foo' => 4]),
+                new InjectParser('@@@', ['', '', 'foo' => 4], new IgnoreStrategy()),
                 "Invalid inject value for key 'foo'. Expected string, but integer (4) given",
             ],
             [
-                new InjectParser('@', [0 => 21]),
+                new InjectParser('@', [0 => 21], new IgnoreStrategy()),
                 "Invalid inject value for key '0'. Expected string, but integer (21) given",
             ],
 

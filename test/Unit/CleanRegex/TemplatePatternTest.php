@@ -1,0 +1,41 @@
+<?php
+namespace Test\Unit\TRegx\CleanRegex;
+
+use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\TemplateFormatException;
+use TRegx\CleanRegex\TemplatePattern;
+
+class TemplatePatternTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function shouldFormat_throwInsufficient(): void
+    {
+        // given
+        $template = new TemplatePattern('foo:&&', '', false);
+
+        // then
+        $this->expectException(TemplateFormatException::class);
+        $this->expectExceptionMessage('There are 2 & tokens in template, but only 1 builder methods were used');
+
+        // when
+        $template->format('hey', []);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFormat_throwSuperfluous(): void
+    {
+        // given
+        $template = new TemplatePattern('', '', false);
+
+        // then
+        $this->expectException(TemplateFormatException::class);
+        $this->expectExceptionMessage('There are only 0 & tokens in template, but 1 builder methods were used');
+
+        // when
+        $template->format('hey', []);
+    }
+}

@@ -13,17 +13,23 @@ class InjectParser implements Parser
     private $input;
     /** @var array */
     private $values;
+    /** @var TokenStrategy */
+    private $strategy;
 
-    public function __construct(string $input, array $values)
+    public function __construct(string $input, array $values, TokenStrategy $strategy)
     {
         $this->input = $input;
         $this->values = $values;
+        $this->strategy = $strategy;
     }
 
     public function parse(string $delimiter, QuotableFactory $quotableFactory): Quoteable
     {
         \reset($this->values);
-        $result = \preg_replace_callback('/@/', function () use ($delimiter, $quotableFactory) {
+        $result = \preg_replace_callback('/[@&]/', function (array $values) use ($delimiter, $quotableFactory) {
+            if ($values[0] === '&') {
+                return $this->strategy->nextAsQuotable()->quote($delimiter);
+            }
             return $quotableFactory->quotable($this->getBindValue())->quote($delimiter);
         }, $this->input);
         $this->validateSuperfluousBindValues();

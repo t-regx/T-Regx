@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Quoteable;
 
 use InvalidArgumentException;
+use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\Alternator;
 use TRegx\CleanRegex\Internal\Type;
 
 class AlternationQuotable implements Quoteable
@@ -19,14 +20,7 @@ class AlternationQuotable implements Quoteable
 
     public function quote(string $delimiter): string
     {
-        return '(?:' . \implode('|', $this->getQuoted($delimiter)) . ')';
-    }
-
-    private function getQuoted(string $delimiter): array
-    {
-        return \array_map(static function (string $quotable) use ($delimiter) {
-            return (new UserInputQuoteable($quotable))->quote($delimiter);
-        }, $this->normalizedUserInput());
+        return Alternator::quote($this->normalizedUserInput(), $delimiter);
     }
 
     private function normalizedUserInput(): array

@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\IgnoreStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\AlterationFactory;
 
 class BindingParserTest extends TestCase
@@ -13,7 +14,7 @@ class BindingParserTest extends TestCase
     public function shouldGetDelimiterable(): void
     {
         // given
-        $parser = new BindingParser('input', ['foo' => 'bar']);
+        $parser = new BindingParser('input', ['foo' => 'bar'], new IgnoreStrategy());
 
         // when
         $delimiterable = $parser->getDelimiterable();
@@ -28,7 +29,7 @@ class BindingParserTest extends TestCase
     public function shouldParseWithoutReiterating(): void
     {
         // given
-        $parser = new BindingParser('string @foo', ['foo' => '@foo `foo` `foo`']);
+        $parser = new BindingParser('string @foo', ['foo' => '@foo `foo` `foo`'], new IgnoreStrategy());
 
         // when
         $result = $parser->parse('/', new AlterationFactory(''));

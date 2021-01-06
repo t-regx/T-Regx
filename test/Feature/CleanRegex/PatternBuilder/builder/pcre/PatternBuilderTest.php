@@ -54,4 +54,55 @@ class PatternBuilderTest extends TestCase
         // then
         $this->assertSame('%You/her, (are|is) real\?\ \%\ \(or\ are\ you\ not\ real\?\) (you|her)%', $pattern);
     }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_formatting()
+    {
+        // given
+        $pattern = PatternBuilder::builder()->pcre()->template('%You/her, & (her)%', 's')
+            ->formatting('%s', ['%s' => '\s'])
+            ->build();
+
+        // when
+        $pattern = $pattern->delimited();
+
+        // then
+        $this->assertSame('%You/her, \s (her)%s', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_literal()
+    {
+        // given
+        $pattern = PatternBuilder::builder()
+            ->pcre()
+            ->template('%You/her, & (her)%', 's')
+            ->literal()
+            ->build();
+
+        // when
+        $pattern = $pattern->delimited();
+
+        // then
+        $this->assertSame('%You/her, & (her)%s', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_format()
+    {
+        // given
+        $pattern = PatternBuilder::builder()->pcre()->template('%You/her, & (her)%', 's')->format('%s', ['%s' => '\s']);
+
+        // when
+        $pattern = $pattern->delimited();
+
+        // then
+        $this->assertSame('%You/her, \s (her)%s', $pattern);
+    }
 }

@@ -7,6 +7,8 @@ use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\PcreCallbackStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\AlterationFactory;
+use TRegx\CleanRegex\Pattern;
+use TRegx\CleanRegex\PatternInterface;
 
 class PrepareFacade
 {
@@ -38,5 +40,10 @@ class PrepareFacade
             return new PcreCallbackStrategy($patternProducer);
         }
         return new CallbackStrategy($patternProducer);
+    }
+
+    public static function build(Parser $parser, bool $pcre, string $flags): PatternInterface
+    {
+        return Pattern::pcre((new PrepareFacade($parser, $pcre, $flags))->getPattern() . $flags);
     }
 }

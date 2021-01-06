@@ -4,8 +4,8 @@ namespace TRegx\CleanRegex;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\FormatParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\IgnoreStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 
@@ -37,7 +37,7 @@ class PatternBuilder
      */
     public function bind(string $input, array $values, string $flags = ''): PatternInterface
     {
-        return $this->build(new BindingParser($input, $values), $flags);
+        return PrepareFacade::build(new BindingParser($input, $values, new IgnoreStrategy()), $this->pcre, $flags);
     }
 
     /**
@@ -48,7 +48,7 @@ class PatternBuilder
      */
     public function inject(string $input, array $values, string $flags = ''): PatternInterface
     {
-        return $this->build(new InjectParser($input, $values), $flags);
+        return PrepareFacade::build(new InjectParser($input, $values, new IgnoreStrategy()), $this->pcre, $flags);
     }
 
     /**
@@ -58,7 +58,7 @@ class PatternBuilder
      */
     public function prepare(array $input, string $flags = ''): PatternInterface
     {
-        return $this->build(new PreparedParser($input), $flags);
+        return PrepareFacade::build(new PreparedParser($input), $this->pcre, $flags);
     }
 
     /**
@@ -72,11 +72,11 @@ class PatternBuilder
 
     public function format(string $pattern, array $tokens, string $flags = ''): PatternInterface
     {
-        return $this->build(new FormatParser($pattern, $tokens), $flags);
+        return PrepareFacade::build(new FormatParser($pattern, $tokens), $this->pcre, $flags);
     }
 
-    private function build(Parser $parser, string $flags = ''): PatternInterface
+    public function template(string $pattern, string $flags = ''): TemplatePattern
     {
-        return Pattern::pcre((new PrepareFacade($parser, $this->pcre, $flags))->getPattern() . $flags);
+        return new TemplatePattern($pattern, $flags, $this->pcre);
     }
 }
