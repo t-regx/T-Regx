@@ -3,6 +3,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Replace\By;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
@@ -13,7 +14,6 @@ use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
 use TRegx\CleanRegex\Replace\By\UnmatchedGroupStrategy;
 
 class UnmatchedGroupStrategyTest extends TestCase
@@ -122,9 +122,7 @@ class UnmatchedGroupStrategyTest extends TestCase
         $strategy = $this->objectUnderTest('length: 14!');
 
         // when
-        $result = $strategy->orElseCalling(function (LazyDetailImpl $match) {
-            return 'called';
-        });
+        $result = $strategy->orElseCalling(Functions::constant('called'));
 
         // then
         $this->assertSame('length: called!', $result);

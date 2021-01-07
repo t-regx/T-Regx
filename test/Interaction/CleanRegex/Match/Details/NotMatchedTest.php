@@ -32,6 +32,10 @@ class NotMatchedTest extends TestCase
         $this->expectExceptionMessage('Object of class TRegx\CleanRegex\Match\Details\NotMatched could not be converted to string');
 
         // when
+        /**
+         * @noinspection PhpToStringImplementationInspection
+         * Obviously method __toString is not implemented, because the tests it is not.
+         */
         $string = (string)$notMatched;
 
         // post

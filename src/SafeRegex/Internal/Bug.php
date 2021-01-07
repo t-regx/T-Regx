@@ -24,15 +24,10 @@ class Bug
         return \array_map([Bug::class, 'map'], $pattern);
     }
 
-    public static function fixArrayKeys(array $pattern): array
-    {
-        return self::mapKeys($pattern, [Bug::class, 'map']);
-    }
-
-    private static function mapKeys(array $input, callable $mapper): array
+    public static function fixArrayKeys(array $patterns): array
     {
         $result = [];
-        foreach ($input as $pattern => $mapper) {
+        foreach ($patterns as $pattern => $mapper) {
             $result[self::map($pattern)] = $mapper;
         }
         return $result;

@@ -93,9 +93,7 @@ class AbstractMatchPatternTest extends TestCase
             ->filter(function (Detail $detail) {
                 return $detail->textLength() !== 3;
             })
-            ->findFirst(function (Detail $detail) {
-                $this->assertTrue(true);
-            })
+            ->findFirst(Functions::pass())
             ->orThrow();
     }
 

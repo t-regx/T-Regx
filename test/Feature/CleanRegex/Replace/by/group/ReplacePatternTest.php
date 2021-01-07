@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\by\group;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
@@ -127,9 +128,7 @@ class ReplacePatternTest extends TestCase
                 ['orElseIgnore', [], 'Links: https://.com,http://.com.'],
                 ['orElseEmpty', [], 'Links: ,.'],
                 ['orElseWith', ['default'], 'Links: default,default.'],
-                ['orElseCalling', [function (Detail $whenGroupWasNotMatched) {
-                    return 'else';
-                }], 'Links: else,else.']
+                ['orElseCalling', [Functions::constant('else')], 'Links: else,else.']
             )
             ->build();
     }

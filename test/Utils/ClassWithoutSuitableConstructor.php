@@ -7,6 +7,6 @@ class ClassWithoutSuitableConstructor extends Exception
 {
     public function __construct(int $a)
     {
-        parent::__construct('');
+        parent::__construct();
     }
 }

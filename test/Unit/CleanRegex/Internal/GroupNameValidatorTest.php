@@ -63,9 +63,8 @@ class GroupNameValidatorTest extends TestCase
      * @test
      * @dataProvider invalidGroup
      * @param string|int $nameOrIndex
-     * @param string $message
      */
-    public function shouldNotBeValid($nameOrIndex, string $message)
+    public function shouldNotBeValid($nameOrIndex)
     {
         // given
         $validatorString = new GroupNameValidator($nameOrIndex);

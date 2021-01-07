@@ -2,6 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\CompositePattern\chainedReplace\callback;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\CompositePattern;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -32,9 +33,7 @@ class CompositePatternTest extends TestCase
         // when
         $replaced = $pattern
             ->chainedReplace("Do you think that's air you're breathing now?")
-            ->callback(function (ReplaceDetail $detail) {
-                return '__';
-            });
+            ->callback(Functions::constant('__'));
 
         // then
         $this->assertSame($expected, $replaced);
