@@ -41,7 +41,7 @@ abstract class AbstractMatchGroups implements MatchGroups
     /**
      * @return (int|null)[]
      */
-    public function byteOffsets()
+    public function byteOffsets(): array
     {
         return $this->sliceAndFilter($this->match->getGroupsOffsets());
     }
@@ -63,10 +63,6 @@ abstract class AbstractMatchGroups implements MatchGroups
         }
         throw new InternalCleanRegexException();
     }
-
-    abstract public function names(): array;
-
-    abstract public function count(): int;
 
     abstract protected function filterGroupKey($nameOrIndex): bool;
 }
