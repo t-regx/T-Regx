@@ -1,9 +1,8 @@
 <?php
-namespace TRegx\CleanRegex\Replace\By;
+namespace TRegx\CleanRegex\Internal\Replace\By;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
-use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ComputedMatchStrategy;

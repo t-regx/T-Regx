@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
+use TRegx\CleanRegex\Internal\Replace\By\UnmatchedGroupStrategy;
 use TRegx\CleanRegex\Replace\GroupReplace;
 
 interface ByGroupReplacePattern extends GroupReplace
@@ -12,14 +13,14 @@ interface ByGroupReplacePattern extends GroupReplace
      * @throws \InvalidArgumentException
      * @throws MissingReplacementKeyException
      */
-    public function map(array $occurrencesAndReplacements): UnmatchedGroupStrategy;
+    public function map(array $occurrencesAndReplacements): GroupReplace;
 
     /**
      * @param string[] $occurrencesAndReplacements
      * @return UnmatchedGroupStrategy
      * @throws \InvalidArgumentException
      */
-    public function mapIfExists(array $occurrencesAndReplacements): UnmatchedGroupStrategy;
+    public function mapIfExists(array $occurrencesAndReplacements): GroupReplace;
 
     public function callback(callable $callback): string;
 
@@ -30,5 +31,5 @@ interface ByGroupReplacePattern extends GroupReplace
      * @throws \InvalidArgumentException
      * @throws MissingReplacementKeyException
      */
-    public function mapAndCallback(array $occurrencesAndReplacements, callable $mapper): UnmatchedGroupStrategy;
+    public function mapAndCallback(array $occurrencesAndReplacements, callable $mapper): GroupReplace;
 }

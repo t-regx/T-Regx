@@ -17,11 +17,13 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
+use TRegx\CleanRegex\Internal\Replace\By\UnmatchedGroupStrategy;
 use TRegx\CleanRegex\Internal\Replace\Wrapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMatchRs;
 use TRegx\CleanRegex\Replace\Callback\MatchGroupStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
+use TRegx\CleanRegex\Replace\GroupReplace;
 
 class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 {
@@ -53,17 +55,17 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         $this->middlewareMapper = $middlewareMapper;
     }
 
-    public function map(array $occurrencesAndReplacements): UnmatchedGroupStrategy
+    public function map(array $occurrencesAndReplacements): GroupReplace
     {
         return $this->performMap(new DictionaryMapper($occurrencesAndReplacements));
     }
 
-    public function mapAndCallback(array $occurrencesAndReplacements, callable $mapper): UnmatchedGroupStrategy
+    public function mapAndCallback(array $occurrencesAndReplacements, callable $mapper): GroupReplace
     {
         return $this->performMap(new MapGroupMapperDecorator(new DictionaryMapper($occurrencesAndReplacements), $mapper));
     }
 
-    private function performMap(GroupMapper $mapper): UnmatchedGroupStrategy
+    private function performMap(GroupMapper $mapper): GroupReplace
     {
         return new UnmatchedGroupStrategy(
             $this->fallbackReplacer,
@@ -74,7 +76,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
         );
     }
 
-    public function mapIfExists(array $occurrencesAndReplacements): UnmatchedGroupStrategy
+    public function mapIfExists(array $occurrencesAndReplacements): GroupReplace
     {
         return new UnmatchedGroupStrategy(
             $this->fallbackReplacer,

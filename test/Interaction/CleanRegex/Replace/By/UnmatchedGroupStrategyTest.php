@@ -13,8 +13,8 @@ use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
+use TRegx\CleanRegex\Internal\Replace\By\UnmatchedGroupStrategy;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Replace\By\UnmatchedGroupStrategy;
 
 class UnmatchedGroupStrategyTest extends TestCase
 {
