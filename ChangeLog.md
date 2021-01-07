@@ -14,10 +14,10 @@ Incoming in 0.9.14
 
       Previously, using a nonexistent or unmatched group with `focus()->withReferences()`
       would throw an exception. But of course, `preg_replace()` references `$1` and `\1`
-      simply are ignored by PCRE, being replaced by an empty string. So, as of this version
-      both `withReferences()` and `focus()->withReferences()` ignore the unmatched
-      or nonexistent group as well.
-
+      simply are ignored by PCRE, being replaced by an empty string. So, as of this version both `withReferences()`
+      and `focus()->withReferences()` ignore the unmatched or nonexistent group as well.
+    * Fixed an error where optionals (`orElse()`/`orCalling()`) didn't work properly for `match()->offsets()->fluent()`
+    
 * Features
     * Add pattern formats and pattern templates, a new way of creating pseudo-patterns for user supplied data:
         * Add `Pattern::format()` #79

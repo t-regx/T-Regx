@@ -174,7 +174,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     public function fluent(): FluentMatchPattern
     {
-        return new FluentMatchPattern($this->stream(), new FluentOptionalWorker(new FirstFluentMessage(), $this->base->getSubject()));
+        return new FluentMatchPattern($this->stream(), new FluentOptionalWorker(new FirstFluentMessage()));
     }
 
     private function stream(): Stream

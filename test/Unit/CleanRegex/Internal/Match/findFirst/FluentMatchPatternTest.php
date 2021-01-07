@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\findFirst;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CustomSubjectException;
+use Test\Utils\CustomException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
@@ -106,16 +106,16 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern($this->unmatchedMock(), $this->worker());
 
         // then
-        $this->expectException(CustomSubjectException::class);
+        $this->expectException(CustomException::class);
         $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed is empty");
 
         // when
-        $pattern->findFirst('strtoupper')->orThrow(CustomSubjectException::class);
+        $pattern->findFirst('strtoupper')->orThrow(CustomException::class);
     }
 
     private function worker(): FluentOptionalWorker
     {
-        return new FluentOptionalWorker(new FirstFluentMessage(), 'foo bar');
+        return new FluentOptionalWorker(new FirstFluentMessage());
     }
 
     private function firstStream($return, int $times = 1): Stream

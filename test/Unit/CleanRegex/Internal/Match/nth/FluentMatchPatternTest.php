@@ -91,7 +91,7 @@ class FluentMatchPatternTest extends TestCase
 
     private function worker(): FluentOptionalWorker
     {
-        return new FluentOptionalWorker(new FirstFluentMessage(), 'foo bar');
+        return new FluentOptionalWorker(new FirstFluentMessage());
     }
 
     private function stream(array $return, int $times = 1): Stream

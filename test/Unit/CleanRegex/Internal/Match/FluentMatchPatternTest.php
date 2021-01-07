@@ -8,7 +8,7 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\PatternOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
@@ -393,11 +393,9 @@ class FluentMatchPatternTest extends TestCase
         $this->assertSame($expected, $result->all());
     }
 
-    private function worker(): FluentOptionalWorker
+    private function worker(): PatternOptionalWorker
     {
-        /** @var FluentOptionalWorker $mockObject */
-        $mockObject = $this->createMock(FluentOptionalWorker::class);
-        return $mockObject;
+        return $this->createMock(PatternOptionalWorker::class);
     }
 
     private function match(int $value): Detail

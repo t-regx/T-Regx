@@ -13,6 +13,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchIntMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\PatternOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
@@ -37,7 +38,6 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
-use TRegx\CleanRegex\Match\OffsetLimit;
 
 abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLimit
 {
@@ -175,7 +175,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         $stream = new BaseStream($this->base);
         return new FluentMatchPattern(
             new MatchStream($stream, $this->base, $this->base->getUserData(), $stream),
-            new FluentOptionalWorker(new FirstFluentMessage(), $this->base->getSubject())
+            new FluentOptionalWorker(new FirstFluentMessage())
         );
     }
 
@@ -183,7 +183,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         return new FluentMatchPattern(
             new IntStream(new BaseStream($this->base)),
-            new FluentOptionalWorker(new FirstMatchIntMessage(), $this->base->getSubject())
+            new PatternOptionalWorker(new FirstMatchIntMessage(), $this->base->getSubject(), SubjectNotMatchedException::class)
         );
     }
 
@@ -191,7 +191,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         return new FluentMatchPattern(
             new AsArrayStream(new BaseStream($this->base), $this->base),
-            new FluentOptionalWorker(new FirstMatchAsArrayMessage(), $this->base->getSubject())
+            new PatternOptionalWorker(new FirstMatchAsArrayMessage(), $this->base->getSubject(), SubjectNotMatchedException::class)
         );
     }
 

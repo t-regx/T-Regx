@@ -5,7 +5,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -274,6 +273,23 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrow_asInt_findFirst_OnUnmatchedPattern()
+    {
+        // then
+        $this->expectException(SubjectNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to get the first match as integer, but subject was not matched");
+
+        // given
+        pattern('dont match me')
+            ->match('word')
+            ->asInt()
+            ->findFirst(Functions::fail())
+            ->orThrow();
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_asArray_first_OnUnmatchedPattern()
     {
         // then
@@ -285,23 +301,6 @@ class MatchPatternTest extends TestCase
             ->match('word')
             ->asArray()
             ->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_asInt_findFirst_OnUnmatchedPattern()
-    {
-        // then
-        $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the first match as integer, but subject was not matched");
-
-        // given
-        pattern('dont match me')
-            ->match('word')
-            ->asInt()
-            ->findFirst([$this, 'fail'])
-            ->orThrow();
     }
 
     /**

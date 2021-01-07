@@ -3,27 +3,24 @@ namespace TRegx\CleanRegex\Internal\Factory;
 
 use Exception;
 use Throwable;
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
+use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
-use TRegx\CleanRegex\Internal\Subject;
 
-class FluentOptionalWorker implements NotMatchedWorker
+class FluentOptionalWorker implements OptionalWorker
 {
     /** @var NotMatchedMessage */
     private $message;
-    /** @var string */
-    private $subject;
 
-    public function __construct(NotMatchedMessage $message, string $subject)
+    public function __construct(NotMatchedMessage $message)
     {
         $this->message = $message;
-        $this->subject = $subject;
     }
 
     public function orThrow(string $exceptionClassName): Throwable
     {
-        return (new SignatureExceptionFactory($exceptionClassName, $this->message))->create($this->subject);
+        $factory = new SignatureExceptionFactory($exceptionClassName, $this->message);
+        return $factory->createWithoutSubject();
     }
 
     public function orElse(callable $producer)
@@ -33,6 +30,16 @@ class FluentOptionalWorker implements NotMatchedWorker
 
     public function noFirstElementException(): Exception
     {
-        return SubjectNotMatchedException::withMessage($this->message, new Subject($this->subject));
+        return NoSuchElementFluentException::withMessage($this->message);
+    }
+
+    public function chainWorker(): OptionalWorker
+    {
+        return $this;
+    }
+
+    public function optionalDefaultClass(): string
+    {
+        return NoSuchElementFluentException::class;
     }
 }
