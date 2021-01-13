@@ -30,13 +30,15 @@ Incoming in 0.9.14
     * Add `match()->groupBy()->flatMapAssoc()` #88
 
       Otherwise identical to `flatMap()`, but since `flatMapAssoc()` doesn't use
-      [`array_merge()`], the `integer` keys won't be reindexed - returning an integer
-      key from a `flatMapAssoc()`. If a given key was already returned previously, the
-      later value will be preserved. It's useful for associative arrays with `integer` keys.
-      For sequential arrays (or arrays with `string` keys), feel free to use `flatMap()`.
+      [`array_merge()`], the `integer` keys won't be reindexed - returning an integer key from a `flatMapAssoc()`. If a
+      given key was already returned previously, the later value will be preserved. It's useful for associative arrays
+      with `integer` keys. For sequential arrays (or arrays with `string` keys), feel free to use `flatMap()`.
 
-    * Add `match()->groupByCallback()` (previously only `match()->fluent()->groupByCallback()` and `match()->groupBy()`) #80
+    * Add `match()->groupByCallback()` (previously only `match()->fluent()->groupByCallback()` and `match()->groupBy()`)
+      #80
     * Add `match()->nth()` (previously only `match()->fluent()->nth()`) #80
+* Other:
+    * Replaced any usage of `\d` to `[0-9]` in the library, since it depends on PHP locale.
 
 Added in 0.9.13
 ---------------
@@ -414,16 +416,19 @@ Added in 0.9.2
     * Returning `Match` from `replace()->callback()` (instead of `Match.text()` as `string`)
     * Match `+12` is no longer considered a valid integer for `isInt()`/`toInt()`
     * Unnamed group will be represented as `null` in `Match.groupNames()`, instead of being simply ignored
-    * helper `pattern()` method, `Pattern` and `PatternBuilder` now return `PatternInterface`, instead of `Pattern` class.
+    * helper `pattern()` method, `Pattern` and `PatternBuilder` now return `PatternInterface`, instead of `Pattern`
+      class.
       `Pattern` class now only holds static utility methods, and `PatternImpl` holds the pattern implementation.
 * Maintenance
-    * PhpUnit throws different exceptions because of [PHP `__toString()` exception policy change](https://wiki.php.net/rfc/tostring_exceptions).
+    * PhpUnit throws different exceptions because
+      of [PHP `__toString()` exception policy change](https://wiki.php.net/rfc/tostring_exceptions).
 
-Foot note:
- - Apart from PHP type hints, every version up to this point could be run on PHP 5.3 (if one removes type hints from 
-   code, one can run T-Regx on PHP 5.3). Every error, exception, malfunction, inconsistency was handled correctly by 
-   T-Regx. From this version on (`0.9.2`), handling of the errors and inconsistencies is dropped, since T-Regx now 
-   only supports PHP 7.1.
+Footnote:
+
+- Apart from PHP type hints, every version up to this point could be run on PHP 5.3 (if one removes type hints from
+  code, one can run T-Regx on PHP 5.3). Every error, exception, malfunction, inconsistency was handled correctly by
+  T-Regx. From this version on (`0.9.2`), handling of the errors and inconsistencies is dropped, since T-Regx now only
+  supports PHP 7.1.
 
 Added in 0.9.1
 --------------

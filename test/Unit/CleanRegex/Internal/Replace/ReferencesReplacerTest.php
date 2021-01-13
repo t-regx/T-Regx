@@ -2,7 +2,6 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Replace;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Replace\ReferencesReplacer;
 
 class ReferencesReplacerTest extends TestCase
@@ -106,5 +105,32 @@ class ReferencesReplacerTest extends TestCase
 
         // then
         $this->assertSame('Foo', $replaced);
+    }
+
+    /**
+     * @test
+     * @dataProvider unicodeGroupReferences
+     * @param string $subject
+     */
+    public function shouldBeIrrelevantOfPhpLocale(string $subject): void
+    {
+        // when
+        $result = ReferencesReplacer::replace($subject, [
+            '٠' => '0',
+            '١' => '1',
+            '٢' => '2',
+        ]);
+
+        // then
+        $this->assertSame($subject, $result);
+    }
+
+    public function unicodeGroupReferences(): array
+    {
+        return [
+            ['$٠$١$٢'],
+            ['\٠\١\٢'],
+            ['${٢}$'],
+        ];
     }
 }

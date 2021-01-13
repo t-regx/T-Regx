@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace;
 
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Replace\FocusReplacePattern;
 
 /**
@@ -17,7 +16,7 @@ class ReferencesReplacer
     public static function replace(string $subject, array $groups): string
     {
         return \preg_replace_callback(
-            '/(?:[\\\\]{2}|\\\\(\d{1,2})|\$(?:(\d{1,2})|{(\d{1,2})}))/',
+            '/(?:[\\\\]{2}|\\\\([0-9]{1,2})|\$(?:([0-9]{1,2})|{([0-9]{1,2})}))/',
             static function (array $values) use ($subject, $groups) {
                 if ($values[0] === '\\\\') {
                     return '\\';
