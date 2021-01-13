@@ -63,6 +63,6 @@ class BothHostErrorTest extends TestCase
         $result = $hostError->getSafeRegexpException('method_name', '/foo/');
 
         // then
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 }
