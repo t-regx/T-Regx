@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Composite;
 
 use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
+use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
@@ -50,7 +51,7 @@ class ChainedReplace
 
     private function replaceNext(Pattern $pattern, string $subject, callable $callback): string
     {
-        $invoker = new ReplacePatternCallbackInvoker($pattern, new Subject($subject), -1, $this->substitute);
+        $invoker = new ReplacePatternCallbackInvoker($pattern, new Subject($subject), -1, $this->substitute, new IgnoreCounting());
         return $invoker->invoke($callback, new MatchStrategy());
     }
 }

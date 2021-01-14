@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
 use TRegx\CleanRegex\Replace\ReplacePattern;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
@@ -80,7 +81,7 @@ class ReplaceLimitImplTest extends TestCase
     private function chain(): ReplacePattern
     {
         return new ReplacePatternImpl(
-            new SpecificReplacePatternImpl(InternalPattern::pcre('//'), '', 0, new DefaultStrategy()), InternalPattern::pcre('//'), '', 0
+            new SpecificReplacePatternImpl(InternalPattern::pcre('//'), '', 0, new DefaultStrategy(), new IgnoreCounting()), InternalPattern::pcre('//'), '', 0
         );
     }
 }

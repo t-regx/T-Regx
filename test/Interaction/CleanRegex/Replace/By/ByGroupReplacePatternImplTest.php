@@ -12,6 +12,7 @@ use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
+use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\By\ByGroupReplacePatternImpl;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
@@ -75,10 +76,11 @@ class ByGroupReplacePatternImplTest extends TestCase
                 $subjectable,
                 -1,
                 new DefaultStrategy(),
+                new IgnoreCounting(),
                 new ApiBase($internalPattern, $subject, new UserData())
             ),
             new PerformanceEmptyGroupReplace($internalPattern, $subjectable, -1),
-            new ReplacePatternCallbackInvoker($internalPattern, $subjectable, -1, new LazyMessageThrowStrategy(\AssertionError::class)),
+            new ReplacePatternCallbackInvoker($internalPattern, $subjectable, -1, new LazyMessageThrowStrategy(\AssertionError::class), new IgnoreCounting()),
             1,
             $subject,
             new IdentityWrapper()

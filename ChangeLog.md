@@ -37,6 +37,7 @@ Incoming in 0.9.14
     * Add `match()->groupByCallback()` (previously only `match()->fluent()->groupByCallback()` and `match()->groupBy()`)
       #80
     * Add `match()->nth()` (previously only `match()->fluent()->nth()`) #80
+    * Add `replace()->counting()`, invoking a callback with the number of replacements performed #90
 * Other:
     * Replaced any usage of `\d` to `[0-9]` in the library, since it depends on PHP locale.
 
@@ -332,8 +333,8 @@ Added in 0.9.4
 * Breaking changes
    * Renamed `CleanRegexException` to `PatternException`
    * Moved `RegexException` to  `/TRegx` from `/TRegx/CleanRegex/Exception`
-   * Simplified namespace of public exceptions:
-     - From `TRegx/CleanRegex/Exception/CleanRegex` to `TRegx/CleanRegex/Exception`
+   * Simplified the namespace of public exceptions:
+       - From `TRegx/CleanRegex/Exception/CleanRegex` to `TRegx/CleanRegex/Exception`
 * Enhancements
    * Updated the hierarchy of public exceptions:
      - `RegexException`
@@ -402,7 +403,8 @@ Added in 0.9.2
         * Added `groups()->count()` (and `namedGroups()->count()`)
     * Added `match()->offsets()->fluent()`
     * Added `match()->group(string)->offsets()->fluent()`
-    * Added `pattern()->forArray()->strict()` which throws for invalid values, instead of filtering them out
+  * Added `pattern()->forArray()->strict()` which throws for invalid values, instead of filtering them out
+  * Added `pattern()->replace()->counting()`
 * SafeRegex
     * Added `preg::grep_keys()` 🔥, that works exactly like `preg::grep()`, but filters by keys (also accepts [`PREG_GREP_INVERT`](https://www.php.net/manual/en/function.preg-grep.php))
 * Enhancements/updates

@@ -5,6 +5,7 @@ use TRegx\CleanRegex\ForArray\ForArrayPattern;
 use TRegx\CleanRegex\ForArray\ForArrayPatternImpl;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\ValidPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Remove\RemoveLimit;
@@ -44,7 +45,7 @@ class PatternImpl implements PatternInterface
     {
         return new ReplaceLimitImpl(function (int $limit) use ($subject) {
             return new ReplacePatternImpl(
-                new SpecificReplacePatternImpl($this->pattern, $subject, $limit, new DefaultStrategy()), $this->pattern, $subject, $limit);
+                new SpecificReplacePatternImpl($this->pattern, $subject, $limit, new DefaultStrategy(), new IgnoreCounting()), $this->pattern, $subject, $limit);
         });
     }
 

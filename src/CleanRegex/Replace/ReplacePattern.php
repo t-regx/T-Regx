@@ -8,4 +8,6 @@ interface ReplacePattern extends CompositeReplacePattern
     public function otherwiseReturning($substitute): CompositeReplacePattern;
 
     public function otherwise(callable $substituteProducer): CompositeReplacePattern;
+
+    public function counting(callable $countReceiver): CompositeReplacePattern;
 }

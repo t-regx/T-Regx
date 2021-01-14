@@ -11,6 +11,7 @@ use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\FocusWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
+use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\ReferencesReplacer;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -30,14 +31,17 @@ class FocusReplacePattern implements SpecificReplacePattern
     private $limit;
     /** @var string|int */
     private $nameOrIndex;
+    /** @var CountingStrategy */
+    private $countingStrategy;
 
-    public function __construct(SpecificReplacePattern $replacePattern, Pattern $pattern, string $subject, int $limit, $nameOrIndex)
+    public function __construct(SpecificReplacePattern $replacePattern, Pattern $pattern, string $subject, int $limit, $nameOrIndex, CountingStrategy $countingStrategy)
     {
         $this->replacePattern = $replacePattern;
         $this->pattern = $pattern;
         $this->subject = $subject;
         $this->limit = $limit;
         $this->nameOrIndex = $nameOrIndex;
+        $this->countingStrategy = $countingStrategy;
     }
 
     public function with(string $replacement): string
@@ -82,11 +86,12 @@ class FocusReplacePattern implements SpecificReplacePattern
                 new Subject($this->subject),
                 $this->limit,
                 new DefaultStrategy(),
+                $this->countingStrategy,
                 new ApiBase($this->pattern, $this->subject, new UserData())
             ),
             new LazyMessageThrowStrategy(MissingReplacementKeyException::class),
             new PerformanceEmptyGroupReplace($this->pattern, new Subject($this->subject), $this->limit),
-            new ReplacePatternCallbackInvoker($this->pattern, new Subject($this->subject), $this->limit, new DefaultStrategy()),
+            new ReplacePatternCallbackInvoker($this->pattern, new Subject($this->subject), $this->limit, new DefaultStrategy(), $this->countingStrategy),
             $this->subject,
             new FocusWrapper($this->nameOrIndex)
         );

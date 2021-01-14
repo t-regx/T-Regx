@@ -14,6 +14,7 @@ use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\UnmatchedGroupStrategy;
+use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Subject;
 
 class UnmatchedGroupStrategyTest extends TestCase
@@ -142,6 +143,7 @@ class UnmatchedGroupStrategyTest extends TestCase
             new Subject($subject),
             -1,
             new ThrowStrategy(\AssertionError::class, new NonReplacedMessage()), // anything
+            new IgnoreCounting(),
             new ApiBase($pattern, $subject, new UserData())
         );
     }

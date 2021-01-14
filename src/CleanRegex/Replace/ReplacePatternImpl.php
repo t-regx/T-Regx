@@ -5,9 +5,13 @@ use TRegx\CleanRegex\Exception\NotReplacedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\OtherwiseStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
+use TRegx\CleanRegex\Internal\Replace\Counting\CallbackCountingStrategy;
+use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
+use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 
 class ReplacePatternImpl implements ReplacePattern
@@ -51,26 +55,31 @@ class ReplacePatternImpl implements ReplacePattern
 
     public function otherwiseThrowing(string $exceptionClassName = null): CompositeReplacePattern
     {
-        return $this->replacePattern(new ThrowStrategy($exceptionClassName ?? NotReplacedException::class, new NonReplacedMessage()));
+        return $this->replacePattern(new ThrowStrategy($exceptionClassName ?? NotReplacedException::class, new NonReplacedMessage()), new IgnoreCounting());
     }
 
     public function otherwiseReturning($substitute): CompositeReplacePattern
     {
-        return $this->replacePattern(new ConstantReturnStrategy($substitute));
+        return $this->replacePattern(new ConstantReturnStrategy($substitute), new IgnoreCounting());
     }
 
     public function otherwise(callable $substituteProducer): CompositeReplacePattern
     {
-        return $this->replacePattern(new OtherwiseStrategy($substituteProducer));
+        return $this->replacePattern(new OtherwiseStrategy($substituteProducer), new IgnoreCounting());
     }
 
-    private function replacePattern(SubjectRs $substitute): CompositeReplacePattern
+    public function counting(callable $countReceiver): CompositeReplacePattern
     {
-        return new SpecificReplacePatternImpl($this->pattern, $this->subject, $this->limit, $substitute);
+        return $this->replacePattern(new DefaultStrategy(), new CallbackCountingStrategy($countReceiver));
+    }
+
+    private function replacePattern(SubjectRs $substitute, CountingStrategy $countingStrategy): CompositeReplacePattern
+    {
+        return new SpecificReplacePatternImpl($this->pattern, $this->subject, $this->limit, $substitute, $countingStrategy);
     }
 
     public function focus($nameOrIndex): FocusReplacePattern
     {
-        return new FocusReplacePattern($this->replacePattern, $this->pattern, $this->subject, $this->limit, $nameOrIndex);
+        return new FocusReplacePattern($this->replacePattern, $this->pattern, $this->subject, $this->limit, $nameOrIndex, new IgnoreCounting());
     }
 }

@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
+use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
 use TRegx\SafeRegex\preg;
@@ -23,17 +24,20 @@ class GroupFallbackReplacer
     private $limit;
     /** @var SubjectRs */
     private $substitute;
+    /** @var CountingStrategy */
+    private $countingStrategy;
     /** @var Base */
     private $base;
     /** @var int */
     private $counter = -1;
 
-    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, SubjectRs $substitute, Base $base)
+    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy, Base $base)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
         $this->limit = $limit;
         $this->substitute = $substitute;
+        $this->countingStrategy = $countingStrategy;
         $this->base = $base;
     }
 
@@ -50,6 +54,7 @@ class GroupFallbackReplacer
     private function replaceUsingCallback(callable $closure): string
     {
         $result = $this->pregReplaceCallback($closure, $replaced);
+        $this->countingStrategy->count($replaced);
         if ($replaced === 0) {
             return $this->substitute->substitute($this->subject->getSubject()) ?? $result;
         }
