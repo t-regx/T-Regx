@@ -3,72 +3,97 @@ namespace Test\Interaction\TRegx\CleanRegex\Replace;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
-use TRegx\CleanRegex\Replace\ReplacePattern;
-use TRegx\CleanRegex\Replace\ReplacePatternImpl;
-use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
 
 class ReplaceLimitTest extends TestCase
 {
     /**
      * @test
      */
-    public function shouldLimitFirst()
+    public function shouldLimit_all()
     {
         // given
-        $limit = new ReplaceLimit(function (int $limit) {
-            // then
-            $this->assertSame(1, $limit);
-            return $this->chain();
-        });
+        $limit = new ReplaceLimit(InternalPattern::pcre('/[0-9a-g]/'), '123456789abcdefg');
 
         // when
-        $limit->first();
+        $limit->all()->callback($this->assertReplaceLimit(-1));
     }
 
     /**
      * @test
      */
-    public function shouldLimitAll()
+    public function shouldLimit_first()
     {
         // given
-        $limit = new ReplaceLimit(function (int $limit) {
-            // then
-            $this->assertSame(-1, $limit);
-            return $this->chain();
-        });
+        $limit = new ReplaceLimit(InternalPattern::pcre('/[0-9]/'), '123');
 
         // when
-        $limit->all();
+        $limit->first()->callback($this->assertReplaceLimit(1));
     }
 
     /**
      * @test
      */
-    public function shouldLimitOnly()
+    public function shouldLimit_only()
     {
         // given
-        $limit = new ReplaceLimit(function (int $limit) {
-            // then
-            $this->assertSame(20, $limit);
-            return $this->chain();
-        });
+        $limit = new ReplaceLimit(InternalPattern::pcre('/[0-9]/'), '123');
 
         // when
-        $limit->only(20);
+        $limit->only(2)->callback($this->assertReplaceLimit(2));
     }
 
     /**
      * @test
      */
-    public function shouldThrowOnNegativeLimit()
+    public function shouldLimit_otherwise_all()
     {
         // given
-        $limit = new ReplaceLimit(Functions::constant(''));
+        $limit = new ReplaceLimit(InternalPattern::pcre('/[0-9a-g]/'), '123456789abcdefg');
+
+        // when
+        $limit->all()
+            ->otherwiseReturning('otherwise')
+            ->callback($this->assertReplaceLimit(-1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLimit_otherwise_first()
+    {
+        // given
+        $limit = new ReplaceLimit(InternalPattern::pcre('/[0-9]/'), '123');
+
+        // when
+        $limit->first()
+            ->otherwiseReturning('otherwise')
+            ->callback($this->assertReplaceLimit(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLimit_otherwise_only()
+    {
+        // given
+        $limit = new ReplaceLimit(InternalPattern::pcre('/[0-9]/'), '123');
+
+        // when
+        $limit->only(2)
+            ->otherwiseReturning('otherwise')
+            ->callback($this->assertReplaceLimit(2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_only_onNegativeLimit()
+    {
+        // given
+        $limit = new ReplaceLimit(InternalPattern::pcre('//'), '');
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -78,10 +103,14 @@ class ReplaceLimitTest extends TestCase
         $limit->only(-2);
     }
 
-    private function chain(): ReplacePattern
+    public function assertReplaceLimit(int $limit): callable
     {
-        return new ReplacePatternImpl(
-            new SpecificReplacePatternImpl(InternalPattern::pcre('//'), '', 0, new DefaultStrategy(), new IgnoreCounting()), InternalPattern::pcre('//'), '', 0
-        );
+        return function (Detail $detail) use ($limit) {
+            // then
+            $this->assertSame($limit, $detail->limit());
+
+            // clean
+            return '';
+        };
     }
 }

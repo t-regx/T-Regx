@@ -1,33 +1,44 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\PatternLimit;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 
 class ReplaceLimit implements PatternLimit
 {
-    /** @var callable */
-    private $patternFactory;
+    /** @var InternalPattern */
+    private $pattern;
+    /** @var string */
+    private $subject;
 
-    public function __construct(callable $patternFactory)
+    public function __construct(InternalPattern $pattern, string $subject)
     {
-        $this->patternFactory = $patternFactory;
+        $this->pattern = $pattern;
+        $this->subject = $subject;
     }
 
-    public function all(): ReplacePattern
+    public function all(): LimitlessReplacePattern
     {
-        return \call_user_func($this->patternFactory, -1);
+        return new LimitlessReplacePattern($this->specific(-1), $this->pattern, $this->subject);
     }
 
-    public function first(): ReplacePattern
+    public function first(): LimitedReplacePattern
     {
-        return \call_user_func($this->patternFactory, 1);
+        return new LimitedReplacePattern($this->specific(1), $this->pattern, $this->subject, 1);
     }
 
-    public function only(int $limit): ReplacePattern
+    public function only(int $limit): LimitedReplacePattern
     {
         if ($limit < 0) {
             throw new \InvalidArgumentException("Negative limit: $limit");
         }
-        return \call_user_func($this->patternFactory, $limit);
+        return new LimitedReplacePattern($this->specific($limit), $this->pattern, $this->subject, $limit);
+    }
+
+    private function specific(int $limit): SpecificReplacePattern
+    {
+        return new SpecificReplacePatternImpl($this->pattern, $this->subject, $limit, new DefaultStrategy(), new IgnoreCounting());
     }
 }

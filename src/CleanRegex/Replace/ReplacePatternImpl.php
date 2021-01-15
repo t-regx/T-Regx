@@ -14,16 +14,16 @@ use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 
-class ReplacePatternImpl implements ReplacePattern
+abstract class ReplacePatternImpl implements ReplacePattern
 {
     /** @var SpecificReplacePattern */
     private $replacePattern;
     /** @var InternalPattern */
-    private $pattern;
+    protected $pattern;
     /** @var string */
-    private $subject;
+    protected $subject;
     /** @var int */
-    private $limit;
+    protected $limit;
 
     public function __construct(SpecificReplacePattern $replacePattern, InternalPattern $pattern, string $subject, int $limit)
     {
@@ -73,7 +73,7 @@ class ReplacePatternImpl implements ReplacePattern
         return $this->replacePattern(new DefaultStrategy(), new CallbackCountingStrategy($countReceiver));
     }
 
-    private function replacePattern(SubjectRs $substitute, CountingStrategy $countingStrategy): CompositeReplacePattern
+    protected function replacePattern(SubjectRs $substitute, CountingStrategy $countingStrategy): CompositeReplacePattern
     {
         return new SpecificReplacePatternImpl($this->pattern, $this->subject, $this->limit, $substitute, $countingStrategy);
     }

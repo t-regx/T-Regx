@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
-use TRegx\CleanRegex\Replace\ReplacePatternImpl;
+use TRegx\CleanRegex\Replace\LimitlessReplacePattern;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 
 class ReplacePatternImplTest extends TestCase
@@ -25,7 +25,7 @@ class ReplacePatternImplTest extends TestCase
         $delegate->method($methodName)->willReturn('delegated');
         $delegate->expects($this->exactly(1))->method($methodName)->with('number');
 
-        $underTest = new ReplacePatternImpl($delegate, InternalPattern::pcre('//'), '', 0);
+        $underTest = new LimitlessReplacePattern($delegate, InternalPattern::pcre('//'), '', 0);
 
         // when
         $result = $underTest->$methodName('number');
@@ -57,7 +57,7 @@ class ReplacePatternImplTest extends TestCase
                 return $inputCallback() === 'input';
             }));
 
-        $underTest = new ReplacePatternImpl($delegate, InternalPattern::pcre('//'), '', 0);
+        $underTest = new LimitlessReplacePattern($delegate, InternalPattern::pcre('//'), '', 0);
 
         // when
         $result = $underTest->callback(Functions::constant('input'));
@@ -78,7 +78,7 @@ class ReplacePatternImplTest extends TestCase
         $delegate = $this->createMock(SpecificReplacePattern::class);
         $delegate->method('by')->willReturn($inputInstance);
 
-        $underTest = new ReplacePatternImpl($delegate, InternalPattern::pcre('//'), '', 0);
+        $underTest = new LimitlessReplacePattern($delegate, InternalPattern::pcre('//'), '', 0);
 
         // when
         $result = $underTest->by();

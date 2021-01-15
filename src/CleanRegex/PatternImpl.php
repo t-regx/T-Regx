@@ -4,15 +4,11 @@ namespace TRegx\CleanRegex;
 use TRegx\CleanRegex\ForArray\ForArrayPattern;
 use TRegx\CleanRegex\ForArray\ForArrayPatternImpl;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\ValidPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Remove\RemovePattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
-use TRegx\CleanRegex\Replace\ReplacePatternImpl;
-use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
 use TRegx\SafeRegex\preg;
 
 class PatternImpl implements PatternInterface
@@ -42,10 +38,7 @@ class PatternImpl implements PatternInterface
 
     public function replace(string $subject): ReplaceLimit
     {
-        return new ReplaceLimit(function (int $limit) use ($subject) {
-            return new ReplacePatternImpl(
-                new SpecificReplacePatternImpl($this->pattern, $subject, $limit, new DefaultStrategy(), new IgnoreCounting()), $this->pattern, $subject, $limit);
-        });
+        return new ReplaceLimit($this->pattern, $subject);
     }
 
     public function remove(string $subject): RemoveLimit
