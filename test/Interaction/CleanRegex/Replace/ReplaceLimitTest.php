@@ -7,12 +7,12 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
-use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
+use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\CleanRegex\Replace\ReplacePattern;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
 
-class ReplaceLimitImplTest extends TestCase
+class ReplaceLimitTest extends TestCase
 {
     /**
      * @test
@@ -20,7 +20,7 @@ class ReplaceLimitImplTest extends TestCase
     public function shouldLimitFirst()
     {
         // given
-        $limit = new ReplaceLimitImpl(function (int $limit) {
+        $limit = new ReplaceLimit(function (int $limit) {
             // then
             $this->assertSame(1, $limit);
             return $this->chain();
@@ -36,7 +36,7 @@ class ReplaceLimitImplTest extends TestCase
     public function shouldLimitAll()
     {
         // given
-        $limit = new ReplaceLimitImpl(function (int $limit) {
+        $limit = new ReplaceLimit(function (int $limit) {
             // then
             $this->assertSame(-1, $limit);
             return $this->chain();
@@ -52,7 +52,7 @@ class ReplaceLimitImplTest extends TestCase
     public function shouldLimitOnly()
     {
         // given
-        $limit = new ReplaceLimitImpl(function (int $limit) {
+        $limit = new ReplaceLimit(function (int $limit) {
             // then
             $this->assertSame(20, $limit);
             return $this->chain();
@@ -68,7 +68,7 @@ class ReplaceLimitImplTest extends TestCase
     public function shouldThrowOnNegativeLimit()
     {
         // given
-        $limit = new ReplaceLimitImpl(Functions::constant(''));
+        $limit = new ReplaceLimit(Functions::constant(''));
 
         // then
         $this->expectException(InvalidArgumentException::class);

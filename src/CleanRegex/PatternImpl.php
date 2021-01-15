@@ -11,7 +11,6 @@ use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Remove\RemovePattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
-use TRegx\CleanRegex\Replace\ReplaceLimitImpl;
 use TRegx\CleanRegex\Replace\ReplacePatternImpl;
 use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
 use TRegx\SafeRegex\preg;
@@ -43,7 +42,7 @@ class PatternImpl implements PatternInterface
 
     public function replace(string $subject): ReplaceLimit
     {
-        return new ReplaceLimitImpl(function (int $limit) use ($subject) {
+        return new ReplaceLimit(function (int $limit) use ($subject) {
             return new ReplacePatternImpl(
                 new SpecificReplacePatternImpl($this->pattern, $subject, $limit, new DefaultStrategy(), new IgnoreCounting()), $this->pattern, $subject, $limit);
         });
