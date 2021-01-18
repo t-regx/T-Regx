@@ -12,18 +12,21 @@ class AtLeastCountingStrategy implements CountingStrategy
     private $subject;
     /** @var int */
     private $limit;
+    /** @var string */
+    private $verb;
 
-    public function __construct(Pattern $pattern, string $subject, int $limit)
+    public function __construct(Pattern $pattern, string $subject, int $limit, string $verb)
     {
         $this->pattern = $pattern;
         $this->subject = $subject;
         $this->limit = $limit;
+        $this->verb = $verb;
     }
 
     public function count(int $replaced): void
     {
         if ($replaced < $this->limit) {
-            throw ReplacementExpectationFailedException::insufficient('at least', $this->limit, $replaced);
+            throw ReplacementExpectationFailedException::insufficient($this->verb, $this->limit, $replaced);
         }
     }
 }

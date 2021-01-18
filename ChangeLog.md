@@ -35,9 +35,12 @@ Incoming in 0.9.14
       with `integer` keys. For sequential arrays (or arrays with `string` keys), feel free to use `flatMap()`.
 
     * Add `match()->groupByCallback()` (previously only `match()->fluent()->groupByCallback()` and `match()->groupBy()`)
-      #80
+      # 80
     * Add `match()->nth()` (previously only `match()->fluent()->nth()`) #80
     * Add `replace()->counting()`, invoking a callback with the number of replacements performed #90
+    * Add `replace()->exactly()`, validating that exactly one/only replacements were performed #90
+    * Add `replace()->atLeast()`, validating that at least one/only replacements were performed #90
+    * Add `replace()->atMost()`, validating that at most one/only replacements were performed #90
 * Other:
     * Replaced any usage of `\d` to `[0-9]` in the library, since it depends on PHP locale.
 
