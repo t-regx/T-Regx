@@ -12,7 +12,7 @@ class ReplacementExpectationFailedExceptionTest extends TestCase
     public function shouldGetParameters_insufficient(): void
     {
         // given
-        $exception = ReplacementExpectationFailedException::insufficient(3, 4);
+        $exception = ReplacementExpectationFailedException::insufficient('', 3, 4);
 
         // when
         $expected = $exception->getExpected();
@@ -29,7 +29,7 @@ class ReplacementExpectationFailedExceptionTest extends TestCase
     public function shouldSuperfluous(): void
     {
         // given
-        $exception = ReplacementExpectationFailedException::superfluous(3, 4);
+        $exception = ReplacementExpectationFailedException::superfluous('', 3, 4);
 
         // when
         $expected = $exception->getExpected();
