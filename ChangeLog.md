@@ -47,7 +47,8 @@ Incoming in 0.9.14
     * Add `replace()->counting()`, invoking a callback with the number of replacements performed #90
     * Add `replace()->exactly()`, validating that exactly one/only replacements were performed #90
     * Add `replace()->atLeast()`, validating that at least one/only replacements were performed #90
-    * Add `replace()->atMost()`, validating that at most one/only replacements were performed #90
+  * Add `replace()->atMost()`, validating that at most one/only replacements were performed #90
+  * Add `pattern()->prune()` which removes every occurrence of a pattern from subject (identical to `remove()->all()`)
 * Other:
     * Replaced any usage of `\d` to `[0-9]` in the library, since it depends on PHP locale.
 

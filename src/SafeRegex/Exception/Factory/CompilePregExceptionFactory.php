@@ -63,6 +63,10 @@ class CompilePregExceptionFactory
                 $offset = $match[1] + 1; // increase offset by 1, to fix php inconsistencies
                 return "Two named subpatterns have the same name at offset $offset";
             }
+            if (\preg_match("/^Nothing to repeat at offset (\d+)$/", $value, $match)) {
+                $offset = $match[1];
+                return "Quantifier does not follow a repeatable item at offset $offset";
+            }
         }
 
         return $value;

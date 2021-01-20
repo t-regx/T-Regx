@@ -151,7 +151,7 @@ class PatternTest extends TestCase
         $this->expectExceptionMessage('Delimiter must not be alphanumeric or backslash');
 
         // when
-        Pattern::pcre("foo")->test('bar');
+        Pattern::pcre('foo')->test('bar');
     }
 
     /**
@@ -161,9 +161,34 @@ class PatternTest extends TestCase
     {
         // then
         $this->expectException(MalformedPatternException::class);
-        $this->expectExceptionMessage("Two named subpatterns have the same name at offset 21");
+        $this->expectExceptionMessage('Two named subpatterns have the same name at offset 21');
 
         // when
         pattern('First(?<one>)?(?<one>)?')->test('Test');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturn_prune()
+    {
+        // when
+        $result = pattern('\d+[.,]\d+')->prune('Foo for "14,43" and Bar for "2.32"');
+
+        // then
+        $this->assertSame('Foo for "" and Bar for ""', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_prune_onMalformedPattern()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 5');
+
+        // when
+        pattern('Foo **')->prune('Foo bar');
     }
 }

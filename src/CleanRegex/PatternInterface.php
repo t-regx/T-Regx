@@ -54,6 +54,15 @@ interface PatternInterface
     public function remove(string $subject): RemoveLimit;
 
     /**
+     * {@documentary:prune}
+     *
+     * @param string $subject
+     *
+     * @return string
+     */
+    public function prune(string $subject): string;
+
+    /**
      * {@documentary:forArray}
      *
      * @param string[] $haystack

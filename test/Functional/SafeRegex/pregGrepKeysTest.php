@@ -2,7 +2,6 @@
 namespace Test\Functional\TRegx\SafeRegex;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\PhpVersionDependent;
 use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\preg;
 
@@ -70,7 +69,7 @@ class pregGrepKeysTest extends TestCase
     {
         // then
         $this->expectException(MalformedPatternException::class);
-        $this->expectExceptionMessage(PhpVersionDependent::getAsymmetricQuantifierMessage(0));
+        $this->expectExceptionMessage("Quantifier does not follow a repeatable item at offset 0");
 
         // when
         preg::grep_keys('/+/', []);

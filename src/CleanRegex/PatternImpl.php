@@ -48,6 +48,11 @@ class PatternImpl implements PatternInterface
         });
     }
 
+    public function prune(string $subject): string
+    {
+        return preg::replace($this->pattern->pattern, '', $subject);
+    }
+
     public function forArray(array $haystack): ForArrayPattern
     {
         return new ForArrayPatternImpl($this->pattern, $haystack, false);
