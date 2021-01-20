@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Match\Details\Group\ReplaceDetailGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
@@ -11,20 +12,25 @@ class ReplaceMatchImpl implements ReplaceDetail, ReplaceMatch
     /** @var Detail */
     private $detail;
     /** @var int */
-    private $offsetModification;
+    private $byteOffsetModification;
     /** @var string */
     private $subjectModification;
 
-    public function __construct(Detail $detail, int $offsetModification, string $subjectModification)
+    public function __construct(Detail $detail, int $byteOffsetModification, string $subjectModification)
     {
         $this->detail = $detail;
-        $this->offsetModification = $offsetModification;
+        $this->byteOffsetModification = $byteOffsetModification;
         $this->subjectModification = $subjectModification;
     }
 
     public function modifiedOffset(): int
     {
-        return $this->offset() + $this->offsetModification;
+        return ByteOffset::toCharacterOffset($this->modifiedSubject(), $this->byteModifiedOffset());
+    }
+
+    public function byteModifiedOffset(): int
+    {
+        return $this->byteOffset() + $this->byteOffsetModification;
     }
 
     public function modifiedSubject(): string

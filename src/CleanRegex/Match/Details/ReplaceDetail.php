@@ -7,6 +7,8 @@ interface ReplaceDetail extends Detail
 {
     public function modifiedOffset(): int;
 
+    public function byteModifiedOffset(): int;
+
     public function modifiedSubject(): string;
 
     public function group($nameOrIndex): ReplaceDetailGroup;

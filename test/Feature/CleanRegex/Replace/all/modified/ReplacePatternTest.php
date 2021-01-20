@@ -8,56 +8,62 @@ class ReplacePatternTest extends TestCase
 {
     /**
      * @test
+     * @dataProvider offsetMethods
+     * @param string $method
+     * @param array $expected
      */
-    public function shouldGetFromReplaceMatch_modifiedOffset()
+    public function shouldReturn_modifiedOffset(string $method, array $expected)
     {
         // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
-        $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
-
         $offsets = [];
-        $mOffsets = [];
-
-        $callback = function (ReplaceDetail $detail) use (&$offsets, &$mOffsets) {
-            $offsets[] = $detail->offset();
-            $mOffsets[] = $detail->modifiedOffset();
-            return 'ę';
-        };
 
         // when
-        pattern($pattern)->replace($subject)->all()->callback($callback);
+        pattern('http://(?<name>[a-z]+)\.(?<domain>com|org)')
+            ->replace('Linkś: http://google.com and http://other.org. and again http://danon.com')
+            ->all()
+            ->callback(function (ReplaceDetail $detail) use ($method, &$offsets) {
+                $offsets[] = $detail->$method();
+
+                return 'ę';
+            });
 
         // then
-        $this->assertSame([7, 29, 57], $offsets);
-        $this->assertSame([7, 13, 26], $mOffsets);
+        $this->assertSame($expected, $offsets);
+    }
+
+    public function offsetMethods(): array
+    {
+        return [
+            'offset'             => ['offset', [7, 29, 57]],
+            'byteOffset'         => ['byteOffset', [8, 30, 58]],
+            'modifiedOffset'     => ['modifiedOffset', [7, 13, 26]],
+            'byteModifiedOffset' => ['byteModifiedOffset', [8, 15, 29]],
+        ];
     }
 
     /**
      * @test
      */
-    public function shouldGetFromReplaceMatch_modifiedSubject()
+    public function shouldReturn_modifiedSubject()
     {
         // given
-        $pattern = '\*([a-zęó])\*';
-        $subject = 'words: *ó* *ę* *ó*';
-
         $subjects = [];
 
-        $callback = function (ReplaceDetail $detail) use (&$subjects) {
-            $subjects[] = $detail->modifiedSubject();
-            return 'a';
-        };
-
         // when
-        $result = pattern($pattern, 'u')->replace($subject)->all()->callback($callback);
+        pattern('\*([a-zęó])\*', 'u')
+            ->replace('words: *ó* *ę* *ó*')
+            ->all()
+            ->callback(function (ReplaceDetail $detail) use (&$subjects) {
+                $subjects[] = $detail->modifiedSubject();
+                return 'ą';
+            });
 
         // then
         $expected = [
             'words: *ó* *ę* *ó*',
-            'words: a *ę* *ó*',
-            'words: a a *ó*',
+            'words: ą *ę* *ó*',
+            'words: ą ą *ó*',
         ];
         $this->assertSame($expected, $subjects);
-        $this->assertSame('words: a a a', $result);
     }
 }

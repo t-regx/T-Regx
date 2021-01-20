@@ -8,27 +8,36 @@ class ReplacePatternTest extends TestCase
 {
     /**
      * @test
+     * @dataProvider offsetMethods
+     * @param string $method
+     * @param array $expected
      */
-    public function shouldGetFromReplaceMatch_modifiedOffset()
+    public function shouldReturn_modifiedOffset(string $method, array $expected)
     {
         // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
-        $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
-
         $offsets = [];
-        $mOffsets = [];
-
-        $callback = function (ReplaceDetail $detail) use (&$offsets, &$mOffsets) {
-            $offsets[] = $detail->group('name')->offset();
-            $mOffsets[] = $detail->group('name')->modifiedOffset();
-            return 'ę';
-        };
 
         // when
-        pattern($pattern)->replace($subject)->all()->callback($callback);
+        pattern('http://(?<name>[a-z]+)\.(?<domain>com|org)')
+            ->replace('Linkś: http://google.com and http://other.org. and again http://danon.com')
+            ->all()
+            ->callback(function (ReplaceDetail $detail) use ($method, &$offsets) {
+                $offsets[] = $detail->group('name')->$method();
+
+                return 'ę';
+            });
 
         // then
-        $this->assertSame([14, 36, 64], $offsets);
-        $this->assertSame([14, 20, 33], $mOffsets);
+        $this->assertSame($expected, $offsets);
+    }
+
+    public function offsetMethods(): array
+    {
+        return [
+            'offset'             => ['offset', [14, 36, 64]],
+            'byteOffset'         => ['byteOffset', [15, 37, 65]],
+            'modifiedOffset'     => ['modifiedOffset', [14, 20, 33]],
+            'byteModifiedOffset' => ['byteModifiedOffset', [15, 22, 36]],
+        ];
     }
 }

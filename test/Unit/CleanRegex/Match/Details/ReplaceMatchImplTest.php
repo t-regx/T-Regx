@@ -52,10 +52,10 @@ class ReplaceMatchImplTest extends TestCase
         // given
         /** @var ReplaceMatchImpl $detail */
         [$detail, $detailMock] = $this->getReplaceDetailAndMock(6);
-        $detailMock->method('offset')->willReturn(14);
+        $detailMock->method('byteOffset')->willReturn(14);
 
         // when
-        $offset = $detail->modifiedOffset();
+        $offset = $detail->byteModifiedOffset();
 
         // then
         $this->assertSame(20, $offset);

@@ -61,7 +61,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
 
         // when
         $offset = $detail->offset();
-        $modifiedOffset = $detail->modifiedOffset();
+        $modifiedOffset = $detail->byteModifiedOffset();
 
         // then
         $this->assertSame(38, $offset);
@@ -88,7 +88,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
                 new RawMatchesToMatchAdapter($matches, 0),
                 new EagerMatchAllFactory($matches),
                 new UserData(),
-                new ReplaceMatchGroupFactoryStrategy($offsetModification)
+                new ReplaceMatchGroupFactoryStrategy(-1, '')
             ),
             $offsetModification,
             '');

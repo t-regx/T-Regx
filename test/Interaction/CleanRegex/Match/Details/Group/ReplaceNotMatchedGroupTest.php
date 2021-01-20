@@ -27,6 +27,22 @@ class ReplaceNotMatchedGroupTest extends TestCase
         $matchGroup->modifiedOffset();
     }
 
+    /**
+     * @test
+     */
+    public function shouldNotGet_byteModifiedOffset()
+    {
+        // given
+        $matchGroup = $this->matchGroup('first');
+
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to call byteModifiedOffset() for group 'first', but the group was not matched");
+
+        // when
+        $matchGroup->byteModifiedOffset();
+    }
+
     private function matchGroup(string $group): ReplaceNotMatchedGroup
     {
         /** @var Subjectable $subject */

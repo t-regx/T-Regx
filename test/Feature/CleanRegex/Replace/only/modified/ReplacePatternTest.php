@@ -13,7 +13,7 @@ class ReplacePatternTest extends TestCase
     {
         // given
         $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
-        $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
+        $subject = 'Linkś: http://google.com and http://other.org. and again http://danon.com';
 
         $offsets = [];
 

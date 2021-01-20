@@ -12,16 +12,19 @@ use TRegx\CleanRegex\Match\Details\Group\ReplaceNotMatchedGroup;
 class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
 {
     /** @var int */
-    private $offsetModification;
+    private $byteOffsetModification;
+    /** @var string */
+    private $subjectModification;
 
-    public function __construct(int $offsetModification)
+    public function __construct(int $byteOffsetModification, string $subjectModification)
     {
-        $this->offsetModification = $offsetModification;
+        $this->byteOffsetModification = $byteOffsetModification;
+        $this->subjectModification = $subjectModification;
     }
 
     public function createMatched(IRawMatchOffset $match, GroupDetails $details, MatchedGroupOccurrence $matchedDetails): MatchedGroup
     {
-        return new ReplaceMatchedGroup($match, $details, $matchedDetails, $this->offsetModification);
+        return new ReplaceMatchedGroup($match, $details, $matchedDetails, $this->byteOffsetModification, $this->subjectModification);
     }
 
     public function createUnmatched(GroupDetails $details,

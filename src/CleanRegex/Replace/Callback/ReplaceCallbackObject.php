@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
-use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -17,9 +16,6 @@ use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
 use function call_user_func;
 use function is_string;
-use function mb_strlen;
-use function strlen;
-use function substr_replace;
 
 class ReplaceCallbackObject
 {
@@ -33,7 +29,7 @@ class ReplaceCallbackObject
     /** @var int */
     private $counter = 0;
     /** @var int */
-    private $offsetModification = 0;
+    private $byteOffsetModification = 0;
     /** @var string */
     private $subjectModification;
     /** @var int */
@@ -50,8 +46,8 @@ class ReplaceCallbackObject
         $this->callback = $callback;
         $this->subject = $subject;
         $this->analyzedPattern = $analyzedPattern;
-        $this->limit = $limit;
         $this->subjectModification = $this->subject->getSubject();
+        $this->limit = $limit;
         $this->argumentStrategy = $argumentStrategy;
     }
 
@@ -87,9 +83,12 @@ class ReplaceCallbackObject
                 new RawMatchesToMatchAdapter($this->analyzedPattern, $index),
                 new EagerMatchAllFactory($this->analyzedPattern),
                 new UserData(),
-                new ReplaceMatchGroupFactoryStrategy($this->offsetModification)
+                new ReplaceMatchGroupFactoryStrategy(
+                    $this->byteOffsetModification,
+                    $this->subjectModification
+                )
             ),
-            $this->offsetModification,
+            $this->byteOffsetModification,
             $this->subjectModification
         );
     }
@@ -118,23 +117,18 @@ class ReplaceCallbackObject
 
     private function modifyOffset(string $search, string $replacement): void
     {
-        $this->offsetModification += mb_strlen($replacement) - mb_strlen($search);
+        $this->byteOffsetModification += \strlen($replacement) - \strlen($search);
     }
 
     private function modifySubject(string $replacement): void
     {
         [$text, $offset] = $this->analyzedPattern->getTextAndOffset($this->counter - 1);
 
-        $this->subjectModification = substr_replace(
+        $this->subjectModification = \substr_replace(
             $this->subjectModification,
             $replacement,
-            $this->getReplaceStart($offset),
-            strlen($text)
+            $offset + $this->byteOffsetModification,
+            \strlen($text)
         );
-    }
-
-    private function getReplaceStart($offset): int
-    {
-        return ByteOffset::toCharacterOffset($this->subject->getSubject(), $offset) + $this->offsetModification;
     }
 }

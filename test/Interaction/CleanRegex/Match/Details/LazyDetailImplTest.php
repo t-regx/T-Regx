@@ -287,7 +287,7 @@ class LazyDetailImplTest extends TestCase
         // when
         $detail->text();
         $detail->get(0);
-        $detail->offset();
+        $detail->byteOffset();
     }
 
     /**

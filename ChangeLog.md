@@ -7,6 +7,8 @@ Incoming in 0.9.14
 * Breaking changes
     * Rename `DetailGroup.replace()` to `DetailGroup.substitute()`
     * Rename `match().groupBy().texts()` to `match().groupBy().all()`
+    * [`ReplaceDetail.modifiedOffset()`][2] returned values as bytes, now returns them as characters
+    * [`ReplaceDetailGroup.modifiedOffset()`][2] returned values as bytes, now returns them as characters
 
 * Bug fixes
     * Fixed a security bug in [`Pattern::bind()`]
@@ -17,11 +19,14 @@ Incoming in 0.9.14
       simply are ignored by PCRE, being replaced by an empty string. So, as of this version both [`withReferences()`]
       and `focus()->withReferences()` ignore the unmatched or nonexistent group as well.
     * Fixed an error where optionals didn't work properly for `match()->offsets()->fluent()`
+    * Fixed an error where `ReplaceDetail` would return malformed `modifiedSubject()` for utf-8 replacements
 
 * Features
-    * Add pattern formats and pattern templates, a new way of creating pseudo-patterns for user supplied data:
-        * Add `Pattern::format()` #79
-        * Add `Pattern::template()` #79
+    * Add [`ReplaceDetail.byteModifiedOffset()`][2] which returns values as bytes
+    * Add [`ReplaceDetailGroup.byteModifiedOffset()`][2] which returns values as bytes
+        * Add pattern formats and pattern templates, a new way of creating pseudo-patterns for user supplied data:
+            * Add `Pattern::format()` #79
+            * Add `Pattern::template()` #79
     * Add `Detail.textByteLength()` #88
     * Add `DetailGroup.textByteLength()` #88
     * Add `match()->flatMapAssoc()` #88
@@ -703,3 +708,5 @@ Available in 0.9.0
 [`orElseCalling(callable)`]: https://t-regx.com/docs/replace-by-group/#orelsecallingcallable
 
 [1]: https://t-regx.com/docs/replace-by-map#groups
+
+[2]: https://t-regx.com/docs/replace-match-details

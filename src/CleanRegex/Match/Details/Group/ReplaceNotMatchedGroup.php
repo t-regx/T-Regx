@@ -7,4 +7,9 @@ class ReplaceNotMatchedGroup extends NotMatchedGroup implements ReplaceDetailGro
     {
         throw $this->groupNotMatched('modifiedOffset');
     }
+
+    public function byteModifiedOffset(): int
+    {
+        throw $this->groupNotMatched('byteModifiedOffset');
+    }
 }
