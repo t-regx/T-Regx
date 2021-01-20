@@ -8,8 +8,8 @@ use TRegx\CleanRegex\Match\Details\Group\ReplaceMatchGroup;
 use TRegx\CleanRegex\Match\Details\Group\ReplaceNotMatchedGroup;
 use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
 use TRegx\CleanRegex\Match\Details\Match;
+use TRegx\CleanRegex\Match\Details\ReplaceDetailImpl;
 use TRegx\CleanRegex\Match\Details\ReplaceMatch;
-use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
 
 class ReplacePatternTest extends TestCase
 {
@@ -24,7 +24,7 @@ class ReplacePatternTest extends TestCase
             ->callback(function (Match $match) {
                 // then
                 $this->assertInstanceOf(ReplaceMatch::class, $match);
-                $this->assertInstanceOf(ReplaceMatchImpl::class, $match);
+                $this->assertInstanceOf(ReplaceDetailImpl::class, $match);
 
                 // cleanup
                 return '';

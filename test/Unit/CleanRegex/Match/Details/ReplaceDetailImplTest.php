@@ -7,9 +7,9 @@ use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
-use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
+use TRegx\CleanRegex\Match\Details\ReplaceDetailImpl;
 
-class ReplaceMatchImplTest extends TestCase
+class ReplaceDetailImplTest extends TestCase
 {
     /**
      * @test
@@ -17,7 +17,7 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_modifiedSubject()
     {
         // given
-        $detail = new ReplaceMatchImpl($this->getMatchMock(), 0, 'subject');
+        $detail = new ReplaceDetailImpl($this->getMatchMock(), 0, 'subject');
 
         // when
         $subject = $detail->modifiedSubject();
@@ -32,7 +32,7 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldUsingDuplicateName_get()
     {
         // given
-        /** @var ReplaceMatchImpl $detail */
+        /** @var ReplaceDetailImpl $detail */
         [$detail, $detailMock] = $this->getReplaceDetailAndMock();
         $input = $this->createMock(DuplicateName::class);
         $detailMock->method('usingDuplicateName')->willReturn($input);
@@ -50,7 +50,7 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_modifiedOffset()
     {
         // given
-        /** @var ReplaceMatchImpl $detail */
+        /** @var ReplaceDetailImpl $detail */
         [$detail, $detailMock] = $this->getReplaceDetailAndMock(6);
         $detailMock->method('byteOffset')->willReturn(14);
 
@@ -292,7 +292,7 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_setUserData()
     {
         // given
-        /** @var ReplaceMatchImpl $detail */
+        /** @var ReplaceDetailImpl $detail */
         [$detail, $detailMock] = $this->getReplaceDetailAndMock();
 
         // expects
@@ -310,7 +310,7 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_matched()
     {
         // given
-        /** @var ReplaceMatchImpl $detail */
+        /** @var ReplaceDetailImpl $detail */
         /** @var MockObject $detailMock */
         [$detail, $detailMock] = $this->getReplaceDetailAndMock();
 
@@ -336,7 +336,7 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_hasGroup()
     {
         // given
-        /** @var ReplaceMatchImpl $detail */
+        /** @var ReplaceDetailImpl $detail */
         /** @var MockObject $detailMock */
         [$detail, $detailMock] = $this->getReplaceDetailAndMock();
 
@@ -377,7 +377,7 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_groups()
     {
         // given
-        /** @var ReplaceMatchImpl $detail */
+        /** @var ReplaceDetailImpl $detail */
         /** @var MockObject $detailMock */
         [$detail, $detailMock] = $this->getReplaceDetailAndMock();
 
@@ -404,7 +404,7 @@ class ReplaceMatchImplTest extends TestCase
     public function shouldGet_namedGroups()
     {
         // given
-        /** @var ReplaceMatchImpl $detail */
+        /** @var ReplaceDetailImpl $detail */
         /** @var MockObject $detailMock */
         [$detail, $detailMock] = $this->getReplaceDetailAndMock();
 
@@ -425,7 +425,7 @@ class ReplaceMatchImplTest extends TestCase
         $this->assertSame(['first' => 'one', 'second' => 'two'], $groups->texts());
     }
 
-    private function getDetail_mockedMethod(string $method, $result): ReplaceMatchImpl
+    private function getDetail_mockedMethod(string $method, $result): ReplaceDetailImpl
     {
         [$detail, $mockMatch] = $this->getReplaceDetailAndMock();
         $mockMatch->method($method)->willReturn($result);
@@ -435,7 +435,7 @@ class ReplaceMatchImplTest extends TestCase
     private function getReplaceDetailAndMock(int $offset = 0, string $subject = ''): array
     {
         $mock = $this->getMatchMock();
-        $detail = new ReplaceMatchImpl($mock, $offset, $subject);
+        $detail = new ReplaceDetailImpl($mock, $offset, $subject);
         return [$detail, $mock];
     }
 

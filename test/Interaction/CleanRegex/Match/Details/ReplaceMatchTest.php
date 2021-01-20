@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\DetailImpl;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
-use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
+use TRegx\CleanRegex\Match\Details\ReplaceDetailImpl;
 use TRegx\SafeRegex\preg;
 
 class ReplaceMatchTest extends TestCase
@@ -80,7 +80,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         preg::match_all($pattern, self::subject, $matches, \PREG_OFFSET_CAPTURE);
 
         $matches = new RawMatchesOffset($matches);
-        return new ReplaceMatchImpl(
+        return new ReplaceDetailImpl(
             new DetailImpl(
                 new Subject(self::subject),
                 0,

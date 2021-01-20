@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DetailImpl;
 use TRegx\CleanRegex\Match\Details\Group\BaseDetailGroup;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
-use TRegx\CleanRegex\Match\Details\ReplaceMatchImpl;
+use TRegx\CleanRegex\Match\Details\ReplaceDetailImpl;
 use function call_user_func;
 use function is_string;
 
@@ -75,7 +75,7 @@ class ReplaceCallbackObject
     private function createDetailObject(): ReplaceDetail
     {
         $index = $this->counter++;
-        return new ReplaceMatchImpl(
+        return new ReplaceDetailImpl(
             new DetailImpl(
                 $this->subject,
                 $index,
