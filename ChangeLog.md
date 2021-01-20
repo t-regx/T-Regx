@@ -24,6 +24,7 @@ Incoming in 0.9.14
 * Features
     * Add [`ReplaceDetail.byteModifiedOffset()`][2] which returns values as bytes
     * Add [`ReplaceDetailGroup.byteModifiedOffset()`][2] which returns values as bytes
+    * Add [`ReplaceDetailGroup.modifiedSubject()`][2]
         * Add pattern formats and pattern templates, a new way of creating pseudo-patterns for user supplied data:
             * Add `Pattern::format()` #79
             * Add `Pattern::template()` #79

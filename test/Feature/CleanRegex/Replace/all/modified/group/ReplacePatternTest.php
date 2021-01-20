@@ -40,4 +40,30 @@ class ReplacePatternTest extends TestCase
             'byteModifiedOffset' => ['byteModifiedOffset', [15, 22, 36]],
         ];
     }
+
+    /**
+     * @test
+     */
+    public function shouldReturn_modifiedSubject()
+    {
+        // given
+        $subjects = [];
+
+        // when
+        pattern('http://(?<name>[a-z]+)\.(?<domain>com|org)')
+            ->replace('Linkś: http://google.com and http://other.org. and again http://danon.com')
+            ->all()
+            ->callback(function (ReplaceDetail $detail) use (&$subjects) {
+                $subjects[] = $detail->group('name')->modifiedSubject();
+                return 'ą';
+            });
+
+        // then
+        $expected = [
+            'Linkś: http://google.com and http://other.org. and again http://danon.com',
+            'Linkś: ą and http://other.org. and again http://danon.com',
+            'Linkś: ą and ą. and again http://danon.com',
+        ];
+        $this->assertSame($expected, $subjects);
+    }
 }

@@ -24,6 +24,11 @@ class ReplaceMatchedGroup extends MatchedGroup implements ReplaceDetailGroup, Re
         $this->subjectModification = $subjectModification;
     }
 
+    public function modifiedSubject(): string
+    {
+        return $this->subjectModification;
+    }
+
     public function modifiedOffset(): int
     {
         return ByteOffset::toCharacterOffset($this->subjectModification, $this->byteModifiedOffset());

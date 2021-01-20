@@ -14,6 +14,22 @@ class ReplaceNotMatchedGroupTest extends TestCase
     /**
      * @test
      */
+    public function shouldNotGet_modifiedSubject()
+    {
+        // given
+        $matchGroup = $this->matchGroup('first');
+
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to call modifiedSubject() for group 'first', but the group was not matched");
+
+        // when
+        $matchGroup->modifiedSubject();
+    }
+
+    /**
+     * @test
+     */
     public function shouldNotGet_modifiedOffset()
     {
         // given

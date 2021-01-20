@@ -23,6 +23,11 @@ class ReplaceMatchImpl implements ReplaceDetail, ReplaceMatch
         $this->subjectModification = $subjectModification;
     }
 
+    public function modifiedSubject(): string
+    {
+        return $this->subjectModification;
+    }
+
     public function modifiedOffset(): int
     {
         return ByteOffset::toCharacterOffset($this->modifiedSubject(), $this->byteModifiedOffset());
@@ -31,11 +36,6 @@ class ReplaceMatchImpl implements ReplaceDetail, ReplaceMatch
     public function byteModifiedOffset(): int
     {
         return $this->byteOffset() + $this->byteOffsetModification;
-    }
-
-    public function modifiedSubject(): string
-    {
-        return $this->subjectModification;
     }
 
     public function get($nameOrIndex): string
