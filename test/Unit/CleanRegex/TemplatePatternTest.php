@@ -38,4 +38,36 @@ class TemplatePatternTest extends TestCase
         // when
         $template->format('hey', []);
     }
+
+    /**
+     * @test
+     */
+    public function shouldInject_throwForInvalidFormat(): void
+    {
+        // given
+        $template = new TemplatePattern('@&', '', false);
+
+        // then
+        $this->expectException(TemplateFormatException::class);
+        $this->expectExceptionMessage('There are 1 & tokens in template, but only 0 builder methods were used');
+
+        // when
+        $template->inject(['bar']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBind_throwForInvalidFormat(): void
+    {
+        // given
+        $template = new TemplatePattern('@foo&', '', false);
+
+        // then
+        $this->expectException(TemplateFormatException::class);
+        $this->expectExceptionMessage('There are 1 & tokens in template, but only 0 builder methods were used');
+
+        // when
+        $template->bind(['foo' => 'bar']);
+    }
 }

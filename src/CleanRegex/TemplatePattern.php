@@ -35,4 +35,16 @@ class TemplatePattern
         $template = new FormatTemplate($this->pattern, $this->flags, $this->pcre, [new FormatTokenValue($string, $tokens)]);
         return $template->build();
     }
+
+    public function inject(array $values): PatternInterface
+    {
+        $template = new FormatTemplate($this->pattern, $this->flags, $this->pcre, []);
+        return $template->inject($values);
+    }
+
+    public function bind(array $values): PatternInterface
+    {
+        $template = new FormatTemplate($this->pattern, $this->flags, $this->pcre, []);
+        return $template->bind($values);
+    }
 }

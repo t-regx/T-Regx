@@ -97,7 +97,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_build(): void
+    public function shouldBuild_template_formatting_build(): void
     {
         // given
         $pattern = Pattern::template('^& v&s. &$ @ or `s`', 'i')
@@ -122,7 +122,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_inject(): void
+    public function shouldBuild_template_formatting_inject(): void
     {
         // given
         $pattern = Pattern::template('^& vs. @:@$', 's')
@@ -185,5 +185,35 @@ class PatternTest extends TestCase
 
         // then
         $this->assertSame('#^& vs/ $#s', $delimited);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_template_inject(): void
+    {
+        // given
+        $pattern = Pattern::template('^@ vs/ $', 's')->inject(['*']);
+
+        // when
+        $delimited = $pattern->delimited();
+
+        // then
+        $this->assertSame('#^\* vs/ $#s', $delimited);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_template_build(): void
+    {
+        // given
+        $pattern = Pattern::template('^@value vs/ $', 's')->bind(['value' => '*']);
+
+        // when
+        $delimited = $pattern->delimited();
+
+        // then
+        $this->assertSame('#^\* vs/ $#s', $delimited);
     }
 }

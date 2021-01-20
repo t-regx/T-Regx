@@ -105,4 +105,34 @@ class PatternBuilderTest extends TestCase
         // then
         $this->assertSame('%You/her, \s (her)%s', $pattern);
     }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_pcre_template_inject()
+    {
+        // given
+        $pattern = PatternBuilder::builder()->pcre()->template('%You/her, \s (her)%', 's')->inject([]);
+
+        // when
+        $pattern = $pattern->delimited();
+
+        // then
+        $this->assertSame('%You/her, \s (her)%s', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_pcre_template_bind()
+    {
+        // given
+        $pattern = PatternBuilder::builder()->pcre()->template('%You/her, \s (her)%', 's')->bind([]);
+
+        // when
+        $pattern = $pattern->delimited();
+
+        // then
+        $this->assertSame('%You/her, \s (her)%s', $pattern);
+    }
 }
