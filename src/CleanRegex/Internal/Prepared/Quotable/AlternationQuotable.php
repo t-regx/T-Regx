@@ -1,11 +1,11 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Quoteable;
+namespace TRegx\CleanRegex\Internal\Prepared\Quotable;
 
 use InvalidArgumentException;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\Alternator;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\Alternator;
 use TRegx\CleanRegex\Internal\Type;
 
-class AlternationQuotable implements Quoteable
+class AlternationQuotable implements Quotable
 {
     /** @var array */
     private $userInputs;
@@ -26,12 +26,12 @@ class AlternationQuotable implements Quoteable
     private function normalizedUserInput(): array
     {
         foreach ($this->userInputs as $input) {
-            $this->validateQuoteable($input);
+            $this->validateQuotable($input);
         }
         return $this->removeDuplicates($this->userInputEmptyLast());
     }
 
-    private function validateQuoteable($quoteable): void
+    private function validateQuotable($quoteable): void
     {
         if (!\is_string($quoteable)) {
             $type = Type::asString($quoteable);

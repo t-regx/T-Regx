@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Delimiter\Strategy\CallbackStrategy;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\PcreCallbackStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\AlterationFactory;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PatternInterface;
 

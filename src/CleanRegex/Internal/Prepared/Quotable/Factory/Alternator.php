@@ -1,7 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory;
+namespace TRegx\CleanRegex\Internal\Prepared\Quotable\Factory;
 
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\UserInputQuoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
 
 class Alternator
 {
@@ -19,7 +19,7 @@ class Alternator
     {
         $result = [];
         foreach ($userInput as $input) {
-            $result[] = (new UserInputQuoteable($input))->quote($delimiter);
+            $result[] = (new UserInputQuotable($input))->quote($delimiter);
         }
         return $result;
     }

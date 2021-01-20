@@ -1,9 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Quoteable;
+namespace TRegx\CleanRegex\Internal\Prepared\Quotable;
 
 use TRegx\SafeRegex\preg;
 
-class UserInputQuoteable implements Quoteable
+class UserInputQuotable implements Quotable
 {
     /** @var string */
     private $userInput;

@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Format;
 
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
 interface TokenValue
 {
-    public function formatAsQuotable(): Quoteable;
+    public function formatAsQuotable(): Quotable;
 }

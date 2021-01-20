@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
 interface TokenStrategy
 {
-    public function nextAsQuotable(): Quoteable;
+    public function nextAsQuotable(): Quotable;
 }

@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\Alternator;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\Alternator;
 use TRegx\SafeRegex\preg;
 
 class MultiSplitter

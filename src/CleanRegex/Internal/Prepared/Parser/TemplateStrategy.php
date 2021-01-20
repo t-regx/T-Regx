@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use TRegx\CleanRegex\Internal\Format\TokenValue;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
 class TemplateStrategy implements TokenStrategy
 {
@@ -14,7 +14,7 @@ class TemplateStrategy implements TokenStrategy
         $this->placeholders = $placeholders;
     }
 
-    public function nextAsQuotable(): Quoteable
+    public function nextAsQuotable(): Quotable
     {
         return $this->nextPlaceholder()->formatAsQuotable();
     }

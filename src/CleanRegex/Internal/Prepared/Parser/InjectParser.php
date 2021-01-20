@@ -2,9 +2,9 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use InvalidArgumentException;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\QuotableFactory;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\QuotableFactory;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
 use TRegx\CleanRegex\Internal\Type;
 
 class InjectParser implements Parser
@@ -23,7 +23,7 @@ class InjectParser implements Parser
         $this->strategy = $strategy;
     }
 
-    public function parse(string $delimiter, QuotableFactory $quotableFactory): Quoteable
+    public function parse(string $delimiter, QuotableFactory $quotableFactory): Quotable
     {
         \reset($this->values);
         $result = \preg_replace_callback('/[@&]/', function (array $values) use ($delimiter, $quotableFactory) {
@@ -33,7 +33,7 @@ class InjectParser implements Parser
             return $quotableFactory->quotable($this->getBindValue())->quote($delimiter);
         }, $this->input);
         $this->validateSuperfluousBindValues();
-        return new RawQuoteable($result);
+        return new RawQuotable($result);
     }
 
     private function getBindValue()

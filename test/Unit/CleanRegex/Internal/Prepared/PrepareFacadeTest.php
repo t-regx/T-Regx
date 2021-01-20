@@ -5,7 +5,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\UserInputQuoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
 
 class PrepareFacadeTest extends TestCase
 {
@@ -104,7 +104,7 @@ class PrepareFacadeTest extends TestCase
         /** @var Parser|MockObject $parser */
         $parser = $this->getMockBuilder(Parser::class)->setMethods(['getDelimiterable', 'parse'])->getMock();
         $parser->expects($this->once())->method('getDelimiterable')->willReturn($input);
-        $parser->expects($this->once())->method('parse')->with($this->equalTo($expectDelimiter))->willReturn(new UserInputQuoteable($result));
+        $parser->expects($this->once())->method('parse')->with($this->equalTo($expectDelimiter))->willReturn(new UserInputQuotable($result));
         return $parser;
     }
 }

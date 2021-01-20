@@ -1,10 +1,10 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quoteable;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quotable;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\UserInputQuoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
 
-class UserInputQuoteableTest extends TestCase
+class UserInputQuotableTest extends TestCase
 {
     /**
      * @test
@@ -15,7 +15,7 @@ class UserInputQuoteableTest extends TestCase
     public function shouldQuoteExtended(string $input, string $expected)
     {
         // given
-        $quotable = new UserInputQuoteable($input);
+        $quotable = new UserInputQuotable($input);
 
         // when
         $result = $quotable->quote('/');

@@ -1,9 +1,9 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quotable\Factory;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\AlterationFactory;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
 
 class AlterationFactoryTest extends TestCase
 {

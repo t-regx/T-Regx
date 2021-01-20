@@ -1,7 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Quoteable;
+namespace TRegx\CleanRegex\Internal\Prepared\Quotable;
 
-class RawQuoteable implements Quoteable
+class RawQuotable implements Quotable
 {
     /** @var string */
     private $value;

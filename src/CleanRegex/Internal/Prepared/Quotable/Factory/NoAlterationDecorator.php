@@ -1,8 +1,8 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory;
+namespace TRegx\CleanRegex\Internal\Prepared\Quotable\Factory;
 
 use InvalidArgumentException;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Type;
 
 class NoAlterationDecorator implements QuotableFactory
@@ -15,7 +15,7 @@ class NoAlterationDecorator implements QuotableFactory
         $this->factory = $factory;
     }
 
-    public function quotable($value): Quoteable
+    public function quotable($value): Quotable
     {
         if (\is_array($value)) {
             $type = Type::asString($value);

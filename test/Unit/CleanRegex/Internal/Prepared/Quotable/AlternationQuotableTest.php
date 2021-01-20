@@ -1,9 +1,9 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quoteable;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quotable;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\AlternationQuotable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable;
 
 class AlternationQuotableTest extends TestCase
 {

@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Parser;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\IgnoreStrategy;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\AlterationFactory;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
 
 class BindingParserTest extends TestCase
 {

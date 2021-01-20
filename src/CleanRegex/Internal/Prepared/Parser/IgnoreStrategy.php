@@ -1,13 +1,13 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
 
 class IgnoreStrategy implements TokenStrategy
 {
-    public function nextAsQuotable(): Quoteable
+    public function nextAsQuotable(): Quotable
     {
-        return new RawQuoteable('&');
+        return new RawQuotable('&');
     }
 }

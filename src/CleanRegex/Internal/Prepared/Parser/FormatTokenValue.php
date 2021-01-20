@@ -4,10 +4,10 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 use TRegx\CleanRegex\Internal\Format\TokenValue;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\MultiSplitter;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\CompositeQuoteable;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\UserInputQuoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\CompositeQuotable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
 use TRegx\CleanRegex\Internal\ValidPattern;
 
 class FormatTokenValue implements TokenValue
@@ -23,7 +23,7 @@ class FormatTokenValue implements TokenValue
         $this->tokens = $tokens;
     }
 
-    public function formatAsQuotable(): Quoteable
+    public function formatAsQuotable(): Quotable
     {
         foreach ($this->tokens as $placeholder => $pattern) {
             $this->validatePair($pattern, $placeholder);
@@ -31,7 +31,7 @@ class FormatTokenValue implements TokenValue
         foreach ($this->tokens as $placeholder => $pattern) {
             $this->validateEmpty($placeholder);
         }
-        return new CompositeQuoteable($this->quotableTokens((new MultiSplitter($this->pattern, \array_keys($this->tokens)))->split()));
+        return new CompositeQuotable($this->quotableTokens((new MultiSplitter($this->pattern, \array_keys($this->tokens)))->split()));
     }
 
     private function quotableTokens(array $elements): array
@@ -39,8 +39,8 @@ class FormatTokenValue implements TokenValue
         $quotes = [];
         foreach ($elements as $rawOrToken) {
             $quotes[] = \array_key_exists($rawOrToken, $this->tokens)
-                ? new RawQuoteable($this->tokens[$rawOrToken])
-                : new UserInputQuoteable($rawOrToken);
+                ? new RawQuotable($this->tokens[$rawOrToken])
+                : new UserInputQuotable($rawOrToken);
         }
         return $quotes;
     }

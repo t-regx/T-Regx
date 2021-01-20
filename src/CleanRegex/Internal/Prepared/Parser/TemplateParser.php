@@ -3,9 +3,9 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Format\TokenValue;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\QuotableFactory;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\RawQuoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\QuotableFactory;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
 
 class TemplateParser implements Parser
 {
@@ -20,12 +20,12 @@ class TemplateParser implements Parser
         $this->placeholders = $placeholders;
     }
 
-    public function parse(string $delimiter, QuotableFactory $quotableFactory): Quoteable
+    public function parse(string $delimiter, QuotableFactory $quotableFactory): Quotable
     {
         $pattern = \preg_replace_callback('/&/', function (): string {
             return $this->nextPlaceholder()->formatAsQuotable()->quote('/');
         }, $this->pattern);
-        return new RawQuoteable($pattern);
+        return new RawQuotable($pattern);
     }
 
     private function nextPlaceholder(): TokenValue

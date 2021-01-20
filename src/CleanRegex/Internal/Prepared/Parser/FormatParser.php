@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Factory\QuotableFactory;
-use TRegx\CleanRegex\Internal\Prepared\Quoteable\Quoteable;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\QuotableFactory;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
 class FormatParser implements Parser
 {
@@ -17,7 +17,7 @@ class FormatParser implements Parser
         $this->tokens = $tokens;
     }
 
-    public function parse(string $delimiter, QuotableFactory $quotableFactory): Quoteable
+    public function parse(string $delimiter, QuotableFactory $quotableFactory): Quotable
     {
         return (new FormatTokenValue($this->pattern, $this->tokens))->formatAsQuotable();
     }
