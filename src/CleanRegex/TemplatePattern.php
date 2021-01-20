@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Internal\Format\LiteralValue;
+use TRegx\CleanRegex\Internal\Format\LiteralTokenValue;
 use TRegx\CleanRegex\Internal\Prepared\Parser\FormatTokenValue;
 
 class TemplatePattern
@@ -27,7 +27,7 @@ class TemplatePattern
 
     public function literal(): FormatTemplate
     {
-        return new FormatTemplate($this->pattern, $this->flags, $this->pcre, [new LiteralValue()]);
+        return new FormatTemplate($this->pattern, $this->flags, $this->pcre, [new LiteralTokenValue()]);
     }
 
     public function format(string $string, array $tokens): PatternInterface

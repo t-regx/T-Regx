@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Exception\TemplateFormatException;
-use TRegx\CleanRegex\Internal\Format\LiteralValue;
+use TRegx\CleanRegex\Internal\Format\LiteralTokenValue;
 use TRegx\CleanRegex\Internal\Format\TokenValue;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\FormatTokenValue;
@@ -37,7 +37,7 @@ class FormatTemplate
 
     public function literal(): FormatTemplate
     {
-        return $this->next(new LiteralValue());
+        return $this->next(new LiteralTokenValue());
     }
 
     private function next(TokenValue $placeholder): FormatTemplate

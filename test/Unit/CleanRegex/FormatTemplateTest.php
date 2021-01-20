@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\TemplateFormatException;
 use TRegx\CleanRegex\FormatTemplate;
-use TRegx\CleanRegex\Internal\Format\LiteralValue;
+use TRegx\CleanRegex\Internal\Format\LiteralTokenValue;
 
 class FormatTemplateTest extends TestCase
 {
@@ -17,7 +17,7 @@ class FormatTemplateTest extends TestCase
     public function shouldThrowForOverflowingLiteral(string $method, array $arguments): void
     {
         // given
-        $template = new FormatTemplate('^&&$', '', false, [new LiteralValue(), new LiteralValue(), new LiteralValue()]);
+        $template = new FormatTemplate('^&&$', '', false, [new LiteralTokenValue(), new LiteralTokenValue(), new LiteralTokenValue()]);
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -36,7 +36,7 @@ class FormatTemplateTest extends TestCase
     public function shouldThrowForMissingLiteral(string $method, array $arguments): void
     {
         // given
-        $template = new FormatTemplate('^&&$', '', false, [new LiteralValue()]);
+        $template = new FormatTemplate('^&&$', '', false, [new LiteralTokenValue()]);
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -61,7 +61,7 @@ class FormatTemplateTest extends TestCase
     public function shouldBuildBeImmutable(): void
     {
         // given
-        $template = new FormatTemplate('^&&$', 's', false, [new LiteralValue()]);
+        $template = new FormatTemplate('^&&$', 's', false, [new LiteralTokenValue()]);
 
         // when
         $first = $template->literal();
@@ -80,7 +80,7 @@ class FormatTemplateTest extends TestCase
     public function shouldChoseDelimiter(): void
     {
         // given
-        $template = new FormatTemplate('^&/$', '', false, [new LiteralValue()]);
+        $template = new FormatTemplate('^&/$', '', false, [new LiteralTokenValue()]);
 
         // when
         $pattern = $template->build();
