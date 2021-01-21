@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\Type;
 
-class IntegerFormatException extends PatternException
+class IntegerFormatException extends \Exception implements PatternException
 {
     public static function forGroup($nameOrIndex, string $value): self
     {

@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class NoSuitableConstructorException extends PatternException
+class NoSuitableConstructorException extends \Exception implements PatternException
 {
     public function __construct(string $className)
     {

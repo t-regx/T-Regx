@@ -3,7 +3,7 @@ namespace TRegx\SafeRegex\Exception;
 
 use TRegx\RegexException;
 
-abstract class PregException extends RegexException
+abstract class PregException extends \Exception implements RegexException
 {
     /** @var string|array */
     private $pattern;

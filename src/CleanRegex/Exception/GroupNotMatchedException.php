@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedG
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Subjectable;
 
-class GroupNotMatchedException extends PatternException
+class GroupNotMatchedException extends \Exception implements PatternException
 {
     /** @var string */
     private $subject; // Debugger

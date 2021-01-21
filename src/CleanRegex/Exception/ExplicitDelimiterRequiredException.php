@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class ExplicitDelimiterRequiredException extends PatternException
+class ExplicitDelimiterRequiredException extends \Exception implements PatternException
 {
     public function __construct(string $pattern)
     {

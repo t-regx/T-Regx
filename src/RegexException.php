@@ -1,6 +1,6 @@
 <?php
 namespace TRegx;
 
-abstract class RegexException extends \Exception
+interface RegexException extends \Throwable
 {
 }

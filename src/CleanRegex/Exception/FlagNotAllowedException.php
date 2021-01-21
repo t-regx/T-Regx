@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class FlagNotAllowedException extends PatternException
+class FlagNotAllowedException extends \Exception implements PatternException
 {
     public static function forOne(string $flag): self
     {

@@ -12,7 +12,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Subject\NthGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\NthMatchMessage;
 use TRegx\CleanRegex\Internal\Subjectable;
 
-class SubjectNotMatchedException extends PatternException
+class SubjectNotMatchedException extends \Exception implements PatternException
 {
     /** @var string */
     private $subject; // Debugger

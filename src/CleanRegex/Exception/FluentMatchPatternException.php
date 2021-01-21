@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\Type;
 
-class FluentMatchPatternException extends PatternException
+class FluentMatchPatternException extends \Exception implements PatternException
 {
     public static function forInvalidInteger($value): self
     {

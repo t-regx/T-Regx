@@ -1,6 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class InternalCleanRegexException extends PatternException
+class InternalCleanRegexException extends \Exception implements PatternException
 {
 }

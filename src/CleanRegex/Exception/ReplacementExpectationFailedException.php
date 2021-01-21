@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class ReplacementExpectationFailedException extends PatternException
+class ReplacementExpectationFailedException extends \Exception implements PatternException
 {
     /** @var int */
     private $expected;

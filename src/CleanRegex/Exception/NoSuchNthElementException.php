@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\Type;
 
-class NoSuchNthElementException extends PatternException
+class NoSuchNthElementException extends \Exception implements PatternException
 {
     /** @var int */
     private $index;
