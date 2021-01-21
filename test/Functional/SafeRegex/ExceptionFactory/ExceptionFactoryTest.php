@@ -3,7 +3,7 @@ namespace Test\Functional\TRegx\SafeRegex\ExceptionFactory;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
-use TRegx\SafeRegex\Exception\CompilePregException;
+use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Exception\SuspectedReturnPregException;
 use TRegx\SafeRegex\ExceptionFactory;
@@ -30,7 +30,7 @@ class ExceptionFactoryTest extends TestCase
         $exception = $exceptionFactory->retrieveGlobals('preg_match', false);
 
         // then
-        $this->assertInstanceOf(CompilePregException::class, $exception);
+        $this->assertInstanceOf(MalformedPatternException::class, $exception);
         $this->assertSame('/pattern/', $exception->getPregPattern());
     }
 

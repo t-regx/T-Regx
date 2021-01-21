@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\ClassWithToString;
 use Test\Utils\Functions;
 use Test\Warnings;
-use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
 use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\Utf8OffsetPregException;
@@ -58,7 +57,7 @@ class pregTest extends TestCase
     public function shouldBeProneToRegexCallbackWarnings()
     {
         // then
-        $this->expectException(CompilePregException::class);
+        $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage("No ending delimiter '/' found");
 
         // when

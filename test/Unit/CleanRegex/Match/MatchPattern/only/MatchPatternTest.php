@@ -7,7 +7,7 @@ use Test\PhpunitPolyfill;
 use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
-use TRegx\SafeRegex\Exception\CompilePregException;
+use TRegx\SafeRegex\Exception\MalformedPatternException;
 
 class MatchPatternTest extends TestCase
 {
@@ -113,7 +113,7 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(InternalPattern::standard('invalid)'), 'Nice matching pattern');
 
         // then
-        $this->expectException(CompilePregException::class);
+        $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessageMatches(PhpVersionDependent::getUnmatchedParenthesisMessage(7));
 
         // when

@@ -8,7 +8,7 @@ use TRegx\SafeRegex\Errors\Errors\CompileError;
 use TRegx\SafeRegex\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Errors\Errors\RuntimeError;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
-use TRegx\SafeRegex\Exception\CompilePregException;
+use TRegx\SafeRegex\Exception\MalformedPatternException;
 
 class ErrorsCleanerTest extends TestCase
 {
@@ -128,8 +128,8 @@ class ErrorsCleanerTest extends TestCase
         $exception = $error->getSafeRegexpException('method_name', '/foo/');
 
         // then
-        /** @var CompilePregException $exception */
-        $this->assertInstanceOf(CompilePregException::class, $exception);
+        /** @var MalformedPatternException $exception */
+        $this->assertInstanceOf(MalformedPatternException::class, $exception);
         $this->assertSame('method_name', $exception->getInvokingMethod());
         $this->assertSame('/foo/', $exception->getPregPattern());
 

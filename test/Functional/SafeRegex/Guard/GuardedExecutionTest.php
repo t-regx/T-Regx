@@ -7,7 +7,7 @@ use Test\Utils\Functions;
 use Test\Warnings;
 use TRegx\SafeRegex\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
-use TRegx\SafeRegex\Exception\CompilePregException;
+use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Guard\GuardedExecution;
 
@@ -37,7 +37,7 @@ class GuardedExecutionTest extends TestCase
     public function shouldCatchCompileWarningWhenInvoking()
     {
         // then
-        $this->expectException(CompilePregException::class);
+        $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage("No ending delimiter '/' found");
 
         // when
@@ -152,7 +152,7 @@ class GuardedExecutionTest extends TestCase
                 $this->causeMalformedPatternWarning();
                 return false;
             });
-        } catch (CompilePregException $exception) {
+        } catch (MalformedPatternException $exception) {
             // then
             $this->assertSame('/compile/', $exception->getPregPattern());
         }
