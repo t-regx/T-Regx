@@ -5,12 +5,7 @@ use TRegx\CleanRegex\Internal\Type;
 
 class InvalidReturnValueException extends PatternException
 {
-    /**
-     * @param $returnValue
-     * @param $methodName
-     * @param $expectedReturnType
-     */
-    public function __construct($returnValue, $methodName, $expectedReturnType)
+    public function __construct($returnValue, string $methodName, string $expectedReturnType)
     {
         $type = Type::asString($returnValue);
         parent::__construct("Invalid $methodName() callback return type. Expected $expectedReturnType, but $type given");
