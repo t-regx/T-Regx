@@ -73,11 +73,11 @@ class pregTest extends TestCase
     public function subjectsAndOffsets(): array
     {
         return [
-            ['a', 2, 'Overflowing offset: 2 (subject has length: 1)'],
-            ['', -1, 'Negative offset: -1'],
-            ['', 1, 'Overflowing offset: 1 (subject has length: 0)'],
+            ['Foo', 4, 'Overflowing offset: 4, while subject has length: 3 (bytes)'],
+            ['a', 2, 'Overflowing offset: 2, while subject has length: 1 (bytes)'],
+            ['', 1, 'Overflowing offset: 1, while subject has length: 0 (bytes)'],
             ['Foo', -2, 'Negative offset: -2'],
-            ['Foo', 4, 'Overflowing offset: 4 (subject has length: 3)'],
+            ['', -1, 'Negative offset: -1'],
         ];
     }
 }

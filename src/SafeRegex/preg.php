@@ -41,7 +41,7 @@ class preg
         }
         $length = \strlen($subject);
         if ($length < $offset) {
-            throw new InvalidArgumentException("Overflowing offset: $offset (subject has length: $length)");
+            throw new InvalidArgumentException("Overflowing offset: $offset, while subject has length: $length (bytes)");
         }
         return $offset;
     }
