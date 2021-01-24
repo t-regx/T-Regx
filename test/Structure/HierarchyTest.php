@@ -3,6 +3,7 @@ namespace Test\Structure\TRegx;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\PatternException;
+use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\RegexException;
 use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\PregException;
@@ -42,6 +43,23 @@ class HierarchyTest extends TestCase
             $this->assertInstanceOf(RegexException::class, $exception);
 
             $this->assertNotInstanceOf(PatternException::class, $exception);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function pattern_trailing(): void
+    {
+        try {
+            pattern('hello\\')->test('word');
+        } catch (\Throwable $exception) {
+            $this->directInstanceOf(PatternMalformedPatternException::class, $exception);
+            $this->assertInstanceOf(MalformedPatternException::class, $exception);
+            $this->assertInstanceOf(PatternException::class, $exception);
+            $this->assertInstanceOf(RegexException::class, $exception);
+
+            $this->assertNotInstanceOf(PregException::class, $exception);
         }
     }
 

@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\IdentityStrategy;
+use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\SafeRegex\preg;
 
 class DelimitererTest extends TestCase
@@ -71,5 +72,45 @@ class DelimitererTest extends TestCase
 
         // when
         $delimiterer->delimiter($pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturn_forTrailingBackslash(): void
+    {
+        // given
+        $delimiterer = new Delimiterer(new IdentityStrategy());
+
+        // when
+        $result = $delimiterer->delimiter("Foo\\\\");
+
+        // then
+        $this->assertSame('/Foo\\\\/', $result);
+    }
+
+    /**
+     * @test
+     * @dataProvider trailingBackslashPatterns
+     * @param string $pattern
+     */
+    public function shouldThrow_forTrailingBackslash(string $pattern): void
+    {
+        // given
+        $delimiterer = new Delimiterer(new IdentityStrategy());
+
+        // then
+        $this->expectException(TrailingBackslashException::class);
+
+        // when
+        $delimiterer->delimiter($pattern);
+    }
+
+    public function trailingBackslashPatterns(): array
+    {
+        return [
+            ["Foo\\"],
+            ["Foo\\\\\\"],
+        ];
     }
 }

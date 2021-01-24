@@ -9,20 +9,26 @@ Incoming in 0.9.14
     * Rename `match().groupBy().texts()` to `match().groupBy().all()`
     * [`ReplaceDetail.modifiedOffset()`][2] returned values as bytes, now returns them as characters
     * [`ReplaceDetailGroup.modifiedOffset()`][2] returned values as bytes, now returns them as characters
+    * `MalformedPatternException` was a class extending `CompilePregException`. Now, `MalformedPatternException`
+      extends only `RegexException`. New class, `PregMalformedPatternException` is being thrown everywhere
+      `MalformedPatternException` used to be thrown. Don't refactor your `catch (MalformedPatternException $e)`, since
+      that's still the recommended handling.
+      (but say [`get_class()`] would return `PregMalformedPatternException`). Complete exception structure is described
+      in "Exceptions".
 
 * Bug fixes
-    * Fixed a security bug in [`Pattern::bind()`]
+    * Fix a security bug in [`Pattern::bind()`]
     * Using pattern with a trailing backslash (e.g. `"(hello)\\"`) would throw
       `MalformedPatternException` with a really weird message, exposing the implementation details. Now the message
       is `Pattern may not end with a trailing backslash`.
-    * Adapted `focus()->withReferences()` so it works exactly as [`preg_replace()`].
+    * Adapt `focus()->withReferences()` so it works exactly as [`preg_replace()`].
 
       Previously, using a nonexistent or unmatched group with `focus()->withReferences()`
       would throw an exception. But of course, [`preg_replace()`] references `$1` and `\1`
       simply are ignored by PCRE, being replaced by an empty string. So, as of this version both [`withReferences()`]
       and `focus()->withReferences()` ignore the unmatched or nonexistent group as well.
-    * Fixed an error where optionals didn't work properly for `match()->offsets()->fluent()`
-    * Fixed an error where `ReplaceDetail` would return malformed `modifiedSubject()` for utf-8 replacements
+    * Fix an error where optionals didn't work properly for `match()->offsets()->fluent()`
+    * Fix an error where `ReplaceDetail` would return malformed `modifiedSubject()` for utf-8 replacements
 
 * Features
     * Add [`ReplaceDetail.byteModifiedOffset()`][2] which returns values as bytes
@@ -50,10 +56,10 @@ Incoming in 0.9.14
     * Add `replace()->counting()`, invoking a callback with the number of replacements performed #90
     * Add `replace()->exactly()`, validating that exactly one/only replacements were performed #90
     * Add `replace()->atLeast()`, validating that at least one/only replacements were performed #90
-  * Add `replace()->atMost()`, validating that at most one/only replacements were performed #90
-  * Add `pattern()->prune()` which removes every occurrence of a pattern from subject (identical to `remove()->all()`)
+    * Add `replace()->atMost()`, validating that at most one/only replacements were performed #90
+    * Add `pattern()->prune()` which removes every occurrence of a pattern from subject (identical to `remove()->all()`)
 * Other:
-    * Replaced any usage of `\d` to `[0-9]` in the library, since it depends on PHP locale.
+    * Replace any usage of `\d` to `[0-9]` in the library, since it depends on PHP locale.
 
 Added in 0.9.13
 ---------------
@@ -715,3 +721,5 @@ Available in 0.9.0
 [1]: https://t-regx.com/docs/replace-by-map#groups
 
 [2]: https://t-regx.com/docs/replace-match-details
+
+[`get_class()`]: https://www.php.net/manual/en/function.get-class.php

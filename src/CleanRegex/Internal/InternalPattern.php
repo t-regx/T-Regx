@@ -1,8 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\IdentityStrategy;
+use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 
 class InternalPattern
 {
@@ -19,7 +21,11 @@ class InternalPattern
 
     public static function standard(string $pattern, string $flags = ''): InternalPattern
     {
-        return new self((new Delimiterer(new IdentityStrategy()))->delimiter($pattern) . $flags, $pattern);
+        try {
+            return new self((new Delimiterer(new IdentityStrategy()))->delimiter($pattern) . $flags, $pattern);
+        } catch (TrailingBackslashException $exception) {
+            throw new PatternMalformedPatternException('Pattern may not end with a trailing backslash');
+        }
     }
 
     public static function pcre(string $pattern): InternalPattern
