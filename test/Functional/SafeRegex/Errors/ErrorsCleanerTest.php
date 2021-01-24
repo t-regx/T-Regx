@@ -3,12 +3,12 @@ namespace Test\Functional\TRegx\SafeRegex\Errors;
 
 use PHPUnit\Framework\TestCase;
 use Test\Warnings;
+use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Errors\Errors\BothHostError;
 use TRegx\SafeRegex\Errors\Errors\CompileError;
 use TRegx\SafeRegex\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Errors\Errors\RuntimeError;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
-use TRegx\SafeRegex\Exception\MalformedPatternException;
 
 class ErrorsCleanerTest extends TestCase
 {

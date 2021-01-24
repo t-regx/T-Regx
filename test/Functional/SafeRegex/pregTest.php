@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\ClassWithToString;
 use Test\Utils\Functions;
 use Test\Warnings;
+use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
-use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\Utf8OffsetPregException;
 use TRegx\SafeRegex\preg;
 

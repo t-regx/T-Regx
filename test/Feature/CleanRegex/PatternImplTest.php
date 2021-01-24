@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
-use TRegx\SafeRegex\Exception\MalformedPatternException;
+use TRegx\Exception\MalformedPatternException;
 
 class PatternImplTest extends TestCase
 {

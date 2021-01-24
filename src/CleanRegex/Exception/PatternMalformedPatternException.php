@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-use TRegx\SafeRegex\Exception\MalformedPatternException;
+use TRegx\Exception\MalformedPatternException;
 
 class PatternMalformedPatternException extends \Exception implements PatternException, MalformedPatternException
 {

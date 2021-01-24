@@ -4,9 +4,9 @@ namespace Test\Unit\TRegx\SafeRegex\Guard;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use Test\Warnings;
+use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Exception\CompilePregException;
-use TRegx\SafeRegex\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Guard\GuardedInvoker;
 

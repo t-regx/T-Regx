@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\SafeRegex\Errors;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\SafeRegex\Exception\MalformedPatternException;
+use TRegx\Exception\MalformedPatternException;
 
 class ErrorsCleanerTest extends TestCase
 {

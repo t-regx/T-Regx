@@ -9,6 +9,7 @@ Incoming in 0.9.14
     * Rename `match().groupBy().texts()` to `match().groupBy().all()`
     * [`ReplaceDetail.modifiedOffset()`][2] returned values as bytes, now returns them as characters
     * [`ReplaceDetailGroup.modifiedOffset()`][2] returned values as bytes, now returns them as characters
+    * Move `MalformedPatternException` to namespace `\TRegx\Exception`
     * `MalformedPatternException` was a class extending `CompilePregException`. Now, `MalformedPatternException`
       extends only `RegexException`. New class, `PregMalformedPatternException` is being thrown everywhere
       `MalformedPatternException` used to be thrown. Don't refactor your `catch (MalformedPatternException $e)`, since

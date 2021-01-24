@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\_trailing_backslash;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
-use TRegx\SafeRegex\Exception\MalformedPatternException;
+use TRegx\Exception\MalformedPatternException;
 
 class DelimitererTest extends TestCase
 {

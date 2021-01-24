@@ -7,7 +7,7 @@ use Test\PhpunitPolyfill;
 use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
-use TRegx\SafeRegex\Exception\MalformedPatternException;
+use TRegx\Exception\MalformedPatternException;
 
 class MatchPatternTest extends TestCase
 {
