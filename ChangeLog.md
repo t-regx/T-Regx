@@ -12,6 +12,9 @@ Incoming in 0.9.14
 
 * Bug fixes
     * Fixed a security bug in [`Pattern::bind()`]
+    * Using pattern with a trailing backslash (e.g. `"(hello)\\"`) would throw
+      `MalformedPatternException` with a really weird message, exposing the implementation details. Now the message
+      is `Pattern may not end with a trailing backslash`.
     * Adapted `focus()->withReferences()` so it works exactly as [`preg_replace()`].
 
       Previously, using a nonexistent or unmatched group with `focus()->withReferences()`

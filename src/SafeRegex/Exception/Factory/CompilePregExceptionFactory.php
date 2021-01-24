@@ -3,7 +3,7 @@ namespace TRegx\SafeRegex\Exception\Factory;
 
 use TRegx\SafeRegex\Constants\PhpErrorConstants;
 use TRegx\SafeRegex\Exception\CompilePregException;
-use TRegx\SafeRegex\Exception\MalformedPatternException;
+use TRegx\SafeRegex\Exception\PregMalformedPatternException;
 use TRegx\SafeRegex\PhpError;
 
 class CompilePregExceptionFactory
@@ -27,21 +27,20 @@ class CompilePregExceptionFactory
 
     public function create(): CompilePregException
     {
-        [$class, $message] = $this->exceptionClassAndMessage($this->error->getMessage());
-        return new $class(
+        if ($this->matchMalformed($this->error->getMessage(), $malformedMessage)) {
+            return new PregMalformedPatternException(
+                $this->methodName,
+                $this->pattern,
+                $this->cleanMessage($malformedMessage),
+                $this->error,
+                $this->phpErrorConstants->getConstant($this->error->getType()));
+        }
+        return new CompilePregException(
             $this->methodName,
             $this->pattern,
-            $this->cleanMessage($message),
+            $this->cleanMessage($this->error->getMessage()),
             $this->error,
             $this->phpErrorConstants->getConstant($this->error->getType()));
-    }
-
-    private function exceptionClassAndMessage(string $message): array
-    {
-        if ($this->matchMalformed($message, $result)) {
-            return [MalformedPatternException::class, $result];
-        }
-        return [CompilePregException::class, $message];
     }
 
     private function matchMalformed(string $message, ?string &$result): bool

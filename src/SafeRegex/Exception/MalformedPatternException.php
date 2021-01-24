@@ -1,12 +1,8 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-use TRegx\SafeRegex\PhpError;
+use TRegx\RegexException;
 
-class MalformedPatternException extends CompilePregException
+interface MalformedPatternException extends RegexException
 {
-    public function __construct(string $methodName, $pattern, string $message, PhpError $error, string $errorName)
-    {
-        parent::__construct($methodName, $pattern, $message, $error, $errorName);
-    }
 }

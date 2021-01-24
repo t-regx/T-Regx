@@ -45,6 +45,7 @@
       "Test\\Feature\\TRegx\\": "test/Feature/",
       "Test\\Functional\\TRegx\\": "test/Functional/",
       "Test\\Interaction\\TRegx\\": "test/Interaction/",
+      "Test\\Structure\\TRegx\\": "test/Structure/",
       "Test\\Unit\\TRegx\\": "test/Unit/"
     }
   },
