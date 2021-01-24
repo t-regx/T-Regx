@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex;
 
+use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
+use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\UnquotePattern;
 use TRegx\SafeRegex\preg;
@@ -9,7 +11,11 @@ class Pattern
 {
     public static function of(string $pattern, string $flags = ''): PatternInterface
     {
-        return new PatternImpl(InternalPattern::standard($pattern, $flags));
+        try {
+            return new PatternImpl(InternalPattern::standard($pattern, $flags));
+        } catch (TrailingBackslashException $exception) {
+            throw new PatternMalformedPatternException('Pattern may not end with a trailing backslash');
+        }
     }
 
     /**

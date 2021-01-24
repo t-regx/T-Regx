@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\IdentityStrategy;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
@@ -21,11 +20,16 @@ class InternalPattern
 
     public static function standard(string $pattern, string $flags = ''): InternalPattern
     {
-        try {
-            return new self((new Delimiterer(new IdentityStrategy()))->delimiter($pattern) . $flags, $pattern);
-        } catch (TrailingBackslashException $exception) {
-            throw new PatternMalformedPatternException('Pattern may not end with a trailing backslash');
+        if (self::hasTrailingSlash($pattern)) {
+            throw new TrailingBackslashException();
         }
+        return new self((new Delimiterer(new IdentityStrategy()))->delimiter($pattern) . $flags, $pattern);
+    }
+
+    private static function hasTrailingSlash(string $pattern): bool
+    {
+        $unquoted = \str_replace('\\\\', '', $pattern);
+        return substr($unquoted, -1) === '\\';
     }
 
     public static function pcre(string $pattern): InternalPattern

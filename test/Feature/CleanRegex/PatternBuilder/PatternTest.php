@@ -97,6 +97,32 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldBuild_format_trailing(): void
+    {
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Malformed pattern '\' assigned to placeholder '%e'");
+
+        // when
+        Pattern::format('%e', ['%e' => '\\']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_format_quotedTrailing(): void
+    {
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Malformed pattern '\' assigned to placeholder '%e'");
+
+        // when
+        Pattern::format('%e', ['%e' => '\\', '%f' => 'e']);
+    }
+
+    /**
+     * @test
+     */
     public function shouldBuild_template_formatting_build(): void
     {
         // given

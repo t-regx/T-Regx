@@ -22,16 +22,7 @@ class Delimiterer
 
     public function delimiter(string $pattern): string
     {
-        if ($this->hasTrailingSlash($pattern)) {
-            throw new TrailingBackslashException();
-        }
         return $this->delimiterStrategy->buildPattern($pattern, $this->getDelimiter($pattern));
-    }
-
-    private function hasTrailingSlash(string $pattern): bool
-    {
-        $unquoted = \str_replace('\\\\', '', $pattern);
-        return substr($unquoted, -1) === '\\';
     }
 
     private function getDelimiter(string $pattern): ?string

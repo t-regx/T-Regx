@@ -2,8 +2,8 @@
 namespace Test\Feature\TRegx\CleanRegex\_trailing_backslash;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
-use TRegx\Exception\MalformedPatternException;
 
 class DelimitererTest extends TestCase
 {
@@ -15,7 +15,7 @@ class DelimitererTest extends TestCase
     public function shouldThrow_forTrailingBackslash(callable $entryPoint): void
     {
         // then
-        $this->expectException(MalformedPatternException::class);
+        $this->expectException(PatternMalformedPatternException::class);
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
 
         // when
@@ -25,24 +25,64 @@ class DelimitererTest extends TestCase
     public function entryPoints(): array
     {
         return [
-            [function () {
+            'Pattern::of()'                 => [function () {
                 return Pattern::of('Foo \\');
             }],
-            [function () {
+            'Pattern::prepare()'            => [function () {
                 return Pattern::prepare(['Foo \\']);
             }],
-            [function () {
+            'Pattern::inject()'             => [function () {
                 return Pattern::inject('Foo \\', []);
             }],
-            [function () {
-                return Pattern::format('Foo%', ['%' => '()\\']);
+            'Pattern::bind()'               => [function () {
+                return Pattern::bind('Foo \\', []);
             }],
-            [function () {
-                return Pattern::template('Foo & \\')->formatting('duper', ['u' => '.*'])->build();
+            'Pattern::compose()'            => [function () {
+                return Pattern::compose(['Foo & \\']);
             }],
-            [function () {
-                return Pattern::template('Foo & \\')->format('duper', ['u' => '.*']);
+            'Pattern::template()->build()'  => [function () {
+                return Pattern::template('Foo & \\')->literal()->build();
             }],
+            'Pattern::template()->inject()' => [function () {
+                return Pattern::template('Foo & \\')->literal()->inject([]);
+            }],
+            'Pattern::template()->bind()'   => [function () {
+                return Pattern::template('Foo & \\')->literal()->bind([]);
+            }],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider templateEntryPoints
+     * @param callable $entryPoint
+     * @param string $message
+     */
+    public function shouldThrow_template_forTrailingBackslash(callable $entryPoint, string $message): void
+    {
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($message);
+
+        // when
+        $entryPoint();
+    }
+
+    public function templateEntryPoints(): array
+    {
+        return [
+            'Pattern::format()' => [
+                function () {
+                    return Pattern::format('Foo%', ['%' => '()\\']);
+                },
+                "Malformed pattern '()\' assigned to placeholder '%'"
+            ],
+            'Pattern::template()->format()' => [
+                function () {
+                    return Pattern::template('Foo &')->format('w', ['w' => '\\']);
+                },
+                "Malformed pattern '\' assigned to placeholder 'w'"
+            ],
         ];
     }
 }
