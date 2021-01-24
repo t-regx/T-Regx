@@ -1,8 +1,12 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-class RuntimePregException extends PregException
+class RuntimePregException extends \Exception implements PregException
 {
+    /** @var string */
+    private $methodName;
+    /** @var string|string[] */
+    private $pattern;
     /** @var int */
     private $errorCode;
     /** @var string */
@@ -10,9 +14,24 @@ class RuntimePregException extends PregException
 
     public function __construct(string $message, $pattern, string $methodName, int $errorCode, string $errorName)
     {
-        parent::__construct($message, $pattern, $methodName);
+        parent::__construct($message);
+        $this->methodName = $methodName;
+        $this->pattern = $pattern;
         $this->errorCode = $errorCode;
         $this->errorName = $errorName;
+    }
+
+    public function getInvokingMethod(): string
+    {
+        return $this->methodName;
+    }
+
+    /**
+     * @return string|string[]
+     */
+    public function getPregPattern()
+    {
+        return $this->pattern;
     }
 
     public function getError(): int

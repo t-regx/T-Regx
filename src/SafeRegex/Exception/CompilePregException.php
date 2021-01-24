@@ -3,18 +3,37 @@ namespace TRegx\SafeRegex\Exception;
 
 use TRegx\SafeRegex\PhpError;
 
-class CompilePregException extends PregException
+class CompilePregException extends \Exception implements PregException
 {
     /** @var PhpError */
     private $error;
     /** @var string */
     private $errorName;
+    /** @var string */
+    private $methodName;
+    /** @var string|string[] */
+    private $pattern;
 
     public function __construct(string $methodName, $pattern, string $message, PhpError $error, string $errorName)
     {
-        parent::__construct($message, $pattern, $methodName);
+        parent::__construct($message);
+        $this->methodName = $methodName;
+        $this->pattern = $pattern;
         $this->error = $error;
         $this->errorName = $errorName;
+    }
+
+    public function getInvokingMethod(): string
+    {
+        return $this->methodName;
+    }
+
+    /**
+     * @return string|string[]
+     */
+    public function getPregPattern()
+    {
+        return $this->pattern;
     }
 
     public function getError(): int
