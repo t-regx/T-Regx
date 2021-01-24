@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\FormatTokenValue;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateStrategy;
-use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
+use TRegx\CleanRegex\Internal\Prepared\Prepare;
 
 class FormatTemplate
 {
@@ -48,19 +48,19 @@ class FormatTemplate
     public function build(): PatternInterface
     {
         $this->validateTokensAndMethods();
-        return PrepareFacade::build(new TemplateParser($this->pattern, $this->placeholders), $this->pcre, $this->flags);
+        return Prepare::build(new TemplateParser($this->pattern, $this->placeholders), $this->pcre, $this->flags);
     }
 
     public function inject(array $values): PatternInterface
     {
         $this->validateTokensAndMethods();
-        return PrepareFacade::build(new InjectParser($this->pattern, $values, new TemplateStrategy($this->placeholders)), $this->pcre, $this->flags);
+        return Prepare::build(new InjectParser($this->pattern, $values, new TemplateStrategy($this->placeholders)), $this->pcre, $this->flags);
     }
 
     public function bind(array $values): PatternInterface
     {
         $this->validateTokensAndMethods();
-        return PrepareFacade::build(new BindingParser($this->pattern, $values, new TemplateStrategy($this->placeholders)), $this->pcre, $this->flags);
+        return Prepare::build(new BindingParser($this->pattern, $values, new TemplateStrategy($this->placeholders)), $this->pcre, $this->flags);
     }
 
     private function validateTokensAndMethods(): void

@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\FormatParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\IgnoreStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
-use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
+use TRegx\CleanRegex\Internal\Prepared\Prepare;
 
 class PatternBuilder
 {
@@ -37,7 +37,7 @@ class PatternBuilder
      */
     public function bind(string $input, array $values, string $flags = ''): PatternInterface
     {
-        return PrepareFacade::build(new BindingParser($input, $values, new IgnoreStrategy()), $this->pcre, $flags);
+        return Prepare::build(new BindingParser($input, $values, new IgnoreStrategy()), $this->pcre, $flags);
     }
 
     /**
@@ -48,7 +48,7 @@ class PatternBuilder
      */
     public function inject(string $input, array $values, string $flags = ''): PatternInterface
     {
-        return PrepareFacade::build(new InjectParser($input, $values, new IgnoreStrategy()), $this->pcre, $flags);
+        return Prepare::build(new InjectParser($input, $values, new IgnoreStrategy()), $this->pcre, $flags);
     }
 
     /**
@@ -58,7 +58,7 @@ class PatternBuilder
      */
     public function prepare(array $input, string $flags = ''): PatternInterface
     {
-        return PrepareFacade::build(new PreparedParser($input), $this->pcre, $flags);
+        return Prepare::build(new PreparedParser($input), $this->pcre, $flags);
     }
 
     /**
@@ -72,7 +72,7 @@ class PatternBuilder
 
     public function format(string $pattern, array $tokens, string $flags = ''): PatternInterface
     {
-        return PrepareFacade::build(new FormatParser($pattern, $tokens), $this->pcre, $flags);
+        return Prepare::build(new FormatParser($pattern, $tokens), $this->pcre, $flags);
     }
 
     public function template(string $pattern, string $flags = ''): TemplatePattern
