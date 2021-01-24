@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-use TRegx\RegexException;
+use TRegx\Exception\RegexException;
 
 interface PregException extends RegexException
 {

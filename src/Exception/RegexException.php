@@ -1,5 +1,5 @@
 <?php
-namespace TRegx;
+namespace TRegx\Exception;
 
 interface RegexException extends \Throwable
 {

@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-use TRegx\RegexException;
+use TRegx\Exception\RegexException;
 
 interface PatternException extends RegexException
 {

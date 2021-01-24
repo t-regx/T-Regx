@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\PatternException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\Exception\MalformedPatternException;
-use TRegx\RegexException;
+use TRegx\Exception\RegexException;
 use TRegx\SafeRegex\Exception\PregException;
 use TRegx\SafeRegex\Exception\PregMalformedPatternException;
 use TRegx\SafeRegex\preg;
