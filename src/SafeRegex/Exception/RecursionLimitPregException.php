@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-class RecursionLimitPregException extends RuntimePregException
+class RecursionLimitPregException extends RuntimePregException implements PatternStructureException
 {
     public function __construct(string $message, $pattern, string $methodName, int $errorCode, string $errorName)
     {

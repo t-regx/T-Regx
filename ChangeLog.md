@@ -62,6 +62,8 @@ Incoming in 0.9.14
     * Add `pattern()->prune()` which removes every occurrence of a pattern from subject (identical to `remove()->all()`)
 * Other:
     * Replace any usage of `\d` to `[0-9]` in the library, since it depends on PHP locale.
+    * Added interface `PatternStructureException` which can be used to catch exceptions for errors solely in pattern
+      structure (recursion, backtracking, jit limit).
 
 Added in 0.9.13
 ---------------
