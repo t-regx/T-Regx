@@ -34,7 +34,7 @@ class BindingParser implements Parser
         return new RawQuotable($result);
     }
 
-    public function replacePlaceholder(string $delimiter, QuotableFactory $quotableFactory): string
+    private function replacePlaceholder(string $delimiter, QuotableFactory $quotableFactory): string
     {
         return \preg_replace_callback(
             '/(?:@(?<label>[a-zA-Z0-9_]+)|`(?<label>[a-zA-Z0-9_]+)`|&)/J',
