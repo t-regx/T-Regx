@@ -4,6 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Pattern;
@@ -50,6 +51,25 @@ class CompositePatternMapperTest extends TestCase
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("CompositePattern only accepts type PatternInterface or string, but stdClass given");
+
+        // when
+        $mapper->createPatterns();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_string_onTrailingBackslash()
+    {
+        // given
+        $mapper = new CompositePatternMapper([
+            'pattern',
+            'pattern\\'
+        ]);
+
+        // then
+        $this->expectException(PatternMalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
 
         // when
         $mapper->createPatterns();

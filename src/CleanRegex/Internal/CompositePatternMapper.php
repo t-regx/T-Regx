@@ -2,6 +2,8 @@
 namespace TRegx\CleanRegex\Internal;
 
 use InvalidArgumentException;
+use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
+use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\PatternInterface;
 
 class CompositePatternMapper
@@ -16,7 +18,11 @@ class CompositePatternMapper
 
     public function createPatterns(): array
     {
-        return \array_map([$this, 'mapToString'], $this->patterns);
+        try {
+            return \array_map([$this, 'mapToString'], $this->patterns);
+        } catch (TrailingBackslashException $exception) {
+            throw new PatternMalformedPatternException('Pattern may not end with a trailing backslash');
+        }
     }
 
     private function mapToString($pattern): InternalPattern
