@@ -150,7 +150,7 @@ class preg
     private static function decorateCallback(string $methodName, $pattern, $callback): callable
     {
         if (!\is_callable($callback)) {
-            throw new \InvalidArgumentException("Invalid callback passed to $methodName()");
+            throw new InvalidArgumentException("Invalid callback passed to $methodName()");
         }
         return static function (...$args) use ($methodName, $pattern, $callback) {
             $value = $callback(...$args);
@@ -242,7 +242,7 @@ class preg
     public static function quote(string $string, string $delimiter = null): string
     {
         if (!\is_null($delimiter) && \strlen($delimiter) !== 1) {
-            throw new \InvalidArgumentException('Delimiter must be one alpha-numeric character');
+            throw new InvalidArgumentException('Delimiter must be one alpha-numeric character');
         }
         if (\preg_quote('#', $delimiter) === '#') {
             return \str_replace('#', '\#', \preg_quote($string, $delimiter));

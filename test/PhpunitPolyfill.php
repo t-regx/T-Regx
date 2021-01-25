@@ -1,6 +1,7 @@
 <?php
 namespace Test;
 
+use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,7 +23,7 @@ trait PhpunitPolyfill
         if (method_exists(TestCase::class, 'expectError')) {
             parent::expectError();
         } else {
-            parent::expectException(\PHPUnit\Framework\Error\Error::class);
+            parent::expectException(Error::class);
         }
     }
 }

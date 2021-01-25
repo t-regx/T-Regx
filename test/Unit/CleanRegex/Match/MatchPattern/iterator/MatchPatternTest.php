@@ -26,7 +26,7 @@ class MatchPatternTest extends TestCase
             $this->assertSame($index, $match->index());
             $this->assertSame('Nice matching pattern', $match->subject());
             $this->assertSame(['Nice', 'matching', 'pattern'], $match->all());
-        };
+        }
     }
 
     /**
