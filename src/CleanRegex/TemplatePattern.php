@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Internal\Format\LiteralTokenValue;
-use TRegx\CleanRegex\Internal\Prepared\Parser\FormatTokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Format\FormatTokenValue;
 
 class TemplatePattern
 {

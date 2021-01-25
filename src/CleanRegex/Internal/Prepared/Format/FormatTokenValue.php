@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Parser;
+namespace TRegx\CleanRegex\Internal\Prepared\Format;
 
 use TRegx\CleanRegex\Internal\Format\TokenValue;
 use TRegx\CleanRegex\Internal\InternalPattern;
@@ -13,13 +13,13 @@ use TRegx\CleanRegex\Internal\ValidPattern;
 class FormatTokenValue implements TokenValue
 {
     /** @var string */
-    private $pattern;
+    private $format;
     /** @var array */
     private $tokens;
 
-    public function __construct(string $pattern, array $tokens)
+    public function __construct(string $format, array $tokens)
     {
-        $this->pattern = $pattern;
+        $this->format = $format;
         $this->tokens = $tokens;
     }
 
@@ -31,7 +31,7 @@ class FormatTokenValue implements TokenValue
         foreach ($this->tokens as $placeholder => $pattern) {
             $this->validateEmpty($placeholder);
         }
-        return new CompositeQuotable($this->quotableTokens((new MultiSplitter($this->pattern, \array_keys($this->tokens)))->split()));
+        return new CompositeQuotable($this->quotableTokens((new MultiSplitter($this->format, \array_keys($this->tokens)))->split()));
     }
 
     private function quotableTokens(array $elements): array
