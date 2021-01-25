@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-class Utf8OffsetPregException extends RuntimePregException
+class UnicodeOffsetException extends RuntimePregException
 {
     public function __construct(string $message, $pattern, string $methodName, int $errorCode, string $errorName)
     {

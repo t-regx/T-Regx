@@ -2,12 +2,12 @@
 namespace TRegx\SafeRegex\Exception\Factory;
 
 use TRegx\SafeRegex\Constants\PregConstants;
-use TRegx\SafeRegex\Exception\CatastrophicBacktrackingPregException;
-use TRegx\SafeRegex\Exception\JitStackLimitPregException;
-use TRegx\SafeRegex\Exception\RecursionLimitPregException;
+use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;
+use TRegx\SafeRegex\Exception\JitStackLimitException;
+use TRegx\SafeRegex\Exception\RecursionException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
-use TRegx\SafeRegex\Exception\SubjectEncodingPregException;
-use TRegx\SafeRegex\Exception\Utf8OffsetPregException;
+use TRegx\SafeRegex\Exception\SubjectEncodingException;
+use TRegx\SafeRegex\Exception\UnicodeOffsetException;
 
 class RuntimePregExceptionFactory
 {
@@ -47,11 +47,11 @@ class RuntimePregExceptionFactory
     private function className(): string
     {
         $classes = [
-            \PREG_BAD_UTF8_ERROR        => SubjectEncodingPregException::class,
-            \PREG_BAD_UTF8_OFFSET_ERROR => Utf8OffsetPregException::class,
-            \PREG_BACKTRACK_LIMIT_ERROR => CatastrophicBacktrackingPregException::class,
-            \PREG_RECURSION_LIMIT_ERROR => RecursionLimitPregException::class,
-            \PREG_JIT_STACKLIMIT_ERROR  => JitStackLimitPregException::class
+            \PREG_BAD_UTF8_ERROR        => SubjectEncodingException::class,
+            \PREG_BAD_UTF8_OFFSET_ERROR => UnicodeOffsetException::class,
+            \PREG_BACKTRACK_LIMIT_ERROR => CatastrophicBacktrackingException::class,
+            \PREG_RECURSION_LIMIT_ERROR => RecursionException::class,
+            \PREG_JIT_STACKLIMIT_ERROR  => JitStackLimitException::class
         ];
         return $classes[$this->errorCode] ?? RuntimePregException::class;
     }

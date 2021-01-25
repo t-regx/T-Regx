@@ -8,7 +8,7 @@ use Test\Utils\Functions;
 use Test\Warnings;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
-use TRegx\SafeRegex\Exception\Utf8OffsetPregException;
+use TRegx\SafeRegex\Exception\UnicodeOffsetException;
 use TRegx\SafeRegex\preg;
 
 class pregTest extends TestCase
@@ -233,7 +233,7 @@ class pregTest extends TestCase
     public function shouldThrowForInvalidUtf8Offset(): void
     {
         // given
-        $this->expectException(Utf8OffsetPregException::class);
+        $this->expectException(UnicodeOffsetException::class);
         $this->expectExceptionMessage('Invalid UTF-8 offset parameter was passed to preg_match()');
 
         // when

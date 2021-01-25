@@ -17,7 +17,12 @@ Incoming in 0.9.14
       that's still the recommended handling.
       (but say [`get_class()`] would return `PregMalformedPatternException`). Complete exception structure is described
       in "Exceptions".
-
+    * Rename exceptions
+        * Rename `Utf8OffsetPregException` to `UnicodeOffsetException`
+        * Rename `SubjectEncodingPregException` to `SubjectEncodingException`
+        * Rename `CatastrophicBacktrackingPregException` to `CatastrophicBacktrackingException`
+        * Rename `RecursionLimitPregException` to `RecursionException`
+        * Rename `JitStackLimitPregException` to `JitStackLimitException`
 * Bug fixes
     * Fix a security bug in [`Pattern::bind()`]
     * Using pattern with a trailing backslash (e.g. `"(hello)\\"`) would throw
