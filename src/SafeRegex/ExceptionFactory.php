@@ -2,8 +2,8 @@
 namespace TRegx\SafeRegex;
 
 use TRegx\SafeRegex\Errors\ErrorsCleaner;
-use TRegx\SafeRegex\Exception\Factory\SuspectedReturnPregExceptionFactory;
 use TRegx\SafeRegex\Exception\PregException;
+use TRegx\SafeRegex\Exception\SuspectedReturnPregException;
 use TRegx\SafeRegex\Guard\Strategy\SuspectedReturnStrategy;
 
 class ExceptionFactory
@@ -14,15 +14,12 @@ class ExceptionFactory
     private $strategy;
     /** @var ErrorsCleaner */
     private $errorsCleaner;
-    /** @var SuspectedReturnPregExceptionFactory */
-    private $exceptionFactory;
 
     public function __construct($pattern, SuspectedReturnStrategy $strategy, ErrorsCleaner $errorsCleaner)
     {
         $this->pattern = $pattern;
         $this->strategy = $strategy;
         $this->errorsCleaner = $errorsCleaner;
-        $this->exceptionFactory = new SuspectedReturnPregExceptionFactory();
     }
 
     public function retrieveGlobals(string $methodName, $pregResult): ?PregException
@@ -32,7 +29,7 @@ class ExceptionFactory
             return $hostError->getSafeRegexpException($methodName, $this->pattern);
         }
         if ($this->strategy->isSuspected($methodName, $pregResult)) {
-            return $this->exceptionFactory->create($methodName, $this->pattern, $pregResult);
+            return new SuspectedReturnPregException($methodName, $this->pattern, \var_export($pregResult, true));
         }
         return null;
     }

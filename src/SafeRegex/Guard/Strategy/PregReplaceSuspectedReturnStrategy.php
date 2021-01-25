@@ -15,12 +15,12 @@ class PregReplaceSuspectedReturnStrategy implements SuspectedReturnStrategy
 
     public function isSuspected(string $methodName, $result): bool
     {
-        if (is_array($this->subject)) {
-            if (empty($this->subject)) {
-                return false;
-            }
-            return $result === [];
+        if (!is_array($this->subject)) {
+            return $result === null;
         }
-        return $result === null;
+        if (empty($this->subject)) {
+            return false;
+        }
+        return $result === [];
     }
 }
