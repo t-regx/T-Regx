@@ -30,34 +30,27 @@ class RuntimePregExceptionFactory
 
     public function create(): RuntimePregException
     {
-        return $this->instantiateException($this->getErrorName());
-    }
-
-    private function getErrorName(): string
-    {
-        return $this->pregConstants->getConstant($this->errorCode);
+        return $this->instantiateException($this->pregConstants->getConstant($this->errorCode));
     }
 
     private function instantiateException(string $errorName): RuntimePregException
     {
-        $class = $this->className();
-        return new $class($this->getExceptionMessage($errorName), $this->pattern, $this->methodName, $this->errorCode, $errorName);
-    }
-
-    private function className(): string
-    {
-        $classes = [
-            \PREG_BAD_UTF8_ERROR        => SubjectEncodingException::class,
-            \PREG_BAD_UTF8_OFFSET_ERROR => UnicodeOffsetException::class,
-            \PREG_BACKTRACK_LIMIT_ERROR => CatastrophicBacktrackingException::class,
-            \PREG_RECURSION_LIMIT_ERROR => RecursionException::class,
-            \PREG_JIT_STACKLIMIT_ERROR  => JitStackLimitException::class
-        ];
-        return $classes[$this->errorCode] ?? RuntimePregException::class;
-    }
-
-    private function getExceptionMessage(string $errorText): string
-    {
-        return "After invoking $this->methodName(), preg_last_error() returned $errorText";
+        if ($this->errorCode === PREG_BAD_UTF8_ERROR) {
+            return new SubjectEncodingException($this->pattern, $this->methodName, $this->errorCode, $errorName);
+        }
+        if ($this->errorCode === PREG_BAD_UTF8_OFFSET_ERROR) {
+            return new UnicodeOffsetException($this->pattern, $this->methodName, $this->errorCode, $errorName);
+        }
+        if ($this->errorCode === PREG_BACKTRACK_LIMIT_ERROR) {
+            return new CatastrophicBacktrackingException($this->pattern, $this->methodName, $this->errorCode, $errorName);
+        }
+        if ($this->errorCode === PREG_RECURSION_LIMIT_ERROR) {
+            return new RecursionException($this->pattern, $this->methodName, $this->errorCode, $errorName);
+        }
+        if ($this->errorCode === PREG_JIT_STACKLIMIT_ERROR) {
+            return new JitStackLimitException($this->pattern, $this->methodName, $this->errorCode, $errorName);
+        }
+        return new RuntimePregException("After invoking $this->methodName(), preg_last_error() returned $errorName",
+            $this->pattern, $this->methodName, $this->errorCode, $errorName);
     }
 }
