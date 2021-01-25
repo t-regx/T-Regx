@@ -2,6 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Identity;
+use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Prepared\Format\IgnoreStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
@@ -36,5 +38,20 @@ class BindingParserTest extends TestCase
 
         // then
         $this->assertSame('string @foo\ `foo`\ `foo`', $result->quote('/'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_trailingSlash(): void
+    {
+        // given
+        $parser = new BindingParser('string @foo\\', ['foo' => 'foo'], new IgnoreStrategy());
+
+        // then
+        $this->expectException(TrailingBackslashException::class);
+
+        // when
+        $parser->parse('/', new Identity());
     }
 }

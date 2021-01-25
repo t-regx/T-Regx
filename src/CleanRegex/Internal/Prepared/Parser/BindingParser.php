@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Prepared\Format\TokenStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
+use TRegx\CleanRegex\Internal\TrailingBackslash;
 use TRegx\CleanRegex\Internal\Type;
 
 class BindingParser implements Parser
@@ -28,6 +29,7 @@ class BindingParser implements Parser
 
     public function parse(string $delimiter, QuotableFactory $quotableFactory): Quotable
     {
+        TrailingBackslash::throwIfHas($this->input);
         $this->iteratedPlaceholders = [];
         $result = $this->replacePlaceholder($delimiter, $quotableFactory);
         $this->validatePotentiallyUnusedLabels();
