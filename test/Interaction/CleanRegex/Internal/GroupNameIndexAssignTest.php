@@ -1,7 +1,6 @@
 <?php
 namespace Test\Interaction\TRegx\CleanRegex\Internal;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
@@ -85,8 +84,7 @@ class GroupNameIndexAssignTest extends TestCase
         $assign = $this->create();
 
         // then
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('');
+        $this->expectException(InternalCleanRegexException::class);
 
         // when
         $assign->getNameAndIndex(true);

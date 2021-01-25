@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use InvalidArgumentException;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Exception\InsufficientMatchException;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
@@ -50,7 +49,7 @@ class GroupNameIndexAssign
         if (is_int($group)) {
             return [$this->getNameByIndex($group), $group];
         }
-        throw new InvalidArgumentException();
+        throw new InternalCleanRegexException();
     }
 
     private function getIndexByName(string $name): int
