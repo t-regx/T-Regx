@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\NoAlterationDecorator;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
+use TRegx\CleanRegex\Internal\TrailingBackslash;
 use TRegx\CleanRegex\Internal\Type;
 
 class PreparedParser implements Parser
@@ -22,6 +23,7 @@ class PreparedParser implements Parser
     public function parse(string $delimiter, QuotableFactory $quotableFactory): Quotable
     {
         $this->validateEmptyInput();
+        $this->validateTrailingSlash();
         $factory = new NoAlterationDecorator($quotableFactory);
         return new CompositeQuotable(\array_map(static function ($quoteable) use ($factory) {
             return self::mapToQuotable($quoteable, $factory);
@@ -55,6 +57,14 @@ class PreparedParser implements Parser
     {
         if (empty($this->input)) {
             throw new InvalidArgumentException('Empty array of prepared pattern parts');
+        }
+    }
+
+    private function validateTrailingSlash(): void
+    {
+        $lastValue = \end($this->input);
+        if (\is_string($lastValue)) {
+            TrailingBackslash::throwIfHas($lastValue);
         }
     }
 }
