@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Prepared\Format\TokenStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
+use TRegx\CleanRegex\Internal\TrailingBackslash;
 use TRegx\CleanRegex\Internal\Type;
 
 class InjectParser implements Parser
@@ -26,6 +27,7 @@ class InjectParser implements Parser
 
     public function parse(string $delimiter, QuotableFactory $quotableFactory): Quotable
     {
+        TrailingBackslash::throwIfHas($this->input);
         \reset($this->values);
         $result = \preg_replace_callback('/[@&]/', function (array $values) use ($delimiter, $quotableFactory) {
             if ($values[0] === '&') {
