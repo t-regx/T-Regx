@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Format\TokenValue;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
+use TRegx\CleanRegex\Internal\TrailingBackslash;
 
 class TemplateParser implements Parser
 {
@@ -22,6 +23,7 @@ class TemplateParser implements Parser
 
     public function parse(string $delimiter, QuotableFactory $quotableFactory): Quotable
     {
+        TrailingBackslash::throwIfHas($this->pattern);
         $pattern = \preg_replace_callback('/&/', function (): string {
             return $this->nextPlaceholder()->formatAsQuotable()->quote('/');
         }, $this->pattern);
