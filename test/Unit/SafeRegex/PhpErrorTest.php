@@ -1,8 +1,8 @@
 <?php
 namespace Test\Unit\TRegx\SafeRegex;
 
-use TRegx\SafeRegex\PhpError;
 use PHPUnit\Framework\TestCase;
+use TRegx\SafeRegex\Internal\PhpError;
 
 class PhpErrorTest extends TestCase
 {

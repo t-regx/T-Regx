@@ -2,15 +2,15 @@
 namespace TRegx\SafeRegex;
 
 use InvalidArgumentException;
-use TRegx\SafeRegex\Constants\PregConstants;
-use TRegx\SafeRegex\Constants\PregMessages;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
 use TRegx\SafeRegex\Exception\PregException;
-use TRegx\SafeRegex\Guard\GuardedExecution as Guard;
-use TRegx\SafeRegex\Guard\Strategy\PregFilterSuspectedReturnStrategy;
-use TRegx\SafeRegex\Guard\Strategy\PregReplaceSuspectedReturnStrategy;
-use TRegx\SafeRegex\Guard\Strategy\SilencedSuspectedReturnStrategy;
 use TRegx\SafeRegex\Internal\Bug;
+use TRegx\SafeRegex\Internal\Constants\PregConstants;
+use TRegx\SafeRegex\Internal\Constants\PregMessages;
+use TRegx\SafeRegex\Internal\Guard\GuardedExecution as Guard;
+use TRegx\SafeRegex\Internal\Guard\Strategy\PregFilterSuspectedReturnStrategy;
+use TRegx\SafeRegex\Internal\Guard\Strategy\PregReplaceSuspectedReturnStrategy;
+use TRegx\SafeRegex\Internal\Guard\Strategy\SilencedSuspectedReturnStrategy;
 
 class preg
 {

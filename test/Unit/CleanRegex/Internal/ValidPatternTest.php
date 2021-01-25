@@ -3,8 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\ValidPattern;
-use TRegx\SafeRegex\Errors\Errors\EmptyHostError;
-use TRegx\SafeRegex\Errors\ErrorsCleaner;
+use TRegx\SafeRegex\Internal\Errors\Errors\EmptyHostError;
+use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 
 class ValidPatternTest extends TestCase
 {

@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-use TRegx\SafeRegex\PhpError;
+use TRegx\SafeRegex\Internal\PhpError;
 
 class CompilePregException extends \Exception implements PregException
 {
