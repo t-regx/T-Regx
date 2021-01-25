@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 
-class PatternImplTest extends TestCase
+class PatternTest extends TestCase
 {
     /**
      * @test
