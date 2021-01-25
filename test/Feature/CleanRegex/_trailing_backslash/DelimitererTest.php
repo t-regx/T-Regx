@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\_trailing_backslash;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\FormatMalformedPatternException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
 
@@ -61,7 +62,7 @@ class DelimitererTest extends TestCase
     public function shouldThrow_template_forTrailingBackslash(callable $entryPoint, string $message): void
     {
         // then
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FormatMalformedPatternException::class);
         $this->expectExceptionMessage($message);
 
         // when
@@ -71,7 +72,7 @@ class DelimitererTest extends TestCase
     public function templateEntryPoints(): array
     {
         return [
-            'Pattern::format()' => [
+            'Pattern::format()'             => [
                 function () {
                     return Pattern::format('Foo%', ['%' => '()\\']);
                 },
@@ -80,6 +81,13 @@ class DelimitererTest extends TestCase
             'Pattern::template()->format()' => [
                 function () {
                     return Pattern::template('Foo &')->format('w', ['w' => '\\']);
+                },
+                "Malformed pattern '\' assigned to placeholder 'w'"
+            ],
+
+            'Pattern::template()->formatting()->build()' => [
+                function () {
+                    return Pattern::template('Foo &')->formatting('w', ['w' => '\\'])->build();
                 },
                 "Malformed pattern '\' assigned to placeholder 'w'"
             ],

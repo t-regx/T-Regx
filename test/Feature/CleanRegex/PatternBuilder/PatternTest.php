@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\PatternBuilder;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\FormatMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
 
 class PatternTest extends TestCase
@@ -100,7 +101,7 @@ class PatternTest extends TestCase
     public function shouldBuild_format_trailing(): void
     {
         // then
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FormatMalformedPatternException::class);
         $this->expectExceptionMessage("Malformed pattern '\' assigned to placeholder '%e'");
 
         // when
@@ -113,7 +114,7 @@ class PatternTest extends TestCase
     public function shouldBuild_format_quotedTrailing(): void
     {
         // then
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FormatMalformedPatternException::class);
         $this->expectExceptionMessage("Malformed pattern '\' assigned to placeholder '%e'");
 
         // when

@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Format;
 
+use TRegx\CleanRegex\Exception\FormatMalformedPatternException;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Format\TokenValue;
 use TRegx\CleanRegex\Internal\InternalPattern;
@@ -50,10 +51,10 @@ class FormatTokenValue implements TokenValue
     {
         try {
             if (!ValidPattern::isValid(InternalPattern::standard($pattern)->pattern)) {
-                throw new \InvalidArgumentException("Malformed pattern '$pattern' assigned to placeholder '$placeholder'");
+                throw new FormatMalformedPatternException("Malformed pattern '$pattern' assigned to placeholder '$placeholder'");
             }
         } catch (TrailingBackslashException $exception) {
-            throw new \InvalidArgumentException("Malformed pattern '$pattern' assigned to placeholder '$placeholder'");
+            throw new FormatMalformedPatternException("Malformed pattern '$pattern' assigned to placeholder '$placeholder'");
         }
     }
 

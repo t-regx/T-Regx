@@ -2,6 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\FormatMalformedPatternException;
 use TRegx\CleanRegex\Internal\Prepared\Parser\FormatParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
@@ -69,7 +70,7 @@ class FormatParserTest extends TestCase
         ]);
 
         // then
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FormatMalformedPatternException::class);
         $this->expectExceptionMessage("Malformed pattern 'invalid)' assigned to placeholder '%%'");
 
         // when
