@@ -38,12 +38,8 @@ class ErrorsCleanerTest extends TestCase
      * @test
      * @see https://bugs.php.net/bug.php?id=74183
      */
-    public function shouldGetCompileError_Bug_Exists()
+    public function shouldGetCompileOrBothError()
     {
-        if ($this->isBugFixed()) {
-            $this->markTestSkipped('After compile-time warning calling preg_match(), preg_last_error() still return PREG_NO_ERROR. Bug fixed in 7.1.13');
-        }
-
         // given
         $cleaner = new ErrorsCleaner();
         $this->causeMalformedPatternWarning();
@@ -52,32 +48,7 @@ class ErrorsCleanerTest extends TestCase
         $error = $cleaner->getError();
 
         // then
-        $this->assertInstanceOf(CompileError::class, $error);
-        $this->assertTrue($error->occurred());
-
-        // cleanup
-        $error->clear();
-    }
-
-    /**
-     * @test
-     * @see https://bugs.php.net/bug.php?id=74183
-     */
-    public function shouldGetCompileError_Bug_Fixed()
-    {
-        if (!$this->isBugFixed()) {
-            $this->markTestSkipped("Bug fixed in 7.1.13, now compile-time warnings in preg_match() causes preg_last_error() ");
-        }
-
-        // given
-        $cleaner = new ErrorsCleaner();
-        $this->causeMalformedPatternWarning();
-
-        // when
-        $error = $cleaner->getError();
-
-        // then
-        $this->assertInstanceOf(BothHostError::class, $error);
+        $this->assertInstanceOf($this->isBugFixed() ? BothHostError::class : CompileError::class, $error);
         $this->assertTrue($error->occurred());
 
         // cleanup
