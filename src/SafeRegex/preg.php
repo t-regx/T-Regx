@@ -125,6 +125,8 @@ class preg
      *
      * @param array<string,callable> $patterns_and_callbacks An associative array mapping patterns (keys) to callbacks (values)
      * @param string|string[] $subject
+     * @param int $limit
+     * @param int|null $count
      * @return string|string[]
      *
      * @param-out int $count
@@ -137,7 +139,7 @@ class preg
      *
      * @throws PregException
      */
-    public static function replace_callback_array($patterns_and_callbacks, $subject, int $limit = -1, int &$count = null)
+    public static function replace_callback_array(array $patterns_and_callbacks, $subject, int $limit = -1, int &$count = null)
     {
         $prs = Bug::fixArrayKeys($patterns_and_callbacks);
         return Guard::invoke('preg_replace_callback_array', \array_keys($prs), static function () use ($prs, $subject, $limit, &$count) {
