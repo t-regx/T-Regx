@@ -25,7 +25,7 @@ class ReplacePatternImplTest extends TestCase
         $delegate->method($methodName)->willReturn('delegated');
         $delegate->expects($this->exactly(1))->method($methodName)->with('number');
 
-        $underTest = new LimitlessReplacePattern($delegate, InternalPattern::pcre('//'), '', 0);
+        $underTest = new LimitlessReplacePattern($delegate, InternalPattern::pcre('//'), '');
 
         // when
         $result = $underTest->$methodName('number');
@@ -57,7 +57,7 @@ class ReplacePatternImplTest extends TestCase
                 return $inputCallback() === 'input';
             }));
 
-        $underTest = new LimitlessReplacePattern($delegate, InternalPattern::pcre('//'), '', 0);
+        $underTest = new LimitlessReplacePattern($delegate, InternalPattern::pcre('//'), '');
 
         // when
         $result = $underTest->callback(Functions::constant('input'));
@@ -78,7 +78,7 @@ class ReplacePatternImplTest extends TestCase
         $delegate = $this->createMock(SpecificReplacePattern::class);
         $delegate->method('by')->willReturn($inputInstance);
 
-        $underTest = new LimitlessReplacePattern($delegate, InternalPattern::pcre('//'), '', 0);
+        $underTest = new LimitlessReplacePattern($delegate, InternalPattern::pcre('//'), '');
 
         // when
         $result = $underTest->by();

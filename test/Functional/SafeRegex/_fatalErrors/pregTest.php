@@ -69,12 +69,12 @@ class pregTest extends TestCase
         $this->assertTrue(true);
     }
 
-    function validReturnTypes()
+    public function validReturnTypes(): array
     {
         return DataProviders::allPhpTypes('stdClass', 'class', 'function');
     }
 
-    function invalidReturnTypes()
+    public function invalidReturnTypes(): array
     {
         return array_intersect_key(DataProviders::allPhpTypes(), array_flip(['stdClass', 'class', 'function']));
     }
@@ -104,9 +104,9 @@ class pregTest extends TestCase
     {
         // given
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Invalid callback passed to preg_replace_callback_array()");
+        $this->expectExceptionMessage('Invalid callback passed to preg_replace_callback_array()');
 
         // when
-        preg::replace_callback_array(['/a/' => 4,], 'word');
+        preg::replace_callback_array(['/a/' => 4], 'word');
     }
 }

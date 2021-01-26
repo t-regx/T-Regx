@@ -137,7 +137,7 @@ class UnmatchedGroupStrategyTest extends TestCase
 
     public function replacer(string $subject): GroupFallbackReplacer
     {
-        $pattern = InternalPattern::standard('\d+(?<group>cm)?', '');
+        $pattern = InternalPattern::standard('\d+(?<group>cm)?');
         return new GroupFallbackReplacer(
             $pattern,
             new Subject($subject),

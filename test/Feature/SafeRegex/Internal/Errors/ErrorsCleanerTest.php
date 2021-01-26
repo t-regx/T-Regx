@@ -27,12 +27,12 @@ class ErrorsCleanerTest extends TestCase
     public function shouldNotInterfereWithFurtherMatches()
     {
         try {
-            pattern('/[a-')->test("");
+            pattern('/[a-')->test('');
         } catch (MalformedPatternException $e) {
         }
 
         // when
-        $valid = pattern('[a-z]')->test("a");
+        $valid = pattern('[a-z]')->test('a');
 
         // then
         $this->assertTrue($valid);

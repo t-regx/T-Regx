@@ -71,9 +71,7 @@ class SignatureExceptionFactory
         foreach ($signatures as $signature) {
             try {
                 return $signature();
-            } catch (ArgumentCountError $error) {
-                continue;
-            } catch (TypeError $error) {
+            } catch (ArgumentCountError | TypeError $error) {
                 continue;
             } catch (Error $error) {
                 if ($this->isAbstractClassError($error)) {
