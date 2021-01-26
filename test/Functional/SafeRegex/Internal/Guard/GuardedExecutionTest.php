@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use Test\Warnings;
 use TRegx\Exception\MalformedPatternException;
+use TRegx\SafeRegex\Exception\PregMalformedPatternException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Internal\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
@@ -152,7 +153,7 @@ class GuardedExecutionTest extends TestCase
                 $this->causeMalformedPatternWarning();
                 return false;
             });
-        } catch (MalformedPatternException $exception) {
+        } catch (PregMalformedPatternException $exception) {
             // then
             $this->assertSame('/compile/', $exception->getPregPattern());
         }

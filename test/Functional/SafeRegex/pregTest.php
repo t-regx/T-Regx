@@ -8,6 +8,7 @@ use Test\Utils\Functions;
 use Test\Warnings;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
+use TRegx\SafeRegex\Exception\PregMalformedPatternException;
 use TRegx\SafeRegex\Exception\UnicodeOffsetException;
 use TRegx\SafeRegex\preg;
 
@@ -221,7 +222,7 @@ class pregTest extends TestCase
         // when
         try {
             preg::replace_callback_array($patterns, 'word');
-        } catch (MalformedPatternException $exception) {
+        } catch (PregMalformedPatternException $exception) {
             // then
             $this->assertSame(['/./', '/a(/'], $exception->getPregPattern());
         }
