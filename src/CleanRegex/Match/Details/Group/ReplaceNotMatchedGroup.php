@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
-class ReplaceNotMatchedGroup extends NotMatchedGroup implements ReplaceDetailGroup, ReplaceMatchGroup
+class ReplaceNotMatchedGroup extends NotMatchedGroup implements ReplaceDetailGroup
 {
     public function modifiedSubject(): string
     {

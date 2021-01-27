@@ -41,7 +41,6 @@
       "test/"
     ],
     "psr-4": {
-      "Test\\Compatibility\\TRegx\\": "test/Compatibility/",
       "Test\\Feature\\TRegx\\": "test/Feature/",
       "Test\\Functional\\TRegx\\": "test/Functional/",
       "Test\\Interaction\\TRegx\\": "test/Interaction/",

@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
-class LazyDetailImpl implements Detail, Match
+class LazyDetailImpl implements Detail
 {
     /** @var Base */
     private $base;

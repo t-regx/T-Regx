@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Match\Details\Group\ReplaceDetailGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
-class ReplaceDetailImpl implements ReplaceDetail, ReplaceMatch
+class ReplaceDetailImpl implements ReplaceDetail
 {
     /** @var Detail */
     private $detail;

@@ -4,7 +4,10 @@ T-Regx Changelog
 Incoming in 0.10.0
 ------------------
 
-* Soon
+* Breaking changes
+    * Previously deprecated [`Match`] and [`ReplaceMatch`] are now being removed, because of PHP8 keyword `match`.
+
+      Use [`Detail`] and [`ReplaceDetail`] instead.
 
 Added in 0.9.14
 ---------------
@@ -46,9 +49,9 @@ Added in 0.9.14
     * Add [`ReplaceDetail.byteModifiedOffset()`][2] which returns values as bytes
     * Add [`ReplaceDetailGroup.byteModifiedOffset()`][2] which returns values as bytes
     * Add [`ReplaceDetailGroup.modifiedSubject()`][2]
-        * Add pattern formats and pattern templates, a new way of creating pseudo-patterns for user supplied data:
-            * Add `Pattern::format()` #79
-            * Add `Pattern::template()` #79
+    * Add pattern formats and pattern templates, a new way of creating pseudo-patterns for user supplied data:
+        * Add `Pattern::format()` #79
+        * Add `Pattern::template()` #79
     * Add `Detail.textByteLength()` #88
     * Add `DetailGroup.textByteLength()` #88
     * Add `match()->flatMapAssoc()` #88
