@@ -1,7 +1,7 @@
-<p style="text-align:center">
+<p align="center">
     <a href="https://t-regx.com"><img src="t.regx.png" alt="T-Regx"></a>
 </p>
-<p style="text-align:center">
+<p align="center">
     <a href="https://travis-ci.org/T-Regx/T-Regx"><img src="https://travis-ci.org/T-Regx/T-Regx.svg?branch=master"/></a>
     <a href="https://coveralls.io/github/T-Regx/T-Regx?branch=master"><img src="https://coveralls.io/repos/github/T-Regx/T-Regx/badge.svg?branch=master"/></a>
     <a href="https://github.com/T-Regx/T-Regx/releases"><img src="https://img.shields.io/badge/Stable-v0.9.14-brightgreen.svg?style=popout"/></a>
