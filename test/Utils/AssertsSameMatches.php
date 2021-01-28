@@ -1,13 +1,12 @@
 <?php
 namespace Test\Utils;
 
+use PHPUnit\Framework\Assert;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 trait AssertsSameMatches
 {
-    public abstract function assertSame($expected, $actual, string $message = ''): void;
-
     public function assertSameMatches(array $expected, array $actual)
     {
         \array_walk_recursive($actual, function (&$value) {
@@ -15,6 +14,6 @@ trait AssertsSameMatches
                 $value = "$value";
             }
         });
-        $this->assertSame($expected, $actual);
+        Assert::assertSame($expected, $actual);
     }
 }
