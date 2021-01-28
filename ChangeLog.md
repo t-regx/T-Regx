@@ -8,6 +8,8 @@ Incoming in 0.10.0
     * Previously deprecated [`Match`] and [`ReplaceMatch`] are now being removed, because of PHP8 keyword `match`.
 
       Use [`Detail`] and [`ReplaceDetail`] instead.
+* Other
+    * T-Regx version 0.10 supports PHP 8.
 
 Added in 0.9.14
 ---------------
