@@ -14,24 +14,16 @@ php:
 
 branches:
   only:
-  - master
-  - develop
+    - master
+    - develop
 
 before_install:
   - travis_retry composer self-update
   - composer install
 
 before_script:
-    - mkdir -p build/logs
-    - mkdir -p build/cov
+  - mkdir -p build/logs
+  - mkdir -p build/cov
 
 script:
   - ./vendor/bin/phpunit --bootstrap helper/bootstrap.php test
-
-after_script:
-  - travis_retry php ./vendor/bin/php-coveralls -v
-
-matrix:
-  fast_finish: true
-  allow_failures:
-    - php: nightly
