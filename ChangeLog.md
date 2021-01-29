@@ -1,8 +1,8 @@
 T-Regx Changelog
 ================
 
-Incoming in 0.10.0
-------------------
+Added in 0.10.0
+---------------
 
 * Breaking changes
     * Previously deprecated [`Match`] and [`ReplaceMatch`] are now being removed, because of PHP8 keyword `match`.
