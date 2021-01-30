@@ -96,7 +96,7 @@ Added in 0.9.13
       keyword, we deprecate [`Match`] and [`ReplaceMatch`]. [`Match`] will become an invalid class name in PHP 8.
 
       Classes [`Match`], [`ReplaceMatch`], [`MatchGroup`] and `ReplaceMatchGroup` will remain in T-Regx (as deprecated)
-      until T-Regx drops support for PHP 7.
+      as long as T-Regx doesn't support PHP 8.
 
 * Features
     * Add `NotReplacedException.getSubject()`
