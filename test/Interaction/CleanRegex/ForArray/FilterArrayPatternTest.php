@@ -107,7 +107,7 @@ class FilterArrayPatternTest extends TestCase
         $this->assertSame(['Foo'], $output);
     }
 
-    function filterMethods(): array
+    public function filterMethods(): array
     {
         return CrossDataProviders::cross(
             [['filter'], ['filterAssoc']],

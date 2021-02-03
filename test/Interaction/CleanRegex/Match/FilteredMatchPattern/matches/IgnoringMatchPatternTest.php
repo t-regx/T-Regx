@@ -2,11 +2,11 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\FilteredMatchPattern\matches;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\CallbackPredicate;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
-use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\IgnoringMatchPattern;
@@ -105,6 +105,8 @@ class IgnoringMatchPatternTest extends TestCase
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): IgnoringMatchPattern
     {
-        return new IgnoringMatchPattern(new IgnoreBaseDecorator(new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()), new Predicate($predicate)));
+        return new IgnoringMatchPattern(new IgnoreBaseDecorator(
+            new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
+            new CallbackPredicate($predicate)));
     }
 }

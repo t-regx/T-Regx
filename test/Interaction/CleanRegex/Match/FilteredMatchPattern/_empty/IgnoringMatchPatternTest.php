@@ -2,6 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\FilteredMatchPattern\_empty;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\CallbackPredicate;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
@@ -9,7 +10,6 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
-use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\IgnoringMatchPattern;
@@ -328,14 +328,15 @@ class IgnoringMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldChain_filter()
+    public function shouldChain_ignoring()
     {
         // given
         $subject = '...you forgot one very important thing mate.';
-        $predicate = function (Detail $detail) {
-            return $detail->text() != 'forgot';
-        };
-        $pattern = new IgnoringMatchPattern(new IgnoreBaseDecorator(new ApiBase(InternalPattern::pcre('/[a-z]+/'), $subject, new UserData()), new Predicate($predicate)));
+        $pattern = new IgnoringMatchPattern(new IgnoreBaseDecorator(
+            new ApiBase(InternalPattern::pcre('/[a-z]+/'), $subject, new UserData()),
+            new CallbackPredicate(function (Detail $detail) {
+                return $detail->text() != 'forgot';
+            })));
 
         // when
         $filtered = $pattern
@@ -420,7 +421,7 @@ class IgnoringMatchPatternTest extends TestCase
                 '() (a) (b) () (c)',
                 new UserData()
             ),
-            new Predicate($predicate)
+            new CallbackPredicate($predicate)
         ));
     }
 }

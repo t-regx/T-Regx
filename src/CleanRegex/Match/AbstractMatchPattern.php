@@ -25,7 +25,7 @@ use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
-use TRegx\CleanRegex\Internal\Match\Predicate;
+use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 use TRegx\CleanRegex\Internal\Match\Stream\AsArrayStream;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
@@ -167,7 +167,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function ignoring(callable $predicate): IgnoringMatchPattern
     {
-        return new IgnoringMatchPattern(new IgnoreBaseDecorator($this->base, new Predicate($predicate)));
+        return new IgnoringMatchPattern(new IgnoreBaseDecorator($this->base, new MethodPredicate($predicate, 'ignoring')));
     }
 
     public function fluent(): FluentMatchPattern

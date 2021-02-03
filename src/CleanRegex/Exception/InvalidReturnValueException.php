@@ -16,11 +16,6 @@ class InvalidReturnValueException extends \Exception implements PatternException
         return new self($value, $method, 'array');
     }
 
-    public static function forFilter($value): self
-    {
-        return new self($value, 'filter', 'bool');
-    }
-
     public static function forGroupByCallback($value): self
     {
         return new self($value, 'groupByCallback', 'int|string');

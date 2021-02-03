@@ -65,7 +65,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnTuple_filter()
+    public function shouldReturnTuple_ignoring()
     {
         // when
         [$value, $unit] = pattern('(\d+)(?<unit>cm|mm)')
@@ -83,7 +83,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnTriple_filter()
+    public function shouldReturnTriple_ignoring()
     {
         // when
         [$a, $b, $c] = pattern('([ab])([12])([$%])')->match('a1% b2$')
