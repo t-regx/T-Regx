@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
+use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
@@ -126,6 +127,34 @@ class AbstractMatchPatternTest extends TestCase
         } catch (CustomException $exception) {
             // then
             $this->assertSame("Expected to get the first element from fluent pattern, but the elements feed is empty.", $exception->getMessage());
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFluent_first_throw_InternalRegxException()
+    {
+        try {
+            // when
+            pattern("Foo")->match("Foo")->fluent()->first(Functions::throws(new NoFirstStreamException()));
+        } catch (NoFirstStreamException $exception) {
+            // then
+            $this->assertEmpty($exception->getMessage());
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFluent_findFirst_throw_InternalRegxException()
+    {
+        try {
+            // when
+            pattern("Foo")->match("Foo")->fluent()->findFirst(Functions::throws(new NoFirstStreamException()))->orThrow();
+        } catch (NoFirstStreamException $exception) {
+            // then
+            $this->assertEmpty($exception->getMessage());
         }
     }
 }

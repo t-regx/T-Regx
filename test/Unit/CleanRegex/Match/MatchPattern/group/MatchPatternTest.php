@@ -18,7 +18,7 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Group index must be an integer or a string, given: array (0)'); // TODO copy paste
+        $this->expectExceptionMessage('Group index must be an integer or a string, given: array (0)');
 
         // when
         $pattern->group([]);

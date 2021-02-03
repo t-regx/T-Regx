@@ -56,19 +56,20 @@ class FluentMatchPattern implements MatchPatternInterface
     {
         try {
             $firstElement = $this->stream->first();
-            return $consumer ? $consumer($firstElement) : $firstElement;
         } catch (NoFirstStreamException $exception) {
             throw $this->worker->noFirstElementException();
         }
+        return $consumer ? $consumer($firstElement) : $firstElement;
     }
 
     public function findFirst(callable $consumer): Optional
     {
         try {
-            return new OptionalImpl($consumer($this->stream->first()));
+            $firstElement = $this->stream->first();
         } catch (NoFirstStreamException $exception) {
             return new EmptyOptional($this->worker, $this->worker->optionalDefaultClass());
         }
+        return new OptionalImpl($consumer($firstElement));
     }
 
     public function nth(int $index)
