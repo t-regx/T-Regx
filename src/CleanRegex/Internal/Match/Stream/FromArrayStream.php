@@ -20,7 +20,7 @@ class FromArrayStream implements Stream
 
     public function first()
     {
-        if (\count($this->elements) === 0) {
+        if (empty($this->elements)) {
             throw new NoFirstStreamException();
         }
         return \reset($this->elements);

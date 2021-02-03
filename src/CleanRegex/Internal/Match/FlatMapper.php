@@ -32,12 +32,12 @@ class FlatMapper
         return $this->strategy->flatten($results);
     }
 
-    public function map($object)
+    public function map($object): array
     {
         $value = \call_user_func($this->callback, $object);
         if (\is_array($value)) {
             return $value;
         }
-        throw InvalidReturnValueException::forArrayReturning($this->methodName,$value);
+        throw InvalidReturnValueException::forArrayReturning($this->methodName, $value);
     }
 }
