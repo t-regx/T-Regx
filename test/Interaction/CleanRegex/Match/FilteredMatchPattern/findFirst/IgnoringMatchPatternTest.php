@@ -22,7 +22,9 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern('Foo', 'Foo', function (Detail $detail) {
+            return $detail->index() != 1;
+        });
 
         // when
         $findFirst = $matchPattern->findFirst(function (Detail $detail) {
@@ -30,7 +32,7 @@ class IgnoringMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame('value: nice', $findFirst->orThrow());
+        $this->assertSame('value: Foo', $findFirst->orThrow());
         $this->assertInstanceOf(OptionalImpl::class, $findFirst);
     }
 
@@ -40,7 +42,9 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldFindFirst_notFirst()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_notFirst();
+        $matchPattern = $this->matchPattern('(Foo|Bar)', 'Foo Bar', function (Detail $detail) {
+            return $detail->index() > 0;
+        });
 
         // when
         $findFirst = $matchPattern->findFirst(function (Detail $detail) {
@@ -48,7 +52,7 @@ class IgnoringMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame('value: matching', $findFirst->orThrow());
+        $this->assertSame('value: Bar', $findFirst->orThrow());
         $this->assertInstanceOf(OptionalImpl::class, $findFirst);
     }
 
@@ -58,7 +62,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldNotFindFirst_notMatched()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_notMatches();
+        $matchPattern = $this->matchPattern('Foo', 'Lorem ipsum', Functions::constant(true));
 
         // when
         $findFirst = $matchPattern->findFirst(function (Detail $detail) {
@@ -75,7 +79,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldNotFindFirst_matchedButFiltered()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_filtered();
+        $matchPattern = $this->matchPattern('Foo', 'Lorem ipsum', Functions::constant(false));
 
         // when
         $findFirst = $matchPattern->findFirst(function (Detail $detail) {
@@ -84,30 +88,6 @@ class IgnoringMatchPatternTest extends TestCase
 
         // then
         $this->assertInstanceOf(EmptyOptional::class, $findFirst);
-    }
-
-    private function standardMatchPattern_notFirst(): AbstractMatchPattern
-    {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $detail) {
-            return $detail->index() > 0;
-        });
-    }
-
-    private function standardMatchPattern(): AbstractMatchPattern
-    {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $detail) {
-            return $detail->index() != 1;
-        });
-    }
-
-    private function standardMatchPattern_notMatches(): AbstractMatchPattern
-    {
-        return $this->matchPattern('[a-z]+', 'NOT MATCHING', Functions::constant(true));
-    }
-
-    private function standardMatchPattern_filtered(): AbstractMatchPattern
-    {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern long', Functions::constant(false));
     }
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
