@@ -31,6 +31,7 @@ class AbstractMatchPatternTest extends TestCase
                 }
                 return "no";
             })
+            ->values()
             ->all();
 
         // then

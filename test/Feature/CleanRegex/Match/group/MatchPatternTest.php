@@ -208,7 +208,7 @@ class MatchPatternTest extends TestCase
             ->all();
 
         // then
-        $this->assertSameMatches(['mm', 'm', 'cm'], $groups);
+        $this->assertSameMatches(['mm', 2 => 'm', 3 => 'cm'], $groups);
     }
 
     /**

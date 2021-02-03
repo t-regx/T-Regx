@@ -245,7 +245,7 @@ class FluentMatchPatternTest extends TestCase
         $result = $pattern->filter('is_int')->all();
 
         // then
-        $this->assertSame([2, 4], $result);
+        $this->assertSame([1 => 2, 3 => 4], $result);
     }
 
     /**

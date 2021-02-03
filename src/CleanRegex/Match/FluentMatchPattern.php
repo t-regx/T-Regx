@@ -129,7 +129,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function filter(callable $predicate): FluentMatchPattern
     {
-        return $this->next(new FromArrayStream(\array_values(\array_filter($this->stream->all(), $predicate))));
+        return $this->next(new FromArrayStream(\array_filter($this->stream->all(), $predicate)));
     }
 
     public function values(): FluentMatchPattern
