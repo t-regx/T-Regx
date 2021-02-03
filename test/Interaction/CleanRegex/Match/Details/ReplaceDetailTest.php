@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 use TRegx\CleanRegex\Match\Details\ReplaceDetailImpl;
 use TRegx\SafeRegex\preg;
 
-class ReplaceMatchTest extends TestCase
+class ReplaceDetailTest extends TestCase
 {
     private const subject = "people are always asking me if I know Tyler Durden. and suddenly I realize that all of this: 
 the gun, the bombs, the revolution... has got something to do with a girl named Marla Singer. 
