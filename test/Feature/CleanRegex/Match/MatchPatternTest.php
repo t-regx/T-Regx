@@ -149,6 +149,18 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGet_filter()
+    {
+        // when
+        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->filter(Functions::notEquals('Bar'));
+
+        // then
+        $this->assertSame(['Foo', 'Top'], $mapped);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGet_distinct()
     {
         // when

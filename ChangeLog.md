@@ -12,6 +12,9 @@ Incoming
       will preserve the `index()` they had before `ignoring()`.
     * `match()->fluent()->filter()` no longer reindexes values. To reindex, use `values()`.
 
+* Features
+    * Add `pattern()->match()->filter()` which returns only matches allowed by the predicate.
+
 Added in 0.10.0
 ---------------
 

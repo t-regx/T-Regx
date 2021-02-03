@@ -122,6 +122,13 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return \array_values(\array_map($mapper, $this->getDetailObjects()));
     }
 
+    public function filter(callable $predicate): array
+    {
+        return \array_values(\array_map(static function (Detail $detail) {
+            return $detail->text();
+        }, \array_filter($this->getDetailObjects(), $predicate)));
+    }
+
     public function flatMap(callable $mapper): array
     {
         return (new FlatMapper($this->getDetailObjects(), new ArrayMergeStrategy(), $mapper, 'flatMap'))->get();

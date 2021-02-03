@@ -34,6 +34,12 @@ interface MatchPatternInterface extends \Countable, \IteratorAggregate
      */
     public function map(callable $mapper);
 
+    /**
+     * @param callable $predicate
+     * @return MatchPatternInterface|array
+     */
+    public function filter(callable $predicate);
+
     public function asInt(): FluentMatchPattern;
 
     /**
