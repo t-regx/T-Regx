@@ -337,7 +337,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function (Detail $detail) {
+            ->ignoring(function (Detail $detail) {
                 return strlen($detail) === 5;
             })
             ->all();
@@ -353,7 +353,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function (Detail $detail) {
+            ->ignoring(function (Detail $detail) {
                 return strlen($detail) === 5;
             })
             ->only(2);
@@ -369,7 +369,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function (Detail $detail) {
+            ->ignoring(function (Detail $detail) {
                 return strlen($detail) === 5;
             })
             ->only(1);
@@ -385,7 +385,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(Functions::constant(false))
+            ->ignoring(Functions::constant(false))
             ->only(1);
 
         // then
@@ -399,7 +399,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function (Detail $detail) {
+            ->ignoring(function (Detail $detail) {
                 return strlen($detail) === 5;
             })
             ->count();
@@ -415,7 +415,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function (Detail $detail) {
+            ->ignoring(function (Detail $detail) {
                 return $detail->index() > 1;
             })
             ->first();
@@ -431,7 +431,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $matches = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(function (Detail $detail) {
+            ->ignoring(function (Detail $detail) {
                 return $detail->text() === 'Fifth';
             })
             ->test();
@@ -447,7 +447,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $matches = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->filter(Functions::constant(false))
+            ->ignoring(Functions::constant(false))
             ->test();
 
         // then
@@ -461,7 +461,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $matches = pattern('[A-Z][a-z]+')->match('NOT MATCHING')
-            ->filter(Functions::constant(true))
+            ->ignoring(Functions::constant(true))
             ->test();
 
         // then

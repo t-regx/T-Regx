@@ -16,7 +16,7 @@ use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\PatternOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
@@ -165,9 +165,9 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return new ArrayIterator($objects);
     }
 
-    public function filter(callable $predicate): FilteredMatchPattern
+    public function ignoring(callable $predicate): IgnoringMatchPattern
     {
-        return new FilteredMatchPattern(new FilteredBaseDecorator($this->base, new Predicate($predicate)));
+        return new IgnoringMatchPattern(new IgnoreBaseDecorator($this->base, new Predicate($predicate)));
     }
 
     public function fluent(): FluentMatchPattern

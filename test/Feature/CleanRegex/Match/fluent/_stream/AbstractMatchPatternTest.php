@@ -46,7 +46,7 @@ class AbstractMatchPatternTest extends TestCase
         // given
         pattern("(Foo|Bar|Lorem)")
             ->match("Foo, Bar, Lorem")
-            ->filter(function (Detail $detail) {
+            ->ignoring(function (Detail $detail) {
                 // when
                 $detail->setUserData('Foo');
 
@@ -109,7 +109,7 @@ class AbstractMatchPatternTest extends TestCase
         // given
         pattern("(Foo|Bar|Lorem)")
             ->match("Foo, Bar, Lorem")
-            ->filter(function (Detail $detail) {
+            ->ignoring(function (Detail $detail) {
                 // when
                 $detail->setUserData('Foo');
 

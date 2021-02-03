@@ -1,6 +1,14 @@
 T-Regx Changelog
 ================
 
+Incoming
+--------
+
+* Breaking changes
+    * Chainable `pattern()->match()->filter()` is renamed to `ignoring()`.
+
+      `pattern()->match()->fluent()->filter()` remains unchanged.
+
 Added in 0.10.0
 ---------------
 

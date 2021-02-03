@@ -6,15 +6,15 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
-use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\FilteredMatchPattern;
+use TRegx\CleanRegex\Match\IgnoringMatchPattern;
 
-class FilteredMatchPatternTest extends TestCase
+class IgnoringMatchPatternTest extends TestCase
 {
     /**
      * @test
@@ -335,14 +335,14 @@ class FilteredMatchPatternTest extends TestCase
         $predicate = function (Detail $detail) {
             return $detail->text() != 'forgot';
         };
-        $pattern = new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(InternalPattern::pcre('/[a-z]+/'), $subject, new UserData()), new Predicate($predicate)));
+        $pattern = new IgnoringMatchPattern(new IgnoreBaseDecorator(new ApiBase(InternalPattern::pcre('/[a-z]+/'), $subject, new UserData()), new Predicate($predicate)));
 
         // when
         $filtered = $pattern
-            ->filter(function (Detail $detail) {
+            ->ignoring(function (Detail $detail) {
                 return $detail->text() !== 'very';
             })
-            ->filter(function (Detail $detail) {
+            ->ignoring(function (Detail $detail) {
                 return $detail->text() !== 'mate';
             })
             ->all();
@@ -388,41 +388,39 @@ class FilteredMatchPatternTest extends TestCase
         $this->assertSame(['', 'a', '', 'c'], $array);
     }
 
-    private function standardMatchPattern(): FilteredMatchPattern
+    private function standardMatchPattern(): IgnoringMatchPattern
     {
         return $this->matchPattern(function (Detail $detail) {
             return $detail->text() !== 'b';
         });
     }
 
-    private function standardMatchPattern_all(): FilteredMatchPattern
+    private function standardMatchPattern_all(): IgnoringMatchPattern
     {
         return $this->matchPattern(Functions::constant(true));
     }
 
-    private function standardMatchPattern_notFirst(): FilteredMatchPattern
+    private function standardMatchPattern_notFirst(): IgnoringMatchPattern
     {
         return $this->matchPattern(function (Detail $detail) {
             return $detail->index() > 0;
         });
     }
 
-    private function standardMatchPattern_filtered(): FilteredMatchPattern
+    private function standardMatchPattern_filtered(): IgnoringMatchPattern
     {
         return $this->matchPattern(Functions::constant(false));
     }
 
-    private function matchPattern(callable $predicate): FilteredMatchPattern
+    private function matchPattern(callable $predicate): IgnoringMatchPattern
     {
-        return new FilteredMatchPattern(
-            new FilteredBaseDecorator(
-                new ApiBase(
-                    InternalPattern::standard('(?<=\()[a-z]?(?=\))'),
-                    '() (a) (b) () (c)',
-                    new UserData()
-                ),
-                new Predicate($predicate)
-            )
-        );
+        return new IgnoringMatchPattern(new IgnoreBaseDecorator(
+            new ApiBase(
+                InternalPattern::standard('(?<=\()[a-z]?(?=\))'),
+                '() (a) (b) () (c)',
+                new UserData()
+            ),
+            new Predicate($predicate)
+        ));
     }
 }

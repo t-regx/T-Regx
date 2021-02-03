@@ -44,13 +44,13 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldIterateMatch_filter_forEach()
+    public function shouldIterateMatch_ignoring_forEach()
     {
         // given
         $result = [];
 
         // when
-        foreach ($this->match()->filter(Functions::constant(true)) as $match) {
+        foreach ($this->match()->ignoring(Functions::constant(true)) as $match) {
             $result[] = $match->text();
         }
 

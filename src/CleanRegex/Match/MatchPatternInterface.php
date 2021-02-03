@@ -54,12 +54,6 @@ interface MatchPatternInterface extends \Countable, \IteratorAggregate
     public function distinct();
 
     /**
-     * @param callable $predicate
-     * @return MatchPatternInterface|array
-     */
-    public function filter(callable $predicate);
-
-    /**
      * @param callable $groupMapper
      * @return GroupByPattern|array
      */

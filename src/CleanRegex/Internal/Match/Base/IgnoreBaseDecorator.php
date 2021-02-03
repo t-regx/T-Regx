@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
-class FilteredBaseDecorator implements Base
+class IgnoreBaseDecorator implements Base
 {
     /** @var Base */
     private $base;

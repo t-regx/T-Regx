@@ -5,14 +5,14 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
-use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\FilteredMatchPattern;
+use TRegx\CleanRegex\Match\IgnoringMatchPattern;
 
-class FilteredMatchPatternTest extends TestCase
+class IgnoringMatchPatternTest extends TestCase
 {
     /**
      * @test
@@ -98,6 +98,6 @@ class FilteredMatchPatternTest extends TestCase
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
     {
-        return new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()), new Predicate($predicate)));
+        return new IgnoringMatchPattern(new IgnoreBaseDecorator(new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()), new Predicate($predicate)));
     }
 }

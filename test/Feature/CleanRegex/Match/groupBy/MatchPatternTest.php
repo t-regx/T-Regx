@@ -282,9 +282,8 @@ class MatchPatternTest extends TestCase
 
     private function filtered(): GroupByPattern
     {
-        return $this
-            ->match()
-            ->filter(function (Detail $detail) {
+        return $this->match()
+            ->ignoring(function (Detail $detail) {
                 $detail->setUserData("verify me:$detail");
                 return !in_array($detail->text(), ['14cm', '13mm']);
             })

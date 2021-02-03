@@ -5,13 +5,13 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
-use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\FilteredMatchPattern;
+use TRegx\CleanRegex\Match\IgnoringMatchPattern;
 
-class FilteredMatchPatternTest extends TestCase
+class IgnoringMatchPatternTest extends TestCase
 {
     /**
      * @test
@@ -81,30 +81,30 @@ class FilteredMatchPatternTest extends TestCase
         $this->assertTrue($fails);
     }
 
-    private function standardMatchPattern(): FilteredMatchPattern
+    private function standardMatchPattern(): IgnoringMatchPattern
     {
         return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $detail) {
             return $detail->index() != 1;
         });
     }
 
-    private function standardMatchPattern_allMatch(): FilteredMatchPattern
+    private function standardMatchPattern_allMatch(): IgnoringMatchPattern
     {
         return $this->matchPattern('[a-z]+', 'nice matching pattern', Functions::constant(true));
     }
 
-    private function standardMatchPattern_notMatches(): FilteredMatchPattern
+    private function standardMatchPattern_notMatches(): IgnoringMatchPattern
     {
         return $this->matchPattern('[a-z]+', 'NOT MATCHING', Functions::constant(true));
     }
 
-    private function standardMatchPattern_filtered(): FilteredMatchPattern
+    private function standardMatchPattern_filtered(): IgnoringMatchPattern
     {
         return $this->matchPattern('[a-z]+', 'nice matching pattern long', Functions::constant(false));
     }
 
-    private function matchPattern(string $pattern, string $subject, callable $predicate): FilteredMatchPattern
+    private function matchPattern(string $pattern, string $subject, callable $predicate): IgnoringMatchPattern
     {
-        return new FilteredMatchPattern(new FilteredBaseDecorator(new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()), new Predicate($predicate)));
+        return new IgnoringMatchPattern(new IgnoreBaseDecorator(new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()), new Predicate($predicate)));
     }
 }

@@ -1,12 +1,12 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use TRegx\CleanRegex\Internal\Match\Base\FilteredBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
 use function count;
 
-class FilteredMatchPattern extends AbstractMatchPattern
+class IgnoringMatchPattern extends AbstractMatchPattern
 {
-    public function __construct(FilteredBaseDecorator $base)
+    public function __construct(IgnoreBaseDecorator $base)
     {
         parent::__construct($base);
     }

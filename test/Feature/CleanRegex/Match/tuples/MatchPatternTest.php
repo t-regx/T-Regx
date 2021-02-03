@@ -70,7 +70,7 @@ class MatchPatternTest extends TestCase
         // when
         [$value, $unit] = pattern('(\d+)(?<unit>cm|mm)')
             ->match('12cm 14mm')
-            ->filter(function (Detail $detail) {
+            ->ignoring(function (Detail $detail) {
                 return $detail->text() === '14mm';
             })
             ->tuple(1, 'unit');
@@ -87,7 +87,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         [$a, $b, $c] = pattern('([ab])([12])([$%])')->match('a1% b2$')
-            ->filter(function (Detail $detail) {
+            ->ignoring(function (Detail $detail) {
                 return $detail->text() !== 'a1%';
             })
             ->triple(1, 3, 2);
