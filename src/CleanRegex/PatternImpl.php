@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\ForArray\ForArrayPattern;
-use TRegx\CleanRegex\ForArray\ForArrayPatternImpl;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\ValidPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -55,7 +54,7 @@ class PatternImpl implements PatternInterface
 
     public function forArray(array $haystack): ForArrayPattern
     {
-        return new ForArrayPatternImpl($this->pattern, $haystack, false);
+        return new ForArrayPattern($this->pattern, $haystack, false);
     }
 
     public function split(string $subject): array
