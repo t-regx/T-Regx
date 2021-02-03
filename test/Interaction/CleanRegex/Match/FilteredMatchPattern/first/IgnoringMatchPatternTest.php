@@ -128,6 +128,21 @@ class IgnoringMatchPatternTest extends TestCase
         $this->assertSame(['One'], $invoked);
     }
 
+    /**
+     * @test
+     */
+    public function shouldGet_ignoring_group_asInt_first()
+    {
+        // given
+        $matchPattern = $this->matchPattern('(\d+)', '14 15', Functions::notEquals('14'));
+
+        // when
+        $result = $matchPattern->group(1)->asInt()->first();
+
+        // then
+        $this->assertSame($result, 15);
+    }
+
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
     {
         return new IgnoringMatchPattern(

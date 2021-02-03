@@ -16,6 +16,7 @@ Incoming
 
 * Features
     * Add `pattern()->match()->filter()` which returns only matches allowed by the predicate.
+    * Add `pattern()->match()->group()->asInt()`
 
 Added in 0.10.0
 ---------------

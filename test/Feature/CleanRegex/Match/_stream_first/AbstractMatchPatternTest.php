@@ -42,6 +42,13 @@ class AbstractMatchPatternTest extends TestCase
         $this->assertSame(123, $this->match()->fluent()->asInt()->first());
     }
 
+    public function test_asInt_group_first()
+    {
+        // then
+        $this->assertSame(123, $this->match()->group(0)->asInt()->first());
+        $this->assertSame(123, $this->match()->group(0)->fluent()->asInt()->first());
+    }
+
     public function test_distinct_first()
     {
         // then

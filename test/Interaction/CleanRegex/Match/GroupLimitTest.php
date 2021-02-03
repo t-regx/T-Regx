@@ -4,6 +4,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Match;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 
@@ -186,5 +187,21 @@ class GroupLimitTest extends TestCase
             $this->assertSame(1, $exception->getTotal());
             $this->assertSame("Expected to get group 'foo' from the 4-nth match, but only 1 occurrences were matched", $exception->getMessage());
         }
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_asInt_filter_first()
+    {
+        // given
+        $limit = GroupLimitFactory::groupLimitAll($this, [['12', 0]], 'foo');
+
+        // then
+        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed is empty');
+
+        // when
+        $limit->asInt()->filter(Functions::constant(false))->first();
     }
 }

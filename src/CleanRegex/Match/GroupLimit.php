@@ -22,6 +22,7 @@ use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
+use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -37,7 +38,8 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
     private $firstFactory;
     /** @var GroupLimitFindFirst */
     private $findFirstFactory;
-
+    /** @var LazyMatchAllFactory */
+    private $matchAllFactory;
     /** @var Base */
     private $base;
     /** @var string|int */
@@ -50,6 +52,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         $this->allFactory = new GroupLimitAll($base, $nameOrIndex);
         $this->firstFactory = new GroupLimitFirst($base, $nameOrIndex);
         $this->findFirstFactory = new GroupLimitFindFirst($base, $nameOrIndex);
+        $this->matchAllFactory = new LazyMatchAllFactory($base);
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
         $this->offsetLimit = $offsetLimit;
@@ -70,7 +73,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     private function matchGroupDetails(RawMatchOffset $first): DetailGroup
     {
-        $facade = new GroupFacade($first, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), new LazyMatchAllFactory($this->base));
+        $facade = new GroupFacade($first, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), $this->matchAllFactory);
         return $facade->createGroup($first);
     }
 
@@ -175,6 +178,13 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
     public function fluent(): FluentMatchPattern
     {
         return new FluentMatchPattern($this->stream(), new FluentOptionalWorker(new FirstFluentMessage()));
+    }
+
+    public function asInt(): FluentMatchPattern
+    {
+        return new FluentMatchPattern(
+            new MatchGroupIntStream($this->base, $this->nameOrIndex, $this->matchAllFactory),
+            new FluentOptionalWorker(new FirstFluentMessage()));
     }
 
     private function stream(): Stream

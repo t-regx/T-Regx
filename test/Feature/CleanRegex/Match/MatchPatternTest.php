@@ -423,61 +423,73 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFilter_first()
+    public function shouldGet_ignoring_first()
     {
         // when
-        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->ignoring(function (Detail $detail) {
-                return $detail->index() > 1;
-            })
-            ->first();
+        $first = pattern('[A-Z][a-z]+')->match('First, Second, Third')->ignoring(Functions::notEquals('First'))->first();
 
         // then
-        $this->assertSame('Third', $filtered);
+        $this->assertSame('Second', $first);
     }
 
     /**
      * @test
      */
-    public function shouldFilter_matches_true()
+    public function shouldGet_ignoring_test_true()
     {
         // when
-        $matches = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->ignoring(function (Detail $detail) {
-                return $detail->text() === 'Fifth';
-            })
-            ->test();
+        $matched = pattern('[A-Z][a-z]+')->match('First, Second, Third')->ignoring(Functions::equals('Third'))->test();
 
         // then
-        $this->assertTrue($matches);
+        $this->assertTrue($matched);
     }
 
     /**
      * @test
      */
-    public function shouldFilter_matches_false()
+    public function shouldGet_ignoring_test_false()
     {
         // when
-        $matches = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->ignoring(Functions::constant(false))
-            ->test();
+        $matched = pattern('[A-Z][a-z]+')->match('First, Second')->ignoring(Functions::constant(false))->test();
 
         // then
-        $this->assertFalse($matches);
+        $this->assertFalse($matched);
     }
 
     /**
      * @test
      */
-    public function shouldFilter_matches_notMatched()
+    public function shouldGet_ignoring_test_notMatched()
     {
         // when
-        $matches = pattern('[A-Z][a-z]+')->match('NOT MATCHING')
-            ->ignoring(Functions::constant(true))
-            ->test();
+        $matched = pattern('Foo')->match('Bar')->ignoring(Functions::fail())->test();
 
         // then
-        $this->assertFalse($matches);
+        $this->assertFalse($matched);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_ignoring_fluent_all()
+    {
+        // when
+        $all = pattern('\d+')->match('18 19')->ignoring(Functions::equals('19'))->fluent()->asInt()->all();
+
+        // then
+        $this->assertSame([1 => 19], $all);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_ignoring_fluent_keys_all()
+    {
+        // when
+        $keys = pattern('\d+')->match('18 19')->ignoring(Functions::equals('19'))->fluent()->keys()->all();
+
+        // then
+        $this->assertSame([1], $keys);
     }
 
     /**
