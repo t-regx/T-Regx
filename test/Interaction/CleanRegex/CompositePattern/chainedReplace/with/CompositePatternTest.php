@@ -4,7 +4,6 @@ namespace Test\Interaction\TRegx\CleanRegex\CompositePattern\chainedReplace\with
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\CompositePattern;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
-use function array_slice;
 
 class CompositePatternTest extends TestCase
 {

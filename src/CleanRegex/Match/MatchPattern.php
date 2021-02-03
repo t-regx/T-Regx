@@ -3,11 +3,15 @@ namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
+use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\SafeRegex\preg;
 
 class MatchPattern extends AbstractMatchPattern
 {
+    /** @var ApiBase */
+    private $apiBase;
     /** @var InternalPattern */
     private $pattern;
     /** @var string */
@@ -15,7 +19,8 @@ class MatchPattern extends AbstractMatchPattern
 
     public function __construct(InternalPattern $pattern, string $subject)
     {
-        parent::__construct(new ApiBase($pattern, $subject, new UserData()));
+        $this->apiBase = new ApiBase($pattern, $subject, new UserData());
+        parent::__construct($this->apiBase);
         $this->pattern = $pattern;
         $this->subject = $subject;
     }
@@ -28,5 +33,10 @@ class MatchPattern extends AbstractMatchPattern
     public function count(): int
     {
         return preg::match_all($this->pattern->pattern, $this->subject);
+    }
+
+    public function ignoring(callable $predicate): IgnoringMatchPattern
+    {
+        return new IgnoringMatchPattern(new IgnoreBaseDecorator($this->apiBase, new MethodPredicate($predicate, 'ignoring')), $this->apiBase);
     }
 }

@@ -8,6 +8,8 @@ Incoming
     * Chainable `pattern()->match()->filter()` is renamed to `ignoring()`.
 
       `pattern()->match()->fluent()->filter()` remains unchanged.
+    * After filtering `MatchPattern` with `ignoring()`, consecutive `Detail.index()` will no longer be reindexed, they
+      will preserve the `index()` they had before `ignoring()`.
 
 Added in 0.10.0
 ---------------

@@ -167,7 +167,7 @@ class MatchStreamTest extends TestCase
 
     private function matchOffset(string $value): RawMatchOffset
     {
-        return new RawMatchOffset([[$value, 1]]);
+        return new RawMatchOffset([[$value, 1]], 0);
     }
 
     private function matchStream(BaseStream $stream, MatchAllFactory $factory = null): MatchStream

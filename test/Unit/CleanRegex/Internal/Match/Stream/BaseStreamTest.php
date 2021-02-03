@@ -244,7 +244,7 @@ class BaseStreamTest extends TestCase
 
     private function baseFirstUnmatched(): Base
     {
-        return $this->baseFirstWith(new RawMatchOffset([]));
+        return $this->baseFirstWith(new RawMatchOffset([], null));
     }
 
     private function baseFirstWith(IRawMatchOffset $match): Base
@@ -268,6 +268,6 @@ class BaseStreamTest extends TestCase
 
     private function matchOffset(): RawMatchOffset
     {
-        return new RawMatchOffset([['Joffrey', 1]]);
+        return new RawMatchOffset([['Joffrey', 1]], 0);
     }
 }

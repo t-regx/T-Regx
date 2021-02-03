@@ -16,7 +16,6 @@ use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\PatternOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
@@ -25,7 +24,6 @@ use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
-use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 use TRegx\CleanRegex\Internal\Match\Stream\AsArrayStream;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
@@ -60,7 +58,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function all(): array
     {
-        return $this->base->matchAll()->getTexts();
+        return \array_values($this->base->matchAll()->getTexts());
     }
 
     /**
@@ -70,7 +68,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
      */
     public function first(callable $consumer = null)
     {
-        return (new MatchFirst($this->base))->invoke($consumer);
+        return (new MatchFirst($this->base, new LazyMatchAllFactory($this->base->getUnfilteredBase())))->invoke($consumer);
     }
 
     public function findFirst(callable $consumer): Optional
@@ -86,9 +84,10 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     private function findFirstDetail(RawMatchOffset $match): Detail
     {
-        $allFactory = new LazyMatchAllFactory($this->base);
+        $allFactory = new LazyMatchAllFactory($this->base->getUnfilteredBase());
+        $firstIndex = $match->getIndex();
         return (new DetailObjectFactory($this->base, 1, $this->base->getUserData()))
-            ->create(0, new GroupPolyfillDecorator($match, $allFactory, 0), $allFactory);
+            ->create($firstIndex, new GroupPolyfillDecorator($match, $allFactory, $firstIndex), $allFactory);
     }
 
     public function only(int $limit): array
@@ -101,7 +100,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         if ($index < 0) {
             throw new InvalidArgumentException("Negative nth: $index");
         }
-        $texts = $this->base->matchAll()->getTexts();
+        $texts = \array_values($this->base->matchAll()->getTexts());
         if (\array_key_exists($index, $texts)) {
             return $texts[$index];
         }
@@ -120,7 +119,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function map(callable $mapper): array
     {
-        return \array_map($mapper, $this->getDetailObjects());
+        return \array_values(\array_map($mapper, $this->getDetailObjects()));
     }
 
     public function flatMap(callable $mapper): array
@@ -165,10 +164,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return new ArrayIterator($objects);
     }
 
-    public function ignoring(callable $predicate): IgnoringMatchPattern
-    {
-        return new IgnoringMatchPattern(new IgnoreBaseDecorator($this->base, new MethodPredicate($predicate, 'ignoring')));
-    }
+    public abstract function ignoring(callable $predicate): IgnoringMatchPattern;
 
     public function fluent(): FluentMatchPattern
     {

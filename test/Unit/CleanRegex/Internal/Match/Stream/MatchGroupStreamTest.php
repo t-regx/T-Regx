@@ -173,7 +173,7 @@ class MatchGroupStreamTest extends TestCase
             1            => [],
             'group'      => ["g-$value", 1],
             2            => ["g-$value", 1]    # This is a hint for GroupNameIndexAssign, it will know that "group" is #2
-        ]);
+        ], null);
     }
 
     private function matchStream(BaseStream $stream, $nameOrIndex, MatchAllFactory $factory = null): MatchGroupStream

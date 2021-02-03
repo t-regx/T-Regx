@@ -8,7 +8,6 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\SafeRegex\preg;
-use function defined;
 
 class ApiBase implements Base
 {
@@ -45,7 +44,7 @@ class ApiBase implements Base
     public function matchOffset(): RawMatchOffset
     {
         preg::match($this->pattern->pattern, $this->subject, $match, \PREG_OFFSET_CAPTURE);
-        return new RawMatchOffset($match);
+        return new RawMatchOffset($match, 0);
     }
 
     public function matchAll(): RawMatches
@@ -62,7 +61,7 @@ class ApiBase implements Base
 
     private function matchAllOffsetsFlags(): int
     {
-        if (defined('PREG_UNMATCHED_AS_NULL')) {
+        if (\defined('PREG_UNMATCHED_AS_NULL')) {
             return \PREG_OFFSET_CAPTURE | \PREG_UNMATCHED_AS_NULL;
         }
         return \PREG_OFFSET_CAPTURE;
@@ -71,5 +70,10 @@ class ApiBase implements Base
     public function getUserData(): UserData
     {
         return $this->userData;
+    }
+
+    public function getUnfilteredBase(): Base
+    {
+        return $this;
     }
 }

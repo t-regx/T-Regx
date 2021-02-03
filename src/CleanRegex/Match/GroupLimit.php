@@ -84,7 +84,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
      */
     public function all(): array
     {
-        return $this->allFactory->getAllForGroup()->getGroupTexts($this->nameOrIndex);
+        return \array_values($this->allFactory->getAllForGroup()->getGroupTexts($this->nameOrIndex));
     }
 
     /**

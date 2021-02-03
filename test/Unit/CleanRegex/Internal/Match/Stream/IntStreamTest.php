@@ -47,7 +47,7 @@ class IntStreamTest extends TestCase
     public function shouldDelegateFirst()
     {
         // given
-        $stream = new IntStream($this->mock('first', 'willReturn', new RawMatchOffset([['192', 1]])));
+        $stream = new IntStream($this->mock('first', 'willReturn', new RawMatchOffset([['192', 1]], 0)));
 
         // when
         $first = $stream->first();
@@ -93,7 +93,7 @@ class IntStreamTest extends TestCase
     public function shouldFirst_throwForMalformedInteger()
     {
         // given
-        $stream = new IntStream($this->mock('first', 'willReturn', new RawMatchOffset([['Foo', 1]])));
+        $stream = new IntStream($this->mock('first', 'willReturn', new RawMatchOffset([['Foo', 1]], 1)));
 
         // then
         $this->expectException(IntegerFormatException::class);

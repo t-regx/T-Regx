@@ -4,6 +4,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\FilteredMatchPattern\_empty;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CallbackPredicate;
 use Test\Utils\Functions;
+use Test\Utils\ThrowApiBase;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
@@ -22,7 +23,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldGet_All()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
 
         // when
         $all = $matchPattern->all();
@@ -37,7 +38,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldOnly_2()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
 
         // when
         $only = $matchPattern->only(2);
@@ -52,7 +53,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldOnly_1()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
 
         // when
         $only = $matchPattern->only(1);
@@ -67,7 +68,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldCount()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
 
         // when
         $count = $matchPattern->count();
@@ -82,7 +83,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldCount_all()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_all();
+        $matchPattern = $this->matchPattern(Functions::constant(true));
 
         // when
         $count = $matchPattern->count();
@@ -97,7 +98,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldGet_First()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
 
         // when
         $first = $matchPattern->first();
@@ -127,7 +128,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldNotGet_First_matchedButFiltered()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_filtered();
+        $matchPattern = $this->matchPattern(Functions::constant(false));
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -143,7 +144,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldGet_findFirst()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
 
         // when
         $findFirst = $matchPattern->findFirst(function (Detail $detail) {
@@ -179,7 +180,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldNotGet_findFirst_matchedButFiltered()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_filtered();
+        $matchPattern = $this->matchPattern(Functions::constant(false));
 
         // when
         $findFirst = $matchPattern->findFirst(function (Detail $detail) {
@@ -196,7 +197,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldMatch_all()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_all();
+        $matchPattern = $this->matchPattern(Functions::constant(true));
 
         // when
         $matches = $matchPattern->test();
@@ -213,7 +214,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldMatch_some()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
 
         // when
         $matches = $matchPattern->test();
@@ -230,7 +231,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldNotMatch_matchedButFiltered()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_filtered();
+        $matchPattern = $this->matchPattern(Functions::constant(false));
 
         // when
         $matches = $matchPattern->test();
@@ -264,7 +265,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldGet_Offsets_all()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
 
         // when
         $offsets = $matchPattern->offsets()->all();
@@ -279,7 +280,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldGet_Offsets_first()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
 
         // when
         $offset = $matchPattern->offsets()->first();
@@ -294,7 +295,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldMap()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
         $mapper = function (Detail $detail) {
             return lcfirst($detail) . ucfirst($detail);
         };
@@ -312,7 +313,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldFindFirst()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
 
         // when
         $first = $matchPattern
@@ -332,11 +333,13 @@ class IgnoringMatchPatternTest extends TestCase
     {
         // given
         $subject = '...you forgot one very important thing mate.';
-        $pattern = new IgnoringMatchPattern(new IgnoreBaseDecorator(
-            new ApiBase(InternalPattern::pcre('/[a-z]+/'), $subject, new UserData()),
-            new CallbackPredicate(function (Detail $detail) {
-                return $detail->text() != 'forgot';
-            })));
+        $pattern = new IgnoringMatchPattern(
+            new IgnoreBaseDecorator(
+                new ApiBase(InternalPattern::pcre('/[a-z]+/'), $subject, new UserData()),
+                new CallbackPredicate(function (Detail $detail) {
+                    return $detail->text() != 'forgot';
+                })),
+            new ThrowApiBase());
 
         // when
         $filtered = $pattern
@@ -358,7 +361,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldForEach()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
         $matches = [];
 
         // when
@@ -376,7 +379,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldGet_iterator()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
 
         // when
         $iterator = $matchPattern->getIterator();
@@ -389,18 +392,6 @@ class IgnoringMatchPatternTest extends TestCase
         $this->assertSame(['', 'a', '', 'c'], $array);
     }
 
-    private function standardMatchPattern(): IgnoringMatchPattern
-    {
-        return $this->matchPattern(function (Detail $detail) {
-            return $detail->text() !== 'b';
-        });
-    }
-
-    private function standardMatchPattern_all(): IgnoringMatchPattern
-    {
-        return $this->matchPattern(Functions::constant(true));
-    }
-
     private function standardMatchPattern_notFirst(): IgnoringMatchPattern
     {
         return $this->matchPattern(function (Detail $detail) {
@@ -408,20 +399,17 @@ class IgnoringMatchPatternTest extends TestCase
         });
     }
 
-    private function standardMatchPattern_filtered(): IgnoringMatchPattern
-    {
-        return $this->matchPattern(Functions::constant(false));
-    }
-
     private function matchPattern(callable $predicate): IgnoringMatchPattern
     {
-        return new IgnoringMatchPattern(new IgnoreBaseDecorator(
-            new ApiBase(
-                InternalPattern::standard('(?<=\()[a-z]?(?=\))'),
-                '() (a) (b) () (c)',
-                new UserData()
+        return new IgnoringMatchPattern(
+            new IgnoreBaseDecorator(
+                new ApiBase(
+                    InternalPattern::standard('(?<=\()[a-z]?(?=\))'),
+                    '() (a) (b) () (c)',
+                    new UserData()
+                ),
+                new CallbackPredicate($predicate)
             ),
-            new CallbackPredicate($predicate)
-        ));
+            new ThrowApiBase());
     }
 }

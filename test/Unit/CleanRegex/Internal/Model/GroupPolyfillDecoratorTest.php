@@ -289,12 +289,12 @@ class GroupPolyfillDecoratorTest extends TestCase
 
     private function match(array $match): IRawMatchOffset
     {
-        return new RawMatchOffset($match);
+        return new RawMatchOffset($match, 0);
     }
 
     private function empty(): IRawMatchOffset
     {
-        return new RawMatchOffset([]);
+        return new RawMatchOffset([], null);
     }
 
     private function noInteraction(): MatchAllFactory

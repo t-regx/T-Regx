@@ -22,4 +22,6 @@ interface Base extends Subjectable
     public function matchAllOffsets(): RawMatchesOffset;
 
     public function getUserData(): UserData;
+
+    public function getUnfilteredBase(): Base;
 }

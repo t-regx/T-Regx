@@ -38,8 +38,8 @@ class LazyDetailImpl implements Detail
         $matches = $this->base->matchAllOffsets();
         return new DetailImpl(
             $this->base,
-            -99, // These values are never used  `index()` and `limit()` in LazyMatch aren't
-            -99, // proxied to `Match()`, because they can be read from fields.
+            -99, // These values are never used, because `index()` and `limit()` in LazyMatch aren't
+            -99, // passed through `Detail`, because they are read from fields.
             new RawMatchesToMatchAdapter($matches, $this->index),
             new EagerMatchAllFactory($matches),
             new UserData()

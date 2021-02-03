@@ -3,6 +3,7 @@ namespace Test\Utils;
 
 use PHPUnit\Framework\Assert;
 use Throwable;
+use TRegx\CleanRegex\Match\Details\Detail;
 
 class Functions
 {
@@ -54,6 +55,28 @@ class Functions
     {
         return function (string $fucker) use ($index) {
             return $fucker[$index];
+        };
+    }
+
+    public static function equals(string $detail): callable
+    {
+        return function (Detail $match) use ($detail) {
+            return "$match" === $detail;
+        };
+    }
+
+    public static function notEquals(string $detail): callable
+    {
+        return function (Detail $match) use ($detail) {
+            return "$match" !== $detail;
+        };
+    }
+
+    public static function collecting(array &$details): callable
+    {
+        return function (Detail $detail) use (&$details) {
+            $details[] = $detail->text();
+            return true;
         };
     }
 }

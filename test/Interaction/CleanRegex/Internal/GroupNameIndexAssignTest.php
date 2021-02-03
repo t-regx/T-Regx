@@ -108,7 +108,7 @@ class GroupNameIndexAssignTest extends TestCase
         ];
         /** @var MatchAllFactory $factory */
         $factory = $this->createMock(MatchAllFactory::class);
-        return new GroupNameIndexAssign(new RawMatchOffset($match), $factory);
+        return new GroupNameIndexAssign(new RawMatchOffset($match, 0), $factory);
     }
 
     /**
@@ -155,7 +155,7 @@ class GroupNameIndexAssignTest extends TestCase
             3       => null,
         ];
 
-        return new GroupNameIndexAssign(new RawMatchOffset($match), new EagerMatchAllFactory(new RawMatchesOffset($matches)));
+        return new GroupNameIndexAssign(new RawMatchOffset($match, 0), new EagerMatchAllFactory(new RawMatchesOffset($matches)));
     }
 
     /**
@@ -201,7 +201,7 @@ class GroupNameIndexAssignTest extends TestCase
             3       => null,
         ];
 
-        return new GroupNameIndexAssign(new RawMatchOffset($matches), new EagerMatchAllFactory(new RawMatchesOffset($matches)));
+        return new GroupNameIndexAssign(new RawMatchOffset($matches, 0), new EagerMatchAllFactory(new RawMatchesOffset($matches)));
     }
 
     /**

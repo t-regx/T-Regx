@@ -636,6 +636,21 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetNth_ignoring()
+    {
+        // given
+        $subject = '12cm 14mm 13cm 19cm';
+
+        // when
+        $result = pattern('\d+(cm|mm)')->match($subject)->ignoring(Functions::notEquals('14mm'))->nth(2);
+
+        // then
+        $this->assertSame('19cm', $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_nth_forMissingMatch()
     {
         // given
@@ -654,15 +669,12 @@ class MatchPatternTest extends TestCase
      */
     public function shouldThrow_nth_forUnmatchedSubject()
     {
-        // given
-        $subject = 'Lorem Ipsum';
-
         // then
         $this->expectException(SubjectNotMatchedException::class);
         $this->expectExceptionMessage("Expected to get the 6-nth match, but subject was not matched");
 
         // when
-        pattern('Not matching')->match($subject)->nth(6);
+        pattern('Not matching')->match('Lorem Ipsum')->nth(6);
     }
 
     /**

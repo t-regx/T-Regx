@@ -257,8 +257,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $expected = ['19cm' => 1, '2cm' => 3, '18mm' => 2];
-        $this->assertSame($expected, $indexes);
+        $this->assertSame(['19cm' => 3, '2cm' => 5, '18mm' => 4], $indexes);
     }
 
     public function mappersWithMatch(): array

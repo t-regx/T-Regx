@@ -16,7 +16,7 @@ class GroupNamesTest extends TestCase
     public function shouldGetGroupNames(array $input, array $expected)
     {
         // given
-        $groupNames = new GroupNames(new RawMatchOffset($input));
+        $groupNames = new GroupNames(new RawMatchOffset($input, null));
 
         // when
         $names = $groupNames->groupNames();

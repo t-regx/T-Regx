@@ -3,6 +3,8 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\FilteredMatchPattern;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CallbackPredicate;
+use Test\Utils\Functions;
+use Test\Utils\ThrowApiBase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
@@ -97,7 +99,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldFirst_firstFiltered()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_firstFiltered();
+        $matchPattern = $this->matchPattern('[a-z]+', 'first second', Functions::notEquals('first'));
 
         // when
         $first = $matchPattern->first();
@@ -154,6 +156,21 @@ class IgnoringMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGroup_only()
+    {
+        // given
+        $matchPattern = $this->standardMatchPattern_group('First Second Third Fourth', 'Second');
+
+        // when
+        $all = $matchPattern->group('capital')->only(2);
+
+        // then
+        $this->assertSame(['F', 'T'], $all);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGroup_first()
     {
         // given
@@ -192,7 +209,7 @@ class IgnoringMatchPatternTest extends TestCase
         // given
         $matchPattern = $this->standardMatchPattern_firstFiltered();
         $callback = function (Detail $detail) {
-            return 'for first: ' . $detail->text();
+            return "for first: $detail";
         };
 
         // when
@@ -210,7 +227,7 @@ class IgnoringMatchPatternTest extends TestCase
         // given
         $matchPattern = $this->standardMatchPattern_secondFiltered();
         $callback = function (Detail $detail) {
-            return 'for first: ' . $detail->text();
+            return "for first: $detail";
         };
 
         // when
@@ -231,19 +248,63 @@ class IgnoringMatchPatternTest extends TestCase
 
         // when
         $filtered = $this
-            ->matchPattern($pattern, $subject, function (Detail $detail) {
-                return $detail->text() != 'forgot';
-            })
-            ->ignoring(function (Detail $detail) {
-                return $detail->text() != 'very';
-            })
-            ->ignoring(function (Detail $detail) {
-                return $detail->text() != 'mate';
-            })
+            ->matchPattern($pattern, $subject, Functions::notEquals('forgot'))
+            ->ignoring(Functions::notEquals('very'))
+            ->ignoring(Functions::notEquals('mate'))
             ->all();
 
         // then
         $this->assertSame(['you', 'one', 'important', 'thing'], $filtered);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldChain_ignoring_preserveIndex()
+    {
+        // given
+        $pattern = '[a-z]+';
+        $subject = '...you forgot one very important thing mate.';
+
+        // when
+        $indexes = $this
+            ->matchPattern($pattern, $subject, Functions::notEquals('forgot'))
+            ->ignoring(Functions::notEquals('very'))
+            ->ignoring(Functions::notEquals('thing'))
+            ->flatMap(function (Detail $detail) {
+                return ["$detail" => $detail->index()];
+            });
+
+        // then
+        $expected = [
+            'you'       => 0,
+            'one'       => 2,
+            'important' => 4,
+            'mate'      => 6
+        ];
+        $this->assertSame($expected, $indexes);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDetailAll_returnAll()
+    {
+        // given
+        $pattern = '[a-z]+';
+        $subject = '...you forgot one very important thing mate.';
+
+        // when
+        $filtered = $this
+            ->matchPattern($pattern, $subject, Functions::notEquals('forgot'))
+            ->ignoring(Functions::notEquals('very'))
+            ->ignoring(Functions::notEquals('mate'))
+            ->first(function (Detail $detail) {
+                return $detail->all();
+            });
+
+        // then
+        $this->assertSame(['you', 'forgot', 'one', 'very', 'important', 'thing', 'mate'], $filtered);
     }
 
     /**
@@ -326,29 +387,25 @@ class IgnoringMatchPatternTest extends TestCase
 
     private function standardMatchPattern_secondFiltered(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'first second third fourth', function (Detail $detail) {
-            return $detail->index() != 1;
-        });
+        return $this->matchPattern('[a-z]+', 'first second third fourth', Functions::notEquals('second'));
     }
 
     private function standardMatchPattern_firstFiltered(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'first second third fourth', function (Detail $detail) {
-            return $detail->index() > 0;
-        });
+        return $this->matchPattern('[a-z]+', 'first second third fourth', Functions::notEquals('first'));
     }
 
     private function standardMatchPattern_group(string $subject, string $filteredOut): AbstractMatchPattern
     {
-        return $this->matchPattern('(?<capital>[A-Z])[a-z]+', $subject, function (Detail $detail) use ($filteredOut) {
-            return $detail->text() !== $filteredOut;
-        });
+        return $this->matchPattern('(?<capital>[A-Z])[a-z]+', $subject, Functions::notEquals($filteredOut));
     }
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
     {
-        return new IgnoringMatchPattern(new IgnoreBaseDecorator(
-            new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
-            new CallbackPredicate($predicate)));
+        return new IgnoringMatchPattern(
+            new IgnoreBaseDecorator(
+                new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
+                new CallbackPredicate($predicate)),
+            new ThrowApiBase());
     }
 }

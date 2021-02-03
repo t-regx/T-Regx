@@ -4,6 +4,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\FilteredMatchPattern\findFirst
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CallbackPredicate;
 use Test\Utils\Functions;
+use Test\Utils\ThrowApiBase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
@@ -92,8 +93,10 @@ class IgnoringMatchPatternTest extends TestCase
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
     {
-        return new IgnoringMatchPattern(new IgnoreBaseDecorator(
-            new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
-            new CallbackPredicate($predicate)));
+        return new IgnoringMatchPattern(
+            new IgnoreBaseDecorator(
+                new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
+                new CallbackPredicate($predicate)),
+            new ThrowApiBase());
     }
 }

@@ -7,7 +7,6 @@ use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
-use TRegx\CleanRegex\Internal\Model\Match\IndexedRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
@@ -37,7 +36,7 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
     {
         $matchObjects = [];
         foreach ($this->matches[self::GROUP_WHOLE_MATCH] as $index => $firstWhole) {
-            $matchObjects[] = $factory->create($index, new RawMatchesToMatchAdapter($this, $index), new EagerMatchAllFactory($this));
+            $matchObjects[$index] = $factory->create($index, new RawMatchesToMatchAdapter($this, $index), new EagerMatchAllFactory($this));
         }
         return $matchObjects;
     }
@@ -51,12 +50,12 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
         return \array_key_exists($nameOrIndex, $this->matches);
     }
 
-    public function getLimitedGroupOffsets($nameOrIndex, int $limit)
+    public function getLimitedGroupOffsets($nameOrIndex, int $limit): array
     {
         return $this->mapToOffset($this->getLimitedGroups($nameOrIndex, $limit));
     }
 
-    private function getLimitedGroups($nameOrIndex, int $limit)
+    private function getLimitedGroups($nameOrIndex, int $limit): array
     {
         $match = $this->matches[$nameOrIndex];
         if ($limit === -1) {
@@ -67,7 +66,7 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
 
     private function mapToOffset(array $matches): array
     {
-        return \array_map([$this, 'mapMatch'], $matches);
+        return \array_values(\array_map([$this, 'mapMatch'], $matches));
     }
 
     private function mapMatch($match): ?int
@@ -162,20 +161,12 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
         return false;
     }
 
-    public function getIndexedRawMatchOffset(int $index): IndexedRawMatchOffset
-    {
-        $matches = \array_map(static function (array $match) use ($index) {
-            return $match[$index];
-        }, $this->matches);
-        return new IndexedRawMatchOffset($matches, $index);
-    }
-
     public function getRawMatchOffset(int $index): RawMatchOffset
     {
         $matches = \array_map(static function (array $match) use ($index) {
             return $match[$index];
         }, $this->matches);
-        return new RawMatchOffset($matches);
+        return new RawMatchOffset($matches, $index);
     }
 
     public function getRawMatch(int $index): RawMatch
@@ -192,7 +183,15 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
         $filteredMatches = \array_filter($matchObjects, [$predicate, 'test']);
 
         return \array_map(static function (array $match) use ($filteredMatches) {
-            return \array_values(\array_intersect_key($match, $filteredMatches));
+            return \array_intersect_key($match, $filteredMatches);
         }, $this->matches);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getIndexes(): array
+    {
+        return \array_keys($this->matches[0]);
     }
 }

@@ -11,10 +11,13 @@ class RawMatchOffset implements IRawMatchOffset
 {
     /** @var array[] */
     private $match;
+    /** @var int|null */
+    private $index;
 
-    public function __construct(array $match)
+    public function __construct(array $match, ?int $index)
     {
         $this->match = $match;
+        $this->index = $index;
     }
 
     public function matched(): bool
@@ -113,5 +116,15 @@ class RawMatchOffset implements IRawMatchOffset
             [$text, $offset] = $match;
             return $offset;
         }, $this->match);
+    }
+
+    public function getIndex(): int
+    {
+        if ($this->index === null) {
+            // @codeCoverageIgnoreStart
+            throw new InternalCleanRegexException();
+            // @codeCoverageIgnoreEnd
+        }
+        return $this->index;
     }
 }

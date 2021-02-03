@@ -4,12 +4,12 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\FilteredMatchPattern\count;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CallbackPredicate;
 use Test\Utils\Functions;
+use Test\Utils\ThrowApiBase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
-use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\IgnoringMatchPattern;
 
 class IgnoringMatchPatternTest extends TestCase
@@ -20,7 +20,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldCount()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern', Functions::notEquals('matching'));
 
         // when
         $count = $matchPattern->count();
@@ -35,7 +35,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldCount_all()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_all();
+        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern', Functions::constant(true));
 
         // when
         $count = $matchPattern->count();
@@ -50,7 +50,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldCount_notMatching()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_notMatches();
+        $matchPattern = $this->matchPattern('Foo', 'Bar', Functions::fail());
 
         // when
         $count = $matchPattern->count();
@@ -65,7 +65,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldCount_filtered()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_filtered();
+        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern long', Functions::constant(false));
 
         // when
         $count = $matchPattern->count();
@@ -74,32 +74,12 @@ class IgnoringMatchPatternTest extends TestCase
         $this->assertSame(0, $count);
     }
 
-    private function standardMatchPattern(): AbstractMatchPattern
-    {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $detail) {
-            return $detail->index() != 1;
-        });
-    }
-
-    private function standardMatchPattern_notMatches(): AbstractMatchPattern
-    {
-        return $this->matchPattern('[a-z]+', 'NOT MATCHING', Functions::constant(true));
-    }
-
-    private function standardMatchPattern_all(): AbstractMatchPattern
-    {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', Functions::constant(true));
-    }
-
-    private function standardMatchPattern_filtered(): AbstractMatchPattern
-    {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern long', Functions::constant(false));
-    }
-
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
     {
-        return new IgnoringMatchPattern(new IgnoreBaseDecorator(
-            new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
-            new CallbackPredicate($predicate)));
+        return new IgnoringMatchPattern(
+            new IgnoreBaseDecorator(
+                new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
+                new CallbackPredicate($predicate)),
+            new ThrowApiBase());
     }
 }

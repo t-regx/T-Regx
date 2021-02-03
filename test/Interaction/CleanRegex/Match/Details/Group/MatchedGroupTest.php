@@ -210,7 +210,7 @@ class MatchedGroupTest extends TestCase
                 0       => [$match, 8],
                 'first' => [$group, $groupOffset],
                 1       => [$group, $groupOffset]
-            ]),
+            ], 0),
             new GroupDetails('first', 1, $nameOrIndex, new EagerMatchAllFactory(new RawMatchesOffset([]))),
             new MatchedGroupOccurrence($group, $groupOffset, new Subject($subject))
         );

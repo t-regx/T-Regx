@@ -25,7 +25,7 @@ class GroupLimitFactory extends TestCase // this is a dirty hack, only to use pr
     {
         /** @var Base|MockObject $base */
         $base = $test->createMock(Base::class);
-        $base->method('matchOffset')->willReturn(new RawMatchOffset([0 => [$firstValue, 0]]));
+        $base->method('matchOffset')->willReturn(new RawMatchOffset([0 => [$firstValue, 0]], 0));
         $base->expects($test->never())->method('matchAllOffsets');
 
         return new GroupLimit($base, 0, new OffsetLimit($base, 0, false));
@@ -35,7 +35,7 @@ class GroupLimitFactory extends TestCase // this is a dirty hack, only to use pr
     {
         /** @var Base|MockObject $base */
         $base = $test->createMock(Base::class);
-        $base->method('matchOffset')->willReturn(new RawMatchOffset([]));
+        $base->method('matchOffset')->willReturn(new RawMatchOffset([], null));
         $base->expects($test->never())->method('matchAllOffsets');
 
         return new GroupLimit($base, 0, new OffsetLimit($base, 0, false));

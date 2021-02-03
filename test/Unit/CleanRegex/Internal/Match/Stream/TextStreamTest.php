@@ -31,7 +31,7 @@ class TextStreamTest extends TestCase
     public function shouldDelegateFirst()
     {
         // given
-        $stream = new TextStream($this->mock('first', new RawMatchOffset([['Lorem ipsum', 1]])));
+        $stream = new TextStream($this->mock('first', new RawMatchOffset([['Lorem ipsum', 1]], 0)));
 
         // when
         $first = $stream->first();

@@ -24,6 +24,6 @@ class GroupDetails
 
     public function all(): array
     {
-        return $this->allFactory->getRawMatches()->getGroupTexts($this->index);
+        return \array_values($this->allFactory->getRawMatches()->getGroupTexts($this->index));
     }
 }

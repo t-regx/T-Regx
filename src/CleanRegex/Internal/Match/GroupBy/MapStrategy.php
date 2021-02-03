@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\GroupBy;
 
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
-use TRegx\CleanRegex\Internal\Model\Match\IndexedRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 class MapStrategy implements Strategy
@@ -22,7 +22,7 @@ class MapStrategy implements Strategy
     public function transform(array $groups, RawMatchesOffset $matches): array
     {
         foreach ($groups as &$group) {
-            /** @var IndexedRawMatchOffset $match */
+            /** @var RawMatchOffset $match */
             foreach ($group as &$match) {
                 $mapper = $this->mapper;
                 $match = $mapper($this->factory->create($match->getIndex(), $match, new EagerMatchAllFactory($matches)));

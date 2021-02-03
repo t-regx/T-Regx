@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\Match\FlatMap;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
-use TRegx\CleanRegex\Internal\Model\Match\IndexedRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 class FlatMapStrategy implements Strategy
@@ -29,7 +29,7 @@ class FlatMapStrategy implements Strategy
 
     public function transform(array $groups, RawMatchesOffset $matches): array
     {
-        $closure = function (IndexedRawMatchOffset $match) use ($matches) {
+        $closure = function (RawMatchOffset $match) use ($matches) {
             $mapper = $this->mapper;
             return $mapper($this->factory->create($match->getIndex(), $match, new EagerMatchAllFactory($matches)));
         };

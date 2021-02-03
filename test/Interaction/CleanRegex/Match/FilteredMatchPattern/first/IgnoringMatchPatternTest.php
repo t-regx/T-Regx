@@ -4,6 +4,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\FilteredMatchPattern\first;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CallbackPredicate;
 use Test\Utils\Functions;
+use Test\Utils\ThrowApiBase;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
@@ -21,7 +22,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern', Functions::notEquals('matching'));
 
         // when
         $first = $matchPattern->first();
@@ -36,15 +37,15 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldGetFirst_callMatch_all()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern', Functions::notEquals('matching'));
 
-        // when
-        $all = $matchPattern->first(function (Detail $detail) {
-            return $detail->all();
+        $matchPattern->first(function (Detail $detail) {
+            // when
+            $all = $detail->all();
+
+            // then
+            $this->assertSame(['nice', 'matching', 'pattern'], $all);
         });
-
-        // then
-        $this->assertSame(['nice', 'pattern'], $all);
     }
 
     /**
@@ -53,15 +54,15 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldGetFirst_callMatch_group_all()
     {
         // given
-        $matchPattern = $this->standardMatchPattern();
+        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern', Functions::notEquals('matching'));
 
-        // when
-        $all = $matchPattern->first(function (Detail $detail) {
-            return $detail->group(0)->all();
+        $matchPattern->first(function (Detail $detail) {
+            // when
+            $all = $detail->group(0)->all();
+
+            // then
+            $this->assertSame(['nice', 'matching', 'pattern'], $all);
         });
-
-        // then
-        $this->assertSame(['nice', 'pattern'], $all);
     }
 
     /**
@@ -70,13 +71,13 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldGetFirst_notFirst()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_notFirst();
+        $matchPattern = $this->matchPattern('[a-z]+', 'foo bar', Functions::notEquals('foo'));
 
         // when
         $first = $matchPattern->first();
 
         // then
-        $this->assertSame('matching', $first);
+        $this->assertSame('bar', $first);
     }
 
     /**
@@ -85,7 +86,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldNotGetFirst_notMatched()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_notMatches();
+        $matchPattern = $this->matchPattern('Foo', 'Bar', Functions::constant(true));
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -101,7 +102,7 @@ class IgnoringMatchPatternTest extends TestCase
     public function shouldNotGetFirst_matchedButFiltered()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_filtered();
+        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern long', Functions::constant(false));
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -118,12 +119,7 @@ class IgnoringMatchPatternTest extends TestCase
     {
         // given
         $invoked = [];
-        $matchPattern = $this->matchPattern(
-            '(One|two|three|four|five)', 'One, two, three, four, five',
-            function (Detail $detail) use (&$invoked) {
-                $invoked[] = $detail->text();
-                return true;
-            });
+        $matchPattern = $this->matchPattern('\w+', 'One, two, three', Functions::collecting($invoked));
 
         // when
         $matchPattern->first();
@@ -132,34 +128,12 @@ class IgnoringMatchPatternTest extends TestCase
         $this->assertSame(['One'], $invoked);
     }
 
-    private function standardMatchPattern_notFirst(): AbstractMatchPattern
-    {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $detail) {
-            return $detail->index() > 0;
-        });
-    }
-
-    private function standardMatchPattern(): AbstractMatchPattern
-    {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern', function (Detail $detail) {
-            return $detail->index() != 1;
-        });
-    }
-
-    private function standardMatchPattern_notMatches(): AbstractMatchPattern
-    {
-        return $this->matchPattern('[a-z]+', 'NOT MATCHING', Functions::constant(true));
-    }
-
-    private function standardMatchPattern_filtered(): AbstractMatchPattern
-    {
-        return $this->matchPattern('[a-z]+', 'nice matching pattern long', Functions::constant(false));
-    }
-
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
     {
-        return new IgnoringMatchPattern(new IgnoreBaseDecorator(
-            new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
-            new CallbackPredicate($predicate)));
+        return new IgnoringMatchPattern(
+            new IgnoreBaseDecorator(
+                new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
+                new CallbackPredicate($predicate)),
+            new ThrowApiBase());
     }
 }

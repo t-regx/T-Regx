@@ -53,7 +53,7 @@ class IgnoreBaseDecorator implements Base
                 return $matches->getRawMatchOffset($index);
             }
         }
-        return new RawMatchOffset([]);
+        return new RawMatchOffset([], null);
     }
 
     private function getDetailFactory(): DetailObjectFactory
@@ -87,5 +87,10 @@ class IgnoreBaseDecorator implements Base
     public function getUserData(): UserData
     {
         return $this->base->getUserData();
+    }
+
+    public function getUnfilteredBase(): Base
+    {
+        return $this->base->getUnfilteredBase();
     }
 }

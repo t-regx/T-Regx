@@ -39,13 +39,14 @@ class DetailImpl implements Detail
     /** @var int */
     private $limit;
 
-    public function __construct(Subjectable $subjectable,
-                                int $index,
-                                int $limit,
-                                IRawMatchOffset $match,
-                                MatchAllFactory $allFactory,
-                                UserData $userData,
-                                GroupFactoryStrategy $strategy = null)
+    public function __construct(
+        Subjectable $subjectable,
+        int $index,
+        int $limit,
+        IRawMatchOffset $match,
+        MatchAllFactory $allFactory,
+        UserData $userData,
+        GroupFactoryStrategy $strategy = null)
     {
         $this->subjectable = $subjectable;
         $this->index = $index;
@@ -188,7 +189,7 @@ class DetailImpl implements Detail
 
     public function all(): array
     {
-        return $this->getMatches()->getTexts();
+        return \array_values($this->getMatches()->getTexts());
     }
 
     private function getMatches(): RawMatchesOffset

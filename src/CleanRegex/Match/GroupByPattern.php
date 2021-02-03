@@ -69,12 +69,11 @@ class GroupByPattern
     private function groupMatches(RawMatchesOffset $matches): array
     {
         $map = [];
-        foreach ($matches->getTexts() as $i => $text) {
-            if (!$matches->isGroupMatched($this->nameOrIndex, $i)) {
-                continue;
+        foreach ($matches->getIndexes() as $index) {
+            if ($matches->isGroupMatched($this->nameOrIndex, $index)) {
+                $key = $matches->getGroupTextAndOffset($this->nameOrIndex, $index)[0];
+                $map[$key][] = $matches->getRawMatchOffset($index);
             }
-            $key = $matches->getGroupTextAndOffset($this->nameOrIndex, $i)[0];
-            $map[$key][] = $matches->getIndexedRawMatchOffset($i);
         }
         return $map;
     }
