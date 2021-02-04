@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
+use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\FlatMap\FlatMapStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMapper;
 
@@ -8,33 +9,46 @@ class FlatMappingStream implements Stream
 {
     /** @var Stream */
     private $stream;
-    /** @var FlatMapStrategy */
-    private $strategy;
-    /** @var callable */
-    private $mapper;
-    /** @var string */
-    private $methodName;
+    /** @var FlatMapper */
+    private $flatMapper;
 
     public function __construct(Stream $stream, FlatMapStrategy $strategy, callable $mapper, string $methodName)
     {
         $this->stream = $stream;
-        $this->strategy = $strategy;
-        $this->mapper = $mapper;
-        $this->methodName = $methodName;
+        $this->flatMapper = new FlatMapper($strategy, $mapper, $methodName);
     }
 
     public function all(): array
     {
-        return (new FlatMapper($this->stream->all(), $this->strategy, $this->mapper, $this->methodName))->get();
+        return $this->flatMapper->get($this->stream->all());
     }
 
     public function first()
     {
-        return (new FlatMapper([], $this->strategy, $this->mapper, $this->methodName))->map($this->stream->first());
+        $flatMap = $this->flatMapTryFirstOrAll();
+        if (!empty($flatMap)) {
+            return \reset($flatMap);
+        }
+        throw new NoFirstStreamException();
     }
 
     public function firstKey()
     {
-        return $this->stream->firstKey();
+        $flatMap = $this->flatMapTryFirstOrAll();
+        \reset($flatMap);
+        $firstKey = \key($flatMap);
+        if ($firstKey !== null) {
+            return $firstKey;
+        }
+        throw new NoFirstStreamException();
+    }
+
+    private function flatMapTryFirstOrAll(): array
+    {
+        $mappedInFirstIteration = $this->flatMapper->map($this->stream->first());
+        if (empty($mappedInFirstIteration)) {
+            return $this->flatMapper->get($this->stream->all());
+        }
+        return $mappedInFirstIteration;
     }
 }

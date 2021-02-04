@@ -98,8 +98,9 @@ class AbstractMatchPatternTest extends TestCase
                 return [$a->text(), $a->text()];
             })
             ->first();
+
         // then
-        $this->assertSame(['123', '123'], $first);
+        $this->assertSame('123', $first);
     }
 
     public function test_groups_and_offsets()

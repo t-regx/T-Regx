@@ -7,7 +7,7 @@ use Test\Utils\Functions;
 use Test\Utils\ReverseFlatMap;
 use Test\Utils\ThrowFlatMap;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
+use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 
@@ -16,10 +16,10 @@ class FlatMappingStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAll()
+    public function shouldReturn_all()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('all', 'willReturn', ['One', 'Two', 'Three']), new ReverseFlatMap(), 'str_split', '');
+        $stream = new FlatMappingStream($this->all(['One', 'Two', 'Three']), new ReverseFlatMap(), 'str_split', '');
 
         // when
         $all = $stream->all();
@@ -31,101 +31,161 @@ class FlatMappingStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFirst()
+    public function shouldReturn_first()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('first', 'willReturn', 'One'), new ThrowFlatMap(), 'str_split', '');
+        $stream = new FlatMappingStream($this->first('Foo'), new ReverseFlatMap(), 'str_split', '');
 
         // when
         $first = $stream->first();
 
         // then
-        $this->assertSame(['O', 'n', 'e'], $first);
+        $this->assertSame('F', $first);
     }
 
     /**
      * @test
      */
-    public function shouldGetFirstKey()
+    public function shouldReturn_firstKey()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('firstKey', 'willReturn', 'foo'), new ThrowFlatMap(), Functions::fail(), '');
+        $stream = new FlatMappingStream($this->first('Bar'), new ReverseFlatMap(), Functions::lettersFlip(), '');
 
         // when
         $firstKey = $stream->firstKey();
 
         // then
-        $this->assertSame('foo', $firstKey);
+        $this->assertSame('B', $firstKey);
     }
 
     /**
      * @test
      */
-    public function shouldFirstThrow_forNoFirstElement()
+    public function shouldReturn_first_forEmptyFirstTrailAll()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), new ThrowFlatMap(), 'strlen', '');
-
-        // then
-        $this->expectException(NoFirstStreamException::class);
+        $flatMap = new FlatMappingStream($this->both('', ['', '', 'One']), new ArrayMergeStrategy(), Functions::letters(), '');
 
         // when
-        $stream->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturn_forEmptyArray()
-    {
-        // given
-        $stream = new FlatMappingStream($this->mock('first', 'willReturn', []), new ThrowFlatMap(), Functions::identity(), '');
-
-        // when
-        $first = $stream->first();
+        $first = $flatMap->first();
 
         // then
-        $this->assertSame([], $first);
+        $this->assertSame('O', $first);
     }
 
     /**
      * @test
      */
-    public function shouldFirstThrow_invalidReturnType()
+    public function shouldReturn_firstKey_forEmptyFirstTrailAll()
     {
         // given
-        $stream = new FlatMappingStream($this->mock('first', 'willReturn', 'Book'), new ThrowFlatMap(), 'strlen', 'lorem');
-
-        // then
-        $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage('Invalid lorem() callback return type. Expected array, but integer (4) given');
+        $flatMap = new FlatMappingStream($this->both('', ['', '', 'Two']), new ArrayMergeStrategy(), Functions::lettersFlip(), '');
 
         // when
-        $stream->first();
+        $result = $flatMap->firstKey();
+
+        // then
+        $this->assertSame('T', $result);
     }
 
     /**
      * @test
+     * @dataProvider methodsInvalidReturn
+     * @param string $mock
+     * @param string $method
+     * @param string[]|string $return
      */
-    public function shouldAllThrow_invalidReturnType()
+    public function shouldThrow_forInvalidReturnType(string $mock, string $method, $return)
     {
         // given
-        $stream = new FlatMappingStream($this->mock('all', 'willReturn', ['Foo']), new ThrowFlatMap(), 'strlen', 'hello');
+        $stream = new FlatMappingStream($this->mock($mock, $return), new ThrowFlatMap(), 'strlen', 'hello');
 
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid hello() callback return type. Expected array, but integer (3) given');
 
         // when
-        $stream->all();
+        $stream->$method();
     }
 
-    private function mock(string $methodName, string $setter, $value): Stream
+    public function methodsInvalidReturn(): array
+    {
+        return [
+            ['all', 'all', ['Foo']],
+            ['first', 'first', 'Foo'],
+            ['first', 'firstKey', 'Foo'],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider skewedArrays
+     * @param array $array
+     */
+    public function shouldReturn_first_forSkewedArray(array $array)
+    {
+        // given
+        $stream = new FlatMappingStream($this->first('One'), new ThrowFlatMap(), Functions::constant($array), '');
+
+        // when
+        $first = $stream->first();
+
+        // then
+        $this->assertSame(1, $first);
+    }
+
+    /**
+     * @test
+     * @dataProvider skewedArrays
+     * @param array $array
+     */
+    public function shouldReturn_firstKey_forSkewedArray(array $array)
+    {
+        // given
+        $stream = new FlatMappingStream($this->first('One'), new ThrowFlatMap(), Functions::constant($array), '');
+
+        // when
+        $firstKey = $stream->firstKey();
+
+        // then
+        $this->assertSame('F', $firstKey);
+    }
+
+    public function skewedArrays(): array
+    {
+        $skewedArray = ['F' => 1, 'o' => 2];
+        next($skewedArray);
+        next($skewedArray);
+        return [
+            [['F' => 1, 'o' => 2]],
+            [$skewedArray]
+        ];
+    }
+
+    private function all(array $all): Stream
+    {
+        return $this->mock('all', $all);
+    }
+
+    private function first($string): Stream
+    {
+        return $this->mock('first', $string);
+    }
+
+    private function mock(string $methodName, $value): Stream
     {
         /** @var Stream|MockObject $stream */
         $stream = $this->createMock(Stream::class);
-        $stream->expects($this->once())->method($methodName)->$setter($value);
+        $stream->expects($this->once())->method($methodName)->willReturn($value);
         $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
+        return $stream;
+    }
+
+    private function both(string $first, array $all): Stream
+    {
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->once())->method('first')->willReturn($first);
+        $stream->expects($this->once())->method('all')->willReturn($all);
         return $stream;
     }
 }

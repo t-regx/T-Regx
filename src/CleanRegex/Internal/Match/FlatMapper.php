@@ -6,8 +6,6 @@ use TRegx\CleanRegex\Internal\Match\FlatMap\FlatMapStrategy;
 
 class FlatMapper
 {
-    /** @var array */
-    private $elements;
     /** @var FlatMapStrategy */
     private $strategy;
     /** @var callable */
@@ -15,17 +13,16 @@ class FlatMapper
     /** @var string */
     private $methodName;
 
-    public function __construct(array $elements, FlatMapStrategy $strategy, callable $callback, string $methodName)
+    public function __construct(FlatMapStrategy $strategy, callable $callback, string $methodName)
     {
-        $this->elements = $elements;
         $this->strategy = $strategy;
         $this->callback = $callback;
         $this->methodName = $methodName;
     }
 
-    public function get(): array
+    public function get(array $elements): array
     {
-        $results = \array_map([$this, 'map'], $this->elements);
+        $results = \array_map([$this, 'map'], $elements);
         if (empty($results)) {
             return [];
         }

@@ -89,4 +89,32 @@ class Functions
             return $string[$position];
         };
     }
+
+    public static function letters(): callable
+    {
+        return static function (string $string): array {
+            return self::splitLetters($string);
+        };
+    }
+
+    public static function lettersFlip(): callable
+    {
+        return function (string $value): array {
+            return array_flip(self::splitLetters($value));
+        };
+    }
+
+    private static function splitLetters(string $string): array
+    {
+        return \array_filter(str_split($string), function (string $part) {
+            return $part !== '';
+        });
+    }
+
+    public static function wrap(): callable
+    {
+        return function ($value): array {
+            return [$value];
+        };
+    }
 }

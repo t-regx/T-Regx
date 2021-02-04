@@ -34,7 +34,7 @@ class FlatMapStrategy implements Strategy
             return $mapper($this->factory->create($match->getIndex(), $match, new EagerMatchAllFactory($matches)));
         };
         foreach ($groups as &$group) {
-            $group = (new FlatMapper($group, $this->strategy, $closure, $this->methodName))->get();
+            $group = (new FlatMapper($this->strategy, $closure, $this->methodName))->get($group);
         }
         return $groups;
     }

@@ -11,6 +11,8 @@ Incoming
     * After filtering `MatchPattern` with `ignoring()`, consecutive `Detail.index()` will no longer be reindexed, they
       will preserve the `index()` they had before `ignoring()`.
     * `match()->fluent()->filter()` no longer reindexes values. To reindex, use `values()`.
+* Bug fixes
+    * Fixed a bug where `fluent()->flatMap()->first()` would return the `array`, instead of the first element
 
 * Features
     * Add `pattern()->match()->filter()` which returns only matches allowed by the predicate.

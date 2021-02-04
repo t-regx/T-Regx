@@ -4,10 +4,11 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\CustomException;
 use Test\Utils\Functions;
+use Test\Utils\ThrowWorker;
 use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Factory\PatternOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -143,7 +144,7 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFlatMap()
+    public function shouldReturn_flatMap_all()
     {
         // given
         $pattern = new FluentMatchPattern($this->all(['foo', 'bar']), $this->worker());
@@ -158,7 +159,7 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFlatMapAssoc()
+    public function shouldReturn_flatMapAssoc_all()
     {
         // given
         $pattern = new FluentMatchPattern($this->all(['Quizzacious', 'Lorem', 'Foo']), $this->worker());
@@ -173,64 +174,63 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFlatMap_first()
+    public function shouldReturn_flatMap_first()
     {
         // given
-        $pattern = new FluentMatchPattern($this->first('foo'), $this->worker());
+        $pattern = new FluentMatchPattern($this->method('first', 'foo'), new ThrowWorker());
 
         // when
-        $result = $pattern->flatMap('str_split')->first();
+        $result = $pattern->flatMap(Functions::letters())->first();
 
         // then
-        $this->assertSame(['f', 'o', 'o'], $result);
+        $this->assertSame('f', $result);
     }
 
     /**
      * @test
      */
-    public function shouldFlatMap_throw_callerAll()
+    public function shouldReturn_flatMap_keys_first()
     {
         // given
-        $pattern = new FluentMatchPattern($this->all(['Foo']), $this->worker());
-
-        // then
-        $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage("Invalid flatMap() callback return type. Expected array, but integer (0) given");
+        $pattern = new FluentMatchPattern($this->method('first', 'One'), new ThrowWorker());
 
         // when
-        $pattern->flatMap(Functions::constant(0))->all();
+        $result = $pattern->flatMap(Functions::lettersFlip())->keys()->first();
+
+        // then
+        $this->assertSame('O', $result);
     }
 
     /**
      * @test
      */
-    public function shouldFlatMapAssoc_throw_callerAll()
+    public function shouldThrow_flatMap_first_forEmpty()
     {
         // given
-        $pattern = new FluentMatchPattern($this->all(['Foo']), $this->worker());
+        $pattern = new FluentMatchPattern($this->empty(), new ThrowWorker(new CustomException('flatMap')));
 
         // then
-        $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage("Invalid flatMapAssoc() callback return type. Expected array, but integer (0) given");
+        $this->expectException(CustomException::class);
+        $this->expectExceptionMessage('flatMap');
 
         // when
-        $pattern->flatMapAssoc(Functions::constant(0))->all();
+        $pattern->flatMap(Functions::identity())->first();
     }
 
     /**
      * @test
      */
-    public function shouldFlatMap_throw_callerFirst()
+    public function shouldThrow_flatMap_keys_first_forEmpty()
     {
         // given
-        $pattern = new FluentMatchPattern($this->first('Foo'), $this->worker());
+        $pattern = new FluentMatchPattern($this->empty(), new ThrowWorker(new CustomException('flatMap')));
 
         // then
-        $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage("Invalid flatMap() callback return type. Expected array, but integer (0) given");
+        $this->expectException(CustomException::class);
+        $this->expectExceptionMessage('flatMap');
 
         // when
-        $pattern->flatMap(Functions::constant(0))->first();
+        $pattern->flatMap(Functions::constant([]))->keys()->first();
     }
 
     /**
@@ -416,19 +416,24 @@ class FluentMatchPatternTest extends TestCase
 
     private function all(array $return): Stream
     {
-        /** @var Stream|MockObject $stream */
-        $stream = $this->createMock(Stream::class);
-        $stream->expects($this->once())->method('all')->willReturn($return);
-        $stream->expects($this->never())->method($this->logicalNot($this->matches('all')));
-        return $stream;
+        return $this->method('all', $return);
     }
 
-    private function first($return): Stream
+    private function empty(): Stream
     {
         /** @var Stream|MockObject $stream */
         $stream = $this->createMock(Stream::class);
-        $stream->expects($this->once())->method('first')->willReturn($return);
-        $stream->expects($this->never())->method($this->logicalNot($this->matches('first')));
+        $stream->expects($this->once())->method('first')->willReturn([]);
+        $stream->expects($this->once())->method('all')->willReturn([[], []]);
+        return $stream;
+    }
+
+    private function method(string $methodName, $return = null): Stream
+    {
+        /** @var Stream|MockObject $stream */
+        $stream = $this->createMock(Stream::class);
+        $stream->expects($this->once())->method($methodName)->willReturn($return);
+        $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
         return $stream;
     }
 
@@ -440,3 +445,4 @@ class FluentMatchPatternTest extends TestCase
         return $stream;
     }
 }
+

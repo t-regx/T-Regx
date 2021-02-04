@@ -7,6 +7,6 @@ class ThrowFlatMap implements FlatMapStrategy
 {
     public function flatten(array $arrays): array
     {
-        throw new \AssertionError();
+        throw new \AssertionError("flatten() wasn't supposed to be called");
     }
 }
