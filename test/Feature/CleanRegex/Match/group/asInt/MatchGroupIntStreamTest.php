@@ -203,10 +203,10 @@ class MatchGroupIntStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_ignoring_first(): void
+    public function shouldGet_remaining_first(): void
     {
         // when
-        $first = pattern('(\d+)')->match('45 65')->ignoring(Functions::equals('65'))->group(1)->asInt()->first();
+        $first = pattern('(\d+)')->match('45 65')->remaining(Functions::equals('65'))->group(1)->asInt()->first();
 
         // then
         $this->assertSame(65, $first);
@@ -215,10 +215,10 @@ class MatchGroupIntStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_ignoring_first_keys(): void
+    public function shouldGet_remaining_first_keys(): void
     {
         // when
-        $key = pattern('(\d+)')->match('90 60 75 85')->ignoring(Functions::equals('75'))->group(1)->asInt()->keys()->first();
+        $key = pattern('(\d+)')->match('90 60 75 85')->remaining(Functions::equals('75'))->group(1)->asInt()->keys()->first();
 
         // then
         $this->assertSame(2, $key);

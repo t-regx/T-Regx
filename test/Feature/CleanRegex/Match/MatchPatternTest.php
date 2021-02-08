@@ -349,7 +349,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->ignoring(function (Detail $detail) {
+            ->remaining(function (Detail $detail) {
                 return strlen($detail) === 5;
             })
             ->all();
@@ -365,7 +365,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->ignoring(function (Detail $detail) {
+            ->remaining(function (Detail $detail) {
                 return strlen($detail) === 5;
             })
             ->only(2);
@@ -381,7 +381,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->ignoring(function (Detail $detail) {
+            ->remaining(function (Detail $detail) {
                 return strlen($detail) === 5;
             })
             ->only(1);
@@ -397,7 +397,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->ignoring(Functions::constant(false))
+            ->remaining(Functions::constant(false))
             ->only(1);
 
         // then
@@ -411,7 +411,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->ignoring(function (Detail $detail) {
+            ->remaining(function (Detail $detail) {
                 return strlen($detail) === 5;
             })
             ->count();
@@ -423,10 +423,10 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_ignoring_first()
+    public function shouldGet_remaining_first()
     {
         // when
-        $first = pattern('[A-Z][a-z]+')->match('First, Second, Third')->ignoring(Functions::notEquals('First'))->first();
+        $first = pattern('[A-Z][a-z]+')->match('First, Second, Third')->remaining(Functions::notEquals('First'))->first();
 
         // then
         $this->assertSame('Second', $first);
@@ -435,10 +435,10 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_ignoring_test_true()
+    public function shouldGet_remaining_test_true()
     {
         // when
-        $matched = pattern('[A-Z][a-z]+')->match('First, Second, Third')->ignoring(Functions::equals('Third'))->test();
+        $matched = pattern('[A-Z][a-z]+')->match('First, Second, Third')->remaining(Functions::equals('Third'))->test();
 
         // then
         $this->assertTrue($matched);
@@ -447,10 +447,10 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_ignoring_test_false()
+    public function shouldGet_remaining_test_false()
     {
         // when
-        $matched = pattern('[A-Z][a-z]+')->match('First, Second')->ignoring(Functions::constant(false))->test();
+        $matched = pattern('[A-Z][a-z]+')->match('First, Second')->remaining(Functions::constant(false))->test();
 
         // then
         $this->assertFalse($matched);
@@ -459,10 +459,10 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_ignoring_test_notMatched()
+    public function shouldGet_remaining_test_notMatched()
     {
         // when
-        $matched = pattern('Foo')->match('Bar')->ignoring(Functions::fail())->test();
+        $matched = pattern('Foo')->match('Bar')->remaining(Functions::fail())->test();
 
         // then
         $this->assertFalse($matched);
@@ -471,10 +471,10 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_ignoring_fluent_all()
+    public function shouldGet_remaining_fluent_all()
     {
         // when
-        $all = pattern('\d+')->match('18 19')->ignoring(Functions::equals('19'))->fluent()->asInt()->all();
+        $all = pattern('\d+')->match('18 19')->remaining(Functions::equals('19'))->fluent()->asInt()->all();
 
         // then
         $this->assertSame([1 => 19], $all);
@@ -483,10 +483,10 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_ignoring_fluent_keys_all()
+    public function shouldGet_remaining_fluent_keys_all()
     {
         // when
-        $keys = pattern('\d+')->match('18 19')->ignoring(Functions::equals('19'))->fluent()->keys()->all();
+        $keys = pattern('\d+')->match('18 19')->remaining(Functions::equals('19'))->fluent()->keys()->all();
 
         // then
         $this->assertSame([1], $keys);
@@ -498,7 +498,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetAllMatches_asInt()
     {
         // given
-        $subject = "I’ll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.";
+        $subject = "I'll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.";
 
         // when
         $integers = pattern('\d+')->match($subject)->asInt()->all();
@@ -660,13 +660,13 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetNth_ignoring()
+    public function shouldGetNth_remaining()
     {
         // given
         $subject = '12cm 14mm 13cm 19cm';
 
         // when
-        $result = pattern('\d+(cm|mm)')->match($subject)->ignoring(Functions::notEquals('14mm'))->nth(2);
+        $result = pattern('\d+(cm|mm)')->match($subject)->remaining(Functions::notEquals('14mm'))->nth(2);
 
         // then
         $this->assertSame('19cm', $result);

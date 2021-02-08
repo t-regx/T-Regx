@@ -131,7 +131,7 @@ class IgnoringMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_ignoring_group_asInt_first()
+    public function shouldGet_group_asInt_first()
     {
         // given
         $matchPattern = $this->matchPattern('(\d+)', '14 15', Functions::notEquals('14'));

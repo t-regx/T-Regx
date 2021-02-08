@@ -329,7 +329,7 @@ class IgnoringMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldChain_ignoring()
+    public function shouldChain_remaining()
     {
         // given
         $subject = '...you forgot one very important thing mate.';
@@ -343,10 +343,10 @@ class IgnoringMatchPatternTest extends TestCase
 
         // when
         $filtered = $pattern
-            ->ignoring(function (Detail $detail) {
+            ->remaining(function (Detail $detail) {
                 return $detail->text() !== 'very';
             })
-            ->ignoring(function (Detail $detail) {
+            ->remaining(function (Detail $detail) {
                 return $detail->text() !== 'mate';
             })
             ->all();

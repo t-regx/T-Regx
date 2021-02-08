@@ -35,8 +35,8 @@ class MatchPattern extends AbstractMatchPattern
         return preg::match_all($this->pattern->pattern, $this->subject);
     }
 
-    public function ignoring(callable $predicate): IgnoringMatchPattern
+    public function remaining(callable $predicate): IgnoringMatchPattern
     {
-        return new IgnoringMatchPattern(new IgnoreBaseDecorator($this->apiBase, new MethodPredicate($predicate, 'ignoring')), $this->apiBase);
+        return new IgnoringMatchPattern(new IgnoreBaseDecorator($this->apiBase, new MethodPredicate($predicate, 'remaining')), $this->apiBase);
     }
 }

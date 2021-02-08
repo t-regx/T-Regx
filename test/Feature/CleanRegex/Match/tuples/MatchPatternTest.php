@@ -65,12 +65,12 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnTuple_ignoring()
+    public function shouldReturnTuple_remaining()
     {
         // when
         [$value, $unit] = pattern('(\d+)(?<unit>cm|mm)')
             ->match('12cm 14mm')
-            ->ignoring(function (Detail $detail) {
+            ->remaining(function (Detail $detail) {
                 return $detail->text() === '14mm';
             })
             ->tuple(1, 'unit');
@@ -83,11 +83,11 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnTriple_ignoring()
+    public function shouldReturnTriple_remaining()
     {
         // when
         [$a, $b, $c] = pattern('([ab])([12])([$%])')->match('a1% b2$')
-            ->ignoring(function (Detail $detail) {
+            ->remaining(function (Detail $detail) {
                 return $detail->text() !== 'a1%';
             })
             ->triple(1, 3, 2);

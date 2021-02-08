@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\ignoring;
+namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\remaining;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
@@ -20,7 +20,7 @@ class MatchPatternTest extends TestCase
 
         // when
         $first = $pattern
-            ->ignoring(function (Detail $detail) {
+            ->remaining(function (Detail $detail) {
                 return strlen($detail) > 4;
             })
             ->all();
@@ -39,9 +39,9 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage('Invalid ignoring() callback return type. Expected bool, but integer (4) given');
+        $this->expectExceptionMessage('Invalid remaining() callback return type. Expected bool, but integer (4) given');
 
         // when
-        $pattern->ignoring(Functions::constant(4))->all();
+        $pattern->remaining(Functions::constant(4))->all();
     }
 }

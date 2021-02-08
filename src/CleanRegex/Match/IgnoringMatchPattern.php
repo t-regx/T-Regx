@@ -27,10 +27,10 @@ class IgnoringMatchPattern extends AbstractMatchPattern
         return \count($this->getDetailObjects());
     }
 
-    public function ignoring(callable $predicate): IgnoringMatchPattern
+    public function remaining(callable $predicate): IgnoringMatchPattern
     {
         return new IgnoringMatchPattern(
-            new IgnoreBaseDecorator($this->base, new MethodPredicate($predicate, 'ignoring')),
+            new IgnoreBaseDecorator($this->base, new MethodPredicate($predicate, 'asdasdasd')),
             $this->originalBase);
     }
 }

@@ -240,7 +240,7 @@ class IgnoringMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldChain_ignoring()
+    public function shouldChain_remaining()
     {
         // given
         $pattern = '[a-z]+';
@@ -249,8 +249,8 @@ class IgnoringMatchPatternTest extends TestCase
         // when
         $filtered = $this
             ->matchPattern($pattern, $subject, Functions::notEquals('forgot'))
-            ->ignoring(Functions::notEquals('very'))
-            ->ignoring(Functions::notEquals('mate'))
+            ->remaining(Functions::notEquals('very'))
+            ->remaining(Functions::notEquals('mate'))
             ->all();
 
         // then
@@ -260,7 +260,7 @@ class IgnoringMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldChain_ignoring_preserveIndex()
+    public function shouldChain_remaining_preserveIndex()
     {
         // given
         $pattern = '[a-z]+';
@@ -269,8 +269,8 @@ class IgnoringMatchPatternTest extends TestCase
         // when
         $indexes = $this
             ->matchPattern($pattern, $subject, Functions::notEquals('forgot'))
-            ->ignoring(Functions::notEquals('very'))
-            ->ignoring(Functions::notEquals('thing'))
+            ->remaining(Functions::notEquals('very'))
+            ->remaining(Functions::notEquals('thing'))
             ->flatMap(function (Detail $detail) {
                 return ["$detail" => $detail->index()];
             });
@@ -297,8 +297,8 @@ class IgnoringMatchPatternTest extends TestCase
         // when
         $filtered = $this
             ->matchPattern($pattern, $subject, Functions::notEquals('forgot'))
-            ->ignoring(Functions::notEquals('very'))
-            ->ignoring(Functions::notEquals('mate'))
+            ->remaining(Functions::notEquals('very'))
+            ->remaining(Functions::notEquals('mate'))
             ->first(function (Detail $detail) {
                 return $detail->all();
             });

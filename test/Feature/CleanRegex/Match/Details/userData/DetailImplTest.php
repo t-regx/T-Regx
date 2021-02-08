@@ -14,7 +14,7 @@ class DetailImplTest extends TestCase
         // given
         $filtered = pattern('[A-Z][a-z]+')
             ->match('First, Second, Third')
-            ->ignoring(function (Detail $detail) {
+            ->remaining(function (Detail $detail) {
                 $detail->setUserData($detail . $detail);
                 return true;
             });
@@ -36,7 +36,7 @@ class DetailImplTest extends TestCase
         // given
         $filtered = pattern('[A-Z][a-z]+')
             ->match('First, Second, Third')
-            ->ignoring(function (Detail $detail) {
+            ->remaining(function (Detail $detail) {
                 $detail->setUserData($detail . $detail);
                 return true;
             });
@@ -60,7 +60,7 @@ class DetailImplTest extends TestCase
         // given
         $filtered = pattern('[A-Z][a-z]+')
             ->match('First, Second, Third, Fourth, Fifth')
-            ->ignoring(function (Detail $detail) {
+            ->remaining(function (Detail $detail) {
                 $detail->setUserData($detail . $detail);
                 return true;
             });
