@@ -79,4 +79,14 @@ class Functions
             return true;
         };
     }
+
+    public static function charAt(int $position): callable
+    {
+        return static function (string $string) use ($position): string {
+            if (empty($string)) {
+                throw new \AssertionError("Empty string");
+            }
+            return $string[$position];
+        };
+    }
 }

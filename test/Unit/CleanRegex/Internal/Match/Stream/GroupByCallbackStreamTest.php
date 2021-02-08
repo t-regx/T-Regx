@@ -19,9 +19,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $stream = new GroupByCallbackStream($this->mock('all', 'willReturn', [10 => 'One', 20 => 'Two', 30 => 'Three']), function (string $value) {
-            return $value[0];
-        });
+        $stream = new GroupByCallbackStream($this->all([10 => 'One', 20 => 'Two', 30 => 'Three']), Functions::charAt(0));
 
         // when
         $all = $stream->all();
@@ -38,8 +36,7 @@ class GroupByCallbackStreamTest extends TestCase
         // given
         $detail = $this->detailMock('hello');
         $group = $this->matchGroupMock('hello');
-        $input = ['hello', 2, $detail, 2, $group,];
-        $stream = new GroupByCallbackStream($this->mock('all', 'willReturn', $input), Functions::identity());
+        $stream = new GroupByCallbackStream($this->all(['hello', 2, $detail, 2, $group]), Functions::identity());
 
         // when
         $all = $stream->all();
@@ -58,7 +55,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $stream = new GroupByCallbackStream($this->mock('first', 'willReturn', 'One'), 'strtoupper');
+        $stream = new GroupByCallbackStream($this->first('One'), 'strtoupper');
 
         // when
         $first = $stream->first();
@@ -73,7 +70,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = new GroupByCallbackStream($this->mock('first', 'willReturn', 'One'), 'strtoupper');
+        $stream = new GroupByCallbackStream($this->first('One'), 'strtoupper');
 
         // when
         $firstKey = $stream->firstKey();
@@ -85,7 +82,7 @@ class GroupByCallbackStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldFirstThrow()
+    public function shouldThrow_first()
     {
         // given
         $stream = new GroupByCallbackStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strlen');
@@ -122,6 +119,16 @@ class GroupByCallbackStreamTest extends TestCase
             'all()'   => ['all', ['foo']],
             'first()' => ['first', 'foo']
         ];
+    }
+
+    private function first(string $string): Stream
+    {
+        return $this->mock('first', 'willReturn', $string);
+    }
+
+    private function all(array $all): Stream
+    {
+        return $this->mock('all', 'willReturn', $all);
     }
 
     private function mock(string $methodName, string $setter, $value): Stream
