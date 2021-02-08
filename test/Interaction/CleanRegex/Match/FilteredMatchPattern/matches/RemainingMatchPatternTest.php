@@ -9,9 +9,9 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Match\IgnoringMatchPattern;
+use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
-class IgnoringMatchPatternTest extends TestCase
+class RemainingMatchPatternTest extends TestCase
 {
     /**
      * @test
@@ -81,9 +81,9 @@ class IgnoringMatchPatternTest extends TestCase
         $this->assertTrue($fails);
     }
 
-    private function matchPattern(string $pattern, string $subject, callable $predicate): IgnoringMatchPattern
+    private function matchPattern(string $pattern, string $subject, callable $predicate): RemainingMatchPattern
     {
-        return new IgnoringMatchPattern(
+        return new RemainingMatchPattern(
             new IgnoreBaseDecorator(
                 new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
                 new CallbackPredicate($predicate)),

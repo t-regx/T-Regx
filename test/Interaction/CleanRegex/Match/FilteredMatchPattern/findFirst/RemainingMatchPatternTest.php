@@ -13,9 +13,9 @@ use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\IgnoringMatchPattern;
+use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
-class IgnoringMatchPatternTest extends TestCase
+class RemainingMatchPatternTest extends TestCase
 {
     /**
      * @test
@@ -93,7 +93,7 @@ class IgnoringMatchPatternTest extends TestCase
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
     {
-        return new IgnoringMatchPattern(
+        return new RemainingMatchPattern(
             new IgnoreBaseDecorator(
                 new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
                 new CallbackPredicate($predicate)),

@@ -13,9 +13,9 @@ use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\IgnoringMatchPattern;
+use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
-class IgnoringMatchPatternTest extends TestCase
+class RemainingMatchPatternTest extends TestCase
 {
     /**
      * @test
@@ -333,7 +333,7 @@ class IgnoringMatchPatternTest extends TestCase
     {
         // given
         $subject = '...you forgot one very important thing mate.';
-        $pattern = new IgnoringMatchPattern(
+        $pattern = new RemainingMatchPattern(
             new IgnoreBaseDecorator(
                 new ApiBase(InternalPattern::pcre('/[a-z]+/'), $subject, new UserData()),
                 new CallbackPredicate(function (Detail $detail) {
@@ -392,16 +392,16 @@ class IgnoringMatchPatternTest extends TestCase
         $this->assertSame(['', 'a', '', 'c'], $array);
     }
 
-    private function standardMatchPattern_notFirst(): IgnoringMatchPattern
+    private function standardMatchPattern_notFirst(): RemainingMatchPattern
     {
         return $this->matchPattern(function (Detail $detail) {
             return $detail->index() > 0;
         });
     }
 
-    private function matchPattern(callable $predicate): IgnoringMatchPattern
+    private function matchPattern(callable $predicate): RemainingMatchPattern
     {
-        return new IgnoringMatchPattern(
+        return new RemainingMatchPattern(
             new IgnoreBaseDecorator(
                 new ApiBase(
                     InternalPattern::standard('(?<=\()[a-z]?(?=\))'),

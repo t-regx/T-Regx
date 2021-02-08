@@ -5,15 +5,16 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CallbackPredicate;
 use Test\Utils\Functions;
 use Test\Utils\ThrowApiBase;
+use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\IgnoringMatchPattern;
+use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
-class IgnoringMatchPatternTest extends TestCase
+class RemainingMatchPatternTest extends TestCase
 {
     /**
      * @test
@@ -181,6 +182,22 @@ class IgnoringMatchPatternTest extends TestCase
 
         // then
         $this->assertSame('S', $firstGroup);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_remaining_forInvalidReturnType(): void
+    {
+        // given
+        $pattern = $this->matchPattern('Foo', 'Foo', Functions::constant(true));
+
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid remaining() callback return type. Expected bool, but integer (2) given');
+
+        // when
+        $pattern->remaining(Functions::constant(2))->first();
     }
 
     /**
@@ -402,7 +419,7 @@ class IgnoringMatchPatternTest extends TestCase
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
     {
-        return new IgnoringMatchPattern(
+        return new RemainingMatchPattern(
             new IgnoreBaseDecorator(
                 new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
                 new CallbackPredicate($predicate)),

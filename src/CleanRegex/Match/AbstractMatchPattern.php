@@ -171,7 +171,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return new ArrayIterator($objects);
     }
 
-    public abstract function remaining(callable $predicate): IgnoringMatchPattern;
+    public abstract function remaining(callable $predicate): RemainingMatchPattern;
 
     public function fluent(): FluentMatchPattern
     {

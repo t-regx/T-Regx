@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 
-class IgnoringMatchPattern extends AbstractMatchPattern
+class RemainingMatchPattern extends AbstractMatchPattern
 {
     /** @var ApiBase */
     private $originalBase;
@@ -27,10 +27,10 @@ class IgnoringMatchPattern extends AbstractMatchPattern
         return \count($this->getDetailObjects());
     }
 
-    public function remaining(callable $predicate): IgnoringMatchPattern
+    public function remaining(callable $predicate): RemainingMatchPattern
     {
-        return new IgnoringMatchPattern(
-            new IgnoreBaseDecorator($this->base, new MethodPredicate($predicate, 'asdasdasd')),
+        return new RemainingMatchPattern(
+            new IgnoreBaseDecorator($this->base, new MethodPredicate($predicate, 'remaining')),
             $this->originalBase);
     }
 }
