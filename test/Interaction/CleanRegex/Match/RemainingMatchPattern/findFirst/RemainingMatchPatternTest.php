@@ -1,5 +1,5 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\Match\FilteredMatchPattern\findFirst;
+namespace Test\Interaction\TRegx\CleanRegex\Match\RemainingMatchPattern\findFirst;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CallbackPredicate;
