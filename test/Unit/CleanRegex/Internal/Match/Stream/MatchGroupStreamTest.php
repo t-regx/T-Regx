@@ -51,13 +51,13 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = $this->matchStream($this->zeroInteraction(), 'group');
+        $stream = $this->matchStream($this->stream('firstKey', 2), 'group');
 
         // when
         $firstKey = $stream->firstKey();
 
         // then
-        $this->assertSame(0, $firstKey);
+        $this->assertSame(2, $firstKey);
     }
 
     /**

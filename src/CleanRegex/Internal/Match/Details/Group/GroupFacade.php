@@ -54,9 +54,9 @@ class GroupFacade
         foreach ($matches->getGroupTextAndOffsetAll($this->directIdentifier()) as $index => $firstWhole) {
             $match = new RawMatchesToMatchAdapter($matches, $index);
             if ($match->isGroupMatched($this->directIdentifier())) {
-                $matchObjects[] = $this->createdMatched($match, ...$firstWhole);
+                $matchObjects[$index] = $this->createdMatched($match, ...$firstWhole);
             } else {
-                $matchObjects[] = $this->createUnmatched($match);
+                $matchObjects[$index] = $this->createUnmatched($match);
             }
         }
         return $matchObjects;

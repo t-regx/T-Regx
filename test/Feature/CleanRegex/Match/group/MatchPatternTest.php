@@ -214,6 +214,42 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldReturn_group_fluent_keys_all()
+    {
+        // when
+        $groups = pattern('\d+(?<unit>kg|[cm]?m)')
+            ->match('15mm 12kg 16m 17cm 27kg')
+            ->remaining(Functions::equals('16m'))
+            ->group('unit')
+            ->fluent()
+            ->keys()
+            ->all();
+
+        // then
+        $this->assertSame([2], $groups);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturn_group_fluent_keys_first()
+    {
+        // when
+        $groups = pattern('\d+(?<unit>kg|[cm]?m)')
+            ->match('15mm 12kg 16m 17cm 27kg')
+            ->remaining(Functions::equals('16m'))
+            ->group('unit')
+            ->fluent()
+            ->keys()
+            ->first();
+
+        // then
+        $this->assertSame(2, $groups);
+    }
+
+    /**
+     * @test
+     */
     public function shouldMap_fluent()
     {
         // when

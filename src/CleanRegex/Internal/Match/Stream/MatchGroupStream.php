@@ -54,6 +54,6 @@ class MatchGroupStream implements Stream
 
     public function firstKey(): int
     {
-        return 0;
+        return $this->stream->firstKey();
     }
 }
