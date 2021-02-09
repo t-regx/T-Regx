@@ -1,12 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-interface Stream
+interface Stream extends ValueStream
 {
-    public function all();
-
-    public function first();
-
     /**
      * @return string|int
      */

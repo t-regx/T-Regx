@@ -12,7 +12,7 @@ class GroupByCallbackStream implements Stream
     /** @var callable */
     private $mapper;
 
-    public function __construct(Stream $stream, callable $mapper)
+    public function __construct(ValueStream $stream, callable $mapper)
     {
         $this->stream = $stream;
         $this->mapper = $mapper;

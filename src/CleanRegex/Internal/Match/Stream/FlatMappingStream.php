@@ -12,7 +12,7 @@ class FlatMappingStream implements Stream
     /** @var FlatMapper */
     private $flatMapper;
 
-    public function __construct(Stream $stream, FlatMapStrategy $strategy, callable $mapper, string $methodName)
+    public function __construct(ValueStream $stream, FlatMapStrategy $strategy, callable $mapper, string $methodName)
     {
         $this->stream = $stream;
         $this->flatMapper = new FlatMapper($strategy, $mapper, $methodName);
