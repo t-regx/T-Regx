@@ -30,7 +30,7 @@ class BaseStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFirst()
+    public function shouldReturn_first()
     {
         // given
         $stream = new BaseStream($this->baseFirst());
@@ -73,143 +73,6 @@ class BaseStreamTest extends TestCase
         $this->assertEmpty($all->getTexts());
     }
 
-    /**
-     * @test
-     */
-    public function shouldFirstThrow_afterAll_unmatched()
-    {
-        // given
-        $stream = new BaseStream($this->baseAllUnmatched());
-
-        // then
-        $this->expectException(NoFirstStreamException::class);
-
-        // when
-        $stream->all();
-        $stream->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldAll_callBase_once()
-    {
-        // given
-        $stream = new BaseStream($this->baseAll());
-
-        // when
-        $stream->all();
-        $stream->all();
-        $stream->all();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldRaw_callBase_once()
-    {
-        // given
-        $stream = new BaseStream($this->baseAll());
-
-        // when
-        $stream->getRawMatches();
-        $stream->getRawMatches();
-        $stream->getRawMatches();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFirst_callBase_once()
-    {
-        // given
-        $stream = new BaseStream($this->baseFirst());
-
-        // when
-        $stream->first();
-        $stream->first();
-        $stream->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldCallAll_afterFirst()
-    {
-        // given
-        $stream = new BaseStream($this->baseBoth());
-
-        // when
-        $stream->first();
-        $stream->all();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotCallFirst_afterAll()
-    {
-        // given
-        $stream = new BaseStream($this->baseAll());
-
-        // when
-        $stream->all();
-        $matchOffset = $stream->first();
-
-        // then
-        $this->assertSame('Joffrey', $matchOffset->getText());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotCallFirst_afterAllFirst()
-    {
-        // given
-        $stream = new BaseStream($this->baseBoth());
-
-        // when
-        $stream->first();
-        $stream->all();
-        $matchOffset = $stream->first();
-
-        // then
-        $this->assertSame('Joffrey', $matchOffset->getText());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFirstKey_beAlwaysZero()
-    {
-        // given
-        $stream = new BaseStream($this->zeroInteraction());
-
-        // when
-        $firstKey = $stream->firstKey();
-
-        // then
-        $this->assertSame(0, $firstKey);
-    }
-
-    private function baseBoth(): Base
-    {
-        return $this->baseBothWith($this->matchesOffset(), $this->matchOffset());
-    }
-
-    private function baseBothWith(RawMatchesOffset $matches, IRawMatchOffset $match): Base
-    {
-        /** @var Base|MockObject $base */
-        $base = $this->createMock(Base::class);
-        $base->expects($this->once())->method('matchAllOffsets')->willReturn($matches);
-        $base->expects($this->once())->method('matchOffset')->willReturn($match);
-        $base->expects($this->never())->method($this->logicalNot($this->logicalOr(
-            $this->matches('matchAllOffsets'),
-            $this->matches('matchOffset')
-        )));
-        return $base;
-    }
-
     private function baseAllUnmatched(): Base
     {
         return $this->baseAllWith(new RawMatchesOffset([[]]));
@@ -226,14 +89,6 @@ class BaseStreamTest extends TestCase
         $base = $this->createMock(Base::class);
         $base->expects($this->once())->method('matchAllOffsets')->willReturn($matches);
         $base->expects($this->never())->method($this->logicalNot($this->matches('matchAllOffsets')));
-        return $base;
-    }
-
-    private function zeroInteraction(): Base
-    {
-        /** @var Base|MockObject $base */
-        $base = $this->createMock(Base::class);
-        $base->expects($this->never())->method($this->anything());
         return $base;
     }
 

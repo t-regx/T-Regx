@@ -175,9 +175,8 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function fluent(): FluentMatchPattern
     {
-        $stream = new BaseStream($this->base);
         return new FluentMatchPattern(
-            new MatchStream($stream, $this->base, $this->base->getUserData(), $stream),
+            new MatchStream(new BaseStream($this->base), $this->base, $this->base->getUserData(), new LazyMatchAllFactory($this->base)),
             new FluentOptionalWorker(new FirstFluentMessage())
         );
     }
