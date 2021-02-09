@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\fluent\_stream;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class AbstractMatchPatternTest extends TestCase
@@ -87,6 +88,18 @@ class AbstractMatchPatternTest extends TestCase
         pattern("(Foo|Bar)")->match("Foo, Bar")->fluent()->first(function (Detail $detail) {
             // then
             $this->assertSame(0, $detail->index());
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFluentFirst_keepIndex_remaining()
+    {
+        // given
+        pattern("(Foo|Bar)")->match("Foo, Bar")->remaining(Functions::equals('Bar'))->fluent()->first(function (Detail $detail) {
+            // then
+            $this->assertSame(1, $detail->index());
         });
     }
 

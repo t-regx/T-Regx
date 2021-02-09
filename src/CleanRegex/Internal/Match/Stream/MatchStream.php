@@ -33,7 +33,7 @@ class MatchStream implements Stream
 
     public function first(): Detail
     {
-        return $this->factory(1)->create(0, $this->stream->first(), $this->allFactory);
+        return $this->factory(1)->create($this->stream->firstKey(), $this->stream->first(), $this->allFactory);
     }
 
     private function factory(int $limit): DetailObjectFactory

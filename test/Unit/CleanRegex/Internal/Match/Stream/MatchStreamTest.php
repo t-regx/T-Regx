@@ -39,7 +39,7 @@ class MatchStreamTest extends TestCase
     public function shouldDelegateFirst()
     {
         // given
-        $stream = $this->matchStream($this->streamFirst('192'));
+        $stream = $this->matchStream($this->streamFirstAndKey('192', 0));
 
         // when
         $first = $stream->first();
@@ -69,13 +69,13 @@ class MatchStreamTest extends TestCase
     public function shouldCreateFirstMatch_index()
     {
         // given
-        $stream = $this->matchStream($this->streamFirst('192'));
+        $stream = $this->matchStream($this->streamFirstAndKey('192', 4));
 
         // when
         $first = $stream->first();
 
         // then
-        $this->assertSame(0, $first->index());
+        $this->assertSame(4, $first->index());
     }
 
     /**
@@ -120,7 +120,7 @@ class MatchStreamTest extends TestCase
     public function shouldGetAll_first()
     {
         // given
-        $stream = $this->matchStream($this->streamFirst(''), new EagerMatchAllFactory($this->matchesOffset('First')));
+        $stream = $this->matchStream($this->streamFirstAndKey('', 0), new EagerMatchAllFactory($this->matchesOffset('First')));
 
         // when
         $first = $stream->first();
@@ -138,12 +138,13 @@ class MatchStreamTest extends TestCase
         return $stream;
     }
 
-    private function streamFirst(string $value): BaseStream
+    private function streamFirstAndKey(string $value, int $index): BaseStream
     {
         /** @var BaseStream|MockObject $stream */
         $stream = $this->createMock(BaseStream::class);
         $stream->expects($this->once())->method('first')->willReturn($this->matchOffset($value));
-        $stream->expects($this->never())->method($this->logicalNot($this->matches('first')));
+        $stream->expects($this->once())->method('firstKey')->willReturn($index);
+        $stream->expects($this->never())->method($this->logicalNot($this->logicalOr($this->matches('first'), $this->matches('firstKey'))));
         return $stream;
     }
 
