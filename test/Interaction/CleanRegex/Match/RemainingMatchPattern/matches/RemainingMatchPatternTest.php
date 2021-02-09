@@ -7,7 +7,7 @@ use Test\Utils\Functions;
 use Test\Utils\ThrowApiBase;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
-use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
@@ -84,7 +84,7 @@ class RemainingMatchPatternTest extends TestCase
     private function matchPattern(string $pattern, string $subject, callable $predicate): RemainingMatchPattern
     {
         return new RemainingMatchPattern(
-            new IgnoreBaseDecorator(
+            new DetailPredicateBaseDecorator(
                 new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
                 new CallbackPredicate($predicate)),
             new ThrowApiBase());

@@ -8,7 +8,7 @@ use Test\Utils\ThrowApiBase;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
-use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -334,7 +334,7 @@ class RemainingMatchPatternTest extends TestCase
         // given
         $subject = '...you forgot one very important thing mate.';
         $pattern = new RemainingMatchPattern(
-            new IgnoreBaseDecorator(
+            new DetailPredicateBaseDecorator(
                 new ApiBase(InternalPattern::pcre('/[a-z]+/'), $subject, new UserData()),
                 new CallbackPredicate(function (Detail $detail) {
                     return $detail->text() != 'forgot';
@@ -402,7 +402,7 @@ class RemainingMatchPatternTest extends TestCase
     private function matchPattern(callable $predicate): RemainingMatchPattern
     {
         return new RemainingMatchPattern(
-            new IgnoreBaseDecorator(
+            new DetailPredicateBaseDecorator(
                 new ApiBase(
                     InternalPattern::standard('(?<=\()[a-z]?(?=\))'),
                     '() (a) (b) () (c)',

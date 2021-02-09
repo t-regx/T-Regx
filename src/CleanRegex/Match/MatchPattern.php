@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
-use TRegx\CleanRegex\Internal\Match\Base\IgnoreBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\SafeRegex\preg;
@@ -37,6 +37,6 @@ class MatchPattern extends AbstractMatchPattern
 
     public function remaining(callable $predicate): RemainingMatchPattern
     {
-        return new RemainingMatchPattern(new IgnoreBaseDecorator($this->apiBase, new MethodPredicate($predicate, 'remaining')), $this->apiBase);
+        return new RemainingMatchPattern(new DetailPredicateBaseDecorator($this->apiBase, new MethodPredicate($predicate, 'remaining')), $this->apiBase);
     }
 }
