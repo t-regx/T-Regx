@@ -4,20 +4,23 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.10.1
+---------------
+
 * Breaking changes
     * Chainable `pattern()->match()->filter()` is renamed to `remaining()`.
 
       `pattern()->match()->fluent()->filter()` is not being renamed.
-    * After filtering `MatchPattern` with `ignoring()`, consecutive `Detail.index()` will no longer be reindexed, they
-      will preserve the `index()` they had before `ignoring()`.
+    * After filtering `MatchPattern` with `remaining()`, consecutive `Detail.index()` will no longer be reindexed, they
+      will preserve the `index()` they had had before `remaining()`.
     * `match()->fluent()->filter()` no longer reindexes values. To reindex, use `values()`.
 * Bug fixes
     * Fixed a bug where `fluent()->flatMap()->first()` would return the `array`, instead of the first element
-
 * Features
     * Add `pattern()->match()->filter()` which returns only matches allowed by the predicate.
     * Add `pattern()->match()->group()->asInt()`
-
 * Other
     * `pattern()->match()->fluent()->filter()->first()` first calls [`preg_match()`], and if that result doesn't match
       the predicate, then it calls [`preg_match_all()`].
@@ -26,7 +29,7 @@ Added in 0.10.0
 ---------------
 
 * Breaking changes
-    * Previously deprecated [`Match`] and [`ReplaceMatch`] are now being removed, because of PHP8 keyword `match`.
+    * Previously deprecated [`Match`] and [`ReplaceMatch`] are now being removed, because of PHP8 keyword [`match`][8].
 
       Use [`Detail`] and [`ReplaceDetail`] instead.
 * Other
@@ -113,8 +116,8 @@ Added in 0.9.13
     * Deprecate [`MatchGroup`], use [`DetailGroup`] instead.
     * Deprecate `ReplaceMatchGroup`, use `ReplaceDetailGroup` instead.
 
-      In preparation for PHP 8, in which [`match`](https://www.php.net/manual/en/control-structures.match.php) is a new
-      keyword, we deprecate [`Match`] and [`ReplaceMatch`]. [`Match`] will become an invalid class name in PHP 8.
+      In preparation for PHP 8, in which [`match`][8] is a new keyword, we deprecate [`Match`] and [`ReplaceMatch`]
+      . [`Match`] will become an invalid class name in PHP 8.
 
       Classes [`Match`], [`ReplaceMatch`], [`MatchGroup`] and `ReplaceMatchGroup` will remain in T-Regx (as deprecated)
       as long as T-Regx doesn't support PHP 8.
@@ -763,3 +766,5 @@ Available in 0.9.0
 [2]: https://t-regx.com/docs/replace-match-details
 
 [`get_class()`]: https://www.php.net/manual/en/function.get-class.php
+
+[8]: https://www.php.net/manual/en/control-structures.match.php
