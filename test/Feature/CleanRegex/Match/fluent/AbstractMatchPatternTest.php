@@ -115,6 +115,19 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldFluent_keys_findFirst_orThrow()
+    {
+        // then
+        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed is empty");
+
+        // when
+        pattern("Foo")->match("Bar")->fluent()->keys()->findFirst(Functions::fail())->orThrow();
+    }
+
+    /**
+     * @test
+     */
     public function shouldFluent_findFirst_orThrow_custom()
     {
         try {

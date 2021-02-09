@@ -45,7 +45,7 @@ class BaseStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldFirstThrow_unmatched()
+    public function shouldThrow_first_forUnmatched()
     {
         // given
         $stream = new BaseStream($this->baseFirstUnmatched());
@@ -55,6 +55,21 @@ class BaseStreamTest extends TestCase
 
         // when
         $stream->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_firstKey_forUnmatched()
+    {
+        // given
+        $stream = new BaseStream($this->baseFirstUnmatched());
+
+        // then
+        $this->expectException(NoFirstStreamException::class);
+
+        // when
+        $stream->firstKey();
     }
 
     /**

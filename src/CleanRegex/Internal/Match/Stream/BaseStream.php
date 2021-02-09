@@ -32,6 +32,10 @@ class BaseStream
 
     public function firstKey(): int
     {
-        return 0;
+        $match = $this->base->matchOffset();
+        if ($match->matched()) {
+            return $match->getIndex();
+        }
+        throw new NoFirstStreamException();
     }
 }

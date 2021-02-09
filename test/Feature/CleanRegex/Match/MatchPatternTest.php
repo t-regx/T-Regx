@@ -495,6 +495,18 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGet_remaining_fluent_keys_first()
+    {
+        // when
+        $keys = pattern('\d+')->match('18 19 20')->remaining(Functions::equals('20'))->fluent()->keys()->first();
+
+        // then
+        $this->assertSame(2, $keys);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetAllMatches_asInt()
     {
         // given
