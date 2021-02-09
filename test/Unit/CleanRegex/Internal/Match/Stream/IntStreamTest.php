@@ -14,10 +14,10 @@ class IntStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldDelegateAll()
+    public function shouldDelegate_all()
     {
         // given
-        $stream = new IntStream($this->mock('all', 'willReturn', $this->matchesOffset('14')));
+        $stream = new IntStream($this->mock('all', $this->matchesOffset('14')));
 
         // when
         $all = $stream->all();
@@ -29,10 +29,10 @@ class IntStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldDelegateAll_unmatched()
+    public function shouldDelegate_all_unmatched()
     {
         // given
-        $stream = new IntStream($this->mock('all', 'willReturn', new RawMatchesOffset([[]])));
+        $stream = new IntStream($this->mock('all', new RawMatchesOffset([[]])));
 
         // when
         $all = $stream->all();
@@ -44,10 +44,10 @@ class IntStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldDelegateFirst()
+    public function shouldDelegate_first()
     {
         // given
-        $stream = new IntStream($this->mock('first', 'willReturn', new RawMatchOffset([['192', 1]], 0)));
+        $stream = new IntStream($this->mock('first', new RawMatchOffset([['192', 1]], 0)));
 
         // when
         $first = $stream->first();
@@ -59,10 +59,10 @@ class IntStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFirstKey()
+    public function shouldDelegate_firstKey()
     {
         // given
-        $stream = new IntStream($this->mock('firstKey', 'willReturn', 123));
+        $stream = new IntStream($this->mock('firstKey', 123));
 
         // when
         $firstKey = $stream->firstKey();
@@ -74,10 +74,10 @@ class IntStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldAll_throwForMalformedInteger()
+    public function shouldThrow_all_forMalformedInteger()
     {
         // given
-        $stream = new IntStream($this->mock('all', 'willreturn', $this->matchesOffset('Foo')));
+        $stream = new IntStream($this->mock('all', $this->matchesOffset('Foo')));
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -90,10 +90,10 @@ class IntStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldFirst_throwForMalformedInteger()
+    public function shouldThrow_first_forMalformedInteger()
     {
         // given
-        $stream = new IntStream($this->mock('first', 'willReturn', new RawMatchOffset([['Foo', 1]], 1)));
+        $stream = new IntStream($this->mock('first', new RawMatchOffset([['Foo', 1]], 1)));
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -103,11 +103,11 @@ class IntStreamTest extends TestCase
         $stream->first();
     }
 
-    private function mock(string $methodName, string $setter, $value): BaseStream
+    private function mock(string $methodName, $value): BaseStream
     {
         /** @var BaseStream|MockObject $stream */
         $stream = $this->createMock(BaseStream::class);
-        $stream->expects($this->once())->method($methodName)->$setter($value);
+        $stream->expects($this->once())->method($methodName)->willReturn($value);
         $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
         return $stream;
     }

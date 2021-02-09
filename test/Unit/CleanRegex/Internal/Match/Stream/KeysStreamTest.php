@@ -11,10 +11,10 @@ class KeysStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetKeys()
+    public function shouldReturn_all()
     {
         // given
-        $stream = new KeysStream($this->mock('all', 'willReturn', ['a' => 'One', 'b' => 'Two', 'c' => 'Three']));
+        $stream = new KeysStream($this->mock('all', ['a' => 'One', 'b' => 'Two', 'c' => 'Three']));
 
         // when
         $keys = $stream->all();
@@ -26,10 +26,10 @@ class KeysStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFirst()
+    public function shouldReturn_first()
     {
         // given
-        $stream = new KeysStream($this->mock('firstKey', 'willReturn', 'One'));
+        $stream = new KeysStream($this->mock('firstKey', 'One'));
 
         // when
         $first = $stream->first();
@@ -41,7 +41,7 @@ class KeysStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldFirstKey_beAlwaysZero()
+    public function shouldReturn_firstKey_beAlwaysZero()
     {
         // given
         $stream = new KeysStream($this->zeroInteraction());
@@ -53,11 +53,11 @@ class KeysStreamTest extends TestCase
         $this->assertSame(0, $firstKey);
     }
 
-    private function mock(string $methodName, string $setter, $value): Stream
+    private function mock(string $methodName, $value): Stream
     {
         /** @var Stream|MockObject $stream */
         $stream = $this->createMock(Stream::class);
-        $stream->expects($this->once())->method($methodName)->$setter($value);
+        $stream->expects($this->once())->method($methodName)->willReturn($value);
         $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
         return $stream;
     }

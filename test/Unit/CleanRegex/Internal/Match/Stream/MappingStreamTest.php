@@ -13,7 +13,7 @@ class MappingStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldMapAll()
+    public function shouldReturn_all()
     {
         // given
         $stream = new MappingStream($this->mock('all', 'willReturn', ['One', 'Two', 'Three']), 'strtoupper');
@@ -28,7 +28,7 @@ class MappingStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFirst()
+    public function shouldReturn_first()
     {
         // given
         $stream = new MappingStream($this->mock('first', 'willReturn', 'One'), function (string $element) {
@@ -46,7 +46,7 @@ class MappingStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFirstKey()
+    public function shouldReturn_firstKey_dataTypeString()
     {
         // given
         $stream = new MappingStream($this->mock('firstKey', 'willReturn', 'foo'), [$this, 'fail']);
@@ -61,22 +61,7 @@ class MappingStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldFirstThrow()
-    {
-        // given
-        $stream = new MappingStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strtoupper');
-
-        // then
-        $this->expectException(NoFirstStreamException::class);
-
-        // when
-        $stream->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFirstReturnInteger()
+    public function shouldReturn_first_dataTypeInteger()
     {
         // given
         $stream = new MappingStream($this->mock('first', 'willReturn', 1), Functions::identity());
@@ -86,6 +71,21 @@ class MappingStreamTest extends TestCase
 
         // then
         $this->assertSame(1, $first);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRethrow_first()
+    {
+        // given
+        $stream = new MappingStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strtoupper');
+
+        // then
+        $this->expectException(NoFirstStreamException::class);
+
+        // when
+        $stream->first();
     }
 
     private function mock(string $methodName, string $setter, $value): Stream

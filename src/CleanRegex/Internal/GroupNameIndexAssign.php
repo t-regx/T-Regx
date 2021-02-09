@@ -5,9 +5,6 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Exception\InsufficientMatchException;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
-use function array_search;
-use function is_int;
-use function is_string;
 
 class GroupNameIndexAssign
 {
@@ -43,10 +40,10 @@ class GroupNameIndexAssign
 
     private function tryGetNameAndIndex($group): array
     {
-        if (is_string($group)) {
+        if (\is_string($group)) {
             return [$group, $this->getIndexByName($group)];
         }
-        if (is_int($group)) {
+        if (\is_int($group)) {
             return [$this->getNameByIndex($group), $group];
         }
         throw new InternalCleanRegexException();
@@ -55,6 +52,7 @@ class GroupNameIndexAssign
     private function getIndexByName(string $name): int
     {
         $key = $this->getKeyByGroup($name);
+
         // We're relying on the assumption, that the string-key, representing the name
         // of the group, is always one index before the integer-key representing the group.
         return $this->groupKeys[$key + 1];
@@ -66,16 +64,16 @@ class GroupNameIndexAssign
         if ($key === 0) {
             return null;
         }
-        $value = $this->groupKeys[$key - 1];
-        if (is_string($value)) {
-            return $value;
+        $groupName = $this->groupKeys[$key - 1];
+        if (\is_string($groupName)) {
+            return $groupName;
         }
         return null;
     }
 
     private function getKeyByGroup($group)
     {
-        $key = array_search($group, $this->groupKeys, true);
+        $key = \array_search($group, $this->groupKeys, true);
         if ($key === false) {
             throw new InsufficientMatchException();
         }
