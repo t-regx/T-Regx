@@ -4,10 +4,13 @@ namespace Test\Feature\TRegx\CleanRegex\Match\fluent;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomException;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
+use TRegx\CleanRegex\Match\MatchPattern;
 
 class AbstractMatchPatternTest extends TestCase
 {
@@ -42,27 +45,6 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_filterNth()
-    {
-        // when
-        $result = pattern("(Lorem|ipsum|dolor|emet)")
-            ->match("Lorem ipsum dolor emet")
-            ->fluent()
-            ->filter(function (Detail $detail) {
-                return !in_array($detail->text(), ['Lorem', 'ipsum']);
-            })
-            ->map(function (Detail $detail) {
-                return $detail->text();
-            })
-            ->nth(1);
-
-        // then
-        $this->assertSame('emet', $result);
-    }
-
-    /**
-     * @test
-     */
     public function shouldFluent_passUserData()
     {
         // given
@@ -81,22 +63,6 @@ class AbstractMatchPatternTest extends TestCase
 
                 $this->assertSame($detail === 'Foo' ? 'hey' : 'hello', $userData);
             });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFluent_findFirst()
-    {
-        // when
-        pattern("(?<capital>[A-Z])?[a-z']+")
-            ->match("I'm rather old, He likes Apples")
-            ->fluent()
-            ->filter(function (Detail $detail) {
-                return $detail->textLength() !== 3;
-            })
-            ->findFirst(Functions::pass())
-            ->orThrow();
     }
 
     /**
@@ -169,5 +135,37 @@ class AbstractMatchPatternTest extends TestCase
             // then
             $this->assertEmpty($exception->getMessage());
         }
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_filter_all_onInvalidReturnType()
+    {
+        // given
+        $pattern = new MatchPattern(InternalPattern::standard('Foo'), 'Foo');
+
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid filter() callback return type. Expected bool, but integer (45) given');
+
+        // when
+        $pattern->fluent()->filter(Functions::constant(45))->all();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_filter_first_onInvalidReturnType()
+    {
+        // given
+        $pattern = new MatchPattern(InternalPattern::standard('Foo'), 'Foo');
+
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid filter() callback return type. Expected bool, but integer (45) given');
+
+        // when
+        $pattern->fluent()->filter(Functions::constant(45))->first();
     }
 }

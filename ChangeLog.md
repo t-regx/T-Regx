@@ -18,6 +18,10 @@ Incoming
     * Add `pattern()->match()->filter()` which returns only matches allowed by the predicate.
     * Add `pattern()->match()->group()->asInt()`
 
+* Other
+    * `pattern()->match()->fluent()->filter()->first()` first calls [`preg_match()`], and if that result doesn't match
+      the predicate, then it calls [`preg_match_all()`].
+
 Added in 0.10.0
 ---------------
 

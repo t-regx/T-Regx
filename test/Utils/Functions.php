@@ -117,4 +117,12 @@ class Functions
             return [$value];
         };
     }
+
+    public static function peek(callable $peek, callable $callback): callable
+    {
+        return function ($value) use ($peek, $callback) {
+            $peek($value);
+            return $callback($value);
+        };
+    }
 }

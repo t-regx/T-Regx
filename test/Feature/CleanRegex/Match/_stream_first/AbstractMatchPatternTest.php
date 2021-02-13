@@ -110,6 +110,18 @@ class AbstractMatchPatternTest extends TestCase
         $this->assertSame('123', $first);
     }
 
+    public function test_fluent_filter()
+    {
+        // then
+        $this->assertSame('123', $this->match()->fluent()->filter(Functions::constant(true))->first()->text());
+    }
+
+    public function test_fluent_filter_keys()
+    {
+        // then
+        $this->assertSame(0, $this->match()->fluent()->filter(Functions::constant(true))->keys()->first());
+    }
+
     public function test_groups_and_offsets()
     {
         $this->assertSame(2, $this->match()->offsets()->first());

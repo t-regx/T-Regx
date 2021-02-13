@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -350,6 +351,19 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertSame(9, $integer);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_asInt_filter_first()
+    {
+        // then
+        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed is empty');
+
+        // when
+        pattern('\d+')->match('12 13')->asInt()->filter(Functions::constant(false))->first();
     }
 
     /**
