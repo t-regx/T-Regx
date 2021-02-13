@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\Integer;
 
-class IntStream implements Stream
+class MatchIntStream implements Stream
 {
     /** @var BaseStream */
     private $stream;

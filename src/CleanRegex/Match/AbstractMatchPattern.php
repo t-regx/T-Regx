@@ -26,7 +26,7 @@ use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
 use TRegx\CleanRegex\Internal\Match\Stream\AsArrayStream;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
-use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
+use TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
 use TRegx\CleanRegex\Internal\MatchPatternHelpers;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
@@ -184,7 +184,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     public function asInt(): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            new IntStream(new BaseStream($this->base)),
+            new MatchIntStream(new BaseStream($this->base)),
             new PatternOptionalWorker(new FirstMatchIntMessage(), $this->base->getSubject(), SubjectNotMatchedException::class));
     }
 
