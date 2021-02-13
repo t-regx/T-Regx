@@ -66,7 +66,7 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
 
     private function mapToOffset(array $matches): array
     {
-        return \array_values(\array_map([$this, 'mapMatch'], $matches));
+        return \array_map([$this, 'mapMatch'], $matches);
     }
 
     private function mapMatch($match): ?int

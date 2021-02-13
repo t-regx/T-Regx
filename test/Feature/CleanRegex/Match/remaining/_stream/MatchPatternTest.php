@@ -2,13 +2,10 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\remaining\_stream;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 
 class MatchPatternTest extends TestCase
 {
-    use AssertsSameMatches;
-
     /**
      * @test
      */
@@ -43,5 +40,39 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertSame(2, $keys);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_offsets_fluent_keys_first()
+    {
+        // given
+        $firstKey = pattern('\w+')->match('Computer Three Four')
+            ->remaining(Functions::notEquals('Computer'))
+            ->offsets()
+            ->fluent()
+            ->keys()
+            ->first();
+
+        // when
+        $this->assertSame(1, $firstKey);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_offsets_fluent_keys_all()
+    {
+        // given
+        $keys = pattern('\w+')->match('Computer Three Four')
+            ->remaining(Functions::notEquals('Computer'))
+            ->offsets()
+            ->fluent()
+            ->keys()
+            ->all();
+
+        // when
+        $this->assertSame([1, 2], $keys);
     }
 }

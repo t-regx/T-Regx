@@ -63,7 +63,7 @@ class OffsetLimit implements PatternLimit, \IteratorAggregate
         if (!$matches->hasGroup($this->nameOrIndex)) {
             throw new NonexistentGroupException($this->nameOrIndex);
         }
-        return $matches->getLimitedGroupOffsets($this->nameOrIndex, -1);
+        return \array_values($matches->getLimitedGroupOffsets($this->nameOrIndex, -1));
     }
 
     public function getIterator(): Iterator
@@ -89,6 +89,6 @@ class OffsetLimit implements PatternLimit, \IteratorAggregate
 
     public function fluent(): FluentMatchPattern
     {
-        return new FluentMatchPattern(new OffsetLimitStream($this, $this->groupVerifier, $this->base, $this->nameOrIndex), new FluentOptionalWorker(new FirstFluentMessage()));
+        return new FluentMatchPattern(new OffsetLimitStream($this->base, $this->nameOrIndex, $this->groupVerifier), new FluentOptionalWorker(new FirstFluentMessage()));
     }
 }
