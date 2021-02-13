@@ -1,10 +1,10 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\duplicateNames;
+namespace Test\Feature\TRegx\CleanRegex\Match\Details\usingDuplicateName;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Detail;
 
-class MatchPatternTest extends TestCase
+class DetailTest extends TestCase
 {
     /**
      * @test
