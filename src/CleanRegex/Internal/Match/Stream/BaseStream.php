@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
+use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
@@ -27,7 +27,7 @@ class BaseStream
         if ($match->matched()) {
             return $match;
         }
-        throw new NoFirstStreamException();
+        throw new UnmatchedStreamException();
     }
 
     public function firstKey(): int
@@ -36,6 +36,6 @@ class BaseStream
         if ($match->matched()) {
             return $match->getIndex();
         }
-        throw new NoFirstStreamException();
+        throw new UnmatchedStreamException();
     }
 }

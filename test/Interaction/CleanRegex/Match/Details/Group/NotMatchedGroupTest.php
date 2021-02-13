@@ -2,11 +2,12 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\Details\Group;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\CustomException;
 use Test\Utils\CustomSubjectException;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
-use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
@@ -108,8 +109,8 @@ class NotMatchedGroupTest extends TestCase
             new NotMatchedOptionalWorker(
                 new GroupMessage('first'),
                 $subject,
-                new NotMatched(new RawMatches([]), $subject)
-            ),
+                new NotMatched(new RawMatches([]), $subject),
+                CustomException::class),
             '$unused'
         );
     }

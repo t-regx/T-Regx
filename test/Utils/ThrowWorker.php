@@ -1,44 +1,54 @@
 <?php
 namespace Test\Utils;
 
-use Throwable;
-use TRegx\CleanRegex\Internal\Factory\OptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Worker\StreamWorker;
 
-class ThrowWorker implements OptionalWorker
+class ThrowWorker implements StreamWorker
 {
-    /** @var \Exception|null */
-    private $firstElementException;
+    /** @var \Throwable */
+    private $fluent;
+    /** @var \Throwable */
+    private $subject;
 
-    public function __construct(\Exception $firstElementException = null)
+    private function __construct(?\Throwable $fluent, ?\Throwable $subject)
     {
-        $this->firstElementException = $firstElementException;
+        $this->fluent = $fluent ?? self::defaultException();
+        $this->subject = $subject ?? self::defaultException();
     }
 
-    public function orThrow(string $exceptionClassName): Throwable
+    public static function fluent(\Throwable $throwable): self
     {
-        throw new \Exception();
+        return new self($throwable, null);
     }
 
-    public function orElse(callable $producer)
+    public static function subject(\Throwable $throwable): self
     {
-        throw new \Exception();
+        return new self(null, $throwable);
     }
 
-    public function noFirstElementException(): \Exception
+    public static function none(): self
     {
-        if ($this->firstElementException === null) {
-            throw new \Exception();
-        }
-        throw $this->firstElementException;
+        return new self(null, null);
     }
 
-    public function chainWorker(): OptionalWorker
+    private static function defaultException(): \Exception
+    {
+        return new \Exception("This exception wasn't supposed to be thrown");
+    }
+
+    public function chainWorker(): StreamWorker
     {
         return $this;
     }
 
-    public function optionalDefaultClass(): string
+    public function noFirstOptionalWorker(): OptionalWorker
     {
-        throw new \Exception();
+        return new ConstantThrowOptionalWorker($this->fluent);
+    }
+
+    public function unmatchedOptionalWorker(): OptionalWorker
+    {
+        return new ConstantThrowOptionalWorker($this->subject);
     }
 }

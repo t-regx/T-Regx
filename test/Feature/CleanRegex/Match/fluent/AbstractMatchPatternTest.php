@@ -72,10 +72,10 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed is empty");
+        $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the subject backing the feed was not matched");
 
         // when
-        pattern("Foo")->match("Bar")->fluent()->findFirst(Functions::fail())->orThrow();
+        pattern('Foo')->match('Bar')->fluent()->findFirst(Functions::fail())->orThrow();
     }
 
     /**
@@ -85,10 +85,10 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed is empty");
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched');
 
         // when
-        pattern("Foo")->match("Bar")->fluent()->keys()->findFirst(Functions::fail())->orThrow();
+        pattern('Foo')->match('Bar')->fluent()->keys()->findFirst(Functions::fail())->orThrow();
     }
 
     /**
@@ -105,7 +105,7 @@ class AbstractMatchPatternTest extends TestCase
                 ->orThrow(CustomException::class);
         } catch (CustomException $exception) {
             // then
-            $this->assertSame("Expected to get the first element from fluent pattern, but the elements feed is empty.", $exception->getMessage());
+            $this->assertSame('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched', $exception->getMessage());
         }
     }
 

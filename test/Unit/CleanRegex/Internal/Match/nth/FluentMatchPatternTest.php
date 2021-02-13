@@ -5,8 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
-use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
-use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Worker\FluentStreamWorker;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
@@ -89,9 +88,9 @@ class FluentMatchPatternTest extends TestCase
         $pattern->nth(2);
     }
 
-    private function worker(): FluentOptionalWorker
+    private function worker(): FluentStreamWorker
     {
-        return new FluentOptionalWorker(new FirstFluentMessage());
+        return FluentStreamWorker::default();
     }
 
     private function stream(array $return, int $times = 1): Stream

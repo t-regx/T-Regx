@@ -1,25 +1,22 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\FindFirst;
 
-use TRegx\CleanRegex\Internal\Factory\NotMatchedWorker;
+use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
 use TRegx\CleanRegex\Match\Optional;
 
 class EmptyOptional implements Optional
 {
-    /** @var NotMatchedWorker */
+    /** @var OptionalWorker */
     private $worker;
-    /** @var string */
-    private $defaultException;
 
-    public function __construct(NotMatchedWorker $worker, string $defaultException)
+    public function __construct(OptionalWorker $worker)
     {
         $this->worker = $worker;
-        $this->defaultException = $defaultException;
     }
 
     public function orThrow(string $exceptionClassName = null): void
     {
-        throw $this->worker->orThrow($exceptionClassName ?? $this->defaultException);
+        throw $this->worker->orThrow($exceptionClassName);
     }
 
     public function orReturn($substitute)

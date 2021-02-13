@@ -8,8 +8,7 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
-use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Worker\FluentStreamWorker;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitAll;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFindFirst;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFirst;
@@ -177,14 +176,14 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     public function fluent(): FluentMatchPattern
     {
-        return new FluentMatchPattern($this->stream(), new FluentOptionalWorker(new FirstFluentMessage()));
+        return new FluentMatchPattern($this->stream(), FluentStreamWorker::default());
     }
 
     public function asInt(): FluentMatchPattern
     {
         return new FluentMatchPattern(
             new MatchGroupIntStream($this->base, $this->nameOrIndex, $this->matchAllFactory),
-            new FluentOptionalWorker(new FirstFluentMessage()));
+            FluentStreamWorker::default());
     }
 
     private function stream(): Stream

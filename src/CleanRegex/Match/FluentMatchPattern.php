@@ -7,8 +7,9 @@ use Iterator;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NthFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
-use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
-use TRegx\CleanRegex\Internal\Factory\OptionalWorker;
+use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
+use TRegx\CleanRegex\Internal\Factory\Optional\ArgumentlessOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Worker\StreamWorker;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
@@ -27,10 +28,10 @@ class FluentMatchPattern implements MatchPatternInterface
 {
     /** @var Stream */
     private $stream;
-    /** @var OptionalWorker */
+    /** @var StreamWorker */
     private $worker;
 
-    public function __construct(Stream $stream, OptionalWorker $worker)
+    public function __construct(Stream $stream, StreamWorker $worker)
     {
         $this->stream = $stream;
         $this->worker = $worker;
@@ -55,12 +56,10 @@ class FluentMatchPattern implements MatchPatternInterface
      */
     public function first(callable $consumer = null)
     {
-        try {
-            $firstElement = $this->stream->first();
-        } catch (NoFirstStreamException $exception) {
-            throw $this->worker->noFirstElementException();
-        }
-        return $consumer ? $consumer($firstElement) : $firstElement;
+        return $this->findFirst($consumer ?? static function ($argument) {
+                return $argument;
+            })
+            ->orThrow();
     }
 
     public function findFirst(callable $consumer): Optional
@@ -68,7 +67,9 @@ class FluentMatchPattern implements MatchPatternInterface
         try {
             $firstElement = $this->stream->first();
         } catch (NoFirstStreamException $exception) {
-            return new EmptyOptional($this->worker, $this->worker->optionalDefaultClass());
+            return new EmptyOptional($this->worker->noFirstOptionalWorker());
+        } catch (UnmatchedStreamException $exception) {
+            return new EmptyOptional($this->worker->unmatchedOptionalWorker());
         }
         return new OptionalImpl($consumer($firstElement));
     }
@@ -87,9 +88,9 @@ class FluentMatchPattern implements MatchPatternInterface
         if (\array_key_exists($index, $elements)) {
             return new OptionalImpl($elements[$index]);
         }
-        return new EmptyOptional(
-            new FluentOptionalWorker(new NthFluentMessage($index, \count($elements))),
-            NoSuchElementFluentException::class);
+        return new EmptyOptional(new ArgumentlessOptionalWorker(
+            new NthFluentMessage($index, \count($elements)),
+            NoSuchElementFluentException::class));
     }
 
     public function forEach(callable $consumer): void

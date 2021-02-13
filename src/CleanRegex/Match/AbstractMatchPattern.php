@@ -7,13 +7,13 @@ use InvalidArgumentException;
 use Iterator;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\FirstMatchFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchAsArrayMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchIntMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
-use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
-use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
-use TRegx\CleanRegex\Internal\Factory\PatternOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Worker\FluentStreamWorker;
+use TRegx\CleanRegex\Internal\Factory\Worker\NextStreamWorkerDecorator;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
@@ -77,9 +77,11 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         if ($match->matched()) {
             return new OptionalImpl($consumer($this->findFirstDetail($match)));
         }
-        return new EmptyOptional(
-            new NotMatchedOptionalWorker(new FirstMatchMessage(), $this->base, new NotMatched(new LazyRawWithGroups($this->base), $this->base)),
-            SubjectNotMatchedException::class);
+        return new EmptyOptional(new NotMatchedOptionalWorker(
+            new FirstMatchMessage(),
+            $this->base,
+            new NotMatched(new LazyRawWithGroups($this->base), $this->base),
+            SubjectNotMatchedException::class));
     }
 
     private function findFirstDetail(RawMatchOffset $match): Detail
@@ -177,22 +179,29 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         return new FluentMatchPattern(
             new MatchStream(new BaseStream($this->base), $this->base, $this->base->getUserData(), new LazyMatchAllFactory($this->base)),
-            new FluentOptionalWorker(new FirstFluentMessage())
-        );
+            FluentStreamWorker::subject(new FirstMatchFluentMessage()));
     }
 
     public function asInt(): FluentMatchPattern
     {
         return new FluentMatchPattern(
             new MatchIntStream(new BaseStream($this->base)),
-            new PatternOptionalWorker(new FirstMatchIntMessage(), $this->base->getSubject(), SubjectNotMatchedException::class));
+            new NextStreamWorkerDecorator(
+                FluentStreamWorker::subject(new FirstMatchFluentMessage()),
+                new FirstMatchIntMessage(),
+                $this->base,
+                SubjectNotMatchedException::class));
     }
 
     public function asArray(): FluentMatchPattern
     {
         return new FluentMatchPattern(
             new AsArrayStream(new BaseStream($this->base), $this->base),
-            new PatternOptionalWorker(new FirstMatchAsArrayMessage(), $this->base->getSubject(), SubjectNotMatchedException::class));
+            new NextStreamWorkerDecorator(
+                FluentStreamWorker::subject(new FirstMatchFluentMessage()),
+                new FirstMatchAsArrayMessage(),
+                $this->base,
+                SubjectNotMatchedException::class));
     }
 
     /**

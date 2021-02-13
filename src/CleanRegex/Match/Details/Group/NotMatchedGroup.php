@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
-use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 
 class NotMatchedGroup implements DetailGroup

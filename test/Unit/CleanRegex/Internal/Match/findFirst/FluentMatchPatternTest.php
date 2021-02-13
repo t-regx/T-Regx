@@ -6,9 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
-use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
-use TRegx\CleanRegex\Internal\Factory\FluentOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Worker\FluentStreamWorker;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
@@ -113,9 +112,9 @@ class FluentMatchPatternTest extends TestCase
         $pattern->findFirst('strtoupper')->orThrow(CustomException::class);
     }
 
-    private function worker(): FluentOptionalWorker
+    private function worker(): FluentStreamWorker
     {
-        return new FluentOptionalWorker(new FirstFluentMessage());
+        return FluentStreamWorker::default();
     }
 
     private function firstStream($return, int $times = 1): Stream

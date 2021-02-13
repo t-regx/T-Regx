@@ -1,9 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
-use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
@@ -86,8 +87,8 @@ class GroupFacade
             new NotMatchedOptionalWorker(
                 new GroupMessage($this->usedIdentifier),
                 $this->subject,
-                new NotMatched($match, $this->subject)
-            ),
+                new NotMatched($match, $this->subject),
+                GroupNotMatchedException::class),
             $this->subject->getSubject()
         );
     }

@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
+use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
@@ -51,7 +51,7 @@ class BaseStreamTest extends TestCase
         $stream = new BaseStream($this->baseFirstUnmatched());
 
         // then
-        $this->expectException(NoFirstStreamException::class);
+        $this->expectException(UnmatchedStreamException::class);
 
         // when
         $stream->first();
@@ -66,7 +66,7 @@ class BaseStreamTest extends TestCase
         $stream = new BaseStream($this->baseFirstUnmatched());
 
         // then
-        $this->expectException(NoFirstStreamException::class);
+        $this->expectException(UnmatchedStreamException::class);
 
         // when
         $stream->firstKey();

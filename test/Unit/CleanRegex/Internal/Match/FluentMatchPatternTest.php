@@ -9,7 +9,7 @@ use Test\Utils\Functions;
 use Test\Utils\ThrowWorker;
 use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Internal\Factory\PatternOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Worker\NextStreamWorkerDecorator;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
@@ -177,7 +177,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldReturn_flatMap_first()
     {
         // given
-        $pattern = new FluentMatchPattern($this->method('first', 'foo'), new ThrowWorker());
+        $pattern = new FluentMatchPattern($this->method('first', 'foo'), ThrowWorker::none());
 
         // when
         $result = $pattern->flatMap(Functions::letters())->first();
@@ -192,7 +192,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldReturn_flatMap_keys_first()
     {
         // given
-        $pattern = new FluentMatchPattern($this->method('first', 'One'), new ThrowWorker());
+        $pattern = new FluentMatchPattern($this->method('first', 'One'), ThrowWorker::none());
 
         // when
         $result = $pattern->flatMap(Functions::lettersFlip())->keys()->first();
@@ -207,11 +207,11 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrow_flatMap_first_forEmpty()
     {
         // given
-        $pattern = new FluentMatchPattern($this->empty(), new ThrowWorker(new CustomException('flatMap')));
+        $pattern = new FluentMatchPattern($this->empty(), ThrowWorker::fluent(new CustomException('message')));
 
         // then
         $this->expectException(CustomException::class);
-        $this->expectExceptionMessage('flatMap');
+        $this->expectExceptionMessage('message');
 
         // when
         $pattern->flatMap(Functions::identity())->first();
@@ -223,11 +223,11 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrow_flatMap_keys_first_forEmpty()
     {
         // given
-        $pattern = new FluentMatchPattern($this->empty(), new ThrowWorker(new CustomException('flatMap')));
+        $pattern = new FluentMatchPattern($this->empty(), ThrowWorker::fluent(new CustomException('message')));
 
         // then
         $this->expectException(CustomException::class);
-        $this->expectExceptionMessage('flatMap');
+        $this->expectExceptionMessage('message');
 
         // when
         $pattern->flatMap(Functions::constant([]))->keys()->first();
@@ -393,9 +393,9 @@ class FluentMatchPatternTest extends TestCase
         $this->assertSame($expected, $result->all());
     }
 
-    private function worker(): PatternOptionalWorker
+    private function worker(): NextStreamWorkerDecorator
     {
-        return $this->createMock(PatternOptionalWorker::class);
+        return $this->createMock(NextStreamWorkerDecorator::class);
     }
 
     private function match(int $value): Detail

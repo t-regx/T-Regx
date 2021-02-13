@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\FirstGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupSubjectMessage;
-use TRegx\CleanRegex\Internal\Factory\NotMatchedOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
@@ -74,12 +74,10 @@ class GroupLimitFindFirst
 
     private function notMatched(string $exception, NotMatchedMessage $message): EmptyOptional
     {
-        return new EmptyOptional(
-            new NotMatchedOptionalWorker(
-                $message,
-                $this->base,
-                new NotMatched(new LazyRawWithGroups($this->base), $this->base)),
-            $exception
-        );
+        return new EmptyOptional(new NotMatchedOptionalWorker(
+            $message,
+            $this->base,
+            new NotMatched(new LazyRawWithGroups($this->base), $this->base),
+            $exception));
     }
 }

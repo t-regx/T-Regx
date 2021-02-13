@@ -254,11 +254,11 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_first_onUnmatchedPattern()
+    public function shouldThrow_asInt_first_OnUnmatchedPattern()
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get the first match as integer, but subject was not matched");
+        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
 
         // given
         pattern('Foo')->match('Bar')->asInt()->first();
@@ -271,7 +271,7 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get the first match as integer, but subject was not matched");
+        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
 
         // given
         pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail())->orThrow();
@@ -284,7 +284,7 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get the first match as array, but subject was not matched");
+        $this->expectExceptionMessage('Expected to get the first match as array, but subject was not matched');
 
         // given
         pattern('Foo')->match('Bar')->asArray()->first();
@@ -364,6 +364,58 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('\d+')->match('12 13')->asInt()->filter(Functions::constant(false))->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_asInt_filter_first_OnUnmatchedSubject()
+    {
+        // then
+        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched');
+
+        // when
+        pattern('Foo')->match('Bar')->asInt()->filter(Functions::constant(false))->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_fluent_filter_first_OnUnmatchedSubject()
+    {
+        // then
+        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched');
+
+        // when
+        pattern('Foo')->match('Bar')->fluent()->filter(Functions::constant(false))->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_asArray_filter_first_OnUnmatchedSubject()
+    {
+        // then
+        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched');
+
+        // when
+        pattern('Foo')->match('Bar')->asArray()->filter(Functions::constant(false))->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_asInt_first_OnUnmatchedSubject()
+    {
+        // then
+        $this->expectException(SubjectNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
+
+        // when
+        pattern('Foo')->match('Bar')->asInt()->first();
     }
 
     /**
