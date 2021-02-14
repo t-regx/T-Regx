@@ -19,11 +19,11 @@ class SignatureExceptionFactoryTest extends TestCase
     public function shouldInstantiate_withMessageAndSubjectParams()
     {
         // given
-        $factory = new SignatureExceptionFactory(ClassWithTwoStringParamsConstructor::class, new FirstMatchMessage());
+        $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // when
         /** @var ClassWithTwoStringParamsConstructor $exception */
-        $exception = $factory->create('my subject');
+        $exception = $factory->create(ClassWithTwoStringParamsConstructor::class, 'my subject');
 
         // then
         $this->assertInstanceOf(ClassWithTwoStringParamsConstructor::class, $exception);
@@ -37,10 +37,10 @@ class SignatureExceptionFactoryTest extends TestCase
     public function shouldInstantiate_withMessageParam()
     {
         // given
-        $factory = new SignatureExceptionFactory(ClassWithStringParamConstructor::class, new FirstMatchMessage());
+        $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // when
-        $exception = $factory->create('my subject');
+        $exception = $factory->create(ClassWithStringParamConstructor::class, 'my subject');
 
         // then
         $this->assertInstanceOf(ClassWithStringParamConstructor::class, $exception);
@@ -53,10 +53,10 @@ class SignatureExceptionFactoryTest extends TestCase
     public function shouldInstantiate_withDefaultConstructor()
     {
         // given
-        $factory = new SignatureExceptionFactory(ClassWithDefaultConstructor::class, new FirstMatchMessage());
+        $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // when
-        $exception = $factory->create('my subject');
+        $exception = $factory->create(ClassWithDefaultConstructor::class, 'my subject');
 
         // then
         $this->assertInstanceOf(ClassWithDefaultConstructor::class, $exception);
@@ -70,10 +70,10 @@ class SignatureExceptionFactoryTest extends TestCase
     public function shouldInstantiate_withMessage(string $className)
     {
         // given
-        $factory = new SignatureExceptionFactory($className, new FirstMatchMessage());
+        $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // when
-        $exception = $factory->create('my subject');
+        $exception = $factory->create($className, 'my subject');
 
         // then
         $this->assertInstanceOf($className, $exception);

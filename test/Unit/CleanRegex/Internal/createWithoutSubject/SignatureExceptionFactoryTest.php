@@ -18,14 +18,14 @@ class SignatureExceptionFactoryTest extends TestCase
     public function shouldThrow_onClassWithoutSuitableConstructor()
     {
         // given
-        $factory = new SignatureExceptionFactory(ClassWithoutSuitableConstructor::class, new FirstMatchMessage());
+        $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // then
         $this->expectException(NoSuitableConstructorException::Class);
         $this->expectExceptionMessage("Class 'Test\Utils\ClassWithoutSuitableConstructor' doesn't have a constructor with supported signature");
 
         // when
-        $factory->createWithoutSubject();
+        $factory->createWithoutSubject(ClassWithoutSuitableConstructor::class);
     }
 
     /**
@@ -34,10 +34,10 @@ class SignatureExceptionFactoryTest extends TestCase
     public function shouldInstantiate_withDefaultConstructor()
     {
         // given
-        $factory = new SignatureExceptionFactory(ClassWithDefaultConstructor::class, new FirstMatchMessage());
+        $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // when
-        $exception = $factory->createWithoutSubject();
+        $exception = $factory->createWithoutSubject(ClassWithDefaultConstructor::class);
 
         // then
         $this->assertInstanceOf(ClassWithDefaultConstructor::class, $exception);
@@ -51,10 +51,10 @@ class SignatureExceptionFactoryTest extends TestCase
     public function shouldInstantiate_withMessage(string $className)
     {
         // given
-        $factory = new SignatureExceptionFactory($className, new FirstMatchMessage());
+        $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // when
-        $exception = $factory->createWithoutSubject();
+        $exception = $factory->createWithoutSubject($className);
 
         // then
         $this->assertInstanceOf($className, $exception);

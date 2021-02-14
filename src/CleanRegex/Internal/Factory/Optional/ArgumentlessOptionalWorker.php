@@ -7,25 +7,24 @@ use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 
 class ArgumentlessOptionalWorker implements OptionalWorker
 {
-    /** @var NotMatchedMessage */
-    private $message;
+    /** @var SignatureExceptionFactory */
+    private $exceptionFactory;
     /** @var string */
-    private $defaultExceptionClassname;
+    private $fallbackClassname;
 
     public function __construct(NotMatchedMessage $message, string $defaultExceptionClassname)
     {
-        $this->message = $message;
-        $this->defaultExceptionClassname = $defaultExceptionClassname;
-    }
-
-    public function orThrow(?string $exceptionClassName): Throwable
-    {
-        $factory = new SignatureExceptionFactory($exceptionClassName ?? $this->defaultExceptionClassname, $this->message);
-        return $factory->createWithoutSubject();
+        $this->exceptionFactory = new SignatureExceptionFactory($message);
+        $this->fallbackClassname = $defaultExceptionClassname;
     }
 
     public function orElse(callable $producer)
     {
         return $producer();
+    }
+
+    public function orThrow(?string $exceptionClassname): Throwable
+    {
+        return $this->exceptionFactory->createWithoutSubject($exceptionClassname ?? $this->fallbackClassname);
     }
 }

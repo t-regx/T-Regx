@@ -8,8 +8,8 @@ use TRegx\CleanRegex\Internal\Subjectable;
 
 class SubjectOptionalWorker implements OptionalWorker
 {
-    /** @var NotMatchedMessage */
-    private $message;
+    /** @var SignatureExceptionFactory */
+    private $exceptionFactory;
     /** @var Subjectable */
     private $subjectable;
     /** @var string */
@@ -17,7 +17,7 @@ class SubjectOptionalWorker implements OptionalWorker
 
     public function __construct(NotMatchedMessage $message, Subjectable $subjectable, string $defaultExceptionClassname)
     {
-        $this->message = $message;
+        $this->exceptionFactory = new SignatureExceptionFactory($message);
         $this->subjectable = $subjectable;
         $this->defaultExceptionClassname = $defaultExceptionClassname;
     }
@@ -27,9 +27,8 @@ class SubjectOptionalWorker implements OptionalWorker
         return $producer();
     }
 
-    public function orThrow(?string $exceptionClassName): Throwable
+    public function orThrow(?string $exceptionClassname): Throwable
     {
-        return (new SignatureExceptionFactory($exceptionClassName ?? $this->defaultExceptionClassname, $this->message))
-            ->create($this->subjectable->getSubject());
+        return $this->exceptionFactory->create($exceptionClassname ?? $this->defaultExceptionClassname, $this->subjectable->getSubject());
     }
 }

@@ -5,7 +5,7 @@ use Throwable;
 
 interface OptionalWorker
 {
-    public function orThrow(?string $exceptionClassName): Throwable;
-
     public function orElse(callable $producer);
+
+    public function orThrow(?string $exceptionClassname): Throwable;
 }

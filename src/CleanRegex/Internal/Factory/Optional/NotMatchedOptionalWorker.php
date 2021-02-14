@@ -9,33 +9,33 @@ use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class NotMatchedOptionalWorker implements OptionalWorker
 {
-    /** @var NotMatchedMessage */
-    private $message;
+    /** @var SignatureExceptionFactory */
+    private $exceptionFactory;
     /** @var Subjectable */
     private $subjectable;
     /** @var NotMatched */
     private $notMatched;
     /** @var string */
-    private $defaultExceptionClassname;
+    private $fallbackClassname;
 
     public function __construct(NotMatchedMessage $message,
                                 Subjectable $subjectable,
                                 NotMatched $notMatched,
-                                string $defaultExceptionClassname)
+                                string $fallbackClassname)
     {
-        $this->message = $message;
+        $this->exceptionFactory = new SignatureExceptionFactory($message);
         $this->subjectable = $subjectable;
         $this->notMatched = $notMatched;
-        $this->defaultExceptionClassname = $defaultExceptionClassname;
-    }
-
-    public function orThrow(?string $exceptionClassName): Throwable
-    {
-        return (new SignatureExceptionFactory($exceptionClassName ?? $this->defaultExceptionClassname, $this->message))->create($this->subjectable->getSubject());
+        $this->fallbackClassname = $fallbackClassname;
     }
 
     public function orElse(callable $producer)
     {
         return $producer($this->notMatched);
+    }
+
+    public function orThrow(?string $exceptionClassname): Throwable
+    {
+        return $this->exceptionFactory->create($exceptionClassname ?? $this->fallbackClassname, $this->subjectable->getSubject());
     }
 }

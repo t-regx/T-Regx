@@ -23,14 +23,14 @@ class SignatureExceptionFactoryTest extends TestCase
     public function shouldThrow_onNotExistingClass(string $create)
     {
         // given
-        $factory = new SignatureExceptionFactory('Namespace\NoSuchClass', new FirstMatchMessage());
+        $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // then
         $this->expectException(ClassExpectedException::Class);
-        $this->expectExceptionMessage("Class \Namespace\NoSuchClass does not exists");
+        $this->expectExceptionMessage('Class \Namespace\NoSuchClass does not exists');
 
         // when
-        $factory->$create('');
+        $factory->$create('Namespace\NoSuchClass', '');
     }
 
     /**
@@ -41,14 +41,14 @@ class SignatureExceptionFactoryTest extends TestCase
     public function shouldThrow_onInterface(string $create)
     {
         // given
-        $factory = new SignatureExceptionFactory(Throwable::class, new FirstMatchMessage());
+        $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // then
         $this->expectException(ClassExpectedException::Class);
-        $this->expectExceptionMessage("\Throwable is not a class, but an interface");
+        $this->expectExceptionMessage('\Throwable is not a class, but an interface');
 
         // when
-        $factory->$create('');
+        $factory->$create(Throwable::class, '');
     }
 
     /**
@@ -59,14 +59,14 @@ class SignatureExceptionFactoryTest extends TestCase
     public function shouldThrow_onAbstractClass(string $create)
     {
         // given
-        $factory = new SignatureExceptionFactory(AbstractClass::class, new FirstMatchMessage());
+        $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // then
         $this->expectException(ClassExpectedException::Class);
-        $this->expectExceptionMessage("\Test\Utils\AbstractClass is an abstract class");
+        $this->expectExceptionMessage('\Test\Utils\AbstractClass is an abstract class');
 
         // when
-        $factory->$create('');
+        $factory->$create(AbstractClass::class, '');
     }
 
     /**
@@ -77,14 +77,14 @@ class SignatureExceptionFactoryTest extends TestCase
     public function shouldThrow_onClassThatIsNotThrowable(string $create)
     {
         // given
-        $factory = new SignatureExceptionFactory(stdClass::class, new FirstMatchMessage());
+        $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // then
         $this->expectException(ClassExpectedException::Class);
-        $this->expectExceptionMessage("Class \stdClass is not throwable");
+        $this->expectExceptionMessage('Class \stdClass is not throwable');
 
         // when
-        $factory->$create('');
+        $factory->$create(stdClass::class, '');
     }
 
     /**
@@ -95,14 +95,14 @@ class SignatureExceptionFactoryTest extends TestCase
     public function shouldThrow_onClassWithoutSuitableConstructor(string $create)
     {
         // given
-        $factory = new SignatureExceptionFactory(ClassWithoutSuitableConstructor::class, new FirstMatchMessage());
+        $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // then
         $this->expectException(NoSuitableConstructorException::Class);
         $this->expectExceptionMessage("Class 'Test\Utils\ClassWithoutSuitableConstructor' doesn't have a constructor with supported signature");
 
         // when
-        $factory->$create('');
+        $factory->$create(ClassWithoutSuitableConstructor::class, '');
     }
 
     /**
@@ -113,13 +113,13 @@ class SignatureExceptionFactoryTest extends TestCase
     public function shouldRethrow_errorWhileInstantiating(string $create)
     {
         // given
-        $factory = new SignatureExceptionFactory(ClassWithErrorInConstructor::class, new FirstMatchMessage());
+        $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // then
         $this->expectException(Error::class);
 
         // when
-        $factory->$create('my subject');
+        $factory->$create(ClassWithErrorInConstructor::class, 'my subject');
     }
 
     public function createMethods(): array

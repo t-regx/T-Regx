@@ -14,7 +14,7 @@ class ConstantThrowOptionalWorker implements OptionalWorker
         $this->throwable = $throwable;
     }
 
-    public function orThrow(?string $exceptionClassName): Throwable
+    public function orThrow(?string $exceptionClassname): Throwable
     {
         throw $this->throwable;
     }
