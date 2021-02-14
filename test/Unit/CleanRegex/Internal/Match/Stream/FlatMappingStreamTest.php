@@ -98,7 +98,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldThrow_forInvalidReturnType(string $mock, string $method, $return)
     {
         // given
-        $stream = new FlatMappingStream($this->mock($mock, $return), new ThrowFlatMap(), 'strlen', 'hello');
+        $stream = new FlatMappingStream($this->mock($mock, $return), new ThrowFlatMap(), 'strLen', 'hello');
 
         // then
         $this->expectException(InvalidReturnValueException::class);

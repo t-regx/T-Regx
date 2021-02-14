@@ -54,7 +54,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed is empty');
 
         // when
-        $pattern->group(1)->offsets()->fluent()->map(Functions::singleArg('strlen'))->first();
+        $pattern->group(1)->offsets()->fluent()->map(Functions::singleArg('strLen'))->first();
     }
 
     /**

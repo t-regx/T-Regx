@@ -55,7 +55,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $stream = new GroupByCallbackStream($this->first('One'), 'strtoupper');
+        $stream = new GroupByCallbackStream($this->first('One'), 'strToUpper');
 
         // when
         $first = $stream->first();
@@ -70,7 +70,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = new GroupByCallbackStream($this->first('One'), 'strtoupper');
+        $stream = new GroupByCallbackStream($this->first('One'), 'strToUpper');
 
         // when
         $firstKey = $stream->firstKey();
@@ -85,7 +85,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldThrow_first()
     {
         // given
-        $stream = new GroupByCallbackStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strlen');
+        $stream = new GroupByCallbackStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strLen');
 
         // then
         $this->expectException(NoFirstStreamException::class);

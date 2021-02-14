@@ -21,7 +21,7 @@ class ComputedMatchStrategy implements MatchRs
     {
         $result = \call_user_func($this->mapper, $detail);
         if ($result === null) {
-            throw new InvalidReturnValueException(null, $this->callingMethod, "string");
+            throw new InvalidReturnValueException(null, $this->callingMethod, 'string');
         }
         return $result;
     }

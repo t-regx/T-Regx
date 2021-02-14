@@ -16,7 +16,7 @@ class MappingStreamTest extends TestCase
     public function shouldReturn_all()
     {
         // given
-        $stream = new MappingStream($this->mock('all', 'willReturn', ['One', 'Two', 'Three']), 'strtoupper');
+        $stream = new MappingStream($this->mock('all', 'willReturn', ['One', 'Two', 'Three']), 'strToUpper');
 
         // when
         $all = $stream->all();
@@ -79,7 +79,7 @@ class MappingStreamTest extends TestCase
     public function shouldRethrow_first()
     {
         // given
-        $stream = new MappingStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strtoupper');
+        $stream = new MappingStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strToUpper');
 
         // then
         $this->expectException(NoFirstStreamException::class);

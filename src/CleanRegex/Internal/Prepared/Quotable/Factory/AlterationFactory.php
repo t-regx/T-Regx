@@ -33,9 +33,9 @@ class AlterationFactory implements QuotableFactory
     {
         if (\strpos($this->flags, 'i') > -1) {
             if (\strpos($this->flags, 'u') > -1) {
-                return 'mb_strtolower';
+                return 'mb_strToLower';
             }
-            return 'strtolower';
+            return 'strToLower';
         }
         return null;
     }

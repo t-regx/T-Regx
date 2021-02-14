@@ -18,10 +18,10 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern("Nice matching pattern");
 
         // when
-        $map = $pattern->map('strrev');
+        $map = $pattern->map('strToUpper');
 
         // then
-        $this->assertSame(['eciN', 'gnihctam', 'nrettap'], $map);
+        $this->assertSame(['NICE', 'MATCHING', 'PATTERN'], $map);
     }
 
     /**

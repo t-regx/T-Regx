@@ -49,7 +49,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('Nice matching pattern');
 
         // when
-        $first = $pattern->first('strrev');
+        $first = $pattern->first('strRev');
 
         // then
         $this->assertSame('eciN', $first);
@@ -118,7 +118,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
-        $pattern->first('strrev');
+        $pattern->first('strRev');
     }
 
     private function getMatchPattern($subject): MatchPattern

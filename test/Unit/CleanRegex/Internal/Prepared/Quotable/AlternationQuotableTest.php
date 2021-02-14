@@ -58,7 +58,7 @@ class AlternationQuotableTest extends TestCase
     public function shouldRemoveDuplicates_caseInsensitive()
     {
         // given
-        $quotable = new AlternationQuotable(['a', 'FOO', 'a', 'a', 'c', 'foo'], 'strtolower');
+        $quotable = new AlternationQuotable(['a', 'FOO', 'a', 'a', 'c', 'foo'], 'strToLower');
 
         // when
         $result = $quotable->quote('/');

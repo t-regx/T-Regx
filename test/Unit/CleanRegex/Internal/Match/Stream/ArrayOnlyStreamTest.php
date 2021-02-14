@@ -30,7 +30,7 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $stream = new ArrayOnlyStream($this->mock('first', 'willReturn', 'One'), 'strtoupper');
+        $stream = new ArrayOnlyStream($this->mock('first', 'willReturn', 'One'), 'strToUpper');
 
         // when
         $first = $stream->first();
@@ -60,7 +60,7 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldFirstThrow()
     {
         // given
-        $stream = new ArrayOnlyStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strlen');
+        $stream = new ArrayOnlyStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strLen');
 
         // then
         $this->expectException(NoFirstStreamException::class);

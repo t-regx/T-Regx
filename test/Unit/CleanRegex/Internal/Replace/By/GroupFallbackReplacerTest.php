@@ -27,7 +27,7 @@ class GroupFallbackReplacerTest extends TestCase
     {
         // given
         $mapReplacer = $this->create('\[(two|three|four)\]', '[two], [three], [four]');
-        $mapper = new ComputedMapper(Functions::singleArg('strtoupper'));
+        $mapper = new ComputedMapper(Functions::singleArg('strToUpper'));
 
         // when
         $result = $mapReplacer->replaceOrFallback(1, $mapper, new DefaultStrategy());
@@ -46,7 +46,7 @@ class GroupFallbackReplacerTest extends TestCase
 
         // when
         $result = $fallbackReplacer->replaceOrFallback(1,
-            new ComputedMapper(Functions::singleArg('strlen')),
+            new ComputedMapper(Functions::singleArg('strLen')),
             new DefaultStrategy());
 
         // then

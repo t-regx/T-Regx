@@ -158,7 +158,7 @@ class MatchedGroupTest extends TestCase
         $matchGroup = $this->matchGroup();
 
         // when
-        $orElse = $matchGroup->orElse('strtoupper');
+        $orElse = $matchGroup->orElse('strToUpper');
         $orReturn = $matchGroup->orReturn(13);
         $orThrow = $matchGroup->orThrow();
 

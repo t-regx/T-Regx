@@ -26,7 +26,7 @@ class ReplacePatternTest extends TestCase
             ->focus('name')
             ->by()
             ->group('domain')
-            ->mapAndCallback($map, Functions::singleArg('strlen'))
+            ->mapAndCallback($map, Functions::singleArg('strLen'))
             ->orElseWith('Foo');
 
         // then

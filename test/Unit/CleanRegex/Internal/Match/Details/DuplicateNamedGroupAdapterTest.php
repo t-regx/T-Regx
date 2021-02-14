@@ -63,7 +63,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
             'orThrow []'     => ['orThrow', [], 'substitute'],
             'orThrow [arg]'  => ['orThrow', [\stdClass::class], 'substitute'],
             'orReturn'       => ['orReturn', ['substitute'], 'substitute'],
-            'orElse'         => ['orElse', ['strtoupper'], 'substitute'],
+            'orElse'         => ['orElse', ['strToUpper'], 'substitute'],
         ];
     }
 

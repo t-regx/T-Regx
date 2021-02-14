@@ -23,7 +23,7 @@ class FluentMatchPatternTest extends TestCase
 
         // when + then
         $this->assertSame('bar', $pattern->findNth(1)->orReturn('missing'));
-        $this->assertSame('bar', $pattern->findNth(1)->orElse('strtolower'));
+        $this->assertSame('bar', $pattern->findNth(1)->orElse('strToLower'));
         $this->assertSame('bar', $pattern->findNth(1)->orThrow());
     }
 

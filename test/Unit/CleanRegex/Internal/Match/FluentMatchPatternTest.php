@@ -135,7 +135,7 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern($this->all(['foo', 'foo', 'bar', 'foo', 'Bar', 'bar']), $this->worker());
 
         // when
-        $result = $pattern->map('strtoupper')->all();
+        $result = $pattern->map('strToUpper')->all();
 
         // then
         $this->assertSame(['FOO', 'FOO', 'BAR', 'FOO', 'BAR', 'BAR'], $result);

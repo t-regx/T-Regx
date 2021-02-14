@@ -22,9 +22,9 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern($this->firstStream('FOO', 3), $this->worker());
 
         // when
-        $result1 = $pattern->findFirst('strtoupper')->orReturn('');
-        $result2 = $pattern->findFirst('strtoupper')->orElse('strtolower');
-        $result3 = $pattern->findFirst('strtoupper')->orThrow();
+        $result1 = $pattern->findFirst('strToUpper')->orReturn('');
+        $result2 = $pattern->findFirst('strToUpper')->orElse('strToLower');
+        $result3 = $pattern->findFirst('strToUpper')->orThrow();
 
         // then
         $this->assertSame('FOO', $result1);
@@ -45,7 +45,7 @@ class FluentMatchPatternTest extends TestCase
         $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed is empty");
 
         // when
-        $pattern->findFirst('strtoupper')->orThrow();
+        $pattern->findFirst('strToUpper')->orThrow();
     }
 
     /**
@@ -57,7 +57,7 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern($this->unmatchedMock(), $this->worker());
 
         // when
-        $result = $pattern->findFirst('strtoupper')->orReturn('otherValue');
+        $result = $pattern->findFirst('strToUpper')->orReturn('otherValue');
 
         // then
         $this->assertSame('otherValue', $result);
@@ -72,7 +72,7 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern($this->unmatchedMock(), $this->worker());
 
         // when
-        $result = $pattern->findFirst('strtoupper')->orElse(Functions::constant('otherValue'));
+        $result = $pattern->findFirst('strToUpper')->orElse(Functions::constant('otherValue'));
 
         // then
         $this->assertSame('otherValue', $result);
@@ -87,7 +87,7 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern($this->unmatchedMock(), $this->worker());
 
         // when
-        $pattern->findFirst('strtoupper')->orElse(function () {
+        $pattern->findFirst('strToUpper')->orElse(function () {
             // when
             $arguments = func_get_args();
 
@@ -109,7 +109,7 @@ class FluentMatchPatternTest extends TestCase
         $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed is empty");
 
         // when
-        $pattern->findFirst('strtoupper')->orThrow(CustomException::class);
+        $pattern->findFirst('strToUpper')->orThrow(CustomException::class);
     }
 
     private function worker(): FluentStreamWorker

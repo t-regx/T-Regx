@@ -58,9 +58,9 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern("Nice matching pattern");
 
         // when
-        $first1 = $pattern->findFirst('strtoupper')->orReturn(null);
-        $first2 = $pattern->findFirst('strtoupper')->orThrow();
-        $first3 = $pattern->findFirst('strtoupper')->orElse(Functions::fail());
+        $first1 = $pattern->findFirst('strToUpper')->orReturn(null);
+        $first2 = $pattern->findFirst('strToUpper')->orThrow();
+        $first3 = $pattern->findFirst('strToUpper')->orElse(Functions::fail());
 
         // then
         $this->assertSame('NICE', $first1);
@@ -98,7 +98,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
-        $pattern->findFirst('strrev')->orThrow();
+        $pattern->findFirst('strRev')->orThrow();
     }
 
     /**
@@ -114,7 +114,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
-        $pattern->findFirst('strrev')->orThrow(InvalidArgumentException::class);
+        $pattern->findFirst('strRev')->orThrow(InvalidArgumentException::class);
     }
 
     /**
@@ -130,7 +130,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
-        $pattern->findFirst('strrev')->orThrow(InvalidArgumentException::class);
+        $pattern->findFirst('strRev')->orThrow(InvalidArgumentException::class);
     }
 
     /**
@@ -142,7 +142,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $value = $pattern->findFirst('strrev')->orReturn('def');
+        $value = $pattern->findFirst('strRev')->orReturn('def');
 
         // then
         $this->assertSame('def', $value);
@@ -157,7 +157,7 @@ class MatchPatternTest extends TestCase
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
         // when
-        $value = $pattern->findFirst('strrev')->orElse(Functions::constant('new value'));
+        $value = $pattern->findFirst('strRev')->orElse(Functions::constant('new value'));
 
         // then
         $this->assertSame('new value', $value);
@@ -172,7 +172,7 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(InternalPattern::standard("(?:[A-Z])?[a-z']+ (?<group>.)"), 'NOT MATCHING');
 
         // when
-        $pattern->findFirst('strrev')->orElse(function (NotMatched $details) {
+        $pattern->findFirst('strRev')->orElse(function (NotMatched $details) {
             // then
             $this->assertSame('NOT MATCHING', $details->subject());
             $this->assertSame(['group'], $details->groupNames());
