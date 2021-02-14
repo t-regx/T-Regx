@@ -29,7 +29,7 @@ class NextStreamWorkerDecorator implements StreamWorker
         $this->optionalDefaultClass = $optionalDefaultClass;
     }
 
-    public function chainWorker(): StreamWorker
+    public function undecorateWorker(): StreamWorker
     {
         return $this->worker;
     }

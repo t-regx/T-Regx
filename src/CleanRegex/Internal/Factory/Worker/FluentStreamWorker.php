@@ -31,7 +31,7 @@ class FluentStreamWorker implements StreamWorker
         return new self(new FirstFluentMessage(), $message);
     }
 
-    public function chainWorker(): StreamWorker
+    public function undecorateWorker(): StreamWorker
     {
         return $this;
     }

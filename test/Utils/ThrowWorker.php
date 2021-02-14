@@ -37,7 +37,7 @@ class ThrowWorker implements StreamWorker
         return new \Exception("This exception wasn't supposed to be thrown");
     }
 
-    public function chainWorker(): StreamWorker
+    public function undecorateWorker(): StreamWorker
     {
         return $this;
     }

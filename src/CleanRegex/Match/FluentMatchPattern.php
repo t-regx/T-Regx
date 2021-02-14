@@ -157,6 +157,6 @@ class FluentMatchPattern implements MatchPatternInterface
 
     private function next(Stream $stream): FluentMatchPattern
     {
-        return new FluentMatchPattern($stream, $this->worker->chainWorker());
+        return new FluentMatchPattern($stream, $this->worker->undecorateWorker());
     }
 }
