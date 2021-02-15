@@ -10,7 +10,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_prepared()
+    public function shouldBuild_prepare()
     {
         // given
         $pattern = Pattern::prepare(['You/&her, (are|is) ', ['real? (or are you not real?)'], ' (you|her)']);
@@ -98,7 +98,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_format_trailing(): void
+    public function shouldBuild_format_Trailing(): void
     {
         // then
         $this->expectException(FormatMalformedPatternException::class);
@@ -111,7 +111,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_format_quotedTrailing(): void
+    public function shouldBuild_format_QuotedTrailing(): void
     {
         // then
         $this->expectException(FormatMalformedPatternException::class);
@@ -124,7 +124,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_formatting_build(): void
+    public function shouldBuild_template_formatting_literal_formatting_build(): void
     {
         // given
         $pattern = Pattern::template('^& v&s. &$ @ or `s`', 'i')
@@ -166,7 +166,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_bind(): void
+    public function shouldBuild_template_formatting_bind(): void
     {
         // given
         $pattern = Pattern::template('^& vs. @curly:`parent`$', 's')
@@ -202,7 +202,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_literal(): void
+    public function shouldBuild_template_literal_build(): void
     {
         // given
         $pattern = Pattern::template('^& vs/ $', 's')->literal()->build();
