@@ -11,51 +11,84 @@ use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
-use TRegx\SafeRegex\preg;
 
 class MatchDetailTest extends TestCase
 {
-    private const INDEX_TYLER_DURDEN = 0;
-    private const INDEX_MARLA_SINGER = 1;
-    private const INDEX_ROBERT_PAULSON = 2;
-    private const INDEX_JACK_SPARROW = 3;
-    private const INDEX_EDWARD = 4;
-
-    private const subject = "people are always asking me if I know Tyler Durden. and suddenly I realize that all of this: 
-the gun, the bombs, the revolution... has got something to do with a girl named Marla Singer. 
-in death a member of project mayhem has a name. his name is Robert P***son.
-
-when you marooned me on that god forsaken spit of land, you forgot one very important thing mate. i'm captain Jack Sparrow.
-Ędward.";
-
     /**
      * @test
      */
-    public function shouldGetSubject()
+    public function shouldGet_text()
     {
         // given
-        $detail = $this->detail(self::INDEX_ROBERT_PAULSON);
+        $detail = $this->detailText('foo');
 
         // when
-        $subject = $detail->subject();
+        $text = $detail->text();
 
         // then
-        $this->assertSame(self::subject, $subject);
+        $this->assertSame('foo', $text);
     }
 
     /**
      * @test
      */
-    public function shouldGetIndex()
+    public function shouldGet_toString()
     {
         // given
-        $detail = $this->detail(self::INDEX_ROBERT_PAULSON);
+        $detail = $this->detailText('foo');
+
+        // when
+        $text = "$detail";
+
+        // then
+        $this->assertSame('foo', $text);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_textLength()
+    {
+        // given
+        $detail = $this->detailText('foo bar €');
+
+        // when
+        $length = $detail->textLength();
+        $byteLength = $detail->textByteLength();
+
+        // then
+        $this->assertSame(9, $length);
+        $this->assertSame(11, $byteLength);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_subject()
+    {
+        // given
+        $detail = $this->detail(['subject' => 'Foo bar']);
+
+        // when
+        $subject = $detail->subject();
+
+        // then
+        $this->assertSame('Foo bar', $subject);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_index()
+    {
+        // given
+        $detail = $this->detail(['index' => 3]);
 
         // when
         $index = $detail->index();
 
         // then
-        $this->assertSame(2, $index);
+        $this->assertSame(3, $index);
     }
 
     /**
@@ -64,46 +97,63 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetOffset()
     {
         // given
-        $detail = $this->detail(self::INDEX_MARLA_SINGER);
+        $detail = $this->detail(['subject' => '€Foo', 'matches' => [[['', 3]]]]);
 
         // when
         $offset = $detail->offset();
+        $byteOffset = $detail->byteOffset();
 
         // then
-        $this->assertSame(174, $offset);
+        $this->assertSame(1, $offset);
+        $this->assertSame(3, $byteOffset);
     }
 
     /**
      * @test
      */
-    public function shouldGetGroupsOffset()
+    public function shouldGet_groups_offset()
     {
         // given
-        $detail = $this->detail(self::INDEX_MARLA_SINGER);
+        $detail = $this->detail(['subject' => '1€', 'matches' => [
+            0     => [['a', 0]],
+            'one' => [['a', 1]],
+            1     => [['a', 1]],
+            'two' => [['a', 4]],
+            2     => [['a', 4]],
+        ]]);
 
         // when
         $offsets = $detail->groups()->offsets();
 
         // then
-        $this->assertSame([174, 174, 180], $offsets);
+        $this->assertSame([1, 2], $offsets);
     }
 
     /**
      * @test
      */
-    public function shouldGetNamedGroupsOffset()
+    public function shouldGet_namedGroups_offsets()
     {
         // given
-        $detail = $this->detail(self::INDEX_MARLA_SINGER);
+        $_ = [['a', 10]];
+        $one = [['a', 1]];
+        $three = [['a', 5]];
+        $detail = $this->detail(['subject' => '1€1', 'matches' => [
+            0       => $_,
+            'one'   => $one,
+            1       => $one,
+            2       => $_,
+            'three' => $three,
+            3       => $three,
+        ]]);
 
         // when
         $offsets = $detail->namedGroups()->offsets();
 
         // then
         $expectedOffsets = [
-            'firstName' => 174,
-            'initial'   => 174,
-            'surname'   => 180,
+            'one'   => 1,
+            'three' => 3,
         ];
         $this->assertSame($expectedOffsets, $offsets);
     }
@@ -111,61 +161,21 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     /**
      * @test
      */
-    public function shouldGetMatch()
+    public function shouldGet_groups()
     {
         // given
-        $detail = $this->detail(self::INDEX_JACK_SPARROW);
-
-        // when
-        $text = $detail->text();
-
-        // then
-        $this->assertSame('Jack Sparrow', $text);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetMatchLength()
-    {
-        // given
-        $detail = $this->detail(self::INDEX_EDWARD);
-
-        // when
-        $length = $detail->textLength();
-
-        // then
-        $this->assertSame(6, $length);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetMatchCastingToString()
-    {
-        // given
-        $detail = $this->detail(self::INDEX_JACK_SPARROW);
-
-        // when
-        $text = (string)$detail;
-
-        // then
-        $this->assertSame('Jack Sparrow', $text);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetGroups()
-    {
-        // given
-        $detail = $this->detail(self::INDEX_TYLER_DURDEN);
+        $detail = $this->detailMatches([
+            0     => [['a', 0]],
+            'one' => [['b', 1]],
+            1     => [['c', 1]],
+            2     => [['d', 1]],
+        ]);
 
         // when
         $groups = $detail->groups()->texts();
 
         // then
-        $this->assertSame(['Tyler', 'T', 'Durden'], $groups);
+        $this->assertSame(['c', 'd'], $groups);
     }
 
     /**
@@ -174,37 +184,63 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetNamedGroups()
     {
         // given
-        $detail = $this->detail(self::INDEX_JACK_SPARROW);
+        $detail = $this->detailMatches([
+            0     => [['a', 0]],
+            'one' => [['b', 1]],
+            1     => [['c', 1]],
+            2     => [['d', 1]],
+        ]);
 
         // when
         $named = $detail->namedGroups()->texts();
 
         // then
-        $expected = [
-            'firstName' => 'Jack',
-            'initial'   => 'J',
-            'surname'   => 'Sparrow'
-        ];
-        $this->assertSame($expected, $named);
+        $this->assertSame(['one' => 'b'], $named);
     }
 
     /**
      * @test
      */
-    public function shouldGetSingleGroups()
+    public function shouldGet_group_text()
     {
         // given
-        $detail = $this->detail(self::INDEX_MARLA_SINGER);
+        $detail = $this->detailMatches(['foo' => null, 3 => [['value', 0]]]);
 
         // then
-        $firstName = $detail->group('firstName');
-        $initial = $detail->group('initial');
-        $surname = $detail->group('surname');
+        $value = $detail->group('foo')->text();
 
         // then
-        $this->assertSame('Marla', "$firstName");
-        $this->assertSame('M', "$initial");
-        $this->assertSame('Singer', "$surname");
+        $this->assertSame('value', "$value");
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_group_toString()
+    {
+        // given
+        $detail = $this->detailMatches(['foo' => null, 3 => [['value', 0]]]);
+
+        // then
+        $value = (string)$detail->group('foo');
+
+        // then
+        $this->assertSame('value', "$value");
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_get()
+    {
+        // given
+        $detail = $this->detailMatches(['foo' => null, 3 => [['value', 0]]]);
+
+        // then
+        $value = $detail->get('foo');
+
+        // then
+        $this->assertSame('value', "$value");
     }
 
     /**
@@ -213,26 +249,26 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldGetGroupNames()
     {
         // given
-        $detail = $this->detail(self::INDEX_JACK_SPARROW);
+        $detail = $this->detailMatches(array_flip([0, 'one', 1, 2, 'three', 3]));
 
         // when
         $names = $detail->groupNames();
 
         // then
-        $this->assertSame(['firstName', 'initial', 'surname'], $names);
+        $this->assertSame(['one', null, 'three'], $names);
     }
 
     /**
      * @test
      */
-    public function shouldHaveGroup()
+    public function shouldGet_hasGroup()
     {
         // given
-        $detail = $this->detail(self::INDEX_TYLER_DURDEN);
+        $detail = $this->detailMatches(['foo' => []]);
 
         // when
-        $existent = $detail->hasGroup('firstName');
-        $nonExistent = $detail->hasGroup('xd');
+        $existent = $detail->hasGroup('foo');
+        $nonExistent = $detail->hasGroup('bar');
 
         // then
         $this->assertTrue($existent);
@@ -242,13 +278,13 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     /**
      * @test
      */
-    public function shouldMatchGroup()
+    public function shouldGet_matched()
     {
         // given
-        $detail = $this->detail(self::INDEX_MARLA_SINGER);
+        $detail = $this->detailMatches(['foo' => null, 1 => [['', 0]]]);
 
         // when
-        $matched = $detail->matched('firstName');
+        $matched = $detail->matched('foo');
 
         // then
         $this->assertTrue($matched);
@@ -257,13 +293,13 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     /**
      * @test
      */
-    public function shouldNotMatchGroup()
+    public function shouldGet_matched_ForUnmatchedGroup()
     {
         // given
-        $detail = $this->detail(self::INDEX_ROBERT_PAULSON);
+        $detail = $this->detailMatches(['bar' => null, 1 => [['', -1]]]);
 
         // when
-        $surname = $detail->matched('surname');
+        $surname = $detail->matched('bar');
 
         // then
         $this->assertFalse($surname);
@@ -272,56 +308,59 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     /**
      * @test
      */
-    public function shouldThrowOnNonExistentGroup()
+    public function shouldThrow_matched_OnNonExistentGroup()
     {
         // given
-        $detail = $this->detail(self::INDEX_MARLA_SINGER);
+        $detail = $this->detailMatches([[]]);
 
         // then
         $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage("Nonexistent group: 'xd'");
+        $this->expectExceptionMessage("Nonexistent group: 'foo'");
 
         // when
-        $detail->matched('xd');
+        $detail->matched('foo');
     }
 
     /**
      * @test
      */
-    public function shouldGetAll()
+    public function shouldGet_all()
     {
         // given
-        $detail = $this->detail(self::INDEX_JACK_SPARROW);
+        $detail = $this->detailMatches([[['Joffrey', 0], ['Cersei', 1], ['Ilyn Payne', 2]]]);
 
         // when
         $all = $detail->all();
 
         // then
-        $this->assertSame(['Tyler Durden', 'Marla Singer', 'Robert', 'Jack Sparrow', 'Ędward'], $all);
+        $this->assertSame(['Joffrey', 'Cersei', 'Ilyn Payne'], $all);
     }
 
     /**
      * @test
      */
-    public function shouldGet_groupAll()
+    public function shouldGet_group_all()
     {
         // given
-        $detail = $this->detail(self::INDEX_JACK_SPARROW);
+        $detail = $this->detailMatches([
+            'one' => null,
+            1     => [['Tyler Durden', 1], ['c', -1], ['Marla Singer', 3]],
+        ]);
 
         // when
-        $all = $detail->group('surname')->all();
+        $all = $detail->group('one')->all();
 
         // then
-        $this->assertSame(['Durden', 'Singer', null, 'Sparrow', null], $all);
+        $this->assertSame(['Tyler Durden', null, 'Marla Singer'], $all);
     }
 
     /**
      * @test
      */
-    public function shouldThrow_onNonexistentGroup()
+    public function shouldThrow_group_all_OnNonexistentGroup()
     {
         // given
-        $detail = $this->detail(self::INDEX_JACK_SPARROW);
+        $detail = $this->detailMatches([[]]);
 
         // then
         $this->expectException(NonexistentGroupException::class);
@@ -334,10 +373,10 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     /**
      * @test
      */
-    public function shouldValidateGroupNameType()
+    public function shouldThrow_group_ForInvalidGroupNameType()
     {
         // given
-        $detail = $this->detail(self::INDEX_JACK_SPARROW);
+        $detail = $this->detail([]);
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -353,9 +392,8 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
     public function shouldPreserveUserData()
     {
         // given
-        $detail = $this->detail(self::INDEX_JACK_SPARROW);
-        $mixed = new \stdClass();
-        $mixed->value = 'foo';
+        $detail = $this->detailMatches([[['', 1]]]);
+        $mixed = (object)['value' => 'foo'];
 
         // when
         $detail->setUserData($mixed);
@@ -365,25 +403,29 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         $this->assertSame($mixed, $userData);
     }
 
-    private function detail(int $index): Detail
+    private function detailText(string $text): Detail
     {
-        /**
-         * We could hardcore the matches here, instead of calculating it, but this way,
-         * if there's a compatibility break in `preg_match_all()` between versions,
-         * we'll know about it.
-         * Secondly, now nobody can mess the hardcoded values up.
-         */
-        $pattern = '/(?<firstName>(?<initial>\p{Lu})[a-z]+)(?: (?<surname>[A-Z][a-z]+))?/u';
-        preg::match_all($pattern, self::subject, $matches, \PREG_OFFSET_CAPTURE);
+        return $this->detail(['matches' => [[[$text, 0]]]]);
+    }
+
+    private function detailMatches(array $matches): Detail
+    {
+        return $this->detail(['matches' => $matches]);
+    }
+
+    private function detail(array $parameters): Detail
+    {
+        $subject = $parameters['subject'] ?? '';
+        $index = $parameters['index'] ?? 0;
+        $matches = $parameters['matches'] ?? [];
 
         $rawMatches = new RawMatchesOffset($matches);
         return new MatchDetail(
-            new Subject(self::subject),
+            new Subject($subject),
             $index,
             -1,
             new RawMatchesToMatchAdapter($rawMatches, $index),
             new EagerMatchAllFactory($rawMatches),
-            new UserData()
-        );
+            new UserData());
     }
 }
