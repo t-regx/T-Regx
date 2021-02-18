@@ -28,12 +28,27 @@ class PhpErrorTest extends TestCase
     public function shouldBePregError(): void
     {
         // given
-        $error = new PhpError(0, 'preg_ something');
+        $error = new PhpError(0, 'preg_match()');
 
         // when
         $isPregError = $error->isPregError();
 
         // then
         $this->assertTrue($isPregError);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotBePregError(): void
+    {
+        // given
+        $error = new PhpError(0, 'preg_ something');
+
+        // when
+        $isPregError = $error->isPregError();
+
+        // then
+        $this->assertFalse($isPregError);
     }
 }

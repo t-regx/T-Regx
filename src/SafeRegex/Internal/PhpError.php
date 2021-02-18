@@ -26,6 +26,29 @@ class PhpError
 
     public function isPregError(): bool
     {
-        return \substr($this->getMessage(), 0, 5) === 'preg_';
+        $pregMethods = [
+            'preg_match()',
+            'preg_match_all()',
+            'preg_replace()',
+            'preg_replace_callback()',
+            'preg_replace_callback_array()',
+            'preg_filter()',
+            'preg_split()',
+            'preg_grep()',
+        ];
+        foreach ($pregMethods as $pregMethod) {
+            if ($this->startsWith($this->message, $pregMethod)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function startsWith(string $string, string $needle): bool
+    {
+        if (\defined('\str_starts_with')) {
+            return \str_starts_with($string, $needle);
+        }
+        return \substr($string, 0, \strlen($needle)) === $needle;
     }
 }

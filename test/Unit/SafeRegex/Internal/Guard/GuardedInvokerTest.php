@@ -76,7 +76,7 @@ class GuardedInvokerTest extends TestCase
     public function shouldCatchCompileWarning()
     {
         // given
-        $invoker = new GuardedInvoker('preg_match', '/p/', function () {
+        $invoker = new GuardedInvoker('', '/p/', function () {
             $this->causeCompileWarning();
             return 15;
         });

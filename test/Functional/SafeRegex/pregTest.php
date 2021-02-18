@@ -260,4 +260,18 @@ class pregTest extends TestCase
             $this->assertSame(['/./', '/a/'], $exception->getPregPattern());
         }
     }
+
+    /**
+     * @test
+     */
+    public function shouldIgnoreMethods_startingWithPreg(): void
+    {
+        // given
+        preg::replace_callback('/foo/', function () {
+            @\trigger_error('preg_cheating: welcome');
+        }, 'foo');
+
+        // then
+        $this->assertTrue(true);
+    }
 }

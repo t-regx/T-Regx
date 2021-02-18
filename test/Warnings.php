@@ -16,7 +16,7 @@ trait Warnings
     public function causeCompileWarning(): void
     {
         preg_replace_callback('/a/', function () {
-            @trigger_error('preg_compile error', E_USER_NOTICE);
+            @trigger_error('preg_match() error', E_USER_NOTICE);
         }, 'a');
     }
 }
