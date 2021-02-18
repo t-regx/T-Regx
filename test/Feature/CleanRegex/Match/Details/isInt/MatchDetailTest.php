@@ -4,7 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\isInt;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Detail;
 
-class DetailImplTest extends TestCase
+class MatchDetailTest extends TestCase
 {
     /**
      * @test

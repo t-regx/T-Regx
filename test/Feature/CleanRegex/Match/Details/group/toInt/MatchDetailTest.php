@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Match\Details\Detail;
 
-class DetailImplTest extends TestCase
+class MatchDetailTest extends TestCase
 {
     /**
      * @test

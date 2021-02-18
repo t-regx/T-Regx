@@ -10,10 +10,10 @@ use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\DetailImpl;
+use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\SafeRegex\preg;
 
-class DetailImplTest extends TestCase
+class MatchDetailTest extends TestCase
 {
     private const INDEX_TYLER_DURDEN = 0;
     private const INDEX_MARLA_SINGER = 1;
@@ -377,7 +377,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
         preg::match_all($pattern, self::subject, $matches, \PREG_OFFSET_CAPTURE);
 
         $rawMatches = new RawMatchesOffset($matches);
-        return new DetailImpl(
+        return new MatchDetail(
             new Subject(self::subject),
             $index,
             -1,

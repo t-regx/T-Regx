@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\DetailImpl;
+use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 use TRegx\CleanRegex\Match\Details\ReplaceDetailImpl;
 use TRegx\SafeRegex\preg;
@@ -81,7 +81,7 @@ when you marooned me on that god forsaken spit of land, you forgot one very impo
 
         $matches = new RawMatchesOffset($matches);
         return new ReplaceDetailImpl(
-            new DetailImpl(
+            new MatchDetail(
                 new Subject(self::subject),
                 0,
                 -1,

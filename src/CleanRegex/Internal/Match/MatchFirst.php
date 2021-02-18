@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\DetailImpl;
+use TRegx\CleanRegex\Match\Details\MatchDetail;
 
 class MatchFirst
 {
@@ -54,7 +54,7 @@ class MatchFirst
 
     private function createDetail(RawMatchOffset $match): Detail
     {
-        return new DetailImpl($this->base,
+        return new MatchDetail($this->base,
             $match->getIndex(),
             1,
             new GroupPolyfillDecorator($match, $this->allFactory, $match->getIndex()),

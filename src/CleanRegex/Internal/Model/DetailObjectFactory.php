@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\DetailImpl;
+use TRegx\CleanRegex\Match\Details\MatchDetail;
 
 class DetailObjectFactory
 {
@@ -26,6 +26,6 @@ class DetailObjectFactory
 
     public function create(int $index, IRawMatchOffset $matchOffset, MatchAllFactory $matchAllFactory): Detail
     {
-        return new DetailImpl($this->subjectable, $index, $this->limit, $matchOffset, $matchAllFactory, $this->userData);
+        return new MatchDetail($this->subjectable, $index, $this->limit, $matchOffset, $matchAllFactory, $this->userData);
     }
 }

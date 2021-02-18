@@ -36,7 +36,7 @@ class LazyDetailImpl implements Detail
     private function createLazyMatch(): Detail
     {
         $matches = $this->base->matchAllOffsets();
-        return new DetailImpl(
+        return new MatchDetail(
             $this->base,
             -99, // These values are never used, because `index()` and `limit()` in LazyMatch aren't
             -99, // passed through `Detail`, because they are read from fields.

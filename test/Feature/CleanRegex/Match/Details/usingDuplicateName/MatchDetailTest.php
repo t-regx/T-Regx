@@ -4,7 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\usingDuplicateName;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Detail;
 
-class DetailTest extends TestCase
+class MatchDetailTest extends TestCase
 {
     /**
      * @test

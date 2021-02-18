@@ -10,8 +10,8 @@ use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\DetailImpl;
 use TRegx\CleanRegex\Match\Details\Group\BaseDetailGroup;
+use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 use TRegx\CleanRegex\Match\Details\ReplaceDetailImpl;
 use function call_user_func;
@@ -76,7 +76,7 @@ class ReplaceCallbackObject
     {
         $index = $this->counter++;
         return new ReplaceDetailImpl(
-            new DetailImpl(
+            new MatchDetail(
                 $this->subject,
                 $index,
                 $this->limit,
