@@ -9,38 +9,31 @@ class PhpErrorTest extends TestCase
     public function testGetters()
     {
         // given
-        $error = new PhpError(E_WARNING, 'Something failed', 'file.php', 12);
+        $error = new PhpError(E_WARNING, 'Something failed');
 
         // when
         $type = $error->getType();
         $message = $error->getMessage();
-        $file = $error->getFile();
-        $line = $error->getLine();
+        $isPreg = $error->isPregError();
 
         // then
         $this->assertSame(E_WARNING, $type);
         $this->assertSame('Something failed', $message);
-        $this->assertSame('file.php', $file);
-        $this->assertSame(12, $line);
+        $this->assertFalse($isPreg);
     }
 
-    public function testStaticMethodFactory()
+    /**
+     * @test
+     */
+    public function shouldBePregError(): void
     {
         // given
-        $array = [
-            'type' => E_WARNING,
-            'message' => 'Something failed',
-            'file' => 'file.php',
-            'line' => 12
-        ];
+        $error = new PhpError(0, 'preg_ something');
 
         // when
-        $error = PhpError::fromArray($array);
+        $isPregError = $error->isPregError();
 
         // then
-        $this->assertSame(E_WARNING, $error->getType());
-        $this->assertSame('Something failed', $error->getMessage());
-        $this->assertSame('file.php', $error->getFile());
-        $this->assertSame(12, $error->getLine());
+        $this->assertTrue($isPregError);
     }
 }

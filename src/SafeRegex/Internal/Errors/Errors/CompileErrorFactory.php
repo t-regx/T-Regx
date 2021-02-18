@@ -7,18 +7,17 @@ class CompileErrorFactory
 {
     public static function getLast(): CompileError
     {
-        $phpError = PhpError::getLast();
-        if ($phpError === null) {
+        $error = \error_get_last();
+
+        if ($error === null) {
             return new StandardCompileError(null);
         }
-        if (CompileErrorFactory::isPregError($phpError)) {
+
+        $phpError = new PhpError($error['type'], $error['message']);
+
+        if ($phpError->isPregError()) {
             return new StandardCompileError($phpError);
         }
         return new IrrelevantCompileError();
-    }
-
-    private static function isPregError(PhpError $phpError): bool
-    {
-        return \substr($phpError->getMessage(), 0, 5) === 'preg_';
     }
 }

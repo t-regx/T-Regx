@@ -1,25 +1,17 @@
 <?php
 namespace TRegx\SafeRegex\Internal;
 
-use function error_get_last;
-
 class PhpError
 {
     /** @var int */
     private $type;
     /** @var string */
     private $message;
-    /** @var string */
-    private $file;
-    /** @var int */
-    private $line;
 
-    public function __construct(int $type, string $message, string $file, int $line)
+    public function __construct(int $type, string $message)
     {
         $this->type = $type;
         $this->message = $message;
-        $this->file = $file;
-        $this->line = $line;
     }
 
     public function getType(): int
@@ -32,27 +24,8 @@ class PhpError
         return $this->message;
     }
 
-    public function getFile(): string
+    public function isPregError(): bool
     {
-        return $this->file;
-    }
-
-    public function getLine(): int
-    {
-        return $this->line;
-    }
-
-    public static function fromArray(array $array): PhpError
-    {
-        return new self($array['type'], $array['message'], $array['file'], $array['line']);
-    }
-
-    public static function getLast(): ?PhpError
-    {
-        $error = error_get_last();
-        if ($error === null) {
-            return null;
-        }
-        return self::fromArray($error);
+        return \substr($this->getMessage(), 0, 5) === 'preg_';
     }
 }
