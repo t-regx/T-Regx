@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Other
+    * [`ReplaceMatch`] is now a class, not an interface.
 
 Added in 0.10.1
 ---------------

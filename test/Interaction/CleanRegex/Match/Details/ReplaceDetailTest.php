@@ -10,7 +10,6 @@ use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
-use TRegx\CleanRegex\Match\Details\ReplaceDetailImpl;
 
 class ReplaceDetailTest extends TestCase
 {
@@ -67,7 +66,7 @@ class ReplaceDetailTest extends TestCase
     private function detail(string $subject, array $matches, int $offsetModification): ReplaceDetail
     {
         $matches = new RawMatchesOffset($matches);
-        return new ReplaceDetailImpl(
+        return new ReplaceDetail(
             new MatchDetail(
                 new Subject($subject),
                 0,
