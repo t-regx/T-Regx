@@ -76,7 +76,7 @@ Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing aro
 
   Using user data (for example with `preg_quote()`) isn't always safe with PCRE, as well as just not being that
   convenient to use. T-Regx provides `Pattern::inject()` and `Pattern::bind()` methods, designed specifically for
-  handling potentially unsafe data. `Pattern::format()` allows to convert user-supplied masks into full-fledged patterns
+  handling potentially unsafe data. `Pattern::format()` allows converting user-supplied masks into full-fledged patterns
   safely.
 
 * ### Working **with** the developer
