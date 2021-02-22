@@ -133,9 +133,7 @@ class GuardedInvokerTest extends TestCase
     public function shouldNotLeaveOutWarnings(callable $obsoleteWarning)
     {
         // given
-        $invoker = new GuardedInvoker('preg_match', '/p/', function () use ($obsoleteWarning) {
-            $obsoleteWarning();
-        });
+        $invoker = new GuardedInvoker('preg_match', '/p/', $obsoleteWarning);
 
         // when
         $invoker->catch();

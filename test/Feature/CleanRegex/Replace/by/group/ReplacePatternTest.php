@@ -8,7 +8,6 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
 use TRegx\DataProvider\DataProviders;
 
@@ -44,8 +43,7 @@ class ReplacePatternTest extends TestCase
             'orElseIgnore'  => ['orElseIgnore', []],
             'orElseEmpty'   => ['orElseEmpty', []],
             'orElseWith'    => ['orElseWith', ['word']],
-            'orElseCalling' => ['orElseCalling', [function (Detail $detail) {
-            }]],
+            'orElseCalling' => ['orElseCalling', [Functions::identity()]],
         ];
     }
 
