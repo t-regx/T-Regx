@@ -4,6 +4,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\Details;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\PhpunitPolyfill;
+use Test\Utils\ThrowSubject;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -121,7 +122,7 @@ class NotMatchedTest extends TestCase
     public function shouldThrow_invalidGroupName($nameOrIndex, string $message)
     {
         // given
-        $notMatched = new NotMatched(new RawMatches([]), new Subject(''));
+        $notMatched = new NotMatched(new RawMatches([]), new ThrowSubject());
 
         // then
         $this->expectException(InvalidArgumentException::class);

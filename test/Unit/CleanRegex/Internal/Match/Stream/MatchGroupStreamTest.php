@@ -3,13 +3,13 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ThrowSubject;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Subject;
 
 class MatchGroupStreamTest extends TestCase
 {
@@ -180,7 +180,7 @@ class MatchGroupStreamTest extends TestCase
     {
         return new MatchGroupStream(
             $stream,
-            new Subject('switch subject'),
+            new ThrowSubject(),
             $nameOrIndex,
             $factory ?? $this->createMock(MatchAllFactory::class));
     }

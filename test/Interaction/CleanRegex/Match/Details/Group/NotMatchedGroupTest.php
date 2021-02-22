@@ -4,6 +4,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\Details\Group;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomException;
 use Test\Utils\CustomSubjectException;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
@@ -44,9 +45,7 @@ class NotMatchedGroupTest extends TestCase
             ['equals', ['any'], false],
             ['name', [], 'first'],
             ['index', [], 1],
-            ['orElse', [function (NotMatched $notMatched) {
-                return $notMatched->subject();
-            }], 'My super subject'],
+            ['orElse', [Functions::constant('result')], 'result'],
             ['orReturn', [13], 13],
         ];
     }
@@ -102,7 +101,7 @@ class NotMatchedGroupTest extends TestCase
 
     private function matchGroup(): NotMatchedGroup
     {
-        $subject = new Subject('My super subject');
+        $subject = new Subject('$unused');
         return new NotMatchedGroup(
             new GroupDetails('first', 1, 'first', new EagerMatchAllFactory(new RawMatchesOffset([]))),
             new GroupExceptionFactory($subject, 'first'),

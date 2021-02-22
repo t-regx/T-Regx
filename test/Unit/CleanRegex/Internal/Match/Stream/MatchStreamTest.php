@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ThrowSubject;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
@@ -10,7 +11,6 @@ use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchStreamTest extends TestCase
@@ -173,7 +173,7 @@ class MatchStreamTest extends TestCase
 
     private function matchStream(BaseStream $stream, MatchAllFactory $factory = null): MatchStream
     {
-        return new MatchStream($stream, new Subject('switch subject'), new UserData(), $factory ?? $this->mock());
+        return new MatchStream($stream, new ThrowSubject(), new UserData(), $factory ?? $this->mock());
     }
 
     private function mock(): MatchAllFactory

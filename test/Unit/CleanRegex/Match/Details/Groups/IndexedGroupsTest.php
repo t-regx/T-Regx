@@ -3,8 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Match\Details\Groups;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ThrowSubject;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
-use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 
 /**
@@ -33,7 +33,7 @@ class IndexedGroupsTest extends TestCase
     public function shouldGetGroupsNames(array $groups, array $expectedNames)
     {
         // given
-        $matchGroups = new IndexedGroups($this->match($groups), new Subject(''));
+        $matchGroups = new IndexedGroups($this->match($groups), new ThrowSubject());
 
         // when
         $names = $matchGroups->names();
@@ -51,7 +51,7 @@ class IndexedGroupsTest extends TestCase
     public function shouldGetGroupsCount(array $groups, array $expectedNames)
     {
         // given
-        $matchGroups = new IndexedGroups($this->match($groups), new Subject(''));
+        $matchGroups = new IndexedGroups($this->match($groups), new ThrowSubject());
 
         // when
         $count = $matchGroups->count();

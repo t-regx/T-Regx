@@ -3,9 +3,9 @@ namespace Test\Unit\TRegx\CleanRegex\Match\Details\Groups;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ThrowSubject;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
-use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Groups\AbstractMatchGroups;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 
@@ -46,6 +46,6 @@ class AbstractMatchGroupsTest extends TestCase
         $mock = $this->createMock(IRawMatchOffset::class);
         $mock->method('getGroupsTexts')->willReturn($texts);
 
-        return new IndexedGroups($mock, new Subject(''));
+        return new IndexedGroups($mock, new ThrowSubject());
     }
 }
