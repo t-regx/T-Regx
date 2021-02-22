@@ -117,8 +117,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
     {
         return $this->fallbackReplacer->replaceOrFallback($this->nameOrIndex,
             new IgnoreMessages(new WrappingMapper(new IdentityMapper(), $this->middlewareMapper)),
-            new WrappingMatchRs($substitute, $this->middlewareMapper)
-        );
+            new WrappingMatchRs($substitute, $this->middlewareMapper));
     }
 
     public function callback(callable $callback): string

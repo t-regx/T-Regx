@@ -71,10 +71,10 @@ class FocusReplacePattern implements SpecificReplacePattern
     public function callback(callable $callback): string
     {
         return $this->replacePattern->callback(function (Detail $detail) use ($callback) {
-            if (!$detail->matched($this->nameOrIndex)) {
-                throw new FocusGroupNotMatchedException($detail->subject(), $this->nameOrIndex);
+            if ($detail->matched($this->nameOrIndex)) {
+                return $detail->group($this->nameOrIndex)->substitute($callback($detail));
             }
-            return $detail->group($this->nameOrIndex)->substitute($callback($detail));
+            throw new FocusGroupNotMatchedException($detail->subject(), $this->nameOrIndex);
         });
     }
 
@@ -87,13 +87,11 @@ class FocusReplacePattern implements SpecificReplacePattern
                 $this->limit,
                 new DefaultStrategy(),
                 $this->countingStrategy,
-                new ApiBase($this->pattern, $this->subject, new UserData())
-            ),
+                new ApiBase($this->pattern, $this->subject, new UserData())),
             new LazyMessageThrowStrategy(MissingReplacementKeyException::class),
             new PerformanceEmptyGroupReplace($this->pattern, new Subject($this->subject), $this->limit),
             new ReplacePatternCallbackInvoker($this->pattern, new Subject($this->subject), $this->limit, new DefaultStrategy(), $this->countingStrategy),
             $this->subject,
-            new FocusWrapper($this->nameOrIndex)
-        );
+            new FocusWrapper($this->nameOrIndex));
     }
 }
