@@ -15,7 +15,7 @@ class FluentStreamWorker implements StreamWorker
     /** @var NotMatchedMessage */
     private $unmatchedMessage;
 
-    private function __construct(NotMatchedMessage $noFirstMessage, NotMatchedMessage $unmatchedMessage)
+    public function __construct(NotMatchedMessage $noFirstMessage, NotMatchedMessage $unmatchedMessage)
     {
         $this->noFirstMessage = $noFirstMessage;
         $this->unmatchedMessage = $unmatchedMessage;

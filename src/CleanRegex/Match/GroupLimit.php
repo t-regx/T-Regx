@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\Worker\FluentStreamWorker;
+use TRegx\CleanRegex\Internal\Factory\Worker\ThrowInternalStreamWorker;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitAll;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFindFirst;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFirst;
@@ -183,7 +184,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
     {
         return new FluentMatchPattern(
             new MatchGroupIntStream($this->base, $this->nameOrIndex, $this->matchAllFactory),
-            FluentStreamWorker::default());
+            new ThrowInternalStreamWorker());
     }
 
     private function stream(): Stream
