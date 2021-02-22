@@ -3,6 +3,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Replace\Callback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
@@ -123,7 +124,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $invoker = new ReplacePatternCallbackInvoker(InternalPattern::pcre('//'), new Subject(''), 0, new DefaultStrategy(), new IgnoreCounting());
 
         // when
-        $result = $invoker->invoke([$this, 'fail'], new MatchStrategy());
+        $result = $invoker->invoke(Functions::fail(), new MatchStrategy());
 
         // then
         $this->assertSame('', $result);

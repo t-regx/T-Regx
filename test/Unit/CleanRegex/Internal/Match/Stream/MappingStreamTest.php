@@ -49,7 +49,7 @@ class MappingStreamTest extends TestCase
     public function shouldReturn_firstKey_dataTypeString()
     {
         // given
-        $stream = new MappingStream($this->mock('firstKey', 'willReturn', 'foo'), [$this, 'fail']);
+        $stream = new MappingStream($this->mock('firstKey', 'willReturn', 'foo'), Functions::fail());
 
         // when
         $firstKey = $stream->firstKey();

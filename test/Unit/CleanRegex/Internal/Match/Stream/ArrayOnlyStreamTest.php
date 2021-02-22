@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
@@ -45,7 +46,7 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = new ArrayOnlyStream($this->mock('firstKey', 'willReturn', 'foo'), [$this, 'fail']);
+        $stream = new ArrayOnlyStream($this->mock('firstKey', 'willReturn', 'foo'), Functions::fail());
 
         // when
         $firstKey = $stream->firstKey();
