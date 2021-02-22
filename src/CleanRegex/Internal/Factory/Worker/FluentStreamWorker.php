@@ -26,9 +26,9 @@ class FluentStreamWorker implements StreamWorker
         return new self(new FirstFluentMessage(), new FirstFluentMessage());
     }
 
-    public static function subject(FirstMatchFluentMessage $message): self
+    public static function subject(): self
     {
-        return new self(new FirstFluentMessage(), $message);
+        return new self(new FirstFluentMessage(), new FirstMatchFluentMessage());
     }
 
     public function undecorateWorker(): StreamWorker
