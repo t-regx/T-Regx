@@ -25,14 +25,14 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $subject = 'Tom Cruise is 21 years old and has 192cm';
         $invoker = new ReplacePatternCallbackInvoker(InternalPattern::standard('[0-9]+'), new Subject($subject), 2, new DefaultStrategy(), new IgnoreCounting());
         $callback = function (ReplaceDetail $detail) {
-            return "*" . ($detail->toInt() + 1) . '*';
+            return "*$detail*";
         };
 
         // when
         $result = $invoker->invoke($callback, new MatchStrategy());
 
         // then
-        $this->assertSame('Tom Cruise is *22* years old and has *193*cm', $result);
+        $this->assertSame('Tom Cruise is *21* years old and has *192*cm', $result);
     }
 
     /**
