@@ -31,8 +31,8 @@ class AlterationFactory implements QuotableFactory
 
     private function duplicateMapper(): ?callable
     {
-        if (\strpos($this->flags, 'i') > -1) {
-            if (\strpos($this->flags, 'u') > -1) {
+        if (\strpos($this->flags, 'i') !== false) {
+            if (\strpos($this->flags, 'u') !== false) {
                 return 'mb_strToLower';
             }
             return 'strToLower';
