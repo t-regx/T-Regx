@@ -8,7 +8,7 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
+use TRegx\CleanRegex\Match\Details\LazyDetail;
 use TRegx\DataProvider\DataProviders;
 
 class ReplacePatternTest extends TestCase
@@ -58,7 +58,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('unit')
-            ->orElseCalling(function (LazyDetailImpl $detail) {
+            ->orElseCalling(function (LazyDetail $detail) {
                 $this->assertSame('14', $detail->text());
                 $this->assertSame('14', $detail->get('value'));
                 $this->assertSame('14', $detail->group('value')->text());
@@ -88,7 +88,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('unit')
-            ->orElseCalling(function (LazyDetailImpl $detail) {
+            ->orElseCalling(function (LazyDetail $detail) {
                 $this->assertSame('14', $detail->text());
 
                 // when

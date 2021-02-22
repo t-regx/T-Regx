@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
+use TRegx\CleanRegex\Match\Details\LazyDetail;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
 
@@ -84,7 +84,7 @@ class GroupFallbackReplacer
     private function getReplacementOrHandle(array $match, $nameOrIndex, DetailGroupMapper $mapper, MatchRs $substitute): string
     {
         $occurrence = $this->occurrence($match, $nameOrIndex);
-        $detail = new LazyDetailImpl($this->base, $this->counter, $this->limit);
+        $detail = new LazyDetail($this->base, $this->counter, $this->limit);
         if ($occurrence === null) { // here "null" means group was not matched
             $replacement = $substitute->substituteGroup($detail);
             // here "null" means "no replacement provided, ignore me, use the full match"

@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
-class LazyDetailImpl implements Detail
+class LazyDetail implements Detail
 {
     /** @var Base */
     private $base;
@@ -17,7 +17,7 @@ class LazyDetailImpl implements Detail
     /** @var int */
     private $limit;
 
-    /** @var Detail|null */
+    /** @var MatchDetail|null */
     private $lazyMatch = null;
 
     public function __construct(Base $base, int $index, int $limit)
@@ -27,13 +27,13 @@ class LazyDetailImpl implements Detail
         $this->limit = $limit;
     }
 
-    private function match(): Detail
+    private function match(): MatchDetail
     {
         $this->lazyMatch = $this->lazyMatch ?? $this->createLazyMatch();
         return $this->lazyMatch;
     }
 
-    private function createLazyMatch(): Detail
+    private function createLazyMatch(): MatchDetail
     {
         $matches = $this->base->matchAllOffsets();
         return new MatchDetail(

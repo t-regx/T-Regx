@@ -8,9 +8,9 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
-use TRegx\CleanRegex\Match\Details\LazyDetailImpl;
+use TRegx\CleanRegex\Match\Details\LazyDetail;
 
-class LazyDetailImplTest extends TestCase
+class LazyDetailTest extends TestCase
 {
     /**
      * @test
@@ -282,7 +282,7 @@ class LazyDetailImplTest extends TestCase
     public function shouldCallBaseOnce()
     {
         // given
-        $detail = new LazyDetailImpl($this->baseMock(), 0, -1);
+        $detail = new LazyDetail($this->baseMock(), 0, -1);
 
         // when
         $detail->text();
@@ -298,7 +298,7 @@ class LazyDetailImplTest extends TestCase
         // given
         $pattern = '(?<group>One)(?<group>Two)';
         $subject = 'OneTwo';
-        $detail = new LazyDetailImpl(new ApiBase(InternalPattern::standard($pattern, 'J'), $subject, new UserData()), 0, -1);
+        $detail = new LazyDetail(new ApiBase(InternalPattern::standard($pattern, 'J'), $subject, new UserData()), 0, -1);
 
         // when
         $text1 = $detail->group('group')->text();
@@ -309,14 +309,14 @@ class LazyDetailImplTest extends TestCase
         $this->assertSame('Two', $text2);
     }
 
-    private function detail(string $pattern = '\b[a-z€]+', string $subject = 'Word: word€€ two three'): LazyDetailImpl
+    private function detail(string $pattern = '\b[a-z€]+', string $subject = 'Word: word€€ two three'): LazyDetail
     {
         return $this->detailWithIndex($pattern, $subject, 0);
     }
 
-    private function detailWithIndex(string $pattern, string $subject, int $index): LazyDetailImpl
+    private function detailWithIndex(string $pattern, string $subject, int $index): LazyDetail
     {
-        return new LazyDetailImpl(new ApiBase(InternalPattern::standard($pattern, 'u'), $subject, new UserData()), $index, 14);
+        return new LazyDetail(new ApiBase(InternalPattern::standard($pattern, 'u'), $subject, new UserData()), $index, 14);
     }
 
     private function baseMock(): Base
