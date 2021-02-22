@@ -38,7 +38,7 @@ class GroupLimitTest extends TestCase
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed is empty.');
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed has 0 element(s)');
 
         // when
         $chained = $limit->fluent();
@@ -57,7 +57,7 @@ class GroupLimitTest extends TestCase
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed is empty.');
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed has 0 element(s)');
 
         // when
         $chained = $limit->fluent();

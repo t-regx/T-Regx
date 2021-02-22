@@ -51,7 +51,7 @@ class MatchPatternTest extends TestCase
 
         // when
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed is empty');
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed has 0 element(s)');
 
         // when
         $pattern->group(1)->offsets()->fluent()->map(Functions::singleArg('strLen'))->first();
@@ -67,7 +67,7 @@ class MatchPatternTest extends TestCase
 
         // when
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed is empty');
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed has 0 element(s)');
 
         // when
         $pattern->group(1)->offsets()->fluent()->keys()->first();
