@@ -82,7 +82,7 @@ class FluentMatchPatternTest extends TestCase
 
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the 2-th element from fluent pattern, but the elements feed has 1 element(s)');
+        $this->expectExceptionMessage('Expected to get the 2-nth element from fluent pattern, but the elements feed has 1 element(s)');
 
         // when
         $pattern->nth(2);
