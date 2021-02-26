@@ -4,11 +4,8 @@ namespace TRegx\CleanRegex\Match;
 use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
-use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
-use TRegx\CleanRegex\Internal\Exception\Messages\NthFluentMessage;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
-use TRegx\CleanRegex\Internal\Factory\Optional\ArgumentlessOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\StreamWorker;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
@@ -39,7 +36,11 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function all(): array
     {
-        return $this->stream->all();
+        try {
+            return $this->stream->all();
+        } catch (UnmatchedStreamException $exception) {
+            return [];
+        }
     }
 
     public function only(int $limit): array
@@ -47,7 +48,7 @@ class FluentMatchPattern implements MatchPatternInterface
         if ($limit < 0) {
             throw new InvalidArgumentException("Negative limit: $limit");
         }
-        return \array_slice($this->stream->all(), 0, $limit);
+        return \array_slice($this->all(), 0, $limit);
     }
 
     /**
@@ -66,10 +67,10 @@ class FluentMatchPattern implements MatchPatternInterface
     {
         try {
             $firstElement = $this->stream->first();
-        } catch (NoFirstStreamException $exception) {
-            return new EmptyOptional($this->worker->noFirstOptionalWorker());
         } catch (UnmatchedStreamException $exception) {
-            return new EmptyOptional($this->worker->unmatchedOptionalWorker());
+            return new EmptyOptional($this->worker->unmatchedFirst());
+        } catch (NoFirstStreamException $exception) {
+            return new EmptyOptional($this->worker->noFirst());
         }
         return new OptionalImpl($consumer($firstElement));
     }
@@ -84,30 +85,36 @@ class FluentMatchPattern implements MatchPatternInterface
         if ($index < 0) {
             throw new InvalidArgumentException("Negative index: $index");
         }
-        $elements = \array_values($this->stream->all());
-        if (\array_key_exists($index, $elements)) {
-            return new OptionalImpl($elements[$index]);
+        try {
+            $elements = \array_values($this->stream->all());
+        } catch (UnmatchedStreamException $exception) {
+            return new EmptyOptional($this->worker->unmatchedNth($index));
         }
-        return new EmptyOptional(new ArgumentlessOptionalWorker(
-            new NthFluentMessage($index, \count($elements)),
-            NoSuchElementFluentException::class));
+        if (!\array_key_exists($index, $elements)) {
+            return new EmptyOptional($this->worker->noNth($index, \count($elements)));
+        }
+        return new OptionalImpl($elements[$index]);
     }
 
     public function forEach(callable $consumer): void
     {
-        foreach ($this->stream->all() as $key => $value) {
+        foreach ($this->all() as $key => $value) {
             $consumer($value, $key);
         }
     }
 
     public function count(): int
     {
-        return \count($this->stream->all());
+        return \count($this->all());
     }
 
     public function getIterator(): Iterator
     {
-        return new ArrayIterator($this->stream->all());
+        try {
+            return new ArrayIterator($this->stream->all());
+        } catch (UnmatchedStreamException $exception) {
+            return new \EmptyIterator();
+        }
     }
 
     public function map(callable $mapper): FluentMatchPattern

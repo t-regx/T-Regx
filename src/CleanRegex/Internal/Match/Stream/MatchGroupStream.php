@@ -2,31 +2,33 @@
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
+use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class MatchGroupStream implements Stream
 {
-    /** @var BaseStream */
-    private $stream;
-    /** @var Subjectable */
-    private $subjectable;
+    /** @var Base */
+    private $base;
     /** @var string|int */
     private $nameOrIndex;
     /** @var MatchAllFactory */
     private $allFactory;
+    /** @var MatchAllGroupVerifier */
+    private $groupVerifier;
 
-    public function __construct(BaseStream $stream, Subjectable $subjectable, $nameOrIndex, MatchAllFactory $factory)
+    public function __construct(Base $base, $nameOrIndex, MatchAllFactory $factory)
     {
-        $this->stream = $stream;
-        $this->subjectable = $subjectable;
+        $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
         $this->allFactory = $factory;
+        $this->groupVerifier = new MatchAllGroupVerifier($this->base->getPattern());
     }
 
     /**
@@ -34,26 +36,40 @@ class MatchGroupStream implements Stream
      */
     public function all(): array
     {
-        $matches = $this->stream->all();
-        return $this->facade($matches, new EagerMatchAllFactory($matches))->createGroups($matches);
+        $matches = $this->base->matchAllOffsets();
+        if (!$matches->hasGroup($this->nameOrIndex)) {
+            throw new NonexistentGroupException($this->nameOrIndex);
+        }
+        if (!$matches->matched()) {
+            throw new UnmatchedStreamException();
+        }
+        return (new GroupFacade($matches, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), new EagerMatchAllFactory($matches)))->createGroups($matches);
     }
 
     public function first(): DetailGroup
     {
-        $match = $this->stream->first();
-        return $this->facade($match, $this->allFactory)->createGroup($match);
-    }
-
-    private function facade(IRawWithGroups $matches, MatchAllFactory $allFactory): GroupFacade
-    {
-        if ($matches->hasGroup($this->nameOrIndex)) {
-            return new GroupFacade($matches, $this->subjectable, $this->nameOrIndex, new MatchGroupFactoryStrategy(), $allFactory);
-        }
-        throw new NonexistentGroupException($this->nameOrIndex);
+        $match = $this->base->matchOffset();
+        $this->validateGroupOrSubject($match);
+        return (new GroupFacade($match, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), $this->allFactory))->createGroup($match);
     }
 
     public function firstKey(): int
     {
-        return $this->stream->firstKey();
+        $match = $this->base->matchOffset();
+        $this->validateGroupOrSubject($match);
+        return $match->getIndex();
+    }
+
+    private function validateGroupOrSubject(RawMatchOffset $match): void
+    {
+        if ($match->hasGroup($this->nameOrIndex)) {
+            return;
+        }
+        if (!$this->groupVerifier->groupExists($this->nameOrIndex)) {
+            throw new NonexistentGroupException($this->nameOrIndex);
+        }
+        if (!$match->matched()) {
+            throw new UnmatchedStreamException();
+        }
     }
 }

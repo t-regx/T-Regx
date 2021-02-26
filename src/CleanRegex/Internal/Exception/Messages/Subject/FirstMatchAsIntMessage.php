@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Exception\Messages\Subject;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 
-class FirstMatchIntMessage implements NotMatchedMessage
+class FirstMatchAsIntMessage implements NotMatchedMessage
 {
     public function getMessage(): string
     {

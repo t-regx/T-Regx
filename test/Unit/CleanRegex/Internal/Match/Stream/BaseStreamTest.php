@@ -80,12 +80,11 @@ class BaseStreamTest extends TestCase
         // given
         $stream = new BaseStream($this->baseAllUnmatched());
 
-        // when
-        $all = $stream->all();
-
         // then
-        $this->assertFalse($all->matched());
-        $this->assertEmpty($all->getTexts());
+        $this->expectException(UnmatchedStreamException::class);
+
+        // when
+        $stream->all();
     }
 
     private function baseAllUnmatched(): Base

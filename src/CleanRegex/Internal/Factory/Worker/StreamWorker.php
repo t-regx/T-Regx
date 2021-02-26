@@ -7,7 +7,11 @@ interface StreamWorker
 {
     public function undecorateWorker(): StreamWorker;
 
-    public function noFirstOptionalWorker(): OptionalWorker;
+    public function noFirst(): OptionalWorker;
 
-    public function unmatchedOptionalWorker(): OptionalWorker;
+    public function unmatchedFirst(): OptionalWorker;
+
+    public function noNth(int $nth, int $total): OptionalWorker;
+
+    public function unmatchedNth(int $nth): OptionalWorker;
 }

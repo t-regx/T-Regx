@@ -7,10 +7,10 @@ use InvalidArgumentException;
 use Iterator;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchAsArrayMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchIntMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
+use TRegx\CleanRegex\Internal\Factory\Worker\AsArrayStreamWorker;
+use TRegx\CleanRegex\Internal\Factory\Worker\AsIntStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\MatchStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\NextStreamWorkerDecorator;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
@@ -185,22 +185,14 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         return new FluentMatchPattern(
             new MatchIntStream(new BaseStream($this->base)),
-            new NextStreamWorkerDecorator(
-                new MatchStreamWorker(),
-                new FirstMatchIntMessage(),
-                $this->base,
-                SubjectNotMatchedException::class));
+            new NextStreamWorkerDecorator(new MatchStreamWorker(), new AsIntStreamWorker($this->base), $this->base));
     }
 
     public function asArray(): FluentMatchPattern
     {
         return new FluentMatchPattern(
             new AsArrayStream(new BaseStream($this->base), $this->base),
-            new NextStreamWorkerDecorator(
-                new MatchStreamWorker(),
-                new FirstMatchAsArrayMessage(),
-                $this->base,
-                SubjectNotMatchedException::class));
+            new NextStreamWorkerDecorator(new MatchStreamWorker(), new AsArrayStreamWorker($this->base), $this->base));
     }
 
     /**

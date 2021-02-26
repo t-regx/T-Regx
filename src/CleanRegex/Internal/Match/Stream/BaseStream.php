@@ -18,7 +18,11 @@ class BaseStream
 
     public function all(): RawMatchesOffset
     {
-        return $this->base->matchAllOffsets();
+        $matches = $this->base->matchAllOffsets();
+        if ($matches->matched()) {
+            return $matches;
+        }
+        throw new UnmatchedStreamException();
     }
 
     public function first(): IRawMatchOffset

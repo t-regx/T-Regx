@@ -2,31 +2,23 @@
 namespace TRegx\CleanRegex\Internal\Factory\Worker;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
-use TRegx\CleanRegex\Internal\Factory\Optional\SubjectOptionalWorker;
 use TRegx\CleanRegex\Internal\Subjectable;
 
 class NextStreamWorkerDecorator implements StreamWorker
 {
     /** @var FluentStreamWorker */
     private $worker;
-    /** @var NotMatchedMessage */
-    private $subjectMessage;
+    /** @var StreamWorker */
+    private $currentWorker;
     /** @var Subjectable */
     private $subjectable;
-    /** @var string */
-    private $optionalDefaultClass;
 
-    public function __construct(StreamWorker $nextWorker,
-                                NotMatchedMessage $subjectMessage,
-                                Subjectable $subjectable,
-                                string $optionalDefaultClass)
+    public function __construct(StreamWorker $nextWorker, StreamWorker $currentWorker, Subjectable $subjectable)
     {
         $this->worker = $nextWorker;
-        $this->subjectMessage = $subjectMessage;
+        $this->currentWorker = $currentWorker;
         $this->subjectable = $subjectable;
-        $this->optionalDefaultClass = $optionalDefaultClass;
     }
 
     public function undecorateWorker(): StreamWorker
@@ -34,7 +26,7 @@ class NextStreamWorkerDecorator implements StreamWorker
         return $this->worker;
     }
 
-    public function noFirstOptionalWorker(): OptionalWorker
+    public function noFirst(): OptionalWorker
     {
         /*
          * It's not broken Liskov or interface segregation here, it's not that
@@ -65,8 +57,18 @@ class NextStreamWorkerDecorator implements StreamWorker
         // @codeCoverageIgnoreEnd
     }
 
-    public function unmatchedOptionalWorker(): OptionalWorker
+    public function unmatchedFirst(): OptionalWorker
     {
-        return new SubjectOptionalWorker($this->subjectMessage, $this->subjectable, $this->optionalDefaultClass);
+        return $this->currentWorker->unmatchedFirst();
+    }
+
+    public function noNth(int $nth, int $total): OptionalWorker
+    {
+        return $this->currentWorker->noNth($nth, $total);
+    }
+
+    public function unmatchedNth(int $nth): OptionalWorker
+    {
+        return $this->currentWorker->unmatchedNth($nth);
     }
 }

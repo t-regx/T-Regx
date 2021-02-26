@@ -42,12 +42,22 @@ class ThrowWorker implements StreamWorker
         return $this;
     }
 
-    public function noFirstOptionalWorker(): OptionalWorker
+    public function noFirst(): OptionalWorker
     {
         return new ConstantThrowOptionalWorker($this->fluent);
     }
 
-    public function unmatchedOptionalWorker(): OptionalWorker
+    public function noNth(int $nth, int $total): OptionalWorker
+    {
+        return new ConstantThrowOptionalWorker($this->fluent);
+    }
+
+    public function unmatchedFirst(): OptionalWorker
+    {
+        return new ConstantThrowOptionalWorker($this->subject);
+    }
+
+    public function unmatchedNth(int $nth): OptionalWorker
     {
         return new ConstantThrowOptionalWorker($this->subject);
     }

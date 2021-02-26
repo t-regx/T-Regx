@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
+use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
 use TRegx\CleanRegex\Internal\RawMatchAsArray;
@@ -25,7 +26,10 @@ class AsArrayStream implements Stream
     public function all(): array
     {
         // Not yet making RawMatchesSetOrder for this "raw" usage
-        preg::match_all($this->base->getPattern()->pattern, $this->base->getSubject(), $matches, \PREG_OFFSET_CAPTURE);
+        $matched = preg::match_all($this->base->getPattern()->pattern, $this->base->getSubject(), $matches, \PREG_OFFSET_CAPTURE);
+        if ($matched === 0) {
+            throw new UnmatchedStreamException(); // TODO why not use BaseStream?
+        }
         return $this->groupByIndex($matches);
     }
 

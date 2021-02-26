@@ -100,14 +100,27 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_subject_unmatched()
+    public function shouldThrow_OnSubjectUnmatched()
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get group 'lowercase' from the first match, but subject was not matched at all");
+        $this->expectExceptionMessage("Expected to get group #0 from the first match, but subject was not matched at all");
 
         // when
-        pattern('[A-Z](?<lowercase>[a-z]+)?')->match('123')->group('lowercase')->first();
+        pattern('Foo')->match('Bar')->group(0)->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_OnUnmatchedSubject_OnNonexistentGroup()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: #1");
+
+        // when
+        pattern('Foo')->match('Bar')->group(1)->first();
     }
 
     /**

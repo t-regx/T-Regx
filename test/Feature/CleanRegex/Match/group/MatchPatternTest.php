@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class MatchPatternTest extends TestCase
@@ -67,19 +68,6 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('[A-Z](?<lowercase>[a-z]+)?')->match('L Three Four')->group('missing')->all();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_fluent_nonexistent()
-    {
-        // then
-        $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage("Nonexistent group: 'missing'");
-
-        // when
-        pattern('[A-Z](?<lowercase>[a-z]+)?')->match('L Three Four')->group('missing')->fluent()->all();
     }
 
     /**
@@ -195,83 +183,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFilter_fluent()
-    {
-        // when
-        $groups = pattern('\d+(?<unit>kg|[cm]?m)')
-            ->match('15mm 12kg 16m 17cm 27kg')
-            ->group('unit')
-            ->fluent()
-            ->filter(function (DetailGroup $group) {
-                return $group->text() !== "kg";
-            })
-            ->all();
-
-        // then
-        $this->assertSameMatches(['mm', 2 => 'm', 3 => 'cm'], $groups);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturn_group_fluent_keys_all()
-    {
-        // when
-        $groups = pattern('\d+(?<unit>kg|[cm]?m)')
-            ->match('15mm 12kg 16m 17cm 27kg')
-            ->remaining(Functions::equals('16m'))
-            ->group('unit')
-            ->fluent()
-            ->keys()
-            ->all();
-
-        // then
-        $this->assertSame([2], $groups);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturn_group_fluent_keys_first()
-    {
-        // when
-        $groups = pattern('\d+(?<unit>kg|[cm]?m)')
-            ->match('15mm 12kg 16m 17cm 27kg')
-            ->remaining(Functions::equals('16m'))
-            ->group('unit')
-            ->fluent()
-            ->keys()
-            ->first();
-
-        // then
-        $this->assertSame(2, $groups);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldMap_fluent()
-    {
-        // when
-        $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')
-            ->match('D Computer')
-            ->group('lowercase')
-            ->fluent()
-            ->map(function (DetailGroup $group) {
-                if ($group->matched()) {
-                    return $group->text();
-                }
-                return "unmatched";
-            })
-            ->all();
-
-        // then
-        $this->assertSame(['unmatched', 'omputer'], $groups);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_offsets()
     {
         // given
@@ -330,17 +241,41 @@ class MatchPatternTest extends TestCase
     public function shouldBeIterable()
     {
         // given
-        $result = [];
         $iterable = pattern('\d+([cm]?m)')->match('14cm 12mm 18m')->group(1);
 
         // when
-        /** @var DetailGroup $chain */
-        foreach ($iterable as $chain) {
-            $result[] = "$chain";
+        $result = iterator_to_array($iterable);
+
+        // then
+        $this->assertSameMatches(['cm', 'mm', 'm'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeIterable_OnUnmatchedSubject()
+    {
+        // when
+        foreach (pattern('(Foo)')->match('Bar')->group(1) as $_) {
+            $this->fail();
         }
 
         // then
-        $this->assertSame(['cm', 'mm', 'm'], $result);
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     * @dataProvider streamMethods
+     * @param string $method
+     */
+    public function shouldPass_method_OnUnmatchedSubject(string $method)
+    {
+        // when
+        pattern('(Foo)')->match('Bar')->group(1)->$method(Functions::fail());
+
+        // then
+        $this->assertTrue(true);
     }
 
     /**
@@ -354,5 +289,55 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('Foo')->match('Bar')->group(1)->forEach(Functions::fail());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_group_first_OnUnmatchedSubject_OnNonexistentGroup()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage('Nonexistent group: #1');
+
+        // when
+        pattern('Foo')->match('Bar')->group(1)->first(Functions::fail());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPassThrough_first()
+    {
+        // then
+        $this->expectException(UnmatchedStreamException::class);
+
+        // when
+        pattern('(Foo)')->match('Foo')->group(1)->first(Functions::throws(new UnmatchedStreamException()));
+    }
+
+    /**
+     * @test
+     * @dataProvider streamMethods
+     * @param string $method
+     */
+    public function shouldPassThrough_method(string $method)
+    {
+        // then
+        $this->expectException(UnmatchedStreamException::class);
+
+        // when
+        pattern('(Foo)')->match('Foo')->group(1)->$method(Functions::throws(new UnmatchedStreamException()));
+    }
+
+    public function streamMethods(): array
+    {
+        return [
+            ['map'],
+            ['flatMap'],
+            ['flatMapAssoc'],
+            ['forEach'],
+            ['filter'],
+        ];
     }
 }

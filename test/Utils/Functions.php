@@ -4,6 +4,7 @@ namespace Test\Utils;
 use PHPUnit\Framework\Assert;
 use Throwable;
 use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 
 class Functions
 {
@@ -67,8 +68,11 @@ class Functions
 
     public static function notEquals(string $detail): callable
     {
-        return function (Detail $match) use ($detail) {
-            return "$match" !== $detail;
+        return function ($match) use ($detail) {
+            if ($match instanceof Detail || $match instanceof DetailGroup) {
+                return "$match" !== $detail;
+            }
+            throw new \Exception();
         };
     }
 

@@ -11,14 +11,28 @@ class ThrowInternalStreamWorker implements StreamWorker
         return $this;
     }
 
-    public function noFirstOptionalWorker(): OptionalWorker
+    public function noFirst(): OptionalWorker
     {
         // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();
         // @codeCoverageIgnoreEnd
     }
 
-    public function unmatchedOptionalWorker(): OptionalWorker
+    public function unmatchedFirst(): OptionalWorker
+    {
+        // @codeCoverageIgnoreStart
+        throw new InternalCleanRegexException();
+        // @codeCoverageIgnoreEnd
+    }
+
+    public function noNth(int $nth, int $total): OptionalWorker
+    {
+        // @codeCoverageIgnoreStart
+        throw new InternalCleanRegexException();
+        // @codeCoverageIgnoreEnd
+    }
+
+    public function unmatchedNth(int $nth): OptionalWorker
     {
         // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();

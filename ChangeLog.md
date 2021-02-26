@@ -14,6 +14,7 @@ Incoming
       "Foo      
       "
       ```
+    * Update messages and exceptions thrown in edge-cases from `group()->fluent()`
 
 Added in 0.10.1
 ---------------

@@ -3,10 +3,10 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ThrowSubject;
+use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
@@ -19,7 +19,7 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $stream = $this->matchStream($this->stream('all', $this->matchesOffset('15')), 'group');
+        $stream = $this->matchStream($this->matchesOffset('15'), 'group');
 
         // when
         $all = $stream->all();
@@ -36,7 +36,7 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $stream = $this->matchStream($this->stream('first', $this->matchOffset('192')), 'group');
+        $stream = $this->matchStream($this->matchOffset('192'), 'group');
 
         // when
         $first = $stream->first();
@@ -51,7 +51,7 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = $this->matchStream($this->stream('firstKey', 2), 'group');
+        $stream = $this->matchStream($this->matchOffset('192', 2), 'group');
 
         // when
         $firstKey = $stream->firstKey();
@@ -66,7 +66,7 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGet_groupIndex_FirstMatch()
     {
         // given
-        $stream = $this->matchStream($this->stream('first', $this->matchOffset('192')), 'group');
+        $stream = $this->matchStream($this->matchOffset('192'), 'group');
 
         // when
         $first = $stream->first();
@@ -81,7 +81,7 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGet_groupIndex_AllMatches()
     {
         // given
-        $stream = $this->matchStream($this->stream('all', $this->matchesOffset('19')), 'group');
+        $stream = $this->matchStream($this->matchesOffset('19'), 'group');
 
         // when
         $all = $stream->all();
@@ -98,7 +98,7 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGet_matchAll_AllMatches()
     {
         // given
-        $stream = $this->matchStream($this->stream('all', $this->matchesOffset('15')), 'group');
+        $stream = $this->matchStream($this->matchesOffset('15'), 'group');
 
         // when
         $all = $stream->all();
@@ -115,7 +115,7 @@ class MatchGroupStreamTest extends TestCase
     public function shouldGet_matchAll_FirstMatch()
     {
         // given
-        $stream = $this->matchStream($this->stream('first', $this->matchOffset()), 'group', $this->mockEagerFactory());
+        $stream = $this->matchStream($this->matchOffset(), 'group', $this->mockEagerFactory());
 
         // when
         $first = $stream->first();
@@ -124,26 +124,9 @@ class MatchGroupStreamTest extends TestCase
         $this->assertSame(['sword', 'bow', 'axe'], $first->all());
     }
 
-    private function stream(string $methodName, $value): BaseStream
+    private function matchesOffset(string $firstValue): Base
     {
-        /** @var BaseStream|MockObject $stream */
-        $stream = $this->createMock(BaseStream::class);
-        $stream->expects($this->once())->method($methodName)->willReturn($value);
-        $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
-        return $stream;
-    }
-
-    private function zeroInteraction(): BaseStream
-    {
-        /** @var BaseStream|MockObject $stream */
-        $stream = $this->createMock(BaseStream::class);
-        $stream->expects($this->never())->method($this->anything());
-        return $stream;
-    }
-
-    private function matchesOffset(string $firstValue): RawMatchesOffset
-    {
-        return new RawMatchesOffset([
+        return $this->base('matchAllOffsets', new RawMatchesOffset([
             0            => [
                 [$firstValue, 1],
                 ['19', 2],
@@ -162,25 +145,34 @@ class MatchGroupStreamTest extends TestCase
                 ['g-19', 2],
                 ['g-25', 3],
             ],
-        ]);
+        ]));
     }
 
-    private function matchOffset(string $value = ''): RawMatchOffset
+    private function matchOffset(string $value = '', int $index = null): Base
     {
-        return new RawMatchOffset([
+        return $this->base('matchOffset', new RawMatchOffset([
             0            => [$value, 1],
             'irrelevant' => [],
             1            => [],
             'group'      => ["g-$value", 1],
             2            => ["g-$value", 1]    # This is a hint for GroupNameIndexAssign, it will know that "group" is #2
-        ], null);
+        ], $index));
     }
 
-    private function matchStream(BaseStream $stream, $nameOrIndex, MatchAllFactory $factory = null): MatchGroupStream
+    private function base(string $method, $result): Base
+    {
+        /** @var Base|MockObject $base */
+        $base = $this->createMock(Base::class);
+        $base->expects($this->once())->method($method)->willReturn($result);
+        $base->expects($this->once())->method('getPattern')->willReturn(InternalPattern::standard('Foo'));
+        $base->expects($this->never())->method($this->logicalNot($this->logicalOr($this->equalTo($method), $this->equalTo('getPattern'))));
+        return $base;
+    }
+
+    private function matchStream(Base $base, $nameOrIndex, MatchAllFactory $factory = null): MatchGroupStream
     {
         return new MatchGroupStream(
-            $stream,
-            new ThrowSubject(),
+            $base,
             $nameOrIndex,
             $factory ?? $this->createMock(MatchAllFactory::class));
     }
