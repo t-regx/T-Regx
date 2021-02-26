@@ -90,6 +90,6 @@ class OffsetLimit implements PatternLimit, \IteratorAggregate
     {
         return new FluentMatchPattern(
             new OffsetLimitStream($this->base, $this->nameOrIndex, $this->groupVerifier),
-            FluentStreamWorker::default());
+            new FluentStreamWorker());
     }
 }

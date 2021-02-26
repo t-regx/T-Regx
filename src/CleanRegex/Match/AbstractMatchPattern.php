@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchAsArrayMessag
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchIntMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
-use TRegx\CleanRegex\Internal\Factory\Worker\FluentStreamWorker;
+use TRegx\CleanRegex\Internal\Factory\Worker\MatchStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\NextStreamWorkerDecorator;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
@@ -178,7 +178,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         return new FluentMatchPattern(
             new MatchStream(new BaseStream($this->base), $this->base, $this->base->getUserData(), new LazyMatchAllFactory($this->base)),
-            FluentStreamWorker::subject());
+            new MatchStreamWorker());
     }
 
     public function asInt(): FluentMatchPattern
@@ -186,7 +186,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return new FluentMatchPattern(
             new MatchIntStream(new BaseStream($this->base)),
             new NextStreamWorkerDecorator(
-                FluentStreamWorker::subject(),
+                new MatchStreamWorker(),
                 new FirstMatchIntMessage(),
                 $this->base,
                 SubjectNotMatchedException::class));
@@ -197,7 +197,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return new FluentMatchPattern(
             new AsArrayStream(new BaseStream($this->base), $this->base),
             new NextStreamWorkerDecorator(
-                FluentStreamWorker::subject(),
+                new MatchStreamWorker(),
                 new FirstMatchAsArrayMessage(),
                 $this->base,
                 SubjectNotMatchedException::class));

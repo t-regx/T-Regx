@@ -90,7 +90,7 @@ class FluentMatchPatternTest extends TestCase
 
     private function worker(): FluentStreamWorker
     {
-        return FluentStreamWorker::default();
+         return new FluentStreamWorker();
     }
 
     private function stream(array $return, int $times = 1): Stream

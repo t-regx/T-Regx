@@ -3,10 +3,11 @@ namespace TRegx\CleanRegex\Internal\Factory\Worker;
 
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\FirstMatchFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\ArgumentlessOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
 
-class FluentStreamWorker implements StreamWorker
+class MatchStreamWorker implements StreamWorker
 {
     public function undecorateWorker(): StreamWorker
     {
@@ -20,6 +21,6 @@ class FluentStreamWorker implements StreamWorker
 
     public function unmatchedOptionalWorker(): OptionalWorker
     {
-        return new ArgumentlessOptionalWorker(new FirstFluentMessage(), NoSuchElementFluentException::class);
+        return new ArgumentlessOptionalWorker(new FirstMatchFluentMessage(), NoSuchElementFluentException::class);
     }
 }

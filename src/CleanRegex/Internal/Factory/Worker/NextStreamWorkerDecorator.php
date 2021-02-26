@@ -18,7 +18,7 @@ class NextStreamWorkerDecorator implements StreamWorker
     /** @var string */
     private $optionalDefaultClass;
 
-    public function __construct(FluentStreamWorker $nextWorker,
+    public function __construct(StreamWorker $nextWorker,
                                 NotMatchedMessage $subjectMessage,
                                 Subjectable $subjectable,
                                 string $optionalDefaultClass)
