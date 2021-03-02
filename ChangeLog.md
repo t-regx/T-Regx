@@ -5,9 +5,15 @@ Incoming
 --------
 
 * Bug fixes
-    * Group name `"group\n"` is now considered invalid.
+    * Group name `"group\n"` used to be considered valid, now it's fixed.
 * Other
     * [`ReplaceMatch`] is now a class, not an interface.
+    * When invalid strings, error messages will now also print invisible characters, for
+      example `"Foo\n"`, instead of 
+      ```
+      "Foo      
+      "
+      ```
 
 Added in 0.10.1
 ---------------

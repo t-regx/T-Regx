@@ -18,9 +18,9 @@ class GroupNameValidator
     public function validate(): void
     {
         if (is_int($this->groupNameOrIndex)) {
-            $this->validateGroupIndex();
+            $this->validateGroupIndex($this->groupNameOrIndex);
         } else if (is_string($this->groupNameOrIndex)) {
-            $this->validateGroupNameFormat();
+            $this->validateGroupNameFormat($this->groupNameOrIndex);
         } else {
             $this->throwInvalidGroupNameType();
         }
@@ -37,23 +37,24 @@ class GroupNameValidator
         return false;
     }
 
-    private function validateGroupIndex(): void
+    private function validateGroupIndex(int $index): void
     {
-        if ($this->groupNameOrIndex < 0) {
-            throw new InvalidArgumentException("Group index must be a non-negative integer, given: $this->groupNameOrIndex");
+        if ($index < 0) {
+            throw new InvalidArgumentException("Group index must be a non-negative integer, given: $index");
         }
     }
 
-    private function validateGroupNameFormat(): void
+    private function validateGroupNameFormat(string $name): void
     {
         if (!$this->isGroupNameValid()) {
-            throw new InvalidArgumentException("Group name must be an alphanumeric string, not starting with a digit, given: '$this->groupNameOrIndex'");
+            $prettyName = InvisibleCharacters::format($name);
+            throw new InvalidArgumentException("Group name must be an alphanumeric string, not starting with a digit, given: '$prettyName'");
         }
     }
 
     private function isGroupNameValid(): bool
     {
-        return \preg_match('/^[_a-zA-Z][a-zA-Z0-9_]{0,31}$/D', $this->groupNameOrIndex) === 1;
+        return \preg_match('/^[_a-zA-Z][a-zA-Z0-9_]{0,31}$/D', $this->groupNameOrIndex) > 0;
     }
 
     private function throwInvalidGroupNameType(): void
