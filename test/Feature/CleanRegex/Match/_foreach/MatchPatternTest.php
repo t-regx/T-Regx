@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\_foreach;
+namespace Test\Feature\TRegx\CleanRegex\Match\_foreach;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;

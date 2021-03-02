@@ -323,4 +323,23 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertSame('19', $result);
     }
+
+    /**
+     * @test
+     */
+    public function shouldBeIterable()
+    {
+        // given
+        $result = [];
+        $iterable = pattern('\d+([cm]?m)')->match('14cm 12mm 18m')->group(1);
+
+        // when
+        /** @var DetailGroup $chain */
+        foreach ($iterable as $chain) {
+            $result[] = "$chain";
+        }
+
+        // then
+        $this->assertSame(['cm', 'mm', 'm'], $result);
+    }
 }
