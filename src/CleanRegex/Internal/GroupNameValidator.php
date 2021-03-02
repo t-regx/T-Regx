@@ -53,7 +53,7 @@ class GroupNameValidator
 
     private function isGroupNameValid(): bool
     {
-        return \preg_match('/^[_a-zA-Z][a-zA-Z0-9_]{0,31}$/', $this->groupNameOrIndex) === 1;
+        return \preg_match('/^[_a-zA-Z][a-zA-Z0-9_]{0,31}$/D', $this->groupNameOrIndex) === 1;
     }
 
     private function throwInvalidGroupNameType(): void

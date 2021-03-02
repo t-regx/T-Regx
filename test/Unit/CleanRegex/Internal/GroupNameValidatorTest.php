@@ -113,6 +113,9 @@ class GroupNameValidatorTest extends TestCase
             [-15, 'Group index must be a non-negative integer, given: -15'],
             [2.23, 'Group index must be an integer or a string, given: double (2.23)'],
             [null, 'Group index must be an integer or a string, given: null'],
+            ["group\n", "Group name must be an alphanumeric string, not starting with a digit, given: 'group\n'"],
+            ["group\t", "Group name must be an alphanumeric string, not starting with a digit, given: 'group\t'"],
+            ["group\r", "Group name must be an alphanumeric string, not starting with a digit, given: 'group\r'"],
         ];
     }
 }

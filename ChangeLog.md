@@ -4,6 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
+* Bug fixes
+    * Group name `"group\n"` is now considered invalid.
 * Other
     * [`ReplaceMatch`] is now a class, not an interface.
 

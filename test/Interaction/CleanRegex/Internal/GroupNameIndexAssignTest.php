@@ -177,6 +177,21 @@ class GroupNameIndexAssignTest extends TestCase
     /**
      * @test
      */
+    public function shouldCallFactory_byName_emptyString()
+    {
+        // given
+        $assign = $this->createWithMatchAllFactory_even();
+
+        // then
+        $this->expectException(InternalCleanRegexException::class);
+
+        // when
+        $assign->getNameAndIndex('');
+    }
+
+    /**
+     * @test
+     */
     public function shouldCallFactory_byIndex_even()
     {
         // given
