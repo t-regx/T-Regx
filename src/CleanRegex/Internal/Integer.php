@@ -5,7 +5,7 @@ class Integer
 {
     public static function isValid(string $value): bool
     {
-        if ($value === "") {
+        if ($value === '') {
             return false;
         }
         if (\trim($value) !== $value) {
@@ -15,7 +15,7 @@ class Integer
             return $value[0] !== '+';
         }
         $text = \ltrim($value, '0');
-        if ($text === "") {
+        if ($text === '') {
             return true;
         }
         return \filter_var($text, \FILTER_VALIDATE_INT) !== false;
