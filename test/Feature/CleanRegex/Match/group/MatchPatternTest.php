@@ -342,4 +342,17 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertSame(['cm', 'mm', 'm'], $result);
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_group_forEach_OnUnmatchedSubject()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage('Nonexistent group: #1');
+
+        // when
+        pattern('Foo')->match('Bar')->group(1)->forEach(Functions::fail());
+    }
 }
