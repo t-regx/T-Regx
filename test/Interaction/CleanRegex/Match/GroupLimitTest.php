@@ -167,24 +167,4 @@ class GroupLimitTest extends TestCase
         // when
         $limit->nth(5);
     }
-
-    /**
-     * @test
-     */
-    public function shouldExceptionContainDetails()
-    {
-        // given
-        $limit = GroupLimitFactory::groupLimitAll($this, [['Foo', 0]], 'foo');
-
-        try {
-            // when
-            $limit->nth(4);
-            $this->fail();
-        } catch (NoSuchNthElementException $exception) {
-            // then
-            $this->assertSame(4, $exception->getIndex());
-            $this->assertSame(1, $exception->getTotal());
-            $this->assertSame("Expected to get group 'foo' from the 4-nth match, but only 1 occurrences were matched", $exception->getMessage());
-        }
-    }
 }
