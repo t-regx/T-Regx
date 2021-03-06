@@ -7,6 +7,7 @@ Incoming
 * Breaking changes
     * Rename `DetailGroup` to `Group`
     * Rename `ReplaceDetailGroup` to `ReplaceGroup`
+    * Rename `BaseDetailGroup` to `CapturingGroup`
 * Features
     * Calling `pattern()->replace()` without `all()`/`first()`/`only()`, implicitly assumes `all()`
 * Bug fixes
@@ -19,7 +20,7 @@ Incoming
       "Foo      
       "
       ```
-    * Update messages and exceptions thrown in edge-cases from `group()->fluent()`
+    * Update messages and exceptions thrown in edge-cases from `group()->fluent()` #93
 
 Added in 0.10.1
 ---------------
