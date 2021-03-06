@@ -191,4 +191,28 @@ class PatternTest extends TestCase
         // when
         pattern('Foo **')->prune('Foo bar');
     }
+
+    /**
+     * @test
+     */
+    public function shouldGet_split()
+    {
+        // when
+        $matches = pattern(',')->split('Foo,Bar,Cat');
+
+        // then
+        $this->assertSame(['Foo', 'Bar', 'Cat'], $matches);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_split_WithCapturingGroup()
+    {
+        // when
+        $matches = pattern('(,)')->split('Foo,Bar,Cat');
+
+        // then
+        $this->assertSame(['Foo', ',', 'Bar', ',', 'Cat'], $matches);
+    }
 }
