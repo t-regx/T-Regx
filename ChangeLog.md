@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.10.2
+---------------
+
 * Breaking changes
     * Rename `DetailGroup` to `Group`
     * Rename `ReplaceDetailGroup` to `ReplaceGroup`
