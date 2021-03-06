@@ -6,7 +6,7 @@ use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class MatchPatternTest extends TestCase
 {
@@ -132,7 +132,7 @@ class MatchPatternTest extends TestCase
         $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')
             ->match('D Computer')
             ->group('lowercase')
-            ->map(function (DetailGroup $group) {
+            ->map(function (Group $group) {
                 if ($group->matched()) {
                     return $group->text();
                 }
@@ -155,7 +155,7 @@ class MatchPatternTest extends TestCase
         pattern('[A-Z](?<lowercase>[a-z]+)?')
             ->match('D Computer')
             ->group('lowercase')
-            ->forEach(function (DetailGroup $group) use (&$groups) {
+            ->forEach(function (Group $group) use (&$groups) {
                 $groups[] = $group->orReturn("unmatched");
             });
 
@@ -172,7 +172,7 @@ class MatchPatternTest extends TestCase
         $groups = pattern('\d+(?<unit>kg|[cm]?m)')
             ->match('15mm 12kg 16m 17cm 27kg')
             ->group('unit')
-            ->filter(function (DetailGroup $group) {
+            ->filter(function (Group $group) {
                 return $group->text() !== "kg";
             });
 

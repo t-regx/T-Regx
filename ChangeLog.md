@@ -4,8 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Breaking changes
+    * Rename `DetailGroup` to `Group`
+    * Rename `ReplaceDetailGroup` to `ReplaceGroup`
 * Bug fixes
-    * Group name `"group\n"` used to be considered valid, now it's fixed.
+    * Group name `"group\n"` used to be considered valid, now it's correctly being treated as invalid.
 * Other
     * [`ReplaceMatch`] is now a class, not an interface.
     * When invalid strings, error messages will now also print invisible characters, for

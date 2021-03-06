@@ -12,7 +12,7 @@ use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\Factory\Worker\NextStreamWorkerDecorator;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 class FluentMatchPatternTest extends TestCase
@@ -406,10 +406,10 @@ class FluentMatchPatternTest extends TestCase
         return $mockObject;
     }
 
-    private function matchGroup(int $value): DetailGroup
+    private function matchGroup(int $value): Group
     {
-        /** @var DetailGroup|MockObject $mockObject */
-        $mockObject = $this->createMock(DetailGroup::class);
+        /** @var Group|MockObject $mockObject */
+        $mockObject = $this->createMock(Group::class);
         $mockObject->method('toInt')->willReturn($value);
         return $mockObject;
     }

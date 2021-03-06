@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class AbstractMatchPatternTest extends TestCase
@@ -29,7 +29,7 @@ class AbstractMatchPatternTest extends TestCase
             ->map(function (Detail $detail) {
                 return $detail->group('capital');
             })
-            ->map(function (DetailGroup $detailGroup) {
+            ->map(function (Group $detailGroup) {
                 if ($detailGroup->matched()) {
                     return "yes: $detailGroup";
                 }

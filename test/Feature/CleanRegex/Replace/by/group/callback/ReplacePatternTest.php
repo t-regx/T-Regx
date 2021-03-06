@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\by\group\callback;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class ReplacePatternTest extends TestCase
 {
@@ -20,7 +20,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('capital')
-            ->callback(function (DetailGroup $group) {
+            ->callback(function (Group $group) {
                 return $group->text() . ':' . $group->textLength();
             });
 
@@ -59,7 +59,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('missing')
-            ->callback(function (DetailGroup $group) {
+            ->callback(function (Group $group) {
                 $this->assertFalse($group->matched());
                 return 'replaced';
             });

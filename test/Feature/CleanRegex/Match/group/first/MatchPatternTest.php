@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class MatchPatternTest extends TestCase
 {
@@ -48,7 +48,7 @@ class MatchPatternTest extends TestCase
         $subject = 'Computer L Three Four';
 
         // when
-        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first(function (DetailGroup $group) {
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first(function (Group $group) {
             $this->assertSame('omputer', $group->text());
         });
     }
@@ -62,7 +62,7 @@ class MatchPatternTest extends TestCase
         $subject = 'Computer L Three Four';
 
         // when
-        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first(function (DetailGroup $group) {
+        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('lowercase')->first(function (Group $group) {
             $this->assertSame(['omputer', null, 'hree', 'our'], $group->all());
         });
     }

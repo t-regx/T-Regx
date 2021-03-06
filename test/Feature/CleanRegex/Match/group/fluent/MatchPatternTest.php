@@ -6,7 +6,7 @@ use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class MatchPatternTest extends TestCase
 {
@@ -88,7 +88,7 @@ class MatchPatternTest extends TestCase
             ->match('D Computer')
             ->group('lowercase')
             ->fluent()
-            ->map(function (DetailGroup $group) {
+            ->map(function (Group $group) {
                 return $group->orReturn("unmatched");
             })
             ->all();
@@ -167,7 +167,7 @@ class MatchPatternTest extends TestCase
             ->match(' Foo Bar')
             ->group(1)
             ->fluent()
-            ->map(function (DetailGroup $group) {
+            ->map(function (Group $group) {
                 $this->assertSame($group->offset() === 1 ? 'Foo' : 'Bar', $group->text());
             })
             ->all();

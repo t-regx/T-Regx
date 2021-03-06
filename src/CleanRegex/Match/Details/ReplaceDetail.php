@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Internal\ByteOffset;
-use TRegx\CleanRegex\Match\Details\Group\ReplaceDetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\ReplaceGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
@@ -44,9 +44,9 @@ class ReplaceDetail implements Detail
 
     /**
      * @param string|int $nameOrIndex
-     * @return ReplaceDetailGroup
+     * @return ReplaceGroup
      */
-    public function group($nameOrIndex): ReplaceDetailGroup
+    public function group($nameOrIndex): ReplaceGroup
     {
         return $this->detail->group($nameOrIndex);
     }

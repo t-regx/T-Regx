@@ -1,17 +1,17 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details;
 
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
 use TRegx\CleanRegex\Match\Details\Group\DuplicateNamedGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class DuplicateNamedGroupAdapter implements DuplicateNamedGroup
 {
     /** @var string */
     private $name;
-    /** @var DetailGroup */
+    /** @var Group */
     private $group;
 
-    public function __construct(string $name, DetailGroup $group)
+    public function __construct(string $name, Group $group)
     {
         $this->name = $name;
         $this->group = $group;

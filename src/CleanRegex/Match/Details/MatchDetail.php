@@ -17,7 +17,7 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
@@ -117,10 +117,10 @@ class MatchDetail implements Detail
 
     /**
      * @param string|int $nameOrIndex
-     * @return DetailGroup
+     * @return Group
      * @throws NonexistentGroupException
      */
-    public function group($nameOrIndex): DetailGroup
+    public function group($nameOrIndex): Group
     {
         if (!$this->hasGroup($nameOrIndex)) {
             throw new NonexistentGroupException($nameOrIndex);

@@ -26,7 +26,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\PatternLimit;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class GroupLimit implements PatternLimit, \IteratorAggregate
 {
@@ -69,7 +69,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         return $consumer($this->matchGroupDetails($first));
     }
 
-    private function matchGroupDetails(RawMatchOffset $first): DetailGroup
+    private function matchGroupDetails(RawMatchOffset $first): Group
     {
         $facade = new GroupFacade($first, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), $this->matchAllFactory);
         return $facade->createGroup($first);

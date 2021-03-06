@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Callback;
 
-use TRegx\CleanRegex\Match\Details\Group\ReplaceDetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\ReplaceGroup;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
 class MatchGroupStrategy implements ReplaceCallbackArgumentStrategy
@@ -14,7 +14,7 @@ class MatchGroupStrategy implements ReplaceCallbackArgumentStrategy
         $this->nameOrIndex = $nameOrIndex;
     }
 
-    public function mapArgument(ReplaceDetail $detail): ReplaceDetailGroup
+    public function mapArgument(ReplaceDetail $detail): ReplaceGroup
     {
         return $detail->group($this->nameOrIndex);
     }

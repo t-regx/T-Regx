@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
-interface ReplaceDetailGroup extends DetailGroup
+interface ReplaceGroup extends Group
 {
     public function modifiedSubject(): string;
 

@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class GroupByCallbackStream implements Stream
 {
@@ -41,7 +41,7 @@ class GroupByCallbackStream implements Stream
 
     private function mapAndValidateKey($key)
     {
-        if ($key instanceof Detail || $key instanceof DetailGroup) {
+        if ($key instanceof Detail || $key instanceof Group) {
             return $key->text();
         }
         if (\is_int($key) || \is_string($key)) {

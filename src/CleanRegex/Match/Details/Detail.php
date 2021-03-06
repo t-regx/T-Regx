@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
-use TRegx\CleanRegex\Match\Details\Group\ReplaceDetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Details\Group\ReplaceGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
@@ -32,7 +32,7 @@ interface Detail extends BaseDetail
 
     /**
      * @param string|int $nameOrIndex
-     * @return DetailGroup|ReplaceDetailGroup
+     * @return Group|ReplaceGroup
      * @throws NonexistentGroupException
      */
     public function group($nameOrIndex);

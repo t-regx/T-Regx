@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Match\Details\Group\DetailGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class MatchGroupStream implements Stream
 {
@@ -32,7 +32,7 @@ class MatchGroupStream implements Stream
     }
 
     /**
-     * @return DetailGroup[]
+     * @return Group[]
      */
     public function all(): array
     {
@@ -46,7 +46,7 @@ class MatchGroupStream implements Stream
         return (new GroupFacade($matches, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), new EagerMatchAllFactory($matches)))->createGroups($matches);
     }
 
-    public function first(): DetailGroup
+    public function first(): Group
     {
         $match = $this->base->matchOffset();
         $this->validateGroupOrSubject($match);
