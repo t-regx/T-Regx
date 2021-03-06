@@ -5,9 +5,12 @@ use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
+use TRegx\CleanRegex\Internal\ReplaceLimitHelpers;
 
-class ReplaceLimit implements PatternLimit
+class ReplaceLimit implements PatternLimit, ReplacePattern
 {
+    use ReplaceLimitHelpers;
+
     /** @var InternalPattern */
     private $pattern;
     /** @var string */

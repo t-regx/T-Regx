@@ -7,6 +7,8 @@ Incoming
 * Breaking changes
     * Rename `DetailGroup` to `Group`
     * Rename `ReplaceDetailGroup` to `ReplaceGroup`
+* Features
+    * Calling `pattern()->replace()` without `all()`/`first()`/`only()`, implicitly assumes `all()`
 * Bug fixes
     * Group name `"group\n"` used to be considered valid, now it's correctly being treated as invalid.
 * Other
