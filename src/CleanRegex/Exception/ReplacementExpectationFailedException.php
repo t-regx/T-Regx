@@ -15,14 +15,14 @@ class ReplacementExpectationFailedException extends \Exception implements Patter
         $this->replaced = $replaced;
     }
 
-    public static function insufficient(string $verb, int $expected, int $replaced): self
+    public static function insufficient(int $actual, int $expected, string $limitPhrase): self
     {
-        return new self("Expected to perform $verb $expected replacement(s), but $replaced replacement(s) were actually performed", $expected, $replaced);
+        return new self("Expected to perform $limitPhrase $expected replacement(s), but $actual replacement(s) were actually performed", $expected, $actual);
     }
 
-    public static function superfluous(string $verb, int $expected, int $replaced): self
+    public static function superfluous(int $actual, int $expected, string $limitPhrase): self
     {
-        return new self("Expected to perform $verb $expected replacement(s), but at least $replaced replacement(s) would have been performed", $expected, $replaced);
+        return new self("Expected to perform $limitPhrase $expected replacement(s), but at least $actual replacement(s) would have been performed", $expected, $actual);
     }
 
     public function getExpected(): int
