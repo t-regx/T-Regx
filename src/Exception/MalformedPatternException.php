@@ -1,6 +1,6 @@
 <?php
 namespace TRegx\Exception;
 
-interface MalformedPatternException extends RegexException
+interface MalformedPatternException extends PatternSyntaxException
 {
 }
