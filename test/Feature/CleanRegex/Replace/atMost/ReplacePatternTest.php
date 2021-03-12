@@ -3,6 +3,8 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\atMost;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
+use TRegx\CleanRegex\PatternInterface;
+use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;
 
 class ReplacePatternTest extends TestCase
 {
@@ -78,5 +80,40 @@ class ReplacePatternTest extends TestCase
 
         // when
         pattern('Foo')->replace('Foo Foo Foo Bar')->only(2)->atMost()->with('Bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_atMost_BacktrackingAtEdge()
+    {
+        // given
+        $subject = '   123 123 aaaaaaaaaaaaaaaaaaaa 3';
+
+        // then
+        $this->expectException(CatastrophicBacktrackingException::class);
+
+        // when
+        $this->backtrackingPattern()->replace($subject)->only(2)->atMost()->with('Bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_atMost_BacktrackingAtEdge()
+    {
+        // given
+        $subject = '   123 123 123 aaaaaaaaaaaaaaaaaaaa 3';
+
+        // then
+        $this->expectException(ReplacementExpectationFailedException::class);
+
+        // when
+        $this->backtrackingPattern()->replace($subject)->only(2)->atMost()->with('Bar');
+    }
+
+    private function backtrackingPattern(): PatternInterface
+    {
+        return pattern("(([a\d]+[a\d]+)+3)");
     }
 }

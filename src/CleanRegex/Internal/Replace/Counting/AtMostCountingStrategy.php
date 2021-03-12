@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Internal\Replace\Counting;
 
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\SafeRegex\preg;
 
 class AtMostCountingStrategy implements CountingStrategy
 {
@@ -25,7 +26,7 @@ class AtMostCountingStrategy implements CountingStrategy
 
     public function count(int $replaced): void
     {
-        \preg_replace($this->pattern->pattern, '', $this->subject, $this->limit + 1, $realCount);
+        preg::replace($this->pattern->pattern, '', $this->subject, $this->limit + 1, $realCount);
         if ($realCount > $this->limit) {
             throw ReplacementExpectationFailedException::superfluous($realCount, $this->limit, $this->limitPhrase);
         }
