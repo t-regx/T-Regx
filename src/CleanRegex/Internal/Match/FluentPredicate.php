@@ -2,8 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use function call_user_func;
-use function is_bool;
 
 class FluentPredicate
 {
@@ -20,8 +18,8 @@ class FluentPredicate
 
     public function test($argument): bool
     {
-        $result = call_user_func($this->predicate, $argument);
-        if (is_bool($result)) {
+        $result = ($this->predicate)($argument);
+        if (\is_bool($result)) {
             return $result;
         }
         throw new InvalidReturnValueException($result, $this->methodName, 'bool');

@@ -22,7 +22,7 @@ class GroupByCallbackStream implements Stream
     {
         $map = [];
         foreach ($this->stream->all() as $element) {
-            $map[$this->mapAndValidateKey(\call_user_func($this->mapper, $element))][] = $element;
+            $map[$this->mapAndValidateKey(($this->mapper)($element))][] = $element;
         }
         return $map;
     }
@@ -30,13 +30,13 @@ class GroupByCallbackStream implements Stream
     public function first()
     {
         $value = $this->stream->first();
-        $this->mapAndValidateKey(\call_user_func($this->mapper, $value));
+        $this->mapAndValidateKey(($this->mapper)($value));
         return $value;
     }
 
     public function firstKey()
     {
-        return $this->mapAndValidateKey(\call_user_func($this->mapper, $this->stream->first()));
+        return $this->mapAndValidateKey(($this->mapper)($this->stream->first()));
     }
 
     private function mapAndValidateKey($key)

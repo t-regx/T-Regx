@@ -31,7 +31,7 @@ class FlatMapper
 
     public function map($object): array
     {
-        $value = \call_user_func($this->callback, $object);
+        $value = ($this->callback)($object);
         if (\is_array($value)) {
             return $value;
         }

@@ -1,8 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Delimiter\Strategy;
 
-use function call_user_func;
-
 class CallbackStrategy implements DelimiterStrategy
 {
     /** @var callable */
@@ -15,7 +13,7 @@ class CallbackStrategy implements DelimiterStrategy
 
     public function buildPattern(string $pattern, string $delimiter): string
     {
-        return $delimiter . call_user_func($this->patternProducer, $delimiter) . $delimiter;
+        return $delimiter . ($this->patternProducer)($delimiter) . $delimiter;
     }
 
     public function shouldGuessDelimiter(): bool
