@@ -2,8 +2,6 @@
 namespace TRegx\CleanRegex\Internal;
 
 use InvalidArgumentException;
-use function is_int;
-use function is_string;
 
 class GroupNameValidator
 {
@@ -17,9 +15,9 @@ class GroupNameValidator
 
     public function validate(): void
     {
-        if (is_int($this->groupNameOrIndex)) {
+        if (\is_int($this->groupNameOrIndex)) {
             $this->validateGroupIndex($this->groupNameOrIndex);
-        } else if (is_string($this->groupNameOrIndex)) {
+        } else if (\is_string($this->groupNameOrIndex)) {
             $this->validateGroupNameFormat($this->groupNameOrIndex);
         } else {
             $this->throwInvalidGroupNameType();
@@ -28,10 +26,10 @@ class GroupNameValidator
 
     public function isGroupValid(): bool
     {
-        if (is_int($this->groupNameOrIndex)) {
+        if (\is_int($this->groupNameOrIndex)) {
             return $this->groupNameOrIndex >= 0;
         }
-        if (is_string($this->groupNameOrIndex)) {
+        if (\is_string($this->groupNameOrIndex)) {
             return $this->isGroupNameValid();
         }
         return false;

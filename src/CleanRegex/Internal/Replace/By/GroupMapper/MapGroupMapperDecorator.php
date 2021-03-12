@@ -22,7 +22,6 @@ class MapGroupMapperDecorator implements GroupMapper
         if ($occurrence === null) {
             return null;
         }
-        $mapper = $this->mappingFunction;
-        return $mapper($occurrence);
+        return ($this->mappingFunction)($occurrence);
     }
 }

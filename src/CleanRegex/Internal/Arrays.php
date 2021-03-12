@@ -1,13 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use function array_merge;
-
 class Arrays
 {
     public static function flatten(array $array): array
     {
-        return array_merge(...$array);
+        return \array_merge(...$array);
     }
 
     public static function getDuplicates(array $array): array

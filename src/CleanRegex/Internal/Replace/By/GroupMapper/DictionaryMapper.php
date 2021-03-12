@@ -35,16 +35,16 @@ class DictionaryMapper implements GroupMapper
     private function validateOccurrence($occurrence): void
     {
         if (!\is_string($occurrence)) {
-            $value = Type::asString($occurrence);
-            throw new InvalidArgumentException("Invalid replacement map key. Expected string, but $value given");
+            $type = Type::asString($occurrence);
+            throw new InvalidArgumentException("Invalid replacement map key. Expected string, but $type given");
         }
     }
 
     private function validateReplacement($replacement): void
     {
         if (!\is_string($replacement)) {
-            $value = Type::asString($replacement);
-            throw new InvalidArgumentException("Invalid replacement map value. Expected string, but $value given");
+            $type = Type::asString($replacement);
+            throw new InvalidArgumentException("Invalid replacement map value. Expected string, but $type given");
         }
     }
 }
