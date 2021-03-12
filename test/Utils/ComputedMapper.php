@@ -16,7 +16,7 @@ class ComputedMapper implements DetailGroupMapper
 
     public function map(string $occurrence, Detail $initialDetail): ?string
     {
-        return call_user_func($this->mapper, $occurrence, $initialDetail);
+        return ($this->mapper)($occurrence, $initialDetail);
     }
 
     public function useExceptionValues(string $occurrence, $nameOrIndex, string $match): void

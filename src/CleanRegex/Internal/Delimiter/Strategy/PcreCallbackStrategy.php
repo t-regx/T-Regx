@@ -1,8 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Delimiter\Strategy;
 
-use function call_user_func;
-
 class PcreCallbackStrategy implements DelimiterStrategy
 {
     /** @var callable */
@@ -28,7 +26,7 @@ class PcreCallbackStrategy implements DelimiterStrategy
          */
         $delimiter = $delimiter ?? '/';
 
-        return call_user_func($this->patternProducer, $delimiter);
+        return ($this->patternProducer)($delimiter);
     }
 
     public function shouldGuessDelimiter(): bool

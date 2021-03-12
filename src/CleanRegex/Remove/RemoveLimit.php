@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Remove;
 
 use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\PatternLimit;
-use function call_user_func;
 
 class RemoveLimit implements PatternLimit
 {
@@ -17,12 +16,12 @@ class RemoveLimit implements PatternLimit
 
     public function all(): string
     {
-        return call_user_func($this->patternFactory, -1);
+        return ($this->patternFactory)(-1);
     }
 
     public function first(): string
     {
-        return call_user_func($this->patternFactory, 1);
+        return ($this->patternFactory)(1);
     }
 
     public function only(int $limit): string
@@ -30,6 +29,6 @@ class RemoveLimit implements PatternLimit
         if ($limit < 0) {
             throw new InvalidArgumentException("Negative limit: $limit");
         }
-        return call_user_func($this->patternFactory, $limit);
+        return ($this->patternFactory)($limit);
     }
 }

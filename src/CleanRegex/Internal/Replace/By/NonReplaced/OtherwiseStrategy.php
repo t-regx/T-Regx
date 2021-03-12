@@ -15,7 +15,7 @@ class OtherwiseStrategy implements SubjectRs
 
     public function substitute(string $subject): string
     {
-        $value = \call_user_func($this->mapper, $subject);
+        $value = ($this->mapper)($subject);
         if (\is_string($value)) {
             return $value;
         }
