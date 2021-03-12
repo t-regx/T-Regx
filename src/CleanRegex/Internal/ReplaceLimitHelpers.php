@@ -4,14 +4,11 @@ namespace TRegx\CleanRegex\Internal;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\CompositeReplacePattern;
 use TRegx\CleanRegex\Replace\FocusReplacePattern;
-use TRegx\CleanRegex\Replace\LimitedReplacePattern;
 use TRegx\CleanRegex\Replace\LimitlessReplacePattern;
 
 trait ReplaceLimitHelpers
 {
     public abstract function all(): LimitlessReplacePattern;
-
-    public abstract function first(): LimitedReplacePattern;
 
     public function with(string $replacement): string
     {

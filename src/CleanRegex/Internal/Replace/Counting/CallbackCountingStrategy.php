@@ -13,7 +13,6 @@ class CallbackCountingStrategy implements CountingStrategy
 
     public function count(int $replaced): void
     {
-        $receiver = $this->countReceiver;
-        $receiver($replaced);
+        ($this->countReceiver)($replaced);
     }
 }

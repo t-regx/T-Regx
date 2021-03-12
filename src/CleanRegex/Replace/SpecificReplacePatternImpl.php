@@ -69,14 +69,12 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
                 $this->limit,
                 $this->substitute,
                 $this->countingStrategy,
-                new ApiBase($this->pattern, $this->subject, new UserData())
-            ),
+                new ApiBase($this->pattern, $this->subject, new UserData())),
             new LazyMessageThrowStrategy(MissingReplacementKeyException::class),
             new PerformanceEmptyGroupReplace($this->pattern, $this, $this->limit),
             $this->replaceCallbackInvoker(),
             $this->subject,
-            new IdentityWrapper()
-        );
+            new IdentityWrapper());
     }
 
     public function focus($nameOrIndex): FocusReplacePattern

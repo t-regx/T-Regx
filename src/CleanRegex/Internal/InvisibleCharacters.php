@@ -6,7 +6,7 @@ class InvisibleCharacters
     public static function format(string $string): string
     {
         return \preg_replace_callback("#\\p{C}|\xc2\xa0#u", static function (array $matches) {
-            return self::formatWord(...$matches);
+            return self::formatWord($matches[0]);
         }, $string);
     }
 

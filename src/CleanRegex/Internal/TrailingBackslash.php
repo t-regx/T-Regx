@@ -14,7 +14,6 @@ class TrailingBackslash
 
     private static function hasTrailingSlash(string $pattern): bool
     {
-        $unquoted = \str_replace('\\\\', '', $pattern);
-        return \substr($unquoted, -1) === '\\';
+        return \substr(\str_replace('\\\\', '', $pattern), -1) === '\\';
     }
 }

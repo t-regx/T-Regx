@@ -62,9 +62,8 @@ class FocusReplacePattern implements SpecificReplacePattern
             }
             $group = $detail->group($this->nameOrIndex);
             return $group->substitute(ReferencesReplacer::replace($replacement, \array_merge(
-                    [$group->text()],
-                    $detail->groups()->texts())
-            ));
+                [$group->text()],
+                $detail->groups()->texts())));
         });
     }
 

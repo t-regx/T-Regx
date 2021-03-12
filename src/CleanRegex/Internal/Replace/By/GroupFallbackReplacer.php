@@ -74,8 +74,7 @@ class GroupFallbackReplacer
     private function validateGroup(array $match, $nameOrIndex): void
     {
         if (!array_key_exists($nameOrIndex, $match)) {
-            $matches = $this->base->matchAllOffsets();
-            if (!$matches->hasGroup($nameOrIndex)) {
+            if (!$this->base->matchAllOffsets()->hasGroup($nameOrIndex)) {
                 throw new NonexistentGroupException($nameOrIndex);
             }
         }
