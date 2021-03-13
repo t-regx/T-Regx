@@ -55,7 +55,7 @@ class GroupNameIndexAssignTest extends TestCase
         [$name, $index] = $assign->getNameAndIndex(2);
 
         // then
-        $this->assertSame(null, $name);
+        $this->assertNull($name);
         $this->assertSame(2, $index);
     }
 
@@ -71,7 +71,7 @@ class GroupNameIndexAssignTest extends TestCase
         [$name, $index] = $assign->getNameAndIndex(0);
 
         // then
-        $this->assertSame(null, $name);
+        $this->assertNull($name);
         $this->assertSame(0, $index);
     }
 

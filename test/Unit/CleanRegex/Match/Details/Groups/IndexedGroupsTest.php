@@ -57,7 +57,7 @@ class IndexedGroupsTest extends TestCase
         $count = $matchGroups->count();
 
         // then
-        $this->assertSame(count($expectedNames), $count);
+        $this->assertCount($count, $expectedNames);
     }
 
     private function match(array $keys): IRawMatchOffset
