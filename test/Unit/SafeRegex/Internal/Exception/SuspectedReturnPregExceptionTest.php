@@ -19,7 +19,7 @@ class SuspectedReturnPregExceptionTest extends TestCase
         // then
         $this->assertSame('method', $method);
         $this->assertSame('/pattern/', $pattern);
-        $this->assertSame(true, $value);
+        $this->assertTrue($value);
     }
 
     public function shouldAcceptPatternsAsArray()
