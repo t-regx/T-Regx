@@ -86,7 +86,7 @@ class GuardedInvokerTest extends TestCase
 
         // then
         $this->assertSame(15, $result);
-        $this->directInstanceOf(CompilePregException::class, $exception);
+        $this->assertSame(CompilePregException::class, get_class($exception));
         $this->assertSame("/p/", $exception->getPregPattern());
     }
 

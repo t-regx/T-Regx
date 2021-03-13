@@ -66,6 +66,6 @@ class HierarchyTest extends TestCase
     private function directInstanceOf(string $expected, \Throwable $exception): void
     {
         // Don't use "instanceof", $exception must be this class exactly
-        $this->directInstanceOf($expected, $exception);
+        $this->assertEquals($expected, get_class($exception));
     }
 }
