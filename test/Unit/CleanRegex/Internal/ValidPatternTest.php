@@ -10,19 +10,19 @@ class ValidPatternTest extends TestCase
 {
     /**
      * @test
-     * @dataProvider validPatterns
+     * @dataProvider validPcrePatterns
      * @param string $string
      */
-    public function shouldValidatePattern(string $string)
+    public function shouldValidatePcrePattern(string $string)
     {
         // when
         $isValid = ValidPattern::isValid($string);
 
         // then
-        $this->assertTrue($isValid, "Failed asserting that pattern is valid");
+        $this->assertTrue($isValid);
     }
 
-    public function validPatterns(): array
+    public function validPcrePatterns(): array
     {
         return [
             ['~((https?|ftp)://(\S*?\.\S*?))([\s)\[\]{},;"\':<]|\.\s | $)~'],
@@ -32,16 +32,25 @@ class ValidPatternTest extends TestCase
 
     /**
      * @test
-     * @dataProvider \Test\DataProviders::invalidPregPatterns()
+     * @dataProvider validStandardPatterns
      * @param string $string
      */
-    public function shouldNotValidatePattern(string $string)
+    public function shouldValidateStandardPattern(string $string)
     {
         // when
-        $isValid = ValidPattern::isValid($string);
+        $isValid = ValidPattern::isValidStandard($string);
 
         // then
-        $this->assertFalse($isValid, "Failed asserting that pattern is invalid");
+        $this->assertTrue($isValid);
+    }
+
+    public function validStandardPatterns(): array
+    {
+        return [
+            ['~((https?|ftp)://(\S*?\.\S*?))([\s)\[\]{},;"\':<]|\.\s | $)~'],
+            ['!exclamation marks!'],
+            ['string'],
+        ];
     }
 
     /**
@@ -49,7 +58,21 @@ class ValidPatternTest extends TestCase
      * @dataProvider \Test\DataProviders::invalidPregPatterns()
      * @param string $string
      */
-    public function shouldNotLeaveErrors(string $string)
+    public function shouldNotValidatePcrePattern(string $string)
+    {
+        // when
+        $isValid = ValidPattern::isValid($string);
+
+        // then
+        $this->assertFalse($isValid);
+    }
+
+    /**
+     * @test
+     * @dataProvider \Test\DataProviders::invalidPregPatterns()
+     * @param string $string
+     */
+    public function shouldPcreNotLeaveErrors(string $string)
     {
         // given
         $errorsCleaner = new ErrorsCleaner();
@@ -61,5 +84,34 @@ class ValidPatternTest extends TestCase
         // then
         $this->assertInstanceOf(EmptyHostError::class, $error);
         $this->assertFalse($error->occurred());
+    }
+
+    /**
+     * @test
+     * @dataProvider \Test\DataProviders::invalidStandardPatterns()
+     * @param string $string
+     */
+    public function shouldNotValidateStandardPattern(string $string)
+    {
+        // when
+        $isValid = ValidPattern::isValidStandard($string);
+
+        // then
+        $this->assertFalse($isValid);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStandardNotLeaveErrors()
+    {
+        // given
+        $errorsCleaner = new ErrorsCleaner();
+
+        // when
+        ValidPattern::isValidStandard('/{2,1}/');
+
+        // then
+        $this->assertInstanceOf(EmptyHostError::class, $errorsCleaner->getError());
     }
 }

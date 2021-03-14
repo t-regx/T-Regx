@@ -2,14 +2,13 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Format;
 
 use TRegx\CleanRegex\Exception\FormatMalformedPatternException;
-use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Format\TokenValue;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\MultiSplitter;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\CompositeQuotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
+use TRegx\CleanRegex\Internal\TrailingBackslash;
 use TRegx\CleanRegex\Internal\ValidPattern;
 
 class FormatTokenValue implements TokenValue
@@ -49,11 +48,7 @@ class FormatTokenValue implements TokenValue
 
     private function validatePair(string $pattern, string $placeholder): void
     {
-        try {
-            if (!ValidPattern::isValid(InternalPattern::standard($pattern)->pattern)) {
-                throw new FormatMalformedPatternException("Malformed pattern '$pattern' assigned to placeholder '$placeholder'");
-            }
-        } catch (TrailingBackslashException $exception) {
+        if (TrailingBackslash::hasTrailingSlash($pattern) || !ValidPattern::isValidStandard($pattern)) {
             throw new FormatMalformedPatternException("Malformed pattern '$pattern' assigned to placeholder '$placeholder'");
         }
     }

@@ -20,6 +20,18 @@ class DataProviders
         ];
     }
 
+    public static function invalidStandardPatterns(): array
+    {
+        return [
+            ['{2,1}'],
+            [')unopened.group'],
+            ['*starting.quantifier'],
+            ['\\'],
+            ['('],
+            ['{1}'],
+        ];
+    }
+
     public function invalidUtf8Sequences(): array
     {
         return \TRegx\DataProvider\DataProviders::each([
