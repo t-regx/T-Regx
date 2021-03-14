@@ -9,7 +9,7 @@ use TRegx\SafeRegex\preg;
 
 class DelimitererTest extends TestCase
 {
-    public function patternsAndResults(): array
+    public function patterns(): array
     {
         return [
             ['FooBar'],
@@ -38,7 +38,7 @@ class DelimitererTest extends TestCase
 
     /**
      * @test
-     * @dataProvider patternsAndResults
+     * @dataProvider patterns
      * @param string $input
      */
     public function shouldDelimiterPattern(string $input)
@@ -60,7 +60,7 @@ class DelimitererTest extends TestCase
     {
         // given
         $delimiterer = new Delimiterer(new IdentityStrategy());
-        $pattern = 's~i/e#++m%a!@*`_-;=,' . chr(1);
+        $pattern = "s~i/e#++m%a!@*`_-;=,\1";
 
         $message = "Unfortunately, CleanRegex couldn't find any indistinct delimiter to match your pattern \"$pattern\". " .
             'Please specify the delimiter explicitly, and escape the delimiter character inside your pattern.';
