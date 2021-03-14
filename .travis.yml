@@ -26,4 +26,4 @@ before_script:
   - mkdir -p build/cov
 
 script:
-  - ./vendor/bin/phpunit --bootstrap helper/bootstrap.php test
+  - XDEBUG_MODE=coverage ./vendor/bin/phpunit --bootstrap helper/bootstrap.php test
