@@ -40,10 +40,12 @@ class LazyDetail implements Detail
             $this->base,
             -99, // These values are never used, because `index()` and `limit()` in LazyMatch aren't
             -99, // passed through `Detail`, because they are read from fields.
+            // We could pass real data here, but we could never test it, since the code doesn't
+            // use those values. We could also pass it and read it, but then LazyDetail.index()
+            // and  LazyDetail.limit() would perform match unnecessarily.
             new RawMatchesToMatchAdapter($matches, $this->index),
             new EagerMatchAllFactory($matches),
-            new UserData()
-        );
+            new UserData());
     }
 
     public function subject(): string
