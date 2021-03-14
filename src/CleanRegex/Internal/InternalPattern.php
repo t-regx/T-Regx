@@ -17,7 +17,7 @@ class InternalPattern
         $this->originalPattern = $originalPattern;
     }
 
-    public static function standard(string $pattern, string $flags = ''): InternalPattern
+    public static function standard(string $pattern, string $flags): InternalPattern
     {
         TrailingBackslash::throwIfHas($pattern);
         return new self((new Delimiterer(new IdentityStrategy()))->delimiter($pattern) . $flags, $pattern);

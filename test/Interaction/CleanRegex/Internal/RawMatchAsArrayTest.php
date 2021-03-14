@@ -2,7 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
@@ -34,9 +34,8 @@ class RawMatchAsArrayTest extends TestCase
     private function base(): ApiBase
     {
         return new ApiBase(
-            InternalPattern::standard('(?:Foo|Bar):(?<group1>Nope)?(?<group2>cm|mm)(?<group3>Really nope)?'),
+            Internal::pattern('(?:Foo|Bar):(?<group1>Nope)?(?<group2>cm|mm)(?<group3>Really nope)?'),
             'Foo:cm Bar:mm',
-            new UserData()
-        );
+            new UserData());
     }
 }

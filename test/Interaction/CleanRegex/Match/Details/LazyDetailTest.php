@@ -3,7 +3,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\Details;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -297,8 +297,7 @@ class LazyDetailTest extends TestCase
     {
         // given
         $pattern = '(?<group>One)(?<group>Two)';
-        $subject = 'OneTwo';
-        $detail = new LazyDetail(new ApiBase(InternalPattern::standard($pattern, 'J'), $subject, new UserData()), 0, -1);
+        $detail = new LazyDetail(new ApiBase(Internal::pattern($pattern, 'J'), 'OneTwo', new UserData()), 0, -1);
 
         // when
         $text1 = $detail->group('group')->text();
@@ -316,7 +315,7 @@ class LazyDetailTest extends TestCase
 
     private function detailWithIndex(string $pattern, string $subject, int $index): LazyDetail
     {
-        return new LazyDetail(new ApiBase(InternalPattern::standard($pattern, 'u'), $subject, new UserData()), $index, 14);
+        return new LazyDetail(new ApiBase(Internal::pattern($pattern, 'u'), $subject, new UserData()), $index, 14);
     }
 
     private function baseMock(): Base

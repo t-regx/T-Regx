@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Groups;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\Match\Groups\Descriptor;
 
 class DescriptorTest extends TestCase
@@ -13,7 +13,7 @@ class DescriptorTest extends TestCase
     public function should_getGroup()
     {
         // given
-        $descriptor = new Descriptor(InternalPattern::standard('Pattern'));
+        $descriptor = new Descriptor(Internal::pattern('Pattern'));
 
         // when
         $groups = $descriptor->getGroups();
@@ -28,7 +28,7 @@ class DescriptorTest extends TestCase
     public function should_getGroups()
     {
         // given
-        $descriptor = new Descriptor(InternalPattern::standard('(First) (?<named>Second) (Third) (?<Fourth>. (?<nested>))'));
+        $descriptor = new Descriptor(Internal::pattern('(First) (?<named>Second) (Third) (?<Fourth>. (?<nested>))'));
 
         // when
         $groups = $descriptor->getGroups();

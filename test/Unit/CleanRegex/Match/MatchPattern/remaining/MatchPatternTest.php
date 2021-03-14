@@ -3,9 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\remaining;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
@@ -16,17 +15,13 @@ class MatchPatternTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard('([A-Z])?[a-z]+'), 'Nice matching pattern');
+        $pattern = new MatchPattern(Internal::pattern('\w+'), 'Nice matching pattern');
 
         // when
-        $first = $pattern
-            ->remaining(function (Detail $detail) {
-                return strlen($detail) > 4;
-            })
-            ->all();
+        $remaining = $pattern->remaining(Functions::notEquals('Nice'))->all();
 
         // then
-        $this->assertSame(['matching', 'pattern'], $first);
+        $this->assertSame(['matching', 'pattern'], $remaining);
     }
 
     /**
@@ -35,7 +30,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onInvalidReturnType()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard('([A-Z])?[a-z]+'), 'Nice matching pattern');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Foo');
 
         // then
         $this->expectException(InvalidReturnValueException::class);

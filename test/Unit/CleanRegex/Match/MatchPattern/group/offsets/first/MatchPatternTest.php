@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\group\offsets\first;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
@@ -14,7 +14,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onNotMatchedGroup()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard('(?<unmatched>not this time)? (?<existing>[a-z]+)'), ' matching');
+        $pattern = new MatchPattern(Internal::pattern('(?<unmatched>not this time)? (?<existing>[a-z]+)'), ' matching');
 
         // then
         $this->expectException(GroupNotMatchedException::class);

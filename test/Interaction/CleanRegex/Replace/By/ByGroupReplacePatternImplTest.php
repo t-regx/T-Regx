@@ -4,7 +4,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Replace\By;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
@@ -67,7 +67,7 @@ class ByGroupReplacePatternImplTest extends TestCase
 
     public function create(string $pattern, string $subject): ByGroupReplacePatternImpl
     {
-        $internalPattern = InternalPattern::standard($pattern);
+        $internalPattern = Internal::pattern($pattern);
         $subjectable = new Subject($subject);
 
         return new ByGroupReplacePatternImpl(
@@ -77,13 +77,11 @@ class ByGroupReplacePatternImplTest extends TestCase
                 -1,
                 new DefaultStrategy(),
                 new IgnoreCounting(),
-                new ApiBase($internalPattern, $subject, new UserData())
-            ),
+                new ApiBase($internalPattern, $subject, new UserData())),
             new PerformanceEmptyGroupReplace($internalPattern, $subjectable, -1),
             new ReplacePatternCallbackInvoker($internalPattern, $subjectable, -1, new LazyMessageThrowStrategy(\AssertionError::class), new IgnoreCounting()),
             1,
             $subject,
-            new IdentityWrapper()
-        );
+            new IdentityWrapper());
     }
 }

@@ -2,8 +2,10 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\RemainingMatchPattern\_empty;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsSameMatches;
 use Test\Utils\CallbackPredicate;
 use Test\Utils\Functions;
+use Test\Utils\Internal;
 use Test\Utils\ThrowApiBase;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
@@ -17,6 +19,8 @@ use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
 class RemainingMatchPatternTest extends TestCase
 {
+    use AssertsSameMatches;
+
     /**
      * @test
      */
@@ -336,19 +340,13 @@ class RemainingMatchPatternTest extends TestCase
         $pattern = new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
                 new ApiBase(InternalPattern::pcre('/[a-z]+/'), $subject, new UserData()),
-                new CallbackPredicate(function (Detail $detail) {
-                    return $detail->text() != 'forgot';
-                })),
+                new CallbackPredicate(Functions::notEquals('forgot'))),
             new ThrowApiBase());
 
         // when
         $filtered = $pattern
-            ->remaining(function (Detail $detail) {
-                return $detail->text() !== 'very';
-            })
-            ->remaining(function (Detail $detail) {
-                return $detail->text() !== 'mate';
-            })
+            ->remaining(Functions::notEquals('very'))
+            ->remaining(Functions::notEquals('mate'))
             ->all();
 
         // then
@@ -362,12 +360,9 @@ class RemainingMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->matchPattern(Functions::notEquals('b'));
-        $matches = [];
 
         // when
-        $matchPattern->forEach(function (Detail $detail) use (&$matches) {
-            $matches[] = $detail->text();
-        });
+        $matchPattern->forEach(Functions::collecting($matches));
 
         // then
         $this->assertSame(['', 'a', '', 'c'], $matches);
@@ -385,11 +380,7 @@ class RemainingMatchPatternTest extends TestCase
         $iterator = $matchPattern->getIterator();
 
         // then
-        $array = [];
-        foreach ($iterator as $detail) {
-            $array[] = $detail->text();
-        }
-        $this->assertSame(['', 'a', '', 'c'], $array);
+        $this->assertSameMatches(['', 'a', 3 => '', 4 => 'c'], iterator_to_array($iterator));
     }
 
     private function standardMatchPattern_notFirst(): RemainingMatchPattern
@@ -404,12 +395,10 @@ class RemainingMatchPatternTest extends TestCase
         return new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
                 new ApiBase(
-                    InternalPattern::standard('(?<=\()[a-z]?(?=\))'),
+                    Internal::pattern('(?<=\()[a-z]?(?=\))'),
                     '() (a) (b) () (c)',
-                    new UserData()
-                ),
-                new CallbackPredicate($predicate)
-            ),
+                    new UserData()),
+                new CallbackPredicate($predicate)),
             new ThrowApiBase());
     }
 }

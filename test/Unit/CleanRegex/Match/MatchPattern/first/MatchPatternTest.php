@@ -3,8 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\first;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
 
@@ -31,7 +31,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirst_emptyMatch()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard("9?(?=matching)"), 'Nice matching pattern');
+        $pattern = new MatchPattern(Internal::pattern("9?(?=matching)"), 'Nice matching pattern');
 
         // when
         $first = $pattern->first();
@@ -81,12 +81,12 @@ class MatchPatternTest extends TestCase
         // given
         $pattern = $this->getMatchPattern('NOT MATCHING');
 
-        try {
-            // when
-            $pattern->first(Functions::fail());
-        } catch (SubjectNotMatchedException $exception) {
-            $this->assertTrue(true);
-        }
+        // then
+        $this->expectException(SubjectNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
+
+        // when
+        $pattern->first(Functions::fail());
     }
 
     /**
@@ -123,6 +123,6 @@ class MatchPatternTest extends TestCase
 
     private function getMatchPattern($subject): MatchPattern
     {
-        return new MatchPattern(InternalPattern::standard("([A-Z])?[a-z']+"), $subject);
+        return new MatchPattern(Internal::pattern("([A-Z])?[a-z']+"), $subject);
     }
 }

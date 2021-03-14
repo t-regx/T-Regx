@@ -2,11 +2,11 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\group\nth;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
@@ -76,6 +76,6 @@ class MatchPatternTest extends TestCase
 
     private function getMatchPattern(string $pattern, string $subject): MatchPattern
     {
-        return new MatchPattern(InternalPattern::standard($pattern), $subject);
+        return new MatchPattern(Internal::pattern($pattern), $subject);
     }
 }

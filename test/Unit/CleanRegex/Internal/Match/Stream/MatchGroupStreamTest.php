@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
@@ -164,7 +164,7 @@ class MatchGroupStreamTest extends TestCase
         /** @var Base|MockObject $base */
         $base = $this->createMock(Base::class);
         $base->expects($this->once())->method($method)->willReturn($result);
-        $base->expects($this->once())->method('getPattern')->willReturn(InternalPattern::standard('Foo'));
+        $base->expects($this->once())->method('getPattern')->willReturn(Internal::pattern('Foo'));
         $base->expects($this->never())->method($this->logicalNot($this->logicalOr($this->equalTo($method), $this->equalTo('getPattern'))));
         return $base;
     }

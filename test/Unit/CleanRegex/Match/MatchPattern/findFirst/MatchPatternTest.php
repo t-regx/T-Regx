@@ -4,8 +4,8 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\findFirst;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -15,19 +15,18 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMatch_withDetails()
+    public function shouldCallWithDetails()
     {
         // given
-        $pattern = $this->getMatchPattern("Nice matching pattern");
+        $pattern = new MatchPattern(Internal::pattern('Foo', 'i'), 'Foo foo FOO');
 
         // when
         $pattern
             ->findFirst(function (Detail $detail) {
                 // then
                 $this->assertSame(0, $detail->index());
-                $this->assertSame("Nice matching pattern", $detail->subject());
-                $this->assertSame(['Nice', 'matching', 'pattern'], $detail->all());
-                $this->assertSame(['N'], $detail->groups()->texts());
+                $this->assertSame('Foo foo FOO', $detail->subject());
+                $this->assertSame(['Foo', 'foo', 'FOO'], $detail->all());
             })
             ->orThrow();
     }
@@ -35,18 +34,16 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMatch_withoutCollapsingOrMethod()
+    public function shouldCallEvenWithoutCollapsingOrMethod()
     {
         // given
-        $pattern = $this->getMatchPattern("Nice matching pattern");
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Foo');
 
         // when
-        $pattern
-            ->findFirst(function (Detail $detail) {
-                // then
-                $this->assertSame("Nice matching pattern", $detail->subject());
-            });
-        // ->orThrow();
+        $pattern->findFirst(function (Detail $detail) {
+            // then
+            $this->assertSame('Foo', $detail->subject());
+        });
     }
 
     /**
@@ -55,7 +52,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $pattern = $this->getMatchPattern("Nice matching pattern");
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Foo');
 
         // when
         $first1 = $pattern->findFirst('strToUpper')->orReturn(null);
@@ -63,18 +60,18 @@ class MatchPatternTest extends TestCase
         $first3 = $pattern->findFirst('strToUpper')->orElse(Functions::fail());
 
         // then
-        $this->assertSame('NICE', $first1);
-        $this->assertSame('NICE', $first2);
-        $this->assertSame('NICE', $first3);
+        $this->assertSame('FOO', $first1);
+        $this->assertSame('FOO', $first2);
+        $this->assertSame('FOO', $first3);
     }
 
     /**
      * @test
      */
-    public function shouldNotInvokeFirst_onNotMatchingSubject()
+    public function shouldNotInvokeFirst_ForUnmatchedSubject()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
 
         // when
         $pattern->findFirst(Functions::fail())->orReturn(null);
@@ -88,10 +85,10 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function should_onNotMatchingSubject_throw()
+    public function shouldThrow_orThrow_onNotMatchingSubject_throw()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -107,7 +104,7 @@ class MatchPatternTest extends TestCase
     public function should_onNotMatchingSubject_throw_userGivenException()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -123,7 +120,7 @@ class MatchPatternTest extends TestCase
     public function should_onNotMatchingSubject_throw_withMessage()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -139,7 +136,7 @@ class MatchPatternTest extends TestCase
     public function should_onNotMatchingSubject_getDefault()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
 
         // when
         $value = $pattern->findFirst('strRev')->orReturn('def');
@@ -154,7 +151,7 @@ class MatchPatternTest extends TestCase
     public function should_onNotMatchingSubject_call()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
 
         // when
         $value = $pattern->findFirst('strRev')->orElse(Functions::constant('new value'));
@@ -169,7 +166,7 @@ class MatchPatternTest extends TestCase
     public function should_onNotMatchingSubject_call_withDetails()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard("(?:[A-Z])?[a-z']+ (?<group>.)"), 'NOT MATCHING');
+        $pattern = new MatchPattern(Internal::pattern("(?:[A-Z])?[a-z']+ (?<group>.)"), 'NOT MATCHING');
 
         // when
         $pattern->findFirst('strRev')->orElse(function (NotMatched $details) {
@@ -182,10 +179,5 @@ class MatchPatternTest extends TestCase
             $this->assertFalse($details->hasGroup('other'));
             $this->assertFalse($details->hasGroup(2));
         });
-    }
-
-    private function getMatchPattern($subject): MatchPattern
-    {
-        return new MatchPattern(InternalPattern::standard("([A-Z])?[a-z']+"), $subject);
     }
 }

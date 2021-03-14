@@ -28,7 +28,7 @@ class CompositePatternMapper
     private function mapToString($pattern): InternalPattern
     {
         if (\is_string($pattern)) {
-            return InternalPattern::standard($pattern);
+            return InternalPattern::standard($pattern, '');
         }
         if ($pattern instanceof PatternInterface) {
             return InternalPattern::pcre($pattern->delimited());

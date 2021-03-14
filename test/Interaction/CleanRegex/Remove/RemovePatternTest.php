@@ -1,9 +1,9 @@
 <?php
 namespace Test\Interaction\TRegx\CleanRegex\Remove;
 
-use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Remove\RemovePattern;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Internal;
+use TRegx\CleanRegex\Remove\RemovePattern;
 
 class RemovePatternTest extends TestCase
 {
@@ -13,7 +13,7 @@ class RemovePatternTest extends TestCase
     public function shouldRemoveAll()
     {
         // given
-        $pattern = new RemovePattern(InternalPattern::standard('\d+'), 'My ip 172.168.13.2 address', -1);
+        $pattern = new RemovePattern(Internal::pattern('\d+'), 'My ip 172.168.13.2 address', -1);
 
         // when
         $result = $pattern->remove();
@@ -28,7 +28,7 @@ class RemovePatternTest extends TestCase
     public function shouldRemoveLimit()
     {
         // given
-        $pattern = new RemovePattern(InternalPattern::standard('\d+'), 'My ip 172.168.13.2 address', 2);
+        $pattern = new RemovePattern(Internal::pattern('\d+'), 'My ip 172.168.13.2 address', 2);
 
         // when
         $result = $pattern->remove();

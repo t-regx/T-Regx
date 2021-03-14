@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\fails;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
@@ -10,30 +10,30 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldMatch()
+    public function shouldNotMatch()
     {
         // given
-        $pattern = new MatchPattern(Pattern::standard('[A-Z]?[a-z]+'), 'Nice matching pattern');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
 
         // when
-        $result = $pattern->fails();
+        $fails = $pattern->fails();
 
         // then
-        $this->assertFalse($result, "Failed asserting that subject fails the pattern");
+        $this->assertTrue($fails);
     }
 
     /**
      * @test
      */
-    public function shouldNotMatch()
+    public function shouldNotFail()
     {
         // given
-        $pattern = new MatchPattern(Pattern::standard('[A-Z]?[a-z]+'), 'NOT MATCHING');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Foo');
 
         // when
-        $result = $pattern->fails();
+        $fails = $pattern->fails();
 
         // then
-        $this->assertTrue($result, "Failed asserting that subject DOES NOT fail the pattern");
+        $this->assertFalse($fails);
     }
 }

@@ -5,10 +5,10 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\ComputedMapper;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
+use Test\Utils\Internal;
 use Test\Utils\NoReplacementMapper;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
@@ -142,12 +142,12 @@ class GroupFallbackReplacerTest extends TestCase
     public function create($pattern, $subject): GroupFallbackReplacer
     {
         return new GroupFallbackReplacer(
-            InternalPattern::standard($pattern),
+            Internal::pattern($pattern),
             new Subject($subject),
             -1,
             new ConstantReturnStrategy('Subject not matched'),
             new IgnoreCounting(),
-            new ApiBase(InternalPattern::standard($pattern), $subject, new UserData())
+            new ApiBase(Internal::pattern($pattern), $subject, new UserData())
         );
     }
 }

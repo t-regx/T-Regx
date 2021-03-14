@@ -76,7 +76,7 @@ class Functions
         };
     }
 
-    public static function collecting(array &$details): callable
+    public static function collecting(?array &$details): callable
     {
         return function (Detail $detail) use (&$details) {
             $details[] = $detail->text();

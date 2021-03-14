@@ -3,8 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\flatMap;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
 
@@ -122,6 +122,6 @@ class MatchPatternTest extends TestCase
 
     private function getMatchPattern($subject): MatchPattern
     {
-        return new MatchPattern(InternalPattern::standard("([A-Z])?[a-z']+"), $subject);
+        return new MatchPattern(Internal::pattern("([A-Z])?[a-z']+"), $subject);
     }
 }

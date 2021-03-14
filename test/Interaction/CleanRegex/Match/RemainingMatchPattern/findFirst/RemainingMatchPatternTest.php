@@ -4,8 +4,8 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\RemainingMatchPattern\findFirs
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CallbackPredicate;
 use Test\Utils\Functions;
+use Test\Utils\Internal;
 use Test\Utils\ThrowApiBase;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
@@ -24,7 +24,7 @@ class RemainingMatchPatternTest extends TestCase
     {
         // given
         $matchPattern = $this->matchPattern('Foo', 'Foo', function (Detail $detail) {
-            return $detail->index() != 1;
+            return $detail->index() !== 1;
         });
 
         // when
@@ -66,9 +66,7 @@ class RemainingMatchPatternTest extends TestCase
         $matchPattern = $this->matchPattern('Foo', 'Lorem ipsum', Functions::constant(true));
 
         // when
-        $findFirst = $matchPattern->findFirst(function (Detail $detail) {
-            return "value: $detail";
-        });
+        $findFirst = $matchPattern->findFirst(Functions::fail());
 
         // then
         $this->assertInstanceOf(EmptyOptional::class, $findFirst);
@@ -83,9 +81,7 @@ class RemainingMatchPatternTest extends TestCase
         $matchPattern = $this->matchPattern('Foo', 'Lorem ipsum', Functions::constant(false));
 
         // when
-        $findFirst = $matchPattern->findFirst(function (Detail $detail) {
-            return "value: $detail";
-        });
+        $findFirst = $matchPattern->findFirst(Functions::fail());
 
         // then
         $this->assertInstanceOf(EmptyOptional::class, $findFirst);
@@ -95,7 +91,7 @@ class RemainingMatchPatternTest extends TestCase
     {
         return new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
-                new ApiBase(InternalPattern::standard($pattern), $subject, new UserData()),
+                new ApiBase(Internal::pattern($pattern), $subject, new UserData()),
                 new CallbackPredicate($predicate)),
             new ThrowApiBase());
     }

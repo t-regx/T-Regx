@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Model\Match;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -46,6 +46,6 @@ class LazyRawWithGroupsTest extends TestCase
          * This is supposed to cause catastrophic backtracking when used with preg_match_all(),
          * but find `123`, when used with preg_match()
          */
-        return new ApiBase(InternalPattern::standard("(([a\d]+[a\d]+)+3)"), '  123 aaaaaaaaaaaaaaaaaaaa 3', new UserData());
+        return new ApiBase(Internal::pattern("(([a\d]+[a\d]+)+3)"), '  123 aaaaaaaaaaaaaaaaaaaa 3', new UserData());
     }
 }

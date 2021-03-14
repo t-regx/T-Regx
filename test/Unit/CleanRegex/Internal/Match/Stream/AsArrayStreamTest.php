@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Stream\AsArrayStream;
@@ -65,7 +65,7 @@ class AsArrayStreamTest extends TestCase
     private function baseStream(): array
     {
         $base = new ApiBase(
-            InternalPattern::standard('(?:Foo|Bar|Lorem):(\d+)?:(?<type>true|false|null)?'),
+            Internal::pattern('(?:Foo|Bar|Lorem):(\d+)?:(?<type>true|false|null)?'),
             'Foo::true Bar:13: Lorem:997:',
             new UserData()
         );

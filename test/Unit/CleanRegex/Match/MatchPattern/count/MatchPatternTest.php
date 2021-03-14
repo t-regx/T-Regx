@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\count;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
@@ -10,10 +10,10 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldCountMatches()
+    public function shouldCount()
     {
         // given
-        $pattern = $this->getMatchPattern("Nice matching pattern");
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Foo Foo Foo');
 
         // when
         $count = $pattern->count();
@@ -25,10 +25,10 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldCountMatches_count()
+    public function shouldBeCountable()
     {
         // given
-        $pattern = $this->getMatchPattern("Nice matching pattern");
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Foo Foo Foo');
 
         // when
         $count = count($pattern);
@@ -40,20 +40,15 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldCountForUnmatchedPattern()
+    public function shouldCountUnmatchedSubject()
     {
         // given
-        $pattern = $this->getMatchPattern("NOT MATCHING");
+        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
 
         // when
         $count = $pattern->count();
 
         // then
         $this->assertSame(0, $count);
-    }
-
-    private function getMatchPattern(string $subject): MatchPattern
-    {
-        return new MatchPattern(InternalPattern::standard('([A-Z])?[a-z]+'), $subject);
     }
 }

@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\iterator;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
@@ -13,7 +13,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_iterator()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard("([A-Z])?[a-z']+"), "Nice matching pattern");
+        $pattern = new MatchPattern(Internal::pattern("([A-Z])?[a-z']+"), "Nice matching pattern");
         $matches = ['Nice', 'matching', 'pattern'];
 
         // when
@@ -35,7 +35,7 @@ class MatchPatternTest extends TestCase
     public function should_hasNext_matched()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard("[A-Z]+"), "Nice matching pattern");
+        $pattern = new MatchPattern(Internal::pattern("[A-Z]+"), "Nice matching pattern");
 
         // when
         $iterator = $pattern->getIterator();
@@ -50,7 +50,7 @@ class MatchPatternTest extends TestCase
     public function shouldNot_hasNext_unmatched()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard("[0-9]+"), "Nice matching pattern");
+        $pattern = new MatchPattern(Internal::pattern("[0-9]+"), "Nice matching pattern");
 
         // when
         $iterator = $pattern->getIterator();

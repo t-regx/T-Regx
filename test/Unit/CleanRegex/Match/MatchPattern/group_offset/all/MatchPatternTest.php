@@ -3,8 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\group_offset\all;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
@@ -15,7 +15,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_groups()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'Nice Matching Pattern');
+        $pattern = new MatchPattern(Internal::pattern('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'Nice Matching Pattern');
 
         // when
         $twoGroups = $pattern->group('two')->offsets()->all();
@@ -32,7 +32,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_unmatchedGroups()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard('(?<hour>\d\d)?:(?<minute>\d\d)?'), 'First->11:__   Second->__:12   Third->13:32');
+        $pattern = new MatchPattern(Internal::pattern('(?<hour>\d\d)?:(?<minute>\d\d)?'), 'First->11:__   Second->__:12   Third->13:32');
 
         // when
         $hours = $pattern->group('hour')->offsets()->all();
@@ -49,7 +49,7 @@ class MatchPatternTest extends TestCase
     public function shouldReturnEmptyArray_onNotMatchedSubject()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'NOT MATCHING');
+        $pattern = new MatchPattern(Internal::pattern('(?<two>[A-Z][a-z])?(?<rest>[a-z]+)'), 'NOT MATCHING');
 
         // when
         $groups = $pattern->group('two')->offsets()->all();
@@ -64,7 +64,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onNonExistentGroup()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard('(?<existing>[a-z]+)'), 'matching');
+        $pattern = new MatchPattern(Internal::pattern('(?<existing>[a-z]+)'), 'matching');
 
         // then
         $this->expectException(NonexistentGroupException::class);
@@ -80,7 +80,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onNonExistentGroup_onNotMatchedSubject()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard('(?<existing>[a-z]+)'), 'NOT MATCHING');
+        $pattern = new MatchPattern(Internal::pattern('(?<existing>[a-z]+)'), 'NOT MATCHING');
 
         // then
         $this->expectException(NonexistentGroupException::class);
@@ -96,7 +96,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onInvalidGroupName()
     {
         // given
-        $pattern = new MatchPattern(InternalPattern::standard('(?<existing>[a-z]+)'), 'matching');
+        $pattern = new MatchPattern(Internal::pattern('(?<existing>[a-z]+)'), 'matching');
 
         // then
         $this->expectException(InvalidArgumentException::class);

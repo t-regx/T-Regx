@@ -4,9 +4,9 @@ namespace Test\Interaction\TRegx\CleanRegex\Replace\By;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
@@ -137,7 +137,7 @@ class UnmatchedGroupStrategyTest extends TestCase
 
     public function replacer(string $subject): GroupFallbackReplacer
     {
-        $pattern = InternalPattern::standard('\d+(?<group>cm)?');
+        $pattern = Internal::pattern('\d+(?<group>cm)?');
         return new GroupFallbackReplacer(
             $pattern,
             new Subject($subject),
