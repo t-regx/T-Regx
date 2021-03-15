@@ -114,8 +114,8 @@ class GroupNameValidatorTest extends TestCase
             [2.23, 'Group index must be an integer or a string, given: double (2.23)'],
             [null, 'Group index must be an integer or a string, given: null'],
             ["group\n", "Group name must be an alphanumeric string, not starting with a digit, given: 'group\\n'"],
-            ["a\x7f\x7fb", "Group name must be an alphanumeric string, not starting with a digit, given: 'a[DEL\\x7f][DEL\\x7f]b'"],
-            ["a\xc2\xa0b", "Group name must be an alphanumeric string, not starting with a digit, given: 'a[NBSP\\xc2\\xa0]b'"],
+            ["a\x7f\x7fb", "Group name must be an alphanumeric string, not starting with a digit, given: 'a\\x7f\\x7fb'"],
+            ["a\xc2\xa0b", "Group name must be an alphanumeric string, not starting with a digit, given: 'a\\xc2\\xa0b'"],
         ];
     }
 }

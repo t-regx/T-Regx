@@ -1,39 +1,39 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use function ord;
+
 class InvisibleCharacters
 {
     public static function format(string $string): string
     {
-        return \preg_replace_callback("#\\p{C}|\xc2\xa0#u", static function (array $matches) {
+        $result = \preg_replace_callback("#\\p{C}|\xc2\xa0#u", static function (array $matches) {
             return self::formatWord($matches[0]);
         }, $string);
+        if (\preg_last_error() === PREG_BAD_UTF8_ERROR) {
+            return \join(\array_map([self::class, 'formatByteOrAscii'], \str_split($string)));
+        }
+        return $result;
     }
 
-    public static function formatWord(string $bytes): string
+    private static function formatWord(string $bytes): string
     {
-        if ($bytes === "\xc2\xa0") {
-            return '[NBSP\xc2\xa0]';
-        }
-        if ($bytes === "\x7f") {
-            return '[DEL\x7f]';
-        }
         if (\strlen($bytes) === 1) {
-            return self::prettyCharacter($bytes);
+            return self::tryPrettyByte(ord($bytes)) ?? self::hex($bytes);
         }
         return \join(\array_map([self::class, 'hex'], \str_split($bytes)));
     }
 
-    public static function prettyCharacter(string $character): string
+    private static function formatByteOrAscii(string $character): string
     {
         $ord = \ord($character);
-        if ($ord > 31 && $ord !== 127) {
+        if ($ord > 31 && $ord < 127) {
             return $character;
         }
-        return self::tryPrettyCharacter($ord) ?? self::hex($character);
+        return self::tryPrettyByte($ord) ?? self::hex($character);
     }
 
-    public static function tryPrettyCharacter(int $ord): ?string
+    private static function tryPrettyByte(int $ord): ?string
     {
         return self::getFromArrayOrNull($ord, [
             8  => '\b',
@@ -46,7 +46,7 @@ class InvisibleCharacters
         ]);
     }
 
-    public static function getFromArrayOrNull(int $key, array $map): ?string
+    private static function getFromArrayOrNull(int $key, array $map): ?string
     {
         return \array_key_exists($key, $map) ? $map[$key] : null;
     }

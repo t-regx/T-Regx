@@ -36,14 +36,22 @@ class InvisibleCharactersTest extends TestCase
             ["\v", '\v'], # vertical tab
             ["\e", '\e'], # escape
             ["\f", '\f'], # form feed
-            ["\x7f", '[DEL\x7f]'], # delete
-            ["\xc2\xa0", '[NBSP\xc2\xa0]'], # nbsp
+            ["\x7f", '\x7f'], # delete
+            ["\xc2\xa0", '\xc2\xa0'], # nbsp
+            ["\xc2\xa6", '¦'],
+            ["\xd8\x81", '\xd8\x81'],
 
             ['Foo\ bar', 'Foo\ bar'],
             ["Foo\n bar", 'Foo\n bar'],
 
             ['śćź', 'śćź'],
             ['!@#$%', '!@#$%'],
+            ['Foo€', 'Foo€'],
+
+            [
+                "Hello, śćź !@#$%^~ \x1f \x7f \xee", # Malformed UTF8
+                'Hello, \xc5\x9b\xc4\x87\xc5\xba !@#$%^~ \x1f \x7f \xee'
+            ],
         ];
     }
 }
