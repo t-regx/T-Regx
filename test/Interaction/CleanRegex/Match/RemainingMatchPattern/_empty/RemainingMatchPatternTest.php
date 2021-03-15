@@ -368,21 +368,6 @@ class RemainingMatchPatternTest extends TestCase
         $this->assertSame(['', 'a', '', 'c'], $matches);
     }
 
-    /**
-     * @test
-     */
-    public function shouldGet_iterator()
-    {
-        // given
-        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
-
-        // when
-        $iterator = $matchPattern->getIterator();
-
-        // then
-        $this->assertSameMatches(['', 'a', 3 => '', 4 => 'c'], iterator_to_array($iterator));
-    }
-
     private function matchPattern(callable $predicate): RemainingMatchPattern
     {
         return new RemainingMatchPattern(

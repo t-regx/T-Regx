@@ -2,6 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\RemainingMatchPattern;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsSameMatches;
 use Test\Utils\CallbackPredicate;
 use Test\Utils\Functions;
 use Test\Utils\Internal;
@@ -16,6 +17,8 @@ use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
 class RemainingMatchPatternTest extends TestCase
 {
+    use AssertsSameMatches;
+
     /**
      * @test
      */
@@ -74,6 +77,21 @@ class RemainingMatchPatternTest extends TestCase
 
         // then
         $this->assertEmpty($only);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_getIterator()
+    {
+        // given
+        $matchPattern = $this->matchPattern('\w+', 'a b c b e', Functions::notEquals('b'));
+
+        // when
+        $iterator = $matchPattern->getIterator();
+
+        // then
+        $this->assertSameMatches(['a', 'c', 'e'], iterator_to_array($iterator));
     }
 
     /**

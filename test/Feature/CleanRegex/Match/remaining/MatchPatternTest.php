@@ -153,4 +153,19 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertSame(2, $count);
     }
+
+    /**
+     * @test
+     */
+    public function shouldGet_offset_getIterator()
+    {
+        // when
+        $iterator = pattern('\w+')->match('One, two, three')
+            ->remaining(Functions::notEquals('two'))
+            ->offsets()
+            ->getIterator();
+
+        // then
+        $this->assertSame([0, 10], iterator_to_array($iterator));
+    }
 }

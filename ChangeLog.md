@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * `match()->getIterator()` no longer preserves the keys of values (like `all()`)
 
 Added in 0.10.2
 ---------------

@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Match;
 
 use ArrayIterator;
-use EmptyIterator;
 use InvalidArgumentException;
 use Iterator;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
@@ -165,11 +164,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function getIterator(): Iterator
     {
-        $objects = $this->getDetailObjects();
-        if (empty($objects)) {
-            return new EmptyIterator();
-        }
-        return new ArrayIterator($objects);
+        return new ArrayIterator(\array_values($this->getDetailObjects()));
     }
 
     public abstract function remaining(callable $predicate): RemainingMatchPattern;
