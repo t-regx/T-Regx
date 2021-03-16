@@ -23,9 +23,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $matchPattern = $this->matchPattern('Foo', 'Foo', function (Detail $detail) {
-            return $detail->index() !== 1;
-        });
+        $matchPattern = $this->matchPattern('Foo', 'Foo', Functions::indexNotEquals(1));
 
         // when
         $findFirst = $matchPattern->findFirst(function (Detail $detail) {
@@ -43,9 +41,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldFindFirst_notFirst()
     {
         // given
-        $matchPattern = $this->matchPattern('(Foo|Bar)', 'Foo Bar', function (Detail $detail) {
-            return $detail->index() > 0;
-        });
+        $matchPattern = $this->matchPattern('(Foo|Bar)', 'Foo Bar', Functions::indexNotEquals(0));
 
         // when
         $findFirst = $matchPattern->findFirst(function (Detail $detail) {

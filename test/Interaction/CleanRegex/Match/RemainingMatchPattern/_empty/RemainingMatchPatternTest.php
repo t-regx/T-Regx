@@ -117,7 +117,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGet_First_notFirst()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_notFirst();
+        $matchPattern = $this->matchPattern(Functions::indexNotEquals(0));
 
         // when
         $first = $matchPattern->first();
@@ -166,7 +166,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGet_findFirst_notFirst()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_notFirst();
+        $matchPattern = $this->matchPattern(Functions::indexNotEquals(0));
 
         // when
         $findFirst = $matchPattern->findFirst(function (Detail $detail) {
@@ -252,7 +252,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldFlatMap()
     {
         // given
-        $matchPattern = $this->standardMatchPattern_notFirst();
+        $matchPattern = $this->matchPattern(Functions::indexNotEquals(0));
 
         // when
         $flatMap = $matchPattern->flatMap(function (Detail $detail) {
@@ -383,21 +383,11 @@ class RemainingMatchPatternTest extends TestCase
         $this->assertSameMatches(['', 'a', 3 => '', 4 => 'c'], iterator_to_array($iterator));
     }
 
-    private function standardMatchPattern_notFirst(): RemainingMatchPattern
-    {
-        return $this->matchPattern(function (Detail $detail) {
-            return $detail->index() > 0;
-        });
-    }
-
     private function matchPattern(callable $predicate): RemainingMatchPattern
     {
         return new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
-                new ApiBase(
-                    Internal::pattern('(?<=\()[a-z]?(?=\))'),
-                    '() (a) (b) () (c)',
-                    new UserData()),
+                new ApiBase(Internal::pattern('(?<=\()[a-z]?(?=\))'), '() (a) (b) () (c)', new UserData()),
                 new CallbackPredicate($predicate)),
             new ThrowApiBase());
     }
