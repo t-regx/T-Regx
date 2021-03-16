@@ -380,7 +380,7 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern($this->all($theSeven), $this->worker());
 
         // when
-        $result = $pattern->groupByCallback(Functions::stringIndex(0));
+        $result = $pattern->groupByCallback(Functions::charAt(0));
 
         // then
         $expected = [

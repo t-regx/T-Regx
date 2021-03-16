@@ -83,13 +83,10 @@ class FilterStreamTest extends TestCase
      */
     public function shouldNotCall_TwiceForTheSameDetail()
     {
-        // given
-        $calls = [];
-
         // when
         pattern('\w+')->match('Foo, Bar, Dor, Ver, Sir')
             ->fluent()
-            ->filter(Functions::peek(Functions::collecting($calls), Functions::equals('Sir')))
+            ->filter(Functions::collecting($calls, Functions::equals('Sir')))
             ->first();
 
         // then

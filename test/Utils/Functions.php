@@ -52,13 +52,6 @@ class Functions
         };
     }
 
-    public static function stringIndex(int $index): callable
-    {
-        return function (string $fucker) use ($index) {
-            return $fucker[$index];
-        };
-    }
-
     public static function equals(string $detail): callable
     {
         return function (Detail $match) use ($detail) {
@@ -83,11 +76,14 @@ class Functions
         };
     }
 
-    public static function collecting(?array &$details): callable
+    public static function collecting(?array &$details, callable $return = null): callable
     {
-        return function (Detail $detail) use (&$details) {
+        return function (Detail $detail) use (&$details, $return) {
             $details[] = $detail->text();
-            return true;
+            if ($return !== null) {
+                return $return($detail);
+            }
+            return null;
         };
     }
 
@@ -117,8 +113,8 @@ class Functions
 
     private static function splitLetters(string $string): array
     {
-        return \array_filter(str_split($string), function (string $part) {
-            return $part !== '';
+        return \array_filter(str_split($string), function (string $value) {
+            return $value !== '';
         });
     }
 
@@ -134,6 +130,20 @@ class Functions
         return function ($value) use ($peek, $callback) {
             $peek($value);
             return $callback($value);
+        };
+    }
+
+    public static function prepend(string $prefix): callable
+    {
+        return function (string $string) use ($prefix): string {
+            return $prefix . $string;
+        };
+    }
+
+    public static function surround(string $character): callable
+    {
+        return function (string $string) use ($character): string {
+            return $character . $string . $character;
         };
     }
 }

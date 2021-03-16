@@ -25,12 +25,9 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         // given
         $subject = 'Tom Cruise is 21 years old and has 192cm';
         $invoker = new ReplacePatternCallbackInvoker(Internal::pattern('[0-9]+'), new Subject($subject), 2, new DefaultStrategy(), new IgnoreCounting());
-        $callback = function (ReplaceDetail $detail) {
-            return "*$detail*";
-        };
 
         // when
-        $result = $invoker->invoke($callback, new MatchStrategy());
+        $result = $invoker->invoke(Functions::surround('*'), new MatchStrategy());
 
         // then
         $this->assertSame('Tom Cruise is *21* years old and has *192*cm', $result);
@@ -65,14 +62,9 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         // given
         $subject = '192.168.17.20';
         $invoker = new ReplacePatternCallbackInvoker(Internal::pattern('[0-9]+'), new Subject($subject), 3, new DefaultStrategy(), new IgnoreCounting());
-        $values = [];
-        $callback = function (ReplaceDetail $detail) use (&$values) {
-            $values[] = $detail;
-            return '';
-        };
 
         // when
-        $invoker->invoke($callback, new MatchStrategy());
+        $invoker->invoke(Functions::collecting($values, Functions::identity()), new MatchStrategy());
 
         // then
         $this->assertSameMatches(['192', '168', '17'], $values);

@@ -120,8 +120,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldNotInvokeFilter()
     {
         // given
-        $invoked = [];
-        $matchPattern = $this->matchPattern('\w+', 'One, two, three', Functions::collecting($invoked));
+        $matchPattern = $this->matchPattern('\w+', 'One, two, three', Functions::collecting($invoked, Functions::constant(true)));
 
         // when
         $matchPattern->first();
