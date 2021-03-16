@@ -6,6 +6,7 @@ Incoming
 
 * Breaking changes
     * `match()->getIterator()` no longer preserves the keys of values (like `all()`)
+    * `match()->group()->getIterator()` no longer preserves the keys of values (like `all()`)
 
 Added in 0.10.2
 ---------------

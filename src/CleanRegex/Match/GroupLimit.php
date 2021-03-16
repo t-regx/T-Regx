@@ -126,7 +126,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     public function getIterator(): Iterator
     {
-        return new ArrayIterator($this->details());
+        return new ArrayIterator(\array_values($this->details()));
     }
 
     public function map(callable $mapper): array
