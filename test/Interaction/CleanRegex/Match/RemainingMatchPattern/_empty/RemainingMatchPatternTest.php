@@ -2,6 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\RemainingMatchPattern\_empty;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsOptional;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\CallbackPredicate;
 use Test\Utils\Functions;
@@ -11,15 +12,13 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
-use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
-use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
 class RemainingMatchPatternTest extends TestCase
 {
-    use AssertsSameMatches;
+    use AssertsSameMatches, AssertsOptional;
 
     /**
      * @test
@@ -156,8 +155,7 @@ class RemainingMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame('value: ', $findFirst->orThrow());
-        $this->assertInstanceOf(OptionalImpl::class, $findFirst);
+        $this->assertOptionalHas('value: ', $findFirst);
     }
 
     /**
@@ -174,8 +172,7 @@ class RemainingMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame('value: a', $findFirst->orThrow());
-        $this->assertInstanceOf(OptionalImpl::class, $findFirst);
+        $this->assertOptionalHas('value: a', $findFirst);
     }
 
     /**
@@ -187,12 +184,10 @@ class RemainingMatchPatternTest extends TestCase
         $matchPattern = $this->matchPattern(Functions::constant(false));
 
         // when
-        $findFirst = $matchPattern->findFirst(function (Detail $detail) {
-            return "value: $detail";
-        });
+        $findFirst = $matchPattern->findFirst(Functions::fail());
 
         // then
-        $this->assertInstanceOf(EmptyOptional::class, $findFirst);
+        $this->assertOptionalEmpty($findFirst);
     }
 
     /**

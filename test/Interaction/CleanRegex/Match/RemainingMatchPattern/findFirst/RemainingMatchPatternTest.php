@@ -2,14 +2,13 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\RemainingMatchPattern\findFirst;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsOptional;
 use Test\Utils\CallbackPredicate;
 use Test\Utils\Functions;
 use Test\Utils\Internal;
 use Test\Utils\ThrowApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
-use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
-use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -17,6 +16,8 @@ use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
 class RemainingMatchPatternTest extends TestCase
 {
+    use AssertsOptional;
+
     /**
      * @test
      */
@@ -31,8 +32,7 @@ class RemainingMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame('value: Foo', $findFirst->orThrow());
-        $this->assertInstanceOf(OptionalImpl::class, $findFirst);
+        $this->assertOptionalHas('value: Foo', $findFirst);
     }
 
     /**
@@ -49,8 +49,7 @@ class RemainingMatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame('value: Bar', $findFirst->orThrow());
-        $this->assertInstanceOf(OptionalImpl::class, $findFirst);
+        $this->assertOptionalHas('value: Bar', $findFirst);
     }
 
     /**
@@ -65,7 +64,7 @@ class RemainingMatchPatternTest extends TestCase
         $findFirst = $matchPattern->findFirst(Functions::fail());
 
         // then
-        $this->assertInstanceOf(EmptyOptional::class, $findFirst);
+        $this->assertOptionalEmpty($findFirst);
     }
 
     /**
@@ -80,7 +79,7 @@ class RemainingMatchPatternTest extends TestCase
         $findFirst = $matchPattern->findFirst(Functions::fail());
 
         // then
-        $this->assertInstanceOf(EmptyOptional::class, $findFirst);
+        $this->assertOptionalEmpty($findFirst);
     }
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
