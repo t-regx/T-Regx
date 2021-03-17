@@ -4,6 +4,9 @@ T-Regx Changelog
 Incoming
 --------
 
+* Features
+    * Added `Detail.usingDuplicateName().get()` #101
+    * Added `Detail.usingDuplicateName().matched()` #101
 * Breaking changes
     * `match()->getIterator()` no longer preserves the keys of values (like `all()`)
     * `match()->group()->getIterator()` no longer preserves the keys of values (like `all()`)

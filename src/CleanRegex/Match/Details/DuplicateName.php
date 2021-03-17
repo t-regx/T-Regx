@@ -110,4 +110,9 @@ class DuplicateName
     {
         return $this->group($groupName)->text();
     }
+
+    public function matched(string $groupName): bool
+    {
+        return $this->group($groupName)->matched();
+    }
 }

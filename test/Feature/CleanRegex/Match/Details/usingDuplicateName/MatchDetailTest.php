@@ -99,8 +99,10 @@ class MatchDetailTest extends TestCase
 
     /**
      * @test
+     * @dataProvider methods
+     * @param string $method
      */
-    public function shouldThrow_group_InvalidGroupName()
+    public function shouldThrow_group_InvalidGroupName(string $method)
     {
         // given
         $detail = $this->detail();
@@ -110,13 +112,15 @@ class MatchDetailTest extends TestCase
         $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '!@#'");
 
         // when
-        $detail->usingDuplicateName()->group('!@#');
+        $detail->usingDuplicateName()->$method('!@#');
     }
 
     /**
      * @test
+     * @dataProvider methods
+     * @param string $method
      */
-    public function shouldThrow_group_IntegerGroup()
+    public function shouldThrow_group_IntegerGroup(string $method)
     {
         // given
         $detail = $this->detail();
@@ -126,38 +130,15 @@ class MatchDetailTest extends TestCase
         $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '2'");
 
         // when
-        $detail->usingDuplicateName()->group(2);
+        $detail->usingDuplicateName()->$method(2);
     }
 
-    /**
-     * @test
-     */
-    public function shouldThrow_get_InvalidGroupName()
+    public function methods()
     {
-        // given
-        $detail = $this->detail();
-
-        // then
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '!@#'");
-
-        // when
-        $detail->usingDuplicateName()->get('!@#');
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_get_IntegerGroup()
-    {
-        // given
-        $detail = $this->detail();
-
-        // then
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '2'");
-
-        // when
-        $detail->usingDuplicateName()->get(2);
+        return [
+            ['group'],
+            ['get'],
+            ['matched'],
+        ];
     }
 }
