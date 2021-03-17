@@ -9,7 +9,7 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetText()
+    public function shouldGet_text()
     {
         // given
         $detail = $this->detail();
@@ -21,6 +21,23 @@ class MatchDetailTest extends TestCase
         // then
         $this->assertSame('One', $declared->text());
         $this->assertSame('Two', $parsed->text());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_get()
+    {
+        // given
+        $detail = $this->detail();
+
+        // when
+        $declared = $detail->get('group');
+        $parsed = $detail->usingDuplicateName()->get('group');
+
+        // then
+        $this->assertSame('One', $declared);
+        $this->assertSame('Two', $parsed);
     }
 
     /**
@@ -83,7 +100,7 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldValidateGroupName()
+    public function shouldThrow_group_InvalidGroupName()
     {
         // given
         $detail = $this->detail();
@@ -99,7 +116,7 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotAcceptIntegerGroups()
+    public function shouldThrow_group_IntegerGroup()
     {
         // given
         $detail = $this->detail();
@@ -110,5 +127,37 @@ class MatchDetailTest extends TestCase
 
         // when
         $detail->usingDuplicateName()->group(2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_get_InvalidGroupName()
+    {
+        // given
+        $detail = $this->detail();
+
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '!@#'");
+
+        // when
+        $detail->usingDuplicateName()->get('!@#');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_get_IntegerGroup()
+    {
+        // given
+        $detail = $this->detail();
+
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '2'");
+
+        // when
+        $detail->usingDuplicateName()->get(2);
     }
 }

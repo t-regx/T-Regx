@@ -105,4 +105,9 @@ class DuplicateName
         $facade = new RuntimeGroupFacade($this->match, $this->subject, $groupName, $this->factory, $this->all);
         return new DuplicateNamedGroupAdapter($groupName, $facade->createGroup($this->match));
     }
+
+    public function get(string $groupName): string
+    {
+        return $this->group($groupName)->text();
+    }
 }
