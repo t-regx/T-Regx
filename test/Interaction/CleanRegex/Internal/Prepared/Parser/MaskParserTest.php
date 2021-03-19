@@ -3,19 +3,19 @@ namespace Test\Interaction\TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\FormatMalformedPatternException;
-use TRegx\CleanRegex\Internal\Prepared\Parser\FormatParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\MaskParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 
-class FormatParserTest extends TestCase
+class MaskParserTest extends TestCase
 {
     /**
      * @test
      */
-    public function shouldFormat()
+    public function shouldBuildMask()
     {
         // given
-        $pattern = new FormatParser('My(super)pattern:{%s.%d}', []);
+        $pattern = new MaskParser('My(super)pattern:{%s.%d}', []);
 
         // when
         $pattern = $this->build($pattern);
@@ -30,7 +30,7 @@ class FormatParserTest extends TestCase
     public function shouldBuildWithTokens()
     {
         // given
-        $pattern = new FormatParser('(super):{%s.%d.%%}', [
+        $pattern = new MaskParser('(super):{%s.%d.%%}', [
             '%s' => '\s+\w+',
             '%d' => '\d+',
             '%%' => '%'
@@ -49,7 +49,7 @@ class FormatParserTest extends TestCase
     public function shouldPreferEarlierTokens()
     {
         // given
-        $pattern = new FormatParser('%%s', ['%s' => 'XXX', '%%' => '%']);
+        $pattern = new MaskParser('%%s', ['%s' => 'XXX', '%%' => '%']);
 
         // when
         $pattern = $this->build($pattern);
@@ -61,17 +61,17 @@ class FormatParserTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowForInvalidSubPattern()
+    public function shouldThrowForInvalidSubPatternFirst()
     {
         // given
-        $pattern = new FormatParser('', [
+        $pattern = new MaskParser('', [
             ''   => 'XXX',
             '%%' => 'invalid)',
         ]);
 
         // then
         $this->expectException(FormatMalformedPatternException::class);
-        $this->expectExceptionMessage("Malformed pattern 'invalid)' assigned to placeholder '%%'");
+        $this->expectExceptionMessage("Malformed pattern 'invalid)' assigned to keyword '%%'");
 
         // when
         $this->build($pattern);
@@ -80,14 +80,14 @@ class FormatParserTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowForEmptyPlaceholder()
+    public function shouldThrowForEmptyKeyword()
     {
         // given
-        $pattern = new FormatParser('', ['' => 'XXX']);
+        $pattern = new MaskParser('', ['' => 'XXX']);
 
         // then
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Placeholder cannot be empty, must consist of at least one character");
+        $this->expectExceptionMessage('Keyword cannot be empty, must consist of at least one character');
 
         // when
         $this->build($pattern);
@@ -99,7 +99,7 @@ class FormatParserTest extends TestCase
     public function shouldAcceptIntegerKeys()
     {
         // given
-        $pattern = new FormatParser('123', [
+        $pattern = new MaskParser('123', [
             1 => '\s',
             2 => '\w'
         ]);
@@ -117,7 +117,7 @@ class FormatParserTest extends TestCase
     public function shouldDelimiter()
     {
         // given
-        $pattern = new FormatParser('%^', [
+        $pattern = new MaskParser('%^', [
             '%' => '[/]',
             '^' => '#'
         ]);

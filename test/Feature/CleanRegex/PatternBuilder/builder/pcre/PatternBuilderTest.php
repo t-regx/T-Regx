@@ -58,11 +58,11 @@ class PatternBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_formatting()
+    public function shouldBuild_template_putMask_build()
     {
         // given
         $pattern = PatternBuilder::builder()->pcre()->template('%You/her, & (her)%', 's')
-            ->formatting('%s', ['%s' => '\s'])
+            ->putMask('%s', ['%s' => '\s'])
             ->build();
 
         // when
@@ -75,13 +75,13 @@ class PatternBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_literal()
+    public function shouldBuild_template_putLiteral()
     {
         // given
         $pattern = PatternBuilder::builder()
             ->pcre()
             ->template('%You/her, & (her)%', 's')
-            ->literal()
+            ->putLiteral()
             ->build();
 
         // when
@@ -94,10 +94,10 @@ class PatternBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_format()
+    public function shouldBuild_template_mask()
     {
         // given
-        $pattern = PatternBuilder::builder()->pcre()->template('%You/her, & (her)%', 's')->format('%s', ['%s' => '\s']);
+        $pattern = PatternBuilder::builder()->pcre()->template('%You/her, & (her)%', 's')->mask('%s', ['%s' => '\s']);
 
         // when
         $pattern = $pattern->delimited();
@@ -109,7 +109,7 @@ class PatternBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_pcre_template_inject()
+    public function shouldBuild_template_inject()
     {
         // given
         $pattern = PatternBuilder::builder()->pcre()->template('%You/her, \s (her)%', 's')->inject([]);
@@ -124,7 +124,7 @@ class PatternBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_pcre_template_bind()
+    public function shouldBuild_template_bind()
     {
         // given
         $pattern = PatternBuilder::builder()->pcre()->template('%You/her, \s (her)%', 's')->bind([]);

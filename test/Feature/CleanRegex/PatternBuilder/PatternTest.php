@@ -78,10 +78,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_format(): void
+    public function shouldBuild_mask(): void
     {
         // given
-        $pattern = Pattern::format('%%:%e%w:%c', [
+        $pattern = Pattern::mask('%%:%e%w:%c', [
             '%%' => '%',
             '%e' => '\\/',
             '%w' => '\s*',
@@ -98,42 +98,64 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_format_Trailing(): void
+    public function shouldBuild_mask_Trailing(): void
     {
         // then
         $this->expectException(FormatMalformedPatternException::class);
-        $this->expectExceptionMessage("Malformed pattern '\' assigned to placeholder '%e'");
+        $this->expectExceptionMessage("Malformed pattern '\' assigned to keyword '%e'");
 
         // when
-        Pattern::format('%e', ['%e' => '\\']);
+        Pattern::mask('%e', ['%e' => '\\']);
     }
 
     /**
      * @test
      */
-    public function shouldBuild_format_QuotedTrailing(): void
+    public function shouldBuild_mask_QuotedTrailing(): void
     {
         // then
         $this->expectException(FormatMalformedPatternException::class);
-        $this->expectExceptionMessage("Malformed pattern '\' assigned to placeholder '%e'");
+        $this->expectExceptionMessage("Malformed pattern '\' assigned to keyword '%e'");
 
         // when
-        Pattern::format('%e', ['%e' => '\\', '%f' => 'e']);
+        Pattern::mask('%e', ['%e' => '\\', '%f' => 'e']);
     }
 
     /**
      * @test
      */
-    public function shouldBuild_template_formatting_literal_formatting_build(): void
+    public function shouldBuild_template_putLiteral_putMask_putLiteral_build(): void
     {
         // given
         $pattern = Pattern::template('^& v&s. &$ @ or `s`', 'i')
-            ->formatting('This-is: %3 pattern %4', [
+            ->putLiteral()
+            ->putMask('This-is: %3 pattern %4', [
                 '%3' => 'x{3,}',
                 '%4' => 'x{4,}',
             ])
-            ->literal()
-            ->formatting('(%e:%%e)', [
+            ->putLiteral()
+            ->build();
+
+        // when
+        $delimited = $pattern->delimited();
+
+        // then
+        $this->assertSame('/^& vThis\-is\:\ x{3,}\ pattern\ x{4,}s. &$ @ or `s`/i', $delimited);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_template_putMask_putLiteral_putMask_build(): void
+    {
+        // given
+        $pattern = Pattern::template('^& v&s. &$ @ or `s`', 'i')
+            ->putMask('This-is: %3 pattern %4', [
+                '%3' => 'x{3,}',
+                '%4' => 'x{4,}',
+            ])
+            ->putLiteral()
+            ->putMask('(%e:%%e)', [
                 '%%' => '%',
                 '%e' => 'e{2,3}'
             ])
@@ -149,11 +171,11 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_formatting_inject(): void
+    public function shouldBuild_template_putMask_inject(): void
     {
         // given
         $pattern = Pattern::template('^& vs. @:@$', 's')
-            ->formatting('This-is: %3', ['%3' => 'x{3,}'])
+            ->putMask('This-is: %3', ['%3' => 'x{3,}'])
             ->inject(['{{{', ')))']);
 
         // when
@@ -166,11 +188,11 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_formatting_bind(): void
+    public function shouldBuild_template_putMask_bind(): void
     {
         // given
         $pattern = Pattern::template('^& vs. @curly:`parent`$', 's')
-            ->formatting('This-is: %3', ['%3' => 'x{3,}'])
+            ->putMask('This-is: %3', ['%3' => 'x{3,}'])
             ->bind([
                 'curly'  => '{{{',
                 'parent' => ')))'
@@ -186,11 +208,11 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_format(): void
+    public function shouldBuild_template_mask(): void
     {
         // given
         $pattern = Pattern::template('^& vs/ @curly:`parent`$', 's')
-            ->format('This-is: %3', ['%3' => 'x{3,}']);
+            ->mask('This-is: %3', ['%3' => 'x{3,}']);
 
         // when
         $delimited = $pattern->delimited();
@@ -202,10 +224,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_literal_build(): void
+    public function shouldBuild_template_putLiteral_build(): void
     {
         // given
-        $pattern = Pattern::template('^& vs/ $', 's')->literal()->build();
+        $pattern = Pattern::template('^& vs/ $', 's')->putLiteral()->build();
 
         // when
         $delimited = $pattern->delimited();

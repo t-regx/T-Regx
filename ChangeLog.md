@@ -10,6 +10,11 @@ Incoming
 * Breaking changes
     * `match()->getIterator()` no longer preserves the keys of values (like `all()`)
     * `match()->group()->getIterator()` no longer preserves the keys of values (like `all()`)
+    * Renamed `Pattern::format()` to `Pattern::mask()`
+    * Renamed `PatternBuilder::builder()->format()` to `PatternBuilder::builder()->mask()`
+    * Renamed `Pattern::template()->format()` to `Pattern::template()->mask()`
+    * Renamed `Pattern::template()->formatting()` to `Pattern::template()->putMask()`
+    * Renamed `Pattern::template()->literal()` to `Pattern::template()->putLiteral()`
 
 Added in 0.10.2
 ---------------

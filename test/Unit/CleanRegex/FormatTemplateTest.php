@@ -64,9 +64,9 @@ class FormatTemplateTest extends TestCase
         $template = new FormatTemplate('^&&$', 's', false, [new LiteralTokenValue()]);
 
         // when
-        $first = $template->literal();
-        $second = $template->literal();
-        $third = $template->literal();
+        $first = $template->putLiteral();
+        $second = $template->putLiteral();
+        $third = $template->putLiteral();
 
         // then
         $this->assertSame('/^&&$/s', $first->build()->delimited());

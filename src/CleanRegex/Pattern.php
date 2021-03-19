@@ -51,9 +51,9 @@ class Pattern
         return PatternBuilder::compose($patterns);
     }
 
-    public static function format(string $format, array $tokens, string $flags = null): PatternInterface
+    public static function mask(string $mask, array $keywords, string $flags = null): PatternInterface
     {
-        return PatternBuilder::builder()->format($format, $tokens, $flags);
+        return PatternBuilder::builder()->mask($mask, $keywords, $flags);
     }
 
     public static function template(string $pattern, string $flags = null): TemplatePattern

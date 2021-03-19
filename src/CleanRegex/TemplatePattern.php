@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Internal\Format\LiteralTokenValue;
-use TRegx\CleanRegex\Internal\Prepared\Format\FormatTokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Format\MaskTokenValue;
 
 class TemplatePattern
 {
@@ -20,19 +20,19 @@ class TemplatePattern
         $this->flags = $flags;
     }
 
-    public function formatting(string $formatString, array $tokens): FormatTemplate
+    public function putMask(string $mask, array $keywords): FormatTemplate
     {
-        return new FormatTemplate($this->pattern, $this->flags, $this->pcre, [new FormatTokenValue($formatString, $tokens)]);
+        return new FormatTemplate($this->pattern, $this->flags, $this->pcre, [new MaskTokenValue($mask, $keywords)]);
     }
 
-    public function literal(): FormatTemplate
+    public function putLiteral(): FormatTemplate
     {
         return new FormatTemplate($this->pattern, $this->flags, $this->pcre, [new LiteralTokenValue()]);
     }
 
-    public function format(string $string, array $tokens): PatternInterface
+    public function mask(string $string, array $tokens): PatternInterface
     {
-        $template = new FormatTemplate($this->pattern, $this->flags, $this->pcre, [new FormatTokenValue($string, $tokens)]);
+        $template = new FormatTemplate($this->pattern, $this->flags, $this->pcre, [new MaskTokenValue($string, $tokens)]);
         return $template->build();
     }
 

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\PatternBuilder\builder\format;
+namespace Test\Feature\TRegx\CleanRegex\PatternBuilder\builder\mask;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\PatternBuilder;
@@ -9,13 +9,13 @@ class PatternBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldFormat()
+    public function shouldGet()
     {
         // given
         $patternBuilder = PatternBuilder::builder();
 
         // when
-        $pattern = $patternBuilder->format('(super):{%s.%d.%%}', [
+        $pattern = $patternBuilder->mask('(super):{%s.%d.%%}', [
             '%s' => '\s+',
             '%d' => '\d+',
             '%%' => '%'
@@ -28,13 +28,13 @@ class PatternBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldFormatWithFlags()
+    public function shouldGet_WithFlags()
     {
         // given
         $patternBuilder = PatternBuilder::builder();
 
         // when
-        $pattern = $patternBuilder->format('My(super)pattern', [], 'ui');
+        $pattern = $patternBuilder->mask('My(super)pattern', [], 'ui');
 
         // then
         $this->assertSame('/My\(super\)pattern/ui', $pattern->delimited());

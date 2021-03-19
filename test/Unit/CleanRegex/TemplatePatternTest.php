@@ -20,7 +20,7 @@ class TemplatePatternTest extends TestCase
         $this->expectExceptionMessage('There are 2 & tokens in template, but only 1 builder methods were used');
 
         // when
-        $template->format('hey', []);
+        $template->mask('hey', []);
     }
 
     /**
@@ -36,7 +36,7 @@ class TemplatePatternTest extends TestCase
         $this->expectExceptionMessage('There are only 0 & tokens in template, but 1 builder methods were used');
 
         // when
-        $template->format('hey', []);
+        $template->mask('hey', []);
     }
 
     /**

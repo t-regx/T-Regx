@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex;
 use TRegx\CleanRegex\Exception\TemplateFormatException;
 use TRegx\CleanRegex\Internal\Format\LiteralTokenValue;
 use TRegx\CleanRegex\Internal\Format\TokenValue;
-use TRegx\CleanRegex\Internal\Prepared\Format\FormatTokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Format\MaskTokenValue;
 use TRegx\CleanRegex\Internal\Prepared\Format\TemplateStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
@@ -30,12 +30,12 @@ class FormatTemplate
         $this->placeholders = $placeholders;
     }
 
-    public function formatting(string $formatString, array $tokens): FormatTemplate
+    public function putMask(string $mask, array $keywords): FormatTemplate
     {
-        return $this->next(new FormatTokenValue($formatString, $tokens));
+        return $this->next(new MaskTokenValue($mask, $keywords));
     }
 
-    public function literal(): FormatTemplate
+    public function putLiteral(): FormatTemplate
     {
         return $this->next(new LiteralTokenValue());
     }

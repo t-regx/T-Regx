@@ -42,13 +42,13 @@ class DelimitererTest extends TestCase
                 return Pattern::compose(['Foo & \\']);
             }],
             'Pattern::template()->build()'  => [function () {
-                return Pattern::template('Foo & \\')->literal()->build();
+                return Pattern::template('Foo & \\')->putLiteral()->build();
             }],
             'Pattern::template()->inject()' => [function () {
-                return Pattern::template('Foo & \\')->literal()->inject([]);
+                return Pattern::template('Foo & \\')->putLiteral()->inject([]);
             }],
             'Pattern::template()->bind()'   => [function () {
-                return Pattern::template('Foo & \\')->literal()->bind([]);
+                return Pattern::template('Foo & \\')->putLiteral()->bind([]);
             }],
         ];
     }
@@ -72,24 +72,24 @@ class DelimitererTest extends TestCase
     public function templateEntryPoints(): array
     {
         return [
-            'Pattern::format()'             => [
+            'Pattern::mask()'             => [
                 function () {
-                    return Pattern::format('Foo%', ['%' => '()\\']);
+                    return Pattern::mask('Foo%', ['%' => '()\\']);
                 },
-                "Malformed pattern '()\' assigned to placeholder '%'"
+                "Malformed pattern '()\' assigned to keyword '%'"
             ],
-            'Pattern::template()->format()' => [
+            'Pattern::template()->mask()' => [
                 function () {
-                    return Pattern::template('Foo &')->format('w', ['w' => '\\']);
+                    return Pattern::template('Foo &')->mask('w', ['w' => '\\']);
                 },
-                "Malformed pattern '\' assigned to placeholder 'w'"
+                "Malformed pattern '\' assigned to keyword 'w'"
             ],
 
-            'Pattern::template()->formatting()->build()' => [
+            'Pattern::template()->putMask()->build()' => [
                 function () {
-                    return Pattern::template('Foo &')->formatting('w', ['w' => '\\'])->build();
+                    return Pattern::template('Foo &')->putMask('w', ['w' => '\\'])->build();
                 },
-                "Malformed pattern '\' assigned to placeholder 'w'"
+                "Malformed pattern '\' assigned to keyword 'w'"
             ],
         ];
     }
