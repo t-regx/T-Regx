@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\PatternBuilder\builder\pcre;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\PatternBuilder;
+use TRegx\CleanRegex\Pattern;
 
 class PatternBuilderTest extends TestCase
 {
@@ -12,7 +12,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_prepared()
     {
         // given
-        $pattern = PatternBuilder::builder()->pcre()->prepare(['%You/her, (are|is) ', ['real? % (or are you not real?)'], ' (you|her)%']);
+        $pattern = Pattern::builder()->pcre()->prepare(['%You/her, (are|is) ', ['real? % (or are you not real?)'], ' (you|her)%']);
 
         // when
         $pattern = $pattern->delimited();
@@ -27,7 +27,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_bind()
     {
         // given
-        $pattern = PatternBuilder::builder()->pcre()->bind('%You/her, (are|is) @question (you|her)%', [
+        $pattern = Pattern::builder()->pcre()->bind('%You/her, (are|is) @question (you|her)%', [
             'question' => 'real? % (or are you not real?)'
         ]);
 
@@ -44,7 +44,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_inject()
     {
         // given
-        $pattern = PatternBuilder::builder()->pcre()->inject('%You/her, (are|is) @ (you|her)%', [
+        $pattern = Pattern::builder()->pcre()->inject('%You/her, (are|is) @ (you|her)%', [
             'real? % (or are you not real?)'
         ]);
 
@@ -61,7 +61,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_putMask_build()
     {
         // given
-        $pattern = PatternBuilder::builder()->pcre()->template('%You/her, & (her)%', 's')
+        $pattern = Pattern::builder()->pcre()->template('%You/her, & (her)%', 's')
             ->putMask('%s', ['%s' => '\s'])
             ->build();
 
@@ -78,7 +78,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_putLiteral()
     {
         // given
-        $pattern = PatternBuilder::builder()
+        $pattern = Pattern::builder()
             ->pcre()
             ->template('%You/her, & (her)%', 's')
             ->putLiteral('{hi}')
@@ -97,7 +97,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_mask()
     {
         // given
-        $pattern = PatternBuilder::builder()->pcre()->template('%You/her, & (her)%', 's')->mask('%s', ['%s' => '\s']);
+        $pattern = Pattern::builder()->pcre()->template('%You/her, & (her)%', 's')->mask('%s', ['%s' => '\s']);
 
         // when
         $pattern = $pattern->delimited();
@@ -112,7 +112,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_inject()
     {
         // given
-        $pattern = PatternBuilder::builder()->pcre()->template('%You/her, \s (her)%', 's')->inject([]);
+        $pattern = Pattern::builder()->pcre()->template('%You/her, \s (her)%', 's')->inject([]);
 
         // when
         $pattern = $pattern->delimited();
@@ -127,7 +127,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_bind()
     {
         // given
-        $pattern = PatternBuilder::builder()->pcre()->template('%You/her, \s (her)%', 's')->bind([]);
+        $pattern = Pattern::builder()->pcre()->template('%You/her, \s (her)%', 's')->bind([]);
 
         // when
         $pattern = $pattern->delimited();

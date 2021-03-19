@@ -37,6 +37,6 @@ class PatternBuilderTest extends TestCase
         $this->expectExceptionMessage("No ending delimiter '%' found");
 
         // when
-        PatternBuilder::builder()->pcre()->inject("%Foo", [])->test('bar');
+        Pattern::builder()->pcre()->inject("%Foo", [])->test('bar');
     }
 }

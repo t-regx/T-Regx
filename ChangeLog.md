@@ -7,17 +7,19 @@ Incoming
 * Features
     * Added `Detail.usingDuplicateName().get()` #101
     * Added `Detail.usingDuplicateName().matched()` #101
-    * Method `Pattern:template()->putLiteral(string)` now accepts `string` argument, allowing for inserting
-      arbitrary strings into the pattern.
+    * Method `Pattern:template()->putLiteral(string)` now accepts `string` argument, allowing for inserting arbitrary
+      strings into the pattern.
+    * Added `Pattern::builder()`, which works similarly to how `PatternBuilder::builder()` worked.
 * Breaking changes
     * `match()->getIterator()` no longer preserves the keys of values (like `all()`)
     * `match()->group()->getIterator()` no longer preserves the keys of values (like `all()`)
     * Renamed `Pattern::format()` to `Pattern::mask()`
-    * Renamed `PatternBuilder::builder()->format()` to `PatternBuilder::builder()->mask()`
+    * Renamed `Pattern::builder()->format()` to `Pattern::builder()->mask()`
     * Renamed `Pattern::template()->format()` to `Pattern::template()->mask()`
     * Renamed `Pattern::template()->formatting()` to `Pattern::template()->putMask()`
     * Renamed `Pattern::template()->literal()` to `Pattern::template()->putLiteral()`
     * Method `putLiteral()` (previously `literal()`) now requires argument `'&'`, to escape `&` in-pattern token
+    * Removed `PatternBuilder::builder()`. Use `Pattern::builder()`
 * Bug fixes
     * `Pattern::template()` quoted values incorrectly, when delimiter other than `/` or `%` was chosen.
 

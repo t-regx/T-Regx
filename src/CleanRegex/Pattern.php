@@ -33,17 +33,17 @@ class Pattern
 
     public static function prepare(array $input, string $flags = null): PatternInterface
     {
-        return PatternBuilder::builder()->prepare($input, $flags);
+        return self::builder()->prepare($input, $flags);
     }
 
     public static function bind(string $input, array $values, string $flags = null): PatternInterface
     {
-        return PatternBuilder::builder()->bind($input, $values, $flags);
+        return self::builder()->bind($input, $values, $flags);
     }
 
     public static function inject(string $input, array $values, string $flags = null): PatternInterface
     {
-        return PatternBuilder::builder()->inject($input, $values, $flags);
+        return self::builder()->inject($input, $values, $flags);
     }
 
     public static function compose(array $patterns): CompositePattern
@@ -53,12 +53,12 @@ class Pattern
 
     public static function mask(string $mask, array $keywords, string $flags = null): PatternInterface
     {
-        return PatternBuilder::builder()->mask($mask, $keywords, $flags);
+        return self::builder()->mask($mask, $keywords, $flags);
     }
 
     public static function template(string $pattern, string $flags = null): Template
     {
-        return PatternBuilder::builder()->template($pattern, $flags);
+        return self::builder()->template($pattern, $flags);
     }
 
     public static function quote(string $string): string
@@ -69,5 +69,10 @@ class Pattern
     public static function unquote(string $quotedString): string
     {
         return (new UnquotePattern($quotedString))->unquote();
+    }
+
+    public static function builder(): PatternBuilder
+    {
+        return new PatternBuilder(false);
     }
 }

@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\PatternBuilder\builder\alternation;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\PatternBuilder;
+use TRegx\CleanRegex\Pattern;
 
 class PatternBuilderTest extends TestCase
 {
@@ -12,7 +12,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_bind()
     {
         // given
-        $pattern = PatternBuilder::builder()->bind('You/her, (are|is) @question (you|her)', [
+        $pattern = Pattern::builder()->bind('You/her, (are|is) @question (you|her)', [
             'question' => ['Hello #5', 'Yes?:)']
         ]);
 
@@ -29,7 +29,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_inject()
     {
         // given
-        $pattern = PatternBuilder::builder()->inject('You/her, (are|is) @ (you|her)', [
+        $pattern = Pattern::builder()->inject('You/her, (are|is) @ (you|her)', [
             ['Hello #5', 'Yes?:)']
         ]);
 

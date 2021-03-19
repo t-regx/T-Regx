@@ -14,14 +14,9 @@ class PatternBuilder
     /** @var bool */
     private $pcre;
 
-    private function __construct(bool $pcre)
+    public function __construct(bool $pcre)
     {
         $this->pcre = $pcre;
-    }
-
-    public static function builder(): PatternBuilder
-    {
-        return new self(false);
     }
 
     public function pcre(): PatternBuilder

@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\PatternBuilder\builder\mask;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\PatternBuilder;
+use TRegx\CleanRegex\Pattern;
 
 class PatternBuilderTest extends TestCase
 {
@@ -12,7 +12,7 @@ class PatternBuilderTest extends TestCase
     public function shouldGet()
     {
         // given
-        $patternBuilder = PatternBuilder::builder();
+        $patternBuilder = Pattern::builder();
 
         // when
         $pattern = $patternBuilder->mask('(super):{%s.%d.%%}', [
@@ -31,7 +31,7 @@ class PatternBuilderTest extends TestCase
     public function shouldGet_WithFlags()
     {
         // given
-        $patternBuilder = PatternBuilder::builder();
+        $patternBuilder = Pattern::builder();
 
         // when
         $pattern = $patternBuilder->mask('My(super)pattern', [], 'ui');
