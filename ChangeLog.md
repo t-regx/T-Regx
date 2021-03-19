@@ -15,6 +15,8 @@ Incoming
     * Renamed `Pattern::template()->format()` to `Pattern::template()->mask()`
     * Renamed `Pattern::template()->formatting()` to `Pattern::template()->putMask()`
     * Renamed `Pattern::template()->literal()` to `Pattern::template()->putLiteral()`
+* Bug fixes
+    * `Pattern::template()` quoted values incorrectly, when delimiter other than `/` or `%` was chosen.
 
 Added in 0.10.2
 ---------------

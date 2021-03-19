@@ -4,6 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\TemplateFormatException;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
+use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
 use TRegx\CleanRegex\TemplateBuilder;
 
 class TemplateBuilderTest extends TestCase
@@ -87,5 +88,20 @@ class TemplateBuilderTest extends TestCase
 
         // then
         $this->assertSame('#^&/$#', $pattern->delimited());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldQuoteTokenWithDelimiter(): void
+    {
+        // given
+        $template = new TemplateBuilder('^&#/$', '', false, [new MaskToken('`%`', [])]);
+
+        // when
+        $pattern = $template->build();
+
+        // then
+        $this->assertSame('%^`\%`#/$%', $pattern->delimited());
     }
 }
