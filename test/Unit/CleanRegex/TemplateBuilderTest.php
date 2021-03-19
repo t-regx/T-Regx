@@ -3,10 +3,10 @@ namespace Test\Unit\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\TemplateFormatException;
-use TRegx\CleanRegex\FormatTemplate;
 use TRegx\CleanRegex\Internal\Format\LiteralTokenValue;
+use TRegx\CleanRegex\TemplateBuilder;
 
-class FormatTemplateTest extends TestCase
+class TemplateBuilderTest extends TestCase
 {
     /**
      * @test
@@ -17,7 +17,7 @@ class FormatTemplateTest extends TestCase
     public function shouldThrowForOverflowingLiteral(string $method, array $arguments): void
     {
         // given
-        $template = new FormatTemplate('^&&$', '', false, [new LiteralTokenValue(), new LiteralTokenValue(), new LiteralTokenValue()]);
+        $template = new TemplateBuilder('^&&$', '', false, [new LiteralTokenValue(), new LiteralTokenValue(), new LiteralTokenValue()]);
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -36,7 +36,7 @@ class FormatTemplateTest extends TestCase
     public function shouldThrowForMissingLiteral(string $method, array $arguments): void
     {
         // given
-        $template = new FormatTemplate('^&&$', '', false, [new LiteralTokenValue()]);
+        $template = new TemplateBuilder('^&&$', '', false, [new LiteralTokenValue()]);
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -61,7 +61,7 @@ class FormatTemplateTest extends TestCase
     public function shouldBuildBeImmutable(): void
     {
         // given
-        $template = new FormatTemplate('^&&$', 's', false, [new LiteralTokenValue()]);
+        $template = new TemplateBuilder('^&&$', 's', false, [new LiteralTokenValue()]);
 
         // when
         $first = $template->putLiteral();
@@ -80,7 +80,7 @@ class FormatTemplateTest extends TestCase
     public function shouldChoseDelimiter(): void
     {
         // given
-        $template = new FormatTemplate('^&/$', '', false, [new LiteralTokenValue()]);
+        $template = new TemplateBuilder('^&/$', '', false, [new LiteralTokenValue()]);
 
         // when
         $pattern = $template->build();

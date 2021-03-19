@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;
 use TRegx\CleanRegex\Internal\Prepared\Prepare;
 
-class FormatTemplate
+class TemplateBuilder
 {
     /** @var string */
     private $pattern;
@@ -30,19 +30,19 @@ class FormatTemplate
         $this->placeholders = $placeholders;
     }
 
-    public function putMask(string $mask, array $keywords): FormatTemplate
+    public function putMask(string $mask, array $keywords): TemplateBuilder
     {
         return $this->next(new MaskTokenValue($mask, $keywords));
     }
 
-    public function putLiteral(): FormatTemplate
+    public function putLiteral(): TemplateBuilder
     {
         return $this->next(new LiteralTokenValue());
     }
 
-    private function next(TokenValue $placeholder): FormatTemplate
+    private function next(TokenValue $placeholder): TemplateBuilder
     {
-        return new FormatTemplate($this->pattern, $this->flags, $this->pcre, \array_merge($this->placeholders, [$placeholder]));
+        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, \array_merge($this->placeholders, [$placeholder]));
     }
 
     public function build(): PatternInterface

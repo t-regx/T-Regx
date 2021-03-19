@@ -75,8 +75,8 @@ class PatternBuilder
         return Prepare::build(new MaskParser($pattern, $tokens), $this->pcre, $flags ?? '');
     }
 
-    public function template(string $pattern, string $flags = null): TemplatePattern
+    public function template(string $pattern, string $flags = null): Template
     {
-        return new TemplatePattern($pattern, $flags ?? '', $this->pcre);
+        return new Template($pattern, $flags ?? '', $this->pcre);
     }
 }

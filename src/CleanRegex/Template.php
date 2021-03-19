@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex;
 use TRegx\CleanRegex\Internal\Format\LiteralTokenValue;
 use TRegx\CleanRegex\Internal\Prepared\Format\MaskTokenValue;
 
-class TemplatePattern
+class Template
 {
     /** @var string */
     private $pattern;
@@ -20,31 +20,31 @@ class TemplatePattern
         $this->flags = $flags;
     }
 
-    public function putMask(string $mask, array $keywords): FormatTemplate
+    public function putMask(string $mask, array $keywords): TemplateBuilder
     {
-        return new FormatTemplate($this->pattern, $this->flags, $this->pcre, [new MaskTokenValue($mask, $keywords)]);
+        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new MaskTokenValue($mask, $keywords)]);
     }
 
-    public function putLiteral(): FormatTemplate
+    public function putLiteral(): TemplateBuilder
     {
-        return new FormatTemplate($this->pattern, $this->flags, $this->pcre, [new LiteralTokenValue()]);
+        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new LiteralTokenValue()]);
     }
 
     public function mask(string $string, array $tokens): PatternInterface
     {
-        $template = new FormatTemplate($this->pattern, $this->flags, $this->pcre, [new MaskTokenValue($string, $tokens)]);
+        $template = new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new MaskTokenValue($string, $tokens)]);
         return $template->build();
     }
 
     public function inject(array $values): PatternInterface
     {
-        $template = new FormatTemplate($this->pattern, $this->flags, $this->pcre, []);
+        $template = new TemplateBuilder($this->pattern, $this->flags, $this->pcre, []);
         return $template->inject($values);
     }
 
     public function bind(array $values): PatternInterface
     {
-        $template = new FormatTemplate($this->pattern, $this->flags, $this->pcre, []);
+        $template = new TemplateBuilder($this->pattern, $this->flags, $this->pcre, []);
         return $template->bind($values);
     }
 }

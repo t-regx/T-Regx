@@ -56,7 +56,7 @@ class Pattern
         return PatternBuilder::builder()->mask($mask, $keywords, $flags);
     }
 
-    public static function template(string $pattern, string $flags = null): TemplatePattern
+    public static function template(string $pattern, string $flags = null): Template
     {
         return PatternBuilder::builder()->template($pattern, $flags);
     }

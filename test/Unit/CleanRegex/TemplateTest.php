@@ -3,9 +3,9 @@ namespace Test\Unit\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\TemplateFormatException;
-use TRegx\CleanRegex\TemplatePattern;
+use TRegx\CleanRegex\Template;
 
-class TemplatePatternTest extends TestCase
+class TemplateTest extends TestCase
 {
     /**
      * @test
@@ -13,7 +13,7 @@ class TemplatePatternTest extends TestCase
     public function shouldFormat_throwInsufficient(): void
     {
         // given
-        $template = new TemplatePattern('foo:&&', '', false);
+        $template = new Template('foo:&&', '', false);
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -29,7 +29,7 @@ class TemplatePatternTest extends TestCase
     public function shouldFormat_throwSuperfluous(): void
     {
         // given
-        $template = new TemplatePattern('', '', false);
+        $template = new Template('', '', false);
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -45,7 +45,7 @@ class TemplatePatternTest extends TestCase
     public function shouldInject_throwForInvalidFormat(): void
     {
         // given
-        $template = new TemplatePattern('@&', '', false);
+        $template = new Template('@&', '', false);
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -61,7 +61,7 @@ class TemplatePatternTest extends TestCase
     public function shouldBind_throwForInvalidFormat(): void
     {
         // given
-        $template = new TemplatePattern('@foo&', '', false);
+        $template = new Template('@foo&', '', false);
 
         // then
         $this->expectException(TemplateFormatException::class);
