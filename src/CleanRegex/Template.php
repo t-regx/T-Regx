@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Internal\Prepared\Format\LiteralTokenValue;
-use TRegx\CleanRegex\Internal\Prepared\Format\MaskTokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Template\LiteralTokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Template\MaskTokenValue;
 
 class Template
 {

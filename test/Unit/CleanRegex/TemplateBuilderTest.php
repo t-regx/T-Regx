@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\TemplateFormatException;
-use TRegx\CleanRegex\Internal\Prepared\Format\LiteralTokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Template\LiteralTokenValue;
 use TRegx\CleanRegex\TemplateBuilder;
 
 class TemplateBuilderTest extends TestCase

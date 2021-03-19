@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Format;
+namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
 use TRegx\CleanRegex\Exception\FormatMalformedPatternException;
 use TRegx\CleanRegex\Internal\MultiSplitter;

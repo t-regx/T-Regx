@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
-use TRegx\CleanRegex\Internal\Prepared\Format\MaskTokenValue;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
+use TRegx\CleanRegex\Internal\Prepared\Template\MaskTokenValue;
 
 class MaskParser implements Parser
 {
