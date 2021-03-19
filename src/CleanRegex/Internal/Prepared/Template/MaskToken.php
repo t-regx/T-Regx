@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
 use TRegx\CleanRegex\Internal\TrailingBackslash;
 use TRegx\CleanRegex\Internal\ValidPattern;
 
-class MaskTokenValue implements TokenValue
+class MaskToken implements Token
 {
     /** @var string */
     private $mask;

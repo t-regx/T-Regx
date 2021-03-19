@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
-use TRegx\CleanRegex\Internal\Prepared\Template\TokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Template\Token;
 use TRegx\CleanRegex\Internal\TrailingBackslash;
 
 class TemplateParser implements Parser
@@ -30,7 +30,7 @@ class TemplateParser implements Parser
         return new RawQuotable($pattern);
     }
 
-    private function nextPlaceholder(): TokenValue
+    private function nextPlaceholder(): Token
     {
         $placeholder = \current($this->placeholders);
         if ($placeholder === false) {

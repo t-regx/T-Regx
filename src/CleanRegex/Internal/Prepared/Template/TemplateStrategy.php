@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
 class TemplateStrategy implements TokenStrategy
 {
-    /** @var TokenValue[] */
+    /** @var Token[] */
     private $placeholders;
 
     public function __construct(array $placeholders)
@@ -18,7 +18,7 @@ class TemplateStrategy implements TokenStrategy
         return $this->nextPlaceholder()->formatAsQuotable();
     }
 
-    private function nextPlaceholder(): TokenValue
+    private function nextPlaceholder(): Token
     {
         $placeholder = \current($this->placeholders);
         \next($this->placeholders);

@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Internal\Prepared\Template\LiteralTokenValue;
-use TRegx\CleanRegex\Internal\Prepared\Template\MaskTokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
+use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
 
 class Template
 {
@@ -22,17 +22,17 @@ class Template
 
     public function putMask(string $mask, array $keywords): TemplateBuilder
     {
-        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new MaskTokenValue($mask, $keywords)]);
+        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new MaskToken($mask, $keywords)]);
     }
 
     public function putLiteral(): TemplateBuilder
     {
-        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new LiteralTokenValue()]);
+        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new LiteralToken()]);
     }
 
     public function mask(string $string, array $tokens): PatternInterface
     {
-        $template = new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new MaskTokenValue($string, $tokens)]);
+        $template = new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new MaskToken($string, $tokens)]);
         return $template->build();
     }
 

@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Template;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
 
-class LiteralTokenValue implements TokenValue
+class LiteralToken implements Token
 {
     public function formatAsQuotable(): Quotable
     {

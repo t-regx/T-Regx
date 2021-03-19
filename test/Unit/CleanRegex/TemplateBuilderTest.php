@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\TemplateFormatException;
-use TRegx\CleanRegex\Internal\Prepared\Template\LiteralTokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\TemplateBuilder;
 
 class TemplateBuilderTest extends TestCase
@@ -17,7 +17,7 @@ class TemplateBuilderTest extends TestCase
     public function shouldThrowForOverflowingLiteral(string $method, array $arguments): void
     {
         // given
-        $template = new TemplateBuilder('^&&$', '', false, [new LiteralTokenValue(), new LiteralTokenValue(), new LiteralTokenValue()]);
+        $template = new TemplateBuilder('^&&$', '', false, [new LiteralToken(), new LiteralToken(), new LiteralToken()]);
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -36,7 +36,7 @@ class TemplateBuilderTest extends TestCase
     public function shouldThrowForMissingLiteral(string $method, array $arguments): void
     {
         // given
-        $template = new TemplateBuilder('^&&$', '', false, [new LiteralTokenValue()]);
+        $template = new TemplateBuilder('^&&$', '', false, [new LiteralToken()]);
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -61,7 +61,7 @@ class TemplateBuilderTest extends TestCase
     public function shouldBuildBeImmutable(): void
     {
         // given
-        $template = new TemplateBuilder('^&&$', 's', false, [new LiteralTokenValue()]);
+        $template = new TemplateBuilder('^&&$', 's', false, [new LiteralToken()]);
 
         // when
         $first = $template->putLiteral();
@@ -80,7 +80,7 @@ class TemplateBuilderTest extends TestCase
     public function shouldChoseDelimiter(): void
     {
         // given
-        $template = new TemplateBuilder('^&/$', '', false, [new LiteralTokenValue()]);
+        $template = new TemplateBuilder('^&/$', '', false, [new LiteralToken()]);
 
         // when
         $pattern = $template->build();

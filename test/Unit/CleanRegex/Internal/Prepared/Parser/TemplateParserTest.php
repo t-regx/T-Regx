@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
-use TRegx\CleanRegex\Internal\Prepared\Template\LiteralTokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 
 class TemplateParserTest extends TestCase
 {
@@ -15,7 +15,7 @@ class TemplateParserTest extends TestCase
     public function shouldParse(): void
     {
         // given
-        $parser = new TemplateParser('foo:&', [new LiteralTokenValue()]);
+        $parser = new TemplateParser('foo:&', [new LiteralToken()]);
 
         // when
         $result = $parser->parse('#', new AlterationFactory(''));
@@ -30,7 +30,7 @@ class TemplateParserTest extends TestCase
     public function shouldThrow_onTrailingBackslash(): void
     {
         // given
-        $parser = new TemplateParser('foo:&\\', [new LiteralTokenValue()]);
+        $parser = new TemplateParser('foo:&\\', [new LiteralToken()]);
 
         // then
         $this->expectException(TrailingBackslashException::class);

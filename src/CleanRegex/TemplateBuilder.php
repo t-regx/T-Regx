@@ -6,10 +6,10 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;
 use TRegx\CleanRegex\Internal\Prepared\Prepare;
-use TRegx\CleanRegex\Internal\Prepared\Template\LiteralTokenValue;
-use TRegx\CleanRegex\Internal\Prepared\Template\MaskTokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
+use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\TemplateStrategy;
-use TRegx\CleanRegex\Internal\Prepared\Template\TokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Template\Token;
 
 class TemplateBuilder
 {
@@ -19,7 +19,7 @@ class TemplateBuilder
     private $pcre;
     /** @var string */
     private $flags;
-    /** @var TokenValue[] */
+    /** @var Token[] */
     private $placeholders;
 
     public function __construct(string $pattern, string $flags, bool $pcre, array $placeholders)
@@ -32,15 +32,15 @@ class TemplateBuilder
 
     public function putMask(string $mask, array $keywords): TemplateBuilder
     {
-        return $this->next(new MaskTokenValue($mask, $keywords));
+        return $this->next(new MaskToken($mask, $keywords));
     }
 
     public function putLiteral(): TemplateBuilder
     {
-        return $this->next(new LiteralTokenValue());
+        return $this->next(new LiteralToken());
     }
 
-    private function next(TokenValue $placeholder): TemplateBuilder
+    private function next(Token $placeholder): TemplateBuilder
     {
         return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, \array_merge($this->placeholders, [$placeholder]));
     }

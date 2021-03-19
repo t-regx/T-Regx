@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
-interface TokenValue
+interface Token
 {
     public function formatAsQuotable(): Quotable;
 }
