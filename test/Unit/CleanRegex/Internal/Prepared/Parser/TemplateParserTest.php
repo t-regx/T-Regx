@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
-use TRegx\CleanRegex\Internal\Format\LiteralTokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Format\LiteralTokenValue;
 use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
 

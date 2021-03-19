@@ -2,10 +2,10 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Exception\TemplateFormatException;
-use TRegx\CleanRegex\Internal\Format\LiteralTokenValue;
-use TRegx\CleanRegex\Internal\Format\TokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Format\LiteralTokenValue;
 use TRegx\CleanRegex\Internal\Prepared\Format\MaskTokenValue;
 use TRegx\CleanRegex\Internal\Prepared\Format\TemplateStrategy;
+use TRegx\CleanRegex\Internal\Prepared\Format\TokenValue;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;

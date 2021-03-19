@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Format;
 
 use TRegx\CleanRegex\Exception\FormatMalformedPatternException;
-use TRegx\CleanRegex\Internal\Format\TokenValue;
 use TRegx\CleanRegex\Internal\MultiSplitter;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\CompositeQuotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;

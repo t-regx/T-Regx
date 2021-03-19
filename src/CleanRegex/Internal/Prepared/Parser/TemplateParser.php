@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Format\TokenValue;
+use TRegx\CleanRegex\Internal\Prepared\Format\TokenValue;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;

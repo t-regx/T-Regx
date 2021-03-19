@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Format;
+namespace TRegx\CleanRegex\Internal\Prepared\Format;
 
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 

@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Format;
 
-use TRegx\CleanRegex\Internal\Format\TokenValue;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
 class TemplateStrategy implements TokenStrategy
