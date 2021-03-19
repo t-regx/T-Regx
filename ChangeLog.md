@@ -20,6 +20,7 @@ Incoming
     * Renamed `Pattern::template()->literal()` to `Pattern::template()->putLiteral()`
     * Method `putLiteral()` (previously `literal()`) now requires argument `'&'`, to escape `&` in-pattern token
     * Removed `PatternBuilder::builder()`. Use `Pattern::builder()`
+    * Removed `PatternBuilder::compose()`. Use `Pattern::compose()`
 * Bug fixes
     * `Pattern::template()` quoted values incorrectly, when delimiter other than `/` or `%` was chosen.
 

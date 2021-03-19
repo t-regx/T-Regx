@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
+use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\UnquotePattern;
@@ -48,7 +49,7 @@ class Pattern
 
     public static function compose(array $patterns): CompositePattern
     {
-        return PatternBuilder::compose($patterns);
+        return new CompositePattern((new CompositePatternMapper($patterns))->createPatterns());
     }
 
     public static function mask(string $mask, array $keywords, string $flags = null): PatternInterface

@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\MaskParser;
@@ -54,15 +53,6 @@ class PatternBuilder
     public function prepare(array $input, string $flags = null): PatternInterface
     {
         return Prepare::build(new PreparedParser($input), $this->pcre, $flags ?? '');
-    }
-
-    /**
-     * @param (string|PatternInterface)[] $patterns
-     * @return CompositePattern
-     */
-    public static function compose(array $patterns): CompositePattern
-    {
-        return new CompositePattern((new CompositePatternMapper($patterns))->createPatterns());
     }
 
     public function mask(string $pattern, array $tokens, string $flags = null): PatternInterface
