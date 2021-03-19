@@ -20,14 +20,14 @@ class TemplateBuilder
     /** @var string */
     private $flags;
     /** @var Token[] */
-    private $placeholders;
+    private $tokens;
 
-    public function __construct(string $pattern, string $flags, bool $pcre, array $placeholders)
+    public function __construct(string $pattern, string $flags, bool $pcre, array $tokens)
     {
         $this->pattern = $pattern;
         $this->pcre = $pcre;
         $this->flags = $flags;
-        $this->placeholders = $placeholders;
+        $this->tokens = $tokens;
     }
 
     public function putMask(string $mask, array $keywords): TemplateBuilder
@@ -40,38 +40,38 @@ class TemplateBuilder
         return $this->next(new LiteralToken());
     }
 
-    private function next(Token $placeholder): TemplateBuilder
+    private function next(Token $token): TemplateBuilder
     {
-        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, \array_merge($this->placeholders, [$placeholder]));
+        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, \array_merge($this->tokens, [$token]));
     }
 
     public function build(): PatternInterface
     {
         $this->validateTokensAndMethods();
-        return Prepare::build(new TemplateParser($this->pattern, $this->placeholders), $this->pcre, $this->flags);
+        return Prepare::build(new TemplateParser($this->pattern, $this->tokens), $this->pcre, $this->flags);
     }
 
     public function inject(array $values): PatternInterface
     {
         $this->validateTokensAndMethods();
-        return Prepare::build(new InjectParser($this->pattern, $values, new TemplateStrategy($this->placeholders)), $this->pcre, $this->flags);
+        return Prepare::build(new InjectParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->pcre, $this->flags);
     }
 
     public function bind(array $values): PatternInterface
     {
         $this->validateTokensAndMethods();
-        return Prepare::build(new BindingParser($this->pattern, $values, new TemplateStrategy($this->placeholders)), $this->pcre, $this->flags);
+        return Prepare::build(new BindingParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->pcre, $this->flags);
     }
 
     private function validateTokensAndMethods(): void
     {
-        $tokens = \preg_match_all('/&/', $this->pattern);
-        $count = \count($this->placeholders);
-        if ($tokens < $count) {
-            throw TemplateFormatException::insufficient($tokens, $count);
+        $placeholders = \preg_match_all('/&/', $this->pattern);
+        $tokens = \count($this->tokens);
+        if ($placeholders < $tokens) {
+            throw TemplateFormatException::insufficient($placeholders, $tokens);
         }
-        if ($tokens > $count) {
-            throw TemplateFormatException::superfluous($tokens, $count);
+        if ($placeholders > $tokens) {
+            throw TemplateFormatException::superfluous($placeholders, $tokens);
         }
     }
 }

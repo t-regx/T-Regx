@@ -13,33 +13,33 @@ class TemplateParser implements Parser
     /** @var string */
     private $pattern;
     /** @var array */
-    private $placeholders;
+    private $tokens;
 
-    public function __construct(string $pattern, array $placeholders)
+    public function __construct(string $pattern, array $tokens)
     {
         $this->pattern = $pattern;
-        $this->placeholders = $placeholders;
+        $this->tokens = $tokens;
     }
 
     public function parse(string $delimiter, QuotableFactory $quotableFactory): Quotable
     {
         TrailingBackslash::throwIfHas($this->pattern);
         $pattern = \preg_replace_callback('/&/', function (): string {
-            return $this->nextPlaceholder()->formatAsQuotable()->quote('/');
+            return $this->nextToken()->formatAsQuotable()->quote('/');
         }, $this->pattern);
         return new RawQuotable($pattern);
     }
 
-    private function nextPlaceholder(): Token
+    private function nextToken(): Token
     {
-        $placeholder = \current($this->placeholders);
-        if ($placeholder === false) {
+        $token = \current($this->tokens);
+        if ($token === false) {
             // @codeCoverageIgnoreStart
             throw new InternalCleanRegexException();
             // @codeCoverageIgnoreEnd
         }
-        \next($this->placeholders);
-        return $placeholder;
+        \next($this->tokens);
+        return $token;
     }
 
     public function getDelimiterable(): string

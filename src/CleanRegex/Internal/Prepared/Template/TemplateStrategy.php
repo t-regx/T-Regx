@@ -6,22 +6,22 @@ use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 class TemplateStrategy implements TokenStrategy
 {
     /** @var Token[] */
-    private $placeholders;
+    private $tokens;
 
-    public function __construct(array $placeholders)
+    public function __construct(array $tokens)
     {
-        $this->placeholders = $placeholders;
+        $this->tokens = $tokens;
     }
 
     public function nextAsQuotable(): Quotable
     {
-        return $this->nextPlaceholder()->formatAsQuotable();
+        return $this->nextToken()->formatAsQuotable();
     }
 
-    private function nextPlaceholder(): Token
+    private function nextToken(): Token
     {
-        $placeholder = \current($this->placeholders);
-        \next($this->placeholders);
-        return $placeholder;
+        $token = \current($this->tokens);
+        \next($this->tokens);
+        return $token;
     }
 }
