@@ -42,13 +42,13 @@ class DelimitererTest extends TestCase
                 return Pattern::compose(['Foo & \\']);
             }],
             'Pattern::template()->build()'  => [function () {
-                return Pattern::template('Foo & \\')->putLiteral()->build();
+                return Pattern::template('Foo & \\')->putLiteral('&')->build();
             }],
             'Pattern::template()->inject()' => [function () {
-                return Pattern::template('Foo & \\')->putLiteral()->inject([]);
+                return Pattern::template('Foo & \\')->putLiteral('&')->inject([]);
             }],
             'Pattern::template()->bind()'   => [function () {
-                return Pattern::template('Foo & \\')->putLiteral()->bind([]);
+                return Pattern::template('Foo & \\')->putLiteral('&')->bind([]);
             }],
         ];
     }

@@ -20,31 +20,28 @@ class Template
         $this->flags = $flags;
     }
 
+    public function inject(array $values): PatternInterface
+    {
+        return (new TemplateBuilder($this->pattern, $this->flags, $this->pcre, []))->inject($values);
+    }
+
+    public function bind(array $values): PatternInterface
+    {
+        return (new TemplateBuilder($this->pattern, $this->flags, $this->pcre, []))->bind($values);
+    }
+
+    public function mask(string $string, array $tokens): PatternInterface
+    {
+        return $this->putMask($string, $tokens)->build();
+    }
+
     public function putMask(string $mask, array $keywords): TemplateBuilder
     {
         return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new MaskToken($mask, $keywords)]);
     }
 
-    public function putLiteral(): TemplateBuilder
+    public function putLiteral(string $text): TemplateBuilder
     {
-        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new LiteralToken()]);
-    }
-
-    public function mask(string $string, array $tokens): PatternInterface
-    {
-        $template = new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new MaskToken($string, $tokens)]);
-        return $template->build();
-    }
-
-    public function inject(array $values): PatternInterface
-    {
-        $template = new TemplateBuilder($this->pattern, $this->flags, $this->pcre, []);
-        return $template->inject($values);
-    }
-
-    public function bind(array $values): PatternInterface
-    {
-        $template = new TemplateBuilder($this->pattern, $this->flags, $this->pcre, []);
-        return $template->bind($values);
+        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new LiteralToken($text)]);
     }
 }

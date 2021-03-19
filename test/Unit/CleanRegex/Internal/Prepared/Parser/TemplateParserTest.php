@@ -2,10 +2,11 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\RawToken;
+use Test\Utils\ThrowToken;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
-use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 
 class TemplateParserTest extends TestCase
 {
@@ -15,13 +16,13 @@ class TemplateParserTest extends TestCase
     public function shouldParse(): void
     {
         // given
-        $parser = new TemplateParser('foo:&', [new LiteralToken()]);
+        $parser = new TemplateParser('foo:&', [new RawToken('W', '#')]);
 
         // when
         $result = $parser->parse('#', new AlterationFactory(''));
 
         // then
-        $this->assertSame('foo:&', $result->quote('#'));
+        $this->assertSame('foo:W', $result->quote('#'));
     }
 
     /**
@@ -30,7 +31,7 @@ class TemplateParserTest extends TestCase
     public function shouldThrow_onTrailingBackslash(): void
     {
         // given
-        $parser = new TemplateParser('foo:&\\', [new LiteralToken()]);
+        $parser = new TemplateParser('foo:&\\', [new ThrowToken()]);
 
         // then
         $this->expectException(TrailingBackslashException::class);

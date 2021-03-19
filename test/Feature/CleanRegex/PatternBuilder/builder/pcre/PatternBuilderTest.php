@@ -81,14 +81,14 @@ class PatternBuilderTest extends TestCase
         $pattern = PatternBuilder::builder()
             ->pcre()
             ->template('%You/her, & (her)%', 's')
-            ->putLiteral()
+            ->putLiteral('{hi}')
             ->build();
 
         // when
         $pattern = $pattern->delimited();
 
         // then
-        $this->assertSame('%You/her, & (her)%s', $pattern);
+        $this->assertSame('%You/her, \{hi\} (her)%s', $pattern);
     }
 
     /**

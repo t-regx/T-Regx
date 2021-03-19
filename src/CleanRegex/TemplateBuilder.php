@@ -6,9 +6,9 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;
 use TRegx\CleanRegex\Internal\Prepared\Prepare;
-use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\TemplateStrategy;
+use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\Token;
 
 class TemplateBuilder
@@ -35,9 +35,9 @@ class TemplateBuilder
         return $this->next(new MaskToken($mask, $keywords));
     }
 
-    public function putLiteral(): TemplateBuilder
+    public function putLiteral(string $text): TemplateBuilder
     {
-        return $this->next(new LiteralToken());
+        return $this->next(new LiteralToken($text));
     }
 
     private function next(Token $token): TemplateBuilder

@@ -128,12 +128,12 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::template('^& v&s. &$ @ or `s`', 'i')
-            ->putLiteral()
+            ->putLiteral('&')
             ->putMask('This-is: %3 pattern %4', [
                 '%3' => 'x{3,}',
                 '%4' => 'x{4,}',
             ])
-            ->putLiteral()
+            ->putLiteral('&')
             ->build();
 
         // when
@@ -154,7 +154,7 @@ class PatternTest extends TestCase
                 '%3' => 'x{3,}',
                 '%4' => 'x{4,}',
             ])
-            ->putLiteral()
+            ->putLiteral('&')
             ->putMask('(%e:%%e)', [
                 '%%' => '%',
                 '%e' => 'e{2,3}'
@@ -227,7 +227,7 @@ class PatternTest extends TestCase
     public function shouldBuild_template_putLiteral_build(): void
     {
         // given
-        $pattern = Pattern::template('^& vs/ $', 's')->putLiteral()->build();
+        $pattern = Pattern::template('^& vs/ $', 's')->putLiteral('&')->build();
 
         // when
         $delimited = $pattern->delimited();
