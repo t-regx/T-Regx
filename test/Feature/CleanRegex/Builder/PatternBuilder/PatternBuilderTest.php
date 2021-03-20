@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\PatternBuilder;
+namespace Test\Feature\TRegx\CleanRegex\Builder\PatternBuilder;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;

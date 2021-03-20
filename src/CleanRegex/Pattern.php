@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex;
 
+use TRegx\CleanRegex\Builder\PatternBuilder;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
