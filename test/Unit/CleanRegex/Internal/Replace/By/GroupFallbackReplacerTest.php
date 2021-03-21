@@ -2,11 +2,11 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ComputedMapper;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
+use Test\Utils\Impl\ComputedMapper;
+use Test\Utils\Impl\NoReplacementMapper;
 use Test\Utils\Internal;
-use Test\Utils\NoReplacementMapper;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;

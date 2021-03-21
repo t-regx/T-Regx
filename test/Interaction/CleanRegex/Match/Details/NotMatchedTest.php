@@ -4,7 +4,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\Details;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\PhpunitPolyfill;
-use Test\Utils\ThrowSubject;
+use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\NotMatched;

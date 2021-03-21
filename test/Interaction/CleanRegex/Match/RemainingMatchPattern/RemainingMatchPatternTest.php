@@ -3,10 +3,10 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\RemainingMatchPattern;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
-use Test\Utils\CallbackPredicate;
 use Test\Utils\Functions;
+use Test\Utils\Impl\CallbackPredicate;
+use Test\Utils\Impl\ThrowApiBase;
 use Test\Utils\Internal;
-use Test\Utils\ThrowApiBase;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;

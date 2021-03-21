@@ -1,5 +1,5 @@
 <?php
-namespace Test\Utils;
+namespace Test\Utils\Impl;
 
 use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\StreamWorker;

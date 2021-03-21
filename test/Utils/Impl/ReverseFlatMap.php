@@ -1,5 +1,5 @@
 <?php
-namespace Test\Utils;
+namespace Test\Utils\Impl;
 
 use TRegx\CleanRegex\Internal\Arrays;
 use TRegx\CleanRegex\Internal\Match\FlatMap\FlatMapStrategy;

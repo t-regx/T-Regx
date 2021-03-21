@@ -1,5 +1,5 @@
 <?php
-namespace Test\Utils;
+namespace Test\Utils\Impl;
 
 use PHPUnit\Framework\Assert;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;

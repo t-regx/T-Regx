@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\IdentityParser;
+use Test\Utils\Impl\IdentityParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 
 class PrepareFacadeTest extends TestCase

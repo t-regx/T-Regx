@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\RawToken;
-use Test\Utils\ThrowToken;
+use Test\Utils\Impl\RawToken;
+use Test\Utils\Impl\ThrowToken;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;

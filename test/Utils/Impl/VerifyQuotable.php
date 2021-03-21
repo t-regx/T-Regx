@@ -1,10 +1,10 @@
 <?php
-namespace Test\Utils;
+namespace Test\Utils\Impl;
 
+use PHPUnit\Framework\Assert;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
-use TRegx\CleanRegex\Internal\Prepared\Template\Token;
 
-class RawToken implements Token
+class VerifyQuotable implements Quotable
 {
     /** @var string */
     private $literal;
@@ -17,8 +17,9 @@ class RawToken implements Token
         $this->expectedDelimiter = $expectedDelimiter;
     }
 
-    public function formatAsQuotable(): Quotable
+    public function quote(string $delimiter): string
     {
-        return new VerifyQuotable($this->literal, $this->expectedDelimiter);
+        Assert::assertSame($this->expectedDelimiter, $delimiter, 'Failed to assert the expected delimiter');
+        return $this->literal;
     }
 }

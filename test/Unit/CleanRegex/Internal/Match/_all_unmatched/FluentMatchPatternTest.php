@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\_all_unmatched;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use Test\Utils\ThrowWorker;
+use Test\Utils\Impl\ThrowWorker;
 use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;

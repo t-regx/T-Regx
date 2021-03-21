@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\RawToken;
-use Test\Utils\ThrowToken;
+use Test\Utils\Impl\RawToken;
+use Test\Utils\Impl\ThrowToken;
 use TRegx\CleanRegex\Exception\TemplateFormatException;
 use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
 use TRegx\CleanRegex\TemplateBuilder;
