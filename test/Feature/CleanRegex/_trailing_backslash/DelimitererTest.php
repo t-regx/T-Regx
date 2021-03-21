@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\_trailing_backslash;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\FormatMalformedPatternException;
+use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
 
@@ -62,7 +62,7 @@ class DelimitererTest extends TestCase
     public function shouldThrow_template_forTrailingBackslash(callable $entryPoint, string $message): void
     {
         // then
-        $this->expectException(FormatMalformedPatternException::class);
+        $this->expectException(MaskMalformedPatternException::class);
         $this->expectExceptionMessage($message);
 
         // when

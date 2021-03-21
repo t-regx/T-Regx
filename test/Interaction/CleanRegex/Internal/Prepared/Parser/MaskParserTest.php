@@ -2,7 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\FormatMalformedPatternException;
+use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Internal\Prepared\Parser\MaskParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
@@ -70,7 +70,7 @@ class MaskParserTest extends TestCase
         ]);
 
         // then
-        $this->expectException(FormatMalformedPatternException::class);
+        $this->expectException(MaskMalformedPatternException::class);
         $this->expectExceptionMessage("Malformed pattern 'invalid)' assigned to keyword '%%'");
 
         // when

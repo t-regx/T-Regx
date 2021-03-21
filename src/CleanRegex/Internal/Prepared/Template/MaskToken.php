@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
-use TRegx\CleanRegex\Exception\FormatMalformedPatternException;
+use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Internal\MultiSplitter;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\CompositeQuotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
@@ -48,7 +48,7 @@ class MaskToken implements Token
     private function validatePair(string $pattern, string $keyword): void
     {
         if (TrailingBackslash::hasTrailingSlash($pattern) || !ValidPattern::isValidStandard($pattern)) {
-            throw new FormatMalformedPatternException("Malformed pattern '$pattern' assigned to keyword '$keyword'");
+            throw new MaskMalformedPatternException("Malformed pattern '$pattern' assigned to keyword '$keyword'");
         }
     }
 
