@@ -2,11 +2,10 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
-use TRegx\CleanRegex\Internal\Delimiter\Strategy\IdentityStrategy;
+use TRegx\CleanRegex\Internal\Delimiter\AutomaticDelimiter;
 use TRegx\SafeRegex\preg;
 
-class DelimitererTest extends TestCase
+class AutomaticDelimiterTest extends TestCase
 {
     public function patterns(): array
     {
@@ -42,11 +41,8 @@ class DelimitererTest extends TestCase
      */
     public function shouldDelimiterPattern(string $input)
     {
-        // given
-        $delimiterer = new Delimiterer(new IdentityStrategy());
-
         // when
-        $pattern = $delimiterer->delimiter("\Q$input\E");
+        $pattern = AutomaticDelimiter::standard("\Q$input\E", '');
 
         // then
         $this->assertTrue(preg::match($pattern, $input) === 1, "Failed asserting that $pattern matches $input");

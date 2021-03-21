@@ -1,8 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\Delimiter\Delimiterer;
-use TRegx\CleanRegex\Internal\Delimiter\Strategy\IdentityStrategy;
+use TRegx\CleanRegex\Internal\Delimiter\AutomaticDelimiter;
 
 class InternalPattern
 {
@@ -20,7 +19,7 @@ class InternalPattern
     public static function standard(string $pattern, string $flags): InternalPattern
     {
         TrailingBackslash::throwIfHas($pattern);
-        return new self((new Delimiterer(new IdentityStrategy()))->delimiter($pattern) . $flags, $pattern);
+        return new self(AutomaticDelimiter::standard($pattern, $flags), $pattern);
     }
 
     public static function pcre(string $pattern): InternalPattern
