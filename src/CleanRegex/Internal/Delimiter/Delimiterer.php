@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Delimiter;
 
-use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
 
 class Delimiterer
@@ -12,12 +11,15 @@ class Delimiterer
     private $parser;
     /** @var DelimiterStrategy */
     private $delimiterStrategy;
+    /** @var DelimiterFinder */
+    private $finder;
 
     public function __construct(DelimiterStrategy $strategy)
     {
         $this->delimiters = new Delimiters();
         $this->parser = new DelimiterParser();
         $this->delimiterStrategy = $strategy;
+        $this->finder = new DelimiterFinder();
     }
 
     public function delimiter(string $pattern): string
@@ -28,18 +30,8 @@ class Delimiterer
     private function getDelimiter(string $pattern): ?string
     {
         if ($this->delimiterStrategy->shouldGuessDelimiter()) {
-            return $this->chooseDelimiter($pattern);
+            return $this->finder->chooseDelimiter($pattern);
         }
         return $this->parser->getDelimiter($pattern);
-    }
-
-    private function chooseDelimiter(string $pattern): string
-    {
-        foreach ($this->delimiters->getDelimiters() as $delimiter) {
-            if (\strpos($pattern, $delimiter) === false) {
-                return $delimiter;
-            }
-        }
-        throw new ExplicitDelimiterRequiredException($pattern);
     }
 }
