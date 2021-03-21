@@ -20,10 +20,10 @@ class PrepareFacadeTest extends TestCase
     public function test_standard(Parser $parser)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
+        $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('/(I|We) want: User\ \(input\) :)/', $pattern);
+        $this->assertSame('/(I|We) want: User\ \(input\) :)/', $pattern->delimited());
     }
 
     public function standard(): array
@@ -44,10 +44,10 @@ class PrepareFacadeTest extends TestCase
     public function test_empty(Parser $parser)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
+        $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('//', $pattern);
+        $this->assertSame('//', $pattern->delimited());
     }
 
     public function empty(): array
@@ -69,10 +69,10 @@ class PrepareFacadeTest extends TestCase
     public function test_ignoresPcre(Parser $parser, string $expected)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
+        $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame($expected, $pattern);
+        $this->assertSame($expected, $pattern->delimited());
     }
 
     public function pcre(): array
@@ -96,10 +96,10 @@ class PrepareFacadeTest extends TestCase
     public function test_onlyUserInput(Parser $parser)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
+        $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('/\(/', $pattern);
+        $this->assertSame('/\(/', $pattern->delimited());
     }
 
     public function onlyUserInput(): array
@@ -119,10 +119,10 @@ class PrepareFacadeTest extends TestCase
     public function test_quotesDelimiters(Parser $parser)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
+        $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('%With delimiters / #Using\ /\ delimiters\ and\ \% :D%', $pattern);
+        $this->assertSame('%With delimiters / #Using\ /\ delimiters\ and\ \% :D%', $pattern->delimited());
     }
 
     public function delimiters(): array
@@ -142,10 +142,10 @@ class PrepareFacadeTest extends TestCase
     public function test_whitespace(Parser $parser)
     {
         // given + when
-        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
+        $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('/(I|We) want: User\ \(input\)User\ \(input_2\)/', $pattern);
+        $this->assertSame('/(I|We) want: User\ \(input\)User\ \(input_2\)/', $pattern->delimited());
     }
 
     public function whitespace(): array
@@ -168,14 +168,11 @@ class PrepareFacadeTest extends TestCase
      */
     public function shouldIgnoreBindPlaceholders(Parser $parser, string $expected)
     {
-        // given
-        $facade = new PrepareFacade($parser, false, '');
-
         // when
-        $pattern = $facade->getPattern();
+        $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame($expected, $pattern);
+        $this->assertSame($expected, $pattern->delimited());
     }
 
     public function ignoredInputs(): array
@@ -216,15 +213,12 @@ class PrepareFacadeTest extends TestCase
      */
     public function shouldThrow_onInvalidInput(Parser $parser, string $message)
     {
-        // given
-        $facade = new PrepareFacade($parser, false, '');
-
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage($message);
 
         // when
-        $facade->getPattern();
+        PrepareFacade::build($parser, false, '');
     }
 
     public function invalidInputs(): array

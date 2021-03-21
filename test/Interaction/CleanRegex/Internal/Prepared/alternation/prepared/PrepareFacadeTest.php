@@ -20,7 +20,7 @@ class PrepareFacadeTest extends TestCase
         $this->expectExceptionMessage("Method prepare() doesn't support alteration; expected string, but array (0) given");
 
         // when
-        (new PrepareFacade($parser, false, ''))->getPattern();
+        PrepareFacade::build($parser, false, '');
     }
 
     /**
@@ -36,7 +36,7 @@ class PrepareFacadeTest extends TestCase
         $this->expectExceptionMessage("Method prepare() doesn't support alteration; only one bound value allowed");
 
         // when
-        (new PrepareFacade($parser, false, ''))->getPattern();
+        PrepareFacade::build($parser, false, '');
     }
 
     /**
@@ -52,6 +52,6 @@ class PrepareFacadeTest extends TestCase
         $this->expectExceptionMessage("Method prepare() doesn't support alteration; bound value is required");
 
         // when
-        (new PrepareFacade($parser, false, ''))->getPattern();
+        PrepareFacade::build($parser, false, '');
     }
 }

@@ -19,11 +19,11 @@ class PrepareFacadeTest extends TestCase
      */
     public function test_alternation_empty(Parser $parser)
     {
-        // given + when
-        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
+        // when
+        $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('/Either 5\/6 or (?:) :)/', $pattern);
+        $this->assertSame('/Either 5\/6 or (?:) :)/', $pattern->delimited());
     }
 
     public function alternation_empty(): array
@@ -41,11 +41,11 @@ class PrepareFacadeTest extends TestCase
      */
     public function test_alternation_triple(Parser $parser)
     {
-        // given + when
-        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
+        // when
+        $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('/Either 5\/6 or (?:6\/7|7\/8|8\/9) :)/', $pattern);
+        $this->assertSame('/Either 5\/6 or (?:6\/7|7\/8|8\/9) :)/', $pattern->delimited());
     }
 
     public function alternation_triple(): array
@@ -63,11 +63,11 @@ class PrepareFacadeTest extends TestCase
      */
     public function test_alternation_quote_delimiters(Parser $parser)
     {
-        // given + when
-        $pattern = (new PrepareFacade($parser, false, ''))->getPattern();
+        // when
+        $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('%Either /# (?:5\%) :)%', $pattern);
+        $this->assertSame('%Either /# (?:5\%) :)%', $pattern->delimited());
     }
 
     public function delimiters(): array
@@ -85,15 +85,12 @@ class PrepareFacadeTest extends TestCase
      */
     public function shouldThrow_onInvalidInput_array(Parser $parser)
     {
-        // given
-        $facade = new PrepareFacade($parser, false, '');
-
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Invalid bound alternate value. Expected string, but array (0) given");
 
         // when
-        $facade->getPattern();
+        PrepareFacade::build($parser, false, '');
     }
 
     public function invalidInputs_arrays(): array
@@ -111,15 +108,12 @@ class PrepareFacadeTest extends TestCase
      */
     public function shouldThrow_onInvalidInput_integer(Parser $parser)
     {
-        // given
-        $facade = new PrepareFacade($parser, false, '');
-
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Invalid bound alternate value. Expected string, but integer (4) given");
 
         // when
-        $facade->getPattern();
+        PrepareFacade::build($parser, false, '');
     }
 
     /**
@@ -131,14 +125,11 @@ class PrepareFacadeTest extends TestCase
      */
     public function shouldRemoveAlternationDuplicatesBasedOnFlags(Parser $parser, string $flags, string $expected)
     {
-        // given
-        $facade = new PrepareFacade($parser, false, $flags);
-
         // when
-        $pattern = $facade->getPattern();
+        $pattern = PrepareFacade::build($parser, false, $flags);
 
         // then
-        $this->assertSame("/(?:$expected)/", $pattern);
+        $this->assertSame("/(?:$expected)/$flags", $pattern->delimited());
     }
 
     public function flagsAndAlternationResults(): array

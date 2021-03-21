@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\MaskParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
-use TRegx\CleanRegex\Internal\Prepared\Prepare;
+use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
 use TRegx\CleanRegex\PatternInterface;
 use TRegx\CleanRegex\Template;
@@ -27,22 +27,22 @@ class PatternBuilder implements PcrePatternBuilder
 
     public function bind(string $input, array $values, string $flags = null): PatternInterface
     {
-        return Prepare::build(new BindingParser($input, $values, new NoTemplate()), $this->pcre, $flags ?? '');
+        return PrepareFacade::build(new BindingParser($input, $values, new NoTemplate()), $this->pcre, $flags ?? '');
     }
 
     public function inject(string $input, array $values, string $flags = null): PatternInterface
     {
-        return Prepare::build(new InjectParser($input, $values, new NoTemplate()), $this->pcre, $flags ?? '');
+        return PrepareFacade::build(new InjectParser($input, $values, new NoTemplate()), $this->pcre, $flags ?? '');
     }
 
     public function prepare(array $input, string $flags = null): PatternInterface
     {
-        return Prepare::build(new PreparedParser($input), $this->pcre, $flags ?? '');
+        return PrepareFacade::build(new PreparedParser($input), $this->pcre, $flags ?? '');
     }
 
-    public function mask(string $pattern, array $tokens, string $flags = null): PatternInterface
+    public function mask(string $mask, array $keywords, string $flags = null): PatternInterface
     {
-        return Prepare::build(new MaskParser($pattern, $tokens), $this->pcre, $flags ?? '');
+        return PrepareFacade::build(new MaskParser($mask, $keywords), $this->pcre, $flags ?? '');
     }
 
     public function template(string $pattern, string $flags = null): Template

@@ -131,6 +131,6 @@ class MaskParserTest extends TestCase
 
     private function build(Parser $parser): string
     {
-        return (new PrepareFacade($parser, false, ''))->getPattern();
+        return PrepareFacade::build($parser, false, '')->delimited();
     }
 }

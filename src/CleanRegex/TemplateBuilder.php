@@ -5,10 +5,10 @@ use TRegx\CleanRegex\Exception\TemplateFormatException;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;
-use TRegx\CleanRegex\Internal\Prepared\Prepare;
+use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
+use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\TemplateStrategy;
-use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\Token;
 
 class TemplateBuilder
@@ -48,19 +48,19 @@ class TemplateBuilder
     public function build(): PatternInterface
     {
         $this->validateTokensAndMethods();
-        return Prepare::build(new TemplateParser($this->pattern, $this->tokens), $this->pcre, $this->flags);
+        return PrepareFacade::build(new TemplateParser($this->pattern, $this->tokens), $this->pcre, $this->flags);
     }
 
     public function inject(array $values): PatternInterface
     {
         $this->validateTokensAndMethods();
-        return Prepare::build(new InjectParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->pcre, $this->flags);
+        return PrepareFacade::build(new InjectParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->pcre, $this->flags);
     }
 
     public function bind(array $values): PatternInterface
     {
         $this->validateTokensAndMethods();
-        return Prepare::build(new BindingParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->pcre, $this->flags);
+        return PrepareFacade::build(new BindingParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->pcre, $this->flags);
     }
 
     private function validateTokensAndMethods(): void
