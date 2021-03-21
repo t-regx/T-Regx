@@ -1,17 +1,22 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Delimiter\Strategy;
 
+use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
+
 class PcreCallbackStrategy implements DelimiterStrategy
 {
     /** @var callable */
     private $patternProducer;
+    /** @var DelimiterParser */
+    private $parser;
 
     public function __construct(callable $patternProducer)
     {
         $this->patternProducer = $patternProducer;
+        $this->parser = new DelimiterParser();
     }
 
-    public function buildPattern(string $pattern, ?string $delimiter): string
+    public function buildPattern(string $delimiterable): string
     {
         /**
          * It may be possible that prepared patterns, are used in PCRE mode,
@@ -24,13 +29,8 @@ class PcreCallbackStrategy implements DelimiterStrategy
          * message to the user. That way, it will be obvious that it's a
          * problem with the pattern, and not the library.
          */
-        $delimiter = $delimiter ?? '/';
+        $delimiter = $this->parser->getDelimiter($delimiterable) ?? '/';
 
         return ($this->patternProducer)($delimiter);
-    }
-
-    public function shouldGuessDelimiter(): bool
-    {
-        return false;
     }
 }
