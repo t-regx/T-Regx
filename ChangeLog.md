@@ -10,6 +10,8 @@ Incoming
     * Method `Pattern:template()->putLiteral(string)` now accepts `string` argument, allowing for inserting arbitrary
       strings into the pattern.
     * Added `Pattern::builder()`, which works similarly to how `PatternBuilder::builder()` worked.
+    * Added `Pattern::literal()` which creates an instance of a pattern with which matches an arbitrary string exactly,
+      even when `x` (`EXTENDED`) flag is used.
 * Breaking changes
     * `match()->getIterator()` no longer preserves the keys of values (like `all()`)
     * `match()->group()->getIterator()` no longer preserves the keys of values (like `all()`)

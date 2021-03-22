@@ -2,11 +2,15 @@
 namespace Test\Feature\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsPattern;
+use TRegx\CleanRegex\Flags;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
 {
+    use AssertsPattern;
+
     /**
      * @test
      */
@@ -214,5 +218,41 @@ class PatternTest extends TestCase
 
         // then
         $this->assertSame(['Foo', ',', 'Bar', ',', 'Cat'], $matches);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_literal()
+    {
+        // when
+        $pattern = Pattern::literal('Foo{2}');
+
+        // then
+        $this->assertSamePattern('/Foo\{2\}/', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_literal_WithFlags()
+    {
+        // when
+        $pattern = Pattern::literal('Foo {2}', 'D');
+
+        // then
+        $this->assertSamePattern('/Foo\ \{2\}/D', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDelimiter_literal()
+    {
+        // when
+        $pattern = Pattern::literal('Foo/{2}', 'm');
+
+        // then
+        $this->assertSamePattern('#Foo/\{2\}#m', $pattern);
     }
 }

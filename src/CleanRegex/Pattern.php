@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Extended;
 use TRegx\CleanRegex\Internal\UnquotePattern;
 use TRegx\SafeRegex\preg;
 
@@ -61,6 +62,11 @@ class Pattern
     public static function template(string $pattern, string $flags = null): Template
     {
         return self::builder()->template($pattern, $flags);
+    }
+
+    public static function literal(string $text, string $flags = null): PatternInterface
+    {
+        return Pattern::of(Extended::quote(preg::quote($text)), $flags);
     }
 
     public static function quote(string $string): string

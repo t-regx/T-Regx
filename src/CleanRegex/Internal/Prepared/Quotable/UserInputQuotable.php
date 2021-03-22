@@ -15,18 +15,6 @@ class UserInputQuotable implements Quotable
 
     public function quote(string $delimiter): string
     {
-        return $this->quoteExtended(preg::quote($this->userInput, $delimiter));
-    }
-
-    private function quoteExtended(string $text): string
-    {
-        return \strtr($text, [
-            ' '    => '\ ',
-            "\t"   => '\t',   #9
-            "\n"   => '\n',   #10
-            "\x0B" => '\x0B', #11
-            "\f"   => '\f',   #12
-            "\r"   => '\r',   #13
-        ]);
+        return Extended::quote(preg::quote($this->userInput, $delimiter));
     }
 }
