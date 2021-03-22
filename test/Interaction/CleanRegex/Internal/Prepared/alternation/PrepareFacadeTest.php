@@ -3,6 +3,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Internal\Prepared\alternation;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsPattern;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
@@ -12,6 +13,8 @@ use TRegx\DataProvider\DataProviders;
 
 class PrepareFacadeTest extends TestCase
 {
+    use AssertsPattern;
+
     /**
      * @test
      * @dataProvider alternation_empty
@@ -23,7 +26,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('/Either 5\/6 or (?:) :)/', $pattern->delimited());
+        $this->assertSamePattern('/Either 5\/6 or (?:) :)/', $pattern);
     }
 
     public function alternation_empty(): array
@@ -45,7 +48,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('/Either 5\/6 or (?:6\/7|7\/8|8\/9) :)/', $pattern->delimited());
+        $this->assertSamePattern('/Either 5\/6 or (?:6\/7|7\/8|8\/9) :)/', $pattern);
     }
 
     public function alternation_triple(): array
@@ -67,7 +70,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('%Either /# (?:5\%) :)%', $pattern->delimited());
+        $this->assertSamePattern('%Either /# (?:5\%) :)%', $pattern);
     }
 
     public function delimiters(): array
@@ -129,7 +132,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build($parser, false, $flags);
 
         // then
-        $this->assertSame("/(?:$expected)/$flags", $pattern->delimited());
+        $this->assertSamePattern("/(?:$expected)/$flags", $pattern);
     }
 
     public function flagsAndAlternationResults(): array

@@ -2,11 +2,14 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsPattern;
 use Test\Utils\Impl\IdentityParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 
 class PrepareFacadeTest extends TestCase
 {
+    use AssertsPattern;
+
     /**
      * @test
      */
@@ -16,7 +19,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build(new IdentityParser('Foo', '/'), false, '');
 
         // then
-        $this->assertSame('/Foo/', $pattern->delimited());
+        $this->assertSamePattern('/Foo/', $pattern);
     }
 
     /**
@@ -28,7 +31,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build(new IdentityParser('/#', '%'), false, '');
 
         // then
-        $this->assertSame('%/#%', $pattern->delimited());
+        $this->assertSamePattern('%/#%', $pattern);
     }
 
     /**
@@ -40,6 +43,6 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build(new IdentityParser('~Foo~', '~'), true, '');
 
         // then
-        $this->assertSame('~Foo~', $pattern->delimited());
+        $this->assertSamePattern('~Foo~', $pattern);
     }
 }

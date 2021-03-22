@@ -2,10 +2,13 @@
 namespace Test\Feature\TRegx\CleanRegex\Builder\PatternBuilder\builder\mask;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsPattern;
 use TRegx\CleanRegex\Pattern;
 
 class PatternBuilderTest extends TestCase
 {
+    use AssertsPattern;
+
     /**
      * @test
      */
@@ -22,7 +25,7 @@ class PatternBuilderTest extends TestCase
         ]);
 
         // then
-        $this->assertSame('/\(super\)\:\{\s+\.\d+\.%\}/', $pattern->delimited());
+        $this->assertSamePattern('/\(super\)\:\{\s+\.\d+\.%\}/', $pattern);
     }
 
     /**
@@ -37,6 +40,6 @@ class PatternBuilderTest extends TestCase
         $pattern = $patternBuilder->mask('My(super)pattern', [], 'ui');
 
         // then
-        $this->assertSame('/My\(super\)pattern/ui', $pattern->delimited());
+        $this->assertSamePattern('/My\(super\)pattern/ui', $pattern);
     }
 }

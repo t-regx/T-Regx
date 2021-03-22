@@ -3,6 +3,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Internal\Prepared;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsPattern;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
@@ -12,6 +13,8 @@ use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
 
 class PrepareFacadeTest extends TestCase
 {
+    use AssertsPattern;
+
     /**
      * @test
      * @dataProvider standard
@@ -23,7 +26,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('/(I|We) want: User\ \(input\) :)/', $pattern->delimited());
+        $this->assertSamePattern('/(I|We) want: User\ \(input\) :)/', $pattern);
     }
 
     public function standard(): array
@@ -47,7 +50,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('//', $pattern->delimited());
+        $this->assertSamePattern('//', $pattern);
     }
 
     public function empty(): array
@@ -72,7 +75,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame($expected, $pattern->delimited());
+        $this->assertSamePattern($expected, $pattern);
     }
 
     public function pcre(): array
@@ -99,7 +102,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('/\(/', $pattern->delimited());
+        $this->assertSamePattern('/\(/', $pattern);
     }
 
     public function onlyUserInput(): array
@@ -122,7 +125,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('%With delimiters / #Using\ /\ delimiters\ and\ \% :D%', $pattern->delimited());
+        $this->assertSamePattern('%With delimiters / #Using\ /\ delimiters\ and\ \% :D%', $pattern);
     }
 
     public function delimiters(): array
@@ -145,7 +148,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame('/(I|We) want: User\ \(input\)User\ \(input_2\)/', $pattern->delimited());
+        $this->assertSamePattern('/(I|We) want: User\ \(input\)User\ \(input_2\)/', $pattern);
     }
 
     public function whitespace(): array
@@ -172,7 +175,7 @@ class PrepareFacadeTest extends TestCase
         $pattern = PrepareFacade::build($parser, false, '');
 
         // then
-        $this->assertSame($expected, $pattern->delimited());
+        $this->assertSamePattern($expected, $pattern);
     }
 
     public function ignoredInputs(): array

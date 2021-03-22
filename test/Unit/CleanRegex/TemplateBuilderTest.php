@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsPattern;
 use Test\Utils\Impl\RawToken;
 use Test\Utils\Impl\ThrowToken;
 use TRegx\CleanRegex\Exception\TemplateFormatException;
@@ -10,6 +11,8 @@ use TRegx\CleanRegex\TemplateBuilder;
 
 class TemplateBuilderTest extends TestCase
 {
+    use AssertsPattern;
+
     /**
      * @test
      * @dataProvider methods
@@ -71,9 +74,9 @@ class TemplateBuilderTest extends TestCase
         $third = $template->putLiteral('C');
 
         // then
-        $this->assertSame('/^ZA$/s', $first->build()->delimited());
-        $this->assertSame('/^ZB$/s', $second->build()->delimited());
-        $this->assertSame('/^ZC$/s', $third->build()->delimited());
+        $this->assertSamePattern('/^ZA$/s', $first->build());
+        $this->assertSamePattern('/^ZB$/s', $second->build());
+        $this->assertSamePattern('/^ZC$/s', $third->build());
     }
 
     /**
@@ -88,7 +91,7 @@ class TemplateBuilderTest extends TestCase
         $first = $template->putLiteral('{hi}');
 
         // then
-        $this->assertSame('/^X\{hi\}$/s', $first->build()->delimited());
+        $this->assertSamePattern('/^X\{hi\}$/s', $first->build());
     }
 
     /**
@@ -103,7 +106,7 @@ class TemplateBuilderTest extends TestCase
         $pattern = $template->build();
 
         // then
-        $this->assertSame('#^Y/$#', $pattern->delimited());
+        $this->assertSamePattern('#^Y/$#', $pattern);
     }
 
     /**
@@ -118,6 +121,6 @@ class TemplateBuilderTest extends TestCase
         $pattern = $template->build();
 
         // then
-        $this->assertSame('%^`\%`#/$%', $pattern->delimited());
+        $this->assertSamePattern('%^`\%`#/$%', $pattern);
     }
 }
