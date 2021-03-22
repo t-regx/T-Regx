@@ -11,7 +11,10 @@ Incoming
       strings into the pattern.
     * Added `Pattern::builder()`, which works similarly to how `PatternBuilder::builder()` worked.
     * Added `Pattern::literal()` which creates an instance of a pattern with which matches an arbitrary string exactly,
-      even when `x` (`EXTENDED`) flag is used.
+      even when `x` (`EXTENDED`) flag is used. To add in-pattern structures, like `^` or `$`,
+      use `Pattern::template()->literal()`.
+    * Added `Pattern::template()->literal()`, which is a shorthand for
+      `Pattern::template()->putLiteral()->build()`.
 * Breaking changes
     * `match()->getIterator()` no longer preserves the keys of values (like `all()`)
     * `match()->group()->getIterator()` no longer preserves the keys of values (like `all()`)

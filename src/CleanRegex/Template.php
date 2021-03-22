@@ -35,6 +35,11 @@ class Template
         return $this->putMask($string, $tokens)->build();
     }
 
+    public function literal(string $text): PatternInterface
+    {
+        return $this->putLiteral($text)->build();
+    }
+
     public function putMask(string $mask, array $keywords): TemplateBuilder
     {
         return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new MaskToken($mask, $keywords)]);

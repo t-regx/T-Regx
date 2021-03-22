@@ -224,6 +224,21 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldBuild_template_literal(): void
+    {
+        // given
+        $pattern = Pattern::template('^& vs/ @curly:`parent`$', 's')->literal('x{3,}');
+
+        // when
+        $delimited = $pattern->delimited();
+
+        // then
+        $this->assertSame('#^x\{3,\} vs/ @curly:`parent`$#s', $delimited);
+    }
+
+    /**
+     * @test
+     */
     public function shouldBuild_template_putLiteral_build(): void
     {
         // given
