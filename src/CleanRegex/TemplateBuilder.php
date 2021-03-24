@@ -30,12 +30,12 @@ class TemplateBuilder
         $this->tokens = $tokens;
     }
 
-    public function putMask(string $mask, array $keywords): TemplateBuilder
+    public function mask(string $mask, array $keywords): TemplateBuilder
     {
         return $this->next(new MaskToken($mask, $keywords));
     }
 
-    public function putLiteral(string $text): TemplateBuilder
+    public function literal(string $text): TemplateBuilder
     {
         return $this->next(new LiteralToken($text));
     }

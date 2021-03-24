@@ -69,9 +69,9 @@ class TemplateBuilderTest extends TestCase
         $template = new TemplateBuilder('^&&$', 's', false, [new RawToken('Z', '/')]);
 
         // when
-        $first = $template->putLiteral('A');
-        $second = $template->putLiteral('B');
-        $third = $template->putLiteral('C');
+        $first = $template->literal('A');
+        $second = $template->literal('B');
+        $third = $template->literal('C');
 
         // then
         $this->assertSamePattern('/^ZA$/s', $first->build());
@@ -88,7 +88,7 @@ class TemplateBuilderTest extends TestCase
         $template = new TemplateBuilder('^&&$', 's', false, [new RawToken('X', '/')]);
 
         // when
-        $first = $template->putLiteral('{hi}');
+        $first = $template->literal('{hi}');
 
         // then
         $this->assertSamePattern('/^X\{hi\}$/s', $first->build());

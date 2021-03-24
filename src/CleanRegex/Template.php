@@ -1,9 +1,6 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
-use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
-
 class Template
 {
     /** @var string */
@@ -22,31 +19,26 @@ class Template
 
     public function inject(array $values): PatternInterface
     {
-        return (new TemplateBuilder($this->pattern, $this->flags, $this->pcre, []))->inject($values);
+        return $this->builder()->inject($values);
     }
 
     public function bind(array $values): PatternInterface
     {
-        return (new TemplateBuilder($this->pattern, $this->flags, $this->pcre, []))->bind($values);
+        return $this->builder()->bind($values);
     }
 
-    public function mask(string $string, array $tokens): PatternInterface
+    public function mask(string $mask, array $keywords): PatternInterface
     {
-        return $this->putMask($string, $tokens)->build();
+        return $this->builder()->mask($mask, $keywords)->build();
     }
 
     public function literal(string $text): PatternInterface
     {
-        return $this->putLiteral($text)->build();
+        return $this->builder()->literal($text)->build();
     }
 
-    public function putMask(string $mask, array $keywords): TemplateBuilder
+    public function builder(): TemplateBuilder
     {
-        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new MaskToken($mask, $keywords)]);
-    }
-
-    public function putLiteral(string $text): TemplateBuilder
-    {
-        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, [new LiteralToken($text)]);
+        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, []);
     }
 }

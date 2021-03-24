@@ -58,11 +58,12 @@ class PatternBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_putMask_build()
+    public function shouldBuild_template_builder_mask_build()
     {
         // given
         $pattern = Pattern::builder()->pcre()->template('%You/her, & (her)%', 's')
-            ->putMask('%s', ['%s' => '\s'])
+            ->builder()
+            ->mask('%s', ['%s' => '\s'])
             ->build();
 
         // when
@@ -75,13 +76,14 @@ class PatternBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_putLiteral()
+    public function shouldBuild_template_builder_literal_build()
     {
         // given
         $pattern = Pattern::builder()
             ->pcre()
             ->template('%You/her, & (her)%', 's')
-            ->putLiteral('{hi}')
+            ->builder()
+            ->literal('{hi}')
             ->build();
 
         // when

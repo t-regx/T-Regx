@@ -7,23 +7,23 @@ Incoming
 * Features
     * Added `Detail.usingDuplicateName().get()` #101
     * Added `Detail.usingDuplicateName().matched()` #101
-    * Method `Pattern:template()->putLiteral(string)` now accepts `string` argument, allowing for inserting arbitrary
+    * Method `Pattern:template()->literal(string)` now accepts `string` argument, allowing for inserting arbitrary
       strings into the pattern.
     * Added `Pattern::builder()`, which works similarly to how `PatternBuilder::builder()` worked.
     * Added `Pattern::literal()` which creates an instance of a pattern with which matches an arbitrary string exactly,
       even when `x` (`EXTENDED`) flag is used. To add in-pattern structures, like `^` or `$`,
       use `Pattern::template()->literal()`.
     * Added `Pattern::template()->literal()`, which is a shorthand for
-      `Pattern::template()->putLiteral()->build()`.
+      `Pattern::template()->builder()->literal()->build()`.
+    * Added `Pattern::template()->mask()`, which is a shorthand for `Pattern::template()->builder()->mask()->build()`.
 * Breaking changes
     * `match()->getIterator()` no longer preserves the keys of values (like `all()`)
     * `match()->group()->getIterator()` no longer preserves the keys of values (like `all()`)
     * Renamed `Pattern::format()` to `Pattern::mask()`
     * Renamed `Pattern::builder()->format()` to `Pattern::builder()->mask()`
     * Renamed `Pattern::template()->format()` to `Pattern::template()->mask()`
-    * Renamed `Pattern::template()->formatting()` to `Pattern::template()->putMask()`
-    * Renamed `Pattern::template()->literal()` to `Pattern::template()->putLiteral()`
-    * Method `putLiteral()` (previously `literal()`) now requires argument `'&'`, to escape `&` in-pattern token
+    * Refactored `Pattern::template()->formatting()` to `Pattern::template()->builder()->mask()`
+    * Method `literal()` now requires argument `'&'`, to escape `&` in-pattern token
     * Removed `PatternBuilder::builder()`. Use `Pattern::builder()`
     * Removed `PatternBuilder::compose()`. Use `Pattern::compose()`
     * Renamed `FormatMalformedPatternException` to `MaskMalformedPatternException`

@@ -41,14 +41,14 @@ class PatternTest extends TestCase
             'Pattern::compose()'            => [function () {
                 return Pattern::compose(['Foo & \\']);
             }],
-            'Pattern::template()->build()'  => [function () {
-                return Pattern::template('Foo & \\')->putLiteral('&')->build();
+            'Pattern::template()->builder()->literal()->build()' => [function () {
+                return Pattern::template('Foo & \\')->builder()->literal('&')->build();
             }],
-            'Pattern::template()->inject()' => [function () {
-                return Pattern::template('Foo & \\')->putLiteral('&')->inject([]);
+            'Pattern::template()->builder()->literal()->inject()' => [function () {
+                return Pattern::template('Foo & \\')->builder()->literal('&')->inject([]);
             }],
-            'Pattern::template()->bind()'   => [function () {
-                return Pattern::template('Foo & \\')->putLiteral('&')->bind([]);
+            'Pattern::template()->builder()->literal()->bind()' => [function () {
+                return Pattern::template('Foo & \\')->builder()->literal('&')->bind([]);
             }],
         ];
     }
@@ -85,9 +85,9 @@ class PatternTest extends TestCase
                 "Malformed pattern '\' assigned to keyword 'w'"
             ],
 
-            'Pattern::template()->putMask()->build()' => [
+            'Pattern::template()->builder()->mask()->build()' => [
                 function () {
-                    return Pattern::template('Foo &')->putMask('w', ['w' => '\\'])->build();
+                    return Pattern::template('Foo &')->builder()->mask('w', ['w' => '\\'])->build();
                 },
                 "Malformed pattern '\' assigned to keyword 'w'"
             ],

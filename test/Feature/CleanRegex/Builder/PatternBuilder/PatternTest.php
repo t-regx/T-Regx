@@ -124,16 +124,17 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_putLiteral_putMask_putLiteral_build(): void
+    public function shouldBuild_template_builder_literal_mask_literal_build(): void
     {
         // given
         $pattern = Pattern::template('^& v&s. &$ @ or `s`', 'i')
-            ->putLiteral('&')
-            ->putMask('This-is: %3 pattern %4', [
+            ->builder()
+            ->literal('&')
+            ->mask('This-is: %3 pattern %4', [
                 '%3' => 'x{3,}',
                 '%4' => 'x{4,}',
             ])
-            ->putLiteral('&')
+            ->literal('&')
             ->build();
 
         // when
@@ -146,16 +147,17 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_putMask_putLiteral_putMask_build(): void
+    public function shouldBuild_template_builder_mask_literal_mask_build(): void
     {
         // given
         $pattern = Pattern::template('^& v&s. &$ @ or `s`', 'i')
-            ->putMask('This-is: %3 pattern %4', [
+            ->builder()
+            ->mask('This-is: %3 pattern %4', [
                 '%3' => 'x{3,}',
                 '%4' => 'x{4,}',
             ])
-            ->putLiteral('&')
-            ->putMask('(%e:%%e)', [
+            ->literal('&')
+            ->mask('(%e:%%e)', [
                 '%%' => '%',
                 '%e' => 'e{2,3}'
             ])
@@ -171,11 +173,12 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_putMask_inject(): void
+    public function shouldBuild_template_builder_mask_inject(): void
     {
         // given
         $pattern = Pattern::template('^& vs. @:@$', 's')
-            ->putMask('This-is: %3', ['%3' => 'x{3,}'])
+            ->builder()
+            ->mask('This-is: %3', ['%3' => 'x{3,}'])
             ->inject(['{{{', ')))']);
 
         // when
@@ -188,11 +191,12 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_putMask_bind(): void
+    public function shouldBuild_template_builder_mask_bind(): void
     {
         // given
         $pattern = Pattern::template('^& vs. @curly:`parent`$', 's')
-            ->putMask('This-is: %3', ['%3' => 'x{3,}'])
+            ->builder()
+            ->mask('This-is: %3', ['%3' => 'x{3,}'])
             ->bind([
                 'curly'  => '{{{',
                 'parent' => ')))'
@@ -239,10 +243,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_putLiteral_build(): void
+    public function shouldBuild_template_builder_literal_build(): void
     {
         // given
-        $pattern = Pattern::template('^& vs/ $', 's')->putLiteral('&')->build();
+        $pattern = Pattern::template('^& vs/ $', 's')->builder()->literal('&')->build();
 
         // when
         $delimited = $pattern->delimited();
