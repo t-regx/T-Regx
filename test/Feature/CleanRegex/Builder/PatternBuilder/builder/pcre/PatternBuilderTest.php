@@ -61,7 +61,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_builder_mask_build()
     {
         // given
-        $pattern = Pattern::builder()->pcre()->template('%You/her, & (her)%', 's')
+        $pattern = Pattern::builder()->pcre()->template('%You/her, & (her)%s')
             ->builder()
             ->mask('%s', ['%s' => '\s'])
             ->build();
@@ -81,7 +81,7 @@ class PatternBuilderTest extends TestCase
         // given
         $pattern = Pattern::builder()
             ->pcre()
-            ->template('%You/her, & (her)%', 's')
+            ->template('%You/her, & (her)%s')
             ->builder()
             ->literal('{hi}')
             ->build();
@@ -99,7 +99,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_mask()
     {
         // given
-        $pattern = Pattern::builder()->pcre()->template('%You/her, & (her)%', 's')->mask('%s', ['%s' => '\s']);
+        $pattern = Pattern::builder()->pcre()->template('%You/her, & (her)%s')->mask('%s', ['%s' => '\s']);
 
         // when
         $pattern = $pattern->delimited();
@@ -114,7 +114,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_literal()
     {
         // given
-        $pattern = Pattern::builder()->pcre()->template('%You/her, & (her)%', 's')->literal('\s');
+        $pattern = Pattern::builder()->pcre()->template('%You/her, & (her)%s')->literal('\s');
 
         // when
         $pattern = $pattern->delimited();
@@ -129,7 +129,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_inject()
     {
         // given
-        $pattern = Pattern::builder()->pcre()->template('%You/her, \s (her)%', 's')->inject([]);
+        $pattern = Pattern::builder()->pcre()->template('%You/her, \s (her)%s')->inject([]);
 
         // when
         $pattern = $pattern->delimited();
@@ -144,7 +144,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_bind()
     {
         // given
-        $pattern = Pattern::builder()->pcre()->template('%You/her, \s (her)%', 's')->bind([]);
+        $pattern = Pattern::builder()->pcre()->template('%You/her, \s (her)%s')->bind([]);
 
         // when
         $pattern = $pattern->delimited();

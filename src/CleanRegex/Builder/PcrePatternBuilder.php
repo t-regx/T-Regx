@@ -1,35 +1,33 @@
 <?php
 namespace TRegx\CleanRegex\Builder;
 
+use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
+use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
+use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
 use TRegx\CleanRegex\PatternInterface;
 use TRegx\CleanRegex\Template;
 
-interface PcrePatternBuilder
+class PcrePatternBuilder
 {
-    /**
-     * @param string $input
-     * @param string[]|string[][] $values
-     * @param string|null $flags
-     * @return PatternInterface
-     */
-    public function bind(string $input, array $values, string $flags = null): PatternInterface;
+    public function bind(string $input, array $values): PatternInterface
+    {
+        return PrepareFacade::build(new BindingParser($input, $values, new NoTemplate()), true, '');
+    }
 
-    /**
-     * @param string $input
-     * @param string[]|string[][] $values
-     * @param string|null $flags
-     * @return PatternInterface
-     */
-    public function inject(string $input, array $values, string $flags = null): PatternInterface;
+    public function inject(string $input, array $values): PatternInterface
+    {
+        return PrepareFacade::build(new InjectParser($input, $values, new NoTemplate()), true, '');
+    }
 
-    /**
-     * @param (string|string[])[] $input
-     * @param string|null $flags
-     * @return PatternInterface
-     */
-    public function prepare(array $input, string $flags = null): PatternInterface;
+    public function prepare(array $input): PatternInterface
+    {
+        return PrepareFacade::build(new PreparedParser($input), true, '');
+    }
 
-    public function mask(string $mask, array $keywords, string $flags = null): PatternInterface;
-
-    public function template(string $pattern, string $flags = null): Template;
+    public function template(string $pattern): Template
+    {
+        return new Template($pattern, '', true);
+    }
 }

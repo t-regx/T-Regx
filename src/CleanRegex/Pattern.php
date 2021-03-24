@@ -81,6 +81,6 @@ class Pattern
 
     public static function builder(): PatternBuilder
     {
-        return new PatternBuilder(false);
+        return new PatternBuilder();
     }
 }
