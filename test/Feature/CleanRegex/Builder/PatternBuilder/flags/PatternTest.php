@@ -50,4 +50,19 @@ class PatternTest extends TestCase
         // then
         $this->assertTrue($flagIsAdded);
     }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_template()
+    {
+        // given
+        $pattern = Pattern::template('Foo&', 'i')->literal('Bar');
+
+        // when
+        $flagIsAdded = $pattern->test('foobar');
+
+        // then
+        $this->assertTrue($flagIsAdded);
+    }
 }
