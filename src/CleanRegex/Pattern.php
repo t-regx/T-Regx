@@ -49,11 +49,6 @@ class Pattern
         return self::builder()->inject($input, $values, $flags);
     }
 
-    public static function compose(array $patterns): CompositePattern
-    {
-        return new CompositePattern((new CompositePatternMapper($patterns))->createPatterns());
-    }
-
     public static function mask(string $mask, array $keywords, string $flags = null): PatternInterface
     {
         return self::builder()->mask($mask, $keywords, $flags);
@@ -67,6 +62,11 @@ class Pattern
     public static function literal(string $text, string $flags = null): PatternInterface
     {
         return Pattern::of(Extended::quote(preg::quote($text)), $flags);
+    }
+
+    public static function compose(array $patterns): CompositePattern
+    {
+        return new CompositePattern((new CompositePatternMapper($patterns))->createPatterns());
     }
 
     public static function quote(string $string): string
