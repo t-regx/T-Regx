@@ -8,15 +8,18 @@ class StandardStrategy implements DelimiterStrategy
 {
     /** @var DelimiterFinder */
     private $finder;
+    /** @var string */
+    private $flags;
 
-    public function __construct()
+    public function __construct(string $flags)
     {
         $this->finder = new DelimiterFinder();
+        $this->flags = $flags;
     }
 
     public function buildPattern(string $delimiterable, Quotable $pattern): string
     {
         $delimiter = $this->finder->chooseDelimiter($delimiterable);
-        return $delimiter . $pattern->quote($delimiter) . $delimiter;
+        return $delimiter . $pattern->quote($delimiter) . $delimiter . $this->flags;
     }
 }

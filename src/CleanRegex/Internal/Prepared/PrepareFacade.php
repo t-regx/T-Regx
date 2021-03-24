@@ -15,11 +15,11 @@ class PrepareFacade
 {
     public static function build(Parser $parser, bool $pcre, string $flags): PatternInterface
     {
-        $strategy = $pcre ? new PcreStrategy() : new StandardStrategy();
+        $strategy = $pcre ? new PcreStrategy() : new StandardStrategy($flags);
         $pattern = new ParserQuotableAdapter($parser, new AlterationFactory($flags));
 
         try {
-            return Pattern::pcre($strategy->buildPattern($parser->getDelimiterable(), $pattern) . $flags);
+            return Pattern::pcre($strategy->buildPattern($parser->getDelimiterable(), $pattern));
         } catch (TrailingBackslashException $exception) {
             throw new PatternMalformedPatternException('Pattern may not end with a trailing backslash');
         }
