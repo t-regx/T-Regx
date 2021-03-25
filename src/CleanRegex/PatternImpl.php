@@ -76,4 +76,9 @@ class PatternImpl implements PatternInterface
     {
         return $this->pattern->pattern;
     }
+
+    public function __toString(): string
+    {
+        return $this->pattern->pattern;
+    }
 }

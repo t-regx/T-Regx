@@ -98,6 +98,15 @@ interface PatternInterface
 
     /**
      * {@documentary:delimited}
+     *
+     * @return string
      */
     public function delimited(): string;
+
+    /**
+     * {@documentary:__toString}
+     *
+     * @return string
+     */
+    public function __toString(): string;
 }

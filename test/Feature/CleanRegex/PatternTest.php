@@ -255,4 +255,34 @@ class PatternTest extends TestCase
         // then
         $this->assertSamePattern('#Foo/\{2\}#m', $pattern);
     }
+
+    /**
+     * @test
+     */
+    public function shouldCast_of()
+    {
+        // given
+        $pattern = Pattern::of('Foo{1,2}/', 'n');
+
+        // when
+        $string = (string)$pattern;
+
+        // then
+        $this->assertSame('#Foo{1,2}/#n', $string);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCast_pcre()
+    {
+        // given
+        $pattern = Pattern::pcre('/Foo{1,2}/n');
+
+        // when
+        $string = (string)$pattern;
+
+        // then
+        $this->assertSame('/Foo{1,2}/n', $string);
+    }
 }
