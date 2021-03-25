@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Delimiter\Strategy;
 
 use TRegx\CleanRegex\Internal\Delimiter\DelimiterParser;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
 class PcreStrategy implements DelimiterStrategy
@@ -30,5 +31,10 @@ class PcreStrategy implements DelimiterStrategy
         $delimiter = $this->parser->getDelimiter($delimiterable) ?? '/';
 
         return $pattern->quote($delimiter);
+    }
+
+    public function getAlternationFactory(): AlterationFactory
+    {
+        return new AlterationFactory('');
     }
 }

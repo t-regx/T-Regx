@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Delimiter\Strategy;
 
 use TRegx\CleanRegex\Internal\Delimiter\DelimiterFinder;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
 class StandardStrategy implements DelimiterStrategy
@@ -21,5 +22,10 @@ class StandardStrategy implements DelimiterStrategy
     {
         $delimiter = $this->finder->chooseDelimiter($delimiterable);
         return $delimiter . $pattern->quote($delimiter) . $delimiter . $this->flags;
+    }
+
+    public function getAlternationFactory(): AlterationFactory
+    {
+        return new AlterationFactory($this->flags);
     }
 }

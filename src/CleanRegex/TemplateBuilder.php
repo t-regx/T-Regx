@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Exception\TemplateFormatException;
+use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;
@@ -15,18 +16,15 @@ class TemplateBuilder
 {
     /** @var string */
     private $pattern;
-    /** @var bool */
-    private $pcre;
-    /** @var string */
-    private $flags;
+    /** @var DelimiterStrategy */
+    private $strategy;
     /** @var Token[] */
     private $tokens;
 
-    public function __construct(string $pattern, string $flags, bool $pcre, array $tokens)
+    public function __construct(string $pattern, DelimiterStrategy $strategy, array $tokens)
     {
         $this->pattern = $pattern;
-        $this->pcre = $pcre;
-        $this->flags = $flags;
+        $this->strategy = $strategy;
         $this->tokens = $tokens;
     }
 
@@ -42,25 +40,25 @@ class TemplateBuilder
 
     private function next(Token $token): TemplateBuilder
     {
-        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, \array_merge($this->tokens, [$token]));
+        return new TemplateBuilder($this->pattern, $this->strategy, \array_merge($this->tokens, [$token]));
     }
 
     public function build(): PatternInterface
     {
         $this->validateTokensAndMethods();
-        return PrepareFacade::build(new TemplateParser($this->pattern, $this->tokens), $this->pcre, $this->flags);
+        return PrepareFacade::build(new TemplateParser($this->pattern, $this->tokens), $this->strategy);
     }
 
     public function inject(array $values): PatternInterface
     {
         $this->validateTokensAndMethods();
-        return PrepareFacade::build(new InjectParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->pcre, $this->flags);
+        return PrepareFacade::build(new InjectParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->strategy);
     }
 
     public function bind(array $values): PatternInterface
     {
         $this->validateTokensAndMethods();
-        return PrepareFacade::build(new BindingParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->pcre, $this->flags);
+        return PrepareFacade::build(new BindingParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->strategy);
     }
 
     private function validateTokensAndMethods(): void

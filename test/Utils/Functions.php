@@ -146,4 +146,11 @@ class Functions
             return $character . $string . $character;
         };
     }
+
+    public static function json(): callable
+    {
+        return function ($value): string {
+            return \json_encode($value, JSON_UNESCAPED_SLASHES);
+        };
+    }
 }

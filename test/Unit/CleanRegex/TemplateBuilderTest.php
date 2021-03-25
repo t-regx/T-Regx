@@ -3,10 +3,12 @@ namespace Test\Unit\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
+use Test\Utils\Impl\ConstantDelimiter;
+use Test\Utils\Impl\NoAlternation;
 use Test\Utils\Impl\RawToken;
+use Test\Utils\Impl\ThrowDelimiter;
 use Test\Utils\Impl\ThrowToken;
 use TRegx\CleanRegex\Exception\TemplateFormatException;
-use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
 use TRegx\CleanRegex\TemplateBuilder;
 
 class TemplateBuilderTest extends TestCase
@@ -22,7 +24,7 @@ class TemplateBuilderTest extends TestCase
     public function shouldThrowForOverflowingLiteral(string $method, array $arguments): void
     {
         // given
-        $template = new TemplateBuilder('^&&$', '', false, [new ThrowToken(), new ThrowToken(), new ThrowToken()]);
+        $template = new TemplateBuilder('^&&$', new ThrowDelimiter(), [new ThrowToken(), new ThrowToken(), new ThrowToken()]);
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -41,7 +43,7 @@ class TemplateBuilderTest extends TestCase
     public function shouldThrowForMissingLiteral(string $method, array $arguments): void
     {
         // given
-        $template = new TemplateBuilder('^&&$', '', false, [new ThrowToken()]);
+        $template = new TemplateBuilder('^&&$', new ThrowDelimiter(), [new ThrowToken()]);
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -66,7 +68,7 @@ class TemplateBuilderTest extends TestCase
     public function shouldBuildBeImmutable(): void
     {
         // given
-        $template = new TemplateBuilder('^&&$', 's', false, [new RawToken('Z', '/')]);
+        $template = new TemplateBuilder('^&&$', new ConstantDelimiter(new NoAlternation()), [new RawToken('Z', "\1")]);
 
         // when
         $first = $template->literal('A');
@@ -74,9 +76,9 @@ class TemplateBuilderTest extends TestCase
         $third = $template->literal('C');
 
         // then
-        $this->assertSamePattern('/^ZA$/s', $first->build());
-        $this->assertSamePattern('/^ZB$/s', $second->build());
-        $this->assertSamePattern('/^ZC$/s', $third->build());
+        $this->assertSamePattern('^ZA$', $first->build());
+        $this->assertSamePattern('^ZB$', $second->build());
+        $this->assertSamePattern('^ZC$', $third->build());
     }
 
     /**
@@ -85,42 +87,12 @@ class TemplateBuilderTest extends TestCase
     public function shouldBuild(): void
     {
         // given
-        $template = new TemplateBuilder('^&&$', 's', false, [new RawToken('X', '/')]);
+        $template = new TemplateBuilder('^&&$', new ConstantDelimiter(new NoAlternation()), [new RawToken('X', "\1")]);
 
         // when
         $first = $template->literal('{hi}');
 
         // then
-        $this->assertSamePattern('/^X\{hi\}$/s', $first->build());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldChoseDelimiter(): void
-    {
-        // given
-        $template = new TemplateBuilder('^&/$', '', false, [new RawToken('Y', '#')]);
-
-        // when
-        $pattern = $template->build();
-
-        // then
-        $this->assertSamePattern('#^Y/$#', $pattern);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldQuoteTokenWithDelimiter(): void
-    {
-        // given
-        $template = new TemplateBuilder('^&#/$', '', false, [new MaskToken('`%`', [])]);
-
-        // when
-        $pattern = $template->build();
-
-        // then
-        $this->assertSamePattern('%^`\%`#/$%', $pattern);
+        $this->assertSamePattern('^X\{hi\}$', $first->build());
     }
 }

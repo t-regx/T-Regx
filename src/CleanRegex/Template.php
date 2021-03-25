@@ -1,20 +1,19 @@
 <?php
 namespace TRegx\CleanRegex;
 
+use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
+
 class Template
 {
     /** @var string */
     private $pattern;
-    /** @var bool */
-    private $pcre;
-    /** @var string */
-    private $flags;
+    /** @var DelimiterStrategy */
+    private $strategy;
 
-    public function __construct(string $pattern, string $flags, bool $pcre)
+    public function __construct(string $pattern, DelimiterStrategy $strategy)
     {
         $this->pattern = $pattern;
-        $this->pcre = $pcre;
-        $this->flags = $flags;
+        $this->strategy = $strategy;
     }
 
     public function inject(array $values): PatternInterface
@@ -39,6 +38,6 @@ class Template
 
     public function builder(): TemplateBuilder
     {
-        return new TemplateBuilder($this->pattern, $this->flags, $this->pcre, []);
+        return new TemplateBuilder($this->pattern, $this->strategy, []);
     }
 }

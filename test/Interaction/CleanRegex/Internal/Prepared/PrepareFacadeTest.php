@@ -4,6 +4,10 @@ namespace Test\Interaction\TRegx\CleanRegex\Internal\Prepared;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
+use Test\Utils\Functions;
+use Test\Utils\Impl\ConstantDelimiter;
+use Test\Utils\Impl\MappingAlternation;
+use TRegx\CleanRegex\Internal\Delimiter\Strategy\StandardStrategy;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
@@ -23,10 +27,10 @@ class PrepareFacadeTest extends TestCase
     public function test_standard(Parser $parser)
     {
         // given + when
-        $pattern = PrepareFacade::build($parser, false, '');
+        $pattern = PrepareFacade::build($parser, new ConstantDelimiter(new MappingAlternation(Functions::json())));
 
         // then
-        $this->assertSamePattern('/(I|We) want: User\ \(input\) :)/', $pattern);
+        $this->assertSamePattern('(I|We) want: "User (input)" :)', $pattern);
     }
 
     public function standard(): array
@@ -41,130 +45,6 @@ class PrepareFacadeTest extends TestCase
 
     /**
      * @test
-     * @dataProvider empty
-     * @param Parser $parser
-     */
-    public function test_empty(Parser $parser)
-    {
-        // given + when
-        $pattern = PrepareFacade::build($parser, false, '');
-
-        // then
-        $this->assertSamePattern('//', $pattern);
-    }
-
-    public function empty(): array
-    {
-        return [
-            'bind @'        => [new BindingParser('', [], new NoTemplate())],
-            'inject # '     => [new InjectParser('', [], new NoTemplate())],
-            "prepared ''"   => [new PreparedParser([''])],
-            "prepared ['']" => [new PreparedParser([['']])],
-        ];
-    }
-
-    /**
-     * @test
-     * @dataProvider pcre
-     * @param Parser $parser
-     * @param string $expected
-     */
-    public function test_ignoresPcre(Parser $parser, string $expected)
-    {
-        // given + when
-        $pattern = PrepareFacade::build($parser, false, '');
-
-        // then
-        $this->assertSamePattern($expected, $pattern);
-    }
-
-    public function pcre(): array
-    {
-        return [
-            'bind //'     => [new BindingParser('//', [], new NoTemplate()), '#//#'],
-            'inject //'   => [new InjectParser('//', [], new NoTemplate()), '#//#'],
-            'prepared //' => [new PreparedParser(['//']), '#//#'],
-
-            'bind //mi'     => [new BindingParser('//mi', [], new NoTemplate()), '#//mi#'],
-            'inject //mi'   => [new InjectParser('//mi', [], new NoTemplate()), '#//mi#'],
-            'prepared //mi' => [new PreparedParser(['//mi']), '#//mi#'],
-        ];
-    }
-
-    /**
-     * @test
-     * @dataProvider onlyUserInput
-     * @param Parser $parser
-     */
-    public function test_onlyUserInput(Parser $parser)
-    {
-        // given + when
-        $pattern = PrepareFacade::build($parser, false, '');
-
-        // then
-        $this->assertSamePattern('/\(/', $pattern);
-    }
-
-    public function onlyUserInput(): array
-    {
-        return [
-            'bind @'      => [new BindingParser('@name', ['name' => '('], new NoTemplate())],
-            'inject # '   => [new InjectParser('@', ['('], new NoTemplate())],
-            'prepared []' => [new PreparedParser([['(']])],
-        ];
-    }
-
-    /**
-     * @test
-     * @dataProvider delimiters
-     * @param Parser $parser
-     */
-    public function test_quotesDelimiters(Parser $parser)
-    {
-        // given + when
-        $pattern = PrepareFacade::build($parser, false, '');
-
-        // then
-        $this->assertSamePattern('%With delimiters / #Using\ /\ delimiters\ and\ \% :D%', $pattern);
-    }
-
-    public function delimiters(): array
-    {
-        return [
-            'bind @'      => [new BindingParser('With delimiters / #@input :D', ['input' => 'Using / delimiters and %'], new NoTemplate())],
-            'inject #'    => [new InjectParser('With delimiters / #@ :D', ['Using / delimiters and %'], new NoTemplate())],
-            'prepared []' => [new PreparedParser(['With delimiters / #', ['Using / delimiters and %'], ' :D'])],
-        ];
-    }
-
-    /**
-     * @test
-     * @dataProvider whitespace
-     * @param Parser $parser
-     */
-    public function test_whitespace(Parser $parser)
-    {
-        // given + when
-        $pattern = PrepareFacade::build($parser, false, '');
-
-        // then
-        $this->assertSamePattern('/(I|We) want: User\ \(input\)User\ \(input_2\)/', $pattern);
-    }
-
-    public function whitespace(): array
-    {
-        return [
-            'bind @'      => [new BindingParser('(I|We) want: @input@input_2', [
-                'input'   => 'User (input)',
-                'input_2' => 'User (input_2)',
-            ], new NoTemplate())],
-            'inject #'    => [new InjectParser('(I|We) want: @@', ['User (input)', 'User (input_2)'], new NoTemplate())],
-            'prepared []' => [new PreparedParser(['(I|We) want: ', ['User (input)'], ['User (input_2)']])],
-        ];
-    }
-
-    /**
-     * @test
      * @dataProvider ignoredInputs
      * @param Parser $parser
      * @param string $expected
@@ -172,7 +52,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldIgnoreBindPlaceholders(Parser $parser, string $expected)
     {
         // when
-        $pattern = PrepareFacade::build($parser, false, '');
+        $pattern = PrepareFacade::build($parser, new StandardStrategy(''));
 
         // then
         $this->assertSamePattern($expected, $pattern);
@@ -221,7 +101,7 @@ class PrepareFacadeTest extends TestCase
         $this->expectExceptionMessage($message);
 
         // when
-        PrepareFacade::build($parser, false, '');
+        PrepareFacade::build($parser, new StandardStrategy(''));
     }
 
     public function invalidInputs(): array

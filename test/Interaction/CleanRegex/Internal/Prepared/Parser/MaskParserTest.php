@@ -2,6 +2,8 @@
 namespace Test\Interaction\TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\ConstantDelimiter;
+use Test\Utils\Impl\NoAlternation;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Internal\Prepared\Parser\MaskParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
@@ -21,7 +23,7 @@ class MaskParserTest extends TestCase
         $pattern = $this->build($pattern);
 
         // then
-        $this->assertSame('/My\(super\)pattern\:\{%s\.%d\}/', $pattern);
+        $this->assertSame('My\(super\)pattern\:\{%s\.%d\}', $pattern);
     }
 
     /**
@@ -40,7 +42,7 @@ class MaskParserTest extends TestCase
         $pattern = $this->build($pattern);
 
         // then
-        $this->assertSame('/\(super\)\:\{\s+\w+\.\d+\.%\}/', $pattern);
+        $this->assertSame('\(super\)\:\{\s+\w+\.\d+\.%\}', $pattern);
     }
 
     /**
@@ -55,7 +57,7 @@ class MaskParserTest extends TestCase
         $pattern = $this->build($pattern);
 
         // then
-        $this->assertSame('/%s/', $pattern);
+        $this->assertSame('%s', $pattern);
     }
 
     /**
@@ -108,29 +110,11 @@ class MaskParserTest extends TestCase
         $pattern = $this->build($pattern);
 
         // then
-        $this->assertSame('/\s\w3/', $pattern);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldDelimiter()
-    {
-        // given
-        $pattern = new MaskParser('%^', [
-            '%' => '[/]',
-            '^' => '#'
-        ]);
-
-        // when
-        $pattern = $this->build($pattern);
-
-        // then
-        $this->assertSame('%[/]#%', $pattern);
+        $this->assertSame('\s\w3', $pattern);
     }
 
     private function build(Parser $parser): string
     {
-        return PrepareFacade::build($parser, false, '')->delimited();
+        return PrepareFacade::build($parser, new ConstantDelimiter(new NoAlternation()))->delimited();
     }
 }

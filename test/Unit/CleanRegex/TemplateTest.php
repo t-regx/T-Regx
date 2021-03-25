@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\ThrowDelimiter;
 use TRegx\CleanRegex\Exception\TemplateFormatException;
 use TRegx\CleanRegex\Template;
 
@@ -13,7 +14,7 @@ class TemplateTest extends TestCase
     public function shouldFormat_throwInsufficient(): void
     {
         // given
-        $template = new Template('foo:&&', '', false);
+        $template = new Template('foo:&&', new ThrowDelimiter());
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -29,7 +30,7 @@ class TemplateTest extends TestCase
     public function shouldFormat_throwSuperfluous(): void
     {
         // given
-        $template = new Template('', '', false);
+        $template = new Template('', new ThrowDelimiter());
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -45,7 +46,7 @@ class TemplateTest extends TestCase
     public function shouldInject_throwForInvalidFormat(): void
     {
         // given
-        $template = new Template('@&', '', false);
+        $template = new Template('@&', new ThrowDelimiter());
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -61,7 +62,7 @@ class TemplateTest extends TestCase
     public function shouldBind_throwForInvalidFormat(): void
     {
         // given
-        $template = new Template('@foo&', '', false);
+        $template = new Template('@foo&', new ThrowDelimiter());
 
         // then
         $this->expectException(TemplateFormatException::class);

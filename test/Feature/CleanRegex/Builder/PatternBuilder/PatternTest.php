@@ -99,6 +99,24 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldBuild_mask_Delimiter(): void
+    {
+        // given
+        $pattern = Pattern::mask('%', [
+            '%%' => '/',
+            '%e' => '#',
+        ]);
+
+        // when
+        $delimited = $pattern->delimited();
+
+        // then
+        $this->assertSame('%\%%', $delimited);
+    }
+
+    /**
+     * @test
+     */
     public function shouldBuild_mask_Trailing(): void
     {
         // then

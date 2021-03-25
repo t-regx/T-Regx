@@ -1,6 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quotable;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable;
@@ -95,5 +96,37 @@ class AlternationQuotableTest extends TestCase
 
         // then
         $this->assertSame('(?:\||\ |0)', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForArrayValues()
+    {
+        // given
+        $quotable = new AlternationQuotable(['|', []], null);
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid bound alternate value. Expected string, but array (0) given');
+
+        // when
+        $quotable->quote('/');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForIntegerValues()
+    {
+        // given
+        $quotable = new AlternationQuotable(['|', 5], null);
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid bound alternate value. Expected string, but integer (5) given');
+
+        // when
+        $quotable->quote('/');
     }
 }
