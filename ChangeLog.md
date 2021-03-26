@@ -28,6 +28,8 @@ Incoming
     * Removed `PatternBuilder::builder()`. Use `Pattern::builder()`
     * Removed `PatternBuilder::compose()`. Use `Pattern::compose()`
     * Renamed `FormatMalformedPatternException` to `MaskMalformedPatternException`
+    * Removed interface `PatternInterface`. Now class `Pattern` is both an instance of a pattern, as well as a
+      static-factory, i.e. `Pattern::of()`/`Pattern::inject()`.
 * Bug fixes
     * `Pattern::template()` quoted values incorrectly, when delimiter other than `/` or `%` was chosen.
 

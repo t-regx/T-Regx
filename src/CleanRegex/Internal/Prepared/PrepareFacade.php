@@ -7,11 +7,10 @@ use TRegx\CleanRegex\Internal\Delimiter\Strategy\ParserQuotableAdapter;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Pattern;
-use TRegx\CleanRegex\PatternInterface;
 
 class PrepareFacade
 {
-    public static function build(Parser $parser, DelimiterStrategy $strategy): PatternInterface
+    public static function build(Parser $parser, DelimiterStrategy $strategy): Pattern
     {
         $pattern = new ParserQuotableAdapter($parser, $strategy->getAlternationFactory());
 

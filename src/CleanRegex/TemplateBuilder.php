@@ -43,19 +43,19 @@ class TemplateBuilder
         return new TemplateBuilder($this->pattern, $this->strategy, \array_merge($this->tokens, [$token]));
     }
 
-    public function build(): PatternInterface
+    public function build(): Pattern
     {
         $this->validateTokensAndMethods();
         return PrepareFacade::build(new TemplateParser($this->pattern, $this->tokens), $this->strategy);
     }
 
-    public function inject(array $values): PatternInterface
+    public function inject(array $values): Pattern
     {
         $this->validateTokensAndMethods();
         return PrepareFacade::build(new InjectParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->strategy);
     }
 
-    public function bind(array $values): PatternInterface
+    public function bind(array $values): Pattern
     {
         $this->validateTokensAndMethods();
         return PrepareFacade::build(new BindingParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->strategy);

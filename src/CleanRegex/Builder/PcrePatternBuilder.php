@@ -7,22 +7,22 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
-use TRegx\CleanRegex\PatternInterface;
+use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\Template;
 
 class PcrePatternBuilder
 {
-    public function bind(string $input, array $values): PatternInterface
+    public function bind(string $input, array $values): Pattern
     {
         return PrepareFacade::build(new BindingParser($input, $values, new NoTemplate()), new PcreStrategy());
     }
 
-    public function inject(string $input, array $values): PatternInterface
+    public function inject(string $input, array $values): Pattern
     {
         return PrepareFacade::build(new InjectParser($input, $values, new NoTemplate()), new PcreStrategy());
     }
 
-    public function prepare(array $input): PatternInterface
+    public function prepare(array $input): Pattern
     {
         return PrepareFacade::build(new PreparedParser($input), new PcreStrategy());
     }

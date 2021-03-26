@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\atMost;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
-use TRegx\CleanRegex\PatternInterface;
+use TRegx\CleanRegex\Pattern;
 use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;
 
 class ReplacePatternTest extends TestCase
@@ -112,7 +112,7 @@ class ReplacePatternTest extends TestCase
         $this->backtrackingPattern()->replace($subject)->only(2)->atMost()->with('Bar');
     }
 
-    private function backtrackingPattern(): PatternInterface
+    private function backtrackingPattern(): Pattern
     {
         return pattern("(([a\d]+[a\d]+)+3)");
     }

@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal;
 use InvalidArgumentException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
-use TRegx\CleanRegex\PatternInterface;
+use TRegx\CleanRegex\Pattern;
 
 class CompositePatternMapper
 {
@@ -30,7 +30,7 @@ class CompositePatternMapper
         if (\is_string($pattern)) {
             return InternalPattern::standard($pattern, '');
         }
-        if ($pattern instanceof PatternInterface) {
+        if ($pattern instanceof Pattern) {
             return InternalPattern::pcre($pattern->delimited());
         }
         $type = Type::asString($pattern);

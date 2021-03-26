@@ -16,22 +16,22 @@ class Template
         $this->strategy = $strategy;
     }
 
-    public function inject(array $values): PatternInterface
+    public function inject(array $values): Pattern
     {
         return $this->builder()->inject($values);
     }
 
-    public function bind(array $values): PatternInterface
+    public function bind(array $values): Pattern
     {
         return $this->builder()->bind($values);
     }
 
-    public function mask(string $mask, array $keywords): PatternInterface
+    public function mask(string $mask, array $keywords): Pattern
     {
         return $this->builder()->mask($mask, $keywords)->build();
     }
 
-    public function literal(string $text): PatternInterface
+    public function literal(string $text): Pattern
     {
         return $this->builder()->literal($text)->build();
     }

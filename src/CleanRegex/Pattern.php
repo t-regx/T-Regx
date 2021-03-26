@@ -1,86 +1,87 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Builder\PatternBuilder;
-use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
-use TRegx\CleanRegex\Internal\CompositePatternMapper;
-use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
+use TRegx\CleanRegex\ForArray\ForArrayPattern;
+use TRegx\CleanRegex\Internal\EntryPoints;
 use TRegx\CleanRegex\Internal\InternalPattern;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Extended;
-use TRegx\CleanRegex\Internal\UnquotePattern;
+use TRegx\CleanRegex\Internal\ValidPattern;
+use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\CleanRegex\Remove\RemoveLimit;
+use TRegx\CleanRegex\Remove\RemovePattern;
+use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\SafeRegex\preg;
 
 class Pattern
 {
-    public static function of(string $pattern, string $flags = null): PatternInterface
+    use EntryPoints;
+
+    /** @var InternalPattern */
+    private $pattern;
+
+    public function __construct(InternalPattern $pattern)
     {
-        try {
-            return new PatternImpl(InternalPattern::standard($pattern, $flags ?? ''));
-        } catch (TrailingBackslashException $exception) {
-            throw new PatternMalformedPatternException('Pattern may not end with a trailing backslash');
-        }
+        $this->pattern = $pattern;
     }
 
-    /**
-     * @param string $delimitedPattern
-     * @return PatternInterface
-     * Please use method \TRegx\CleanRegex\Pattern::of. Method Pattern::pcre() is only present, in case
-     * if there's an automatic delimiters' bug, that would make {@link Pattern::of()} error-prone.
-     * {@link Pattern::pcre()} is error-prone to MalformedPatternException, because of delimiters.
-     * @see \TRegx\CleanRegex\Pattern::of
-     */
-    public static function pcre(string $delimitedPattern): PatternInterface
+    public function test(string $subject): bool
     {
-        return new PatternImpl(InternalPattern::pcre($delimitedPattern));
+        return preg::match($this->pattern->pattern, $subject) === 1;
     }
 
-    public static function prepare(array $input, string $flags = null): PatternInterface
+    public function fails(string $subject): bool
     {
-        return self::builder()->prepare($input, $flags);
+        return preg::match($this->pattern->pattern, $subject) === 0;
     }
 
-    public static function bind(string $input, array $values, string $flags = null): PatternInterface
+    public function match(string $subject): MatchPattern
     {
-        return self::builder()->bind($input, $values, $flags);
+        return new MatchPattern($this->pattern, $subject);
     }
 
-    public static function inject(string $input, array $values, string $flags = null): PatternInterface
+    public function replace(string $subject): ReplaceLimit
     {
-        return self::builder()->inject($input, $values, $flags);
+        return new ReplaceLimit($this->pattern, $subject);
     }
 
-    public static function mask(string $mask, array $keywords, string $flags = null): PatternInterface
+    public function remove(string $subject): RemoveLimit
     {
-        return self::builder()->mask($mask, $keywords, $flags);
+        return new RemoveLimit(function (int $limit) use ($subject) {
+            return (new RemovePattern($this->pattern, $subject, $limit))->remove();
+        });
     }
 
-    public static function template(string $pattern, string $flags = null): Template
+    public function prune(string $subject): string
     {
-        return self::builder()->template($pattern, $flags);
+        return preg::replace($this->pattern->pattern, '', $subject);
     }
 
-    public static function literal(string $text, string $flags = null): PatternInterface
+    public function forArray(array $haystack): ForArrayPattern
     {
-        return Pattern::of(Extended::quote(preg::quote($text)), $flags);
+        return new ForArrayPattern($this->pattern, $haystack, false);
     }
 
-    public static function compose(array $patterns): CompositePattern
+    public function split(string $subject): array
     {
-        return new CompositePattern((new CompositePatternMapper($patterns))->createPatterns());
+        return preg::split($this->pattern->pattern, $subject, -1, \PREG_SPLIT_DELIM_CAPTURE);
     }
 
-    public static function quote(string $string): string
+    public function count(string $subject): int
     {
-        return preg::quote($string);
+        return preg::match_all($this->pattern->pattern, $subject);
     }
 
-    public static function unquote(string $quotedString): string
+    public function valid(): bool
     {
-        return (new UnquotePattern($quotedString))->unquote();
+        return ValidPattern::isValid($this->pattern->pattern);
     }
 
-    public static function builder(): PatternBuilder
+    public function delimited(): string
     {
-        return new PatternBuilder();
+        return $this->pattern->pattern;
+    }
+
+    public function __toString(): string
+    {
+        return $this->pattern->pattern;
     }
 }
