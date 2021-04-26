@@ -46,11 +46,12 @@ composer require rawr/t-regx
 
 Current development priorities, regarding release of 1.0:
 
-  - Handle corner-cases with prepared patterns #91 [in progress]
-  - Separate SafeRegex and CleanRegex into to two packages, so users can choose what they want #103
-  - Add documentation to each T-Regx public method #17 [in progress]
-  - Release 1.0
-  - Revamp of t-regx.com documentation [in progress]
+- Handle corner-cases with prepared patterns #91 [in progress]
+- Add configurable implicit flags [done]
+- Separate SafeRegex and CleanRegex into to two packages, so users can choose what they want #103
+- Add documentation to each T-Regx public method #17 [in progress]
+- Release 1.0
+- Revamp of t-regx.com documentation [in progress]
 
 # API
 
