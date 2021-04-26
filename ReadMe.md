@@ -25,7 +25,7 @@ PHP regular expressions brought up to modern standards.
 [![PHP Version](https://img.shields.io/badge/PHP-7.2-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/PHP-7.3-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/PHP-7.4-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
-[![PHP Version](https://img.shields.io/badge/PHP-8.0-blue.svg)](https://travis-ci.org/T-Regx/T-Regx "Unofficially, but builds do run on 8.0")
+[![PHP Version](https://img.shields.io/badge/PHP-8.0-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 
 1. [Installation](#installation)
     * [Composer](#installation)
@@ -43,6 +43,14 @@ Installation for PHP 7.1 and later (PHP 8 as well):
 ```bash
 composer require rawr/t-regx
 ```
+
+Current development priorities, regarding release of 1.0:
+
+  - Handle corner-cases with prepared patterns #91 [in progress]
+  - Separate SafeRegex and CleanRegex into to two packages, so users can choose what they want #103
+  - Add documentation to each T-Regx public method #17 [in progress]
+  - Release 1.0
+  - Revamp of t-regx.com documentation [in progress]
 
 # API
 
