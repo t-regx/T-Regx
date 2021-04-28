@@ -1,0 +1,104 @@
+on:
+  pull_request:
+  push:
+
+name: build
+
+jobs:
+  php-lint:
+    name: PHP Lint
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        php-version:
+          - 7.1.0
+          - 7.1.12
+          - 7.1.13
+          - 7.1.27
+          - 7.2.0
+          - 7.2.34
+          - 7.3.0
+          - 7.3.27
+          - 7.4.0
+          - 7.4.6
+          - 7.4.15
+          - 8.0.0
+          - 8.0.3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+
+      - name: PHP Lint
+        run: find src test -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-20.04
+    needs: [ php-lint ]
+    strategy:
+      matrix:
+        include:
+          - php-version: 7.1.0
+            coverage: none
+          - php-version: 7.1.12
+            coverage: none
+          - php-version: 7.1.13
+            coverage: none
+          - php-version: 7.1.27
+            coverage: none
+          - php-version: 7.2.0
+            coverage: none
+          - php-version: 7.2.34
+            coverage: none
+          - php-version: 7.3.0
+            coverage: none
+          - php-version: 7.3.27
+            coverage: none
+          - php-version: 7.4.0
+            coverage: none
+          - php-version: 7.4.6
+            coverage: none
+          - php-version: 7.4.15
+            coverage: none
+          - php-version: 8.0.0
+            coverage: none
+          - php-version: 8.0.3
+            coverage: xdebug
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:v2
+          coverage: "${{ matrix.coverage }}"
+
+      - name: Cache dependencies installed with Composer
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/composer
+          key: php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: php${{ matrix.php-version }}-composer-
+      - name: Install Composer dependencies
+        run: |
+          composer install --no-progress;
+          composer update --with-dependencies --no-progress;
+          composer show;
+      - name: Run tests
+        run: ./vendor/bin/phpunit test
+
+      - name: Upload coverage results to Coveralls
+        if: "${{ matrix.coverage != 'none' }}"
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
