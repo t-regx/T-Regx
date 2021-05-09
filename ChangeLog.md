@@ -16,7 +16,8 @@ Incoming
     * Added `Pattern::template()->literal()`, which is a shorthand for
       `Pattern::template()->builder()->literal()->build()`.
     * Added `Pattern::template()->mask()`, which is a shorthand for `Pattern::template()->builder()->mask()->build()`.
-    * Casting `PatternInterface` to string results in a delimited pattern
+  * Casting `PatternInterface` to string results in a delimited pattern
+  * Add `Pcre` version helper
 * Breaking changes
     * `match()->getIterator()` no longer preserves the keys of values (like `all()`)
     * `match()->group()->getIterator()` no longer preserves the keys of values (like `all()`)
