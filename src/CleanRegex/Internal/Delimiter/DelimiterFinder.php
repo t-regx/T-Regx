@@ -5,17 +5,9 @@ use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 
 class DelimiterFinder
 {
-    /** @var Delimiters */
-    private $delimiters;
-
-    public function __construct()
-    {
-        $this->delimiters = new Delimiters();
-    }
-
     public function chooseDelimiter(string $delimiterable): string
     {
-        foreach ($this->delimiters->getDelimiters() as $delimiter) {
+        foreach (Delimiters::getDelimiters() as $delimiter) {
             if (\strpos($delimiterable, $delimiter) === false) {
                 return $delimiter;
             }

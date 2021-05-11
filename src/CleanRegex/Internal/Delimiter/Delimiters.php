@@ -6,12 +6,12 @@ class Delimiters
     /** @var array */
     private static $validDelimiters = ['/', '#', '%', '~', '+', '!', '@', '_', ';', '`', '-', '=', ',', "\1"];
 
-    public function getDelimiters(): array
+    public static function getDelimiters(): array
     {
         return self::$validDelimiters;
     }
 
-    public function isValidDelimiter(string $character): bool
+    public static function isValidDelimiter(string $character): bool
     {
         return \in_array($character, self::$validDelimiters, true);
     }
