@@ -9,10 +9,10 @@ use TRegx\SafeRegex\preg;
 
 class Pattern
 {
-    public static function of(string $pattern, string $flags = ''): PatternInterface
+    public static function of(string $pattern, string $flags = null): PatternInterface
     {
         try {
-            return new PatternImpl(InternalPattern::standard($pattern, $flags));
+            return new PatternImpl(InternalPattern::standard($pattern, $flags ?? ''));
         } catch (TrailingBackslashException $exception) {
             throw new PatternMalformedPatternException('Pattern may not end with a trailing backslash');
         }
@@ -31,17 +31,17 @@ class Pattern
         return new PatternImpl(InternalPattern::pcre($delimitedPattern));
     }
 
-    public static function prepare(array $input, string $flags = ''): PatternInterface
+    public static function prepare(array $input, string $flags = null): PatternInterface
     {
         return PatternBuilder::builder()->prepare($input, $flags);
     }
 
-    public static function bind(string $input, array $values, string $flags = ''): PatternInterface
+    public static function bind(string $input, array $values, string $flags = null): PatternInterface
     {
         return PatternBuilder::builder()->bind($input, $values, $flags);
     }
 
-    public static function inject(string $input, array $values, string $flags = ''): PatternInterface
+    public static function inject(string $input, array $values, string $flags = null): PatternInterface
     {
         return PatternBuilder::builder()->inject($input, $values, $flags);
     }
@@ -51,12 +51,12 @@ class Pattern
         return PatternBuilder::compose($patterns);
     }
 
-    public static function format(string $format, array $tokens, string $flags = ''): PatternInterface
+    public static function format(string $format, array $tokens, string $flags = null): PatternInterface
     {
         return PatternBuilder::builder()->format($format, $tokens, $flags);
     }
 
-    public static function template(string $pattern, string $flags = ''): TemplatePattern
+    public static function template(string $pattern, string $flags = null): TemplatePattern
     {
         return PatternBuilder::builder()->template($pattern, $flags);
     }
