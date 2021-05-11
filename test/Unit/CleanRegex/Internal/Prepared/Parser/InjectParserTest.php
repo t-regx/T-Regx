@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Identity;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
-use TRegx\CleanRegex\Internal\Prepared\Template\IgnoreStrategy;
+use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
 
 class InjectParserTest extends TestCase
 {
@@ -15,7 +15,7 @@ class InjectParserTest extends TestCase
     public function shouldGetDelimiterable(): void
     {
         // given
-        $parser = new InjectParser('/#', [], new IgnoreStrategy());
+        $parser = new InjectParser('/#', [], new NoTemplate());
 
         // when
         $delimiterable = $parser->getDelimiterable();
@@ -30,7 +30,7 @@ class InjectParserTest extends TestCase
     public function shouldThrow_trailingSlash(): void
     {
         // given
-        $parser = new InjectParser('string @\\', ['foo'], new IgnoreStrategy());
+        $parser = new InjectParser('string @\\', ['foo'], new NoTemplate());
 
         // then
         $this->expectException(TrailingBackslashException::class);

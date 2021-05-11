@@ -6,7 +6,7 @@ use Test\Utils\Identity;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
-use TRegx\CleanRegex\Internal\Prepared\Template\IgnoreStrategy;
+use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
 
 class BindingParserTest extends TestCase
 {
@@ -16,7 +16,7 @@ class BindingParserTest extends TestCase
     public function shouldGetDelimiterable(): void
     {
         // given
-        $parser = new BindingParser('input', ['foo' => 'bar'], new IgnoreStrategy());
+        $parser = new BindingParser('input', ['foo' => 'bar'], new NoTemplate());
 
         // when
         $delimiterable = $parser->getDelimiterable();
@@ -31,7 +31,7 @@ class BindingParserTest extends TestCase
     public function shouldParseWithoutReiterating(): void
     {
         // given
-        $parser = new BindingParser('string @foo', ['foo' => '@foo `foo` `foo`'], new IgnoreStrategy());
+        $parser = new BindingParser('string @foo', ['foo' => '@foo `foo` `foo`'], new NoTemplate());
 
         // when
         $result = $parser->parse('/', new AlterationFactory(''));
@@ -46,7 +46,7 @@ class BindingParserTest extends TestCase
     public function shouldThrow_trailingSlash(): void
     {
         // given
-        $parser = new BindingParser('string @foo\\', ['foo' => 'foo'], new IgnoreStrategy());
+        $parser = new BindingParser('string @foo\\', ['foo' => 'foo'], new NoTemplate());
 
         // then
         $this->expectException(TrailingBackslashException::class);

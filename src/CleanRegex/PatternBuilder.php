@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\MaskParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\Prepare;
-use TRegx\CleanRegex\Internal\Prepared\Template\IgnoreStrategy;
+use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
 
 class PatternBuilder
 {
@@ -37,7 +37,7 @@ class PatternBuilder
      */
     public function bind(string $input, array $values, string $flags = null): PatternInterface
     {
-        return Prepare::build(new BindingParser($input, $values, new IgnoreStrategy()), $this->pcre, $flags ?? '');
+        return Prepare::build(new BindingParser($input, $values, new NoTemplate()), $this->pcre, $flags ?? '');
     }
 
     /**
@@ -48,7 +48,7 @@ class PatternBuilder
      */
     public function inject(string $input, array $values, string $flags = null): PatternInterface
     {
-        return Prepare::build(new InjectParser($input, $values, new IgnoreStrategy()), $this->pcre, $flags ?? '');
+        return Prepare::build(new InjectParser($input, $values, new NoTemplate()), $this->pcre, $flags ?? '');
     }
 
     /**
