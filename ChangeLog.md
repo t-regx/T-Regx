@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.11.0
+---------------
+
 * Features
     * Added `Detail.usingDuplicateName().get()` #101
     * Added `Detail.usingDuplicateName().matched()` #101
