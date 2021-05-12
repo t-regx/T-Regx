@@ -28,6 +28,9 @@ class PcreTest extends TestCase
 
     public function pcreVersionDependant(): array
     {
+        if (PHP_VERSION_ID >= 80100) {
+            return $this->version(10, 35);
+        }
         if (PHP_VERSION_ID >= 80005) {
             return $this->version(10, 34);
         }
