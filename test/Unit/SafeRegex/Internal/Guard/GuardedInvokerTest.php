@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\SafeRegex\Internal\Guard;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsHasClass;
 use Test\Utils\Functions;
 use Test\Warnings;
 use TRegx\Exception\MalformedPatternException;
@@ -12,7 +13,7 @@ use TRegx\SafeRegex\Internal\Guard\GuardedInvoker;
 
 class GuardedInvokerTest extends TestCase
 {
-    use Warnings;
+    use Warnings, AssertsHasClass;
 
     /**
      * @test
@@ -86,7 +87,7 @@ class GuardedInvokerTest extends TestCase
 
         // then
         $this->assertSame(15, $result);
-        $this->assertSame(CompilePregException::class, get_class($exception));
+        $this->assertHasClass(CompilePregException::class, $exception);
         $this->assertSame("/p/", $exception->getPregPattern());
     }
 
