@@ -17,11 +17,8 @@ class TemplateBuilderTest extends TestCase
 
     /**
      * @test
-     * @dataProvider methods
-     * @param string $method
-     * @param array $arguments
      */
-    public function shouldThrowForOverflowingLiteral(string $method, array $arguments): void
+    public function shouldThrowForOverflowingLiteral(): void
     {
         // given
         $template = new TemplateBuilder('^&&$', new ThrowDelimiter(), [new ThrowToken(), new ThrowToken(), new ThrowToken()]);
@@ -31,16 +28,13 @@ class TemplateBuilderTest extends TestCase
         $this->expectExceptionMessage('There are only 2 & tokens in template, but 3 builder methods were used');
 
         // when
-        $template->$method(...$arguments);
+        $template->build();
     }
 
     /**
      * @test
-     * @dataProvider methods
-     * @param string $method
-     * @param array $arguments
      */
-    public function shouldThrowForMissingLiteral(string $method, array $arguments): void
+    public function shouldThrowForMissingLiteral(): void
     {
         // given
         $template = new TemplateBuilder('^&&$', new ThrowDelimiter(), [new ThrowToken()]);
@@ -50,15 +44,7 @@ class TemplateBuilderTest extends TestCase
         $this->expectExceptionMessage('There are 2 & tokens in template, but only 1 builder methods were used');
 
         // when
-        $template->$method(...$arguments);
-    }
-
-    public function methods(): array
-    {
-        return [
-            ['build', []],
-            ['inject', [[]]],
-        ];
+        $template->build();
     }
 
     /**

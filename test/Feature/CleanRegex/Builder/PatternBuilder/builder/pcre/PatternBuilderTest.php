@@ -122,19 +122,4 @@ class PatternBuilderTest extends TestCase
         // then
         $this->assertSame('%You/her, \\\\s (her)%s', $pattern);
     }
-
-    /**
-     * @test
-     */
-    public function shouldBuild_template_inject()
-    {
-        // given
-        $pattern = Pattern::builder()->pcre()->template('%You/her, \s (her)%s')->inject([]);
-
-        // when
-        $pattern = $pattern->delimited();
-
-        // then
-        $this->assertSame('%You/her, \s (her)%s', $pattern);
-    }
 }

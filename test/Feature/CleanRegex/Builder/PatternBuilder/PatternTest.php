@@ -192,24 +192,6 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_builder_mask_inject(): void
-    {
-        // given
-        $pattern = Pattern::template('^& vs. @:@$', 's')
-            ->builder()
-            ->mask('This-is: %3', ['%3' => 'x{3,}'])
-            ->inject(['{{{', ')))']);
-
-        // when
-        $delimited = $pattern->delimited();
-
-        // then
-        $this->assertSame('/^This\-is\:\ x{3,} vs. \{\{\{:\)\)\)$/s', $delimited);
-    }
-
-    /**
-     * @test
-     */
     public function shouldBuild_template_mask(): void
     {
         // given
@@ -251,21 +233,6 @@ class PatternTest extends TestCase
 
         // then
         $this->assertSame('#^& vs/ $#s', $delimited);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldBuild_template_inject(): void
-    {
-        // given
-        $pattern = Pattern::template('^@ vs/ $', 's')->inject(['*']);
-
-        // when
-        $delimited = $pattern->delimited();
-
-        // then
-        $this->assertSame('#^\* vs/ $#s', $delimited);
     }
 
     /**

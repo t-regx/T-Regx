@@ -43,10 +43,7 @@ class PatternTest extends TestCase
             }],
             'Pattern::template()->builder()->literal()->build()' => [function () {
                 return Pattern::template('Foo & \\')->builder()->literal('&')->build();
-            }],
-            'Pattern::template()->builder()->literal()->inject()' => [function () {
-                return Pattern::template('Foo & \\')->builder()->literal('&')->inject([]);
-            }],
+            }]
         ];
     }
 

@@ -16,11 +16,6 @@ class Template
         $this->strategy = $strategy;
     }
 
-    public function inject(array $values): Pattern
-    {
-        return $this->builder()->inject($values);
-    }
-
     public function mask(string $mask, array $keywords): Pattern
     {
         return $this->builder()->mask($mask, $keywords)->build();

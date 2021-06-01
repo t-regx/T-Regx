@@ -11,7 +11,7 @@ class TemplateTest extends TestCase
     /**
      * @test
      */
-    public function shouldFormat_throwInsufficient(): void
+    public function shouldMask_throwInsufficient(): void
     {
         // given
         $template = new Template('foo:&&', new ThrowDelimiter());
@@ -27,7 +27,7 @@ class TemplateTest extends TestCase
     /**
      * @test
      */
-    public function shouldFormat_throwSuperfluous(): void
+    public function shouldMask_throwSuperfluous(): void
     {
         // given
         $template = new Template('', new ThrowDelimiter());
@@ -43,32 +43,16 @@ class TemplateTest extends TestCase
     /**
      * @test
      */
-    public function shouldInject_throwForInvalidFormat(): void
+    public function shouldBuild_throwForInvalidFormat(): void
     {
         // given
-        $template = new Template('@&', new ThrowDelimiter());
+        $template = new Template('&', new ThrowDelimiter());
 
         // then
         $this->expectException(TemplateFormatException::class);
         $this->expectExceptionMessage('There are 1 & tokens in template, but only 0 builder methods were used');
 
         // when
-        $template->inject(['bar']);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldBind_throwForInvalidFormat(): void
-    {
-        // given
-        $template = new Template('@&', new ThrowDelimiter());
-
-        // then
-        $this->expectException(TemplateFormatException::class);
-        $this->expectExceptionMessage('There are 1 & tokens in template, but only 0 builder methods were used');
-
-        // when
-        $template->inject(['bar']);
+        $template->builder()->build();
     }
 }
