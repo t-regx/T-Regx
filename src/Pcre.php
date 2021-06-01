@@ -19,7 +19,7 @@ namespace TRegx;
  * build proper PCRE2-sensitive regexps in prepared patterns,
  * so T-Regx must know exactly whether we're in PCRE or PCRE2
  * in order to safely build patterns. And while building patterns,
- * we can't {@see Pcre} helper be fooled by arbitrary constants
+ * we can't let {@see Pcre} helper be fooled by arbitrary constants
  * defined by users.
  *
  * With {@see PCRE_VERSION}, there is no such risks, because it's
