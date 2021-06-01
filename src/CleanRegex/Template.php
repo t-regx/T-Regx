@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex;
 
+use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
 
 class Template

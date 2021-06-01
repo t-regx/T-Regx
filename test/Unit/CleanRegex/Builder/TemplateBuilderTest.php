@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex;
+namespace Test\Unit\TRegx\CleanRegex\Builder;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
@@ -8,8 +8,8 @@ use Test\Utils\Impl\NoAlternation;
 use Test\Utils\Impl\RawToken;
 use Test\Utils\Impl\ThrowDelimiter;
 use Test\Utils\Impl\ThrowToken;
+use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Exception\TemplateFormatException;
-use TRegx\CleanRegex\TemplateBuilder;
 
 class TemplateBuilderTest extends TestCase
 {
