@@ -8,7 +8,6 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
 use TRegx\CleanRegex\Pattern;
-use TRegx\CleanRegex\Template;
 
 class PcrePatternBuilder
 {
@@ -27,8 +26,8 @@ class PcrePatternBuilder
         return PrepareFacade::build(new PreparedParser($input), new PcreStrategy());
     }
 
-    public function template(string $pattern): Template
+    public function template(string $pattern): TemplateBuilder
     {
-        return new Template($pattern, new PcreStrategy());
+        return new TemplateBuilder($pattern, new PcreStrategy(), []);
     }
 }

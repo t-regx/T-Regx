@@ -2,12 +2,12 @@
 namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Builder\PatternBuilder;
+use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\CompositePattern;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Extended;
 use TRegx\CleanRegex\Pattern;
-use TRegx\CleanRegex\Template;
 use TRegx\SafeRegex\preg;
 
 trait EntryPoints
@@ -54,7 +54,7 @@ trait EntryPoints
         return self::builder()->mask($mask, $keywords, $flags);
     }
 
-    public static function template(string $pattern, string $flags = null): Template
+    public static function template(string $pattern, string $flags = null): TemplateBuilder
     {
         return self::builder()->template($pattern, $flags);
     }

@@ -3,7 +3,6 @@ namespace Test\Feature\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
-use TRegx\CleanRegex\Flags;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 

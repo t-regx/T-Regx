@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Builder\PatternBuilder;
+namespace Test\Feature\TRegx\CleanRegex\_entry_points;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
@@ -143,11 +143,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_builder_literal_mask_literal_build(): void
+    public function shouldBuild_template_literal_mask_literal_build(): void
     {
         // given
         $pattern = Pattern::template('^& v&s. &$ @ or `s`', 'i')
-            ->builder()
             ->literal('&')
             ->mask('This-is: %3 pattern %4', [
                 '%3' => 'x{3,}',
@@ -166,11 +165,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_builder_mask_literal_mask_build(): void
+    public function shouldBuild_template_mask_literal_mask_build(): void
     {
         // given
         $pattern = Pattern::template('^& v&s. &$ @ or `s`', 'i')
-            ->builder()
             ->mask('This-is: %3 pattern %4', [
                 '%3' => 'x{3,}',
                 '%4' => 'x{4,}',
@@ -192,11 +190,12 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_mask(): void
+    public function shouldBuild_template_mask_build(): void
     {
         // given
         $pattern = Pattern::template('^& vs/ @curly:`parent`$', 's')
-            ->mask('This-is: %3', ['%3' => 'x{3,}']);
+            ->mask('This-is: %3', ['%3' => 'x{3,}'])
+            ->build();
 
         // when
         $delimited = $pattern->delimited();
@@ -208,25 +207,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_literal(): void
+    public function shouldBuild_template_literal_build(): void
     {
         // given
-        $pattern = Pattern::template('^& vs/ @curly:`parent`$', 's')->literal('x{3,}');
-
-        // when
-        $delimited = $pattern->delimited();
-
-        // then
-        $this->assertSame('#^x\{3,\} vs/ @curly:`parent`$#s', $delimited);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldBuild_template_builder_literal_build(): void
-    {
-        // given
-        $pattern = Pattern::template('^& vs/ $', 's')->builder()->literal('&')->build();
+        $pattern = Pattern::template('^& vs/ $', 's')->literal('&')->build();
 
         // when
         $delimited = $pattern->delimited();

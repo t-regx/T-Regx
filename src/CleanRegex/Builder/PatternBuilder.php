@@ -9,7 +9,6 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
 use TRegx\CleanRegex\Pattern;
-use TRegx\CleanRegex\Template;
 
 class PatternBuilder
 {
@@ -38,8 +37,8 @@ class PatternBuilder
         return PrepareFacade::build(new MaskParser($mask, $keywords), new StandardStrategy($flags ?? ''));
     }
 
-    public function template(string $pattern, string $flags = null): Template
+    public function template(string $pattern, string $flags = null): TemplateBuilder
     {
-        return new Template($pattern, new StandardStrategy($flags ?? ''));
+        return new TemplateBuilder($pattern, new StandardStrategy($flags ?? ''), []);
     }
 }

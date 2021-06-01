@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Builder\PatternBuilder\flags;
+namespace Test\Feature\TRegx\CleanRegex\_flags;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
@@ -57,7 +57,7 @@ class PatternTest extends TestCase
     public function shouldBuild_template()
     {
         // given
-        $pattern = Pattern::template('Foo&', 'i')->literal('Bar');
+        $pattern = Pattern::template('Foo&', 'i')->literal('Bar')->build();
 
         // when
         $flagIsAdded = $pattern->test('foobar');

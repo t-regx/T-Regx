@@ -58,11 +58,10 @@ class PatternBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_builder_mask_build()
+    public function shouldBuild_template_mask_build()
     {
         // given
         $pattern = Pattern::builder()->pcre()->template('%You/her, & (her)%s')
-            ->builder()
             ->mask('%s', ['%s' => '\s'])
             ->build();
 
@@ -76,13 +75,12 @@ class PatternBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_builder_literal_build()
+    public function shouldBuild_template_literal_build()
     {
         // given
         $pattern = Pattern::builder()
             ->pcre()
             ->template('%You/her, & (her)%s')
-            ->builder()
             ->literal('{hi}')
             ->build();
 
@@ -91,35 +89,5 @@ class PatternBuilderTest extends TestCase
 
         // then
         $this->assertSame('%You/her, \{hi\} (her)%s', $pattern);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldBuild_template_mask()
-    {
-        // given
-        $pattern = Pattern::builder()->pcre()->template('%You/her, & (her)%s')->mask('%s', ['%s' => '\s']);
-
-        // when
-        $pattern = $pattern->delimited();
-
-        // then
-        $this->assertSame('%You/her, \s (her)%s', $pattern);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldBuild_template_literal()
-    {
-        // given
-        $pattern = Pattern::builder()->pcre()->template('%You/her, & (her)%s')->literal('\s');
-
-        // when
-        $pattern = $pattern->delimited();
-
-        // then
-        $this->assertSame('%You/her, \\\\s (her)%s', $pattern);
     }
 }
