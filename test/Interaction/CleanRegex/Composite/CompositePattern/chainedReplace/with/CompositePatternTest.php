@@ -1,8 +1,8 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\CompositePattern\chainedReplace\with;
+namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\chainedReplace\with;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\CompositePattern;
+use TRegx\CleanRegex\Composite\CompositePattern;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
 
 class CompositePatternTest extends TestCase

@@ -1,8 +1,8 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\CompositePattern\chainedRemove;
+namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\chainedRemove;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\CompositePattern;
+use TRegx\CleanRegex\Composite\CompositePattern;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use function array_slice;
 

@@ -1,9 +1,9 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\CompositePattern\chainedReplace\callback;
+namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\chainedReplace\callback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\CompositePattern;
+use TRegx\CleanRegex\Composite\CompositePattern;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;

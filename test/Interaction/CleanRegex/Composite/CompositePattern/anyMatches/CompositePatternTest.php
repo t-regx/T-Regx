@@ -1,8 +1,8 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\CompositePattern\anyMatches;
+namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\anyMatches;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\CompositePattern;
+use TRegx\CleanRegex\Composite\CompositePattern;
 use TRegx\CleanRegex\Internal\CompositePatternMapper;
 use TRegx\CleanRegex\Pattern;
 

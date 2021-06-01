@@ -1,7 +1,6 @@
 <?php
-namespace TRegx\CleanRegex;
+namespace TRegx\CleanRegex\Composite;
 
-use TRegx\CleanRegex\Composite\ChainedReplace;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\SafeRegex\preg;
