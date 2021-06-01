@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Exception\TemplateFormatException;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
-use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
@@ -53,12 +52,6 @@ class TemplateBuilder
     {
         $this->validateTokensAndMethods();
         return PrepareFacade::build(new InjectParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->strategy);
-    }
-
-    public function bind(array $values): Pattern
-    {
-        $this->validateTokensAndMethods();
-        return PrepareFacade::build(new BindingParser($this->pattern, $values, new TemplateStrategy($this->tokens)), $this->strategy);
     }
 
     private function validateTokensAndMethods(): void

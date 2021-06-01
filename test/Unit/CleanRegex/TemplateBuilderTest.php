@@ -57,7 +57,6 @@ class TemplateBuilderTest extends TestCase
     {
         return [
             ['build', []],
-            ['bind', [[]]],
             ['inject', [[]]],
         ];
     }

@@ -21,11 +21,6 @@ class Template
         return $this->builder()->inject($values);
     }
 
-    public function bind(array $values): Pattern
-    {
-        return $this->builder()->bind($values);
-    }
-
     public function mask(string $mask, array $keywords): Pattern
     {
         return $this->builder()->mask($mask, $keywords)->build();

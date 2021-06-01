@@ -4,7 +4,10 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Removed `Pattern::template()->bind()`.
+* Bug fixes
+    * Correct type-error in `ValidPattern.isValid()` on PHP 8.1.
 
 Added in 0.11.0
 ---------------

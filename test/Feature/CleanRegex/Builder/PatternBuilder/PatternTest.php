@@ -210,27 +210,6 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_builder_mask_bind(): void
-    {
-        // given
-        $pattern = Pattern::template('^& vs. @curly:`parent`$', 's')
-            ->builder()
-            ->mask('This-is: %3', ['%3' => 'x{3,}'])
-            ->bind([
-                'curly'  => '{{{',
-                'parent' => ')))'
-            ]);
-
-        // when
-        $delimited = $pattern->delimited();
-
-        // then
-        $this->assertSame('/^This\-is\:\ x{3,} vs. \{\{\{:\)\)\)$/s', $delimited);
-    }
-
-    /**
-     * @test
-     */
     public function shouldBuild_template_mask(): void
     {
         // given
@@ -281,21 +260,6 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::template('^@ vs/ $', 's')->inject(['*']);
-
-        // when
-        $delimited = $pattern->delimited();
-
-        // then
-        $this->assertSame('#^\* vs/ $#s', $delimited);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldBuild_template_build(): void
-    {
-        // given
-        $pattern = Pattern::template('^@value vs/ $', 's')->bind(['value' => '*']);
 
         // when
         $delimited = $pattern->delimited();
