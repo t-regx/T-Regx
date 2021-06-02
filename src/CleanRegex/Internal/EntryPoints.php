@@ -39,11 +39,6 @@ trait EntryPoints
         return self::builder()->prepare($input, $flags);
     }
 
-    public static function bind(string $input, array $values, string $flags = null): Pattern
-    {
-        return self::builder()->bind($input, $values, $flags);
-    }
-
     public static function inject(string $input, array $values, string $flags = null): Pattern
     {
         return self::builder()->inject($input, $values, $flags);

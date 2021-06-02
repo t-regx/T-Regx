@@ -12,24 +12,6 @@ class PatternBuilderTest extends TestCase
      * @param string $flags
      * @param string $expected
      */
-    public function shouldBuild_bind(string $flags, string $expected)
-    {
-        // given
-        $pattern = Pattern::bind('Foo@bar', ['bar' => $this->alternation()], $flags);
-
-        // when
-        $patter = $pattern->delimited();
-
-        // then
-        $this->assertSame("/Foo(?:$expected)/$flags", $patter);
-    }
-
-    /**
-     * @test
-     * @dataProvider flagsAndAlternationResults
-     * @param string $flags
-     * @param string $expected
-     */
     public function shouldBuild_inject(string $flags, string $expected)
     {
         // given

@@ -35,9 +35,6 @@ class PatternTest extends TestCase
             'Pattern::inject()'             => [function () {
                 return Pattern::inject('Foo \\', []);
             }],
-            'Pattern::bind()'               => [function () {
-                return Pattern::bind('Foo \\', []);
-            }],
             'Pattern::compose()'            => [function () {
                 return Pattern::compose(['Foo & \\']);
             }],

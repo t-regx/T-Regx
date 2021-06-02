@@ -24,21 +24,6 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_bind()
-    {
-        // given
-        $pattern = Pattern::bind('Foo@bar', ['bar' => 'Bar'], 'i');
-
-        // when
-        $flagIsAdded = $pattern->test('foobar');
-
-        // then
-        $this->assertTrue($flagIsAdded);
-    }
-
-    /**
-     * @test
-     */
     public function shouldBuild_inject()
     {
         // given

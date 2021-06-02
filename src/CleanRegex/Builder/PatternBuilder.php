@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Builder;
 
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\StandardStrategy;
-use TRegx\CleanRegex\Internal\Prepared\Parser\BindingParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\MaskParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
@@ -15,11 +14,6 @@ class PatternBuilder
     public function pcre(): PcrePatternBuilder
     {
         return new PcrePatternBuilder();
-    }
-
-    public function bind(string $input, array $values, string $flags = null): Pattern
-    {
-        return PrepareFacade::build(new BindingParser($input, $values, new NoTemplate()), new StandardStrategy($flags ?? ''));
     }
 
     public function inject(string $input, array $values, string $flags = null): Pattern

@@ -24,23 +24,6 @@ class PatternBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_bind()
-    {
-        // given
-        $pattern = Pattern::builder()->bind('You/her, (are|is) @question (you|her)', [
-            'question' => 'real? (or are you not real?)'
-        ]);
-
-        // when
-        $pattern = $pattern->delimited();
-
-        // then
-        $this->assertSame('#You/her, (are|is) real\?\ \(or\ are\ you\ not\ real\?\) (you|her)#', $pattern);
-    }
-
-    /**
-     * @test
-     */
     public function shouldBuild_inject()
     {
         // given
