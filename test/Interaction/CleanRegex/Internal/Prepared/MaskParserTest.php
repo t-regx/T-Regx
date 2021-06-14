@@ -1,12 +1,12 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\Internal\Prepared\Parser;
+namespace Test\Interaction\TRegx\CleanRegex\Internal\Prepared;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\ConstantDelimiter;
 use Test\Utils\Impl\NoAlternation;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
-use TRegx\CleanRegex\Internal\Prepared\Parser\MaskParser;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
+use TRegx\CleanRegex\Internal\Prepared\MaskParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 
 class MaskParserTest extends TestCase

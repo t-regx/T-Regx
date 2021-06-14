@@ -1,12 +1,12 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Parser;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\RawToken;
 use Test\Utils\Impl\ThrowToken;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
-use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
+use TRegx\CleanRegex\Internal\Prepared\TemplateParser;
 
 class TemplateParserTest extends TestCase
 {

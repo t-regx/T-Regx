@@ -5,7 +5,6 @@ use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\ParserQuotableAdapter;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
 use TRegx\CleanRegex\Pattern;
 
 class PrepareFacade

@@ -3,11 +3,11 @@ namespace TRegx\CleanRegex\Builder;
 
 use TRegx\CleanRegex\Exception\TemplateFormatException;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\DelimiterStrategy;
-use TRegx\CleanRegex\Internal\Prepared\Parser\TemplateParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\Token;
+use TRegx\CleanRegex\Internal\Prepared\TemplateParser;
 use TRegx\CleanRegex\Pattern;
 
 class TemplateBuilder

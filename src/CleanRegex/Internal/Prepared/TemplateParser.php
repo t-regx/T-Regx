@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Parser;
+namespace TRegx\CleanRegex\Internal\Prepared;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\QuotableFactory;

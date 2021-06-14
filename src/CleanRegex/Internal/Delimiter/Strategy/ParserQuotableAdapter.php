@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Delimiter\Strategy;
 
-use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
+use TRegx\CleanRegex\Internal\Prepared\Parser;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 

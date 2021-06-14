@@ -8,9 +8,9 @@ use Test\Utils\Functions;
 use Test\Utils\Impl\ConstantDelimiter;
 use Test\Utils\Impl\MappingAlternation;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\StandardStrategy;
-use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
-use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
+use TRegx\CleanRegex\Internal\Prepared\InjectParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser;
+use TRegx\CleanRegex\Internal\Prepared\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
 

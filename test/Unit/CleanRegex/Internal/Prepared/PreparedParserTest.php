@@ -1,10 +1,10 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Parser;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\Identity;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
-use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
+use TRegx\CleanRegex\Internal\Prepared\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
 
 class PreparedParserTest extends TestCase

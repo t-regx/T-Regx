@@ -2,7 +2,7 @@
 namespace Test\Utils\Impl;
 
 use PHPUnit\Framework\Assert;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Parser;
+use TRegx\CleanRegex\Internal\Prepared\Parser;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 

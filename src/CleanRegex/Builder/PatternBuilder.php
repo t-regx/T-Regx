@@ -2,9 +2,9 @@
 namespace TRegx\CleanRegex\Builder;
 
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\StandardStrategy;
-use TRegx\CleanRegex\Internal\Prepared\Parser\InjectParser;
-use TRegx\CleanRegex\Internal\Prepared\Parser\MaskParser;
-use TRegx\CleanRegex\Internal\Prepared\Parser\PreparedParser;
+use TRegx\CleanRegex\Internal\Prepared\InjectParser;
+use TRegx\CleanRegex\Internal\Prepared\MaskParser;
+use TRegx\CleanRegex\Internal\Prepared\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
 use TRegx\CleanRegex\Pattern;
