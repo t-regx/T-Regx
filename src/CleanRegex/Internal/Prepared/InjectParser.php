@@ -5,7 +5,6 @@ use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\QuotableFactory;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
-use TRegx\CleanRegex\Internal\Prepared\Template\TokenStrategy;
 use TRegx\CleanRegex\Internal\TrailingBackslash;
 use TRegx\CleanRegex\Internal\Type;
 
@@ -15,24 +14,18 @@ class InjectParser implements Parser
     private $input;
     /** @var array */
     private $values;
-    /** @var TokenStrategy */
-    private $strategy;
 
-    public function __construct(string $input, array $values, TokenStrategy $strategy)
+    public function __construct(string $input, array $values)
     {
         $this->input = $input;
         $this->values = $values;
-        $this->strategy = $strategy;
     }
 
     public function parse(string $delimiter, QuotableFactory $quotableFactory): Quotable
     {
         TrailingBackslash::throwIfHas($this->input);
         \reset($this->values);
-        $result = \preg_replace_callback('/[@&]/', function (array $values) use ($delimiter, $quotableFactory) {
-            if ($values[0] === '&') {
-                return $this->strategy->nextAsQuotable()->quote($delimiter);
-            }
+        $result = \preg_replace_callback('/@/', function () use ($delimiter, $quotableFactory) {
             return $quotableFactory->quotable($this->getBindValue())->quote($delimiter);
         }, $this->input);
         $this->validateSuperfluousBindValues();

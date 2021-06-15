@@ -11,7 +11,6 @@ use TRegx\CleanRegex\Internal\Delimiter\Strategy\StandardStrategy;
 use TRegx\CleanRegex\Internal\Prepared\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
-use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
 
 class PrepareFacadeTest extends TestCase
 {
@@ -23,7 +22,7 @@ class PrepareFacadeTest extends TestCase
     public function shouldBuildPatternUsingParser()
     {
         // given
-        $parser = new InjectParser('(I|We) want: @ :)', ['User (input)'], new NoTemplate());
+        $parser = new InjectParser('(I|We) want: @ :)', ['User (input)']);
 
         // when
         $pattern = PrepareFacade::build($parser, new ConstantDelimiter(new MappingAlternation(Functions::json())));
@@ -52,23 +51,23 @@ class PrepareFacadeTest extends TestCase
     {
         return [
             [
-                new InjectParser('@', [], new NoTemplate()),
+                new InjectParser('@', []),
                 "Could not find a corresponding value for placeholder #0",
             ],
             [
-                new InjectParser('@ and @', ['input'], new NoTemplate()),
+                new InjectParser('@ and @', ['input']),
                 "Could not find a corresponding value for placeholder #1",
             ],
             [
-                new InjectParser('@', ['input', 'input2'], new NoTemplate()),
+                new InjectParser('@', ['input', 'input2']),
                 "Superfluous inject value [1 => string ('input2')]",
             ],
             [
-                new InjectParser('@@@', ['', '', 'foo' => 4], new NoTemplate()),
+                new InjectParser('@@@', ['', '', 'foo' => 4]),
                 "Invalid inject value for key 'foo'. Expected string, but integer (4) given",
             ],
             [
-                new InjectParser('@', [0 => 21], new NoTemplate()),
+                new InjectParser('@', [0 => 21]),
                 "Invalid inject value for key '0'. Expected string, but integer (21) given",
             ],
         ];

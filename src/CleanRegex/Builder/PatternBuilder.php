@@ -5,7 +5,6 @@ use TRegx\CleanRegex\Internal\Delimiter\Strategy\StandardStrategy;
 use TRegx\CleanRegex\Internal\Prepared\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\MaskParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
-use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
 use TRegx\CleanRegex\Pattern;
 
 class PatternBuilder
@@ -17,7 +16,7 @@ class PatternBuilder
 
     public function inject(string $input, array $values, string $flags = null): Pattern
     {
-        return PrepareFacade::build(new InjectParser($input, $values, new NoTemplate()), new StandardStrategy($flags ?? ''));
+        return PrepareFacade::build(new InjectParser($input, $values), new StandardStrategy($flags ?? ''));
     }
 
     public function mask(string $mask, array $keywords, string $flags = null): Pattern
