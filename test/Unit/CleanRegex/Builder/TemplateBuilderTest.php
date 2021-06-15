@@ -21,7 +21,7 @@ class TemplateBuilderTest extends TestCase
     public function shouldThrowForOverflowingLiteral(): void
     {
         // given
-        $template = new TemplateBuilder('^&&$', new ThrowDelimiter(), [new ThrowToken(), new ThrowToken(), new ThrowToken()]);
+        $template = new TemplateBuilder('^@@$', new ThrowDelimiter(), [new ThrowToken(), new ThrowToken(), new ThrowToken()]);
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -37,7 +37,7 @@ class TemplateBuilderTest extends TestCase
     public function shouldThrowForMissingLiteral(): void
     {
         // given
-        $template = new TemplateBuilder('^&&$', new ThrowDelimiter(), [new ThrowToken()]);
+        $template = new TemplateBuilder('^@@$', new ThrowDelimiter(), [new ThrowToken()]);
 
         // then
         $this->expectException(TemplateFormatException::class);
@@ -53,7 +53,7 @@ class TemplateBuilderTest extends TestCase
     public function shouldBuildBeImmutable(): void
     {
         // given
-        $template = new TemplateBuilder('^&&$', new ConstantDelimiter(new NoAlternation()), [new RawToken('Z', "\1")]);
+        $template = new TemplateBuilder('^@@$', new ConstantDelimiter(new NoAlternation()), [new RawToken('Z', "\1")]);
 
         // when
         $first = $template->literal('A');
@@ -72,7 +72,7 @@ class TemplateBuilderTest extends TestCase
     public function shouldBuild(): void
     {
         // given
-        $template = new TemplateBuilder('^&&$', new ConstantDelimiter(new NoAlternation()), [new RawToken('X', "\1")]);
+        $template = new TemplateBuilder('^@@$', new ConstantDelimiter(new NoAlternation()), [new RawToken('X', "\1")]);
 
         // when
         $first = $template->literal('{hi}');

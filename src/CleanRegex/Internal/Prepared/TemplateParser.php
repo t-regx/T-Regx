@@ -24,7 +24,7 @@ class TemplateParser implements Parser
     public function parse(string $delimiter, QuotableFactory $quotableFactory): Quotable
     {
         TrailingBackslash::throwIfHas($this->pattern);
-        $pattern = \preg_replace_callback('/&/', function () use ($delimiter): string {
+        $pattern = \preg_replace_callback('/@/', function () use ($delimiter): string {
             return $this->nextToken()->formatAsQuotable()->quote($delimiter);
         }, $this->pattern);
         return new RawQuotable($pattern);

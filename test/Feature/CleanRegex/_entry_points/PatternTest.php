@@ -129,7 +129,7 @@ class PatternTest extends TestCase
     public function shouldBuild_template_literal_mask_literal_build(): void
     {
         // given
-        $pattern = Pattern::template('^& v&s. &$ @ or `s`', 'i')
+        $pattern = Pattern::template('^@ v@s. &@ or `s`', 'i')
             ->literal('&')
             ->mask('This-is: %3 pattern %4', [
                 '%3' => 'x{3,}',
@@ -142,7 +142,7 @@ class PatternTest extends TestCase
         $delimited = $pattern->delimited();
 
         // then
-        $this->assertSame('/^& vThis\-is\:\ x{3,}\ pattern\ x{4,}s. &$ @ or `s`/i', $delimited);
+        $this->assertSame('/^& vThis\-is\:\ x{3,}\ pattern\ x{4,}s. && or `s`/i', $delimited);
     }
 
     /**
@@ -151,12 +151,12 @@ class PatternTest extends TestCase
     public function shouldBuild_template_mask_literal_mask_build(): void
     {
         // given
-        $pattern = Pattern::template('^& v&s. &$ @ or `s`', 'i')
+        $pattern = Pattern::template('^@ v@s. @$ or `s`', 'i')
             ->mask('This-is: %3 pattern %4', [
                 '%3' => 'x{3,}',
                 '%4' => 'x{4,}',
             ])
-            ->literal('&')
+            ->literal('@')
             ->mask('(%e:%%e)', [
                 '%%' => '%',
                 '%e' => 'e{2,3}'
@@ -167,7 +167,7 @@ class PatternTest extends TestCase
         $delimited = $pattern->delimited();
 
         // then
-        $this->assertSame('/^This\-is\:\ x{3,}\ pattern\ x{4,} v&s. \(e{2,3}\:%e\)$ @ or `s`/i', $delimited);
+        $this->assertSame('/^This\-is\:\ x{3,}\ pattern\ x{4,} v@s. \(e{2,3}\:%e\)$ or `s`/i', $delimited);
     }
 
     /**
@@ -176,7 +176,7 @@ class PatternTest extends TestCase
     public function shouldBuild_template_mask_build(): void
     {
         // given
-        $pattern = Pattern::template('^& vs/ @curly:`parent`$', 's')
+        $pattern = Pattern::template('^@ vs/$', 's')
             ->mask('This-is: %3', ['%3' => 'x{3,}'])
             ->build();
 
@@ -184,7 +184,7 @@ class PatternTest extends TestCase
         $delimited = $pattern->delimited();
 
         // then
-        $this->assertSame('#^This\-is\:\ x{3,} vs/ @curly:`parent`$#s', $delimited);
+        $this->assertSame('#^This\-is\:\ x{3,} vs/$#s', $delimited);
     }
 
     /**
@@ -193,7 +193,7 @@ class PatternTest extends TestCase
     public function shouldBuild_template_literal_build(): void
     {
         // given
-        $pattern = Pattern::template('^& vs/ $', 's')->literal('&')->build();
+        $pattern = Pattern::template('^@ vs/ $', 's')->literal('&')->build();
 
         // when
         $delimited = $pattern->delimited();

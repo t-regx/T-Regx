@@ -49,7 +49,7 @@ class TemplateBuilder
 
     private function validateTokensAndMethods(): void
     {
-        $placeholders = \preg_match_all('/&/', $this->pattern);
+        $placeholders = \preg_match_all('/@/', $this->pattern);
         $tokens = \count($this->tokens);
         if ($placeholders < $tokens) {
             throw TemplateFormatException::insufficient($placeholders, $tokens);

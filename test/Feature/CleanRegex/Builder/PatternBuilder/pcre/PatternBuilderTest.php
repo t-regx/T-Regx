@@ -44,7 +44,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_mask_build()
     {
         // given
-        $pattern = Pattern::builder()->pcre()->template('%You/her, & (her)%s')
+        $pattern = Pattern::builder()->pcre()->template('%You/her, @ (her)%s')
             ->mask('%s', ['%s' => '\s'])
             ->build();
 
@@ -63,7 +63,7 @@ class PatternBuilderTest extends TestCase
         // given
         $pattern = Pattern::builder()
             ->pcre()
-            ->template('%You/her, & (her)%s')
+            ->template('%You/her, @ (her)%s')
             ->literal('{hi}')
             ->build();
 

@@ -42,7 +42,7 @@ class PatternTest extends TestCase
     public function shouldBuild_template()
     {
         // given
-        $pattern = Pattern::template('Foo&', 'i')->literal('Bar')->build();
+        $pattern = Pattern::template('Foo@', 'i')->literal('Bar')->build();
 
         // when
         $flagIsAdded = $pattern->test('foobar');

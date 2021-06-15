@@ -16,7 +16,7 @@ class TemplateParserTest extends TestCase
     public function shouldParse(): void
     {
         // given
-        $parser = new TemplateParser('foo:&', [new RawToken('W', '#')]);
+        $parser = new TemplateParser('foo:@', [new RawToken('W', '#')]);
 
         // when
         $result = $parser->parse('#', new AlterationFactory());

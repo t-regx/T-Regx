@@ -39,7 +39,7 @@ class PatternTest extends TestCase
                 return Pattern::compose(['Foo & \\']);
             }],
             'Pattern::template()->literal()->build()' => [function () {
-                return Pattern::template('Foo & \\')->literal('&')->build();
+                return Pattern::template('Foo @ \\')->literal('&')->build();
             }]
         ];
     }
@@ -71,7 +71,7 @@ class PatternTest extends TestCase
             ],
             'Pattern::template()->mask()->build()' => [
                 function () {
-                    return Pattern::template('Foo &')->mask('w', ['w' => '\\'])->build();
+                    return Pattern::template('Foo @')->mask('w', ['w' => '\\'])->build();
                 },
                 "Malformed pattern '\' assigned to keyword 'w'"
             ],
