@@ -58,4 +58,9 @@ class MaskToken implements Token
             throw new \InvalidArgumentException("Keyword cannot be empty, must consist of at least one character");
         }
     }
+
+    public function type(): string
+    {
+        return 'mask (' . \count($this->keywords) . ')';
+    }
 }

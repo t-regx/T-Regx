@@ -21,4 +21,9 @@ class RawToken implements Token
     {
         return new VerifyQuotable($this->literal, $this->expectedDelimiter);
     }
+
+    public function type(): string
+    {
+        throw new \AssertionError("Token wasn't supposed to be used as a type");
+    }
 }

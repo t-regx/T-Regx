@@ -6,4 +6,6 @@ use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 interface Token
 {
     public function formatAsQuotable(): Quotable;
+
+    public function type(): string;
 }

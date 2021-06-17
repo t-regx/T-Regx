@@ -10,4 +10,9 @@ class ThrowToken implements Token
     {
         throw new \AssertionError("Token wasn't supposed to be used");
     }
+
+    public function type(): string
+    {
+        throw new \AssertionError("Token wasn't supposed to be used");
+    }
 }

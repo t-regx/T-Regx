@@ -43,4 +43,11 @@ class Type
         throw new InternalCleanRegexException();
         // @codeCoverageIgnoreEnd
     }
+
+    public static function entry($key, $value): string
+    {
+        $type = Type::asString($value);
+        $formatKey = Type::group($key);
+        return "[$formatKey => $type]";
+    }
 }
