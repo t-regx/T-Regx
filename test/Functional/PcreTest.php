@@ -2,11 +2,14 @@
 namespace Test\Functional\TRegx;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\TestCaseConditional;
 use TRegx\Pcre;
 use const PHP_VERSION_ID;
 
 class PcreTest extends TestCase
 {
+    use TestCaseConditional;
+
     /**
      * @test
      * @dataProvider pcreVersionDependant
@@ -84,7 +87,7 @@ class PcreTest extends TestCase
     public function shouldNotBeProneToConstantOverride()
     {
         if (PHP_VERSION_ID >= 70300) {
-            $this->markTestSkipped("PHP with PCRE2 is not prone to constant override");
+            $this->markTestRenderedUnnecessary("PHP with PCRE2 is not prone to constant override");
         }
 
         // given
