@@ -63,7 +63,7 @@ class PreparedParserTest extends TestCase
         $parser = new PreparedParser(['first\\', ['last\\']]);
 
         // when
-        $parsed = $parser->parse('/', new AlterationFactory(''));
+        $parsed = $parser->parse('/', new AlterationFactory());
 
         // then
         $this->assertSame('first\\last\\\\', $parsed->quote('/'));

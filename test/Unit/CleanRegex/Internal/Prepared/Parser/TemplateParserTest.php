@@ -19,7 +19,7 @@ class TemplateParserTest extends TestCase
         $parser = new TemplateParser('foo:&', [new RawToken('W', '#')]);
 
         // when
-        $result = $parser->parse('#', new AlterationFactory(''));
+        $result = $parser->parse('#', new AlterationFactory());
 
         // then
         $this->assertSame('foo:W', $result->quote('#'));
@@ -37,7 +37,7 @@ class TemplateParserTest extends TestCase
         $this->expectException(TrailingBackslashException::class);
 
         // when
-        $parser->parse('#', new AlterationFactory(''));
+        $parser->parse('#', new AlterationFactory());
     }
 
     /**

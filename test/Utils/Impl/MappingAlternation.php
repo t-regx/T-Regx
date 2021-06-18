@@ -12,13 +12,11 @@ class MappingAlternation extends AlterationFactory
 
     public function __construct(callable $mapper)
     {
-        parent::__construct('');
         $this->mapper = $mapper;
     }
 
     public function quotable($value): Quotable
     {
-        $value1 = ($this->mapper)($value);
-        return new RawQuotable($value1);
+        return new RawQuotable(($this->mapper)($value));
     }
 }

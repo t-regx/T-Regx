@@ -3,7 +3,6 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quotable;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable;
 
 class AlternationQuotableTest extends TestCase
@@ -14,7 +13,7 @@ class AlternationQuotableTest extends TestCase
     public function shouldQuote()
     {
         // given
-        $quotable = new AlternationQuotable(['/()', '^#$'], null);
+        $quotable = new AlternationQuotable(['/()', '^#$']);
 
         // when
         $result = $quotable->quote('~');
@@ -29,7 +28,7 @@ class AlternationQuotableTest extends TestCase
     public function shouldQuoteDelimiter()
     {
         // given
-        $quotable = new AlternationQuotable(['a', '%b'], null);
+        $quotable = new AlternationQuotable(['a', '%b']);
 
         // when
         $result = $quotable->quote('%');
@@ -41,40 +40,10 @@ class AlternationQuotableTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveDuplicates_caseSensitive()
-    {
-        // given
-        $quotable = new AlternationQuotable(['a', 'FOO', 'a', 'c', 'foo'], Functions::identity());
-
-        // when
-        $result = $quotable->quote('/');
-
-        // then
-        $this->assertSame('(?:a|FOO|c|foo)', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldRemoveDuplicates_caseInsensitive()
-    {
-        // given
-        $quotable = new AlternationQuotable(['a', 'FOO', 'a', 'a', 'c', 'foo'], 'strToLower');
-
-        // when
-        $result = $quotable->quote('/');
-
-        // then
-        $this->assertSame('(?:a|FOO|c)', $result);
-    }
-
-    /**
-     * @test
-     */
     public function shouldAddAnEmptyProduct_toIndicateAnEmptyString()
     {
         // given
-        $quotable = new AlternationQuotable(['a', '', '', 'b'], null);
+        $quotable = new AlternationQuotable(['a', '', '', 'b']);
 
         // when
         $result = $quotable->quote('/');
@@ -86,10 +55,10 @@ class AlternationQuotableTest extends TestCase
     /**
      * @test
      */
-    public function shouldIgnoreOtherCharacters()
+    public function shouldNotRemoveFalsyStrings()
     {
         // given
-        $quotable = new AlternationQuotable(['|', ' ', '0'], null);
+        $quotable = new AlternationQuotable(['|', ' ', '0']);
 
         // when
         $result = $quotable->quote('/');
@@ -104,7 +73,7 @@ class AlternationQuotableTest extends TestCase
     public function shouldThrowForArrayValues()
     {
         // given
-        $quotable = new AlternationQuotable(['|', []], null);
+        $quotable = new AlternationQuotable(['|', []]);
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -120,7 +89,7 @@ class AlternationQuotableTest extends TestCase
     public function shouldThrowForIntegerValues()
     {
         // given
-        $quotable = new AlternationQuotable(['|', 5], null);
+        $quotable = new AlternationQuotable(['|', 5]);
 
         // then
         $this->expectException(InvalidArgumentException::class);

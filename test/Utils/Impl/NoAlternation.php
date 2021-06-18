@@ -6,11 +6,6 @@ use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
 class NoAlternation extends AlterationFactory
 {
-    public function __construct()
-    {
-        parent::__construct('');
-    }
-
     public function quotable($value): Quotable
     {
         throw new \AssertionError("Failed to assert that AlternationFactory wasn't used");

@@ -26,6 +26,6 @@ class StandardStrategy implements DelimiterStrategy
 
     public function getAlternationFactory(): AlterationFactory
     {
-        return new AlterationFactory($this->flags);
+        return new AlterationFactory();
     }
 }

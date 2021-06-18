@@ -35,6 +35,6 @@ class PcreStrategy implements DelimiterStrategy
 
     public function getAlternationFactory(): AlterationFactory
     {
-        return new AlterationFactory('');
+        return new AlterationFactory();
     }
 }
