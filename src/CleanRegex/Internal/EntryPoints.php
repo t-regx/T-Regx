@@ -34,11 +34,6 @@ trait EntryPoints
         return new Pattern(InternalPattern::pcre($delimitedPattern));
     }
 
-    public static function prepare(array $input, string $flags = null): Pattern
-    {
-        return self::builder()->prepare($input, $flags);
-    }
-
     public static function inject(string $input, array $values, string $flags = null): Pattern
     {
         return self::builder()->inject($input, $values, $flags);

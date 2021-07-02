@@ -5,10 +5,12 @@ Incoming
 --------
 
 * Breaking changes
+    * Refactored `Pattern::template()->builder()`. Use `Pattern::template()` now.
     * Removed `Pattern::bind()`. Use `Pattern::inject()` or `Pattern::template()->literal()`.
+    * Removed `Pattern::prepare()`. Use `Pattern::inject()`.
     * Removed `Pattern::pcre()->bind()`.
+    * Removed `Pattern::pcre()->prepare()`.
     * Removed `Pattern::template()->bind()`.
-    * Removed `Pattern::template()->builder()`. Use `Pattern::template()`.
 * Bug fixes
     * Correct type-error in `ValidPattern.isValid()` on PHP 8.1.
 

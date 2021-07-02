@@ -11,21 +11,6 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_prepare()
-    {
-        // given
-        $pattern = Pattern::prepare(['You/&her, (are|is) ', ['real? (or are you not real?)'], ' (you|her)']);
-
-        // when
-        $pattern = $pattern->delimited();
-
-        // then
-        $this->assertSame('#You/&her, (are|is) real\?\ \(or\ are\ you\ not\ real\?\) (you|her)#', $pattern);
-    }
-
-    /**
-     * @test
-     */
     public function shouldBuild_inject()
     {
         // given

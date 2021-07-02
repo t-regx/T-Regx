@@ -9,21 +9,6 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_prepared()
-    {
-        // given
-        $pattern = Pattern::prepare(['Foo', ['(Bar']], 'i');
-
-        // when
-        $flagIsAdded = $pattern->test('foo(bar');
-
-        // then
-        $this->assertTrue($flagIsAdded);
-    }
-
-    /**
-     * @test
-     */
     public function shouldBuild_inject()
     {
         // given
@@ -46,6 +31,21 @@ class PatternTest extends TestCase
 
         // when
         $flagIsAdded = $pattern->test('foobar');
+
+        // then
+        $this->assertTrue($flagIsAdded);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_mask()
+    {
+        // given
+        $pattern = Pattern::mask('Cat:%w', ['%w' => 'Foo'], 'i');
+
+        // when
+        $flagIsAdded = $pattern->test('cat:foo');
 
         // then
         $this->assertTrue($flagIsAdded);

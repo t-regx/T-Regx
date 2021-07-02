@@ -29,9 +29,6 @@ class PatternTest extends TestCase
             'Pattern::of()'                 => [function () {
                 return Pattern::of('Foo \\');
             }],
-            'Pattern::prepare()'            => [function () {
-                return Pattern::prepare(['Foo \\']);
-            }],
             'Pattern::inject()'             => [function () {
                 return Pattern::inject('Foo \\', []);
             }],

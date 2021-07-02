@@ -10,7 +10,6 @@ use Test\Utils\Impl\MappingAlternation;
 use TRegx\CleanRegex\Internal\Delimiter\Strategy\StandardStrategy;
 use TRegx\CleanRegex\Internal\Prepared\InjectParser;
 use TRegx\CleanRegex\Internal\Prepared\Parser;
-use TRegx\CleanRegex\Internal\Prepared\PreparedParser;
 use TRegx\CleanRegex\Internal\Prepared\PrepareFacade;
 use TRegx\CleanRegex\Internal\Prepared\Template\NoTemplate;
 
@@ -20,24 +19,17 @@ class PrepareFacadeTest extends TestCase
 
     /**
      * @test
-     * @dataProvider standard
-     * @param Parser $parser
      */
-    public function test_standard(Parser $parser)
+    public function shouldBuildPatternUsingParser()
     {
-        // given + when
+        // given
+        $parser = new InjectParser('(I|We) want: @ :)', ['User (input)'], new NoTemplate());
+
+        // when
         $pattern = PrepareFacade::build($parser, new ConstantDelimiter(new MappingAlternation(Functions::json())));
 
         // then
         $this->assertSamePattern('(I|We) want: "User (input)" :)', $pattern);
-    }
-
-    public function standard(): array
-    {
-        return [
-            'inject #'    => [new InjectParser('(I|We) want: @ :)', ['User (input)'], new NoTemplate())],
-            'prepared []' => [new PreparedParser(['(I|We) want: ', ['User (input)'], ' :)'])]
-        ];
     }
 
     /**
@@ -78,19 +70,6 @@ class PrepareFacadeTest extends TestCase
             [
                 new InjectParser('@', [0 => 21], new NoTemplate()),
                 "Invalid inject value for key '0'. Expected string, but integer (21) given",
-            ],
-
-            [
-                new PreparedParser(['input', 5]),
-                'Invalid prepared pattern part. Expected string, but integer (5) given',
-            ],
-            [
-                new PreparedParser(['input', [4], 'input']),
-                'Invalid bound value. Expected string, but integer (4) given',
-            ],
-            [
-                new PreparedParser([]),
-                'Empty array of prepared pattern parts',
             ],
         ];
     }
