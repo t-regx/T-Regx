@@ -69,6 +69,7 @@ class IntegerTest extends TestCase
             ['1.3e3'],
             ["-1\n1"],
             ['1e3'],
+            ['10e3'],
             ['0x'],
             ['0x10'],
             ['0b11'],
@@ -82,7 +83,7 @@ class IntegerTest extends TestCase
      * @dataProvider integerOverflowingStrings
      * @param string $string
      */
-    public function shouldThrow_forIntegerOverflow(string $string)
+    public function shouldNumberExeedingBounds_notBeValid(string $string)
     {
         // given
         $result = Integer::isValid($string);
