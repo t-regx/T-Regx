@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Expression;
 
-use TRegx\CleanRegex\Internal\Delimiter\DelimiterFinder;
+use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
@@ -29,9 +29,9 @@ class Mask implements Expression
         return (new MaskToken($this->mask, $this->keywords))->formatAsQuotable();
     }
 
-    protected function delimiter(): string
+    protected function delimiter(): Delimiter
     {
-        return (new DelimiterFinder())->chooseDelimiter(\implode($this->keywords));
+        return Delimiter::suitable(\implode($this->keywords));
     }
 
     protected function flags(): Flags

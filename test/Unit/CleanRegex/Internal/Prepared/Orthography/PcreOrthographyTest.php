@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Orthography;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
+use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreOrthography;
 
@@ -26,7 +27,7 @@ class PcreOrthographyTest extends TestCase
         $undeveloped = $format->undevelopedInput();
 
         // then
-        $this->assertSame('/', $delimiter);
+        $this->assertEquals(new Delimiter('/'), $delimiter);
         $this->assertSame('foo', $pattern);
         $this->assertEquals(new Flags('x'), $flags);
         $this->assertSame('/foo/x', $undeveloped);
@@ -44,7 +45,7 @@ class PcreOrthographyTest extends TestCase
         $delimiter = $format->delimiter();
 
         // then
-        $this->assertSame('#', $delimiter);
+        $this->assertEquals(new Delimiter('#'), $delimiter);
     }
 
     /**

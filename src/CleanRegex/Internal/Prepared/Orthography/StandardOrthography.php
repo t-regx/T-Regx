@@ -1,13 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Orthography;
 
-use TRegx\CleanRegex\Internal\Delimiter\DelimiterFinder;
+use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
 
 class StandardOrthography implements Orthography
 {
-    /** @var DelimiterFinder */
-    private $finder;
     /** @var string */
     private $input;
     /** @var string */
@@ -15,14 +13,13 @@ class StandardOrthography implements Orthography
 
     public function __construct(string $input, string $flags)
     {
-        $this->finder = new DelimiterFinder();
         $this->input = $input;
         $this->flags = $flags;
     }
 
-    public function delimiter(): string
+    public function delimiter(): Delimiter
     {
-        return $this->finder->chooseDelimiter($this->input);
+        return Delimiter::suitable($this->input);
     }
 
     public function pattern(): string

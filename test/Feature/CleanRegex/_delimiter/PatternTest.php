@@ -1,16 +1,29 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
+namespace Test\Feature\TRegx\CleanRegex\_delimiter;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Delimiter\AutomaticDelimiter;
+use TRegx\CleanRegex\Pattern;
 use TRegx\SafeRegex\preg;
 
-class AutomaticDelimiterTest extends TestCase
+class PatternTest extends TestCase
 {
+    /**
+     * @test
+     * @dataProvider patterns
+     * @param string $input
+     */
+    public function test(string $input)
+    {
+        // when
+        $pattern = Pattern::of("\Q$input\E");
+
+        // then
+        $this->assertTrue(preg::match($pattern, $input) === 1, "Failed asserting that $pattern matches $input");
+    }
+
     public function patterns(): array
     {
         return [
-            ['FooBar'],
             ['Foo#Bar'],
             ['Foo/Bar'],
             ['Foo/#Bar'],
@@ -32,19 +45,5 @@ class AutomaticDelimiterTest extends TestCase
             ['(foo)'],
             ['<foo>'],
         ];
-    }
-
-    /**
-     * @test
-     * @dataProvider patterns
-     * @param string $input
-     */
-    public function shouldDelimiterPattern(string $input)
-    {
-        // when
-        $pattern = AutomaticDelimiter::standard("\Q$input\E", '');
-
-        // then
-        $this->assertTrue(preg::match($pattern, $input) === 1, "Failed asserting that $pattern matches $input");
     }
 }

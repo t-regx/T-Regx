@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Orthography;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardOrthography;
 
@@ -22,7 +23,7 @@ class StandardOrthographyTest extends TestCase
         $delimiter = $format->delimiter();
 
         // then
-        $this->assertSame('%', $delimiter);
+        $this->assertEquals(new Delimiter('%'), $delimiter);
     }
 
     /**

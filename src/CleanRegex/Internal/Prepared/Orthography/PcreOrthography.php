@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Orthography;
 
+use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Delimiter\PcreString;
 use TRegx\CleanRegex\Internal\Flags;
 
@@ -17,9 +18,9 @@ class PcreOrthography implements Orthography
         $this->pcre = new PcreString($pcre);
     }
 
-    public function delimiter(): string
+    public function delimiter(): Delimiter
     {
-        return $this->pcre->delimiter();
+        return new Delimiter($this->pcre->delimiter());
     }
 
     public function pattern(): string

@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Expression;
 
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
-use TRegx\CleanRegex\Internal\Delimiter\DelimiterFinder;
+use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
@@ -31,9 +31,9 @@ class Standard implements Expression
         return new RawQuotable($this->pattern);
     }
 
-    protected function delimiter(): string
+    protected function delimiter(): Delimiter
     {
-        return (new DelimiterFinder())->chooseDelimiter($this->pattern);
+        return Delimiter::suitable($this->pattern);
     }
 
     protected function flags(): Flags

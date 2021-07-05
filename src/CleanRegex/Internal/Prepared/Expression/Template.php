@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Expression;
 
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
+use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Figure\CountedFigures;
@@ -33,7 +34,7 @@ class Template implements Expression
         }
     }
 
-    protected function delimiter(): string
+    protected function delimiter(): Delimiter
     {
         return $this->orthography->delimiter();
     }

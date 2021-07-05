@@ -1,14 +1,15 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\Delimiter\AutomaticDelimiter;
+use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
 use TRegx\SafeRegex\Internal\Guard\GuardedExecution;
 
 class ValidPattern
 {
     public static function isValidStandard(string $pattern): bool
     {
-        return self::isValid(AutomaticDelimiter::standard($pattern, ''));
+        return self::isValid(Delimiter::suitable($pattern)->delimited(new RawQuotable($pattern), new Flags('')));
     }
 
     public static function isValid(string $pattern): bool
