@@ -4,10 +4,8 @@ namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\chainedRe
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Composite\CompositePattern;
-use TRegx\CleanRegex\Internal\CompositePatternMapper;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
-use function array_slice;
 
 class CompositePatternTest extends TestCase
 {
@@ -20,15 +18,13 @@ class CompositePatternTest extends TestCase
     public function test(int $times, string $expected)
     {
         // given
-        $patterns = [
-            "at's ai",
-            "th__r you're (?<group>bre)(?<unmatched>lol)?",
-            "nk __ath",
-            "thi__ing",
-            '(\s+|\?)',
-        ];
-        $sliced = array_slice($patterns, 0, $times);
-        $pattern = new CompositePattern((new CompositePatternMapper($sliced))->createPatterns());
+        $pattern = new CompositePattern($this->nthPatterns($times, [
+            "/at's ai/",
+            "/th__r you're (?<group>bre)(?<unmatched>lol)?/",
+            "/nk __ath/",
+            "/thi__ing/",
+            '/(\s+|\?)/',
+        ]));
 
         // when
         $replaced = $pattern
@@ -45,16 +41,10 @@ class CompositePatternTest extends TestCase
     public function shouldGetLimit()
     {
         // given
-        $pattern = new CompositePattern((new CompositePatternMapper(['Foo']))->createPatterns());
+        $pattern = new CompositePattern([InternalPattern::pcre('/Foo/')]);
 
         // when
-        $pattern->chainedReplace("Foo")->callback(function (Detail $detail) {
-            // then
-            $this->assertSame(-1, $detail->limit());
-
-            // clean up
-            return '__';
-        });
+        $pattern->chainedReplace("Foo")->callback(Functions::peek(Functions::assertSame(-1, Functions::property('limit')), Functions::constant('_')));
     }
 
     public function times(): array
@@ -77,7 +67,10 @@ class CompositePatternTest extends TestCase
     public function shouldInvokeCallbackForOnePattern()
     {
         // given
-        $pattern = new CompositePattern((new CompositePatternMapper(['[a-z]', '[1-9]']))->createPatterns());
+        $pattern = new CompositePattern([
+            InternalPattern::pcre('/[a-z]/'),
+            InternalPattern::pcre('/[1-9]/')
+        ]);
         $chainedReplace = $pattern->chainedReplace('a 1 b 2 c 3');
         $matches = [];
         $subjects = [];
@@ -108,5 +101,10 @@ class CompositePatternTest extends TestCase
         $this->assertSame([$first, $first, $first, $second, $second, $second], $subjects);
         $this->assertSame($expectedModified, $modified);
         $this->assertSame($expectedResult, $result);
+    }
+
+    private function nthPatterns(int $times, array $patterns): array
+    {
+        return \array_map([InternalPattern::class, 'pcre'], \array_slice($patterns, 0, $times));
     }
 }

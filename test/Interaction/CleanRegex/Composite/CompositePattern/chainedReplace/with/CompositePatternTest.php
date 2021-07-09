@@ -3,7 +3,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\chainedRe
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Composite\CompositePattern;
-use TRegx\CleanRegex\Internal\CompositePatternMapper;
+use TRegx\CleanRegex\Internal\InternalPattern;
 
 class CompositePatternTest extends TestCase
 {
@@ -16,15 +16,13 @@ class CompositePatternTest extends TestCase
     public function test(int $times, string $expected)
     {
         // given
-        $patterns = [
-            "at's ai",
-            "th__r you're bre",
-            "nk __ath",
-            "thi__ing",
-            '(\s+|\?)',
-        ];
-        $slicedPatterns = array_slice($patterns, 0, $times);
-        $pattern = new CompositePattern((new CompositePatternMapper($slicedPatterns))->createPatterns());
+        $pattern = new CompositePattern($this->nthPatterns($times, [
+            "/at's ai/",
+            "/th__r you're bre/",
+            '/nk __ath/',
+            '/thi__ing/',
+            '/(\s+|\?)/',
+        ]));
 
         // when
         $replaced = $pattern->chainedReplace("Do you think that's air you're breathing now?")->with('__');
@@ -53,8 +51,11 @@ class CompositePatternTest extends TestCase
     public function shouldQuoteReferences()
     {
         // given
-        $patterns = ['One(1)', 'Two(2)', 'Three(3)'];
-        $pattern = new CompositePattern((new CompositePatternMapper($patterns))->createPatterns());
+        $pattern = new CompositePattern([
+            InternalPattern::pcre('/One(1)/'),
+            InternalPattern::pcre('/Two(2)/'),
+            InternalPattern::pcre('/Three(3)/'),
+        ]);
 
         // when
         $replaced = $pattern->chainedReplace("One1 Two2 Three3")->with('$1');
@@ -69,12 +70,21 @@ class CompositePatternTest extends TestCase
     public function shouldReplaceWithReferences()
     {
         // given
-        $pattern = new CompositePattern((new CompositePatternMapper(['One(1)', 'Two(2)', 'Three(3)']))->createPatterns());
+        $pattern = new CompositePattern([
+            InternalPattern::pcre('/One(1)/'),
+            InternalPattern::pcre('/Two(2)/'),
+            InternalPattern::pcre('/Three(3)/'),
+        ]);
 
         // when
         $replaced = $pattern->chainedReplace("One1 Two2 Three3")->withReferences('$1');
 
         // then
         $this->assertSame('1 2 3', $replaced);
+    }
+
+    private function nthPatterns(int $times, array $patterns): array
+    {
+        return \array_map([InternalPattern::class, 'pcre'], \array_slice($patterns, 0, $times));
     }
 }

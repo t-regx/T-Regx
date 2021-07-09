@@ -150,7 +150,21 @@ class Functions
     public static function json(): callable
     {
         return function ($value): string {
-            return \json_encode($value, JSON_UNESCAPED_SLASHES);
+            return \json_encode($value, \JSON_UNESCAPED_SLASHES);
+        };
+    }
+
+    public static function assertSame($expected, callable $actual): callable
+    {
+        return function ($argument) use ($expected, $actual): void {
+            Assert::assertSame($expected, $actual($argument));
+        };
+    }
+
+    public static function property(string $property): callable
+    {
+        return function ($object) use ($property) {
+            return $object->$property();
         };
     }
 }

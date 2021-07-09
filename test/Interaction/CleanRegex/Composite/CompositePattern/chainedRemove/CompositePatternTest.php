@@ -3,8 +3,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\chainedRe
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Composite\CompositePattern;
-use TRegx\CleanRegex\Internal\CompositePatternMapper;
-use function array_slice;
+use TRegx\CleanRegex\Internal\InternalPattern;
 
 class CompositePatternTest extends TestCase
 {
@@ -17,19 +16,17 @@ class CompositePatternTest extends TestCase
     public function test(int $times, string $expected)
     {
         // given
-        $patterns = [
-            "at's ai",
-            "thr you're bre",
-            "nk ath",
-            "thiing",
-            '(\s+|\?)',
-            "[ou]"
-        ];
-        $slicedPatterns = array_slice($patterns, 0, $times);
-        $pattern = new CompositePattern((new CompositePatternMapper($slicedPatterns))->createPatterns());
+        $composite = new CompositePattern($this->nthPatterns($times, [
+            "/at's ai/",
+            "/thr you're bre/",
+            "/nk ath/",
+            "/thi{2}ng/",
+            '/(\s+|\?)/',
+            "/[ou]/"
+        ]));
 
         // when
-        $replaced = $pattern->chainedRemove("Do you think that's air you're breathing now?");
+        $replaced = $composite->chainedRemove("Do you think that's air you're breathing now?");
 
         // then
         $this->assertSame($expected, $replaced);
@@ -46,5 +43,10 @@ class CompositePatternTest extends TestCase
             [5, "Doyounow"],
             [6, "Dynw"],
         ];
+    }
+
+    private function nthPatterns(int $times, array $patterns): array
+    {
+        return \array_map([InternalPattern::class, 'pcre'], \array_slice($patterns, 0, $times));
     }
 }
