@@ -12,13 +12,13 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_newsLines()
     {
         // given
-        $pattern = Pattern::inject("#@\npattern", ["user\ninput"]);
+        $pattern = Pattern::inject("@:bar", ["user\ninput"]);
 
         // when
-        $match = $pattern->match("#user\ninput\npattern")->first();
+        $match = $pattern->match("user\ninput:bar")->first();
 
         // then
-        $this->assertSame("#user\ninput\npattern", $match);
+        $this->assertSame("user\ninput:bar", $match);
     }
 
     /**
@@ -27,12 +27,12 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_newsLines_ExtendedMode()
     {
         // given
-        $pattern = Pattern::inject("#@\npattern", ["user\ninput"], 'x');
+        $pattern = Pattern::inject("@:bar", ["user\ninput"], 'x');
 
         // when
-        $match = $pattern->match("#user\ninput\npattern")->first();
+        $match = $pattern->match("user\ninput:bar")->first();
 
         // then
-        $this->assertSame('pattern', $match);
+        $this->assertSame("user\ninput:bar", $match);
     }
 }
