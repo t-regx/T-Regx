@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Arrays;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\TerminatingEscape;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable;
@@ -40,8 +41,11 @@ class PatternEntitiesAssertion
 
     private function joinEntities(array $entities): string
     {
-        return \join(\array_map(function (Entity $entities): string {
-            $quotable = $entities->quotable();
+        return \join(\array_map(function (Entity $entity): string {
+            if ($entity instanceof TerminatingEscape) {
+                return '\\';
+            }
+            $quotable = $entity->quotable();
             if ($quotable instanceof UserInputQuotable) {
                 return '@';
             }

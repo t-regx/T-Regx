@@ -1,12 +1,15 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser\Entity;
 
+use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
+use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
+
 class TerminatingEscape implements Entity
 {
-    use TransitiveFlags, QuotesRaw;
+    use TransitiveFlags;
 
-    public function raw(): string
+    public function quotable(): Quotable
     {
-        return '\\';
+        throw new TrailingBackslashException();
     }
 }
