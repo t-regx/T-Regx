@@ -2,8 +2,8 @@
 namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\chainedRemove;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Composite\CompositePattern;
-use TRegx\CleanRegex\Internal\InternalPattern;
 
 class CompositePatternTest extends TestCase
 {
@@ -47,6 +47,6 @@ class CompositePatternTest extends TestCase
 
     private function nthPatterns(int $times, array $patterns): array
     {
-        return \array_map([InternalPattern::class, 'pcre'], \array_slice($patterns, 0, $times));
+        return \array_map([Internal::class, 'pcre'], \array_slice($patterns, 0, $times));
     }
 }

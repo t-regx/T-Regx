@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\InternalPattern;
 
 class InternalPatternTest extends TestCase
@@ -40,7 +41,7 @@ class InternalPatternTest extends TestCase
     public function shouldCreateIdentity()
     {
         // given
-        $pattern = InternalPattern::pcre('/[a-z]+/mi');
+        $pattern = Internal::pcre('/[a-z]+/mi');
 
         // when + then
         $this->assertSame('/[a-z]+/mi', $pattern->pattern);

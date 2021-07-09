@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Groups\Strategy;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
 
 class MatchAllGroupVerifierTest extends TestCase
@@ -16,7 +16,7 @@ class MatchAllGroupVerifierTest extends TestCase
     public function shouldVerify(string $pattern, bool $expected)
     {
         // given
-        $verifier = new MatchAllGroupVerifier(InternalPattern::pcre($pattern));
+        $verifier = new MatchAllGroupVerifier(Internal::pcre($pattern));
 
         // when
         $results = $verifier->groupExists('group');

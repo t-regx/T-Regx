@@ -2,8 +2,8 @@
 namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\anyMatches;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Composite\CompositePattern;
-use TRegx\CleanRegex\Internal\InternalPattern;
 
 class CompositePatternTest extends TestCase
 {
@@ -40,9 +40,9 @@ class CompositePatternTest extends TestCase
     private function patterns(): array
     {
         return [
-            InternalPattern::pcre('/https?/i'),
-            InternalPattern::pcre('/fail/'),
-            InternalPattern::pcre('/failed/i')
+            Internal::pcre('/https?/i'),
+            Internal::pcre('/fail/'),
+            Internal::pcre('/failed/i')
         ];
     }
 }

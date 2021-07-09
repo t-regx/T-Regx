@@ -9,7 +9,6 @@ use Test\Utils\Impl\CallbackPredicate;
 use Test\Utils\Impl\ThrowApiBase;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -334,7 +333,7 @@ class RemainingMatchPatternTest extends TestCase
         $subject = '...you forgot one very important thing mate.';
         $pattern = new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
-                new ApiBase(InternalPattern::pcre('/[a-z]+/'), $subject, new UserData()),
+                new ApiBase(Internal::pcre('/[a-z]+/'), $subject, new UserData()),
                 new CallbackPredicate(Functions::notEquals('forgot'))),
             new ThrowApiBase());
 

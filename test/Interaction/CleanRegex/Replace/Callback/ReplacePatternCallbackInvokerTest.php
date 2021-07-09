@@ -5,7 +5,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 use Test\Utils\Internal;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Subject;
@@ -114,7 +113,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     public function shouldNotInvokeCallback_limit_0()
     {
         // given
-        $invoker = new ReplacePatternCallbackInvoker(InternalPattern::pcre('//'), new Subject(''), 0, new DefaultStrategy(), new IgnoreCounting());
+        $invoker = new ReplacePatternCallbackInvoker(Internal::pcre('//'), new Subject(''), 0, new DefaultStrategy(), new IgnoreCounting());
 
         // when
         $result = $invoker->invoke(Functions::fail(), new MatchStrategy());

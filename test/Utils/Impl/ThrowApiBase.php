@@ -1,6 +1,7 @@
 <?php
 namespace Test\Utils\Impl;
 
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -13,7 +14,7 @@ class ThrowApiBase extends ApiBase
 {
     public function __construct()
     {
-        parent::__construct(InternalPattern::pcre('//'), '', new UserData());
+        parent::__construct(Internal::pcre('//'), '', new UserData());
     }
 
     public function getPattern(): InternalPattern

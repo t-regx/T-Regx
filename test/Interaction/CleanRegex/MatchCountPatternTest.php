@@ -2,7 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchCountPatternTest extends TestCase
@@ -17,7 +17,7 @@ class MatchCountPatternTest extends TestCase
     public function shouldCountMatches(string $pattern, string $subject, int $expectedCount)
     {
         // given
-        $matchPattern = new MatchPattern(InternalPattern::pcre($pattern), $subject);
+        $matchPattern = new MatchPattern(Internal::pcre($pattern), $subject);
 
         // when
         $count = $matchPattern->count();

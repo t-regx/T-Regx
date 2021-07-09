@@ -3,8 +3,8 @@ namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\chainedRe
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use Test\Utils\Internal;
 use TRegx\CleanRegex\Composite\CompositePattern;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
 class CompositePatternTest extends TestCase
@@ -41,7 +41,7 @@ class CompositePatternTest extends TestCase
     public function shouldGetLimit()
     {
         // given
-        $pattern = new CompositePattern([InternalPattern::pcre('/Foo/')]);
+        $pattern = new CompositePattern([Internal::pcre('/Foo/')]);
 
         // when
         $pattern->chainedReplace("Foo")->callback(Functions::peek(Functions::assertSame(-1, Functions::property('limit')), Functions::constant('_')));
@@ -68,8 +68,8 @@ class CompositePatternTest extends TestCase
     {
         // given
         $pattern = new CompositePattern([
-            InternalPattern::pcre('/[a-z]/'),
-            InternalPattern::pcre('/[1-9]/')
+            Internal::pcre('/[a-z]/'),
+            Internal::pcre('/[1-9]/')
         ]);
         $chainedReplace = $pattern->chainedReplace('a 1 b 2 c 3');
         $matches = [];
@@ -105,6 +105,6 @@ class CompositePatternTest extends TestCase
 
     private function nthPatterns(int $times, array $patterns): array
     {
-        return \array_map([InternalPattern::class, 'pcre'], \array_slice($patterns, 0, $times));
+        return \array_map([Internal::class, 'pcre'], \array_slice($patterns, 0, $times));
     }
 }
