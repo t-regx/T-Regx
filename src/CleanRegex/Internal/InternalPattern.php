@@ -8,12 +8,12 @@ class InternalPattern
     /** @var string */
     public $pattern;
     /** @var string */
-    public $originalPattern;
+    public $undevelopedInput;
 
-    private function __construct(string $pattern, string $originalPattern)
+    private function __construct(string $pattern, string $undevelopedInput)
     {
         $this->pattern = $pattern;
-        $this->originalPattern = $originalPattern;
+        $this->undevelopedInput = $undevelopedInput;
     }
 
     public static function standard(string $pattern, string $flags): InternalPattern

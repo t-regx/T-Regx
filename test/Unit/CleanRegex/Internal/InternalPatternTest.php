@@ -16,19 +16,19 @@ class InternalPatternTest extends TestCase
 
         // when + then
         $this->assertSame('/[a-z]+/mi', $pattern->pattern);
-        $this->assertSame('[a-z]+', $pattern->originalPattern);
+        $this->assertSame('[a-z]+', $pattern->undevelopedInput);
     }
 
     /**
      * @test
      */
-    public function shouldKeepOriginalPattern()
+    public function shouldPreserveUndevelopedInput()
     {
         // given
         $pattern = InternalPattern::standard('[a-z]+', 'mi');
 
         // when
-        $original = $pattern->originalPattern;
+        $original = $pattern->undevelopedInput;
 
         // then
         $this->assertSame('[a-z]+', $original);
@@ -37,13 +37,13 @@ class InternalPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateManual()
+    public function shouldCreateIdentity()
     {
         // given
         $pattern = InternalPattern::pcre('/[a-z]+/mi');
 
         // when + then
         $this->assertSame('/[a-z]+/mi', $pattern->pattern);
-        $this->assertSame('/[a-z]+/mi', $pattern->originalPattern);
+        $this->assertSame('/[a-z]+/mi', $pattern->undevelopedInput);
     }
 }
