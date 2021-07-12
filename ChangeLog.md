@@ -5,6 +5,14 @@ Incoming
 --------
 
 * Breaking changes
+    * Prepared patterns now use internal regular expression parser, to determine what is a placeholder and what isn't:
+        * Previously, `[@]` would be injected. Now it's treated as `"@"` character-class.
+        * Previously, `\Q@\E` would be injected. Now it's treated as `@` literal.
+        * Previously, `\c@` would be injected. Now it's `\c@` control character.
+        * Previously, `#@\n` would be injected. Now, if `x` flag is used (globally, or as a subpattern), then it's
+          treated as `@` comment.
+        * Previously, `(?#@)` would be injected. Now it's treated as `@` comment.
+        * Previously, `\@` would be treated as `@` literal. This remains unchanged.
     * Refactored `Pattern::template()->builder()`. Use `Pattern::template()` now.
     * Removed `Pattern::bind()`. Use `Pattern::inject()` or `Pattern::template()->literal()`.
     * Removed `Pattern::prepare()`. Use `Pattern::inject()`.

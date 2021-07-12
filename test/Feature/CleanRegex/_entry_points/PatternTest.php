@@ -3,8 +3,8 @@ namespace Test\Feature\TRegx\CleanRegex\_entry_points;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
+use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
-use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
 {
@@ -193,8 +193,8 @@ class PatternTest extends TestCase
     public function shouldThrowMalformedPatternException_forUndelimitedPcrePattern()
     {
         // then
-        $this->expectException(MalformedPatternException::class);
-        $this->expectExceptionMessage("No ending delimiter '%' found");
+        $this->expectException(PatternMalformedPatternException::class);
+        $this->expectExceptionMessage("PCRE-compatible template is malformed, unclosed pattern '%'");
 
         // when
         Pattern::builder()->pcre()->inject("%Foo", [])->test('bar');
