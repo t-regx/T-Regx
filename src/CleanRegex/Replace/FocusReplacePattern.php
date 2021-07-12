@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
@@ -23,8 +23,8 @@ class FocusReplacePattern implements SpecificReplacePattern
 {
     /** @var SpecificReplacePattern */
     private $replacePattern;
-    /** @var Pattern */
-    private $pattern;
+    /** @var Definition */
+    private $definition;
     /** @var string */
     private $subject;
     /** @var int */
@@ -34,10 +34,10 @@ class FocusReplacePattern implements SpecificReplacePattern
     /** @var CountingStrategy */
     private $countingStrategy;
 
-    public function __construct(SpecificReplacePattern $replacePattern, Pattern $pattern, string $subject, int $limit, $nameOrIndex, CountingStrategy $countingStrategy)
+    public function __construct(SpecificReplacePattern $replacePattern, Definition $definition, string $subject, int $limit, $nameOrIndex, CountingStrategy $countingStrategy)
     {
         $this->replacePattern = $replacePattern;
-        $this->pattern = $pattern;
+        $this->definition = $definition;
         $this->subject = $subject;
         $this->limit = $limit;
         $this->nameOrIndex = $nameOrIndex;
@@ -81,15 +81,15 @@ class FocusReplacePattern implements SpecificReplacePattern
     {
         return new ByReplacePatternImpl(
             new GroupFallbackReplacer(
-                $this->pattern,
+                $this->definition,
                 new Subject($this->subject),
                 $this->limit,
                 new DefaultStrategy(),
                 $this->countingStrategy,
-                new ApiBase($this->pattern, $this->subject, new UserData())),
+                new ApiBase($this->definition, $this->subject, new UserData())),
             new LazyMessageThrowStrategy(MissingReplacementKeyException::class),
-            new PerformanceEmptyGroupReplace($this->pattern, new Subject($this->subject), $this->limit),
-            new ReplacePatternCallbackInvoker($this->pattern, new Subject($this->subject), $this->limit, new DefaultStrategy(), $this->countingStrategy),
+            new PerformanceEmptyGroupReplace($this->definition, new Subject($this->subject), $this->limit),
+            new ReplacePatternCallbackInvoker($this->definition, new Subject($this->subject), $this->limit, new DefaultStrategy(), $this->countingStrategy),
             $this->subject,
             new FocusWrapper($this->nameOrIndex));
     }

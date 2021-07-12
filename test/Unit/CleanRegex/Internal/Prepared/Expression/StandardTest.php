@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Expression;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Standard;
 
 class StandardTest extends TestCase
@@ -20,7 +20,7 @@ class StandardTest extends TestCase
         $definition = $interpretation->definition();
 
         // then
-        $this->assertEquals(new InternalPattern('/foo/i', 'foo'), $definition);
+        $this->assertEquals(new Definition('/foo/i', 'foo'), $definition);
     }
 
     /**
@@ -35,7 +35,7 @@ class StandardTest extends TestCase
         $definition = $interpretation->definition();
 
         // then
-        $this->assertEquals(new InternalPattern('#foo/bar#x', 'foo/bar'), $definition);
+        $this->assertEquals(new Definition('#foo/bar#x', 'foo/bar'), $definition);
     }
 
     /**
@@ -66,6 +66,6 @@ class StandardTest extends TestCase
         $definition = $interpretation->definition();
 
         // then
-        $this->assertEquals(new InternalPattern('/foo/m', 'foo'), $definition);
+        $this->assertEquals(new Definition('/foo/m', 'foo'), $definition);
     }
 }

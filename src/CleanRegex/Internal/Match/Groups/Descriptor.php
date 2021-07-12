@@ -1,22 +1,22 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Groups;
 
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\SafeRegex\preg;
 
 class Descriptor
 {
-    /** @var InternalPattern */
-    private $pattern;
+    /** @var Definition */
+    private $definition;
 
-    public function __construct(InternalPattern $pattern)
+    public function __construct(Definition $definition)
     {
-        $this->pattern = $pattern;
+        $this->definition = $definition;
     }
 
     public function getGroups(): array
     {
-        preg::match_all($this->pattern->pattern, '', $matches, \PREG_PATTERN_ORDER);
+        preg::match_all($this->definition->pattern, '', $matches, \PREG_PATTERN_ORDER);
         return \array_keys($matches);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Composite;
 
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Subject;
@@ -12,16 +12,16 @@ use TRegx\SafeRegex\preg;
 
 class ChainedReplace
 {
-    /** @var Pattern[] */
-    private $patterns;
+    /** @var Definition[] */
+    private $definitions;
     /** @var string */
     private $subject;
     /** @var SubjectRs */
     private $substitute;
 
-    public function __construct(array $patterns, string $subject, SubjectRs $substitute)
+    public function __construct(array $definitions, string $subject, SubjectRs $substitute)
     {
-        $this->patterns = $patterns;
+        $this->definitions = $definitions;
         $this->subject = $subject;
         $this->substitute = $substitute;
     }
@@ -34,8 +34,8 @@ class ChainedReplace
     public function withReferences(string $replacement): string
     {
         $subject = $this->subject;
-        foreach ($this->patterns as $pattern) {
-            $subject = preg::replace($pattern->pattern, $replacement, $subject);
+        foreach ($this->definitions as $definition) {
+            $subject = preg::replace($definition->pattern, $replacement, $subject);
         }
         return $subject;
     }
@@ -43,15 +43,15 @@ class ChainedReplace
     public function callback(callable $callback): string
     {
         $subject = $this->subject;
-        foreach ($this->patterns as $pattern) {
-            $subject = $this->replaceNext($pattern, $subject, $callback);
+        foreach ($this->definitions as $definition) {
+            $subject = $this->replaceNext($definition, $subject, $callback);
         }
         return $subject;
     }
 
-    private function replaceNext(Pattern $pattern, string $subject, callable $callback): string
+    private function replaceNext(Definition $definition, string $subject, callable $callback): string
     {
-        $invoker = new ReplacePatternCallbackInvoker($pattern, new Subject($subject), -1, $this->substitute, new IgnoreCounting());
+        $invoker = new ReplacePatternCallbackInvoker($definition, new Subject($subject), -1, $this->substitute, new IgnoreCounting());
         return $invoker->invoke($callback, new MatchStrategy());
     }
 }

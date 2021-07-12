@@ -2,13 +2,13 @@
 namespace TRegx\CleanRegex\Internal\Replace\Counting;
 
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\SafeRegex\preg;
 
 class AtMostCountingStrategy implements CountingStrategy
 {
-    /** @var InternalPattern */
-    private $pattern;
+    /** @var Definition */
+    private $definition;
     /** @var string */
     private $subject;
     /** @var int */
@@ -16,9 +16,9 @@ class AtMostCountingStrategy implements CountingStrategy
     /** @var string */
     private $limitPhrase;
 
-    public function __construct(InternalPattern $pattern, string $subject, int $limit, string $phrase)
+    public function __construct(Definition $definition, string $subject, int $limit, string $phrase)
     {
-        $this->pattern = $pattern;
+        $this->definition = $definition;
         $this->subject = $subject;
         $this->limit = $limit;
         $this->limitPhrase = $phrase;
@@ -26,7 +26,7 @@ class AtMostCountingStrategy implements CountingStrategy
 
     public function count(int $replaced): void
     {
-        preg::replace($this->pattern->pattern, '', $this->subject, $this->limit + 1, $realCount);
+        preg::replace($this->definition->pattern, '', $this->subject, $this->limit + 1, $realCount);
         if ($realCount > $this->limit) {
             throw ReplacementExpectationFailedException::superfluous($realCount, $this->limit, $this->limitPhrase);
         }

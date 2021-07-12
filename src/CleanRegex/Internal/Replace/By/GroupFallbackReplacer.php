@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Replace\By;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
@@ -16,8 +16,8 @@ use function array_key_exists;
 
 class GroupFallbackReplacer
 {
-    /** @var Pattern */
-    private $pattern;
+    /** @var Definition */
+    private $definition;
     /** @var Subjectable */
     private $subject;
     /** @var int */
@@ -31,9 +31,9 @@ class GroupFallbackReplacer
     /** @var int */
     private $counter = -1;
 
-    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy, Base $base)
+    public function __construct(Definition $definition, Subjectable $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy, Base $base)
     {
-        $this->pattern = $pattern;
+        $this->definition = $definition;
         $this->subject = $subject;
         $this->limit = $limit;
         $this->substitute = $substitute;
@@ -64,7 +64,7 @@ class GroupFallbackReplacer
     private function pregReplaceCallback(callable $closure, ?int &$replaced): string
     {
         return preg::replace_callback(
-            $this->pattern->pattern,
+            $this->definition->pattern,
             $closure,
             $this->subject->getSubject(),
             $this->limit,

@@ -2,22 +2,22 @@
 namespace TRegx\CleanRegex\ForArray;
 
 use InvalidArgumentException;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Type;
 use TRegx\SafeRegex\preg;
 
 class FilterArrayPattern
 {
-    /** @var InternalPattern */
-    private $pattern;
+    /** @var Definition */
+    private $definition;
     /** @var array */
     private $array;
     /** @var bool */
     private $throwOnNonStringElements;
 
-    public function __construct(InternalPattern $pattern, array $array, bool $strict)
+    public function __construct(Definition $definition, array $array, bool $strict)
     {
-        $this->pattern = $pattern;
+        $this->definition = $definition;
         $this->array = $array;
         $this->throwOnNonStringElements = $strict;
     }
@@ -33,7 +33,7 @@ class FilterArrayPattern
         if ($this->throwOnNonStringElements) {
             $this->validateOnlyStrings($onlyStrings);
         }
-        return preg::grep($this->pattern->pattern, $onlyStrings);
+        return preg::grep($this->definition->pattern, $onlyStrings);
     }
 
     private function validateOnlyStrings(array $filteredArray): void

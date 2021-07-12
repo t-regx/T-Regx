@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Callback;
 
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
@@ -10,8 +10,8 @@ use TRegx\SafeRegex\preg;
 
 class ReplacePatternCallbackInvoker
 {
-    /** @var Pattern */
-    private $pattern;
+    /** @var Definition */
+    private $definition;
     /** @var Subjectable */
     private $subject;
     /** @var int */
@@ -21,9 +21,9 @@ class ReplacePatternCallbackInvoker
     /** @var CountingStrategy */
     private $countingStrategy;
 
-    public function __construct(Pattern $pattern, Subjectable $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy)
+    public function __construct(Definition $definition, Subjectable $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy)
     {
-        $this->pattern = $pattern;
+        $this->definition = $definition;
         $this->subject = $subject;
         $this->limit = $limit;
         $this->substitute = $substitute;
@@ -42,7 +42,7 @@ class ReplacePatternCallbackInvoker
 
     private function pregReplaceCallback(callable $callback, ?int &$replaced, ReplaceCallbackArgumentStrategy $strategy): string
     {
-        return preg::replace_callback($this->pattern->pattern,
+        return preg::replace_callback($this->definition->pattern,
             $this->getObjectCallback($callback, $strategy),
             $this->subject->getSubject(),
             $this->limit,
@@ -66,7 +66,7 @@ class ReplacePatternCallbackInvoker
 
     private function analyzePattern(): RawMatchesOffset
     {
-        preg::match_all($this->pattern->pattern, $this->subject->getSubject(), $matches, \PREG_OFFSET_CAPTURE);
+        preg::match_all($this->definition->pattern, $this->subject->getSubject(), $matches, \PREG_OFFSET_CAPTURE);
         return new RawMatchesOffset($matches);
     }
 }

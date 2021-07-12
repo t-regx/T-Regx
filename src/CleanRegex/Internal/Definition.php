@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-class InternalPattern
+class Definition
 {
     /** @var string */
     public $pattern;

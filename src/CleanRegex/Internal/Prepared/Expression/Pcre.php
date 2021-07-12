@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Expression;
 
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 
 class Pcre implements Expression
 {
@@ -13,8 +13,8 @@ class Pcre implements Expression
         $this->pcre = $pcre;
     }
 
-    public function definition(): InternalPattern
+    public function definition(): Definition
     {
-        return new InternalPattern($this->pcre, $this->pcre);
+        return new Definition($this->pcre, $this->pcre);
     }
 }

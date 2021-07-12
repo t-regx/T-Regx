@@ -2,7 +2,7 @@
 namespace Test\Utils\Impl;
 
 use Test\Utils\Internal;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
@@ -17,7 +17,7 @@ class ThrowApiBase extends ApiBase
         parent::__construct(Internal::pcre('//'), '', new UserData());
     }
 
-    public function getPattern(): InternalPattern
+    public function getPattern(): Definition
     {
         throw new \Exception();
     }

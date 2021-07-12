@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Expression;
 
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 
 interface Expression
 {
-    public function definition(): InternalPattern;
+    public function definition(): Definition;
 }

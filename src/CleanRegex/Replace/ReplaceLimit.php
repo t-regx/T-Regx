@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
@@ -11,25 +11,25 @@ class ReplaceLimit implements PatternLimit, ReplacePattern
 {
     use ReplaceLimitHelpers;
 
-    /** @var InternalPattern */
-    private $pattern;
+    /** @var Definition */
+    private $definition;
     /** @var string */
     private $subject;
 
-    public function __construct(InternalPattern $pattern, string $subject)
+    public function __construct(Definition $definition, string $subject)
     {
-        $this->pattern = $pattern;
+        $this->definition = $definition;
         $this->subject = $subject;
     }
 
     public function all(): LimitlessReplacePattern
     {
-        return new LimitlessReplacePattern($this->specific(-1), $this->pattern, $this->subject);
+        return new LimitlessReplacePattern($this->specific(-1), $this->definition, $this->subject);
     }
 
     public function first(): LimitedReplacePattern
     {
-        return new LimitedReplacePattern($this->specific(1), $this->pattern, $this->subject, 1);
+        return new LimitedReplacePattern($this->specific(1), $this->definition, $this->subject, 1);
     }
 
     public function only(int $limit): LimitedReplacePattern
@@ -37,11 +37,11 @@ class ReplaceLimit implements PatternLimit, ReplacePattern
         if ($limit < 0) {
             throw new \InvalidArgumentException("Negative limit: $limit");
         }
-        return new LimitedReplacePattern($this->specific($limit), $this->pattern, $this->subject, $limit);
+        return new LimitedReplacePattern($this->specific($limit), $this->definition, $this->subject, $limit);
     }
 
     private function specific(int $limit): SpecificReplacePattern
     {
-        return new SpecificReplacePatternImpl($this->pattern, $this->subject, $limit, new DefaultStrategy(), new IgnoreCounting());
+        return new SpecificReplacePatternImpl($this->definition, $this->subject, $limit, new DefaultStrategy(), new IgnoreCounting());
     }
 }

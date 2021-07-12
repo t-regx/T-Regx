@@ -1,22 +1,22 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Groups\Strategy;
 
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Groups\Descriptor;
 use function in_array;
 
 class MatchAllGroupVerifier implements GroupVerifier
 {
-    /** @var InternalPattern */
-    private $pattern;
+    /** @var Definition */
+    private $definition;
 
-    public function __construct(InternalPattern $pattern)
+    public function __construct(Definition $definition)
     {
-        $this->pattern = $pattern;
+        $this->definition = $definition;
     }
 
     public function groupExists($nameOrIndex): bool
     {
-        return in_array($nameOrIndex, (new Descriptor($this->pattern))->getGroups(), true);
+        return in_array($nameOrIndex, (new Descriptor($this->definition))->getGroups(), true);
     }
 }

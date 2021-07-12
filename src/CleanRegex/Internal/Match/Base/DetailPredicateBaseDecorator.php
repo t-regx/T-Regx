@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Base;
 
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
@@ -26,7 +26,7 @@ class DetailPredicateBaseDecorator implements Base
         $this->detailFactory = new DetailObjectFactory($this->base, -1, $this->base->getUserData());
     }
 
-    public function getPattern(): Pattern
+    public function getPattern(): Definition
     {
         return $this->base->getPattern();
     }

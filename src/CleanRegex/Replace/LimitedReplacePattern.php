@@ -12,7 +12,7 @@ class LimitedReplacePattern extends ReplacePatternImpl
     {
         return $this->replacePattern(new DefaultStrategy(), new CompositeCountingStrategy(
             new AtLeastCountingStrategy($this->limit, 'exactly'),
-            new AtMostCountingStrategy($this->pattern, $this->subject, $this->limit, 'exactly')
+            new AtMostCountingStrategy($this->definition, $this->subject, $this->limit, 'exactly')
         ));
     }
 
@@ -23,6 +23,6 @@ class LimitedReplacePattern extends ReplacePatternImpl
 
     public function atMost(): CompositeReplacePattern
     {
-        return $this->replacePattern(new DefaultStrategy(), new AtMostCountingStrategy($this->pattern, $this->subject, $this->limit, 'at most'));
+        return $this->replacePattern(new DefaultStrategy(), new AtMostCountingStrategy($this->definition, $this->subject, $this->limit, 'at most'));
     }
 }

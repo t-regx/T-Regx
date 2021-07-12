@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Expression;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\ConstantFigures;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreOrthography;
@@ -24,7 +24,7 @@ class TemplateTest extends TestCase
         $definition = $interpretation->definition();
 
         // then
-        $this->assertEquals(new InternalPattern('/foo:bar\{\}/', '/foo:@/'), $definition);
+        $this->assertEquals(new Definition('/foo:bar\{\}/', '/foo:@/'), $definition);
     }
 
     /**
@@ -39,7 +39,7 @@ class TemplateTest extends TestCase
         $definition = $interpretation->definition();
 
         // then
-        $this->assertEquals(new InternalPattern('%foo:bar\%cat%m', '%foo:@%m'), $definition);
+        $this->assertEquals(new Definition('%foo:bar\%cat%m', '%foo:@%m'), $definition);
     }
 
     /**
@@ -70,7 +70,7 @@ class TemplateTest extends TestCase
         $definition = $interpretation->definition();
 
         // then
-        $this->assertEquals(new InternalPattern('/cat/x', 'cat'), $definition);
+        $this->assertEquals(new Definition('/cat/x', 'cat'), $definition);
     }
 
     /**
@@ -85,7 +85,7 @@ class TemplateTest extends TestCase
         $definition = $interpretation->definition();
 
         // then
-        $this->assertEquals(new InternalPattern("%/#cat\%\n%i", "/#@\n"), $definition);
+        $this->assertEquals(new Definition("%/#cat\%\n%i", "/#@\n"), $definition);
     }
 
     /**
@@ -100,6 +100,6 @@ class TemplateTest extends TestCase
         $definition = $interpretation->definition();
 
         // then
-        $this->assertEquals(new InternalPattern('/#@/x', '#@'), $definition);
+        $this->assertEquals(new Definition('/#@/x', '#@'), $definition);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Base;
 
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -11,23 +11,23 @@ use TRegx\SafeRegex\preg;
 
 class ApiBase implements Base
 {
-    /** @var Pattern */
-    private $pattern;
+    /** @var Definition */
+    private $definition;
     /** @var string */
     private $subject;
     /** @var UserData */
     private $userData;
 
-    public function __construct(Pattern $pattern, string $subject, UserData $userData)
+    public function __construct(Definition $definition, string $subject, UserData $userData)
     {
-        $this->pattern = $pattern;
+        $this->definition = $definition;
         $this->subject = $subject;
         $this->userData = $userData;
     }
 
-    public function getPattern(): Pattern
+    public function getPattern(): Definition
     {
-        return $this->pattern;
+        return $this->definition;
     }
 
     public function getSubject(): string
@@ -37,25 +37,25 @@ class ApiBase implements Base
 
     public function match(): RawMatch
     {
-        preg::match($this->pattern->pattern, $this->subject, $match);
+        preg::match($this->definition->pattern, $this->subject, $match);
         return new RawMatch($match);
     }
 
     public function matchOffset(): RawMatchOffset
     {
-        preg::match($this->pattern->pattern, $this->subject, $match, \PREG_OFFSET_CAPTURE);
+        preg::match($this->definition->pattern, $this->subject, $match, \PREG_OFFSET_CAPTURE);
         return new RawMatchOffset($match, 0);
     }
 
     public function matchAll(): RawMatches
     {
-        preg::match_all($this->pattern->pattern, $this->subject, $matches);
+        preg::match_all($this->definition->pattern, $this->subject, $matches);
         return new RawMatches($matches);
     }
 
     public function matchAllOffsets(): RawMatchesOffset
     {
-        preg::match_all($this->pattern->pattern, $this->subject, $matches, $this->matchAllOffsetsFlags());
+        preg::match_all($this->definition->pattern, $this->subject, $matches, $this->matchAllOffsetsFlags());
         return new RawMatchesOffset($matches);
     }
 

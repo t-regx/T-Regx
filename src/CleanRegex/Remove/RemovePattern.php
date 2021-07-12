@@ -1,29 +1,27 @@
 <?php
 namespace TRegx\CleanRegex\Remove;
 
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\SafeRegex\preg;
 
 class RemovePattern
 {
-    /** @var Pattern */
-    private $pattern;
-
+    /** @var Definition */
+    private $definition;
     /** @var string */
     private $subject;
-
     /** @var int */
     private $limit;
 
-    public function __construct(Pattern $pattern, string $subject, int $limit)
+    public function __construct(Definition $definition, string $subject, int $limit)
     {
-        $this->pattern = $pattern;
+        $this->definition = $definition;
         $this->subject = $subject;
         $this->limit = $limit;
     }
 
     public function remove(): string
     {
-        return preg::replace($this->pattern->pattern, '', $this->subject, $this->limit);
+        return preg::replace($this->definition->pattern, '', $this->subject, $this->limit);
     }
 }

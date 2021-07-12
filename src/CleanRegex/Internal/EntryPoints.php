@@ -54,7 +54,7 @@ trait EntryPoints
 
     public static function compose(array $patterns): CompositePattern
     {
-        return new CompositePattern(InternalPatterns::compose($patterns, static function (Pattern $pattern): InternalPattern {
+        return new CompositePattern(InternalPatterns::compose($patterns, static function (Pattern $pattern): Definition {
             /**
              * Pattern instance has reference to InternalPattern as "pattern" private field.
              * InternalPattern has "pattern" field, containing a delimited PCRE pattern with
@@ -77,7 +77,7 @@ trait EntryPoints
              * but EntryPoints is a trait in Pattern, so it has access to its private fields.
              * That's why we can just pass a closure, which can map Pattern to InternalPattern.
              */
-            return $pattern->pattern;
+            return $pattern->definition;
         }));
     }
 

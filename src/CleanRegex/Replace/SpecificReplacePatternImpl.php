@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
-use TRegx\CleanRegex\Internal\InternalPattern as Pattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
@@ -20,8 +20,8 @@ use TRegx\SafeRegex\preg;
 
 class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeReplacePattern, Subjectable
 {
-    /** @var Pattern */
-    private $pattern;
+    /** @var Definition */
+    private $definition;
     /** @var string */
     private $subject;
     /** @var int */
@@ -31,9 +31,9 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
     /** @var CountingStrategy */
     private $countingStrategy;
 
-    public function __construct(Pattern $pattern, string $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy)
+    public function __construct(Definition $definition, string $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy)
     {
-        $this->pattern = $pattern;
+        $this->definition = $definition;
         $this->subject = $subject;
         $this->limit = $limit;
         $this->substitute = $substitute;
@@ -47,7 +47,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
 
     public function withReferences(string $replacement): string
     {
-        $result = preg::replace($this->pattern->pattern, $replacement, $this->subject, $this->limit, $replaced);
+        $result = preg::replace($this->definition->pattern, $replacement, $this->subject, $this->limit, $replaced);
         $this->countingStrategy->count($replaced);
         if ($replaced === 0) {
             return $this->substitute->substitute($this->subject) ?? $result;
@@ -64,14 +64,14 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
     {
         return new ByReplacePatternImpl(
             new GroupFallbackReplacer(
-                $this->pattern,
+                $this->definition,
                 $this,
                 $this->limit,
                 $this->substitute,
                 $this->countingStrategy,
-                new ApiBase($this->pattern, $this->subject, new UserData())),
+                new ApiBase($this->definition, $this->subject, new UserData())),
             new LazyMessageThrowStrategy(MissingReplacementKeyException::class),
-            new PerformanceEmptyGroupReplace($this->pattern, $this, $this->limit),
+            new PerformanceEmptyGroupReplace($this->definition, $this, $this->limit),
             $this->replaceCallbackInvoker(),
             $this->subject,
             new IdentityWrapper());
@@ -79,12 +79,12 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
 
     public function focus($nameOrIndex): FocusReplacePattern
     {
-        return new FocusReplacePattern($this, $this->pattern, $this->subject, $this->limit, $nameOrIndex, $this->countingStrategy);
+        return new FocusReplacePattern($this, $this->definition, $this->subject, $this->limit, $nameOrIndex, $this->countingStrategy);
     }
 
     private function replaceCallbackInvoker(): ReplacePatternCallbackInvoker
     {
-        return new ReplacePatternCallbackInvoker($this->pattern, $this, $this->limit, $this->substitute, $this->countingStrategy);
+        return new ReplacePatternCallbackInvoker($this->definition, $this, $this->limit, $this->substitute, $this->countingStrategy);
     }
 
     public function getSubject(): string

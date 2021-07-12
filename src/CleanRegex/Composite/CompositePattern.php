@@ -1,24 +1,24 @@
 <?php
 namespace TRegx\CleanRegex\Composite;
 
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\SafeRegex\preg;
 
 class CompositePattern
 {
-    /** @var InternalPattern[] */
-    private $patterns;
+    /** @var Definition[] */
+    private $definitions;
 
-    public function __construct(array $patterns)
+    public function __construct(array $definitions)
     {
-        $this->patterns = $patterns;
+        $this->definitions = $definitions;
     }
 
     public function allMatch(string $subject): bool
     {
-        foreach ($this->patterns as $pattern) {
-            if (!preg::match($pattern->pattern, $subject)) {
+        foreach ($this->definitions as $definition) {
+            if (!preg::match($definition->pattern, $subject)) {
                 return false;
             }
         }
@@ -27,8 +27,8 @@ class CompositePattern
 
     public function anyMatches(string $subject): bool
     {
-        foreach ($this->patterns as $pattern) {
-            if (preg::match($pattern->pattern, $subject)) {
+        foreach ($this->definitions as $definition) {
+            if (preg::match($definition->pattern, $subject)) {
                 return true;
             }
         }
@@ -42,6 +42,6 @@ class CompositePattern
 
     public function chainedReplace(string $subject): ChainedReplace
     {
-        return new ChainedReplace($this->patterns, $subject, new DefaultStrategy());
+        return new ChainedReplace($this->definitions, $subject, new DefaultStrategy());
     }
 }

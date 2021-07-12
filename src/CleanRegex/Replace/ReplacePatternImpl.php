@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Exception\NotReplacedException;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
-use TRegx\CleanRegex\Internal\InternalPattern;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\OtherwiseStrategy;
@@ -18,17 +18,17 @@ abstract class ReplacePatternImpl implements ReplacePattern
 {
     /** @var SpecificReplacePattern */
     private $replacePattern;
-    /** @var InternalPattern */
-    protected $pattern;
+    /** @var Definition */
+    protected $definition;
     /** @var string */
     protected $subject;
     /** @var int */
     protected $limit;
 
-    public function __construct(SpecificReplacePattern $replacePattern, InternalPattern $pattern, string $subject, int $limit)
+    public function __construct(SpecificReplacePattern $replacePattern, Definition $definition, string $subject, int $limit)
     {
         $this->replacePattern = $replacePattern;
-        $this->pattern = $pattern;
+        $this->definition = $definition;
         $this->subject = $subject;
         $this->limit = $limit;
     }
@@ -75,11 +75,11 @@ abstract class ReplacePatternImpl implements ReplacePattern
 
     protected function replacePattern(SubjectRs $substitute, CountingStrategy $countingStrategy): CompositeReplacePattern
     {
-        return new SpecificReplacePatternImpl($this->pattern, $this->subject, $this->limit, $substitute, $countingStrategy);
+        return new SpecificReplacePatternImpl($this->definition, $this->subject, $this->limit, $substitute, $countingStrategy);
     }
 
     public function focus($nameOrIndex): FocusReplacePattern
     {
-        return new FocusReplacePattern($this->replacePattern, $this->pattern, $this->subject, $this->limit, $nameOrIndex, new IgnoreCounting());
+        return new FocusReplacePattern($this->replacePattern, $this->definition, $this->subject, $this->limit, $nameOrIndex, new IgnoreCounting());
     }
 }

@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\InternalPatterns;
 use TRegx\CleanRegex\Pattern;
 
@@ -25,12 +25,12 @@ class InternalPatternsTest extends TestCase
         ];
 
         // when
-        $patterns = InternalPatterns::compose($inputPatterns, Functions::constant(new InternalPattern('/bar/', '/car/')));
+        $patterns = InternalPatterns::compose($inputPatterns, Functions::constant(new Definition('/bar/', '/car/')));
 
         // then
         $expected = [
-            new InternalPattern('/[a-z]/', '[a-z]'),
-            new InternalPattern('/bar/', '/car/'),
+            new Definition('/[a-z]/', '[a-z]'),
+            new Definition('/bar/', '/car/'),
         ];
         $this->assertEquals($expected, $patterns);
     }

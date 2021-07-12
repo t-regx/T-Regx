@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Base;
 
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\Subjectable;
 
 interface Base extends Subjectable
 {
-    public function getPattern(): InternalPattern;
+    public function getPattern(): Definition;
 
     public function match(): RawMatch;
 

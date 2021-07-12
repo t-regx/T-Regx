@@ -1,20 +1,20 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Expression;
 
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 
 class Identity implements Expression
 {
-    /** @var InternalPattern */
-    private $pattern;
+    /** @var Definition */
+    private $definition;
 
-    public function __construct(InternalPattern $pattern)
+    public function __construct(Definition $definition)
     {
-        $this->pattern = $pattern;
+        $this->definition = $definition;
     }
 
-    public function definition(): InternalPattern
+    public function definition(): Definition
     {
-        return $this->pattern;
+        return $this->definition;
     }
 }

@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Expression;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Mask;
 
 class MaskTest extends TestCase
@@ -23,7 +23,7 @@ class MaskTest extends TestCase
         $definition = $interpretation->definition();
 
         // then
-        $this->assertEquals(new InternalPattern('/\(\w\:\s\\\\\\)/x', '(%w:%s\)'), $definition);
+        $this->assertEquals(new Definition('/\(\w\:\s\\\\\\)/x', '(%w:%s\)'), $definition);
     }
 
     /**
@@ -38,7 +38,7 @@ class MaskTest extends TestCase
         $definition = $interpretation->definition();
 
         // then
-        $this->assertEquals(new InternalPattern('~foo~i', 'foo'), $definition);
+        $this->assertEquals(new Definition('~foo~i', 'foo'), $definition);
     }
 
     /**
@@ -53,7 +53,7 @@ class MaskTest extends TestCase
         $definition = $interpretation->definition();
 
         // then
-        $this->assertEquals(new InternalPattern('/foo\/bar/x', 'foo/bar'), $definition);
+        $this->assertEquals(new Definition('/foo\/bar/x', 'foo/bar'), $definition);
     }
 
     /**
@@ -87,6 +87,6 @@ class MaskTest extends TestCase
         $definition = $interpretation->definition();
 
         // then
-        $this->assertEquals(new InternalPattern('/foo/x', 'foo'), $definition);
+        $this->assertEquals(new Definition('/foo/x', 'foo'), $definition);
     }
 }

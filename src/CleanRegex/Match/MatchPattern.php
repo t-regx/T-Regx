@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use TRegx\CleanRegex\Internal\InternalPattern;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
@@ -12,27 +12,27 @@ class MatchPattern extends AbstractMatchPattern
 {
     /** @var ApiBase */
     private $apiBase;
-    /** @var InternalPattern */
-    private $pattern;
+    /** @var Definition */
+    private $definition;
     /** @var string */
     private $subject;
 
-    public function __construct(InternalPattern $pattern, string $subject)
+    public function __construct(Definition $definition, string $subject)
     {
-        $this->apiBase = new ApiBase($pattern, $subject, new UserData());
+        $this->apiBase = new ApiBase($definition, $subject, new UserData());
         parent::__construct($this->apiBase);
-        $this->pattern = $pattern;
+        $this->definition = $definition;
         $this->subject = $subject;
     }
 
     public function test(): bool
     {
-        return preg::match($this->pattern->pattern, $this->base->getSubject()) === 1;
+        return preg::match($this->definition->pattern, $this->base->getSubject()) === 1;
     }
 
     public function count(): int
     {
-        return preg::match_all($this->pattern->pattern, $this->subject);
+        return preg::match_all($this->definition->pattern, $this->subject);
     }
 
     public function remaining(callable $predicate): RemainingMatchPattern
