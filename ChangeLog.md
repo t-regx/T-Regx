@@ -4,6 +4,15 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.12.0
+---------------
+
+* Features
+    * We added internal regular expression parser, that's used when creating Prepared patterns. Now in-pattern
+      structures can be properly recognized, eliminating cases of misuse. Most notablly `[@]`, `\Q@\E`, `\@`, `\c@` and
+      others, like comment groups and comments in extended mode.
 * Breaking changes
     * Prepared patterns now use internal regular expression parser, to determine what is a placeholder and what isn't:
         * Previously, `[@]` would be injected. Now it's treated as `"@"` character-class.
@@ -13,6 +22,7 @@ Incoming
           treated as `@` comment.
         * Previously, `(?#@)` would be injected. Now it's treated as `@` comment.
         * Previously, `\@` would be treated as `@` literal. This remains unchanged.
+    * Mask placeholders are no longer represented as `&` in templates, use `@`.
     * Refactored `Pattern::template()->builder()`. Use `Pattern::template()` now.
     * Removed `Pattern::bind()`. Use `Pattern::inject()` or `Pattern::template()->literal()`.
     * Removed `Pattern::prepare()`. Use `Pattern::inject()`.
