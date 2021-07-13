@@ -1,10 +1,13 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\chainedReplace\with;
+namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\chainedReplace\with;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Composite\CompositePattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Composite\CompositePattern::chainedReplace
+ */
 class CompositePatternTest extends TestCase
 {
     /**

@@ -1,10 +1,13 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\chainedRemove;
+namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\chainedRemove;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Composite\CompositePattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Composite\CompositePattern::chainedRemove
+ */
 class CompositePatternTest extends TestCase
 {
     /**

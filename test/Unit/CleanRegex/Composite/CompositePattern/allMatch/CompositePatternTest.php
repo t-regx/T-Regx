@@ -1,10 +1,13 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\anyMatches;
+namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\allMatch;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Composite\CompositePattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Composite\CompositePattern::allMatch
+ */
 class CompositePatternTest extends TestCase
 {
     /**
@@ -16,10 +19,10 @@ class CompositePatternTest extends TestCase
         $pattern = new CompositePattern($this->patterns());
 
         // when
-        $matches = $pattern->anyMatches('http');
+        $match = $pattern->allMatch('Frodo');
 
         // then
-        $this->assertTrue($matches);
+        $this->assertTrue($match);
     }
 
     /**
@@ -31,18 +34,18 @@ class CompositePatternTest extends TestCase
         $pattern = new CompositePattern($this->patterns());
 
         // when
-        $matches = $pattern->anyMatches('Foo');
+        $match = $pattern->allMatch('Frodo2');
 
         // then
-        $this->assertFalse($matches);
+        $this->assertFalse($match);
     }
 
     private function patterns(): array
     {
         return [
-            Internal::pcre('/https?/i'),
-            Internal::pcre('/fail/'),
-            Internal::pcre('/failed/i')
+            Internal::pcre('/^fro/i'),
+            Internal::pcre('/rod/'),
+            Internal::pcre('/odo$/')
         ];
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\Composite\CompositePattern\chainedReplace\callback;
+namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\chainedReplace\callback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
@@ -7,6 +7,9 @@ use Test\Utils\Internal;
 use TRegx\CleanRegex\Composite\CompositePattern;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
+/**
+ * @covers \TRegx\CleanRegex\Composite\CompositePattern::chainedReplace
+ */
 class CompositePatternTest extends TestCase
 {
     /**
