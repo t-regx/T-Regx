@@ -6,6 +6,9 @@ use Test\Utils\PatternEntitiesAssertion;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupCloseConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupClose;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupCloseConsumer
+ */
 class GroupCloseConsumerTest extends TestCase
 {
     /**

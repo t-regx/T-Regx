@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\FlagStack;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\FlagStack
+ */
 class FlagStackTest extends TestCase
 {
     /**

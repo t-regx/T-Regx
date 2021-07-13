@@ -8,6 +8,9 @@ use TRegx\CleanRegex\Internal\Prepared\Figure\FigureExpectation;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Figure\FigureExpectation
+ */
 class FigureExpectationTest extends TestCase
 {
     use TestCasePasses;

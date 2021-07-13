@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreOrthography;
 
 /**
- * @covers PcreOrthography
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Orthography\PcreOrthography
  */
 class PcreOrthographyTest extends TestCase
 {

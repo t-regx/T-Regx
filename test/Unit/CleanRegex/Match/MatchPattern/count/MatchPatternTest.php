@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Match\MatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\MatchPattern::count
+ */
 class MatchPatternTest extends TestCase
 {
     /**

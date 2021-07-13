@@ -9,6 +9,9 @@ use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Match\Details\Groups\AbstractMatchGroups;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\Details\Groups\AbstractMatchGroups
+ */
 class AbstractMatchGroupsTest extends TestCase
 {
     /**

@@ -10,6 +10,9 @@ use TRegx\SafeRegex\Exception\SubjectEncodingException;
 use TRegx\SafeRegex\Exception\UnicodeOffsetException;
 use TRegx\SafeRegex\Internal\Exception\Factory\RuntimePregExceptionFactory;
 
+/**
+ * @covers \TRegx\SafeRegex\Internal\Exception\Factory\RuntimePregExceptionFactory
+ */
 class RuntimePregExceptionFactoryTest extends TestCase
 {
     /**

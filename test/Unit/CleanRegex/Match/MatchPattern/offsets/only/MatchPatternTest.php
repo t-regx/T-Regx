@@ -9,6 +9,9 @@ use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\Exception\MalformedPatternException;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\MatchPattern::offsets
+ */
 class MatchPatternTest extends TestCase
 {
     use PhpunitPolyfill;

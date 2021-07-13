@@ -10,6 +10,9 @@ use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\NullToken;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Figure\ExpectedFigures
+ */
 class ExpectedFiguresTest extends TestCase
 {
     use TestCasePasses, ExactExceptionMessage;

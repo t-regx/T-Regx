@@ -11,6 +11,9 @@ use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream
+ */
 class GroupByCallbackStreamTest extends TestCase
 {
     /**

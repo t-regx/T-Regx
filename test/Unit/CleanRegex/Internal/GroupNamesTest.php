@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\GroupNames
+ */
 class GroupNamesTest extends TestCase
 {
     /**

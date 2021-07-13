@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier
+ */
 class MatchAllGroupVerifierTest extends TestCase
 {
     /**

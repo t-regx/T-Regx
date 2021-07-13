@@ -10,6 +10,9 @@ use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreOrthography;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardOrthography;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Expression\Template
+ */
 class TemplateTest extends TestCase
 {
     /**

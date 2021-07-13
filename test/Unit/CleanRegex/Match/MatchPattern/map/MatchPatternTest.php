@@ -7,6 +7,9 @@ use Test\Utils\Internal;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\MatchPattern::map
+ */
 class MatchPatternTest extends TestCase
 {
     /**

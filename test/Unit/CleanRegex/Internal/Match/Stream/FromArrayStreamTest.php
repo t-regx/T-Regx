@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\FromArrayStream;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\FromArrayStream
+ */
 class FromArrayStreamTest extends TestCase
 {
     /**

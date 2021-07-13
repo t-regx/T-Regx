@@ -10,6 +10,9 @@ use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\FluentMatchPattern::first
+ */
 class FluentMatchPatternTest extends TestCase
 {
     /**

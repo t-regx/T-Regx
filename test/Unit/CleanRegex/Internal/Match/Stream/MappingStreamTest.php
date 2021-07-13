@@ -8,6 +8,9 @@ use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\MappingStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\MappingStream
+ */
 class MappingStreamTest extends TestCase
 {
     /**

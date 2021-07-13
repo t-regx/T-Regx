@@ -7,6 +7,9 @@ use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Match\MatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\MatchPattern::flatMapAssoc
+ */
 class MatchPatternTest extends TestCase
 {
     /**

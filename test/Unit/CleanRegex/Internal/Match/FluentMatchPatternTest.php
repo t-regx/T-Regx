@@ -15,6 +15,9 @@ use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\FluentMatchPattern
+ */
 class FluentMatchPatternTest extends TestCase
 {
     /**

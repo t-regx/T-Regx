@@ -9,6 +9,9 @@ use TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream
+ */
 class MatchIntStreamTest extends TestCase
 {
     /**

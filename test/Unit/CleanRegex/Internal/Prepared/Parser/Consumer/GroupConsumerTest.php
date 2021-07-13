@@ -16,6 +16,9 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpenFlags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupRemainder;
 use TRegx\DataProvider\DataProviders;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupConsumer
+ */
 class GroupConsumerTest extends TestCase
 {
     use PcreDependant;

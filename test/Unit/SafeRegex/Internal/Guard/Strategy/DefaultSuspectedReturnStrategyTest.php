@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Internal\Guard\Strategy\DefaultSuspectedReturnStrategy;
 
+/**
+ * @covers \TRegx\SafeRegex\Internal\Guard\Strategy\DefaultSuspectedReturnStrategy
+ */
 class DefaultSuspectedReturnStrategyTest extends TestCase
 {
     /**

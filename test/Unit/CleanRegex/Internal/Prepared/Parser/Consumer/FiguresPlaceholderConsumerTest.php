@@ -12,6 +12,9 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpenFlags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Placeholder;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\FiguresPlaceholderConsumer
+ */
 class FiguresPlaceholderConsumerTest extends TestCase
 {
     /**

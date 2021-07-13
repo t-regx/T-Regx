@@ -6,6 +6,9 @@ use TRegx\CleanRegex\Internal\ValidPattern;
 use TRegx\SafeRegex\Internal\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\ValidPattern
+ */
 class ValidPatternTest extends TestCase
 {
     /**

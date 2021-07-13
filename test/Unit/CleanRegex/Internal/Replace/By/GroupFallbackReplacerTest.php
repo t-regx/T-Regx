@@ -18,6 +18,9 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Subject;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer
+ */
 class GroupFallbackReplacerTest extends TestCase
 {
     /**

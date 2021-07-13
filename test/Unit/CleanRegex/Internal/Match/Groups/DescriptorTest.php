@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\Match\Groups\Descriptor;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Groups\Descriptor
+ */
 class DescriptorTest extends TestCase
 {
     /**

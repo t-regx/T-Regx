@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\UnquotePattern;
 use TRegx\SafeRegex\preg;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\UnquotePattern
+ */
 class UnquotePatternTest extends TestCase
 {
     /**

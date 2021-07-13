@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\Details\DuplicateNamedGroupAdapter;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Details\DuplicateNamedGroupAdapter
+ */
 class DuplicateNamedGroupAdapterTest extends TestCase
 {
     /**

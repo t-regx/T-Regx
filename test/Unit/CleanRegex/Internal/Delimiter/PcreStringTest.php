@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
 use TRegx\CleanRegex\Internal\Delimiter\PcreString;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Delimiter\PcreString
+ */
 class PcreStringTest extends TestCase
 {
     /**

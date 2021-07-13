@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
 
 /**
- * @covers Delimiter
+ * @covers \TRegx\CleanRegex\Internal\Delimiter\Delimiter
  */
 class DelimiterTest extends TestCase
 {

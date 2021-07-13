@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Detail;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\UserData
+ */
 class UserDataTest extends TestCase
 {
     /**

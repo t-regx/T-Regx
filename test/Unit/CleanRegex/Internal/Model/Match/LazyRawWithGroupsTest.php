@@ -8,6 +8,9 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Model\LazyRawWithGroups
+ */
 class LazyRawWithGroupsTest extends TestCase
 {
     /**

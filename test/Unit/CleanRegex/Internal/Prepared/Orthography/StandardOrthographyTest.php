@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardOrthography;
 
 /**
- * @covers StandardOrthography
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Orthography\StandardOrthography
  */
 class StandardOrthographyTest extends TestCase
 {

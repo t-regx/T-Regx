@@ -5,6 +5,9 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable
+ */
 class AlternationQuotableTest extends TestCase
 {
     /**

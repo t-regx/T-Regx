@@ -11,6 +11,9 @@ use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Internal\Guard\GuardedInvoker;
 
+/**
+ * @covers \TRegx\SafeRegex\Internal\Guard\GuardedInvoker
+ */
 class GuardedInvokerTest extends TestCase
 {
     use Warnings, AssertsHasClass;

@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;
 use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;
 
 /**
- * @covers PatternAsEntities
+ * @covers \TRegx\CleanRegex\Internal\Prepared\PatternAsEntities
  */
 class PatternAsEntitiesTest extends TestCase
 {

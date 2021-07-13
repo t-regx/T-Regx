@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\CleanRegex\Helper;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Helper\GroupName;
 
+/**
+ * @covers \TRegx\CleanRegex\Helper\GroupName
+ */
 class GroupNameTest extends TestCase
 {
     /**

@@ -8,6 +8,9 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Escaped;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\TerminatingEscape;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\EscapeConsumer
+ */
 class EscapeConsumerTest extends TestCase
 {
     /**

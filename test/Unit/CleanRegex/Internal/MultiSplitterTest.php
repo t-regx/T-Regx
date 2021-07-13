@@ -2,9 +2,11 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\MultiSplitter;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\MultiSplitter
+ */
 class MultiSplitterTest extends TestCase
 {
     /**

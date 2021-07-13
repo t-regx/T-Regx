@@ -8,6 +8,9 @@ use TRegx\CleanRegex\Internal\Match\Stream\TextStream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\TextStream
+ */
 class TextStreamTest extends TestCase
 {
     /**

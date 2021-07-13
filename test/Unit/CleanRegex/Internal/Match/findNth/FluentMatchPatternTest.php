@@ -11,6 +11,9 @@ use TRegx\CleanRegex\Internal\Factory\Worker\FluentStreamWorker;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\FluentMatchPattern::findNth
+ */
 class FluentMatchPatternTest extends TestCase
 {
     /**

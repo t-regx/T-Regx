@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\CleanRegex\Internal;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Type;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Type
+ */
 class TypeTest extends TestCase
 {
     /**

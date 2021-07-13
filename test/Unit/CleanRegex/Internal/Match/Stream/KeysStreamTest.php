@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\Stream\KeysStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\KeysStream
+ */
 class KeysStreamTest extends TestCase
 {
     /**

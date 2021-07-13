@@ -6,6 +6,9 @@ use TRegx\CleanRegex\Exception\DuplicateFlagsException;
 use TRegx\CleanRegex\Exception\FlagNotAllowedException;
 use TRegx\CleanRegex\Internal\FlagsValidator;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\FlagsValidator
+ */
 class FlagsValidatorTest extends TestCase
 {
     /**

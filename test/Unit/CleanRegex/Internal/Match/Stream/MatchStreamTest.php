@@ -13,6 +13,9 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Match\Details\Detail;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\MatchStream
+ */
 class MatchStreamTest extends TestCase
 {
     /**

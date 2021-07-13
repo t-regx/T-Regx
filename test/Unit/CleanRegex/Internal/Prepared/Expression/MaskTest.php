@@ -6,6 +6,9 @@ use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Mask;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Expression\Mask
+ */
 class MaskTest extends TestCase
 {
     /**

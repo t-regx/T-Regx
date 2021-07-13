@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter
+ */
 class RawMatchesToMatchAdapterTest extends TestCase
 {
     /**

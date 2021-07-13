@@ -10,6 +10,9 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\QuoteConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Escaped;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Quote;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\QuoteConsumer
+ */
 class QuoteConsumerTest extends TestCase
 {
     /**

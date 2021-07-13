@@ -10,6 +10,9 @@ use TRegx\CleanRegex\Exception\NoSuitableConstructorException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\SignatureExceptionFactory
+ */
 class SignatureExceptionFactoryTest extends TestCase
 {
     /**

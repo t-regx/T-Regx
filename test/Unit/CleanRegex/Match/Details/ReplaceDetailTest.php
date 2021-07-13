@@ -9,6 +9,9 @@ use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\Details\ReplaceDetail
+ */
 class ReplaceDetailTest extends TestCase
 {
     /**

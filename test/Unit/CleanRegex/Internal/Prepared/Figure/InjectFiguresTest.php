@@ -11,6 +11,9 @@ use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use UnderflowException;
 use function next;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures
+ */
 class InjectFiguresTest extends TestCase
 {
     use TestCasePasses, ExactExceptionMessage;

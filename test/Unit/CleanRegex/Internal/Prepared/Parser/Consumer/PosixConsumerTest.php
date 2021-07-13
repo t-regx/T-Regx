@@ -11,6 +11,9 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\PosixClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\PosixOpen;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Quote;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\PosixConsumer
+ */
 class PosixConsumerTest extends TestCase
 {
     /**

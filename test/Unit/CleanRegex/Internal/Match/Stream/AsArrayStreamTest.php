@@ -10,6 +10,9 @@ use TRegx\CleanRegex\Internal\Match\Stream\AsArrayStream;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\UserData;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\AsArrayStream
+ */
 class AsArrayStreamTest extends TestCase
 {
     /**

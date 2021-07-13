@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\FlatMap;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy
+ */
 class AssignStrategyTest extends TestCase
 {
     /**

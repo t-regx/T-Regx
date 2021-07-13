@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy
+ */
 class ConstantResultStrategyTest extends TestCase
 {
     /**

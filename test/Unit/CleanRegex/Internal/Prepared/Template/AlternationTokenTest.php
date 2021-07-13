@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
 
 /**
- * @covers AlternationToken
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken
  */
 class AlternationTokenTest extends TestCase
 {

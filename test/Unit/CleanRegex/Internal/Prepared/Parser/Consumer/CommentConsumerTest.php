@@ -12,6 +12,9 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Comment;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpenFlags;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CommentConsumer
+ */
 class CommentConsumerTest extends TestCase
 {
     /**

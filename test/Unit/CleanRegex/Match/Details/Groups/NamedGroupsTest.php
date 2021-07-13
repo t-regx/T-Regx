@@ -21,6 +21,8 @@ use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
  * NamedGroupsTest and IndexedGroupsTest should have exactly alike structure
  * (because they test API that should be similar) and when one changes, so should
  * the other.
+ *
+ * @covers \TRegx\CleanRegex\Match\Details\Groups\NamedGroups
  */
 class NamedGroupsTest extends TestCase
 {

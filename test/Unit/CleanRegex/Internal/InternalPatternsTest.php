@@ -11,6 +11,9 @@ use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\InternalPatterns;
 use TRegx\CleanRegex\Pattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\InternalPatterns
+ */
 class InternalPatternsTest extends TestCase
 {
     /**

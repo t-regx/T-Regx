@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\CleanRegex\Internal;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\GroupNameValidator
+ */
 class GroupNameValidatorTest extends TestCase
 {
     /**

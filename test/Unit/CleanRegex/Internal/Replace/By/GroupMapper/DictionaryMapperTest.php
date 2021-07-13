@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Match\Details\Detail;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DictionaryMapper
+ */
 class DictionaryMapperTest extends TestCase
 {
     /**

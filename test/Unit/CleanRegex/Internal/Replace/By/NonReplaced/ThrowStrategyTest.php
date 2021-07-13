@@ -6,7 +6,10 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 
-class CustomThrowStrategyTest extends TestCase
+/**
+ * @covers \TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy
+ */
+class ThrowStrategyTest extends TestCase
 {
     /**
      * @test

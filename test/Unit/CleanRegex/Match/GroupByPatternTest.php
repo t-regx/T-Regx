@@ -10,6 +10,9 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Match\GroupByPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\GroupByPattern
+ */
 class GroupByPatternTest extends TestCase
 {
     use ThrowsForUnmockedMethods;

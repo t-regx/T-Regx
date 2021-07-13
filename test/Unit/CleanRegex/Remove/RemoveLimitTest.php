@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Remove\RemoveLimit;
 
+/**
+ * @covers \TRegx\CleanRegex\Remove\RemoveLimit
+ */
 class RemoveLimitTest extends TestCase
 {
     /**

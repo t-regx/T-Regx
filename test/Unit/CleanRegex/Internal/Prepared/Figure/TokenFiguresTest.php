@@ -7,6 +7,9 @@ use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\NullToken;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Figure\TokenFigures
+ */
 class TokenFiguresTest extends TestCase
 {
     /**

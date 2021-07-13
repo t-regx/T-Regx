@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\FlatMap;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy
+ */
 class ArrayMergeStrategyTest extends TestCase
 {
     /**

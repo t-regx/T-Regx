@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Identity;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Expression\Identity
+ */
 class IdentityTest extends TestCase
 {
     /**

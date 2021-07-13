@@ -9,6 +9,9 @@ use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\FluentMatchPattern
+ */
 class FluentMatchPatternTest extends TestCase
 {
     /**

@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Replace;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Replace\ReferencesReplacer;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Replace\ReferencesReplacer
+ */
 class ReferencesReplacerTest extends TestCase
 {
     /**

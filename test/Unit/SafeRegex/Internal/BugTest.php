@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\SafeRegex\Internal;
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Internal\Bug;
 
+/**
+ * @covers \TRegx\SafeRegex\Internal\Bug
+ */
 class BugTest extends TestCase
 {
     /**

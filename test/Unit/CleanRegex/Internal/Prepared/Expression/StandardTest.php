@@ -6,6 +6,9 @@ use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Standard;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Expression\Standard
+ */
 class StandardTest extends TestCase
 {
     /**

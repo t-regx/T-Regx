@@ -6,6 +6,9 @@ use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\Match\FluentInteger;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\FluentInteger
+ */
 class FluentIntegerTest extends TestCase
 {
     /**

@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\Internal\PhpError;
 
+/**
+ * @covers \TRegx\SafeRegex\Exception\CompilePregException
+ */
 class CompilePregExceptionTest extends TestCase
 {
     public function testGetters()

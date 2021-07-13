@@ -11,6 +11,9 @@ use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream
+ */
 class FlatMappingStreamTest extends TestCase
 {
     /**

@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Pcre;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Expression\Pcre
+ */
 class PcreTest extends TestCase
 {
     /**

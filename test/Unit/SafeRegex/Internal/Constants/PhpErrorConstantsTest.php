@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\SafeRegex\Internal\Constants;
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Internal\Constants\PhpErrorConstants;
 
+/**
+ * @covers \TRegx\SafeRegex\Internal\Constants\PhpErrorConstants
+ */
 class PhpErrorConstantsTest extends TestCase
 {
     /**

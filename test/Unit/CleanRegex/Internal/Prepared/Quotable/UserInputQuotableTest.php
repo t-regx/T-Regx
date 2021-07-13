@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quotable;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable
+ */
 class UserInputQuotableTest extends TestCase
 {
     /**

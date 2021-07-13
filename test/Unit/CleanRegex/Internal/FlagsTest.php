@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Flags;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Flags
+ */
 class FlagsTest extends TestCase
 {
     /**

@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\SafeRegex;
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Internal\PhpError;
 
+/**
+ * @covers \TRegx\SafeRegex\Internal\PhpError
+ */
 class PhpErrorTest extends TestCase
 {
     public function testGetters()

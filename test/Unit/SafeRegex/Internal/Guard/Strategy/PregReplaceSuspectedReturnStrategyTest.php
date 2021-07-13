@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\SafeRegex\Internal\Guard\Strategy;
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Internal\Guard\Strategy\PregReplaceSuspectedReturnStrategy;
 
+/**
+ * @covers \TRegx\SafeRegex\Internal\Guard\Strategy\PregReplaceSuspectedReturnStrategy
+ */
 class PregReplaceSuspectedReturnStrategyTest extends TestCase
 {
     /**

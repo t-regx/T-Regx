@@ -5,6 +5,9 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\AlterationFactory
+ */
 class AlterationFactoryTest extends TestCase
 {
     /**

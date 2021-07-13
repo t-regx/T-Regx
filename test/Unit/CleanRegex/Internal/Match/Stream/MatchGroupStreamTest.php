@@ -11,6 +11,9 @@ use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream
+ */
 class MatchGroupStreamTest extends TestCase
 {
     /**

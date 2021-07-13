@@ -9,6 +9,9 @@ use TRegx\SafeRegex\Internal\Errors\Errors\CompileError;
 use TRegx\SafeRegex\Internal\Errors\Errors\IrrelevantCompileError;
 use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeError;
 
+/**
+ * @covers \TRegx\SafeRegex\Internal\Errors\Errors\BothHostError
+ */
 class BothHostErrorTest extends TestCase
 {
     use ThrowsForUnmockedMethods;

@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\CleanRegex\Internal;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\InvisibleCharacters;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\InvisibleCharacters
+ */
 class InvisibleCharactersTest extends TestCase
 {
     /**

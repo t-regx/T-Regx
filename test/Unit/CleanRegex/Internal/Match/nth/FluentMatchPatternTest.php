@@ -9,6 +9,9 @@ use TRegx\CleanRegex\Internal\Factory\Worker\FluentStreamWorker;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\FluentMatchPattern::nth
+ */
 class FluentMatchPatternTest extends TestCase
 {
     /**
@@ -90,7 +93,7 @@ class FluentMatchPatternTest extends TestCase
 
     private function worker(): FluentStreamWorker
     {
-         return new FluentStreamWorker();
+        return new FluentStreamWorker();
     }
 
     private function stream(array $return, int $times = 1): Stream

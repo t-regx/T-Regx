@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Internal\Errors\Errors\EmptyHostError;
 
+/**
+ * @covers \TRegx\SafeRegex\Internal\Errors\Errors\EmptyHostError
+ */
 class EmptyHostErrorTest extends TestCase
 {
     /**

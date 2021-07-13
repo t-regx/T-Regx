@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\SafeRegex\Internal\Exception;
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Exception\SuspectedReturnPregException;
 
+/**
+ * @covers \TRegx\SafeRegex\Exception\SuspectedReturnPregException
+ */
 class SuspectedReturnPregExceptionTest extends TestCase
 {
     public function testGetters()

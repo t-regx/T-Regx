@@ -7,6 +7,9 @@ use Test\Utils\PatternEntitiesAssertion;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\ControlConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Control;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\ControlConsumer
+ */
 class ControlConsumerTest extends TestCase
 {
     /**
