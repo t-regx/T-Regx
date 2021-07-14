@@ -57,7 +57,7 @@ class Pattern
 
     public function forArray(array $haystack): ForArrayPattern
     {
-        return new ForArrayPattern($this->definition, $haystack, false);
+        return new ForArrayPattern($this->definition, $haystack);
     }
 
     public function split(string $subject): array

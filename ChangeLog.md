@@ -4,6 +4,9 @@ T-Regx Changelog
 Incoming
 --------
 
+* Breaking changes
+    * `pattern()->forArray()` is now the same as previous `pattern()->forArray()->strict()`.
+    * Removed `pattern()->forArray()->strict()`.
 * Other
     * Using TDD in T-Regx, it wasn't hard to reach 100% coverage quite easily in T-Regx. In order to make the tests even
       better, we decided that the integration tests won't report any coverage, since it doesn't provide any more
@@ -53,8 +56,8 @@ Added in 0.11.0
     * Added `Pattern::template()->literal()`, which is a shorthand for
       `Pattern::template()->builder()->literal()->build()`.
     * Added `Pattern::template()->mask()`, which is a shorthand for `Pattern::template()->builder()->mask()->build()`.
-  * Casting `PatternInterface` to string results in a delimited pattern
-  * Add `Pcre` version helper
+    * Casting `PatternInterface` to `string` results in a delimited pattern
+    * Add `Pcre` version helper
 * Breaking changes
     * `match()->getIterator()` no longer preserves the keys of values (like `all()`)
     * `match()->group()->getIterator()` no longer preserves the keys of values (like `all()`)
@@ -84,8 +87,7 @@ Added in 0.10.2
     * Group name `"group\n"` used to be considered valid, now it's correctly being treated as invalid.
 * Other
     * [`ReplaceMatch`] is now a class, not an interface.
-    * When invalid strings, error messages will now also print invisible characters, for
-      example `"Foo\n"`, instead of 
+    * When invalid strings, error messages will now also print invisible characters, for example `"Foo\n"`, instead of
       ```
       "Foo      
       "

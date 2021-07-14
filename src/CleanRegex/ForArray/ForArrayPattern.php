@@ -2,41 +2,37 @@
 namespace TRegx\CleanRegex\ForArray;
 
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\ForArray\FilteredArray;
 use TRegx\SafeRegex\preg;
 
 class ForArrayPattern
 {
+    /** @var FilteredArray */
+    private $filteredArray;
     /** @var Definition */
     private $definition;
     /** @var array */
     private $array;
-    /** @var bool */
-    private $throwOnNonStringElements;
 
-    public function __construct(Definition $definition, array $array, bool $strict)
+    public function __construct(Definition $definition, array $array)
     {
+        $this->filteredArray = new FilteredArray($definition, $array);
         $this->definition = $definition;
         $this->array = $array;
-        $this->throwOnNonStringElements = $strict;
     }
 
     public function filter(): array
     {
-        return (new FilterArrayPattern($this->definition, $this->array, $this->throwOnNonStringElements))->filter();
+        return \array_values($this->filteredArray->filtered());
     }
 
     public function filterAssoc(): array
     {
-        return (new FilterArrayPattern($this->definition, $this->array, $this->throwOnNonStringElements))->filterAssoc();
+        return $this->filteredArray->filtered();
     }
 
     public function filterByKeys(): array
     {
         return preg::grep_keys($this->definition->pattern, $this->array);
-    }
-
-    public function strict(): ForArrayPattern
-    {
-        return new self($this->definition, $this->array, true);
     }
 }
