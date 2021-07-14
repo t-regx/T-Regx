@@ -4,6 +4,9 @@ namespace Test\Feature\TRegx\CleanRegex\Match\_foreach;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\MatchPattern;
 
+/**
+ * @coversNothing
+ */
 class OffsetLimitTest extends TestCase
 {
     /**

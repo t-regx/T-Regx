@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
+/**
+ * @coversNothing
+ */
 class MatchPatternTest extends TestCase
 {
     /**

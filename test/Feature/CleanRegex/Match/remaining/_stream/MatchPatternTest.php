@@ -4,6 +4,9 @@ namespace Test\Feature\TRegx\CleanRegex\Match\remaining\_stream;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 
+/**
+ * @coversNothing
+ */
 class MatchPatternTest extends TestCase
 {
     /**

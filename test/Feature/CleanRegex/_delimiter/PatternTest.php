@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
 use TRegx\SafeRegex\preg;
 
+/**
+ * @coversNothing
+ */
 class PatternTest extends TestCase
 {
     /**

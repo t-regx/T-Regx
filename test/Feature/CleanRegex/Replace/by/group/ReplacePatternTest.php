@@ -11,6 +11,9 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\LazyDetail;
 use TRegx\DataProvider\DataProviders;
 
+/**
+ * @coversNothing
+ */
 class ReplacePatternTest extends TestCase
 {
     /**

@@ -2,13 +2,15 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\asArray;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CustomNthException;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 
+/**
+ * @coversNothing
+ */
 class AbstractMatchPatternTest extends TestCase
 {
     /**

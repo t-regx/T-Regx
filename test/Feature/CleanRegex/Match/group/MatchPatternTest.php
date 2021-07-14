@@ -8,6 +8,9 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
+/**
+ * @coversNothing
+ */
 class MatchPatternTest extends TestCase
 {
     use AssertsSameMatches;

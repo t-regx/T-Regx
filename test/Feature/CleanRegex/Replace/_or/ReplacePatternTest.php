@@ -7,6 +7,9 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NotReplacedException;
 
+/**
+ * @coversNothing
+ */
 class ReplacePatternTest extends TestCase
 {
     /**

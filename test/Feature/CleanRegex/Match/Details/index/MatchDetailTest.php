@@ -4,6 +4,9 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\index;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Detail;
 
+/**
+ * @coversNothing
+ */
 class MatchDetailTest extends TestCase
 {
     /**

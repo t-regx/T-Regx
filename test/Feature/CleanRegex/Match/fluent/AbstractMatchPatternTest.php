@@ -12,6 +12,9 @@ use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\MatchPattern;
 
+/**
+ * @coversNothing
+ */
 class AbstractMatchPatternTest extends TestCase
 {
     /**

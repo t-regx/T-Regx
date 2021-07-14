@@ -4,6 +4,9 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\by\mapIfExists;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversNothing
+ */
 class ReplacePatternTest extends TestCase
 {
     /**

@@ -6,6 +6,9 @@ use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\Details\Detail;
 
+/**
+ * @coversNothing
+ */
 class MatchPatternTest extends TestCase
 {
     use AssertsSameMatches;

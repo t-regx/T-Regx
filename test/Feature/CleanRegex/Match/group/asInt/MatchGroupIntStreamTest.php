@@ -9,6 +9,9 @@ use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 
+/**
+ * @coversNothing
+ */
 class MatchGroupIntStreamTest extends TestCase
 {
     use AssertsSameMatches;

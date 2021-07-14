@@ -13,6 +13,8 @@ use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;
  *
  * That's why it's important, so that `first()`/`findFirst()` method, chain arbitrarily
  * long call `preg_match()` in the end.
+ *
+ * @coversNothing
  */
 class AbstractMatchPatternTest extends TestCase
 {

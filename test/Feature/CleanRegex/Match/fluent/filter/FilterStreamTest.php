@@ -4,6 +4,9 @@ namespace Test\Feature\TRegx\CleanRegex\Match\fluent\filter;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 
+/**
+ * @coversNothing
+ */
 class FilterStreamTest extends TestCase
 {
     /**

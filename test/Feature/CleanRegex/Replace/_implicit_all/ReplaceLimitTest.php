@@ -8,6 +8,9 @@ use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Exception\NotReplacedException;
 use TRegx\CleanRegex\Match\Details\Detail;
 
+/**
+ * @coversNothing
+ */
 class ReplaceLimitTest extends TestCase
 {
     /**

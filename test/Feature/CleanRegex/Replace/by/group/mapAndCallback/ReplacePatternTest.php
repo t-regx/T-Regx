@@ -4,6 +4,9 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\by\group\mapAndCallback;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 
+/**
+ * @coversNothing
+ */
 class ReplacePatternTest extends TestCase
 {
     /**

@@ -6,6 +6,9 @@ use Test\Utils\AssertsPattern;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 
+/**
+ * @coversNothing
+ */
 class PatternTest extends TestCase
 {
     use AssertsPattern;

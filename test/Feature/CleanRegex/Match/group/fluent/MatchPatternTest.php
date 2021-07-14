@@ -8,6 +8,9 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
+/**
+ * @coversNothing
+ */
 class MatchPatternTest extends TestCase
 {
     use AssertsSameMatches;

@@ -3,6 +3,9 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\with;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversNothing
+ */
 class ReplacePatternTest extends TestCase
 {
     /**

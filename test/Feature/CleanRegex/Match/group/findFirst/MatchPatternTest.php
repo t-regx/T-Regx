@@ -10,6 +10,9 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
+/**
+ * @coversNothing
+ */
 class MatchPatternTest extends TestCase
 {
     /**

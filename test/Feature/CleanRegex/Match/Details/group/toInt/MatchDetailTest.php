@@ -6,6 +6,9 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Match\Details\Detail;
 
+/**
+ * @coversNothing
+ */
 class MatchDetailTest extends TestCase
 {
     /**

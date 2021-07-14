@@ -4,6 +4,9 @@ namespace Test\Feature\TRegx\SafeRegex\Internal\Errors;
 use PHPUnit\Framework\TestCase;
 use TRegx\Exception\MalformedPatternException;
 
+/**
+ * @coversNothing
+ */
 class ErrorsCleanerTest extends TestCase
 {
     /**

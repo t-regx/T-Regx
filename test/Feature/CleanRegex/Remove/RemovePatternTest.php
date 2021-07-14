@@ -4,6 +4,9 @@ namespace Test\Feature\TRegx\CleanRegex\Remove;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversNothing
+ */
 class RemovePatternTest extends TestCase
 {
     /**

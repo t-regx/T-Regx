@@ -11,6 +11,9 @@ use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
+/**
+ * @coversNothing
+ */
 class MatchPatternTest extends TestCase
 {
     use AssertsSameMatches;

@@ -4,6 +4,9 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\Details\groupsCount;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Detail;
 
+/**
+ * @coversNothing
+ */
 class ReplacePatternTest extends TestCase
 {
     /**

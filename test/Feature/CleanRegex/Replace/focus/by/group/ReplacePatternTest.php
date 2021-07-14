@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\FocusGroupPairs;
 use TRegx\CleanRegex\Match\Details\Detail;
 
+/**
+ * @coversNothing
+ */
 class ReplacePatternTest extends TestCase
 {
     /**

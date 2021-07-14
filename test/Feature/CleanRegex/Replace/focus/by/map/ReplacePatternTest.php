@@ -4,6 +4,9 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\focus\by\map;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;
 
+/**
+ * @coversNothing
+ */
 class ReplacePatternTest extends TestCase
 {
     /**
