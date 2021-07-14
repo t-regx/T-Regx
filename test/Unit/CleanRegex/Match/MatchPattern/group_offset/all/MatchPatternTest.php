@@ -7,6 +7,9 @@ use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\MatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\MatchPattern::group
+ */
 class MatchPatternTest extends TestCase
 {
     /**

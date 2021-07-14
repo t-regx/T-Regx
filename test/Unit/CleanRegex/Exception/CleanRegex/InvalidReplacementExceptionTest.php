@@ -4,6 +4,9 @@ namespace Test\Unit\TRegx\CleanRegex\Exception\CleanRegex;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
 
+/**
+ * @covers \TRegx\CleanRegex\Exception\InvalidReplacementException
+ */
 class InvalidReplacementExceptionTest extends TestCase
 {
     /**
