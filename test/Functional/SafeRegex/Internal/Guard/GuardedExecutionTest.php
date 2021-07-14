@@ -12,6 +12,9 @@ use TRegx\SafeRegex\Internal\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Internal\Guard\GuardedExecution;
 
+/**
+ * @coversNothing
+ */
 class GuardedExecutionTest extends TestCase
 {
     use Warnings;

@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\preg;
 
+/**
+ * @coversNothing
+ */
 class pregTest extends TestCase
 {
     /**

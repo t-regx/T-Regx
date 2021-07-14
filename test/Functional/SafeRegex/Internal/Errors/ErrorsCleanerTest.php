@@ -10,6 +10,9 @@ use TRegx\SafeRegex\Internal\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeError;
 use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 
+/**
+ * @coversNothing
+ */
 class ErrorsCleanerTest extends TestCase
 {
     use Warnings;

@@ -7,6 +7,9 @@ use Test\Utils\Functions;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
 use TRegx\SafeRegex\preg;
 
+/**
+ * @coversNothing
+ */
 class pregTest extends TestCase
 {
     /**

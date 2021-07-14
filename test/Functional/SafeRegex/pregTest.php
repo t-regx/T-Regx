@@ -12,6 +12,9 @@ use TRegx\SafeRegex\Exception\PregMalformedPatternException;
 use TRegx\SafeRegex\Exception\UnicodeOffsetException;
 use TRegx\SafeRegex\preg;
 
+/**
+ * @coversNothing
+ */
 class pregTest extends TestCase
 {
     use Warnings;
