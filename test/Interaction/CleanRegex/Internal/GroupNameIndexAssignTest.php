@@ -9,6 +9,9 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\GroupNameIndexAssign
+ */
 class GroupNameIndexAssignTest extends TestCase
 {
     /**

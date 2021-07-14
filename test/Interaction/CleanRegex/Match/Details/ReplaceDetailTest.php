@@ -11,6 +11,9 @@ use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\Details\ReplaceDetail
+ */
 class ReplaceDetailTest extends TestCase
 {
     /**

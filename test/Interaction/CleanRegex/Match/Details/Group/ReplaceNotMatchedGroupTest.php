@@ -9,6 +9,9 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\ReplaceNotMatchedGroup;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\Details\Group\ReplaceNotMatchedGroup
+ */
 class ReplaceNotMatchedGroupTest extends TestCase
 {
     /**

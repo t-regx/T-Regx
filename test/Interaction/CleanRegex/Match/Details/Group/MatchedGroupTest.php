@@ -10,6 +10,9 @@ use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\Details\Group\MatchedGroup
+ */
 class MatchedGroupTest extends TestCase
 {
     /**

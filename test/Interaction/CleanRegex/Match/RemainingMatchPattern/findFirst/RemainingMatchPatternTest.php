@@ -14,6 +14,9 @@ use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\RemainingMatchPattern::findFirst
+ */
 class RemainingMatchPatternTest extends TestCase
 {
     use AssertsOptional;

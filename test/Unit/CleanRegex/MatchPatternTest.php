@@ -1,18 +1,21 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex;
+namespace Test\Unit\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Match\MatchPattern;
 
-class MatchCountPatternTest extends TestCase
+/**
+ * @covers \TRegx\CleanRegex\Match\MatchPattern::count
+ */
+class MatchPatternTest extends TestCase
 {
     /**
      * @test
      * @dataProvider patternsAndSubjects
-     * @param $pattern
-     * @param $subject
-     * @param $expectedCount
+     * @param string $pattern
+     * @param string $subject
+     * @param int $expectedCount
      */
     public function shouldCountMatches(string $pattern, string $subject, int $expectedCount)
     {

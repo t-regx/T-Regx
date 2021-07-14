@@ -7,6 +7,9 @@ use Test\Utils\Internal;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 
+/**
+ * @covers \TRegx\CleanRegex\Replace\ReplaceLimit
+ */
 class ReplaceLimitTest extends TestCase
 {
     /**

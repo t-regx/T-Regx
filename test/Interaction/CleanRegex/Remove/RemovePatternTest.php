@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Remove\RemovePattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Remove\RemovePattern
+ */
 class RemovePatternTest extends TestCase
 {
     /**

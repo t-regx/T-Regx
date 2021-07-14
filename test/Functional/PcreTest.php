@@ -6,6 +6,9 @@ use Test\Utils\TestCaseConditional;
 use TRegx\Pcre;
 use const PHP_VERSION_ID;
 
+/**
+ * @covers \TRegx\Pcre
+ */
 class PcreTest extends TestCase
 {
     use TestCaseConditional;

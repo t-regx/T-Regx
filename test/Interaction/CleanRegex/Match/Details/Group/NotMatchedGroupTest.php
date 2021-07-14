@@ -17,6 +17,9 @@ use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup
+ */
 class NotMatchedGroupTest extends TestCase
 {
     /**

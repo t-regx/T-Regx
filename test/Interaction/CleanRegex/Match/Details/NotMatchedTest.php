@@ -9,6 +9,9 @@ use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\Details\NotMatched
+ */
 class NotMatchedTest extends TestCase
 {
     use PhpunitPolyfill;

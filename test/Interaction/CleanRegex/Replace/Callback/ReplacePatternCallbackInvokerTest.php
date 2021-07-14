@@ -12,6 +12,9 @@ use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 
+/**
+ * @covers \TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker
+ */
 class ReplacePatternCallbackInvokerTest extends TestCase
 {
     use AssertsSameMatches;

@@ -33,6 +33,10 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Prepared\PatternAsEntities
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser
+ */
 class PcreParserTest extends TestCase
 {
     use PcreDependant;

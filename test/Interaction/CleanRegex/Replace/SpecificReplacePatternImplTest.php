@@ -9,6 +9,9 @@ use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 use TRegx\CleanRegex\Replace\SpecificReplacePatternImpl;
 
+/**
+ * @covers \TRegx\CleanRegex\Replace\SpecificReplacePatternImpl
+ */
 class SpecificReplacePatternImplTest extends TestCase
 {
     /**

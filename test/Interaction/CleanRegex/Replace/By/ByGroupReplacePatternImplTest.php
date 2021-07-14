@@ -17,6 +17,9 @@ use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\By\ByGroupReplacePatternImpl;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 
+/**
+ * @covers \TRegx\CleanRegex\Replace\By\ByGroupReplacePatternImpl
+ */
 class ByGroupReplacePatternImplTest extends TestCase
 {
     /**

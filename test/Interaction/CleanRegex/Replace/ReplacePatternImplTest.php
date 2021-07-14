@@ -1,5 +1,5 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\Replace\ReplacePatternImpl\delegates;
+namespace Test\Interaction\TRegx\CleanRegex\Replace;
 
 use Closure;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -10,6 +10,9 @@ use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\LimitlessReplacePattern;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Replace\ReplacePatternImpl
+ */
 class ReplacePatternImplTest extends TestCase
 {
     /**

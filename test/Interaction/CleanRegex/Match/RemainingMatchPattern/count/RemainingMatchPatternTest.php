@@ -12,6 +12,9 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\RemainingMatchPattern::count
+ */
 class RemainingMatchPatternTest extends TestCase
 {
     /**

@@ -12,6 +12,9 @@ use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\Details\MatchDetail
+ */
 class MatchDetailTest extends TestCase
 {
     /**

@@ -7,6 +7,9 @@ use TRegx\DataProvider\DataProviders;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\preg;
 
+/**
+ * @coversNothing
+ */
 class PatternExceptionsTest extends TestCase
 {
     use Warnings;

@@ -11,6 +11,10 @@ use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\RemainingMatchPattern::test
+ * @covers \TRegx\CleanRegex\Match\RemainingMatchPattern::fails
+ */
 class RemainingMatchPatternTest extends TestCase
 {
     /**

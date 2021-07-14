@@ -10,6 +10,9 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Match\Details\LazyDetail;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\Details\LazyDetail
+ */
 class LazyDetailTest extends TestCase
 {
     /**

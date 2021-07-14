@@ -15,6 +15,9 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\RemainingMatchPattern
+ */
 class RemainingMatchPatternTest extends TestCase
 {
     use AssertsSameMatches, AssertsOptional;

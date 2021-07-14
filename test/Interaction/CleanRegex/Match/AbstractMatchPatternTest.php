@@ -6,6 +6,9 @@ use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Match\MatchPattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\AbstractMatchPattern
+ */
 class AbstractMatchPatternTest extends TestCase
 {
     /**

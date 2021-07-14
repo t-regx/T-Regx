@@ -17,6 +17,9 @@ use TRegx\CleanRegex\Internal\Replace\By\UnmatchedGroupStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Subject;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\Replace\By\UnmatchedGroupStrategy
+ */
 class UnmatchedGroupStrategyTest extends TestCase
 {
     /**

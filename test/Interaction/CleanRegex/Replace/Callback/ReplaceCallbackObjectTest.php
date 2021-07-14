@@ -11,6 +11,9 @@ use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplaceCallbackObject;
 use TRegx\SafeRegex\preg;
 
+/**
+ * @covers \TRegx\CleanRegex\Replace\Callback\ReplaceCallbackObject
+ */
 class ReplaceCallbackObjectTest extends TestCase
 {
     /**

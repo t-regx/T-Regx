@@ -7,6 +7,9 @@ use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\GroupLimit
+ */
 class GroupLimitTest extends TestCase
 {
     /**
