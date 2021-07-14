@@ -4,7 +4,13 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Other
+    * Using TDD in T-Regx, it wasn't hard to reach 100% coverage quite easily in T-Regx. In order to make the tests even
+      better, we decided that the integration tests won't report any coverage, since it doesn't provide any more
+      information now (it's always 100%). That doesn't mean all the cases are tested tough, so we decided to disable the
+      coverage reports on the Integration tests. Now, the coverage badge will drop, but that doesn't mean we remove any
+      tests. We just mark them as "non-reportable", so that we can use the coverage to actually find more untested
+      cases.
 
 Added in 0.12.0
 ---------------

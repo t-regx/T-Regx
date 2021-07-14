@@ -3,7 +3,6 @@
 </p>
 <p align="center">
     <a href="https://github.com/T-Regx/T-Regx/actions/"><img src="https://github.com/T-Regx/T-Regx/workflows/build/badge.svg?branch=master" alt="Build status"/></a>
-    <a href="https://coveralls.io/github/T-Regx/T-Regx?branch=master"><img src="https://coveralls.io/repos/github/T-Regx/T-Regx/badge.svg?branch=master"/></a>
     <a href="https://github.com/T-Regx/T-Regx/releases"><img src="https://img.shields.io/badge/Stable-v0.12.0-brightgreen.svg?style=popout"/></a>
     <a href="https://github.com/T-Regx/T-Regx"><img src="https://img.shields.io/badge/dependencies-0-brightgreen.svg"/></a>
 </p>
@@ -26,6 +25,14 @@ PHP regular expressions brought up to modern standards.
 [![PHP Version](https://img.shields.io/badge/PHP-7.3-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/PHP-7.4-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
 [![PHP Version](https://img.shields.io/badge/PHP-8.0-blue.svg)](https://travis-ci.org/T-Regx/T-Regx)
+
+- Integration tests:
+
+  <img src="https://img.shields.io/badge/coverage-100%25-green.svg" alt="Integration tests"/>
+
+- Unit tests:
+
+  <a href="https://coveralls.io/github/T-Regx/T-Regx?branch=develop"><img src="https://coveralls.io/repos/github/T-Regx/T-Regx/badge.svg?branch=master" alt="Unit tests"/></a>
 
 1. [Installation](#installation)
     * [Composer](#installation)
@@ -56,16 +63,18 @@ Current development priorities, regarding release of 1.0:
 # API
 
 You, choose the interface:
- - I choose to **keep PHP methods** *(but protected from errors)*:
 
-   [Scroll to see](#no-change-in-api) - `preg::match_all()`, `preg::replace_callback()`, `preg::split()`
- - I choose the **modern regex API**:
+- I choose to **keep PHP methods** *(but protected from errors)*:
 
-   [Scroll to see](#written-with-clean-api) - `pattern()->test()`, `pattern()->match()`, `pattern()->replace()`
+  [Scroll to see](#no-change-in-api) - `preg::match_all()`, `preg::replace_callback()`, `preg::split()`
+- I choose the **modern regex API**:
+
+  [Scroll to see](#written-with-clean-api) - `pattern()->test()`, `pattern()->match()`, `pattern()->replace()`
 
 # Documentation
 
-Full API documentation is available at [t-regx.com](https://t-regx.com/). List of changes is available in [ChangeLog.md](https://github.com/T-Regx/T-Regx/blob/develop/ChangeLog.md).
+Full API documentation is available at [t-regx.com](https://t-regx.com/). List of changes is available
+in [ChangeLog.md](https://github.com/T-Regx/T-Regx/blob/develop/ChangeLog.md).
 
 # Try it online, in your browser!
 
@@ -116,10 +125,11 @@ Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing aro
       , `[No [nested, [arrays]]]`
 
 * ### Protects your from fatal errors
-   Certain arguments cause fatal errors with `preg_()` methods. T-Regx will throw a catchable 
-   exception, instead of a Fatal Error.
+  Certain arguments cause fatal errors with `preg_()` methods. T-Regx will throw a catchable exception, instead of a
+  Fatal Error.
 
 # What's better
+
 ![Ugly api](https://t-regx.com/img/external/readme/preg.png)
 
 or
