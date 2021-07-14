@@ -2,26 +2,31 @@
 namespace TRegx\CleanRegex\Remove;
 
 use InvalidArgumentException;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\PatternLimit;
+use TRegx\SafeRegex\preg;
 
 class RemoveLimit implements PatternLimit
 {
-    /** @var callable */
-    private $patternFactory;
+    /** @var Definition */
+    private $definition;
+    /** @var string */
+    private $subject;
 
-    public function __construct(callable $patternFactory)
+    public function __construct(Definition $definition, string $subject)
     {
-        $this->patternFactory = $patternFactory;
+        $this->definition = $definition;
+        $this->subject = $subject;
     }
 
     public function all(): string
     {
-        return ($this->patternFactory)(-1);
+        return $this->remove(-1);
     }
 
     public function first(): string
     {
-        return ($this->patternFactory)(1);
+        return $this->remove(1);
     }
 
     public function only(int $limit): string
@@ -29,6 +34,11 @@ class RemoveLimit implements PatternLimit
         if ($limit < 0) {
             throw new InvalidArgumentException("Negative limit: $limit");
         }
-        return ($this->patternFactory)($limit);
+        return $this->remove($limit);
+    }
+
+    private function remove(int $limit): string
+    {
+        return preg::replace($this->definition->pattern, '', $this->subject, $limit);
     }
 }

@@ -7,7 +7,6 @@ use TRegx\CleanRegex\Internal\EntryPoints;
 use TRegx\CleanRegex\Internal\ValidPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Remove\RemoveLimit;
-use TRegx\CleanRegex\Remove\RemovePattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\SafeRegex\preg;
 
@@ -45,9 +44,7 @@ class Pattern
 
     public function remove(string $subject): RemoveLimit
     {
-        return new RemoveLimit(function (int $limit) use ($subject) {
-            return (new RemovePattern($this->definition, $subject, $limit))->remove();
-        });
+        return new RemoveLimit($this->definition, $subject);
     }
 
     public function prune(string $subject): string

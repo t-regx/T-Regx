@@ -28,4 +28,9 @@ class Internal
     {
         return new Definition($pattern, $pattern);
     }
+
+    public static function throw(): Definition
+    {
+        return new Definition('', '');
+    }
 }
