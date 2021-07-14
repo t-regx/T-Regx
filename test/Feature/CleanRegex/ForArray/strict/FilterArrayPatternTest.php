@@ -1,18 +1,31 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\ForArray\strict;
+namespace Test\Feature\TRegx\CleanRegex\ForArray\strict;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\DataProviders;
-use Test\Utils\Internal;
-use TRegx\CleanRegex\ForArray\FilterArrayPattern;
 use TRegx\DataProvider\CrossDataProviders;
 
 /**
- * @covers \TRegx\CleanRegex\ForArray\FilterArrayPattern
+ * @coversNothing
  */
 class FilterArrayPatternTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function shouldFilterStrict()
+    {
+        // given
+        $input = ['Foo', 'Bar'];
+
+        // when
+        $output = pattern('Foo')->forArray($input)->strict()->filterAssoc();
+
+        // then
+        $this->assertSame(['Foo'], $output);
+    }
+
     /**
      * @test
      * @dataProvider filterMethods
@@ -23,14 +36,14 @@ class FilterArrayPatternTest extends TestCase
     public function test(string $method, $listElement, string $type)
     {
         // given
-        $filterArrayPattern = new FilterArrayPattern(Internal::pcre(''), ['Foo', $listElement], true);
+        $input = ['Foo', $listElement];
 
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Only elements of type 'string' can be filtered, but $type given");
 
         // when
-        $filterArrayPattern->$method();
+        pattern('')->forArray($input)->strict()->$method();
     }
 
     public function filterMethods(): array

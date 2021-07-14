@@ -2,11 +2,12 @@
 namespace Test\Interaction\TRegx\CleanRegex\ForArray;
 
 use PHPUnit\Framework\TestCase;
-use Test\DataProviders;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\ForArray\FilterArrayPattern;
-use TRegx\DataProvider\CrossDataProviders;
 
+/**
+ * @covers \TRegx\CleanRegex\ForArray\FilterArrayPattern
+ */
 class FilterArrayPatternTest extends TestCase
 {
     /**
@@ -87,31 +88,5 @@ class FilterArrayPatternTest extends TestCase
                 [],
             ],
         ];
-    }
-
-    /**
-     * @test
-     * @dataProvider filterMethods
-     * @param string $method
-     * @param null|int|array|callable|resource $listElement
-     */
-    public function shouldFilter_safe(string $method, $listElement)
-    {
-        // given
-        $input = ['Foo', 1, $listElement];
-
-        // when
-        $output = pattern('')->forArray($input)->$method();
-
-        // then
-        $this->assertSame(['Foo'], $output);
-    }
-
-    public function filterMethods(): array
-    {
-        return CrossDataProviders::cross(
-            [['filter'], ['filterAssoc']],
-            DataProviders::allPhpTypes('string')
-        );
     }
 }
