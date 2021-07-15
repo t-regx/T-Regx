@@ -34,14 +34,12 @@ class Pcre
 
     public static function semanticVersion(): string
     {
-        [$semanticVersion, $date] = \explode(' ', \PCRE_VERSION);
-        return $semanticVersion;
+        return \strstr(\PCRE_VERSION, ' ', true);
     }
 
     public static function majorVersion(): int
     {
-        [$major, $minor] = \explode('.', self::semanticVersion());
-        return $major;
+        return \strstr(self::semanticVersion(), '.', true);
     }
 
     public static function minorVersion(): int
