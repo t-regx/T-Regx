@@ -13,7 +13,6 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 class RawMatchesOffset implements IRawMatches, IRawWithGroups
 {
     private const GROUP_WHOLE_MATCH = 0;
-
     /** @var array */
     private $matches;
 
@@ -112,10 +111,6 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
         return \array_keys($this->matches);
     }
 
-    /**
-     * @param int $index
-     * @return (int|null)[]
-     */
     public function getGroupsOffsets(int $index): array
     {
         return \array_map(static function (array $match) use ($index) {
@@ -124,10 +119,6 @@ class RawMatchesOffset implements IRawMatches, IRawWithGroups
         }, $this->matches);
     }
 
-    /**
-     * @param int $index
-     * @return (string|null)[]
-     */
     public function getGroupsTexts(int $index): array
     {
         return \array_map(static function (array $match) use ($index) {

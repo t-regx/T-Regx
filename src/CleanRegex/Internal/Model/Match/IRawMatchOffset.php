@@ -11,13 +11,7 @@ interface IRawMatchOffset extends IRawMatch, IRawWithGroups
 
     public function getGroupTextAndOffset($nameOrIndex): array;
 
-    /**
-     * @return (string|null)[]
-     */
     public function getGroupsTexts(): array;
 
-    /**
-     * @return (int|null)[]
-     */
     public function getGroupsOffsets(): array;
 }

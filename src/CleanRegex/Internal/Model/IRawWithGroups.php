@@ -3,9 +3,6 @@ namespace TRegx\CleanRegex\Internal\Model;
 
 interface IRawWithGroups
 {
-    /**
-     * @return (string|int)[]
-     */
     public function getGroupKeys(): array;
 
     /**

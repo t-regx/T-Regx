@@ -20,27 +20,18 @@ abstract class AbstractMatchGroups implements MatchGroups
         $this->subjectable = $subjectable;
     }
 
-    /**
-     * @return (string|null)[]
-     */
     public function texts(): array
     {
         return $this->sliceAndFilter($this->match->getGroupsTexts());
     }
 
-    /**
-     * @return (int|null)[]
-     */
     public function offsets(): array
     {
-        return \array_map(function (int $offset) {
+        return \array_map(function (int $offset): int {
             return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $offset);
         }, $this->byteOffsets());
     }
 
-    /**
-     * @return (int|null)[]
-     */
     public function byteOffsets(): array
     {
         return $this->sliceAndFilter($this->match->getGroupsOffsets());

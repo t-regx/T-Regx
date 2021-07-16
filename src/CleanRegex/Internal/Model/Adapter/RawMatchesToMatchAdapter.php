@@ -33,9 +33,6 @@ class RawMatchesToMatchAdapter implements IRawMatchOffset
         return $this->matches->hasGroup($nameOrIndex);
     }
 
-    /**
-     * @return (string|int)[]
-     */
     public function getGroupKeys(): array
     {
         return $this->matches->getGroupKeys();
@@ -56,17 +53,11 @@ class RawMatchesToMatchAdapter implements IRawMatchOffset
         return $this->matches->getOffset($this->index);
     }
 
-    /**
-     * @return (string|null)[]
-     */
     public function getGroupsTexts(): array
     {
         return $this->matches->getGroupsTexts($this->index);
     }
 
-    /**
-     * @return (int|null)[]
-     */
     public function getGroupsOffsets(): array
     {
         return $this->matches->getGroupsOffsets($this->index);

@@ -39,7 +39,7 @@ class ExceptionFactoryTest extends TestCase
 
     /**
      * @dataProvider \Test\DataProviders::invalidUtf8Sequences()
-     * @param $utf8
+     * @param string $utf8
      */
     public function testRuntimeErrors(string $utf8)
     {

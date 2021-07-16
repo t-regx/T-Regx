@@ -19,9 +19,6 @@ class MatchOnly
         $this->limit = $limit;
     }
 
-    /**
-     * @return (string|null)[]
-     */
     public function get(): array
     {
         if ($this->limit < 0) {
@@ -42,9 +39,6 @@ class MatchOnly
         preg::match($this->base->getPattern()->pattern, '');
     }
 
-    /**
-     * @return (string|null)[]
-     */
     private function getOneMatch(): array
     {
         $result = $this->base->match();

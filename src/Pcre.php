@@ -1,6 +1,8 @@
 <?php
 namespace TRegx;
 
+use TRegx\SafeRegex\Internal\Tuple;
+
 /**
  * PHP 7.3 introduced PCRE2 - a new PCRE version. Until 7.3
  * PCRE was used. "PCRE2" is what PHP calls PCRE 10.0 and up,
@@ -44,7 +46,6 @@ class Pcre
 
     public static function minorVersion(): int
     {
-        [$major, $minor] = \explode('.', self::semanticVersion());
-        return $minor;
+        return Tuple::second(\explode('.', self::semanticVersion()));
     }
 }

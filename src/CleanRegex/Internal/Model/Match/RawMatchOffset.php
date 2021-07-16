@@ -77,9 +77,6 @@ class RawMatchOffset implements IRawMatchOffset
         return $this->match[$nameOrIndex];
     }
 
-    /**
-     * @return (string|null)[]
-     */
     public function getGroupsTexts(): array
     {
         return \array_map(static function ($match) {
@@ -102,9 +99,6 @@ class RawMatchOffset implements IRawMatchOffset
         }, $this->match);
     }
 
-    /**
-     * @return (int|null)[]
-     */
     public function getGroupsOffsets(): array
     {
         return \array_map([Tuple::class, 'second'], $this->match);

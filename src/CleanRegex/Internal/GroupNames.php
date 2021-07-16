@@ -14,9 +14,6 @@ class GroupNames
         $this->match = $match;
     }
 
-    /**
-     * @return (string|null)[]
-     */
     public function groupNames(): array
     {
         $groupKeys = $this->match->getGroupKeys();

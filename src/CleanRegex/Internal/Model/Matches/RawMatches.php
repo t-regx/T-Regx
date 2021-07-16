@@ -31,9 +31,6 @@ class RawMatches implements IRawMatches, IRawWithGroups
         return \array_key_exists($nameOrIndex, $this->matches);
     }
 
-    /**
-     * @return (string|int)[]
-     */
     public function getGroupKeys(): array
     {
         return \array_keys($this->matches);

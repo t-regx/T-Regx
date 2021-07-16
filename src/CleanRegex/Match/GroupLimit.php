@@ -27,6 +27,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\SafeRegex\Internal\Tuple;
 
 class GroupLimit implements PatternLimit, \IteratorAggregate
 {
@@ -80,18 +81,11 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         return $this->findFirstFactory->getOptionalForGroup($consumer);
     }
 
-    /**
-     * @return (string|null)[]
-     */
     public function all(): array
     {
         return \array_values($this->allFactory->getAllForGroup()->getGroupTexts($this->nameOrIndex));
     }
 
-    /**
-     * @param int $limit
-     * @return (string|null)[]
-     */
     public function only(int $limit): array
     {
         $matches = $this->allFactory->getAllForGroup();
@@ -120,8 +114,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         if (!$match->isGroupMatched($this->nameOrIndex, $index)) {
             throw GroupNotMatchedException::forNth($this->base, $this->nameOrIndex, $index);
         }
-        [$text, $offset] = $match->getGroupTextAndOffset($this->nameOrIndex, $index);
-        return $text;
+        return Tuple::first($match->getGroupTextAndOffset($this->nameOrIndex, $index));
     }
 
     public function getIterator(): Iterator

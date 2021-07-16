@@ -53,9 +53,6 @@ class OffsetLimit implements PatternLimit, \IteratorAggregate
         throw SubjectNotMatchedException::forFirstGroupOffset($this->base, $this->nameOrIndex);
     }
 
-    /**
-     * @return (int|null)[]
-     */
     public function all(): array
     {
         $matches = $this->base->matchAllOffsets();
@@ -70,10 +67,6 @@ class OffsetLimit implements PatternLimit, \IteratorAggregate
         return new \ArrayIterator($this->all());
     }
 
-    /**
-     * @param int $limit
-     * @return (int|null)[]
-     */
     public function only(int $limit): array
     {
         $matches = $this->base->matchAllOffsets();
