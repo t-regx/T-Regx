@@ -133,13 +133,6 @@ class Functions
         };
     }
 
-    public static function prepend(string $prefix): callable
-    {
-        return function (string $string) use ($prefix): string {
-            return $prefix . $string;
-        };
-    }
-
     public static function surround(string $character): callable
     {
         return function (string $string) use ($character): string {
