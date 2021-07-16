@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use function count;
 use function get_class;
 use function gettype;
@@ -31,23 +30,10 @@ class Type
         return get_class($value);
     }
 
-    public static function group($nameOrIndex): string
-    {
-        if (\is_string($nameOrIndex)) {
-            return "'$nameOrIndex'";
-        }
-        if (\is_int($nameOrIndex)) {
-            return "#$nameOrIndex";
-        }
-        // @codeCoverageIgnoreStart
-        throw new InternalCleanRegexException();
-        // @codeCoverageIgnoreEnd
-    }
-
     public static function entry($key, $value): string
     {
         $type = Type::asString($value);
-        $formatKey = Type::group($key);
+        $formatKey = GroupFormat::group($key);
         return "[$formatKey => $type]";
     }
 }

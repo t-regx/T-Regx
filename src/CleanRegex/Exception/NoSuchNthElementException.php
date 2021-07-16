@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Internal\GroupFormat;
 
 class NoSuchNthElementException extends \Exception implements PatternException
 {
@@ -17,7 +17,7 @@ class NoSuchNthElementException extends \Exception implements PatternException
 
     public static function forGroup($nameOrIndex, int $index, int $total): self
     {
-        $group = Type::group($nameOrIndex);
+        $group = GroupFormat::group($nameOrIndex);
         return new self("Expected to get group $group from the $index-nth match, but only $total occurrences were matched");
     }
 }

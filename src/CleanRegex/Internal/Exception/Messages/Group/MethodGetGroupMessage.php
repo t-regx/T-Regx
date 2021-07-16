@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Exception\Messages\Group;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Internal\GroupFormat;
 
 class MethodGetGroupMessage implements NotMatchedMessage
 {
@@ -11,7 +11,7 @@ class MethodGetGroupMessage implements NotMatchedMessage
 
     public function __construct($nameOrIndex)
     {
-        $this->group = Type::group($nameOrIndex);
+        $this->group = GroupFormat::group($nameOrIndex);
     }
 
     public function getMessage(): string

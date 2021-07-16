@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Exception\Messages\Subject;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Internal\GroupFormat;
 
 class FirstTripleSubjectMessage implements NotMatchedMessage
 {
@@ -15,9 +15,9 @@ class FirstTripleSubjectMessage implements NotMatchedMessage
 
     public function __construct($nameOrIndex1, $nameOrIndex2, $nameOrIndex3)
     {
-        $this->group1 = Type::group($nameOrIndex1);
-        $this->group2 = Type::group($nameOrIndex2);
-        $this->group3 = Type::group($nameOrIndex3);
+        $this->group1 = GroupFormat::group($nameOrIndex1);
+        $this->group2 = GroupFormat::group($nameOrIndex2);
+        $this->group3 = GroupFormat::group($nameOrIndex3);
     }
 
     public function getMessage(): string
