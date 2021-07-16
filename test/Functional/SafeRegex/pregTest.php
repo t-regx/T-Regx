@@ -174,6 +174,59 @@ class pregTest extends TestCase
     /**
      * @test
      */
+    public function shouldUnquote()
+    {
+        // when
+        $unquoted = preg::unquote('\[a\-z\]\+');
+
+        // then
+        $this->assertSame('[a-z]+', $unquoted);
+    }
+
+    /**
+     * @test
+     * @dataProvider quotable
+     * @param string $input
+     */
+    public function shouldPreserveContract(string $input)
+    {
+        // when
+        $output = preg::unquote(preg::quote($input));
+
+        // then
+        $this->assertSame($input, $output);
+    }
+
+    function quotable(): array
+    {
+        return [
+            ['https://stackoverflow.com/search?q=preg_match#anchor'],
+            ['preg_quote(\'an\y s … \.tri\*ng\') //'],
+            ['.\+*?[^]$(){}=!<>|:-'],
+            ['\\\\\\'],
+            ['\\\\'],
+            ['"Quoted?"'],
+        ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotUnquote_regularCharacters()
+    {
+        // given
+        $input = '\\\' \" \/ \;';
+
+        // when
+        $unquoted = preg::unquote($input);
+
+        // then
+        $this->assertSame($input, $unquoted);
+    }
+
+    /**
+     * @test
+     */
     public function shouldReplaceWithStringObject()
     {
         // when

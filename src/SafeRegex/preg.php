@@ -252,6 +252,21 @@ class preg
         return \preg_quote($string, $delimiter);
     }
 
+    public static function unquote(string $string): string
+    {
+        return self::unquoteStringWithCharacters($string, [
+            '.', '\\', '+', '*', '?', '[', ']', '^', '$', '(', ')',
+            '{', '}', '=', '!', '<', '>', '|', ':', '-', '#'
+        ]);
+    }
+
+    private static function unquoteStringWithCharacters(string $string, array $specialCharacters): string
+    {
+        return \strtr($string, \array_combine(\array_map(static function (string $char): string {
+            return "\\$char";
+        }, $specialCharacters), $specialCharacters));
+    }
+
     /**
      * Returns the error code of the last PCRE regex execution
      *

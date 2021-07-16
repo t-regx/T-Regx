@@ -8,6 +8,7 @@ Incoming
     * `pattern()->forArray()` is now the same as previous `pattern()->forArray()->strict()`.
     * Removed `pattern()->forArray()->strict()`.
     * Removed `Pattern::quote()`. Use `preg::quote()`, which behaves in exactly the same way.
+    * Move `Pattern::unquote()` to `preg::unquote()`, which behaves in exactly the same way.
 * Other
     * Using TDD in T-Regx, it wasn't hard to reach 100% coverage quite easily in T-Regx. In order to make the tests even
       better, we decided that the integration tests won't report any coverage, since it doesn't provide any more

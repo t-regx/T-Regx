@@ -85,9 +85,4 @@ trait EntryPoints
     {
         return new PatternBuilder();
     }
-
-    public static function unquote(string $quotedString): string
-    {
-        return (new UnquotePattern($quotedString))->unquote();
-    }
 }
