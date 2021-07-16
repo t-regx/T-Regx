@@ -11,12 +11,12 @@ use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
-use TRegx\CleanRegex\Internal\Match\FluentInteger;
 use TRegx\CleanRegex\Internal\Match\FluentPredicate;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FilterStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
+use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeysStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MappingStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
@@ -154,7 +154,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function asInt(): FluentMatchPattern
     {
-        return $this->map([FluentInteger::class, 'parse']);
+        return $this->next(new IntStream($this->stream));
     }
 
     public function groupByCallback(callable $groupMapper): FluentMatchPattern

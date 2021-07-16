@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Match\Details\Group\ReplaceGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
-interface Detail extends BaseDetail
+interface Detail extends BaseDetail, Intable
 {
     public function text(): string;
 

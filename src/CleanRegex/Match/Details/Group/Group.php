@@ -1,7 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
-interface Group extends CapturingGroup
+use TRegx\CleanRegex\Match\Details\Intable;
+
+interface Group extends CapturingGroup, Intable
 {
     public function index(): int;
 }
