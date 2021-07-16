@@ -64,18 +64,6 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldQuote()
-    {
-        // when
-        $quoted = Pattern::quote('[a-z]+');
-
-        // then
-        $this->assertSame('\[a\-z\]\+', $quoted);
-    }
-
-    /**
-     * @test
-     */
     public function should_unquote()
     {
         // when
