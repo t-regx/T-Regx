@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace\By\GroupMapper;
 
-use InvalidArgumentException;
-use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Internal\InvalidArgument;
+use TRegx\CleanRegex\Internal\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class DictionaryMapper implements GroupMapper
@@ -27,24 +27,12 @@ class DictionaryMapper implements GroupMapper
     private function validateMap(array $map): void
     {
         foreach ($map as $occurrence => $replacement) {
-            $this->validateOccurrence($occurrence);
-            $this->validateReplacement($replacement);
-        }
-    }
-
-    private function validateOccurrence($occurrence): void
-    {
-        if (!\is_string($occurrence)) {
-            $type = Type::asString($occurrence);
-            throw new InvalidArgumentException("Invalid replacement map key. Expected string, but $type given");
-        }
-    }
-
-    private function validateReplacement($replacement): void
-    {
-        if (!\is_string($replacement)) {
-            $type = Type::asString($replacement);
-            throw new InvalidArgumentException("Invalid replacement map value. Expected string, but $type given");
+            if (!\is_string($occurrence)) {
+                throw InvalidArgument::typeGiven("Invalid replacement map key. Expected string", new ValueType($occurrence));
+            }
+            if (!\is_string($replacement)) {
+                throw  InvalidArgument::typeGiven("Invalid replacement map value. Expected string", new ValueType($replacement));
+            }
         }
     }
 }

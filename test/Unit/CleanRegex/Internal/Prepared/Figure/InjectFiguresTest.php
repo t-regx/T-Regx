@@ -91,7 +91,7 @@ class InjectFiguresTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Invalid figure type [#0 => integer (21)]. Expected string, but integer (21) given");
+        $this->expectExceptionMessage("Invalid inject figure type. Expected string, but integer (21) given");
 
         // when
         $placeholders->nextToken();
@@ -108,7 +108,7 @@ class InjectFiguresTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Invalid figure type ['foo' => integer (4)]. Expected string, but integer (4) given");
+        $this->expectExceptionMessage("Invalid inject figure type. Expected string, but integer (4) given");
 
         // when
         $placeholders->nextToken();

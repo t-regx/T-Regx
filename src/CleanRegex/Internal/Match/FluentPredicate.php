@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Internal\ValueType;
 
 class FluentPredicate
 {
@@ -22,6 +23,6 @@ class FluentPredicate
         if (\is_bool($result)) {
             return $result;
         }
-        throw new InvalidReturnValueException($result, $this->methodName, 'bool');
+        throw new InvalidReturnValueException($this->methodName, 'bool', new ValueType($result));
     }
 }

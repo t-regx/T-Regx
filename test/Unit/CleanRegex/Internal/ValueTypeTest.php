@@ -2,12 +2,12 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Internal\ValueType;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Type
+ * @covers \TRegx\CleanRegex\Internal\ValueType
  */
-class TypeTest extends TestCase
+class ValueTypeTest extends TestCase
 {
     /**
      * @test
@@ -18,9 +18,9 @@ class TypeTest extends TestCase
     public function shouldGetMessageWithType($value, string $expectedString)
     {
         // when
-        $string = Type::asString($value);
+        $type = new ValueType($value);
 
         // then
-        $this->assertSame($expectedString, $string);
+        $this->assertSame($expectedString, "$type");
     }
 }

@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Quotable;
 
-use InvalidArgumentException;
+use TRegx\CleanRegex\Internal\InvalidArgument;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\Alternator;
-use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Internal\ValueType;
 
 class AlternationQuotable implements Quotable
 {
@@ -31,8 +31,7 @@ class AlternationQuotable implements Quotable
     private function validateQuotable($quoteable): void
     {
         if (!\is_string($quoteable)) {
-            $type = Type::asString($quoteable);
-            throw new InvalidArgumentException("Invalid bound alternate value. Expected string, but $type given");
+            throw InvalidArgument::typeGiven("Invalid bound alternate value. Expected string", new ValueType($quoteable));
         }
     }
 

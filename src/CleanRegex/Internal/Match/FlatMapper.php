@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\FlatMap\FlatMapStrategy;
+use TRegx\CleanRegex\Internal\ValueType;
 
 class FlatMapper
 {
@@ -35,6 +36,6 @@ class FlatMapper
         if (\is_array($value)) {
             return $value;
         }
-        throw InvalidReturnValueException::forArrayReturning($this->methodName, $value);
+        throw InvalidReturnValueException::forArrayReturning($this->methodName, new ValueType($value));
     }
 }

@@ -21,6 +21,6 @@ class AlternationTokenTest extends TestCase
         $type = $token->type();
 
         // then
-        $this->assertSame('array (5)', $type);
+        $this->assertSame('array (5)', "$type");
     }
 }

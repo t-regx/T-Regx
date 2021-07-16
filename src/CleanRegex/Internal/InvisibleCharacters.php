@@ -1,10 +1,21 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use function ord;
-
-class InvisibleCharacters
+class InvisibleCharacters implements Type
 {
+    /** @var string */
+    private $string;
+
+    public function __construct(string $string)
+    {
+        $this->string = $string;
+    }
+
+    public function __toString(): string
+    {
+        return self::format($this->string);
+    }
+
     public static function format(string $string): string
     {
         $result = \preg_replace_callback("#\\p{C}|\xc2\xa0#u", static function (array $matches) {
@@ -19,7 +30,7 @@ class InvisibleCharacters
     private static function formatWord(string $bytes): string
     {
         if (\strlen($bytes) === 1) {
-            return self::tryPrettyByte(ord($bytes)) ?? self::hex($bytes);
+            return self::tryPrettyByte(\ord($bytes)) ?? self::hex($bytes);
         }
         return \join(\array_map([self::class, 'hex'], \str_split($bytes)));
     }

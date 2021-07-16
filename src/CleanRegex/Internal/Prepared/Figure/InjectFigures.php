@@ -1,11 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Figure;
 
-use InvalidArgumentException;
+use TRegx\CleanRegex\Internal\InvalidArgument;
 use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\Token;
-use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Internal\ValueType;
 use UnderflowException;
 
 class InjectFigures implements CountedFigures
@@ -28,9 +28,7 @@ class InjectFigures implements CountedFigures
         if (\is_array($value)) {
             return new AlternationToken($value);
         }
-        $type = Type::asString($value);
-        $entry = Type::entry($key, $value);
-        throw new InvalidArgumentException("Invalid figure type $entry. Expected string, but $type given");
+        throw InvalidArgument::typeGiven("Invalid inject figure type. Expected string", new ValueType($value));
     }
 
     private function nextEntry(): array

@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Internal\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class ComputedMatchStrategy implements MatchRs
@@ -21,7 +22,7 @@ class ComputedMatchStrategy implements MatchRs
     {
         $result = ($this->mapper)($detail);
         if ($result === null) {
-            throw new InvalidReturnValueException(null, $this->callingMethod, 'string');
+            throw new InvalidReturnValueException($this->callingMethod, 'string', new ValueType(null));
         }
         return $result;
     }

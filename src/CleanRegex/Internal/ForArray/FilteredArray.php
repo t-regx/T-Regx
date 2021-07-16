@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\ForArray;
 
-use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Internal\InvalidArgument;
+use TRegx\CleanRegex\Internal\ValueType;
 use TRegx\SafeRegex\preg;
 
 class FilteredArray
@@ -23,15 +23,9 @@ class FilteredArray
     {
         foreach ($this->array as $value) {
             if (!\is_string($value)) {
-                throw $this->throwInvalidArgumentException($value);
+                throw InvalidArgument::typeGiven("Only elements of type 'string' can be filtered", new ValueType($value));
             }
         }
         return preg::grep($this->definition->pattern, $this->array);
-    }
-
-    private function throwInvalidArgumentException($value): InvalidArgumentException
-    {
-        $type = Type::asString($value);
-        return new InvalidArgumentException("Only elements of type 'string' can be filtered, but $type given");
     }
 }

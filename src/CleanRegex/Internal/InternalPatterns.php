@@ -29,12 +29,6 @@ class InternalPatterns
         if ($pattern instanceof Pattern) {
             return new Identity($patternToInternal($pattern));
         }
-        throw self::invalidArgumentException($pattern);
-    }
-
-    private static function invalidArgumentException($invalidArgument): \InvalidArgumentException
-    {
-        $type = Type::asString($invalidArgument);
-        return new \InvalidArgumentException("CompositePattern only accepts type Pattern or string, but $type given");
+        throw InvalidArgument::typeGiven("CompositePattern only accepts type Pattern or string", new ValueType($pattern));
     }
 }

@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\CapturingGroup;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
@@ -101,7 +102,7 @@ class ReplaceCallbackObject
         if ($replacement instanceof Detail) {
             return $replacement;
         }
-        throw new InvalidReplacementException($replacement);
+        throw new InvalidReplacementException(new ValueType($replacement));
     }
 
     private function groupAsReplacement(CapturingGroup $group): string

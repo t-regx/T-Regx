@@ -3,6 +3,7 @@ namespace Test\Utils\Impl;
 
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Template\Token;
+use TRegx\CleanRegex\Internal\Type;
 
 class RawToken implements Token
 {
@@ -22,7 +23,7 @@ class RawToken implements Token
         return new VerifyQuotable($this->literal, $this->expectedDelimiter);
     }
 
-    public function type(): string
+    public function type(): Type
     {
         throw new \AssertionError("Token wasn't supposed to be used as a type");
     }

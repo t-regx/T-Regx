@@ -111,7 +111,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         if ($index < 0) {
             throw new InvalidArgumentException("Negative group nth: $index");
         }
-        if ($count === 0) {
+        if (!$match->matched()) {
             throw SubjectNotMatchedException::forNthGroup($this->base, $this->nameOrIndex, $index);
         }
         if ($count <= $index) {

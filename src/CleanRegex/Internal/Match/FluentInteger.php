@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Match;
 use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\Integer;
+use TRegx\CleanRegex\Internal\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
@@ -18,7 +19,7 @@ class FluentInteger
             return $value->toInt();
         }
         if (!\is_string($value)) {
-            throw FluentMatchPatternException::forInvalidInteger($value);
+            throw FluentMatchPatternException::forInvalidInteger(new ValueType($value));
         }
         if (Integer::isValid($value)) {
             return (int)$value;

@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Template;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
 use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Internal\ValueType;
 
 class LiteralToken implements Token
 {
@@ -20,8 +21,8 @@ class LiteralToken implements Token
         return new UserInputQuotable($this->text);
     }
 
-    public function type(): string
+    public function type(): Type
     {
-        return Type::asString($this->text);
+        return new ValueType($this->text);
     }
 }

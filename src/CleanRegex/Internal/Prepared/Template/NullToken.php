@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
+use TRegx\CleanRegex\Internal\Type;
 
 class NullToken implements Token
 {
@@ -13,7 +14,7 @@ class NullToken implements Token
         // @codeCoverageIgnoreEnd
     }
 
-    public function type(): string
+    public function type(): Type
     {
         // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();

@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Template;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Internal\ValueType;
 
 class AlternationToken implements Token
 {
@@ -20,8 +21,8 @@ class AlternationToken implements Token
         return new AlternationQuotable($this->values);
     }
 
-    public function type(): string
+    public function type(): Type
     {
-        return Type::asString($this->values);
+        return new ValueType($this->values);
     }
 }

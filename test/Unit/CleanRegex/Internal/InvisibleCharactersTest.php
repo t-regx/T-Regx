@@ -18,10 +18,10 @@ class InvisibleCharactersTest extends TestCase
     public function test(string $value, string $expected)
     {
         // when
-        $visible = InvisibleCharacters::format($value);
+        $visible = new InvisibleCharacters($value);
 
         // then
-        $this->assertSame($expected, $visible);
+        $this->assertSame($expected, "$visible");
     }
 
     public function characters(): array

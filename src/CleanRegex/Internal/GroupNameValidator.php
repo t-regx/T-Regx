@@ -20,7 +20,7 @@ class GroupNameValidator
         } else if (\is_string($this->groupNameOrIndex)) {
             $this->validateGroupNameFormat($this->groupNameOrIndex);
         } else {
-            $this->throwInvalidGroupNameType();
+            throw InvalidArgument::typeGiven("Group index must be an integer or a string", new ValueType($this->groupNameOrIndex));
         }
     }
 
@@ -45,19 +45,12 @@ class GroupNameValidator
     private function validateGroupNameFormat(string $name): void
     {
         if (!$this->isGroupNameValid()) {
-            $prettyName = InvisibleCharacters::format($name);
-            throw new InvalidArgumentException("Group name must be an alphanumeric string, not starting with a digit, but '$prettyName' given");
+            throw InvalidArgument::typeGiven("Group name must be an alphanumeric string, not starting with a digit", new GroupNameType($name));
         }
     }
 
     private function isGroupNameValid(): bool
     {
         return \preg_match('/^[_a-zA-Z][a-zA-Z0-9_]{0,31}$/D', $this->groupNameOrIndex) > 0;
-    }
-
-    private function throwInvalidGroupNameType(): void
-    {
-        $type = Type::asString($this->groupNameOrIndex);
-        throw new InvalidArgumentException("Group index must be an integer or a string, but $type given");
     }
 }

@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Exception\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
+use TRegx\CleanRegex\Internal\ValueType;
 
 /**
  * @covers \TRegx\CleanRegex\Exception\InvalidReplacementException
@@ -15,7 +16,7 @@ class InvalidReplacementExceptionTest extends TestCase
     public function shouldGetMessageWithType()
     {
         // given
-        $exception = new InvalidReplacementException(true);
+        $exception = new InvalidReplacementException(new ValueType(true));
 
         // when
         $message = $exception->getMessage();

@@ -5,24 +5,23 @@ use TRegx\CleanRegex\Internal\Type;
 
 class InvalidReturnValueException extends \Exception implements PatternException
 {
-    public function __construct($returnValue, string $methodName, string $expectedReturnType)
+    public function __construct(string $methodName, string $expectedReturnType, Type $type)
     {
-        $type = Type::asString($returnValue);
         parent::__construct("Invalid $methodName() callback return type. Expected $expectedReturnType, but $type given");
     }
 
-    public static function forArrayReturning(string $method, $value): self
+    public static function forArrayReturning(string $method, Type $type): self
     {
-        return new self($value, $method, 'array');
+        return new self($method, 'array', $type);
     }
 
-    public static function forGroupByCallback($value): self
+    public static function forGroupByCallback(Type $type): self
     {
-        return new self($value, 'groupByCallback', 'int|string');
+        return new self('groupByCallback', 'int|string', $type);
     }
 
-    public static function forOtherwise($value): self
+    public static function forOtherwise(Type $type): self
     {
-        return new self($value, 'otherwise', 'string');
+        return new self('otherwise', 'string', $type);
     }
 }

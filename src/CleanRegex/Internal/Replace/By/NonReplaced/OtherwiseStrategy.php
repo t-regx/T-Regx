@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Internal\ValueType;
 
 class OtherwiseStrategy implements SubjectRs
 {
@@ -19,6 +20,6 @@ class OtherwiseStrategy implements SubjectRs
         if (\is_string($value)) {
             return $value;
         }
-        throw InvalidReturnValueException::forOtherwise($value);
+        throw InvalidReturnValueException::forOtherwise(new ValueType($value));
     }
 }

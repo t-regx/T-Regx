@@ -1,11 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Quotable\Factory;
 
-use InvalidArgumentException;
+use TRegx\CleanRegex\Internal\InvalidArgument;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
-use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Internal\ValueType;
 
 class AlterationFactory implements QuotableFactory
 {
@@ -17,7 +17,6 @@ class AlterationFactory implements QuotableFactory
         if (\is_array($value)) {
             return new AlternationQuotable($value);
         }
-        $type = Type::asString($value);
-        throw new InvalidArgumentException("Invalid bound value. Expected string, but $type given");
+        throw InvalidArgument::typeGiven("Invalid bound value. Expected string", new ValueType($value));
     }
 }

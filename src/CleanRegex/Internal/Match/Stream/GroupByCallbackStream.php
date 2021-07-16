@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Internal\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
@@ -47,6 +48,6 @@ class GroupByCallbackStream implements Stream
         if (\is_int($key) || \is_string($key)) {
             return $key;
         }
-        throw InvalidReturnValueException::forGroupByCallback($key);
+        throw InvalidReturnValueException::forGroupByCallback(new ValueType($key));
     }
 }
