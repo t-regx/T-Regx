@@ -16,7 +16,7 @@ class Descriptor
 
     public function getGroups(): array
     {
-        preg::match_all($this->definition->pattern, '', $matches, \PREG_PATTERN_ORDER);
+        preg::match_all($this->definition->pattern, '', $matches);
         return \array_keys($matches);
     }
 }

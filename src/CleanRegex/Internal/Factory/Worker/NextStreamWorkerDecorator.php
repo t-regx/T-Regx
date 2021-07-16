@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal\Factory\Worker;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
-use TRegx\CleanRegex\Internal\Subjectable;
 
 class NextStreamWorkerDecorator implements StreamWorker
 {
@@ -11,14 +10,11 @@ class NextStreamWorkerDecorator implements StreamWorker
     private $worker;
     /** @var StreamWorker */
     private $currentWorker;
-    /** @var Subjectable */
-    private $subjectable;
 
-    public function __construct(StreamWorker $nextWorker, StreamWorker $currentWorker, Subjectable $subjectable)
+    public function __construct(StreamWorker $nextWorker, StreamWorker $currentWorker)
     {
         $this->worker = $nextWorker;
         $this->currentWorker = $currentWorker;
-        $this->subjectable = $subjectable;
     }
 
     public function undecorateWorker(): StreamWorker

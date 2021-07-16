@@ -9,7 +9,7 @@ class ConstantThrowOptionalWorker implements OptionalWorker
     /** @var Throwable */
     private $throwable;
 
-    public function __construct(\Throwable $throwable)
+    public function __construct(Throwable $throwable)
     {
         $this->throwable = $throwable;
     }

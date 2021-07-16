@@ -50,7 +50,7 @@ class AsArrayStream implements Stream
     {
         $result = [];
         foreach ($matches as $group => $match) {
-            foreach ($matches[$group] as $index => $value) {
+            foreach ($match as $index => $value) {
                 $result[$index][$group] = $value === '' || $value[1] === -1 ? null : $value[0];
             }
         }

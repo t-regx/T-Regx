@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\FluentPredicate;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
+use TRegx\SafeRegex\Internal\Tuple;
 
 class FilterStream implements Stream
 {
@@ -26,14 +27,12 @@ class FilterStream implements Stream
 
     public function first()
     {
-        [$value, $key] = $this->getFirstAndKey();
-        return $value;
+        return Tuple::first($this->getFirstAndKey());
     }
 
     public function firstKey()
     {
-        [$value, $key] = $this->getFirstAndKey();
-        return $key;
+        return Tuple::second($this->getFirstAndKey());
     }
 
     private function getFirstAndKey(): array

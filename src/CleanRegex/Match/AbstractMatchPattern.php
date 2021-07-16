@@ -180,14 +180,14 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         return new FluentMatchPattern(
             new MatchIntStream(new BaseStream($this->base)),
-            new NextStreamWorkerDecorator(new MatchStreamWorker(), new AsIntStreamWorker($this->base), $this->base));
+            new NextStreamWorkerDecorator(new MatchStreamWorker(), new AsIntStreamWorker($this->base)));
     }
 
     public function asArray(): FluentMatchPattern
     {
         return new FluentMatchPattern(
             new AsArrayStream(new BaseStream($this->base), $this->base),
-            new NextStreamWorkerDecorator(new MatchStreamWorker(), new AsArrayStreamWorker($this->base), $this->base));
+            new NextStreamWorkerDecorator(new MatchStreamWorker(), new AsArrayStreamWorker($this->base)));
     }
 
     /**

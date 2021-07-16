@@ -56,15 +56,13 @@ class AbstractMatchPatternTest extends TestCase
             ->fluent()
             ->filter(function (Detail $detail) {
                 // when
-                $detail->setUserData($detail === 'Foo' ? 'hey' : 'hello');
+                $detail->setUserData("$detail" === 'Foo' ? 'hey' : 'hello');
 
                 return true;
             })
             ->forEach(function (Detail $detail) {
                 // then
-                $userData = $detail->getUserData();
-
-                $this->assertSame($detail === 'Foo' ? 'hey' : 'hello', $userData);
+                $this->assertSame($detail->index() === 0 ? 'hey' : 'hello', $detail->getUserData());
             });
     }
 

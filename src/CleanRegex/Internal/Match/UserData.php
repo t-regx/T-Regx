@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Match\Details\Detail;
 
 class UserData
 {
-    /** @var mixed[] */
+    /** @var array */
     private $values = [];
 
     public function set(Detail $detail, $value): void

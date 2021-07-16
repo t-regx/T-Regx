@@ -136,7 +136,7 @@ class MatchDetailTest extends TestCase
         $detail->usingDuplicateName()->$method(2);
     }
 
-    public function methods()
+    public function methods(): array
     {
         return [
             ['group'],
