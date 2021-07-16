@@ -43,7 +43,7 @@ class ReplacePatternTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '2group'");
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '2group' given");
 
         // when
         pattern('(?<capital>[OT])(ne|wo)')

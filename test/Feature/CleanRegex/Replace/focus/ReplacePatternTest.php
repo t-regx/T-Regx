@@ -53,7 +53,7 @@ class ReplacePatternTest extends TestCase
 
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '2foo'");
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '2foo' given");
 
         // when
         pattern($pattern)->replace($subject)->all()->focus('2foo')->with('xxx');

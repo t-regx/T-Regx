@@ -77,14 +77,14 @@ class MatchDetailTest extends TestCase
     {
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Group index must be an integer or a string, given: boolean (true)');
+        $this->expectExceptionMessage('Group index must be an integer or a string, but boolean (false) given');
 
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
             ->first(function (Detail $detail) {
                 // when
-                $detail->group(true);
+                $detail->group(false);
             });
     }
 }

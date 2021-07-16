@@ -38,7 +38,7 @@ class GroupNameValidator
     private function validateGroupIndex(int $index): void
     {
         if ($index < 0) {
-            throw new InvalidArgumentException("Group index must be a non-negative integer, given: $index");
+            throw new InvalidArgumentException("Group index must be a non-negative integer, but $index given");
         }
     }
 
@@ -46,7 +46,7 @@ class GroupNameValidator
     {
         if (!$this->isGroupNameValid()) {
             $prettyName = InvisibleCharacters::format($name);
-            throw new InvalidArgumentException("Group name must be an alphanumeric string, not starting with a digit, given: '$prettyName'");
+            throw new InvalidArgumentException("Group name must be an alphanumeric string, not starting with a digit, but '$prettyName' given");
         }
     }
 
@@ -58,6 +58,6 @@ class GroupNameValidator
     private function throwInvalidGroupNameType(): void
     {
         $type = Type::asString($this->groupNameOrIndex);
-        throw new InvalidArgumentException("Group index must be an integer or a string, given: $type");
+        throw new InvalidArgumentException("Group index must be an integer or a string, but $type given");
     }
 }

@@ -138,10 +138,10 @@ class NotMatchedTest extends TestCase
     public function invalidGroups(): array
     {
         return [
-            [-1, 'Group index must be a non-negative integer, given: -1'],
-            [-3, 'Group index must be a non-negative integer, given: -3'],
-            ['2startingWithDigit', "Group name must be an alphanumeric string, not starting with a digit, given: '2startingWithDigit'"],
-            ['dashed-dashed', "Group name must be an alphanumeric string, not starting with a digit, given: 'dashed-dashed'"]
+            [-1, 'Group index must be a non-negative integer, but -1 given'],
+            [-3, 'Group index must be a non-negative integer, but -3 given'],
+            ['2startingWithDigit', "Group name must be an alphanumeric string, not starting with a digit, but '2startingWithDigit' given"],
+            ['dashed-dashed', "Group name must be an alphanumeric string, not starting with a digit, but 'dashed-dashed' given"]
         ];
     }
 

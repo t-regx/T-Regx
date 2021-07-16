@@ -203,7 +203,7 @@ class MatchDetailTest extends TestCase
     {
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, given: '2sd'");
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '2sd' given");
 
         // given
         pattern('(?<one>first) and (?<two>second)')

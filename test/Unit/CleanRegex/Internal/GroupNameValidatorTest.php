@@ -111,14 +111,14 @@ class GroupNameValidatorTest extends TestCase
     public function invalidGroup(): array
     {
         return [
-            ['9group', "Group name must be an alphanumeric string, not starting with a digit, given: '9group'"],
-            ['group space', "Group name must be an alphanumeric string, not starting with a digit, given: 'group space'"],
-            [-15, 'Group index must be a non-negative integer, given: -15'],
-            [2.23, 'Group index must be an integer or a string, given: double (2.23)'],
-            [null, 'Group index must be an integer or a string, given: null'],
-            ["group\n", "Group name must be an alphanumeric string, not starting with a digit, given: 'group\\n'"],
-            ["a\x7f\x7fb", "Group name must be an alphanumeric string, not starting with a digit, given: 'a\\x7f\\x7fb'"],
-            ["a\xc2\xa0b", "Group name must be an alphanumeric string, not starting with a digit, given: 'a\\xc2\\xa0b'"],
+            ['9group', "Group name must be an alphanumeric string, not starting with a digit, but '9group' given"],
+            ['group space', "Group name must be an alphanumeric string, not starting with a digit, but 'group space' given"],
+            [-15, 'Group index must be a non-negative integer, but -15 given'],
+            [2.23, 'Group index must be an integer or a string, but double (2.23) given'],
+            [null, 'Group index must be an integer or a string, but null given'],
+            ["group\n", "Group name must be an alphanumeric string, not starting with a digit, but 'group\\n' given"],
+            ["a\x7f\x7fb", "Group name must be an alphanumeric string, not starting with a digit, but 'a\\x7f\\x7fb' given"],
+            ["a\xc2\xa0b", "Group name must be an alphanumeric string, not starting with a digit, but 'a\\xc2\\xa0b' given"],
         ];
     }
 }
