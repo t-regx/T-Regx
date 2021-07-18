@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Match\GroupBy;
 
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatch;
-use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 
 class TextsStrategy implements Strategy
 {

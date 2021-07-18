@@ -4,7 +4,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Replace\Callback;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
-use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;

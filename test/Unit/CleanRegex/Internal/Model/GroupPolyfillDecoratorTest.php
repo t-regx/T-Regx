@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator

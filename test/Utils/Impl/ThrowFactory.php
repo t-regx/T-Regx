@@ -3,7 +3,7 @@ namespace Test\Utils\Impl;
 
 use AssertionError;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 
 class ThrowFactory implements MatchAllFactory
 {

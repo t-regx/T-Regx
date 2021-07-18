@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\GroupBy;
 
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 
 class OffsetsStrategy implements Strategy

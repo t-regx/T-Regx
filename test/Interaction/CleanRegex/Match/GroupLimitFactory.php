@@ -4,8 +4,8 @@ namespace Test\Interaction\TRegx\CleanRegex\Match;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Match\GroupLimit;
 use TRegx\CleanRegex\Match\OffsetLimit;
 

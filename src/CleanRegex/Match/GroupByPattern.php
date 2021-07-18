@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Match\GroupBy\OffsetsStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupBy\Strategy;
 use TRegx\CleanRegex\Internal\Match\GroupBy\TextsStrategy;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
-use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 
 class GroupByPattern
 {

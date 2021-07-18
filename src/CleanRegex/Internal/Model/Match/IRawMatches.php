@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Model\Matches;
+namespace TRegx\CleanRegex\Internal\Model\Match;
 
 interface IRawMatches
 {

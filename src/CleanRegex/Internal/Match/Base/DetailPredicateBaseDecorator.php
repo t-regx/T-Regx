@@ -6,9 +6,9 @@ use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
-use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 
 class DetailPredicateBaseDecorator implements Base
 {

@@ -5,8 +5,8 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 

@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\MatchAll;
 
-use TRegx\CleanRegex\Internal\Model\Matches\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 
 class EagerMatchAllFactory implements MatchAllFactory
 {

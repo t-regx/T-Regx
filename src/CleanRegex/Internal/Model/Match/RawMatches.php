@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Model\Matches;
+namespace TRegx\CleanRegex\Internal\Model\Match;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Model\IRawWithGroups;

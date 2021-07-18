@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Model;
 
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Model\Matches\RawMatches;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
 use TRegx\SafeRegex\preg;
 
 class LazyRawWithGroups implements IRawWithGroups
