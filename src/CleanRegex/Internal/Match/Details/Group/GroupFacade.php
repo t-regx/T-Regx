@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
-use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
@@ -32,7 +32,7 @@ class GroupFacade
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(IRawWithGroups $groupAssignMatch,
+    public function __construct(GroupAware $groupAware,
                                 Subjectable $subject,
                                 $group,
                                 GroupFactoryStrategy $factoryStrategy,
@@ -40,7 +40,7 @@ class GroupFacade
     {
         $this->subject = $subject;
         $this->usedIdentifier = $group;
-        [$this->name, $this->index] = (new GroupNameIndexAssign($groupAssignMatch, $allFactory))->getNameAndIndex($group);
+        [$this->name, $this->index] = (new GroupNameIndexAssign($groupAware, $allFactory))->getNameAndIndex($group);
         $this->factoryStrategy = $factoryStrategy;
         $this->allFactory = $allFactory;
     }

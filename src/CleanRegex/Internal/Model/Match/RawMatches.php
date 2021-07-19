@@ -2,9 +2,9 @@
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 
-class RawMatches implements IRawMatches, IRawWithGroups
+class RawMatches implements IRawMatches, GroupAware
 {
     /** @var array */
     private $matches;

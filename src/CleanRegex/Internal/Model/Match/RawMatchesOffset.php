@@ -6,9 +6,9 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
-use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 
-class RawMatchesOffset implements IRawMatches, IRawWithGroups
+class RawMatchesOffset implements IRawMatches, GroupAware
 {
     private const GROUP_WHOLE_MATCH = 0;
     /** @var array */

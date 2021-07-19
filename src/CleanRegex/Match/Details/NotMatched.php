@@ -3,19 +3,19 @@ namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\GroupNameValidator;
-use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Subjectable;
 use function array_filter;
 use function count;
 
 class NotMatched implements BaseDetail
 {
-    /** @var IRawWithGroups */
+    /** @var GroupAware */
     private $match;
     /** @var Subjectable */
     private $subject;
 
-    public function __construct(IRawWithGroups $match, Subjectable $subject)
+    public function __construct(GroupAware $match, Subjectable $subject)
     {
         $this->match = $match;
         $this->subject = $subject;

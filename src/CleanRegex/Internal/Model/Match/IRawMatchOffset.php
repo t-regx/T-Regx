@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
-use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 
-interface IRawMatchOffset extends IRawMatch, IRawWithGroups
+interface IRawMatchOffset extends IRawMatch, GroupAware
 {
     public function byteOffset(): int;
 

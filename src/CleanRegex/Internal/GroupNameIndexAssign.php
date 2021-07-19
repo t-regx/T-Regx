@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Exception\InsufficientMatchException;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\IRawWithGroups;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 
 class GroupNameIndexAssign
 {
@@ -13,7 +13,7 @@ class GroupNameIndexAssign
     /** @var MatchAllFactory */
     private $allGroupKeysFactory;
 
-    public function __construct(IRawWithGroups $matches, MatchAllFactory $allGroupKeysFactory)
+    public function __construct(GroupAware $matches, MatchAllFactory $allGroupKeysFactory)
     {
         $this->groupKeys = $matches->getGroupKeys();
         $this->allGroupKeysFactory = $allGroupKeysFactory;
