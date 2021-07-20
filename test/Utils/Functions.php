@@ -104,10 +104,10 @@ class Functions
         };
     }
 
-    public static function lettersFlip(): callable
+    public static function lettersAsKeys(): callable
     {
         return function (string $value): array {
-            return array_flip(self::splitLetters($value));
+            return \array_flip(self::splitLetters($value));
         };
     }
 

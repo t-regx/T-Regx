@@ -52,7 +52,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldReturn_firstKey()
     {
         // given
-        $stream = new FlatMappingStream($this->first('Bar'), new ReverseFlatMap(), Functions::lettersFlip(), '');
+        $stream = new FlatMappingStream($this->first('Bar'), new ReverseFlatMap(), Functions::lettersAsKeys(), '');
 
         // when
         $firstKey = $stream->firstKey();
@@ -82,7 +82,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldReturn_firstKey_forEmptyFirstTrailAll()
     {
         // given
-        $flatMap = new FlatMappingStream($this->both('', ['', '', 'Two']), new ArrayMergeStrategy(), Functions::lettersFlip(), '');
+        $flatMap = new FlatMappingStream($this->both('', ['', '', 'Two']), new ArrayMergeStrategy(), Functions::lettersAsKeys(), '');
 
         // when
         $result = $flatMap->firstKey();

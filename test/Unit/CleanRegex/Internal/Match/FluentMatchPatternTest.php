@@ -198,7 +198,7 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern($this->method('first', 'One'), ThrowWorker::none());
 
         // when
-        $result = $pattern->flatMap(Functions::lettersFlip())->keys()->first();
+        $result = $pattern->flatMap(Functions::lettersAsKeys())->keys()->first();
 
         // then
         $this->assertSame('O', $result);
