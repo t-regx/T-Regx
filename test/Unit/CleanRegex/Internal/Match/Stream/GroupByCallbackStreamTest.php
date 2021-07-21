@@ -1,15 +1,17 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use Test\Utils\Impl\AllStream;
+use Test\Utils\Impl\FirstStream;
+use Test\Utils\Impl\TextDetail;
+use Test\Utils\Impl\TextGroup;
+use Test\Utils\Impl\ThrowStream;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
-use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\Group;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream
@@ -22,7 +24,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $stream = new GroupByCallbackStream($this->all([10 => 'One', 20 => 'Two', 30 => 'Three']), Functions::charAt(0));
+        $stream = new GroupByCallbackStream(new AllStream([10 => 'One', 20 => 'Two', 30 => 'Three']), Functions::charAt(0));
 
         // when
         $all = $stream->all();
@@ -37,19 +39,17 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGroupDifferentDataTypes()
     {
         // given
-        $detail = $this->detailMock('hello');
-        $group = $this->matchGroupMock('hello');
-        $stream = new GroupByCallbackStream($this->all(['hello', 2, $detail, 2, $group]), Functions::identity());
+        $stream = new GroupByCallbackStream(new AllStream(['hello', 2, new TextDetail('hello'), 2, new TextGroup('hello')]), Functions::identity());
 
         // when
         $all = $stream->all();
 
         // then
         $expected = [
-            'hello' => ['hello', $detail, $group],
+            'hello' => ['hello', new TextDetail('hello'), new TextGroup('hello')],
             2       => [2, 2],
         ];
-        $this->assertSame($expected, $all);
+        $this->assertEquals($expected, $all);
     }
 
     /**
@@ -58,7 +58,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $stream = new GroupByCallbackStream($this->first('One'), 'strToUpper');
+        $stream = new GroupByCallbackStream(new FirstStream('One'), 'strToUpper');
 
         // when
         $first = $stream->first();
@@ -73,7 +73,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = new GroupByCallbackStream($this->first('One'), 'strToUpper');
+        $stream = new GroupByCallbackStream(new FirstStream('One'), 'strToUpper');
 
         // when
         $firstKey = $stream->firstKey();
@@ -88,7 +88,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldThrow_first()
     {
         // given
-        $stream = new GroupByCallbackStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strLen');
+        $stream = new GroupByCallbackStream(new ThrowStream(new NoFirstStreamException()), 'strLen');
 
         // then
         $this->expectException(NoFirstStreamException::class);
@@ -99,65 +99,28 @@ class GroupByCallbackStreamTest extends TestCase
 
     /**
      * @test
-     * @dataProvider callers
-     * @param string $caller
-     * @param $returnValue
+     * @dataProvider inputStreams
+     * @param string $method
+     * @param Stream $input
      */
-    public function shouldThrowForInvalidGroupByType_all(string $caller, $returnValue)
+    public function shouldThrowForInvalidGroupByType_all(string $method, Stream $input)
     {
         // given
-        $stream = new GroupByCallbackStream($this->mock($caller, 'willReturn', $returnValue), Functions::constant([]));
+        $stream = new GroupByCallbackStream($input, Functions::constant([]));
 
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid groupByCallback() callback return type. Expected int|string, but array (0) given');
 
         // when
-        $stream->$caller();
+        $stream->$method();
     }
 
-    public function callers(): array
+    public function inputStreams(): array
     {
         return [
-            'all()'   => ['all', ['foo']],
-            'first()' => ['first', 'foo']
+            'all()'   => ['all', new AllStream(['foo'])],
+            'first()' => ['first', new FirstStream('foo')]
         ];
-    }
-
-    private function first(string $string): Stream
-    {
-        return $this->mock('first', 'willReturn', $string);
-    }
-
-    private function all(array $all): Stream
-    {
-        return $this->mock('all', 'willReturn', $all);
-    }
-
-    private function mock(string $methodName, string $setter, $value): Stream
-    {
-        /** @var Stream|MockObject $stream */
-        $stream = $this->createMock(Stream::class);
-        $stream->expects($this->once())->method($methodName)->$setter($value);
-        $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
-        return $stream;
-    }
-
-    private function detailMock(string $text): Detail
-    {
-        /** @var Detail|MockObject $detail */
-        $detail = $this->createMock(Detail::class);
-        $detail->expects($this->once())->method('text')->willReturn($text);
-        $detail->expects($this->never())->method($this->logicalNot($this->matches('text')));
-        return $detail;
-    }
-
-    private function matchGroupMock(string $text): Group
-    {
-        /** @var Group|MockObject $group */
-        $group = $this->createMock(Group::class);
-        $group->expects($this->once())->method('text')->willReturn($text);
-        $group->expects($this->never())->method($this->logicalNot($this->matches('text')));
-        return $group;
     }
 }

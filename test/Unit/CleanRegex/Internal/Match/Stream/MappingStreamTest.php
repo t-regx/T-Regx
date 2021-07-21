@@ -4,6 +4,10 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use Test\Utils\Impl\AllStream;
+use Test\Utils\Impl\FirstKeyStream;
+use Test\Utils\Impl\FirstStream;
+use Test\Utils\Impl\ThrowStream;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\MappingStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
@@ -19,7 +23,7 @@ class MappingStreamTest extends TestCase
     public function shouldReturn_all()
     {
         // given
-        $stream = new MappingStream($this->mock('all', 'willReturn', ['One', 'Two', 'Three']), 'strToUpper');
+        $stream = new MappingStream(new AllStream(['One', 'Two', 'Three']), 'strToUpper');
 
         // when
         $all = $stream->all();
@@ -34,7 +38,7 @@ class MappingStreamTest extends TestCase
     public function shouldReturn_first()
     {
         // given
-        $stream = new MappingStream($this->mock('first', 'willReturn', 'One'), function (string $element) {
+        $stream = new MappingStream(new FirstStream('One'), function (string $element) {
             $this->assertSame('One', $element, 'Failed to assert that callback is only called for the first element');
             return 'foo';
         });
@@ -52,7 +56,7 @@ class MappingStreamTest extends TestCase
     public function shouldReturn_firstKey_dataTypeString()
     {
         // given
-        $stream = new MappingStream($this->mock('firstKey', 'willReturn', 'foo'), Functions::fail());
+        $stream = new MappingStream(new FirstKeyStream('foo'), Functions::fail());
 
         // when
         $firstKey = $stream->firstKey();
@@ -67,7 +71,7 @@ class MappingStreamTest extends TestCase
     public function shouldReturn_first_dataTypeInteger()
     {
         // given
-        $stream = new MappingStream($this->mock('first', 'willReturn', 1), Functions::identity());
+        $stream = new MappingStream(new FirstStream(1), Functions::identity());
 
         // when
         $first = $stream->first();
@@ -82,7 +86,7 @@ class MappingStreamTest extends TestCase
     public function shouldRethrow_first()
     {
         // given
-        $stream = new MappingStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strToUpper');
+        $stream = new MappingStream(new ThrowStream(new NoFirstStreamException()), 'strToUpper');
 
         // then
         $this->expectException(NoFirstStreamException::class);

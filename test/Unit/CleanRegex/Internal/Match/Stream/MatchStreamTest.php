@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\ThrowFactory;
 use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
@@ -176,14 +177,6 @@ class MatchStreamTest extends TestCase
 
     private function matchStream(BaseStream $stream, MatchAllFactory $factory = null): MatchStream
     {
-        return new MatchStream($stream, new ThrowSubject(), new UserData(), $factory ?? $this->mock());
-    }
-
-    private function mock(): MatchAllFactory
-    {
-        /** @var MatchAllFactory|MockObject $factory */
-        $factory = $this->createMock(MatchAllFactory::class);
-        $factory->expects($this->never())->method($this->anything());
-        return $factory;
+        return new MatchStream($stream, new ThrowSubject(), new UserData(), $factory ?? new ThrowFactory());
     }
 }

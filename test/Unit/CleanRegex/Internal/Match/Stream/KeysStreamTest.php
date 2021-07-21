@@ -1,10 +1,11 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\AllStream;
+use Test\Utils\Impl\FirstKeyStream;
+use Test\Utils\Impl\ThrowStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeysStream;
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\KeysStream
@@ -17,7 +18,7 @@ class KeysStreamTest extends TestCase
     public function shouldReturn_all()
     {
         // given
-        $stream = new KeysStream($this->mock('all', ['a' => 'One', 'b' => 'Two', 'c' => 'Three']));
+        $stream = new KeysStream(new AllStream(['a' => 'One', 'b' => 'Two', 'c' => 'Three']));
 
         // when
         $keys = $stream->all();
@@ -32,7 +33,7 @@ class KeysStreamTest extends TestCase
     public function shouldReturn_first()
     {
         // given
-        $stream = new KeysStream($this->mock('firstKey', 'One'));
+        $stream = new KeysStream(new FirstKeyStream('One'));
 
         // when
         $first = $stream->first();
@@ -47,29 +48,12 @@ class KeysStreamTest extends TestCase
     public function shouldReturn_firstKey_beAlwaysZero()
     {
         // given
-        $stream = new KeysStream($this->zeroInteraction());
+        $stream = new KeysStream(new ThrowStream());
 
         // when
         $firstKey = $stream->firstKey();
 
         // then
         $this->assertSame(0, $firstKey);
-    }
-
-    private function mock(string $methodName, $value): Stream
-    {
-        /** @var Stream|MockObject $stream */
-        $stream = $this->createMock(Stream::class);
-        $stream->expects($this->once())->method($methodName)->willReturn($value);
-        $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
-        return $stream;
-    }
-
-    private function zeroInteraction(): Stream
-    {
-        /** @var Stream|MockObject $base */
-        $base = $this->createMock(Stream::class);
-        $base->expects($this->never())->method($this->anything());
-        return $base;
     }
 }

@@ -1,12 +1,14 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use Test\Utils\Impl\AllStream;
+use Test\Utils\Impl\FirstKeyStream;
+use Test\Utils\Impl\FirstStream;
+use Test\Utils\Impl\ThrowStream;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream
@@ -19,7 +21,7 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $stream = new ArrayOnlyStream($this->mock('all', 'willReturn', [10 => 'One', 20 => 'Two', 30 => 'Three']), 'array_values');
+        $stream = new ArrayOnlyStream(new AllStream([10 => 'One', 20 => 'Two', 30 => 'Three']), 'array_values');
 
         // when
         $all = $stream->all();
@@ -34,7 +36,7 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $stream = new ArrayOnlyStream($this->mock('first', 'willReturn', 'One'), 'strToUpper');
+        $stream = new ArrayOnlyStream(new FirstStream('One'), 'strToUpper');
 
         // when
         $first = $stream->first();
@@ -49,7 +51,7 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = new ArrayOnlyStream($this->mock('firstKey', 'willReturn', 'foo'), Functions::fail());
+        $stream = new ArrayOnlyStream(new FirstKeyStream('foo'), Functions::fail());
 
         // when
         $firstKey = $stream->firstKey();
@@ -64,21 +66,12 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldFirstThrow()
     {
         // given
-        $stream = new ArrayOnlyStream($this->mock('first', 'willThrowException', new NoFirstStreamException()), 'strLen');
+        $stream = new ArrayOnlyStream(new ThrowStream(new NoFirstStreamException()), 'strLen');
 
         // then
         $this->expectException(NoFirstStreamException::class);
 
         // when
         $stream->first();
-    }
-
-    private function mock(string $methodName, string $setter, $value): Stream
-    {
-        /** @var Stream|MockObject $stream */
-        $stream = $this->createMock(Stream::class);
-        $stream->expects($this->once())->method($methodName)->$setter($value);
-        $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
-        return $stream;
     }
 }

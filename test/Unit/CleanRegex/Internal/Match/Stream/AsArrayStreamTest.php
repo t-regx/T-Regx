@@ -3,9 +3,9 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\ThrowApiBase;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
-use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Stream\AsArrayStream;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -56,7 +56,7 @@ class AsArrayStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = new AsArrayStream($this->mock('firstKey', 123), $this->baseMock());
+        $stream = new AsArrayStream($this->mock('firstKey', 123), new ThrowApiBase());
 
         // when
         $firstKey = $stream->firstKey();
@@ -82,13 +82,5 @@ class AsArrayStreamTest extends TestCase
         $stream->expects($this->once())->method($methodName)->willReturn($value);
         $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
         return $stream;
-    }
-
-    private function baseMock(): Base
-    {
-        /** @var Base|MockObject $base */
-        $base = $this->createMock(Base::class);
-        $base->expects($this->never())->method($this->anything());
-        return $base;
     }
 }
