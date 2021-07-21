@@ -1,10 +1,10 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match\Groups;
+namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\SafeRegex\preg;
 
-class Descriptor
+class GroupVerifier
 {
     /** @var Definition */
     private $definition;
@@ -14,9 +14,9 @@ class Descriptor
         $this->definition = $definition;
     }
 
-    public function getGroups(): array
+    public function groupExists($nameOrIndex): bool
     {
         preg::match_all($this->definition->pattern, '', $matches);
-        return \array_keys($matches);
+        return \in_array($nameOrIndex, \array_keys($matches), true);
     }
 }

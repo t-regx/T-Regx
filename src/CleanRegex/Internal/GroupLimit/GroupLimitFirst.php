@@ -5,8 +5,7 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Groups\Strategy\GroupVerifier;
-use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
+use TRegx\CleanRegex\Internal\Match\GroupVerifier;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 class GroupLimitFirst
@@ -22,7 +21,7 @@ class GroupLimitFirst
     {
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
-        $this->groupVerifier = new MatchAllGroupVerifier($this->base->getPattern());
+        $this->groupVerifier = new GroupVerifier($this->base->getPattern());
     }
 
     public function getFirstForGroup(): RawMatchOffset

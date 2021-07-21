@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
+use TRegx\CleanRegex\Internal\Match\GroupVerifier;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -20,7 +20,7 @@ class MatchGroupStream implements Stream
     private $nameOrIndex;
     /** @var MatchAllFactory */
     private $allFactory;
-    /** @var MatchAllGroupVerifier */
+    /** @var GroupVerifier */
     private $groupVerifier;
 
     public function __construct(Base $base, $nameOrIndex, MatchAllFactory $factory)
@@ -28,7 +28,7 @@ class MatchGroupStream implements Stream
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
         $this->allFactory = $factory;
-        $this->groupVerifier = new MatchAllGroupVerifier($this->base->getPattern());
+        $this->groupVerifier = new GroupVerifier($this->base->getPattern());
     }
 
     /**

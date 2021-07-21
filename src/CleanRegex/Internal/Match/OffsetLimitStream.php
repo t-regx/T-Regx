@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Internal\Match;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Groups\Strategy\GroupVerifier;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 
 class OffsetLimitStream implements Stream

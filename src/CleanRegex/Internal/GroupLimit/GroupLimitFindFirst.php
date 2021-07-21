@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
-use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
+use TRegx\CleanRegex\Internal\Match\GroupVerifier;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -26,11 +26,14 @@ class GroupLimitFindFirst
     private $base;
     /** @var string|int */
     private $nameOrIndex;
+    /** @var GroupVerifier */
+    private $groupVerifier;
 
     public function __construct(Base $base, $nameOrIndex)
     {
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
+        $this->groupVerifier = new GroupVerifier($this->base->getPattern());
     }
 
     public function getOptionalForGroup(callable $consumer): Optional
@@ -39,7 +42,7 @@ class GroupLimitFindFirst
         if ($this->matched($first)) {
             return $this->matchedOptional($first, $consumer);
         }
-        if ($this->groupExists()) {
+        if ($this->groupVerifier->groupExists($this->nameOrIndex)) {
             return $this->notMatchedOptional($first);
         }
         throw new NonexistentGroupException($this->nameOrIndex);
@@ -48,11 +51,6 @@ class GroupLimitFindFirst
     private function matched(RawMatchOffset $first): bool
     {
         return $first->hasGroup($this->nameOrIndex) && $first->getGroup($this->nameOrIndex) !== null;
-    }
-
-    private function groupExists(): bool
-    {
-        return (new MatchAllGroupVerifier($this->base->getPattern()))->groupExists($this->nameOrIndex);
     }
 
     private function matchedOptional(RawMatchOffset $match, callable $consumer): OptionalImpl

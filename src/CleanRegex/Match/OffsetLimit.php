@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\Worker\FluentStreamWorker;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
+use TRegx\CleanRegex\Internal\Match\GroupVerifier;
 use TRegx\CleanRegex\Internal\Match\OffsetLimitStream;
 use TRegx\CleanRegex\Internal\PatternLimit;
 
@@ -20,7 +20,7 @@ class OffsetLimit implements PatternLimit, \IteratorAggregate
     private $nameOrIndex;
     /** @var bool */
     private $isWholeMatch;
-    /** @var MatchAllGroupVerifier */
+    /** @var GroupVerifier */
     private $groupVerifier;
 
     public function __construct(Base $base, $nameOrIndex, bool $isWholeMatch)
@@ -28,7 +28,7 @@ class OffsetLimit implements PatternLimit, \IteratorAggregate
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
         $this->isWholeMatch = $isWholeMatch;
-        $this->groupVerifier = new MatchAllGroupVerifier($this->base->getPattern());
+        $this->groupVerifier = new GroupVerifier($this->base->getPattern());
     }
 
     public function first(): int

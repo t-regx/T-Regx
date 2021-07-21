@@ -3,12 +3,12 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Groups\Strategy;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
-use TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier;
+use TRegx\CleanRegex\Internal\Match\GroupVerifier;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\Groups\Strategy\MatchAllGroupVerifier
+ * @covers \TRegx\CleanRegex\Internal\Match\GroupVerifier
  */
-class MatchAllGroupVerifierTest extends TestCase
+class GroupVerifierTest extends TestCase
 {
     /**
      * @test
@@ -19,7 +19,7 @@ class MatchAllGroupVerifierTest extends TestCase
     public function shouldVerify(string $pattern, bool $expected)
     {
         // given
-        $verifier = new MatchAllGroupVerifier(Internal::pcre($pattern));
+        $verifier = new GroupVerifier(Internal::pcre($pattern));
 
         // when
         $results = $verifier->groupExists('group');
