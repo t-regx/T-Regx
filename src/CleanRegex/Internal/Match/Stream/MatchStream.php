@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\MatchDetail;
 
 class MatchStream implements Stream
 {
@@ -28,17 +29,17 @@ class MatchStream implements Stream
 
     public function all(): array
     {
-        return $this->stream->all()->getDetailObjects($this->factory(-1));
+        return $this->stream->all()->getDetailObjects(new DetailObjectFactory($this->subjectable, -1, $this->userData));
     }
 
     public function first(): Detail
     {
-        return $this->factory(1)->create($this->stream->firstKey(), $this->stream->first(), $this->allFactory);
-    }
-
-    private function factory(int $limit): DetailObjectFactory
-    {
-        return new DetailObjectFactory($this->subjectable, $limit, $this->userData);
+        return new MatchDetail($this->subjectable,
+            $this->stream->firstKey(),
+            1,
+            $this->stream->first(),
+            $this->allFactory,
+            $this->userData);
     }
 
     public function firstKey(): int
