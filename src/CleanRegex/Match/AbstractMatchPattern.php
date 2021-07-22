@@ -66,7 +66,11 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
      */
     public function first(callable $consumer = null)
     {
-        return (new MatchFirst($this->base, new LazyMatchAllFactory($this->base->getUnfilteredBase())))->invoke($consumer);
+        $first = new MatchFirst($this->base, new LazyMatchAllFactory($this->base->getUnfilteredBase()));
+        if ($consumer === null) {
+            return $first->matchDetails()->text();
+        }
+        return $consumer($first->matchDetails());
     }
 
     public function findFirst(callable $consumer): Optional
