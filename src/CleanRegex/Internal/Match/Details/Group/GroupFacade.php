@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\Group;
@@ -71,7 +72,7 @@ class GroupFacade
         return $this->createUnmatched($match);
     }
 
-    private function createdMatched(IRawMatchOffset $match, string $text, int $offset): MatchedGroup
+    private function createdMatched(MatchEntry $match, string $text, int $offset): MatchedGroup
     {
         return $this->factoryStrategy->createMatched(
             $match,

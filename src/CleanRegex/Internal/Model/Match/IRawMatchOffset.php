@@ -3,8 +3,10 @@ namespace TRegx\CleanRegex\Internal\Model\Match;
 
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 
-interface IRawMatchOffset extends GroupAware
+interface IRawMatchOffset extends GroupAware, MatchEntry
 {
+    public function getText(): string;
+
     public function byteOffset(): int;
 
     public function isGroupMatched($nameOrIndex): bool;

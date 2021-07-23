@@ -1,11 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 
 class MatchGroupReplacer
 {
-    public function replaceGroup(IRawMatchOffset $match, MatchedGroupOccurrence $occurrence, string $replacement): string
+    public function replaceGroup(MatchEntry $match, MatchedGroupOccurrence $occurrence, string $replacement): string
     {
         $text = $match->getText();
         $matchOffset = $occurrence->offset - $match->byteOffset();

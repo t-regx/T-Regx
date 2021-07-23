@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 
 class ReplaceMatchedGroup extends MatchedGroup implements ReplaceGroup
 {
@@ -13,7 +13,7 @@ class ReplaceMatchedGroup extends MatchedGroup implements ReplaceGroup
     /** @var string */
     private $subjectModification;
 
-    public function __construct(IRawMatchOffset $match,
+    public function __construct(MatchEntry $match,
                                 GroupDetails $details,
                                 MatchedGroupOccurrence $matchedDetails,
                                 int $byteOffsetModification,

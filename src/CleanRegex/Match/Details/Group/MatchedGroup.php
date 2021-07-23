@@ -7,18 +7,18 @@ use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupReplacer;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 
 class MatchedGroup implements Group
 {
-    /** @var IRawMatchOffset */
+    /** @var MatchEntry */
     private $match;
     /** @var GroupDetails */
     private $details;
     /** @var MatchedGroupOccurrence */
     private $occurrence;
 
-    public function __construct(IRawMatchOffset $match, GroupDetails $details, MatchedGroupOccurrence $matchedDetails)
+    public function __construct(MatchEntry $match, GroupDetails $details, MatchedGroupOccurrence $matchedDetails)
     {
         $this->match = $match;
         $this->details = $details;

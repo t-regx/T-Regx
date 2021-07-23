@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\ReplaceMatchedGroup;
@@ -22,7 +22,7 @@ class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
         $this->subjectModification = $subjectModification;
     }
 
-    public function createMatched(IRawMatchOffset $match, GroupDetails $details, MatchedGroupOccurrence $matchedDetails): MatchedGroup
+    public function createMatched(MatchEntry $match, GroupDetails $details, MatchedGroupOccurrence $matchedDetails): MatchedGroup
     {
         return new ReplaceMatchedGroup($match, $details, $matchedDetails, $this->byteOffsetModification, $this->subjectModification);
     }
