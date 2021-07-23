@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Model\Match;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 
-class RawMatches implements IRawMatches, GroupAware
+class RawMatches implements GroupAware
 {
     /** @var array */
     private $matches;

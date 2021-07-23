@@ -8,9 +8,8 @@ use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 
-class RawMatchesOffset implements IRawMatches, GroupAware
+class RawMatchesOffset implements GroupAware
 {
-    private const GROUP_WHOLE_MATCH = 0;
     /** @var array */
     private $matches;
 
@@ -21,18 +20,18 @@ class RawMatchesOffset implements IRawMatches, GroupAware
 
     public function matched(): bool
     {
-        return \count($this->matches[self::GROUP_WHOLE_MATCH]) > 0;
+        return \count($this->matches[0]) > 0;
     }
 
     public function getCount(): int
     {
-        return \count($this->matches[self::GROUP_WHOLE_MATCH]);
+        return \count($this->matches[0]);
     }
 
     public function getDetailObjects(DetailObjectFactory $factory): array
     {
         $matchObjects = [];
-        foreach ($this->matches[self::GROUP_WHOLE_MATCH] as $index => $firstWhole) {
+        foreach ($this->matches[0] as $index => $firstWhole) {
             $matchObjects[$index] = $factory->create($index, new RawMatchesToMatchAdapter($this, $index), new EagerMatchAllFactory($this));
         }
         return $matchObjects;
@@ -85,13 +84,13 @@ class RawMatchesOffset implements IRawMatches, GroupAware
 
     public function getOffset(int $index): int
     {
-        [$text, $offset] = $this->matches[self::GROUP_WHOLE_MATCH][$index];
+        [$text, $offset] = $this->matches[0][$index];
         return $offset;
     }
 
     public function getTextAndOffset(int $index): array
     {
-        return $this->matches[self::GROUP_WHOLE_MATCH][$index];
+        return $this->matches[0][$index];
     }
 
     public function getGroupTextAndOffset($nameOrIndex, int $index): array
@@ -138,7 +137,7 @@ class RawMatchesOffset implements IRawMatches, GroupAware
 
     public function getTexts(): array
     {
-        return $this->getGroupTexts(self::GROUP_WHOLE_MATCH);
+        return $this->getGroupTexts(0);
     }
 
     public function isGroupMatched($nameOrIndex, int $index): bool
