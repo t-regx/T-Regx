@@ -1,10 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
-class RawMatch implements IRawMatch
+class RawMatch
 {
-    private const GROUP_WHOLE_MATCH = 0;
-
     /** @var array */
     private $match;
 
@@ -20,6 +18,6 @@ class RawMatch implements IRawMatch
 
     public function getText(): string
     {
-        return $this->match[self::GROUP_WHOLE_MATCH];
+        return $this->match[0];
     }
 }

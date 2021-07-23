@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Model\Match;
 
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 
-interface IRawMatchOffset extends IRawMatch, GroupAware
+interface IRawMatchOffset extends GroupAware
 {
     public function byteOffset(): int;
 
