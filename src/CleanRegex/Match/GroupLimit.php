@@ -17,14 +17,15 @@ use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFirst;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
+use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
-use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\SafeRegex\Internal\Tuple;
@@ -129,12 +130,14 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     public function flatMap(callable $mapper): array
     {
-        return (new FlatMapper(new ArrayMergeStrategy(), $mapper, 'flatMap'))->get($this->details());
+        $function = new FlatFunction($mapper, 'flatMap');;
+        return (new ArrayMergeStrategy())->flatten(new Nested(\array_map([$function, 'apply'], $this->details())));
     }
 
     public function flatMapAssoc(callable $mapper): array
     {
-        return (new FlatMapper(new AssignStrategy(), $mapper, 'flatMapAssoc'))->get($this->details());
+        $function = new FlatFunction($mapper, 'flatMapAssoc');;
+        return (new AssignStrategy())->flatten(new Nested(\array_map([$function, 'apply'], $this->details())));
     }
 
     /**

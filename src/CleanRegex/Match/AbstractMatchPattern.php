@@ -16,9 +16,9 @@ use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
+use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
-use TRegx\CleanRegex\Internal\Match\FlatMapper;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
@@ -135,12 +135,14 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     public function flatMap(callable $mapper): array
     {
-        return (new FlatMapper(new ArrayMergeStrategy(), $mapper, 'flatMap'))->get($this->getDetailObjects());
+        $function = new FlatFunction($mapper, 'flatMap');;
+        return (new ArrayMergeStrategy())->flatten($function->map($this->getDetailObjects()));
     }
 
     public function flatMapAssoc(callable $mapper): array
     {
-        return (new FlatMapper(new AssignStrategy(), $mapper, 'flatMapAssoc'))->get($this->getDetailObjects());
+        $function = new FlatFunction($mapper, 'flatMapAssoc');;
+        return (new AssignStrategy())->flatten($function->map($this->getDetailObjects()));
     }
 
     public function distinct(): array

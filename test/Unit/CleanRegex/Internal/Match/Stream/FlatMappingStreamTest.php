@@ -9,6 +9,7 @@ use Test\Utils\Impl\FirstStream;
 use Test\Utils\Impl\ReverseFlatMap;
 use Test\Utils\Impl\ThrowFlatMap;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
@@ -24,7 +25,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldReturn_all()
     {
         // given
-        $stream = new FlatMappingStream(new AllStream(['One', 'Two', 'Three']), new ReverseFlatMap(), Functions::letters(), '');
+        $stream = new FlatMappingStream(new AllStream(['One', 'Two', 'Three']), new ReverseFlatMap(), new FlatFunction(Functions::letters(), ''));
 
         // when
         $all = $stream->all();
@@ -39,7 +40,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldReturn_first()
     {
         // given
-        $stream = new FlatMappingStream(new FirstStream('Foo'), new ReverseFlatMap(), Functions::letters(), '');
+        $stream = new FlatMappingStream(new FirstStream('Foo'), new ReverseFlatMap(), new FlatFunction(Functions::letters(), ''));
 
         // when
         $first = $stream->first();
@@ -54,7 +55,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldReturn_firstKey()
     {
         // given
-        $stream = new FlatMappingStream(new FirstStream('Bar'), new ReverseFlatMap(), Functions::lettersAsKeys(), '');
+        $stream = new FlatMappingStream(new FirstStream('Bar'), new ReverseFlatMap(), new FlatFunction(Functions::lettersAsKeys(), ''));
 
         // when
         $firstKey = $stream->firstKey();
@@ -69,7 +70,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldReturn_first_forEmptyFirstTrailAll()
     {
         // given
-        $flatMap = new FlatMappingStream(new ConstantStream('', ['', '', 'One']), new ArrayMergeStrategy(), Functions::letters(), '');
+        $flatMap = new FlatMappingStream(new ConstantStream('', ['', '', 'One']), new ArrayMergeStrategy(), new FlatFunction(Functions::letters(), ''));
 
         // when
         $first = $flatMap->first();
@@ -84,7 +85,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldReturn_firstKey_forEmptyFirstTrailAll()
     {
         // given
-        $flatMap = new FlatMappingStream(new ConstantStream('', ['', '', 'Two']), new ArrayMergeStrategy(), Functions::lettersAsKeys(), '');
+        $flatMap = new FlatMappingStream(new ConstantStream('', ['', '', 'Two']), new ArrayMergeStrategy(), new FlatFunction(Functions::lettersAsKeys(), ''));
 
         // when
         $result = $flatMap->firstKey();
@@ -102,7 +103,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldThrow_forInvalidReturnType(Stream $input, string $method)
     {
         // given
-        $stream = new FlatMappingStream($input, new ThrowFlatMap(), 'strLen', 'hello');
+        $stream = new FlatMappingStream($input, new ThrowFlatMap(), new FlatFunction('strLen', 'hello'));
 
         // then
         $this->expectException(InvalidReturnValueException::class);
@@ -129,7 +130,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldReturn_first_forSkewedArray(array $array)
     {
         // given
-        $stream = new FlatMappingStream(new FirstStream('One'), new ThrowFlatMap(), Functions::constant($array), '');
+        $stream = new FlatMappingStream(new FirstStream('One'), new ThrowFlatMap(), new FlatFunction(Functions::constant($array), ''));
 
         // when
         $first = $stream->first();
@@ -146,7 +147,7 @@ class FlatMappingStreamTest extends TestCase
     public function shouldReturn_firstKey_forSkewedArray(array $array)
     {
         // given
-        $stream = new FlatMappingStream(new FirstStream('One'), new ThrowFlatMap(), Functions::constant($array), '');
+        $stream = new FlatMappingStream(new FirstStream('One'), new ThrowFlatMap(), new FlatFunction(Functions::constant($array), ''));
 
         // when
         $firstKey = $stream->firstKey();

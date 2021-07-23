@@ -2,25 +2,29 @@
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
+use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\FlatMapStrategy;
-use TRegx\CleanRegex\Internal\Match\FlatMapper;
+use TRegx\CleanRegex\Internal\Nested;
 
 class FlatMappingStream implements Stream
 {
     /** @var Stream */
     private $stream;
-    /** @var FlatMapper */
-    private $flatMapper;
+    /** @var FlatMapStrategy */
+    private $strategy;
+    /** @var FlatFunction */
+    private $function;
 
-    public function __construct(ValueStream $stream, FlatMapStrategy $strategy, callable $mapper, string $methodName)
+    public function __construct(ValueStream $stream, FlatMapStrategy $strategy, FlatFunction $function)
     {
         $this->stream = $stream;
-        $this->flatMapper = new FlatMapper($strategy, $mapper, $methodName);
+        $this->strategy = $strategy;
+        $this->function = $function;
     }
 
     public function all(): array
     {
-        return $this->flatMapper->get($this->stream->all());
+        return $this->strategy->flatten(new Nested(\array_map([$this->function, 'apply'], $this->stream->all())));
     }
 
     public function first()
@@ -45,10 +49,10 @@ class FlatMappingStream implements Stream
 
     private function flatMapTryFirstOrAll(): array
     {
-        $mappedInFirstIteration = $this->flatMapper->map($this->stream->first());
-        if (empty($mappedInFirstIteration)) {
-            return $this->flatMapper->get($this->stream->all());
+        $mapped = $this->function->apply($this->stream->first());
+        if (empty($mapped)) {
+            return $this->all();
         }
-        return $mappedInFirstIteration;
+        return $mapped;
     }
 }

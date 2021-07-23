@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Factory\Worker\StreamWorker;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
+use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\FluentPredicate;
@@ -124,12 +125,12 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function flatMap(callable $mapper): FluentMatchPattern
     {
-        return $this->next(new FlatMappingStream($this->stream, new ArrayMergeStrategy(), $mapper, 'flatMap'));
+        return $this->next(new FlatMappingStream($this->stream, new ArrayMergeStrategy(), new FlatFunction($mapper, 'flatMap')));
     }
 
     public function flatMapAssoc(callable $mapper): FluentMatchPattern
     {
-        return $this->next(new FlatMappingStream($this->stream, new AssignStrategy(), $mapper, 'flatMapAssoc'));
+        return $this->next(new FlatMappingStream($this->stream, new AssignStrategy(), new FlatFunction($mapper, 'flatMapAssoc')));
     }
 
     public function distinct(): FluentMatchPattern
