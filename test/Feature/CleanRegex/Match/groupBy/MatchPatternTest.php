@@ -171,8 +171,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame(['19cm', '2cm', '18mm'], $called, "Failed to assert that $function() was called 3 times");
-        // There are 6 entries: '12' doesn't have 'unit' group matched, '14cm' and '13mm' are filtered out, 3 are left
+        $this->assertSame(['19cm', '18mm', '2cm'], $called);
     }
 
     /**
@@ -236,7 +235,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame(['14cm' => 1, '19cm' => 3, '2cm' => 5, '13mm' => 2, '18mm' => 4], $indexes);
+        $this->assertSame(['14cm' => 1, '13mm' => 2, '19cm' => 3, '18mm' => 4, '2cm' => 5], $indexes);
     }
 
     /**
@@ -260,7 +259,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame(['19cm' => 3, '2cm' => 5, '18mm' => 4], $indexes);
+        $this->assertSame(['19cm' => 3, '18mm' => 4, '2cm' => 5], $indexes);
     }
 
     public function mappersWithMatch(): array
