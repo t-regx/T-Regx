@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\FlatMap;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
+use TRegx\CleanRegex\Internal\Nested;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy
@@ -18,7 +19,7 @@ class AssignStrategyTest extends TestCase
         $strategy = new AssignStrategy();
 
         // when
-        $result = $strategy->flatten([['Cat', 'Dog', 'Duck'], ['One', 'Two', 3 => 'Four']]);
+        $result = $strategy->flatten(new Nested([['Cat', 'Dog', 'Duck'], ['One', 'Two', 3 => 'Four']]));
 
         // then
         $this->assertSame(['One', 'Two', 'Duck', 'Four'], $result);
@@ -31,9 +32,7 @@ class AssignStrategyTest extends TestCase
     {
         // given
         $strategy = new AssignStrategy();
-
-        // when
-        $result = $strategy->flatten([
+        $values = [
             [
                 0     => 'Foo',
                 1     => 4,
@@ -51,7 +50,10 @@ class AssignStrategyTest extends TestCase
                 2     => true,
                 'cat' => 'dog'
             ],
-        ]);
+        ];
+
+        // when
+        $result = $strategy->flatten(new Nested($values));
 
         // then
         $expected = [

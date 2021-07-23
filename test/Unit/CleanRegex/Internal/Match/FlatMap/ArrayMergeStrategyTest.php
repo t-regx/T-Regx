@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\FlatMap;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
+use TRegx\CleanRegex\Internal\Nested;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy
@@ -18,7 +19,7 @@ class ArrayMergeStrategyTest extends TestCase
         $strategy = new ArrayMergeStrategy();
 
         // when
-        $result = $strategy->flatten([['One', 'Two'], ['Cat', 'Dog', 'Duck'],]);
+        $result = $strategy->flatten(new Nested([['One', 'Two'], ['Cat', 'Dog', 'Duck']]));
 
         // then
         $this->assertSame(['One', 'Two', 'Cat', 'Dog', 'Duck'], $result);
@@ -37,7 +38,7 @@ class ArrayMergeStrategyTest extends TestCase
         ];
 
         // when
-        $result = $strategy->flatten($array);
+        $result = $strategy->flatten(new Nested($array));
 
         // then
         $this->assertSame(['Foo', 4, 'key' => 'value', 'Bar', 8, 'lorem' => 'ipsum'], $result);

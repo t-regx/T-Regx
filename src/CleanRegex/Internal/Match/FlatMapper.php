@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\FlatMap\FlatMapStrategy;
+use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\ValueType;
 
 class FlatMapper
@@ -27,7 +28,7 @@ class FlatMapper
         if (empty($results)) {
             return [];
         }
-        return $this->strategy->flatten($results);
+        return $this->strategy->flatten(new Nested($results));
     }
 
     public function map($object): array

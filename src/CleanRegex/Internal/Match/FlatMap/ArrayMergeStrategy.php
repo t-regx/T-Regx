@@ -2,11 +2,12 @@
 namespace TRegx\CleanRegex\Internal\Match\FlatMap;
 
 use TRegx\CleanRegex\Internal\Arrays;
+use TRegx\CleanRegex\Internal\Nested;
 
 class ArrayMergeStrategy implements FlatMapStrategy
 {
-    public function flatten(array $arrays): array
+    public function flatten(Nested $nested): array
     {
-        return Arrays::flatten($arrays);
+        return Arrays::flatten($nested->asArray());
     }
 }

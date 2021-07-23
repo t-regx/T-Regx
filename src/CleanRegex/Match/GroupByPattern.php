@@ -10,8 +10,8 @@ use TRegx\CleanRegex\Internal\Match\FlatMap\FlatMapStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\NonNestedValueException;
-use TRegx\CleanRegex\Internal\ValueType;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\SafeRegex\Internal\Tuple;
 
@@ -91,12 +91,7 @@ class GroupByPattern
     private function flattenMap(array $groupped, FlatMapStrategy $strategy): array
     {
         foreach ($groupped as $groupKey => $grouppedValues) {
-            foreach ($grouppedValues as $value) {
-                if (!\is_array($value)) {
-                    throw new NonNestedValueException(new ValueType($value));
-                }
-            }
-            $groupped[$groupKey] = $strategy->flatten($grouppedValues);
+            $groupped[$groupKey] = $strategy->flatten(new Nested($grouppedValues));
         }
         return $groupped;
     }
