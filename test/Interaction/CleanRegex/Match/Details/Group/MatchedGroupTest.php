@@ -2,11 +2,12 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\Details\Group;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\ConstantMatchEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
+use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 
@@ -208,14 +209,12 @@ class MatchedGroupTest extends TestCase
 
     private function buildMatchGroup(string $subject, string $match, string $group, $nameOrIndex, $groupOffset): MatchedGroup
     {
+        $matchedGroup = new MatchedGroupOccurrence($group, $groupOffset, new Subject($subject));
         return new MatchedGroup(
-            new RawMatchOffset([
-                0       => [$match, 8],
-                'first' => [$group, $groupOffset],
-                1       => [$group, $groupOffset]
-            ], 0),
+            new Subject($subject),
             new GroupDetails('first', 1, $nameOrIndex, new EagerMatchAllFactory(new RawMatchesOffset([]))),
-            new MatchedGroupOccurrence($group, $groupOffset, new Subject($subject))
+            $matchedGroup,
+            new SubstitutedGroup(new ConstantMatchEntry($match, 8), $matchedGroup)
         );
     }
 }

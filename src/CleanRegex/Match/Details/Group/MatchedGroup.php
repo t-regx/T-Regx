@@ -6,10 +6,12 @@ use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
-use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
+use TRegx\CleanRegex\Internal\Subjectable;
 
 class MatchedGroup implements Group
 {
+    /** @var Subjectable */
+    private $subjectable;
     /** @var GroupDetails */
     private $details;
     /** @var MatchedGroupOccurrence */
@@ -17,11 +19,12 @@ class MatchedGroup implements Group
     /** @var SubstitutedGroup */
     private $substitutedGroup;
 
-    public function __construct(MatchEntry $match, GroupDetails $details, MatchedGroupOccurrence $matchedDetails)
+    public function __construct(Subjectable $subjectable, GroupDetails $details, MatchedGroupOccurrence $matchedDetails, SubstitutedGroup $substitutedGroup)
     {
+        $this->subjectable = $subjectable;
         $this->details = $details;
         $this->occurrence = $matchedDetails;
-        $this->substitutedGroup = new SubstitutedGroup($match, $matchedDetails);
+        $this->substitutedGroup = $substitutedGroup;
     }
 
     public function text(): string
@@ -107,7 +110,7 @@ class MatchedGroup implements Group
 
     public function subject(): string
     {
-        return $this->occurrence->subject->getSubject();
+        return $this->subjectable->getSubject();
     }
 
     public function all(): array
