@@ -19,9 +19,9 @@ class SubstitutedGroup
     public function with(string $replacement): string
     {
         $text = $this->match->getText();
-        $matchOffset = $this->occurrence->offset - $this->match->byteOffset();
+        $matchOffset = $this->occurrence->byteOffset() - $this->match->byteOffset();
         $before = \substr($text, 0, $matchOffset);
-        $after = \substr($text, $matchOffset + \strlen($this->occurrence->text));
+        $after = \substr($text, $matchOffset + \strlen($this->occurrence->text()));
         return $before . $replacement . $after;
     }
 }

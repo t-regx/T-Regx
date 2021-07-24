@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
@@ -27,30 +26,30 @@ class MatchedGroup implements Group
 
     public function text(): string
     {
-        return $this->occurrence->text;
+        return $this->occurrence->text();
     }
 
     public function textLength(): int
     {
-        return \mb_strlen($this->occurrence->text);
+        return \mb_strlen($this->occurrence->text());
     }
 
     public function textByteLength(): int
     {
-        return \strlen($this->occurrence->text);
+        return \strlen($this->occurrence->text());
     }
 
     public function toInt(): int
     {
         if ($this->isInt()) {
-            return $this->occurrence->text;
+            return $this->occurrence->text();
         }
-        throw IntegerFormatException::forGroup($this->details->nameOrIndex, $this->occurrence->text);
+        throw IntegerFormatException::forGroup($this->details->nameOrIndex, $this->occurrence->text());
     }
 
     public function isInt(): bool
     {
-        return Integer::isValid($this->occurrence->text);
+        return Integer::isValid($this->occurrence->text());
     }
 
     public function matched(): bool
@@ -60,7 +59,7 @@ class MatchedGroup implements Group
 
     public function equals(string $expected): bool
     {
-        return $this->occurrence->text === $expected;
+        return $this->occurrence->text() === $expected;
     }
 
     public function index(): int
@@ -83,22 +82,22 @@ class MatchedGroup implements Group
 
     public function offset(): int
     {
-        return ByteOffset::toCharacterOffset($this->occurrence->subject->getSubject(), $this->occurrence->offset);
+        return $this->occurrence->offset();
     }
 
     public function tail(): int
     {
-        return ByteOffset::toCharacterOffset($this->occurrence->subject->getSubject(), $this->byteTail());
+        return $this->occurrence->tail();
     }
 
     public function byteOffset(): int
     {
-        return $this->occurrence->offset;
+        return $this->occurrence->byteOffset();
     }
 
     public function byteTail(): int
     {
-        return $this->occurrence->offset + \strlen($this->occurrence->text);
+        return $this->occurrence->byteTail();
     }
 
     public function substitute(string $replacement): string
