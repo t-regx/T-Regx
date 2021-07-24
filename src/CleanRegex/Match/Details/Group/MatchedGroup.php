@@ -6,23 +6,23 @@ use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
-use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupReplacer;
+use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
 use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 
 class MatchedGroup implements Group
 {
-    /** @var MatchEntry */
-    private $match;
     /** @var GroupDetails */
     private $details;
     /** @var MatchedGroupOccurrence */
     private $occurrence;
+    /** @var SubstitutedGroup */
+    private $substitutedGroup;
 
     public function __construct(MatchEntry $match, GroupDetails $details, MatchedGroupOccurrence $matchedDetails)
     {
-        $this->match = $match;
         $this->details = $details;
         $this->occurrence = $matchedDetails;
+        $this->substitutedGroup = new SubstitutedGroup($match, $matchedDetails);
     }
 
     public function text(): string
@@ -103,7 +103,7 @@ class MatchedGroup implements Group
 
     public function substitute(string $replacement): string
     {
-        return (new MatchGroupReplacer())->replaceGroup($this->match, $this->occurrence, $replacement);
+        return $this->substitutedGroup->with($replacement);
     }
 
     public function subject(): string
