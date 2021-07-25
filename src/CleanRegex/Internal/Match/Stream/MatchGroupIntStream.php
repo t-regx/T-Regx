@@ -66,7 +66,7 @@ class MatchGroupIntStream implements Stream
         if (!$rawMatchOffset->hasGroup($this->nameOrIndex)) {
             throw new NonexistentGroupException($this->nameOrIndex);
         }
-        if (!$rawMatchOffset->matched()) {
+        if (!$match->matched()) {
             throw SubjectNotMatchedException::forFirstGroup($this->base, $this->nameOrIndex);
         }
         if (!$rawMatchOffset->isGroupMatched($this->nameOrIndex)) {

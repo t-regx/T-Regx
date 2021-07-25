@@ -53,30 +53,6 @@ class GroupPolyfillDecoratorTest extends TestCase
     /**
      * @test
      */
-    public function test_matched_true()
-    {
-        // given
-        $decorator = new GroupPolyfillDecorator($this->match(['group' => 'value']), $this->noInteraction(), -10);
-
-        // when + then
-        $this->assertTrue($decorator->matched());
-    }
-
-    /**
-     * @test
-     */
-    public function test_matched_false()
-    {
-        // given
-        $decorator = new GroupPolyfillDecorator($this->empty(), $this->noInteraction(), -10);
-
-        // when + then
-        $this->assertFalse($decorator->matched());
-    }
-
-    /**
-     * @test
-     */
     public function test_isGroupMatched_true()
     {
         // given
