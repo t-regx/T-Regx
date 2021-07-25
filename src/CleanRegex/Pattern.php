@@ -6,7 +6,6 @@ use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\EntryPoints;
 use TRegx\CleanRegex\Internal\ValidPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
-use TRegx\CleanRegex\Remove\RemoveLimit;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\SafeRegex\preg;
 
@@ -40,11 +39,6 @@ class Pattern
     public function replace(string $subject): ReplaceLimit
     {
         return new ReplaceLimit($this->definition, $subject);
-    }
-
-    public function remove(string $subject): RemoveLimit
-    {
-        return new RemoveLimit($this->definition, $subject);
     }
 
     public function prune(string $subject): string
