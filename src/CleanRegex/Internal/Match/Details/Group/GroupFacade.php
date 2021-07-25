@@ -72,14 +72,14 @@ class GroupFacade
         return $this->createUnmatched($match);
     }
 
-    private function createdMatched(MatchEntry $match, string $text, int $offset): MatchedGroup
+    private function createdMatched(MatchEntry $entry, string $text, int $offset): MatchedGroup
     {
-        $matchedGroupOccurrence = new MatchedGroupOccurrence($text, $offset, $this->subject);
+        $groupEntry = new GroupEntry($text, $offset, $this->subject);
         return $this->factoryStrategy->createMatched(
             $this->subject,
             $this->createGroupDetails(),
-            $matchedGroupOccurrence,
-            new SubstitutedGroup($match, $matchedGroupOccurrence));
+            $groupEntry,
+            new SubstitutedGroup($entry, $groupEntry));
     }
 
     private function createUnmatched(IRawMatchOffset $match): NotMatchedGroup

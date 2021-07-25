@@ -24,10 +24,10 @@ class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
 
     public function createMatched(Subjectable $subjectable,
                                   GroupDetails $details,
-                                  MatchedGroupOccurrence $matchedDetails,
+                                  GroupEntry $groupEntry,
                                   SubstitutedGroup $substitutedGroup): MatchedGroup
     {
-        return new ReplaceMatchedGroup($subjectable, $details, $matchedDetails, $substitutedGroup, $this->byteOffsetModification, $this->subjectModification);
+        return new ReplaceMatchedGroup($subjectable, $details, $groupEntry, $substitutedGroup, $this->byteOffsetModification, $this->subjectModification);
     }
 
     public function createUnmatched(GroupDetails $details,

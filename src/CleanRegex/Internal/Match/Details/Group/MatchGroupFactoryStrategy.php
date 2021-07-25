@@ -11,10 +11,10 @@ class MatchGroupFactoryStrategy implements GroupFactoryStrategy
 {
     public function createMatched(Subjectable $subjectable,
                                   GroupDetails $details,
-                                  MatchedGroupOccurrence $matchedDetails,
+                                  GroupEntry $groupEntry,
                                   SubstitutedGroup $substitutedGroup): MatchedGroup
     {
-        return new MatchedGroup($subjectable, $details, $matchedDetails, $substitutedGroup);
+        return new MatchedGroup($subjectable, $details, $groupEntry, $substitutedGroup);
     }
 
     public function createUnmatched(GroupDetails $details,

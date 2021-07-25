@@ -4,7 +4,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\Details\Group;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\ConstantMatchEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
-use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
@@ -209,12 +209,11 @@ class MatchedGroupTest extends TestCase
 
     private function buildMatchGroup(string $subject, string $match, string $group, $nameOrIndex, $groupOffset): MatchedGroup
     {
-        $matchedGroup = new MatchedGroupOccurrence($group, $groupOffset, new Subject($subject));
+        $matchedGroup = new GroupEntry($group, $groupOffset, new Subject($subject));
         return new MatchedGroup(
             new Subject($subject),
             new GroupDetails('first', 1, $nameOrIndex, new EagerMatchAllFactory(new RawMatchesOffset([]))),
             $matchedGroup,
-            new SubstitutedGroup(new ConstantMatchEntry($match, 8), $matchedGroup)
-        );
+            new SubstitutedGroup(new ConstantMatchEntry($match, 8), $matchedGroup));
     }
 }

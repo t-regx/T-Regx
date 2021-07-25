@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
-use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
 use TRegx\CleanRegex\Internal\Subjectable;
 
@@ -14,45 +14,45 @@ class MatchedGroup implements Group
     private $subjectable;
     /** @var GroupDetails */
     private $details;
-    /** @var MatchedGroupOccurrence */
-    private $occurrence;
+    /** @var GroupEntry */
+    private $groupEntry;
     /** @var SubstitutedGroup */
     private $substitutedGroup;
 
-    public function __construct(Subjectable $subjectable, GroupDetails $details, MatchedGroupOccurrence $matchedDetails, SubstitutedGroup $substitutedGroup)
+    public function __construct(Subjectable $subjectable, GroupDetails $details, GroupEntry $groupEntry, SubstitutedGroup $substitutedGroup)
     {
         $this->subjectable = $subjectable;
         $this->details = $details;
-        $this->occurrence = $matchedDetails;
+        $this->groupEntry = $groupEntry;
         $this->substitutedGroup = $substitutedGroup;
     }
 
     public function text(): string
     {
-        return $this->occurrence->text();
+        return $this->groupEntry->text();
     }
 
     public function textLength(): int
     {
-        return \mb_strlen($this->occurrence->text());
+        return \mb_strlen($this->groupEntry->text());
     }
 
     public function textByteLength(): int
     {
-        return \strlen($this->occurrence->text());
+        return \strlen($this->groupEntry->text());
     }
 
     public function toInt(): int
     {
         if ($this->isInt()) {
-            return $this->occurrence->text();
+            return $this->groupEntry->text();
         }
-        throw IntegerFormatException::forGroup($this->details->nameOrIndex, $this->occurrence->text());
+        throw IntegerFormatException::forGroup($this->details->nameOrIndex, $this->groupEntry->text());
     }
 
     public function isInt(): bool
     {
-        return Integer::isValid($this->occurrence->text());
+        return Integer::isValid($this->groupEntry->text());
     }
 
     public function matched(): bool
@@ -62,7 +62,7 @@ class MatchedGroup implements Group
 
     public function equals(string $expected): bool
     {
-        return $this->occurrence->text() === $expected;
+        return $this->groupEntry->text() === $expected;
     }
 
     public function index(): int
@@ -85,22 +85,22 @@ class MatchedGroup implements Group
 
     public function offset(): int
     {
-        return $this->occurrence->offset();
+        return $this->groupEntry->offset();
     }
 
     public function tail(): int
     {
-        return $this->occurrence->tail();
+        return $this->groupEntry->tail();
     }
 
     public function byteOffset(): int
     {
-        return $this->occurrence->byteOffset();
+        return $this->groupEntry->byteOffset();
     }
 
     public function byteTail(): int
     {
-        return $this->occurrence->byteTail();
+        return $this->groupEntry->byteTail();
     }
 
     public function substitute(string $replacement): string

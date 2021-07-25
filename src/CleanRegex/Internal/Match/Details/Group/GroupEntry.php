@@ -4,22 +4,19 @@ namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 
-class MatchedGroupOccurrence
+class GroupEntry
 {
     /** @var string */
     private $text;
     /** @var int */
-    private $offset;
-    /**
-     * @var Subjectable
-     * @deprecated
-     */
-    public $subject;
+    private $byteOffset;
+    /** @var Subjectable */
+    private $subject;
 
-    public function __construct(string $text, int $offset, Subjectable $subject)
+    public function __construct(string $text, int $byteOffset, Subjectable $subject)
     {
         $this->text = $text;
-        $this->offset = $offset;
+        $this->byteOffset = $byteOffset;
         $this->subject = $subject;
     }
 
@@ -30,12 +27,12 @@ class MatchedGroupOccurrence
 
     public function offset(): int
     {
-        return ByteOffset::toCharacterOffset($this->subject->getSubject(), $this->offset);
+        return ByteOffset::toCharacterOffset($this->subject->getSubject(), $this->byteOffset);
     }
 
     public function byteOffset(): int
     {
-        return $this->offset;
+        return $this->byteOffset;
     }
 
     public function tail(): int
@@ -45,6 +42,6 @@ class MatchedGroupOccurrence
 
     public function byteTail(): int
     {
-        return $this->offset + \strlen($this->text);
+        return $this->byteOffset + \strlen($this->text);
     }
 }

@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
-use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroupOccurrence;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
 use TRegx\CleanRegex\Internal\Subjectable;
 
@@ -16,12 +16,12 @@ class ReplaceMatchedGroup extends MatchedGroup implements ReplaceGroup
 
     public function __construct(Subjectable $subjectable,
                                 GroupDetails $details,
-                                MatchedGroupOccurrence $matchedDetails,
+                                GroupEntry $groupEntry,
                                 SubstitutedGroup $substitutedGroup,
                                 int $byteOffsetModification,
                                 string $subjectModification)
     {
-        parent::__construct($subjectable, $details, $matchedDetails, $substitutedGroup);
+        parent::__construct($subjectable, $details, $groupEntry, $substitutedGroup);
         $this->byteOffsetModification = $byteOffsetModification;
         $this->subjectModification = $subjectModification;
     }

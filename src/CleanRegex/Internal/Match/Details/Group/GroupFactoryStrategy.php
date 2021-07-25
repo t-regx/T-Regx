@@ -11,7 +11,7 @@ interface GroupFactoryStrategy
 {
     public function createMatched(Subjectable $subjectable,
                                   GroupDetails $details,
-                                  MatchedGroupOccurrence $matchedDetails,
+                                  GroupEntry $groupEntry,
                                   SubstitutedGroup $substitutedGroup): MatchedGroup;
 
     public function createUnmatched(GroupDetails $details,
