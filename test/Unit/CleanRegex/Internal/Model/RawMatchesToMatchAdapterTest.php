@@ -1,13 +1,13 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Model\Adapter;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Model;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter
+ * @covers \TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter
  */
 class RawMatchesToMatchAdapterTest extends TestCase
 {

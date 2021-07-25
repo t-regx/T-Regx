@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Match\Details;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
+use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 

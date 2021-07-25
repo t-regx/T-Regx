@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Model;
 
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 
 class GroupPolyfillDecorator implements IRawMatchOffset

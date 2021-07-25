@@ -4,9 +4,9 @@ namespace TRegx\CleanRegex\Internal\Model\Match;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
-use TRegx\CleanRegex\Internal\Model\Adapter\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
+use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
 
 class RawMatchesOffset implements GroupAware
 {
