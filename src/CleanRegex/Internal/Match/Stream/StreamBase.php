@@ -3,8 +3,8 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 class StreamBase
 {
@@ -25,7 +25,7 @@ class StreamBase
         throw new UnmatchedStreamException();
     }
 
-    public function first(): IRawMatchOffset
+    public function first(): RawMatchOffset
     {
         $match = $this->base->matchOffset();
         if ($match->matched()) {

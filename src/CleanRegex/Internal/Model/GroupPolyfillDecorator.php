@@ -6,14 +6,14 @@ use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 
 class GroupPolyfillDecorator implements IRawMatchOffset
 {
-    /** @var IRawMatchOffset */
+    /** @var FalseNegative */
     private $match;
     /** @var MatchAllFactory */
     private $allFactory;
     /** @var int */
     private $newMatchIndex;
 
-    public function __construct(IRawMatchOffset $match, MatchAllFactory $allFactory, int $newMatchIndex)
+    public function __construct(FalseNegative $match, MatchAllFactory $allFactory, int $newMatchIndex)
     {
         $this->match = $match;
         $this->allFactory = $allFactory;

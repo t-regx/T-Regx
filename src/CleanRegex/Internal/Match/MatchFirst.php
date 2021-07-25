@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Match;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -36,7 +37,7 @@ class MatchFirst
         return new MatchDetail($this->base,
             $match->getIndex(),
             1,
-            new GroupPolyfillDecorator($match, $this->allFactory, $match->getIndex()),
+            new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, $match->getIndex()),
             $this->allFactory,
             $this->base->getUserData());
     }

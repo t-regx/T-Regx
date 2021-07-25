@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 
 class MatchGroupIntStream implements Stream
@@ -63,7 +64,7 @@ class MatchGroupIntStream implements Stream
     {
         $match = $this->base->matchOffset();
         $groupKey = $match->getIndex();
-        $rawMatchOffset = new GroupPolyfillDecorator($match, $this->allFactory, $groupKey);
+        $rawMatchOffset = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, $groupKey);
         if (!$rawMatchOffset->hasGroup($this->groupId->nameOrIndex())) {
             throw new NonexistentGroupException($this->groupId);
         }

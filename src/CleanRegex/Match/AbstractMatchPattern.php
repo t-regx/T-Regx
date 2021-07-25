@@ -27,6 +27,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
 use TRegx\CleanRegex\Internal\MatchPatternHelpers;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
+use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
@@ -94,7 +95,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         $allFactory = new LazyMatchAllFactory($this->base->getUnfilteredBase());
         $firstIndex = $match->getIndex();
         return (new DetailObjectFactory($this->base, 1, $this->base->getUserData()))
-            ->create($firstIndex, new GroupPolyfillDecorator($match, $allFactory, $firstIndex), $allFactory);
+            ->create($firstIndex, new GroupPolyfillDecorator(new FalseNegative($match), $allFactory, $firstIndex), $allFactory);
     }
 
     public function only(int $limit): array
