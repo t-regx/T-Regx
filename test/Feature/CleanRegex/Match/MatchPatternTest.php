@@ -270,19 +270,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asArray_first_OnUnmatchedPattern()
-    {
-        // then
-        $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get the first match as array, but subject was not matched');
-
-        // given
-        pattern('Foo')->match('Bar')->asArray()->first();
-    }
-
-    /**
-     * @test
-     */
     public function shouldBe_Countable()
     {
         // when
@@ -305,27 +292,6 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertSame([9, 9, 6, 7, 45], $integers);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_asArray_all()
-    {
-        // given
-        $subject = "foo:14-16 bar lorem:18 ipsum";
-
-        // when
-        $matches = pattern('[a-z]+(?<number>:\d+)?(-\d+)?')->match($subject)->asArray()->all();
-
-        // then
-        $expected = [
-            ['foo:14-16', 'number' => ':14', ':14', '-16'],
-            ['bar', 'number' => null, null, null],
-            ['lorem:18', 'number' => ':18', ':18', null],
-            ['ipsum', 'number' => null, null, null],
-        ];
-        $this->assertSame($expected, $matches);
     }
 
     /**
@@ -380,19 +346,6 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('Foo')->match('Bar')->fluent()->filter(Functions::fail())->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_asArray_filter_first_OnUnmatchedSubject()
-    {
-        // then
-        $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched');
-
-        // when
-        pattern('Foo')->match('Bar')->asArray()->filter(Functions::fail())->first();
     }
 
     /**

@@ -8,7 +8,6 @@ use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
-use TRegx\CleanRegex\Internal\Factory\Worker\AsArrayStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\AsIntStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\MatchStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\NextStreamWorkerDecorator;
@@ -22,7 +21,6 @@ use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
-use TRegx\CleanRegex\Internal\Match\Stream\AsArrayStream;
 use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
@@ -187,13 +185,6 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return new FluentMatchPattern(
             new MatchIntStream(new BaseStream($this->base)),
             new NextStreamWorkerDecorator(new MatchStreamWorker(), new AsIntStreamWorker($this->base)));
-    }
-
-    public function asArray(): FluentMatchPattern
-    {
-        return new FluentMatchPattern(
-            new AsArrayStream(new BaseStream($this->base), $this->base),
-            new NextStreamWorkerDecorator(new MatchStreamWorker(), new AsArrayStreamWorker($this->base)));
     }
 
     /**
