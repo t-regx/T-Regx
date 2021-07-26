@@ -10,8 +10,6 @@ use TRegx\SafeRegex\preg;
 
 class MatchPattern extends AbstractMatchPattern
 {
-    /** @var ApiBase */
-    private $apiBase;
     /** @var Definition */
     private $definition;
     /** @var string */
@@ -19,8 +17,7 @@ class MatchPattern extends AbstractMatchPattern
 
     public function __construct(Definition $definition, string $subject)
     {
-        $this->apiBase = new ApiBase($definition, $subject, new UserData());
-        parent::__construct($this->apiBase);
+        parent::__construct(new ApiBase($definition, $subject, new UserData()));
         $this->definition = $definition;
         $this->subject = $subject;
     }
@@ -37,6 +34,6 @@ class MatchPattern extends AbstractMatchPattern
 
     public function remaining(callable $predicate): RemainingMatchPattern
     {
-        return new RemainingMatchPattern(new DetailPredicateBaseDecorator($this->apiBase, new MethodPredicate($predicate, 'remaining')), $this->apiBase);
+        return new RemainingMatchPattern(new DetailPredicateBaseDecorator($this->base, new MethodPredicate($predicate, 'remaining')), $this->base);
     }
 }
