@@ -3,18 +3,17 @@ namespace TRegx\CleanRegex\Match\Details\Groups;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\ByteOffset;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\UsedInCompositeGroups;
 use TRegx\CleanRegex\Internal\Subjectable;
-use function array_slice;
 
 abstract class AbstractMatchGroups implements MatchGroups
 {
-    /** @var IRawMatchOffset */
-    protected $match;
+    /** @var UsedInCompositeGroups */
+    private $match;
     /** @var Subjectable */
     private $subjectable;
 
-    public function __construct(IRawMatchOffset $match, Subjectable $subjectable)
+    public function __construct(UsedInCompositeGroups $match, Subjectable $subjectable)
     {
         $this->match = $match;
         $this->subjectable = $subjectable;
@@ -39,7 +38,7 @@ abstract class AbstractMatchGroups implements MatchGroups
 
     private function sliceAndFilter(array $valuesWithWhole): array
     {
-        return $this->filterValues(array_slice($valuesWithWhole, 1));
+        return $this->filterValues(\array_slice($valuesWithWhole, 1));
     }
 
     private function filterValues(array $values): array

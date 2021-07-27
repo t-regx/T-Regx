@@ -1,12 +1,11 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\Details\Groups;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\ConstantRenameMe;
+use Test\Utils\Impl\ThrowGroupAware;
 use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
-use TRegx\CleanRegex\Match\Details\Groups\AbstractMatchGroups;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 
 /**
@@ -22,10 +21,7 @@ class AbstractMatchGroupsTest extends TestCase
     public function shouldThrowInternal($invalidValue)
     {
         // given
-        $matchGroups = $this->getMatchGroups([
-            0 => 'first second',
-            1 => $invalidValue
-        ]);
+        $matchGroups = new IndexedGroups(new ThrowGroupAware(), new ConstantRenameMe(['first', $invalidValue]), new ThrowSubject());
 
         // then
         $this->expectException(InternalCleanRegexException::class);
@@ -41,14 +37,5 @@ class AbstractMatchGroupsTest extends TestCase
             [[]],
             [new \stdClass()]
         ];
-    }
-
-    private function getMatchGroups(array $texts): AbstractMatchGroups
-    {
-        /** @var IRawMatchOffset|MockObject $mock */
-        $mock = $this->createMock(IRawMatchOffset::class);
-        $mock->method('getGroupsTexts')->willReturn($texts);
-
-        return new IndexedGroups($mock, new ThrowSubject());
     }
 }

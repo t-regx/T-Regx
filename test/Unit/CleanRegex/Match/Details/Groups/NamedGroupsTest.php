@@ -1,10 +1,10 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\Details\Groups;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\GroupKeys;
+use Test\Utils\Impl\ThrowRenameMe;
 use Test\Utils\Impl\ThrowSubject;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
 /**
@@ -35,13 +35,13 @@ class NamedGroupsTest extends TestCase
     public function shouldGetGroupsNames(array $groups, array $expectedNames)
     {
         // given
-        $matchGroups = new NamedGroups($this->match($groups), new ThrowSubject());
+        $matchGroups = new NamedGroups(new GroupKeys($groups), new ThrowRenameMe(), new ThrowSubject());
 
         // when
         $names = $matchGroups->names();
 
         // then
-        $this->assertSame(array_values(array_filter($expectedNames, 'is_string')), $names);
+        $this->assertSame(\array_values(\array_filter($expectedNames, 'is_string')), $names);
     }
 
     /**
@@ -53,26 +53,12 @@ class NamedGroupsTest extends TestCase
     public function shouldGetGroupsCount(array $groups, array $expectedNames)
     {
         // given
-        $matchGroups = new NamedGroups($this->match($groups), new ThrowSubject());
+        $matchGroups = new NamedGroups(new GroupKeys($groups), new ThrowRenameMe(), new ThrowSubject());
 
         // when
         $count = $matchGroups->count();
 
         // then
-        $this->assertCount($count, array_values(array_filter($expectedNames, 'is_string')));
-    }
-
-    private function match(array $keys): IRawMatchOffset
-    {
-        /** @var IRawMatchOffset|MockObject $mock */
-        $mock = $this->createMock(IRawMatchOffset::class);
-        /**
-         * This test knows the implementation details of IndexedGroups, so it knows
-         * only to mock {@see IRawMatchOffset::getGroupKeys} method, to remain a unit test.
-         * We could de-couple it from the implementation and create a real RawMatchOffset,
-         * that doesn't break a contract, but then we'd get an integration test, not a unit test.
-         */
-        $mock->method('getGroupKeys')->willReturn($keys);
-        return $mock;
+        $this->assertCount($count, \array_filter($expectedNames, 'is_string'));
     }
 }
