@@ -10,6 +10,8 @@ use TRegx\CleanRegex\Match\Details\MatchDetail;
 
 class MatchStream implements Stream
 {
+    use PreservesKey;
+
     /** @var BaseStream */
     private $stream;
     /** @var Subjectable */
@@ -40,10 +42,5 @@ class MatchStream implements Stream
             $this->stream->first(),
             $this->allFactory,
             $this->userData);
-    }
-
-    public function firstKey(): int
-    {
-        return $this->stream->firstKey();
     }
 }

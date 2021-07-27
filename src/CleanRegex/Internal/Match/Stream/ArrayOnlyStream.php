@@ -3,6 +3,8 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 class ArrayOnlyStream implements Stream
 {
+    use PreservesKey;
+
     /** @var Stream */
     private $stream;
     /** @var callable */
@@ -23,10 +25,5 @@ class ArrayOnlyStream implements Stream
     public function first()
     {
         return $this->stream->first();
-    }
-
-    public function firstKey()
-    {
-        return $this->stream->firstKey();
     }
 }

@@ -3,6 +3,8 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 class TextStream implements Stream
 {
+    use PreservesKey;
+
     /** @var BaseStream */
     private $stream;
 
@@ -19,10 +21,5 @@ class TextStream implements Stream
     public function first(): string
     {
         return $this->stream->first()->getText();
-    }
-
-    public function firstKey(): int
-    {
-        return $this->stream->firstKey();
     }
 }

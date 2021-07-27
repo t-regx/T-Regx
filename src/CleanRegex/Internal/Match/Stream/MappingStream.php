@@ -3,6 +3,8 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 class MappingStream implements Stream
 {
+    use PreservesKey;
+
     /** @var Stream */
     private $stream;
     /** @var callable */
@@ -21,12 +23,6 @@ class MappingStream implements Stream
 
     public function first()
     {
-        $mapper = $this->mapper;
-        return $mapper($this->stream->first());
-    }
-
-    public function firstKey()
-    {
-        return $this->stream->firstKey();
+        return ($this->mapper)($this->stream->first());
     }
 }

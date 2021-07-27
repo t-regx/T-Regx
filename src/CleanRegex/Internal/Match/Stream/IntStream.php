@@ -9,6 +9,8 @@ use TRegx\CleanRegex\Match\Details\Intable;
 
 class IntStream implements Stream
 {
+    use PreservesKey;
+
     /** @var Stream */
     private $stream;
 
@@ -25,11 +27,6 @@ class IntStream implements Stream
     public function first(): int
     {
         return self::parse($this->stream->first());
-    }
-
-    public function firstKey()
-    {
-        return $this->stream->firstKey();
     }
 
     private static function parse($value): int
