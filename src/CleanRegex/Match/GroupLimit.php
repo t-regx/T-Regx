@@ -11,7 +11,6 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Factory\Worker\MatchStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\ThrowInternalStreamWorker;
-use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitAll;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFindFirst;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFirst;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
@@ -25,6 +24,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Group\Group;
@@ -32,8 +32,6 @@ use TRegx\SafeRegex\Internal\Tuple;
 
 class GroupLimit implements PatternLimit, \IteratorAggregate
 {
-    /** @var GroupLimitAll */
-    private $allFactory;
     /** @var GroupLimitFirst */
     private $firstFactory;
     /** @var GroupLimitFindFirst */
@@ -49,7 +47,6 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     public function __construct(Base $base, $nameOrIndex, OffsetLimit $offsetLimit)
     {
-        $this->allFactory = new GroupLimitAll($base, $nameOrIndex);
         $this->firstFactory = new GroupLimitFirst($base, $nameOrIndex);
         $this->findFirstFactory = new GroupLimitFindFirst($base, $nameOrIndex);
         $this->matchAllFactory = new LazyMatchAllFactory($base);
@@ -84,16 +81,25 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     public function all(): array
     {
-        return \array_values($this->allFactory->getAllForGroup()->getGroupTexts($this->nameOrIndex));
+        return \array_values($this->getAllForGroup()->getGroupTexts($this->nameOrIndex));
     }
 
     public function only(int $limit): array
     {
-        $matches = $this->allFactory->getAllForGroup();
+        $matches = $this->getAllForGroup();
         if ($limit < 0) {
             throw new InvalidArgumentException("Negative limit: $limit");
         }
         return \array_slice($matches->getGroupTexts($this->nameOrIndex), 0, $limit);
+    }
+
+    private function getAllForGroup(): RawMatchesOffset
+    {
+        $rawMatches = $this->base->matchAllOffsets();
+        if ($rawMatches->hasGroup($this->nameOrIndex)) {
+            return $rawMatches;
+        }
+        throw new NonexistentGroupException($this->nameOrIndex);
     }
 
     public function nth(int $index): string
