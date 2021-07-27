@@ -53,8 +53,9 @@ class MatchGroupStream implements Stream
     {
         $match = $this->base->matchOffset();
         $this->validateGroupOrSubject($match);
-        $groupFacade = new GroupFacade($match, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), $this->allFactory);
-        $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0);
+        $false = new FalseNegative($match);
+        $groupFacade = new GroupFacade($false, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), $this->allFactory);
+        $polyfill = new GroupPolyfillDecorator($false, $this->allFactory, 0);
         return $groupFacade->createGroup($polyfill);
     }
 

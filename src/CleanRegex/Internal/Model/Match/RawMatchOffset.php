@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Model\Match;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Internal\Tuple;
 
-class RawMatchOffset implements IRawMatchOffset
+class RawMatchOffset
 {
     /** @var array[] */
     private $match;

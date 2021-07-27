@@ -71,7 +71,8 @@ class GroupFacade
     public function createGroup(IRawMatchOffset $match): Group
     {
         if ($match->isGroupMatched($this->directIdentifier())) {
-            return $this->createdMatched($match, ...$match->getGroupTextAndOffset($this->directIdentifier()));
+            [$text, $offset] = $match->getGroupTextAndOffset($this->directIdentifier());
+            return $this->createdMatched($match, $text, $offset);
         }
         return $this->createUnmatched($match);
     }

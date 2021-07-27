@@ -24,13 +24,12 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\GroupHasAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\PatternLimit;
-use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\SafeRegex\Internal\Tuple;
 
 class GroupLimit implements PatternLimit, \IteratorAggregate
@@ -68,13 +67,9 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         if ($consumer === null) {
             return $first->getGroup($this->groupId->nameOrIndex());
         }
-        return $consumer($this->matchGroupDetails($first));
-    }
-
-    private function matchGroupDetails(RawMatchOffset $first): Group
-    {
-        $facade = new GroupFacade($first, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), $this->matchAllFactory);
-        return $facade->createGroup($first);
+        $false = new FalseNegative($first);
+        $facade = new GroupFacade($false, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), $this->matchAllFactory);
+        return $consumer($facade->createGroup($false));
     }
 
     public function findFirst(callable $consumer): Optional

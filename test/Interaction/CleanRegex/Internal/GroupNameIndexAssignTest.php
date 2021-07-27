@@ -2,13 +2,13 @@
 namespace Test\Interaction\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\GroupKeys;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\GroupNameIndexAssign
@@ -49,7 +49,6 @@ class GroupNameIndexAssignTest extends TestCase
 
     private function createWithMatchAllFactory_uneven(): GroupNameIndexAssign
     {
-        $match = [null, null];
         $matches = [
             0       => null,
             1       => null,
@@ -59,7 +58,7 @@ class GroupNameIndexAssignTest extends TestCase
             3       => null,
         ];
 
-        return new GroupNameIndexAssign(new RawMatchOffset($match, 0), new EagerMatchAllFactory(new RawMatchesOffset($matches)));
+        return new GroupNameIndexAssign(new GroupKeys(\array_keys($matches)), new EagerMatchAllFactory(new RawMatchesOffset($matches)));
     }
 
     /**
@@ -104,7 +103,7 @@ class GroupNameIndexAssignTest extends TestCase
             'name2' => null,
             3       => null,
         ];
-        return new GroupNameIndexAssign(new RawMatchOffset($matches, 0), new EagerMatchAllFactory(new RawMatchesOffset($matches)));
+        return new GroupNameIndexAssign(new GroupKeys(\array_keys($matches)), new EagerMatchAllFactory(new RawMatchesOffset($matches)));
     }
 
     /**

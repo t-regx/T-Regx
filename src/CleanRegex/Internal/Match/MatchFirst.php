@@ -6,7 +6,6 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 
@@ -27,17 +26,17 @@ class MatchFirst
     {
         $match = $this->base->matchOffset();
         if ($match->matched()) {
-            return $this->detail($match);
+            return $this->detail($match->getIndex(), new FalseNegative($match));
         }
         throw SubjectNotMatchedException::forFirst($this->base);
     }
 
-    private function detail(RawMatchOffset $match): Detail
+    private function detail(int $index, FalseNegative $match): Detail
     {
         return new MatchDetail($this->base,
-            $match->getIndex(),
+            $index,
             1,
-            new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, $match->getIndex()),
+            new GroupPolyfillDecorator($match, $this->allFactory, $index),
             $this->allFactory,
             $this->base->getUserData());
     }

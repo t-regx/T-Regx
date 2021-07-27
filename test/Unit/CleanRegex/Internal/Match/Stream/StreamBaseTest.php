@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
@@ -119,7 +118,7 @@ class StreamBaseTest extends TestCase
         return $this->baseFirstWith(new RawMatchOffset([], null));
     }
 
-    private function baseFirstWith(IRawMatchOffset $match): Base
+    private function baseFirstWith(RawMatchOffset $match): Base
     {
         /** @var Base|MockObject $base */
         $base = $this->createMock(Base::class);

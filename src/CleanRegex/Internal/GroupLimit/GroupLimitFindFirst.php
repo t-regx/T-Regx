@@ -15,7 +15,9 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
+use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\Optional;
@@ -55,11 +57,11 @@ class GroupLimitFindFirst
 
     private function matchedOptional(RawMatchOffset $match, callable $consumer): OptionalImpl
     {
-        $facade = new GroupFacade($match, $this->base, $this->groupId,
+        $facade = new GroupFacade(new FalseNegative($match), $this->base, $this->groupId,
             new MatchGroupFactoryStrategy(),
             new LazyMatchAllFactory($this->base));
 
-        return new OptionalImpl($consumer($facade->createGroup($match)));
+        return new OptionalImpl($consumer($facade->createGroup(new FalseNegative($match))));
     }
 
     private function notMatchedOptional(RawMatchOffset $first): EmptyOptional

@@ -6,20 +6,20 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 class GroupKeys implements GroupAware
 {
     /** @var array */
-    private $keys;
+    private $groupKeys;
 
-    public function __construct(array $keys)
+    public function __construct(array $groupKeys)
     {
-        $this->keys = $keys;
-    }
-
-    public function getGroupKeys(): array
-    {
-        return $this->keys;
+        $this->groupKeys = $groupKeys;
     }
 
     public function hasGroup($nameOrIndex): bool
     {
-        return \in_array($nameOrIndex, $this->keys);
+        return \in_array($nameOrIndex, $this->groupKeys);
+    }
+
+    public function getGroupKeys(): array
+    {
+        return $this->groupKeys;
     }
 }
