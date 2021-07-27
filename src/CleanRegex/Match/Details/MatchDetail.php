@@ -144,7 +144,7 @@ class MatchDetail implements Detail
 
     public function usingDuplicateName(): DuplicateName
     {
-        return new DuplicateName($this->match, $this->subjectable, $this->strategy, $this->allFactory);
+        return new DuplicateName($this->match, $this->match, $this->subjectable, $this->strategy, $this->allFactory);
     }
 
     /**

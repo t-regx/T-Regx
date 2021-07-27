@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Match\Details\DuplicateNamedGroupAdapter;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Group\RuntimeGroupFacade;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\DuplicateNamedGroup;
@@ -79,6 +80,8 @@ use TRegx\CleanRegex\Match\Details\Group\DuplicateNamedGroup;
  */
 class DuplicateName
 {
+    /** @var GroupAware */
+    private $groupAware;
     /** @var IRawMatchOffset */
     private $match;
     /** @var Subjectable */
@@ -88,11 +91,13 @@ class DuplicateName
     /** @var MatchAllFactory */
     private $all;
 
-    public function __construct(IRawMatchOffset $match,
-                                Subjectable $subject,
+    public function __construct(GroupAware           $groupAware,
+                                IRawMatchOffset      $match,
+                                Subjectable          $subject,
                                 GroupFactoryStrategy $factoryStrategy,
-                                MatchAllFactory $allFactory)
+                                MatchAllFactory      $allFactory)
     {
+        $this->groupAware = $groupAware;
         $this->match = $match;
         $this->subject = $subject;
         $this->factory = $factoryStrategy;
@@ -101,7 +106,7 @@ class DuplicateName
 
     public function group(string $groupName): DuplicateNamedGroup
     {
-        $facade = new RuntimeGroupFacade($this->match, $this->subject, new GroupName($groupName), $this->factory, $this->all);
+        $facade = new RuntimeGroupFacade($this->groupAware, $this->subject, new GroupName($groupName), $this->factory, $this->all);
         return new DuplicateNamedGroupAdapter($groupName, $facade->createGroup($this->match));
     }
 
