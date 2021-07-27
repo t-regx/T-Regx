@@ -34,6 +34,7 @@ use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
 abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLimit
@@ -94,8 +95,14 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         $allFactory = new LazyMatchAllFactory($this->base->getUnfilteredBase());
         $firstIndex = $match->getIndex();
-        return (new DetailObjectFactory($this->base, 1, $this->base->getUserData()))
-            ->create($firstIndex, new GroupPolyfillDecorator(new FalseNegative($match), $allFactory, $firstIndex), $allFactory);
+
+        return new MatchDetail(
+            $this->base,
+            $firstIndex,
+            1,
+            new GroupPolyfillDecorator(new FalseNegative($match), $allFactory, $firstIndex),
+            $allFactory,
+            $this->base->getUserData());
     }
 
     public function only(int $limit): array
