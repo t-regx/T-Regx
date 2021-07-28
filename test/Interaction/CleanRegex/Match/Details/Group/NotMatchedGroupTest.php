@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
+use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
@@ -106,10 +107,10 @@ class NotMatchedGroupTest extends TestCase
     {
         $subject = new Subject('$unused');
         return new NotMatchedGroup(
-            new GroupDetails('first', 1, 'first', new EagerMatchAllFactory(new RawMatchesOffset([]))),
-            new GroupExceptionFactory($subject, 'first'),
+            new GroupDetails('first', 1, new GroupName('first'), new EagerMatchAllFactory(new RawMatchesOffset([]))),
+            new GroupExceptionFactory($subject, new GroupName('first')),
             new NotMatchedOptionalWorker(
-                new GroupMessage('first'),
+                new GroupMessage(new GroupName('first')),
                 $subject,
                 new NotMatched(new RawMatches([]), $subject),
                 CustomException::class),

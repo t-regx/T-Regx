@@ -11,6 +11,7 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Factory\Worker\MatchStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\ThrowInternalStreamWorker;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFindFirst;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFirst;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
@@ -44,17 +45,17 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
     private $findFirstFactory;
     /** @var LazyMatchAllFactory */
     private $matchAllFactory;
-    /** @var string|int */
-    private $nameOrIndex;
+    /** @var GroupKey */
+    private $groupId;
 
-    public function __construct(Base $base, GroupAware $groupAware, $nameOrIndex)
+    public function __construct(Base $base, GroupAware $groupAware, GroupKey $groupId)
     {
         $this->base = $base;
         $this->groupHasAware = $groupAware;
-        $this->firstFactory = new GroupLimitFirst($base, $groupAware, $nameOrIndex);
-        $this->findFirstFactory = new GroupLimitFindFirst($base, $groupAware, $nameOrIndex);
+        $this->firstFactory = new GroupLimitFirst($base, $groupAware, $groupId);
+        $this->findFirstFactory = new GroupLimitFindFirst($base, $groupAware, $groupId);
         $this->matchAllFactory = new LazyMatchAllFactory($base);
-        $this->nameOrIndex = $nameOrIndex;
+        $this->groupId = $groupId;
     }
 
     /**
@@ -65,14 +66,14 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
     {
         $first = $this->firstFactory->getFirstForGroup();
         if ($consumer === null) {
-            return $first->getGroup($this->nameOrIndex);
+            return $first->getGroup($this->groupId->nameOrIndex());
         }
         return $consumer($this->matchGroupDetails($first));
     }
 
     private function matchGroupDetails(RawMatchOffset $first): Group
     {
-        $facade = new GroupFacade($first, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), $this->matchAllFactory);
+        $facade = new GroupFacade($first, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), $this->matchAllFactory);
         return $facade->createGroup($first);
     }
 
@@ -83,7 +84,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     public function all(): array
     {
-        return \array_values($this->getAllForGroup()->getGroupTexts($this->nameOrIndex));
+        return \array_values($this->getAllForGroup()->getGroupTexts($this->groupId->nameOrIndex()));
     }
 
     public function only(int $limit): array
@@ -92,38 +93,38 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         if ($limit < 0) {
             throw new InvalidArgumentException("Negative limit: $limit");
         }
-        return \array_slice($matches->getGroupTexts($this->nameOrIndex), 0, $limit);
+        return \array_slice($matches->getGroupTexts($this->groupId->nameOrIndex()), 0, $limit);
     }
 
     private function getAllForGroup(): RawMatchesOffset
     {
         $rawMatches = $this->base->matchAllOffsets();
-        if ($rawMatches->hasGroup($this->nameOrIndex)) {
+        if ($rawMatches->hasGroup($this->groupId->nameOrIndex())) {
             return $rawMatches;
         }
-        throw new NonexistentGroupException($this->nameOrIndex);
+        throw new NonexistentGroupException($this->groupId);
     }
 
     public function nth(int $index): string
     {
         $match = $this->base->matchAllOffsets();
         $count = $match->getCount();
-        if (!$match->hasGroup($this->nameOrIndex)) {
-            throw new NonexistentGroupException($this->nameOrIndex);
+        if (!$match->hasGroup($this->groupId->nameOrIndex())) {
+            throw new NonexistentGroupException($this->groupId);
         }
         if ($index < 0) {
             throw new InvalidArgumentException("Negative group nth: $index");
         }
         if (!$match->matched()) {
-            throw SubjectNotMatchedException::forNthGroup($this->base, $this->nameOrIndex, $index);
+            throw SubjectNotMatchedException::forNthGroup($this->base, $this->groupId, $index);
         }
         if ($count <= $index) {
-            throw NoSuchNthElementException::forGroup($this->nameOrIndex, $index, $count);
+            throw NoSuchNthElementException::forGroup($this->groupId, $index, $count);
         }
-        if (!$match->isGroupMatched($this->nameOrIndex, $index)) {
-            throw GroupNotMatchedException::forNth($this->base, $this->nameOrIndex, $index);
+        if (!$match->isGroupMatched($this->groupId->nameOrIndex(), $index)) {
+            throw GroupNotMatchedException::forNth($this->base, $this->groupId, $index);
         }
-        return Tuple::first($match->getGroupTextAndOffset($this->nameOrIndex, $index));
+        return Tuple::first($match->getGroupTextAndOffset($this->groupId->nameOrIndex(), $index));
     }
 
     public function getIterator(): Iterator
@@ -138,13 +139,13 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     public function flatMap(callable $mapper): array
     {
-        $function = new FlatFunction($mapper, 'flatMap');;
+        $function = new FlatFunction($mapper, 'flatMap');
         return (new ArrayMergeStrategy())->flatten(new Nested(\array_map([$function, 'apply'], $this->details())));
     }
 
     public function flatMapAssoc(callable $mapper): array
     {
-        $function = new FlatFunction($mapper, 'flatMapAssoc');;
+        $function = new FlatFunction($mapper, 'flatMapAssoc');
         return (new AssignStrategy())->flatten(new Nested(\array_map([$function, 'apply'], $this->details())));
     }
 
@@ -174,7 +175,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     public function offsets(): OffsetLimit
     {
-        return new OffsetLimit($this->base, $this->groupHasAware, $this->nameOrIndex, false);
+        return new OffsetLimit($this->base, $this->groupHasAware, $this->groupId, false);
     }
 
     public function fluent(): FluentMatchPattern
@@ -185,13 +186,13 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
     public function asInt(): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            new MatchGroupIntStream($this->base, $this->nameOrIndex, $this->matchAllFactory),
+            new MatchGroupIntStream($this->base, $this->groupId, $this->matchAllFactory),
             new ThrowInternalStreamWorker());
     }
 
     private function stream(): Stream
     {
-        return new MatchGroupStream($this->base, $this->groupHasAware, $this->nameOrIndex, $this->matchAllFactory);
+        return new MatchGroupStream($this->base, $this->groupHasAware, $this->groupId, $this->matchAllFactory);
     }
 
     private function details(): array

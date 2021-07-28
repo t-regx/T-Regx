@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupNames;
-use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Subjectable;
 use function array_filter;
@@ -46,7 +46,6 @@ class NotMatched implements BaseDetail
      */
     public function hasGroup($nameOrIndex): bool
     {
-        (new GroupNameValidator($nameOrIndex))->validate();
-        return $this->match->hasGroup($nameOrIndex);
+        return $this->match->hasGroup(GroupKey::of($nameOrIndex)->nameOrIndex());
     }
 }

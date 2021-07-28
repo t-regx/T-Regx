@@ -5,9 +5,9 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\ByteOffset;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\GroupNames;
-use TRegx\CleanRegex\Internal\GroupNameValidator;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
@@ -29,7 +29,6 @@ class MatchDetail implements Detail
     private $index;
     /** @var IRawMatchOffset */
     private $match;
-
     /** @var MatchAllFactory */
     private $allFactory;
     /** @var GroupFactoryStrategy */
@@ -103,16 +102,21 @@ class MatchDetail implements Detail
 
     public function get($nameOrIndex): string
     {
-        if (!$this->hasGroup($nameOrIndex)) {
-            throw new NonexistentGroupException($nameOrIndex);
+        return $this->getGroup(GroupKey::of($nameOrIndex));
+    }
+
+    private function getGroup(GroupKey $group)
+    {
+        if (!$this->hasGroup($group->nameOrIndex())) {
+            throw new NonexistentGroupException($group);
         }
         $nameAssign = new GroupNameIndexAssign($this->match, $this->allFactory); // To handle J flag
-        [$name, $index] = $nameAssign->getNameAndIndex($nameOrIndex);
+        [$name, $index] = $nameAssign->getNameAndIndex($group);
         if ($this->match->isGroupMatched($index)) {
             [$text, $offset] = $this->match->getGroupTextAndOffset($index);
             return $text;
         }
-        throw GroupNotMatchedException::forGet($this->subjectable, $nameOrIndex);
+        throw GroupNotMatchedException::forGet($this->subjectable, $group);
     }
 
     /**
@@ -122,15 +126,20 @@ class MatchDetail implements Detail
      */
     public function group($nameOrIndex): Group
     {
-        if (!$this->hasGroup($nameOrIndex)) {
-            throw new NonexistentGroupException($nameOrIndex);
-        }
-        return $this->getGroupFacade($nameOrIndex)->createGroup($this->match);
+        return $this->groupBuilder(GroupKey::of($nameOrIndex));
     }
 
-    private function getGroupFacade($nameOrIndex): GroupFacade
+    private function groupBuilder(GroupKey $group): Group
     {
-        return new GroupFacade($this->match, $this->subjectable, $nameOrIndex, $this->strategy, $this->allFactory);
+        if (!$this->hasGroup($group->nameOrIndex())) {
+            throw new NonexistentGroupException($group);
+        }
+        return $this->getGroupFacade($group)->createGroup($this->match);
+    }
+
+    private function getGroupFacade(GroupKey $groupId): GroupFacade
+    {
+        return new GroupFacade($this->match, $this->subjectable, $groupId, $this->strategy, $this->allFactory);
     }
 
     public function usingDuplicateName(): DuplicateName
@@ -168,13 +177,7 @@ class MatchDetail implements Detail
      */
     public function hasGroup($nameOrIndex): bool
     {
-        $this->validateGroupName($nameOrIndex);
-        return $this->match->hasGroup($nameOrIndex);
-    }
-
-    private function validateGroupName($nameOrIndex): void
-    {
-        (new GroupNameValidator($nameOrIndex))->validate();
+        return $this->match->hasGroup(GroupKey::of($nameOrIndex)->nameOrIndex());
     }
 
     /**

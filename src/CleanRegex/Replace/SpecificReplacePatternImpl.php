@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
@@ -79,7 +80,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
 
     public function focus($nameOrIndex): FocusReplacePattern
     {
-        return new FocusReplacePattern($this, $this->definition, $this->subject, $this->limit, $nameOrIndex, $this->countingStrategy);
+        return new FocusReplacePattern($this, $this->definition, $this->subject, $this->limit, GroupKey::of($nameOrIndex), $this->countingStrategy);
     }
 
     private function replaceCallbackInvoker(): ReplacePatternCallbackInvoker

@@ -1,12 +1,18 @@
 <?php
 namespace TRegx\CleanRegex\Helper;
 
-use TRegx\CleanRegex\Internal\GroupNameValidator;
+use InvalidArgumentException;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 
 abstract class GroupName
 {
     public static function isValid($nameOrIndex): bool
     {
-        return (new GroupNameValidator($nameOrIndex))->isGroupValid();
+        try {
+            GroupKey::of($nameOrIndex)->nameOrIndex();
+        } catch (InvalidArgumentException $exception) {
+            return false;
+        }
+        return true;
     }
 }

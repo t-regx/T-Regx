@@ -2,16 +2,16 @@
 namespace TRegx\CleanRegex\Internal\Exception\Messages\Subject;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\GroupFormat;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 
 class FirstGroupOffsetMessage implements NotMatchedMessage
 {
-    /** @var string */
+    /** @var GroupKey */
     private $group;
 
-    public function __construct($nameOrIndex)
+    public function __construct(GroupKey $group)
     {
-        $this->group = GroupFormat::group($nameOrIndex);
+        $this->group = $group;
     }
 
     public function getMessage(): string

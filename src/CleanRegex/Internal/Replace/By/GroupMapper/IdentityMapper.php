@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace\By\GroupMapper;
 
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class IdentityMapper implements DetailGroupMapper
@@ -11,7 +12,7 @@ class IdentityMapper implements DetailGroupMapper
     }
 
     // @codeCoverageIgnoreStart
-    public function useExceptionValues(string $occurrence, $nameOrIndex, string $match): void
+    public function useExceptionValues(string $occurrence, GroupKey $groupId, string $match): void
     {
     }
     // @codeCoverageIgnoreEnd

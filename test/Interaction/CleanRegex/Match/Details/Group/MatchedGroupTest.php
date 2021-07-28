@@ -3,6 +3,9 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\Details\Group;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\ConstantMatchEntry;
+use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
@@ -65,7 +68,7 @@ class MatchedGroupTest extends TestCase
     public function shouldGetOffset()
     {
         // given
-        $matchGroup = $this->buildMatchGroup("ść Łukasz ść", "Łukasz", "Łu", 1, 5);
+        $matchGroup = $this->buildMatchGroup("ść Łukasz ść", "Łukasz", "Łu", new GroupIndex(1), 5);
 
         // when
         $offset = $matchGroup->offset();
@@ -82,7 +85,7 @@ class MatchedGroupTest extends TestCase
     public function shouldGetTail()
     {
         // given
-        $matchGroup = $this->buildMatchGroup("ść Łukaśz ść", "Łukaśz", "Łu", 1, 5);
+        $matchGroup = $this->buildMatchGroup("ść Łukaśz ść", "Łukaśz", "Łu", new GroupIndex(1), 5);
 
         // when
         $tail = $matchGroup->tail();
@@ -175,25 +178,25 @@ class MatchedGroupTest extends TestCase
     /**
      * @test
      * @dataProvider identifiers
-     * @param int|string $usedIdentifier
+     * @param GroupKey $group
      */
-    public function shouldGet_usedIdentifier($usedIdentifier)
+    public function shouldGet_usedIdentifier(GroupKey $group)
     {
         // given
-        $matchGroup = $this->buildMatchGroup('before- start(Nice matching)end -after match', 'start(Nice matching)end', 'Nice matching', $usedIdentifier, 14);
+        $matchGroup = $this->buildMatchGroup('before- start(Nice matching)end -after match', 'start(Nice matching)end', 'Nice matching', $group, 14);
 
         // when
         $result = $matchGroup->usedIdentifier();
 
         // then
-        $this->assertSame($usedIdentifier, $result);
+        $this->assertSame($group->nameOrIndex(), $result);
     }
 
     public function identifiers(): array
     {
         return [
-            ['first'],
-            [1],
+            [new GroupName('first')],
+            [new GroupIndex(1)],
         ];
     }
 
@@ -203,16 +206,16 @@ class MatchedGroupTest extends TestCase
             'before- start(Nice matching)end -after match',
             'start(Nice matching)end',
             'Nice matching',
-            'first',
+            new GroupName('first'),
             14);
     }
 
-    private function buildMatchGroup(string $subject, string $match, string $group, $nameOrIndex, $groupOffset): MatchedGroup
+    private function buildMatchGroup(string $subject, string $match, string $group, GroupKey $groupId, $groupOffset): MatchedGroup
     {
         $matchedGroup = new GroupEntry($group, $groupOffset, new Subject($subject));
         return new MatchedGroup(
             new Subject($subject),
-            new GroupDetails('first', 1, $nameOrIndex, new EagerMatchAllFactory(new RawMatchesOffset([]))),
+            new GroupDetails('first', 1, $groupId, new EagerMatchAllFactory(new RawMatchesOffset([]))),
             $matchedGroup,
             new SubstitutedGroup(new ConstantMatchEntry($match, 8), $matchedGroup));
     }

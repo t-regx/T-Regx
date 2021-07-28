@@ -2,20 +2,20 @@
 namespace TRegx\CleanRegex\Internal\Exception\Messages\Subject;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\GroupFormat;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 
 class FirstGroupSubjectMessage implements NotMatchedMessage
 {
-    /** @var string */
-    private $group;
+    /** @var GroupKey */
+    private $groupId;
 
-    public function __construct($nameOrIndex)
+    public function __construct(GroupKey $groupId)
     {
-        $this->group = GroupFormat::group($nameOrIndex);
+        $this->groupId = $groupId;
     }
 
     public function getMessage(): string
     {
-        return "Expected to get group $this->group from the first match, but subject was not matched at all";
+        return "Expected to get group $this->groupId from the first match, but subject was not matched at all";
     }
 }

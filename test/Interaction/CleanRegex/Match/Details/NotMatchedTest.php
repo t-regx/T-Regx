@@ -64,35 +64,35 @@ class NotMatchedTest extends TestCase
     /**
      * @test
      * @dataProvider existingGroups
-     * @param string|int $nameOrIndex
+     * @param string|int $group
      */
-    public function shouldHasGroup($nameOrIndex)
+    public function shouldHasGroup($group)
     {
         // given
         $notMatched = $this->createNotMatched();
 
         // when
-        $hasGroup = $notMatched->hasGroup($nameOrIndex);
+        $hasGroup = $notMatched->hasGroup($group);
 
         // then
-        $this->assertTrue($hasGroup, "Failed asserting that group $nameOrIndex exists");
+        $this->assertTrue($hasGroup, "Failed asserting that group $group exists");
     }
 
     /**
      * @test
      * @dataProvider missingGroups
-     * @param string|int $nameOrIndex
+     * @param string|int $groupIdentifier
      */
-    public function shouldHasGroup_not($nameOrIndex)
+    public function shouldHasGroup_not($groupIdentifier)
     {
         // given
         $notMatched = $this->createNotMatched();
 
         // when
-        $hasGroup = $notMatched->hasGroup($nameOrIndex);
+        $hasGroup = $notMatched->hasGroup($groupIdentifier);
 
         // then
-        $this->assertFalse($hasGroup, "Failed asserting that group $nameOrIndex is missing");
+        $this->assertFalse($hasGroup, "Failed asserting that group $groupIdentifier is missing");
     }
 
     public function existingGroups(): array
@@ -119,10 +119,10 @@ class NotMatchedTest extends TestCase
     /**
      * @test
      * @dataProvider invalidGroups
-     * @param string|int $nameOrIndex
+     * @param string|int $groupIdentifier
      * @param string $message
      */
-    public function shouldThrow_invalidGroupName($nameOrIndex, string $message)
+    public function shouldThrow_invalidGroupName($groupIdentifier, string $message)
     {
         // given
         $notMatched = new NotMatched(new RawMatches([]), new ThrowSubject());
@@ -132,7 +132,7 @@ class NotMatchedTest extends TestCase
         $this->expectExceptionMessage($message);
 
         // when
-        $notMatched->hasGroup($nameOrIndex);
+        $notMatched->hasGroup($groupIdentifier);
     }
 
     public function invalidGroups(): array

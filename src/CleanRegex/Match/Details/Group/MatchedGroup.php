@@ -47,7 +47,7 @@ class MatchedGroup implements Group
         if ($this->isInt()) {
             return $this->groupEntry->text();
         }
-        throw IntegerFormatException::forGroup($this->details->nameOrIndex, $this->groupEntry->text());
+        throw IntegerFormatException::forGroup($this->details->groupId, $this->groupEntry->text());
     }
 
     public function isInt(): bool
@@ -80,7 +80,7 @@ class MatchedGroup implements Group
      */
     public function usedIdentifier()
     {
-        return $this->details->nameOrIndex;
+        return $this->details->groupId->nameOrIndex();
     }
 
     public function offset(): int

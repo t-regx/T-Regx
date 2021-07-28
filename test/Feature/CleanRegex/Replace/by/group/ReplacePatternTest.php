@@ -8,6 +8,9 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Match\Details\LazyDetail;
 use TRegx\DataProvider\DataProviders;
 
@@ -137,10 +140,10 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      * @dataProvider groups
-     * @param string|int $nameOrIndex
+     * @param string|int $groupIdentifier
      * @param string $group
      */
-    public function shouldNotReplace_orThrow($nameOrIndex, string $group)
+    public function shouldNotReplace_orThrow($groupIdentifier, string $group)
     {
         // then
         $this->expectException(CustomSubjectException::class);
@@ -151,7 +154,7 @@ class ReplacePatternTest extends TestCase
             ->replace('Links: https://.com,http://.com.')
             ->all()
             ->by()
-            ->group($nameOrIndex)
+            ->group($groupIdentifier)
             ->orElseThrow(CustomSubjectException::class);
     }
 
@@ -321,10 +324,9 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      * @dataProvider nonexistentGroups
-     * @param $nameOrIndex
-     * @param string $group
+     * @param GroupKey $group
      */
-    public function shouldThrow_forNonExistentGroup($nameOrIndex, string $group)
+    public function shouldThrow_forNonExistentGroup(GroupKey $group)
     {
         // then
         $this->expectException(NonexistentGroupException::class);
@@ -335,15 +337,15 @@ class ReplacePatternTest extends TestCase
             ->replace('Links: https://google.com and http://facebook.com')
             ->all()
             ->by()
-            ->group($nameOrIndex)
+            ->group($group->nameOrIndex())
             ->orElseWith('failing');
     }
 
     public function nonexistentGroups(): array
     {
         return [
-            ['missing', "'missing'"],
-            [40, '#40'],
+            [new GroupName('missing')],
+            [new GroupIndex(40)],
         ];
     }
 

@@ -27,6 +27,10 @@ class GroupNameTest extends TestCase
         $this->assertFalse(GroupName::isValid(''));
         $this->assertFalse(GroupName::isValid(-1));
 
+        // invalid type
+        $this->assertFalse(GroupName::isValid(null));
+        $this->assertFalse(GroupName::isValid(2.25));
+
         // assert length
         $this->assertTrue(GroupName::isValid(\str_repeat('a', 32)));
         $this->assertFalse(GroupName::isValid(\str_repeat('a', 33)));

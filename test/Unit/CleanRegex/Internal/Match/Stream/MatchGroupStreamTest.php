@@ -4,6 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\ConstantHasGroup;
+use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
@@ -171,12 +172,12 @@ class MatchGroupStreamTest extends TestCase
         return $base;
     }
 
-    private function matchStream(Base $base, $nameOrIndex, MatchAllFactory $factory = null): MatchGroupStream
+    private function matchStream(Base $base, string $name, MatchAllFactory $factory = null): MatchGroupStream
     {
         return new MatchGroupStream(
             $base,
             new ConstantHasGroup(true),
-            $nameOrIndex,
+            new GroupName($name),
             $factory ?? $this->createMock(MatchAllFactory::class));
     }
 

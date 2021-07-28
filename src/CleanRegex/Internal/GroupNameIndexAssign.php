@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Exception\InsufficientMatchException;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 
@@ -13,18 +14,18 @@ class GroupNameIndexAssign
     /** @var MatchAllFactory */
     private $allGroupKeysFactory;
 
-    public function __construct(GroupAware $matches, MatchAllFactory $allGroupKeysFactory)
+    public function __construct(GroupAware $groupAware, MatchAllFactory $allGroupKeysFactory)
     {
-        $this->groupKeys = $matches->getGroupKeys();
+        $this->groupKeys = $groupAware->getGroupKeys();
         $this->allGroupKeysFactory = $allGroupKeysFactory;
     }
 
-    public function getNameAndIndex($group): array
+    public function getNameAndIndex(GroupKey $group): array
     {
         try {
-            return $this->tryGetNameAndIndex($group);
+            return $this->tryGetNameAndIndex($group->nameOrIndex());
         } catch (InsufficientMatchException $exception) {
-            return $this->reloadAndTryGetNameAndIndex($group);
+            return $this->reloadAndTryGetNameAndIndex($group->nameOrIndex());
         }
     }
 

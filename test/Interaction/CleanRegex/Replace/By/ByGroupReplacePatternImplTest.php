@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
 use Test\Utils\Internal;
+use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
@@ -83,7 +84,7 @@ class ByGroupReplacePatternImplTest extends TestCase
                 new ApiBase($internalPattern, $subject, new UserData())),
             new PerformanceEmptyGroupReplace($internalPattern, $subjectable, -1),
             new ReplacePatternCallbackInvoker($internalPattern, $subjectable, -1, new LazyMessageThrowStrategy(\AssertionError::class), new IgnoreCounting()),
-            1,
+            new GroupIndex(1),
             $subject,
             new IdentityWrapper());
     }

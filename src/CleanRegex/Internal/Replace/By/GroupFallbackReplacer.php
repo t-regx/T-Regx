@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Replace\By;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
@@ -41,13 +42,13 @@ class GroupFallbackReplacer
         $this->base = $base;
     }
 
-    public function replaceOrFallback($nameOrIndex, DetailGroupMapper $mapper, MatchRs $substitute): string
+    public function replaceOrFallback(GroupKey $groupId, DetailGroupMapper $mapper, MatchRs $substitute): string
     {
         $this->counter = -1;
-        return $this->replaceUsingCallback(function (array $match) use ($nameOrIndex, $mapper, $substitute) {
+        return $this->replaceUsingCallback(function (array $match) use ($groupId, $mapper, $substitute): string {
             $this->counter++;
-            $this->validateGroup($match, $nameOrIndex);
-            return $this->getReplacementOrHandle($match, $nameOrIndex, $mapper, $substitute);
+            $this->validateGroup($match, $groupId);
+            return $this->getReplacementOrHandle($match, $groupId, $mapper, $substitute);
         });
     }
 
@@ -71,37 +72,37 @@ class GroupFallbackReplacer
             $replaced);
     }
 
-    private function validateGroup(array $match, $nameOrIndex): void
+    private function validateGroup(array $match, GroupKey $groupId): void
     {
-        if (!array_key_exists($nameOrIndex, $match)) {
-            if (!$this->base->matchAllOffsets()->hasGroup($nameOrIndex)) {
-                throw new NonexistentGroupException($nameOrIndex);
+        if (!array_key_exists($groupId->nameOrIndex(), $match)) {
+            if (!$this->base->matchAllOffsets()->hasGroup($groupId->nameOrIndex())) {
+                throw new NonexistentGroupException($groupId);
             }
         }
     }
 
-    private function getReplacementOrHandle(array $match, $nameOrIndex, DetailGroupMapper $mapper, MatchRs $substitute): string
+    private function getReplacementOrHandle(array $match, GroupKey $groupId, DetailGroupMapper $mapper, MatchRs $substitute): string
     {
-        $occurrence = $this->occurrence($match, $nameOrIndex);
+        $occurrence = $this->occurrence($match, $groupId);
         $detail = new LazyDetail($this->base, $this->counter, $this->limit);
         if ($occurrence === null) { // here "null" means group was not matched
             $replacement = $substitute->substituteGroup($detail);
             // here "null" means "no replacement provided, ignore me, use the full match"
             return $replacement ?? $match[0];
         }
-        $mapper->useExceptionValues($occurrence, $nameOrIndex, $match[0]);
+        $mapper->useExceptionValues($occurrence, $groupId, $match[0]);
         return $mapper->map($occurrence, $detail) ?? $match[0];
     }
 
-    private function occurrence(array $match, $nameOrIndex): ?string
+    private function occurrence(array $match, GroupKey $groupId): ?string
     {
-        if (array_key_exists($nameOrIndex, $match)) {
-            return $this->makeSureOccurrence($nameOrIndex, $match[$nameOrIndex]);
+        if (array_key_exists($groupId->nameOrIndex(), $match)) {
+            return $this->makeSureOccurrence($groupId, $match[$groupId->nameOrIndex()]);
         }
         return null;
     }
 
-    private function makeSureOccurrence($nameOrIndex, string $occurrence): ?string
+    private function makeSureOccurrence(GroupKey $groupId, string $occurrence): ?string
     {
         if ($occurrence !== '') {
             return $occurrence;
@@ -113,7 +114,7 @@ class GroupFallbackReplacer
             throw new InternalCleanRegexException();
             // @codeCoverageIgnoreEnd
         }
-        if (!$matches->isGroupMatched($nameOrIndex, $this->counter)) {
+        if (!$matches->isGroupMatched($groupId->nameOrIndex(), $this->counter)) {
             return null;
         }
         return $occurrence;

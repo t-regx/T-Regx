@@ -11,7 +11,8 @@ use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\AsIntStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\MatchStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\NextStreamWorkerDecorator;
-use TRegx\CleanRegex\Internal\GroupNameValidator;
+use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
@@ -84,7 +85,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return new EmptyOptional(new NotMatchedOptionalWorker(
             new FirstMatchMessage(),
             $this->base,
-            new NotMatched(new LightweightGroupAware($this->base->getPattern()), $this->base),
+            new NotMatched($this->groupAware, $this->base),
             SubjectNotMatchedException::class));
     }
 
@@ -158,13 +159,12 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
      */
     public function group($nameOrIndex): GroupLimit
     {
-        (new GroupNameValidator($nameOrIndex))->validate();
-        return new GroupLimit($this->base, $this->groupAware, $nameOrIndex);
+        return new GroupLimit($this->base, $this->groupAware, GroupKey::of($nameOrIndex));
     }
 
     public function offsets(): OffsetLimit
     {
-        return new OffsetLimit($this->base, $this->groupAware, 0, true);
+        return new OffsetLimit($this->base, $this->groupAware, new GroupIndex(0), true);
     }
 
     abstract public function count(): int;
@@ -196,7 +196,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
      */
     public function groupBy($nameOrIndex): GroupByPattern
     {
-        return new GroupByPattern($this->base, $nameOrIndex);
+        return new GroupByPattern($this->base, GroupKey::of($nameOrIndex));
     }
 
     public function groupByCallback(callable $groupMapper): array

@@ -51,9 +51,9 @@ class RawMatchesOffset implements GroupAware
         return $this->mapToOffset($this->getLimitedGroups($nameOrIndex, $limit));
     }
 
-    private function getLimitedGroups($nameOrIndex, int $limit): array
+    private function getLimitedGroups($group, int $limit): array
     {
-        $match = $this->matches[$nameOrIndex];
+        $match = $this->matches[$group];
         if ($limit === -1) {
             return $match;
         }

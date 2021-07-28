@@ -83,7 +83,7 @@ class NotMatchedGroup implements Group
      */
     public function usedIdentifier()
     {
-        return $this->details->nameOrIndex;
+        return $this->details->groupId->nameOrIndex();
     }
 
     public function offset(): int

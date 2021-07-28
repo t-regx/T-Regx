@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\GroupLimit;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Model\GroupHasAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -14,32 +15,32 @@ class GroupLimitFirst
     private $base;
     /** @var GroupHasAware */
     private $groupAware;
-    /** @var string|int */
-    private $nameOrIndex;
+    /** @var GroupKey */
+    private $groupId;
 
-    public function __construct(Base $base, GroupHasAware $groupAware, $nameOrIndex)
+    public function __construct(Base $base, GroupHasAware $groupAware, GroupKey $groupId)
     {
         $this->base = $base;
         $this->groupAware = $groupAware;
-        $this->nameOrIndex = $nameOrIndex;
+        $this->groupId = $groupId;
     }
 
     public function getFirstForGroup(): RawMatchOffset
     {
         $rawMatch = $this->base->matchOffset();
-        if ($rawMatch->hasGroup($this->nameOrIndex)) {
-            $group = $rawMatch->getGroup($this->nameOrIndex);
+        if ($rawMatch->hasGroup($this->groupId->nameOrIndex())) {
+            $group = $rawMatch->getGroup($this->groupId->nameOrIndex());
             if ($group !== null) {
                 return $rawMatch;
             }
         } else {
-            if (!$this->groupAware->hasGroup($this->nameOrIndex)) {
-                throw new NonexistentGroupException($this->nameOrIndex);
+            if (!$this->groupAware->hasGroup($this->groupId->nameOrIndex())) {
+                throw new NonexistentGroupException($this->groupId);
             }
             if (!$rawMatch->matched()) {
-                throw SubjectNotMatchedException::forFirstGroup($this->base, $this->nameOrIndex);
+                throw SubjectNotMatchedException::forFirstGroup($this->base, $this->groupId);
             }
         }
-        throw GroupNotMatchedException::forFirst($this->base, $this->nameOrIndex);
+        throw GroupNotMatchedException::forFirst($this->base, $this->groupId);
     }
 }

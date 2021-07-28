@@ -2,18 +2,18 @@
 namespace TRegx\CleanRegex\Internal\Exception\Messages\Subject;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\GroupFormat;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 
 class NthGroupMessage implements NotMatchedMessage
 {
-    /** @var string */
+    /** @var GroupKey */
     private $group;
     /** @var int */
     private $index;
 
-    public function __construct($nameOrIndex, int $index)
+    public function __construct(GroupKey $group, int $index)
     {
-        $this->group = GroupFormat::group($nameOrIndex);
+        $this->group = $group;
         $this->index = $index;
     }
 

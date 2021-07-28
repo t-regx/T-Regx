@@ -2,22 +2,22 @@
 namespace TRegx\CleanRegex\Internal\Exception\Messages\Subject;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\GroupFormat;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 
 class FirstTripleSubjectMessage implements NotMatchedMessage
 {
-    /** @var string */
+    /** @var GroupKey */
     private $group1;
-    /** @var string */
+    /** @var GroupKey */
     private $group2;
-    /** @var string */
+    /** @var GroupKey */
     private $group3;
 
-    public function __construct($nameOrIndex1, $nameOrIndex2, $nameOrIndex3)
+    public function __construct(GroupKey $group1, GroupKey $group2, GroupKey $group3)
     {
-        $this->group1 = GroupFormat::group($nameOrIndex1);
-        $this->group2 = GroupFormat::group($nameOrIndex2);
-        $this->group3 = GroupFormat::group($nameOrIndex3);
+        $this->group1 = $group1;
+        $this->group2 = $group2;
+        $this->group3 = $group3;
     }
 
     public function getMessage(): string

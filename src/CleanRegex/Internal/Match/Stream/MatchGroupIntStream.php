@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
@@ -14,15 +15,15 @@ class MatchGroupIntStream implements Stream
 {
     /** @var Base */
     private $base;
-    /** @var string|int */
-    private $nameOrIndex;
+    /** @var GroupKey */
+    private $groupId;
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(Base $base, $nameOrIndex, MatchAllFactory $allFactory)
+    public function __construct(Base $base, GroupKey $groupId, MatchAllFactory $allFactory)
     {
         $this->base = $base;
-        $this->nameOrIndex = $nameOrIndex;
+        $this->groupId = $groupId;
         $this->allFactory = $allFactory;
     }
 
@@ -32,10 +33,10 @@ class MatchGroupIntStream implements Stream
     public function all(): array
     {
         $rawMatchesOffset = $this->base->matchAllOffsets();
-        if ($rawMatchesOffset->hasGroup($this->nameOrIndex)) {
-            return \array_map([$this, 'parseIntegerOptional'], $rawMatchesOffset->getGroupTexts($this->nameOrIndex));
+        if ($rawMatchesOffset->hasGroup($this->groupId->nameOrIndex())) {
+            return \array_map([$this, 'parseIntegerOptional'], $rawMatchesOffset->getGroupTexts($this->groupId->nameOrIndex()));
         }
-        throw new NonexistentGroupException($this->nameOrIndex);
+        throw new NonexistentGroupException($this->groupId);
     }
 
     private function parseIntegerOptional(?string $text): ?int
@@ -63,16 +64,16 @@ class MatchGroupIntStream implements Stream
         $match = $this->base->matchOffset();
         $groupKey = $match->getIndex();
         $rawMatchOffset = new GroupPolyfillDecorator($match, $this->allFactory, $groupKey);
-        if (!$rawMatchOffset->hasGroup($this->nameOrIndex)) {
-            throw new NonexistentGroupException($this->nameOrIndex);
+        if (!$rawMatchOffset->hasGroup($this->groupId->nameOrIndex())) {
+            throw new NonexistentGroupException($this->groupId);
         }
         if (!$match->matched()) {
-            throw SubjectNotMatchedException::forFirstGroup($this->base, $this->nameOrIndex);
+            throw SubjectNotMatchedException::forFirstGroup($this->base, $this->groupId);
         }
-        if (!$rawMatchOffset->isGroupMatched($this->nameOrIndex)) {
-            throw GroupNotMatchedException::forFirst($this->base, $this->nameOrIndex);
+        if (!$rawMatchOffset->isGroupMatched($this->groupId->nameOrIndex())) {
+            throw GroupNotMatchedException::forFirst($this->base, $this->groupId);
         }
-        $groupValue = $rawMatchOffset->getGroup($this->nameOrIndex);
+        $groupValue = $rawMatchOffset->getGroup($this->groupId->nameOrIndex());
         $this->parseInteger($groupValue);
         return [$groupKey, $groupValue];
     }
@@ -82,6 +83,6 @@ class MatchGroupIntStream implements Stream
         if (Integer::isValid($text)) {
             return $text;
         }
-        throw IntegerFormatException::forGroup($this->nameOrIndex, $text);
+        throw IntegerFormatException::forGroup($this->groupId, $text);
     }
 }

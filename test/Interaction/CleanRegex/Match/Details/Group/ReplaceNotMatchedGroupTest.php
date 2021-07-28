@@ -5,8 +5,9 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
+use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\ReplaceNotMatchedGroup;
 
 /**
@@ -64,12 +65,13 @@ class ReplaceNotMatchedGroupTest extends TestCase
 
     private function matchGroup(string $group): ReplaceNotMatchedGroup
     {
-        /** @var Subjectable $subject */
         /** @var GroupDetails $groupDetails */
         /** @var NotMatchedOptionalWorker $worker */
-        $subject = $this->createMock(Subjectable::class);
         $groupDetails = $this->createMock(GroupDetails::class);
         $worker = $this->createMock(NotMatchedOptionalWorker::class);
-        return new ReplaceNotMatchedGroup($groupDetails, new GroupExceptionFactory($subject, $group), $worker, '$unused');
+        return new ReplaceNotMatchedGroup($groupDetails,
+            new GroupExceptionFactory(new Subject('subject'), new GroupName($group)),
+            $worker,
+            '$unused');
     }
 }

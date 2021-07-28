@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\ByteOffset;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
@@ -19,13 +20,13 @@ class GroupByPattern
 {
     /** * @var Base */
     private $base;
-    /** * @var string|int */
-    private $nameOrIndex;
+    /** * @var GroupKey */
+    private $groupId;
 
-    public function __construct(Base $base, $nameOrIndex)
+    public function __construct(Base $base, GroupKey $groupId)
     {
         $this->base = $base;
-        $this->nameOrIndex = $nameOrIndex;
+        $this->groupId = $groupId;
     }
 
     public function all(): array
@@ -80,8 +81,8 @@ class GroupByPattern
         $matches = $this->base->matchAllOffsets();
         $map = [];
         foreach ($matches->getIndexes() as $index) {
-            if ($matches->isGroupMatched($this->nameOrIndex, $index)) {
-                $key = Tuple::first($matches->getGroupTextAndOffset($this->nameOrIndex, $index));
+            if ($matches->isGroupMatched($this->groupId->nameOrIndex(), $index)) {
+                $key = Tuple::first($matches->getGroupTextAndOffset($this->groupId->nameOrIndex(), $index));
                 $map[$key][] = $groupMapper($matches, $index);
             }
         }

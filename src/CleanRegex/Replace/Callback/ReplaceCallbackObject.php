@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -110,7 +111,7 @@ class ReplaceCallbackObject
         if ($group->matched()) {
             return $group->text();
         }
-        throw GroupNotMatchedException::forReplacement($this->subject, $group->usedIdentifier());
+        throw GroupNotMatchedException::forReplacement($this->subject, GroupKey::of($group->usedIdentifier()));
     }
 
     private function modifyOffset(string $search, string $replacement): void

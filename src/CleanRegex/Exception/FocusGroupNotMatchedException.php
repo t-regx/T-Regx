@@ -1,13 +1,12 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-use TRegx\CleanRegex\Internal\GroupFormat;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 
 class FocusGroupNotMatchedException extends GroupNotMatchedException
 {
-    public function __construct($subject, $nameOrIndex)
+    public function __construct(string $subject, GroupKey $groupId)
     {
-        $name = GroupFormat::group($nameOrIndex);
-        parent::__construct("Expected to replace focused group $name, but the group was not matched", $subject, $nameOrIndex);
+        parent::__construct("Expected to replace focused group $groupId, but the group was not matched", $subject, $groupId);
     }
 }

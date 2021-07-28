@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\By;
 
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -20,7 +21,7 @@ class IgnoreMessages implements DetailGroupMapper
         return $this->mapper->map($occurrence, $initialDetail);
     }
 
-    public function useExceptionValues(string $occurrence, $nameOrIndex, string $match): void
+    public function useExceptionValues(string $occurrence, GroupKey $groupId, string $match): void
     {
     }
 }

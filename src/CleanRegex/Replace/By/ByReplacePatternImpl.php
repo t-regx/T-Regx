@@ -1,7 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Replace\By;
 
-use TRegx\CleanRegex\Internal\GroupNameValidator;
+use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\SubstituteFallbackMapper;
@@ -45,12 +46,11 @@ class ByReplacePatternImpl implements ByReplacePattern
 
     public function group($nameOrIndex): ByGroupReplacePattern
     {
-        (new GroupNameValidator($nameOrIndex))->validate();
         return new ByGroupReplacePatternImpl(
             $this->fallbackReplacer,
             $this->performanceReplace,
             $this->replaceCallbackInvoker,
-            $nameOrIndex,
+            GroupKey::of($nameOrIndex),
             $this->subject,
             $this->wrapper);
     }
@@ -68,7 +68,7 @@ class ByReplacePatternImpl implements ByReplacePattern
     private function replace(array $map, LazySubjectRs $substitute): string
     {
         return $this->fallbackReplacer->replaceOrFallback(
-            0,
+            new GroupIndex(0),
             new SubstituteFallbackMapper(
                 new WrappingMapper(new DictionaryMapper($map), $this->wrapper),
                 $substitute,

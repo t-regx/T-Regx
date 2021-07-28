@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -32,18 +33,21 @@ class GroupFacade
     private $factoryStrategy;
     /** @var MatchAllFactory */
     private $allFactory;
+    /** @var GroupKey */
+    private $groupId;
 
-    public function __construct(GroupAware $groupAware,
-                                Subjectable $subject,
-                                $group,
+    public function __construct(GroupAware           $groupAware,
+                                Subjectable          $subject,
+                                GroupKey             $groupId,
                                 GroupFactoryStrategy $factoryStrategy,
-                                MatchAllFactory $allFactory)
+                                MatchAllFactory      $allFactory)
     {
         $this->subject = $subject;
-        $this->usedIdentifier = $group;
-        [$this->name, $this->index] = (new GroupNameIndexAssign($groupAware, $allFactory))->getNameAndIndex($group);
+        $this->usedIdentifier = $groupId->nameOrIndex();
+        [$this->name, $this->index] = (new GroupNameIndexAssign($groupAware, $allFactory))->getNameAndIndex($groupId);
         $this->factoryStrategy = $factoryStrategy;
         $this->allFactory = $allFactory;
+        $this->groupId = $groupId;
     }
 
     /**
@@ -86,9 +90,9 @@ class GroupFacade
     {
         return $this->factoryStrategy->createUnmatched(
             $this->createGroupDetails(),
-            new GroupExceptionFactory($this->subject, $this->usedIdentifier),
+            new GroupExceptionFactory($this->subject, $this->groupId),
             new NotMatchedOptionalWorker(
-                new GroupMessage($this->usedIdentifier),
+                new GroupMessage($this->groupId),
                 $this->subject,
                 new NotMatched($match, $this->subject),
                 GroupNotMatchedException::class),
@@ -98,7 +102,7 @@ class GroupFacade
 
     private function createGroupDetails(): GroupDetails
     {
-        return new GroupDetails($this->name, $this->index, $this->usedIdentifier, $this->allFactory);
+        return new GroupDetails($this->name, $this->index, $this->groupId, $this->allFactory);
     }
 
     /**

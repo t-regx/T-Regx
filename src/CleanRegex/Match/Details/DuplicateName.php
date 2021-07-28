@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
-use TRegx\CleanRegex\Internal\GroupNameValidator;
+use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Match\Details\DuplicateNamedGroupAdapter;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Group\RuntimeGroupFacade;
@@ -101,8 +101,7 @@ class DuplicateName
 
     public function group(string $groupName): DuplicateNamedGroup
     {
-        (new GroupNameValidator($groupName))->validate();
-        $facade = new RuntimeGroupFacade($this->match, $this->subject, $groupName, $this->factory, $this->all);
+        $facade = new RuntimeGroupFacade($this->match, $this->subject, new GroupName($groupName), $this->factory, $this->all);
         return new DuplicateNamedGroupAdapter($groupName, $facade->createGroup($this->match));
     }
 

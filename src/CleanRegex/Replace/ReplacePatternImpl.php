@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Replace;
 use TRegx\CleanRegex\Exception\NotReplacedException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\OtherwiseStrategy;
@@ -80,6 +81,6 @@ abstract class ReplacePatternImpl implements ReplacePattern
 
     public function focus($nameOrIndex): FocusReplacePattern
     {
-        return new FocusReplacePattern($this->replacePattern, $this->definition, $this->subject, $this->limit, $nameOrIndex, new IgnoreCounting());
+        return new FocusReplacePattern($this->replacePattern, $this->definition, $this->subject, $this->limit, GroupKey::of($nameOrIndex), new IgnoreCounting());
     }
 }

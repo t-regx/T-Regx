@@ -27,11 +27,11 @@ class GroupNames
     {
         $result = [];
         $lastWasString = false;
-        foreach ($groups as $nameOrIndex) {
-            if (\is_string($nameOrIndex)) {
-                $result[] = $nameOrIndex;
+        foreach ($groups as $group) {
+            if (\is_string($group)) {
+                $result[] = $group;
                 $lastWasString = true;
-            } else if (\is_int($nameOrIndex)) {
+            } else if (\is_int($group)) {
                 if ($lastWasString) {
                     $lastWasString = false;
                 } else {

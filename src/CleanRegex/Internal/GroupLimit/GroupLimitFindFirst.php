@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Group\FirstGroupMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupSubjectMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
@@ -25,14 +26,14 @@ class GroupLimitFindFirst
     private $base;
     /** @var GroupAware */
     private $groupAware;
-    /** @var string|int */
-    private $nameOrIndex;
+    /** @var GroupKey */
+    private $groupId;
 
-    public function __construct(Base $base, GroupAware $groupAware, $nameOrIndex)
+    public function __construct(Base $base, GroupAware $groupAware, GroupKey $groupId)
     {
         $this->base = $base;
         $this->groupAware = $groupAware;
-        $this->nameOrIndex = $nameOrIndex;
+        $this->groupId = $groupId;
     }
 
     public function getOptionalForGroup(callable $consumer): Optional
@@ -41,20 +42,20 @@ class GroupLimitFindFirst
         if ($this->matched($first)) {
             return $this->matchedOptional($first, $consumer);
         }
-        if ($this->groupAware->hasGroup($this->nameOrIndex)) {
+        if ($this->groupAware->hasGroup($this->groupId->nameOrIndex())) {
             return $this->notMatchedOptional($first);
         }
-        throw new NonexistentGroupException($this->nameOrIndex);
+        throw new NonexistentGroupException($this->groupId);
     }
 
     private function matched(RawMatchOffset $first): bool
     {
-        return $first->hasGroup($this->nameOrIndex) && $first->getGroup($this->nameOrIndex) !== null;
+        return $first->hasGroup($this->groupId->nameOrIndex()) && $first->getGroup($this->groupId->nameOrIndex()) !== null;
     }
 
     private function matchedOptional(RawMatchOffset $match, callable $consumer): OptionalImpl
     {
-        $facade = new GroupFacade($match, $this->base, $this->nameOrIndex,
+        $facade = new GroupFacade($match, $this->base, $this->groupId,
             new MatchGroupFactoryStrategy(),
             new LazyMatchAllFactory($this->base));
 
@@ -64,9 +65,9 @@ class GroupLimitFindFirst
     private function notMatchedOptional(RawMatchOffset $first): EmptyOptional
     {
         if ($first->matched()) {
-            return $this->notMatched(GroupNotMatchedException::class, new FirstGroupMessage($this->nameOrIndex));
+            return $this->notMatched(GroupNotMatchedException::class, new FirstGroupMessage($this->groupId));
         }
-        return $this->notMatched(SubjectNotMatchedException::class, new FirstGroupSubjectMessage($this->nameOrIndex));
+        return $this->notMatched(SubjectNotMatchedException::class, new FirstGroupSubjectMessage($this->groupId));
     }
 
     private function notMatched(string $exception, NotMatchedMessage $message): EmptyOptional

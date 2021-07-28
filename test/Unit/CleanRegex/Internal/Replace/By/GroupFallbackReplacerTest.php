@@ -9,6 +9,7 @@ use Test\Utils\Impl\NoReplacementMapper;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
+use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
@@ -33,7 +34,7 @@ class GroupFallbackReplacerTest extends TestCase
         $mapper = new ComputedMapper(Functions::singleArg('strToUpper'));
 
         // when
-        $result = $mapReplacer->replaceOrFallback(1, $mapper, new DefaultStrategy());
+        $result = $mapReplacer->replaceOrFallback(new GroupIndex(1), $mapper, new DefaultStrategy());
 
         // then
         $this->assertSame('TWO, THREE, FOUR', $result);
@@ -48,7 +49,7 @@ class GroupFallbackReplacerTest extends TestCase
         $fallbackReplacer = $this->create('\[(two|four|)\]', '[two] [] [four]');
 
         // when
-        $result = $fallbackReplacer->replaceOrFallback(1,
+        $result = $fallbackReplacer->replaceOrFallback(new GroupIndex(1),
             new ComputedMapper(Functions::singleArg('strLen')),
             new DefaultStrategy());
 
@@ -65,7 +66,7 @@ class GroupFallbackReplacerTest extends TestCase
         $fallbackReplacer = $this->create('\[(two|four)?\]', '[two] [] [four]');
 
         // when
-        $result = $fallbackReplacer->replaceOrFallback(1, new NoReplacementMapper(), new ConstantReturnStrategy('fallback'));
+        $result = $fallbackReplacer->replaceOrFallback(new GroupIndex(1), new NoReplacementMapper(), new ConstantReturnStrategy('fallback'));
 
         // then
         $this->assertSame('[two] fallback [four]', $result);
@@ -80,7 +81,7 @@ class GroupFallbackReplacerTest extends TestCase
         $fallbackReplacer = $this->create('\[()\]', '');
 
         // when
-        $result = $fallbackReplacer->replaceOrFallback(1, new NoReplacementMapper(), new DefaultStrategy());
+        $result = $fallbackReplacer->replaceOrFallback(new GroupIndex(1), new NoReplacementMapper(), new DefaultStrategy());
 
         // then
         $this->assertSame('Subject not matched', $result);
@@ -99,7 +100,7 @@ class GroupFallbackReplacerTest extends TestCase
         $this->expectExceptionMessage("Nonexistent group: #1");
 
         // when
-        $fallbackReplacer->replaceOrFallback(1, new NoReplacementMapper(), new DefaultStrategy());
+        $fallbackReplacer->replaceOrFallback(new GroupIndex(1), new NoReplacementMapper(), new DefaultStrategy());
     }
 
     /**
@@ -116,10 +117,9 @@ class GroupFallbackReplacerTest extends TestCase
 
         // when
         $fallbackReplacer->replaceOrFallback(
-            1,
+            new GroupIndex(1),
             new NoReplacementMapper(),
-            new ThrowStrategy(CustomSubjectException::class, new ReplacementWithUnmatchedGroupMessage(1))
-        );
+            new ThrowStrategy(CustomSubjectException::class, new ReplacementWithUnmatchedGroupMessage(new GroupIndex(1))));
     }
 
     /**
@@ -136,10 +136,9 @@ class GroupFallbackReplacerTest extends TestCase
 
         // when
         $fallbackReplacer->replaceOrFallback(
-            1,
+            new GroupIndex(1),
             new NoReplacementMapper(),
-            new ThrowStrategy(CustomSubjectException::class, new ReplacementWithUnmatchedGroupMessage(1))
-        );
+            new ThrowStrategy(CustomSubjectException::class, new ReplacementWithUnmatchedGroupMessage(new GroupIndex(1))));
     }
 
     public function create($pattern, $subject): GroupFallbackReplacer
@@ -150,7 +149,6 @@ class GroupFallbackReplacerTest extends TestCase
             -1,
             new ConstantReturnStrategy('Subject not matched'),
             new IgnoreCounting(),
-            new ApiBase(Internal::pattern($pattern), $subject, new UserData())
-        );
+            new ApiBase(Internal::pattern($pattern), $subject, new UserData()));
     }
 }

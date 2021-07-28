@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 
 class GroupDetails
@@ -9,16 +10,16 @@ class GroupDetails
     public $name;
     /** @var int */
     public $index;
-    /** @var string|int */
-    public $nameOrIndex;
+    /** @var GroupKey */
+    public $groupId;
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(?string $name, int $index, $nameOrIndex, MatchAllFactory $allFactory)
+    public function __construct(?string $name, int $index, GroupKey $groupId, MatchAllFactory $allFactory)
     {
         $this->name = $name;
         $this->index = $index;
-        $this->nameOrIndex = $nameOrIndex;
+        $this->groupId = $groupId;
         $this->allFactory = $allFactory;
     }
 

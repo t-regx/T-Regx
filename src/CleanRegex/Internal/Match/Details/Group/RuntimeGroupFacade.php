@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
+use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Subjectable;
@@ -24,7 +25,7 @@ use TRegx\CleanRegex\Internal\Subjectable;
  */
 class RuntimeGroupFacade extends GroupFacade
 {
-    public function __construct(GroupAware $groupAware, Subjectable $subject, string $group, GroupFactoryStrategy $factoryStrategy, MatchAllFactory $allFactory)
+    public function __construct(GroupAware $groupAware, Subjectable $subject, GroupName $group, GroupFactoryStrategy $factoryStrategy, MatchAllFactory $allFactory)
     {
         parent::__construct($groupAware, $subject, $group, $factoryStrategy, $allFactory);
     }

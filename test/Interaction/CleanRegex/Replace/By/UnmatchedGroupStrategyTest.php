@@ -7,6 +7,7 @@ use Test\Utils\Functions;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
+use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
@@ -132,9 +133,9 @@ class UnmatchedGroupStrategyTest extends TestCase
         $this->assertSame('length: called!', $result);
     }
 
-    public function objectUnderTest($subject): UnmatchedGroupStrategy
+    public function objectUnderTest(string $subject): UnmatchedGroupStrategy
     {
-        return new UnmatchedGroupStrategy($this->replacer($subject), 'group',
+        return new UnmatchedGroupStrategy($this->replacer($subject), new GroupName('group'),
             $this->createMock(DetailGroupMapper::class), new IdentityWrapper());
     }
 
