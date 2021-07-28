@@ -15,15 +15,12 @@ class ConstantAllBase implements Base
 {
     /** @var RawMatchesOffset */
     private $matchesOffset;
-    /** @var Definition */
-    private $definition;
     /** @var string|null */
     private $subject;
 
-    public function __construct(RawMatchesOffset $matchesOffset, Definition $definition, string $subject = null)
+    public function __construct(RawMatchesOffset $matchesOffset, string $subject = null)
     {
         $this->matchesOffset = $matchesOffset;
-        $this->definition = $definition;
         $this->subject = $subject;
     }
 
@@ -34,7 +31,7 @@ class ConstantAllBase implements Base
 
     public function getPattern(): Definition
     {
-        return $this->definition;
+        throw $this->fail();
     }
 
     public function match(): RawMatch

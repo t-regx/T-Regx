@@ -13,9 +13,8 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
-use TRegx\CleanRegex\Internal\Match\GroupVerifier;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\Optional;
@@ -24,16 +23,16 @@ class GroupLimitFindFirst
 {
     /** @var Base */
     private $base;
+    /** @var GroupAware */
+    private $groupAware;
     /** @var string|int */
     private $nameOrIndex;
-    /** @var GroupVerifier */
-    private $groupVerifier;
 
-    public function __construct(Base $base, $nameOrIndex)
+    public function __construct(Base $base, GroupAware $groupAware, $nameOrIndex)
     {
         $this->base = $base;
+        $this->groupAware = $groupAware;
         $this->nameOrIndex = $nameOrIndex;
-        $this->groupVerifier = new GroupVerifier($this->base->getPattern());
     }
 
     public function getOptionalForGroup(callable $consumer): Optional
@@ -42,7 +41,7 @@ class GroupLimitFindFirst
         if ($this->matched($first)) {
             return $this->matchedOptional($first, $consumer);
         }
-        if ($this->groupVerifier->groupExists($this->nameOrIndex)) {
+        if ($this->groupAware->hasGroup($this->nameOrIndex)) {
             return $this->notMatchedOptional($first);
         }
         throw new NonexistentGroupException($this->nameOrIndex);
@@ -75,7 +74,7 @@ class GroupLimitFindFirst
         return new EmptyOptional(new NotMatchedOptionalWorker(
             $message,
             $this->base,
-            new NotMatched(new LazyRawWithGroups($this->base), $this->base),
+            new NotMatched($this->groupAware, $this->base),
             $exception));
     }
 }

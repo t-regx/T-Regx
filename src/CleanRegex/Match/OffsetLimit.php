@@ -8,8 +8,8 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\Worker\FluentStreamWorker;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\GroupVerifier;
 use TRegx\CleanRegex\Internal\Match\OffsetLimitStream;
+use TRegx\CleanRegex\Internal\Model\GroupHasAware;
 use TRegx\CleanRegex\Internal\PatternLimit;
 
 class OffsetLimit implements PatternLimit, \IteratorAggregate
@@ -20,15 +20,15 @@ class OffsetLimit implements PatternLimit, \IteratorAggregate
     private $nameOrIndex;
     /** @var bool */
     private $isWholeMatch;
-    /** @var GroupVerifier */
-    private $groupVerifier;
+    /** @var GroupHasAware */
+    private $groupAware;
 
-    public function __construct(Base $base, $nameOrIndex, bool $isWholeMatch)
+    public function __construct(Base $base, GroupHasAware $groupAware, $nameOrIndex, bool $isWholeMatch)
     {
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
         $this->isWholeMatch = $isWholeMatch;
-        $this->groupVerifier = new GroupVerifier($this->base->getPattern());
+        $this->groupAware = $groupAware;
     }
 
     public function first(): int
@@ -41,7 +41,7 @@ class OffsetLimit implements PatternLimit, \IteratorAggregate
             }
             throw GroupNotMatchedException::forFirst($this->base, $this->nameOrIndex);
         }
-        if (!$this->groupVerifier->groupExists($this->nameOrIndex)) {
+        if (!$this->groupAware->hasGroup($this->nameOrIndex)) {
             throw new NonexistentGroupException($this->nameOrIndex);
         }
         if ($rawMatch->matched()) {
@@ -82,7 +82,7 @@ class OffsetLimit implements PatternLimit, \IteratorAggregate
     public function fluent(): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            new OffsetLimitStream($this->base, $this->nameOrIndex, $this->groupVerifier),
+            new OffsetLimitStream($this->base, $this->nameOrIndex, $this->groupAware),
             new FluentStreamWorker());
     }
 }

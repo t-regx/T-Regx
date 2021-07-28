@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Model\GroupHasAware;
 
 class OffsetLimitStream implements Stream
 {
@@ -12,14 +13,14 @@ class OffsetLimitStream implements Stream
     private $base;
     /** @var string|int */
     private $nameOrIndex;
-    /** @var GroupVerifier */
-    private $groupVerifier;
+    /** @var GroupHasAware */
+    private $groupAware;
 
-    public function __construct(Base $base, $nameOrIndex, GroupVerifier $groupVerifier)
+    public function __construct(Base $base, $nameOrIndex, GroupHasAware $groupAware)
     {
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
-        $this->groupVerifier = $groupVerifier;
+        $this->groupAware = $groupAware;
     }
 
     public function all(): array
@@ -53,7 +54,7 @@ class OffsetLimitStream implements Stream
             }
             throw new NoFirstStreamException();
         }
-        if ($this->groupVerifier->groupExists($this->nameOrIndex)) {
+        if ($this->groupAware->hasGroup($this->nameOrIndex)) {
             throw new NoFirstStreamException();
         }
         throw new NonexistentGroupException($this->nameOrIndex);

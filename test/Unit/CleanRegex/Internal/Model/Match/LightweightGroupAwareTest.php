@@ -1,15 +1,30 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Groups\Strategy;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Model\Match;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
-use TRegx\CleanRegex\Internal\Match\GroupVerifier;
+use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\GroupVerifier
+ * @covers \TRegx\CleanRegex\Internal\Model\LightweightGroupAware
  */
-class GroupVerifierTest extends TestCase
+class LightweightGroupAwareTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function shouldGetGroupKeys()
+    {
+        // given
+        $groupAware = new LightweightGroupAware(Internal::pcre('/(?<group>)/'));
+
+        // when
+        $keys = $groupAware->getGroupKeys();
+
+        // then
+        $this->assertSame([0, 'group', 1], $keys);
+    }
+
     /**
      * @test
      * @dataProvider existingGroupsAndVerifiers
@@ -19,13 +34,13 @@ class GroupVerifierTest extends TestCase
     public function shouldVerify(string $pattern, bool $expected)
     {
         // given
-        $verifier = new GroupVerifier(Internal::pcre($pattern));
+        $groupAware = new LightweightGroupAware(Internal::pcre($pattern));
 
         // when
-        $results = $verifier->groupExists('group');
+        $hasGroup = $groupAware->hasGroup('group');
 
         // then
-        $this->assertSame($expected, $results);
+        $this->assertSame($expected, $hasGroup);
     }
 
     public function existingGroupsAndVerifiers(): array

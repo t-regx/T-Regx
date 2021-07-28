@@ -23,6 +23,8 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
+use TRegx\CleanRegex\Internal\Model\GroupHasAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Nested;
@@ -32,23 +34,26 @@ use TRegx\SafeRegex\Internal\Tuple;
 
 class GroupLimit implements PatternLimit, \IteratorAggregate
 {
+    /** @var Base */
+    private $base;
+    /** @var GroupHasAware */
+    private $groupHasAware;
     /** @var GroupLimitFirst */
     private $firstFactory;
     /** @var GroupLimitFindFirst */
     private $findFirstFactory;
     /** @var LazyMatchAllFactory */
     private $matchAllFactory;
-    /** @var Base */
-    private $base;
     /** @var string|int */
     private $nameOrIndex;
 
-    public function __construct(Base $base, $nameOrIndex)
+    public function __construct(Base $base, GroupAware $groupAware, $nameOrIndex)
     {
-        $this->firstFactory = new GroupLimitFirst($base, $nameOrIndex);
-        $this->findFirstFactory = new GroupLimitFindFirst($base, $nameOrIndex);
-        $this->matchAllFactory = new LazyMatchAllFactory($base);
         $this->base = $base;
+        $this->groupHasAware = $groupAware;
+        $this->firstFactory = new GroupLimitFirst($base, $groupAware, $nameOrIndex);
+        $this->findFirstFactory = new GroupLimitFindFirst($base, $groupAware, $nameOrIndex);
+        $this->matchAllFactory = new LazyMatchAllFactory($base);
         $this->nameOrIndex = $nameOrIndex;
     }
 
@@ -169,7 +174,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     public function offsets(): OffsetLimit
     {
-        return new OffsetLimit($this->base, $this->nameOrIndex, false);
+        return new OffsetLimit($this->base, $this->groupHasAware, $this->nameOrIndex, false);
     }
 
     public function fluent(): FluentMatchPattern
@@ -186,7 +191,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     private function stream(): Stream
     {
-        return new MatchGroupStream($this->base, $this->nameOrIndex, $this->matchAllFactory);
+        return new MatchGroupStream($this->base, $this->groupHasAware, $this->nameOrIndex, $this->matchAllFactory);
     }
 
     private function details(): array

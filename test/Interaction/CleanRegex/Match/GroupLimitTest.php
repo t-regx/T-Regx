@@ -4,10 +4,10 @@ namespace Test\Interaction\TRegx\CleanRegex\Match;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use Test\Utils\Impl\ConstantAllBase;
+use Test\Utils\Impl\GroupKeys;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Match\GroupLimit;
 
@@ -165,7 +165,7 @@ class GroupLimitTest extends TestCase
     public function shouldThrow_nth_forSubjectNotMatched()
     {
         // given
-        $limit = new GroupLimit(new ConstantAllBase($this->rawMatches([], 'name'), new Definition('', '//'), 'subject'), 'name');
+        $limit = new GroupLimit(new ConstantAllBase($this->rawMatches([], 'name'), 'subject'), new GroupKeys(['name']), 'name');
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -177,7 +177,7 @@ class GroupLimitTest extends TestCase
 
     public function groupLimitAll(array $allValues, $nameOrIndex = 0, string $subject = null): GroupLimit
     {
-        return new GroupLimit(new ConstantAllBase($this->rawMatches($allValues, $nameOrIndex), new Definition('', '//'), $subject), $nameOrIndex);
+        return new GroupLimit(new ConstantAllBase($this->rawMatches($allValues, $nameOrIndex), $subject), new GroupKeys([$nameOrIndex]), $nameOrIndex);
     }
 
     private function rawMatches(array $allValues, $nameOrIndex): RawMatchesOffset

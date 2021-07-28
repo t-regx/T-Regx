@@ -6,9 +6,9 @@ use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Match\GroupVerifier;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\GroupHasAware;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\Group\Group;
@@ -17,19 +17,19 @@ class MatchGroupStream implements Stream
 {
     /** @var Base */
     private $base;
+    /** @var GroupHasAware */
+    private $groupAware;
     /** @var string|int */
     private $nameOrIndex;
     /** @var MatchAllFactory */
     private $allFactory;
-    /** @var GroupVerifier */
-    private $groupVerifier;
 
-    public function __construct(Base $base, $nameOrIndex, MatchAllFactory $factory)
+    public function __construct(Base $base, GroupHasAware $groupAware, $nameOrIndex, MatchAllFactory $factory)
     {
         $this->base = $base;
+        $this->groupAware = $groupAware;
         $this->nameOrIndex = $nameOrIndex;
         $this->allFactory = $factory;
-        $this->groupVerifier = new GroupVerifier($this->base->getPattern());
     }
 
     /**
@@ -68,7 +68,7 @@ class MatchGroupStream implements Stream
         if ($match->hasGroup($this->nameOrIndex)) {
             return;
         }
-        if (!$this->groupVerifier->groupExists($this->nameOrIndex)) {
+        if (!$this->groupAware->hasGroup($this->nameOrIndex)) {
             throw new NonexistentGroupException($this->nameOrIndex);
         }
         if (!$match->matched()) {

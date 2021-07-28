@@ -26,8 +26,9 @@ use TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
 use TRegx\CleanRegex\Internal\MatchPatternHelpers;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
-use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
+use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -39,10 +40,13 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     /** @var Base */
     protected $base;
+    /** @var GroupAware */
+    private $groupAware;
 
     public function __construct(Base $base)
     {
         $this->base = $base;
+        $this->groupAware = new LightweightGroupAware($this->base->getPattern());
     }
 
     abstract public function test(): bool;
@@ -80,7 +84,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return new EmptyOptional(new NotMatchedOptionalWorker(
             new FirstMatchMessage(),
             $this->base,
-            new NotMatched(new LazyRawWithGroups($this->base), $this->base),
+            new NotMatched(new LightweightGroupAware($this->base->getPattern()), $this->base),
             SubjectNotMatchedException::class));
     }
 
@@ -155,12 +159,12 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     public function group($nameOrIndex): GroupLimit
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return new GroupLimit($this->base, $nameOrIndex);
+        return new GroupLimit($this->base, $this->groupAware, $nameOrIndex);
     }
 
     public function offsets(): OffsetLimit
     {
-        return new OffsetLimit($this->base, 0, true);
+        return new OffsetLimit($this->base, $this->groupAware, 0, true);
     }
 
     abstract public function count(): int;
