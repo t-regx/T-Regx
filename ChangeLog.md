@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.13.0
+---------------
+
 * Breaking changes
     * `pattern()->forArray()` is now the same as previous `pattern()->forArray()->strict()`.
     * Removed `pattern()->forArray()->strict()`.
