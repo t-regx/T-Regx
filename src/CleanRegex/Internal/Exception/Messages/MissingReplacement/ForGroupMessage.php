@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\GroupFormat;
 
 class ForGroupMessage implements NotMatchedMessage
 {
@@ -21,6 +22,7 @@ class ForGroupMessage implements NotMatchedMessage
 
     public function getMessage(): string
     {
-        return "Expected to replace value '$this->match' by group '$this->nameOrIndex' ('$this->occurrence'), but such key is not found in replacement map";
+        $name = GroupFormat::group($this->nameOrIndex);
+        return "Expected to replace value '$this->match' by group $name ('$this->occurrence'), but such key is not found in replacement map";
     }
 }

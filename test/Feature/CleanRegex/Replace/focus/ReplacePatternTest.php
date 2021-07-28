@@ -69,10 +69,10 @@ class ReplacePatternTest extends TestCase
 
         // then
         $this->expectException(FocusGroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to replace focused group 'name', but the group was not matched");
+        $this->expectExceptionMessage("Expected to replace focused group #1, but the group was not matched");
 
         // when
-        pattern($pattern)->replace($subject)->all()->focus('name')->with('xxx');
+        pattern($pattern)->replace($subject)->all()->focus(1)->with('xxx');
     }
 
     /**
