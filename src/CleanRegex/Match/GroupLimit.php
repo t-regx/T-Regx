@@ -23,8 +23,8 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Group\Group;
@@ -42,17 +42,14 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
     private $base;
     /** @var string|int */
     private $nameOrIndex;
-    /** @var OffsetLimit */
-    private $offsetLimit;
 
-    public function __construct(Base $base, $nameOrIndex, OffsetLimit $offsetLimit)
+    public function __construct(Base $base, $nameOrIndex)
     {
         $this->firstFactory = new GroupLimitFirst($base, $nameOrIndex);
         $this->findFirstFactory = new GroupLimitFindFirst($base, $nameOrIndex);
         $this->matchAllFactory = new LazyMatchAllFactory($base);
         $this->base = $base;
         $this->nameOrIndex = $nameOrIndex;
-        $this->offsetLimit = $offsetLimit;
     }
 
     /**
@@ -172,7 +169,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     public function offsets(): OffsetLimit
     {
-        return $this->offsetLimit;
+        return new OffsetLimit($this->base, $this->nameOrIndex, false);
     }
 
     public function fluent(): FluentMatchPattern

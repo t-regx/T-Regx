@@ -3,9 +3,13 @@ namespace Test\Interaction\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use Test\Utils\Impl\ConstantAllBase;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
+use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
+use TRegx\CleanRegex\Match\GroupLimit;
 
 /**
  * @covers \TRegx\CleanRegex\Match\GroupLimit
@@ -15,14 +19,14 @@ class GroupLimitTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFlatMap()
+    public function shouldFlatMap()
     {
         // given
         $matches = [['Foo Bar', 1], ['Lorem', 1]];
-        $limit = GroupLimitFactory::groupLimitAll($this, $matches, 'value');
+        $limit = self::groupLimitAll($matches, 'value');
 
         // when
-        $result = $limit->flatMap('str_split');
+        $result = $limit->flatMap(Functions::letters());
 
         // then
         $this->assertSame(['F', 'o', 'o', ' ', 'B', 'a', 'r', 'L', 'o', 'r', 'e', 'm'], $result);
@@ -31,14 +35,14 @@ class GroupLimitTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFlatMapAssoc()
+    public function shouldFlatMapAssoc()
     {
         // given
         $matches = [['Lorem', 1], ['Dog', 1], ['C', 1]];
-        $limit = GroupLimitFactory::groupLimitAll($this, $matches, 'value');
+        $limit = self::groupLimitAll($matches, 'value');
 
         // when
-        $result = $limit->flatMapAssoc('str_split');
+        $result = $limit->flatMapAssoc(Functions::letters());
 
         // then
         $this->assertSame(['C', 'o', 'g', 'e', 'm'], $result);
@@ -50,7 +54,7 @@ class GroupLimitTest extends TestCase
     public function shouldThrow_flatMap_forInvalidArgument()
     {
         // given
-        $limit = GroupLimitFactory::groupLimitAll($this, ['Foo Bar', 1]);
+        $limit = self::groupLimitAll(['Foo Bar', 1], 0, 'subject');
 
         // then
         $this->expectException(InvalidReturnValueException::class);
@@ -66,7 +70,7 @@ class GroupLimitTest extends TestCase
     public function shouldThrow_flatMapAssoc_forInvalidArgument()
     {
         // given
-        $limit = GroupLimitFactory::groupLimitAll($this, ['Foo Bar', 1]);
+        $limit = self::groupLimitAll(['Foo Bar', 1], 0, 'subject');
 
         // then
         $this->expectException(InvalidReturnValueException::class);
@@ -82,7 +86,7 @@ class GroupLimitTest extends TestCase
     public function shouldGet_nth_forIndex0()
     {
         // given
-        $limit = GroupLimitFactory::groupLimitAll($this, [['Foo Bar', 1]], 'lorem');
+        $limit = self::groupLimitAll([['Foo Bar', 1]], 'lorem');
 
         // when
         $result = $limit->nth(0);
@@ -97,7 +101,7 @@ class GroupLimitTest extends TestCase
     public function shouldNth_forIndex1()
     {
         // given
-        $limit = GroupLimitFactory::groupLimitAll($this, [['Foo Bar', 1]], 'lorem');
+        $limit = self::groupLimitAll([['Foo Bar', 1]], 'lorem');
 
         // then
         $this->expectException(NoSuchNthElementException::class);
@@ -113,7 +117,7 @@ class GroupLimitTest extends TestCase
     public function shouldNth_forIndex2()
     {
         // given
-        $limit = GroupLimitFactory::groupLimitAll($this, [['Foo Bar', 1], ['Lorem', 2]], 3);
+        $limit = self::groupLimitAll([['Foo Bar', 1], ['Lorem', 2]], 3);
 
         // then
         $this->expectException(NoSuchNthElementException::class);
@@ -129,7 +133,7 @@ class GroupLimitTest extends TestCase
     public function shouldNth_forUnmatchedSubject()
     {
         // given
-        $limit = GroupLimitFactory::groupLimitAll($this, [], 'value');
+        $limit = self::groupLimitAll([], 'value', 'subject');
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -145,7 +149,7 @@ class GroupLimitTest extends TestCase
     public function shouldNth_forNegativeIndex()
     {
         // given
-        $limit = GroupLimitFactory::groupLimitAll($this, []);
+        $limit = self::groupLimitAll([]);
 
         // then
         $this->expectException(\InvalidArgumentException::class);
@@ -161,7 +165,7 @@ class GroupLimitTest extends TestCase
     public function shouldThrow_nth_forSubjectNotMatched()
     {
         // given
-        $limit = GroupLimitFactory::groupLimitAll($this, [], 'name');
+        $limit = new GroupLimit(new ConstantAllBase($this->rawMatches([], 'name'), new Definition('', '//'), 'subject'), 'name');
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -169,5 +173,15 @@ class GroupLimitTest extends TestCase
 
         // when
         $limit->nth(5);
+    }
+
+    public function groupLimitAll(array $allValues, $nameOrIndex = 0, string $subject = null): GroupLimit
+    {
+        return new GroupLimit(new ConstantAllBase($this->rawMatches($allValues, $nameOrIndex), new Definition('', '//'), $subject), $nameOrIndex);
+    }
+
+    private function rawMatches(array $allValues, $nameOrIndex): RawMatchesOffset
+    {
+        return new RawMatchesOffset([0 => $allValues, $nameOrIndex => $allValues, 1 => $allValues]);
     }
 }

@@ -155,8 +155,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     public function group($nameOrIndex): GroupLimit
     {
         (new GroupNameValidator($nameOrIndex))->validate();
-        return new GroupLimit($this->base, $nameOrIndex,
-            new OffsetLimit($this->base, $nameOrIndex, false));
+        return new GroupLimit($this->base, $nameOrIndex);
     }
 
     public function offsets(): OffsetLimit
