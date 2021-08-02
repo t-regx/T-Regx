@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupVerifier;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
@@ -50,7 +51,9 @@ class MatchGroupStream implements Stream
     {
         $match = $this->base->matchOffset();
         $this->validateGroupOrSubject($match);
-        return (new GroupFacade($match, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), $this->allFactory))->createGroup($match);
+        $groupFacade = new GroupFacade($match, $this->base, $this->nameOrIndex, new MatchGroupFactoryStrategy(), $this->allFactory);
+        $polyfill = new GroupPolyfillDecorator($match, $this->allFactory, 0);
+        return $groupFacade->createGroup($polyfill);
     }
 
     public function firstKey(): int

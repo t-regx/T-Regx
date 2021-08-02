@@ -6,6 +6,7 @@ Incoming
 
 * Bug fixes
     * Fixed a bug when using `match()->fluent()->first()` exposed a false-negative in `hasGroup()` from PHP.
+    * Fixed a bug when using `match()->group()->fluent()->first()` exposed a false-negative in `hasGroup()` from PHP.
 
 Added in 0.13.0
 ---------------

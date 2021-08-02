@@ -7,6 +7,7 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Details\NotMatched;
 
 /**
  * @coversNothing
@@ -224,5 +225,25 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertSame(0, $key);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldHaveGroup_lastGroup()
+    {
+        // when
+        /** @var Group $group */
+        $group = pattern('(?<one>Foo)(?<last>Bar)?')
+            ->match('Foo')
+            ->group('last')
+            ->fluent()
+            ->first();
+
+        // then
+        $group->orElse(function (NotMatched $notMatched) {
+            $this->assertSame(['one', 'last'], $notMatched->groupNames());
+            $this->assertTrue($notMatched->hasGroup('last'));
+        });
     }
 }
