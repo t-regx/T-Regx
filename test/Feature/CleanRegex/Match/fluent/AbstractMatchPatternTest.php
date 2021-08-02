@@ -48,6 +48,21 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetGroupNames_lastGroup()
+    {
+        // when
+        pattern('Foo(?<one>Bar)?(?<two>Bar)?')
+            ->match('Foo')
+            ->fluent()
+            ->first(function (Detail $detail) {
+                $this->assertEquals(['one', 'two'], $detail->groupNames());
+                $this->assertTrue($detail->hasGroup('one'));
+            });
+    }
+
+    /**
+     * @test
+     */
     public function shouldFluent_passUserData()
     {
         // given

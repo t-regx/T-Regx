@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
+use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
@@ -39,7 +40,7 @@ class MatchStream implements Stream
         return new MatchDetail($this->subjectable,
             $this->stream->firstKey(),
             1,
-            $this->stream->first(),
+            new GroupPolyfillDecorator($this->stream->first(), $this->allFactory, 0),
             $this->allFactory,
             $this->userData);
     }
