@@ -1,0 +1,135 @@
+<?php
+namespace Test\Unit\TRegx\CleanRegex\Internal\GroupKey;
+
+use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\GroupKeys;
+use Test\Utils\Impl\ThrowGroupAware;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
+use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
+use TRegx\CleanRegex\Internal\GroupKey\GroupName;
+use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
+use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+
+class PerformanceSignaturesTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function shouldGetGroupSignatureByName()
+    {
+        // given
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null, 'first' => null, 1 => null], 0), new ThrowGroupAware());
+
+        // when
+        $signature = $performance->signature(new GroupName('first'));
+
+        // then
+        $this->assertEquals(new GroupSignature(1, 'first'), $signature);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupSignatureByIndex()
+    {
+        // given
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null, 'foo' => null, 1 => null], 0), new ThrowGroupAware());
+
+        // when
+        $signature = $performance->signature(new GroupIndex(1));
+
+        // then
+        $this->assertEquals(new GroupSignature(1, 'foo'), $signature);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupSignatureForUnnamtedGRoup()
+    {
+        // given
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null, 1 => null, 'foo' => null], 0), new ThrowGroupAware());
+
+        // when
+        $signature = $performance->signature(new GroupIndex(1));
+
+        // then
+        $this->assertEquals(new GroupSignature(1, null), $signature);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetSignatureByIndexFromGroupAware()
+    {
+        // given
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null], 0), new GroupKeys([0, 'foo', 1]));
+
+        // when
+        $signature = $performance->signature(new GroupIndex(1));
+
+        // then
+        $this->assertEquals(new GroupSignature(1, 'foo'), $signature);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetSignatureByIndexFromGroupAwareUnnamed()
+    {
+        // given
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null], 0), new GroupKeys([0, 1, 'foo', 2]));
+
+        // when
+        $signature = $performance->signature(new GroupIndex(1));
+
+        // then
+        $this->assertEquals(new GroupSignature(1, null), $signature);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetSignatureByNameFromGroupAware()
+    {
+        // given
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null], 0), new GroupKeys([0, 'foo', 1]));
+
+        // when
+        $signature = $performance->signature(new GroupName('foo'));
+
+        // then
+        $this->assertEquals(new GroupSignature(1, 'foo'), $signature);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMissingGroupByName()
+    {
+        // given
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null], 0), new GroupKeys([0, 'foo', 1]));
+
+        // then
+        $this->expectException(InternalCleanRegexException::class);
+
+        // when
+        $performance->signature(new GroupName('bar'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMissingGroupByIndex()
+    {
+        // given
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null], 0), new GroupKeys([0, 'foo', 1]));
+
+        // then
+        $this->expectException(InternalCleanRegexException::class);
+
+        // when
+        $performance->signature(new GroupIndex(2));
+    }
+}
