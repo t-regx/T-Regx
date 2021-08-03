@@ -5,19 +5,17 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Subjectable;
-use function array_filter;
-use function count;
 
 class NotMatched implements BaseDetail
 {
     /** @var GroupAware */
-    private $match;
+    private $groupAware;
     /** @var Subjectable */
     private $subject;
 
-    public function __construct(GroupAware $match, Subjectable $subject)
+    public function __construct(GroupAware $groupAware, Subjectable $subject)
     {
-        $this->match = $match;
+        $this->groupAware = $groupAware;
         $this->subject = $subject;
     }
 
@@ -31,13 +29,13 @@ class NotMatched implements BaseDetail
      */
     public function groupNames(): array
     {
-        return (new GroupNames($this->match))->groupNames();
+        return (new GroupNames($this->groupAware))->groupNames();
     }
 
     public function groupsCount(): int
     {
-        $indexedGroups = array_filter($this->match->getGroupKeys(), '\is_int');
-        return count($indexedGroups) - 1;
+        $indexedGroups = \array_filter($this->groupAware->getGroupKeys(), '\is_int');
+        return \count($indexedGroups) - 1;
     }
 
     /**
@@ -46,6 +44,6 @@ class NotMatched implements BaseDetail
      */
     public function hasGroup($nameOrIndex): bool
     {
-        return $this->match->hasGroup(GroupKey::of($nameOrIndex)->nameOrIndex());
+        return $this->groupAware->hasGroup(GroupKey::of($nameOrIndex)->nameOrIndex());
     }
 }
