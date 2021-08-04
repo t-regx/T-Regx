@@ -13,7 +13,7 @@ class MatchStream implements Stream
 {
     use PreservesKey;
 
-    /** @var BaseStream */
+    /** @var StreamBase */
     private $stream;
     /** @var Subjectable */
     private $subjectable;
@@ -22,7 +22,7 @@ class MatchStream implements Stream
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(BaseStream $stream, Subjectable $subjectable, UserData $userData, MatchAllFactory $allFactory)
+    public function __construct(StreamBase $stream, Subjectable $subjectable, UserData $userData, MatchAllFactory $allFactory)
     {
         $this->stream = $stream;
         $this->subjectable = $subjectable;

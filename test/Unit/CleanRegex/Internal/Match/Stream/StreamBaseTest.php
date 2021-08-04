@@ -5,15 +5,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
+use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\Stream\BaseStream
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\StreamBase
  */
-class BaseStreamTest extends TestCase
+class StreamBaseTest extends TestCase
 {
     /**
      * @test
@@ -21,7 +21,7 @@ class BaseStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $stream = new BaseStream($this->baseAll());
+        $stream = new StreamBase($this->baseAll());
 
         // when
         $all = $stream->all();
@@ -36,7 +36,7 @@ class BaseStreamTest extends TestCase
     public function shouldReturn_first()
     {
         // given
-        $stream = new BaseStream($this->baseFirst());
+        $stream = new StreamBase($this->baseFirst());
 
         // when
         $first = $stream->first();
@@ -51,7 +51,7 @@ class BaseStreamTest extends TestCase
     public function shouldThrow_first_forUnmatched()
     {
         // given
-        $stream = new BaseStream($this->baseFirstUnmatched());
+        $stream = new StreamBase($this->baseFirstUnmatched());
 
         // then
         $this->expectException(UnmatchedStreamException::class);
@@ -66,7 +66,7 @@ class BaseStreamTest extends TestCase
     public function shouldThrow_firstKey_forUnmatched()
     {
         // given
-        $stream = new BaseStream($this->baseFirstUnmatched());
+        $stream = new StreamBase($this->baseFirstUnmatched());
 
         // then
         $this->expectException(UnmatchedStreamException::class);
@@ -81,7 +81,7 @@ class BaseStreamTest extends TestCase
     public function shouldAll_returnEmpty_unmatched()
     {
         // given
-        $stream = new BaseStream($this->baseAllUnmatched());
+        $stream = new StreamBase($this->baseAllUnmatched());
 
         // then
         $this->expectException(UnmatchedStreamException::class);

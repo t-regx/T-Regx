@@ -7,8 +7,8 @@ use Test\Utils\Impl\ThrowFactory;
 use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
+use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -133,29 +133,29 @@ class MatchStreamTest extends TestCase
         $this->assertSame(['First', '19', '25'], $first->all());
     }
 
-    private function streamAll($firstValue): BaseStream
+    private function streamAll($firstValue): StreamBase
     {
-        /** @var BaseStream|MockObject $stream */
-        $stream = $this->createMock(BaseStream::class);
+        /** @var StreamBase|MockObject $stream */
+        $stream = $this->createMock(StreamBase::class);
         $stream->expects($this->once())->method('all')->willReturn($this->matchesOffset($firstValue));
         $stream->expects($this->never())->method($this->logicalNot($this->matches('all')));
         return $stream;
     }
 
-    private function streamFirstAndKey(string $value, int $index): BaseStream
+    private function streamFirstAndKey(string $value, int $index): StreamBase
     {
-        /** @var BaseStream|MockObject $stream */
-        $stream = $this->createMock(BaseStream::class);
+        /** @var StreamBase|MockObject $stream */
+        $stream = $this->createMock(StreamBase::class);
         $stream->expects($this->once())->method('first')->willReturn($this->matchOffset($value));
         $stream->expects($this->once())->method('firstKey')->willReturn($index);
         $stream->expects($this->never())->method($this->logicalNot($this->logicalOr($this->matches('first'), $this->matches('firstKey'))));
         return $stream;
     }
 
-    private function streamFirstKey($value): BaseStream
+    private function streamFirstKey($value): StreamBase
     {
-        /** @var BaseStream|MockObject $stream */
-        $stream = $this->createMock(BaseStream::class);
+        /** @var StreamBase|MockObject $stream */
+        $stream = $this->createMock(StreamBase::class);
         $stream->expects($this->once())->method('firstKey')->willReturn($value);
         $stream->expects($this->never())->method($this->logicalNot($this->matches('firstKey')));
         return $stream;
@@ -175,7 +175,7 @@ class MatchStreamTest extends TestCase
         return new RawMatchOffset([[$value, 1]], 0);
     }
 
-    private function matchStream(BaseStream $stream, MatchAllFactory $factory = null): MatchStream
+    private function matchStream(StreamBase $stream, MatchAllFactory $factory = null): MatchStream
     {
         return new MatchStream($stream, new ThrowSubject(), new UserData(), $factory ?? new ThrowFactory());
     }

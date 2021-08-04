@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 
-class BaseStream
+class StreamBase
 {
     /** @var Base */
     private $base;

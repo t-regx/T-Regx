@@ -22,9 +22,9 @@ use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
-use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
+use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
 use TRegx\CleanRegex\Internal\MatchPatternHelpers;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -179,14 +179,14 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     public function fluent(): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            new MatchStream(new BaseStream($this->base), $this->base, $this->base->getUserData(), new LazyMatchAllFactory($this->base)),
+            new MatchStream(new StreamBase($this->base), $this->base, $this->base->getUserData(), new LazyMatchAllFactory($this->base)),
             new MatchStreamWorker());
     }
 
     public function asInt(): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            new MatchIntStream(new BaseStream($this->base)),
+            new MatchIntStream(new StreamBase($this->base)),
             new NextStreamWorkerDecorator(new MatchStreamWorker(), new AsIntStreamWorker($this->base)));
     }
 

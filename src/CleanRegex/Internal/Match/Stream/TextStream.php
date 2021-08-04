@@ -5,10 +5,10 @@ class TextStream implements Stream
 {
     use PreservesKey;
 
-    /** @var BaseStream */
+    /** @var StreamBase */
     private $stream;
 
-    public function __construct(BaseStream $stream)
+    public function __construct(StreamBase $stream)
     {
         $this->stream = $stream;
     }

@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Match\Stream\BaseStream;
+use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
 use TRegx\CleanRegex\Internal\Match\Stream\TextStream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -58,10 +58,10 @@ class TextStreamTest extends TestCase
         $this->assertSame(123, $firstKey);
     }
 
-    private function mock(string $methodName, $value): BaseStream
+    private function mock(string $methodName, $value): StreamBase
     {
-        /** @var BaseStream|MockObject $stream */
-        $stream = $this->createMock(BaseStream::class);
+        /** @var StreamBase|MockObject $stream */
+        $stream = $this->createMock(StreamBase::class);
         $stream->expects($this->once())->method($methodName)->willReturn($value);
         $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
         return $stream;
