@@ -8,12 +8,12 @@ use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
-use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
+use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -51,6 +51,8 @@ class MatchDetail implements Detail
     private $usedForGroup;
     /** @var Signatures */
     private $signatures;
+    /** @var GroupHandle */
+    private $groupHandle;
 
     private function __construct(
         Subjectable           $subjectable,
@@ -76,6 +78,7 @@ class MatchDetail implements Detail
         $this->strategy = $strategy ?? new MatchGroupFactoryStrategy();
         $this->userData = $userData;
         $this->signatures = $signatures;
+        $this->groupHandle = new FirstNamedGroup($this->signatures);
     }
 
     public static function create(Subjectable     $subjectable, int $index, int $limit,
@@ -140,10 +143,9 @@ class MatchDetail implements Detail
         if (!$this->hasGroup($group->nameOrIndex())) {
             throw new NonexistentGroupException($group);
         }
-        $nameAssign = new GroupNameIndexAssign($this->groupAware, $this->allFactory); // To handle J flag
-        [$name, $index] = $nameAssign->getNameAndIndex($group);
-        if ($this->usedForGroup->isGroupMatched($index)) {
-            [$text, $offset] = $this->usedForGroup->getGroupTextAndOffset($index);
+        $handle = $this->groupHandle->groupHandle($group);
+        if ($this->usedForGroup->isGroupMatched($handle)) {
+            [$text, $offset] = $this->usedForGroup->getGroupTextAndOffset($handle);
             return $text;
         }
         throw GroupNotMatchedException::forGet($this->subjectable, $group);
