@@ -142,8 +142,10 @@ class MatchDetail implements Detail
     private function getGroupFacade(GroupKey $groupId): GroupFacade
     {
         $signatures = new PerformanceSignatures($this->match, $this->match);
-        return new GroupFacade($this->match, $this->subjectable, $groupId, $this->strategy,
-            $this->allFactory, new FirstNamedGroup($signatures), $signatures);
+        return new GroupFacade($this->subjectable, $groupId, $this->strategy,
+            $this->allFactory,
+            new NotMatched($this->match, $this->subjectable),
+            new FirstNamedGroup($signatures), $signatures);
     }
 
     public function usingDuplicateName(): DuplicateName

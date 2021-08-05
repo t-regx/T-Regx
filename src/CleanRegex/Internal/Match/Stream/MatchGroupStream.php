@@ -17,6 +17,7 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class MatchGroupStream implements Stream
 {
@@ -50,8 +51,11 @@ class MatchGroupStream implements Stream
             throw new UnmatchedStreamException();
         }
         $signatures = new ArraySignatures($matches->getGroupKeys());
-        $facade = new GroupFacade($matches, $this->base, $this->groupId, new MatchGroupFactoryStrategy(),
-            new EagerMatchAllFactory($matches), new FirstNamedGroup($signatures), $signatures);
+        $facade = new GroupFacade($this->base, $this->groupId, new MatchGroupFactoryStrategy(),
+            new EagerMatchAllFactory($matches),
+            new NotMatched($matches, $this->base),
+            new FirstNamedGroup($signatures),
+            $signatures);
         return $facade->createGroups($matches);
     }
 
@@ -62,8 +66,11 @@ class MatchGroupStream implements Stream
         $false = new FalseNegative($match);
         $polyfill = new GroupPolyfillDecorator($false, $this->allFactory, 0);
         $signatures = new PerformanceSignatures($match, $this->groupAware);
-        $groupFacade = new GroupFacade($false, $this->base, $this->groupId,
-            new MatchGroupFactoryStrategy(), $this->allFactory, new FirstNamedGroup($signatures), $signatures);
+        $groupFacade = new GroupFacade($this->base, $this->groupId,
+            new MatchGroupFactoryStrategy(),
+            $this->allFactory,
+            new NotMatched($this->groupAware, $this->base),
+            new FirstNamedGroup($signatures), $signatures);
         return $groupFacade->createGroup($polyfill);
     }
 

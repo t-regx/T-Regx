@@ -9,7 +9,6 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
@@ -34,12 +33,14 @@ class GroupFacade
     private $groupId;
     /** @var Signatures */
     private $signatures;
+    /** @var NotMatched */
+    private $notMatched;
 
-    public function __construct(GroupAware           $groupAware,
-                                Subjectable          $subject,
+    public function __construct(Subjectable          $subject,
                                 GroupKey             $groupId,
                                 GroupFactoryStrategy $factoryStrategy,
                                 MatchAllFactory      $allFactory,
+                                NotMatched           $notMatched,
                                 GroupHandle          $groupHandle,
                                 Signatures           $signatures)
     {
@@ -48,6 +49,7 @@ class GroupFacade
         $this->factoryStrategy = $factoryStrategy;
         $this->allFactory = $allFactory;
         $this->groupId = $groupId;
+        $this->notMatched = $notMatched;
         $this->signatures = $signatures;
     }
 
@@ -63,7 +65,7 @@ class GroupFacade
             if ($match->isGroupMatched($this->directIdentifier())) {
                 $matchObjects[$index] = $this->createdMatched($match, ...$firstWhole);
             } else {
-                $matchObjects[$index] = $this->createUnmatched($match);
+                $matchObjects[$index] = $this->createUnmatched();
             }
         }
         return $matchObjects;
@@ -75,7 +77,7 @@ class GroupFacade
             [$text, $offset] = $match->getGroupTextAndOffset($this->directIdentifier());
             return $this->createdMatched($match, $text, $offset);
         }
-        return $this->createUnmatched($match);
+        return $this->createUnmatched();
     }
 
     private function createdMatched(MatchEntry $entry, string $text, int $offset): MatchedGroup
@@ -88,7 +90,7 @@ class GroupFacade
             new SubstitutedGroup($entry, $groupEntry));
     }
 
-    private function createUnmatched(IRawMatchOffset $match): NotMatchedGroup
+    private function createUnmatched(): NotMatchedGroup
     {
         return $this->factoryStrategy->createUnmatched(
             $this->createGroupDetails(),
@@ -96,7 +98,7 @@ class GroupFacade
             new NotMatchedOptionalWorker(
                 new GroupMessage($this->groupId),
                 $this->subject,
-                new NotMatched($match, $this->subject),
+                $this->notMatched,
                 GroupNotMatchedException::class),
             $this->subject->getSubject());
     }

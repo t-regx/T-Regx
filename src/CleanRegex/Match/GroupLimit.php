@@ -31,6 +31,7 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\PatternLimit;
+use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\SafeRegex\Internal\Tuple;
 
 class GroupLimit implements PatternLimit, \IteratorAggregate
@@ -70,9 +71,10 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         }
         $signatures = new PerformanceSignatures($first, $this->groupAware);
         $false = new FalseNegative($first);
-        $facade = new GroupFacade($false, $this->base, $this->groupId,
+        $facade = new GroupFacade($this->base, $this->groupId,
             new MatchGroupFactoryStrategy(),
             $this->matchAllFactory,
+            new NotMatched($false, $this->base),
             new FirstNamedGroup($signatures),
             $signatures);
         return $consumer($facade->createGroup($false));

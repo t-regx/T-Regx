@@ -109,7 +109,9 @@ class DuplicateName
     public function group(string $groupName): DuplicateNamedGroup
     {
         $group = new GroupName($groupName);
-        $facade = new GroupFacade($this->groupAware, $this->subject, $group, $this->factory, $this->all, new RuntimeNamedGroup(),
+        $facade = new GroupFacade($this->subject, $group, $this->factory, $this->all,
+            new NotMatched($this->groupAware, $this->subject),
+            new RuntimeNamedGroup(),
             new PerformanceSignatures($this->match, $this->groupAware));
         return new DuplicateNamedGroupAdapter($groupName, $facade->createGroup($this->match));
     }
