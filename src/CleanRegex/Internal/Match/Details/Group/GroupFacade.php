@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -103,7 +104,7 @@ class GroupFacade
 
     private function createGroupDetails(): GroupDetails
     {
-        return new GroupDetails($this->name, $this->index, $this->groupId, $this->allFactory);
+        return new GroupDetails(new GroupSignature($this->index, $this->name), $this->groupId, $this->allFactory);
     }
 
     /**

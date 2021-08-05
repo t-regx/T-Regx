@@ -47,7 +47,7 @@ class MatchedGroup implements Group
         if ($this->isInt()) {
             return $this->groupEntry->text();
         }
-        throw IntegerFormatException::forGroup($this->details->groupId, $this->groupEntry->text());
+        throw IntegerFormatException::forGroup($this->details->group, $this->groupEntry->text());
     }
 
     public function isInt(): bool
@@ -67,12 +67,12 @@ class MatchedGroup implements Group
 
     public function index(): int
     {
-        return $this->details->index;
+        return $this->details->signature->index();
     }
 
     public function name(): ?string
     {
-        return $this->details->name;
+        return $this->details->signature->name();
     }
 
     /**
@@ -80,7 +80,7 @@ class MatchedGroup implements Group
      */
     public function usedIdentifier()
     {
-        return $this->details->groupId->nameOrIndex();
+        return $this->details->group->nameOrIndex();
     }
 
     public function offset(): int

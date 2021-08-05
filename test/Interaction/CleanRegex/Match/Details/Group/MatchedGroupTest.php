@@ -6,6 +6,7 @@ use Test\Utils\Impl\ConstantMatchEntry;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
+use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
@@ -215,7 +216,7 @@ class MatchedGroupTest extends TestCase
         $matchedGroup = new GroupEntry($group, $groupOffset, new Subject($subject));
         return new MatchedGroup(
             new Subject($subject),
-            new GroupDetails('first', 1, $groupId, new EagerMatchAllFactory(new RawMatchesOffset([]))),
+            new GroupDetails(new GroupSignature(1, 'first'), $groupId, new EagerMatchAllFactory(new RawMatchesOffset([]))),
             $matchedGroup,
             new SubstitutedGroup(new ConstantMatchEntry($match, 8), $matchedGroup));
     }

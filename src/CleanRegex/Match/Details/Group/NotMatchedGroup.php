@@ -17,10 +17,10 @@ class NotMatchedGroup implements Group
     /** @var string */
     private $subject;
 
-    public function __construct(GroupDetails $details,
-                                GroupExceptionFactory $exceptionFactory,
+    public function __construct(GroupDetails             $details,
+                                GroupExceptionFactory    $exceptionFactory,
                                 NotMatchedOptionalWorker $optionalWorker,
-                                string $subject)
+                                string                   $subject)
     {
         $this->details = $details;
         $this->exceptionFactory = $exceptionFactory;
@@ -70,12 +70,12 @@ class NotMatchedGroup implements Group
 
     public function name(): ?string
     {
-        return $this->details->name;
+        return $this->details->signature->name();
     }
 
     public function index(): int
     {
-        return $this->details->index;
+        return $this->details->signature->index();
     }
 
     /**
@@ -83,7 +83,7 @@ class NotMatchedGroup implements Group
      */
     public function usedIdentifier()
     {
-        return $this->details->groupId->nameOrIndex();
+        return $this->details->group->nameOrIndex();
     }
 
     public function offset(): int
