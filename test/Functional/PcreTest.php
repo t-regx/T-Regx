@@ -109,4 +109,18 @@ class PcreTest extends TestCase
         $this->assertFalse($pcre2);
         $this->assertNotSame('1200.1300', $semantic);
     }
+
+    /**
+     * @test
+     */
+    public function shouldObeyContract()
+    {
+        // when
+        $version = Pcre::semanticVersion();
+        $major = Pcre::majorVersion();
+        $minor = Pcre::minorVersion();
+
+        // then
+        $this->assertSame($version, "$major.$minor");
+    }
 }
