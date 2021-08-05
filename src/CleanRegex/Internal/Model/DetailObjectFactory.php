@@ -12,20 +12,17 @@ class DetailObjectFactory
 {
     /** @var Subjectable */
     private $subjectable;
-    /** @var int|null */
-    private $limit;
     /** @var UserData */
     private $userData;
 
-    public function __construct(Subjectable $subjectable, ?int $limit, UserData $userData)
+    public function __construct(Subjectable $subjectable, UserData $userData)
     {
         $this->subjectable = $subjectable;
-        $this->limit = $limit;
         $this->userData = $userData;
     }
 
     public function create(int $index, IRawMatchOffset $matchOffset, MatchAllFactory $matchAllFactory): Detail
     {
-        return new MatchDetail($this->subjectable, $index, $this->limit, $matchOffset, $matchAllFactory, $this->userData);
+        return new MatchDetail($this->subjectable, $index, -1, $matchOffset, $matchAllFactory, $this->userData);
     }
 }

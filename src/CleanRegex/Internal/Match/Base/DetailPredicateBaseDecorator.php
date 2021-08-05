@@ -23,7 +23,7 @@ class DetailPredicateBaseDecorator implements Base
     {
         $this->base = $base;
         $this->predicate = $predicate;
-        $this->detailFactory = new DetailObjectFactory($this->base, -1, $this->base->getUserData());
+        $this->detailFactory = new DetailObjectFactory($this->base, $this->base->getUserData());
     }
 
     public function getPattern(): Definition

@@ -222,7 +222,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
      */
     protected function getDetailObjects(): array
     {
-        $factory = new DetailObjectFactory($this->base, -1, $this->base->getUserData());
+        $factory = new DetailObjectFactory($this->base, $this->base->getUserData());
         return $this->base->matchAllOffsets()->getDetailObjects($factory);
     }
 }

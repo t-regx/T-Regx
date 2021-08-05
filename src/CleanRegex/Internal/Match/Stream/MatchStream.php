@@ -33,7 +33,7 @@ class MatchStream implements Stream
 
     public function all(): array
     {
-        return $this->stream->all()->getDetailObjects(new DetailObjectFactory($this->subjectable, -1, $this->userData));
+        return $this->stream->all()->getDetailObjects(new DetailObjectFactory($this->subjectable, $this->userData));
     }
 
     public function first(): Detail
