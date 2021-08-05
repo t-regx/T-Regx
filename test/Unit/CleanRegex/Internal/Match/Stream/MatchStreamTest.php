@@ -1,8 +1,10 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\AllStreamBase;
+use Test\Utils\Impl\FirstKeyStreamBase;
+use Test\Utils\Impl\FirstStreamBase;
 use Test\Utils\Impl\ThrowFactory;
 use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
@@ -12,7 +14,6 @@ use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Match\Details\Detail;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\MatchStream
@@ -25,10 +26,9 @@ class MatchStreamTest extends TestCase
     public function shouldDelegateAll()
     {
         // given
-        $stream = $this->matchStream($this->streamAll('14'));
+        $stream = $this->matchStream(new AllStreamBase($this->matchesOffset('14')));
 
         // when
-        /** @var Detail[] $all */
         $all = $stream->all();
 
         // then
@@ -58,7 +58,7 @@ class MatchStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = $this->matchStream($this->streamFirstKey(123));
+        $stream = $this->matchStream(new FirstKeyStreamBase(123));
 
         // when
         $firstKey = $stream->firstKey();
@@ -88,10 +88,9 @@ class MatchStreamTest extends TestCase
     public function shouldCreateAllMatches_index()
     {
         // given
-        $stream = $this->matchStream($this->streamAll('19'));
+        $stream = $this->matchStream(new AllStreamBase($this->matchesOffset('19')));
 
         // when
-        /** @var Detail[] $all */
         $all = $stream->all();
 
         // then
@@ -106,10 +105,9 @@ class MatchStreamTest extends TestCase
     public function shouldGetAll_all()
     {
         // given
-        $stream = $this->matchStream($this->streamAll('14'));
+        $stream = $this->matchStream(new AllStreamBase($this->matchesOffset('14')));
 
         // when
-        /** @var Detail[] $all */
         $all = $stream->all();
 
         // then
@@ -133,32 +131,9 @@ class MatchStreamTest extends TestCase
         $this->assertSame(['First', '19', '25'], $first->all());
     }
 
-    private function streamAll($firstValue): StreamBase
-    {
-        /** @var StreamBase|MockObject $stream */
-        $stream = $this->createMock(StreamBase::class);
-        $stream->expects($this->once())->method('all')->willReturn($this->matchesOffset($firstValue));
-        $stream->expects($this->never())->method($this->logicalNot($this->matches('all')));
-        return $stream;
-    }
-
     private function streamFirstAndKey(string $value, int $index): StreamBase
     {
-        /** @var StreamBase|MockObject $stream */
-        $stream = $this->createMock(StreamBase::class);
-        $stream->expects($this->once())->method('first')->willReturn($this->matchOffset($value));
-        $stream->expects($this->once())->method('firstKey')->willReturn($index);
-        $stream->expects($this->never())->method($this->logicalNot($this->logicalOr($this->matches('first'), $this->matches('firstKey'))));
-        return $stream;
-    }
-
-    private function streamFirstKey($value): StreamBase
-    {
-        /** @var StreamBase|MockObject $stream */
-        $stream = $this->createMock(StreamBase::class);
-        $stream->expects($this->once())->method('firstKey')->willReturn($value);
-        $stream->expects($this->never())->method($this->logicalNot($this->matches('firstKey')));
-        return $stream;
+        return new FirstStreamBase($index, $this->matchOffset($value));
     }
 
     private function matchesOffset(string $firstValue): RawMatchesOffset

@@ -1,11 +1,12 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\AllStreamBase;
+use Test\Utils\Impl\FirstKeyStreamBase;
+use Test\Utils\Impl\FirstStreamBase;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream;
-use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
@@ -20,7 +21,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldDelegate_all()
     {
         // given
-        $stream = new MatchIntStream($this->mock('all', $this->matchesOffset('14')));
+        $stream = new MatchIntStream(new AllStreamBase($this->matchesOffset('14')));
 
         // when
         $all = $stream->all();
@@ -35,7 +36,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldDelegate_all_unmatched()
     {
         // given
-        $stream = new MatchIntStream($this->mock('all', new RawMatchesOffset([[]])));
+        $stream = new MatchIntStream(new AllStreamBase(new RawMatchesOffset([[]])));
 
         // when
         $all = $stream->all();
@@ -50,7 +51,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldDelegate_first()
     {
         // given
-        $stream = new MatchIntStream($this->mock('first', new RawMatchOffset([['192', 1]], 0)));
+        $stream = new MatchIntStream(new FirstStreamBase(0, new RawMatchOffset([['192', 1]], 0)));
 
         // when
         $first = $stream->first();
@@ -65,7 +66,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldDelegate_firstKey()
     {
         // given
-        $stream = new MatchIntStream($this->mock('firstKey', 123));
+        $stream = new MatchIntStream(new FirstKeyStreamBase(123));
 
         // when
         $firstKey = $stream->firstKey();
@@ -80,7 +81,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldThrow_all_forMalformedInteger()
     {
         // given
-        $stream = new MatchIntStream($this->mock('all', $this->matchesOffset('Foo')));
+        $stream = new MatchIntStream(new AllStreamBase($this->matchesOffset('Foo')));
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -96,7 +97,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldThrow_first_forMalformedInteger()
     {
         // given
-        $stream = new MatchIntStream($this->mock('first', new RawMatchOffset([['Foo', 1]], 1)));
+        $stream = new MatchIntStream(new FirstStreamBase(1, new RawMatchOffset([['Foo', 1]], 1)));
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -104,15 +105,6 @@ class MatchIntStreamTest extends TestCase
 
         // when
         $stream->first();
-    }
-
-    private function mock(string $methodName, $value): StreamBase
-    {
-        /** @var StreamBase|MockObject $stream */
-        $stream = $this->createMock(StreamBase::class);
-        $stream->expects($this->once())->method($methodName)->willReturn($value);
-        $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
-        return $stream;
     }
 
     private function matchesOffset(string $firstValue): RawMatchesOffset
