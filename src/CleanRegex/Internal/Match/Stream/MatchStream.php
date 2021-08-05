@@ -38,7 +38,7 @@ class MatchStream implements Stream
 
     public function first(): Detail
     {
-        return new MatchDetail($this->subjectable,
+        return MatchDetail::create($this->subjectable,
             $this->stream->firstKey(),
             1,
             new GroupPolyfillDecorator(new FalseNegative($this->stream->first()), $this->allFactory, 0),

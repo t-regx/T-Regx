@@ -23,6 +23,6 @@ class DetailObjectFactory
 
     public function create(int $index, IRawMatchOffset $matchOffset, MatchAllFactory $matchAllFactory): Detail
     {
-        return new MatchDetail($this->subjectable, $index, -1, $matchOffset, $matchAllFactory, $this->userData);
+        return MatchDetail::create($this->subjectable, $index, -1, $matchOffset, $matchAllFactory, $this->userData);
     }
 }

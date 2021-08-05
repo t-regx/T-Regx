@@ -71,7 +71,7 @@ class MatchGroupStream implements Stream
             $this->allFactory,
             new NotMatched($this->groupAware, $this->base),
             new FirstNamedGroup($signatures), $signatures);
-        return $groupFacade->createGroup($polyfill);
+        return $groupFacade->createGroup($polyfill, $false);
     }
 
     public function firstKey(): int

@@ -57,9 +57,9 @@ class GroupPolyfillDecorator implements IRawMatchOffset
         return $this->read($this->trueMatch(), $nameOrIndex);
     }
 
-    private function read(IRawMatchOffset $match, $nameOrIndex): ?string
+    private function read(UsedForGroup $forGroup, $nameOrIndex): ?string
     {
-        [$text, $offset] = $match->getGroupTextAndOffset($nameOrIndex);
+        [$text, $offset] = $forGroup->getGroupTextAndOffset($nameOrIndex);
         if ($offset === -1) {
             return null;
         }

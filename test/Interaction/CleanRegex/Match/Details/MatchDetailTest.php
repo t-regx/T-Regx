@@ -423,7 +423,7 @@ class MatchDetailTest extends TestCase
         $matches = $parameters['matches'] ?? [];
 
         $rawMatches = new RawMatchesOffset($matches);
-        return new MatchDetail(
+        return MatchDetail::create(
             new Subject($subject),
             $index,
             -1,

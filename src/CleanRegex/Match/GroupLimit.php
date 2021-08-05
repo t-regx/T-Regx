@@ -77,7 +77,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
             new NotMatched($false, $this->base),
             new FirstNamedGroup($signatures),
             $signatures);
-        return $consumer($facade->createGroup($false));
+        return $consumer($facade->createGroup($false, $false));
     }
 
     public function findFirst(callable $consumer): Optional

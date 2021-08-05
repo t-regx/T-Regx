@@ -70,7 +70,7 @@ class ReplaceDetailTest extends TestCase
     {
         $matches = new RawMatchesOffset($matches);
         return new ReplaceDetail(
-            new MatchDetail(
+            MatchDetail::create(
                 new Subject($subject),
                 0,
                 -1,

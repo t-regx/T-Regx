@@ -1,10 +1,12 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
+use TRegx\CleanRegex\Internal\Model\Match\UsedInCompositeGroups;
 
-class FalseNegative implements IRawMatchOffset
+class FalseNegative implements GroupAware, MatchEntry, UsedInCompositeGroups, UsedForGroup
 {
     /** @var RawMatchOffset */
     private $match;

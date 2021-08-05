@@ -9,9 +9,9 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\Group;
@@ -71,11 +71,11 @@ class GroupFacade
         return $matchObjects;
     }
 
-    public function createGroup(IRawMatchOffset $match): Group
+    public function createGroup(UsedForGroup $forGroup, MatchEntry $entry): Group
     {
-        if ($match->isGroupMatched($this->directIdentifier())) {
-            [$text, $offset] = $match->getGroupTextAndOffset($this->directIdentifier());
-            return $this->createdMatched($match, $text, $offset);
+        if ($forGroup->isGroupMatched($this->directIdentifier())) {
+            [$text, $offset] = $forGroup->getGroupTextAndOffset($this->directIdentifier());
+            return $this->createdMatched($entry, $text, $offset);
         }
         return $this->createUnmatched();
     }

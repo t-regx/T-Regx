@@ -31,12 +31,12 @@ class MatchFirst
         throw SubjectNotMatchedException::forFirst($this->base);
     }
 
-    private function detail(int $index, FalseNegative $match): Detail
+    private function detail(int $index, FalseNegative $false): Detail
     {
-        return new MatchDetail($this->base,
+        return MatchDetail::create($this->base,
             $index,
             1,
-            new GroupPolyfillDecorator($match, $this->allFactory, $index),
+            new GroupPolyfillDecorator($false, $this->allFactory, $index),
             $this->allFactory,
             $this->base->getUserData());
     }

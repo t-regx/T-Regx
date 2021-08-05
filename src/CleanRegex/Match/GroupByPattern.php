@@ -99,7 +99,7 @@ class GroupByPattern
 
     private function detail(RawMatchesOffset $matches, int $index): MatchDetail
     {
-        return new MatchDetail($this->base,
+        return MatchDetail::create($this->base,
             $index,
             -1,
             new RawMatchesToMatchAdapter($matches, $index),

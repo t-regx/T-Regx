@@ -24,7 +24,6 @@ class ReplaceCallbackObject
     private $subject;
     /** @var RawMatchesOffset */
     private $analyzedPattern;
-
     /** @var int */
     private $counter = 0;
     /** @var int */
@@ -75,7 +74,7 @@ class ReplaceCallbackObject
     {
         $index = $this->counter++;
         return new ReplaceDetail(
-            new MatchDetail(
+            MatchDetail::create(
                 $this->subject,
                 $index,
                 $this->limit,
@@ -84,12 +83,9 @@ class ReplaceCallbackObject
                 new UserData(),
                 new ReplaceMatchGroupFactoryStrategy(
                     $this->byteOffsetModification,
-                    $this->subjectModification
-                )
-            ),
+                    $this->subjectModification)),
             $this->byteOffsetModification,
-            $this->subjectModification
-        );
+            $this->subjectModification);
     }
 
     private function getReplacement($replacement): string
@@ -127,7 +123,6 @@ class ReplaceCallbackObject
             $this->subjectModification,
             $replacement,
             $offset + $this->byteOffsetModification,
-            \strlen($text)
-        );
+            \strlen($text));
     }
 }

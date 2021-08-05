@@ -66,7 +66,7 @@ class GroupLimitFindFirst
             new NotMatched($false, $this->base),
             new FirstNamedGroup($signatures),
             $signatures);
-        return new OptionalImpl($consumer($facade->createGroup($false)));
+        return new OptionalImpl($consumer($facade->createGroup($false, $false)));
     }
 
     private function notMatchedOptional(RawMatchOffset $first): EmptyOptional

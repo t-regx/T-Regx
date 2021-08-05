@@ -96,13 +96,8 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         $allFactory = new LazyMatchAllFactory($this->base->getUnfilteredBase());
         $firstIndex = $match->getIndex();
 
-        return new MatchDetail(
-            $this->base,
-            $firstIndex,
-            1,
-            new GroupPolyfillDecorator(new FalseNegative($match), $allFactory, $firstIndex),
-            $allFactory,
-            $this->base->getUserData());
+        $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $allFactory, $firstIndex);
+        return MatchDetail::create($this->base, $firstIndex, 1, $polyfill, $allFactory, $this->base->getUserData());
     }
 
     public function only(int $limit): array

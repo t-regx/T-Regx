@@ -2,14 +2,15 @@
 namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
-use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
+use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\DuplicateNamedGroupAdapter;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\RuntimeNamedGroup;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
+use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
+use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\DuplicateNamedGroup;
 
@@ -84,26 +85,34 @@ class DuplicateName
 {
     /** @var GroupAware */
     private $groupAware;
-    /** @var IRawMatchOffset */
-    private $match;
+    /** @var UsedForGroup */
+    private $forGroup;
+    /** @var MatchEntry */
+    private $entry;
     /** @var Subjectable */
     private $subject;
     /** @var GroupFactoryStrategy */
     private $factory;
     /** @var MatchAllFactory */
     private $all;
+    /** @var Signatures */
+    private $signatures;
 
     public function __construct(GroupAware           $groupAware,
-                                IRawMatchOffset      $match,
+                                UsedForGroup         $forGroup,
+                                MatchEntry           $entry,
                                 Subjectable          $subject,
                                 GroupFactoryStrategy $factoryStrategy,
-                                MatchAllFactory      $allFactory)
+                                MatchAllFactory      $allFactory,
+                                Signatures           $signatures)
     {
         $this->groupAware = $groupAware;
-        $this->match = $match;
+        $this->forGroup = $forGroup;
+        $this->entry = $entry;
         $this->subject = $subject;
         $this->factory = $factoryStrategy;
         $this->all = $allFactory;
+        $this->signatures = $signatures;
     }
 
     public function group(string $groupName): DuplicateNamedGroup
@@ -112,8 +121,8 @@ class DuplicateName
         $facade = new GroupFacade($this->subject, $group, $this->factory, $this->all,
             new NotMatched($this->groupAware, $this->subject),
             new RuntimeNamedGroup(),
-            new PerformanceSignatures($this->match, $this->groupAware));
-        return new DuplicateNamedGroupAdapter($groupName, $facade->createGroup($this->match));
+            $this->signatures);
+        return new DuplicateNamedGroupAdapter($groupName, $facade->createGroup($this->forGroup, $this->entry));
     }
 
     public function get(string $groupName): string
