@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
+use Generator;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
@@ -59,16 +60,19 @@ class GroupFacade
      */
     public function createGroups(RawMatchesOffset $matches): array
     {
-        $matchObjects = [];
-        foreach ($matches->getGroupTextAndOffsetAll($this->directIdentifier()) as $index => $firstWhole) {
+        return \iterator_to_array($this->groups($matches->getGroupTextAndOffsetAll($this->directIdentifier()), $matches));
+    }
+
+    private function groups(array $group, RawMatchesOffset $matches): Generator
+    {
+        foreach ($group as $index => [$text, $offset]) {
             $match = new RawMatchesToMatchAdapter($matches, $index);
             if ($match->isGroupMatched($this->directIdentifier())) {
-                $matchObjects[$index] = $this->createdMatched($match, ...$firstWhole);
+                yield $index => $this->createdMatched($match, $text, $offset);
             } else {
-                $matchObjects[$index] = $this->createUnmatched();
+                yield $index => $this->createUnmatched();
             }
         }
-        return $matchObjects;
     }
 
     public function createGroup(UsedForGroup $forGroup, MatchEntry $entry): Group
