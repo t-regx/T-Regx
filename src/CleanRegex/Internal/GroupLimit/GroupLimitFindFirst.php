@@ -9,15 +9,16 @@ use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupSubjectMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
+use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
-use TRegx\CleanRegex\Internal\Model\LazyRawWithGroups;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\Optional;
@@ -59,8 +60,8 @@ class GroupLimitFindFirst
     {
         $facade = new GroupFacade(new FalseNegative($match), $this->base, $this->groupId,
             new MatchGroupFactoryStrategy(),
-            new LazyMatchAllFactory($this->base));
-
+            new LazyMatchAllFactory($this->base),
+            new FirstNamedGroup(new PerformanceSignatures($match, $this->groupAware)));
         return new OptionalImpl($consumer($facade->createGroup(new FalseNegative($match))));
     }
 

@@ -6,11 +6,13 @@ use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
 use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
+use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -139,7 +141,7 @@ class MatchDetail implements Detail
 
     private function getGroupFacade(GroupKey $groupId): GroupFacade
     {
-        return new GroupFacade($this->match, $this->subjectable, $groupId, $this->strategy, $this->allFactory);
+        return new GroupFacade($this->match, $this->subjectable, $groupId, $this->strategy, $this->allFactory, new FirstNamedGroup(new PerformanceSignatures($this->match, $this->match)));
     }
 
     public function usingDuplicateName(): DuplicateName

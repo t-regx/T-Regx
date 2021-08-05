@@ -12,10 +12,12 @@ use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Factory\Worker\MatchStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\ThrowInternalStreamWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFindFirst;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFirst;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
+use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
@@ -26,7 +28,6 @@ use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
-use TRegx\CleanRegex\Internal\Model\GroupHasAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\PatternLimit;
@@ -36,8 +37,8 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 {
     /** @var Base */
     private $base;
-    /** @var GroupHasAware */
-    private $groupHasAware;
+    /** @var GroupAware */
+    private $groupAware;
     /** @var GroupLimitFirst */
     private $firstFactory;
     /** @var GroupLimitFindFirst */
@@ -50,7 +51,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
     public function __construct(Base $base, GroupAware $groupAware, GroupKey $groupId)
     {
         $this->base = $base;
-        $this->groupHasAware = $groupAware;
+        $this->groupAware = $groupAware;
         $this->firstFactory = new GroupLimitFirst($base, $groupAware, $groupId);
         $this->findFirstFactory = new GroupLimitFindFirst($base, $groupAware, $groupId);
         $this->matchAllFactory = new LazyMatchAllFactory($base);
@@ -68,7 +69,8 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
             return $first->getGroup($this->groupId->nameOrIndex());
         }
         $false = new FalseNegative($first);
-        $facade = new GroupFacade($false, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), $this->matchAllFactory);
+        $signatures = new PerformanceSignatures($first, $this->groupAware);
+        $facade = new GroupFacade($false, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), $this->matchAllFactory, new FirstNamedGroup($signatures));
         return $consumer($facade->createGroup($false));
     }
 
@@ -170,7 +172,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     public function offsets(): OffsetLimit
     {
-        return new OffsetLimit($this->base, $this->groupHasAware, $this->groupId, false);
+        return new OffsetLimit($this->base, $this->groupAware, $this->groupId, false);
     }
 
     public function fluent(): FluentMatchPattern
@@ -187,7 +189,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
 
     private function stream(): Stream
     {
-        return new MatchGroupStream($this->base, $this->groupHasAware, $this->groupId, $this->matchAllFactory);
+        return new MatchGroupStream($this->base, $this->groupAware, $this->groupId, $this->matchAllFactory);
     }
 
     private function details(): array

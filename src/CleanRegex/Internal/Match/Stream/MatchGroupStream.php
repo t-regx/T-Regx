@@ -3,9 +3,12 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
+use TRegx\CleanRegex\Internal\GroupKey\ArraySignatures;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
+use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
@@ -46,7 +49,9 @@ class MatchGroupStream implements Stream
         if (!$matches->matched()) {
             throw new UnmatchedStreamException();
         }
-        return (new GroupFacade($matches, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), new EagerMatchAllFactory($matches)))->createGroups($matches);
+        return (new GroupFacade($matches, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), new EagerMatchAllFactory($matches),
+            new FirstNamedGroup(new ArraySignatures($matches->getGroupKeys()))))
+            ->createGroups($matches);
     }
 
     public function first(): Group
@@ -54,8 +59,9 @@ class MatchGroupStream implements Stream
         $match = $this->base->matchOffset();
         $this->validateGroupOrSubject($match);
         $false = new FalseNegative($match);
-        $groupFacade = new GroupFacade($false, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), $this->allFactory);
         $polyfill = new GroupPolyfillDecorator($false, $this->allFactory, 0);
+        $groupFacade = new GroupFacade($false, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), $this->allFactory,
+            new FirstNamedGroup(new PerformanceSignatures($match, $polyfill)));
         return $groupFacade->createGroup($polyfill);
     }
 

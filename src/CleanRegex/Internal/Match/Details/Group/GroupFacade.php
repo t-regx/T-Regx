@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
 use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
+use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
@@ -24,8 +25,8 @@ class GroupFacade
 {
     /** @var Subjectable */
     private $subject;
-    /** @var string|int */
-    protected $usedIdentifier;
+    /** @var GroupHandle */
+    private $groupHandle;
     /** @var int */
     private $index;
     /** @var string|null */
@@ -41,10 +42,11 @@ class GroupFacade
                                 Subjectable          $subject,
                                 GroupKey             $groupId,
                                 GroupFactoryStrategy $factoryStrategy,
-                                MatchAllFactory      $allFactory)
+                                MatchAllFactory      $allFactory,
+                                GroupHandle          $groupHandle)
     {
         $this->subject = $subject;
-        $this->usedIdentifier = $groupId->nameOrIndex();
+        $this->groupHandle = $groupHandle;
         [$this->name, $this->index] = (new GroupNameIndexAssign($groupAware, $allFactory))->getNameAndIndex($groupId);
         $this->factoryStrategy = $factoryStrategy;
         $this->allFactory = $allFactory;
@@ -110,8 +112,8 @@ class GroupFacade
     /**
      * @return string|int
      */
-    protected function directIdentifier()
+    private function directIdentifier()
     {
-        return $this->index; // when index is used, then compiled (pattern) group is used
+        return $this->groupHandle->groupHandle($this->groupId);
     }
 }
