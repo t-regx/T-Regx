@@ -68,9 +68,13 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         if ($consumer === null) {
             return $first->getGroup($this->groupId->nameOrIndex());
         }
-        $false = new FalseNegative($first);
         $signatures = new PerformanceSignatures($first, $this->groupAware);
-        $facade = new GroupFacade($false, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), $this->matchAllFactory, new FirstNamedGroup($signatures));
+        $false = new FalseNegative($first);
+        $facade = new GroupFacade($false, $this->base, $this->groupId,
+            new MatchGroupFactoryStrategy(),
+            $this->matchAllFactory,
+            new FirstNamedGroup($signatures),
+            $signatures);
         return $consumer($facade->createGroup($false));
     }
 

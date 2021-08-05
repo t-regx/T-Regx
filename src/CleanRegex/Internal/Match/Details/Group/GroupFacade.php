@@ -6,8 +6,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
-use TRegx\CleanRegex\Internal\GroupNameIndexAssign;
+use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -27,30 +26,29 @@ class GroupFacade
     private $subject;
     /** @var GroupHandle */
     private $groupHandle;
-    /** @var int */
-    private $index;
-    /** @var string|null */
-    private $name;
     /** @var GroupFactoryStrategy */
     private $factoryStrategy;
     /** @var MatchAllFactory */
     private $allFactory;
     /** @var GroupKey */
     private $groupId;
+    /** @var Signatures */
+    private $signatures;
 
     public function __construct(GroupAware           $groupAware,
                                 Subjectable          $subject,
                                 GroupKey             $groupId,
                                 GroupFactoryStrategy $factoryStrategy,
                                 MatchAllFactory      $allFactory,
-                                GroupHandle          $groupHandle)
+                                GroupHandle          $groupHandle,
+                                Signatures           $signatures)
     {
         $this->subject = $subject;
         $this->groupHandle = $groupHandle;
-        [$this->name, $this->index] = (new GroupNameIndexAssign($groupAware, $allFactory))->getNameAndIndex($groupId);
         $this->factoryStrategy = $factoryStrategy;
         $this->allFactory = $allFactory;
         $this->groupId = $groupId;
+        $this->signatures = $signatures;
     }
 
     /**
@@ -100,13 +98,12 @@ class GroupFacade
                 $this->subject,
                 new NotMatched($match, $this->subject),
                 GroupNotMatchedException::class),
-            $this->subject->getSubject()
-        );
+            $this->subject->getSubject());
     }
 
     private function createGroupDetails(): GroupDetails
     {
-        return new GroupDetails(new GroupSignature($this->index, $this->name), $this->groupId, $this->allFactory);
+        return new GroupDetails($this->signatures->signature($this->groupId), $this->groupId, $this->allFactory);
     }
 
     /**

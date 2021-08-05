@@ -2,9 +2,11 @@
 namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
+use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\Match\Details\DuplicateNamedGroupAdapter;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Match\Details\Group\RuntimeGroupFacade;
+use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\RuntimeNamedGroup;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
@@ -106,7 +108,9 @@ class DuplicateName
 
     public function group(string $groupName): DuplicateNamedGroup
     {
-        $facade = new RuntimeGroupFacade($this->groupAware, $this->subject, new GroupName($groupName), $this->factory, $this->all);
+        $group = new GroupName($groupName);
+        $facade = new GroupFacade($this->groupAware, $this->subject, $group, $this->factory, $this->all, new RuntimeNamedGroup(),
+            new PerformanceSignatures($this->match, $this->groupAware));
         return new DuplicateNamedGroupAdapter($groupName, $facade->createGroup($this->match));
     }
 

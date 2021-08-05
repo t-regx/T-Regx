@@ -41,12 +41,12 @@ class MatchDetail implements Detail
     private $limit;
 
     public function __construct(
-        Subjectable $subjectable,
-        int $index,
-        int $limit,
-        IRawMatchOffset $match,
-        MatchAllFactory $allFactory,
-        UserData $userData,
+        Subjectable          $subjectable,
+        int                  $index,
+        int                  $limit,
+        IRawMatchOffset      $match,
+        MatchAllFactory      $allFactory,
+        UserData             $userData,
         GroupFactoryStrategy $strategy = null)
     {
         $this->subjectable = $subjectable;
@@ -141,7 +141,9 @@ class MatchDetail implements Detail
 
     private function getGroupFacade(GroupKey $groupId): GroupFacade
     {
-        return new GroupFacade($this->match, $this->subjectable, $groupId, $this->strategy, $this->allFactory, new FirstNamedGroup(new PerformanceSignatures($this->match, $this->match)));
+        $signatures = new PerformanceSignatures($this->match, $this->match);
+        return new GroupFacade($this->match, $this->subjectable, $groupId, $this->strategy,
+            $this->allFactory, new FirstNamedGroup($signatures), $signatures);
     }
 
     public function usingDuplicateName(): DuplicateName

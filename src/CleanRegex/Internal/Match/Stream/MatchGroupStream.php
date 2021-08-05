@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
-use TRegx\CleanRegex\Internal\Model\GroupHasAware;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\Group\Group;
@@ -22,14 +22,14 @@ class MatchGroupStream implements Stream
 {
     /** @var Base */
     private $base;
-    /** @var GroupHasAware */
+    /** @var GroupAware */
     private $groupAware;
     /** @var GroupKey */
     private $groupId;
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(Base $base, GroupHasAware $groupAware, GroupKey $groupId, MatchAllFactory $factory)
+    public function __construct(Base $base, GroupAware $groupAware, GroupKey $groupId, MatchAllFactory $factory)
     {
         $this->base = $base;
         $this->groupAware = $groupAware;
@@ -49,9 +49,10 @@ class MatchGroupStream implements Stream
         if (!$matches->matched()) {
             throw new UnmatchedStreamException();
         }
-        return (new GroupFacade($matches, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), new EagerMatchAllFactory($matches),
-            new FirstNamedGroup(new ArraySignatures($matches->getGroupKeys()))))
-            ->createGroups($matches);
+        $signatures = new ArraySignatures($matches->getGroupKeys());
+        $facade = new GroupFacade($matches, $this->base, $this->groupId, new MatchGroupFactoryStrategy(),
+            new EagerMatchAllFactory($matches), new FirstNamedGroup($signatures), $signatures);
+        return $facade->createGroups($matches);
     }
 
     public function first(): Group
@@ -60,8 +61,9 @@ class MatchGroupStream implements Stream
         $this->validateGroupOrSubject($match);
         $false = new FalseNegative($match);
         $polyfill = new GroupPolyfillDecorator($false, $this->allFactory, 0);
-        $groupFacade = new GroupFacade($false, $this->base, $this->groupId, new MatchGroupFactoryStrategy(), $this->allFactory,
-            new FirstNamedGroup(new PerformanceSignatures($match, $polyfill)));
+        $signatures = new PerformanceSignatures($match, $this->groupAware);
+        $groupFacade = new GroupFacade($false, $this->base, $this->groupId,
+            new MatchGroupFactoryStrategy(), $this->allFactory, new FirstNamedGroup($signatures), $signatures);
         return $groupFacade->createGroup($polyfill);
     }
 
