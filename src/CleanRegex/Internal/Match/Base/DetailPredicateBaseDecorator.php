@@ -39,7 +39,7 @@ class DetailPredicateBaseDecorator implements Base
     public function match(): RawMatch
     {
         $matches = $this->base->matchAllOffsets();
-        foreach ($matches->getDetailObjects($this->detailFactory) as $index => $match) {
+        foreach ($this->detailFactory->mapToDetailObjects($matches) as $index => $match) {
             if ($this->predicate->test($match)) {
                 return $matches->getRawMatch($index);
             }
@@ -50,7 +50,7 @@ class DetailPredicateBaseDecorator implements Base
     public function matchOffset(): RawMatchOffset
     {
         $matches = $this->base->matchAllOffsets();
-        foreach ($matches->getDetailObjects($this->detailFactory) as $index => $match) {
+        foreach ($this->detailFactory->mapToDetailObjects($matches) as $index => $match) {
             if ($this->predicate->test($match)) {
                 return $matches->getRawMatchOffset($index);
             }
@@ -60,12 +60,12 @@ class DetailPredicateBaseDecorator implements Base
 
     public function matchAll(): RawMatches
     {
-        return new RawMatches($this->removeOffsets($this->base->matchAllOffsets()->filterMatchesByDetailObjects($this->predicate, $this->detailFactory)));
+        return new RawMatches($this->removeOffsets($this->detailFactory->mapToDetailObjectsFiltered($this->base->matchAllOffsets(), $this->predicate)));
     }
 
     public function matchAllOffsets(): RawMatchesOffset
     {
-        return new RawMatchesOffset($this->base->matchAllOffsets()->filterMatchesByDetailObjects($this->predicate, $this->detailFactory));
+        return new RawMatchesOffset($this->detailFactory->mapToDetailObjectsFiltered($this->base->matchAllOffsets(), $this->predicate));
     }
 
     private function removeOffsets(array $filterMatches): array

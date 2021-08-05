@@ -2,16 +2,12 @@
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
-use TRegx\CleanRegex\Internal\Match\Predicate;
-use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
-use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
 
 class RawMatchesOffset implements GroupAware
 {
     /** @var array */
-    private $matches;
+    public $matches;
 
     public function __construct(array $matches)
     {
@@ -26,15 +22,6 @@ class RawMatchesOffset implements GroupAware
     public function getCount(): int
     {
         return \count($this->matches[0]);
-    }
-
-    public function getDetailObjects(DetailObjectFactory $factory): array
-    {
-        $matchObjects = [];
-        foreach ($this->matches[0] as $index => $firstWhole) {
-            $matchObjects[$index] = $factory->create($index, new RawMatchesToMatchAdapter($this, $index), new EagerMatchAllFactory($this));
-        }
-        return $matchObjects;
     }
 
     /**
@@ -163,16 +150,6 @@ class RawMatchesOffset implements GroupAware
             [$text, $offset] = $match[$index];
             return $text;
         }, $this->matches));
-    }
-
-    public function filterMatchesByDetailObjects(Predicate $predicate, DetailObjectFactory $factory): array
-    {
-        $matchObjects = $this->getDetailObjects($factory);
-        $filteredMatches = \array_filter($matchObjects, [$predicate, 'test']);
-
-        return \array_map(static function (array $match) use ($filteredMatches) {
-            return \array_intersect_key($match, $filteredMatches);
-        }, $this->matches);
     }
 
     /**

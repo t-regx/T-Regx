@@ -22,6 +22,8 @@ class MatchStream implements Stream
     private $userData;
     /** @var MatchAllFactory */
     private $allFactory;
+    /** @var DetailObjectFactory */
+    private $detailObjects;
 
     public function __construct(StreamBase $stream, Subjectable $subjectable, UserData $userData, MatchAllFactory $allFactory)
     {
@@ -29,11 +31,15 @@ class MatchStream implements Stream
         $this->subjectable = $subjectable;
         $this->userData = $userData;
         $this->allFactory = $allFactory;
+        $this->detailObjects = new DetailObjectFactory($this->subjectable, $this->userData);
     }
 
+    /**
+     * @return Detail[]
+     */
     public function all(): array
     {
-        return $this->stream->all()->getDetailObjects(new DetailObjectFactory($this->subjectable, $this->userData));
+        return $this->detailObjects->mapToDetailObjects($this->stream->all());
     }
 
     public function first(): Detail
