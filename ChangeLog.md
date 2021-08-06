@@ -4,9 +4,16 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.13.1
+---------------
+
 * Bug fixes
     * Fixed a bug when using `match()->fluent()->first()` exposed a false-negative in `hasGroup()` from PHP.
     * Fixed a bug when using `match()->group()->fluent()->first()` exposed a false-negative in `hasGroup()` from PHP.
+* Other
+    * Internal implementation revamp
 
 Added in 0.13.0
 ---------------
