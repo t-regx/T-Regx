@@ -3,12 +3,11 @@
 There are a few rules that we believe must be obeyed, while developing and maintaining T-Regx:
 
 - Lack of fake TDD
-- Lack of inconsistencies
+- Minimisation of inconsistencies
 - Simple and clean design
 - Type-safety
-- Strictness of types (for example don't allow `int` where `string` is expected)
 - Lack of unnecessary performance overhead
-- Preference of exceptions over defaults, `null`s, warnings, magic values or false-positives.
+- Preference of exceptions over: defaults, `null`s, warnings, magic values or false-positives.
 
 ## Fake TDD
 
@@ -35,7 +34,7 @@ T-Regx contributors must take for granted that:
 - **There is no automatic tool that can tell you whether a file is tested.** You need to read the tests, understand what
   parts are covered and what not.
 - There is no rule, so that each `Foo` class should have a corresponding `FooTest` class. You should choose your tests
-  accordingly.
+  accordingly. Surprising, I know.
 
 ### Where to place new tests
 
@@ -46,31 +45,28 @@ Currently, we have 4 roots for automatic tests in T-Regx:
     - Ensure that each dependency is integrated properly with other dependencies.
 
   Rules:
-    - There should be as little tests in this category as possible (preferably 1 per functionality). More throughout
-      testcases should be in `Unit` or `Integration`.
-    - Each test-case must be created from `pattern()` function or one of `Pattern` factory methods.
+  - There should be as little tests in this category as possible (preferably 1 per functionality). More throughout
+    testcases should be in `Unit` or `Interaction`.
+  - Each test-case must be created from `pattern()` function or one of `Pattern` factory methods.
 
 - `Interaction` - You'd like to test behaviour - then test only the part of your interface that's relevant to the
   feature domain, and not each element separately - write the smallest tests possible. Try to keep coupling of tests
   with logic as low as possible.
 
   Rules:
-    - If possible, any dependencies should be real instances, instead of fakes/mocks. If instantiating becomes too
-      complicated, occasional fakes/mocks are allowed, to make tests easier to read and edit.
+  - If possible, any dependencies should be real instances, instead of fakes. If instantiating becomes too complicated,
+    occasional fakes are allowed, to make tests easier to read and edit.
 
-- `Unit` - Basic unit test. This is the category that the coverage is measured against (if there are no tests for a
-  class in this category, it's as thought it's not covered). Simply speaking, every class with logic/code should have a
-  test in `Unit` category.
-
-  Rules:
-    - 100% of dependencies must be faked/mocked. Only a change in the tested class can cause the test to fail.
+- `Unit` - This is the category that the coverage is measured against (if there are no tests for a class in this
+  category, it's as thought it's not covered). Rules:
+  - 100% of dependencies must be faked. Only a change in the tested class can cause the test to fail.
 
 - `Functional` - tests in `Functional` cover T-Regx's contract with PHP methods, errors, warnings, etc.
 
   Rules:
-    - Tests for breaking changes between PHP versions should be in `Functional`
-    - Tests for `preg_` and `preg::` should be in `Functional`
-    - Tests for reaction of T-Regx on warnings, notices, errors, fatals and
+  - Tests for breaking changes between PHP versions should be in `Functional`
+  - Tests for `preg_` and `preg::` should be in `Functional`
+  - Tests for reaction of T-Regx on warnings, notices, errors, fatals and
 
 ## Avoid inconsistencies
 
