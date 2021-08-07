@@ -6,8 +6,6 @@ use TRegx\CleanRegex\Internal\Integer;
 
 class MatchIntStream implements Stream
 {
-    use PreservesKey;
-
     /** @var StreamBase */
     private $stream;
 
@@ -32,5 +30,11 @@ class MatchIntStream implements Stream
             return $text;
         }
         throw IntegerFormatException::forMatch($text);
+    }
+
+    public function firstKey(): int
+    {
+        $this->stream->first()->getText();
+        return $this->stream->firstKey();
     }
 }

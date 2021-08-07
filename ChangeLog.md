@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Bug fixes
+    * Fixed a bug when using `match()->asInt()->keys()->first()` malformed integers would throw `NumberFormatException`.
 
 Added in 0.13.1
 ---------------

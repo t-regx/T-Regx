@@ -3,7 +3,6 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\AllStreamBase;
-use Test\Utils\Impl\FirstKeyStreamBase;
 use Test\Utils\Impl\FirstStreamBase;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream;
@@ -63,16 +62,16 @@ class MatchIntStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldDelegate_firstKey()
+    public function shouldNotDelegate_firstKey()
     {
         // given
-        $stream = new MatchIntStream(new FirstKeyStreamBase(123));
+        $stream = new MatchIntStream(new FirstStreamBase(2, new RawMatchOffset([['192', 1]], 10)));
 
         // when
         $firstKey = $stream->firstKey();
 
         // then
-        $this->assertSame(123, $firstKey);
+        $this->assertSame(2, $firstKey);
     }
 
     /**
