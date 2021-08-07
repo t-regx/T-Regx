@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.13.2
+---------------
+
 * Bug fixes
     * Fixed a bug when using `match()->asInt()->keys()->first()` malformed integers would throw `NumberFormatException`.
     * Fixed a bug when using `fluent()->keys()->keys()` (double `keys()`) then T-Regx exceptions wouldn't have been
