@@ -118,4 +118,17 @@ class AbstractMatchPatternTest extends TestCase
         // then
         $this->assertEquals(1, $key);
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_keys_keys_first_OnUnmatchedSubject()
+    {
+        // then
+        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched');
+
+        // when
+        pattern('Foo')->match('Bar')->asInt()->keys()->keys()->first();
+    }
 }

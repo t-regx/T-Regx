@@ -4,7 +4,6 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\AllStream;
 use Test\Utils\Impl\FirstKeyStream;
-use Test\Utils\Impl\ThrowStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeysStream;
 
 /**
@@ -48,7 +47,7 @@ class KeysStreamTest extends TestCase
     public function shouldReturn_firstKey_beAlwaysZero()
     {
         // given
-        $stream = new KeysStream(new ThrowStream());
+        $stream = new KeysStream(new FirstKeyStream(123));
 
         // when
         $firstKey = $stream->firstKey();

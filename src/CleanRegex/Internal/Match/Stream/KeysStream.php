@@ -23,6 +23,7 @@ class KeysStream implements Stream
 
     public function firstKey(): int
     {
+        $this->stream->firstKey();
         return 0;
     }
 }
