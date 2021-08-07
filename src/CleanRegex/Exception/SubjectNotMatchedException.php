@@ -2,10 +2,9 @@
 namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupOffsetMessage;
+use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupOffsetSubjectMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupSubjectMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstTripleSubjectMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstTupleSubjectMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\NthGroupMessage;
@@ -39,14 +38,9 @@ class SubjectNotMatchedException extends \Exception implements PatternException
         return self::withMessage(new NthGroupMessage($group, $index), $subjectable);
     }
 
-    public static function forFirstOffset(Subjectable $subjectable): self
-    {
-        return self::withMessage(new FirstMatchOffsetMessage(), $subjectable);
-    }
-
     public static function forFirstGroupOffset(Subjectable $subjectable, GroupKey $group): self
     {
-        return self::withMessage(new FirstGroupOffsetMessage($group), $subjectable);
+        return self::withMessage(new FirstGroupOffsetSubjectMessage($group), $subjectable);
     }
 
     public static function forFirstGroup(Subjectable $subjectable, GroupKey $group): self

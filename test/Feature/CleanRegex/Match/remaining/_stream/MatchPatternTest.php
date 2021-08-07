@@ -54,7 +54,6 @@ class MatchPatternTest extends TestCase
         $firstKey = pattern('\w+')->match('One Two Three')
             ->remaining(Functions::oneOf(['Two', 'Three']))
             ->offsets()
-            ->fluent()
             ->keys()
             ->first();
 
@@ -71,7 +70,6 @@ class MatchPatternTest extends TestCase
         $keys = pattern('\w+')->match('One Two Three')
             ->remaining(Functions::oneOf(['Two', 'Three']))
             ->offsets()
-            ->fluent()
             ->keys()
             ->all();
 

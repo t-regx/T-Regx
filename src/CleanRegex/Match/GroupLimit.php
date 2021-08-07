@@ -24,6 +24,7 @@ use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupIntStream;
+use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupOffsetStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
@@ -176,9 +177,11 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         }
     }
 
-    public function offsets(): OffsetLimit
+    public function offsets(): FluentMatchPattern
     {
-        return new OffsetLimit($this->base, $this->groupAware, $this->groupId, false);
+        return new FluentMatchPattern(
+            new MatchGroupOffsetStream($this->base, $this->groupId, $this->matchAllFactory),
+            new ThrowInternalStreamWorker());
     }
 
     public function fluent(): FluentMatchPattern

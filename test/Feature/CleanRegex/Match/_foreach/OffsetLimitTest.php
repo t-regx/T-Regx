@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\_foreach;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\MatchPattern;
+use function pattern;
 
 /**
  * @coversNothing
@@ -15,10 +15,11 @@ class OffsetLimitTest extends TestCase
     public function shouldIterateMatchOffset()
     {
         // given
+        $match = pattern('\d+([cm]?m)')->match('14cm 127mm 18m');
         $result = [];
 
         // when
-        foreach ($this->matchGroup()->offsets() as $offset) {
+        foreach ($match->offsets() as $offset) {
             $result[] = $offset;
         }
 
@@ -32,19 +33,15 @@ class OffsetLimitTest extends TestCase
     public function shouldIterateMatchGroupOffset()
     {
         // given
+        $group = pattern('\d+([cm]?m)')->match('14cm 127mm 18m')->group(1);
         $result = [];
 
         // when
-        foreach ($this->matchGroup()->group(1)->offsets() as $offset) {
+        foreach ($group->offsets() as $offset) {
             $result[] = $offset;
         }
 
         // then
         $this->assertSame([2, 8, 13], $result);
-    }
-
-    private function matchGroup(): MatchPattern
-    {
-        return pattern('\d+([cm]?m)')->match('14cm 127mm 18m');
     }
 }

@@ -131,10 +131,10 @@ class AbstractMatchPatternTest extends TestCase
         $this->assertSame(2, $this->match()->group(0)->offsets()->first());
         $this->assertSame(2, $this->match()->offsets()->first());
 
-        $this->assertSame(2, $this->match()->offsets()->fluent()->first());
+        $this->assertSame(2, $this->match()->offsets()->first());
         $this->assertSame('123', $this->match()->group(0)->fluent()->first()->text());
-        $this->assertSame(0, $this->match()->offsets()->fluent()->keys()->first());
-        $this->assertSame(2, $this->match()->group(0)->offsets()->fluent()->first());
+        $this->assertSame(0, $this->match()->offsets()->keys()->first());
+        $this->assertSame(2, $this->match()->group(0)->offsets()->first());
     }
 
     private function match(): MatchPattern

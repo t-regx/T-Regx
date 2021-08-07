@@ -11,6 +11,7 @@ use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\AsIntStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\MatchStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\NextStreamWorkerDecorator;
+use TRegx\CleanRegex\Internal\Factory\Worker\OffsetsWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
@@ -24,6 +25,7 @@ use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
+use TRegx\CleanRegex\Internal\Match\Stream\OffsetLimitStream;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
 use TRegx\CleanRegex\Internal\MatchPatternHelpers;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
@@ -165,9 +167,11 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
         return new GroupLimit($this->base, $this->groupAware, GroupKey::of($nameOrIndex));
     }
 
-    public function offsets(): OffsetLimit
+    public function offsets(): FluentMatchPattern
     {
-        return new OffsetLimit($this->base, $this->groupAware, new GroupIndex(0), true);
+        return new FluentMatchPattern(
+            new OffsetLimitStream($this->base, new GroupIndex(0), $this->groupAware),
+            new NextStreamWorkerDecorator(new MatchStreamWorker(), new OffsetsWorker($this->base)));
     }
 
     abstract public function count(): int;
