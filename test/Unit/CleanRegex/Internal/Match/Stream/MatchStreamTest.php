@@ -3,7 +3,6 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\AllStreamBase;
-use Test\Utils\Impl\FirstKeyStreamBase;
 use Test\Utils\Impl\FirstStreamBase;
 use Test\Utils\Impl\ThrowFactory;
 use Test\Utils\Impl\ThrowSubject;
@@ -58,13 +57,13 @@ class MatchStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = $this->matchStream(new FirstKeyStreamBase(123));
+        $stream = $this->matchStream($this->streamFirstAndKey('192', 2));
 
         // when
-        $firstKey = $stream->firstKey();
+        $key = $stream->firstKey();
 
         // then
-        $this->assertSame(123, $firstKey);
+        $this->assertSame(0, $key);
     }
 
     /**

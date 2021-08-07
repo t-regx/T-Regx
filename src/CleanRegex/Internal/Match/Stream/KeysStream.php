@@ -3,6 +3,8 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 class KeysStream implements Stream
 {
+    use ListStream;
+
     /** @var Stream */
     private $stream;
 
@@ -11,19 +13,13 @@ class KeysStream implements Stream
         $this->stream = $stream;
     }
 
-    public function all(): array
+    protected function entries(): array
     {
         return \array_keys($this->stream->all());
     }
 
-    public function first()
+    protected function firstValue()
     {
         return $this->stream->firstKey();
-    }
-
-    public function firstKey(): int
-    {
-        $this->stream->firstKey();
-        return 0;
     }
 }

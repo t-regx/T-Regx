@@ -14,6 +14,8 @@ use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 
 class MatchGroupIntStream implements Stream
 {
+    use ListStream;
+
     /** @var Base */
     private $base;
     /** @var GroupKey */
@@ -28,14 +30,11 @@ class MatchGroupIntStream implements Stream
         $this->allFactory = $allFactory;
     }
 
-    /**
-     * @return int[]
-     */
-    public function all(): array
+    protected function entries(): array
     {
-        $rawMatchesOffset = $this->base->matchAllOffsets();
-        if ($rawMatchesOffset->hasGroup($this->groupId->nameOrIndex())) {
-            return \array_map([$this, 'parseIntegerOptional'], $rawMatchesOffset->getGroupTexts($this->groupId->nameOrIndex()));
+        $matches = $this->base->matchAllOffsets();
+        if ($matches->hasGroup($this->groupId->nameOrIndex())) {
+            return \array_map([$this, 'parseIntegerOptional'], $matches->getGroupTexts($this->groupId->nameOrIndex()));
         }
         throw new NonexistentGroupException($this->groupId);
     }
@@ -48,42 +47,27 @@ class MatchGroupIntStream implements Stream
         return $this->parseInteger($text);
     }
 
-    public function first(): int
-    {
-        [$firstKey, $firstValue] = $this->firstTuple();
-        return $firstValue;
-    }
-
-    public function firstKey(): int
-    {
-        [$firstKey, $firstValue] = $this->firstTuple();
-        return $firstKey;
-    }
-
-    private function firstTuple(): array
+    protected function firstValue(): int
     {
         $match = $this->base->matchOffset();
-        $groupKey = $match->getIndex();
-        $rawMatchOffset = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, $groupKey);
-        if (!$rawMatchOffset->hasGroup($this->groupId->nameOrIndex())) {
+        $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, $match->getIndex());
+        if (!$polyfill->hasGroup($this->groupId->nameOrIndex())) {
             throw new NonexistentGroupException($this->groupId);
         }
         if (!$match->matched()) {
             throw SubjectNotMatchedException::forFirstGroup($this->base, $this->groupId);
         }
-        if (!$rawMatchOffset->isGroupMatched($this->groupId->nameOrIndex())) {
+        if (!$polyfill->isGroupMatched($this->groupId->nameOrIndex())) {
             throw GroupNotMatchedException::forFirst($this->base, $this->groupId);
         }
-        $groupValue = $rawMatchOffset->getGroup($this->groupId->nameOrIndex());
-        $this->parseInteger($groupValue);
-        return [$groupKey, $groupValue];
+        return $this->parseInteger($match->getGroup($this->groupId->nameOrIndex()));
     }
 
-    private function parseInteger(string $text): int
+    private function parseInteger(string $string): int
     {
-        if (Integer::isValid($text)) {
-            return $text;
+        if (Integer::isValid($string)) {
+            return $string;
         }
-        throw IntegerFormatException::forGroup($this->groupId, $text);
+        throw IntegerFormatException::forGroup($this->groupId, $string);
     }
 }

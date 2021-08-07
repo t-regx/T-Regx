@@ -16,7 +16,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_first_OnUnmatchedSubject()
+    public function shouldThrow_first_OnUnmatchedSubject()
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -29,7 +29,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_nth_OnUnmatchedSubject()
+    public function shouldThrow_nth_OnUnmatchedSubject()
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -42,7 +42,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_map_first_OnUnmatchedSubject()
+    public function shouldThrow_map_first_OnUnmatchedSubject()
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -55,7 +55,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_map_nth_OnUnmatchedSubject()
+    public function shouldThrow_map_nth_OnUnmatchedSubject()
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -68,7 +68,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_filter_first()
+    public function shouldThrow_filter_first()
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -81,7 +81,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_filter_nth()
+    public function shouldThrow_filter_nth()
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -94,7 +94,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_nth()
+    public function shouldThrow_nth()
     {
         // then
         $this->expectException(NoSuchNthElementException::class);
@@ -107,7 +107,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_findFirst_orThrow_WithCustomException()
+    public function shouldThrow_findFirst_orThrow_WithCustomException()
     {
         try {
             // when
@@ -121,7 +121,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_findNth_orThrow_WithCustomException()
+    public function shouldThrow_findNth_orThrow_WithCustomException()
     {
         try {
             // when

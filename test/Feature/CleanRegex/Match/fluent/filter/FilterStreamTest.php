@@ -78,7 +78,7 @@ class FilterStreamTest extends TestCase
         $key = pattern('\w+')->match('Foo, Bar, Dor')->fluent()->filter(Functions::equals('Dor'))->keys()->first();
 
         // then
-        $this->assertSame(2, $key);
+        $this->assertSame(0, $key);
     }
 
     /**

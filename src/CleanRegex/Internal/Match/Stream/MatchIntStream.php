@@ -6,6 +6,8 @@ use TRegx\CleanRegex\Internal\Integer;
 
 class MatchIntStream implements Stream
 {
+    use ListStream;
+
     /** @var StreamBase */
     private $stream;
 
@@ -14,12 +16,12 @@ class MatchIntStream implements Stream
         $this->stream = $stream;
     }
 
-    public function all(): array
+    protected function entries(): array
     {
         return \array_map([$this, 'parseInteger'], $this->stream->all()->getTexts());
     }
 
-    public function first(): int
+    protected function firstValue(): int
     {
         return $this->parseInteger($this->stream->first()->getText());
     }
@@ -30,11 +32,5 @@ class MatchIntStream implements Stream
             return $text;
         }
         throw IntegerFormatException::forMatch($text);
-    }
-
-    public function firstKey(): int
-    {
-        $this->stream->first()->getText();
-        return $this->stream->firstKey();
     }
 }

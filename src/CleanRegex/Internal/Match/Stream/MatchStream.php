@@ -12,7 +12,7 @@ use TRegx\CleanRegex\Match\Details\MatchDetail;
 
 class MatchStream implements Stream
 {
-    use PreservesKey;
+    use ListStream;
 
     /** @var StreamBase */
     private $stream;
@@ -34,15 +34,12 @@ class MatchStream implements Stream
         $this->detailObjects = new DetailObjectFactory($this->subjectable, $this->userData);
     }
 
-    /**
-     * @return Detail[]
-     */
-    public function all(): array
+    protected function entries(): array
     {
         return $this->detailObjects->mapToDetailObjects($this->stream->all());
     }
 
-    public function first(): Detail
+    protected function firstValue(): Detail
     {
         return MatchDetail::create($this->subjectable,
             $this->stream->firstKey(),

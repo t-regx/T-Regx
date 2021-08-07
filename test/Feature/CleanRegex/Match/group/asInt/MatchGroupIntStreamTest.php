@@ -224,6 +224,18 @@ class MatchGroupIntStreamTest extends TestCase
         $key = pattern('(\d+)')->match('90 60 75 85')->remaining(Functions::equals('75'))->group(1)->asInt()->keys()->first();
 
         // then
-        $this->assertSame(2, $key);
+        $this->assertSame(0, $key);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_remaining_all_keys(): void
+    {
+        // when
+        $key = pattern('(\d+)')->match('90 60 75 85')->remaining(Functions::oneOf(['60', '85']))->group(1)->asInt()->keys()->all();
+
+        // then
+        $this->assertSame([0, 1], $key);
     }
 }

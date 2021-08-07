@@ -4,7 +4,6 @@ namespace Test\Feature\TRegx\CleanRegex\Match\remaining;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Match\Details\Detail;
 
 /**
  * @coversNothing
@@ -56,9 +55,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->remaining(function (Detail $detail) {
-                return strlen($detail) === 5;
-            })
+            ->remaining(Functions::oneOf(['First', 'Third', 'Fifth']))
             ->all();
 
         // then
@@ -72,9 +69,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->remaining(function (Detail $detail) {
-                return strlen($detail) === 5;
-            })
+            ->remaining(Functions::oneOf(['First', 'Third', 'Fifth']))
             ->only(2);
 
         // then
@@ -88,9 +83,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->remaining(function (Detail $detail) {
-                return strlen($detail) === 5;
-            })
+            ->remaining(Functions::oneOf(['First', 'Third', 'Fifth']))
             ->only(1);
 
         // then
@@ -170,5 +163,20 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertSame([0, 10], iterator_to_array($iterator));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_asInt_all()
+    {
+        // given
+        $subject = "I'll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.";
+
+        // when
+        $integers = pattern('\d+')->match($subject)->remaining(Functions::oneOf(['6', '45']))->asInt()->all();
+
+        // then
+        $this->assertSame([6, 45], $integers);
     }
 }

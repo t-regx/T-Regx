@@ -5,11 +5,14 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Internal\Model\GroupHasAware;
 
 class OffsetLimitStream implements Stream
 {
+    use ListStream;
+
     /** @var Base */
     private $base;
     /** @var GroupKey */
@@ -24,7 +27,7 @@ class OffsetLimitStream implements Stream
         $this->groupAware = $groupAware;
     }
 
-    public function all(): array
+    protected function entries(): array
     {
         $matches = $this->base->matchAllOffsets();
         if (!$matches->hasGroup($this->groupId->nameOrIndex())) {
@@ -33,25 +36,13 @@ class OffsetLimitStream implements Stream
         return $matches->getLimitedGroupOffsets($this->groupId->nameOrIndex(), -1);
     }
 
-    public function first(): int
-    {
-        [$first, $firstKey] = $this->getFirstAndKey();
-        return $first;
-    }
-
-    public function firstKey(): int
-    {
-        [$first, $firstKey] = $this->getFirstAndKey();
-        return $firstKey;
-    }
-
-    private function getFirstAndKey(): array
+    protected function firstValue(): int
     {
         $rawMatch = $this->base->matchOffset();
         if ($rawMatch->hasGroup($this->groupId->nameOrIndex())) {
             $group = $rawMatch->getGroupByteOffset($this->groupId->nameOrIndex());
             if ($group !== null) {
-                return [$group, $rawMatch->getIndex()];
+                return $group;
             }
             throw new NoFirstStreamException();
         }

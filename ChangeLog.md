@@ -8,6 +8,9 @@ Incoming
     * Fixed a bug when using `match()->asInt()->keys()->first()` malformed integers would throw `NumberFormatException`.
     * Fixed a bug when using `fluent()->keys()->keys()` (double `keys()`) then T-Regx exceptions wouldn't have been
       thrown.
+* Brekaing changes
+    * Previously `remaining()` and `filter()` would leave a resulting array with keys that aren't exactly sequential,
+      giving the impression the iterated collection is not a list. Now it's fixed, so the resulting array is indexed.
 
 Added in 0.13.1
 ---------------

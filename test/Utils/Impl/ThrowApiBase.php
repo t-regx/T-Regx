@@ -1,7 +1,9 @@
 <?php
 namespace Test\Utils\Impl;
 
+use AssertionError;
 use Test\Utils\Internal;
+use Throwable;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -19,27 +21,27 @@ class ThrowApiBase extends ApiBase
 
     public function getPattern(): Definition
     {
-        throw new \Exception();
+        throw $this->fail();
     }
 
     public function match(): RawMatch
     {
-        throw new \Exception();
+        throw $this->fail();
     }
 
     public function matchOffset(): RawMatchOffset
     {
-        throw new \Exception();
+        throw $this->fail();
     }
 
     public function matchAll(): RawMatches
     {
-        throw new \Exception();
+        throw $this->fail();
     }
 
     public function matchAllOffsets(): RawMatchesOffset
     {
-        throw new \Exception();
+        throw $this->fail();
     }
 
     public function getUserData(): UserData
@@ -49,6 +51,11 @@ class ThrowApiBase extends ApiBase
 
     public function getSubject(): string
     {
-        throw new \Exception();
+        throw $this->fail();
+    }
+
+    private function fail(): Throwable
+    {
+        return new AssertionError("Failed to assert that ApiBase wasn't used");
     }
 }

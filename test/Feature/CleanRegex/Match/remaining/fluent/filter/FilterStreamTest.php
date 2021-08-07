@@ -85,7 +85,7 @@ class FilterStreamTest extends TestCase
             ->first();
 
         // then
-        $this->assertSame(1, $key);
+        $this->assertSame(0, $key);
     }
 
     /**
@@ -102,6 +102,6 @@ class FilterStreamTest extends TestCase
             ->first();
 
         // then
-        $this->assertSame(4, $key);
+        $this->assertSame(0, $key);
     }
 }

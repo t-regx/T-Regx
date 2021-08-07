@@ -24,7 +24,7 @@ class MatchPatternTest extends TestCase
         }
 
         // then
-        $this->assertSame(['127', '0', '0', '1'], $result);
+        $this->assertSame(['127', '0', '1', '2'], $result);
     }
 
     /**
@@ -32,16 +32,11 @@ class MatchPatternTest extends TestCase
      */
     public function shouldIterateMatch_asInt()
     {
-        // given
-        $result = [];
-
         // when
-        foreach ($this->match()->asInt() as $digit) {
-            $result[] = $digit;
-        }
+        $result = \iterator_to_array($this->match()->asInt());
 
         // then
-        $this->assertSame([127, 0, 0, 1], $result);
+        $this->assertSame([127, 0, 1, 2], $result);
     }
 
     /**
@@ -53,16 +48,16 @@ class MatchPatternTest extends TestCase
         $result = [];
 
         // when
-        foreach ($this->match()->remaining(Functions::constant(true)) as $match) {
+        foreach ($this->match()->remaining(Functions::oneOf(['127', '1'])) as $match) {
             $result[] = $match->text();
         }
 
         // then
-        $this->assertSame(['127', '0', '0', '1'], $result);
+        $this->assertSame(['127', '1'], $result);
     }
 
     private function match(): MatchPattern
     {
-        return pattern('(\d+)')->match('127.0.0.1');
+        return pattern('\d+')->match('127.0.1.2');
     }
 }

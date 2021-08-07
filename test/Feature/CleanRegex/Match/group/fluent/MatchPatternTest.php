@@ -43,7 +43,7 @@ class MatchPatternTest extends TestCase
             ->all();
 
         // then
-        $this->assertSameMatches(['mm', 2 => 'm', 3 => 'cm'], $groups);
+        $this->assertSameMatches(['mm', 'm', 'cm'], $groups);
     }
 
     /**
@@ -54,14 +54,14 @@ class MatchPatternTest extends TestCase
         // when
         $groups = pattern('\d+(?<unit>kg|[cm]?m)')
             ->match('15mm 12kg 16m 17cm 27kg')
-            ->remaining(Functions::equals('16m'))
+            ->remaining(Functions::oneOf(['12kg', '16m', '27kg']))
             ->group('unit')
             ->fluent()
             ->keys()
             ->all();
 
         // then
-        $this->assertSame([2], $groups);
+        $this->assertSame([0, 1, 2], $groups);
     }
 
     /**
@@ -79,7 +79,7 @@ class MatchPatternTest extends TestCase
             ->first();
 
         // then
-        $this->assertSame(2, $groups);
+        $this->assertSame(0, $groups);
     }
 
     /**

@@ -31,6 +31,38 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldReturn_offsets_fluent_first_onNotMatchingSubject()
+    {
+        // given
+        $pattern = $this->getMatchPattern('NOT MATCHING');
+
+        // then
+        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed has 0 element(s)');
+
+        // when
+        $pattern->offsets()->fluent()->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturn_offsets_fluent_keys_first_onNotMatchingSubject()
+    {
+        // given
+        $pattern = $this->getMatchPattern('NOT MATCHING');
+
+        // then
+        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed has 0 element(s)');
+
+        // when
+        $pattern->offsets()->fluent()->keys()->first();
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_offsets_fluent_first_forNonexistentGroup()
     {
         // given
@@ -94,6 +126,6 @@ class MatchPatternTest extends TestCase
 
     private function getMatchPattern($subject): MatchPattern
     {
-        return new MatchPattern(Internal::pattern("([A-Z])?([a-z']+)"), $subject);
+        return new MatchPattern(Internal::pattern("([A-Z])?([a-z]+)"), $subject);
     }
 }

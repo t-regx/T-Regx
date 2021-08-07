@@ -1,14 +1,14 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\FluentPredicate;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
-use TRegx\SafeRegex\Internal\Tuple;
 
 class FilterStream implements Stream
 {
+    use ListStream;
+
     /** @var MethodPredicate */
     private $predicate;
     /** @var Stream */
@@ -20,42 +20,30 @@ class FilterStream implements Stream
         $this->predicate = $predicate;
     }
 
-    public function all(): array
+    protected function entries(): array
     {
         return \array_filter($this->stream->all(), [$this->predicate, 'test']);
     }
 
-    public function first()
-    {
-        return Tuple::first($this->getFirstAndKey());
-    }
-
-    public function firstKey()
-    {
-        return Tuple::second($this->getFirstAndKey());
-    }
-
-    private function getFirstAndKey(): array
+    protected function firstValue()
     {
         $first = $this->stream->first();
         if ($this->predicate->test($first)) {
-            return [$first, $this->stream->firstKey()];
+            return $first;
         }
+        return $this->firstElement(\array_filter($this->shifted(), [$this->predicate, 'test']));
+    }
 
-        $all = $this->stream->all();
-        if (empty($all)) {
-            // @codeCoverageIgnoreStart
-            throw new InternalCleanRegexException();
-            // @codeCoverageIgnoreEnd
-        }
+    private function shifted(): array
+    {
+        return \array_slice($this->stream->all(), 1);
+    }
 
-        $allButFirst = \array_filter(\array_slice($all, 1, null, true), [$this->predicate, 'test']);
-
-        if (empty($allButFirst)) {
+    private function firstElement(array $elements)
+    {
+        if (empty($elements)) {
             throw new NoFirstStreamException();
         }
-        $value = \reset($allButFirst);
-        $key = \key($allButFirst);
-        return [$value, $key];
+        return \reset($elements);
     }
 }

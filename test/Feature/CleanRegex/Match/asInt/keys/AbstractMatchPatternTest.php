@@ -116,7 +116,7 @@ class AbstractMatchPatternTest extends TestCase
             ->first();
 
         // then
-        $this->assertEquals(1, $key);
+        $this->assertEquals(0, $key);
     }
 
     /**

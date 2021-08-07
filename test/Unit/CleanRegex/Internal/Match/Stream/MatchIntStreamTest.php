@@ -68,10 +68,10 @@ class MatchIntStreamTest extends TestCase
         $stream = new MatchIntStream(new FirstStreamBase(2, new RawMatchOffset([['192', 1]], 10)));
 
         // when
-        $firstKey = $stream->firstKey();
+        $key = $stream->firstKey();
 
         // then
-        $this->assertSame(2, $firstKey);
+        $this->assertSame(0, $key);
     }
 
     /**
@@ -104,6 +104,22 @@ class MatchIntStreamTest extends TestCase
 
         // when
         $stream->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_firstKey_forMalformedInteger()
+    {
+        // given
+        $stream = new MatchIntStream(new FirstStreamBase(1, new RawMatchOffset([['Foo', 1]], 1)));
+
+        // then
+        $this->expectException(IntegerFormatException::class);
+        $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer");
+
+        // when
+        $stream->firstKey();
     }
 
     private function matchesOffset(string $firstValue): RawMatchesOffset

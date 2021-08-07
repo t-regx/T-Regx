@@ -18,8 +18,7 @@ class ArrayOnlyStream implements Stream
 
     public function all(): array
     {
-        $mapper = $this->mapper;
-        return $mapper($this->stream->all());
+        return ($this->mapper)($this->stream->all());
     }
 
     public function first()

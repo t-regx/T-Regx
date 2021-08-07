@@ -15,12 +15,13 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class MatchGroupStream implements Stream
 {
+    use ListStream;
+
     /** @var Base */
     private $base;
     /** @var GroupAware */
@@ -38,10 +39,7 @@ class MatchGroupStream implements Stream
         $this->allFactory = $factory;
     }
 
-    /**
-     * @return Group[]
-     */
-    public function all(): array
+    protected function entries(): array
     {
         $matches = $this->base->matchAllOffsets();
         if (!$matches->hasGroup($this->groupId->nameOrIndex())) {
@@ -51,7 +49,8 @@ class MatchGroupStream implements Stream
             throw new UnmatchedStreamException();
         }
         $signatures = new ArraySignatures($matches->getGroupKeys());
-        $facade = new GroupFacade($this->base, $this->groupId, new MatchGroupFactoryStrategy(),
+        $facade = new GroupFacade($this->base, $this->groupId,
+            new MatchGroupFactoryStrategy(),
             new EagerMatchAllFactory($matches),
             new NotMatched($matches, $this->base),
             new FirstNamedGroup($signatures),
@@ -59,10 +58,17 @@ class MatchGroupStream implements Stream
         return $facade->createGroups($matches);
     }
 
-    public function first(): Group
+    protected function firstValue(): Group
     {
         $match = $this->base->matchOffset();
-        $this->validateGroupOrSubject($match);
+        if (!$match->hasGroup($this->groupId->nameOrIndex())) {
+            if (!$this->groupAware->hasGroup($this->groupId->nameOrIndex())) {
+                throw new NonexistentGroupException($this->groupId);
+            }
+        }
+        if (!$match->matched()) {
+            throw new UnmatchedStreamException();
+        }
         $false = new FalseNegative($match);
         $polyfill = new GroupPolyfillDecorator($false, $this->allFactory, 0);
         $signatures = new PerformanceSignatures($match, $this->groupAware);
@@ -72,25 +78,5 @@ class MatchGroupStream implements Stream
             new NotMatched($this->groupAware, $this->base),
             new FirstNamedGroup($signatures), $signatures);
         return $groupFacade->createGroup($polyfill, $false);
-    }
-
-    public function firstKey(): int
-    {
-        $match = $this->base->matchOffset();
-        $this->validateGroupOrSubject($match);
-        return $match->getIndex();
-    }
-
-    private function validateGroupOrSubject(RawMatchOffset $match): void
-    {
-        if ($match->hasGroup($this->groupId->nameOrIndex())) {
-            return;
-        }
-        if (!$this->groupAware->hasGroup($this->groupId->nameOrIndex())) {
-            throw new NonexistentGroupException($this->groupId);
-        }
-        if (!$match->matched()) {
-            throw new UnmatchedStreamException();
-        }
     }
 }
