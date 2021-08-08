@@ -31,65 +31,16 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFirst_emptyMatch()
-    {
-        // given
-        $pattern = new MatchPattern(Internal::pattern("9?(?=matching)"), 'Nice matching pattern');
-
-        // when
-        $first = $pattern->first();
-
-        // then
-        $this->assertSame('', $first);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetFirst_withCallback()
     {
         // given
         $pattern = $this->getMatchPattern('Nice matching pattern');
 
         // when
-        $first = $pattern->first('strRev');
+        $first = $pattern->first(Functions::letters());
 
         // then
-        $this->assertSame('eciN', $first);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetMatch_withDetails()
-    {
-        // given
-        $pattern = $this->getMatchPattern('Nice matching pattern');
-
-        // when
-        $pattern->first(function (Detail $detail) {
-            // then
-            $this->assertSame(0, $detail->index());
-            $this->assertSame('Nice matching pattern', $detail->subject());
-            $this->assertSame(['Nice', 'matching', 'pattern'], $detail->all());
-            $this->assertSame(['N'], $detail->groups()->texts());
-        });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotInvokeFirst_onNotMatchingSubject()
-    {
-        // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
-
-        // then
-        $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
-
-        // when
-        $pattern->first(Functions::fail());
+        $this->assertSame(['N', 'i', 'c', 'e'], $first);
     }
 
     /**
@@ -121,11 +72,29 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
-        $pattern->first('strRev');
+        $pattern->first(Functions::fail());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetMatch_withDetails()
+    {
+        // given
+        $pattern = $this->getMatchPattern('Nice matching pattern');
+
+        // when
+        $pattern->first(function (Detail $detail) {
+            // then
+            $this->assertSame(0, $detail->index());
+            $this->assertSame('Nice matching pattern', $detail->subject());
+            $this->assertSame(['Nice', 'matching', 'pattern'], $detail->all());
+            $this->assertSame(['N'], $detail->groups()->texts());
+        });
     }
 
     private function getMatchPattern($subject): MatchPattern
     {
-        return new MatchPattern(Internal::pattern("([A-Z])?[a-z']+"), $subject);
+        return new MatchPattern(Internal::pattern("([A-Z])?[a-z]+"), $subject);
     }
 }

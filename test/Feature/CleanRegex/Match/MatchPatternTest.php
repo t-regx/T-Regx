@@ -57,6 +57,18 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGet_first_empty()
+    {
+        // when
+        $text = pattern('(?<=")(?=")')->match('Foo, "", Bar')->first();
+
+        // then
+        $this->assertSame('', $text);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGet_first_withCallback()
     {
         // when
