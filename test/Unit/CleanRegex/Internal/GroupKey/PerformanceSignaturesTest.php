@@ -11,6 +11,9 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
 use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
+/**
+ * @covers \TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures
+ */
 class PerformanceSignaturesTest extends TestCase
 {
     /**
