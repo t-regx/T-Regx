@@ -16,7 +16,7 @@ use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFindFirst;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFirst;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacadeMatched;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
@@ -32,7 +32,6 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\PatternLimit;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\SafeRegex\Internal\Tuple;
 
 class GroupLimit implements PatternLimit, \IteratorAggregate
@@ -71,13 +70,12 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
             return $first->getGroup($this->groupId->nameOrIndex());
         }
         $signatures = new PerformanceSignatures($first, $this->groupAware);
-        $false = new FalseNegative($first);
-        $facade = new GroupFacade($this->base,
+        $facade = new GroupFacadeMatched($this->base,
             new MatchGroupFactoryStrategy(),
             $this->matchAllFactory,
-            new NotMatched($false, $this->base),
             new FirstNamedGroup($signatures),
             $signatures);
+        $false = new FalseNegative($first);
         return $consumer($facade->createGroup($this->groupId, $false, $false));
     }
 
