@@ -69,14 +69,13 @@ class MatchGroupStream implements Stream
         if (!$match->matched()) {
             throw new UnmatchedStreamException();
         }
-        $false = new FalseNegative($match);
-        $polyfill = new GroupPolyfillDecorator($false, $this->allFactory, 0);
         $signatures = new PerformanceSignatures($match, $this->groupAware);
         $groupFacade = new GroupFacade($this->base,
             new MatchGroupFactoryStrategy(),
             $this->allFactory,
             new NotMatched($this->groupAware, $this->base),
             new FirstNamedGroup($signatures), $signatures);
-        return $groupFacade->createGroup($this->groupId, $polyfill, $false);
+        $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0);
+        return $groupFacade->createGroup($this->groupId, $polyfill, $polyfill);
     }
 }
