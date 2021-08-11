@@ -53,6 +53,8 @@ class MatchDetail implements Detail
     private $signatures;
     /** @var GroupHandle */
     private $groupHandle;
+    /** @var GroupFacade */
+    private $groupFacade;
 
     private function __construct(
         Subjectable           $subjectable,
@@ -79,6 +81,9 @@ class MatchDetail implements Detail
         $this->userData = $userData;
         $this->signatures = $signatures;
         $this->groupHandle = new FirstNamedGroup($this->signatures);
+        $this->groupFacade = new GroupFacade($subjectable, $this->strategy, $this->allFactory,
+            new NotMatched($this->groupAware, $subjectable),
+            new FirstNamedGroup($this->signatures), $this->signatures);
     }
 
     public static function create(Subjectable     $subjectable, int $index, int $limit,
@@ -166,15 +171,7 @@ class MatchDetail implements Detail
         if (!$this->hasGroup($group->nameOrIndex())) {
             throw new NonexistentGroupException($group);
         }
-        return $this->getGroupFacade($group)->createGroup($this->usedForGroup, $this->matchEntry);
-    }
-
-    private function getGroupFacade(GroupKey $groupId): GroupFacade
-    {
-        return new GroupFacade($this->subjectable, $groupId, $this->strategy,
-            $this->allFactory,
-            new NotMatched($this->groupAware, $this->subjectable),
-            new FirstNamedGroup($this->signatures), $this->signatures);
+        return $this->groupFacade->createGroup($group, $this->usedForGroup, $this->matchEntry);
     }
 
     public function usingDuplicateName(): DuplicateName

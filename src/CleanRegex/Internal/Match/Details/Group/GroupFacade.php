@@ -30,15 +30,12 @@ class GroupFacade
     private $factoryStrategy;
     /** @var MatchAllFactory */
     private $allFactory;
-    /** @var GroupKey */
-    private $groupId;
     /** @var Signatures */
     private $signatures;
     /** @var NotMatched */
     private $notMatched;
 
     public function __construct(Subjectable          $subject,
-                                GroupKey             $groupId,
                                 GroupFactoryStrategy $factoryStrategy,
                                 MatchAllFactory      $allFactory,
                                 NotMatched           $notMatched,
@@ -49,74 +46,61 @@ class GroupFacade
         $this->groupHandle = $groupHandle;
         $this->factoryStrategy = $factoryStrategy;
         $this->allFactory = $allFactory;
-        $this->groupId = $groupId;
         $this->notMatched = $notMatched;
         $this->signatures = $signatures;
     }
 
-    /**
-     * @param RawMatchesOffset $matches
-     * @return Group[]
-     */
-    public function createGroups(RawMatchesOffset $matches): array
+    public function createGroups(GroupKey $group, RawMatchesOffset $matches): array
     {
-        return \iterator_to_array($this->groups($matches->getGroupTextAndOffsetAll($this->directIdentifier()), $matches));
+        return \iterator_to_array($this->groups($group, $matches->getGroupTextAndOffsetAll($this->groupHandle->groupHandle($group)), $matches));
     }
 
-    private function groups(array $group, RawMatchesOffset $matches): Generator
+    private function groups(GroupKey $groupKey, array $group, RawMatchesOffset $matches): Generator
     {
         foreach ($group as $index => [$text, $offset]) {
             $match = new RawMatchesToMatchAdapter($matches, $index);
-            if ($match->isGroupMatched($this->directIdentifier())) {
-                yield $index => $this->createdMatched($match, $text, $offset);
+            if ($match->isGroupMatched($this->groupHandle->groupHandle($groupKey))) {
+                yield $index => $this->createdMatched($groupKey, $match, $text, $offset);
             } else {
-                yield $index => $this->createUnmatched();
+                yield $index => $this->createUnmatched($groupKey);
             }
         }
     }
 
-    public function createGroup(UsedForGroup $forGroup, MatchEntry $entry): Group
+    public function createGroup(GroupKey $group, UsedForGroup $forGroup, MatchEntry $entry): Group
     {
-        if ($forGroup->isGroupMatched($this->directIdentifier())) {
-            [$text, $offset] = $forGroup->getGroupTextAndOffset($this->directIdentifier());
-            return $this->createdMatched($entry, $text, $offset);
+        if ($forGroup->isGroupMatched($this->groupHandle->groupHandle($group))) {
+            [$text, $offset] = $forGroup->getGroupTextAndOffset($this->groupHandle->groupHandle($group));
+            return $this->createdMatched($group, $entry, $text, $offset);
         }
-        return $this->createUnmatched();
+        return $this->createUnmatched($group);
     }
 
-    private function createdMatched(MatchEntry $entry, string $text, int $offset): MatchedGroup
+    private function createdMatched(GroupKey $group, MatchEntry $entry, string $text, int $offset): MatchedGroup
     {
         $groupEntry = new GroupEntry($text, $offset, $this->subject);
         return $this->factoryStrategy->createMatched(
             $this->subject,
-            $this->createGroupDetails(),
+            $this->createGroupDetails($group),
             $groupEntry,
             new SubstitutedGroup($entry, $groupEntry));
     }
 
-    private function createUnmatched(): NotMatchedGroup
+    private function createUnmatched(GroupKey $group): NotMatchedGroup
     {
         return $this->factoryStrategy->createUnmatched(
-            $this->createGroupDetails(),
-            new GroupExceptionFactory($this->subject, $this->groupId),
+            $this->createGroupDetails($group),
+            new GroupExceptionFactory($this->subject, $group),
             new NotMatchedOptionalWorker(
-                new GroupMessage($this->groupId),
+                new GroupMessage($group),
                 $this->subject,
                 $this->notMatched,
                 GroupNotMatchedException::class),
             $this->subject);
     }
 
-    private function createGroupDetails(): GroupDetails
+    private function createGroupDetails(GroupKey $group): GroupDetails
     {
-        return new GroupDetails($this->signatures->signature($this->groupId), $this->groupId, $this->allFactory);
-    }
-
-    /**
-     * @return string|int
-     */
-    private function directIdentifier()
-    {
-        return $this->groupHandle->groupHandle($this->groupId);
+        return new GroupDetails($this->signatures->signature($group), $group, $this->allFactory);
     }
 }

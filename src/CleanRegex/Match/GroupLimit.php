@@ -71,13 +71,13 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         }
         $signatures = new PerformanceSignatures($first, $this->groupAware);
         $false = new FalseNegative($first);
-        $facade = new GroupFacade($this->base, $this->groupId,
+        $facade = new GroupFacade($this->base,
             new MatchGroupFactoryStrategy(),
             $this->matchAllFactory,
             new NotMatched($false, $this->base),
             new FirstNamedGroup($signatures),
             $signatures);
-        return $consumer($facade->createGroup($false, $false));
+        return $consumer($facade->createGroup($this->groupId, $false, $false));
     }
 
     public function findFirst(callable $consumer): Optional

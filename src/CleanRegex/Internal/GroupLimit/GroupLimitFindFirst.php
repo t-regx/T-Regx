@@ -60,13 +60,13 @@ class GroupLimitFindFirst
     {
         $signatures = new PerformanceSignatures($match, $this->groupAware);
         $false = new FalseNegative($match);
-        $facade = new GroupFacade($this->base, $this->groupId,
+        $facade = new GroupFacade($this->base,
             new MatchGroupFactoryStrategy(),
             new LazyMatchAllFactory($this->base),
             new NotMatched($false, $this->base),
             new FirstNamedGroup($signatures),
             $signatures);
-        return new OptionalImpl($consumer($facade->createGroup($false, $false)));
+        return new OptionalImpl($consumer($facade->createGroup($this->groupId, $false, $false)));
     }
 
     private function notMatchedOptional(RawMatchOffset $first): EmptyOptional

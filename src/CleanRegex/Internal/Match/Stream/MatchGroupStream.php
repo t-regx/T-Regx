@@ -49,13 +49,13 @@ class MatchGroupStream implements Stream
             throw new UnmatchedStreamException();
         }
         $signatures = new ArraySignatures($matches->getGroupKeys());
-        $facade = new GroupFacade($this->base, $this->groupId,
+        $facade = new GroupFacade($this->base,
             new MatchGroupFactoryStrategy(),
             new EagerMatchAllFactory($matches),
             new NotMatched($matches, $this->base),
             new FirstNamedGroup($signatures),
             $signatures);
-        return $facade->createGroups($matches);
+        return $facade->createGroups($this->groupId, $matches);
     }
 
     protected function firstValue(): Group
@@ -72,11 +72,11 @@ class MatchGroupStream implements Stream
         $false = new FalseNegative($match);
         $polyfill = new GroupPolyfillDecorator($false, $this->allFactory, 0);
         $signatures = new PerformanceSignatures($match, $this->groupAware);
-        $groupFacade = new GroupFacade($this->base, $this->groupId,
+        $groupFacade = new GroupFacade($this->base,
             new MatchGroupFactoryStrategy(),
             $this->allFactory,
             new NotMatched($this->groupAware, $this->base),
             new FirstNamedGroup($signatures), $signatures);
-        return $groupFacade->createGroup($polyfill, $false);
+        return $groupFacade->createGroup($this->groupId, $polyfill, $false);
     }
 }

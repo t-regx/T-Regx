@@ -84,20 +84,14 @@ use TRegx\CleanRegex\Match\Details\Group\DuplicateNamedGroup;
  */
 class DuplicateName
 {
-    /** @var GroupAware */
-    private $groupAware;
     /** @var UsedForGroup */
     private $forGroup;
     /** @var MatchEntry */
     private $entry;
-    /** @var Subjectable */
-    private $subject;
-    /** @var GroupFactoryStrategy */
-    private $factory;
-    /** @var MatchAllFactory */
-    private $all;
-    /** @var Signatures */
-    private $signatures;
+    /** @var GroupFacade */
+    private $groupFacade;
+    /** @var GroupAware */
+    private $groupAware;
 
     public function __construct(GroupAware           $groupAware,
                                 UsedForGroup         $forGroup,
@@ -107,13 +101,11 @@ class DuplicateName
                                 MatchAllFactory      $allFactory,
                                 Signatures           $signatures)
     {
-        $this->groupAware = $groupAware;
         $this->forGroup = $forGroup;
         $this->entry = $entry;
-        $this->subject = $subject;
-        $this->factory = $factoryStrategy;
-        $this->all = $allFactory;
-        $this->signatures = $signatures;
+        $this->groupFacade = new GroupFacade($subject, $factoryStrategy, $allFactory,
+            new NotMatched($groupAware, $subject), new RuntimeNamedGroup(), $signatures);
+        $this->groupAware = $groupAware;
     }
 
     public function group(string $groupName): DuplicateNamedGroup
@@ -122,11 +114,7 @@ class DuplicateName
         if (!$this->groupAware->hasGroup($group->nameOrIndex())) {
             throw new NonexistentGroupException($group);
         }
-        $facade = new GroupFacade($this->subject, $group, $this->factory, $this->all,
-            new NotMatched($this->groupAware, $this->subject),
-            new RuntimeNamedGroup(),
-            $this->signatures);
-        return new DuplicateNamedGroupAdapter($groupName, $facade->createGroup($this->forGroup, $this->entry));
+        return new DuplicateNamedGroupAdapter($groupName, $this->groupFacade->createGroup($group, $this->forGroup, $this->entry));
     }
 
     public function get(string $groupName): string
