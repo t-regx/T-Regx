@@ -9,7 +9,7 @@ abstract class GroupName
     public static function isValid($nameOrIndex): bool
     {
         try {
-            GroupKey::of($nameOrIndex)->nameOrIndex();
+            GroupKey::of($nameOrIndex);
         } catch (InvalidArgumentException $exception) {
             return false;
         }
