@@ -6,11 +6,18 @@ Incoming
 
 * Soon
 
+Added in 0.13.3
+---------------
+
+* Bug fixes
+    * Fixed w bug where using `Detail.usingDuplicateName()` didn't throw `NonexistentGroupException`.
+
 Added in 0.13.2
 ---------------
 
 * Bug fixes
-    * Fixed a bug when using `match()->asInt()->keys()->first()` malformed integers would throw `NumberFormatException`.
+    * Fixed a bug when using `match()->asInt()->keys()->first()` malformed integers would throw
+      not `NumberFormatException`.
     * Fixed a bug when using `fluent()->keys()->keys()` (double `keys()`) then T-Regx exceptions wouldn't have been
       thrown.
 * Brekaing changes

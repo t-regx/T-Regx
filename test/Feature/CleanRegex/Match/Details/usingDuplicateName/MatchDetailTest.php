@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\usingDuplicateName;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 /**
@@ -143,5 +144,23 @@ class MatchDetailTest extends TestCase
             ['get'],
             ['matched'],
         ];
+    }
+
+    /**
+     * @test
+     * @dataProvider methods
+     * @param string $method
+     */
+    public function shouldThrowForMissingGroup(string $method)
+    {
+        // given
+        $detail = $this->detail();
+
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+
+        // when
+        $detail->usingDuplicateName()->$method('missing');
     }
 }

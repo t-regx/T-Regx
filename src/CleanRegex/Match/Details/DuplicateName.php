@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\DuplicateNamedGroupAdapter;
@@ -118,6 +119,9 @@ class DuplicateName
     public function group(string $groupName): DuplicateNamedGroup
     {
         $group = new GroupName($groupName);
+        if (!$this->groupAware->hasGroup($group->nameOrIndex())) {
+            throw new NonexistentGroupException($group);
+        }
         $facade = new GroupFacade($this->subject, $group, $this->factory, $this->all,
             new NotMatched($this->groupAware, $this->subject),
             new RuntimeNamedGroup(),
