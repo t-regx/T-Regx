@@ -36,6 +36,6 @@ class NotMatchedOptionalWorker implements OptionalWorker
 
     public function orThrow(?string $exceptionClassname): Throwable
     {
-        return $this->exceptionFactory->create($exceptionClassname ?? $this->fallbackClassname, $this->subjectable->getSubject());
+        return $this->exceptionFactory->create($exceptionClassname ?? $this->fallbackClassname, $this->subjectable);
     }
 }

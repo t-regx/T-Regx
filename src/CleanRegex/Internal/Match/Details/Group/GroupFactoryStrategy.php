@@ -14,8 +14,8 @@ interface GroupFactoryStrategy
                                   GroupEntry $groupEntry,
                                   SubstitutedGroup $substitutedGroup): MatchedGroup;
 
-    public function createUnmatched(GroupDetails $details,
-                                    GroupExceptionFactory $exceptionFactory,
+    public function createUnmatched(GroupDetails             $details,
+                                    GroupExceptionFactory    $exceptionFactory,
                                     NotMatchedOptionalWorker $optionalFactory,
-                                    string $subject): NotMatchedGroup;
+                                    Subjectable              $subject): NotMatchedGroup;
 }

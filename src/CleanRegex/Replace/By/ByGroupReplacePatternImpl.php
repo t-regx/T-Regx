@@ -22,6 +22,7 @@ use TRegx\CleanRegex\Internal\Replace\By\UnmatchedGroupStrategy;
 use TRegx\CleanRegex\Internal\Replace\Wrapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMatchRs;
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Replace\Callback\MatchGroupStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\GroupReplace;
@@ -32,7 +33,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
     private $fallbackReplacer;
     /** @var GroupKey */
     private $groupId;
-    /** @var string */
+    /** @var Subjectable */
     private $subject;
     /** @var PerformanceEmptyGroupReplace */
     private $performanceReplace;
@@ -45,7 +46,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
                                 PerformanceEmptyGroupReplace  $performanceReplace,
                                 ReplacePatternCallbackInvoker $replaceCallbackInvoker,
                                 GroupKey                      $groupId,
-                                string                        $subject,
+                                Subjectable                   $subject,
                                 Wrapper                       $middlewareMapper)
     {
         $this->fallbackReplacer = $fallbackReplacer;

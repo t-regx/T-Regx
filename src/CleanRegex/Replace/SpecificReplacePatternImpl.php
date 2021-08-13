@@ -23,7 +23,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
 {
     /** @var Definition */
     private $definition;
-    /** @var string */
+    /** @var Subjectable */
     private $subject;
     /** @var int */
     private $limit;
@@ -32,7 +32,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
     /** @var CountingStrategy */
     private $countingStrategy;
 
-    public function __construct(Definition $definition, string $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy)
+    public function __construct(Definition $definition, Subjectable $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy)
     {
         $this->definition = $definition;
         $this->subject = $subject;
@@ -48,7 +48,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
 
     public function withReferences(string $replacement): string
     {
-        $result = preg::replace($this->definition->pattern, $replacement, $this->subject, $this->limit, $replaced);
+        $result = preg::replace($this->definition->pattern, $replacement, $this->subject->getSubject(), $this->limit, $replaced);
         $this->countingStrategy->count($replaced);
         if ($replaced === 0) {
             return $this->substitute->substitute($this->subject) ?? $result;
@@ -90,6 +90,6 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
 
     public function getSubject(): string
     {
-        return $this->subject;
+        return $this->subject->getSubject();
     }
 }

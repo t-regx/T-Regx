@@ -4,6 +4,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Match;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 /**
@@ -17,7 +18,7 @@ class AbstractMatchPatternTest extends TestCase
     public function test_asInt_all()
     {
         // given
-        $pattern = new MatchPattern(Internal::pcre('/\d+/'), 'Foo 1 Bar 34 Lorem 42 Ipsum');
+        $pattern = new MatchPattern(Internal::pcre('/\d+/'), new Subject('Foo 1 Bar 34 Lorem 42 Ipsum'));
 
         // when
         $integers = $pattern->asInt()->all();
@@ -32,7 +33,7 @@ class AbstractMatchPatternTest extends TestCase
     public function test_asInt_first()
     {
         // given
-        $pattern = new MatchPattern(Internal::pcre('/\d+/'), 'Foo 1 Bar 34 Lorem 42 Ipsum');
+        $pattern = new MatchPattern(Internal::pcre('/\d+/'), new Subject('Foo 1 Bar 34 Lorem 42 Ipsum'));
 
         // when
         $integers = $pattern->asInt()->first();
@@ -47,7 +48,7 @@ class AbstractMatchPatternTest extends TestCase
     public function test_asInt_first_consumer()
     {
         // given
-        $pattern = new MatchPattern(Internal::pcre('/\d+/'), 'Foo 1 Bar 34 Lorem 42 Ipsum');
+        $pattern = new MatchPattern(Internal::pcre('/\d+/'), new Subject('Foo 1 Bar 34 Lorem 42 Ipsum'));
 
         // when
         $pattern->asInt()->first(function ($argument) {
@@ -61,7 +62,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrowOnInvalidInteger_asInt()
     {
         // given
-        $pattern = new MatchPattern(Internal::pcre('/\d+s?/'), 'One number 9 large, Two number 45s');
+        $pattern = new MatchPattern(Internal::pcre('/\d+s?/'), new Subject('One number 9 large, Two number 45s'));
 
         // then
         $this->expectException(IntegerFormatException::class);

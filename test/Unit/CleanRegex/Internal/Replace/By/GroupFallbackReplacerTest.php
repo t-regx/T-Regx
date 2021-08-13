@@ -141,7 +141,7 @@ class GroupFallbackReplacerTest extends TestCase
             new ThrowStrategy(CustomSubjectException::class, new ReplacementWithUnmatchedGroupMessage(new GroupIndex(1))));
     }
 
-    public function create($pattern, $subject): GroupFallbackReplacer
+    public function create(string $pattern, string $subject): GroupFallbackReplacer
     {
         return new GroupFallbackReplacer(
             Internal::pattern($pattern),
@@ -149,6 +149,6 @@ class GroupFallbackReplacerTest extends TestCase
             -1,
             new ConstantReturnStrategy('Subject not matched'),
             new IgnoreCounting(),
-            new ApiBase(Internal::pattern($pattern), $subject, new UserData()));
+            new ApiBase(Internal::pattern($pattern), new Subject($subject), new UserData()));
     }
 }

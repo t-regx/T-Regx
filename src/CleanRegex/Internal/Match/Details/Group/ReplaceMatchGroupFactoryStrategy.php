@@ -30,10 +30,10 @@ class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
         return new ReplaceMatchedGroup($subjectable, $details, $groupEntry, $substitutedGroup, $this->byteOffsetModification, $this->subjectModification);
     }
 
-    public function createUnmatched(GroupDetails $details,
-                                    GroupExceptionFactory $exceptionFactory,
+    public function createUnmatched(GroupDetails             $details,
+                                    GroupExceptionFactory    $exceptionFactory,
                                     NotMatchedOptionalWorker $optionalFactory,
-                                    string $subject): NotMatchedGroup
+                                    Subjectable              $subject): NotMatchedGroup
     {
         return new ReplaceNotMatchedGroup($details, $exceptionFactory, $optionalFactory, $subject);
     }

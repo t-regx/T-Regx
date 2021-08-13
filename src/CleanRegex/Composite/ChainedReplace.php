@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\ReplaceReferences;
@@ -14,12 +15,12 @@ class ChainedReplace
 {
     /** @var Definition[] */
     private $definitions;
-    /** @var string */
+    /** @var Subjectable */
     private $subject;
     /** @var SubjectRs */
     private $substitute;
 
-    public function __construct(array $definitions, string $subject, SubjectRs $substitute)
+    public function __construct(array $definitions, Subjectable $subject, SubjectRs $substitute)
     {
         $this->definitions = $definitions;
         $this->subject = $subject;
@@ -33,7 +34,7 @@ class ChainedReplace
 
     public function withReferences(string $replacement): string
     {
-        $subject = $this->subject;
+        $subject = $this->subject->getSubject();
         foreach ($this->definitions as $definition) {
             $subject = preg::replace($definition->pattern, $replacement, $subject);
         }
@@ -42,7 +43,7 @@ class ChainedReplace
 
     public function callback(callable $callback): string
     {
-        $subject = $this->subject;
+        $subject = $this->subject->getSubject();
         foreach ($this->definitions as $definition) {
             $subject = $this->replaceNext($definition, $subject, $callback);
         }

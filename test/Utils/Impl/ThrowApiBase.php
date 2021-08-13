@@ -16,7 +16,7 @@ class ThrowApiBase extends ApiBase
 {
     public function __construct()
     {
-        parent::__construct(Internal::pcre('//'), '', new UserData());
+        parent::__construct(Internal::pcre('//'), new ThrowSubject(), new UserData());
     }
 
     public function getPattern(): Definition

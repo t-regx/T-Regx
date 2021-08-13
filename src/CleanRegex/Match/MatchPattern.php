@@ -6,16 +6,17 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\SafeRegex\preg;
 
 class MatchPattern extends AbstractMatchPattern
 {
     /** @var Definition */
     private $definition;
-    /** @var string */
+    /** @var Subjectable */
     private $subject;
 
-    public function __construct(Definition $definition, string $subject)
+    public function __construct(Definition $definition, Subjectable $subject)
     {
         parent::__construct(new ApiBase($definition, $subject, new UserData()));
         $this->definition = $definition;
@@ -24,12 +25,12 @@ class MatchPattern extends AbstractMatchPattern
 
     public function test(): bool
     {
-        return preg::match($this->definition->pattern, $this->base->getSubject()) === 1;
+        return preg::match($this->definition->pattern, $this->subject->getSubject()) === 1;
     }
 
     public function count(): int
     {
-        return preg::match_all($this->definition->pattern, $this->subject);
+        return preg::match_all($this->definition->pattern, $this->subject->getSubject());
     }
 
     public function remaining(callable $predicate): RemainingMatchPattern

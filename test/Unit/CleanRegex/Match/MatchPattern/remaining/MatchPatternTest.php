@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 /**
@@ -18,7 +19,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('\w+'), 'Nice matching pattern');
+        $pattern = new MatchPattern(Internal::pattern('\w+'), new Subject('Nice matching pattern'));
 
         // when
         $remaining = $pattern->remaining(Functions::notEquals('Nice'))->all();
@@ -33,7 +34,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onInvalidReturnType()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Foo');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Foo'));
 
         // then
         $this->expectException(InvalidReturnValueException::class);

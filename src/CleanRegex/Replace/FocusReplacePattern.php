@@ -14,7 +14,7 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\ReferencesReplacer;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePatternImpl;
@@ -26,7 +26,7 @@ class FocusReplacePattern implements SpecificReplacePattern
     private $replacePattern;
     /** @var Definition */
     private $definition;
-    /** @var string */
+    /** @var Subjectable */
     private $subject;
     /** @var int */
     private $limit;
@@ -37,7 +37,7 @@ class FocusReplacePattern implements SpecificReplacePattern
 
     public function __construct(SpecificReplacePattern $replacePattern,
                                 Definition             $definition,
-                                string                 $subject,
+                                Subjectable            $subject,
                                 int                    $limit,
                                 GroupKey               $groupId,
                                 CountingStrategy       $countingStrategy)
@@ -88,14 +88,14 @@ class FocusReplacePattern implements SpecificReplacePattern
         return new ByReplacePatternImpl(
             new GroupFallbackReplacer(
                 $this->definition,
-                new Subject($this->subject),
+                $this->subject,
                 $this->limit,
                 new DefaultStrategy(),
                 $this->countingStrategy,
                 new ApiBase($this->definition, $this->subject, new UserData())),
             new LazyMessageThrowStrategy(MissingReplacementKeyException::class),
-            new PerformanceEmptyGroupReplace($this->definition, new Subject($this->subject), $this->limit),
-            new ReplacePatternCallbackInvoker($this->definition, new Subject($this->subject), $this->limit, new DefaultStrategy(), $this->countingStrategy),
+            new PerformanceEmptyGroupReplace($this->definition, $this->subject, $this->limit),
+            new ReplacePatternCallbackInvoker($this->definition, $this->subject, $this->limit, new DefaultStrategy(), $this->countingStrategy),
             $this->subject,
             new FocusWrapper($this->groupId));
     }

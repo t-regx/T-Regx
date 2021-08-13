@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForGroupMess
 use TRegx\CleanRegex\Internal\Exception\Messages\MissingReplacement\ForMatchMessage;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazySubjectRs;
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class SubstituteFallbackMapper implements DetailGroupMapper
@@ -13,10 +14,10 @@ class SubstituteFallbackMapper implements DetailGroupMapper
     private $mapper;
     /** @var LazySubjectRs */
     private $substitute;
-    /** @var string */
+    /** @var Subjectable */
     private $subject;
 
-    public function __construct(GroupMapper $mapper, LazySubjectRs $substitute, string $subject)
+    public function __construct(GroupMapper $mapper, LazySubjectRs $substitute, Subjectable $subject)
     {
         $this->mapper = $mapper;
         $this->substitute = $substitute;

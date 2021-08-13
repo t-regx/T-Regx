@@ -2,6 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\Details\Group;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
@@ -72,6 +73,6 @@ class ReplaceNotMatchedGroupTest extends TestCase
         return new ReplaceNotMatchedGroup($groupDetails,
             new GroupExceptionFactory(new Subject('subject'), new GroupName($group)),
             $worker,
-            '$unused');
+            new ThrowSubject());
     }
 }

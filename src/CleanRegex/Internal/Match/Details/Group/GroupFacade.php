@@ -104,7 +104,7 @@ class GroupFacade
                 $this->subject,
                 $this->notMatched,
                 GroupNotMatchedException::class),
-            $this->subject->getSubject());
+            $this->subject);
     }
 
     private function createGroupDetails(): GroupDetails

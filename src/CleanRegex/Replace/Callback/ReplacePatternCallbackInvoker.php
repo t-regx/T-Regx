@@ -35,7 +35,7 @@ class ReplacePatternCallbackInvoker
         $result = $this->pregReplaceCallback($callback, $replaced, $strategy);
         $this->countingStrategy->count($replaced);
         if ($replaced === 0) {
-            return $this->substitute->substitute($this->subject->getSubject()) ?? $result;
+            return $this->substitute->substitute($this->subject) ?? $result;
         }
         return $result;
     }

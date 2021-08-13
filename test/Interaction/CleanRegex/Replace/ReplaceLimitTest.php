@@ -3,7 +3,9 @@ namespace Test\Interaction\TRegx\CleanRegex\Replace;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\ThrowSubject;
 use Test\Utils\Internal;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 
@@ -18,7 +20,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldLimit_all()
     {
         // given
-        $limit = new ReplaceLimit(Internal::pcre('/[0-9a-g]/'), '123456789abcdefg');
+        $limit = new ReplaceLimit(Internal::pcre('/[0-9a-g]/'), new Subject('123456789abcdefg'));
 
         // when
         $limit->all()->callback($this->assertReplaceLimit(-1));
@@ -30,7 +32,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldLimit_first()
     {
         // given
-        $limit = new ReplaceLimit(Internal::pcre('/[0-9]/'), '123');
+        $limit = new ReplaceLimit(Internal::pcre('/[0-9]/'), new Subject('123'));
 
         // when
         $limit->first()->callback($this->assertReplaceLimit(1));
@@ -42,7 +44,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldLimit_only()
     {
         // given
-        $limit = new ReplaceLimit(Internal::pcre('/[0-9]/'), '123');
+        $limit = new ReplaceLimit(Internal::pcre('/[0-9]/'), new Subject('123'));
 
         // when
         $limit->only(2)->callback($this->assertReplaceLimit(2));
@@ -54,7 +56,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldLimit_otherwise_all()
     {
         // given
-        $limit = new ReplaceLimit(Internal::pcre('/[0-9a-g]/'), '123456789abcdefg');
+        $limit = new ReplaceLimit(Internal::pcre('/[0-9a-g]/'), new Subject('123456789abcdefg'));
 
         // when
         $limit->all()
@@ -68,7 +70,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldLimit_otherwise_first()
     {
         // given
-        $limit = new ReplaceLimit(Internal::pcre('/[0-9]/'), '123');
+        $limit = new ReplaceLimit(Internal::pcre('/[0-9]/'), new Subject('123'));
 
         // when
         $limit->first()
@@ -82,7 +84,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldLimit_otherwise_only()
     {
         // given
-        $limit = new ReplaceLimit(Internal::pcre('/[0-9]/'), '123');
+        $limit = new ReplaceLimit(Internal::pcre('/[0-9]/'), new Subject('123'));
 
         // when
         $limit->only(2)
@@ -96,7 +98,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldThrow_only_onNegativeLimit()
     {
         // given
-        $limit = new ReplaceLimit(Internal::pcre('//'), '');
+        $limit = new ReplaceLimit(Internal::pcre('//'), new ThrowSubject());
 
         // then
         $this->expectException(InvalidArgumentException::class);

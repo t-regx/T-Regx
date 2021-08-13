@@ -29,6 +29,6 @@ class SubjectOptionalWorker implements OptionalWorker
 
     public function orThrow(?string $exceptionClassname): Throwable
     {
-        return $this->exceptionFactory->create($exceptionClassname ?? $this->defaultExceptionClassname, $this->subjectable->getSubject());
+        return $this->exceptionFactory->create($exceptionClassname ?? $this->defaultExceptionClassname, $this->subjectable);
     }
 }

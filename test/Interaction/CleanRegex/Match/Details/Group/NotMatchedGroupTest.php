@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomException;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
+use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
@@ -113,9 +114,8 @@ class NotMatchedGroupTest extends TestCase
             new NotMatchedOptionalWorker(
                 new GroupMessage(new GroupName('first')),
                 $subject,
-                new NotMatched(new RawMatches([]), $subject),
+                new NotMatched(new RawMatches([]), new ThrowSubject()),
                 CustomException::class),
-            '$unused'
-        );
+            new ThrowSubject());
     }
 }

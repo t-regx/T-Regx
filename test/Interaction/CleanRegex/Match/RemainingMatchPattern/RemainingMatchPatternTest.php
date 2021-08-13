@@ -11,6 +11,7 @@ use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\UserData;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\RemainingMatchPattern;
@@ -442,7 +443,7 @@ class RemainingMatchPatternTest extends TestCase
     {
         return new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
-                new ApiBase(Internal::pattern($pattern), $subject, new UserData()),
+                new ApiBase(Internal::pattern($pattern), new Subject($subject), new UserData()),
                 new CallbackPredicate($predicate)),
             new ThrowApiBase());
     }

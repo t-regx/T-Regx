@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 /**
@@ -28,8 +29,8 @@ class MatchPatternTest extends TestCase
         $pattern->flatMapAssoc(Functions::constant('string'));
     }
 
-    private function getMatchPattern($subject): MatchPattern
+    private function getMatchPattern(string $subject): MatchPattern
     {
-        return new MatchPattern(Internal::pattern("([A-Z])?[a-z']+"), $subject);
+        return new MatchPattern(Internal::pattern("([A-Z])?[a-z']+"), new Subject($subject));
     }
 }

@@ -17,10 +17,10 @@ class MatchGroupFactoryStrategy implements GroupFactoryStrategy
         return new MatchedGroup($subjectable, $details, $groupEntry, $substitutedGroup);
     }
 
-    public function createUnmatched(GroupDetails $details,
-                                    GroupExceptionFactory $exceptionFactory,
+    public function createUnmatched(GroupDetails             $details,
+                                    GroupExceptionFactory    $exceptionFactory,
                                     NotMatchedOptionalWorker $optionalFactory,
-                                    string $subject): NotMatchedGroup
+                                    Subjectable              $subject): NotMatchedGroup
     {
         return new NotMatchedGroup($details, $exceptionFactory, $optionalFactory, $subject);
     }

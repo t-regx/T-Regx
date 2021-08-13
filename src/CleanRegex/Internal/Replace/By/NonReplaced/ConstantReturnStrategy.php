@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
+use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class ConstantReturnStrategy implements SubjectRs, MatchRs
@@ -13,7 +14,7 @@ class ConstantReturnStrategy implements SubjectRs, MatchRs
         $this->constant = $constant;
     }
 
-    public function substitute(string $subject): string
+    public function substitute(Subjectable $subject): string
     {
         return $this->constant;
     }

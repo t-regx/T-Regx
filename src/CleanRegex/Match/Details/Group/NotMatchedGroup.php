@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
+use TRegx\CleanRegex\Internal\Subjectable;
 
 class NotMatchedGroup implements Group
 {
@@ -14,13 +15,13 @@ class NotMatchedGroup implements Group
     private $exceptionFactory;
     /** @var NotMatchedOptionalWorker */
     private $optionalWorker;
-    /** @var string */
+    /** @var Subjectable */
     private $subject;
 
     public function __construct(GroupDetails             $details,
                                 GroupExceptionFactory    $exceptionFactory,
                                 NotMatchedOptionalWorker $optionalWorker,
-                                string                   $subject)
+                                Subjectable              $subject)
     {
         $this->details = $details;
         $this->exceptionFactory = $exceptionFactory;
@@ -113,7 +114,7 @@ class NotMatchedGroup implements Group
 
     public function subject(): string
     {
-        return $this->subject;
+        return $this->subject->getSubject();
     }
 
     public function all(): array

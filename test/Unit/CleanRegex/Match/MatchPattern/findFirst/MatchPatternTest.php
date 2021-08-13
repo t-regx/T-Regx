@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -21,7 +22,7 @@ class MatchPatternTest extends TestCase
     public function shouldCallWithDetails()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo', 'i'), 'Foo foo FOO');
+        $pattern = new MatchPattern(Internal::pattern('Foo', 'i'), new Subject('Foo foo FOO'));
 
         // when
         $pattern
@@ -40,7 +41,7 @@ class MatchPatternTest extends TestCase
     public function shouldCallEvenWithoutCollapsingOrMethod()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Foo');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Foo'));
 
         // when
         $pattern->findFirst(function (Detail $detail) {
@@ -55,7 +56,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Foo');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Foo'));
 
         // when
         $first1 = $pattern->findFirst('strToUpper')->orReturn(null);
@@ -74,7 +75,7 @@ class MatchPatternTest extends TestCase
     public function shouldNotInvokeFirst_ForUnmatchedSubject()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Bar'));
 
         // when
         $pattern->findFirst(Functions::fail())->orReturn(null);
@@ -91,7 +92,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_orThrow_onNotMatchingSubject_throw()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Bar'));
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -107,7 +108,7 @@ class MatchPatternTest extends TestCase
     public function should_onNotMatchingSubject_throw_userGivenException()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Bar'));
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -123,7 +124,7 @@ class MatchPatternTest extends TestCase
     public function should_onNotMatchingSubject_throw_withMessage()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Bar'));
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -139,7 +140,7 @@ class MatchPatternTest extends TestCase
     public function should_onNotMatchingSubject_getDefault()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Bar'));
 
         // when
         $value = $pattern->findFirst('strRev')->orReturn('def');
@@ -154,7 +155,7 @@ class MatchPatternTest extends TestCase
     public function should_onNotMatchingSubject_call()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), 'Bar');
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Bar'));
 
         // when
         $value = $pattern->findFirst('strRev')->orElse(Functions::constant('new value'));
@@ -169,7 +170,7 @@ class MatchPatternTest extends TestCase
     public function should_onNotMatchingSubject_call_withDetails()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern("(?:[A-Z])?[a-z']+ (?<group>.)"), 'NOT MATCHING');
+        $pattern = new MatchPattern(Internal::pattern("(?:[A-Z])?[a-z']+ (?<group>.)"), new Subject('NOT MATCHING'));
 
         // when
         $pattern->findFirst('strRev')->orElse(function (NotMatched $details) {

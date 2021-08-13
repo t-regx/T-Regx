@@ -81,11 +81,11 @@ class ByGroupReplacePatternImplTest extends TestCase
                 -1,
                 new DefaultStrategy(),
                 new IgnoreCounting(),
-                new ApiBase($internalPattern, $subject, new UserData())),
+                new ApiBase($internalPattern, $subjectable, new UserData())),
             new PerformanceEmptyGroupReplace($internalPattern, $subjectable, -1),
             new ReplacePatternCallbackInvoker($internalPattern, $subjectable, -1, new LazyMessageThrowStrategy(\AssertionError::class), new IgnoreCounting()),
             new GroupIndex(1),
-            $subject,
+            $subjectable,
             new IdentityWrapper());
     }
 }

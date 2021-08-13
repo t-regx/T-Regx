@@ -12,6 +12,7 @@ use TRegx\CleanRegex\Exception\ClassExpectedException;
 use TRegx\CleanRegex\Exception\NoSuitableConstructorException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
+use TRegx\CleanRegex\Internal\Subject;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\SignatureExceptionFactory
@@ -33,7 +34,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $this->expectExceptionMessage('Class \Namespace\NoSuchClass does not exists');
 
         // when
-        $factory->$create('Namespace\NoSuchClass', '');
+        $factory->$create('Namespace\NoSuchClass', new Subject(''));
     }
 
     /**
@@ -51,7 +52,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $this->expectExceptionMessage('\Throwable is not a class, but an interface');
 
         // when
-        $factory->$create(Throwable::class, '');
+        $factory->$create(Throwable::class, new Subject('subject'));
     }
 
     /**
@@ -69,7 +70,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $this->expectExceptionMessage('\Test\Utils\AbstractClass is an abstract class');
 
         // when
-        $factory->$create(AbstractClass::class, '');
+        $factory->$create(AbstractClass::class, new Subject('subject'));
     }
 
     /**
@@ -87,7 +88,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $this->expectExceptionMessage('Class \stdClass is not throwable');
 
         // when
-        $factory->$create(stdClass::class, '');
+        $factory->$create(stdClass::class, new Subject('subject'));
     }
 
     /**
@@ -105,7 +106,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $this->expectExceptionMessage("Class 'Test\Utils\ClassWithoutSuitableConstructor' doesn't have a constructor with supported signature");
 
         // when
-        $factory->$create(ClassWithoutSuitableConstructor::class, '');
+        $factory->$create(ClassWithoutSuitableConstructor::class, new Subject('subject'));
     }
 
     /**
@@ -127,6 +128,6 @@ class SignatureExceptionFactoryTest extends TestCase
 
     public function createMethods(): array
     {
-        return [['create'], ['createWithoutSubject'],];
+        return [['create'], ['createWithoutSubject']];
     }
 }

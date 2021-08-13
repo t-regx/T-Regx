@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\ReplaceLimitHelpers;
+use TRegx\CleanRegex\Internal\Subjectable;
 
 class ReplaceLimit implements PatternLimit, ReplacePattern
 {
@@ -13,10 +14,10 @@ class ReplaceLimit implements PatternLimit, ReplacePattern
 
     /** @var Definition */
     private $definition;
-    /** @var string */
+    /** @var Subjectable */
     private $subject;
 
-    public function __construct(Definition $definition, string $subject)
+    public function __construct(Definition $definition, Subjectable $subject)
     {
         $this->definition = $definition;
         $this->subject = $subject;

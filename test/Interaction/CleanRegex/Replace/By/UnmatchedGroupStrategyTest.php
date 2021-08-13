@@ -148,7 +148,7 @@ class UnmatchedGroupStrategyTest extends TestCase
             -1,
             new ThrowStrategy(\AssertionError::class, new NonReplacedMessage()), // anything
             new IgnoreCounting(),
-            new ApiBase($pattern, $subject, new UserData())
+            new ApiBase($pattern, new Subject($subject), new UserData())
         );
     }
 }
