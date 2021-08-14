@@ -30,13 +30,13 @@ class GroupLimitFindFirst
     /** @var GroupAware */
     private $groupAware;
     /** @var GroupKey */
-    private $groupId;
+    private $group;
 
-    public function __construct(Base $base, GroupAware $groupAware, GroupKey $groupId)
+    public function __construct(Base $base, GroupAware $groupAware, GroupKey $group)
     {
         $this->base = $base;
         $this->groupAware = $groupAware;
-        $this->groupId = $groupId;
+        $this->group = $group;
     }
 
     public function getOptionalForGroup(callable $consumer): Optional
@@ -45,15 +45,15 @@ class GroupLimitFindFirst
         if ($this->matched($first)) {
             return $this->matchedOptional($first, $consumer);
         }
-        if ($this->groupAware->hasGroup($this->groupId->nameOrIndex())) {
+        if ($this->groupAware->hasGroup($this->group->nameOrIndex())) {
             return $this->notMatchedOptional($first);
         }
-        throw new NonexistentGroupException($this->groupId);
+        throw new NonexistentGroupException($this->group);
     }
 
     private function matched(RawMatchOffset $first): bool
     {
-        return $first->hasGroup($this->groupId->nameOrIndex()) && $first->getGroup($this->groupId->nameOrIndex()) !== null;
+        return $first->hasGroup($this->group->nameOrIndex()) && $first->getGroup($this->group->nameOrIndex()) !== null;
     }
 
     private function matchedOptional(RawMatchOffset $match, callable $consumer): OptionalImpl
@@ -65,15 +65,15 @@ class GroupLimitFindFirst
             new FirstNamedGroup($signatures),
             $signatures);
         $false = new FalseNegative($match);
-        return new OptionalImpl($consumer($facade->createGroup($this->groupId, $false, $false)));
+        return new OptionalImpl($consumer($facade->createGroup($this->group, $false, $false)));
     }
 
     private function notMatchedOptional(RawMatchOffset $first): EmptyOptional
     {
         if ($first->matched()) {
-            return $this->notMatched(GroupNotMatchedException::class, new FirstGroupMessage($this->groupId));
+            return $this->notMatched(GroupNotMatchedException::class, new FirstGroupMessage($this->group));
         }
-        return $this->notMatched(SubjectNotMatchedException::class, new FirstGroupSubjectMessage($this->groupId));
+        return $this->notMatched(SubjectNotMatchedException::class, new FirstGroupSubjectMessage($this->group));
     }
 
     private function notMatched(string $exception, NotMatchedMessage $message): EmptyOptional

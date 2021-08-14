@@ -20,16 +20,16 @@ class UnmatchedGroupStrategy implements GroupReplace
     /** @var GroupFallbackReplacer */
     private $replacer;
     /** @var GroupKey */
-    private $groupId;
+    private $group;
     /** @var GroupMapper */
     private $mapper;
     /** @var Wrapper */
     private $middlewareMapper;
 
-    public function __construct(GroupFallbackReplacer $replacer, GroupKey $groupId, DetailGroupMapper $mapper, Wrapper $middlewareMapper)
+    public function __construct(GroupFallbackReplacer $replacer, GroupKey $group, DetailGroupMapper $mapper, Wrapper $middlewareMapper)
     {
         $this->replacer = $replacer;
-        $this->groupId = $groupId;
+        $this->group = $group;
         $this->mapper = $mapper;
         $this->middlewareMapper = $middlewareMapper;
     }
@@ -48,7 +48,7 @@ class UnmatchedGroupStrategy implements GroupReplace
     {
         return $this->replace(new ThrowStrategy(
             $exceptionClassName ?? GroupNotMatchedException::class,
-            new ReplacementWithUnmatchedGroupMessage($this->groupId)));
+            new ReplacementWithUnmatchedGroupMessage($this->group)));
     }
 
     public function orElseIgnore(): string
@@ -63,6 +63,6 @@ class UnmatchedGroupStrategy implements GroupReplace
 
     private function replace(MatchRs $substitute): string
     {
-        return $this->replacer->replaceOrFallback($this->groupId, $this->mapper, new WrappingMatchRs($substitute, $this->middlewareMapper));
+        return $this->replacer->replaceOrFallback($this->group, $this->mapper, new WrappingMatchRs($substitute, $this->middlewareMapper));
     }
 }

@@ -27,23 +27,23 @@ class MatchGroupStream implements Stream
     /** @var GroupAware */
     private $groupAware;
     /** @var GroupKey */
-    private $groupId;
+    private $group;
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(Base $base, GroupAware $groupAware, GroupKey $groupId, MatchAllFactory $factory)
+    public function __construct(Base $base, GroupAware $groupAware, GroupKey $group, MatchAllFactory $factory)
     {
         $this->base = $base;
         $this->groupAware = $groupAware;
-        $this->groupId = $groupId;
+        $this->group = $group;
         $this->allFactory = $factory;
     }
 
     protected function entries(): array
     {
         $matches = $this->base->matchAllOffsets();
-        if (!$matches->hasGroup($this->groupId->nameOrIndex())) {
-            throw new NonexistentGroupException($this->groupId);
+        if (!$matches->hasGroup($this->group->nameOrIndex())) {
+            throw new NonexistentGroupException($this->group);
         }
         if (!$matches->matched()) {
             throw new UnmatchedStreamException();
@@ -55,15 +55,15 @@ class MatchGroupStream implements Stream
             new NotMatched($matches, $this->base),
             new FirstNamedGroup($signatures),
             $signatures);
-        return $facade->createGroups($this->groupId, $matches);
+        return $facade->createGroups($this->group, $matches);
     }
 
     protected function firstValue(): Group
     {
         $match = $this->base->matchOffset();
-        if (!$match->hasGroup($this->groupId->nameOrIndex())) {
-            if (!$this->groupAware->hasGroup($this->groupId->nameOrIndex())) {
-                throw new NonexistentGroupException($this->groupId);
+        if (!$match->hasGroup($this->group->nameOrIndex())) {
+            if (!$this->groupAware->hasGroup($this->group->nameOrIndex())) {
+                throw new NonexistentGroupException($this->group);
             }
         }
         if (!$match->matched()) {
@@ -76,6 +76,6 @@ class MatchGroupStream implements Stream
             new NotMatched($this->groupAware, $this->base),
             new FirstNamedGroup($signatures), $signatures);
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0);
-        return $groupFacade->createGroup($this->groupId, $polyfill, $polyfill);
+        return $groupFacade->createGroup($this->group, $polyfill, $polyfill);
     }
 }

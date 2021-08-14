@@ -20,7 +20,7 @@ class ComputedMapper implements DetailGroupMapper
         return ($this->mapper)($occurrence, $initialDetail);
     }
 
-    public function useExceptionValues(string $occurrence, GroupKey $groupId, string $match): void
+    public function useExceptionValues(string $occurrence, GroupKey $group, string $match): void
     {
     }
 }

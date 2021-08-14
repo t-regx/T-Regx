@@ -17,24 +17,24 @@ class MatchGroupOffsetStream implements Stream
     /** @var Base */
     private $base;
     /** @var GroupKey */
-    private $groupId;
+    private $group;
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(Base $base, GroupKey $groupId, MatchAllFactory $allFactory)
+    public function __construct(Base $base, GroupKey $group, MatchAllFactory $allFactory)
     {
         $this->base = $base;
-        $this->groupId = $groupId;
+        $this->group = $group;
         $this->allFactory = $allFactory;
     }
 
     protected function entries(): array
     {
         $matches = $this->base->matchAllOffsets();
-        if ($matches->hasGroup($this->groupId->nameOrIndex())) {
-            return \array_map([$this, 'readOffset'], $matches->getGroupTextAndOffsetAll($this->groupId->nameOrIndex()));
+        if ($matches->hasGroup($this->group->nameOrIndex())) {
+            return \array_map([$this, 'readOffset'], $matches->getGroupTextAndOffsetAll($this->group->nameOrIndex()));
         }
-        throw new NonexistentGroupException($this->groupId);
+        throw new NonexistentGroupException($this->group);
     }
 
     private function readOffset($tuple): ?int
@@ -50,15 +50,15 @@ class MatchGroupOffsetStream implements Stream
     {
         $match = $this->base->matchOffset();
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, $match->getIndex());
-        if (!$polyfill->hasGroup($this->groupId->nameOrIndex())) {
-            throw new NonexistentGroupException($this->groupId);
+        if (!$polyfill->hasGroup($this->group->nameOrIndex())) {
+            throw new NonexistentGroupException($this->group);
         }
         if (!$match->matched()) {
-            throw SubjectNotMatchedException::forFirstGroupOffset($this->base, $this->groupId);
+            throw SubjectNotMatchedException::forFirstGroupOffset($this->base, $this->group);
         }
-        if (!$polyfill->isGroupMatched($this->groupId->nameOrIndex())) {
-            throw GroupNotMatchedException::forFirstOffset($this->base, $this->groupId);
+        if (!$polyfill->isGroupMatched($this->group->nameOrIndex())) {
+            throw GroupNotMatchedException::forFirstOffset($this->base, $this->group);
         }
-        return $match->getGroupByteOffset($this->groupId->nameOrIndex());
+        return $match->getGroupByteOffset($this->group->nameOrIndex());
     }
 }

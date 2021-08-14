@@ -19,24 +19,24 @@ class MatchGroupIntStream implements Stream
     /** @var Base */
     private $base;
     /** @var GroupKey */
-    private $groupId;
+    private $group;
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(Base $base, GroupKey $groupId, MatchAllFactory $allFactory)
+    public function __construct(Base $base, GroupKey $group, MatchAllFactory $allFactory)
     {
         $this->base = $base;
-        $this->groupId = $groupId;
+        $this->group = $group;
         $this->allFactory = $allFactory;
     }
 
     protected function entries(): array
     {
         $matches = $this->base->matchAllOffsets();
-        if ($matches->hasGroup($this->groupId->nameOrIndex())) {
-            return \array_map([$this, 'parseIntegerOptional'], $matches->getGroupTexts($this->groupId->nameOrIndex()));
+        if ($matches->hasGroup($this->group->nameOrIndex())) {
+            return \array_map([$this, 'parseIntegerOptional'], $matches->getGroupTexts($this->group->nameOrIndex()));
         }
-        throw new NonexistentGroupException($this->groupId);
+        throw new NonexistentGroupException($this->group);
     }
 
     private function parseIntegerOptional(?string $text): ?int
@@ -51,16 +51,16 @@ class MatchGroupIntStream implements Stream
     {
         $match = $this->base->matchOffset();
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, $match->getIndex());
-        if (!$polyfill->hasGroup($this->groupId->nameOrIndex())) {
-            throw new NonexistentGroupException($this->groupId);
+        if (!$polyfill->hasGroup($this->group->nameOrIndex())) {
+            throw new NonexistentGroupException($this->group);
         }
         if (!$match->matched()) {
-            throw SubjectNotMatchedException::forFirstGroup($this->base, $this->groupId);
+            throw SubjectNotMatchedException::forFirstGroup($this->base, $this->group);
         }
-        if (!$polyfill->isGroupMatched($this->groupId->nameOrIndex())) {
-            throw GroupNotMatchedException::forFirst($this->base, $this->groupId);
+        if (!$polyfill->isGroupMatched($this->group->nameOrIndex())) {
+            throw GroupNotMatchedException::forFirst($this->base, $this->group);
         }
-        return $this->parseInteger($match->getGroup($this->groupId->nameOrIndex()));
+        return $this->parseInteger($match->getGroup($this->group->nameOrIndex()));
     }
 
     private function parseInteger(string $string): int
@@ -68,6 +68,6 @@ class MatchGroupIntStream implements Stream
         if (Integer::isValid($string)) {
             return $string;
         }
-        throw IntegerFormatException::forGroup($this->groupId, $string);
+        throw IntegerFormatException::forGroup($this->group, $string);
     }
 }

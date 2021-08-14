@@ -211,12 +211,12 @@ class MatchedGroupTest extends TestCase
             14);
     }
 
-    private function buildMatchGroup(string $subject, string $match, string $group, GroupKey $groupId, $groupOffset): MatchedGroup
+    private function buildMatchGroup(string $subject, string $match, string $group, GroupKey $groupKey, $groupOffset): MatchedGroup
     {
         $matchedGroup = new GroupEntry($group, $groupOffset, new Subject($subject));
         return new MatchedGroup(
             new Subject($subject),
-            new GroupDetails(new GroupSignature(1, 'first'), $groupId, new EagerMatchAllFactory(new RawMatchesOffset([]))),
+            new GroupDetails(new GroupSignature(1, 'first'), $groupKey, new EagerMatchAllFactory(new RawMatchesOffset([]))),
             $matchedGroup,
             new SubstitutedGroup(new ConstantMatchEntry($match, 8), $matchedGroup));
     }

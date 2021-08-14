@@ -12,7 +12,7 @@ class IdentityMapper implements DetailGroupMapper
     }
 
     // @codeCoverageIgnoreStart
-    public function useExceptionValues(string $occurrence, GroupKey $groupId, string $match): void
+    public function useExceptionValues(string $occurrence, GroupKey $group, string $match): void
     {
     }
     // @codeCoverageIgnoreEnd

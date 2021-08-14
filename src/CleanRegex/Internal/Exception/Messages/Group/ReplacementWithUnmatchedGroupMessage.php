@@ -7,15 +7,15 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 class ReplacementWithUnmatchedGroupMessage implements NotMatchedMessage
 {
     /** @var GroupKey */
-    private $groupId;
+    private $group;
 
-    public function __construct(GroupKey $groupId)
+    public function __construct(GroupKey $group)
     {
-        $this->groupId = $groupId;
+        $this->group = $group;
     }
 
     public function getMessage(): string
     {
-        return "Expected to replace with group $this->groupId, but the group was not matched";
+        return "Expected to replace with group $this->group, but the group was not matched";
     }
 }

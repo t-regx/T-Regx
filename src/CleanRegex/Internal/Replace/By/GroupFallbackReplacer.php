@@ -42,13 +42,13 @@ class GroupFallbackReplacer
         $this->base = $base;
     }
 
-    public function replaceOrFallback(GroupKey $groupId, DetailGroupMapper $mapper, MatchRs $substitute): string
+    public function replaceOrFallback(GroupKey $group, DetailGroupMapper $mapper, MatchRs $substitute): string
     {
         $this->counter = -1;
-        return $this->replaceUsingCallback(function (array $match) use ($groupId, $mapper, $substitute): string {
+        return $this->replaceUsingCallback(function (array $match) use ($group, $mapper, $substitute): string {
             $this->counter++;
-            $this->validateGroup($match, $groupId);
-            return $this->getReplacementOrHandle($match, $groupId, $mapper, $substitute);
+            $this->validateGroup($match, $group);
+            return $this->getReplacementOrHandle($match, $group, $mapper, $substitute);
         });
     }
 
@@ -72,37 +72,37 @@ class GroupFallbackReplacer
             $replaced);
     }
 
-    private function validateGroup(array $match, GroupKey $groupId): void
+    private function validateGroup(array $match, GroupKey $group): void
     {
-        if (!array_key_exists($groupId->nameOrIndex(), $match)) {
-            if (!$this->base->matchAllOffsets()->hasGroup($groupId->nameOrIndex())) {
-                throw new NonexistentGroupException($groupId);
+        if (!array_key_exists($group->nameOrIndex(), $match)) {
+            if (!$this->base->matchAllOffsets()->hasGroup($group->nameOrIndex())) {
+                throw new NonexistentGroupException($group);
             }
         }
     }
 
-    private function getReplacementOrHandle(array $match, GroupKey $groupId, DetailGroupMapper $mapper, MatchRs $substitute): string
+    private function getReplacementOrHandle(array $match, GroupKey $group, DetailGroupMapper $mapper, MatchRs $substitute): string
     {
-        $occurrence = $this->occurrence($match, $groupId);
+        $occurrence = $this->occurrence($match, $group);
         $detail = new LazyDetail($this->base, $this->counter, $this->limit);
         if ($occurrence === null) { // here "null" means group was not matched
             $replacement = $substitute->substituteGroup($detail);
             // here "null" means "no replacement provided, ignore me, use the full match"
             return $replacement ?? $match[0];
         }
-        $mapper->useExceptionValues($occurrence, $groupId, $match[0]);
+        $mapper->useExceptionValues($occurrence, $group, $match[0]);
         return $mapper->map($occurrence, $detail) ?? $match[0];
     }
 
-    private function occurrence(array $match, GroupKey $groupId): ?string
+    private function occurrence(array $match, GroupKey $group): ?string
     {
-        if (array_key_exists($groupId->nameOrIndex(), $match)) {
-            return $this->makeSureOccurrence($groupId, $match[$groupId->nameOrIndex()]);
+        if (array_key_exists($group->nameOrIndex(), $match)) {
+            return $this->makeSureOccurrence($group, $match[$group->nameOrIndex()]);
         }
         return null;
     }
 
-    private function makeSureOccurrence(GroupKey $groupId, string $occurrence): ?string
+    private function makeSureOccurrence(GroupKey $group, string $occurrence): ?string
     {
         if ($occurrence !== '') {
             return $occurrence;
@@ -114,7 +114,7 @@ class GroupFallbackReplacer
             throw new InternalCleanRegexException();
             // @codeCoverageIgnoreEnd
         }
-        if (!$matches->isGroupMatched($groupId->nameOrIndex(), $this->counter)) {
+        if (!$matches->isGroupMatched($group->nameOrIndex(), $this->counter)) {
             return null;
         }
         return $occurrence;

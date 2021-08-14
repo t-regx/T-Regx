@@ -21,12 +21,12 @@ class GroupByPattern
     /** * @var Base */
     private $base;
     /** * @var GroupKey */
-    private $groupId;
+    private $group;
 
-    public function __construct(Base $base, GroupKey $groupId)
+    public function __construct(Base $base, GroupKey $group)
     {
         $this->base = $base;
-        $this->groupId = $groupId;
+        $this->group = $group;
     }
 
     public function all(): array
@@ -81,8 +81,8 @@ class GroupByPattern
         $matches = $this->base->matchAllOffsets();
         $map = [];
         foreach ($matches->getIndexes() as $index) {
-            if ($matches->isGroupMatched($this->groupId->nameOrIndex(), $index)) {
-                $key = Tuple::first($matches->getGroupTextAndOffset($this->groupId->nameOrIndex(), $index));
+            if ($matches->isGroupMatched($this->group->nameOrIndex(), $index)) {
+                $key = Tuple::first($matches->getGroupTextAndOffset($this->group->nameOrIndex(), $index));
                 $map[$key][] = $groupMapper($matches, $index);
             }
         }

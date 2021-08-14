@@ -16,31 +16,31 @@ class GroupLimitFirst
     /** @var GroupHasAware */
     private $groupAware;
     /** @var GroupKey */
-    private $groupId;
+    private $group;
 
-    public function __construct(Base $base, GroupHasAware $groupAware, GroupKey $groupId)
+    public function __construct(Base $base, GroupHasAware $groupAware, GroupKey $group)
     {
         $this->base = $base;
         $this->groupAware = $groupAware;
-        $this->groupId = $groupId;
+        $this->group = $group;
     }
 
     public function getFirstForGroup(): RawMatchOffset
     {
         $rawMatch = $this->base->matchOffset();
-        if ($rawMatch->hasGroup($this->groupId->nameOrIndex())) {
-            $group = $rawMatch->getGroup($this->groupId->nameOrIndex());
+        if ($rawMatch->hasGroup($this->group->nameOrIndex())) {
+            $group = $rawMatch->getGroup($this->group->nameOrIndex());
             if ($group !== null) {
                 return $rawMatch;
             }
         } else {
-            if (!$this->groupAware->hasGroup($this->groupId->nameOrIndex())) {
-                throw new NonexistentGroupException($this->groupId);
+            if (!$this->groupAware->hasGroup($this->group->nameOrIndex())) {
+                throw new NonexistentGroupException($this->group);
             }
             if (!$rawMatch->matched()) {
-                throw SubjectNotMatchedException::forFirstGroup($this->base, $this->groupId);
+                throw SubjectNotMatchedException::forFirstGroup($this->base, $this->group);
             }
         }
-        throw GroupNotMatchedException::forFirst($this->base, $this->groupId);
+        throw GroupNotMatchedException::forFirst($this->base, $this->group);
     }
 }

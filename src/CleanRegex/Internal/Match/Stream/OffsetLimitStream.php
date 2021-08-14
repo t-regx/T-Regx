@@ -15,25 +15,25 @@ class OffsetLimitStream implements Stream
     /** @var Base */
     private $base;
     /** @var GroupKey */
-    private $groupId;
+    private $group;
     /** @var GroupHasAware */
     private $groupAware;
 
-    public function __construct(Base $base, GroupKey $groupId, GroupHasAware $groupAware)
+    public function __construct(Base $base, GroupKey $group, GroupHasAware $groupAware)
     {
         $this->base = $base;
-        $this->groupId = $groupId;
+        $this->group = $group;
         $this->groupAware = $groupAware;
     }
 
     protected function entries(): array
     {
         $matches = $this->base->matchAllOffsets();
-        if (!$matches->hasGroup($this->groupId->nameOrIndex())) {
-            throw new NonexistentGroupException($this->groupId);
+        if (!$matches->hasGroup($this->group->nameOrIndex())) {
+            throw new NonexistentGroupException($this->group);
         }
         if ($matches->matched()) {
-            return $matches->getLimitedGroupOffsets($this->groupId->nameOrIndex(), -1);
+            return $matches->getLimitedGroupOffsets($this->group->nameOrIndex(), -1);
         }
         throw new UnmatchedStreamException();
     }
@@ -41,15 +41,15 @@ class OffsetLimitStream implements Stream
     protected function firstValue(): int
     {
         $match = $this->base->matchOffset();
-        if (!$match->hasGroup($this->groupId->nameOrIndex())) {
-            if (!$this->groupAware->hasGroup($this->groupId->nameOrIndex())) {
-                throw new NonexistentGroupException($this->groupId);
+        if (!$match->hasGroup($this->group->nameOrIndex())) {
+            if (!$this->groupAware->hasGroup($this->group->nameOrIndex())) {
+                throw new NonexistentGroupException($this->group);
             }
         }
         if (!$match->matched()) {
             throw new UnmatchedStreamException();
         }
-        $group = $match->getGroupByteOffset($this->groupId->nameOrIndex());
+        $group = $match->getGroupByteOffset($this->group->nameOrIndex());
         if ($group !== null) {
             return $group;
         }

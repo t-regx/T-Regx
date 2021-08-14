@@ -8,15 +8,15 @@ use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 class MatchGroupStrategy implements ReplaceCallbackArgumentStrategy
 {
     /** @var GroupKey */
-    private $groupId;
+    private $group;
 
-    public function __construct(GroupKey $groupId)
+    public function __construct(GroupKey $group)
     {
-        $this->groupId = $groupId;
+        $this->group = $group;
     }
 
     public function mapArgument(ReplaceDetail $detail): ReplaceGroup
     {
-        return $detail->group($this->groupId->nameOrIndex());
+        return $detail->group($this->group->nameOrIndex());
     }
 }

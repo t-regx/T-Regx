@@ -21,7 +21,7 @@ class IgnoreMessages implements DetailGroupMapper
         return $this->mapper->map($occurrence, $initialDetail);
     }
 
-    public function useExceptionValues(string $occurrence, GroupKey $groupId, string $match): void
+    public function useExceptionValues(string $occurrence, GroupKey $group, string $match): void
     {
     }
 }

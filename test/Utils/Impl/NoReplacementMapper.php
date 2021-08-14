@@ -12,7 +12,7 @@ class NoReplacementMapper implements DetailGroupMapper
         return null;
     }
 
-    public function useExceptionValues(string $occurrence, GroupKey $groupId, string $match): void
+    public function useExceptionValues(string $occurrence, GroupKey $group, string $match): void
     {
     }
 }

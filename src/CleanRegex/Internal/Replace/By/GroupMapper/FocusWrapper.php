@@ -10,18 +10,18 @@ use TRegx\CleanRegex\Match\Details\Detail;
 class FocusWrapper implements Wrapper
 {
     /** @var GroupKey */
-    private $groupId;
+    private $group;
 
-    public function __construct(GroupKey $groupId)
+    public function __construct(GroupKey $group)
     {
-        $this->groupId = $groupId;
+        $this->group = $group;
     }
 
     public function wrap(Wrappable $wrappable, Detail $initialDetail): ?string
     {
-        $group = $initialDetail->group($this->groupId->nameOrIndex());
+        $group = $initialDetail->group($this->group->nameOrIndex());
         if (!$group->matched()) {
-            throw new FocusGroupNotMatchedException($initialDetail->subject(), $this->groupId);
+            throw new FocusGroupNotMatchedException($initialDetail->subject(), $this->group);
         }
         $replacement = $wrappable->apply($initialDetail);
         if ($replacement === null) {

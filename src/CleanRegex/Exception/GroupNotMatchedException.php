@@ -18,11 +18,11 @@ class GroupNotMatchedException extends \Exception implements PatternException
     /** @var string|int|null */
     private $group;   // Debugger
 
-    public function __construct(string $message, string $subject, GroupKey $groupId = null)
+    public function __construct(string $message, string $subject, GroupKey $group = null)
     {
         parent::__construct($message);
         $this->subject = $subject;
-        $this->group = $groupId ? $groupId->nameOrIndex() : null;
+        $this->group = $group ? $group->nameOrIndex() : null;
     }
 
     private static function exception(NotMatchedMessage $message, Subjectable $subject, GroupKey $group): self

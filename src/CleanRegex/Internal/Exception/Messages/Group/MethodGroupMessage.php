@@ -9,16 +9,16 @@ class MethodGroupMessage implements NotMatchedMessage
     /** @var string */
     private $method;
     /** @var GroupKey */
-    private $groupId;
+    private $group;
 
-    public function __construct(string $method, GroupKey $groupId)
+    public function __construct(string $method, GroupKey $group)
     {
         $this->method = $method;
-        $this->groupId = $groupId;
+        $this->group = $group;
     }
 
     public function getMessage(): string
     {
-        return "Expected to call $this->method() for group $this->groupId, but the group was not matched";
+        return "Expected to call $this->method() for group $this->group, but the group was not matched";
     }
 }

@@ -33,10 +33,10 @@ class SubstituteFallbackMapper implements DetailGroupMapper
         return $result;
     }
 
-    public function useExceptionValues(string $occurrence, GroupKey $groupId, string $match): void
+    public function useExceptionValues(string $occurrence, GroupKey $group, string $match): void
     {
-        $this->substitute->useExceptionMessage($groupId->full()
+        $this->substitute->useExceptionMessage($group->full()
             ? new ForMatchMessage($occurrence)
-            : new ForGroupMessage($match, $groupId, $occurrence));
+            : new ForGroupMessage($match, $group, $occurrence));
     }
 }

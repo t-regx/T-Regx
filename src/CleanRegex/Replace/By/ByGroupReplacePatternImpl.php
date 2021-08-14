@@ -32,7 +32,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
     /** @var GroupFallbackReplacer */
     private $fallbackReplacer;
     /** @var GroupKey */
-    private $groupId;
+    private $group;
     /** @var Subjectable */
     private $subject;
     /** @var PerformanceEmptyGroupReplace */
@@ -45,12 +45,12 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
     public function __construct(GroupFallbackReplacer         $fallbackReplacer,
                                 PerformanceEmptyGroupReplace  $performanceReplace,
                                 ReplacePatternCallbackInvoker $replaceCallbackInvoker,
-                                GroupKey                      $groupId,
+                                GroupKey                      $group,
                                 Subjectable                   $subject,
                                 Wrapper                       $middlewareMapper)
     {
         $this->fallbackReplacer = $fallbackReplacer;
-        $this->groupId = $groupId;
+        $this->group = $group;
         $this->subject = $subject;
         $this->performanceReplace = $performanceReplace;
         $this->replaceCallbackInvoker = $replaceCallbackInvoker;
@@ -71,7 +71,7 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
     {
         return new UnmatchedGroupStrategy(
             $this->fallbackReplacer,
-            $this->groupId,
+            $this->group,
             new SubstituteFallbackMapper(new WrappingMapper($mapper, $this->middlewareMapper),
                 new LazyMessageThrowStrategy(MissingReplacementKeyException::class), $this->subject),
             $this->middlewareMapper
@@ -82,14 +82,14 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
     {
         return new UnmatchedGroupStrategy(
             $this->fallbackReplacer,
-            $this->groupId,
+            $this->group,
             new IgnoreMessages(new WrappingMapper(new DictionaryMapper($occurrencesAndReplacements), $this->middlewareMapper)),
             $this->middlewareMapper);
     }
 
     public function orElseThrow(string $exceptionClassName = GroupNotMatchedException::class): string
     {
-        return $this->replaceGroupOptional(new ThrowStrategy($exceptionClassName, new ReplacementWithUnmatchedGroupMessage($this->groupId)));
+        return $this->replaceGroupOptional(new ThrowStrategy($exceptionClassName, new ReplacementWithUnmatchedGroupMessage($this->group)));
     }
 
     public function orElseWith(string $replacement): string
@@ -104,8 +104,8 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 
     public function orElseEmpty(): string
     {
-        if (\is_int($this->groupId->nameOrIndex())) {
-            return $this->performanceReplace->replaceWithGroupOrEmpty($this->groupId->nameOrIndex());
+        if (\is_int($this->group->nameOrIndex())) {
+            return $this->performanceReplace->replaceWithGroupOrEmpty($this->group->nameOrIndex());
         }
         return $this->replaceGroupOptional(new ConstantReturnStrategy(''));
     }
@@ -117,13 +117,13 @@ class ByGroupReplacePatternImpl implements ByGroupReplacePattern
 
     private function replaceGroupOptional(MatchRs $substitute): string
     {
-        return $this->fallbackReplacer->replaceOrFallback($this->groupId,
+        return $this->fallbackReplacer->replaceOrFallback($this->group,
             new IgnoreMessages(new WrappingMapper(new IdentityMapper(), $this->middlewareMapper)),
             new WrappingMatchRs($substitute, $this->middlewareMapper));
     }
 
     public function callback(callable $callback): string
     {
-        return $this->replaceCallbackInvoker->invoke($callback, new MatchGroupStrategy($this->groupId));
+        return $this->replaceCallbackInvoker->invoke($callback, new MatchGroupStrategy($this->group));
     }
 }
