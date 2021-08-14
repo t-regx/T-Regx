@@ -18,9 +18,9 @@ class ThrowFalseNegative extends FalseNegative
         return new AssertionError("Failed to assert that FalseNegative wasn't used");
     }
 
-    public function hasGroup($nameOrIndex): bool
+    public function maybeGroupIsMissing($nameOrIndex): bool
     {
-        return false;
+        return true;
     }
 
     public function getGroupKeys(): array

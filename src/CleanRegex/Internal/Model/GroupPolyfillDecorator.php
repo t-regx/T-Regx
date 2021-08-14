@@ -30,7 +30,7 @@ class GroupPolyfillDecorator implements IRawMatchOffset
      */
     public function hasGroup($nameOrIndex): bool
     {
-        if ($this->falseMatch->hasGroup($nameOrIndex)) {
+        if (!$this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
             return true;
         }
         return $this->trueMatch()->hasGroup($nameOrIndex);
@@ -43,7 +43,7 @@ class GroupPolyfillDecorator implements IRawMatchOffset
 
     public function isGroupMatched($nameOrIndex): bool
     {
-        if ($this->falseMatch->hasGroup($nameOrIndex)) {
+        if (!$this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
             return $this->falseMatch->isGroupMatched($nameOrIndex);
         }
         return $this->trueMatch()->isGroupMatched($nameOrIndex);
@@ -51,7 +51,7 @@ class GroupPolyfillDecorator implements IRawMatchOffset
 
     public function getGroup($nameOrIndex): ?string
     {
-        if ($this->falseMatch->hasGroup($nameOrIndex)) {
+        if (!$this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
             return $this->read($this->falseMatch, $nameOrIndex);
         }
         return $this->read($this->trueMatch(), $nameOrIndex);
@@ -68,7 +68,7 @@ class GroupPolyfillDecorator implements IRawMatchOffset
 
     public function getGroupTextAndOffset($nameOrIndex): array
     {
-        if ($this->falseMatch->hasGroup($nameOrIndex)) {
+        if (!$this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
             return $this->falseMatch->getGroupTextAndOffset($nameOrIndex);
         }
         return $this->trueMatch()->getGroupTextAndOffset($nameOrIndex);

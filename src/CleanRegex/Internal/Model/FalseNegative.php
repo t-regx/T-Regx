@@ -15,9 +15,9 @@ class FalseNegative implements MatchEntry, UsedForGroup
         $this->match = $match;
     }
 
-    public function hasGroup($nameOrIndex): bool
+    public function maybeGroupIsMissing($nameOrIndex): bool
     {
-        return $this->match->hasGroup($nameOrIndex);
+        return !$this->match->hasGroup($nameOrIndex);
     }
 
     public function getText(): string
