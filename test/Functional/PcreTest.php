@@ -37,7 +37,7 @@ class PcreTest extends TestCase
             return $this->version(10, 35);
         }
         if (\PHP_VERSION_ID >= 80009) {
-            return $this->version(10, 36);
+            return $this->version(10, 35);
         }
         if (\PHP_VERSION_ID >= 80005) {
             return $this->version(10, 34);
@@ -48,10 +48,10 @@ class PcreTest extends TestCase
         if (\PHP_VERSION_ID >= 80000) {
             return $this->version(10, 34);
         }
-        if (\PHP_VERSION_ID >= 70422) {
-            return $this->version(10, 36);
+        if (PHP_VERSION_ID >= 70422) {
+            return $this->version(10, 35);
         }
-        if (\PHP_VERSION_ID >= 70418) {
+        if (PHP_VERSION_ID >= 70418) {
             return $this->version(10, 34);
         }
         if (\PHP_VERSION_ID >= 70412) {
@@ -66,7 +66,7 @@ class PcreTest extends TestCase
         if (\PHP_VERSION_ID >= 70328) {
             return $this->version(10, 36);
         }
-        if (PHP_VERSION_ID >= 70300) {
+        if (\PHP_VERSION_ID >= 70300) {
             return $this->version(10, 32);
         }
         if (\PHP_VERSION_ID >= 70234) {
@@ -77,6 +77,12 @@ class PcreTest extends TestCase
         }
         if (\PHP_VERSION_ID >= 70133) {
             return $this->version(8, 44);
+        }
+        if (\PHP_VERSION_ID >= 70111) {
+            return $this->version(8, 38);
+        }
+        if (\PHP_VERSION_ID >= 70107) {
+            return $this->version(8, 35);
         }
         if (\PHP_VERSION_ID >= 70003) {
             return $this->version(8, 38);
