@@ -3,6 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Integer;
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Integer
@@ -32,6 +34,8 @@ class IntegerTest extends TestCase
             ['000'],
             ['011'],
             ['0001'],
+            ["" . PHP_INT_MAX],
+            ["" . PHP_INT_MIN],
         ];
     }
 
