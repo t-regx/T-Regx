@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\AllStreamBase;
 use Test\Utils\Impl\FirstStreamBase;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
+use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream;
 
 /**
@@ -55,6 +56,21 @@ class MatchIntStreamTest extends TestCase
 
         // then
         $this->assertSame(192, $first);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFirstLowerBound()
+    {
+        // given
+        $stream = new MatchIntStream(FirstStreamBase::text('-2147483648'));
+
+        // when
+        $first = $stream->first();
+
+        // then
+        $this->assertSame(-2147483647 - 1, $first); // for some reason, PHP parses -2147483648 as float ;|
     }
 
     /**
@@ -115,6 +131,22 @@ class MatchIntStreamTest extends TestCase
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer");
+
+        // when
+        $stream->firstKey();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_firstKey_forOverflownInteger()
+    {
+        // given
+        $stream = new MatchIntStream(FirstStreamBase::text('922337203685477580700'));
+
+        // then
+        $this->expectException(IntegerOverflowException::class);
+        $this->expectExceptionMessage("Expected to parse '922337203685477580700', but it exceeds integer size on this architecture");
 
         // when
         $stream->firstKey();

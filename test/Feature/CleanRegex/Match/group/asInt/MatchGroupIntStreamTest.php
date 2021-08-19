@@ -6,6 +6,7 @@ use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
+use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 
@@ -163,6 +164,19 @@ class MatchGroupIntStreamTest extends TestCase
 
         // when
         pattern('Foo')->match('Foo')->group(0)->asInt()->keys()->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_first_keys_forOverflownInteger()
+    {
+        // then
+        $this->expectException(IntegerOverflowException::class);
+        $this->expectExceptionMessage("Expected to parse group #0, but '92233720368547758080' exceeds integer size on this architecture");
+
+        // when
+        pattern('\d+')->match('-92233720368547758080')->group(0)->asInt()->keys()->first();
     }
 
     /**

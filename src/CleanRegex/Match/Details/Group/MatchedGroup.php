@@ -2,10 +2,14 @@
 namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Internal\Integer;
+use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
+use TRegx\CleanRegex\Internal\Number\Base;
+use TRegx\CleanRegex\Internal\Number\NumberFormatException;
+use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
+use TRegx\CleanRegex\Internal\Number\StringNumber;
 use TRegx\CleanRegex\Internal\Subjectable;
 
 class MatchedGroup implements Group
@@ -44,15 +48,25 @@ class MatchedGroup implements Group
 
     public function toInt(): int
     {
-        if ($this->isInt()) {
-            return $this->groupEntry->text();
+        $number = new StringNumber($this->groupEntry->text());
+        try {
+            return $number->asInt(new Base(10));
+        } catch (NumberFormatException $exception) {
+            throw IntegerFormatException::forGroup($this->details->group, $this->groupEntry->text());
+        } catch (NumberOverflowException $exception) {
+            throw IntegerOverflowException::forGroup($this->details->group, $this->groupEntry->text());
         }
-        throw IntegerFormatException::forGroup($this->details->group, $this->groupEntry->text());
     }
 
     public function isInt(): bool
     {
-        return Integer::isValid($this->groupEntry->text());
+        $number = new StringNumber($this->groupEntry->text());
+        try {
+            $number->asInt(new Base(10));
+        } catch (NumberFormatException | NumberOverflowException $exception) {
+            return false;
+        }
+        return true;
     }
 
     public function matched(): bool

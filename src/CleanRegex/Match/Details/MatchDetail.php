@@ -3,13 +3,13 @@ namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
+use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\GroupNames;
-use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
@@ -22,6 +22,10 @@ use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
 use TRegx\CleanRegex\Internal\Model\Match\UsedInCompositeGroups;
+use TRegx\CleanRegex\Internal\Number\Base;
+use TRegx\CleanRegex\Internal\Number\NumberFormatException;
+use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
+use TRegx\CleanRegex\Internal\Number\StringNumber;
 use TRegx\CleanRegex\Internal\Subjectable;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
@@ -127,15 +131,25 @@ class MatchDetail implements Detail
     public function toInt(): int
     {
         $text = $this->matchEntry->getText();
-        if (Integer::isValid($text)) {
-            return $text;
+        $number = new StringNumber($text);
+        try {
+            return $number->asInt(new Base(10));
+        } catch (NumberFormatException $exception) {
+            throw IntegerFormatException::forMatch($text);
+        } catch (NumberOverflowException $exception) {
+            throw IntegerOverflowException::forMatch($text);
         }
-        throw IntegerFormatException::forMatch($text);
     }
 
     public function isInt(): bool
     {
-        return Integer::isValid($this->matchEntry->getText());
+        $number = new StringNumber($this->matchEntry->getText());
+        try {
+            $number->asInt(new Base(10));
+        } catch (NumberFormatException | NumberOverflowException $exception) {
+            return false;
+        }
+        return true;
     }
 
     public function get($nameOrIndex): string

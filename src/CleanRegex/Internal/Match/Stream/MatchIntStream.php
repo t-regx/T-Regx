@@ -2,7 +2,11 @@
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Internal\Integer;
+use TRegx\CleanRegex\Exception\IntegerOverflowException;
+use TRegx\CleanRegex\Internal\Number\Base;
+use TRegx\CleanRegex\Internal\Number\NumberFormatException;
+use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
+use TRegx\CleanRegex\Internal\Number\StringNumber;
 
 class MatchIntStream implements Stream
 {
@@ -28,9 +32,13 @@ class MatchIntStream implements Stream
 
     private function parseInteger(string $text): int
     {
-        if (Integer::isValid($text)) {
-            return $text;
+        $number = new StringNumber($text);
+        try {
+            return $number->asInt(new Base(10));
+        } catch (NumberFormatException $exception) {
+            throw IntegerFormatException::forMatch($text);
+        } catch (NumberOverflowException $exception) {
+            throw IntegerOverflowException::forMatch($text);
         }
-        throw IntegerFormatException::forMatch($text);
     }
 }

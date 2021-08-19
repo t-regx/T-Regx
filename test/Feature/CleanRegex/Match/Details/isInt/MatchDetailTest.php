@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\isInt;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Detail;
+use function pattern;
 
 /**
  * @coversNothing
@@ -42,10 +43,25 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotBeInteger()
+    public function shouldNotBeIntegerMalformed()
     {
         // given
-        pattern('(?<name>Foo)')->match('Foo')->first(function (Detail $detail) {
+        pattern('Foo')->match('Foo')->first(function (Detail $detail) {
+            // when
+            $result = $detail->isInt();
+
+            // then
+            $this->assertFalse($result);
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotBeIntegerOverflown()
+    {
+        // given
+        pattern('-\d+')->match('-922337203685477580700')->first(function (Detail $detail) {
             // when
             $result = $detail->isInt();
 

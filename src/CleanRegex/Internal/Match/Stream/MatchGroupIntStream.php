@@ -3,14 +3,18 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
+use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Integer;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
+use TRegx\CleanRegex\Internal\Number;
+use TRegx\CleanRegex\Internal\Number\NumberFormatException;
+use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
+use TRegx\CleanRegex\Internal\Number\StringNumber;
 
 class MatchGroupIntStream implements Stream
 {
@@ -65,9 +69,13 @@ class MatchGroupIntStream implements Stream
 
     private function parseInteger(string $string): int
     {
-        if (Integer::isValid($string)) {
-            return $string;
+        $number = new StringNumber($string);
+        try {
+            return $number->asInt(new Number\Base(10));
+        } catch (NumberFormatException $exception) {
+            throw IntegerFormatException::forGroup($this->group, $string);
+        } catch (NumberOverflowException $exception) {
+            throw IntegerOverflowException::forGroup($this->group, $string);
         }
-        throw IntegerFormatException::forGroup($this->group, $string);
     }
 }

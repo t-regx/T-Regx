@@ -8,6 +8,7 @@ use Test\Utils\Impl\FirstKeyStream;
 use Test\Utils\Impl\FirstStream;
 use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
+use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
 
 /**
@@ -68,13 +69,13 @@ class IntStreamTest extends TestCase
     public function shouldGetFirstString()
     {
         // given
-        $stream = new IntStream(new FirstStream('1'));
+        $stream = new IntStream(new FirstStream('-123'));
 
         // when
         $value = $stream->first();
 
         // then
-        $this->assertSame(1, $value);
+        $this->assertSame(-123, $value);
     }
 
     /**
@@ -118,6 +119,22 @@ class IntStreamTest extends TestCase
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse fluent element 'Foo', but it is not a valid integer");
+
+        // when
+        $stream->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFirstThrowForOverflownInteger()
+    {
+        // given
+        $stream = new IntStream(new FirstStream('922337203685477580700'));
+
+        // then
+        $this->expectException(IntegerOverflowException::class);
+        $this->expectExceptionMessage("Expected to parse fluent element '922337203685477580700', but it exceeds integer size on this architecture");
 
         // when
         $stream->first();

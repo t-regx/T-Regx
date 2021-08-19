@@ -3,7 +3,9 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\toInt;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
+use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Match\Details\Detail;
+use function pattern;
 
 /**
  * @coversNothing
@@ -63,7 +65,7 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_forInvalidInteger()
+    public function shouldThrow_forMalformedInteger()
     {
         // then
         $this->expectException(IntegerFormatException::class);
@@ -74,5 +76,22 @@ class MatchDetailTest extends TestCase
             // when
             return $detail->toInt();
         });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_forOverflownInteger()
+    {
+        // then
+        $this->expectException(IntegerOverflowException::class);
+        $this->expectExceptionMessage("Expected to parse '-922337203685477580700', but it exceeds integer size on this architecture");
+
+        // given
+        pattern('-\d+')->match('-922337203685477580700')
+            ->first(function (Detail $detail) {
+                // when
+                return $detail->toInt();
+            });
     }
 }

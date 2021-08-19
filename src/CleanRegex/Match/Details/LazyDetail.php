@@ -16,7 +16,6 @@ class LazyDetail implements Detail
     private $index;
     /** @var int */
     private $limit;
-
     /** @var MatchDetail|null */
     private $lazyMatch = null;
 

@@ -3,7 +3,11 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Internal\Integer;
+use TRegx\CleanRegex\Exception\IntegerOverflowException;
+use TRegx\CleanRegex\Internal\Number\Base;
+use TRegx\CleanRegex\Internal\Number\NumberFormatException;
+use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
+use TRegx\CleanRegex\Internal\Number\StringNumber;
 use TRegx\CleanRegex\Internal\ValueType;
 use TRegx\CleanRegex\Match\Details\Intable;
 
@@ -26,10 +30,10 @@ class IntStream implements Stream
 
     public function first(): int
     {
-        return self::parse($this->stream->first());
+        return $this->parse($this->stream->first());
     }
 
-    private static function parse($value): int
+    private function parse($value): int
     {
         if (\is_int($value)) {
             return $value;
@@ -40,9 +44,13 @@ class IntStream implements Stream
         if (!\is_string($value)) {
             throw FluentMatchPatternException::forInvalidInteger(new ValueType($value));
         }
-        if (Integer::isValid($value)) {
-            return (int)$value;
+        $number = new StringNumber($value);
+        try {
+            return $number->asInt(new Base(10));
+        } catch (NumberOverflowException $exception) {
+            throw IntegerOverflowException::forFluent($value);
+        } catch (NumberFormatException $exception) {
+            throw IntegerFormatException::forFluent($value);
         }
-        throw IntegerFormatException::forFluent($value);
     }
 }

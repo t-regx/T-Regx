@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\group\isInt;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
+use function pattern;
 
 /**
  * @coversNothing
@@ -106,6 +107,23 @@ class MatchDetailTest extends TestCase
             ->first(function (Detail $detail) {
                 // when
                 $result = $detail->group(1)->isInt();
+
+                // then
+                $this->assertFalse($result);
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotBeInteger_overflown()
+    {
+        // given
+        pattern('(?<name>\d+)')
+            ->match('-92233720368547758080')
+            ->first(function (Detail $detail) {
+                // when
+                $result = $detail->group('name')->isInt();
 
                 // then
                 $this->assertFalse($result);

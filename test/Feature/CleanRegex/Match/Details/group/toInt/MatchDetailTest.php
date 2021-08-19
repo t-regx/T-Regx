@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\group\toInt;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
+use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 /**
@@ -125,6 +126,42 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(?<name>Foo)')
             ->match('Foo bar')
+            ->first(function (Detail $detail) {
+                // when
+                return $detail->group(1)->toInt();
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_forOverflownInteger_byName()
+    {
+        // then
+        $this->expectException(IntegerOverflowException::class);
+        $this->expectExceptionMessage("Expected to parse group 'name', but '-922337203685477580700' exceeds integer size on this architecture");
+
+        // given
+        pattern('(?<name>-\d+)')
+            ->match('-922337203685477580700')
+            ->first(function (Detail $detail) {
+                // when
+                return $detail->group('name')->toInt();
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_forOverflownInteger_byIndex()
+    {
+        // then
+        $this->expectException(IntegerOverflowException::class);
+        $this->expectExceptionMessage("Expected to parse group #1, but '-922337203685477580700' exceeds integer size on this architecture");
+
+        // given
+        pattern('(?<name>-\d+)')
+            ->match('-922337203685477580700')
             ->first(function (Detail $detail) {
                 // when
                 return $detail->group(1)->toInt();
