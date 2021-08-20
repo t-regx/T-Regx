@@ -6,8 +6,8 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
  * that behaves as if it was returning a list, an ordered
  * collection with consequentive indexes, starting at 0.
  *
- * It has implementation details {@see List::entries} and
- * {@see List::entryValue}, which are supposed to receive
+ * It has implementation details {@see ListStream::entries} and
+ * {@see ListStream::firstValue}, which are supposed to receive
  * values as if from a dictionary.
  *
  * So {@see ListStream::all()} returns a sequential array,
