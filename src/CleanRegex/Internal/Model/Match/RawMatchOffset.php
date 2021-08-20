@@ -77,33 +77,6 @@ class RawMatchOffset
         return $this->match[$nameOrIndex];
     }
 
-    public function getGroupsTexts(): array
-    {
-        return \array_map(static function ($match) {
-            if ($match === null) {
-                return null;
-            }
-            if ($match === '') {
-                return null;
-            }
-            if (\is_array($match)) {
-                [$text, $offset] = $match;
-                if ($offset === -1) {
-                    return null;
-                }
-                return $text;
-            }
-            // @codeCoverageIgnoreStart
-            throw new InternalCleanRegexException();
-            // @codeCoverageIgnoreEnd
-        }, $this->match);
-    }
-
-    public function getGroupsOffsets(): array
-    {
-        return \array_map([Tuple::class, 'second'], $this->match);
-    }
-
     public function getIndex(): int
     {
         if ($this->index === null) {
