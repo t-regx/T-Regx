@@ -24,15 +24,15 @@ class MatchStreamTest extends TestCase
     public function shouldDelegateAll()
     {
         // given
-        $stream = $this->matchStream(new AllStreamBase($this->matchesOffset('14')));
+        $stream = $this->matchStream(AllStreamBase::texts(['foo', 'bar', '18']));
 
         // when
         $all = $stream->all();
 
         // then
-        $this->assertSame('14', $all[0]->text());
-        $this->assertSame('19', $all[1]->text());
-        $this->assertSame('25', $all[2]->text());
+        $this->assertSame('foo', $all[0]->text());
+        $this->assertSame('bar', $all[1]->text());
+        $this->assertSame('18', $all[2]->text());
     }
 
     /**
@@ -72,7 +72,7 @@ class MatchStreamTest extends TestCase
     public function shouldCreateAllMatches_index()
     {
         // given
-        $stream = $this->matchStream(new AllStreamBase($this->matchesOffset('19')));
+        $stream = $this->matchStream(AllStreamBase::offsets([3, 4, 18]));
 
         // when
         $all = $stream->all();
@@ -89,15 +89,15 @@ class MatchStreamTest extends TestCase
     public function shouldGetAll_all()
     {
         // given
-        $stream = $this->matchStream(new AllStreamBase($this->matchesOffset('14')));
+        $stream = $this->matchStream(AllStreamBase::texts(['foo', '19', '25']));
 
         // when
         $all = $stream->all();
 
         // then
-        $this->assertSame(['14', '19', '25'], $all[0]->all());
-        $this->assertSame(['14', '19', '25'], $all[1]->all());
-        $this->assertSame(['14', '19', '25'], $all[2]->all());
+        $this->assertSame(['foo', '19', '25'], $all[0]->all());
+        $this->assertSame(['foo', '19', '25'], $all[1]->all());
+        $this->assertSame(['foo', '19', '25'], $all[2]->all());
     }
 
     /**
@@ -106,22 +106,17 @@ class MatchStreamTest extends TestCase
     public function shouldGetAll_first()
     {
         // given
-        $stream = $this->matchStream(FirstStreamBase::dummy(), new EagerMatchAllFactory($this->matchesOffset('First')));
+        $stream = $this->matchStream(FirstStreamBase::dummy(), new EagerMatchAllFactory(new RawMatchesOffset([[
+            ['First', 1],
+            ['19', 2],
+            ['25', 3],
+        ]])));
 
         // when
         $first = $stream->first();
 
         // then
         $this->assertSame(['First', '19', '25'], $first->all());
-    }
-
-    private function matchesOffset(string $firstValue): RawMatchesOffset
-    {
-        return new RawMatchesOffset([[
-            [$firstValue, 1],
-            ['19', 2],
-            ['25', 3],
-        ]]);
     }
 
     private function matchStream(StreamBase $stream, MatchAllFactory $factory = null): MatchStream

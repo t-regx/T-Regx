@@ -15,6 +15,20 @@ class AllStreamBase extends StreamBase
         $this->matches = $matches;
     }
 
+    public static function texts(array $texts): self
+    {
+        return new self(new RawMatchesOffset([\array_map(static function (string $text): array {
+            return [$text, 0];
+        }, $texts)]));
+    }
+
+    public static function offsets(array $offsets): self
+    {
+        return new self(new RawMatchesOffset([\array_map(static function (int $offset): array {
+            return ['unused', $offset];
+        }, $offsets)]));
+    }
+
     public function all(): RawMatchesOffset
     {
         return $this->matches;

@@ -6,7 +6,6 @@ use Test\Utils\Impl\AllStreamBase;
 use Test\Utils\Impl\FirstStreamBase;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream
@@ -19,7 +18,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldDelegate_all()
     {
         // given
-        $stream = new MatchIntStream(new AllStreamBase($this->matchesOffset('14')));
+        $stream = new MatchIntStream(AllStreamBase::texts(['14', '19', '25']));
 
         // when
         $all = $stream->all();
@@ -34,7 +33,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldDelegate_all_unmatched()
     {
         // given
-        $stream = new MatchIntStream(new AllStreamBase(new RawMatchesOffset([[]])));
+        $stream = new MatchIntStream(AllStreamBase::texts([]));
 
         // when
         $all = $stream->all();
@@ -79,7 +78,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldThrow_all_forMalformedInteger()
     {
         // given
-        $stream = new MatchIntStream(new AllStreamBase($this->matchesOffset('Foo')));
+        $stream = new MatchIntStream(AllStreamBase::texts(['Foo', 'Bar']));
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -119,14 +118,5 @@ class MatchIntStreamTest extends TestCase
 
         // when
         $stream->firstKey();
-    }
-
-    private function matchesOffset(string $firstValue): RawMatchesOffset
-    {
-        return new RawMatchesOffset([[
-            [$firstValue, 1],
-            ['19', 2],
-            ['25', 3],
-        ]]);
     }
 }
