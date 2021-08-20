@@ -12,7 +12,6 @@ use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\MatchStream
@@ -42,13 +41,14 @@ class MatchStreamTest extends TestCase
     public function shouldDelegateFirst()
     {
         // given
-        $stream = $this->matchStream($this->streamFirstAndKey('192', 0));
+        $stream = $this->matchStream(FirstStreamBase::entry(14, '192'));
 
         // when
         $first = $stream->first();
 
         // then
         $this->assertSame('192', $first->text());
+        $this->assertSame(14, $first->index());
     }
 
     /**
@@ -57,28 +57,13 @@ class MatchStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = $this->matchStream($this->streamFirstAndKey('192', 2));
+        $stream = $this->matchStream(FirstStreamBase::dummy());
 
         // when
         $key = $stream->firstKey();
 
         // then
         $this->assertSame(0, $key);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldCreateFirstMatch_index()
-    {
-        // given
-        $stream = $this->matchStream($this->streamFirstAndKey('192', 4));
-
-        // when
-        $first = $stream->first();
-
-        // then
-        $this->assertSame(4, $first->index());
     }
 
     /**
@@ -121,18 +106,13 @@ class MatchStreamTest extends TestCase
     public function shouldGetAll_first()
     {
         // given
-        $stream = $this->matchStream($this->streamFirstAndKey('', 0), new EagerMatchAllFactory($this->matchesOffset('First')));
+        $stream = $this->matchStream(FirstStreamBase::dummy(), new EagerMatchAllFactory($this->matchesOffset('First')));
 
         // when
         $first = $stream->first();
 
         // then
         $this->assertSame(['First', '19', '25'], $first->all());
-    }
-
-    private function streamFirstAndKey(string $value, int $index): StreamBase
-    {
-        return new FirstStreamBase($index, $this->matchOffset($value));
     }
 
     private function matchesOffset(string $firstValue): RawMatchesOffset
@@ -142,11 +122,6 @@ class MatchStreamTest extends TestCase
             ['19', 2],
             ['25', 3],
         ]]);
-    }
-
-    private function matchOffset(string $value): RawMatchOffset
-    {
-        return new RawMatchOffset([[$value, 1]], 0);
     }
 
     private function matchStream(StreamBase $stream, MatchAllFactory $factory = null): MatchStream

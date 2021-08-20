@@ -7,7 +7,6 @@ use Test\Utils\Impl\FirstStreamBase;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream
@@ -50,7 +49,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldDelegate_first()
     {
         // given
-        $stream = new MatchIntStream(new FirstStreamBase(0, new RawMatchOffset([['192', 1]], 0)));
+        $stream = new MatchIntStream(FirstStreamBase::text('192'));
 
         // when
         $first = $stream->first();
@@ -65,7 +64,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldNotDelegate_firstKey()
     {
         // given
-        $stream = new MatchIntStream(new FirstStreamBase(2, new RawMatchOffset([['192', 1]], 10)));
+        $stream = new MatchIntStream(FirstStreamBase::text('192'));
 
         // when
         $key = $stream->firstKey();
@@ -96,7 +95,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldThrow_first_forMalformedInteger()
     {
         // given
-        $stream = new MatchIntStream(new FirstStreamBase(1, new RawMatchOffset([['Foo', 1]], 1)));
+        $stream = new MatchIntStream(FirstStreamBase::text('Foo'));
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -112,7 +111,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldThrow_firstKey_forMalformedInteger()
     {
         // given
-        $stream = new MatchIntStream(new FirstStreamBase(1, new RawMatchOffset([['Foo', 1]], 1)));
+        $stream = new MatchIntStream(FirstStreamBase::text('Foo'));
 
         // then
         $this->expectException(IntegerFormatException::class);
