@@ -1,3 +1,5 @@
+name: build
+
 on:
   pull_request:
   push:
@@ -5,51 +7,35 @@ on:
       - master
       - develop
 
-name: build
-
 jobs:
-  php-lint:
-    name: PHP Lint
-    runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        php-version:
-          - 7.1
-          - 7.2
-          - 7.3
-          - 7.4
-          - 8.0
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          coverage: none
-
-      - name: PHP Lint
-        run: find src test -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
-
   unit-tests:
     name: Unit tests
-    runs-on: ubuntu-20.04
-    needs: [ php-lint ]
+    runs-on: ubuntu-latest
+
+    container:
+      image: shivammathur/node:latest-${{ matrix.arch }}
+
     strategy:
       matrix:
         include:
           - php-version: 7.1
             coverage: none
+            arch: "amd64"
           - php-version: 7.2
             coverage: none
+            arch: "amd64"
           - php-version: 7.3
             coverage: none
+            arch: "amd64"
           - php-version: 7.4
             coverage: none
+            arch: "amd64"
           - php-version: 8.0
             coverage: xdebug
+            arch: "amd64"
+          - php-version: 8.0
+            coverage: none
+            arch: "i386"
 
     steps:
       - name: Checkout
@@ -68,11 +54,10 @@ jobs:
           path: ~/.cache/composer
           key: php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: php${{ matrix.php-version }}-composer-
+
       - name: Install Composer dependencies
-        run: |
-          composer install --no-progress;
-          composer update --with-dependencies --no-progress;
-          composer show;
+        run: composer install --no-progress
+
       - name: Run tests
         run: ./vendor/bin/phpunit test
 
