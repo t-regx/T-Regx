@@ -4,7 +4,6 @@ namespace Test\Functional\TRegx;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\TestCaseConditional;
 use TRegx\Pcre;
-use const PHP_VERSION_ID;
 
 /**
  * @covers \TRegx\Pcre
@@ -34,46 +33,52 @@ class PcreTest extends TestCase
 
     public function pcreVersionDependant(): array
     {
-        if (PHP_VERSION_ID >= 80100) {
+        if (\PHP_VERSION_ID >= 80100) {
             return $this->version(10, 35);
         }
-        if (PHP_VERSION_ID >= 80005) {
+        if (\PHP_VERSION_ID >= 80009) {
+            return $this->version(10, 36);
+        }
+        if (\PHP_VERSION_ID >= 80005) {
             return $this->version(10, 34);
         }
-        if (PHP_VERSION_ID >= 80003) {
+        if (\PHP_VERSION_ID >= 80003) {
             return $this->version(10, 35);
         }
-        if (PHP_VERSION_ID >= 80000) {
+        if (\PHP_VERSION_ID >= 80000) {
             return $this->version(10, 34);
         }
-        if (PHP_VERSION_ID >= 70418) {
+        if (\PHP_VERSION_ID >= 70422) {
+            return $this->version(10, 36);
+        }
+        if (\PHP_VERSION_ID >= 70418) {
             return $this->version(10, 34);
         }
-        if (PHP_VERSION_ID >= 70412) {
+        if (\PHP_VERSION_ID >= 70412) {
             return $this->version(10, 35);
         }
-        if (PHP_VERSION_ID >= 70406) {
+        if (\PHP_VERSION_ID >= 70406) {
             return $this->version(10, 34);
         }
-        if (PHP_VERSION_ID >= 70400) {
+        if (\PHP_VERSION_ID >= 70400) {
             return $this->version(10, 33);
         }
-        if (PHP_VERSION_ID >= 70328) {
+        if (\PHP_VERSION_ID >= 70328) {
             return $this->version(10, 36);
         }
         if (PHP_VERSION_ID >= 70300) {
             return $this->version(10, 32);
         }
-        if (PHP_VERSION_ID >= 70234) {
+        if (\PHP_VERSION_ID >= 70234) {
             return $this->version(8, 44);
         }
-        if (PHP_VERSION_ID >= 70200) {
+        if (\PHP_VERSION_ID >= 70200) {
             return $this->version(8, 41);
         }
-        if (PHP_VERSION_ID >= 70133) {
+        if (\PHP_VERSION_ID >= 70133) {
             return $this->version(8, 44);
         }
-        if (PHP_VERSION_ID >= 70003) {
+        if (\PHP_VERSION_ID >= 70003) {
             return $this->version(8, 38);
         }
         return $this->version(8, 37);
@@ -81,7 +86,7 @@ class PcreTest extends TestCase
 
     private function version(int $major, int $minor): array
     {
-        return [PHP_VERSION => ["$major.$minor", $major, $minor, $major >= 10]];
+        return [\PHP_VERSION => ["$major.$minor", $major, $minor, $major >= 10]];
     }
 
     /**
@@ -89,13 +94,13 @@ class PcreTest extends TestCase
      */
     public function shouldNotBeProneToConstantOverride()
     {
-        if (PHP_VERSION_ID >= 70300) {
+        if (\PHP_VERSION_ID >= 70300) {
             $this->markTestRenderedUnnecessary("PHP with PCRE2 is not prone to constant override");
         }
 
         // given
-        define('PCRE_VERSION_MAJOR', 1200);
-        define('PCRE_VERSION_MINOR', 1300);
+        \define('PCRE_VERSION_MAJOR', 1200);
+        \define('PCRE_VERSION_MINOR', 1300);
 
         // when
         $semantic = Pcre::semanticVersion();

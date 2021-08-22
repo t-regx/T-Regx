@@ -1,7 +1,7 @@
 <?php
 namespace TRegx;
 
-use TRegx\SafeRegex\Internal\Tuple;
+use TRegx\SafeRegex\Internal\PcreVersion;
 
 /**
  * PHP 7.3 introduced PCRE2 - a new PCRE version. Until 7.3
@@ -31,21 +31,26 @@ class Pcre
 {
     public static function pcre2(): bool
     {
-        return self::majorVersion() >= 10;
+        return self::version()->pcre2();
     }
 
     public static function semanticVersion(): string
     {
-        return \strstr(\PCRE_VERSION, ' ', true);
+        return self::version()->semanticVersion();
     }
 
     public static function majorVersion(): int
     {
-        return \strstr(self::semanticVersion(), '.', true);
+        return self::version()->majorVersion();
     }
 
     public static function minorVersion(): int
     {
-        return Tuple::second(\explode('.', self::semanticVersion()));
+        return self::version()->minorVersion();
+    }
+
+    protected static function version(): PcreVersion
+    {
+        return new PcreVersion(\PCRE_VERSION);
     }
 }
