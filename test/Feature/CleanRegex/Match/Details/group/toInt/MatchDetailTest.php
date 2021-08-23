@@ -47,6 +47,21 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
+    public function shouldParseIntBase4()
+    {
+        // given
+        $result = pattern('(?<name>-?\d+)')->match('-321')->first(function (Detail $detail) {
+            // when
+            return $detail->group(1)->toInt(4);
+        });
+
+        // then
+        $this->assertSame(-57, $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_forPseudoInteger_becausePhpSucks()
     {
         // then

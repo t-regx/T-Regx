@@ -1,6 +1,7 @@
 <?php
 namespace Test\Interaction\TRegx\CleanRegex\Match\Details;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
@@ -98,6 +99,37 @@ class LazyDetailTest extends TestCase
     /**
      * @test
      */
+    public function shouldToIntBase16()
+    {
+        // given
+        $detail = $this->detail('\w+', '123cb');
+
+        // when
+        $int = $detail->toInt(16);
+
+        // then
+        $this->assertSame(74699, $int);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForInvalidBase()
+    {
+        // given
+        $detail = $this->detail('\d+', '123cm');
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid base: 38 (supported bases 2-36, case-insensitive)');
+
+        // when
+        $detail->toInt(38);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetGroupNames()
     {
         // given
@@ -158,10 +190,10 @@ class LazyDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldIsInt_true()
+    public function shouldBeInt()
     {
         // given
-        $detail = $this->detail('\d+', '!123!');
+        $detail = $this->detail('\d+', '9');
 
         // when
         $isInt = $detail->isInt();
@@ -173,13 +205,43 @@ class LazyDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldIsInt_false()
+    public function shouldNoBeInt()
     {
         // given
-        $detail = $this->detail('[1234e]+', '!123e4!');
+        $detail = $this->detail('1a', '1a');
 
         // when
         $isInt = $detail->isInt();
+
+        // then
+        $this->assertFalse($isInt);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeIntBase36()
+    {
+        // given
+        $detail = $this->detail('azb', 'azb');
+
+        // when
+        $isInt = $detail->isInt(36);
+
+        // then
+        $this->assertTrue($isInt);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNoBeInt2()
+    {
+        // given
+        $detail = $this->detail('2', '2');
+
+        // when
+        $isInt = $detail->isInt(2);
 
         // then
         $this->assertFalse($isInt);

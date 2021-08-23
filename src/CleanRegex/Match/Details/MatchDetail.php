@@ -128,12 +128,12 @@ class MatchDetail implements Detail
         return \strlen($this->matchEntry->getText());
     }
 
-    public function toInt(): int
+    public function toInt(int $base = null): int
     {
         $text = $this->matchEntry->getText();
         $number = new StringNumber($text);
         try {
-            return $number->asInt(new Base(10));
+            return $number->asInt(new Base($base));
         } catch (NumberFormatException $exception) {
             throw IntegerFormatException::forMatch($text);
         } catch (NumberOverflowException $exception) {
@@ -141,11 +141,11 @@ class MatchDetail implements Detail
         }
     }
 
-    public function isInt(): bool
+    public function isInt(int $base = null): bool
     {
         $number = new StringNumber($this->matchEntry->getText());
         try {
-            $number->asInt(new Base(10));
+            $number->asInt(new Base($base));
         } catch (NumberFormatException | NumberOverflowException $exception) {
             return false;
         }

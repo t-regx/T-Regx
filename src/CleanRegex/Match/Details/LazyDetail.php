@@ -82,14 +82,14 @@ class LazyDetail implements Detail
         return $this->match()->textByteLength();
     }
 
-    public function toInt(): int
+    public function toInt(int $base = null): int
     {
-        return $this->match()->toInt();
+        return $this->match()->toInt($base);
     }
 
-    public function isInt(): bool
+    public function isInt(int $base = null): bool
     {
-        return $this->match()->isInt();
+        return $this->match()->isInt($base);
     }
 
     public function index(): int

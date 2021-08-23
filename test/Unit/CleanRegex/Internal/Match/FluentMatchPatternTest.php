@@ -314,6 +314,47 @@ class FluentMatchPatternTest extends TestCase
 
     /**
      * @test
+     * @dataProvider inputs
+     */
+    public function shouldThrowForInvalidBase(array $input)
+    {
+        // given
+        $pattern = new FluentMatchPattern(new AllStream($input), new ThrowWorker());
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid base: 37 (supported bases 2-36, case-insensitive)');
+
+        // when
+        $pattern->asInt(37)->all();
+    }
+
+    public function inputs(): array
+    {
+        return [
+            [[]],
+            [[new ConstantInt(12)]],
+            [[1, 2, 3]],
+        ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMapToIntegersBase5()
+    {
+        // given
+        $pattern = new FluentMatchPattern(new AllStream(['a' => '123']), new ThrowWorker());
+
+        // when
+        $integers = $pattern->asInt(5)->all();
+
+        // then
+        $this->assertSame(['a' => 38], $integers);
+    }
+
+    /**
+     * @test
      */
     public function shouldThrowForInvalidIntegers()
     {

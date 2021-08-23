@@ -13,7 +13,7 @@ class ConstantInt implements Intable
         $this->integer = $integer;
     }
 
-    public function toInt(): int
+    public function toInt(int $base = null): int
     {
         return $this->integer;
     }

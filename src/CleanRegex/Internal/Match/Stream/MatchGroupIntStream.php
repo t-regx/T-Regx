@@ -26,12 +26,15 @@ class MatchGroupIntStream implements Stream
     private $group;
     /** @var MatchAllFactory */
     private $allFactory;
+    /** @var Number\Base */
+    private $numberBase;
 
-    public function __construct(Base $base, GroupKey $group, MatchAllFactory $allFactory)
+    public function __construct(Base $base, GroupKey $group, MatchAllFactory $allFactory, Number\Base $numberBase)
     {
         $this->base = $base;
         $this->group = $group;
         $this->allFactory = $allFactory;
+        $this->numberBase = $numberBase;
     }
 
     protected function entries(): array
@@ -71,7 +74,7 @@ class MatchGroupIntStream implements Stream
     {
         $number = new StringNumber($string);
         try {
-            return $number->asInt(new Number\Base(10));
+            return $number->asInt($this->numberBase);
         } catch (NumberFormatException $exception) {
             throw IntegerFormatException::forGroup($this->group, $string);
         } catch (NumberOverflowException $exception) {

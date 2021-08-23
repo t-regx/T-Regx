@@ -1,8 +1,12 @@
 <?php
 namespace Test\Interaction\TRegx\CleanRegex\Match\Details\Group;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\ConstantMatchEntry;
+use Test\Utils\Impl\ThrowGroupDetails;
+use Test\Utils\Impl\ThrowSubject;
+use Test\Utils\Impl\ThrowSubstituted;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
@@ -191,6 +195,63 @@ class MatchedGroupTest extends TestCase
 
         // then
         $this->assertSame($group->nameOrIndex(), $result);
+    }
+
+    /**
+     * @test
+     * @dataProvider integers
+     */
+    public function shouldParseIntegerBase10Default(string $text, int $expected, ?int $base)
+    {
+        // given
+        $matchedGroup = new MatchedGroup(new ThrowSubject(), new ThrowGroupDetails(), new GroupEntry($text, 0, new ThrowSubject()), new ThrowSubstituted());
+
+        // when
+        $integer = $matchedGroup->toInt($base);
+
+        // then
+        $this->assertSame($expected, $integer);
+    }
+
+    public function integers(): array
+    {
+        return [
+            ['194', 194, null],
+            ['194', 194, 10],
+            ['a4f', 2639, 16],
+        ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldToIntThrowForInvalidBase()
+    {
+        // given
+        $matchedGroup = new MatchedGroup(new ThrowSubject(), new ThrowGroupDetails(), new GroupEntry('af6', 0, new ThrowSubject()), new ThrowSubstituted());
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid base: -2 (supported bases 2-36, case-insensitive)');
+
+        // when
+        $matchedGroup->toInt(-2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldIsIntThrowForInvalidBase()
+    {
+        // given
+        $matchedGroup = new MatchedGroup(new ThrowSubject(), new ThrowGroupDetails(), new GroupEntry('af6', 0, new ThrowSubject()), new ThrowSubstituted());
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid base: -2 (supported bases 2-36, case-insensitive)');
+
+        // when
+        $matchedGroup->isInt(-2);
     }
 
     public function identifiers(): array

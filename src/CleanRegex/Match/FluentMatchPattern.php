@@ -21,6 +21,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeysStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MappingStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Number;
 
 class FluentMatchPattern implements MatchPatternInterface
 {
@@ -153,9 +154,9 @@ class FluentMatchPattern implements MatchPatternInterface
         return $this->next(new KeysStream($this->stream));
     }
 
-    public function asInt(): FluentMatchPattern
+    public function asInt(int $base = null): FluentMatchPattern
     {
-        return $this->next(new IntStream($this->stream));
+        return $this->next(new IntStream($this->stream, new Number\Base($base)));
     }
 
     public function groupByCallback(callable $groupMapper): FluentMatchPattern

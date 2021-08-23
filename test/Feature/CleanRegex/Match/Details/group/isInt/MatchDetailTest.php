@@ -82,6 +82,36 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
+    public function shouldBeIntBase12()
+    {
+        // given
+        pattern('14b2')->match('14b2')->first(function (Detail $detail) {
+            // when
+            $isInt = $detail->group(0)->isInt(12);
+
+            // then
+            $this->assertTrue($isInt, "Failed asserting that {$detail->subject()} is int in base 12");
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldIntegerBase11NotBeIntegerBase10()
+    {
+        // given
+        pattern('10a')->match('10a')->first(function (Detail $detail) {
+            // when
+            $isInt = $detail->group(0)->isInt();
+
+            // then
+            $this->assertFalse($isInt);
+        });
+    }
+
+    /**
+     * @test
+     */
     public function shouldNotBeInteger_byName()
     {
         // given

@@ -46,11 +46,11 @@ class MatchedGroup implements Group
         return \strlen($this->groupEntry->text());
     }
 
-    public function toInt(): int
+    public function toInt(int $base = null): int
     {
         $number = new StringNumber($this->groupEntry->text());
         try {
-            return $number->asInt(new Base(10));
+            return $number->asInt(new Base($base));
         } catch (NumberFormatException $exception) {
             throw IntegerFormatException::forGroup($this->details->group, $this->groupEntry->text());
         } catch (NumberOverflowException $exception) {
@@ -58,11 +58,11 @@ class MatchedGroup implements Group
         }
     }
 
-    public function isInt(): bool
+    public function isInt(int $base = null): bool
     {
         $number = new StringNumber($this->groupEntry->text());
         try {
-            $number->asInt(new Base(10));
+            $number->asInt(new Base($base));
         } catch (NumberFormatException | NumberOverflowException $exception) {
             return false;
         }

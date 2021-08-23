@@ -31,6 +31,7 @@ use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Nested;
+use TRegx\CleanRegex\Internal\Number;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\SafeRegex\Internal\Tuple;
 
@@ -187,10 +188,10 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
         return new FluentMatchPattern($this->stream(), new MatchStreamWorker());
     }
 
-    public function asInt(): FluentMatchPattern
+    public function asInt(int $base = null): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            new MatchGroupIntStream($this->base, $this->group, $this->matchAllFactory),
+            new MatchGroupIntStream($this->base, $this->group, $this->matchAllFactory, new Number\Base($base)),
             new ThrowInternalStreamWorker());
     }
 

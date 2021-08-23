@@ -19,17 +19,8 @@ class ReplacePatternTest extends TestCase
             ->replace('Hello:Foo')
             ->first()
             ->callback(function (ReplaceDetail $detail) {
-                // given
-                $matched = $detail->group('matched');
-                $unmatched = $detail->group('unmatched');
-
-                // when
-                $matchedSubject = $matched->subject();
-                $unmatchedSubject = $unmatched->subject();
-
-                // then
-                $this->assertSame('Hello:Foo', $matchedSubject);
-                $this->assertSame('Hello:Foo', $unmatchedSubject);
+                $this->assertSame('Hello:Foo', $detail->group('matched')->subject());
+                $this->assertSame('Hello:Foo', $detail->group('unmatched')->subject());
 
                 // cleanup
                 return '';

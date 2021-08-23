@@ -44,12 +44,12 @@ class NotMatchedGroup implements Group
         throw $this->groupNotMatched('textByteLength');
     }
 
-    public function toInt(): int
+    public function toInt(int $base = null): int
     {
         throw $this->groupNotMatched('toInt');
     }
 
-    public function isInt(): bool
+    public function isInt(int $base = null): bool
     {
         throw $this->groupNotMatched('isInt');
     }

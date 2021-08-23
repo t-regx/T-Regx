@@ -14,10 +14,13 @@ class MatchIntStream implements Stream
 
     /** @var StreamBase */
     private $stream;
+    /** @var Base */
+    private $base;
 
-    public function __construct(StreamBase $stream)
+    public function __construct(StreamBase $stream, Base $base)
     {
         $this->stream = $stream;
+        $this->base = $base;
     }
 
     protected function entries(): array
@@ -34,7 +37,7 @@ class MatchIntStream implements Stream
     {
         $number = new StringNumber($text);
         try {
-            return $number->asInt(new Base(10));
+            return $number->asInt($this->base);
         } catch (NumberFormatException $exception) {
             throw IntegerFormatException::forMatch($text);
         } catch (NumberOverflowException $exception) {

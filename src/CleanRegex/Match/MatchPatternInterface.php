@@ -40,7 +40,7 @@ interface MatchPatternInterface extends \Countable, \IteratorAggregate
      */
     public function filter(callable $predicate);
 
-    public function asInt(): FluentMatchPattern;
+    public function asInt(int $base = null): FluentMatchPattern;
 
     /**
      * @param callable $mapper

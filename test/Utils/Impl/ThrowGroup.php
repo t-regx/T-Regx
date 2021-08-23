@@ -2,26 +2,19 @@
 namespace Test\Utils\Impl;
 
 use AssertionError;
+use Throwable;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
-class TextGroup implements Group
+class ThrowGroup implements Group
 {
-    /** @var string */
-    private $text;
-
-    public function __construct(string $text)
+    private function fail(): Throwable
     {
-        $this->text = $text;
+        return new AssertionError("Failed to assert that Group wasn't used");
     }
 
     public function text(): string
     {
-        return $this->text;
-    }
-
-    private function fail(): AssertionError
-    {
-        return new AssertionError("Failed to assert Detail wasn't used");
+        throw $this->fail();
     }
 
     public function textLength(): int

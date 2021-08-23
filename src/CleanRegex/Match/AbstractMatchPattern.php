@@ -34,6 +34,7 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Number;
 use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
@@ -190,10 +191,10 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
             new MatchStreamWorker());
     }
 
-    public function asInt(): FluentMatchPattern
+    public function asInt(int $base = null): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            new MatchIntStream(new StreamBase($this->base)),
+            new MatchIntStream(new StreamBase($this->base), new Number\Base($base)),
             new NextStreamWorkerDecorator(new MatchStreamWorker(), new AsIntStreamWorker($this->base)));
     }
 

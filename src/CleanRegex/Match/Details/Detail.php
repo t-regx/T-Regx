@@ -15,9 +15,9 @@ interface Detail extends BaseDetail, Intable
 
     public function textByteLength(): int;
 
-    public function toInt(): int;
+    public function toInt(int $base = null): int;
 
-    public function isInt(): bool;
+    public function isInt(int $base = null): bool;
 
     public function index(): int;
 

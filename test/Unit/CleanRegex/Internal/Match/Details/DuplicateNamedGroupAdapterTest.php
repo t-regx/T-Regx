@@ -3,6 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Details;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\IntGroup;
+use Test\Utils\Impl\IsIntGroup;
 use TRegx\CleanRegex\Internal\Match\Details\DuplicateNamedGroupAdapter;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
@@ -51,8 +53,10 @@ class DuplicateNamedGroupAdapterTest extends TestCase
             'text'           => ['text', [], 'value'],
             'textLength'     => ['textLength', [], 14],
             'textByteLength' => ['textByteLength', [], 14],
-            'toInt'          => ['toInt', [], 14],
-            'isInt'          => ['isInt', [], true],
+            'toInt base 10'  => ['toInt', [], 14],
+            'toInt base 3'   => ['toInt', [3], 14],
+            'isInt base 10'  => ['isInt', [], true],
+            'isInt base 3'   => ['isInt', [3], true],
             'equals'         => ['equals', ['arg'], true],
             'substitute'     => ['substitute', ['arg'], 'value'],
             'matched'        => ['matched', [], true],
@@ -82,5 +86,95 @@ class DuplicateNamedGroupAdapterTest extends TestCase
             ->will($this->returnValue($result));
 
         return $group;
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetInt(): void
+    {
+        // given
+        $adapter = new DuplicateNamedGroupAdapter('foo', new IntGroup(12, null));
+
+        // when
+        $integer = $adapter->toInt();
+
+        // then
+        $this->assertSame(12, $integer);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetIntBase4(): void
+    {
+        // given
+        $adapter = new DuplicateNamedGroupAdapter('foo', new IntGroup(14, 4));
+
+        // when
+        $integer = $adapter->toInt(4);
+
+        // then
+        $this->assertSame(14, $integer);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeInt(): void
+    {
+        // given
+        $adapter = new DuplicateNamedGroupAdapter('foo', new IntGroup(14, 4));
+
+        // when + then
+        $this->assertSame(14, $adapter->toInt(4));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeIntDefaultBase(): void
+    {
+        // given
+        $adapter = new DuplicateNamedGroupAdapter('foo', new IntGroup(13, null));
+
+        // when + then
+        $this->assertSame(13, $adapter->toInt());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotBeInt(): void
+    {
+        // given
+        $adapter = new DuplicateNamedGroupAdapter('foo', new IsIntGroup(false, null));
+
+        // when + then
+        $this->assertFalse($adapter->isInt());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotBeIntBase16(): void
+    {
+        // given
+        $adapter = new DuplicateNamedGroupAdapter('foo', new IsIntGroup(false, 16));
+
+        // when + then
+        $this->assertFalse($adapter->isInt(16));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeIntBase10(): void
+    {
+        // given
+        $adapter = new DuplicateNamedGroupAdapter('foo', new IsIntGroup(true, 10));
+
+        // when + then
+        $this->assertTrue($adapter->isInt(10));
     }
 }

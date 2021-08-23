@@ -57,12 +57,12 @@ class TextDetail implements Detail
         throw $this->fail();
     }
 
-    public function toInt(): int
+    public function toInt(int $base = null): int
     {
         throw $this->fail();
     }
 
-    public function isInt(): bool
+    public function isInt(int $base = null): bool
     {
         throw $this->fail();
     }

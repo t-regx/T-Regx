@@ -8,7 +8,7 @@ class ThrowBase extends Base
 {
     public function __construct()
     {
-        parent::__construct(-1);
+        parent::__construct(2);
     }
 
     public function base(): int

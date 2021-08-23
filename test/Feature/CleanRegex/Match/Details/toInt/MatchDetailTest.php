@@ -1,6 +1,7 @@
 <?php
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\toInt;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
@@ -42,6 +43,36 @@ class MatchDetailTest extends TestCase
             ['011', 11],
             ['0001', 1],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldIntBase4()
+    {
+        // given
+        $result = pattern('-\d+')->match('-123')->first(function (Detail $detail) {
+            // when
+            return $detail->toInt(4);
+        });
+
+        // then
+        $this->assertSame(-27, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForInvalidBase()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid base: -1 (supported bases 2-36, case-insensitive)');
+
+        // given
+        pattern('Foo')->match('Foo')->first(function (Detail $detail) {
+            return $detail->toInt(-1);
+        });
     }
 
     /**
@@ -93,5 +124,20 @@ class MatchDetailTest extends TestCase
                 // when
                 return $detail->toInt();
             });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldParseIntBase4()
+    {
+        // given
+        $result = pattern('-?\d+')->match('-321')->first(function (Detail $detail) {
+            // when
+            return $detail->toInt(4);
+        });
+
+        // then
+        $this->assertSame(-57, $result);
     }
 }

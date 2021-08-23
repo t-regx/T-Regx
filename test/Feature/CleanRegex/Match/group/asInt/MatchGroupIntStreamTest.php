@@ -1,6 +1,7 @@
 <?php
 namespace Test\Feature\TRegx\CleanRegex\Match\group\asInt;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
@@ -40,6 +41,18 @@ class MatchGroupIntStreamTest extends TestCase
     /**
      * @test
      */
+    public function shouldGet_asInt_map_all_base16()
+    {
+        // when
+        $groups = pattern('n:(\w+)')->match('n:f1a n:eee n:18')->group(1)->asInt(16)->all();
+
+        // then
+        $this->assertSame([3866, 3822, 24], $groups);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGet_all_forUnmatchedSubject()
     {
         // when
@@ -60,6 +73,19 @@ class MatchGroupIntStreamTest extends TestCase
 
         // when
         pattern('(Foo)')->match('Bar')->group(1)->asInt()->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_first_forInvalidBase()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Invalid base: 1 (supported bases 2-36, case-insensitive)");
+
+        // when
+        pattern('(Foo)')->match('Bar')->group(1)->asInt(1)->first();
     }
 
     /**
@@ -189,6 +215,19 @@ class MatchGroupIntStreamTest extends TestCase
 
         // then
         $this->assertSame([12, null, 13], $groups);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_forInvalidBase()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid base: 38 (supported bases 2-36, case-insensitive)');
+
+        // when
+        pattern('"(\d+)?"')->match('')->group(1)->asInt(38)->all();
     }
 
     /**

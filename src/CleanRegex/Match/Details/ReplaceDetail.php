@@ -98,14 +98,14 @@ class ReplaceDetail implements Detail
         return $this->detail->textByteLength();
     }
 
-    public function toInt(): int
+    public function toInt(int $base = null): int
     {
-        return $this->detail->toInt();
+        return $this->detail->toInt($base);
     }
 
-    public function isInt(): bool
+    public function isInt(int $base = null): bool
     {
-        return $this->detail->isInt();
+        return $this->detail->isInt($base);
     }
 
     public function index(): int

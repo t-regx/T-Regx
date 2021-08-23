@@ -17,10 +17,13 @@ class IntStream implements Stream
 
     /** @var Stream */
     private $stream;
+    /** @var Base */
+    private $base;
 
-    public function __construct(Stream $stream)
+    public function __construct(Stream $stream, Base $base)
     {
         $this->stream = $stream;
+        $this->base = $base;
     }
 
     public function all(): array
@@ -46,7 +49,7 @@ class IntStream implements Stream
         }
         $number = new StringNumber($value);
         try {
-            return $number->asInt(new Base(10));
+            return $number->asInt($this->base);
         } catch (NumberOverflowException $exception) {
             throw IntegerOverflowException::forFluent($value);
         } catch (NumberFormatException $exception) {

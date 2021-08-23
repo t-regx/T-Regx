@@ -1,6 +1,7 @@
 <?php
 namespace Test\Feature\TRegx\CleanRegex\Match;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
@@ -10,6 +11,7 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
+use function pattern;
 
 /**
  * @coversNothing
@@ -282,6 +284,19 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrow_asInt_findFirst_OnInvalidBase()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid base: 1 (supported bases 2-36, case-insensitive)');
+
+        // given
+        pattern('Foo')->match('Bar')->asInt(1)->findFirst(Functions::fail())->orThrow();
+    }
+
+    /**
+     * @test
+     */
     public function shouldBe_Countable()
     {
         // when
@@ -309,6 +324,22 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrowForInvalidBase()
+    {
+        // given
+        $subject = "I'll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.";
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid base: 0 (supported bases 2-36, case-insensitive)');
+
+        // when
+        pattern('\d+')->match($subject)->asInt(0)->all();
+    }
+
+    /**
+     * @test
+     */
     public function shouldGet_asInt_first()
     {
         // given
@@ -319,6 +350,21 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertSame(9, $integer);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_asInt_base4_first()
+    {
+        // given
+        $subject = "Number 321";
+
+        // when
+        $integer = pattern('\d+')->match($subject)->asInt(4)->first();
+
+        // then
+        $this->assertSame(57, $integer);
     }
 
     /**
