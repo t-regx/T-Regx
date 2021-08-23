@@ -15,37 +15,6 @@ class MatchGroupOffsetStreamTest extends TestCase
 {
     use AssertsSameMatches;
 
-    /**
-     * @test
-     */
-    public function shouldGet_asInt_map_all()
-    {
-        // when
-        $groups = pattern('n:(\d+)')
-            ->match('n:14 n:18 n:20')
-            ->group(1)
-            ->asInt()
-            ->map(function ($number) {
-                $this->assertIsInt($number);
-                return "Number:$number";
-            })
-            ->all();
-
-        // then
-        $this->assertSame(['Number:14', 'Number:18', 'Number:20'], $groups);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_all_forUnmatchedSubject()
-    {
-        // when
-        $all = pattern('(Foo)')->match('Bar')->group(1)->asInt()->all();
-
-        // then
-        $this->assertEmpty($all);
-    }
 
     /**
      * @test
