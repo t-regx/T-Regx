@@ -135,7 +135,7 @@ class MatchDetail implements Detail
         try {
             return $number->asInt(new Base($base));
         } catch (NumberFormatException $exception) {
-            throw IntegerFormatException::forMatch($text);
+            throw IntegerFormatException::forMatch($text, new Base($base));
         } catch (NumberOverflowException $exception) {
             throw IntegerOverflowException::forMatch($text);
         }

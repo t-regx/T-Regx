@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Impl\AllStreamBase;
 use Test\Utils\Impl\FirstStreamBase;
 use Test\Utils\Impl\ThrowBase;
@@ -15,6 +16,8 @@ use TRegx\CleanRegex\Internal\Number\Base;
  */
 class MatchIntStreamTest extends TestCase
 {
+    use ExactExceptionMessage;
+
     /**
      * @test
      */
@@ -100,7 +103,7 @@ class MatchIntStreamTest extends TestCase
 
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer in base 10");
 
         // when
         $stream->all();
@@ -112,11 +115,11 @@ class MatchIntStreamTest extends TestCase
     public function shouldThrow_first_forMalformedInteger()
     {
         // given
-        $stream = new MatchIntStream(FirstStreamBase::text('Foo'), new Base(10));
+        $stream = new MatchIntStream(FirstStreamBase::text('Foo'), new Base(11));
 
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer in base 11");
 
         // when
         $stream->first();
@@ -128,11 +131,11 @@ class MatchIntStreamTest extends TestCase
     public function shouldThrow_firstKey_forMalformedInteger()
     {
         // given
-        $stream = new MatchIntStream(FirstStreamBase::text('Foo'), new Base(10));
+        $stream = new MatchIntStream(FirstStreamBase::text('Foo'), new Base(13));
 
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer in base 13");
 
         // when
         $stream->firstKey();

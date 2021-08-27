@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Impl\AllStream;
 use Test\Utils\Impl\ConstantInt;
 use Test\Utils\Impl\FirstKeyStream;
@@ -18,6 +19,8 @@ use TRegx\CleanRegex\Internal\Number\Base;
  */
 class IntStreamTest extends TestCase
 {
+    use ExactExceptionMessage;
+
     /**
      * @test
      */
@@ -43,7 +46,7 @@ class IntStreamTest extends TestCase
 
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse fluent element 'Foo', but it is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse fluent element 'Foo', but it is not a valid integer in base 10");
 
         // when
         $stream->all();
@@ -131,11 +134,11 @@ class IntStreamTest extends TestCase
     public function shouldFirstThrowForMalformedInteger()
     {
         // given
-        $stream = new IntStream(new FirstStream('Foo'), new Base(10));
+        $stream = new IntStream(new FirstStream('Foo'), new Base(14));
 
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse fluent element 'Foo', but it is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse fluent element 'Foo', but it is not a valid integer in base 14");
 
         // when
         $stream->first();

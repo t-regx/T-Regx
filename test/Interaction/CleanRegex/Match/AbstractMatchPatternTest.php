@@ -2,6 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Internal\Subject;
@@ -12,6 +13,8 @@ use TRegx\CleanRegex\Match\MatchPattern;
  */
 class AbstractMatchPatternTest extends TestCase
 {
+    use ExactExceptionMessage;
+
     /**
      * @test
      */
@@ -66,7 +69,7 @@ class AbstractMatchPatternTest extends TestCase
 
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse '45s', but it is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse '45s', but it is not a valid integer in base 10");
 
         // when
         $pattern->asInt()->all();

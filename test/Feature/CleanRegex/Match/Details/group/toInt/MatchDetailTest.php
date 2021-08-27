@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\group\toInt;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ExactExceptionMessage;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
@@ -12,6 +13,8 @@ use TRegx\CleanRegex\Match\Details\Detail;
  */
 class MatchDetailTest extends TestCase
 {
+    use ExactExceptionMessage;
+
     /**
      * @test
      * @dataProvider validIntegers
@@ -66,14 +69,32 @@ class MatchDetailTest extends TestCase
     {
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse group #1, but '1e3' is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse group #1, but ' 10' is not a valid integer in base 10");
 
         // given
         pattern('(.*)', 's')
-            ->match('1e3')
+            ->match(' 10')
             ->first(function (Detail $detail) {
                 // when
                 return $detail->group(1)->toInt();
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_forInvalidInteger_base4()
+    {
+        // then
+        $this->expectException(IntegerFormatException::class);
+        $this->expectExceptionMessage("Expected to parse group #1, but '4' is not a valid integer in base 4");
+
+        // given
+        pattern('(4)')
+            ->match('4')
+            ->first(function (Detail $detail) {
+                // when
+                return $detail->group(1)->toInt(4);
             });
     }
 
@@ -118,7 +139,7 @@ class MatchDetailTest extends TestCase
     {
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse group 'name', but 'Foo' is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse group 'name', but 'Foo' is not a valid integer in base 10");
 
         // given
         pattern('(?<name>Foo)')
@@ -136,7 +157,7 @@ class MatchDetailTest extends TestCase
     {
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse group #1, but 'Foo' is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse group #1, but 'Foo' is not a valid integer in base 10");
 
         // given
         pattern('(?<name>Foo)')

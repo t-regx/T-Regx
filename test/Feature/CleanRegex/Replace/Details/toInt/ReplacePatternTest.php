@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\toInt;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ExactExceptionMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 use function pattern;
@@ -11,6 +12,8 @@ use function pattern;
  */
 class ReplacePatternTest extends TestCase
 {
+    use ExactExceptionMessage;
+
     /**
      * @test
      */
@@ -57,7 +60,7 @@ class ReplacePatternTest extends TestCase
             ->callback(function (ReplaceDetail $detail) {
                 // then
                 $this->expectException(IntegerFormatException::class);
-                $this->expectExceptionMessage("Expected to parse '9', but it is not a valid integer");
+                $this->expectExceptionMessage("Expected to parse '9', but it is not a valid integer in base 9");
 
                 // when
                 $detail->toInt(9);

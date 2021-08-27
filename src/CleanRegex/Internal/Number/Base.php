@@ -18,4 +18,9 @@ class Base
     {
         return $this->base ?? 10;
     }
+
+    public function __toString(): string
+    {
+        return $this->base();
+    }
 }

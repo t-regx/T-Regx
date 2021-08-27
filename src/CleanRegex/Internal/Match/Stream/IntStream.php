@@ -53,7 +53,7 @@ class IntStream implements Stream
         } catch (NumberOverflowException $exception) {
             throw IntegerOverflowException::forFluent($value);
         } catch (NumberFormatException $exception) {
-            throw IntegerFormatException::forFluent($value);
+            throw IntegerFormatException::forFluent($value, $this->base);
         }
     }
 }

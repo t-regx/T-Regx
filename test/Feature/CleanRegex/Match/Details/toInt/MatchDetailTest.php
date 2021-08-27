@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\toInt;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ExactExceptionMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -13,6 +14,8 @@ use function pattern;
  */
 class MatchDetailTest extends TestCase
 {
+    use ExactExceptionMessage;
+
     /**
      * @test
      * @dataProvider validIntegers
@@ -82,7 +85,7 @@ class MatchDetailTest extends TestCase
     {
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse '1e3', but it is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse '1e3', but it is not a valid integer in base 10");
 
         // given
         pattern('.*', 's')
@@ -96,11 +99,29 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrow_forInvalidInteger_base4()
+    {
+        // then
+        $this->expectException(IntegerFormatException::class);
+        $this->expectExceptionMessage("Expected to parse '4', but it is not a valid integer in base 4");
+
+        // given
+        pattern('(4)')
+            ->match('4')
+            ->first(function (Detail $detail) {
+                // when
+                return $detail->toInt(4);
+            });
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_forMalformedInteger()
     {
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer in base 10");
 
         // given
         pattern('Foo')->match('Foo')->first(function (Detail $detail) {

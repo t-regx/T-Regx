@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group\asInt;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
+use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
@@ -16,7 +17,7 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
  */
 class MatchGroupIntStreamTest extends TestCase
 {
-    use AssertsSameMatches;
+    use AssertsSameMatches, ExactExceptionMessage;
 
     /**
      * @test
@@ -147,7 +148,7 @@ class MatchGroupIntStreamTest extends TestCase
     {
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse group #1, but '1  ' is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse group #1, but '1  ' is not a valid integer in base 10");
 
         // when
         pattern('"(\-?\w+\s*)"')->match('"90" "-60" "1  "')->group(1)->asInt()->all();
@@ -160,7 +161,7 @@ class MatchGroupIntStreamTest extends TestCase
     {
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse group #1, but '' is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse group #1, but '' is not a valid integer in base 10");
 
         // when
         pattern('()')->match('')->group(1)->asInt()->all();
@@ -173,7 +174,7 @@ class MatchGroupIntStreamTest extends TestCase
     {
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse group #0, but 'Foo' is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse group #0, but 'Foo' is not a valid integer in base 10");
 
         // when
         pattern('Foo')->match('Foo')->group(0)->asInt()->first();
@@ -186,7 +187,7 @@ class MatchGroupIntStreamTest extends TestCase
     {
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse group #0, but 'Foo' is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse group #0, but 'Foo' is not a valid integer in base 10");
 
         // when
         pattern('Foo')->match('Foo')->group(0)->asInt()->keys()->first();

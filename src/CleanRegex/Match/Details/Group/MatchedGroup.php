@@ -52,7 +52,7 @@ class MatchedGroup implements Group
         try {
             return $number->asInt(new Base($base));
         } catch (NumberFormatException $exception) {
-            throw IntegerFormatException::forGroup($this->details->group, $this->groupEntry->text());
+            throw IntegerFormatException::forGroup($this->details->group, $this->groupEntry->text(), new Base($base));
         } catch (NumberOverflowException $exception) {
             throw IntegerOverflowException::forGroup($this->details->group, $this->groupEntry->text());
         }

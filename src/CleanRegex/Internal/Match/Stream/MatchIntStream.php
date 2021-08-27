@@ -39,7 +39,7 @@ class MatchIntStream implements Stream
         try {
             return $number->asInt($this->base);
         } catch (NumberFormatException $exception) {
-            throw IntegerFormatException::forMatch($text);
+            throw IntegerFormatException::forMatch($text, $this->base);
         } catch (NumberOverflowException $exception) {
             throw IntegerOverflowException::forMatch($text);
         }
