@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\SafeRegex\Internal\Exception;
+namespace Test\Unit\TRegx\SafeRegex\Exception;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Exception\CompilePregException;

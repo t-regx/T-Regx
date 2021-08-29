@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\SafeRegex\Internal\Exception\Factory;
+namespace TRegx\SafeRegex\Internal\Factory;
 
 use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\Exception\PregMalformedPatternException;

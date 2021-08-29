@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\SafeRegex\Internal\Exception\Factory;
+namespace Test\Unit\TRegx\SafeRegex\Internal\Factory;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;
@@ -8,10 +8,10 @@ use TRegx\SafeRegex\Exception\RecursionException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Exception\SubjectEncodingException;
 use TRegx\SafeRegex\Exception\UnicodeOffsetException;
-use TRegx\SafeRegex\Internal\Exception\Factory\RuntimePregExceptionFactory;
+use TRegx\SafeRegex\Internal\Factory\RuntimePregExceptionFactory;
 
 /**
- * @covers \TRegx\SafeRegex\Internal\Exception\Factory\RuntimePregExceptionFactory
+ * @covers \TRegx\SafeRegex\Internal\Factory\RuntimePregExceptionFactory
  */
 class RuntimePregExceptionFactoryTest extends TestCase
 {

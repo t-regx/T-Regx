@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Exception\PregException;
 use TRegx\SafeRegex\Internal\Constants\PregConstants;
 use TRegx\SafeRegex\Internal\Errors\HostError;
-use TRegx\SafeRegex\Internal\Exception\Factory\RuntimePregExceptionFactory;
+use TRegx\SafeRegex\Internal\Factory\RuntimePregExceptionFactory;
 use function preg_match;
 
 class RuntimeError implements HostError

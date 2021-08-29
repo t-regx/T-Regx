@@ -2,7 +2,7 @@
 namespace TRegx\SafeRegex\Internal\Errors\Errors;
 
 use TRegx\SafeRegex\Exception\PregException;
-use TRegx\SafeRegex\Internal\Exception\Factory\CompilePregExceptionFactory;
+use TRegx\SafeRegex\Internal\Factory\CompilePregExceptionFactory;
 use TRegx\SafeRegex\Internal\PhpError;
 use function error_clear_last;
 
