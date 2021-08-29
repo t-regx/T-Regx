@@ -37,7 +37,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::compose([
             pattern('^Fro'),
             Pattern::of('rod'),
-            Pattern::pcre('/do$/'),
+            Pattern::pcre()->of('/do$/'),
         ]);
 
         // when

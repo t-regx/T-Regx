@@ -38,7 +38,7 @@ class PatternTest extends TestCase
     public function testPcre(string $pattern, bool $_, bool $expected)
     {
         // given
-        $pattern = Pattern::pcre($pattern);
+        $pattern = Pattern::pcre()->of($pattern);
 
         // when
         $valid = $pattern->valid();

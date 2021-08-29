@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Internal;
 use TRegx\CleanRegex\Builder\PatternBuilder;
 use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Composite\CompositePattern;
-use TRegx\CleanRegex\Internal\Prepared\Expression\Pcre;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Standard;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Extended;
 use TRegx\CleanRegex\Pattern;
@@ -16,20 +15,6 @@ trait EntryPoints
     {
         $standard = new Standard($pattern, $flags ?? '');
         return new Pattern($standard->definition());
-    }
-
-    /**
-     * @param string $delimitedPattern
-     * @return Pattern
-     * Please use method \TRegx\CleanRegex\Pattern::of. Method Pattern::pcre() is only present, in case
-     * if there's an automatic delimiters' bug, that would make {@link Pattern::of()} error-prone.
-     * {@link Pattern::pcre()} is error-prone to MalformedPatternException, because of delimiters.
-     * @see \TRegx\CleanRegex\Pattern::of
-     */
-    public static function pcre(string $delimitedPattern): Pattern
-    {
-        $pattern = new Pcre($delimitedPattern);
-        return new Pattern($pattern->definition());
     }
 
     public static function inject(string $input, array $values, string $flags = null): Pattern
@@ -50,6 +35,11 @@ trait EntryPoints
     public static function literal(string $text, string $flags = null): Pattern
     {
         return EntryPoints::of(Extended::quote(preg::quote($text)), $flags);
+    }
+
+    public static function pcre(): PcrePatternBuilder
+    {
+        return self::builder()->pcre();
     }
 
     public static function compose(array $patterns): CompositePattern

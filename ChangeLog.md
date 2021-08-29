@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Refactored `Pattern::pcre()` to `Pattern::pcre()->of()`
 
 Added in 0.13.4
 ---------------

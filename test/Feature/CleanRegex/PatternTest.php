@@ -133,7 +133,7 @@ class PatternTest extends TestCase
         $this->expectExceptionMessage('Delimiter must not be alphanumeric or backslash');
 
         // when
-        Pattern::pcre('foo')->test('bar');
+        Pattern::pcre()->of('foo')->test('bar');
     }
 
     /**
@@ -255,7 +255,7 @@ class PatternTest extends TestCase
     public function shouldCast_pcre()
     {
         // given
-        $pattern = Pattern::pcre('/Foo{1,2}/n');
+        $pattern = Pattern::pcre()->of('/Foo{1,2}/n');
 
         // when
         $string = (string)$pattern;
