@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\CallbackCountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 
 abstract class ReplacePatternImpl implements ReplacePattern
@@ -22,12 +22,12 @@ abstract class ReplacePatternImpl implements ReplacePattern
     private $replacePattern;
     /** @var Definition */
     protected $definition;
-    /** @var Subjectable */
+    /** @var Subject */
     protected $subject;
     /** @var int */
     protected $limit;
 
-    public function __construct(SpecificReplacePattern $replacePattern, Definition $definition, Subjectable $subject, int $limit)
+    public function __construct(SpecificReplacePattern $replacePattern, Definition $definition, Subject $subject, int $limit)
     {
         $this->replacePattern = $replacePattern;
         $this->definition = $definition;

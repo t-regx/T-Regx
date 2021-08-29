@@ -9,16 +9,16 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchOffsetMessage
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\NthMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Optional\SubjectOptionalWorker;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 
 class OffsetsWorker implements StreamWorker
 {
-    /** @var Subjectable */
-    private $subjectable;
+    /** @var Subject */
+    private $subject;
 
-    public function __construct(Subjectable $subjectable)
+    public function __construct(Subject $subject)
     {
-        $this->subjectable = $subjectable;
+        $this->subject = $subject;
     }
 
     public function undecorateWorker(): StreamWorker
@@ -35,16 +35,16 @@ class OffsetsWorker implements StreamWorker
 
     public function unmatchedFirst(): OptionalWorker
     {
-        return new SubjectOptionalWorker(new FirstMatchOffsetMessage(), $this->subjectable, SubjectNotMatchedException::class);
+        return new SubjectOptionalWorker(new FirstMatchOffsetMessage(), $this->subject, SubjectNotMatchedException::class);
     }
 
     public function noNth(int $nth, int $total): OptionalWorker
     {
-        return new SubjectOptionalWorker(new NthOffsetMessage($nth, $total), $this->subjectable, NoSuchNthElementException::class);
+        return new SubjectOptionalWorker(new NthOffsetMessage($nth, $total), $this->subject, NoSuchNthElementException::class);
     }
 
     public function unmatchedNth(int $nth): OptionalWorker
     {
-        return new SubjectOptionalWorker(new NthMatchOffsetMessage($nth), $this->subjectable, SubjectNotMatchedException::class);
+        return new SubjectOptionalWorker(new NthMatchOffsetMessage($nth), $this->subject, SubjectNotMatchedException::class);
     }
 }

@@ -1,9 +1,9 @@
 <?php
 namespace Test\Utils\Impl;
 
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 
-class ThrowSubject implements Subjectable
+class ThrowSubject implements Subject
 {
     public function getSubject(): string
     {

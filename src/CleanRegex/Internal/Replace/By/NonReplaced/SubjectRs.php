@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 
 interface SubjectRs
 {
-    public function substitute(Subjectable $subject): ?string;
+    public function substitute(Subject $subject): ?string;
 }

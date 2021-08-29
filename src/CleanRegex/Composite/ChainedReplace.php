@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\StringSubject;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\ReplaceReferences;
@@ -15,12 +15,12 @@ class ChainedReplace
 {
     /** @var Definition[] */
     private $definitions;
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
     /** @var SubjectRs */
     private $substitute;
 
-    public function __construct(array $definitions, Subjectable $subject, SubjectRs $substitute)
+    public function __construct(array $definitions, Subject $subject, SubjectRs $substitute)
     {
         $this->definitions = $definitions;
         $this->subject = $subject;

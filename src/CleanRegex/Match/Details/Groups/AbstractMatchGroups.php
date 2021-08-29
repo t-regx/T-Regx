@@ -4,19 +4,19 @@ namespace TRegx\CleanRegex\Match\Details\Groups;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Model\Match\UsedInCompositeGroups;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 
 abstract class AbstractMatchGroups implements MatchGroups
 {
     /** @var UsedInCompositeGroups */
     private $match;
-    /** @var Subjectable */
-    private $subjectable;
+    /** @var Subject */
+    private $subject;
 
-    public function __construct(UsedInCompositeGroups $match, Subjectable $subjectable)
+    public function __construct(UsedInCompositeGroups $match, Subject $subject)
     {
         $this->match = $match;
-        $this->subjectable = $subjectable;
+        $this->subject = $subject;
     }
 
     public function texts(): array
@@ -27,7 +27,7 @@ abstract class AbstractMatchGroups implements MatchGroups
     public function offsets(): array
     {
         return \array_map(function (int $offset): int {
-            return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $offset);
+            return ByteOffset::toCharacterOffset($this->subject->getSubject(), $offset);
         }, $this->byteOffsets());
     }
 

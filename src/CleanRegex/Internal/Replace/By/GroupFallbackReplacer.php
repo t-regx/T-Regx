@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\LazyDetail;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
@@ -19,7 +19,7 @@ class GroupFallbackReplacer
 {
     /** @var Definition */
     private $definition;
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
     /** @var int */
     private $limit;
@@ -32,7 +32,7 @@ class GroupFallbackReplacer
     /** @var int */
     private $counter = -1;
 
-    public function __construct(Definition $definition, Subjectable $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy, Base $base)
+    public function __construct(Definition $definition, Subject $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy, Base $base)
     {
         $this->definition = $definition;
         $this->subject = $subject;

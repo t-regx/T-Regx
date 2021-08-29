@@ -12,7 +12,7 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowMatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\Wrapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMapper;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 
 class ByReplacePatternImpl implements ByReplacePattern
@@ -21,7 +21,7 @@ class ByReplacePatternImpl implements ByReplacePattern
     private $fallbackReplacer;
     /** @var LazySubjectRs */
     private $substitute;
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
     /** @var PerformanceEmptyGroupReplace */
     private $performanceReplace;
@@ -34,7 +34,7 @@ class ByReplacePatternImpl implements ByReplacePattern
                                 LazySubjectRs                 $substitute,
                                 PerformanceEmptyGroupReplace  $performanceReplace,
                                 ReplacePatternCallbackInvoker $replaceCallbackInvoker,
-                                Subjectable                   $subject,
+                                Subject                       $subject,
                                 Wrapper                       $middlewareMapper)
     {
         $this->fallbackReplacer = $fallbackReplacer;

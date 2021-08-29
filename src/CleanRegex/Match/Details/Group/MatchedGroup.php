@@ -10,12 +10,12 @@ use TRegx\CleanRegex\Internal\Number\Base;
 use TRegx\CleanRegex\Internal\Number\NumberFormatException;
 use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
 use TRegx\CleanRegex\Internal\Number\StringNumber;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 
 class MatchedGroup implements Group
 {
-    /** @var Subjectable */
-    private $subjectable;
+    /** @var Subject */
+    private $subject;
     /** @var GroupDetails */
     private $details;
     /** @var GroupEntry */
@@ -23,9 +23,9 @@ class MatchedGroup implements Group
     /** @var SubstitutedGroup */
     private $substitutedGroup;
 
-    public function __construct(Subjectable $subjectable, GroupDetails $details, GroupEntry $groupEntry, SubstitutedGroup $substitutedGroup)
+    public function __construct(Subject $subject, GroupDetails $details, GroupEntry $groupEntry, SubstitutedGroup $substitutedGroup)
     {
-        $this->subjectable = $subjectable;
+        $this->subject = $subject;
         $this->details = $details;
         $this->groupEntry = $groupEntry;
         $this->substitutedGroup = $substitutedGroup;
@@ -124,7 +124,7 @@ class MatchedGroup implements Group
 
     public function subject(): string
     {
-        return $this->subjectable->getSubject();
+        return $this->subject->getSubject();
     }
 
     public function all(): array

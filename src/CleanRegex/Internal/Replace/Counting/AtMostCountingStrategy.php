@@ -3,21 +3,21 @@ namespace TRegx\CleanRegex\Internal\Replace\Counting;
 
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
 
 class AtMostCountingStrategy implements CountingStrategy
 {
     /** @var Definition */
     private $definition;
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
     /** @var int */
     private $limit;
     /** @var string */
     private $limitPhrase;
 
-    public function __construct(Definition $definition, Subjectable $subject, int $limit, string $phrase)
+    public function __construct(Definition $definition, Subject $subject, int $limit, string $phrase)
     {
         $this->definition = $definition;
         $this->subject = $subject;

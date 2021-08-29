@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\CapturingGroup;
@@ -20,7 +20,7 @@ class ReplaceCallbackObject
 {
     /** @var callable */
     private $callback;
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
     /** @var RawMatchesOffset */
     private $analyzedPattern;
@@ -35,10 +35,10 @@ class ReplaceCallbackObject
     /** @var ReplaceCallbackArgumentStrategy */
     private $argumentStrategy;
 
-    public function __construct(callable $callback,
-                                Subjectable $subject,
-                                RawMatchesOffset $analyzedPattern,
-                                int $limit,
+    public function __construct(callable                        $callback,
+                                Subject                         $subject,
+                                RawMatchesOffset                $analyzedPattern,
+                                int                             $limit,
                                 ReplaceCallbackArgumentStrategy $argumentStrategy)
     {
         $this->callback = $callback;

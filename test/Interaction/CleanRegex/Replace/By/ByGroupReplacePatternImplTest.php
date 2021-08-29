@@ -69,23 +69,23 @@ class ByGroupReplacePatternImplTest extends TestCase
         $byReplacePattern->orElseThrow(CustomSubjectException::class);
     }
 
-    public function create(string $pattern, string $subject): ByGroupReplacePatternImpl
+    public function create(string $pattern, string $stringSubject): ByGroupReplacePatternImpl
     {
         $internalPattern = Internal::pattern($pattern);
-        $subjectable = new StringSubject($subject);
+        $subject = new StringSubject($stringSubject);
 
         return new ByGroupReplacePatternImpl(
             new GroupFallbackReplacer(
                 $internalPattern,
-                $subjectable,
+                $subject,
                 -1,
                 new DefaultStrategy(),
                 new IgnoreCounting(),
-                new ApiBase($internalPattern, $subjectable, new UserData())),
-            new PerformanceEmptyGroupReplace($internalPattern, $subjectable, -1),
-            new ReplacePatternCallbackInvoker($internalPattern, $subjectable, -1, new LazyMessageThrowStrategy(\AssertionError::class), new IgnoreCounting()),
+                new ApiBase($internalPattern, $subject, new UserData())),
+            new PerformanceEmptyGroupReplace($internalPattern, $subject, -1),
+            new ReplacePatternCallbackInvoker($internalPattern, $subject, -1, new LazyMessageThrowStrategy(\AssertionError::class), new IgnoreCounting()),
             new GroupIndex(1),
-            $subjectable,
+            $subject,
             new IdentityWrapper());
     }
 }

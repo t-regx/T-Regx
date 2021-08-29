@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
 use TRegx\CleanRegex\Internal\ByteOffset;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 
 class GroupEntry
 {
@@ -10,10 +10,10 @@ class GroupEntry
     private $text;
     /** @var int */
     private $byteOffset;
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
 
-    public function __construct(string $text, int $byteOffset, Subjectable $subject)
+    public function __construct(string $text, int $byteOffset, Subject $subject)
     {
         $this->text = $text;
         $this->byteOffset = $byteOffset;

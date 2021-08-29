@@ -26,15 +26,15 @@ use TRegx\CleanRegex\Internal\Number\Base;
 use TRegx\CleanRegex\Internal\Number\NumberFormatException;
 use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
 use TRegx\CleanRegex\Internal\Number\StringNumber;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
 class MatchDetail implements Detail
 {
-    /** @var Subjectable */
-    private $subjectable;
+    /** @var Subject */
+    private $subject;
     /** @var int */
     private $index;
     /** @var MatchAllFactory */
@@ -61,7 +61,7 @@ class MatchDetail implements Detail
     private $groupFacade;
 
     private function __construct(
-        Subjectable           $subjectable,
+        Subject               $subject,
         int                   $index,
         int                   $limit,
         GroupAware            $groupAware,
@@ -73,7 +73,7 @@ class MatchDetail implements Detail
         GroupFactoryStrategy  $strategy,
         Signatures            $signatures)
     {
-        $this->subjectable = $subjectable;
+        $this->subject = $subject;
         $this->index = $index;
         $this->limit = $limit;
         $this->groupAware = $groupAware;
@@ -85,23 +85,23 @@ class MatchDetail implements Detail
         $this->userData = $userData;
         $this->signatures = $signatures;
         $this->groupHandle = new FirstNamedGroup($this->signatures);
-        $this->groupFacade = new GroupFacade($subjectable, $this->strategy, $this->allFactory,
-            new NotMatched($this->groupAware, $subjectable),
+        $this->groupFacade = new GroupFacade($subject, $this->strategy, $this->allFactory,
+            new NotMatched($this->groupAware, $subject),
             new FirstNamedGroup($this->signatures), $this->signatures);
     }
 
-    public static function create(Subjectable     $subjectable, int $index, int $limit,
+    public static function create(Subject         $subject, int $index, int $limit,
                                   IRawMatchOffset $match, MatchAllFactory $allFactory,
                                   UserData        $userData, GroupFactoryStrategy $strategy = null): MatchDetail
     {
-        return new self($subjectable, $index, $limit, $match, $match, $match, $match, $allFactory, $userData,
+        return new self($subject, $index, $limit, $match, $match, $match, $match, $allFactory, $userData,
             $strategy ?? new MatchGroupFactoryStrategy(),
             new PerformanceSignatures($match, $match));
     }
 
     public function subject(): string
     {
-        return $this->subjectable->getSubject();
+        return $this->subject->getSubject();
     }
 
     public function index(): int
@@ -168,7 +168,7 @@ class MatchDetail implements Detail
             [$text, $offset] = $this->usedForGroup->getGroupTextAndOffset($handle);
             return $text;
         }
-        throw GroupNotMatchedException::forGet($this->subjectable, $group);
+        throw GroupNotMatchedException::forGet($this->subject, $group);
     }
 
     /**
@@ -191,7 +191,7 @@ class MatchDetail implements Detail
 
     public function usingDuplicateName(): DuplicateName
     {
-        return new DuplicateName($this->groupAware, $this->usedForGroup, $this->matchEntry, $this->subjectable, $this->strategy, $this->allFactory, $this->signatures);
+        return new DuplicateName($this->groupAware, $this->usedForGroup, $this->matchEntry, $this->subject, $this->strategy, $this->allFactory, $this->signatures);
     }
 
     /**
@@ -210,12 +210,12 @@ class MatchDetail implements Detail
 
     public function groups(): IndexedGroups
     {
-        return new IndexedGroups($this->groupAware, $this->usedInCompo, $this->subjectable);
+        return new IndexedGroups($this->groupAware, $this->usedInCompo, $this->subject);
     }
 
     public function namedGroups(): NamedGroups
     {
-        return new NamedGroups($this->groupAware, $this->usedInCompo, $this->subjectable);
+        return new NamedGroups($this->groupAware, $this->usedInCompo, $this->subject);
     }
 
     /**
@@ -244,12 +244,12 @@ class MatchDetail implements Detail
 
     public function offset(): int
     {
-        return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $this->byteOffset());
+        return ByteOffset::toCharacterOffset($this->subject->getSubject(), $this->byteOffset());
     }
 
     public function tail(): int
     {
-        return ByteOffset::toCharacterOffset($this->subjectable->getSubject(), $this->byteTail());
+        return ByteOffset::toCharacterOffset($this->subject->getSubject(), $this->byteTail());
     }
 
     public function byteOffset(): int

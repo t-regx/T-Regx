@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
 use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\ReplaceMatchedGroup;
@@ -22,18 +22,18 @@ class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
         $this->subjectModification = $subjectModification;
     }
 
-    public function createMatched(Subjectable $subjectable,
-                                  GroupDetails $details,
-                                  GroupEntry $groupEntry,
+    public function createMatched(Subject          $subject,
+                                  GroupDetails     $details,
+                                  GroupEntry       $groupEntry,
                                   SubstitutedGroup $substitutedGroup): MatchedGroup
     {
-        return new ReplaceMatchedGroup($subjectable, $details, $groupEntry, $substitutedGroup, $this->byteOffsetModification, $this->subjectModification);
+        return new ReplaceMatchedGroup($subject, $details, $groupEntry, $substitutedGroup, $this->byteOffsetModification, $this->subjectModification);
     }
 
     public function createUnmatched(GroupDetails             $details,
                                     GroupExceptionFactory    $exceptionFactory,
                                     NotMatchedOptionalWorker $optionalFactory,
-                                    Subjectable              $subject): NotMatchedGroup
+                                    Subject                  $subject): NotMatchedGroup
     {
         return new ReplaceNotMatchedGroup($details, $exceptionFactory, $optionalFactory, $subject);
     }

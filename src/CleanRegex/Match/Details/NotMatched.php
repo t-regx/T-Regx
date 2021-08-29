@@ -4,16 +4,16 @@ namespace TRegx\CleanRegex\Match\Details;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 
 class NotMatched implements BaseDetail
 {
     /** @var GroupAware */
     private $groupAware;
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
 
-    public function __construct(GroupAware $groupAware, Subjectable $subject)
+    public function __construct(GroupAware $groupAware, Subject $subject)
     {
         $this->groupAware = $groupAware;
         $this->subject = $subject;

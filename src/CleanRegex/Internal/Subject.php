@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-interface Subjectable
+interface Subject
 {
     public function getSubject(): string;
 }

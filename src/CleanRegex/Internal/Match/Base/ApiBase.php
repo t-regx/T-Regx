@@ -7,19 +7,19 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
 
 class ApiBase implements Base
 {
     /** @var Definition */
     private $definition;
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
     /** @var UserData */
     private $userData;
 
-    public function __construct(Definition $definition, Subjectable $subject, UserData $userData)
+    public function __construct(Definition $definition, Subject $subject, UserData $userData)
     {
         $this->definition = $definition;
         $this->subject = $subject;

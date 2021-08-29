@@ -14,7 +14,7 @@ use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
@@ -22,7 +22,7 @@ use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class GroupFacade
 {
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
     /** @var GroupHandle */
     private $groupHandle;
@@ -35,7 +35,7 @@ class GroupFacade
     /** @var NotMatched */
     private $notMatched;
 
-    public function __construct(Subjectable          $subject,
+    public function __construct(Subject              $subject,
                                 GroupFactoryStrategy $factoryStrategy,
                                 MatchAllFactory      $allFactory,
                                 NotMatched           $notMatched,

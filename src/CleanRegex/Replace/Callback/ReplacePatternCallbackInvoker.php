@@ -5,14 +5,14 @@ use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
 
 class ReplacePatternCallbackInvoker
 {
     /** @var Definition */
     private $definition;
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
     /** @var int */
     private $limit;
@@ -21,7 +21,7 @@ class ReplacePatternCallbackInvoker
     /** @var CountingStrategy */
     private $countingStrategy;
 
-    public function __construct(Definition $definition, Subjectable $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy)
+    public function __construct(Definition $definition, Subject $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy)
     {
         $this->definition = $definition;
         $this->subject = $subject;

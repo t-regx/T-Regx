@@ -5,19 +5,19 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 
 class DetailObjectFactory
 {
-    /** @var Subjectable */
-    private $subjectable;
+    /** @var Subject */
+    private $subject;
     /** @var UserData */
     private $userData;
 
-    public function __construct(Subjectable $subjectable, UserData $userData)
+    public function __construct(Subject $subject, UserData $userData)
     {
-        $this->subjectable = $subjectable;
+        $this->subject = $subject;
         $this->userData = $userData;
     }
 
@@ -25,7 +25,7 @@ class DetailObjectFactory
     {
         $matchObjects = [];
         foreach ($matches->matches[0] as $index => $firstWhole) {
-            $matchObjects[$index] = MatchDetail::create($this->subjectable,
+            $matchObjects[$index] = MatchDetail::create($this->subject,
                 $index,
                 -1,
                 new RawMatchesToMatchAdapter($matches, $index),

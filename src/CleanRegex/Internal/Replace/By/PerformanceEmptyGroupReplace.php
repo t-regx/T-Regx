@@ -2,19 +2,19 @@
 namespace TRegx\CleanRegex\Internal\Replace\By;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
 
 class PerformanceEmptyGroupReplace
 {
     /** @var Definition */
     private $definition;
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
     /** @var int */
     private $limit;
 
-    public function __construct(Definition $definition, Subjectable $subject, int $limit)
+    public function __construct(Definition $definition, Subject $subject, int $limit)
     {
         $this->definition = $definition;
         $this->subject = $subject;

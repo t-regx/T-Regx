@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 
 class ReplaceMatchedGroup extends MatchedGroup implements ReplaceGroup
 {
@@ -14,14 +14,14 @@ class ReplaceMatchedGroup extends MatchedGroup implements ReplaceGroup
     /** @var string */
     private $subjectModification;
 
-    public function __construct(Subjectable $subjectable,
-                                GroupDetails $details,
-                                GroupEntry $groupEntry,
+    public function __construct(Subject          $subject,
+                                GroupDetails     $details,
+                                GroupEntry       $groupEntry,
                                 SubstitutedGroup $substitutedGroup,
-                                int $byteOffsetModification,
-                                string $subjectModification)
+                                int              $byteOffsetModification,
+                                string           $subjectModification)
     {
-        parent::__construct($subjectable, $details, $groupEntry, $substitutedGroup);
+        parent::__construct($subject, $details, $groupEntry, $substitutedGroup);
         $this->byteOffsetModification = $byteOffsetModification;
         $this->subjectModification = $subjectModification;
     }

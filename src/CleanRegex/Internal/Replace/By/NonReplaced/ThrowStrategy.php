@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Internal\StringSubject;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class ThrowStrategy implements SubjectRs, MatchRs
@@ -20,7 +20,7 @@ class ThrowStrategy implements SubjectRs, MatchRs
         $this->className = $className;
     }
 
-    public function substitute(Subjectable $subject): string
+    public function substitute(Subject $subject): string
     {
         throw $this->factory->create($this->className, $subject);
     }

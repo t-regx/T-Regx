@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 
@@ -16,8 +16,8 @@ class MatchStream implements Stream
 
     /** @var StreamBase */
     private $stream;
-    /** @var Subjectable */
-    private $subjectable;
+    /** @var Subject */
+    private $subject;
     /** @var UserData */
     private $userData;
     /** @var MatchAllFactory */
@@ -25,13 +25,13 @@ class MatchStream implements Stream
     /** @var DetailObjectFactory */
     private $detailObjects;
 
-    public function __construct(StreamBase $stream, Subjectable $subjectable, UserData $userData, MatchAllFactory $allFactory)
+    public function __construct(StreamBase $stream, Subject $subject, UserData $userData, MatchAllFactory $allFactory)
     {
         $this->stream = $stream;
-        $this->subjectable = $subjectable;
+        $this->subject = $subject;
         $this->userData = $userData;
         $this->allFactory = $allFactory;
-        $this->detailObjects = new DetailObjectFactory($this->subjectable, $this->userData);
+        $this->detailObjects = new DetailObjectFactory($subject, $userData);
     }
 
     protected function entries(): array
@@ -41,7 +41,7 @@ class MatchStream implements Stream
 
     protected function firstValue(): Detail
     {
-        return MatchDetail::create($this->subjectable,
+        return MatchDetail::create($this->subject,
             $this->stream->firstKey(),
             1,
             new GroupPolyfillDecorator(new FalseNegative($this->stream->first()), $this->allFactory, 0),

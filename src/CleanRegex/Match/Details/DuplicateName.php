@@ -12,7 +12,7 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\DuplicateNamedGroup;
 
 /**
@@ -96,7 +96,7 @@ class DuplicateName
     public function __construct(GroupAware           $groupAware,
                                 UsedForGroup         $forGroup,
                                 MatchEntry           $entry,
-                                Subjectable          $subject,
+                                Subject              $subject,
                                 GroupFactoryStrategy $factoryStrategy,
                                 MatchAllFactory      $allFactory,
                                 Signatures           $signatures)

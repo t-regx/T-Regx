@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\ValueType;
 
 class OtherwiseStrategy implements SubjectRs
@@ -15,7 +15,7 @@ class OtherwiseStrategy implements SubjectRs
         $this->mapper = $mapper;
     }
 
-    public function substitute(Subjectable $subject): string
+    public function substitute(Subject $subject): string
     {
         $value = ($this->mapper)($subject->getSubject());
         if (\is_string($value)) {

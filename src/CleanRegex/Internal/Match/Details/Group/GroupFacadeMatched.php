@@ -7,12 +7,12 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 
 class GroupFacadeMatched
 {
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
     /** @var GroupHandle */
     private $groupHandle;
@@ -23,7 +23,7 @@ class GroupFacadeMatched
     /** @var Signatures */
     private $signatures;
 
-    public function __construct(Subjectable          $subject,
+    public function __construct(Subject              $subject,
                                 GroupFactoryStrategy $factoryStrategy,
                                 MatchAllFactory      $allFactory,
                                 GroupHandle          $groupHandle,

@@ -14,7 +14,7 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\ReferencesReplacer;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\By\ByReplacePatternImpl;
@@ -26,7 +26,7 @@ class FocusReplacePattern implements SpecificReplacePattern
     private $replacePattern;
     /** @var Definition */
     private $definition;
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
     /** @var int */
     private $limit;
@@ -37,7 +37,7 @@ class FocusReplacePattern implements SpecificReplacePattern
 
     public function __construct(SpecificReplacePattern $replacePattern,
                                 Definition             $definition,
-                                Subjectable            $subject,
+                                Subject                $subject,
                                 int                    $limit,
                                 GroupKey               $group,
                                 CountingStrategy       $countingStrategy)

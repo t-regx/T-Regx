@@ -4,16 +4,16 @@ namespace TRegx\CleanRegex\Match\Details\Groups;
 use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\UsedInCompositeGroups;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 
 class IndexedGroups extends AbstractMatchGroups
 {
     /** @var GroupAware */
     private $groupAware;
 
-    public function __construct(GroupAware $groupAware, UsedInCompositeGroups $match, Subjectable $subjectable)
+    public function __construct(GroupAware $groupAware, UsedInCompositeGroups $match, Subject $subject)
     {
-        parent::__construct($match, $subjectable);
+        parent::__construct($match, $subject);
         $this->groupAware = $groupAware;
     }
 

@@ -19,9 +19,9 @@ class SignatureExceptionFactory
         $this->message = $message;
     }
 
-    public function create(string $className, Subjectable $subjectable): Throwable
+    public function create(string $className, Subject $subject): Throwable
     {
-        return $this->createWithSignatures($className, [$subjectable->getSubject()]);
+        return $this->createWithSignatures($className, [$subject->getSubject()]);
     }
 
     public function createWithoutSubject(string $className): Throwable

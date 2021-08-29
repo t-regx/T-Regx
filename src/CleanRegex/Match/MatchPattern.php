@@ -6,17 +6,17 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Subjectable;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
 
 class MatchPattern extends AbstractMatchPattern
 {
     /** @var Definition */
     private $definition;
-    /** @var Subjectable */
+    /** @var Subject */
     private $subject;
 
-    public function __construct(Definition $definition, Subjectable $subject)
+    public function __construct(Definition $definition, Subject $subject)
     {
         parent::__construct(new ApiBase($definition, $subject, new UserData()));
         $this->definition = $definition;
