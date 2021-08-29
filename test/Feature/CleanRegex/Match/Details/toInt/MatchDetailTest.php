@@ -137,10 +137,10 @@ class MatchDetailTest extends TestCase
     {
         // then
         $this->expectException(IntegerOverflowException::class);
-        $this->expectExceptionMessage("Expected to parse '-922337203685477580700', but it exceeds integer size on this architecture");
+        $this->expectExceptionMessage("Expected to parse '-9223372036854775809', but it exceeds integer size on this architecture in base 10");
 
         // given
-        pattern('-\d+')->match('-922337203685477580700')
+        pattern('-\d+')->match('-9223372036854775809')
             ->first(function (Detail $detail) {
                 // when
                 return $detail->toInt();
@@ -160,5 +160,22 @@ class MatchDetailTest extends TestCase
 
         // then
         $this->assertSame(-57, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_forOverflownIntegerBase16()
+    {
+        // then
+        $this->expectException(IntegerOverflowException::class);
+        $this->expectExceptionMessage("Expected to parse '-9223372036854770000', but it exceeds integer size on this architecture in base 16");
+
+        // given
+        pattern('-\d+')->match('-9223372036854770000')
+            ->first(function (Detail $detail) {
+                // when
+                return $detail->toInt(16);
+            });
     }
 }

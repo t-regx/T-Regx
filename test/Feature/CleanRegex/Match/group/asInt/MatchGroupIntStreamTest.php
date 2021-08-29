@@ -200,10 +200,23 @@ class MatchGroupIntStreamTest extends TestCase
     {
         // then
         $this->expectException(IntegerOverflowException::class);
-        $this->expectExceptionMessage("Expected to parse group #0, but '92233720368547758080' exceeds integer size on this architecture");
+        $this->expectExceptionMessage("Expected to parse group #0, but '9223372036854775809' exceeds integer size on this architecture in base 10");
 
         // when
-        pattern('\d+')->match('-92233720368547758080')->group(0)->asInt()->keys()->first();
+        pattern('\d+')->match('-9223372036854775809')->group(0)->asInt()->keys()->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_first_keys_forOverflownInteger_inBase16()
+    {
+        // then
+        $this->expectException(IntegerOverflowException::class);
+        $this->expectExceptionMessage("Expected to parse group #0, but '92233720368547750000' exceeds integer size on this architecture in base 16");
+
+        // when
+        pattern('\d+')->match('-92233720368547750000')->group(0)->asInt(16)->keys()->first();
     }
 
     /**

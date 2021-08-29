@@ -41,7 +41,7 @@ class MatchIntStream implements Stream
         } catch (NumberFormatException $exception) {
             throw IntegerFormatException::forMatch($text, $this->base);
         } catch (NumberOverflowException $exception) {
-            throw IntegerOverflowException::forMatch($text);
+            throw IntegerOverflowException::forMatch($text, $this->base);
         }
     }
 }

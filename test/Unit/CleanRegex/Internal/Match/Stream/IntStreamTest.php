@@ -150,11 +150,27 @@ class IntStreamTest extends TestCase
     public function shouldFirstThrowForOverflownInteger()
     {
         // given
-        $stream = new IntStream(new FirstStream('922337203685477580700'), new Base(10));
+        $stream = new IntStream(new FirstStream('9223372036854775809'), new Base(10));
 
         // then
         $this->expectException(IntegerOverflowException::class);
-        $this->expectExceptionMessage("Expected to parse fluent element '922337203685477580700', but it exceeds integer size on this architecture");
+        $this->expectExceptionMessage("Expected to parse fluent element '9223372036854775809', but it exceeds integer size on this architecture in base 10");
+
+        // when
+        $stream->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFirstThrowForOverflownInteger_inBase16()
+    {
+        // given
+        $stream = new IntStream(new FirstStream('922337203685477580000'), new Base(16));
+
+        // then
+        $this->expectException(IntegerOverflowException::class);
+        $this->expectExceptionMessage("Expected to parse fluent element '922337203685477580000', but it exceeds integer size on this architecture in base 16");
 
         // when
         $stream->first();

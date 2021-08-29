@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Match\Details\Detail;
+use function pattern;
 
 /**
  * @coversNothing
@@ -175,11 +176,11 @@ class MatchDetailTest extends TestCase
     {
         // then
         $this->expectException(IntegerOverflowException::class);
-        $this->expectExceptionMessage("Expected to parse group 'name', but '-922337203685477580700' exceeds integer size on this architecture");
+        $this->expectExceptionMessage("Expected to parse group 'name', but '9223372036854775808' exceeds integer size on this architecture in base 10");
 
         // given
-        pattern('(?<name>-\d+)')
-            ->match('-922337203685477580700')
+        pattern('(?<name>\d+)')
+            ->match('9223372036854775808')
             ->first(function (Detail $detail) {
                 // when
                 return $detail->group('name')->toInt();
@@ -193,7 +194,7 @@ class MatchDetailTest extends TestCase
     {
         // then
         $this->expectException(IntegerOverflowException::class);
-        $this->expectExceptionMessage("Expected to parse group #1, but '-922337203685477580700' exceeds integer size on this architecture");
+        $this->expectExceptionMessage("Expected to parse group #1, but '-922337203685477580700' exceeds integer size on this architecture in base 10");
 
         // given
         pattern('(?<name>-\d+)')
@@ -201,6 +202,24 @@ class MatchDetailTest extends TestCase
             ->first(function (Detail $detail) {
                 // when
                 return $detail->group(1)->toInt();
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_forOverflownInteger_inBase16()
+    {
+        // then
+        $this->expectException(IntegerOverflowException::class);
+        $this->expectExceptionMessage("Expected to parse group 'name', but '9223372036854775000' exceeds integer size on this architecture in base 16");
+
+        // given
+        pattern('(?<name>\d+)')
+            ->match('9223372036854775000')
+            ->first(function (Detail $detail) {
+                // when
+                return $detail->group('name')->toInt(16);
             });
     }
 

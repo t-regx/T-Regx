@@ -78,7 +78,7 @@ class MatchGroupIntStream implements Stream
         } catch (NumberFormatException $exception) {
             throw IntegerFormatException::forGroup($this->group, $string, $this->numberBase);
         } catch (NumberOverflowException $exception) {
-            throw IntegerOverflowException::forGroup($this->group, $string);
+            throw IntegerOverflowException::forGroup($this->group, $string, $this->numberBase);
         }
     }
 }

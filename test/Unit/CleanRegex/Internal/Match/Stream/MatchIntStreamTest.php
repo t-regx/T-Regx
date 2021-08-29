@@ -147,11 +147,11 @@ class MatchIntStreamTest extends TestCase
     public function shouldThrow_firstKey_forOverflownInteger()
     {
         // given
-        $stream = new MatchIntStream(FirstStreamBase::text('922337203685477580700'), new Base(10));
+        $stream = new MatchIntStream(FirstStreamBase::text('922337203685477580700'), new Base(13));
 
         // then
         $this->expectException(IntegerOverflowException::class);
-        $this->expectExceptionMessage("Expected to parse '922337203685477580700', but it exceeds integer size on this architecture");
+        $this->expectExceptionMessage("Expected to parse '922337203685477580700', but it exceeds integer size on this architecture in base 13");
 
         // when
         $stream->firstKey();

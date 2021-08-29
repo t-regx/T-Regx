@@ -54,7 +54,7 @@ class MatchedGroup implements Group
         } catch (NumberFormatException $exception) {
             throw IntegerFormatException::forGroup($this->details->group, $this->groupEntry->text(), new Base($base));
         } catch (NumberOverflowException $exception) {
-            throw IntegerOverflowException::forGroup($this->details->group, $this->groupEntry->text());
+            throw IntegerOverflowException::forGroup($this->details->group, $this->groupEntry->text(), new Base($base));
         }
     }
 

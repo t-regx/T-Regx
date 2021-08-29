@@ -324,6 +324,18 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldReturn_asInt_all_base16()
+    {
+        // when
+        $integers = pattern('\w+')->match('14, fa')->asInt(16)->all();
+
+        // then
+        $this->assertSame([20, 250], $integers);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowForInvalidBase()
     {
         // given
