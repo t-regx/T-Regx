@@ -6,6 +6,19 @@ Incoming
 
 * Soon
 
+Added in 0.13.4
+---------------
+
+* Features
+    * Every method `toInt()`/`isInt()` receives a `$base` optional argument, which defaults to `10`:
+        * `Detail.toInt()`, `Detail.isInt()`,
+        * `Group.toInt()`, `Group.isInt()`,
+        * `ReplaceDetail.toInt()`, `ReplaceDetail.isInt()`,
+        * `pattern()->match()->asInt()`
+        * `pattern()->match()->group()->asInt()`
+* Other
+    * We added continuous integration runs for PHP on 32-bit architecutre, to test 32-bit integers with `toInt()`.
+
 Added in 0.13.3
 ---------------
 

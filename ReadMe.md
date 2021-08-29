@@ -4,7 +4,7 @@
 <p align="center">
     <a href="https://github.com/T-Regx/T-Regx/actions/"><img src="https://github.com/T-Regx/T-Regx/workflows/build/badge.svg?branch=master" alt="Build status"/></a>
     <a href="#about-coverage"><img src="https://img.shields.io/badge/coverage-100%25-green.svg" alt="Integration tests"/></a>    
-    <a href="https://github.com/T-Regx/T-Regx/releases"><img src="https://img.shields.io/badge/Stable-v0.13.2-brightgreen.svg?style=popout"/></a>
+    <a href="https://github.com/T-Regx/T-Regx/releases"><img src="https://img.shields.io/badge/Stable-v0.13.4-brightgreen.svg?style=popout"/></a>
     <a href="https://github.com/T-Regx/T-Regx"><img src="https://img.shields.io/badge/dependencies-0-brightgreen.svg"/></a>
 </p>
 
@@ -16,7 +16,7 @@ PHP regular expressions brought up to modern standards.
 
 [![last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
 [![commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
-[![Unit tests](https://img.shields.io/badge/Unit%20tests-2113-brightgreen.svg)](https://github.com/T-Regx/T-Regx)
+[![Unit tests](https://img.shields.io/badge/Unit%20tests-2450-brightgreen.svg)](https://github.com/T-Regx/T-Regx)
 [![Repository size](https://github-size-badge.herokuapp.com/T-Regx/fiddle.svg)](https://github.com/T-Regx/T-Regx)
 [![FQN](https://img.shields.io/badge/FQN-used-blue.svg)](https://github.com/kelunik/fqn-check)
 [![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
@@ -88,9 +88,8 @@ Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing aro
 * ### Prepared patterns
 
   Using user data (for example with `preg_quote()`) isn't always safe with PCRE, as well as just not being that
-  convenient to use. T-Regx provides `Pattern::inject()` and `Pattern::bind()` methods, designed specifically for
-  handling potentially unsafe data. `Pattern::format()` allows converting user-supplied masks into full-fledged patterns
-  safely.
+  convenient to use. T-Regx provides `Pattern::inject()`, designed specifically for handling potentially unsafe
+  data. `Pattern::mask()` allows converting user-supplied masks into full-fledged patterns safely.
 
 * ### Working **with** the developer
     * Errors:
@@ -105,7 +104,7 @@ Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing aro
   Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory.
 
 * ### Converting Warnings/Errors to Exceptions
-    * Malformed patterns in `preg_()` methods don't make `preg_last_error()` to return error.
+    * Detects malformed patterns in `preg_()` (which is impossible with `preg_last_error()`).
     * Notices, warnings or errors during `preg::` are converted to exceptions.
     * `preg_()` can never fail, because it throws `PregException` on warning/error.
     * In some cases, `preg_()` methods might fail, return `false`/`null` and **NOT** trigger a warning. Separate
@@ -149,7 +148,7 @@ more behaviorus and contracts to test. Now that we have 100%, we can't use it an
 
 In order to make coverage usable again, we excluded feautre tests and integration tests from the coverage reports. The
 tests are still being run by us during the development, and they still run in the CI, but we're ignoring it in the
-coverage. Only unit tests are covered by the coverage now. The second we did that, the coverage dropped to 60%. That's
+coverage. Only unit tests are covered by the coverage now. The second we did that, the coverage dropped to 40%. That's
 good, it gives us two things! First, it lets us know that not only everything is covered by feature tests and
 integration tests, but also more than half of the library is covered in unit tests. Secondly, now we exactly know what
 parts of the application aren't covered by unit tests. We can use it! Now, the coverage can actually help us again. When
