@@ -49,7 +49,7 @@ class Pcre
         return self::version()->minorVersion();
     }
 
-    protected static function version(): PcreVersion
+    private static function version(): PcreVersion
     {
         return new PcreVersion(\PCRE_VERSION);
     }

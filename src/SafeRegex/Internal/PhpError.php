@@ -46,9 +46,6 @@ class PhpError
 
     private function startsWith(string $string, string $needle): bool
     {
-        if (\defined('\str_starts_with')) {
-            return \str_starts_with($string, $needle);
-        }
         return \substr($string, 0, \strlen($needle)) === $needle;
     }
 }
