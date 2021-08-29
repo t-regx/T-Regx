@@ -200,6 +200,6 @@ class PatternTest extends TestCase
         $this->expectExceptionMessage("PCRE-compatible template is malformed, unclosed pattern '%'");
 
         // when
-        Pattern::builder()->pcre()->inject("%Foo", [])->test('bar');
+        Pattern::pcre()->inject("%Foo", [])->test('bar');
     }
 }

@@ -15,9 +15,8 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_inject()
     {
         // given
-        $pattern = Pattern::builder()->inject('You/her, (are|is) @ (you|her)', [
-            ['Hello #5', 'Yes?:)']
-        ]);
+        $alteration = ['Hello #5', 'Yes?:)'];
+        $pattern = Pattern::inject('You/her, (are|is) @ (you|her)', [$alteration]);
 
         // when
         $pattern = $pattern->delimited();

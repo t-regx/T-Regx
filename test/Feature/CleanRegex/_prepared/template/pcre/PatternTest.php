@@ -21,7 +21,7 @@ class PatternTest extends TestCase
     public function shouldUsePlaceholder(string $pattern, string $expected)
     {
         // when
-        $pattern = Pattern::builder()->pcre()->template($pattern)->literal('X')->build();
+        $pattern = Pattern::pcre()->template($pattern)->literal('X')->build();
 
         // then
         $this->assertSamePattern($expected, $pattern);
@@ -45,7 +45,7 @@ class PatternTest extends TestCase
     public function shouldNotMistakeLiteralForPlaceholder(string $pattern, string $expected)
     {
         // when
-        $pattern = Pattern::builder()->pcre()->template($pattern)->build();
+        $pattern = Pattern::pcre()->template($pattern)->build();
 
         // then
         $this->assertSamePattern($expected, $pattern);
@@ -68,7 +68,7 @@ class PatternTest extends TestCase
     public function shouldNotMistakePlaceholderInCommentInExtendedMode()
     {
         // when
-        $pattern = Pattern::builder()->pcre()->template("%You/her #@\n her?%x")->build();
+        $pattern = Pattern::pcre()->template("%You/her #@\n her?%x")->build();
 
         // then
         $this->assertSamePattern("%You/her #@\n her?%x", $pattern);
@@ -80,7 +80,7 @@ class PatternTest extends TestCase
     public function shouldUsePlaceholderInCommentInExtendedMode_butExtendedModeIsSwitchedOff()
     {
         // when
-        $pattern = Pattern::builder()->pcre()->template("%You/her (?-x:#@\n) her?%x")->literal('X')->build();
+        $pattern = Pattern::pcre()->template("%You/her (?-x:#@\n) her?%x")->literal('X')->build();
 
         // then
         $this->assertSamePattern("%You/her (?-x:#X\n) her?%x", $pattern);

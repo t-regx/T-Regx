@@ -6,6 +6,9 @@ Incoming
 
 * Breaking changes
     * Refactored `Pattern::pcre()` to `Pattern::pcre()->of()`
+    * Refactored `Pattern::builder()->pcre()->inject()` to `Pattern::pcre()->inject()`
+    * Refactored `Pattern::builder()->pcre()->template()` to `Pattern::pcre()->template()`
+    * Removed `Pattern::builder()`.
 
 Added in 0.13.4
 ---------------

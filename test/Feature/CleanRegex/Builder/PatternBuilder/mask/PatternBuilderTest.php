@@ -17,11 +17,8 @@ class PatternBuilderTest extends TestCase
      */
     public function shouldGet()
     {
-        // given
-        $patternBuilder = Pattern::builder();
-
         // when
-        $pattern = $patternBuilder->mask('(super):{%s.%d.%%}', [
+        $pattern = Pattern::mask('(super):{%s.%d.%%}', [
             '%s' => '\s+',
             '%d' => '\d+',
             '%%' => '%'
@@ -36,11 +33,8 @@ class PatternBuilderTest extends TestCase
      */
     public function shouldGet_WithFlags()
     {
-        // given
-        $patternBuilder = Pattern::builder();
-
         // when
-        $pattern = $patternBuilder->mask('My(super)pattern', [], 'ui');
+        $pattern = Pattern::mask('My(super)pattern', [], 'ui');
 
         // then
         $this->assertSamePattern('/My\(super\)pattern/ui', $pattern);

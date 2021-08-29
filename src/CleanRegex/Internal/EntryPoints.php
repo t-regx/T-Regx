@@ -1,10 +1,14 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Builder\PatternBuilder;
+use TRegx\CleanRegex\Builder\PcrePatternBuilder;
 use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Composite\CompositePattern;
+use TRegx\CleanRegex\Internal\Prepared\Expression\Mask;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Standard;
+use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
+use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
+use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardOrthography;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Extended;
 use TRegx\CleanRegex\Pattern;
 use TRegx\SafeRegex\preg;
@@ -17,19 +21,21 @@ trait EntryPoints
         return new Pattern($standard->definition());
     }
 
-    public static function inject(string $input, array $values, string $flags = null): Pattern
+    public static function inject(string $input, array $figures, string $flags = null): Pattern
     {
-        return self::builder()->inject($input, $values, $flags);
+        $template = new Template(new StandardOrthography($input, $flags ?? ''), new InjectFigures($figures));
+        return new Pattern($template->definition());
     }
 
     public static function mask(string $mask, array $keywords, string $flags = null): Pattern
     {
-        return self::builder()->mask($mask, $keywords, $flags);
+        $mask = new Mask($mask, $keywords, $flags ?? '');
+        return new Pattern($mask->definition());
     }
 
     public static function template(string $pattern, string $flags = null): TemplateBuilder
     {
-        return self::builder()->template($pattern, $flags);
+        return new TemplateBuilder(new StandardOrthography($pattern, $flags ?? ''), []);
     }
 
     public static function literal(string $text, string $flags = null): Pattern
@@ -39,7 +45,7 @@ trait EntryPoints
 
     public static function pcre(): PcrePatternBuilder
     {
-        return self::builder()->pcre();
+        return new PcrePatternBuilder();
     }
 
     public static function compose(array $patterns): CompositePattern
@@ -69,10 +75,5 @@ trait EntryPoints
              */
             return $pattern->definition;
         }));
-    }
-
-    public static function builder(): PatternBuilder
-    {
-        return new PatternBuilder();
     }
 }

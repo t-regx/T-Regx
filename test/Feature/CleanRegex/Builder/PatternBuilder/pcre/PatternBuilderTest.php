@@ -15,9 +15,8 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_inject()
     {
         // given
-        $pattern = Pattern::builder()->pcre()->inject('%You/her, (are|is) @ (you|her)%', [
-            'real? % (or are you not real?)'
-        ]);
+        $value = 'real? % (or are you not real?)';
+        $pattern = Pattern::pcre()->inject('%You/her, (are|is) @ (you|her)%', [$value]);
 
         // when
         $pattern = $pattern->delimited();
@@ -32,7 +31,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_mask_build()
     {
         // given
-        $pattern = Pattern::builder()->pcre()->template('%You/her, @ (her)%s')
+        $pattern = Pattern::pcre()->template('%You/her, @ (her)%s')
             ->mask('%s', ['%s' => '\s'])
             ->build();
 
@@ -49,11 +48,7 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_literal_build()
     {
         // given
-        $pattern = Pattern::builder()
-            ->pcre()
-            ->template('%You/her, @ (her)%s')
-            ->literal('{hi}')
-            ->build();
+        $pattern = Pattern::pcre()->template('%You/her, @ (her)%s')->literal('{hi}')->build();
 
         // when
         $pattern = $pattern->delimited();

@@ -97,7 +97,7 @@ class PatternTest extends TestCase
         $this->expectExceptionMessage("Found a superfluous figure: string ('bar'). Used 1 placeholders, but 3 figures supplied.");
 
         // when
-        Pattern::builder()->template('You/her, (are|is) @ (you|her)')
+        Pattern::template('You/her, (are|is) @ (you|her)')
             ->literal('foo')
             ->literal('bar')
             ->literal('cat')

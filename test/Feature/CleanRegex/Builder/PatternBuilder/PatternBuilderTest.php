@@ -16,9 +16,8 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_inject()
     {
         // given
-        $pattern = Pattern::builder()->inject('You/her, (are|is) @ (you|her)', [
-            'real? (or are you not real?)'
-        ]);
+        $figure = 'real? (or are you not real?)';
+        $pattern = Pattern::inject('You/her, (are|is) @ (you|her)', [$figure]);
 
         // when
         $pattern = $pattern->delimited();
@@ -32,16 +31,14 @@ class PatternBuilderTest extends TestCase
      */
     public function shouldThrowForMismatchedNumberOfPlaceholders()
     {
+        // given
+        $figures = ['foo', 'bar', 'cat', 'door'];
+
         // then
         $this->expectException(PlaceholderFigureException::class);
         $this->expectExceptionMessage("Found a superfluous figure: string ('bar'). Used 1 placeholders, but 4 figures supplied.");
 
         // when
-        Pattern::builder()->inject('You/her, (are|is) @ (you|her)', [
-            'foo',
-            'bar',
-            'cat',
-            'door',
-        ]);
+        Pattern::inject('You/her, (are|is) @ (you|her)', $figures);
     }
 }
