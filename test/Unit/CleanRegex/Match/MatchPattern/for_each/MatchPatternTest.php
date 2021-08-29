@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use Test\Utils\Internal;
 use Test\Utils\TestCasePasses;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
 
@@ -53,6 +53,6 @@ class MatchPatternTest extends TestCase
 
     private function getMatchPattern(string $subject): MatchPattern
     {
-        return new MatchPattern(Internal::pattern("([A-Z])?[a-z']+"), new Subject($subject));
+        return new MatchPattern(Internal::pattern("([A-Z])?[a-z']+"), new StringSubject($subject));
     }
 }

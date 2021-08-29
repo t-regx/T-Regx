@@ -10,7 +10,7 @@ use Test\Utils\ClassWithTwoStringParamsConstructor;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\SignatureExceptionFactory
@@ -27,7 +27,7 @@ class SignatureExceptionFactoryTest extends TestCase
 
         // when
         /** @var ClassWithTwoStringParamsConstructor $exception */
-        $exception = $factory->create(ClassWithTwoStringParamsConstructor::class, new Subject('my subject'));
+        $exception = $factory->create(ClassWithTwoStringParamsConstructor::class, new StringSubject('my subject'));
 
         // then
         $this->assertInstanceOf(ClassWithTwoStringParamsConstructor::class, $exception);
@@ -44,7 +44,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // when
-        $exception = $factory->create(ClassWithStringParamConstructor::class, new Subject('my subject'));
+        $exception = $factory->create(ClassWithStringParamConstructor::class, new StringSubject('my subject'));
 
         // then
         $this->assertInstanceOf(ClassWithStringParamConstructor::class, $exception);
@@ -60,7 +60,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // when
-        $exception = $factory->create(ClassWithDefaultConstructor::class, new Subject('my subject'));
+        $exception = $factory->create(ClassWithDefaultConstructor::class, new StringSubject('my subject'));
 
         // then
         $this->assertInstanceOf(ClassWithDefaultConstructor::class, $exception);
@@ -77,7 +77,7 @@ class SignatureExceptionFactoryTest extends TestCase
         $factory = new SignatureExceptionFactory(new FirstMatchMessage());
 
         // when
-        $exception = $factory->create($className, new Subject('my subject'));
+        $exception = $factory->create($className, new StringSubject('my subject'));
 
         // then
         $this->assertInstanceOf($className, $exception);

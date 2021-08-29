@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\fails;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 /**
@@ -17,7 +17,7 @@ class MatchPatternTest extends TestCase
     public function shouldNotMatch()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Bar'));
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new StringSubject('Bar'));
 
         // when
         $fails = $pattern->fails();
@@ -32,7 +32,7 @@ class MatchPatternTest extends TestCase
     public function shouldNotFail()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Foo'));
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new StringSubject('Foo'));
 
         // when
         $fails = $pattern->fails();

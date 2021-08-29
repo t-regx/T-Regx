@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-class Subject implements Subjectable
+class StringSubject implements Subjectable
 {
     /** @var string */
     private $subject;

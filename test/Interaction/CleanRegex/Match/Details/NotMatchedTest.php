@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Test\PhpunitPolyfill;
 use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
 /**
@@ -25,7 +25,7 @@ class NotMatchedTest extends TestCase
         $previous = error_reporting(E_ALL);
 
         // given
-        $notMatched = new NotMatched(new RawMatches([]), new Subject('subject'));
+        $notMatched = new NotMatched(new RawMatches([]), new StringSubject('subject'));
 
         // then
         if (PHP_VERSION_ID < 70400) {
@@ -52,7 +52,7 @@ class NotMatchedTest extends TestCase
     public function shouldGet_subject()
     {
         //
-        $notMatched = new NotMatched(new RawMatches([]), new Subject('subject'));
+        $notMatched = new NotMatched(new RawMatches([]), new StringSubject('subject'));
 
         // when
         $subject = $notMatched->subject();
@@ -184,7 +184,7 @@ class NotMatchedTest extends TestCase
             'xd'    => [],
             2       => [],
         ];
-        return new NotMatched(new RawMatches($matches), new Subject('subject'));
+        return new NotMatched(new RawMatches($matches), new StringSubject('subject'));
     }
 
     /**
@@ -213,6 +213,6 @@ class NotMatchedTest extends TestCase
             3       => [],
             4       => [],
         ];
-        return new NotMatched(new RawMatches($matches), new Subject('subject'));
+        return new NotMatched(new RawMatches($matches), new StringSubject('subject'));
     }
 }

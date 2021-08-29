@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex;
 use TRegx\CleanRegex\ForArray\ForArrayPattern;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\EntryPoints;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Internal\ValidPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
@@ -34,12 +34,12 @@ class Pattern
 
     public function match(string $subject): MatchPattern
     {
-        return new MatchPattern($this->definition, new Subject($subject));
+        return new MatchPattern($this->definition, new StringSubject($subject));
     }
 
     public function replace(string $subject): ReplaceLimit
     {
-        return new ReplaceLimit($this->definition, new Subject($subject));
+        return new ReplaceLimit($this->definition, new StringSubject($subject));
     }
 
     public function prune(string $subject): string

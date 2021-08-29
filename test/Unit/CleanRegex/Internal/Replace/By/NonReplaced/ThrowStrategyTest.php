@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy
@@ -26,7 +26,7 @@ class ThrowStrategyTest extends TestCase
 
         // when
         try {
-            $strategy->substitute(new Subject('foo'));
+            $strategy->substitute(new StringSubject('foo'));
         } catch (CustomSubjectException $exception) {
             $this->assertSame('foo', $exception->subject);
             throw $exception;

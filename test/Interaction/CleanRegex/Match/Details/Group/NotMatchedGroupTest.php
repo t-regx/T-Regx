@@ -16,7 +16,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
@@ -107,7 +107,7 @@ class NotMatchedGroupTest extends TestCase
 
     private function matchGroup(): NotMatchedGroup
     {
-        $subject = new Subject('$unused');
+        $subject = new StringSubject('$unused');
         return new NotMatchedGroup(
             new GroupDetails(new GroupSignature(1, 'first'), new GroupName('first'), new EagerMatchAllFactory(new RawMatchesOffset([]))),
             new GroupExceptionFactory($subject, new GroupName('first')),

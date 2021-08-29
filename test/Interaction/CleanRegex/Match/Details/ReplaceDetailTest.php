@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 
@@ -71,7 +71,7 @@ class ReplaceDetailTest extends TestCase
         $matches = new RawMatchesOffset($matches);
         return new ReplaceDetail(
             MatchDetail::create(
-                new Subject($subject),
+                new StringSubject($subject),
                 0,
                 -1,
                 new RawMatchesToMatchAdapter($matches, 0),

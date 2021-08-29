@@ -16,7 +16,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 
 /**
@@ -274,9 +274,9 @@ class MatchedGroupTest extends TestCase
 
     private function buildMatchGroup(string $subject, string $match, string $group, GroupKey $groupKey, $groupOffset): MatchedGroup
     {
-        $matchedGroup = new GroupEntry($group, $groupOffset, new Subject($subject));
+        $matchedGroup = new GroupEntry($group, $groupOffset, new StringSubject($subject));
         return new MatchedGroup(
-            new Subject($subject),
+            new StringSubject($subject),
             new GroupDetails(new GroupSignature(1, 'first'), $groupKey, new EagerMatchAllFactory(new RawMatchesOffset([]))),
             $matchedGroup,
             new SubstitutedGroup(new ConstantMatchEntry($match, 8), $matchedGroup));

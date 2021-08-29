@@ -14,7 +14,7 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Replace\By\ByGroupReplacePatternImpl;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 
@@ -72,7 +72,7 @@ class ByGroupReplacePatternImplTest extends TestCase
     public function create(string $pattern, string $subject): ByGroupReplacePatternImpl
     {
         $internalPattern = Internal::pattern($pattern);
-        $subjectable = new Subject($subject);
+        $subjectable = new StringSubject($subject);
 
         return new ByGroupReplacePatternImpl(
             new GroupFallbackReplacer(

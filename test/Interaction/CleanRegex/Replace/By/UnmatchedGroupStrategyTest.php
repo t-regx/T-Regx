@@ -16,7 +16,7 @@ use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\UnmatchedGroupStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Replace\By\UnmatchedGroupStrategy
@@ -144,11 +144,11 @@ class UnmatchedGroupStrategyTest extends TestCase
         $pattern = Internal::pattern('\d+(?<group>cm)?');
         return new GroupFallbackReplacer(
             $pattern,
-            new Subject($subject),
+            new StringSubject($subject),
             -1,
             new ThrowStrategy(\AssertionError::class, new NonReplacedMessage()), // anything
             new IgnoreCounting(),
-            new ApiBase($pattern, new Subject($subject), new UserData())
+            new ApiBase($pattern, new StringSubject($subject), new UserData())
         );
     }
 }

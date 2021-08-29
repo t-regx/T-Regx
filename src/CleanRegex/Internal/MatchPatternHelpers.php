@@ -24,7 +24,7 @@ trait MatchPatternHelpers
             ->orElse(static function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2) {
                 self::validateGroups($notMatched, [$nameOrIndex1, $nameOrIndex2]);
                 throw SubjectNotMatchedException::forFirstTuple(
-                    new Subject($notMatched->subject()),
+                    new StringSubject($notMatched->subject()),
                     GroupKey::of($nameOrIndex1),
                     GroupKey::of($nameOrIndex2));
             });
@@ -43,7 +43,7 @@ trait MatchPatternHelpers
             ->orElse(static function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
                 self::validateGroups($notMatched, [$nameOrIndex1, $nameOrIndex2, $nameOrIndex3]);
                 throw SubjectNotMatchedException::forFirstTriple(
-                    new Subject($notMatched->subject()),
+                    new StringSubject($notMatched->subject()),
                     GroupKey::of($nameOrIndex1),
                     GroupKey::of($nameOrIndex2),
                     GroupKey::of($nameOrIndex3));

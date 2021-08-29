@@ -12,7 +12,7 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
@@ -337,7 +337,7 @@ class RemainingMatchPatternTest extends TestCase
         $subject = '...you forgot one very important thing mate.';
         $pattern = new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
-                new ApiBase(Internal::pcre('/[a-z]+/'), new Subject($subject), new UserData()),
+                new ApiBase(Internal::pcre('/[a-z]+/'), new StringSubject($subject), new UserData()),
                 new CallbackPredicate(Functions::notEquals('forgot'))),
             new ThrowApiBase());
 
@@ -370,7 +370,7 @@ class RemainingMatchPatternTest extends TestCase
     {
         return new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
-                new ApiBase(Internal::pattern('(?<=\()[a-z]?(?=\))'), new Subject('() (a) (b) () (c)'), new UserData()),
+                new ApiBase(Internal::pattern('(?<=\()[a-z]?(?=\))'), new StringSubject('() (a) (b) () (c)'), new UserData()),
                 new CallbackPredicate($predicate)),
             new ThrowApiBase());
     }

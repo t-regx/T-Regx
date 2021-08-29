@@ -17,7 +17,7 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer
@@ -145,10 +145,10 @@ class GroupFallbackReplacerTest extends TestCase
     {
         return new GroupFallbackReplacer(
             Internal::pattern($pattern),
-            new Subject($subject),
+            new StringSubject($subject),
             -1,
             new ConstantReturnStrategy('Subject not matched'),
             new IgnoreCounting(),
-            new ApiBase(Internal::pattern($pattern), new Subject($subject), new UserData()));
+            new ApiBase(Internal::pattern($pattern), new StringSubject($subject), new UserData()));
     }
 }

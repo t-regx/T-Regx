@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\count;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Internal;
-use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 /**
@@ -17,7 +17,7 @@ class MatchPatternTest extends TestCase
     public function shouldCount()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Foo Foo Foo'));
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new StringSubject('Foo Foo Foo'));
 
         // when
         $count = $pattern->count();
@@ -32,7 +32,7 @@ class MatchPatternTest extends TestCase
     public function shouldBeCountable()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Foo Foo Foo'));
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new StringSubject('Foo Foo Foo'));
 
         // when
         $count = count($pattern);
@@ -47,7 +47,7 @@ class MatchPatternTest extends TestCase
     public function shouldCountUnmatchedSubject()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), new Subject('Bar'));
+        $pattern = new MatchPattern(Internal::pattern('Foo'), new StringSubject('Bar'));
 
         // when
         $count = $pattern->count();
