@@ -4,6 +4,7 @@ namespace Test\Functional\TRegx;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\TestCaseConditional;
 use TRegx\Pcre;
+use const PHP_VERSION_ID;
 
 /**
  * @covers \TRegx\Pcre
@@ -37,6 +38,9 @@ class PcreTest extends TestCase
             return $this->version(10, 35);
         }
         if (\PHP_VERSION_ID >= 80009) {
+            return $this->version(10, 36);
+        }
+        if (\PHP_VERSION_ID >= 80009) {
             return $this->version(10, 35);
         }
         if (\PHP_VERSION_ID >= 80005) {
@@ -47,6 +51,9 @@ class PcreTest extends TestCase
         }
         if (\PHP_VERSION_ID >= 80000) {
             return $this->version(10, 34);
+        }
+        if (PHP_VERSION_ID >= 70423) {
+            return $this->version(10, 36);
         }
         if (PHP_VERSION_ID >= 70422) {
             return $this->version(10, 35);
