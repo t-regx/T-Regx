@@ -70,7 +70,7 @@ class MatchDetail implements Detail
         UsedForGroup          $usedForGroup,
         MatchAllFactory       $allFactory,
         UserData              $userData,
-        GroupFactoryStrategy  $strategy = null,
+        GroupFactoryStrategy  $strategy,
         Signatures            $signatures)
     {
         $this->subjectable = $subjectable;
@@ -81,7 +81,7 @@ class MatchDetail implements Detail
         $this->usedInCompo = $usedInCompo;
         $this->usedForGroup = $usedForGroup;
         $this->allFactory = $allFactory;
-        $this->strategy = $strategy ?? new MatchGroupFactoryStrategy();
+        $this->strategy = $strategy;
         $this->userData = $userData;
         $this->signatures = $signatures;
         $this->groupHandle = new FirstNamedGroup($this->signatures);
@@ -94,7 +94,8 @@ class MatchDetail implements Detail
                                   IRawMatchOffset $match, MatchAllFactory $allFactory,
                                   UserData        $userData, GroupFactoryStrategy $strategy = null): MatchDetail
     {
-        return new self($subjectable, $index, $limit, $match, $match, $match, $match, $allFactory, $userData, $strategy,
+        return new self($subjectable, $index, $limit, $match, $match, $match, $match, $allFactory, $userData,
+            $strategy ?? new MatchGroupFactoryStrategy(),
             new PerformanceSignatures($match, $match));
     }
 
