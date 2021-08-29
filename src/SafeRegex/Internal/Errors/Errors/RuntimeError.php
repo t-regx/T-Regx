@@ -3,23 +3,17 @@ namespace TRegx\SafeRegex\Internal\Errors\Errors;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Exception\PregException;
-use TRegx\SafeRegex\Internal\Constants\PregConstants;
 use TRegx\SafeRegex\Internal\Errors\HostError;
 use TRegx\SafeRegex\Internal\Factory\RuntimePregExceptionFactory;
-use function preg_match;
 
 class RuntimeError implements HostError
 {
     /** @var int */
     private $pregError;
 
-    /** @var string */
-    private $pregConstant;
-
     public function __construct(int $pregError)
     {
         $this->pregError = $pregError;
-        $this->pregConstant = (new PregConstants())->getConstant($pregError);
     }
 
     public function occurred(): bool
@@ -29,7 +23,7 @@ class RuntimeError implements HostError
 
     public function clear(): void
     {
-        preg_match('//', '');
+        \preg_match('//', '');
     }
 
     public function getSafeRegexpException(string $methodName, $pattern): PregException
