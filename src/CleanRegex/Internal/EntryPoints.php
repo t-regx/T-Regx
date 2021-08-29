@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Builder\PcrePatternBuilder;
+use TRegx\CleanRegex\Builder\PcreBuilder;
 use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Composite\CompositePattern;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Mask;
@@ -43,9 +43,9 @@ trait EntryPoints
         return EntryPoints::of(Extended::quote(preg::quote($text)), $flags);
     }
 
-    public static function pcre(): PcrePatternBuilder
+    public static function pcre(): PcreBuilder
     {
-        return new PcrePatternBuilder();
+        return new PcreBuilder();
     }
 
     public static function compose(array $patterns): CompositePattern
