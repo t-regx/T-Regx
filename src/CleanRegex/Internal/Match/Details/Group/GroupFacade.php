@@ -78,7 +78,7 @@ class GroupFacade
     private function createdMatched(GroupKey $group, MatchEntry $entry, string $text, int $offset): MatchedGroup
     {
         $groupEntry = new GroupEntry($text, $offset, $this->subject);
-        return $this->factoryStrategy->createMatched(
+        return $this->factoryStrategy->matched(
             $this->subject,
             $this->createGroupDetails($group),
             $groupEntry,
@@ -87,7 +87,7 @@ class GroupFacade
 
     private function createUnmatched(GroupKey $group): NotMatchedGroup
     {
-        return $this->factoryStrategy->createUnmatched(
+        return $this->factoryStrategy->notMatched(
             $this->subject,
             $this->createGroupDetails($group),
             new NotMatchedOptionalWorker(

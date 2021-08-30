@@ -40,7 +40,7 @@ class GroupFacadeMatched
     {
         [$text, $offset] = $forGroup->getGroupTextAndOffset($this->groupHandle->groupHandle($group));
         $groupEntry = new GroupEntry($text, $offset, $this->subject);
-        return $this->factoryStrategy->createMatched(
+        return $this->factoryStrategy->matched(
             $this->subject,
             new GroupDetails($this->signatures->signature($group), $group, $this->allFactory),
             $groupEntry,

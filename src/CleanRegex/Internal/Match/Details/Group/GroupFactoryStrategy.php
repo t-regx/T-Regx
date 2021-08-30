@@ -8,12 +8,7 @@ use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 
 interface GroupFactoryStrategy
 {
-    public function createMatched(Subject          $subject,
-                                  GroupDetails     $details,
-                                  GroupEntry       $groupEntry,
-                                  SubstitutedGroup $substitutedGroup): MatchedGroup;
+    public function matched(Subject $subject, GroupDetails $details, GroupEntry $entry, SubstitutedGroup $substituted): MatchedGroup;
 
-    public function createUnmatched(Subject                  $subject,
-                                    GroupDetails             $details,
-                                    NotMatchedOptionalWorker $worker): NotMatchedGroup;
+    public function notMatched(Subject $subject, GroupDetails $details, NotMatchedOptionalWorker $worker): NotMatchedGroup;
 }
