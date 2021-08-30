@@ -14,7 +14,7 @@ class GroupIndexTest extends TestCase
      * @dataProvider validGroups
      * @param string|int $index
      */
-    public function shouldGetValidInteger(int $index)
+    public function shouldGetNameOrIndex(int $index)
     {
         // given
         $group = new GroupIndex($index);
@@ -24,6 +24,22 @@ class GroupIndexTest extends TestCase
 
         // then
         $this->assertSame($index, $actual);
+    }
+
+    /**
+     * @test
+     * @dataProvider validGroups
+     * @param string|int $index
+     */
+    public function shouldCastToString(int $index)
+    {
+        // given
+        $group = new GroupIndex($index);
+
+        // when
+        $actual = $group->nameOrIndex();
+
+        // then
         $this->assertSame("#$index", "$group");
     }
 
@@ -37,14 +53,11 @@ class GroupIndexTest extends TestCase
      */
     public function shouldThrowForNegativeInteger()
     {
-        // given
-        $group = new GroupIndex(-15);
-
         // then
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Group index must be a non-negative integer, but -15 given');
 
         // when
-        $group->nameOrIndex();
+        new GroupIndex(-15);
     }
 }

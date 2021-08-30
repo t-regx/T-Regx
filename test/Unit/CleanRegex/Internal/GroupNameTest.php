@@ -74,7 +74,7 @@ class GroupNameTest extends TestCase
     public function shouldNotLetFuckedUpPhpRuinGroupValidation(): void
     {
         // given
-        setlocale(LC_CTYPE, "pl");
+        \setLocale(LC_CTYPE, "pl");
         $groupName = new GroupName('grópa');
 
         // then

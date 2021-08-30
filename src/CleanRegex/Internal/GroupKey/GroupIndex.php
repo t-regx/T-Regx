@@ -11,13 +11,13 @@ class GroupIndex extends GroupKey
     public function __construct(int $index)
     {
         $this->index = $index;
+        if ($this->index < 0) {
+            throw new InvalidArgumentException("Group index must be a non-negative integer, but $this->index given");
+        }
     }
 
     public function nameOrIndex(): int
     {
-        if ($this->index < 0) {
-            throw new InvalidArgumentException("Group index must be a non-negative integer, but $this->index given");
-        }
         return $this->index;
     }
 
