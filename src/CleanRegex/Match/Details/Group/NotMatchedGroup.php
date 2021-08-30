@@ -129,11 +129,11 @@ class NotMatchedGroup implements Group
 
     public function orThrow(string $exceptionClassName = null): void
     {
-        throw $this->optionalWorker->orThrow($exceptionClassName ?? GroupNotMatchedException::class);
+        throw $this->optionalWorker->throwable($exceptionClassName ?? GroupNotMatchedException::class);
     }
 
     public function orElse(callable $substituteProducer)
     {
-        return $this->optionalWorker->orElse($substituteProducer);
+        return $substituteProducer(...$this->optionalWorker->arguments());
     }
 }

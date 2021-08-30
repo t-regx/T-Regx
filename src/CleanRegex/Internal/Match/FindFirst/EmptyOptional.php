@@ -16,7 +16,7 @@ class EmptyOptional implements Optional
 
     public function orThrow(string $exceptionClassName = null): void
     {
-        throw $this->worker->orThrow($exceptionClassName);
+        throw $this->worker->throwable($exceptionClassName);
     }
 
     public function orReturn($substitute)
@@ -26,6 +26,6 @@ class EmptyOptional implements Optional
 
     public function orElse(callable $substituteProducer)
     {
-        return $this->worker->orElse($substituteProducer);
+        return $substituteProducer(...$this->worker->arguments());
     }
 }

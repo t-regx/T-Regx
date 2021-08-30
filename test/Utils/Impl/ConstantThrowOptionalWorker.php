@@ -14,13 +14,13 @@ class ConstantThrowOptionalWorker implements OptionalWorker
         $this->throwable = $throwable;
     }
 
-    public function orThrow(?string $exceptionClassname): Throwable
+    public function throwable(?string $exceptionClassname): Throwable
     {
         throw $this->throwable;
     }
 
-    public function orElse(callable $producer)
+    public function arguments(): array
     {
-        throw new \Exception("orElse() wasn't expected to be called");
+        throw new \Exception("arguments() wasn't expected to be called");
     }
 }

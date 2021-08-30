@@ -22,12 +22,12 @@ class SubjectOptionalWorker implements OptionalWorker
         $this->defaultExceptionClassname = $defaultExceptionClassname;
     }
 
-    public function orElse(callable $producer)
+    public function arguments(): array
     {
-        return $producer();
+        return [];
     }
 
-    public function orThrow(?string $exceptionClassname): Throwable
+    public function throwable(?string $exceptionClassname): Throwable
     {
         return $this->exceptionFactory->create($exceptionClassname ?? $this->defaultExceptionClassname, $this->subject);
     }
