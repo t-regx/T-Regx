@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\by\group\mapAndCallback;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 
 /**
@@ -14,26 +15,17 @@ class ReplacePatternTest extends TestCase
      */
     public function shouldReplace()
     {
-        // given
-        $subject = 'Replace One!, Two! and One!';
-        $map = [
-            'O' => '1',
-            'T' => '2'
-        ];
-
         // when
         $result = pattern('(?<capital>[OT])(ne|wo)')
-            ->replace($subject)
+            ->replace('Replace One!, Two! and One!')
             ->all()
             ->by()
             ->group('capital')
-            ->mapAndCallback($map, function (string $key) {
-                return "**$key**";
-            })
+            ->mapAndCallback(['O' => 'a', 'T' => 'b'], 'strToUpper')
             ->orElseThrow();
 
         // then
-        $this->assertSame('Replace **1**!, **2**! and **1**!', $result);
+        $this->assertSame('Replace A!, B! and A!', $result);
     }
 
     /**
@@ -41,11 +33,6 @@ class ReplacePatternTest extends TestCase
      */
     public function shouldThrow_forMissingReplacement()
     {
-        // given
-        $map = [
-            // Missing mapping value
-        ];
-
         // then
         $this->expectException(MissingReplacementKeyException::class);
         $this->expectExceptionMessage("Expected to replace value 'One' by group 'capital' ('O'), but such key is not found in replacement map");
@@ -56,9 +43,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('capital')
-            ->mapAndCallback($map, function ($key) {
-                return "**$key**";
-            })
+            ->mapAndCallback([], Functions::fail())
             ->orElseThrow();
     }
 }
