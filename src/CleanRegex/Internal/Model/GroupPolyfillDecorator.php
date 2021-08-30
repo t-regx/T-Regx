@@ -30,10 +30,10 @@ class GroupPolyfillDecorator implements IRawMatchOffset
      */
     public function hasGroup($nameOrIndex): bool
     {
-        if (!$this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
-            return true;
+        if ($this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
+            return $this->trueMatch()->hasGroup($nameOrIndex);
         }
-        return $this->trueMatch()->hasGroup($nameOrIndex);
+        return true;
     }
 
     public function getText(): string
@@ -43,18 +43,18 @@ class GroupPolyfillDecorator implements IRawMatchOffset
 
     public function isGroupMatched($nameOrIndex): bool
     {
-        if (!$this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
-            return $this->falseMatch->isGroupMatched($nameOrIndex);
+        if ($this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
+            return $this->trueMatch()->isGroupMatched($nameOrIndex);
         }
-        return $this->trueMatch()->isGroupMatched($nameOrIndex);
+        return $this->falseMatch->isGroupMatched($nameOrIndex);
     }
 
     public function getGroup($nameOrIndex): ?string
     {
-        if (!$this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
-            return $this->read($this->falseMatch, $nameOrIndex);
+        if ($this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
+            return $this->read($this->trueMatch(), $nameOrIndex);
         }
-        return $this->read($this->trueMatch(), $nameOrIndex);
+        return $this->read($this->falseMatch, $nameOrIndex);
     }
 
     private function read(UsedForGroup $forGroup, $nameOrIndex): ?string
@@ -68,10 +68,10 @@ class GroupPolyfillDecorator implements IRawMatchOffset
 
     public function getGroupTextAndOffset($nameOrIndex): array
     {
-        if (!$this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
-            return $this->falseMatch->getGroupTextAndOffset($nameOrIndex);
+        if ($this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
+            return $this->trueMatch()->getGroupTextAndOffset($nameOrIndex);
         }
-        return $this->trueMatch()->getGroupTextAndOffset($nameOrIndex);
+        return $this->falseMatch->getGroupTextAndOffset($nameOrIndex);
     }
 
     public function byteOffset(): int
