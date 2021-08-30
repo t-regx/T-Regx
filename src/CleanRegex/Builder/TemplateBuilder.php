@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Builder;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Figure\TokenFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Orthography;
+use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\Token;
@@ -30,6 +31,11 @@ class TemplateBuilder
     public function literal(string $text): TemplateBuilder
     {
         return $this->next(new LiteralToken($text));
+    }
+
+    public function alteration(array $figures): TemplateBuilder
+    {
+        return $this->next(new AlternationToken($figures));
     }
 
     private function next(Token $token): TemplateBuilder

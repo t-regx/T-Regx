@@ -8,11 +8,11 @@ use TRegx\CleanRegex\Internal\ValueType;
 class AlternationQuotable implements Quotable
 {
     /** @var array */
-    private $userInputs;
+    private $figures;
 
-    public function __construct(array $userInputs)
+    public function __construct(array $figures)
     {
-        $this->userInputs = $userInputs;
+        $this->figures = $figures;
     }
 
     public function quote(string $delimiter): string
@@ -22,8 +22,8 @@ class AlternationQuotable implements Quotable
 
     private function normalizedUserInput(): array
     {
-        foreach ($this->userInputs as $input) {
-            $this->validateQuotable($input);
+        foreach ($this->figures as $figure) {
+            $this->validateQuotable($figure);
         }
         return $this->userInputEmptyLast();
     }
@@ -38,10 +38,10 @@ class AlternationQuotable implements Quotable
     private function userInputEmptyLast(): array
     {
         // removes empty strings, and if there was any, appends it to the end
-        if (!\in_array('', $this->userInputs)) {
-            return $this->userInputs;
+        if (!\in_array('', $this->figures)) {
+            return $this->figures;
         }
-        $result = \array_filter($this->userInputs);
+        $result = \array_filter($this->figures);
         $result[] = '';
         return $result;
     }

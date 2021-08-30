@@ -9,6 +9,8 @@ Incoming
     * Refactored `Pattern::builder()->pcre()->inject()` to `Pattern::pcre()->inject()`
     * Refactored `Pattern::builder()->pcre()->template()` to `Pattern::pcre()->template()`
     * Removed `Pattern::builder()`.
+* Features
+    * Added `Pattern::template()->alteration()`
 
 Added in 0.13.4
 ---------------

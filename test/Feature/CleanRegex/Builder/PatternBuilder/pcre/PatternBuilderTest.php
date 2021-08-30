@@ -48,12 +48,27 @@ class PatternBuilderTest extends TestCase
     public function shouldBuild_template_literal_build()
     {
         // given
-        $pattern = Pattern::pcre()->template('%You/her, @ (her)%s')->literal('{hi}')->build();
+        $pattern = Pattern::pcre()->template('@You/her, @ (her)@s')->literal('{hi@}')->build();
 
         // when
         $pattern = $pattern->delimited();
 
         // then
-        $this->assertSame('%You/her, \{hi\} (her)%s', $pattern);
+        $this->assertSame('@You/her, \{hi\@\} (her)@s', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_template_alteration_build()
+    {
+        // given
+        $pattern = Pattern::pcre()->template('%You/her, @ (her)%s')->alteration(['{hi}', '50%'])->build();
+
+        // when
+        $pattern = $pattern->delimited();
+
+        // then
+        $this->assertSame('%You/her, (?:\{hi\}|50\%) (her)%s', $pattern);
     }
 }

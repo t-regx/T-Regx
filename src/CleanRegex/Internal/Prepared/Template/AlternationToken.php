@@ -9,20 +9,20 @@ use TRegx\CleanRegex\Internal\ValueType;
 class AlternationToken implements Token
 {
     /** @var array */
-    private $values;
+    private $figures;
 
-    public function __construct(array $values)
+    public function __construct(array $figures)
     {
-        $this->values = $values;
+        $this->figures = $figures;
     }
 
     public function formatAsQuotable(): Quotable
     {
-        return new AlternationQuotable($this->values);
+        return new AlternationQuotable($this->figures);
     }
 
     public function type(): Type
     {
-        return new ValueType($this->values);
+        return new ValueType($this->figures);
     }
 }

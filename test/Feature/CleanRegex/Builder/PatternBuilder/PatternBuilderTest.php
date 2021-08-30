@@ -41,4 +41,19 @@ class PatternBuilderTest extends TestCase
         // when
         Pattern::inject('You/her, (are|is) @ (you|her)', $figures);
     }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_template_alteration_build()
+    {
+        // given
+        $pattern = Pattern::template('You/her, @ (her)', 's')->alteration(['{hi}', '50#'])->build();
+
+        // when
+        $pattern = $pattern->delimited();
+
+        // then
+        $this->assertSame('#You/her, (?:\{hi\}|50\#) (her)#s', $pattern);
+    }
 }
