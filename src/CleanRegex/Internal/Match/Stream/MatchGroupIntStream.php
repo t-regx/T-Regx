@@ -65,7 +65,7 @@ class MatchGroupIntStream implements Stream
             throw SubjectNotMatchedException::forFirstGroup($this->base, $this->group);
         }
         if (!$polyfill->isGroupMatched($this->group->nameOrIndex())) {
-            throw GroupNotMatchedException::forFirst($this->base, $this->group);
+            throw GroupNotMatchedException::forFirst($this->group);
         }
         return $this->parseInteger($match->getGroup($this->group->nameOrIndex()));
     }

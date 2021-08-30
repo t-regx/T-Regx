@@ -20,6 +20,6 @@ class GroupExceptionFactory
 
     public function create(string $method): GroupNotMatchedException
     {
-        return GroupNotMatchedException::forMethod($this->subject, $this->group, $method);
+        return GroupNotMatchedException::forMethod($this->group, $method);
     }
 }

@@ -107,7 +107,7 @@ class ReplaceCallbackObject
         if ($group->matched()) {
             return $group->text();
         }
-        throw GroupNotMatchedException::forReplacement($this->subject, GroupKey::of($group->usedIdentifier()));
+        throw GroupNotMatchedException::forReplacement(GroupKey::of($group->usedIdentifier()));
     }
 
     private function modifyOffset(string $search, string $replacement): void

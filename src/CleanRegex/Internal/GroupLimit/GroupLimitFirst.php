@@ -41,6 +41,6 @@ class GroupLimitFirst
                 throw SubjectNotMatchedException::forFirstGroup($this->base, $this->group);
             }
         }
-        throw GroupNotMatchedException::forFirst($this->base, $this->group);
+        throw GroupNotMatchedException::forFirst($this->group);
     }
 }

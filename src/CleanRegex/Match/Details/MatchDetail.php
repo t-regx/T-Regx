@@ -168,7 +168,7 @@ class MatchDetail implements Detail
             [$text, $offset] = $this->usedForGroup->getGroupTextAndOffset($handle);
             return $text;
         }
-        throw GroupNotMatchedException::forGet($this->subject, $group);
+        throw GroupNotMatchedException::forGet($group);
     }
 
     /**

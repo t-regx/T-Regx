@@ -9,54 +9,46 @@ use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedG
 use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupOffsetMessage;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Subject;
 
 class GroupNotMatchedException extends \Exception implements PatternException
 {
-    /** @var string */
-    private $subject; // Debugger
-    /** @var string|int|null */
-    private $group;   // Debugger
-
-    public function __construct(string $message, string $subject, GroupKey $group = null)
+    public function __construct(string $message)
     {
         parent::__construct($message);
-        $this->subject = $subject;
-        $this->group = $group ? $group->nameOrIndex() : null;
     }
 
-    private static function exception(NotMatchedMessage $message, Subject $subject, GroupKey $group): self
+    private static function exception(NotMatchedMessage $message): self
     {
-        return new GroupNotMatchedException($message->getMessage(), $subject->getSubject(), $group);
+        return new GroupNotMatchedException($message->getMessage());
     }
 
-    public static function forFirst(Subject $subject, GroupKey $group): self
+    public static function forFirst(GroupKey $group): self
     {
-        return self::exception(new FirstGroupMessage($group), $subject, $group);
+        return self::exception(new FirstGroupMessage($group));
     }
 
-    public static function forFirstOffset(Subject $subject, GroupKey $group): self
+    public static function forFirstOffset(GroupKey $group): self
     {
-        return self::exception(new FirstGroupOffsetMessage($group), $subject, $group);
+        return self::exception(new FirstGroupOffsetMessage($group));
     }
 
-    public static function forNth(Subject $subject, GroupKey $group, int $index): self
+    public static function forNth(GroupKey $group, int $index): self
     {
-        return self::exception(new NthGroupMessage($group, $index), $subject, $group);
+        return self::exception(new NthGroupMessage($group, $index));
     }
 
-    public static function forMethod(Subject $subject, GroupKey $group, string $method): self
+    public static function forMethod(GroupKey $group, string $method): self
     {
-        return self::exception(new MethodGroupMessage($method, $group), $subject, $group);
+        return self::exception(new MethodGroupMessage($method, $group));
     }
 
-    public static function forReplacement(Subject $subject, GroupKey $group): self
+    public static function forReplacement(GroupKey $group): self
     {
-        return self::exception(new ReplacementWithUnmatchedGroupMessage($group), $subject, $group);
+        return self::exception(new ReplacementWithUnmatchedGroupMessage($group));
     }
 
-    public static function forGet(Subject $subject, GroupKey $group): self
+    public static function forGet(GroupKey $group): self
     {
-        return self::exception(new MethodGetGroupMessage($group), $subject, $group);
+        return self::exception(new MethodGetGroupMessage($group));
     }
 }

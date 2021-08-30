@@ -57,7 +57,7 @@ class MatchGroupOffsetStream implements Stream
             throw SubjectNotMatchedException::forFirstGroupOffset($this->base, $this->group);
         }
         if (!$polyfill->isGroupMatched($this->group->nameOrIndex())) {
-            throw GroupNotMatchedException::forFirstOffset($this->base, $this->group);
+            throw GroupNotMatchedException::forFirstOffset($this->group);
         }
         return $match->getGroupByteOffset($this->group->nameOrIndex());
     }

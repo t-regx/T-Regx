@@ -125,7 +125,7 @@ class GroupLimit implements PatternLimit, \IteratorAggregate
             throw NoSuchNthElementException::forGroup($this->group, $index, $count);
         }
         if (!$match->isGroupMatched($this->group->nameOrIndex(), $index)) {
-            throw GroupNotMatchedException::forNth($this->base, $this->group, $index);
+            throw GroupNotMatchedException::forNth($this->group, $index);
         }
         return Tuple::first($match->getGroupTextAndOffset($this->group->nameOrIndex(), $index));
     }
