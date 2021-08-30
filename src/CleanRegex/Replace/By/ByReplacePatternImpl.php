@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Replace\By;
 
-use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\GroupKey\WholeMatch;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\SubstituteFallbackMapper;
@@ -69,7 +69,7 @@ class ByReplacePatternImpl implements ByReplacePattern
     private function replace(array $map, LazySubjectRs $substitute): string
     {
         return $this->fallbackReplacer->replaceOrFallback(
-            new GroupIndex(0),
+            new WholeMatch(),
             new SubstituteFallbackMapper(
                 new WrappingMapper(new DictionaryMapper($map), $this->wrapper),
                 $substitute,

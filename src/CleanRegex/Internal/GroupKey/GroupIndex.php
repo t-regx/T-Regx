@@ -23,7 +23,7 @@ class GroupIndex extends GroupKey
 
     public function full(): bool
     {
-        return $this->index === 0;
+        return false;
     }
 
     public function __toString(): string

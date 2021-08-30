@@ -69,6 +69,23 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrow_onMissingReplacementsKey_group0()
+    {
+        // given
+        $subject = 'Replace one, two and three, and one';
+        $map = ['one' => 'first'];
+
+        // then
+        $this->expectException(MissingReplacementKeyException::class);
+        $this->expectExceptionMessage("Expected to replace value 'two' by group #0 ('two'), but such key is not found in replacement map");
+
+        // when
+        pattern('(one|two)')->replace($subject)->all()->by()->group(0)->map($map)->orElseThrow();
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_onInvalidKey()
     {
         // given
