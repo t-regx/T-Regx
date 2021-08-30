@@ -8,7 +8,6 @@ use Test\Utils\Functions;
 use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
-use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
@@ -109,13 +108,12 @@ class NotMatchedGroupTest extends TestCase
     {
         $subject = new StringSubject('$unused');
         return new NotMatchedGroup(
+            $subject,
             new GroupDetails(new GroupSignature(1, 'first'), new GroupName('first'), new EagerMatchAllFactory(new RawMatchesOffset([]))),
-            new GroupExceptionFactory($subject, new GroupName('first')),
             new NotMatchedOptionalWorker(
                 new GroupMessage(new GroupName('first')),
                 $subject,
                 new NotMatched(new RawMatches([]), new ThrowSubject()),
-                CustomException::class),
-            new ThrowSubject());
+                CustomException::class));
     }
 }

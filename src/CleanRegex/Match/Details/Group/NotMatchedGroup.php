@@ -2,31 +2,24 @@
 namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Subject;
 
 class NotMatchedGroup implements Group
 {
-    /** @var GroupDetails */
-    private $details;
-    /** @var GroupExceptionFactory */
-    private $exceptionFactory;
-    /** @var NotMatchedOptionalWorker */
-    private $optionalWorker;
     /** @var Subject */
     private $subject;
+    /** @var GroupDetails */
+    private $details;
+    /** @var NotMatchedOptionalWorker */
+    private $worker;
 
-    public function __construct(GroupDetails             $details,
-                                GroupExceptionFactory    $exceptionFactory,
-                                NotMatchedOptionalWorker $optionalWorker,
-                                Subject                  $subject)
+    public function __construct(Subject $subject, GroupDetails $details, NotMatchedOptionalWorker $worker)
     {
-        $this->details = $details;
-        $this->exceptionFactory = $exceptionFactory;
-        $this->optionalWorker = $optionalWorker;
         $this->subject = $subject;
+        $this->details = $details;
+        $this->worker = $worker;
     }
 
     public function text(): string
@@ -56,7 +49,7 @@ class NotMatchedGroup implements Group
 
     protected function groupNotMatched(string $method): GroupNotMatchedException
     {
-        return $this->exceptionFactory->create($method);
+        return GroupNotMatchedException::forMethod($this->details->group(), $method);
     }
 
     public function matched(): bool
@@ -129,11 +122,11 @@ class NotMatchedGroup implements Group
 
     public function orThrow(string $exceptionClassName = null): void
     {
-        throw $this->optionalWorker->throwable($exceptionClassName ?? GroupNotMatchedException::class);
+        throw $this->worker->throwable($exceptionClassName);
     }
 
     public function orElse(callable $substituteProducer)
     {
-        return $substituteProducer(...$this->optionalWorker->arguments());
+        return $substituteProducer(...$this->worker->arguments());
     }
 }

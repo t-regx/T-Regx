@@ -1,14 +1,11 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\Match\Details\Group;
+namespace Test\Unit\TRegx\CleanRegex\Match\Details\Group;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\NameOnlyDetails;
 use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
-use TRegx\CleanRegex\Internal\GroupKey\GroupName;
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
-use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\Details\Group\ReplaceNotMatchedGroup;
 
 /**
@@ -22,7 +19,7 @@ class ReplaceNotMatchedGroupTest extends TestCase
     public function shouldNotGet_modifiedSubject()
     {
         // given
-        $matchGroup = $this->matchGroup('first');
+        $matchGroup = new ReplaceNotMatchedGroup(new ThrowSubject(), new NameOnlyDetails('first'), $this->worker());
 
         // then
         $this->expectException(GroupNotMatchedException::class);
@@ -38,11 +35,11 @@ class ReplaceNotMatchedGroupTest extends TestCase
     public function shouldNotGet_modifiedOffset()
     {
         // given
-        $matchGroup = $this->matchGroup('first');
+        $matchGroup = new ReplaceNotMatchedGroup(new ThrowSubject(), new NameOnlyDetails('second'), $this->worker());
 
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call modifiedOffset() for group 'first', but the group was not matched");
+        $this->expectExceptionMessage("Expected to call modifiedOffset() for group 'second', but the group was not matched");
 
         // when
         $matchGroup->modifiedOffset();
@@ -54,25 +51,18 @@ class ReplaceNotMatchedGroupTest extends TestCase
     public function shouldNotGet_byteModifiedOffset()
     {
         // given
-        $matchGroup = $this->matchGroup('first');
+        $matchGroup = new ReplaceNotMatchedGroup(new ThrowSubject(), new NameOnlyDetails('bar'), $this->worker());
 
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call byteModifiedOffset() for group 'first', but the group was not matched");
+        $this->expectExceptionMessage("Expected to call byteModifiedOffset() for group 'bar', but the group was not matched");
 
         // when
         $matchGroup->byteModifiedOffset();
     }
 
-    private function matchGroup(string $group): ReplaceNotMatchedGroup
+    private function worker(): NotMatchedOptionalWorker
     {
-        /** @var GroupDetails $groupDetails */
-        /** @var NotMatchedOptionalWorker $worker */
-        $groupDetails = $this->createMock(GroupDetails::class);
-        $worker = $this->createMock(NotMatchedOptionalWorker::class);
-        return new ReplaceNotMatchedGroup($groupDetails,
-            new GroupExceptionFactory(new StringSubject('subject'), new GroupName($group)),
-            $worker,
-            new ThrowSubject());
+        return $this->createMock(NotMatchedOptionalWorker::class);
     }
 }

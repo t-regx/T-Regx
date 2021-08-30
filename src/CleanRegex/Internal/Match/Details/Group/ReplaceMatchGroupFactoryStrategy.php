@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
-use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
@@ -30,11 +29,10 @@ class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
         return new ReplaceMatchedGroup($subject, $details, $groupEntry, $substitutedGroup, $this->byteOffsetModification, $this->subjectModification);
     }
 
-    public function createUnmatched(GroupDetails             $details,
-                                    GroupExceptionFactory    $exceptionFactory,
-                                    NotMatchedOptionalWorker $optionalFactory,
-                                    Subject                  $subject): NotMatchedGroup
+    public function createUnmatched(Subject                  $subject,
+                                    GroupDetails             $details,
+                                    NotMatchedOptionalWorker $worker): NotMatchedGroup
     {
-        return new ReplaceNotMatchedGroup($details, $exceptionFactory, $optionalFactory, $subject);
+        return new ReplaceNotMatchedGroup($subject, $details, $worker);
     }
 }

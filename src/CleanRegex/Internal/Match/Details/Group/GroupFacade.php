@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 use Generator;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
-use TRegx\CleanRegex\Internal\Factory\GroupExceptionFactory;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
@@ -89,14 +88,13 @@ class GroupFacade
     private function createUnmatched(GroupKey $group): NotMatchedGroup
     {
         return $this->factoryStrategy->createUnmatched(
+            $this->subject,
             $this->createGroupDetails($group),
-            new GroupExceptionFactory($this->subject, $group),
             new NotMatchedOptionalWorker(
                 new GroupMessage($group),
                 $this->subject,
                 $this->notMatched,
-                GroupNotMatchedException::class),
-            $this->subject);
+                GroupNotMatchedException::class));
     }
 
     private function createGroupDetails(GroupKey $group): GroupDetails
