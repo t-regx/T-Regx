@@ -5,9 +5,9 @@ use AssertionError;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Expression\Pcre;
 use TRegx\CleanRegex\Internal\InternalPatterns;
 use TRegx\CleanRegex\Pattern;
 
@@ -24,7 +24,7 @@ class InternalPatternsTest extends TestCase
         // given
         $inputPatterns = [
             '[a-z]',
-            new Pattern(Internal::pcre('/foo/')),
+            new Pattern(new Pcre('/Foo/')),
         ];
 
         // when

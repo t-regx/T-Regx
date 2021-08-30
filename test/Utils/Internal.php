@@ -4,8 +4,8 @@ namespace Test\Utils;
 use AssertionError;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
+use TRegx\CleanRegex\Internal\Expression\Standard;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Expression\Standard;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
 use TRegx\CleanRegex\Internal\TrailingBackslash;
 

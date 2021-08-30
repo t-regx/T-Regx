@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex;
 use TRegx\CleanRegex\ForArray\ForArrayPattern;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\EntryPoints;
+use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Internal\ValidPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -17,9 +18,9 @@ class Pattern
     /** @var Definition */
     private $definition;
 
-    public function __construct(Definition $definition)
+    public function __construct(Expression $expression)
     {
-        $this->definition = $definition;
+        $this->definition = $expression->definition();
     }
 
     public function test(string $subject): bool

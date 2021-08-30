@@ -2,9 +2,9 @@
 namespace TRegx\CleanRegex\Internal;
 
 use Generator;
-use TRegx\CleanRegex\Internal\Prepared\Expression\Expression;
-use TRegx\CleanRegex\Internal\Prepared\Expression\Identity;
-use TRegx\CleanRegex\Internal\Prepared\Expression\Standard;
+use TRegx\CleanRegex\Internal\Expression\Expression;
+use TRegx\CleanRegex\Internal\Expression\Identity;
+use TRegx\CleanRegex\Internal\Expression\Standard;
 use TRegx\CleanRegex\Pattern;
 
 class InternalPatterns

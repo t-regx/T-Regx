@@ -4,10 +4,10 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Expression;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Prepared\Expression\Standard;
+use TRegx\CleanRegex\Internal\Expression\Standard;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Prepared\Expression\Standard
+ * @covers \TRegx\CleanRegex\Internal\Expression\Standard
  */
 class StandardTest extends TestCase
 {
