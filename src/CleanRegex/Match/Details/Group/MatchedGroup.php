@@ -52,9 +52,9 @@ class MatchedGroup implements Group
         try {
             return $number->asInt(new Base($base));
         } catch (NumberFormatException $exception) {
-            throw IntegerFormatException::forGroup($this->details->group, $this->groupEntry->text(), new Base($base));
+            throw IntegerFormatException::forGroup($this->details->group(), $this->groupEntry->text(), new Base($base));
         } catch (NumberOverflowException $exception) {
-            throw IntegerOverflowException::forGroup($this->details->group, $this->groupEntry->text(), new Base($base));
+            throw IntegerOverflowException::forGroup($this->details->group(), $this->groupEntry->text(), new Base($base));
         }
     }
 
@@ -81,12 +81,12 @@ class MatchedGroup implements Group
 
     public function index(): int
     {
-        return $this->details->signature->index();
+        return $this->details->index();
     }
 
     public function name(): ?string
     {
-        return $this->details->signature->name();
+        return $this->details->name();
     }
 
     /**
@@ -94,7 +94,7 @@ class MatchedGroup implements Group
      */
     public function usedIdentifier()
     {
-        return $this->details->group->nameOrIndex();
+        return $this->details->nameOrIndex();
     }
 
     public function offset(): int

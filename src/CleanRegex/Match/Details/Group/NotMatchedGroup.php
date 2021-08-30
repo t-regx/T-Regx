@@ -71,12 +71,12 @@ class NotMatchedGroup implements Group
 
     public function name(): ?string
     {
-        return $this->details->signature->name();
+        return $this->details->name();
     }
 
     public function index(): int
     {
-        return $this->details->signature->index();
+        return $this->details->index();
     }
 
     /**
@@ -84,7 +84,7 @@ class NotMatchedGroup implements Group
      */
     public function usedIdentifier()
     {
-        return $this->details->group->nameOrIndex();
+        return $this->details->nameOrIndex();
     }
 
     public function offset(): int
