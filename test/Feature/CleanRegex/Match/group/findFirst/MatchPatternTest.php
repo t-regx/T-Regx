@@ -79,6 +79,19 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldNotGetUnmatchedGroup()
+    {
+        // when
+        pattern('Foo(Bar)?(Car)')
+            ->match('FooCar')
+            ->group(1)
+            ->findFirst(Functions::fail())
+            ->orElse(Functions::pass());
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_unmatchedSubject()
     {
         // then
