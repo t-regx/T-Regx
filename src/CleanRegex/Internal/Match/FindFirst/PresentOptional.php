@@ -3,28 +3,28 @@ namespace TRegx\CleanRegex\Internal\Match\FindFirst;
 
 use TRegx\CleanRegex\Match\Optional;
 
-class OptionalImpl implements Optional
+class PresentOptional implements Optional
 {
     /** @var mixed */
-    private $result;
+    private $value;
 
-    public function __construct($result)
+    public function __construct($value)
     {
-        $this->result = $result;
+        $this->value = $value;
     }
 
     public function orThrow(string $exceptionClassName = null)
     {
-        return $this->result;
+        return $this->value;
     }
 
     public function orReturn($substitute)
     {
-        return $this->result;
+        return $this->value;
     }
 
     public function orElse(callable $substituteProducer)
     {
-        return $this->result;
+        return $this->value;
     }
 }

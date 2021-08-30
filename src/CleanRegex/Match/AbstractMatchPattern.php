@@ -16,7 +16,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
-use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
+use TRegx\CleanRegex\Internal\Match\FindFirst\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
@@ -85,7 +85,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     {
         $match = $this->base->matchOffset();
         if ($match->matched()) {
-            return new OptionalImpl($consumer($this->findFirstDetail($match)));
+            return new PresentOptional($consumer($this->findFirstDetail($match)));
         }
         return new EmptyOptional(new NotMatchedOptionalWorker(
             new FirstMatchMessage(),

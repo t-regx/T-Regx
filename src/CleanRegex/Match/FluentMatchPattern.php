@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Factory\Worker\StreamWorker;
 use TRegx\CleanRegex\Internal\Match\FindFirst\EmptyOptional;
-use TRegx\CleanRegex\Internal\Match\FindFirst\OptionalImpl;
+use TRegx\CleanRegex\Internal\Match\FindFirst\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
@@ -74,7 +74,7 @@ class FluentMatchPattern implements MatchPatternInterface
         } catch (NoFirstStreamException $exception) {
             return new EmptyOptional($this->worker->noFirst());
         }
-        return new OptionalImpl($consumer($firstElement));
+        return new PresentOptional($consumer($firstElement));
     }
 
     public function nth(int $index)
@@ -95,7 +95,7 @@ class FluentMatchPattern implements MatchPatternInterface
         if (!\array_key_exists($index, $elements)) {
             return new EmptyOptional($this->worker->noNth($index, \count($elements)));
         }
-        return new OptionalImpl($elements[$index]);
+        return new PresentOptional($elements[$index]);
     }
 
     public function forEach(callable $consumer): void
