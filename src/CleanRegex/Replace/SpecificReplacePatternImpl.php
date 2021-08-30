@@ -19,7 +19,7 @@ use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\SafeRegex\preg;
 
-class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeReplacePattern, Subject
+class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeReplacePattern
 {
     /** @var Definition */
     private $definition;
@@ -31,6 +31,8 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
     private $substitute;
     /** @var CountingStrategy */
     private $countingStrategy;
+    /** @var ReplacePatternCallbackInvoker */
+    private $invoker;
 
     public function __construct(Definition $definition, Subject $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy)
     {
@@ -39,6 +41,8 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
         $this->limit = $limit;
         $this->substitute = $substitute;
         $this->countingStrategy = $countingStrategy;
+        $this->invoker = new ReplacePatternCallbackInvoker($this->definition, $this->subject,
+            $this->limit, $this->substitute, $this->countingStrategy);
     }
 
     public function with(string $replacement): string
@@ -58,7 +62,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
 
     public function callback(callable $callback): string
     {
-        return $this->replaceCallbackInvoker()->invoke($callback, new MatchStrategy());
+        return $this->invoker->invoke($callback, new MatchStrategy());
     }
 
     public function by(): ByReplacePattern
@@ -66,14 +70,14 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
         return new ByReplacePatternImpl(
             new GroupFallbackReplacer(
                 $this->definition,
-                $this,
+                $this->subject,
                 $this->limit,
                 $this->substitute,
                 $this->countingStrategy,
                 new ApiBase($this->definition, $this->subject, new UserData())),
             new LazyMessageThrowStrategy(MissingReplacementKeyException::class),
-            new PerformanceEmptyGroupReplace($this->definition, $this, $this->limit),
-            $this->replaceCallbackInvoker(),
+            new PerformanceEmptyGroupReplace($this->definition, $this->subject, $this->limit),
+            $this->invoker,
             $this->subject,
             new IdentityWrapper());
     }
@@ -81,15 +85,5 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
     public function focus($nameOrIndex): FocusReplacePattern
     {
         return new FocusReplacePattern($this, $this->definition, $this->subject, $this->limit, GroupKey::of($nameOrIndex), $this->countingStrategy);
-    }
-
-    private function replaceCallbackInvoker(): ReplacePatternCallbackInvoker
-    {
-        return new ReplacePatternCallbackInvoker($this->definition, $this, $this->limit, $this->substitute, $this->countingStrategy);
-    }
-
-    public function getSubject(): string
-    {
-        return $this->subject->getSubject();
     }
 }
