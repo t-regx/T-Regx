@@ -33,6 +33,8 @@ class GroupFacade
     private $signatures;
     /** @var NotMatched */
     private $notMatched;
+    /** @var GroupEntryFactory */
+    private $entryFactory;
 
     public function __construct(Subject              $subject,
                                 GroupFactoryStrategy $factoryStrategy,
@@ -47,6 +49,7 @@ class GroupFacade
         $this->allFactory = $allFactory;
         $this->notMatched = $notMatched;
         $this->signatures = $signatures;
+        $this->entryFactory = new GroupEntryFactory($this->subject, $this->groupHandle);
     }
 
     public function createGroups(GroupKey $group, RawMatchesOffset $matches): array
@@ -58,9 +61,9 @@ class GroupFacade
     {
         foreach ($group as $index => [$text, $offset]) {
             $match = new RawMatchesToMatchAdapter($matches, $index);
-            if ($match->isGroupMatched($this->groupHandle->groupHandle($groupKey))) {
-                yield $index => $this->createdMatched($groupKey, $match, $text, $offset);
-            } else {
+            try {
+                yield $index => $this->createdMatched($groupKey, $this->entryFactory->groupEntry($groupKey, $match), $match);
+            } catch (UnmatchedGroupException $exception) {
                 yield $index => $this->createUnmatched($groupKey);
             }
         }
@@ -68,16 +71,15 @@ class GroupFacade
 
     public function createGroup(GroupKey $group, UsedForGroup $forGroup, MatchEntry $entry): Group
     {
-        if ($forGroup->isGroupMatched($this->groupHandle->groupHandle($group))) {
-            [$text, $offset] = $forGroup->getGroupTextAndOffset($this->groupHandle->groupHandle($group));
-            return $this->createdMatched($group, $entry, $text, $offset);
+        try {
+            return $this->createdMatched($group, $this->entryFactory->groupEntry($group, $forGroup), $entry);
+        } catch (UnmatchedGroupException $exception) {
+            return $this->createUnmatched($group);
         }
-        return $this->createUnmatched($group);
     }
 
-    private function createdMatched(GroupKey $group, MatchEntry $entry, string $text, int $offset): MatchedGroup
+    private function createdMatched(GroupKey $group, GroupEntry $groupEntry, MatchEntry $entry): MatchedGroup
     {
-        $groupEntry = new GroupEntry($text, $offset, $this->subject);
         return $this->factoryStrategy->matched(
             $this->subject,
             $this->createGroupDetails($group),
