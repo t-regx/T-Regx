@@ -200,7 +200,7 @@ class preg
      *
      * @throws PregException
      */
-    public static function split(string $pattern, string $subject, int $limit = -1, int $flags = 0)
+    public static function split(string $pattern, string $subject, int $limit = -1, int $flags = 0): array
     {
         $pr = Bug::fix($pattern);
         return Guard::invoke('preg_split', $pr, static function () use ($pr, $subject, $limit, $flags) {
