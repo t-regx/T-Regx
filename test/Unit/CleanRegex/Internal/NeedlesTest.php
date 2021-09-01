@@ -2,12 +2,12 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\MultiSplitter;
+use TRegx\CleanRegex\Internal\Needles;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\MultiSplitter
+ * @covers \TRegx\CleanRegex\Internal\Needles
  */
-class MultiSplitterTest extends TestCase
+class NeedlesTest extends TestCase
 {
     /**
      * @test
@@ -19,10 +19,10 @@ class MultiSplitterTest extends TestCase
     public function shouldSplit(string $string, array $needles, array $expected)
     {
         // given
-        $splitter = new MultiSplitter($string, $needles);
+        $needles = new Needles($needles);
 
         // when
-        $result = $splitter->split();
+        $result = $needles->split($string);
 
         // then
         $this->assertSame($expected, $result);
@@ -46,6 +46,12 @@ class MultiSplitterTest extends TestCase
             ],
 
             [
+                'hey%:',
+                ['%:', '%::'],
+                ['hey', '%:', ''],
+            ],
+
+            [
                 'Łomża',
                 ['Ł', 'ż'],
                 ['', 'Ł', 'om', 'ż', 'a'],
@@ -59,12 +65,42 @@ class MultiSplitterTest extends TestCase
     public function shouldNotSplitForNoTokens(): void
     {
         // given
-        $splitter = new MultiSplitter('Welcome', []);
+        $needles = new Needles([]);
 
         // when
-        $result = $splitter->split();
+        $result = $needles->split('Welcome');
 
         // then
         $this->assertSame(['Welcome'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function testWhitespace(): void
+    {
+        // given
+        $needles = new Needles(["\t"]);
+
+        // when
+        $result = $needles->split("Hi\tthere");
+
+        // then
+        $this->assertSame(['Hi', "\t", 'there'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function testRegexpDelimiters(): void
+    {
+        // given
+        $needles = new Needles(['#', '/']);
+
+        // when
+        $result = $needles->split('Hi/there#general');
+
+        // then
+        $this->assertSame(['Hi', '/', 'there', '#', 'general'], $result);
     }
 }

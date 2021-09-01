@@ -10,11 +10,6 @@ class Alternator
         return '(?:' . \implode('|', self::getQuoted($userInput, $delimiter)) . ')';
     }
 
-    public static function quoteCapturing(array $userInput, string $delimiter): string
-    {
-        return '(' . \implode('|', self::getQuoted($userInput, $delimiter)) . ')';
-    }
-
     private static function getQuoted(array $userInput, string $delimiter): array
     {
         $result = [];

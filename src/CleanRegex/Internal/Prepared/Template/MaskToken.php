@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Internal\MaskType;
-use TRegx\CleanRegex\Internal\MultiSplitter;
+use TRegx\CleanRegex\Internal\Needles;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\CompositeQuotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
@@ -33,7 +33,7 @@ class MaskToken implements Token
         foreach ($this->keywords as $keyword => $pattern) {
             $this->validateEmpty($keyword);
         }
-        return new CompositeQuotable($this->quotableTokens((new MultiSplitter($this->mask, \array_keys($this->keywords)))->split()));
+        return new CompositeQuotable($this->quotableTokens((new Needles(\array_keys($this->keywords)))->split($this->mask)));
     }
 
     private function quotableTokens(array $elements): array
