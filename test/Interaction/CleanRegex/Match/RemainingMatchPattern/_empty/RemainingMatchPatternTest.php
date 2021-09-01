@@ -7,6 +7,7 @@ use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 use Test\Utils\Impl\CallbackPredicate;
 use Test\Utils\Impl\ThrowApiBase;
+use Test\Utils\Impl\ThrowFactory;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
@@ -339,7 +340,8 @@ class RemainingMatchPatternTest extends TestCase
             new DetailPredicateBaseDecorator(
                 new ApiBase(Internal::pcre('/[a-z]+/'), new StringSubject($subject), new UserData()),
                 new CallbackPredicate(Functions::notEquals('forgot'))),
-            new ThrowApiBase());
+            new ThrowApiBase(),
+            new ThrowFactory());
 
         // when
         $filtered = $pattern
@@ -372,6 +374,7 @@ class RemainingMatchPatternTest extends TestCase
             new DetailPredicateBaseDecorator(
                 new ApiBase(Internal::pattern('(?<=\()[a-z]?(?=\))'), new StringSubject('() (a) (b) () (c)'), new UserData()),
                 new CallbackPredicate($predicate)),
-            new ThrowApiBase());
+            new ThrowApiBase(),
+            new ThrowFactory());
     }
 }

@@ -4,17 +4,21 @@ namespace TRegx\CleanRegex\Match;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 
 class RemainingMatchPattern extends AbstractMatchPattern
 {
     /** @var ApiBase */
     private $originalBase;
+    /** @var MatchAllFactory */
+    private $allFactory;
 
-    public function __construct(DetailPredicateBaseDecorator $base, Base $original)
+    public function __construct(DetailPredicateBaseDecorator $base, Base $original, MatchAllFactory $allFactory)
     {
-        parent::__construct($base);
+        parent::__construct($base, $allFactory);
         $this->originalBase = $original;
+        $this->allFactory = $allFactory;
     }
 
     public function test(): bool
@@ -31,6 +35,7 @@ class RemainingMatchPattern extends AbstractMatchPattern
     {
         return new RemainingMatchPattern(
             new DetailPredicateBaseDecorator($this->base, new MethodPredicate($predicate, 'remaining')),
-            $this->originalBase);
+            $this->originalBase,
+            $this->allFactory);
     }
 }

@@ -10,6 +10,7 @@ use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
@@ -441,10 +442,12 @@ class RemainingMatchPatternTest extends TestCase
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
     {
+        $base = new ApiBase(Internal::pattern($pattern), new StringSubject($subject), new UserData());
         return new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
-                new ApiBase(Internal::pattern($pattern), new StringSubject($subject), new UserData()),
+                $base,
                 new CallbackPredicate($predicate)),
-            new ThrowApiBase());
+            new ThrowApiBase(),
+            new LazyMatchAllFactory($base));
     }
 }

@@ -54,11 +54,6 @@ class ConstantAllBase implements Base
         throw $this->fail();
     }
 
-    public function getUnfilteredBase(): Base
-    {
-        throw $this->fail();
-    }
-
     public function getSubject(): string
     {
         if ($this->subject === null) {

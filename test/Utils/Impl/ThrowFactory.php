@@ -9,6 +9,6 @@ class ThrowFactory implements MatchAllFactory
 {
     public function getRawMatches(): RawMatchesOffset
     {
-        throw new AssertionError("Failed to assert that all-factory wasn't used");
+        throw new AssertionError("Failed to assert that MatchAllFactory wasn't used");
     }
 }

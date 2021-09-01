@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -13,10 +13,10 @@ class MatchFirst
 {
     /** @var Base */
     private $base;
-    /** @var LazyMatchAllFactory */
+    /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(Base $base, LazyMatchAllFactory $allFactory)
+    public function __construct(Base $base, MatchAllFactory $allFactory)
     {
         $this->base = $base;
         $this->allFactory = $allFactory;

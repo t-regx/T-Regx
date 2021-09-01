@@ -85,9 +85,4 @@ class DetailPredicateBaseDecorator implements Base
     {
         return $this->base->getUserData();
     }
-
-    public function getUnfilteredBase(): Base
-    {
-        return $this->base->getUnfilteredBase();
-    }
 }

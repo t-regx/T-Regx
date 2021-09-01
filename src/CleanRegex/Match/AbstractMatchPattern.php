@@ -21,6 +21,7 @@ use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
@@ -48,11 +49,14 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
     protected $base;
     /** @var GroupAware */
     private $groupAware;
+    /** @var MatchAllFactory */
+    private $allFactory;
 
-    public function __construct(Base $base)
+    public function __construct(Base $base, MatchAllFactory $factory)
     {
         $this->base = $base;
         $this->groupAware = new LightweightGroupAware($this->base->getPattern());
+        $this->allFactory = $factory;
     }
 
     abstract public function test(): bool;
@@ -74,7 +78,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
      */
     public function first(callable $consumer = null)
     {
-        $first = new MatchFirst($this->base, new LazyMatchAllFactory($this->base->getUnfilteredBase()));
+        $first = new MatchFirst($this->base, $this->allFactory);
         if ($consumer === null) {
             return $first->matchDetails()->text();
         }
@@ -96,11 +100,9 @@ abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLim
 
     private function findFirstDetail(RawMatchOffset $match): Detail
     {
-        $allFactory = new LazyMatchAllFactory($this->base->getUnfilteredBase());
         $firstIndex = $match->getIndex();
-
-        $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $allFactory, $firstIndex);
-        return MatchDetail::create($this->base, $firstIndex, 1, $polyfill, $allFactory, $this->base->getUserData());
+        $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, $firstIndex);
+        return MatchDetail::create($this->base, $firstIndex, 1, $polyfill, $this->allFactory, $this->base->getUserData());
     }
 
     public function only(int $limit): array

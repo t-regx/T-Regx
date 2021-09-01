@@ -4,6 +4,8 @@ namespace TRegx\CleanRegex\Match;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
+use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Subject;
@@ -15,10 +17,14 @@ class MatchPattern extends AbstractMatchPattern
     private $definition;
     /** @var Subject */
     private $subject;
+    /** @var MatchAllFactory */
+    private $allFactory;
 
     public function __construct(Definition $definition, Subject $subject)
     {
-        parent::__construct(new ApiBase($definition, $subject, new UserData()));
+        $base = new ApiBase($definition, $subject, new UserData());
+        $this->allFactory = new LazyMatchAllFactory($base);
+        parent::__construct($base, $this->allFactory);
         $this->definition = $definition;
         $this->subject = $subject;
     }
@@ -35,6 +41,9 @@ class MatchPattern extends AbstractMatchPattern
 
     public function remaining(callable $predicate): RemainingMatchPattern
     {
-        return new RemainingMatchPattern(new DetailPredicateBaseDecorator($this->base, new MethodPredicate($predicate, 'remaining')), $this->base);
+        return new RemainingMatchPattern(
+            new DetailPredicateBaseDecorator($this->base, new MethodPredicate($predicate, 'remaining')),
+            $this->base,
+            $this->allFactory);
     }
 }

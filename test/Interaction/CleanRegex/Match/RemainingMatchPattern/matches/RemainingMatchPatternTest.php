@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use Test\Utils\Impl\CallbackPredicate;
 use Test\Utils\Impl\ThrowApiBase;
+use Test\Utils\Impl\ThrowFactory;
 use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
@@ -92,6 +93,7 @@ class RemainingMatchPatternTest extends TestCase
             new DetailPredicateBaseDecorator(
                 new ApiBase(Internal::pattern($pattern), new StringSubject($subject), new UserData()),
                 new CallbackPredicate($predicate)),
-            new ThrowApiBase());
+            new ThrowApiBase(),
+            new ThrowFactory());
     }
 }

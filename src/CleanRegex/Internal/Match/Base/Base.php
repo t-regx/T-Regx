@@ -22,6 +22,4 @@ interface Base extends Subject
     public function matchAllOffsets(): RawMatchesOffset;
 
     public function getUserData(): UserData;
-
-    public function getUnfilteredBase(): Base;
 }

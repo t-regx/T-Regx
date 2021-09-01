@@ -72,9 +72,4 @@ class ApiBase implements Base
     {
         return $this->userData;
     }
-
-    public function getUnfilteredBase(): Base
-    {
-        return $this;
-    }
 }
