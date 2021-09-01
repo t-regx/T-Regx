@@ -1,7 +1,7 @@
 <?php
 namespace Test\Utils\Impl;
 
-use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 
 class AllStreamBase extends StreamBase

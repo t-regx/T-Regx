@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match\Stream;
+namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
@@ -7,6 +7,8 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
+use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 

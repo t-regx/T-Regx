@@ -5,12 +5,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\Stream\StreamBase
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase
  */
 class StreamBaseTest extends TestCase
 {

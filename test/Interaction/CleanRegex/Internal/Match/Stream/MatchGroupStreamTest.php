@@ -8,13 +8,13 @@ use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
-use TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\StringSubject;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\Stream\MatchGroupStream
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupStream
  */
 class MatchGroupStreamTest extends TestCase
 {

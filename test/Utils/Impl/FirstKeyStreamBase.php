@@ -1,7 +1,7 @@
 <?php
 namespace Test\Utils\Impl;
 
-use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 
 class FirstKeyStreamBase extends StreamBase
 {

@@ -2,7 +2,7 @@
 namespace Test\Utils\Impl;
 
 use AssertionError;
-use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 class FirstStreamBase extends StreamBase

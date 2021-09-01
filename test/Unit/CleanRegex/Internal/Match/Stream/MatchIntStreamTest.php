@@ -8,11 +8,11 @@ use Test\Utils\Impl\FirstStreamBase;
 use Test\Utils\Impl\ThrowBase;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
-use TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
 use TRegx\CleanRegex\Internal\Number\Base;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\Stream\MatchIntStream
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream
  */
 class MatchIntStreamTest extends TestCase
 {

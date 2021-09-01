@@ -8,13 +8,13 @@ use Test\Utils\Impl\ThrowFactory;
 use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Match\Stream\MatchStream;
-use TRegx\CleanRegex\Internal\Match\Stream\StreamBase;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\Stream\MatchStream
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream
  */
 class MatchStreamTest extends TestCase
 {

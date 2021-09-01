@@ -1,8 +1,10 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match\Stream;
+namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
+use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
+use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Internal\Number\Base;
 use TRegx\CleanRegex\Internal\Number\NumberFormatException;
 use TRegx\CleanRegex\Internal\Number\NumberOverflowException;

@@ -1,7 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match\Stream;
+namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
+use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;

@@ -1,6 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
+use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupIntStream;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupStream;
+
 interface UsedForGroup
 {
     /**
