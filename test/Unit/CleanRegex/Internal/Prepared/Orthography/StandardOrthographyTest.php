@@ -17,10 +17,10 @@ class StandardOrthographyTest extends TestCase
     public function shouldGetDelimiter()
     {
         // given
-        $format = new StandardOrthography('#wel/come', '');
+        $standard = new StandardOrthography('#wel/come', '');
 
         // when
-        $delimiter = $format->delimiter();
+        $delimiter = $standard->delimiter();
 
         // then
         $this->assertEquals(new Delimiter('%'), $delimiter);
@@ -32,10 +32,10 @@ class StandardOrthographyTest extends TestCase
     public function shouldGetInputPattern()
     {
         // given
-        $format = new StandardOrthography('#wel/{come}', '');
+        $standard = new StandardOrthography('#wel/{come}', '');
 
         // when
-        $pattern = $format->pattern();
+        $pattern = $standard->pattern();
 
         // then
         $this->assertSame('#wel/{come}', $pattern);
@@ -47,10 +47,10 @@ class StandardOrthographyTest extends TestCase
     public function shouldGetUndevelopedInput()
     {
         // given
-        $format = new StandardOrthography('#wel/{come}', '');
+        $standard = new StandardOrthography('#wel/{come}', '');
 
         // when
-        $undeveloped = $format->undevelopedInput();
+        $undeveloped = $standard->undevelopedInput();
 
         // then
         $this->assertSame('#wel/{come}', $undeveloped);
@@ -62,10 +62,10 @@ class StandardOrthographyTest extends TestCase
     public function shouldGetFlags()
     {
         // given
-        $format = new StandardOrthography('', 'ui');
+        $standard = new StandardOrthography('', 'ui');
 
         // when
-        $flags = $format->flags();
+        $flags = $standard->flags();
 
         // then
         $this->assertEquals(new Flags('ui'), $flags);

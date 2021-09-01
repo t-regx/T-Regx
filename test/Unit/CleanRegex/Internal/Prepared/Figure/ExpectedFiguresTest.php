@@ -23,10 +23,10 @@ class ExpectedFiguresTest extends TestCase
     public function shouldTest()
     {
         // given
-        $figure = new ExpectedFigures(new ConstantFigures(1, new LiteralToken('one')));
+        $figures = new ExpectedFigures(new ConstantFigures(1, new LiteralToken('one')));
 
         // when
-        $token = $figure->nextToken();
+        $token = $figures->nextToken();
 
         // then
         $this->assertEquals(new LiteralToken('one'), $token);
@@ -38,15 +38,15 @@ class ExpectedFiguresTest extends TestCase
     public function shouldNotMeetExpectation()
     {
         // given
-        $figure = new ExpectedFigures(new ConstantFigures(0, new NullToken()));
-        $figure->nextToken();
+        $figures = new ExpectedFigures(new ConstantFigures(0, new NullToken()));
+        $figures->nextToken();
 
         // when
         $this->expectException(PlaceholderFigureException::class);
         $this->expectExceptionMessage('Not enough corresponding figures supplied. Used 1 placeholders, but 0 figures supplied.');
 
         // then
-        $figure->meetExpectation();
+        $figures->meetExpectation();
     }
 
     /**
@@ -55,14 +55,14 @@ class ExpectedFiguresTest extends TestCase
     public function shouldNotMeetExpectationSuperfluous()
     {
         // given
-        $figure = new ExpectedFigures(new ConstantFigures(1, new LiteralToken('foo')));
+        $figures = new ExpectedFigures(new ConstantFigures(1, new LiteralToken('foo')));
 
         // then
         $this->expectException(PlaceholderFigureException::class);
         $this->expectExceptionMessage("Found a superfluous figure: string ('foo'). Used 0 placeholders, but 1 figures supplied.");
 
         // when
-        $figure->meetExpectation();
+        $figures->meetExpectation();
     }
 
     /**
@@ -71,10 +71,10 @@ class ExpectedFiguresTest extends TestCase
     public function shouldMeetEmptyExpectations()
     {
         // given
-        $figure = new ExpectedFigures(new ConstantFigures(0));
+        $figures = new ExpectedFigures(new ConstantFigures(0));
 
         // when
-        $figure->meetExpectation();
+        $figures->meetExpectation();
 
         // then
         $this->pass();

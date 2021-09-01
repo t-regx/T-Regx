@@ -18,13 +18,13 @@ class PcreOrthographyTest extends TestCase
     public function test()
     {
         // given
-        $format = new PcreOrthography('/foo/x');
+        $pcre = new PcreOrthography('/foo/x');
 
         // when
-        $delimiter = $format->delimiter();
-        $pattern = $format->pattern();
-        $flags = $format->flags();
-        $undeveloped = $format->undevelopedInput();
+        $delimiter = $pcre->delimiter();
+        $pattern = $pcre->pattern();
+        $flags = $pcre->flags();
+        $undeveloped = $pcre->undevelopedInput();
 
         // then
         $this->assertEquals(new Delimiter('/'), $delimiter);
@@ -39,10 +39,10 @@ class PcreOrthographyTest extends TestCase
     public function shouldGetDelimiter()
     {
         // given
-        $format = new PcreOrthography('#foo#');
+        $pcre = new PcreOrthography('#foo#');
 
         // when
-        $delimiter = $format->delimiter();
+        $delimiter = $pcre->delimiter();
 
         // then
         $this->assertEquals(new Delimiter('#'), $delimiter);
@@ -54,10 +54,10 @@ class PcreOrthographyTest extends TestCase
     public function shouldGetEmptyFlags()
     {
         // given
-        $format = new PcreOrthography('#foo#');
+        $pcre = new PcreOrthography('#foo#');
 
         // when
-        $flags = $format->flags();
+        $flags = $pcre->flags();
 
         // then
         $this->assertEquals(new Flags(''), $flags);

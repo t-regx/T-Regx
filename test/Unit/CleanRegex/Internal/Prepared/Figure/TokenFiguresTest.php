@@ -21,10 +21,10 @@ class TokenFiguresTest extends TestCase
         $figures = new TokenFigures([new LiteralToken('foo')]);
 
         // when
-        $literal = $figures->nextToken();
+        $token = $figures->nextToken();
 
         // then
-        $this->assertEquals(new LiteralToken('foo'), $literal);
+        $this->assertEquals(new LiteralToken('foo'), $token);
     }
 
     /**
@@ -38,10 +38,10 @@ class TokenFiguresTest extends TestCase
         $figures->nextToken();
 
         // when
-        $literal = $figures->nextToken();
+        $token = $figures->nextToken();
 
         // then
-        $this->assertEquals(new LiteralToken('bar'), $literal);
+        $this->assertEquals(new LiteralToken('bar'), $token);
     }
 
     /**
@@ -53,10 +53,10 @@ class TokenFiguresTest extends TestCase
         $figures = new TokenFigures([]);
 
         // when
-        $literal = $figures->nextToken();
+        $token = $figures->nextToken();
 
         // then
-        $this->assertEquals(new NullToken(), $literal);
+        $this->assertEquals(new NullToken(), $token);
     }
 
     /**
@@ -65,15 +65,15 @@ class TokenFiguresTest extends TestCase
     public function shouldIgnoreInternalArrayPointer()
     {
         // given
-        $array = [new LiteralToken('foo'), new LiteralToken('bar')];
-        \next($array);
-        $placeholders = new TokenFigures($array);
+        $tokens = [new LiteralToken('foo'), new LiteralToken('bar')];
+        \next($tokens);
+        $figures = new TokenFigures($tokens);
 
         // when
-        $value = $placeholders->nextToken();
+        $token = $figures->nextToken();
 
         // then
-        $this->assertEquals(new LiteralToken('foo'), $value);
+        $this->assertEquals(new LiteralToken('foo'), $token);
     }
 
     /**
@@ -85,9 +85,9 @@ class TokenFiguresTest extends TestCase
         $figures = new TokenFigures([new AlternationToken(['foo'])]);
 
         // when
-        $literal = $figures->nextToken();
+        $token = $figures->nextToken();
 
         // then
-        $this->assertEquals(new AlternationToken(['foo']), $literal);
+        $this->assertEquals(new AlternationToken(['foo']), $token);
     }
 }

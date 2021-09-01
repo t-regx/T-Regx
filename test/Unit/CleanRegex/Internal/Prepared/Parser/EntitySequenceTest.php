@@ -18,10 +18,10 @@ class EntitySequenceTest extends TestCase
     public function shouldGetEmptyFlags()
     {
         // when
-        $blocks = new EntitySequence(new Flags(''));
+        $sequence = new EntitySequence(new Flags(''));
 
         // then
-        $this->assertHasFlags('', $blocks);
+        $this->assertHasFlags('', $sequence);
     }
 
     /**
@@ -30,10 +30,10 @@ class EntitySequenceTest extends TestCase
     public function shouldHaveFlags()
     {
         // when
-        $blocks = new EntitySequence(new Flags('i'));
+        $sequence = new EntitySequence(new Flags('i'));
 
         // then
-        $this->assertHasFlags('i', $blocks);
+        $this->assertHasFlags('i', $sequence);
     }
 
     /**
@@ -42,13 +42,13 @@ class EntitySequenceTest extends TestCase
     public function shouldAddFlag()
     {
         // given
-        $blocks = new EntitySequence(new Flags(''));
+        $sequence = new EntitySequence(new Flags(''));
 
         // when
-        $blocks->append(new GroupOpenFlags('x'));
+        $sequence->append(new GroupOpenFlags('x'));
 
         // then
-        $this->assertHasFlags('x', $blocks);
+        $this->assertHasFlags('x', $sequence);
     }
 
     /**
@@ -57,13 +57,13 @@ class EntitySequenceTest extends TestCase
     public function shouldRemoveFlag()
     {
         // given
-        $blocks = new EntitySequence(new Flags('uim'));
+        $sequence = new EntitySequence(new Flags('uim'));
 
         // when
-        $blocks->append(new GroupOpenFlags('-i'));
+        $sequence->append(new GroupOpenFlags('-i'));
 
         // then
-        $this->assertHasFlags('um', $blocks);
+        $this->assertHasFlags('um', $sequence);
     }
 
     /**
@@ -72,15 +72,15 @@ class EntitySequenceTest extends TestCase
     public function shouldChainFlags()
     {
         // given
-        $blocks = new EntitySequence(new Flags('ux'));
+        $sequence = new EntitySequence(new Flags('ux'));
 
         // when
-        $blocks->append(new GroupOpenFlags('i'));
-        $blocks->append(new GroupOpenFlags('-x'));
-        $blocks->append(new GroupOpenFlags('m'));
+        $sequence->append(new GroupOpenFlags('i'));
+        $sequence->append(new GroupOpenFlags('-x'));
+        $sequence->append(new GroupOpenFlags('m'));
 
         // then
-        $this->assertHasFlags('uim', $blocks);
+        $this->assertHasFlags('uim', $sequence);
     }
 
     /**
@@ -89,16 +89,16 @@ class EntitySequenceTest extends TestCase
     public function shouldChainFlagsEnd()
     {
         // given
-        $blocks = new EntitySequence(new Flags('ux'));
+        $sequence = new EntitySequence(new Flags('ux'));
 
         // when
-        $blocks->append(new GroupOpenFlags('i'));
-        $blocks->append(new GroupOpenFlags('-x'));
-        $blocks->append(new GroupOpenFlags('m'));
-        $blocks->append(new GroupClose());
+        $sequence->append(new GroupOpenFlags('i'));
+        $sequence->append(new GroupOpenFlags('-x'));
+        $sequence->append(new GroupOpenFlags('m'));
+        $sequence->append(new GroupClose());
 
         // then
-        $this->assertHasFlags('ui', $blocks);
+        $this->assertHasFlags('ui', $sequence);
     }
 
     /**
@@ -107,17 +107,17 @@ class EntitySequenceTest extends TestCase
     public function shouldChainFlagsDoubleEnd()
     {
         // given
-        $blocks = new EntitySequence(new Flags('ux'));
+        $sequence = new EntitySequence(new Flags('ux'));
 
         // when
-        $blocks->append(new GroupOpenFlags('i'));
-        $blocks->append(new GroupOpenFlags('-x'));
-        $blocks->append(new GroupOpenFlags('m'));
-        $blocks->append(new GroupClose());
-        $blocks->append(new GroupClose());
+        $sequence->append(new GroupOpenFlags('i'));
+        $sequence->append(new GroupOpenFlags('-x'));
+        $sequence->append(new GroupOpenFlags('m'));
+        $sequence->append(new GroupClose());
+        $sequence->append(new GroupClose());
 
         // then
-        $this->assertHasFlags('uxi', $blocks);
+        $this->assertHasFlags('uxi', $sequence);
     }
 
     /**
@@ -126,18 +126,18 @@ class EntitySequenceTest extends TestCase
     public function shouldChainFlagsTripleEnd()
     {
         // given
-        $blocks = new EntitySequence(new Flags('ux'));
+        $sequence = new EntitySequence(new Flags('ux'));
 
         // when
-        $blocks->append(new GroupOpenFlags('i'));
-        $blocks->append(new GroupOpenFlags('-x'));
-        $blocks->append(new GroupOpenFlags('m'));
-        $blocks->append(new GroupClose());
-        $blocks->append(new GroupClose());
-        $blocks->append(new GroupClose());
+        $sequence->append(new GroupOpenFlags('i'));
+        $sequence->append(new GroupOpenFlags('-x'));
+        $sequence->append(new GroupOpenFlags('m'));
+        $sequence->append(new GroupClose());
+        $sequence->append(new GroupClose());
+        $sequence->append(new GroupClose());
 
         // then
-        $this->assertHasFlags('ux', $blocks);
+        $this->assertHasFlags('ux', $sequence);
     }
 
     /**
@@ -146,15 +146,15 @@ class EntitySequenceTest extends TestCase
     public function shouldAcceptSuperfluousEnd()
     {
         // given
-        $blocks = new EntitySequence(new Flags('uxi'));
+        $sequence = new EntitySequence(new Flags('uxi'));
 
         // when
-        $blocks->append(new GroupOpenFlags('i'));
-        $blocks->append(new GroupClose());
-        $blocks->append(new GroupClose());
+        $sequence->append(new GroupOpenFlags('i'));
+        $sequence->append(new GroupClose());
+        $sequence->append(new GroupClose());
 
         // then
-        $this->assertHasFlags('uxi', $blocks);
+        $this->assertHasFlags('uxi', $sequence);
     }
 
     /**
@@ -163,13 +163,13 @@ class EntitySequenceTest extends TestCase
     public function shouldPreferDestruction()
     {
         // given
-        $blocks = new EntitySequence(new Flags('i'));
+        $sequence = new EntitySequence(new Flags('i'));
 
         // when
-        $blocks->append(new GroupOpenFlags('x-x'));
+        $sequence->append(new GroupOpenFlags('x-x'));
 
         // then
-        $this->assertHasFlags('i', $blocks);
+        $this->assertHasFlags('i', $sequence);
     }
 
     private function assertHasFlags(string $flags, EntitySequence $blocks): void

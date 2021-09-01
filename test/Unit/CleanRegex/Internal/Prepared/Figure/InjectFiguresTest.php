@@ -24,13 +24,13 @@ class InjectFiguresTest extends TestCase
     public function shouldGetFirstFigure()
     {
         // given
-        $placeholders = new InjectFigures(['foo']);
+        $figures = new InjectFigures(['foo']);
 
         // when
-        $value = $placeholders->nextToken();
+        $token = $figures->nextToken();
 
         // then
-        $this->assertEquals(new LiteralToken('foo'), $value);
+        $this->assertEquals(new LiteralToken('foo'), $token);
     }
 
     /**
@@ -39,13 +39,13 @@ class InjectFiguresTest extends TestCase
     public function shouldGetAlternationFigure()
     {
         // given
-        $placeholders = new InjectFigures([['foo', 'bar']]);
+        $figures = new InjectFigures([['foo', 'bar']]);
 
         // when
-        $value = $placeholders->nextToken();
+        $token = $figures->nextToken();
 
         // then
-        $this->assertEquals(new AlternationToken(['foo', 'bar']), $value);
+        $this->assertEquals(new AlternationToken(['foo', 'bar']), $token);
     }
 
     /**
@@ -54,11 +54,11 @@ class InjectFiguresTest extends TestCase
     public function shouldGetFirstTwoFigures()
     {
         // given
-        $placeholders = new InjectFigures(['foo', 'bar']);
+        $figures = new InjectFigures(['foo', 'bar']);
 
         // when
-        $figure1 = $placeholders->nextToken();
-        $figure2 = $placeholders->nextToken();
+        $figure1 = $figures->nextToken();
+        $figure2 = $figures->nextToken();
 
         // then
         $this->assertEquals(new LiteralToken('foo'), $figure1);
@@ -71,14 +71,14 @@ class InjectFiguresTest extends TestCase
     public function shouldThrowForMissingSecondFigure()
     {
         // given
-        $placeholders = new InjectFigures(['foo']);
-        $placeholders->nextToken();
+        $figures = new InjectFigures(['foo']);
+        $figures->nextToken();
 
         // then
         $this->expectException(UnderflowException::class);
 
         // when
-        $placeholders->nextToken();
+        $figures->nextToken();
     }
 
     /**
@@ -87,14 +87,14 @@ class InjectFiguresTest extends TestCase
     public function shouldThrowForInvalidFigureType()
     {
         // given
-        $placeholders = new InjectFigures([21]);
+        $figures = new InjectFigures([21]);
 
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Invalid inject figure type. Expected string, but integer (21) given");
 
         // when
-        $placeholders->nextToken();
+        $figures->nextToken();
     }
 
     /**
@@ -103,15 +103,15 @@ class InjectFiguresTest extends TestCase
     public function shouldThrowForInvalidFigureTypeStringKey()
     {
         // given
-        $placeholders = new InjectFigures(['foo', 'foo' => 4]);
-        $placeholders->nextToken();
+        $figures = new InjectFigures(['foo', 'foo' => 4]);
+        $figures->nextToken();
 
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Invalid inject figure type. Expected string, but integer (4) given");
 
         // when
-        $placeholders->nextToken();
+        $figures->nextToken();
     }
 
     /**
@@ -122,13 +122,13 @@ class InjectFiguresTest extends TestCase
         // given
         $array = ['foo', 'bar'];
         next($array);
-        $placeholders = new InjectFigures($array);
+        $figures = new InjectFigures($array);
 
         // when
-        $value = $placeholders->nextToken();
+        $token = $figures->nextToken();
 
         // then
-        $this->assertEquals(new LiteralToken('foo'), $value);
+        $this->assertEquals(new LiteralToken('foo'), $token);
     }
 
     /**
@@ -137,11 +137,11 @@ class InjectFiguresTest extends TestCase
     public function shouldCountFigures()
     {
         // given
-        $placeholders = new InjectFigures(['foo', 'bar']);
-        $placeholders->nextToken();
+        $figures = new InjectFigures(['foo', 'bar']);
+        $figures->nextToken();
 
         // when
-        $count = $placeholders->count();
+        $count = $figures->count();
 
         // then
         $this->assertSame(2, $count);
