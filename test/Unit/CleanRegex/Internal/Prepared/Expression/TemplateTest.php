@@ -21,10 +21,10 @@ class TemplateTest extends TestCase
     public function test()
     {
         // given
-        $interpretation = new Template(new PcreOrthography('/foo:@/'), ConstantFigures::literal('bar{}'));
+        $template = new Template(new PcreOrthography('/foo:@/'), ConstantFigures::literal('bar{}'));
 
         // when
-        $definition = $interpretation->definition();
+        $definition = $template->definition();
 
         // then
         $this->assertEquals(new Definition('/foo:bar\{\}/', '/foo:@/'), $definition);
@@ -36,10 +36,10 @@ class TemplateTest extends TestCase
     public function shouldQuoteUsingDelimiter()
     {
         // given
-        $interpretation = new Template(new PcreOrthography('%foo:@%m'), ConstantFigures::literal('bar%cat'));
+        $template = new Template(new PcreOrthography('%foo:@%m'), ConstantFigures::literal('bar%cat'));
 
         // when
-        $definition = $interpretation->definition();
+        $definition = $template->definition();
 
         // then
         $this->assertEquals(new Definition('%foo:bar\%cat%m', '%foo:@%m'), $definition);
@@ -51,14 +51,14 @@ class TemplateTest extends TestCase
     public function shouldThrowForTrailingBackslash()
     {
         // given
-        $interpretation = new Template(new StandardOrthography('cat\\', 'x'), new InjectFigures([]));
+        $template = new Template(new StandardOrthography('cat\\', 'x'), new InjectFigures([]));
 
         // then
         $this->expectException(PatternMalformedPatternException::class);
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
 
         // when
-        $interpretation->definition();
+        $template->definition();
     }
 
     /**
@@ -67,10 +67,10 @@ class TemplateTest extends TestCase
     public function shouldNotUseDuplicateFlags()
     {
         // given
-        $interpretation = new Template(new StandardOrthography('cat', 'xx'), new InjectFigures([]));
+        $template = new Template(new StandardOrthography('cat', 'xx'), new InjectFigures([]));
 
         // when
-        $definition = $interpretation->definition();
+        $definition = $template->definition();
 
         // then
         $this->assertEquals(new Definition('/cat/x', 'cat'), $definition);
@@ -82,10 +82,10 @@ class TemplateTest extends TestCase
     public function shouldInjectInCommentWithoutExtendedMode()
     {
         // given
-        $interpretation = new Template(new StandardOrthography("/#@\n", 'i'), ConstantFigures::literal('cat%'));
+        $template = new Template(new StandardOrthography("/#@\n", 'i'), ConstantFigures::literal('cat%'));
 
         // when
-        $definition = $interpretation->definition();
+        $definition = $template->definition();
 
         // then
         $this->assertEquals(new Definition("%/#cat\%\n%i", "/#@\n"), $definition);
@@ -97,10 +97,10 @@ class TemplateTest extends TestCase
     public function shouldNotInjectPlaceholderInCommentExtendedMode()
     {
         // given
-        $interpretation = new Template(new StandardOrthography('#@', 'x'), new ConstantFigures(0));
+        $template = new Template(new StandardOrthography('#@', 'x'), new ConstantFigures(0));
 
         // when
-        $definition = $interpretation->definition();
+        $definition = $template->definition();
 
         // then
         $this->assertEquals(new Definition('/#@/x', '#@'), $definition);

@@ -17,10 +17,10 @@ class IdentityTest extends TestCase
     {
         // given
         $input = new Definition('/foo/', 'foo');
-        $interpretation = new Identity($input);
+        $identity = new Identity($input);
 
         // when
-        $actual = $interpretation->definition();
+        $actual = $identity->definition();
 
         // then
         $this->assertSame($input, $actual);

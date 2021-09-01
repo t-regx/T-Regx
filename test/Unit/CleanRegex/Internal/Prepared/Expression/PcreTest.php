@@ -16,10 +16,10 @@ class PcreTest extends TestCase
     public function test()
     {
         // given
-        $interpretation = new Pcre('/foo/x');
+        $pcre = new Pcre('/foo/x');
 
         // when
-        $actual = $interpretation->definition();
+        $actual = $pcre->definition();
 
         // then
         $this->assertEquals(new Definition('/foo/x', '/foo/x'), $actual);

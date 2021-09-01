@@ -17,13 +17,13 @@ class MaskTest extends TestCase
     public function test()
     {
         // given
-        $interpretation = new Mask('(%w:%s\)', [
+        $mask = new Mask('(%w:%s\)', [
             '%s' => '\s',
             '%w' => '\w'
         ], 'x');
 
         // when
-        $definition = $interpretation->definition();
+        $definition = $mask->definition();
 
         // then
         $this->assertEquals(new Definition('/\(\w\:\s\\\\\\)/x', '(%w:%s\)'), $definition);
@@ -35,10 +35,10 @@ class MaskTest extends TestCase
     public function shouldChooseDelimiter()
     {
         // given
-        $interpretation = new Mask('foo', ['x' => '%', '%w' => '#', '%s' => '/'], 'i');
+        $mask = new Mask('foo', ['x' => '%', '%w' => '#', '%s' => '/'], 'i');
 
         // when
-        $definition = $interpretation->definition();
+        $definition = $mask->definition();
 
         // then
         $this->assertEquals(new Definition('~foo~i', 'foo'), $definition);
@@ -50,10 +50,10 @@ class MaskTest extends TestCase
     public function shouldNotUseMaskToDelimiter()
     {
         // given
-        $interpretation = new Mask('foo/bar', [], 'x');
+        $mask = new Mask('foo/bar', [], 'x');
 
         // when
-        $definition = $interpretation->definition();
+        $definition = $mask->definition();
 
         // then
         $this->assertEquals(new Definition('/foo\/bar/x', 'foo/bar'), $definition);
@@ -65,7 +65,7 @@ class MaskTest extends TestCase
     public function shouldThrowForTrailingEscape()
     {
         // given
-        $interpretation = new Mask('(%w:%s\)', [
+        $mask = new Mask('(%w:%s\)', [
             '%s' => '\s',
             '%w' => '\w\\'
         ], 'x');
@@ -75,7 +75,7 @@ class MaskTest extends TestCase
         $this->expectExceptionMessage("Malformed pattern '\w\' assigned to keyword '%w'");
 
         // when
-        $interpretation->definition();
+        $mask->definition();
     }
 
     /**
@@ -84,10 +84,10 @@ class MaskTest extends TestCase
     public function shouldNotUseDuplicateFlags()
     {
         // given
-        $interpretation = new Mask('foo', [], 'xx');
+        $mask = new Mask('foo', [], 'xx');
 
         // when
-        $definition = $interpretation->definition();
+        $definition = $mask->definition();
 
         // then
         $this->assertEquals(new Definition('/foo/x', 'foo'), $definition);

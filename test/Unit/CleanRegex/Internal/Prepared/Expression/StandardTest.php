@@ -17,10 +17,10 @@ class StandardTest extends TestCase
     public function test()
     {
         // given
-        $interpretation = new Standard('foo', 'i');
+        $standard = new Standard('foo', 'i');
 
         // when
-        $definition = $interpretation->definition();
+        $definition = $standard->definition();
 
         // then
         $this->assertEquals(new Definition('/foo/i', 'foo'), $definition);
@@ -32,10 +32,10 @@ class StandardTest extends TestCase
     public function shouldChooseDelimiter()
     {
         // given
-        $interpretation = new Standard('foo/bar', 'x');
+        $standard = new Standard('foo/bar', 'x');
 
         // when
-        $definition = $interpretation->definition();
+        $definition = $standard->definition();
 
         // then
         $this->assertEquals(new Definition('#foo/bar#x', 'foo/bar'), $definition);
@@ -47,14 +47,14 @@ class StandardTest extends TestCase
     public function shouldThrowForTrailingEscape()
     {
         // given
-        $interpretation = new Standard('bar\\', 'x');
+        $standard = new Standard('bar\\', 'x');
 
         // then
         $this->expectException(PatternMalformedPatternException::class);
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
 
         // when
-        $interpretation->definition();
+        $standard->definition();
     }
 
     /**
@@ -63,10 +63,10 @@ class StandardTest extends TestCase
     public function shouldNotUseDuplicateFlags()
     {
         // given
-        $interpretation = new Standard('foo', 'mm');
+        $standard = new Standard('foo', 'mm');
 
         // when
-        $definition = $interpretation->definition();
+        $definition = $standard->definition();
 
         // then
         $this->assertEquals(new Definition('/foo/m', 'foo'), $definition);
