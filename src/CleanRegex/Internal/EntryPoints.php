@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal;
 use TRegx\CleanRegex\Builder\PcreBuilder;
 use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Composite\CompositePattern;
+use TRegx\CleanRegex\Internal\Expression\Alteration;
 use TRegx\CleanRegex\Internal\Expression\Literal;
 use TRegx\CleanRegex\Internal\Expression\Standard;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Mask;
@@ -37,6 +38,11 @@ trait EntryPoints
     public static function literal(string $text, string $flags = null): Pattern
     {
         return new Pattern(new Literal($text, $flags ?? ''));
+    }
+
+    public static function alteration(array $texts, string $flags = null): Pattern
+    {
+        return new Pattern(new Alteration($texts, $flags ?? ''));
     }
 
     public static function pcre(): PcreBuilder

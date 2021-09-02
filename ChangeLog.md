@@ -12,6 +12,8 @@ Incoming
     * Moved `ReplaceDetail` to `TRegx\CleanRegex\Replace\Detail` namespace
     * Moved `ReplaceGroup` to `TRegx\CleanRegex\Replace\Detail\Group` namespace
 * Features
+    * Added `Pattern::alteration()` which allows building `Pattern` with just an alteration group.
+        * For example `Pattern::alteration(['foo', 'bar'])` is `/(?:foo|bar)/`
     * Added `Pattern::template()->alteration()`
 
 Added in 0.13.4

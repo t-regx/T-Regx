@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\_entry_points;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsPattern;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
@@ -11,6 +12,8 @@ use TRegx\CleanRegex\Pattern;
  */
 class PatternTest extends TestCase
 {
+    use AssertsPattern;
+
     /**
      * @test
      */
@@ -201,5 +204,33 @@ class PatternTest extends TestCase
 
         // when
         Pattern::pcre()->inject("%Foo", [])->test('bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAlterationPattern()
+    {
+        // when
+        $pattern = Pattern::alteration(['foo', 'bar']);
+
+        // then
+        $this->assertSamePattern('/(?:foo|bar)/', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAlterationFlags()
+    {
+        // given
+        $pattern = Pattern::alteration(['fo{2}', '\w', '\d'], 'i');
+
+        // when
+        $texts = $pattern->match('FO{2} \d fo{2} \w')->all();
+
+        // then
+        $this->assertSame(['FO{2}', '\d', 'fo{2}', '\w'], $texts);
+        $this->assertSamePattern('/(?:fo\{2\}|\\\\w|\\\\d)/i', $pattern);
     }
 }
