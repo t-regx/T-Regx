@@ -263,4 +263,19 @@ class PatternTest extends TestCase
         // then
         $this->assertSame('/Foo{1,2}/n', $string);
     }
+
+    /**
+     * @test
+     */
+    public function shouldMatchExtendedCharacters()
+    {
+        // given
+        $whitespace = " \t\n\x0B\f\r";
+
+        // when
+        $match = Pattern::inject('^@$', [$whitespace], 'x')->match($whitespace)->first();
+
+        // then
+        $this->assertSame($whitespace, $match);
+    }
 }

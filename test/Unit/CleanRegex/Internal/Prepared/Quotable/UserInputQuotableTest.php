@@ -1,6 +1,7 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quotable;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
 
@@ -41,5 +42,20 @@ class UserInputQuotableTest extends TestCase
             '\f'        => ["Foo\fBar", 'Foo\fBar'],
             '\x0B'      => ["Foo\x0BBar", 'Foo\x0BBar'],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForInvalidDelimiter()
+    {
+        // given
+        $input = new UserInputQuotable('welcome');
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+
+        // when
+        $input->quote('foo');
     }
 }
