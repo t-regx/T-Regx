@@ -1,10 +1,12 @@
 <?php
-namespace TRegx\CleanRegex\Match\Details;
+namespace TRegx\CleanRegex\Replace\Details;
 
 use TRegx\CleanRegex\Internal\Offset\ByteOffset;
-use TRegx\CleanRegex\Match\Details\Group\ReplaceGroup;
+use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
+use TRegx\CleanRegex\Replace\Details\Group\ReplaceGroup;
 
 class ReplaceDetail implements Detail
 {

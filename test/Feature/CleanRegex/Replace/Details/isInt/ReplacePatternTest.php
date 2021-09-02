@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\isInt;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\ReplaceDetail;
+use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 use function pattern;
 
 /**

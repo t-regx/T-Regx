@@ -1,11 +1,12 @@
 <?php
-namespace TRegx\CleanRegex\Match\Details\Group;
+namespace TRegx\CleanRegex\Replace\Details\Group;
 
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
 use TRegx\CleanRegex\Internal\Offset\ByteOffset;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 
 class ReplaceMatchedGroup extends MatchedGroup implements ReplaceGroup
 {

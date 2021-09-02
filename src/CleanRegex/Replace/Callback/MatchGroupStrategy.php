@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Match\Details\Group\ReplaceGroup;
-use TRegx\CleanRegex\Match\Details\ReplaceDetail;
+use TRegx\CleanRegex\Replace\Details\Group\ReplaceGroup;
+use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 class MatchGroupStrategy implements ReplaceCallbackArgumentStrategy
 {

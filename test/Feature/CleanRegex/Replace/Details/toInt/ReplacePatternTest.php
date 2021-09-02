@@ -4,7 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\Details\toInt;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ExactExceptionMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Match\Details\ReplaceDetail;
+use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 use function pattern;
 
 /**

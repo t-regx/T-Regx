@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\Details\get;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Match\Details\ReplaceDetail;
+use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 /**
  * @coversNothing

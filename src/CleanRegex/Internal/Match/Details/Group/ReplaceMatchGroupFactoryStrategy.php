@@ -5,8 +5,8 @@ use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
-use TRegx\CleanRegex\Match\Details\Group\ReplaceMatchedGroup;
-use TRegx\CleanRegex\Match\Details\Group\ReplaceNotMatchedGroup;
+use TRegx\CleanRegex\Replace\Details\Group\ReplaceMatchedGroup;
+use TRegx\CleanRegex\Replace\Details\Group\ReplaceNotMatchedGroup;
 
 class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
 {

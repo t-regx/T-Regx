@@ -1,5 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Match\Details\Group;
+namespace TRegx\CleanRegex\Replace\Details\Group;
+
+use TRegx\CleanRegex\Match\Details\Group\Group;
 
 interface ReplaceGroup extends Group
 {

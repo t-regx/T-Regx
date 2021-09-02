@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\first;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\ReplaceDetail;
+use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 /**
  * @coversNothing

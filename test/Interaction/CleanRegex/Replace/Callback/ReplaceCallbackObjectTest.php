@@ -6,9 +6,9 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\StringSubject;
-use TRegx\CleanRegex\Match\Details\ReplaceDetail;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplaceCallbackObject;
+use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 use TRegx\SafeRegex\preg;
 
 /**

@@ -9,6 +9,8 @@ Incoming
     * Refactored `Pattern::builder()->pcre()->inject()` to `Pattern::pcre()->inject()`
     * Refactored `Pattern::builder()->pcre()->template()` to `Pattern::pcre()->template()`
     * Removed `Pattern::builder()`.
+    * Moved `ReplaceDetail` to `TRegx\CleanRegex\Replace\Detail` namespace
+    * Moved `ReplaceGroup` to `TRegx\CleanRegex\Replace\Detail\Group` namespace
 * Features
     * Added `Pattern::template()->alteration()`
 

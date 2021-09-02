@@ -6,10 +6,10 @@ use Test\Utils\Impl\NameOnlyDetails;
 use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
-use TRegx\CleanRegex\Match\Details\Group\ReplaceNotMatchedGroup;
+use TRegx\CleanRegex\Replace\Details\Group\ReplaceNotMatchedGroup;
 
 /**
- * @covers \TRegx\CleanRegex\Match\Details\Group\ReplaceNotMatchedGroup
+ * @covers \TRegx\CleanRegex\Replace\Details\Group\ReplaceNotMatchedGroup
  */
 class ReplaceNotMatchedGroupTest extends TestCase
 {

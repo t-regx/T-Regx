@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Callback;
 
-use TRegx\CleanRegex\Match\Details\ReplaceDetail;
+use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 class MatchStrategy implements ReplaceCallbackArgumentStrategy
 {

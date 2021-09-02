@@ -1,5 +1,5 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\Match\Details;
+namespace Test\Interaction\TRegx\CleanRegex\Replace\Details;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
@@ -9,10 +9,10 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
-use TRegx\CleanRegex\Match\Details\ReplaceDetail;
+use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 /**
- * @covers \TRegx\CleanRegex\Match\Details\ReplaceDetail
+ * @covers \TRegx\CleanRegex\Replace\Details\ReplaceDetail
  */
 class ReplaceDetailTest extends TestCase
 {
