@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
@@ -13,6 +12,7 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\NonNestedValueException;
+use TRegx\CleanRegex\Internal\Offset\ByteOffset;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\SafeRegex\Internal\Tuple;
 

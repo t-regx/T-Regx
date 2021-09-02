@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Match\Details\Groups;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Model\Match\UsedInCompositeGroups;
+use TRegx\CleanRegex\Internal\Offset\ByteOffset;
 use TRegx\CleanRegex\Internal\Subject;
 
 abstract class AbstractMatchGroups implements MatchGroups

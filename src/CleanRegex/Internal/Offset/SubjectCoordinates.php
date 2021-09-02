@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match;
+namespace TRegx\CleanRegex\Internal\Offset;
 
 use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 use TRegx\CleanRegex\Internal\Subject;

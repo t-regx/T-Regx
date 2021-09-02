@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
-use TRegx\CleanRegex\Internal\ByteOffset;
+use TRegx\CleanRegex\Internal\Offset\ByteOffset;
 use TRegx\CleanRegex\Match\Details\Group\ReplaceGroup;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;

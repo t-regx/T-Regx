@@ -5,11 +5,11 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\Entry;
 use Test\Utils\Impl\OffsetEntry;
 use Test\Utils\Impl\ThrowSubject;
-use TRegx\CleanRegex\Internal\Match\SubjectCoordinates;
+use TRegx\CleanRegex\Internal\Offset\SubjectCoordinates;
 use TRegx\CleanRegex\Internal\StringSubject;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\SubjectCoordinates
+ * @covers \TRegx\CleanRegex\Internal\Offset\SubjectCoordinates
  */
 class SubjectCoordinatesTest extends TestCase
 {

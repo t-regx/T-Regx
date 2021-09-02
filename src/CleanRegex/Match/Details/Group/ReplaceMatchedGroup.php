@@ -1,10 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
-use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
+use TRegx\CleanRegex\Internal\Offset\ByteOffset;
 use TRegx\CleanRegex\Internal\Subject;
 
 class ReplaceMatchedGroup extends MatchedGroup implements ReplaceGroup

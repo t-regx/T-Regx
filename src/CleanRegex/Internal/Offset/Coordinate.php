@@ -1,7 +1,6 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match;
+namespace TRegx\CleanRegex\Internal\Offset;
 
-use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 
 class Coordinate
