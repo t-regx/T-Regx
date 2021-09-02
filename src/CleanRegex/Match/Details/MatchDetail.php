@@ -5,7 +5,6 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Internal\ByteOffset;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
@@ -16,6 +15,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\SubjectCoordinates;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
@@ -59,6 +59,8 @@ class MatchDetail implements Detail
     private $groupHandle;
     /** @var GroupFacade */
     private $groupFacade;
+    /** @var SubjectCoordinates */
+    private $coordinates;
 
     private function __construct(
         Subject               $subject,
@@ -88,6 +90,7 @@ class MatchDetail implements Detail
         $this->groupFacade = new GroupFacade($subject, $this->strategy, $this->allFactory,
             new NotMatched($this->groupAware, $subject),
             new FirstNamedGroup($this->signatures), $this->signatures);
+        $this->coordinates = new SubjectCoordinates($matchEntry, $subject);
     }
 
     public static function create(Subject         $subject, int $index, int $limit,
@@ -121,12 +124,12 @@ class MatchDetail implements Detail
 
     public function textLength(): int
     {
-        return \mb_strlen($this->matchEntry->getText());
+        return $this->coordinates->characterLength();
     }
 
     public function textByteLength(): int
     {
-        return \strlen($this->matchEntry->getText());
+        return $this->coordinates->byteLength();
     }
 
     public function toInt(int $base = null): int
@@ -244,22 +247,22 @@ class MatchDetail implements Detail
 
     public function offset(): int
     {
-        return ByteOffset::toCharacterOffset($this->subject->getSubject(), $this->byteOffset());
+        return $this->coordinates->characterOffset();
     }
 
     public function tail(): int
     {
-        return ByteOffset::toCharacterOffset($this->subject->getSubject(), $this->byteTail());
+        return $this->coordinates->characterTail();
     }
 
     public function byteOffset(): int
     {
-        return $this->matchEntry->byteOffset();
+        return $this->coordinates->byteOffset();
     }
 
     public function byteTail(): int
     {
-        return $this->matchEntry->byteOffset() + \strlen($this->matchEntry->getText());
+        return $this->coordinates->byteTail();
     }
 
     public function setUserData($userData): void

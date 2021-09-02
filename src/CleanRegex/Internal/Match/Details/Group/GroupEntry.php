@@ -8,16 +8,19 @@ class GroupEntry
 {
     /** @var string */
     private $text;
-    /** @var int */
-    private $byteOffset;
     /** @var Subject */
     private $subject;
+    /** @var ByteOffset */
+    private $offset;
+    /** @var ByteOffset */
+    private $tail;
 
     public function __construct(string $text, int $byteOffset, Subject $subject)
     {
         $this->text = $text;
-        $this->byteOffset = $byteOffset;
         $this->subject = $subject;
+        $this->offset = new ByteOffset($byteOffset);
+        $this->tail = new ByteOffset($byteOffset + \strlen($this->text));
     }
 
     public function text(): string
@@ -27,21 +30,21 @@ class GroupEntry
 
     public function offset(): int
     {
-        return ByteOffset::toCharacterOffset($this->subject->getSubject(), $this->byteOffset);
+        return $this->offset->characters($this->subject->getSubject());
     }
 
     public function byteOffset(): int
     {
-        return $this->byteOffset;
+        return $this->offset->bytes();
     }
 
     public function tail(): int
     {
-        return ByteOffset::toCharacterOffset($this->subject->getSubject(), $this->byteTail());
+        return $this->tail->characters($this->subject->getSubject());
     }
 
     public function byteTail(): int
     {
-        return $this->byteOffset + \strlen($this->text);
+        return $this->tail->bytes();
     }
 }

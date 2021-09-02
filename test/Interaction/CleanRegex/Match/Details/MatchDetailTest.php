@@ -97,7 +97,7 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetOffset()
+    public function shouldGet_offset()
     {
         // given
         $detail = $this->detail(['subject' => '€Foo', 'matches' => [[['', 3]]]]);
@@ -184,7 +184,7 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetNamedGroups()
+    public function shouldGet_namedGroups()
     {
         // given
         $detail = $this->detailMatches([
@@ -249,7 +249,7 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroupNames()
+    public function shouldGet_groupNames()
     {
         // given
         $detail = $this->detailMatches(array_flip([0, 'one', 1, 2, 'three', 3]));
