@@ -2,13 +2,12 @@
 namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\ReplaceLimitHelpers;
 use TRegx\CleanRegex\Internal\Subject;
 
-class ReplaceLimit implements PatternLimit, ReplacePattern
+class ReplaceLimit implements ReplacePattern
 {
     use ReplaceLimitHelpers;
 

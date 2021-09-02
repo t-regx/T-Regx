@@ -36,12 +36,11 @@ use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Number;
-use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
-abstract class AbstractMatchPattern implements MatchPatternInterface, PatternLimit
+abstract class AbstractMatchPattern implements MatchPatternInterface
 {
     use MatchPatternHelpers;
 

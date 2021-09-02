@@ -32,10 +32,9 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\Number;
-use TRegx\CleanRegex\Internal\PatternLimit;
 use TRegx\SafeRegex\Internal\Tuple;
 
-class GroupLimit implements PatternLimit, \IteratorAggregate
+class GroupLimit implements \IteratorAggregate
 {
     /** @var Base */
     private $base;
