@@ -13,11 +13,15 @@ use TRegx\CleanRegex\Replace\FocusReplacePattern;
  */
 class ReferencesReplacer
 {
+    public function __construct(array $groups)
+    {
+    }
+
     public static function replace(string $subject, array $groups): string
     {
         return \preg_replace_callback(
-            '/(?:[\\\\]{2}|\\\\([0-9]{1,2})|\$(?:([0-9]{1,2})|{([0-9]{1,2})}))/',
-            static function (array $values) use ($subject, $groups) {
+            '/[\\\\]{2}|\\\\([0-9]{1,2})|\$(?:([0-9]{1,2})|{([0-9]{1,2})})/',
+            static function (array $values) use ($subject, $groups): string {
                 if ($values[0] === '\\\\') {
                     return '\\';
                 }
