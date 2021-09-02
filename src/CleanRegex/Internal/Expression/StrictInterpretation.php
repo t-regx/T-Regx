@@ -6,6 +6,10 @@ use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
+/**
+ * Strict interpretation means an Expression can
+ * only take a particular form.
+ */
 trait StrictInterpretation
 {
     abstract protected function quotable(): Quotable;
