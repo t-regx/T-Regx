@@ -31,7 +31,7 @@ class GroupByPattern
 
     public function all(): array
     {
-        return $this->groupBySimple(function (RawMatchesOffset $matches, int $index): string {
+        return $this->groupBySimple(static function (RawMatchesOffset $matches, int $index): string {
             return $matches->getTexts()[$index];
         });
     }
@@ -46,7 +46,7 @@ class GroupByPattern
 
     public function byteOffsets(): array
     {
-        return $this->groupBySimple(function (RawMatchesOffset $matches, int $index): int {
+        return $this->groupBySimple(static function (RawMatchesOffset $matches, int $index): int {
             return Tuple::second($matches->getGroupTextAndOffset(0, $index));
         });
     }
@@ -56,6 +56,19 @@ class GroupByPattern
         return $this->groupBySimple(function (RawMatchesOffset $matches, int $index) use ($mapper) {
             return $mapper($this->detail($matches, $index));
         });
+    }
+
+    private function groupBySimple(callable $groupMapper): array
+    {
+        $matches = $this->base->matchAllOffsets();
+        $map = [];
+        foreach ($matches->getIndexes() as $index) {
+            if ($matches->isGroupMatched($this->group->nameOrIndex(), $index)) {
+                $key = Tuple::first($matches->getGroupTextAndOffset($this->group->nameOrIndex(), $index));
+                $map[$key][] = $groupMapper($matches, $index);
+            }
+        }
+        return $map;
     }
 
     public function flatMap(callable $mapper): array
@@ -76,25 +89,13 @@ class GroupByPattern
         }
     }
 
-    private function groupBySimple(callable $groupMapper): array
-    {
-        $matches = $this->base->matchAllOffsets();
-        $map = [];
-        foreach ($matches->getIndexes() as $index) {
-            if ($matches->isGroupMatched($this->group->nameOrIndex(), $index)) {
-                $key = Tuple::first($matches->getGroupTextAndOffset($this->group->nameOrIndex(), $index));
-                $map[$key][] = $groupMapper($matches, $index);
-            }
-        }
-        return $map;
-    }
-
     private function flattenMap(array $groupped, FlatMapStrategy $strategy): array
     {
+        $flattened = [];
         foreach ($groupped as $groupKey => $grouppedValues) {
-            $groupped[$groupKey] = $strategy->flatten(new Nested($grouppedValues));
+            $flattened[$groupKey] = $strategy->flatten(new Nested($grouppedValues));
         }
-        return $groupped;
+        return $flattened;
     }
 
     private function detail(RawMatchesOffset $matches, int $index): MatchDetail
