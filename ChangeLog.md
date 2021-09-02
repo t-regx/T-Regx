@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.13.5
+---------------
+
 * Breaking changes
     * Refactored `Pattern::pcre()` to `Pattern::pcre()->of()`
     * Refactored `Pattern::builder()->pcre()->inject()` to `Pattern::pcre()->inject()`
