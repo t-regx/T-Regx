@@ -4,14 +4,13 @@ namespace TRegx\CleanRegex\Internal;
 use TRegx\CleanRegex\Builder\PcreBuilder;
 use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Composite\CompositePattern;
+use TRegx\CleanRegex\Internal\Expression\Literal;
 use TRegx\CleanRegex\Internal\Expression\Standard;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Mask;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardOrthography;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Extended;
 use TRegx\CleanRegex\Pattern;
-use TRegx\SafeRegex\preg;
 
 trait EntryPoints
 {
@@ -37,7 +36,7 @@ trait EntryPoints
 
     public static function literal(string $text, string $flags = null): Pattern
     {
-        return EntryPoints::of(Extended::quote(preg::quote($text)), $flags);
+        return new Pattern(new Literal($text, $flags ?? ''));
     }
 
     public static function pcre(): PcreBuilder

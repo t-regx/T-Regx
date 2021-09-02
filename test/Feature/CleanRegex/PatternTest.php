@@ -231,7 +231,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::literal('Foo/{2}', 'm');
 
         // then
-        $this->assertSamePattern('#Foo/\{2\}#m', $pattern);
+        $this->assertSamePattern('/Foo\/\{2\}/m', $pattern);
     }
 
     /**
