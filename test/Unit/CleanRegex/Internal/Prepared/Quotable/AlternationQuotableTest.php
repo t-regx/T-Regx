@@ -101,4 +101,35 @@ class AlternationQuotableTest extends TestCase
         // when
         $quotable->quote('/');
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForFalse()
+    {
+        // given
+        $quotable = new AlternationQuotable([false]);
+
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid bound alternate value. Expected string, but boolean (false) given');
+
+        // when
+        $quotable->quote('/');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetWithFalsyString()
+    {
+        // given
+        $quotable = new AlternationQuotable(['0']);
+
+        // when
+        $quote = $quotable->quote('/');
+
+        // then
+        $this->assertSame('(?:0)', $quote);
+    }
 }

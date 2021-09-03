@@ -15,6 +15,8 @@ Incoming
     * Added `Pattern::alteration()` which allows building `Pattern` with just an alteration group.
         * For example `Pattern::alteration(['foo', 'bar'])` is `/(?:foo|bar)/`
     * Added `Pattern::template()->alteration()`
+* Bug fixes
+    * Fixed a bug, where passing `false` as an alteration value didn't throw `\InvalidArgumentException`.
 
 Added in 0.13.4
 ---------------

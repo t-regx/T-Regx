@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Quotable;
 
 use TRegx\CleanRegex\Internal\InvalidArgument;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Factory\Alternator;
 use TRegx\CleanRegex\Internal\ValueType;
 
 class AlternationQuotable implements Quotable
@@ -17,32 +16,34 @@ class AlternationQuotable implements Quotable
 
     public function quote(string $delimiter): string
     {
-        return Alternator::quote($this->normalizedUserInput(), $delimiter);
+        return '(?:' . \implode('|', $this->quotedFigures($delimiter)) . ')';
     }
 
-    private function normalizedUserInput(): array
+    private function quotedFigures(string $delimiter): array
     {
-        foreach ($this->figures as $figure) {
-            $this->validateQuotable($figure);
+        $result = [];
+        foreach ($this->figuresEmptyLast() as $input) {
+            $result[] = $this->quotable($input)->quote($delimiter);
         }
-        return $this->userInputEmptyLast();
+        return $result;
     }
 
-    private function validateQuotable($quoteable): void
-    {
-        if (!\is_string($quoteable)) {
-            throw InvalidArgument::typeGiven("Invalid bound alternate value. Expected string", new ValueType($quoteable));
-        }
-    }
-
-    private function userInputEmptyLast(): array
+    private function figuresEmptyLast(): array
     {
         // removes empty strings, and if there was any, appends it to the end
-        if (!\in_array('', $this->figures)) {
+        if (!\in_array('', $this->figures, true)) {
             return $this->figures;
         }
         $result = \array_filter($this->figures);
         $result[] = '';
         return $result;
+    }
+
+    private function quotable($input): UserInputQuotable
+    {
+        if (\is_string($input)) {
+            return new UserInputQuotable($input);
+        }
+        throw InvalidArgument::typeGiven("Invalid bound alternate value. Expected string", new ValueType($input));
     }
 }
