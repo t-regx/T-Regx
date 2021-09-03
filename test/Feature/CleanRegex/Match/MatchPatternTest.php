@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
@@ -159,6 +160,19 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertSame(['Foo', 'Top'], $mapped);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_filter_forInvalidReturnType()
+    {
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid filter() callback return type. Expected bool, but integer (12) given');
+
+        // when
+        pattern('Foo')->match('Foo')->filter(Functions::constant(12));
     }
 
     /**

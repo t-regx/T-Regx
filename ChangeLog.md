@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Bug fixes
+    * Fixed w bug where using `match()->filter()` didn't throw `InvalidReturnValueException`.
 
 Added in 0.13.5
 ---------------
