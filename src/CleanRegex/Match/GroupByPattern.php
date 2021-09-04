@@ -76,7 +76,7 @@ class GroupByPattern
         try {
             return $this->flattenMap($this->map($mapper), new ArrayMergeStrategy());
         } catch (NonNestedValueException $exception) {
-            throw InvalidReturnValueException::forArrayReturning('flatMap', $exception->getType());
+            throw new InvalidReturnValueException('flatMap', 'array', $exception->getType());
         }
     }
 
@@ -85,7 +85,7 @@ class GroupByPattern
         try {
             return $this->flattenMap($this->map($mapper), new AssignStrategy());
         } catch (NonNestedValueException $exception) {
-            throw InvalidReturnValueException::forArrayReturning('flatMapAssoc', $exception->getType());
+            throw new InvalidReturnValueException('flatMapAssoc', 'array', $exception->getType());
         }
     }
 

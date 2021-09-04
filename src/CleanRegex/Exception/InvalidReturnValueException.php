@@ -9,19 +9,4 @@ class InvalidReturnValueException extends \Exception implements PatternException
     {
         parent::__construct("Invalid $methodName() callback return type. Expected $expectedReturnType, but $type given");
     }
-
-    public static function forArrayReturning(string $method, Type $type): self
-    {
-        return new self($method, 'array', $type);
-    }
-
-    public static function forGroupByCallback(Type $type): self
-    {
-        return new self('groupByCallback', 'int|string', $type);
-    }
-
-    public static function forOtherwise(Type $type): self
-    {
-        return new self('otherwise', 'string', $type);
-    }
 }

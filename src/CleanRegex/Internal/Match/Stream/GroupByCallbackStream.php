@@ -48,6 +48,6 @@ class GroupByCallbackStream implements Stream
         if (\is_int($key) || \is_string($key)) {
             return $key;
         }
-        throw InvalidReturnValueException::forGroupByCallback(new ValueType($key));
+        throw new InvalidReturnValueException('groupByCallback', 'int|string', (new ValueType($key)));
     }
 }

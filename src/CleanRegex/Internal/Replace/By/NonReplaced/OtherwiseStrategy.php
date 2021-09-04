@@ -21,6 +21,6 @@ class OtherwiseStrategy implements SubjectRs
         if (\is_string($value)) {
             return $value;
         }
-        throw InvalidReturnValueException::forOtherwise(new ValueType($value));
+        throw new InvalidReturnValueException('otherwise', 'string', (new ValueType($value)));
     }
 }
