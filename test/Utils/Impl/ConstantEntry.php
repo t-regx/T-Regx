@@ -3,7 +3,7 @@ namespace Test\Utils\Impl;
 
 use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 
-class ConstantMatchEntry implements MatchEntry
+class ConstantEntry implements MatchEntry
 {
     /** @var string */
     private $text;

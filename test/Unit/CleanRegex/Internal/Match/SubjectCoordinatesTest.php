@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\Entry;
+use Test\Utils\Impl\ConstantEntry;
 use Test\Utils\Impl\OffsetEntry;
 use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Internal\Offset\SubjectCoordinates;
@@ -64,7 +64,7 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetCharactersTail()
     {
         // given
-        $coordinates = new SubjectCoordinates(new Entry('bar', 4), new StringSubject('foo bar'));
+        $coordinates = new SubjectCoordinates(new ConstantEntry('bar', 4), new StringSubject('foo bar'));
 
         // when
         $offset = $coordinates->characterTail();
@@ -79,7 +79,7 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetCharactersTailUnicode()
     {
         // given
-        $coordinates = new SubjectCoordinates(new Entry('ść', 2), new StringSubject('łść'));
+        $coordinates = new SubjectCoordinates(new ConstantEntry('ść', 2), new StringSubject('łść'));
 
         // when
         $tail = $coordinates->characterTail();
@@ -94,7 +94,7 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetByteTail()
     {
         // given
-        $coordinates = new SubjectCoordinates(new Entry('ść', 2), new StringSubject('łść'));
+        $coordinates = new SubjectCoordinates(new ConstantEntry('ść', 2), new StringSubject('łść'));
 
         // when
         $tail = $coordinates->byteTail();
@@ -109,7 +109,7 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetLength()
     {
         // given
-        $coordinates = new SubjectCoordinates(new Entry('śćł€', 2), new ThrowSubject());
+        $coordinates = new SubjectCoordinates(new ConstantEntry('śćł€', 2), new ThrowSubject());
 
         // when
         $length = $coordinates->characterLength();
@@ -124,7 +124,7 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetByteLength()
     {
         // given
-        $coordinates = new SubjectCoordinates(new Entry('śćł€', 2), new ThrowSubject());
+        $coordinates = new SubjectCoordinates(new ConstantEntry('śćł€', 2), new ThrowSubject());
 
         // when
         $length = $coordinates->byteLength();

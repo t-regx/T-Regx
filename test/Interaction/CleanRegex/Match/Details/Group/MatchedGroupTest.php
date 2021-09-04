@@ -3,7 +3,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\Details\Group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\ConstantMatchEntry;
+use Test\Utils\Impl\ConstantEntry;
 use Test\Utils\Impl\ThrowGroupDetails;
 use Test\Utils\Impl\ThrowSubject;
 use Test\Utils\Impl\ThrowSubstituted;
@@ -279,6 +279,6 @@ class MatchedGroupTest extends TestCase
             new StringSubject($subject),
             new GroupDetails(new GroupSignature(1, 'first'), $groupKey, new EagerMatchAllFactory(new RawMatchesOffset([]))),
             $matchedGroup,
-            new SubstitutedGroup(new ConstantMatchEntry($match, 8), $matchedGroup));
+            new SubstitutedGroup(new ConstantEntry($match, 8), $matchedGroup));
     }
 }
