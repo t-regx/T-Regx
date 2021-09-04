@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
@@ -181,6 +182,22 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertSame(['mm', 'm', 'cm'], $groups);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_filter_forInvalidReturnType()
+    {
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid filter() callback return type. Expected bool, but null given');
+
+        // when
+        pattern('\d+(?<unit>kg|[cm]?m)')
+            ->match('15mm 12kg 16m 17cm 27kg')
+            ->group('unit')
+            ->filter(Functions::constant(null));
     }
 
     /**

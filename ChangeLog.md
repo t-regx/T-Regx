@@ -6,6 +6,7 @@ Incoming
 
 * Bug fixes
     * Fixed w bug where using `match()->filter()` didn't throw `InvalidReturnValueException`.
+    * Fixed w bug where using `group()->filter()` didn't throw `InvalidReturnValueException`.
 
 Added in 0.13.5
 ---------------

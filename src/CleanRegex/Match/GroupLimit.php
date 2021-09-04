@@ -22,6 +22,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
+use TRegx\CleanRegex\Internal\Match\FluentPredicate;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupOffsetStream;
@@ -152,17 +153,22 @@ class GroupLimit implements \IteratorAggregate
     }
 
     /**
-     * @param callable $consumer
+     * @param callable $predicate
      * @return string[]
      */
-    public function filter(callable $consumer): array
+    public function filter(callable $predicate): array
+    {
+        return $this->filtered(new FluentPredicate($predicate, 'filter'));
+    }
+
+    private function filtered(FluentPredicate $predicate): array
     {
         /**
          * I use foreach, instead of \array_map() to eliminate the overhead of PHP function call.
          * I use \array_filter(), because we have to call user function no matter what,
          */
         $result = [];
-        foreach (\array_filter($this->details(), $consumer) as $group) {
+        foreach (\array_filter($this->details(), [$predicate, 'test']) as $group) {
             $result[] = $group->text();
         }
         return $result;
