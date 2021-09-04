@@ -22,7 +22,6 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
-use TRegx\CleanRegex\Internal\Match\FluentPredicate;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupOffsetStream;
@@ -33,6 +32,7 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\Number;
+use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\SafeRegex\Internal\Tuple;
 
 class GroupLimit implements \IteratorAggregate
@@ -158,10 +158,10 @@ class GroupLimit implements \IteratorAggregate
      */
     public function filter(callable $predicate): array
     {
-        return $this->filtered(new FluentPredicate($predicate, 'filter'));
+        return $this->filtered(new Predicate($predicate, 'filter'));
     }
 
-    private function filtered(FluentPredicate $predicate): array
+    private function filtered(Predicate $predicate): array
     {
         /**
          * I use foreach, instead of \array_map() to eliminate the overhead of PHP function call.

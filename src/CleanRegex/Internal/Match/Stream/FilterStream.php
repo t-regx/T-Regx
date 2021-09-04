@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
-use TRegx\CleanRegex\Internal\Match\FluentPredicate;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
+use TRegx\CleanRegex\Internal\Predicate;
 
 class FilterStream implements Stream
 {
@@ -14,7 +14,7 @@ class FilterStream implements Stream
     /** @var Stream */
     private $stream;
 
-    public function __construct(Stream $stream, FluentPredicate $predicate)
+    public function __construct(Stream $stream, Predicate $predicate)
     {
         $this->stream = $stream;
         $this->predicate = $predicate;

@@ -20,7 +20,6 @@ use TRegx\CleanRegex\Internal\Match\FindFirst\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
-use TRegx\CleanRegex\Internal\Match\FluentPredicate;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
@@ -37,6 +36,7 @@ use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Number;
+use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -141,7 +141,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface
     {
         return \array_values(\array_map(static function (Detail $detail): string {
             return $detail->text();
-        }, \array_filter($this->getDetailObjects(), [new FluentPredicate($predicate, 'filter'), 'test'])));
+        }, \array_filter($this->getDetailObjects(), [new Predicate($predicate, 'filter'), 'test'])));
     }
 
     public function flatMap(callable $mapper): array

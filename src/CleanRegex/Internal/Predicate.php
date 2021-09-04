@@ -1,10 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match;
+namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\ValueType;
 
-class FluentPredicate
+class Predicate
 {
     /** @var callable */
     private $predicate;

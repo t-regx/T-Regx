@@ -12,7 +12,6 @@ use TRegx\CleanRegex\Internal\Match\FindFirst\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
-use TRegx\CleanRegex\Internal\Match\FluentPredicate;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FilterStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream;
@@ -22,6 +21,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\KeysStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MappingStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 use TRegx\CleanRegex\Internal\Number;
+use TRegx\CleanRegex\Internal\Predicate;
 
 class FluentMatchPattern implements MatchPatternInterface
 {
@@ -141,7 +141,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function filter(callable $predicate): FluentMatchPattern
     {
-        return $this->next(new FilterStream($this->stream, new FluentPredicate($predicate, 'filter')));
+        return $this->next(new FilterStream($this->stream, new Predicate($predicate, 'filter')));
     }
 
     public function values(): FluentMatchPattern
