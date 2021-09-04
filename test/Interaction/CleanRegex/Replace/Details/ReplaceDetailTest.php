@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
+use TRegx\CleanRegex\Replace\Details\Modification;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 /**
@@ -69,16 +70,15 @@ class ReplaceDetailTest extends TestCase
     private function detail(string $subject, array $matches, int $offsetModification): ReplaceDetail
     {
         $matches = new RawMatchesOffset($matches);
-        return new ReplaceDetail(
-            MatchDetail::create(
-                new StringSubject($subject),
-                0,
-                -1,
-                new RawMatchesToMatchAdapter($matches, 0),
-                new EagerMatchAllFactory($matches),
-                new UserData(),
-                new ReplaceMatchGroupFactoryStrategy(-1, '')),
-            $offsetModification,
-            $subject);
+        $match = new RawMatchesToMatchAdapter($matches, 0);
+        return new ReplaceDetail(MatchDetail::create(
+            new StringSubject($subject),
+            0,
+            -1,
+            $match,
+            new EagerMatchAllFactory($matches),
+            new UserData(),
+            new ReplaceMatchGroupFactoryStrategy(-1, '')),
+            new Modification($match, $subject, $offsetModification));
     }
 }

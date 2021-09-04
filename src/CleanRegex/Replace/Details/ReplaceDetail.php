@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Details;
 
-use TRegx\CleanRegex\Internal\Offset\ByteOffset;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
@@ -12,31 +11,28 @@ class ReplaceDetail implements Detail
 {
     /** @var Detail */
     private $detail;
-    /** @var int */
-    private $byteOffsetModification;
-    /** @var string */
-    private $subjectModification;
+    /** @var Modification */
+    private $modification;
 
-    public function __construct(Detail $detail, int $byteOffsetModification, string $subjectModification)
+    public function __construct(Detail $detail, Modification $modification)
     {
         $this->detail = $detail;
-        $this->byteOffsetModification = $byteOffsetModification;
-        $this->subjectModification = $subjectModification;
+        $this->modification = $modification;
     }
 
     public function modifiedSubject(): string
     {
-        return $this->subjectModification;
+        return $this->modification->subject();
     }
 
     public function modifiedOffset(): int
     {
-        return ByteOffset::toCharacterOffset($this->modifiedSubject(), $this->byteModifiedOffset());
+        return $this->modification->offset();
     }
 
     public function byteModifiedOffset(): int
     {
-        return $this->byteOffset() + $this->byteOffsetModification;
+        return $this->modification->byteOffset();
     }
 
     public function get($nameOrIndex): string

@@ -2,15 +2,19 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\Details;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\ConstantModification;
 use Test\Utils\Impl\GroupDetail;
 use Test\Utils\Impl\TextDetail;
 use Test\Utils\Impl\ThrowDetail;
+use Test\Utils\Impl\ThrowEntry;
+use Test\Utils\Impl\ThrowModification;
 use Test\Utils\Impl\UserDataDetail;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
+use TRegx\CleanRegex\Replace\Details\Modification;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 /**
@@ -24,7 +28,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetModifiedSubject()
     {
         // given
-        $detail = new ReplaceDetail(new ThrowDetail(), 0, 'subject');
+        $detail = new ReplaceDetail(new ThrowDetail(), new Modification(new ThrowEntry(), 'subject', 0));
 
         // when
         $subject = $detail->modifiedSubject();
@@ -36,16 +40,31 @@ class ReplaceDetailTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetModifiedOffset()
+    {
+        // given
+        $detail = new ReplaceDetail(new ThrowDetail(), new ConstantModification(11, 13));
+
+        // when
+        $offset = $detail->modifiedOffset();
+
+        // then
+        $this->assertSame(11, $offset);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetByteModifiedOffset()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('byteOffset', 14), 6, '');
+        $detail = new ReplaceDetail(new ThrowDetail(), new ConstantModification(10, 12));
 
         // when
         $offset = $detail->byteModifiedOffset();
 
         // then
-        $this->assertSame(20, $offset);
+        $this->assertSame(12, $offset);
     }
 
     /**
@@ -55,7 +74,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         $input = $this->createMock(DuplicateName::class);
-        $detail = new ReplaceDetail($this->detail('usingDuplicateName', $input), 0, '');
+        $detail = new ReplaceDetail($this->detail('usingDuplicateName', $input), new ThrowModification());
 
         // when
         $output = $detail->usingDuplicateName();
@@ -70,7 +89,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetSubject()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('subject', 'foo bar'), 0, '');
+        $detail = new ReplaceDetail($this->detail('subject', 'foo bar'), new ThrowModification());
 
         // when
         $subject = $detail->subject();
@@ -85,7 +104,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetGroupNames()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('groupNames', ['one', 'two']), 0, '');
+        $detail = new ReplaceDetail($this->detail('groupNames', ['one', 'two']), new ThrowModification());
 
         // when
         $groupNames = $detail->groupNames();
@@ -100,7 +119,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetText()
     {
         // given
-        $detail = new ReplaceDetail(new TextDetail('bar'), 0, '');
+        $detail = new ReplaceDetail((new TextDetail('bar')), new ThrowModification());
 
         // when
         $text = $detail->text();
@@ -115,7 +134,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetTextLength()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('textLength', 11), 0, '');
+        $detail = new ReplaceDetail($this->detail('textLength', 11), new ThrowModification());
 
         // when
         $length = $detail->textLength();
@@ -130,7 +149,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetTextByteLength()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('textByteLength', 6), 0, '');
+        $detail = new ReplaceDetail($this->detail('textByteLength', 6), new ThrowModification());
 
         // when
         $length = $detail->textByteLength();
@@ -145,7 +164,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('all', ['all', 'one', 'two']), 0, '');
+        $detail = new ReplaceDetail($this->detail('all', ['all', 'one', 'two']), new ThrowModification());
 
         // when
         $all = $detail->all();
@@ -160,7 +179,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetIndex()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('index', 14), 0, '');
+        $detail = new ReplaceDetail($this->detail('index', 14), new ThrowModification());
 
         // when
         $index = $detail->index();
@@ -175,7 +194,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetLimit()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('limit', 14), 0, '');
+        $detail = new ReplaceDetail($this->detail('limit', 14), new ThrowModification());
 
         // when
         $limit = $detail->limit();
@@ -190,7 +209,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetOffset()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('offset', 12), 0, '');
+        $detail = new ReplaceDetail($this->detail('offset', 12), new ThrowModification());
 
         // when
         $offset = $detail->offset();
@@ -205,7 +224,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetTail()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('tail', 15), 0, '');
+        $detail = new ReplaceDetail($this->detail('tail', 15), new ThrowModification());
 
         // when
         $offset = $detail->tail();
@@ -220,7 +239,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetByteOffset()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('byteOffset', 14), 0, '');
+        $detail = new ReplaceDetail($this->detail('byteOffset', 14), new ThrowModification());
 
         // when
         $byteOffset = $detail->byteOffset();
@@ -235,7 +254,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetByteTail()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('byteTail', 16), 0, '');
+        $detail = new ReplaceDetail($this->detail('byteTail', 16), new ThrowModification());
 
         // when
         $byteOffset = $detail->byteTail();
@@ -250,7 +269,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetUserData()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('getUserData', 14), 0, '');
+        $detail = new ReplaceDetail($this->detail('getUserData', 14), new ThrowModification());
 
         // when
         $userData = $detail->getUserData();
@@ -265,7 +284,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetToInt()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('toInt', 14), 0, '');
+        $detail = new ReplaceDetail($this->detail('toInt', 14), new ThrowModification());
 
         // when
         $int = $detail->toInt();
@@ -280,7 +299,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetIsInt()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('isInt', true), 0, '');
+        $detail = new ReplaceDetail($this->detail('isInt', true), new ThrowModification());
 
         // when
         $isInt = $detail->isInt();
@@ -296,7 +315,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         $userData = new UserData();
-        $detail = new ReplaceDetail(new UserDataDetail($userData), 0, '');
+        $detail = new ReplaceDetail(new UserDataDetail($userData), new ThrowModification());
 
         // when
         $detail->setUserData('14');
@@ -312,7 +331,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
 
-        $detail = new ReplaceDetail(new GroupDetail(['foo' => true]), 0, '');
+        $detail = new ReplaceDetail(new GroupDetail(['foo' => true]), new ThrowModification());
 
         // when
         $matched = $detail->matched('foo');
@@ -328,7 +347,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
 
-        $detail = new ReplaceDetail(new GroupDetail(['bar' => false]), 0, '');
+        $detail = new ReplaceDetail(new GroupDetail(['bar' => false]), new ThrowModification());
 
         // when
         $matched = $detail->matched('bar');
@@ -344,7 +363,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
 
-        $detail = new ReplaceDetail(new GroupDetail(['group' => false]), 0, '');
+        $detail = new ReplaceDetail(new GroupDetail(['group' => false]), new ThrowModification());
 
         // when
         $hasGroup = $detail->hasGroup('group');
@@ -360,7 +379,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
 
-        $detail = new ReplaceDetail(new GroupDetail([]), 0, '');
+        $detail = new ReplaceDetail(new GroupDetail([]), new ThrowModification());
 
         // when
         $hasGroup = $detail->hasGroup('group');
@@ -375,7 +394,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGet_toString()
     {
         // given
-        $detail = new ReplaceDetail($this->detail('__toString', 'text'), 0, '');
+        $detail = new ReplaceDetail($this->detail('__toString', 'text'), new ThrowModification());
 
         // when
         $text = (string)$detail;
@@ -391,7 +410,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         $indexed = $this->createMock(IndexedGroups::class);
-        $detail = new ReplaceDetail($this->detail('groups', $indexed), 0, '');
+        $detail = new ReplaceDetail($this->detail('groups', $indexed), new ThrowModification());
 
         // when
         $groups = $detail->groups();
@@ -407,7 +426,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         $named = $this->createMock(NamedGroups::class);
-        $detail = new ReplaceDetail($this->detail('namedGroups', $named), 0, '');
+        $detail = new ReplaceDetail($this->detail('namedGroups', $named), new ThrowModification());
 
         // when
         $groups = $detail->namedGroups();

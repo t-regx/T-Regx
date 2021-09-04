@@ -14,6 +14,7 @@ use TRegx\CleanRegex\Internal\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\CapturingGroup;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
+use TRegx\CleanRegex\Replace\Details\Modification;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 class ReplaceCallbackObject
@@ -73,19 +74,18 @@ class ReplaceCallbackObject
     private function createDetailObject(): ReplaceDetail
     {
         $index = $this->counter++;
-        return new ReplaceDetail(
-            MatchDetail::create(
-                $this->subject,
-                $index,
-                $this->limit,
-                new RawMatchesToMatchAdapter($this->analyzedPattern, $index),
-                new EagerMatchAllFactory($this->analyzedPattern),
-                new UserData(),
-                new ReplaceMatchGroupFactoryStrategy(
-                    $this->byteOffsetModification,
-                    $this->subjectModification)),
-            $this->byteOffsetModification,
-            $this->subjectModification);
+        $match = new RawMatchesToMatchAdapter($this->analyzedPattern, $index);
+        return new ReplaceDetail(MatchDetail::create(
+            $this->subject,
+            $index,
+            $this->limit,
+            $match,
+            new EagerMatchAllFactory($this->analyzedPattern),
+            new UserData(),
+            new ReplaceMatchGroupFactoryStrategy(
+                $this->byteOffsetModification,
+                $this->subjectModification)),
+            new Modification($match, $this->subjectModification, $this->byteOffsetModification));
     }
 
     private function getReplacement($replacement): string
