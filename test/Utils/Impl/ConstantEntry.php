@@ -1,9 +1,9 @@
 <?php
 namespace Test\Utils\Impl;
 
-use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
+use TRegx\CleanRegex\Internal\Model\Match\Entry;
 
-class ConstantEntry implements MatchEntry
+class ConstantEntry implements Entry
 {
     /** @var string */
     private $text;

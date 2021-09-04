@@ -17,8 +17,8 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
+use TRegx\CleanRegex\Internal\Model\Match\Entry;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
 use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
 use TRegx\CleanRegex\Internal\Model\Match\UsedInCompositeGroups;
 use TRegx\CleanRegex\Internal\Number\Base;
@@ -47,8 +47,8 @@ class MatchDetail implements Detail
     private $limit;
     /** @var GroupAware */
     private $groupAware;
-    /** @var MatchEntry */
-    private $matchEntry;
+    /** @var Entry */
+    private $entry;
     /** @var UsedInCompositeGroups */
     private $usedInCompo;
     /** @var UsedForGroup */
@@ -67,7 +67,7 @@ class MatchDetail implements Detail
         int                   $index,
         int                   $limit,
         GroupAware            $groupAware,
-        MatchEntry            $matchEntry,
+        Entry                 $matchEntry,
         UsedInCompositeGroups $usedInCompo,
         UsedForGroup          $usedForGroup,
         MatchAllFactory       $allFactory,
@@ -79,7 +79,7 @@ class MatchDetail implements Detail
         $this->index = $index;
         $this->limit = $limit;
         $this->groupAware = $groupAware;
-        $this->matchEntry = $matchEntry;
+        $this->entry = $matchEntry;
         $this->usedInCompo = $usedInCompo;
         $this->usedForGroup = $usedForGroup;
         $this->allFactory = $allFactory;
@@ -119,7 +119,7 @@ class MatchDetail implements Detail
 
     public function text(): string
     {
-        return $this->matchEntry->text();
+        return $this->entry->text();
     }
 
     public function textLength(): int
@@ -134,7 +134,7 @@ class MatchDetail implements Detail
 
     public function toInt(int $base = null): int
     {
-        $text = $this->matchEntry->text();
+        $text = $this->entry->text();
         $number = new StringNumber($text);
         try {
             return $number->asInt(new Base($base));
@@ -147,7 +147,7 @@ class MatchDetail implements Detail
 
     public function isInt(int $base = null): bool
     {
-        $number = new StringNumber($this->matchEntry->text());
+        $number = new StringNumber($this->entry->text());
         try {
             $number->asInt(new Base($base));
         } catch (NumberFormatException | NumberOverflowException $exception) {
@@ -189,12 +189,12 @@ class MatchDetail implements Detail
         if (!$this->hasGroup($group->nameOrIndex())) {
             throw new NonexistentGroupException($group);
         }
-        return $this->groupFacade->createGroup($group, $this->usedForGroup, $this->matchEntry);
+        return $this->groupFacade->createGroup($group, $this->usedForGroup, $this->entry);
     }
 
     public function usingDuplicateName(): DuplicateName
     {
-        return new DuplicateName($this->groupAware, $this->usedForGroup, $this->matchEntry, $this->subject, $this->strategy, $this->allFactory, $this->signatures);
+        return new DuplicateName($this->groupAware, $this->usedForGroup, $this->entry, $this->subject, $this->strategy, $this->allFactory, $this->signatures);
     }
 
     /**

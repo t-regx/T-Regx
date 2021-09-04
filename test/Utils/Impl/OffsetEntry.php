@@ -2,9 +2,9 @@
 namespace Test\Utils\Impl;
 
 use AssertionError;
-use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
+use TRegx\CleanRegex\Internal\Model\Match\Entry;
 
-class OffsetEntry implements MatchEntry
+class OffsetEntry implements Entry
 {
     /** @var int */
     private $offset;

@@ -1,14 +1,14 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Offset;
 
-use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
+use TRegx\CleanRegex\Internal\Model\Match\Entry;
 
 class Coordinate
 {
-    /** @var MatchEntry */
+    /** @var Entry */
     private $entry;
 
-    public function __construct(MatchEntry $entry)
+    public function __construct(Entry $entry)
     {
         $this->entry = $entry;
     }

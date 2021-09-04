@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
-interface MatchEntry
+interface Entry
 {
     public function text(): string;
 

@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
+use TRegx\CleanRegex\Internal\Model\Match\Entry;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
@@ -69,7 +69,7 @@ class GroupFacade
         }
     }
 
-    public function createGroup(GroupKey $group, UsedForGroup $forGroup, MatchEntry $entry): Group
+    public function createGroup(GroupKey $group, UsedForGroup $forGroup, Entry $entry): Group
     {
         try {
             return $this->createdMatched($group, $this->entryFactory->groupEntry($group, $forGroup), $entry);
@@ -78,7 +78,7 @@ class GroupFacade
         }
     }
 
-    private function createdMatched(GroupKey $group, GroupEntry $groupEntry, MatchEntry $entry): MatchedGroup
+    private function createdMatched(GroupKey $group, GroupEntry $groupEntry, Entry $entry): MatchedGroup
     {
         return $this->factoryStrategy->matched(
             $this->subject,

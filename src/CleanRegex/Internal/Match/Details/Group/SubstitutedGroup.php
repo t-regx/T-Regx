@@ -1,27 +1,27 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
-use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
+use TRegx\CleanRegex\Internal\Model\Match\Entry;
 
 class SubstitutedGroup
 {
-    /** @var MatchEntry */
-    private $match;
+    /** @var Entry */
+    private $matchEntry;
     /** @var GroupEntry */
-    private $group;
+    private $groupEntry;
 
-    public function __construct(MatchEntry $match, GroupEntry $entry)
+    public function __construct(Entry $matchEntry, GroupEntry $groupEntry)
     {
-        $this->match = $match;
-        $this->group = $entry;
+        $this->matchEntry = $matchEntry;
+        $this->groupEntry = $groupEntry;
     }
 
     public function with(string $replacement): string
     {
-        $text = $this->match->text();
-        $matchOffset = $this->group->byteOffset() - $this->match->byteOffset();
+        $text = $this->matchEntry->text();
+        $matchOffset = $this->groupEntry->byteOffset() - $this->matchEntry->byteOffset();
         $before = \substr($text, 0, $matchOffset);
-        $after = \substr($text, $matchOffset + \strlen($this->group->text()));
+        $after = \substr($text, $matchOffset + \strlen($this->groupEntry->text()));
         return $before . $replacement . $after;
     }
 }

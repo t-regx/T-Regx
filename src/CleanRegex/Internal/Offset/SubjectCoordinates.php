@@ -1,19 +1,19 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Offset;
 
-use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
+use TRegx\CleanRegex\Internal\Model\Match\Entry;
 use TRegx\CleanRegex\Internal\Subject;
 
 class SubjectCoordinates
 {
-    /** @var MatchEntry */
+    /** @var Entry */
     private $entry;
     /** @var Coordinate */
     private $coordinate;
     /** @var Subject */
     private $subject;
 
-    public function __construct(MatchEntry $entry, Subject $subject)
+    public function __construct(Entry $entry, Subject $subject)
     {
         $this->entry = $entry;
         $this->coordinate = new Coordinate($entry);

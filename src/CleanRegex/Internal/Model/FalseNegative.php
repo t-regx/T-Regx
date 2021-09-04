@@ -1,11 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-use TRegx\CleanRegex\Internal\Model\Match\MatchEntry;
+use TRegx\CleanRegex\Internal\Model\Match\Entry;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
 
-class FalseNegative implements MatchEntry, UsedForGroup
+class FalseNegative implements Entry, UsedForGroup
 {
     /** @var RawMatchOffset */
     private $match;
