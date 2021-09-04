@@ -151,7 +151,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         $decorator = new GroupPolyfillDecorator($this->match([0 => ['value', -10]]), new ThrowFactory(), -10);
 
         // when + then
-        $this->assertSame('value', $decorator->getText());
+        $this->assertSame('value', $decorator->text());
     }
 
     /**

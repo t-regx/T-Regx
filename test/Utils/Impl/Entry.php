@@ -16,7 +16,7 @@ class Entry implements MatchEntry
         $this->offset = $offset;
     }
 
-    public function getText(): string
+    public function text(): string
     {
         return $this->text;
     }

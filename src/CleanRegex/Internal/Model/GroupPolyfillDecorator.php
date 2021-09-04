@@ -36,9 +36,9 @@ class GroupPolyfillDecorator implements IRawMatchOffset
         return true;
     }
 
-    public function getText(): string
+    public function text(): string
     {
-        return $this->falseMatch->getText();
+        return $this->falseMatch->text();
     }
 
     public function isGroupMatched($nameOrIndex): bool

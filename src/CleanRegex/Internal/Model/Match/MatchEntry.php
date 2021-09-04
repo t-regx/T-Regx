@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Model\Match;
 
 interface MatchEntry
 {
-    public function getText(): string;
+    public function text(): string;
 
     public function byteOffset(): int;
 }

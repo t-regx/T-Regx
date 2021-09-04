@@ -20,6 +20,6 @@ class Coordinate
 
     public function tail(): ByteOffset
     {
-        return new ByteOffset(\strlen($this->entry->getText()) + $this->entry->byteOffset());
+        return new ByteOffset(\strlen($this->entry->text()) + $this->entry->byteOffset());
     }
 }

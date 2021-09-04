@@ -20,7 +20,7 @@ class FalseNegative implements MatchEntry, UsedForGroup
         return !$this->match->hasGroup($nameOrIndex);
     }
 
-    public function getText(): string
+    public function text(): string
     {
         return $this->match->getText();
     }

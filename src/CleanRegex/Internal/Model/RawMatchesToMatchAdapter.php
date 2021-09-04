@@ -17,7 +17,7 @@ class RawMatchesToMatchAdapter implements IRawMatchOffset
         $this->index = $index;
     }
 
-    public function getText(): string
+    public function text(): string
     {
         $all = $this->matches->getTexts();
         return $all[$this->index];

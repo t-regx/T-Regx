@@ -119,7 +119,7 @@ class MatchDetail implements Detail
 
     public function text(): string
     {
-        return $this->matchEntry->getText();
+        return $this->matchEntry->text();
     }
 
     public function textLength(): int
@@ -134,7 +134,7 @@ class MatchDetail implements Detail
 
     public function toInt(int $base = null): int
     {
-        $text = $this->matchEntry->getText();
+        $text = $this->matchEntry->text();
         $number = new StringNumber($text);
         try {
             return $number->asInt(new Base($base));
@@ -147,7 +147,7 @@ class MatchDetail implements Detail
 
     public function isInt(int $base = null): bool
     {
-        $number = new StringNumber($this->matchEntry->getText());
+        $number = new StringNumber($this->matchEntry->text());
         try {
             $number->asInt(new Base($base));
         } catch (NumberFormatException | NumberOverflowException $exception) {

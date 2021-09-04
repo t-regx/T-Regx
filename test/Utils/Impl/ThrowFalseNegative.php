@@ -28,7 +28,7 @@ class ThrowFalseNegative extends FalseNegative
         throw $this->fail();
     }
 
-    public function getText(): string
+    public function text(): string
     {
         throw $this->fail();
     }

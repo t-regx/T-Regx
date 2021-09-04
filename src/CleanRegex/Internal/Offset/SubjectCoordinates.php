@@ -32,7 +32,7 @@ class SubjectCoordinates
 
     public function characterLength(): int
     {
-        return \mb_strlen($this->entry->getText());
+        return \mb_strlen($this->entry->text());
     }
 
     public function byteOffset(): int
@@ -47,6 +47,6 @@ class SubjectCoordinates
 
     public function byteLength(): int
     {
-        return \strlen($this->entry->getText());
+        return \strlen($this->entry->text());
     }
 }

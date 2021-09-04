@@ -14,7 +14,7 @@ class OffsetEntry implements MatchEntry
         $this->offset = $offset;
     }
 
-    public function getText(): string
+    public function text(): string
     {
         throw new AssertionError("Failed to assert that Entry.getText() wasn't used");
     }
