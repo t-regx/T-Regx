@@ -218,7 +218,7 @@ class preg
      */
     public static function grep(string $pattern, array $input, int $flags = 0): array
     {
-        $input = \array_filter($input, static function ($value) {
+        $input = \array_filter($input, static function ($value): bool {
             return !\is_object($value) || \method_exists($value, '__toString');
         });
         $pr = Bug::fix($pattern);
