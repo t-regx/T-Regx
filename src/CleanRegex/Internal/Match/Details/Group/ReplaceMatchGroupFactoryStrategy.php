@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceMatchedGroup;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceNotMatchedGroup;
+use TRegx\CleanRegex\Replace\Details\Modification;
 
 class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
 {
@@ -23,7 +24,8 @@ class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
 
     public function matched(Subject $subject, GroupDetails $details, GroupEntry $entry, SubstitutedGroup $substituted): MatchedGroup
     {
-        return new ReplaceMatchedGroup($subject, $details, $entry, $substituted, $this->byteOffsetModification, $this->subjectModification);
+        return new ReplaceMatchedGroup($subject, $details, $entry, $substituted,
+            new Modification($entry, $this->subjectModification, $this->byteOffsetModification));
     }
 
     public function notMatched(Subject $subject, GroupDetails $details, NotMatchedOptionalWorker $worker): NotMatchedGroup

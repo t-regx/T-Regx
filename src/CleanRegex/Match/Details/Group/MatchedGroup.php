@@ -23,12 +23,12 @@ class MatchedGroup implements Group
     /** @var SubstitutedGroup */
     private $substitutedGroup;
 
-    public function __construct(Subject $subject, GroupDetails $details, GroupEntry $groupEntry, SubstitutedGroup $substitutedGroup)
+    public function __construct(Subject $subject, GroupDetails $details, GroupEntry $entry, SubstitutedGroup $substituted)
     {
         $this->subject = $subject;
         $this->details = $details;
-        $this->groupEntry = $groupEntry;
-        $this->substitutedGroup = $substitutedGroup;
+        $this->groupEntry = $entry;
+        $this->substitutedGroup = $substituted;
     }
 
     public function text(): string

@@ -13,15 +13,10 @@ class ReplaceMatchedGroup extends MatchedGroup implements ReplaceGroup
     /** @var Modification */
     private $modification;
 
-    public function __construct(Subject          $subject,
-                                GroupDetails     $details,
-                                GroupEntry       $groupEntry,
-                                SubstitutedGroup $substitutedGroup,
-                                int              $byteOffsetModification,
-                                string           $subjectModification)
+    public function __construct(Subject $subject, GroupDetails $details, GroupEntry $entry, SubstitutedGroup $substituted, Modification $modification)
     {
-        parent::__construct($subject, $details, $groupEntry, $substitutedGroup);
-        $this->modification = new Modification($groupEntry, $subjectModification, $byteOffsetModification);
+        parent::__construct($subject, $details, $entry, $substituted);
+        $this->modification = $modification;
     }
 
     public function modifiedSubject(): string
