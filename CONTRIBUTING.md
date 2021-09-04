@@ -2,12 +2,11 @@
 
 There are a few rules that we believe must be obeyed, while developing and maintaining T-Regx:
 
-- Lack of fake TDD
-- Minimisation of inconsistencies
-- Simple and clean design
-- Type-safety
-- Lack of unnecessary performance overhead
-- Preference of exceptions over: defaults, `null`s, warnings, magic values or false-positives.
+1. Lack of fake TDD
+2. Preference of exceptions over: defaults, `null`s, warnings, magic values or false-positives.
+3. Type-safety
+4. Minimisation of inconsistencies
+5. Lack of unnecessary performance overhead
 
 ## Fake TDD
 
@@ -43,10 +42,9 @@ Currently, we have 4 roots for automatic tests in T-Regx:
 - `Feature` (a.k.a. "end to end") - This category has two goals:
     - Ensure that a certain functionality works "out of the box" (as if used by an end user).
     - Ensure that each dependency is integrated properly with other dependencies.
+    - Is immute to refactoring of internals
 
   Rules:
-  - There should be as little tests in this category as possible (preferably 1 per functionality). More throughout
-    testcases should be in `Unit` or `Interaction`.
   - Each test-case must be created from `pattern()` function or one of `Pattern` factory methods.
 
 - `Interaction` - You'd like to test behaviour - then test only the part of your interface that's relevant to the
@@ -54,6 +52,8 @@ Currently, we have 4 roots for automatic tests in T-Regx:
   with logic as low as possible.
 
   Rules:
+  - There should be as little tests in this category as possible (preferably 1 per functionality). More throughout
+    testcases should be in `Unit` or `Feature`.
   - If possible, any dependencies should be real instances, instead of fakes. If instantiating becomes too complicated,
     occasional fakes are allowed, to make tests easier to read and edit.
 
