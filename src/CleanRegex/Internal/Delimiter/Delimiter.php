@@ -2,14 +2,11 @@
 namespace TRegx\CleanRegex\Internal\Delimiter;
 
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
 class Delimiter
 {
-    /** @var array */
-    private static $validDelimiters = ['/', '#', '%', '~', '+', '!', '@', '_', ';', '`', '-', '=', ',', "\1"];
     /** @var string */
     private $delimiter;
 
@@ -20,17 +17,7 @@ class Delimiter
 
     public function delimited(Quotable $quotable, Flags $flags): string
     {
-        if ($this->legal()) {
-            return $this->delimiter . $quotable->quote($this->delimiter) . $this->delimiter . $flags;
-        }
-        // @codeCoverageIgnoreStart
-        throw new InternalCleanRegexException();
-        // @codeCoverageIgnoreEnd
-    }
-
-    private function legal(): bool
-    {
-        return \in_array($this->delimiter, self::$validDelimiters, true);
+        return $this->delimiter . $quotable->quote($this->delimiter) . $this->delimiter . $flags;
     }
 
     public static function suitable(string $delimiterable): Delimiter
