@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\_entry_points;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
+use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
@@ -232,5 +233,33 @@ class PatternTest extends TestCase
         // then
         $this->assertSame(['FO{2}', '\d', 'fo{2}', '\w'], $texts);
         $this->assertSamePattern('/(?:fo\{2\}|\\\\w|\\\\d)/i', $pattern);
+    }
+
+    /**
+     * @test
+     * @dataProvider malformedPregPatterns
+     * @param string $pattern
+     * @param string $expectedMessage
+     */
+    public function shouldThrowForAlphanumericFirstCharacter(string $pattern, string $expectedMessage)
+    {
+        // then
+        $this->expectException(MalformedPcreTemplateException::class);
+        $this->expectExceptionMessage($expectedMessage);
+
+        // given
+        Pattern::pcre()->template($pattern)->build();
+    }
+
+    public function malformedPregPatterns(): array
+    {
+        return [
+            ['', 'PCRE-compatible template is malformed, pattern is empty'],
+            ['&foo', "PCRE-compatible template is malformed, starting with an unexpected delimiter '&'"],
+            ['#foo/', 'PCRE-compatible template is malformed, unclosed pattern'],
+            ['/foo', 'PCRE-compatible template is malformed, unclosed pattern'],
+            ['ooo', "PCRE-compatible template is malformed, alphanumeric delimiter 'o'"],
+            ['4oo', 'PCRE-compatible template is malformed, alphanumeric delimiter'],
+        ];
     }
 }
