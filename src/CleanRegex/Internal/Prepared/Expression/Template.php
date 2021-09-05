@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Expression\StrictInterpretation;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Figure\CountedFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Orthography;
+use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\QuotableTemplate;
 
@@ -18,13 +19,13 @@ class Template implements Expression
 
     /** @var QuotableTemplate */
     private $template;
-    /** @var Orthography */
-    private $orthography;
+    /** @var Spelling */
+    private $spelling;
 
     public function __construct(Orthography $orthography, CountedFigures $figures)
     {
-        $this->template = new QuotableTemplate($orthography, $figures);
-        $this->orthography = $orthography;
+        $this->spelling = $orthography->spelling();
+        $this->template = new QuotableTemplate($this->spelling, $figures);
     }
 
     protected function quotable(): Quotable
@@ -38,16 +39,16 @@ class Template implements Expression
 
     protected function delimiter(): Delimiter
     {
-        return $this->orthography->delimiter();
+        return $this->spelling->delimiter();
     }
 
     protected function flags(): Flags
     {
-        return $this->orthography->flags();
+        return $this->spelling->flags();
     }
 
     protected function undevelopedInput(): string
     {
-        return $this->orthography->undevelopedInput();
+        return $this->spelling->undevelopedInput();
     }
 }

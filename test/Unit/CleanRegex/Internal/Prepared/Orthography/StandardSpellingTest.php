@@ -4,12 +4,12 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Orthography;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardOrthography;
+use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Prepared\Orthography\StandardOrthography
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling
  */
-class StandardOrthographyTest extends TestCase
+class StandardSpellingTest extends TestCase
 {
     /**
      * @test
@@ -17,7 +17,7 @@ class StandardOrthographyTest extends TestCase
     public function shouldGetDelimiter()
     {
         // given
-        $standard = new StandardOrthography('#wel/come', '');
+        $standard = new StandardSpelling('/wel#come', '');
 
         // when
         $delimiter = $standard->delimiter();
@@ -32,7 +32,7 @@ class StandardOrthographyTest extends TestCase
     public function shouldGetInputPattern()
     {
         // given
-        $standard = new StandardOrthography('#wel/{come}', '');
+        $standard = new StandardSpelling('#wel/{come}', '');
 
         // when
         $pattern = $standard->pattern();
@@ -47,7 +47,7 @@ class StandardOrthographyTest extends TestCase
     public function shouldGetUndevelopedInput()
     {
         // given
-        $standard = new StandardOrthography('#wel/{come}', '');
+        $standard = new StandardSpelling('#wel/{come}', '');
 
         // when
         $undeveloped = $standard->undevelopedInput();
@@ -62,7 +62,7 @@ class StandardOrthographyTest extends TestCase
     public function shouldGetFlags()
     {
         // given
-        $standard = new StandardOrthography('', 'ui');
+        $standard = new StandardSpelling('', 'ui');
 
         // when
         $flags = $standard->flags();

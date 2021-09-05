@@ -5,12 +5,12 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreOrthography;
+use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreSpelling;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Prepared\Orthography\PcreOrthography
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Orthography\PcreSpelling
  */
-class PcreOrthographyTest extends TestCase
+class PcreSpellingTest extends TestCase
 {
     /**
      * @test
@@ -18,7 +18,7 @@ class PcreOrthographyTest extends TestCase
     public function test()
     {
         // given
-        $pcre = new PcreOrthography('/foo/x');
+        $pcre = new PcreSpelling('/foo/x');
 
         // when
         $delimiter = $pcre->delimiter();
@@ -39,7 +39,7 @@ class PcreOrthographyTest extends TestCase
     public function shouldGetDelimiter()
     {
         // given
-        $pcre = new PcreOrthography('#foo#');
+        $pcre = new PcreSpelling('#foo#');
 
         // when
         $delimiter = $pcre->delimiter();
@@ -54,7 +54,7 @@ class PcreOrthographyTest extends TestCase
     public function shouldGetEmptyFlags()
     {
         // given
-        $pcre = new PcreOrthography('#foo#');
+        $pcre = new PcreSpelling('#foo#');
 
         // when
         $flags = $pcre->flags();
@@ -73,6 +73,6 @@ class PcreOrthographyTest extends TestCase
         $this->expectExceptionMessage("PCRE-compatible template is malformed, unclosed pattern '#'");
 
         // given
-        new PcreOrthography('#foo');
+        new PcreSpelling('#foo');
     }
 }
