@@ -31,7 +31,11 @@ class NeedlesTest extends TestCase
     public function inputsAndNeedles(): array
     {
         return [
-            ['Welcome)To]The{Jungle', ['}', '{', ']', ')', '('], ['Welcome', ')', 'To', ']', 'The', '{', 'Jungle']],
+            [
+                'Foo)To]The{{Bar',
+                ['{', ']', ')'],
+                ['Foo', ')', 'To', ']', 'The', '{', '', '{', 'Bar']
+            ],
 
             [
                 'Welcome%:To%The%%Jungle%::',
@@ -47,7 +51,7 @@ class NeedlesTest extends TestCase
 
             [
                 'hey%:',
-                ['%:', '%::'],
+                ['%:', '%:'],
                 ['hey', '%:', ''],
             ],
 

@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
+use Generator;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Internal\MaskType;
 use TRegx\CleanRegex\Internal\Needles;
@@ -18,11 +19,14 @@ class MaskToken implements Token
     private $mask;
     /** @var array */
     private $keywords;
+    /** @var Needles */
+    private $needles;
 
     public function __construct(string $mask, array $keywords)
     {
         $this->mask = $mask;
         $this->keywords = $keywords;
+        $this->needles = new Needles(\array_keys($this->keywords));
     }
 
     public function formatAsQuotable(): Quotable
@@ -33,18 +37,18 @@ class MaskToken implements Token
         foreach ($this->keywords as $keyword => $pattern) {
             $this->validateEmpty($keyword);
         }
-        return new CompositeQuotable($this->quotableTokens((new Needles(\array_keys($this->keywords)))->split($this->mask)));
+        return new CompositeQuotable(\iterator_to_array($this->quotableTokens()));
     }
 
-    private function quotableTokens(array $elements): array
+    private function quotableTokens(): Generator
     {
-        $quotes = [];
-        foreach ($elements as $rawOrToken) {
-            $quotes[] = \array_key_exists($rawOrToken, $this->keywords)
-                ? new RawQuotable($this->keywords[$rawOrToken])
-                : new UserInputQuotable($rawOrToken);
+        foreach ($this->needles->split($this->mask) as $stringOrKeyword) {
+            if (\array_key_exists($stringOrKeyword, $this->keywords)) {
+                yield new RawQuotable($this->keywords[$stringOrKeyword]);
+            } else {
+                yield new UserInputQuotable($stringOrKeyword);
+            }
         }
-        return $quotes;
     }
 
     private function validatePair(string $pattern, string $keyword): void
