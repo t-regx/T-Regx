@@ -10,4 +10,14 @@ trait AssertsPattern
     {
         Assert::assertSame($expected, $actual->delimited());
     }
+
+    public function assertConsumesFirst(string $text, Pattern $pattern): void
+    {
+        $this->assertSame($pattern->match($text)->first(), $text);
+    }
+
+    public function assertConsumesAll(string $text, array $texts, Pattern $pattern): void
+    {
+        $this->assertSame($pattern->match($text)->all(), $texts);
+    }
 }

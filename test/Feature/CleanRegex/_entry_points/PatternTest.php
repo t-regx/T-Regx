@@ -56,19 +56,18 @@ class PatternTest extends TestCase
      */
     public function shouldBuild_mask(): void
     {
-        // given
-        $pattern = Pattern::mask('%%:%e%w:%c', [
+        // when
+        $pattern = Pattern::mask('%%:%e%f%w:%c', [
             '%%' => '%',
-            '%e' => '\\/',
+            '%e' => '\/',
+            '%f' => '/',
             '%w' => '\s*',
             '%c' => '.',
         ], 's');
 
-        // when
-        $delimited = $pattern->delimited();
-
         // then
-        $this->assertSame('#%\:\\/\s*\:.#s', $delimited);
+        $this->assertConsumesFirst('%://   :g', $pattern);
+        $this->assertSamePattern('#%\:\//\s*\:.#s', $pattern);
     }
 
     /**
@@ -105,6 +104,19 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrowForInvalidPatternInMask(): void
+    {
+        // then
+        $this->expectException(MaskMalformedPatternException::class);
+        $this->expectExceptionMessage("Malformed pattern '*' assigned to keyword '%e'");
+
+        // when
+        Pattern::mask('%e', ['%e' => '*']);
+    }
+
+    /**
+     * @test
+     */
     public function shouldBuild_mask_QuotedTrailing(): void
     {
         // then
@@ -120,21 +132,18 @@ class PatternTest extends TestCase
      */
     public function shouldBuild_template_literal_mask_literal_build(): void
     {
-        // given
+        // when
         $pattern = Pattern::template('^@ v@s. &@ or `s`', 'i')
             ->literal('&')
             ->mask('This-is: %3 pattern %4', [
                 '%3' => 'x{3,}',
-                '%4' => 'x{4,}',
+                '%4' => 'x{4,}/',
             ])
             ->literal('&')
             ->build();
 
-        // when
-        $delimited = $pattern->delimited();
-
         // then
-        $this->assertSame('/^& vThis\-is\:\ x{3,}\ pattern\ x{4,}s. && or `s`/i', $delimited);
+        $this->assertSamePattern('/^& vThis\-is\:\ x{3,}\ pattern\ x{4,}/s. && or `s`/i', $pattern);
     }
 
     /**
@@ -142,7 +151,7 @@ class PatternTest extends TestCase
      */
     public function shouldBuild_template_mask_literal_mask_build(): void
     {
-        // given
+        // when
         $pattern = Pattern::template('^@ v@s. @$ or `s`', 'i')
             ->mask('This-is: %3 pattern %4', [
                 '%3' => 'x{3,}',
@@ -155,11 +164,8 @@ class PatternTest extends TestCase
             ])
             ->build();
 
-        // when
-        $delimited = $pattern->delimited();
-
         // then
-        $this->assertSame('/^This\-is\:\ x{3,}\ pattern\ x{4,} v@s. \(e{2,3}\:%e\)$ or `s`/i', $delimited);
+        $this->assertSamePattern('/^This\-is\:\ x{3,}\ pattern\ x{4,} v@s. \(e{2,3}\:%e\)$ or `s`/i', $pattern);
     }
 
     /**
@@ -167,16 +173,13 @@ class PatternTest extends TestCase
      */
     public function shouldBuild_template_mask_build(): void
     {
-        // given
+        // when
         $pattern = Pattern::template('^@ vs/$', 's')
             ->mask('This-is: %3', ['%3' => 'x{3,}'])
             ->build();
 
-        // when
-        $delimited = $pattern->delimited();
-
         // then
-        $this->assertSame('#^This\-is\:\ x{3,} vs/$#s', $delimited);
+        $this->assertSamePattern('#^This\-is\:\ x{3,} vs/$#s', $pattern);
     }
 
     /**
@@ -184,14 +187,11 @@ class PatternTest extends TestCase
      */
     public function shouldBuild_template_literal_build(): void
     {
-        // given
+        // when
         $pattern = Pattern::template('^@ vs/ $', 's')->literal('&')->build();
 
-        // when
-        $delimited = $pattern->delimited();
-
         // then
-        $this->assertSame('#^& vs/ $#s', $delimited);
+        $this->assertSamePattern('#^& vs/ $#s', $pattern);
     }
 
     /**
@@ -227,11 +227,8 @@ class PatternTest extends TestCase
         // given
         $pattern = Pattern::alteration(['fo{2}', '\w', '\d'], 'i');
 
-        // when
-        $texts = $pattern->match('FO{2} \d fo{2} \w')->all();
-
         // then
-        $this->assertSame(['FO{2}', '\d', 'fo{2}', '\w'], $texts);
+        $this->assertConsumesAll('FO{2} \d fo{2} \w', ['FO{2}', '\d', 'fo{2}', '\w'], $pattern);
         $this->assertSamePattern('/(?:fo\{2\}|\\\\w|\\\\d)/i', $pattern);
     }
 
@@ -275,7 +272,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::pcre()->inject($char . 'foo(@)' . $char, [$char]);
 
         // then
-        $this->assertSame("foo$char", $pattern->match("foo$char")->first());
+        $this->assertConsumesFirst("foo$char", $pattern);
         $this->assertSamePattern("\x3Afoo(\\\x3A)\x3A", $pattern);
     }
 }
