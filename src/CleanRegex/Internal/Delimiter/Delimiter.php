@@ -22,7 +22,8 @@ class Delimiter
 
     public static function suitable(string $delimiterable): Delimiter
     {
-        foreach (Delimiters::getDelimiters() as $delimiter) {
+        $delimiters = ['/', '#', '%', '~', '+', '!', '@', '_', ';', '`', '-', '=', ',', "\1"];
+        foreach ($delimiters as $delimiter) {
             if (\strpos($delimiterable, $delimiter) === false) {
                 return new Delimiter($delimiter);
             }
