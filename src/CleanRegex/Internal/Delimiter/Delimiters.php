@@ -10,9 +10,4 @@ class Delimiters
     {
         return self::$validDelimiters;
     }
-
-    public static function isValidDelimiter(string $character): bool
-    {
-        return \in_array($character, self::$validDelimiters, true);
-    }
 }

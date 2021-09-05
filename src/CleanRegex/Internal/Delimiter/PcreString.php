@@ -11,33 +11,36 @@ class PcreString
     private $flags;
     /** @var string */
     private $delimiter;
+    /** @var PcreDelimiterPredicate */
+    private $predicate;
 
-    public function __construct(string $pcre)
+    public function __construct(string $pcre, PcreDelimiterPredicate $predicate)
     {
-        [$this->delimiter, $remainder] = self::splitByFirstCharacter($pcre);
-        [$this->pattern, $this->flags] = self::splitByLastOccurrence($remainder, $this->delimiter);
+        $this->predicate = $predicate;
+        [$this->delimiter, $remainder] = $this->splitByFirstCharacter($pcre);
+        [$this->pattern, $this->flags] = $this->splitByLastOccurrence($remainder, $this->delimiter);
     }
 
-    private static function splitByFirstCharacter(string $pcre): array
+    private function splitByFirstCharacter(string $pcre): array
     {
         if ($pcre === '') {
             throw MalformedPcreTemplateException::emptyPattern();
         }
-        if (Delimiters::isValidDelimiter($pcre[0])) {
+        if ($this->predicate->test($pcre[0])) {
             return [$pcre[0], \substr($pcre, 1)];
         }
         throw MalformedPcreTemplateException::invalidDelimiter($pcre[0]);
     }
 
-    private static function splitByLastOccurrence(string $pcre, string $delimiter): array
+    private function splitByLastOccurrence(string $pcre, string $delimiter): array
     {
-        $position = self::lastOccurrence($pcre, $delimiter);
+        $position = $this->lastOccurrence($pcre, $delimiter);
         $pattern = \substr($pcre, 0, $position);
         $flags = \substr($pcre, $position + 1);
         return [$pattern, $flags];
     }
 
-    private static function lastOccurrence(string $pcre, string $delimiter): int
+    private function lastOccurrence(string $pcre, string $delimiter): int
     {
         $position = \strrpos($pcre, $delimiter);
         if ($position === false) {

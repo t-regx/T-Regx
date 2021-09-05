@@ -255,11 +255,27 @@ class PatternTest extends TestCase
     {
         return [
             ['', 'PCRE-compatible template is malformed, pattern is empty'],
-            ['&foo', "PCRE-compatible template is malformed, starting with an unexpected delimiter '&'"],
+            ['&foo', "PCRE-compatible template is malformed, unclosed pattern '&'"],
             ['#foo/', 'PCRE-compatible template is malformed, unclosed pattern'],
             ['/foo', 'PCRE-compatible template is malformed, unclosed pattern'],
             ['ooo', "PCRE-compatible template is malformed, alphanumeric delimiter 'o'"],
             ['4oo', 'PCRE-compatible template is malformed, alphanumeric delimiter'],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPcreQuoteNonStandardDelimiter()
+    {
+        // given
+        $char = \chr(58);
+
+        // when
+        $pattern = Pattern::pcre()->inject($char . 'foo(@)' . $char, [$char]);
+
+        // then
+        $this->assertSame("foo$char", $pattern->match("foo$char")->first());
+        $this->assertSamePattern("\x3Afoo(\\\x3A)\x3A", $pattern);
     }
 }
