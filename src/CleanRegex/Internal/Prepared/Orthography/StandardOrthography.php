@@ -1,6 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Orthography;
 
+use TRegx\CleanRegex\Internal\Prepared\Condition\CompositeCondition;
+use TRegx\CleanRegex\Internal\Prepared\Condition\Condition;
+use TRegx\CleanRegex\Internal\Prepared\Condition\UnsuitableStringCondition;
+
 class StandardOrthography implements Orthography
 {
     /** @var string */
@@ -14,8 +18,8 @@ class StandardOrthography implements Orthography
         $this->flags = $flags;
     }
 
-    public function spelling(): Spelling
+    public function spelling(Condition $condition): Spelling
     {
-        return new StandardSpelling($this->input, $this->flags);
+        return new StandardSpelling($this->input, $this->flags, new CompositeCondition([new UnsuitableStringCondition($this->input), $condition]));
     }
 }

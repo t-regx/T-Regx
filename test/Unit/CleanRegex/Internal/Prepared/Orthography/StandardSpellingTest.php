@@ -2,6 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Orthography;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\EqualsCondition;
+use Test\Utils\Impl\ThrowCondition;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling;
@@ -17,13 +19,13 @@ class StandardSpellingTest extends TestCase
     public function shouldGetDelimiter()
     {
         // given
-        $standard = new StandardSpelling('/wel#come', '');
+        $standard = new StandardSpelling('#wel/come%', '', new EqualsCondition('#'));
 
         // when
         $delimiter = $standard->delimiter();
 
         // then
-        $this->assertEquals(new Delimiter('%'), $delimiter);
+        $this->assertEquals(new Delimiter('#'), $delimiter);
     }
 
     /**
@@ -32,7 +34,7 @@ class StandardSpellingTest extends TestCase
     public function shouldGetInputPattern()
     {
         // given
-        $standard = new StandardSpelling('#wel/{come}', '');
+        $standard = new StandardSpelling('#wel/{come}', '', new ThrowCondition());
 
         // when
         $pattern = $standard->pattern();
@@ -47,7 +49,7 @@ class StandardSpellingTest extends TestCase
     public function shouldGetUndevelopedInput()
     {
         // given
-        $standard = new StandardSpelling('#wel/{come}', '');
+        $standard = new StandardSpelling('#wel/{come}', '', new ThrowCondition());
 
         // when
         $undeveloped = $standard->undevelopedInput();
@@ -62,7 +64,7 @@ class StandardSpellingTest extends TestCase
     public function shouldGetFlags()
     {
         // given
-        $standard = new StandardSpelling('', 'ui');
+        $standard = new StandardSpelling('', 'ui', new ThrowCondition());
 
         // when
         $flags = $standard->flags();

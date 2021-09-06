@@ -3,24 +3,25 @@ namespace TRegx\CleanRegex\Internal\Prepared;
 
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
+use TRegx\CleanRegex\Internal\Prepared\Condition\Condition;
 
 class Candidates
 {
-    /** @var string */
-    private $input;
+    /** @var Condition */
+    private $condition;
     /** @var string[] */
     private $candidates;
 
-    public function __construct(string $input)
+    public function __construct(Condition $condition)
     {
-        $this->input = $input;
+        $this->condition = $condition;
         $this->candidates = ['/', '#', '%', '~', '+', '!', '@', '_', ';', '`', '-', '=', ',', "\1"];
     }
 
     public function delimiter(): Delimiter
     {
         foreach ($this->candidates as $candidate) {
-            if (\strpos($this->input, $candidate) === false) {
+            if ($this->condition->suitable($candidate)) {
                 return new Delimiter($candidate);
             }
         }

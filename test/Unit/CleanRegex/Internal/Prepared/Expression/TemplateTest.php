@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Expression;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\ConstantFigures;
+use Test\Utils\Impl\EqualsCondition;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
@@ -51,7 +52,7 @@ class TemplateTest extends TestCase
     public function shouldThrowForTrailingBackslash()
     {
         // given
-        $template = new Template(new StandardSpelling('cat\\', 'x'), new InjectFigures([]));
+        $template = new Template(new StandardSpelling('cat\\', 'x', new EqualsCondition('/')), new InjectFigures([]));
 
         // then
         $this->expectException(PatternMalformedPatternException::class);
@@ -67,7 +68,7 @@ class TemplateTest extends TestCase
     public function shouldNotUseDuplicateFlags()
     {
         // given
-        $template = new Template(new StandardSpelling('cat', 'xx'), new InjectFigures([]));
+        $template = new Template(new StandardSpelling('cat', 'xx', new EqualsCondition('/')), new InjectFigures([]));
 
         // when
         $definition = $template->definition();
@@ -82,13 +83,13 @@ class TemplateTest extends TestCase
     public function shouldInjectInCommentWithoutExtendedMode()
     {
         // given
-        $template = new Template(new StandardSpelling("/#@\n", 'i'), ConstantFigures::literal('cat%'));
+        $template = new Template(new StandardSpelling("/#@\n", 'i', new EqualsCondition('~')), ConstantFigures::literal('cat~'));
 
         // when
         $definition = $template->definition();
 
         // then
-        $this->assertEquals(new Definition("%/#cat\%\n%i", "/#@\n"), $definition);
+        $this->assertEquals(new Definition("~/#cat\~\n~i", "/#@\n"), $definition);
     }
 
     /**
@@ -97,7 +98,7 @@ class TemplateTest extends TestCase
     public function shouldNotInjectPlaceholderInCommentExtendedMode()
     {
         // given
-        $template = new Template(new StandardSpelling('#@', 'x'), new ConstantFigures(0));
+        $template = new Template(new StandardSpelling('#@', 'x', new EqualsCondition('/')), new ConstantFigures(0));
 
         // when
         $definition = $template->definition();

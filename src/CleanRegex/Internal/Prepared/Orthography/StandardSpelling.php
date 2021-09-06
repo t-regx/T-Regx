@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Orthography;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Candidates;
+use TRegx\CleanRegex\Internal\Prepared\Condition\Condition;
 
 class StandardSpelling implements Spelling
 {
@@ -14,11 +15,11 @@ class StandardSpelling implements Spelling
     /** @var Candidates */
     private $delimiters;
 
-    public function __construct(string $input, string $flags)
+    public function __construct(string $input, string $flags, Condition $condition)
     {
         $this->input = $input;
         $this->flags = $flags;
-        $this->delimiters = new Candidates($input);
+        $this->delimiters = new Candidates($condition);
     }
 
     public function delimiter(): Delimiter

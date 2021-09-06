@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Orthography;
 
+use TRegx\CleanRegex\Internal\Prepared\Condition\Condition;
+
 class PcreOrthography implements Orthography
 {
     /** @var string */
@@ -11,7 +13,7 @@ class PcreOrthography implements Orthography
         $this->pcre = $pcre;
     }
 
-    public function spelling(): Spelling
+    public function spelling(Condition $condition): Spelling
     {
         return new PcreSpelling($this->pcre);
     }

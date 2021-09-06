@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Composite\CompositePattern;
 use TRegx\CleanRegex\Internal\Expression\Alteration;
 use TRegx\CleanRegex\Internal\Expression\Literal;
 use TRegx\CleanRegex\Internal\Expression\Standard;
+use TRegx\CleanRegex\Internal\Prepared\Condition\UnsuitableStringCondition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Mask;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
@@ -24,7 +25,7 @@ trait EntryPoints
 
     public static function inject(string $input, array $figures, string $flags = null): Pattern
     {
-        return new Pattern(new Template(new StandardSpelling($input, $flags ?? ''), new InjectFigures($figures)));
+        return new Pattern(new Template(new StandardSpelling($input, $flags ?? '', new UnsuitableStringCondition($input)), new InjectFigures($figures)));
     }
 
     public static function mask(string $mask, array $keywords, string $flags = null): Pattern

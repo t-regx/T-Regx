@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Builder;
 
+use TRegx\CleanRegex\Internal\Prepared\Condition\PositiveCondition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Orthography;
 use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
@@ -45,6 +46,6 @@ class TemplateBuilder
 
     public function build(): Pattern
     {
-        return new Pattern(new Template($this->orthography->spelling(), $this->tokens->figures()));
+        return new Pattern(new Template($this->orthography->spelling(new PositiveCondition()), $this->tokens->figures()));
     }
 }
