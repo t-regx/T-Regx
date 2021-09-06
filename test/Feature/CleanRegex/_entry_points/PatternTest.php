@@ -133,17 +133,17 @@ class PatternTest extends TestCase
     public function shouldBuild_template_literal_mask_literal_build(): void
     {
         // when
-        $pattern = Pattern::template('^@ v@s. &@ or `s`', 'i')
+        $pattern = Pattern::template('^@ v@s. &@ or `s` %', 'i')
             ->literal('&')
             ->mask('This-is: %3 pattern %4', [
-                '%3' => 'x{3,}',
+                '%3' => 'x{3,}#',
                 '%4' => 'x{4,}/',
             ])
-            ->literal('&')
+            ->literal('~')
             ->build();
 
         // then
-        $this->assertSamePattern('/^& vThis\-is\:\ x{3,}\ pattern\ x{4,}/s. && or `s`/i', $pattern);
+        $this->assertSamePattern('~^& vThis\-is\:\ x{3,}#\ pattern\ x{4,}/s. &\~ or `s` %~i', $pattern);
     }
 
     /**
@@ -180,6 +180,26 @@ class PatternTest extends TestCase
 
         // then
         $this->assertSamePattern('#^This\-is\:\ x{3,} vs/$#s', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_template_mask(): void
+    {
+        // when
+        $pattern = Pattern::template('/@')
+            ->mask('%%:%h%f%s', [
+                '%%' => '%',
+                '%h' => '#',
+                '%f' => '/',
+                '%s' => '\s*',
+            ])
+            ->build();
+
+        // then
+        $this->assertConsumesFirst('/%:#/   ', $pattern);
+        $this->assertSamePattern('~/%\:#/\s*~', $pattern);
     }
 
     /**

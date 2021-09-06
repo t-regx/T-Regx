@@ -20,4 +20,11 @@ class NullToken implements Token
         throw new InternalCleanRegexException();
         // @codeCoverageIgnoreEnd
     }
+
+    public function suitable(string $candidate): bool
+    {
+        // @codeCoverageIgnoreStart
+        throw new InternalCleanRegexException();
+        // @codeCoverageIgnoreEnd
+    }
 }

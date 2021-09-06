@@ -69,4 +69,9 @@ class MaskToken implements Token
     {
         return new MaskType($this->keywords);
     }
+
+    public function suitable(string $candidate): bool
+    {
+        return \strpos(\implode($this->keywords), $candidate) === false;
+    }
 }

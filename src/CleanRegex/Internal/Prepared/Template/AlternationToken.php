@@ -8,6 +8,8 @@ use TRegx\CleanRegex\Internal\ValueType;
 
 class AlternationToken implements Token
 {
+    use DelimiterAgnostic;
+
     /** @var array */
     private $figures;
 

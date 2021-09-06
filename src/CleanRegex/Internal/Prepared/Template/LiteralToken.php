@@ -8,6 +8,8 @@ use TRegx\CleanRegex\Internal\ValueType;
 
 class LiteralToken implements Token
 {
+    use DelimiterAgnostic;
+
     /** @var string */
     private $text;
 
