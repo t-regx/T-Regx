@@ -2,22 +2,22 @@
 namespace TRegx\CleanRegex\Builder;
 
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
-use TRegx\CleanRegex\Internal\Prepared\Figure\TokenFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Orthography;
 use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\Token;
+use TRegx\CleanRegex\Internal\Prepared\Tokens;
 use TRegx\CleanRegex\Pattern;
 
 class TemplateBuilder
 {
     /** @var Orthography */
     private $orthography;
-    /** @var Token[] */
+    /** @var Tokens */
     private $tokens;
 
-    public function __construct(Orthography $orthography, array $tokens)
+    public function __construct(Orthography $orthography, Tokens $tokens)
     {
         $this->orthography = $orthography;
         $this->tokens = $tokens;
@@ -40,11 +40,11 @@ class TemplateBuilder
 
     private function next(Token $token): TemplateBuilder
     {
-        return new TemplateBuilder($this->orthography, \array_merge($this->tokens, [$token]));
+        return new TemplateBuilder($this->orthography, $this->tokens->next($token));
     }
 
     public function build(): Pattern
     {
-        return new Pattern(new Template($this->orthography, new TokenFigures($this->tokens)));
+        return new Pattern(new Template($this->orthography, $this->tokens->figures()));
     }
 }

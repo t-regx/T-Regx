@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Internal\Expression\Pcre;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreOrthography;
+use TRegx\CleanRegex\Internal\Prepared\Tokens;
 use TRegx\CleanRegex\Pattern;
 
 class PcreBuilder
@@ -30,6 +31,6 @@ class PcreBuilder
 
     public function template(string $pattern): TemplateBuilder
     {
-        return new TemplateBuilder(new PcreOrthography($pattern), []);
+        return new TemplateBuilder(new PcreOrthography($pattern), new Tokens([]));
     }
 }
