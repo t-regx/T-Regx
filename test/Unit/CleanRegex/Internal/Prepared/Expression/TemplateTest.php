@@ -7,8 +7,8 @@ use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
-use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreOrthography;
-use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardOrthography;
+use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreSpelling;
+use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Prepared\Expression\Template
@@ -21,7 +21,7 @@ class TemplateTest extends TestCase
     public function test()
     {
         // given
-        $template = new Template(new PcreOrthography('/foo:@/'), ConstantFigures::literal('bar{}'));
+        $template = new Template(new PcreSpelling('/foo:@/'), ConstantFigures::literal('bar{}'));
 
         // when
         $definition = $template->definition();
@@ -36,7 +36,7 @@ class TemplateTest extends TestCase
     public function shouldQuoteUsingDelimiter()
     {
         // given
-        $template = new Template(new PcreOrthography('%foo:@%m'), ConstantFigures::literal('bar%cat'));
+        $template = new Template(new PcreSpelling('%foo:@%m'), ConstantFigures::literal('bar%cat'));
 
         // when
         $definition = $template->definition();
@@ -51,7 +51,7 @@ class TemplateTest extends TestCase
     public function shouldThrowForTrailingBackslash()
     {
         // given
-        $template = new Template(new StandardOrthography('cat\\', 'x'), new InjectFigures([]));
+        $template = new Template(new StandardSpelling('cat\\', 'x'), new InjectFigures([]));
 
         // then
         $this->expectException(PatternMalformedPatternException::class);
@@ -67,7 +67,7 @@ class TemplateTest extends TestCase
     public function shouldNotUseDuplicateFlags()
     {
         // given
-        $template = new Template(new StandardOrthography('cat', 'xx'), new InjectFigures([]));
+        $template = new Template(new StandardSpelling('cat', 'xx'), new InjectFigures([]));
 
         // when
         $definition = $template->definition();
@@ -82,7 +82,7 @@ class TemplateTest extends TestCase
     public function shouldInjectInCommentWithoutExtendedMode()
     {
         // given
-        $template = new Template(new StandardOrthography("/#@\n", 'i'), ConstantFigures::literal('cat%'));
+        $template = new Template(new StandardSpelling("/#@\n", 'i'), ConstantFigures::literal('cat%'));
 
         // when
         $definition = $template->definition();
@@ -97,7 +97,7 @@ class TemplateTest extends TestCase
     public function shouldNotInjectPlaceholderInCommentExtendedMode()
     {
         // given
-        $template = new Template(new StandardOrthography('#@', 'x'), new ConstantFigures(0));
+        $template = new Template(new StandardSpelling('#@', 'x'), new ConstantFigures(0));
 
         // when
         $definition = $template->definition();

@@ -45,6 +45,6 @@ class TemplateBuilder
 
     public function build(): Pattern
     {
-        return new Pattern(new Template($this->orthography, $this->tokens->figures()));
+        return new Pattern(new Template($this->orthography->spelling(), $this->tokens->figures()));
     }
 }

@@ -8,7 +8,6 @@ use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\StrictInterpretation;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Figure\CountedFigures;
-use TRegx\CleanRegex\Internal\Prepared\Orthography\Orthography;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\QuotableTemplate;
@@ -22,10 +21,10 @@ class Template implements Expression
     /** @var Spelling */
     private $spelling;
 
-    public function __construct(Orthography $orthography, CountedFigures $figures)
+    public function __construct(Spelling $spelling, CountedFigures $figures)
     {
-        $this->spelling = $orthography->spelling();
-        $this->template = new QuotableTemplate($this->spelling, $figures);
+        $this->spelling = $spelling;
+        $this->template = new QuotableTemplate($spelling, $figures);
     }
 
     protected function quotable(): Quotable

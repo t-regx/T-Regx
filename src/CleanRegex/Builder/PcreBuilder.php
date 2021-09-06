@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Internal\Expression\Pcre;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreOrthography;
+use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreSpelling;
 use TRegx\CleanRegex\Internal\Prepared\Tokens;
 use TRegx\CleanRegex\Pattern;
 
@@ -26,7 +27,7 @@ class PcreBuilder
 
     public function inject(string $input, array $values): Pattern
     {
-        return new Pattern(new Template(new PcreOrthography($input), new InjectFigures($values)));
+        return new Pattern(new Template(new PcreSpelling($input), new InjectFigures($values)));
     }
 
     public function template(string $pattern): TemplateBuilder
