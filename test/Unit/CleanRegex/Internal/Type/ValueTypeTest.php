@@ -1,11 +1,11 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Type;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\ValueType;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\ValueType
+ * @covers \TRegx\CleanRegex\Internal\Type\ValueType
  */
 class ValueTypeTest extends TestCase
 {

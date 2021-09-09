@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal;
+namespace TRegx\CleanRegex\Internal\Type;
 
 interface Type
 {

@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Exception\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
-use TRegx\CleanRegex\Internal\ValueType;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 
 /**
  * @covers \TRegx\CleanRegex\Exception\InvalidReplacementException

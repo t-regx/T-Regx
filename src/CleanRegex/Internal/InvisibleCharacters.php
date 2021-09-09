@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use TRegx\CleanRegex\Internal\Type\Type;
+
 class InvisibleCharacters implements Type
 {
     /** @var string */

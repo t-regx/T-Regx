@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal;
+namespace TRegx\CleanRegex\Internal\Type;
 
 class MaskType implements Type
 {

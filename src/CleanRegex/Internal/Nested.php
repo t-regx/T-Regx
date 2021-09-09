@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use TRegx\CleanRegex\Internal\Type\ValueType;
+
 class Nested
 {
     /** @var array */

@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\ForArray;
 
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\InvalidArgument;
-use TRegx\CleanRegex\Internal\ValueType;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\SafeRegex\preg;
 
 class FilteredArray

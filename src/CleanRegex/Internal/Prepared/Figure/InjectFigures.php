@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\InvalidArgument;
 use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\Token;
-use TRegx\CleanRegex\Internal\ValueType;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 use UnderflowException;
 
 class InjectFigures implements CountedFigures

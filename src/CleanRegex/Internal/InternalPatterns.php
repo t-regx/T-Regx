@@ -5,6 +5,7 @@ use Generator;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\Identity;
 use TRegx\CleanRegex\Internal\Expression\Standard;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Pattern;
 
 class InternalPatterns

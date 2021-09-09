@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal;
 
 use InvalidArgumentException;
+use TRegx\CleanRegex\Internal\Type\Type;
 
 class InvalidArgument
 {

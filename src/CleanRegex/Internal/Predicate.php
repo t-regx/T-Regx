@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 
 class Predicate
 {

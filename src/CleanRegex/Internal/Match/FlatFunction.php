@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Nested;
-use TRegx\CleanRegex\Internal\ValueType;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 
 class FlatFunction
 {

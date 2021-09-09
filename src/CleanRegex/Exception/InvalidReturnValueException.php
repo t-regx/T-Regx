@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Internal\Type\Type;
 
 class InvalidReturnValueException extends \Exception implements PatternException
 {

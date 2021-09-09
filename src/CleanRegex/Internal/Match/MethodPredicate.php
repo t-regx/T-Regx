@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\ValueType;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class MethodPredicate implements Predicate

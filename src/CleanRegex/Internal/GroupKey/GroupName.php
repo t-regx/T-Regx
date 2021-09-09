@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\GroupKey;
 
-use TRegx\CleanRegex\Internal\GroupNameType;
 use TRegx\CleanRegex\Internal\InvalidArgument;
 
 class GroupName extends GroupKey

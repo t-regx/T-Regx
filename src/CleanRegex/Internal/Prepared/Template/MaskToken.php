@@ -3,14 +3,14 @@ namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
 use Generator;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
-use TRegx\CleanRegex\Internal\MaskType;
 use TRegx\CleanRegex\Internal\Needles;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\CompositeQuotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
 use TRegx\CleanRegex\Internal\TrailingBackslash;
-use TRegx\CleanRegex\Internal\Type;
+use TRegx\CleanRegex\Internal\Type\MaskType;
+use TRegx\CleanRegex\Internal\Type\Type;
 use TRegx\CleanRegex\Internal\ValidPattern;
 
 class MaskToken implements Token

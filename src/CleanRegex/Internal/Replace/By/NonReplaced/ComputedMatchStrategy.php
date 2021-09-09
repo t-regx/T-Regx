@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\ValueType;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class ComputedMatchStrategy implements MatchRs

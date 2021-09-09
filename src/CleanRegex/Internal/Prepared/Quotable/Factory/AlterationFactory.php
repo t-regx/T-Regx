@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\InvalidArgument;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
-use TRegx\CleanRegex\Internal\ValueType;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 
 class AlterationFactory implements QuotableFactory
 {

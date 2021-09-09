@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Number\Base;
 use TRegx\CleanRegex\Internal\Number\NumberFormatException;
 use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
 use TRegx\CleanRegex\Internal\Number\StringNumber;
-use TRegx\CleanRegex\Internal\ValueType;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Intable;
 
 class IntStream implements Stream

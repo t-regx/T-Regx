@@ -1,5 +1,8 @@
 <?php
-namespace TRegx\CleanRegex\Internal;
+namespace TRegx\CleanRegex\Internal\GroupKey;
+
+use TRegx\CleanRegex\Internal\InvisibleCharacters;
+use TRegx\CleanRegex\Internal\Type\Type;
 
 class GroupNameType implements Type
 {

@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Quotable;
 
 use TRegx\CleanRegex\Internal\InvalidArgument;
-use TRegx\CleanRegex\Internal\ValueType;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 
 class AlternationQuotable implements Quotable
 {
