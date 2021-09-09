@@ -3,9 +3,23 @@ namespace TRegx\CleanRegex\Exception;
 
 class ExplicitDelimiterRequiredException extends \Exception implements PatternException
 {
-    public function __construct(string $pattern)
+    public function __construct(string $message)
     {
-        parent::__construct("Unfortunately, CleanRegex couldn't find any indistinct delimiter to match your pattern \"$pattern\". " .
-            'Please specify the delimiter explicitly, and escape the delimiter character inside your pattern.');
+        parent::__construct("Failed to select a distinct delimiter to enable $message");
+    }
+
+    public static function forStandard(string $pattern): self
+    {
+        return new self("pattern: $pattern");
+    }
+
+    public static function forMask(array $keywords): self
+    {
+        return new self('mask keywords in their entirety: ' . \implode(', ', $keywords));
+    }
+
+    public static function forTemplate(): self
+    {
+        return new self('template in its entirety');
     }
 }

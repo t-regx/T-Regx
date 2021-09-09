@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared;
 
-use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
+use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
 use TRegx\CleanRegex\Internal\Prepared\Condition\Condition;
 
 class Candidates
@@ -25,6 +25,6 @@ class Candidates
                 return new Delimiter($candidate);
             }
         }
-        throw new ExplicitDelimiterRequiredException('');
+        throw new UndelimiterablePatternException();
     }
 }

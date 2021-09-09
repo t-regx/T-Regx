@@ -1,7 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Expression;
 
+use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
+use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\StrictInterpretation;
 use TRegx\CleanRegex\Internal\Flags;
@@ -33,7 +35,11 @@ class Mask implements Expression
 
     protected function delimiter(): Delimiter
     {
-        return Delimiter::suitable(\implode($this->keywords));
+        try {
+            return Delimiter::suitable(\implode($this->keywords));
+        } catch (UndelimiterablePatternException $exception) {
+            throw ExplicitDelimiterRequiredException::forMask($this->keywords);
+        }
     }
 
     protected function flags(): Flags

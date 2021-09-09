@@ -3,8 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\VerifyQuotable;
-use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
+use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
 
@@ -84,14 +84,8 @@ class DelimiterTest extends TestCase
      */
     public function shouldThrowOnNotEnoughDelimiters()
     {
-        // given
-        $message = "Unfortunately, CleanRegex couldn't find any indistinct delimiter to " .
-            "match your pattern \"s~i/e#++m%a!@*`_-;=,\1\". Please specify the delimiter " .
-            "explicitly, and escape the delimiter character inside your pattern.";
-
         // then
-        $this->expectException(ExplicitDelimiterRequiredException::class);
-        $this->expectExceptionMessage($message);
+        $this->expectException(UndelimiterablePatternException::class);
 
         // when
         Delimiter::suitable("s~i/e#++m%a!@*`_-;=,\1");

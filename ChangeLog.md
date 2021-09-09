@@ -8,6 +8,10 @@ Incoming
     * Fixed a bug, where using `match()->filter()` didn't throw `InvalidReturnValueException`.
     * Fixed a bug, where using `group()->filter()` didn't throw `InvalidReturnValueException`.
     * Fixed a bug, where `Pattern::template()->mask()` keywords weren't taken into account, when choosing a delimiter.
+* Others
+    * Updated `ExplicitDelimiterRequiredException` message for `Pattern::of()`
+    * Updated `ExplicitDelimiterRequiredException` message for `Pattern::mask()`
+    * Updated `ExplicitDelimiterRequiredException` message for `Pattern::template()`
 
 Added in 0.13.5
 ---------------

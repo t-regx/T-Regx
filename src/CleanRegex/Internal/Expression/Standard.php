@@ -1,8 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Expression;
 
+use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
+use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
@@ -33,7 +35,11 @@ class Standard implements Expression
 
     protected function delimiter(): Delimiter
     {
-        return Delimiter::suitable($this->pattern);
+        try {
+            return Delimiter::suitable($this->pattern);
+        } catch (UndelimiterablePatternException $exception) {
+            throw ExplicitDelimiterRequiredException::forStandard($this->pattern);
+        }
     }
 
     protected function flags(): Flags

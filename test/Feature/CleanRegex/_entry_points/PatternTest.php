@@ -3,6 +3,8 @@ namespace Test\Feature\TRegx\CleanRegex\_entry_points;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
+use Test\Utils\ExactExceptionMessage;
+use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
@@ -294,5 +296,54 @@ class PatternTest extends TestCase
         // then
         $this->assertConsumesFirst("foo$char", $pattern);
         $this->assertSamePattern("\x3Afoo(\\\x3A)\x3A", $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForRequiredExplicitDelimiter()
+    {
+        // then
+        $this->expectException(ExplicitDelimiterRequiredException::class);
+        $this->expectExceptionMessage("Failed to select a distinct delimiter to enable pattern: s~i/e#++m%a!@*`_-;=,\1");
+
+        // when
+        Pattern::of("s~i/e#++m%a!@*`_-;=,\1");
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForRequiredExplicitDelimiterMask()
+    {
+        // then
+        $this->expectException(ExplicitDelimiterRequiredException::class);
+        $this->expectExceptionMessage("Failed to select a distinct delimiter to enable mask keywords in their entirety: s~i/e#, m+m+%a!, @*`_-;=,\1");
+
+        // when
+        Pattern::mask('@', [
+            'foo' => 's~i/e#',
+            'bar' => 'm+m+%a!',
+            'cat' => "@*`_-;=,\1",
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForRequiredExplicitDelimiterTemplateMask()
+    {
+        // then
+        $this->expectException(ExplicitDelimiterRequiredException::class);
+        $this->expectExceptionMessage("Failed to select a distinct delimiter to enable template in its entirety");
+
+        // when
+        Pattern::template('@')
+            ->mask('foo', [
+                'foo' => 's~i/e#',
+                'bar' => 'm+m+%a!',
+                'cat' => "@*`_-;=,\1",
+            ])
+            ->build();
     }
 }

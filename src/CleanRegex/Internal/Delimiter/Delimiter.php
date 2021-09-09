@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Delimiter;
 
-use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
@@ -28,6 +27,6 @@ class Delimiter
                 return new Delimiter($delimiter);
             }
         }
-        throw new ExplicitDelimiterRequiredException($delimiterable);
+        throw new UndelimiterablePatternException();
     }
 }

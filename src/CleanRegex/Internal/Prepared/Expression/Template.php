@@ -1,9 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Expression;
 
+use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
+use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\StrictInterpretation;
 use TRegx\CleanRegex\Internal\Flags;
@@ -38,7 +40,11 @@ class Template implements Expression
 
     protected function delimiter(): Delimiter
     {
-        return $this->spelling->delimiter();
+        try {
+            return $this->spelling->delimiter();
+        } catch (UndelimiterablePatternException $exception) {
+            throw ExplicitDelimiterRequiredException::forTemplate();
+        }
     }
 
     protected function flags(): Flags

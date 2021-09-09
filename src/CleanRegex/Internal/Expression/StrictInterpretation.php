@@ -22,6 +22,7 @@ trait StrictInterpretation
 
     public function definition(): Definition
     {
-        return new Definition($this->delimiter()->delimited($this->quotable(), $this->flags()), $this->undevelopedInput());
+        $quotable = $this->quotable();
+        return new Definition($this->delimiter()->delimited($quotable, $this->flags()), $this->undevelopedInput());
     }
 }

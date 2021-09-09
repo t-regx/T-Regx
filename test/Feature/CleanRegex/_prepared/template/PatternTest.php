@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\_prepared\template;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
+use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
 
@@ -102,5 +103,36 @@ class PatternTest extends TestCase
             ->literal('bar')
             ->literal('cat')
             ->build();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMissingFigure()
+    {
+        // then
+        $this->expectException(PlaceholderFigureException::class);
+        $this->expectExceptionMessage('Not enough corresponding figures supplied. Used 1 placeholders, but 0 figures supplied');
+
+        // when
+        Pattern::template($this->exhaustedDelimiters())->build();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForRequiredExplicitDelimiter()
+    {
+        // then
+        $this->expectException(ExplicitDelimiterRequiredException::class);
+        $this->expectExceptionMessage("Failed to select a distinct delimiter to enable template in its entirety");
+
+        // when
+        Pattern::template($this->exhaustedDelimiters())->literal('!')->build();
+    }
+
+    private function exhaustedDelimiters(): string
+    {
+        return "s~i/e#++m%a!@*`_-;=,\1";
     }
 }
