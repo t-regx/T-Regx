@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.13.6
+---------------
+
 * Bug fixes
     * Fixed a bug, where using `match()->filter()` didn't throw `InvalidReturnValueException`.
     * Fixed a bug, where using `group()->filter()` didn't throw `InvalidReturnValueException`.
