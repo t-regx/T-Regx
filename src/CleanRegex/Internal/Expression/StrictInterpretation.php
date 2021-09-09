@@ -7,8 +7,8 @@ use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 
 /**
- * Strict interpretation means an Expression can
- * only take a particular form.
+ * "Strict interpretation" means an {@see Expression} only takes a particular form:
+ * definition(delimiter, quotable, delimiter, flags; undeveloped)
  */
 trait StrictInterpretation
 {
