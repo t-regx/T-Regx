@@ -15,6 +15,8 @@ use TRegx\CleanRegex\Internal\ValidPattern;
 
 class MaskToken implements Token
 {
+    use DelimiterAware;
+
     /** @var string */
     private $mask;
     /** @var array */
@@ -70,8 +72,8 @@ class MaskToken implements Token
         return new MaskType($this->keywords);
     }
 
-    public function suitable(string $candidate): bool
+    protected function delimiterAware(): string
     {
-        return \strpos(\implode($this->keywords), $candidate) === false;
+        return \implode($this->keywords);
     }
 }

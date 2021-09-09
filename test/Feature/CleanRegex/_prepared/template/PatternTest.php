@@ -91,7 +91,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowForSuperfluousTemplatePlaceholder()
+    public function shouldThrowForSuperfluousTemplateFigure()
     {
         // then
         $this->expectException(PlaceholderFigureException::class);
@@ -103,6 +103,45 @@ class PatternTest extends TestCase
             ->literal('bar')
             ->literal('cat')
             ->build();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForSuperfluousTemplateMask()
+    {
+        // then
+        $this->expectException(PlaceholderFigureException::class);
+        $this->expectExceptionMessage("Found a superfluous figure: mask (2). Used 0 placeholders, but 1 figures supplied.");
+
+        // when
+        Pattern::template('Foo')->mask('foo', ['foo', 'bar'])->build();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForSuperfluousTemplateAlteration()
+    {
+        // then
+        $this->expectException(PlaceholderFigureException::class);
+        $this->expectExceptionMessage("Found a superfluous figure: array (2). Used 0 placeholders, but 1 figures supplied.");
+
+        // when
+        Pattern::template('Foo')->alteration(['foo', 'bar'])->build();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForSuperfluousTemplatePattern()
+    {
+        // then
+        $this->expectException(PlaceholderFigureException::class);
+        $this->expectExceptionMessage('Found a superfluous figure: pattern (bar). Used 0 placeholders, but 1 figures supplied.');
+
+        // when
+        Pattern::template('Foo')->pattern('bar')->build();
     }
 
     /**
@@ -134,5 +173,31 @@ class PatternTest extends TestCase
     private function exhaustedDelimiters(): string
     {
         return "s~i/e#++m%a!@*`_-;=,\1";
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBuildTemplateWithPattern()
+    {
+        // when
+        $pattern = Pattern::template('foo:@')->pattern('#https?/www%')->build();
+
+        // then
+        $this->assertSamePattern('~foo:#https?/www%~', $pattern);
+        $this->assertConsumesFirst('foo:#http/www%', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMatchDelimiterPattern()
+    {
+        // when
+        $pattern = Pattern::template('@')->pattern('/')->build();
+
+        // then
+        $this->assertSamePattern('#/#', $pattern);
+        $this->assertConsumesFirst('/', $pattern);
     }
 }

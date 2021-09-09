@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Prepared\Orthography\Orthography;
 use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
+use TRegx\CleanRegex\Internal\Prepared\Template\PatternToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\Token;
 use TRegx\CleanRegex\Internal\Prepared\Tokens;
 use TRegx\CleanRegex\Pattern;
@@ -36,6 +37,11 @@ class TemplateBuilder
     public function alteration(array $figures): TemplateBuilder
     {
         return $this->next(new AlternationToken($figures));
+    }
+
+    public function pattern(string $pattern): TemplateBuilder
+    {
+        return $this->next(new PatternToken($pattern));
     }
 
     private function next(Token $token): TemplateBuilder
