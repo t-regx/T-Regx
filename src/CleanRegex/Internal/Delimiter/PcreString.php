@@ -11,33 +11,28 @@ class PcreString
     private $flags;
     /** @var string */
     private $delimiter;
-    /** @var PcreDelimiterPredicate */
-    private $predicate;
 
     public function __construct(string $pcre, PcreDelimiterPredicate $predicate)
     {
-        $this->predicate = $predicate;
-        [$this->delimiter, $remainder] = $this->splitByFirstCharacter($pcre);
-        [$this->pattern, $this->flags] = $this->splitByLastOccurrence($remainder, $this->delimiter);
+        [$this->delimiter, $remainder] = $this->openingDelimiter($pcre);
+        if (!$predicate->test($this->delimiter)) {
+            throw MalformedPcreTemplateException::invalidDelimiter($this->delimiter);
+        }
+        [$this->pattern, $this->flags] = $this->patternAndModifiers($remainder, $this->delimiter);
     }
 
-    private function splitByFirstCharacter(string $pcre): array
+    private function openingDelimiter(string $pcre): array
     {
         if ($pcre === '') {
             throw MalformedPcreTemplateException::emptyPattern();
         }
-        if ($this->predicate->test($pcre[0])) {
-            return [$pcre[0], \substr($pcre, 1)];
-        }
-        throw MalformedPcreTemplateException::invalidDelimiter($pcre[0]);
+        $cLikePcre = \ltrim($pcre, " \t\f\n\r\v");
+        return [$cLikePcre[0], \substr($cLikePcre, 1)];
     }
 
-    private function splitByLastOccurrence(string $pcre, string $delimiter): array
+    private function patternAndModifiers(string $pcre, string $delimiter): array
     {
-        $position = $this->lastOccurrence($pcre, $delimiter);
-        $pattern = \substr($pcre, 0, $position);
-        $flags = \substr($pcre, $position + 1);
-        return [$pattern, $flags];
+        return $this->splitAtPosition($pcre, $this->lastOccurrence($pcre, $delimiter));
     }
 
     private function lastOccurrence(string $pcre, string $delimiter): int
@@ -56,11 +51,18 @@ class PcreString
 
     public function flags(): string
     {
-        return $this->flags;
+        return \str_replace([' ', "\n", "\r"], '', $this->flags);
     }
 
     public function delimiter(): string
     {
         return $this->delimiter;
+    }
+
+    private function splitAtPosition(string $string, int $position): array
+    {
+        $before = \substr($string, 0, $position);
+        $after = \substr($string, $position + 1);
+        return [$before, $after];
     }
 }

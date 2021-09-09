@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Impl\AcceptPredicate;
 use Test\Utils\Impl\ConstantPredicate;
 use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
 use TRegx\CleanRegex\Internal\Delimiter\PcreString;
@@ -20,14 +21,14 @@ class PcreStringTest extends TestCase
         $string = new PcreString('/welcome/', new ConstantPredicate(true));
 
         // when
+        $delimiter = $string->delimiter();
         $pattern = $string->pattern();
         $flags = $string->flags();
-        $delimiter = $string->delimiter();
 
         // then
+        $this->assertSame('/', $delimiter);
         $this->assertSame('welcome', $pattern);
         $this->assertSame('', $flags);
-        $this->assertSame('/', $delimiter);
     }
 
     /**
@@ -106,11 +107,11 @@ class PcreStringTest extends TestCase
 
     /**
      * @test
-     * @dataProvider malformedPregPatterns
+     * @dataProvider unclosedPatterns
      * @param string $pattern
      * @param string $expectedMessage
      */
-    public function shouldThrowForAlphanumericFirstCharacter(string $pattern, string $expectedMessage)
+    public function shouldThrowForUnclosedPatterns(string $pattern, string $expectedMessage)
     {
         // then
         $this->expectException(MalformedPcreTemplateException::class);
@@ -120,38 +121,87 @@ class PcreStringTest extends TestCase
         new PcreString($pattern, new ConstantPredicate(true));
     }
 
-    public function malformedPregPatterns(): array
+    public function unclosedPatterns(): array
     {
         return [
             ['', 'PCRE-compatible template is malformed, pattern is empty'],
             ['&foo', "PCRE-compatible template is malformed, unclosed pattern '&'"],
             ['#foo/', 'PCRE-compatible template is malformed, unclosed pattern'],
             ['/foo', 'PCRE-compatible template is malformed, unclosed pattern'],
+            ['/', 'PCRE-compatible template is malformed, unclosed pattern'],
         ];
     }
 
     /**
      * @test
-     * @dataProvider malformedPregPatterns2
-     * @param string $pattern
-     * @param string $expectedMessage
      */
-    public function shouldThrowForAlphanumericFirstCharacter2(string $pattern, string $expectedMessage)
+    public function shouldThrowForUnaccptedPredicate()
     {
         // then
         $this->expectException(MalformedPcreTemplateException::class);
-        $this->expectExceptionMessage($expectedMessage);
+        $this->expectExceptionMessage("PCRE-compatible template is malformed, starting with an unexpected delimiter '&'");
 
         // given
-        new PcreString($pattern, new ConstantPredicate(false));
+        new PcreString('&foo', new AcceptPredicate('&', false));
     }
 
-    public function malformedPregPatterns2(): array
+    /**
+     * @test
+     * @link https://github.com/php/php-src/blob/5355cf33948299b2c1ee95b7140a464beecdfb12/ext/pcre/php_pcre.c#L642
+     */
+    public function shouldAcceptLeadingSpace()
     {
-        return [
-            ['&foo', "PCRE-compatible template is malformed, starting with an unexpected delimiter '&'"],
-            ['#foo/', "PCRE-compatible template is malformed, starting with an unexpected delimiter '#'"],
-            ['/foo', "PCRE-compatible template is malformed, starting with an unexpected delimiter '/'"],
-        ];
+        // given
+        $string = new PcreString("\t \n\v\f\r/foo/", new AcceptPredicate('/', true));
+
+        // when
+        $pattern = $string->pattern();
+
+        // then
+        $this->assertSame('foo', $pattern);
+    }
+
+    /**
+     * @test
+     * @link https://github.com/php/php-src/blob/5355cf33948299b2c1ee95b7140a464beecdfb12/ext/pcre/php_pcre.c#L703
+     */
+    public function shouldNotIgnoreNullByte()
+    {
+        // then
+        $this->expectException(MalformedPcreTemplateException::class);
+
+        // given
+        new PcreString("\0/foo/", new AcceptPredicate("\0", false));
+    }
+
+    /**
+     * @test
+     * @link https://github.com/php/php-src/blob/5355cf33948299b2c1ee95b7140a464beecdfb12/ext/pcre/php_pcre.c#L751
+     */
+    public function shouldIgnoreNewLinesInModifiers()
+    {
+        // given
+        $string = new PcreString(" /foo/i\n m\r \0\t\f\v", new ConstantPredicate(true));
+
+        // when
+        $flags = $string->flags();
+
+        // then
+        $this->assertSame("im\0\t\f\v", $flags);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPreserveNewLinesInPattern()
+    {
+        // given
+        $string = new PcreString(" /foo\n\r /i ", new ConstantPredicate(true));
+
+        // when
+        $pattern = $string->pattern();
+
+        // then
+        $this->assertSame("foo\n\r ", $pattern);
     }
 }
