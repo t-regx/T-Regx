@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Pattern;
  */
 class PatternTest extends TestCase
 {
-    use AssertsPattern;
+    use AssertsPattern, ExactExceptionMessage;
 
     /**
      * @test
@@ -273,10 +273,10 @@ class PatternTest extends TestCase
         return [
             ['', 'PCRE-compatible template is malformed, pattern is empty'],
             ['&foo', "PCRE-compatible template is malformed, unclosed pattern '&'"],
-            ['#foo/', 'PCRE-compatible template is malformed, unclosed pattern'],
-            ['/foo', 'PCRE-compatible template is malformed, unclosed pattern'],
+            ['#foo/', "PCRE-compatible template is malformed, unclosed pattern '#'"],
+            ['/foo', "PCRE-compatible template is malformed, unclosed pattern '/'"],
             ['ooo', "PCRE-compatible template is malformed, alphanumeric delimiter 'o'"],
-            ['4oo', 'PCRE-compatible template is malformed, alphanumeric delimiter'],
+            ['4oo', "PCRE-compatible template is malformed, alphanumeric delimiter '4'"],
         ];
     }
 
