@@ -4,7 +4,6 @@ namespace Test\Functional\TRegx;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\TestCaseConditional;
 use TRegx\Pcre;
-use const PHP_VERSION_ID;
 
 /**
  * @covers \TRegx\Pcre
@@ -15,91 +14,37 @@ class PcreTest extends TestCase
 
     /**
      * @test
-     * @dataProvider pcreVersionDependant
      */
-    public function shouldGetPcreVersion(string $expectedVersion, int $expectedMajor, int $expectedMinor, bool $expectedPcre2)
+    public function shouldObeyContract()
     {
         // when
         $version = Pcre::semanticVersion();
         $major = Pcre::majorVersion();
         $minor = Pcre::minorVersion();
-        $pcre2 = Pcre::pcre2();
 
         // then
-        $this->assertSame($expectedVersion, $version);
-        $this->assertSame($expectedMajor, $major);
-        $this->assertSame($expectedMinor, $minor);
-        $this->assertSame($expectedPcre2, $pcre2);
+        $this->assertSame($version, "$major.$minor");
     }
 
-    public function pcreVersionDependant(): array
+    /**
+     * @test
+     */
+    public function shouldGetPcreVersion()
     {
-        if (\PHP_VERSION_ID >= 80100) {
-            return $this->version(10, 35);
-        }
-        if (\PHP_VERSION_ID >= 80009) {
-            return $this->version(10, 36);
-        }
-        if (\PHP_VERSION_ID >= 80009) {
-            return $this->version(10, 35);
-        }
-        if (\PHP_VERSION_ID >= 80005) {
-            return $this->version(10, 34);
-        }
-        if (\PHP_VERSION_ID >= 80003) {
-            return $this->version(10, 35);
-        }
-        if (\PHP_VERSION_ID >= 80000) {
-            return $this->version(10, 34);
-        }
-        if (PHP_VERSION_ID >= 70423) {
-            return $this->version(10, 36);
-        }
-        if (PHP_VERSION_ID >= 70422) {
-            return $this->version(10, 35);
-        }
-        if (PHP_VERSION_ID >= 70418) {
-            return $this->version(10, 34);
-        }
-        if (\PHP_VERSION_ID >= 70412) {
-            return $this->version(10, 35);
-        }
-        if (\PHP_VERSION_ID >= 70406) {
-            return $this->version(10, 34);
-        }
-        if (\PHP_VERSION_ID >= 70400) {
-            return $this->version(10, 33);
-        }
-        if (\PHP_VERSION_ID >= 70328) {
-            return $this->version(10, 36);
-        }
-        if (\PHP_VERSION_ID >= 70300) {
-            return $this->version(10, 32);
-        }
-        if (\PHP_VERSION_ID >= 70234) {
-            return $this->version(8, 44);
-        }
-        if (\PHP_VERSION_ID >= 70200) {
-            return $this->version(8, 41);
-        }
-        if (\PHP_VERSION_ID >= 70133) {
-            return $this->version(8, 44);
-        }
-        if (\PHP_VERSION_ID >= 70111) {
-            return $this->version(8, 38);
-        }
-        if (\PHP_VERSION_ID >= 70107) {
-            return $this->version(8, 35);
-        }
-        if (\PHP_VERSION_ID >= 70003) {
-            return $this->version(8, 38);
-        }
-        return $this->version(8, 37);
+        // when
+        $version = Pcre::semanticVersion();
+
+        // then
+        $this->assertStringStartsWith($version, \PCRE_VERSION);
     }
 
-    private function version(int $major, int $minor): array
+    /**
+     * @test
+     */
+    public function shouldBePcre2()
     {
-        return [\PHP_VERSION => ["$major.$minor", $major, $minor, $major >= 10]];
+        // when + then
+        $this->assertSame(Pcre::pcre2(), \PHP_VERSION_ID >= 70300);
     }
 
     /**
@@ -126,19 +71,5 @@ class PcreTest extends TestCase
         $this->assertLessThan(1100, $minor);
         $this->assertFalse($pcre2);
         $this->assertNotSame('1200.1300', $semantic);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldObeyContract()
-    {
-        // when
-        $version = Pcre::semanticVersion();
-        $major = Pcre::majorVersion();
-        $minor = Pcre::minorVersion();
-
-        // then
-        $this->assertSame($version, "$major.$minor");
     }
 }
