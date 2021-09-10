@@ -22,6 +22,6 @@ class Placeholder implements Entity
 
     public function word(): Word
     {
-        return $this->token->formatAsQuotable();
+        return $this->token->word();
     }
 }

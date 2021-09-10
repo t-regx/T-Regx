@@ -14,23 +14,26 @@ class Mask implements Expression
 {
     use StrictInterpretation;
 
-    /** @var string */
-    private $mask;
-    /** @var array */
+    /** @var MaskToken */
+    private $token;
+    /** @var string[] */
     private $keywords;
     /** @var string */
     private $flags;
+    /** @var string */
+    private $mask;
 
     public function __construct(string $mask, array $keywords, string $flags)
     {
-        $this->mask = $mask;
+        $this->token = new MaskToken($mask, $keywords);
         $this->keywords = $keywords;
         $this->flags = $flags;
+        $this->mask = $mask;
     }
 
     protected function word(): Word
     {
-        return (new MaskToken($this->mask, $this->keywords))->formatAsQuotable();
+        return $this->token->word();
     }
 
     protected function delimiter(): Delimiter

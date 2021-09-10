@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Type\Type;
 
 class NullToken implements Token
 {
-    public function formatAsQuotable(): Word
+    public function word(): Word
     {
         // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();

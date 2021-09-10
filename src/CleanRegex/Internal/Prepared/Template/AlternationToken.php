@@ -18,7 +18,7 @@ class AlternationToken implements Token
         $this->figures = $figures;
     }
 
-    public function formatAsQuotable(): Word
+    public function word(): Word
     {
         return new AlternationWord($this->figures);
     }

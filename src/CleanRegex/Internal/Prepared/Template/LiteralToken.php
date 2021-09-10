@@ -18,7 +18,7 @@ class LiteralToken implements Token
         $this->text = $text;
     }
 
-    public function formatAsQuotable(): Word
+    public function word(): Word
     {
         return new TextWord($this->text);
     }

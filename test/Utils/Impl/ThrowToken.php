@@ -12,7 +12,7 @@ class ThrowToken implements Token
         throw new \AssertionError("Token wasn't supposed to be used");
     }
 
-    public function formatAsQuotable(): Word
+    public function word(): Word
     {
         throw new \AssertionError("Token wasn't supposed to be used");
     }

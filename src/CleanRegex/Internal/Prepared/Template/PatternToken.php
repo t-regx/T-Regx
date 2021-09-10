@@ -18,7 +18,7 @@ class PatternToken implements Token
         $this->pattern = $pattern;
     }
 
-    public function formatAsQuotable(): Word
+    public function word(): Word
     {
         return new PatternWord($this->pattern);
     }

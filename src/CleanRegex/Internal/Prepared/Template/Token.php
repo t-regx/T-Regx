@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Type\Type;
 
 interface Token extends Condition
 {
-    public function formatAsQuotable(): Word;
+    public function word(): Word;
 
     public function type(): Type;
 }

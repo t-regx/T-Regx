@@ -31,7 +31,7 @@ class MaskToken implements Token
         $this->needles = new Needles(\array_keys($this->keywords));
     }
 
-    public function formatAsQuotable(): Word
+    public function word(): Word
     {
         foreach ($this->keywords as $keyword => $pattern) {
             $this->validatePair($pattern, $keyword);
