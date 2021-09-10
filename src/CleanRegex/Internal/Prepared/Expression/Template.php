@@ -9,30 +9,30 @@ use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\StrictInterpretation;
 use TRegx\CleanRegex\Internal\Flags;
+use TRegx\CleanRegex\Internal\Prepared\Dictionary;
 use TRegx\CleanRegex\Internal\Prepared\Figure\CountedFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
-use TRegx\CleanRegex\Internal\Prepared\QuotableTemplate;
 use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
 class Template implements Expression
 {
     use StrictInterpretation;
 
-    /** @var QuotableTemplate */
-    private $template;
     /** @var Spelling */
     private $spelling;
+    /** @var Dictionary */
+    private $dictionary;
 
     public function __construct(Spelling $spelling, CountedFigures $figures)
     {
         $this->spelling = $spelling;
-        $this->template = new QuotableTemplate($spelling, $figures);
+        $this->dictionary = new Dictionary($spelling, $figures);
     }
 
     protected function word(): Word
     {
         try {
-            return $this->template->word();
+            return $this->dictionary->compositeWord();
         } catch (TrailingBackslashException $exception) {
             throw new PatternMalformedPatternException('Pattern may not end with a trailing backslash');
         }
