@@ -19,7 +19,7 @@ class AlternationWordTest extends TestCase
         $word = new AlternationWord(['/()', '^#$']);
 
         // when
-        $result = $word->quote('~');
+        $result = $word->quoted('~');
 
         // then
         $this->assertSame('(?:/\(\)|\^\#\$)', $result);
@@ -34,7 +34,7 @@ class AlternationWordTest extends TestCase
         $word = new AlternationWord(['a', '%b']);
 
         // when
-        $result = $word->quote('%');
+        $result = $word->quoted('%');
 
         // then
         $this->assertSame('(?:a|\%b)', $result);
@@ -49,7 +49,7 @@ class AlternationWordTest extends TestCase
         $word = new AlternationWord(['a', '', '', 'b']);
 
         // when
-        $result = $word->quote('/');
+        $result = $word->quoted('/');
 
         // then
         $this->assertSame('(?:a|b|)', $result);
@@ -64,7 +64,7 @@ class AlternationWordTest extends TestCase
         $word = new AlternationWord(['|', ' ', '0']);
 
         // when
-        $result = $word->quote('/');
+        $result = $word->quoted('/');
 
         // then
         $this->assertSame('(?:\||\ |0)', $result);
@@ -83,7 +83,7 @@ class AlternationWordTest extends TestCase
         $this->expectExceptionMessage('Invalid bound alternate value. Expected string, but array (0) given');
 
         // when
-        $word->quote('/');
+        $word->quoted('/');
     }
 
     /**
@@ -99,7 +99,7 @@ class AlternationWordTest extends TestCase
         $this->expectExceptionMessage('Invalid bound alternate value. Expected string, but integer (5) given');
 
         // when
-        $word->quote('/');
+        $word->quoted('/');
     }
 
     /**
@@ -115,7 +115,7 @@ class AlternationWordTest extends TestCase
         $this->expectExceptionMessage('Invalid bound alternate value. Expected string, but boolean (false) given');
 
         // when
-        $word->quote('/');
+        $word->quoted('/');
     }
 
     /**
@@ -127,7 +127,7 @@ class AlternationWordTest extends TestCase
         $word = new AlternationWord(['0']);
 
         // when
-        $quote = $word->quote('/');
+        $quote = $word->quoted('/');
 
         // then
         $this->assertSame('(?:0)', $quote);

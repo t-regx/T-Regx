@@ -13,7 +13,7 @@ class CompositeWord implements Word
         $this->words = $words;
     }
 
-    public function quote(string $delimiter): string
+    public function quoted(string $delimiter): string
     {
         return \implode(\iterator_to_array($this->quotedWords($delimiter)));
     }
@@ -21,7 +21,7 @@ class CompositeWord implements Word
     private function quotedWords(string $delimiter): Generator
     {
         foreach ($this->words as $word) {
-            yield $word->quote($delimiter);
+            yield $word->quoted($delimiter);
         }
     }
 }

@@ -11,7 +11,7 @@ class PatternWord implements Word
         $this->pattern = $pattern;
     }
 
-    public function quote(string $delimiter): string
+    public function quoted(string $delimiter): string
     {
         return $this->pattern;
     }

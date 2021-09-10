@@ -17,7 +17,7 @@ class VerifyWord implements Word
         $this->expectedDelimiter = $expectedDelimiter;
     }
 
-    public function quote(string $delimiter): string
+    public function quoted(string $delimiter): string
     {
         Assert::assertSame($this->expectedDelimiter, $delimiter, 'Failed to assert the expected delimiter');
         return $this->literal;

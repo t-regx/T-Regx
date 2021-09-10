@@ -16,7 +16,7 @@ class Delimiter
 
     public function delimited(Word $word, Flags $flags): string
     {
-        return $this->delimiter . $word->quote($this->delimiter) . $this->delimiter . $flags;
+        return $this->delimiter . $word->quoted($this->delimiter) . $this->delimiter . $flags;
     }
 
     public static function suitable(string $delimiterable): Delimiter

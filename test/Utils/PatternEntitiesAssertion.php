@@ -52,7 +52,7 @@ class PatternEntitiesAssertion
             if ($word instanceof AlternationWord) {
                 return '@';
             }
-            return $word->quote("\1");
+            return $word->quoted("\1");
         }, $entities));
     }
 

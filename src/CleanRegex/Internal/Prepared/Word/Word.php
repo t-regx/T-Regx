@@ -3,5 +3,5 @@ namespace TRegx\CleanRegex\Internal\Prepared\Word;
 
 interface Word
 {
-    public function quote(string $delimiter): string;
+    public function quoted(string $delimiter): string;
 }

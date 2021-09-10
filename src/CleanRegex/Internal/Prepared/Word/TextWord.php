@@ -13,7 +13,7 @@ class TextWord implements Word
         $this->text = $text;
     }
 
-    public function quote(string $delimiter): string
+    public function quoted(string $delimiter): string
     {
         return $this->quoteExtendedWhitespace(preg::quote($this->text, $delimiter));
     }

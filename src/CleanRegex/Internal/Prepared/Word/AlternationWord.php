@@ -15,7 +15,7 @@ class AlternationWord implements Word
         $this->figures = $figures;
     }
 
-    public function quote(string $delimiter): string
+    public function quoted(string $delimiter): string
     {
         return '(?:' . \implode('|', \iterator_to_array($this->quotedFigures($delimiter))) . ')';
     }
@@ -23,7 +23,7 @@ class AlternationWord implements Word
     private function quotedFigures(string $delimiter): Generator
     {
         foreach ($this->figuresEmptyLast() as $figure) {
-            yield $this->word($figure)->quote($delimiter);
+            yield $this->word($figure)->quoted($delimiter);
         }
     }
 

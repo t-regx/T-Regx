@@ -22,7 +22,7 @@ class TextWordTest extends TestCase
         $word = new TextWord($text);
 
         // when
-        $result = $word->quote('/');
+        $result = $word->quoted('/');
 
         // then
         $this->assertSame($expected, $result);
@@ -56,6 +56,6 @@ class TextWordTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         // when
-        $word->quote('foo');
+        $word->quoted('foo');
     }
 }
