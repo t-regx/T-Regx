@@ -1,8 +1,8 @@
 <?php
 namespace Test\Utils\Impl;
 
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Template\Token;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 use TRegx\CleanRegex\Internal\Type\Type;
 
 class ThrowToken implements Token
@@ -12,7 +12,7 @@ class ThrowToken implements Token
         throw new \AssertionError("Token wasn't supposed to be used");
     }
 
-    public function formatAsQuotable(): Quotable
+    public function formatAsQuotable(): Word
     {
         throw new \AssertionError("Token wasn't supposed to be used");
     }

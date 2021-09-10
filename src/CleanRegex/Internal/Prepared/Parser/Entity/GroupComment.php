@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser\Entity;
 
 class GroupComment implements Entity
 {
-    use TransitiveFlags, QuotesRaw;
+    use TransitiveFlags, PatternEntity;
 
     /** @var string */
     private $comment;
@@ -13,7 +13,7 @@ class GroupComment implements Entity
         $this->comment = $comment;
     }
 
-    public function raw(): string
+    public function pattern(): string
     {
         return "(?#$this->comment)";
     }

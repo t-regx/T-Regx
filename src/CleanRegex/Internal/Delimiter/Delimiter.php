@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Delimiter;
 
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
 class Delimiter
 {
@@ -14,9 +14,9 @@ class Delimiter
         $this->delimiter = $delimiter;
     }
 
-    public function delimited(Quotable $quotable, Flags $flags): string
+    public function delimited(Word $word, Flags $flags): string
     {
-        return $this->delimiter . $quotable->quote($this->delimiter) . $this->delimiter . $flags;
+        return $this->delimiter . $word->quote($this->delimiter) . $this->delimiter . $flags;
     }
 
     public static function suitable(string $delimiterable): Delimiter

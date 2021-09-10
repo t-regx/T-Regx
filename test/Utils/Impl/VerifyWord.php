@@ -2,9 +2,9 @@
 namespace Test\Utils\Impl;
 
 use PHPUnit\Framework\Assert;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
-class VerifyQuotable implements Quotable
+class VerifyWord implements Word
 {
     /** @var string */
     private $literal;

@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser\Entity;
 
 class Comment implements Entity
 {
-    use TransitiveFlags, QuotesRaw;
+    use TransitiveFlags, PatternEntity;
 
     /** @var string */
     private $comment;
@@ -16,7 +16,7 @@ class Comment implements Entity
         $this->closed = $closed;
     }
 
-    public function raw(): string
+    public function pattern(): string
     {
         if ($this->closed) {
             return "#$this->comment\n";

@@ -4,10 +4,10 @@ namespace TRegx\CleanRegex\Internal\Prepared\Template;
 use Generator;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Internal\Needles;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\CompositeQuotable;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\CompositeWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\PatternWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 use TRegx\CleanRegex\Internal\TrailingBackslash;
 use TRegx\CleanRegex\Internal\Type\MaskType;
 use TRegx\CleanRegex\Internal\Type\Type;
@@ -31,7 +31,7 @@ class MaskToken implements Token
         $this->needles = new Needles(\array_keys($this->keywords));
     }
 
-    public function formatAsQuotable(): Quotable
+    public function formatAsQuotable(): Word
     {
         foreach ($this->keywords as $keyword => $pattern) {
             $this->validatePair($pattern, $keyword);
@@ -39,16 +39,16 @@ class MaskToken implements Token
         foreach ($this->keywords as $keyword => $pattern) {
             $this->validateEmpty($keyword);
         }
-        return new CompositeQuotable(\iterator_to_array($this->quotableTokens()));
+        return new CompositeWord(\iterator_to_array($this->words()));
     }
 
-    private function quotableTokens(): Generator
+    private function words(): Generator
     {
         foreach ($this->needles->split($this->mask) as $stringOrKeyword) {
             if (\array_key_exists($stringOrKeyword, $this->keywords)) {
-                yield new RawQuotable($this->keywords[$stringOrKeyword]);
+                yield new PatternWord($this->keywords[$stringOrKeyword]);
             } else {
-                yield new UserInputQuotable($stringOrKeyword);
+                yield new TextWord($stringOrKeyword);
             }
         }
     }

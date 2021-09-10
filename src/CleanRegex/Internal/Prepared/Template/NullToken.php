@@ -2,12 +2,12 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 use TRegx\CleanRegex\Internal\Type\Type;
 
 class NullToken implements Token
 {
-    public function formatAsQuotable(): Quotable
+    public function formatAsQuotable(): Word
     {
         // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();

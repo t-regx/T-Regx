@@ -7,8 +7,8 @@ use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\StrictInterpretation;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
 class Mask implements Expression
 {
@@ -28,7 +28,7 @@ class Mask implements Expression
         $this->flags = $flags;
     }
 
-    protected function quotable(): Quotable
+    protected function word(): Word
     {
         return (new MaskToken($this->mask, $this->keywords))->formatAsQuotable();
     }

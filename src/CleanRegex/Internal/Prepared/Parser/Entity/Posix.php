@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser\Entity;
 
 class Posix implements Entity
 {
-    use TransitiveFlags, QuotesRaw;
+    use TransitiveFlags, PatternEntity;
 
     /** @var string */
     private $character;
@@ -13,7 +13,7 @@ class Posix implements Entity
         $this->character = $character;
     }
 
-    public function raw(): string
+    public function pattern(): string
     {
         return $this->character;
     }

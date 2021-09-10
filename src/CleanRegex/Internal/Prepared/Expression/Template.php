@@ -11,8 +11,8 @@ use TRegx\CleanRegex\Internal\Expression\StrictInterpretation;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Figure\CountedFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
 use TRegx\CleanRegex\Internal\Prepared\QuotableTemplate;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
 class Template implements Expression
 {
@@ -29,10 +29,10 @@ class Template implements Expression
         $this->template = new QuotableTemplate($spelling, $figures);
     }
 
-    protected function quotable(): Quotable
+    protected function word(): Word
     {
         try {
-            return $this->template->quotable();
+            return $this->template->word();
         } catch (TrailingBackslashException $exception) {
             throw new PatternMalformedPatternException('Pattern may not end with a trailing backslash');
         }

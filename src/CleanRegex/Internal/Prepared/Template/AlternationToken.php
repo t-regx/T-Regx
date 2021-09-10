@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
-use TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\AlternationWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 use TRegx\CleanRegex\Internal\Type\Type;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 
@@ -18,9 +18,9 @@ class AlternationToken implements Token
         $this->figures = $figures;
     }
 
-    public function formatAsQuotable(): Quotable
+    public function formatAsQuotable(): Word
     {
-        return new AlternationQuotable($this->figures);
+        return new AlternationWord($this->figures);
     }
 
     public function type(): Type

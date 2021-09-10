@@ -2,11 +2,11 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\VerifyQuotable;
+use Test\Utils\Impl\VerifyWord;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Delimiter\Delimiter
@@ -22,7 +22,7 @@ class DelimiterTest extends TestCase
         $delimiter = new Delimiter('/');
 
         // when
-        $delimited = $delimiter->delimited(new UserInputQuotable('foo/bar'), new Flags(''));
+        $delimited = $delimiter->delimited(new TextWord('foo/bar'), new Flags(''));
 
         // then
         $this->assertSame('/foo\/bar/', $delimited);
@@ -37,7 +37,7 @@ class DelimiterTest extends TestCase
         $delimiter = new Delimiter('#');
 
         // when
-        $pattern = $delimiter->delimited(new UserInputQuotable('foo/bar#cat'), new Flags('i'));
+        $pattern = $delimiter->delimited(new TextWord('foo/bar#cat'), new Flags('i'));
 
         // then
         $this->assertSame('#foo/bar\#cat#i', $pattern);
@@ -53,7 +53,7 @@ class DelimiterTest extends TestCase
         $delimiter = Delimiter::suitable($delimiterable);
 
         // when
-        $pattern = $delimiter->delimited(new VerifyQuotable('X', $expectedDelimiter), new Flags(''));
+        $pattern = $delimiter->delimited(new VerifyWord('X', $expectedDelimiter), new Flags(''));
 
         // then
         $this->assertSame("{$expectedDelimiter}X{$expectedDelimiter}", $pattern);

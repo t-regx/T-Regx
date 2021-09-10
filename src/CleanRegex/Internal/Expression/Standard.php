@@ -6,8 +6,8 @@ use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\PatternWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 use TRegx\CleanRegex\Internal\TrailingBackslash;
 
 class Standard implements Expression
@@ -25,12 +25,12 @@ class Standard implements Expression
         $this->flags = $flags;
     }
 
-    protected function quotable(): Quotable
+    protected function word(): Word
     {
         if (TrailingBackslash::hasTrailingSlash($this->pattern)) {
             throw new PatternMalformedPatternException('Pattern may not end with a trailing backslash');
         }
-        return new RawQuotable($this->pattern);
+        return new PatternWord($this->pattern);
     }
 
     protected function delimiter(): Delimiter

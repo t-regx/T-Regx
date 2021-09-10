@@ -9,8 +9,8 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\TerminatingEscape;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\AlternationWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
 
 class PatternEntitiesAssertion
 {
@@ -45,14 +45,14 @@ class PatternEntitiesAssertion
             if ($entity instanceof TerminatingEscape) {
                 return '\\';
             }
-            $quotable = $entity->quotable();
-            if ($quotable instanceof UserInputQuotable) {
+            $word = $entity->word();
+            if ($word instanceof TextWord) {
                 return '@';
             }
-            if ($quotable instanceof AlternationQuotable) {
+            if ($word instanceof AlternationWord) {
                 return '@';
             }
-            return $quotable->quote("\1");
+            return $word->quote("\1");
         }, $entities));
     }
 

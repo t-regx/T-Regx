@@ -5,14 +5,14 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Subpattern;
 
 class GroupClose implements Entity
 {
-    use QuotesRaw;
+    use PatternEntity;
 
     public function visit(Subpattern $subpattern): void
     {
         $subpattern->resetFlags();
     }
 
-    public function raw(): string
+    public function pattern(): string
     {
         return ')';
     }

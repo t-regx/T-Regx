@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\RawQuotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\PatternWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 use TRegx\CleanRegex\Internal\Type\PatternType;
 use TRegx\CleanRegex\Internal\Type\Type;
 
@@ -18,9 +18,9 @@ class PatternToken implements Token
         $this->pattern = $pattern;
     }
 
-    public function formatAsQuotable(): Quotable
+    public function formatAsQuotable(): Word
     {
-        return new RawQuotable($this->pattern);
+        return new PatternWord($this->pattern);
     }
 
     public function type(): Type

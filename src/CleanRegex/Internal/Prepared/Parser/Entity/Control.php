@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser\Entity;
 
 class Control implements Entity
 {
-    use TransitiveFlags, QuotesRaw;
+    use TransitiveFlags, PatternEntity;
 
     /** @var string */
     private $control;
@@ -13,7 +13,7 @@ class Control implements Entity
         $this->control = $control;
     }
 
-    public function raw(): string
+    public function pattern(): string
     {
         return "\c$this->control";
     }

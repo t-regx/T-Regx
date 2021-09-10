@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser\Entity;
 
 class Literal implements Entity
 {
-    use TransitiveFlags, QuotesRaw;
+    use TransitiveFlags, PatternEntity;
 
     /** @var string */
     private $letters;
@@ -13,7 +13,7 @@ class Literal implements Entity
         $this->letters = $letters;
     }
 
-    public function raw(): string
+    public function pattern(): string
     {
         return $this->letters;
     }

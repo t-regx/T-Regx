@@ -1,28 +1,28 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quotable;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Word;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Word\TextWord
  */
-class UserInputQuotableTest extends TestCase
+class TextWordTest extends TestCase
 {
     /**
      * @test
      * @dataProvider extended
-     * @param string $input
+     * @param string $text
      * @param string $expected
      */
-    public function shouldQuoteExtended(string $input, string $expected)
+    public function shouldQuoteExtended(string $text, string $expected)
     {
         // given
-        $quotable = new UserInputQuotable($input);
+        $word = new TextWord($text);
 
         // when
-        $result = $quotable->quote('/');
+        $result = $word->quote('/');
 
         // then
         $this->assertSame($expected, $result);
@@ -40,7 +40,7 @@ class UserInputQuotableTest extends TestCase
             '\r'        => ["Foo\rBar", 'Foo\rBar'],
             '\t'        => ["Foo\tBar", 'Foo\tBar'],
             '\f'        => ["Foo\fBar", 'Foo\fBar'],
-            '\x0B'      => ["Foo\x0BBar", 'Foo\x0BBar'],
+            '\v'        => ["Foo\vBar", 'Foo\vBar'],
         ];
     }
 
@@ -50,12 +50,12 @@ class UserInputQuotableTest extends TestCase
     public function shouldThrowForInvalidDelimiter()
     {
         // given
-        $input = new UserInputQuotable('welcome');
+        $word = new TextWord('welcome');
 
         // then
         $this->expectException(InvalidArgumentException::class);
 
         // when
-        $input->quote('foo');
+        $word->quote('foo');
     }
 }

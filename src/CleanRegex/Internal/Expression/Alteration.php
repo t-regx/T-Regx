@@ -3,8 +3,8 @@ namespace TRegx\CleanRegex\Internal\Expression;
 
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\AlternationWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
 class Alteration implements Expression
 {
@@ -21,9 +21,9 @@ class Alteration implements Expression
         $this->flags = $flags;
     }
 
-    protected function quotable(): Quotable
+    protected function word(): Word
     {
-        return new AlternationQuotable($this->texts);
+        return new AlternationWord($this->texts);
     }
 
     protected function delimiter(): Delimiter

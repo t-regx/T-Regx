@@ -1,14 +1,14 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Quotable;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Word;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\AlternationWord;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Prepared\Quotable\AlternationQuotable
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Word\AlternationWord
  */
-class AlternationQuotableTest extends TestCase
+class AlternationWordTest extends TestCase
 {
     /**
      * @test
@@ -16,10 +16,10 @@ class AlternationQuotableTest extends TestCase
     public function shouldQuote()
     {
         // given
-        $quotable = new AlternationQuotable(['/()', '^#$']);
+        $word = new AlternationWord(['/()', '^#$']);
 
         // when
-        $result = $quotable->quote('~');
+        $result = $word->quote('~');
 
         // then
         $this->assertSame('(?:/\(\)|\^\#\$)', $result);
@@ -31,10 +31,10 @@ class AlternationQuotableTest extends TestCase
     public function shouldQuoteDelimiter()
     {
         // given
-        $quotable = new AlternationQuotable(['a', '%b']);
+        $word = new AlternationWord(['a', '%b']);
 
         // when
-        $result = $quotable->quote('%');
+        $result = $word->quote('%');
 
         // then
         $this->assertSame('(?:a|\%b)', $result);
@@ -46,10 +46,10 @@ class AlternationQuotableTest extends TestCase
     public function shouldAddAnEmptyProduct_toIndicateAnEmptyString()
     {
         // given
-        $quotable = new AlternationQuotable(['a', '', '', 'b']);
+        $word = new AlternationWord(['a', '', '', 'b']);
 
         // when
-        $result = $quotable->quote('/');
+        $result = $word->quote('/');
 
         // then
         $this->assertSame('(?:a|b|)', $result);
@@ -61,10 +61,10 @@ class AlternationQuotableTest extends TestCase
     public function shouldNotRemoveFalsyStrings()
     {
         // given
-        $quotable = new AlternationQuotable(['|', ' ', '0']);
+        $word = new AlternationWord(['|', ' ', '0']);
 
         // when
-        $result = $quotable->quote('/');
+        $result = $word->quote('/');
 
         // then
         $this->assertSame('(?:\||\ |0)', $result);
@@ -76,14 +76,14 @@ class AlternationQuotableTest extends TestCase
     public function shouldThrowForArrayValues()
     {
         // given
-        $quotable = new AlternationQuotable(['|', []]);
+        $word = new AlternationWord(['|', []]);
 
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid bound alternate value. Expected string, but array (0) given');
 
         // when
-        $quotable->quote('/');
+        $word->quote('/');
     }
 
     /**
@@ -92,14 +92,14 @@ class AlternationQuotableTest extends TestCase
     public function shouldThrowForIntegerValues()
     {
         // given
-        $quotable = new AlternationQuotable(['|', 5]);
+        $word = new AlternationWord(['|', 5]);
 
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid bound alternate value. Expected string, but integer (5) given');
 
         // when
-        $quotable->quote('/');
+        $word->quote('/');
     }
 
     /**
@@ -108,14 +108,14 @@ class AlternationQuotableTest extends TestCase
     public function shouldThrowForFalse()
     {
         // given
-        $quotable = new AlternationQuotable([false]);
+        $word = new AlternationWord([false]);
 
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid bound alternate value. Expected string, but boolean (false) given');
 
         // when
-        $quotable->quote('/');
+        $word->quote('/');
     }
 
     /**
@@ -124,10 +124,10 @@ class AlternationQuotableTest extends TestCase
     public function shouldGetWithFalsyString()
     {
         // given
-        $quotable = new AlternationQuotable(['0']);
+        $word = new AlternationWord(['0']);
 
         // when
-        $quote = $quotable->quote('/');
+        $quote = $word->quote('/');
 
         // then
         $this->assertSame('(?:0)', $quote);

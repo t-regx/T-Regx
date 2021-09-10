@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser\Entity;
 
 class Quote implements Entity
 {
-    use TransitiveFlags, QuotesRaw;
+    use TransitiveFlags, PatternEntity;
 
     /** @var string */
     private $quote;
@@ -16,7 +16,7 @@ class Quote implements Entity
         $this->closed = $closed;
     }
 
-    public function raw(): string
+    public function pattern(): string
     {
         if ($this->closed) {
             return "\Q$this->quote\E";

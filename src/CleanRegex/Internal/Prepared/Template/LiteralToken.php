@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\UserInputQuotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 use TRegx\CleanRegex\Internal\Type\Type;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 
@@ -18,9 +18,9 @@ class LiteralToken implements Token
         $this->text = $text;
     }
 
-    public function formatAsQuotable(): Quotable
+    public function formatAsQuotable(): Word
     {
-        return new UserInputQuotable($this->text);
+        return new TextWord($this->text);
     }
 
     public function type(): Type

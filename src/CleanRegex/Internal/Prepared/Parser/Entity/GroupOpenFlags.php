@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Subpattern;
 
 class GroupOpenFlags implements Entity
 {
-    use QuotesRaw;
+    use PatternEntity;
 
     /** @var string */
     private $flags;
@@ -20,7 +20,7 @@ class GroupOpenFlags implements Entity
         $subpattern->setFlags($this->flags);
     }
 
-    public function raw(): string
+    public function pattern(): string
     {
         return "(?$this->flags:";
     }

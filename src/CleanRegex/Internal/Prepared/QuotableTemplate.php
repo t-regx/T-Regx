@@ -6,8 +6,8 @@ use TRegx\CleanRegex\Internal\Prepared\Figure\CountedFigures;
 use TRegx\CleanRegex\Internal\Prepared\Figure\ExpectedFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\FiguresPlaceholderConsumer;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\CompositeQuotable;
-use TRegx\CleanRegex\Internal\Prepared\Quotable\Quotable;
+use TRegx\CleanRegex\Internal\Prepared\Word\CompositeWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
 class QuotableTemplate
 {
@@ -22,17 +22,17 @@ class QuotableTemplate
         $this->patternAsEntities = new PatternAsEntities($spelling->pattern(), $spelling->flags(), new FiguresPlaceholderConsumer($this->figures));
     }
 
-    public function quotable(): Quotable
+    public function word(): Word
     {
-        return new CompositeQuotable(\iterator_to_array($this->quotables()));
+        return new CompositeWord(\iterator_to_array($this->words()));
     }
 
-    private function quotables(): Generator
+    private function words(): Generator
     {
         $entities = $this->patternAsEntities->entities();
         $this->figures->meetExpectation();
         foreach ($entities as $entity) {
-            yield $entity->quotable();
+            yield $entity->word();
         }
     }
 }
