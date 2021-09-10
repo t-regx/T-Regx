@@ -22,16 +22,12 @@ class PatternTest extends TestCase
      */
     public function shouldBuild_inject()
     {
-        // given
-        $pattern = Pattern::inject('You/&her, (are|is) @ (you|her)', [
-            'real? (or are you not real?)'
-        ]);
-
         // when
-        $pattern = $pattern->delimited();
+        $figure = 'real? (or are you not real?)';
+        $pattern = Pattern::inject('You/her, (are|is) @ (you|her)', [$figure]);
 
         // then
-        $this->assertSame('#You/&her, (are|is) real\?\ \(or\ are\ you\ not\ real\?\) (you|her)#', $pattern);
+        $this->assertSamePattern('#You/her, (are|is) real\?\ \(or\ are\ you\ not\ real\?\) (you|her)#', $pattern);
     }
 
     /**
@@ -56,20 +52,18 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_mask(): void
+    public function shouldMask()
     {
         // when
-        $pattern = Pattern::mask('%%:%e%f%w:%c', [
-            '%%' => '%',
-            '%e' => '\/',
-            '%f' => '/',
-            '%w' => '\s*',
-            '%c' => '.',
-        ], 's');
+        $pattern = Pattern::mask('(Super):{%s.%d.%%}', [
+            '%s' => '\s+',
+            '%d' => '\d+',
+            '%%' => '%/'
+        ], 'i');
 
         // then
-        $this->assertConsumesFirst('%://   :g', $pattern);
-        $this->assertSamePattern('#%\:\//\s*\:.#s', $pattern);
+        $this->assertConsumesFirst('(super):{  .12.%/}', $pattern);
+        $this->assertSamePattern('#\(Super\)\:\{\s+\.\d+\.%/\}#i', $pattern);
     }
 
     /**
@@ -83,11 +77,8 @@ class PatternTest extends TestCase
             '%e' => '#',
         ]);
 
-        // when
-        $delimited = $pattern->delimited();
-
         // then
-        $this->assertSame('%\%%', $delimited);
+        $this->assertSamePattern('%\%%', $pattern);
     }
 
     /**
@@ -214,6 +205,20 @@ class PatternTest extends TestCase
 
         // then
         $this->assertSamePattern('#^& vs/ $#s', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBuild_template_alteration_build()
+    {
+        // when
+        $pattern = Pattern::template('You/her, @ (her)', 's')->alteration(['{hi}', '50#'])->build();
+
+        // then
+        $this->assertConsumesFirst('You/her, {hi} her', $pattern);
+        $this->assertConsumesFirst('You/her, 50# her', $pattern);
+        $this->assertSamePattern('#You/her, (?:\{hi\}|50\#) (her)#s', $pattern);
     }
 
     /**

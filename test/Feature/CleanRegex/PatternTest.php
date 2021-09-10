@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
+use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 
@@ -277,5 +278,18 @@ class PatternTest extends TestCase
 
         // then
         $this->assertSame($whitespace, $match);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMismatchedNumberOfPlaceholders()
+    {
+        // then
+        $this->expectException(PlaceholderFigureException::class);
+        $this->expectExceptionMessage("Found a superfluous figure: string ('bar'). Used 1 placeholders, but 4 figures supplied.");
+
+        // when
+        Pattern::inject('You/her, (are|is) @ (you|her)', ['foo', 'bar', 'cat', 'door']);
     }
 }
