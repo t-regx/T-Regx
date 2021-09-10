@@ -1,57 +1,41 @@
 # T-Regex Development and Contributing rules
 
-There are a few rules that we believe must be obeyed, while developing and maintaining T-Regx:
+1. The the importantest - **Lack of fake TDD**
+2. The importantest - **Prefer exceptions to magic***
+3. Very important - **Type-safety**
+4. Much important - **Minimisation of inconsistencies**
+5. Important - **No "general-purpose" classes**
 
-1. Lack of fake TDD
-2. Exceptions over Magic*
-3. Type-safety
-4. Minimisation of inconsistencies
-5. Lack of unnecessary performance overhead
-
-! * *Magic would be: defaults, `null`s, warnings, magic values or false-positives)*
+! * *Magic would be: defaults, `null`s, warnings, implicity arguments or false-positives)*
 
 ## Fake TDD
 
-In presence of overwhelming fashion for scrum teams, agile approaches, tdd, oop and what not - one must understand what
-T-Regx understands as TDD, which is not always the same as what others might consider TDD.
-
-### Ideal TDD
-
 T-Regx contributors must take for granted that:
 
-- Coverage is **not** a determinant of a well tested code. One can achieve 100% coverage with little effort and **
-  still** encounter an enormous number of bugs.
+- There is no rule, so that each `Foo` class should have a corresponding `FooTest` class. Surprising, I know.
+- **There is no automatic tool that can tell you whether a file is tested.** You need to read the tests, understand the
+  specification.
+- Coverage is **not** a determinant of well tested code. One can achieve 100% coverage with little effort and **still**
+  encounter an enormous number of bugs.
 
   Coverage means:
-    - Not covered parts are **definitely** not tested
-    - Covered parts are **not necessarily** tested
+  - Not covered parts are **definitely** not tested
+  - Covered parts are **not necessarily** tested
 
-  That's it. No more information can be obtained from coverage.
-- A class containing coverage hits **is not necessarily** tested. To verify that, one should get acquainted with: unit
-  tests of the class, integration testcases that test behaviour of the class/feature implemented by the class
-  (also indirectly) and use mutation testing.
-
-  **Only** once done that, one is able to define which parts of the class are covered by tests and which are not.
-- **There is no automatic tool that can tell you whether a file is tested.** You need to read the tests, understand what
-  parts are covered and what not.
-- There is no rule, so that each `Foo` class should have a corresponding `FooTest` class. You should choose your tests
-  accordingly. Surprising, I know.
-
-## Avoid inconsistencies
-
-We value consistency. Knowing a part of a library, should aid in learning the rest of it.
-
-Keep in mind:
-
-- When editing a feature, see if there's also a similar feature. Consider, whether they both should be edited, or only
-  the one?
-- For example, at first, there were only methods `flatMap()` in `match()`, `match()->group()` and others. When we added
-  `flatMapAssoc()`, we didn't only add it to the most obvious group, but everywhere where `flatMap()` was.
+  A class containing coverage hits **is not necessarily** tested. To verify that, one should get acquainted with: unit
+  tests, interaction testcases that test behaviour of the feature directly or indirectly. Or using mutation testing.
 
 ## Simple and clean design
 
-We'd like you to try to avoid unnecessary setters and getters, just for the sake of them. All classes, whichever are fit
-for it, should be **immutable**. Surely, not everytime it's possible.
+- Prefer immutable classes (not everytime that's possible)
+- Don't add getters and setters, just for the sake of them
+- Follow Zen of Python
+
+## "General-purpose" classes
+
+In a high enough abstraction layer, there's little room for "general purpose" classes. Don't create classes that are
+unnecessarily loosely coupled, "because it may be used later". If there is a reason to truly reuse them in the future,
+we'll refactor the class accordingly, when we have the reason before us.
 
 ## Formality
 
@@ -84,9 +68,9 @@ FAQ:
 
 - **Why did you intentioanlly decrease coverage?**
 
-  Keep in mind, that we only excluded tests from the coverage. The tests themselves still exist and still are run. Tests
-  are very useful! Only a fool would remove tests.
-- **So why don't you include all the tests in the coverage?**
+  Keep in mind, that we only excluded reports from the coverage. The tests themselves still exist and still are run.
+  Tests are very useful! Only a fool would remove good tests.
+- **So why don't you include all the reports in the coverage?**
 
   Because then we have 100% coverage, and we can't use coverage to find which parts of the code aren't unit-tested.
 
@@ -97,11 +81,10 @@ FAQ:
 
 - **You already have 100% coverage, why lie about it?**
 
-  We don't strive for 100% coverage metric, nor we think anyone should. 100% coverage is just an output of some tool.
-  Having 100% coverage doesn't *mean* anything. If you can't use it as a tool, then it's useless. By excluding `Feature`
-  /`Interaction` tests from coverage we gave the coverage purpose again.
+  We don't strive for 100% coverage metric, nor we think anyone should. It's just an output of some tool, it doesn't
+  tell you anything about software itself. Having 100% coverage doesn't *mean* anything. If you can't use it as a tool,
+  then it's useless. By excluding `Feature`/`Interaction` reports we gave the coverage its purpose again.
 
 - **If you exclude `Feature`/`Interaction` from coverage, how do you find missing tests in those categories?**
 
-  Good question, we probably can't. But neither could we when they were included, because there was always 100%
-  coverage.
+  Good question, we probably can't. But neither could we when they were included, because the coverage was always 100%.
