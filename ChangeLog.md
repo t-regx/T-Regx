@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * `Pattern::inject()` no longer supports alteration. Use `Pattern::template()->alteration()`.
 
 Added in 0.13.6
 ---------------

@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\ExactExceptionMessage;
 use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
-use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use UnderflowException;
 use function next;
@@ -41,11 +40,12 @@ class InjectFiguresTest extends TestCase
         // given
         $figures = new InjectFigures([['foo', 'bar']]);
 
-        // when
-        $token = $figures->nextToken();
-
         // then
-        $this->assertEquals(new AlternationToken(['foo', 'bar']), $token);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid inject figure type. Expected string, but array (2) given');
+
+        // when
+        $figures->nextToken();
     }
 
     /**

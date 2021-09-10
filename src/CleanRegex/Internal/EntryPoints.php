@@ -23,9 +23,9 @@ trait EntryPoints
         return new Pattern(new Standard($pattern, $flags ?? ''));
     }
 
-    public static function inject(string $input, array $figures, string $flags = null): Pattern
+    public static function inject(string $pattern, array $texts, string $flags = null): Pattern
     {
-        return new Pattern(new Template(new StandardSpelling($input, $flags ?? '', new UnsuitableStringCondition($input)), new InjectFigures($figures)));
+        return new Pattern(new Template(new StandardSpelling($pattern, $flags ?? '', new UnsuitableStringCondition($pattern)), new InjectFigures($texts)));
     }
 
     public static function mask(string $mask, array $keywords, string $flags = null): Pattern
