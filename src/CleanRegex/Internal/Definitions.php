@@ -8,27 +8,27 @@ use TRegx\CleanRegex\Internal\Expression\Standard;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Pattern;
 
-class InternalPatterns
+class Definitions
 {
-    public static function compose(array $patterns, callable $patternToInternal): array
+    public static function composed(array $patterns, callable $patternDefinition): array
     {
-        return \iterator_to_array(self::internalPatterns($patterns, $patternToInternal));
+        return \iterator_to_array(self::internalPatterns($patterns, $patternDefinition));
     }
 
-    private static function internalPatterns(array $patterns, callable $patternToInternal): Generator
+    private static function internalPatterns(array $patterns, callable $patternDefinition): Generator
     {
         foreach ($patterns as $pattern) {
-            yield self::patternToOutput($pattern, $patternToInternal)->definition();
+            yield self::patternToOutput($pattern, $patternDefinition)->definition();
         }
     }
 
-    private static function patternToOutput($pattern, callable $patternToInternal): Expression
+    private static function patternToOutput($pattern, callable $patternDefinition): Expression
     {
         if (\is_string($pattern)) {
             return new Standard($pattern, '');
         }
         if ($pattern instanceof Pattern) {
-            return new Identity($patternToInternal($pattern));
+            return new Identity($patternDefinition($pattern));
         }
         throw InvalidArgument::typeGiven("CompositePattern only accepts type Pattern or string", new ValueType($pattern));
     }

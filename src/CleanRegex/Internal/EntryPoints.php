@@ -55,7 +55,7 @@ trait EntryPoints
 
     public static function compose(array $patterns): CompositePattern
     {
-        return new CompositePattern(InternalPatterns::compose($patterns, static function (Pattern $pattern): Definition {
+        return new CompositePattern(Definitions::composed($patterns, static function (Pattern $pattern): Definition {
             /**
              * {@see Pattern} instance has reference to {@see Definition} as "pattern"
              * private field. Definition contains {@see Definition::$pattern} field,

@@ -7,14 +7,14 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Definitions;
 use TRegx\CleanRegex\Internal\Expression\Pcre;
-use TRegx\CleanRegex\Internal\InternalPatterns;
 use TRegx\CleanRegex\Pattern;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\InternalPatterns
+ * @covers \TRegx\CleanRegex\Internal\Definitions
  */
-class InternalPatternsTest extends TestCase
+class DefinitionsTest extends TestCase
 {
     /**
      * @test
@@ -28,7 +28,7 @@ class InternalPatternsTest extends TestCase
         ];
 
         // when
-        $patterns = InternalPatterns::compose($inputPatterns, Functions::constant(new Definition('/bar/', '/car/')));
+        $patterns = Definitions::composed($inputPatterns, Functions::constant(new Definition('/bar/', '/car/')));
 
         // then
         $expected = [
@@ -48,7 +48,7 @@ class InternalPatternsTest extends TestCase
         $this->expectExceptionMessage("CompositePattern only accepts type Pattern or string, but stdClass given");
 
         // when
-        InternalPatterns::compose([new \stdClass()], Functions::throws(new AssertionError()));
+        Definitions::composed([new \stdClass()], Functions::throws(new AssertionError()));
     }
 
     /**
@@ -67,6 +67,6 @@ class InternalPatternsTest extends TestCase
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
 
         // when
-        InternalPatterns::compose($patterns, Functions::throws(new AssertionError()));
+        Definitions::composed($patterns, Functions::throws(new AssertionError()));
     }
 }

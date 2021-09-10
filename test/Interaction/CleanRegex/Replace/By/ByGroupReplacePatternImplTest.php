@@ -71,19 +71,19 @@ class ByGroupReplacePatternImplTest extends TestCase
 
     public function create(string $pattern, string $stringSubject): ByGroupReplacePatternImpl
     {
-        $internalPattern = Internal::pattern($pattern);
+        $definition = Internal::pattern($pattern);
         $subject = new StringSubject($stringSubject);
 
         return new ByGroupReplacePatternImpl(
             new GroupFallbackReplacer(
-                $internalPattern,
+                $definition,
                 $subject,
                 -1,
                 new DefaultStrategy(),
                 new IgnoreCounting(),
-                new ApiBase($internalPattern, $subject, new UserData())),
-            new PerformanceEmptyGroupReplace($internalPattern, $subject, -1),
-            new ReplacePatternCallbackInvoker($internalPattern, $subject, -1, new LazyMessageThrowStrategy(\AssertionError::class), new IgnoreCounting()),
+                new ApiBase($definition, $subject, new UserData())),
+            new PerformanceEmptyGroupReplace($definition, $subject, -1),
+            new ReplacePatternCallbackInvoker($definition, $subject, -1, new LazyMessageThrowStrategy(\AssertionError::class), new IgnoreCounting()),
             new GroupIndex(1),
             $subject,
             new IdentityWrapper());
