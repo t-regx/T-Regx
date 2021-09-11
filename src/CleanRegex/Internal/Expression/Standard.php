@@ -16,13 +16,13 @@ class Standard implements Expression
 
     /** @var string */
     private $pattern;
-    /** @var string */
+    /** @var Flags */
     private $flags;
 
     public function __construct(string $pattern, string $flags)
     {
         $this->pattern = $pattern;
-        $this->flags = $flags;
+        $this->flags = new Flags($flags);
     }
 
     protected function word(): Word
@@ -44,7 +44,7 @@ class Standard implements Expression
 
     protected function flags(): Flags
     {
-        return new Flags($this->flags);
+        return $this->flags;
     }
 
     protected function undevelopedInput(): string

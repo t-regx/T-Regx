@@ -18,7 +18,7 @@ class Mask implements Expression
     private $token;
     /** @var string[] */
     private $keywords;
-    /** @var string */
+    /** @var Flags */
     private $flags;
     /** @var string */
     private $mask;
@@ -27,7 +27,7 @@ class Mask implements Expression
     {
         $this->token = new MaskToken($mask, $keywords);
         $this->keywords = $keywords;
-        $this->flags = $flags;
+        $this->flags = new Flags($flags);
         $this->mask = $mask;
     }
 
@@ -47,7 +47,7 @@ class Mask implements Expression
 
     protected function flags(): Flags
     {
-        return new Flags($this->flags);
+        return $this->flags;
     }
 
     protected function undevelopedInput(): string

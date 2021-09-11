@@ -10,7 +10,7 @@ class StandardSpelling implements Spelling
 {
     /** @var string */
     public $input;
-    /** @var string */
+    /** @var Flags */
     private $flags;
     /** @var Candidates */
     private $delimiters;
@@ -18,7 +18,7 @@ class StandardSpelling implements Spelling
     public function __construct(string $input, string $flags, Condition $condition)
     {
         $this->input = $input;
-        $this->flags = $flags;
+        $this->flags = new Flags($flags);
         $this->delimiters = new Candidates($condition);
     }
 
@@ -34,7 +34,7 @@ class StandardSpelling implements Spelling
 
     public function flags(): Flags
     {
-        return new Flags($this->flags);
+        return $this->flags;
     }
 
     public function undevelopedInput(): string

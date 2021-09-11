@@ -12,13 +12,13 @@ class Literal implements Expression
 
     /** @var string */
     private $text;
-    /** @var string */
+    /** @var Flags */
     private $flags;
 
     public function __construct(string $text, string $flags)
     {
         $this->text = $text;
-        $this->flags = $flags;
+        $this->flags = new Flags($flags);
     }
 
     protected function word(): Word
@@ -33,7 +33,7 @@ class Literal implements Expression
 
     protected function flags(): Flags
     {
-        return new Flags($this->flags);
+        return $this->flags;
     }
 
     protected function undevelopedInput(): string

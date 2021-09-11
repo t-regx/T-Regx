@@ -12,13 +12,13 @@ class Alteration implements Expression
 
     /** @var array */
     private $texts;
-    /** @var string */
+    /** @var Flags */
     private $flags;
 
     public function __construct(array $texts, string $flags)
     {
         $this->texts = $texts;
-        $this->flags = $flags;
+        $this->flags = new Flags($flags);
     }
 
     protected function word(): Word
@@ -33,7 +33,7 @@ class Alteration implements Expression
 
     protected function flags(): Flags
     {
-        return new Flags($this->flags);
+        return $this->flags;
     }
 
     protected function undevelopedInput(): string
