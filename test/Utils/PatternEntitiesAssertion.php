@@ -67,6 +67,14 @@ class PatternEntitiesAssertion
                 $entity = [$entity];
             }
         }
-        return Arrays::flatten($expected);
+        return $this->flatten($expected);
+    }
+
+    private function flatten(array $array): array
+    {
+        if (empty($array)) {
+            return [];
+        }
+        return \array_merge(...$array);
     }
 }

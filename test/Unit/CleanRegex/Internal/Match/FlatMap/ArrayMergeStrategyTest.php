@@ -43,4 +43,21 @@ class ArrayMergeStrategyTest extends TestCase
         // then
         $this->assertSame(['Foo', 4, 'key' => 'value', 'Bar', 8, 'lorem' => 'ipsum'], $result);
     }
+
+    /**
+     * @test
+     */
+    public function shouldFlattenEmpty()
+    {
+        // given
+        $strategy = new ArrayMergeStrategy();
+
+        // when
+        $emptyArray = $strategy->flatten(new Nested([]));
+        $singleEmptyItem = $strategy->flatten(new Nested([[]]));
+
+        // then
+        $this->assertSame([], $emptyArray);
+        $this->assertSame([], $singleEmptyItem);
+    }
 }
