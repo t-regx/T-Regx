@@ -6,7 +6,7 @@ use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
 /**

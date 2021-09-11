@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
-use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;

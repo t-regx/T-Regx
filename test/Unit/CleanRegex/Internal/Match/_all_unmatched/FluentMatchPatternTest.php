@@ -8,7 +8,7 @@ use Test\Utils\Impl\EmptyStream;
 use Test\Utils\Impl\ThrowingOptionalWorker;
 use Test\Utils\Impl\ThrowStream;
 use Test\Utils\TestCasePasses;
-use TRegx\CleanRegex\Internal\Exception\UnmatchedStreamException;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 /**
