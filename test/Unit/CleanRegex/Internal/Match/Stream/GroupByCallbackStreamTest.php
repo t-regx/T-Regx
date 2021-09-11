@@ -9,8 +9,8 @@ use Test\Utils\Impl\TextDetail;
 use Test\Utils\Impl\TextGroup;
 use Test\Utils\Impl\ThrowStream;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
+use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 
 /**

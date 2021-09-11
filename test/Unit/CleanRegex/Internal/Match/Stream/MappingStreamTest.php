@@ -8,8 +8,8 @@ use Test\Utils\Impl\AllStream;
 use Test\Utils\Impl\FirstKeyStream;
 use Test\Utils\Impl\FirstStream;
 use Test\Utils\Impl\ThrowStream;
-use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\MappingStream;
+use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Stream;
 
 /**
