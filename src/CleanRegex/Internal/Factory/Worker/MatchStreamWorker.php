@@ -2,12 +2,12 @@
 namespace TRegx\CleanRegex\Internal\Factory\Worker;
 
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
-use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMatchMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\NthFluentMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Subject\NthMatchFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\ArgumentlessOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
+use TRegx\CleanRegex\Internal\Messages\FirstFluentMatchMessage;
+use TRegx\CleanRegex\Internal\Messages\FirstFluentMessage;
+use TRegx\CleanRegex\Internal\Messages\NthFluentMessage;
+use TRegx\CleanRegex\Internal\Messages\Subject\NthMatchFluentMessage;
 
 class MatchStreamWorker implements StreamWorker
 {

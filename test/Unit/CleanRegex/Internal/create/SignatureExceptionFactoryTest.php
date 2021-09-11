@@ -8,7 +8,7 @@ use Test\Utils\ClassWithDefaultConstructor;
 use Test\Utils\ClassWithStringParamConstructor;
 use Test\Utils\ClassWithTwoStringParamsConstructor;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchMessage;
+use TRegx\CleanRegex\Internal\Messages\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Internal\StringSubject;
 

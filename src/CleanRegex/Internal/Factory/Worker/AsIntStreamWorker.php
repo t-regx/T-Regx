@@ -4,11 +4,11 @@ namespace TRegx\CleanRegex\Internal\Factory\Worker;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Exception\Messages\NthAsIntMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchAsIntMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Subject\NthMatchAsIntMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Optional\SubjectOptionalWorker;
+use TRegx\CleanRegex\Internal\Messages\NthAsIntMessage;
+use TRegx\CleanRegex\Internal\Messages\Subject\FirstMatchAsIntMessage;
+use TRegx\CleanRegex\Internal\Messages\Subject\NthMatchAsIntMessage;
 use TRegx\CleanRegex\Internal\Subject;
 
 class AsIntStreamWorker implements StreamWorker

@@ -7,7 +7,7 @@ use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
 use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Internal\Exception\Messages\Group\GroupMessage;
+use TRegx\CleanRegex\Internal\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;

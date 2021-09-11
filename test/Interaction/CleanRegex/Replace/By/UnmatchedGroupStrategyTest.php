@@ -6,7 +6,7 @@ use Test\Utils\CustomSubjectException;
 use Test\Utils\Definitions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
+use TRegx\CleanRegex\Internal\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;

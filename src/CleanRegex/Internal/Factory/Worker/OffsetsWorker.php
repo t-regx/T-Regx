@@ -4,11 +4,11 @@ namespace TRegx\CleanRegex\Internal\Factory\Worker;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Exception\Messages\NthOffsetMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstMatchOffsetMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Subject\NthMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Optional\SubjectOptionalWorker;
+use TRegx\CleanRegex\Internal\Messages\NthOffsetMessage;
+use TRegx\CleanRegex\Internal\Messages\Subject\FirstMatchOffsetMessage;
+use TRegx\CleanRegex\Internal\Messages\Subject\NthMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Subject;
 
 class OffsetsWorker implements StreamWorker

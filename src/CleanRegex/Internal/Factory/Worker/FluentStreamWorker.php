@@ -2,10 +2,10 @@
 namespace TRegx\CleanRegex\Internal\Factory\Worker;
 
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
-use TRegx\CleanRegex\Internal\Exception\Messages\FirstFluentMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\NthFluentMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\ArgumentlessOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
+use TRegx\CleanRegex\Internal\Messages\FirstFluentMessage;
+use TRegx\CleanRegex\Internal\Messages\NthFluentMessage;
 
 class FluentStreamWorker implements StreamWorker
 {

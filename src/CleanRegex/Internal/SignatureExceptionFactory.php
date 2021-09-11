@@ -6,7 +6,7 @@ use Error;
 use Throwable;
 use TRegx\CleanRegex\Exception\ClassExpectedException;
 use TRegx\CleanRegex\Exception\NoSuitableConstructorException;
-use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Messages\NotMatchedMessage;
 use TypeError;
 
 class SignatureExceptionFactory

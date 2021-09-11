@@ -1,14 +1,14 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-use TRegx\CleanRegex\Internal\Exception\Messages\Group\FirstGroupMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Group\MethodGetGroupMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Group\MethodGroupMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Group\NthGroupMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\Exception\Messages\Subject\FirstGroupOffsetMessage;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\Messages\Group\FirstGroupMessage;
+use TRegx\CleanRegex\Internal\Messages\Group\MethodGetGroupMessage;
+use TRegx\CleanRegex\Internal\Messages\Group\MethodGroupMessage;
+use TRegx\CleanRegex\Internal\Messages\Group\NthGroupMessage;
+use TRegx\CleanRegex\Internal\Messages\Group\ReplacementWithUnmatchedGroupMessage;
+use TRegx\CleanRegex\Internal\Messages\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Messages\Subject\FirstGroupOffsetMessage;
 
 class GroupNotMatchedException extends \Exception implements PatternException
 {

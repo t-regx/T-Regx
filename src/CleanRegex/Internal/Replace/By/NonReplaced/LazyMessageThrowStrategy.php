@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
-use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Subject;
 
 class LazyMessageThrowStrategy implements LazySubjectRs

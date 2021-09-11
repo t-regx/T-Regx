@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Factory\Optional;
 
 use Throwable;
-use TRegx\CleanRegex\Internal\Exception\Messages\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Messages\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\NotMatched;
