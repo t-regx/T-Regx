@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\GroupKey;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Exception\InsufficientMatchException;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 

@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Exception;
+namespace TRegx\CleanRegex\Internal\GroupKey;
 
 class InsufficientMatchException extends \Exception
 {
