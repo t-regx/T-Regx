@@ -4,11 +4,11 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\RemainingMatchPattern\_empty;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsOptional;
 use Test\Utils\AssertsSameMatches;
+use Test\Utils\Definitions;
 use Test\Utils\Functions;
 use Test\Utils\Impl\CallbackPredicate;
 use Test\Utils\Impl\ThrowApiBase;
 use Test\Utils\Impl\ThrowFactory;
-use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
@@ -338,7 +338,7 @@ class RemainingMatchPatternTest extends TestCase
         $subject = '...you forgot one very important thing mate.';
         $pattern = new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
-                new ApiBase(Internal::pcre('/[a-z]+/'), new StringSubject($subject), new UserData()),
+                new ApiBase(Definitions::pcre('/[a-z]+/'), new StringSubject($subject), new UserData()),
                 new CallbackPredicate(Functions::notEquals('forgot'))),
             new ThrowApiBase(),
             new ThrowFactory());
@@ -372,7 +372,7 @@ class RemainingMatchPatternTest extends TestCase
     {
         return new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
-                new ApiBase(Internal::pattern('(?<=\()[a-z]?(?=\))'), new StringSubject('() (a) (b) () (c)'), new UserData()),
+                new ApiBase(Definitions::pattern('(?<=\()[a-z]?(?=\))'), new StringSubject('() (a) (b) () (c)'), new UserData()),
                 new CallbackPredicate($predicate)),
             new ThrowApiBase(),
             new ThrowFactory());

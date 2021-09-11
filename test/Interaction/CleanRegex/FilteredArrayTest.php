@@ -4,7 +4,7 @@ namespace Test\Interaction\TRegx\CleanRegex;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\DataProviders;
-use Test\Utils\Internal;
+use Test\Utils\Definitions;
 use TRegx\CleanRegex\Internal\FilteredArray;
 
 /**
@@ -22,7 +22,7 @@ class FilteredArrayTest extends TestCase
     public function shouldFilter(string $pattern, array $subjects, array $expected)
     {
         // given
-        $filterArray = new FilteredArray(Internal::pcre($pattern), $subjects);
+        $filterArray = new FilteredArray(Definitions::pcre($pattern), $subjects);
 
         // when
         $filtered = $filterArray->filtered();
@@ -61,7 +61,7 @@ class FilteredArrayTest extends TestCase
     public function shouldThrowOnInvalidArgument($listElement, string $type)
     {
         // given
-        $filterArray = new FilteredArray(Internal::pcre(''), ['Foo', $listElement]);
+        $filterArray = new FilteredArray(Definitions::pcre(''), ['Foo', $listElement]);
 
         // then
         $this->expectException(InvalidArgumentException::class);

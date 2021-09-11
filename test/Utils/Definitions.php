@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Word\PatternWord;
 use TRegx\CleanRegex\Internal\TrailingBackslash;
 
-class Internal
+class Definitions
 {
     public static function pattern(string $pattern, string $flags = null): Definition
     {
@@ -27,10 +27,5 @@ class Internal
     public static function pcre(string $pattern): Definition
     {
         return new Definition($pattern, $pattern);
-    }
-
-    public static function throw(): Definition
-    {
-        return new Definition('', '');
     }
 }

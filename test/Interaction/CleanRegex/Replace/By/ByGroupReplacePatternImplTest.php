@@ -3,8 +3,8 @@ namespace Test\Interaction\TRegx\CleanRegex\Replace\By;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
+use Test\Utils\Definitions;
 use Test\Utils\Functions;
-use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -71,7 +71,7 @@ class ByGroupReplacePatternImplTest extends TestCase
 
     public function create(string $pattern, string $stringSubject): ByGroupReplacePatternImpl
     {
-        $definition = Internal::pattern($pattern);
+        $definition = Definitions::pattern($pattern);
         $subject = new StringSubject($stringSubject);
 
         return new ByGroupReplacePatternImpl(

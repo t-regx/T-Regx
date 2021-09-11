@@ -3,10 +3,10 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
+use Test\Utils\Definitions;
 use Test\Utils\Functions;
 use Test\Utils\Impl\ComputedMapper;
 use Test\Utils\Impl\NoReplacementMapper;
-use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Exception\Messages\Group\ReplacementWithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
@@ -144,11 +144,11 @@ class GroupFallbackReplacerTest extends TestCase
     public function create(string $pattern, string $subject): GroupFallbackReplacer
     {
         return new GroupFallbackReplacer(
-            Internal::pattern($pattern),
+            Definitions::pattern($pattern),
             new StringSubject($subject),
             -1,
             new ConstantReturnStrategy('Subject not matched'),
             new IgnoreCounting(),
-            new ApiBase(Internal::pattern($pattern), new StringSubject($subject), new UserData()));
+            new ApiBase(Definitions::pattern($pattern), new StringSubject($subject), new UserData()));
     }
 }

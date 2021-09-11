@@ -4,8 +4,8 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\only;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\PhpunitPolyfill;
+use Test\Utils\Definitions;
 use Test\Utils\Impl\ThrowSubject;
-use Test\Utils\Internal;
 use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -24,7 +24,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('\w+'), new StringSubject('Nice matching pattern'));
+        $pattern = new MatchPattern(Definitions::pattern('\w+'), new StringSubject('Nice matching pattern'));
 
         // when
         $only = $pattern->only(2);
@@ -39,7 +39,7 @@ class MatchPatternTest extends TestCase
     public function shouldReturnEmptyArray_onNoMatches()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('([A-Z])?[a-z]+'), new StringSubject('NOT MATCHING'));
+        $pattern = new MatchPattern(Definitions::pattern('([A-Z])?[a-z]+'), new StringSubject('NOT MATCHING'));
 
         // when
         $only = $pattern->only(2);
@@ -54,7 +54,7 @@ class MatchPatternTest extends TestCase
     public function shouldReturnEmptyArray_onNoMatches_onlyOne()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), new StringSubject('Bar'));
+        $pattern = new MatchPattern(Definitions::pattern('Foo'), new StringSubject('Bar'));
 
         // when
         $only = $pattern->only(1);
@@ -69,7 +69,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onNegativeLimit()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), new ThrowSubject());
+        $pattern = new MatchPattern(Definitions::pattern('Foo'), new ThrowSubject());
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -85,7 +85,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetOne_withPregMatch()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('\w+'), new StringSubject('Nice matching pattern'));
+        $pattern = new MatchPattern(Definitions::pattern('\w+'), new StringSubject('Nice matching pattern'));
 
         // when
         $only = $pattern->only(1);
@@ -100,7 +100,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetNone()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), new ThrowSubject());
+        $pattern = new MatchPattern(Definitions::pattern('Foo'), new ThrowSubject());
 
         // when
         $only = $pattern->only(0);
@@ -115,7 +115,7 @@ class MatchPatternTest extends TestCase
     public function shouldValidatePattern_onOnly0()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('invalid)'), new ThrowSubject());
+        $pattern = new MatchPattern(Definitions::pattern('invalid)'), new ThrowSubject());
 
         // then
         $this->expectException(MalformedPatternException::class);

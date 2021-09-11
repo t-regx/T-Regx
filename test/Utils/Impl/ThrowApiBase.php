@@ -2,7 +2,7 @@
 namespace Test\Utils\Impl;
 
 use AssertionError;
-use Test\Utils\Internal;
+use Test\Utils\Definitions;
 use Throwable;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
@@ -16,7 +16,7 @@ class ThrowApiBase extends ApiBase
 {
     public function __construct()
     {
-        parent::__construct(Internal::pcre('//'), new ThrowSubject(), new UserData());
+        parent::__construct(Definitions::pcre('//'), new ThrowSubject(), new UserData());
     }
 
     public function getPattern(): Definition

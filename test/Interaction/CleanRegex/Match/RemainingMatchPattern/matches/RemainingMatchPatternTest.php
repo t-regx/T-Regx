@@ -2,11 +2,11 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\RemainingMatchPattern\matches;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Definitions;
 use Test\Utils\Functions;
 use Test\Utils\Impl\CallbackPredicate;
 use Test\Utils\Impl\ThrowApiBase;
 use Test\Utils\Impl\ThrowFactory;
-use Test\Utils\Internal;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -91,7 +91,7 @@ class RemainingMatchPatternTest extends TestCase
     {
         return new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
-                new ApiBase(Internal::pattern($pattern), new StringSubject($subject), new UserData()),
+                new ApiBase(Definitions::pattern($pattern), new StringSubject($subject), new UserData()),
                 new CallbackPredicate($predicate)),
             new ThrowApiBase(),
             new ThrowFactory());

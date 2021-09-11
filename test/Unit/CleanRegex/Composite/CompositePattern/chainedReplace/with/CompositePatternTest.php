@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\chainedReplace\with;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Internal;
+use Test\Utils\Definitions;
 use TRegx\CleanRegex\Composite\CompositePattern;
 
 /**
@@ -55,9 +55,9 @@ class CompositePatternTest extends TestCase
     {
         // given
         $pattern = new CompositePattern([
-            Internal::pcre('/One(1)/'),
-            Internal::pcre('/Two(2)/'),
-            Internal::pcre('/Three(3)/'),
+            Definitions::pcre('/One(1)/'),
+            Definitions::pcre('/Two(2)/'),
+            Definitions::pcre('/Three(3)/'),
         ]);
 
         // when
@@ -74,9 +74,9 @@ class CompositePatternTest extends TestCase
     {
         // given
         $pattern = new CompositePattern([
-            Internal::pcre('/One(1)/'),
-            Internal::pcre('/Two(2)/'),
-            Internal::pcre('/Three(3)/'),
+            Definitions::pcre('/One(1)/'),
+            Definitions::pcre('/Two(2)/'),
+            Definitions::pcre('/Three(3)/'),
         ]);
 
         // when
@@ -88,6 +88,6 @@ class CompositePatternTest extends TestCase
 
     private function nthPatterns(int $times, array $patterns): array
     {
-        return \array_map([Internal::class, 'pcre'], \array_slice($patterns, 0, $times));
+        return \array_map([Definitions::class, 'pcre'], \array_slice($patterns, 0, $times));
     }
 }

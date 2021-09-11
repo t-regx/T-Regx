@@ -3,10 +3,10 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\RemainingMatchPattern;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
+use Test\Utils\Definitions;
 use Test\Utils\Functions;
 use Test\Utils\Impl\CallbackPredicate;
 use Test\Utils\Impl\ThrowApiBase;
-use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
@@ -442,7 +442,7 @@ class RemainingMatchPatternTest extends TestCase
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
     {
-        $base = new ApiBase(Internal::pattern($pattern), new StringSubject($subject), new UserData());
+        $base = new ApiBase(Definitions::pattern($pattern), new StringSubject($subject), new UserData());
         return new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
                 $base,

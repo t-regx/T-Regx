@@ -3,8 +3,8 @@ namespace Test\Interaction\TRegx\CleanRegex\Replace\By;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
+use Test\Utils\Definitions;
 use Test\Utils\Functions;
-use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Exception\Messages\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
@@ -141,7 +141,7 @@ class UnmatchedGroupStrategyTest extends TestCase
 
     public function replacer(string $subject): GroupFallbackReplacer
     {
-        $pattern = Internal::pattern('\d+(?<group>cm)?');
+        $pattern = Definitions::pattern('\d+(?<group>cm)?');
         return new GroupFallbackReplacer(
             $pattern,
             new StringSubject($subject),

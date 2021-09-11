@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\anyMatches;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Internal;
+use Test\Utils\Definitions;
 use TRegx\CleanRegex\Composite\CompositePattern;
 
 /**
@@ -43,9 +43,9 @@ class CompositePatternTest extends TestCase
     private function patterns(): array
     {
         return [
-            Internal::pcre('/https?/i'),
-            Internal::pcre('/fail/'),
-            Internal::pcre('/failed/i')
+            Definitions::pcre('/https?/i'),
+            Definitions::pcre('/fail/'),
+            Definitions::pcre('/failed/i')
         ];
     }
 }

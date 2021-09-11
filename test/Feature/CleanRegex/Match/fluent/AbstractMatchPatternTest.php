@@ -3,8 +3,8 @@ namespace Test\Feature\TRegx\CleanRegex\Match\fluent;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomException;
+use Test\Utils\Definitions;
 use Test\Utils\Functions;
-use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Exception\NoFirstStreamException;
@@ -160,7 +160,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_filter_all_onInvalidReturnType()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), new StringSubject('Foo'));
+        $pattern = new MatchPattern(Definitions::pattern('Foo'), new StringSubject('Foo'));
 
         // then
         $this->expectException(InvalidReturnValueException::class);
@@ -176,7 +176,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_filter_first_onInvalidReturnType()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern('Foo'), new StringSubject('Foo'));
+        $pattern = new MatchPattern(Definitions::pattern('Foo'), new StringSubject('Foo'));
 
         // then
         $this->expectException(InvalidReturnValueException::class);

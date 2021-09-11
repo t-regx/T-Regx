@@ -2,7 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\Replace;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Internal;
+use Test\Utils\Definitions;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\StringSubject;
@@ -52,6 +52,6 @@ class SpecificReplacePatternImplTest extends TestCase
 
     private function createReplacePattern(string $subject): SpecificReplacePattern
     {
-        return new SpecificReplacePatternImpl(Internal::pattern('[0-9]+'), new StringSubject($subject), 3, new DefaultStrategy(), new IgnoreCounting());
+        return new SpecificReplacePatternImpl(Definitions::pattern('[0-9]+'), new StringSubject($subject), 3, new DefaultStrategy(), new IgnoreCounting());
     }
 }

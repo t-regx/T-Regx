@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\allMatch;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Internal;
+use Test\Utils\Definitions;
 use TRegx\CleanRegex\Composite\CompositePattern;
 
 /**
@@ -43,9 +43,9 @@ class CompositePatternTest extends TestCase
     private function patterns(): array
     {
         return [
-            Internal::pcre('/^fro/i'),
-            Internal::pcre('/rod/'),
-            Internal::pcre('/odo$/')
+            Definitions::pcre('/^fro/i'),
+            Definitions::pcre('/rod/'),
+            Definitions::pcre('/odo$/')
         ];
     }
 }

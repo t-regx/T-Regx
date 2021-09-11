@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\first;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Definitions;
 use Test\Utils\Functions;
-use Test\Utils\Internal;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -35,7 +35,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirst_emptyMatch()
     {
         // given
-        $pattern = new MatchPattern(Internal::pattern("9?(?=matching)"), new StringSubject('Nice matching pattern'));
+        $pattern = new MatchPattern(Definitions::pattern("9?(?=matching)"), new StringSubject('Nice matching pattern'));
 
         // when
         $first = $pattern->first();
@@ -127,6 +127,6 @@ class MatchPatternTest extends TestCase
 
     private function getMatchPattern(string $subject): MatchPattern
     {
-        return new MatchPattern(Internal::pattern("([A-Z])?[a-z]+"), new StringSubject($subject));
+        return new MatchPattern(Definitions::pattern("([A-Z])?[a-z]+"), new StringSubject($subject));
     }
 }
