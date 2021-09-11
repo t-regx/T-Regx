@@ -1,14 +1,14 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\Internal;
+namespace Test\Interaction\TRegx\CleanRegex;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\DataProviders;
 use Test\Utils\Internal;
-use TRegx\CleanRegex\Internal\ForArray\FilteredArray;
+use TRegx\CleanRegex\Internal\FilteredArray;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\ForArray\FilteredArray
+ * @covers \TRegx\CleanRegex\Internal\FilteredArray
  */
 class FilteredArrayTest extends TestCase
 {

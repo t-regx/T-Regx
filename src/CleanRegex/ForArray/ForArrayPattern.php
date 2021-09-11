@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\ForArray;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\ForArray\FilteredArray;
+use TRegx\CleanRegex\Internal\FilteredArray;
 use TRegx\SafeRegex\preg;
 
 class ForArrayPattern

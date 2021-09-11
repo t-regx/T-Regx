@@ -1,8 +1,6 @@
 <?php
-namespace TRegx\CleanRegex\Internal\ForArray;
+namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\InvalidArgument;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\SafeRegex\preg;
 
