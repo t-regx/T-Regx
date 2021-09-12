@@ -41,7 +41,7 @@ class FilterStream implements Upstream
     private function firstElement(array $elements)
     {
         if (empty($elements)) {
-            throw new NoFirstStreamException();
+            throw new EmptyStreamException();
         }
         return \reset($elements);
     }

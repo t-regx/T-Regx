@@ -7,7 +7,7 @@ use Test\Utils\CustomException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Factory\Worker\FluentStreamWorker;
-use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
+use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
@@ -133,7 +133,7 @@ class FluentMatchPatternTest extends TestCase
     {
         /** @var Upstream|MockObject $stream */
         $stream = $this->createMock(Upstream::class);
-        $stream->expects($this->once())->method('first')->willThrowException(new NoFirstStreamException());
+        $stream->expects($this->once())->method('first')->willThrowException(new EmptyStreamException());
         $stream->expects($this->never())->method($this->logicalNot($this->matches('first')));
         return $stream;
     }

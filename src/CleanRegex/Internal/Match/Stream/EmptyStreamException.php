@@ -1,6 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-class NoFirstStreamException extends \Exception
+class EmptyStreamException extends \Exception
 {
 }

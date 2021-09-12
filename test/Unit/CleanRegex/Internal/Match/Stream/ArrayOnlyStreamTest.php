@@ -8,7 +8,7 @@ use Test\Utils\Impl\FirstKeyStream;
 use Test\Utils\Impl\FirstStream;
 use Test\Utils\Impl\ThrowStream;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
-use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
+use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream
@@ -66,10 +66,10 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldFirstThrow()
     {
         // given
-        $stream = new ArrayOnlyStream(new ThrowStream(new NoFirstStreamException()), 'strLen');
+        $stream = new ArrayOnlyStream(new ThrowStream(new EmptyStreamException()), 'strLen');
 
         // then
-        $this->expectException(NoFirstStreamException::class);
+        $this->expectException(EmptyStreamException::class);
 
         // when
         $stream->first();

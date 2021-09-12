@@ -9,8 +9,8 @@ use Test\Utils\Impl\TextDetail;
 use Test\Utils\Impl\TextGroup;
 use Test\Utils\Impl\ThrowStream;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
-use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 
 /**
@@ -88,10 +88,10 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldThrow_first()
     {
         // given
-        $stream = new GroupByCallbackStream(new ThrowStream(new NoFirstStreamException()), 'strLen');
+        $stream = new GroupByCallbackStream(new ThrowStream(new EmptyStreamException()), 'strLen');
 
         // then
-        $this->expectException(NoFirstStreamException::class);
+        $this->expectException(EmptyStreamException::class);
 
         // when
         $stream->first();

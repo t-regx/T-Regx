@@ -1,7 +1,7 @@
 <?php
 namespace Test\Utils\Impl;
 
-use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
+use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 
 class EmptyStream implements Upstream
@@ -13,11 +13,11 @@ class EmptyStream implements Upstream
 
     public function first()
     {
-        throw new NoFirstStreamException();
+        throw new EmptyStreamException();
     }
 
     public function firstKey()
     {
-        throw new NoFirstStreamException();
+        throw new EmptyStreamException();
     }
 }

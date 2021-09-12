@@ -32,7 +32,7 @@ class FlatMapStream implements Upstream
         if (!empty($flatMap)) {
             return \reset($flatMap);
         }
-        throw new NoFirstStreamException();
+        throw new EmptyStreamException();
     }
 
     public function firstKey()
@@ -43,7 +43,7 @@ class FlatMapStream implements Upstream
         if ($firstKey !== null) {
             return $firstKey;
         }
-        throw new NoFirstStreamException();
+        throw new EmptyStreamException();
     }
 
     private function flatMapTryFirstOrAll(): array

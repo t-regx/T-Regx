@@ -12,13 +12,13 @@ use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
+use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\FilterStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\IntegerStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
-use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Number;
 use TRegx\CleanRegex\Internal\Predicate;
@@ -71,7 +71,7 @@ class FluentMatchPattern implements MatchPatternInterface
             $firstElement = $this->stream->first();
         } catch (UnmatchedStreamException $exception) {
             return new EmptyOptional($this->worker->unmatchedFirst());
-        } catch (NoFirstStreamException $exception) {
+        } catch (EmptyStreamException $exception) {
             return new EmptyOptional($this->worker->noFirst());
         }
         return new PresentOptional($consumer($firstElement));

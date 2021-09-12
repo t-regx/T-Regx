@@ -4,8 +4,8 @@ namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
-use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Model\GroupHasAware;
 
@@ -54,6 +54,6 @@ class OffsetLimitStream implements Upstream
         if ($group !== null) {
             return $group;
         }
-        throw new NoFirstStreamException();
+        throw new EmptyStreamException();
     }
 }
