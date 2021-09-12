@@ -179,4 +179,23 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertSame([6, 45], $integers);
     }
+
+    /**
+     * @test
+     */
+    public function shouldForEach_acceptKey()
+    {
+        // given
+        $arguments = [];
+
+        // when
+        pattern('\w+')->match('Foo, Bar, Cat, Dur')
+            ->remaining(Functions::oneOf(['Foo', 'Cat', 'Dur']))
+            ->forEach(function (string $argument, int $index) use (&$arguments) {
+                $arguments[$argument] = $index;
+            });
+
+        // then
+        $this->assertSame(['Foo' => 0, 'Cat' => 1, 'Dur' => 2], $arguments);
+    }
 }

@@ -127,8 +127,8 @@ abstract class AbstractMatchPattern implements MatchPatternInterface
 
     public function forEach(callable $consumer): void
     {
-        foreach ($this->getDetailObjects() as $object) {
-            $consumer($object);
+        foreach (\array_values($this->getDetailObjects()) as $index => $object) {
+            $consumer($object, $index);
         }
     }
 

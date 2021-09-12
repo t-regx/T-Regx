@@ -6,6 +6,8 @@ Incoming
 
 * Breaking changes
     * `Pattern::inject()` no longer supports alteration. Use `Pattern::template()->alteration()`.
+* Features
+    * Added `pattern()->match()->forEach()` consumer accepts index as a second argument
 
 Added in 0.13.6
 ---------------
