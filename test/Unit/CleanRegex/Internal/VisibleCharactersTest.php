@@ -2,12 +2,12 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\InvisibleCharacters;
+use TRegx\CleanRegex\Internal\VisibleCharacters;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\InvisibleCharacters
+ * @covers \TRegx\CleanRegex\Internal\VisibleCharacters
  */
-class InvisibleCharactersTest extends TestCase
+class VisibleCharactersTest extends TestCase
 {
     /**
      * @test
@@ -18,7 +18,7 @@ class InvisibleCharactersTest extends TestCase
     public function test(string $value, string $expected)
     {
         // when
-        $visible = new InvisibleCharacters($value);
+        $visible = new VisibleCharacters($value);
 
         // then
         $this->assertSame($expected, "$visible");

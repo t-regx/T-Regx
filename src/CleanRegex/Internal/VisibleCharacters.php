@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Internal\Type\Type;
 
-class InvisibleCharacters implements Type
+class VisibleCharacters implements Type
 {
     /** @var string */
     private $string;
