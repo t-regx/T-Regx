@@ -12,17 +12,17 @@ class Definitions
 {
     public static function composed(array $patterns, callable $patternDefinition): array
     {
-        return \iterator_to_array(self::internalPatterns($patterns, $patternDefinition));
+        return \iterator_to_array(self::definitions($patterns, $patternDefinition));
     }
 
-    private static function internalPatterns(array $patterns, callable $patternDefinition): Generator
+    private static function definitions(array $patterns, callable $patternDefinition): Generator
     {
         foreach ($patterns as $pattern) {
-            yield self::patternToOutput($pattern, $patternDefinition)->definition();
+            yield self::expression($pattern, $patternDefinition)->definition();
         }
     }
 
-    private static function patternToOutput($pattern, callable $patternDefinition): Expression
+    private static function expression($pattern, callable $patternDefinition): Expression
     {
         if (\is_string($pattern)) {
             return new Standard($pattern, '');
