@@ -5,9 +5,9 @@ use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\FlatMapStrategy;
 use TRegx\CleanRegex\Internal\Nested;
 
-class FlatMappingStream implements Stream
+class FlatMappingStream implements Upstream
 {
-    /** @var Stream */
+    /** @var Upstream */
     private $stream;
     /** @var FlatMapStrategy */
     private $strategy;

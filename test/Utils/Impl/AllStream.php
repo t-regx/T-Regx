@@ -1,9 +1,9 @@
 <?php
 namespace Test\Utils\Impl;
 
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 
-class AllStream implements Stream
+class AllStream implements Upstream
 {
     /** @var array */
     private $values;

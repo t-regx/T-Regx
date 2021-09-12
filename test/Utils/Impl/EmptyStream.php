@@ -2,9 +2,9 @@
 namespace Test\Utils\Impl;
 
 use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 
-class EmptyStream implements Stream
+class EmptyStream implements Upstream
 {
     public function all(): array
     {

@@ -11,16 +11,16 @@ use TRegx\CleanRegex\Internal\Number\StringNumber;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Intable;
 
-class IntStream implements Stream
+class IntStream implements Upstream
 {
     use PreservesKey;
 
-    /** @var Stream */
+    /** @var Upstream */
     private $stream;
     /** @var Base */
     private $base;
 
-    public function __construct(Stream $stream, Base $base)
+    public function __construct(Upstream $stream, Base $base)
     {
         $this->stream = $stream;
         $this->base = $base;

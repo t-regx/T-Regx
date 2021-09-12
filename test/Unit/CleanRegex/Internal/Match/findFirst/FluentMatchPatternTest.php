@@ -8,7 +8,7 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Factory\Worker\FluentStreamWorker;
 use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 /**
@@ -120,19 +120,19 @@ class FluentMatchPatternTest extends TestCase
         return new FluentStreamWorker();
     }
 
-    private function firstStream($return, int $times = 1): Stream
+    private function firstStream($return, int $times = 1): Upstream
     {
-        /** @var Stream|MockObject $stream */
-        $stream = $this->createMock(Stream::class);
+        /** @var Upstream|MockObject $stream */
+        $stream = $this->createMock(Upstream::class);
         $stream->expects($this->exactly($times))->method('first')->willReturn($return);
         $stream->expects($this->never())->method($this->logicalNot($this->matches('first')));
         return $stream;
     }
 
-    private function unmatchedMock(): Stream
+    private function unmatchedMock(): Upstream
     {
-        /** @var Stream|MockObject $stream */
-        $stream = $this->createMock(Stream::class);
+        /** @var Upstream|MockObject $stream */
+        $stream = $this->createMock(Upstream::class);
         $stream->expects($this->once())->method('first')->willThrowException(new NoFirstStreamException());
         $stream->expects($this->never())->method($this->logicalNot($this->matches('first')));
         return $stream;

@@ -1,9 +1,9 @@
 <?php
 namespace Test\Utils\Impl;
 
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 
-class FirstKeyStream implements Stream
+class FirstKeyStream implements Upstream
 {
     /** @var string|int */
     private $firstKey;

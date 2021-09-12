@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-interface Stream extends ValueStream
+interface Upstream extends ValueStream
 {
     /**
      * @return string|int

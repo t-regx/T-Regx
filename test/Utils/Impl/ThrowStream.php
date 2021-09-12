@@ -2,9 +2,9 @@
 namespace Test\Utils\Impl;
 
 use AssertionError;
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 
-class ThrowStream implements Stream
+class ThrowStream implements Upstream
 {
     /** @var \Throwable */
     private $throwable;

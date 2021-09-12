@@ -19,18 +19,18 @@ use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeysStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MappingStream;
 use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Number;
 use TRegx\CleanRegex\Internal\Predicate;
 
 class FluentMatchPattern implements MatchPatternInterface
 {
-    /** @var Stream */
+    /** @var Upstream */
     private $stream;
     /** @var StreamWorker */
     private $worker;
 
-    public function __construct(Stream $stream, StreamWorker $worker)
+    public function __construct(Upstream $stream, StreamWorker $worker)
     {
         $this->stream = $stream;
         $this->worker = $worker;
@@ -164,7 +164,7 @@ class FluentMatchPattern implements MatchPatternInterface
         return $this->next(new GroupByCallbackStream($this->stream, $groupMapper));
     }
 
-    private function next(Stream $stream): FluentMatchPattern
+    private function next(Upstream $stream): FluentMatchPattern
     {
         return new FluentMatchPattern($stream, $this->worker->undecorateWorker());
     }

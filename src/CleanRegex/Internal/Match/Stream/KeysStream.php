@@ -1,14 +1,14 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-class KeysStream implements Stream
+class KeysStream implements Upstream
 {
     use ListStream;
 
-    /** @var Stream */
+    /** @var Upstream */
     private $stream;
 
-    public function __construct(Stream $stream)
+    public function __construct(Upstream $stream)
     {
         $this->stream = $stream;
     }

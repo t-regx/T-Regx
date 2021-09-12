@@ -26,7 +26,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupOffsetStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
@@ -200,7 +200,7 @@ class GroupLimit implements \IteratorAggregate
             new ThrowInternalStreamWorker());
     }
 
-    private function stream(): Stream
+    private function stream(): Upstream
     {
         return new MatchGroupStream($this->base, $this->groupAware, $this->group, $this->matchAllFactory);
     }

@@ -11,7 +11,7 @@ use Test\Utils\Impl\ThrowStream;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream
@@ -101,9 +101,9 @@ class GroupByCallbackStreamTest extends TestCase
      * @test
      * @dataProvider inputStreams
      * @param string $method
-     * @param Stream $input
+     * @param Upstream $input
      */
-    public function shouldThrowForInvalidGroupByType_all(string $method, Stream $input)
+    public function shouldThrowForInvalidGroupByType_all(string $method, Upstream $input)
     {
         // given
         $stream = new GroupByCallbackStream($input, Functions::constant([]));

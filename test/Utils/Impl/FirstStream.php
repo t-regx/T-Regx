@@ -1,9 +1,9 @@
 <?php
 namespace Test\Utils\Impl;
 
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 
-class FirstStream implements Stream
+class FirstStream implements Upstream
 {
     /** @var mixed */
     private $firstValue;

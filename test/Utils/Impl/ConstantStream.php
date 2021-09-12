@@ -1,9 +1,9 @@
 <?php
 namespace Test\Utils\Impl;
 
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 
-class ConstantStream implements Stream
+class ConstantStream implements Upstream
 {
     private $firstValue;
     /** @var array */

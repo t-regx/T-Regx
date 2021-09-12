@@ -12,7 +12,7 @@ use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream;
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\FlatMappingStream
@@ -97,10 +97,10 @@ class FlatMappingStreamTest extends TestCase
     /**
      * @test
      * @dataProvider methodsInvalidReturn
-     * @param Stream $input
+     * @param Upstream $input
      * @param string $method
      */
-    public function shouldThrow_forInvalidReturnType(Stream $input, string $method)
+    public function shouldThrow_forInvalidReturnType(Upstream $input, string $method)
     {
         // given
         $stream = new FlatMappingStream($input, new ThrowFlatMap(), new FlatFunction('strLen', 'hello'));

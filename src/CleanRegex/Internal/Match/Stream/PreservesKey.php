@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 trait PreservesKey
 {
-    /** @var Stream */
+    /** @var Upstream */
     private $stream;
 
     public function firstKey()

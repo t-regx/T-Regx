@@ -10,7 +10,7 @@ use Test\Utils\Impl\FirstStream;
 use Test\Utils\Impl\ThrowStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MappingStream;
 use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\MappingStream
@@ -95,10 +95,10 @@ class MappingStreamTest extends TestCase
         $stream->first();
     }
 
-    private function mock(string $methodName, string $setter, $value): Stream
+    private function mock(string $methodName, string $setter, $value): Upstream
     {
-        /** @var Stream|MockObject $stream */
-        $stream = $this->createMock(Stream::class);
+        /** @var Upstream|MockObject $stream */
+        $stream = $this->createMock(Upstream::class);
         $stream->expects($this->once())->method($methodName)->$setter($value);
         $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
         return $stream;

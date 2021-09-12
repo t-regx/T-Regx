@@ -1,16 +1,16 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-class MappingStream implements Stream
+class MappingStream implements Upstream
 {
     use PreservesKey;
 
-    /** @var Stream */
+    /** @var Upstream */
     private $stream;
     /** @var callable */
     private $mapper;
 
-    public function __construct(Stream $stream, callable $mapper)
+    public function __construct(Upstream $stream, callable $mapper)
     {
         $this->stream = $stream;
         $this->mapper = $mapper;

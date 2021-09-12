@@ -6,7 +6,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Factory\Worker\FluentStreamWorker;
-use TRegx\CleanRegex\Internal\Match\Stream\Stream;
+use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 /**
@@ -96,19 +96,19 @@ class FluentMatchPatternTest extends TestCase
         return new FluentStreamWorker();
     }
 
-    private function stream(array $return, int $times = 1): Stream
+    private function stream(array $return, int $times = 1): Upstream
     {
-        /** @var Stream|MockObject $stream */
-        $stream = $this->createMock(Stream::class);
+        /** @var Upstream|MockObject $stream */
+        $stream = $this->createMock(Upstream::class);
         $stream->expects($this->exactly($times))->method('all')->willReturn($return);
         $stream->expects($this->never())->method($this->logicalNot($this->matches('all')));
         return $stream;
     }
 
-    private function zeroInteraction(): Stream
+    private function zeroInteraction(): Upstream
     {
-        /** @var Stream|MockObject $stream */
-        $stream = $this->createMock(Stream::class);
+        /** @var Upstream|MockObject $stream */
+        $stream = $this->createMock(Upstream::class);
         $stream->expects($this->never())->method($this->anything());
         return $stream;
     }

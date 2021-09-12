@@ -6,9 +6,9 @@ use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
-class GroupByCallbackStream implements Stream
+class GroupByCallbackStream implements Upstream
 {
-    /** @var Stream */
+    /** @var Upstream */
     private $stream;
     /** @var callable */
     private $mapper;

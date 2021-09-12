@@ -4,16 +4,16 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 use TRegx\CleanRegex\Internal\Predicate;
 
-class FilterStream implements Stream
+class FilterStream implements Upstream
 {
     use ListStream;
 
     /** @var MethodPredicate */
     private $predicate;
-    /** @var Stream */
+    /** @var Upstream */
     private $stream;
 
-    public function __construct(Stream $stream, Predicate $predicate)
+    public function __construct(Upstream $stream, Predicate $predicate)
     {
         $this->stream = $stream;
         $this->predicate = $predicate;
