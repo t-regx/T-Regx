@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\StrictInterpretation;
 use TRegx\CleanRegex\Internal\Flags;
+use TRegx\CleanRegex\Internal\Prepared\Candidates;
 use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
 use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
@@ -16,18 +17,21 @@ class Mask implements Expression
 
     /** @var MaskToken */
     private $token;
-    /** @var string[] */
-    private $keywords;
+    /** @var Candidates */
+    private $candidates;
     /** @var Flags */
     private $flags;
+    /** @var string[] */
+    private $keywords;
     /** @var string */
     private $mask;
 
     public function __construct(string $mask, array $keywords, string $flags)
     {
         $this->token = new MaskToken($mask, $keywords);
-        $this->keywords = $keywords;
+        $this->candidates = new Candidates($this->token);
         $this->flags = new Flags($flags);
+        $this->keywords = $keywords;
         $this->mask = $mask;
     }
 
@@ -39,7 +43,7 @@ class Mask implements Expression
     protected function delimiter(): Delimiter
     {
         try {
-            return Delimiter::suitable(\implode($this->keywords));
+            return $this->candidates->delimiter();
         } catch (UndelimiterablePatternException $exception) {
             throw ExplicitDelimiterRequiredException::forMask($this->keywords);
         }
