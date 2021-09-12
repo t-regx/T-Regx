@@ -15,7 +15,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\FilterStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
-use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
+use TRegx\CleanRegex\Internal\Match\Stream\IntegerStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
@@ -156,7 +156,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function asInt(int $base = null): FluentMatchPattern
     {
-        return $this->next(new IntStream($this->stream, new Number\Base($base)));
+        return $this->next(new IntegerStream($this->stream, new Number\Base($base)));
     }
 
     public function groupByCallback(callable $groupMapper): FluentMatchPattern

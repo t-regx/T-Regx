@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\Number\StringNumber;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Intable;
 
-class IntStream implements Upstream
+class IntegerStream implements Upstream
 {
     use PreservesKey;
 

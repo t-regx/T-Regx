@@ -11,13 +11,13 @@ use Test\Utils\Impl\ThrowBase;
 use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
-use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
+use TRegx\CleanRegex\Internal\Match\Stream\IntegerStream;
 use TRegx\CleanRegex\Internal\Number\Base;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\Stream\IntStream
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\IntegerStream
  */
-class IntStreamTest extends TestCase
+class IntegerStreamTest extends TestCase
 {
     use ExactExceptionMessage;
 
@@ -27,7 +27,7 @@ class IntStreamTest extends TestCase
     public function test()
     {
         // given
-        $stream = new IntStream(new AllStream(['1', 2, new ConstantInt(4)]), new Base(2));
+        $stream = new IntegerStream(new AllStream(['1', 2, new ConstantInt(4)]), new Base(2));
 
         // when
         $values = $stream->all();
@@ -42,7 +42,7 @@ class IntStreamTest extends TestCase
     public function shouldAllThrowForMalformedInteger()
     {
         // given
-        $stream = new IntStream(new AllStream(['Foo']), new Base(10));
+        $stream = new IntegerStream(new AllStream(['Foo']), new Base(10));
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -58,7 +58,7 @@ class IntStreamTest extends TestCase
     public function shouldAllThrowForInvalidDataType()
     {
         // given
-        $stream = new IntStream(new AllStream([true]), new ThrowBase());
+        $stream = new IntegerStream(new AllStream([true]), new ThrowBase());
 
         // then
         $this->expectException(FluentMatchPatternException::class);
@@ -74,7 +74,7 @@ class IntStreamTest extends TestCase
     public function shouldGetFirstString()
     {
         // given
-        $stream = new IntStream(new FirstStream('-123'), new Base(10));
+        $stream = new IntegerStream(new FirstStream('-123'), new Base(10));
 
         // when
         $value = $stream->first();
@@ -89,7 +89,7 @@ class IntStreamTest extends TestCase
     public function shouldGetFirstStringBase4()
     {
         // given
-        $stream = new IntStream(new FirstStream('-123'), new Base(4));
+        $stream = new IntegerStream(new FirstStream('-123'), new Base(4));
 
         // when
         $value = $stream->first();
@@ -104,7 +104,7 @@ class IntStreamTest extends TestCase
     public function shouldGetFirstInteger()
     {
         // given
-        $stream = new IntStream(new FirstStream(1), new ThrowBase());
+        $stream = new IntegerStream(new FirstStream(1), new ThrowBase());
 
         // when
         $value = $stream->first();
@@ -119,7 +119,7 @@ class IntStreamTest extends TestCase
     public function shouldGetFirstIntable()
     {
         // given
-        $stream = new IntStream(new FirstStream(new ConstantInt(4)), new ThrowBase());
+        $stream = new IntegerStream(new FirstStream(new ConstantInt(4)), new ThrowBase());
 
         // when
         $value = $stream->first();
@@ -134,7 +134,7 @@ class IntStreamTest extends TestCase
     public function shouldFirstThrowForMalformedInteger()
     {
         // given
-        $stream = new IntStream(new FirstStream('Foo'), new Base(14));
+        $stream = new IntegerStream(new FirstStream('Foo'), new Base(14));
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -150,7 +150,7 @@ class IntStreamTest extends TestCase
     public function shouldFirstThrowForOverflownInteger()
     {
         // given
-        $stream = new IntStream(new FirstStream('9223372036854775809'), new Base(10));
+        $stream = new IntegerStream(new FirstStream('9223372036854775809'), new Base(10));
 
         // then
         $this->expectException(IntegerOverflowException::class);
@@ -166,7 +166,7 @@ class IntStreamTest extends TestCase
     public function shouldFirstThrowForOverflownInteger_inBase16()
     {
         // given
-        $stream = new IntStream(new FirstStream('922337203685477580000'), new Base(16));
+        $stream = new IntegerStream(new FirstStream('922337203685477580000'), new Base(16));
 
         // then
         $this->expectException(IntegerOverflowException::class);
@@ -182,7 +182,7 @@ class IntStreamTest extends TestCase
     public function shouldFirstThrowForInvalidDataType()
     {
         // given
-        $stream = new IntStream(new FirstStream(true), new ThrowBase());
+        $stream = new IntegerStream(new FirstStream(true), new ThrowBase());
 
         // then
         $this->expectException(FluentMatchPatternException::class);
@@ -198,7 +198,7 @@ class IntStreamTest extends TestCase
     public function shouldGetIdentityKey()
     {
         // given
-        $stream = new IntStream(new FirstKeyStream(4), new ThrowBase());
+        $stream = new IntegerStream(new FirstKeyStream(4), new ThrowBase());
 
         // when
         $firstKey = $stream->firstKey();
