@@ -18,15 +18,4 @@ class Delimiter
     {
         return $this->delimiter . $word->quoted($this->delimiter) . $this->delimiter . $flags;
     }
-
-    public static function suitable(string $delimiterable): Delimiter
-    {
-        $delimiters = ['/', '#', '%', '~', '+', '!', '@', '_', ';', '`', '-', '=', ',', "\1"];
-        foreach ($delimiters as $delimiter) {
-            if (\strpos($delimiterable, $delimiter) === false) {
-                return new Delimiter($delimiter);
-            }
-        }
-        throw new UndelimiterablePatternException();
-    }
 }

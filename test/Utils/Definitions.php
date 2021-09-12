@@ -2,12 +2,14 @@
 namespace Test\Utils;
 
 use AssertionError;
+use TRegx\CleanRegex\Internal\Candidates;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Expression\Standard;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Word\PatternWord;
 use TRegx\CleanRegex\Internal\TrailingBackslash;
+use TRegx\CleanRegex\Internal\UnsuitableStringCondition;
 
 class Definitions
 {
@@ -17,11 +19,16 @@ class Definitions
             throw new AssertionError();
         }
         /**
-         * I intentionally not use {@see Standard}, because if there are bugs in it,
+         * I intentionally don't use {@see Standard}, because if there are bugs in it,
          * then the tests are compromised. By using low-level {@see Delimiter} and
          * {@see PatternWord} to reduce the posibilities of false-positives in tests.
          */
-        return new Definition(Delimiter::suitable($pattern)->delimited(new PatternWord($pattern), new Flags($flags ?? '')), $pattern);
+        return new Definition(self::candidates($pattern)->delimiter()->delimited(new PatternWord($pattern), new Flags($flags ?? '')), $pattern);
+    }
+
+    private static function candidates(string $delimiterable): Candidates
+    {
+        return new Candidates(new UnsuitableStringCondition($delimiterable));
     }
 
     public static function pcre(string $pattern): Definition
