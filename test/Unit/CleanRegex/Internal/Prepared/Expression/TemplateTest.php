@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Expression;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\ConstantFigures;
-use Test\Utils\Impl\EqualsCondition;
+use Test\Fakes\CleanRegex\Internal\EqualsCondition;
+use Test\Fakes\CleanRegex\Internal\Prepared\Figure\ConstantFigures;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;

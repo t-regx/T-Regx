@@ -3,11 +3,11 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstKeyStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\ThrowStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
 use Test\Utils\Functions;
-use Test\Utils\Impl\AllStream;
-use Test\Utils\Impl\FirstKeyStream;
-use Test\Utils\Impl\FirstStream;
-use Test\Utils\Impl\ThrowStream;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;

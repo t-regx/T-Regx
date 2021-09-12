@@ -2,9 +2,9 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Match\Base\ConstantAllBase;
+use Test\Fakes\CleanRegex\Internal\Model\GroupKeys;
 use Test\Utils\Functions;
-use Test\Utils\Impl\ConstantAllBase;
-use Test\Utils\Impl\GroupKeys;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;

@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\Details\Group;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\NameOnlyDetails;
-use Test\Utils\Impl\ThrowSubject;
+use Test\Fakes\CleanRegex\Internal\Match\Details\Group\NameOnlyDetails;
+use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceNotMatchedGroup;

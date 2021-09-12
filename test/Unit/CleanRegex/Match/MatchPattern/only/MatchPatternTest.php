@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\PhpunitPolyfill;
 use Test\Utils\Definitions;
-use Test\Utils\Impl\ThrowSubject;
+use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\MatchPattern;

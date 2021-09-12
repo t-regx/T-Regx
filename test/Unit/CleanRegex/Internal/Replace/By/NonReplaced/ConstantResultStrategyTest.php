@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\ThrowSubject;
+use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
 
 /**

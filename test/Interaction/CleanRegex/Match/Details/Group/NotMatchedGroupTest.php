@@ -2,17 +2,17 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\Details\Group;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\CustomException;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
-use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Internal\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Messages\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\StringSubject;

@@ -2,11 +2,11 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\_all_unmatched;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Factory\Worker\ThrowingOptionalWorker;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\EmptyStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\ThrowStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
 use Test\Utils\Functions;
-use Test\Utils\Impl\AllStream;
-use Test\Utils\Impl\EmptyStream;
-use Test\Utils\Impl\ThrowingOptionalWorker;
-use Test\Utils\Impl\ThrowStream;
 use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Match\FluentMatchPattern;

@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\AcceptPredicate;
-use Test\Utils\Impl\ConstantPredicate;
+use Test\Fakes\CleanRegex\Internal\Delimiter\AcceptPredicate;
+use Test\Fakes\CleanRegex\Internal\Delimiter\ConstantPredicate;
 use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
 use TRegx\CleanRegex\Internal\Delimiter\PcreString;
 

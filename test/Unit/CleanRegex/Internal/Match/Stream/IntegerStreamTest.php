@@ -2,12 +2,12 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstKeyStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
+use Test\Fakes\CleanRegex\Internal\Number\ThrowBase;
+use Test\Fakes\CleanRegex\Match\Details\ConstantInt;
 use Test\Utils\ExactExceptionMessage;
-use Test\Utils\Impl\AllStream;
-use Test\Utils\Impl\ConstantInt;
-use Test\Utils\Impl\FirstKeyStream;
-use Test\Utils\Impl\FirstStream;
-use Test\Utils\Impl\ThrowBase;
 use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;

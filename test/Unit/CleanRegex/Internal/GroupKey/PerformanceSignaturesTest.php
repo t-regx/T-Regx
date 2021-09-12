@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\GroupKey;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\GroupKeys;
-use Test\Utils\Impl\ThrowGroupAware;
+use Test\Fakes\CleanRegex\Internal\Model\GroupKeys;
+use Test\Fakes\CleanRegex\Internal\Model\ThrowGroupAware;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;

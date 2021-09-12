@@ -3,8 +3,8 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\Details;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Match\Base\CallsCountingBase;
 use Test\Utils\Definitions;
-use Test\Utils\Impl\CallsCountingBase;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;

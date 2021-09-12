@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Orthography;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\EqualsCondition;
-use Test\Utils\Impl\ThrowCondition;
+use Test\Fakes\CleanRegex\Internal\EqualsCondition;
+use Test\Fakes\CleanRegex\Internal\ThrowCondition;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling;

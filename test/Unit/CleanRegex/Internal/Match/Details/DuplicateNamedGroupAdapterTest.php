@@ -3,8 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Details;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\IntGroup;
-use Test\Utils\Impl\IsIntGroup;
+use Test\Fakes\CleanRegex\Match\Details\Group\IntGroup;
+use Test\Fakes\CleanRegex\Match\Details\Group\IsIntGroup;
 use TRegx\CleanRegex\Internal\Match\Details\DuplicateNamedGroupAdapter;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 

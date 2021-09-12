@@ -2,12 +2,12 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Match\FlatMap\ReverseFlatMap;
+use Test\Fakes\CleanRegex\Internal\Match\FlatMap\ThrowFlatMap;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\ConstantStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
 use Test\Utils\Functions;
-use Test\Utils\Impl\AllStream;
-use Test\Utils\Impl\ConstantStream;
-use Test\Utils\Impl\FirstStream;
-use Test\Utils\Impl\ReverseFlatMap;
-use Test\Utils\Impl\ThrowFlatMap;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;

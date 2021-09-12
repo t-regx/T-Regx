@@ -2,11 +2,11 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\first;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Factory\Worker\ThrowingOptionalWorker;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\EmptyStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstStream;
 use Test\Utils\CustomException;
 use Test\Utils\Functions;
-use Test\Utils\Impl\EmptyStream;
-use Test\Utils\Impl\FirstStream;
-use Test\Utils\Impl\ThrowingOptionalWorker;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 /**

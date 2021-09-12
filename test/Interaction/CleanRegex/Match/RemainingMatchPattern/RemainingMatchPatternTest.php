@@ -2,11 +2,11 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\RemainingMatchPattern;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Match\Base\ThrowApiBase;
+use Test\Fakes\CleanRegex\Internal\Match\CallbackPredicate;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Definitions;
 use Test\Utils\Functions;
-use Test\Utils\Impl\CallbackPredicate;
-use Test\Utils\Impl\ThrowApiBase;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;

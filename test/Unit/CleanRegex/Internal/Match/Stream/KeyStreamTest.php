@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\AllStream;
-use Test\Utils\Impl\FirstKeyStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstKeyStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
 
 /**

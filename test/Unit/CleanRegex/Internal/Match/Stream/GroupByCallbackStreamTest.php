@@ -2,12 +2,12 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\ThrowStream;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
+use Test\Fakes\CleanRegex\Match\Details\Group\TextGroup;
+use Test\Fakes\CleanRegex\Match\Details\TextDetail;
 use Test\Utils\Functions;
-use Test\Utils\Impl\AllStream;
-use Test\Utils\Impl\FirstStream;
-use Test\Utils\Impl\TextDetail;
-use Test\Utils\Impl\TextGroup;
-use Test\Utils\Impl\ThrowStream;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;

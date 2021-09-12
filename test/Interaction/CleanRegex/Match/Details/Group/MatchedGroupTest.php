@@ -3,10 +3,10 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\Details\Group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\ConstantEntry;
-use Test\Utils\Impl\ThrowGroupDetails;
-use Test\Utils\Impl\ThrowSubject;
-use Test\Utils\Impl\ThrowSubstituted;
+use Test\Fakes\CleanRegex\Internal\Match\Details\Group\ThrowGroupDetails;
+use Test\Fakes\CleanRegex\Internal\Match\Details\Group\ThrowSubstituted;
+use Test\Fakes\CleanRegex\Internal\Model\Match\ConstantEntry;
+use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;

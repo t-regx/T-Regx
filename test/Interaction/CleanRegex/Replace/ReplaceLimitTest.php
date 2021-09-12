@@ -3,8 +3,8 @@ namespace Test\Interaction\TRegx\CleanRegex\Replace;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\Definitions;
-use Test\Utils\Impl\ThrowSubject;
 use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Replace\ReplaceLimit;

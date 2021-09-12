@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Parser\Consumer;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\ConstantFigures;
+use Test\Fakes\CleanRegex\Internal\Prepared\Figure\ConstantFigures;
 use Test\Utils\PatternEntitiesAssertion;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Figure\ExpectedFigures;

@@ -2,9 +2,9 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\Details\Groups;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\GroupKeys;
-use Test\Utils\Impl\ThrowRenameMe;
-use Test\Utils\Impl\ThrowSubject;
+use Test\Fakes\CleanRegex\Internal\Model\GroupKeys;
+use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowRenameMe;
+use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 
 /**

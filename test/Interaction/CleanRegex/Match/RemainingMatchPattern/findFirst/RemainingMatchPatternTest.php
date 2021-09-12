@@ -2,12 +2,12 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\RemainingMatchPattern\findFirst;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Match\Base\ThrowApiBase;
+use Test\Fakes\CleanRegex\Internal\Match\CallbackPredicate;
+use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ThrowFactory;
 use Test\Utils\AssertsOptional;
 use Test\Utils\Definitions;
 use Test\Utils\Functions;
-use Test\Utils\Impl\CallbackPredicate;
-use Test\Utils\Impl\ThrowApiBase;
-use Test\Utils\Impl\ThrowFactory;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\UserData;

@@ -2,9 +2,9 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\ConstantEntry;
-use Test\Utils\Impl\OffsetEntry;
-use Test\Utils\Impl\ThrowSubject;
+use Test\Fakes\CleanRegex\Internal\Model\Match\ConstantEntry;
+use Test\Fakes\CleanRegex\Internal\Model\Match\OffsetEntry;
+use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use TRegx\CleanRegex\Internal\Offset\SubjectCoordinates;
 use TRegx\CleanRegex\Internal\StringSubject;
 

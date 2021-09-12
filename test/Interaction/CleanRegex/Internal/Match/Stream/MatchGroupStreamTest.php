@@ -2,9 +2,9 @@
 namespace Test\Interaction\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ThrowFactory;
+use Test\Fakes\CleanRegex\Internal\Model\ThrowGroupAware;
 use Test\Utils\Definitions;
-use Test\Utils\Impl\ThrowFactory;
-use Test\Utils\Impl\ThrowGroupAware;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;

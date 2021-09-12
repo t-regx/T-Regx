@@ -2,9 +2,9 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Model;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\ConstantAll;
-use Test\Utils\Impl\ThrowFactory;
-use Test\Utils\Impl\ThrowFalseNegative;
+use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ConstantAll;
+use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ThrowFactory;
+use Test\Fakes\CleanRegex\Internal\Model\ThrowFalseNegative;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;

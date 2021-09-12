@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Number;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Number\ThrowBase;
 use Test\Utils\ArchitectureDependant;
-use Test\Utils\Impl\ThrowBase;
 use TRegx\CleanRegex\Internal\Number\Base;
 use TRegx\CleanRegex\Internal\Number\NumberFormatException;
 use TRegx\CleanRegex\Internal\Number\NumberOverflowException;

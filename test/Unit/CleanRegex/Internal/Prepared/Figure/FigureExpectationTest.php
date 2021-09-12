@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Figure;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\ConstantFigures;
+use Test\Fakes\CleanRegex\Internal\Prepared\Figure\ConstantFigures;
 use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Internal\Prepared\Figure\FigureExpectation;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;

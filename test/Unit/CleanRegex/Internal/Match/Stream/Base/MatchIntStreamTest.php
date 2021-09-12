@@ -2,10 +2,10 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream\Base;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\Base\AllStreamBase;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\Base\FirstStreamBase;
+use Test\Fakes\CleanRegex\Internal\Number\ThrowBase;
 use Test\Utils\ExactExceptionMessage;
-use Test\Utils\Impl\AllStreamBase;
-use Test\Utils\Impl\FirstStreamBase;
-use Test\Utils\Impl\ThrowBase;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;

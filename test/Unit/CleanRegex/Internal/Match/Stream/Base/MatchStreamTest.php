@@ -2,10 +2,10 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream\Base;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\AllStreamBase;
-use Test\Utils\Impl\FirstStreamBase;
-use Test\Utils\Impl\ThrowFactory;
-use Test\Utils\Impl\ThrowSubject;
+use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ThrowFactory;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\Base\AllStreamBase;
+use Test\Fakes\CleanRegex\Internal\Match\Stream\Base\FirstStreamBase;
+use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream;

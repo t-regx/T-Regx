@@ -2,13 +2,13 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\Details;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\ConstantModification;
-use Test\Utils\Impl\GroupDetail;
-use Test\Utils\Impl\TextDetail;
-use Test\Utils\Impl\ThrowDetail;
-use Test\Utils\Impl\ThrowEntry;
-use Test\Utils\Impl\ThrowModification;
-use Test\Utils\Impl\UserDataDetail;
+use Test\Fakes\CleanRegex\Replace\Details\ConstantModification;
+use Test\Fakes\CleanRegex\Match\Details\GroupDetail;
+use Test\Fakes\CleanRegex\Match\Details\TextDetail;
+use Test\Fakes\CleanRegex\Match\Details\ThrowDetail;
+use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowEntry;
+use Test\Fakes\CleanRegex\Replace\Details\ThrowModification;
+use Test\Fakes\CleanRegex\Match\Details\UserDataDetail;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;

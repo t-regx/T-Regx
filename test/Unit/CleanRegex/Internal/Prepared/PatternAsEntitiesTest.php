@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Impl\ThrowPlaceholderConsumer;
+use Test\Fakes\CleanRegex\Internal\Prepared\Parser\Consumer\ThrowPlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpen;
