@@ -4,11 +4,11 @@ namespace TRegx\CleanRegex\Internal\Prepared\Template;
 use Generator;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Internal\Needles;
+use TRegx\CleanRegex\Internal\Prepared\Template\Mask\KeywordPattern;
 use TRegx\CleanRegex\Internal\Prepared\Word\CompositeWord;
 use TRegx\CleanRegex\Internal\Prepared\Word\PatternWord;
 use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
 use TRegx\CleanRegex\Internal\Prepared\Word\Word;
-use TRegx\CleanRegex\Internal\TrailingBackslash;
 use TRegx\CleanRegex\Internal\Type\MaskType;
 use TRegx\CleanRegex\Internal\Type\Type;
 use TRegx\CleanRegex\Internal\ValidPattern;
@@ -34,7 +34,10 @@ class MaskToken implements Token
     public function word(): Word
     {
         foreach ($this->keywords as $keyword => $pattern) {
-            $this->validatePair($pattern, $keyword);
+            $keywordPattern = new KeywordPattern($pattern);
+            if (!$keywordPattern->valid()) {
+                throw new MaskMalformedPatternException("Malformed pattern '$pattern' assigned to keyword '$keyword'");
+            }
         }
         foreach ($this->keywords as $keyword => $pattern) {
             $this->validateEmpty($keyword);
@@ -50,13 +53,6 @@ class MaskToken implements Token
             } else {
                 yield new TextWord($stringOrKeyword);
             }
-        }
-    }
-
-    private function validatePair(string $pattern, string $keyword): void
-    {
-        if (TrailingBackslash::hasTrailingSlash($pattern) || !ValidPattern::isValidStandard($pattern)) {
-            throw new MaskMalformedPatternException("Malformed pattern '$pattern' assigned to keyword '$keyword'");
         }
     }
 
