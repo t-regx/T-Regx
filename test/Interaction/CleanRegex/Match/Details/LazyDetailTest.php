@@ -2,11 +2,10 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\Details;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Definitions;
+use Test\Utils\Impl\CallsCountingBase;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
-use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\StringSubject;
@@ -348,12 +347,16 @@ class LazyDetailTest extends TestCase
     public function shouldCallBaseOnce()
     {
         // given
-        $detail = new LazyDetail($this->baseMock(), 0, -1);
+        $base = new CallsCountingBase(new RawMatchesOffset([[['', 14]]]));
+        $detail = new LazyDetail($base, 0, -1);
 
         // when
         $detail->text();
         $detail->get(0);
         $detail->byteOffset();
+
+        // then
+        $this->assertSame(1, $base->calls());
     }
 
     /**
@@ -382,13 +385,5 @@ class LazyDetailTest extends TestCase
     private function detailWithIndex(string $pattern, string $subject, int $index): LazyDetail
     {
         return new LazyDetail(new ApiBase(Definitions::pattern($pattern, 'u'), new StringSubject($subject), new UserData()), $index, 14);
-    }
-
-    private function baseMock(): Base
-    {
-        /** @var Base|MockObject $base */
-        $base = $this->createMock(Base::class);
-        $base->expects($this->once())->method('matchAllOffsets')->willReturn(new RawMatchesOffset([[['', 14]]]));
-        return $base;
     }
 }
