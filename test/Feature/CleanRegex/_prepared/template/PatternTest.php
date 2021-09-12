@@ -1,6 +1,7 @@
 <?php
 namespace Test\Feature\TRegx\CleanRegex\_prepared\template;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
@@ -199,5 +200,18 @@ class PatternTest extends TestCase
         // then
         $this->assertSamePattern('#/#', $pattern);
         $this->assertConsumesFirst('/', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForEmptyKeyword()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Keyword cannot be empty, must consist of at least one character');
+
+        // when
+        Pattern::template('@')->mask('foo', ['' => 'Bar'])->build();
     }
 }
