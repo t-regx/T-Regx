@@ -9,6 +9,7 @@ use Test\Utils\Impl\TextDetail;
 use Test\Utils\Impl\TextGroup;
 use Test\Utils\Impl\ThrowStream;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
@@ -24,7 +25,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $stream = new GroupByCallbackStream(new AllStream([10 => 'One', 20 => 'Two', 30 => 'Three']), Functions::charAt(0));
+        $stream = new GroupByCallbackStream(new AllStream([10 => 'One', 20 => 'Two', 30 => 'Three']), new GroupByFunction('', Functions::charAt(0)));
 
         // when
         $all = $stream->all();
@@ -39,7 +40,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGroupDifferentDataTypes()
     {
         // given
-        $stream = new GroupByCallbackStream(new AllStream(['hello', 2, new TextDetail('hello'), 2, new TextGroup('hello')]), Functions::identity());
+        $stream = new GroupByCallbackStream(new AllStream(['hello', 2, new TextDetail('hello'), 2, new TextGroup('hello')]), new GroupByFunction('', Functions::identity()));
 
         // when
         $all = $stream->all();
@@ -58,7 +59,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $stream = new GroupByCallbackStream(new FirstStream('One'), 'strToUpper');
+        $stream = new GroupByCallbackStream(new FirstStream('One'), new GroupByFunction('', 'strToUpper'));
 
         // when
         $first = $stream->first();
@@ -73,7 +74,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = new GroupByCallbackStream(new FirstStream('One'), 'strToUpper');
+        $stream = new GroupByCallbackStream(new FirstStream('One'), new GroupByFunction('', 'strToUpper'));
 
         // when
         $firstKey = $stream->firstKey();
@@ -88,7 +89,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldThrow_first()
     {
         // given
-        $stream = new GroupByCallbackStream(new ThrowStream(new EmptyStreamException()), 'strLen');
+        $stream = new GroupByCallbackStream(new ThrowStream(new EmptyStreamException()), new GroupByFunction('', 'strLen'));
 
         // then
         $this->expectException(EmptyStreamException::class);
@@ -106,7 +107,7 @@ class GroupByCallbackStreamTest extends TestCase
     public function shouldThrowForInvalidGroupByType_all(string $method, Upstream $input)
     {
         // given
-        $stream = new GroupByCallbackStream($input, Functions::constant([]));
+        $stream = new GroupByCallbackStream($input, new GroupByFunction('groupByCallback', Functions::constant([])));
 
         // then
         $this->expectException(InvalidReturnValueException::class);

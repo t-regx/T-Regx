@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Internal\Match\FindFirst\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
+use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
@@ -161,7 +162,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function groupByCallback(callable $groupMapper): FluentMatchPattern
     {
-        return $this->next(new GroupByCallbackStream($this->stream, $groupMapper));
+        return $this->next(new GroupByCallbackStream($this->stream, new GroupByFunction('groupByCallback', $groupMapper)));
     }
 
     private function next(Upstream $stream): FluentMatchPattern
