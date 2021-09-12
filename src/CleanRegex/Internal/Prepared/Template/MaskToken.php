@@ -1,75 +1,38 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
-use Generator;
-use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
-use TRegx\CleanRegex\Internal\Needles;
-use TRegx\CleanRegex\Internal\Prepared\Template\Mask\KeywordPattern;
-use TRegx\CleanRegex\Internal\Prepared\Word\CompositeWord;
-use TRegx\CleanRegex\Internal\Prepared\Word\PatternWord;
-use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
+use TRegx\CleanRegex\Internal\Prepared\Template\Mask\CompositeKeyword;
 use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 use TRegx\CleanRegex\Internal\Type\MaskType;
 use TRegx\CleanRegex\Internal\Type\Type;
-use TRegx\CleanRegex\Internal\ValidPattern;
 
 class MaskToken implements Token
 {
     use DelimiterAware;
 
-    /** @var string */
-    private $mask;
-    /** @var array */
-    private $keywords;
-    /** @var Needles */
-    private $needles;
+    /** @var CompositeKeyword */
+    private $compositeKeyword;
+    /** @var string[] */
+    private $keywordsAndPatterns;
 
-    public function __construct(string $mask, array $keywords)
+    public function __construct(string $mask, array $keywordsAndPatterns)
     {
-        $this->mask = $mask;
-        $this->keywords = $keywords;
-        $this->needles = new Needles(\array_keys($this->keywords));
+        $this->compositeKeyword = new CompositeKeyword($mask, $keywordsAndPatterns);
+        $this->keywordsAndPatterns = $keywordsAndPatterns;
     }
 
     public function word(): Word
     {
-        foreach ($this->keywords as $keyword => $pattern) {
-            $keywordPattern = new KeywordPattern($pattern);
-            if (!$keywordPattern->valid()) {
-                throw new MaskMalformedPatternException("Malformed pattern '$pattern' assigned to keyword '$keyword'");
-            }
-        }
-        foreach ($this->keywords as $keyword => $pattern) {
-            $this->validateEmpty($keyword);
-        }
-        return new CompositeWord(\iterator_to_array($this->words()));
-    }
-
-    private function words(): Generator
-    {
-        foreach ($this->needles->split($this->mask) as $stringOrKeyword) {
-            if (\array_key_exists($stringOrKeyword, $this->keywords)) {
-                yield new PatternWord($this->keywords[$stringOrKeyword]);
-            } else {
-                yield new TextWord($stringOrKeyword);
-            }
-        }
-    }
-
-    public function validateEmpty(string $keyword): void
-    {
-        if ($keyword === '') {
-            throw new \InvalidArgumentException("Keyword cannot be empty, must consist of at least one character");
-        }
+        return $this->compositeKeyword->word();
     }
 
     public function type(): Type
     {
-        return new MaskType($this->keywords);
+        return new MaskType($this->keywordsAndPatterns);
     }
 
     protected function delimiterAware(): string
     {
-        return \implode($this->keywords);
+        return \implode($this->keywordsAndPatterns);
     }
 }
