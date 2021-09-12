@@ -1,9 +1,8 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared;
+namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
-use TRegx\CleanRegex\Internal\Prepared\Condition\Condition;
 
 class Candidates
 {

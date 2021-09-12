@@ -1,10 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Orthography;
 
+use TRegx\CleanRegex\Internal\Condition;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Condition\CompositeCondition;
-use TRegx\CleanRegex\Internal\Prepared\Condition\Condition;
-use TRegx\CleanRegex\Internal\Prepared\Condition\UnsuitableStringCondition;
+use TRegx\CleanRegex\Internal\Prepared\CompositeCondition;
+use TRegx\CleanRegex\Internal\UnsuitableStringCondition;
 
 class StandardOrthography implements Orthography
 {

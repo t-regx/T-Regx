@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Orthography;
 
-use TRegx\CleanRegex\Internal\Prepared\Condition\Condition;
+use TRegx\CleanRegex\Internal\Condition;
 
 interface Orthography
 {

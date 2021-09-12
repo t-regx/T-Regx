@@ -1,12 +1,12 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template\Mask;
 
+use TRegx\CleanRegex\Internal\Candidates;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Candidates;
-use TRegx\CleanRegex\Internal\Prepared\Condition\UnsuitableStringCondition;
 use TRegx\CleanRegex\Internal\Prepared\Word\PatternWord;
 use TRegx\CleanRegex\Internal\TrailingBackslash;
+use TRegx\CleanRegex\Internal\UnsuitableStringCondition;
 
 class KeywordPattern
 {

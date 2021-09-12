@@ -7,7 +7,6 @@ use TRegx\CleanRegex\Composite\CompositePattern;
 use TRegx\CleanRegex\Internal\Expression\Alteration;
 use TRegx\CleanRegex\Internal\Expression\Literal;
 use TRegx\CleanRegex\Internal\Expression\Standard;
-use TRegx\CleanRegex\Internal\Prepared\Condition\UnsuitableStringCondition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Mask;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;

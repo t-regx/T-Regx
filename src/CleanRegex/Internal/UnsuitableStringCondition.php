@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Condition;
+namespace TRegx\CleanRegex\Internal;
 
 class UnsuitableStringCondition implements Condition
 {

@@ -1,5 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Condition;
+namespace TRegx\CleanRegex\Internal\Prepared;
+
+use TRegx\CleanRegex\Internal\Condition;
 
 class CompositeCondition implements Condition
 {

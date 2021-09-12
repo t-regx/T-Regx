@@ -1,10 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Orthography;
 
+use TRegx\CleanRegex\Internal\Candidates;
+use TRegx\CleanRegex\Internal\Condition;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Candidates;
-use TRegx\CleanRegex\Internal\Prepared\Condition\Condition;
 
 class StandardSpelling implements Spelling
 {

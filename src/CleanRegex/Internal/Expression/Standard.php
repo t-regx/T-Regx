@@ -3,14 +3,14 @@ namespace TRegx\CleanRegex\Internal\Expression;
 
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
+use TRegx\CleanRegex\Internal\Candidates;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Candidates;
-use TRegx\CleanRegex\Internal\Prepared\Condition\UnsuitableStringCondition;
 use TRegx\CleanRegex\Internal\Prepared\Word\PatternWord;
 use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 use TRegx\CleanRegex\Internal\TrailingBackslash;
+use TRegx\CleanRegex\Internal\UnsuitableStringCondition;
 
 class Standard implements Expression
 {

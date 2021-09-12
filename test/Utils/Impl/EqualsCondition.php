@@ -1,7 +1,7 @@
 <?php
 namespace Test\Utils\Impl;
 
-use TRegx\CleanRegex\Internal\Prepared\Condition\Condition;
+use TRegx\CleanRegex\Internal\Condition;
 
 class EqualsCondition implements Condition
 {

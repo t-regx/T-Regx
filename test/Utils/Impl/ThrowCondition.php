@@ -2,7 +2,7 @@
 namespace Test\Utils\Impl;
 
 use AssertionError;
-use TRegx\CleanRegex\Internal\Prepared\Condition\Condition;
+use TRegx\CleanRegex\Internal\Condition;
 
 class ThrowCondition implements Condition
 {
