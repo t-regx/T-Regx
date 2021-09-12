@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-class KeysStream implements Upstream
+class KeyStream implements Upstream
 {
     use ListStream;
 

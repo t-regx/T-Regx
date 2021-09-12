@@ -16,7 +16,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\FilterStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\IntStream;
-use TRegx\CleanRegex\Internal\Match\Stream\KeysStream;
+use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\NoFirstStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
@@ -151,7 +151,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function keys(): FluentMatchPattern
     {
-        return $this->next(new KeysStream($this->stream));
+        return $this->next(new KeyStream($this->stream));
     }
 
     public function asInt(int $base = null): FluentMatchPattern

@@ -4,12 +4,12 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Impl\AllStream;
 use Test\Utils\Impl\FirstKeyStream;
-use TRegx\CleanRegex\Internal\Match\Stream\KeysStream;
+use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\Stream\KeysStream
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\KeyStream
  */
-class KeysStreamTest extends TestCase
+class KeyStreamTest extends TestCase
 {
     /**
      * @test
@@ -17,7 +17,7 @@ class KeysStreamTest extends TestCase
     public function shouldReturn_all()
     {
         // given
-        $stream = new KeysStream(new AllStream(['a' => 'One', 'b' => 'Two', 'c' => 'Three']));
+        $stream = new KeyStream(new AllStream(['a' => 'One', 'b' => 'Two', 'c' => 'Three']));
 
         // when
         $keys = $stream->all();
@@ -32,7 +32,7 @@ class KeysStreamTest extends TestCase
     public function shouldReturn_first()
     {
         // given
-        $stream = new KeysStream(new FirstKeyStream('One'));
+        $stream = new KeyStream(new FirstKeyStream('One'));
 
         // when
         $first = $stream->first();
@@ -47,7 +47,7 @@ class KeysStreamTest extends TestCase
     public function shouldReturn_firstKey_beAlwaysZero()
     {
         // given
-        $stream = new KeysStream(new FirstKeyStream(123));
+        $stream = new KeyStream(new FirstKeyStream(123));
 
         // when
         $firstKey = $stream->firstKey();
