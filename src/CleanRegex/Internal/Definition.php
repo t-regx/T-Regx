@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use TRegx\SafeRegex\Internal\Guard\GuardedExecution;
+
 class Definition
 {
     /** @var string */
@@ -12,5 +14,12 @@ class Definition
     {
         $this->pattern = $pattern;
         $this->undevelopedInput = $undevelopedInput;
+    }
+
+    public function valid(): bool
+    {
+        return !GuardedExecution::silenced('preg_match', function () {
+            return @\preg_match($this->pattern, '');
+        });
     }
 }

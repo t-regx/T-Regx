@@ -13,28 +13,6 @@ class ValidPatternTest extends TestCase
 {
     /**
      * @test
-     * @dataProvider validPcrePatterns
-     * @param string $string
-     */
-    public function shouldValidatePcrePattern(string $string)
-    {
-        // when
-        $isValid = ValidPattern::isValid($string);
-
-        // then
-        $this->assertTrue($isValid);
-    }
-
-    public function validPcrePatterns(): array
-    {
-        return [
-            ['~((https?|ftp)://(\S*?\.\S*?))([\s)\[\]{},;"\':<]|\.\s | $)~'],
-            ['!exclamation marks!'],
-        ];
-    }
-
-    /**
-     * @test
      * @dataProvider validStandardPatterns
      * @param string $string
      */
@@ -54,39 +32,6 @@ class ValidPatternTest extends TestCase
             ['!exclamation marks!'],
             ['string'],
         ];
-    }
-
-    /**
-     * @test
-     * @dataProvider \Test\DataProviders::invalidPregPatterns()
-     * @param string $string
-     */
-    public function shouldNotValidatePcrePattern(string $string)
-    {
-        // when
-        $isValid = ValidPattern::isValid($string);
-
-        // then
-        $this->assertFalse($isValid);
-    }
-
-    /**
-     * @test
-     * @dataProvider \Test\DataProviders::invalidPregPatterns()
-     * @param string $string
-     */
-    public function shouldPcreNotLeaveErrors(string $string)
-    {
-        // given
-        $errorsCleaner = new ErrorsCleaner();
-
-        // when
-        ValidPattern::isValid($string);
-        $error = $errorsCleaner->getError();
-
-        // then
-        $this->assertInstanceOf(EmptyHostError::class, $error);
-        $this->assertFalse($error->occurred());
     }
 
     /**

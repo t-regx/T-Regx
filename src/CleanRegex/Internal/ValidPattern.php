@@ -12,7 +12,7 @@ class ValidPattern
         return self::isValid(Delimiter::suitable($pattern)->delimited(new PatternWord($pattern), new Flags('')));
     }
 
-    public static function isValid(string $pattern): bool
+    private static function isValid(string $pattern): bool
     {
         return !GuardedExecution::silenced('preg_match', static function () use ($pattern) {
             return @\preg_match($pattern, '');

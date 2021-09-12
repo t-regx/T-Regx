@@ -6,7 +6,6 @@ use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\EntryPoints;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\StringSubject;
-use TRegx\CleanRegex\Internal\ValidPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\SafeRegex\preg;
@@ -65,7 +64,7 @@ class Pattern
 
     public function valid(): bool
     {
-        return ValidPattern::isValid($this->definition->pattern);
+        return $this->definition->valid();
     }
 
     public function delimited(): string
