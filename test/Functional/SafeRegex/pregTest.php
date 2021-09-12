@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ClassWithToString;
 use Test\Utils\Functions;
-use Test\Warnings;
+use Test\Utils\Warnings;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
 use TRegx\SafeRegex\Exception\PregMalformedPatternException;

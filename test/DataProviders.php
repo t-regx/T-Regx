@@ -96,6 +96,9 @@ class DataProviders
         ];
     }
 
+    /**
+     * @return resource
+     */
     private static function getResource()
     {
         $resources = get_resources();

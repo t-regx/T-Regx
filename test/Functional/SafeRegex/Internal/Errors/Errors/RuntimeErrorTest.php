@@ -2,7 +2,7 @@
 namespace Test\Functional\TRegx\SafeRegex\Internal\Errors\Errors;
 
 use PHPUnit\Framework\TestCase;
-use Test\Warnings;
+use Test\Utils\Warnings;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeError;

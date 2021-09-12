@@ -1,11 +1,11 @@
 <?php
-namespace Test;
+namespace Test\Utils;
 
 use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Remove this class when PhpUnit7 is not longer used by T-Regx
+ * Remove this class when PhpUnit7 is no longer used by T-Regx
  */
 trait PhpunitPolyfill
 {

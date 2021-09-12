@@ -4,7 +4,7 @@ namespace Test\Functional\TRegx\SafeRegex\Internal\Guard;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use Test\Warnings;
+use Test\Utils\Warnings;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\PregMalformedPatternException;
 use TRegx\SafeRegex\Exception\RuntimePregException;

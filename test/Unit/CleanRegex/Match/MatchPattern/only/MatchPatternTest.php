@@ -3,9 +3,9 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\only;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\PhpunitPolyfill;
-use Test\Utils\Definitions;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
+use Test\Utils\Definitions;
+use Test\Utils\PhpunitPolyfill;
 use Test\Utils\PhpVersionDependent;
 use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\MatchPattern;

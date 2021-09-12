@@ -2,7 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
-use Test\Warnings;
+use Test\Utils\Warnings;
 use TRegx\DataProvider\DataProviders;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\preg;

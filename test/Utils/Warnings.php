@@ -1,5 +1,5 @@
 <?php
-namespace Test;
+namespace Test\Utils;
 
 trait Warnings
 {

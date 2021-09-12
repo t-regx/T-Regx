@@ -2,7 +2,7 @@
 namespace Test\Functional\TRegx\SafeRegex\Internal\Errors;
 
 use PHPUnit\Framework\TestCase;
-use Test\Warnings;
+use Test\Utils\Warnings;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Internal\Errors\Errors\BothHostError;
 use TRegx\SafeRegex\Internal\Errors\Errors\CompileError;
