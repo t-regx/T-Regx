@@ -422,4 +422,22 @@ class FluentMatchPatternTest extends TestCase
         ];
         $this->assertSame($expected, $result->all());
     }
+
+    /**
+     * @test
+     */
+    public function shouldForEach_acceptKey()
+    {
+        // given
+        $pattern = new FluentMatchPattern(new AllStream(['Foo' => '9', 2 => 'Bar']), new ThrowWorker());
+        $arguments = [];
+
+        // when
+        $pattern->forEach(function ($argument, $key) use (&$arguments) {
+            $arguments[$argument] = $key;
+        });
+
+        // then
+        $this->assertSame(['9' => 'Foo', 'Bar' => 2], $arguments);
+    }
 }
