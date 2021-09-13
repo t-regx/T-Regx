@@ -198,4 +198,24 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertSame(['Foo' => 0, 'Cat' => 1, 'Dur' => 2], $arguments);
     }
+
+    /**
+     * @test
+     */
+    public function shouldForEachGroup_acceptKey()
+    {
+        // given
+        $arguments = [];
+
+        // when
+        pattern('(\w+)')->match('Foo, Bar, Cat, Dur')
+            ->remaining(Functions::oneOf(['Foo', 'Cat', 'Dur']))
+            ->group(1)
+            ->forEach(function (string $argument, int $index) use (&$arguments) {
+                $arguments[$argument] = $index;
+            });
+
+        // then
+        $this->assertSame(['Foo' => 0, 'Cat' => 1, 'Dur' => 2], $arguments);
+    }
 }
