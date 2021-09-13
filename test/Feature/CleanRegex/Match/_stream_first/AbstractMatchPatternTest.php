@@ -139,6 +139,13 @@ class AbstractMatchPatternTest extends TestCase
 
     private function match(): MatchPattern
     {
+        /**
+         * This pattern and subject are deliberately created to
+         * produce {@see CatastrophicBacktrackingException}, if they
+         * are called more than once. That way, we can test
+         * whether "first" method really tries to search the first
+         * occurrance.
+         */
         return pattern("(([a\d]+[a\d]+)+3)")->match('  123 aaaaaaaaaaaaaaaaaaaa 3');
     }
 }
