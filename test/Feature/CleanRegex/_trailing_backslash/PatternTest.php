@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\_trailing_backslash;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsPattern;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
@@ -11,6 +12,8 @@ use TRegx\CleanRegex\Pattern;
  */
 class PatternTest extends TestCase
 {
+    use AssertsPattern;
+
     /**
      * @test
      * @dataProvider entryPoints
@@ -29,13 +32,13 @@ class PatternTest extends TestCase
     public function entryPoints(): array
     {
         return [
-            'Pattern::of()'                 => [function () {
+            'Pattern::of()'      => [function () {
                 return Pattern::of('Foo \\');
             }],
-            'Pattern::inject()'             => [function () {
+            'Pattern::inject()'  => [function () {
                 return Pattern::inject('Foo \\', []);
             }],
-            'Pattern::compose()'            => [function () {
+            'Pattern::compose()' => [function () {
                 return Pattern::compose(['Foo & \\']);
             }],
             'Pattern::template()->literal()->build()' => [function () {
@@ -63,7 +66,7 @@ class PatternTest extends TestCase
     public function templateEntryPoints(): array
     {
         return [
-            'Pattern::mask()'             => [
+            'Pattern::mask()'                      => [
                 function () {
                     return Pattern::mask('Foo%', ['%' => '()\\']);
                 },
@@ -76,5 +79,17 @@ class PatternTest extends TestCase
                 "Malformed pattern '\' assigned to keyword 'w'"
             ],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptEscapedTrailingBashslash()
+    {
+        // when
+        $pattern = Pattern::of('foo\\\\');
+
+        // then
+        $this->assertConsumesFirst('foo\\', $pattern);
     }
 }
