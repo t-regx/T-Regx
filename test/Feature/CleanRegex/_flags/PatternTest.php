@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\_flags;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsPattern;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -9,6 +10,8 @@ use TRegx\CleanRegex\Pattern;
  */
 class PatternTest extends TestCase
 {
+    use AssertsPattern;
+
     /**
      * @test
      */
@@ -44,13 +47,10 @@ class PatternTest extends TestCase
      */
     public function shouldBuild_mask()
     {
-        // given
+        // when
         $pattern = Pattern::mask('Cat:%w', ['%w' => 'Foo'], 'i');
 
-        // when
-        $flagIsAdded = $pattern->test('cat:foo');
-
         // then
-        $this->assertTrue($flagIsAdded);
+        $this->assertConsumesFirst('cat:foo', $pattern);
     }
 }
