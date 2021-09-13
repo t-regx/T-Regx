@@ -72,10 +72,7 @@ class PatternTest extends TestCase
     public function shouldBuild_mask_Delimiter(): void
     {
         // given
-        $pattern = Pattern::mask('%', [
-            '%%' => '/',
-            '%e' => '#',
-        ]);
+        $pattern = Pattern::mask('%', ['%%' => '/', '%e' => '#',]);
 
         // then
         $this->assertSamePattern('%\%%', $pattern);
@@ -293,13 +290,13 @@ class PatternTest extends TestCase
     public function shouldPcreQuoteNonStandardDelimiter()
     {
         // given
-        $char = \chr(58);
+        $delimiter = \chr(58);
 
         // when
-        $pattern = Pattern::pcre()->inject($char . 'foo(@)' . $char, [$char]);
+        $pattern = Pattern::pcre()->inject($delimiter . 'foo(@)' . $delimiter, [$delimiter]);
 
         // then
-        $this->assertConsumesFirst("foo$char", $pattern);
+        $this->assertConsumesFirst("foo$delimiter", $pattern);
         $this->assertSamePattern("\x3Afoo(\\\x3A)\x3A", $pattern);
     }
 
