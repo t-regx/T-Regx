@@ -36,6 +36,9 @@ jobs:
           - php-version: 8.0
             coverage: none
             arch: "i386"
+          - php-version: 8.1
+            coverage: none
+            arch: "amd64"
 
     steps:
       - name: Checkout
