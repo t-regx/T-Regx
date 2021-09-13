@@ -91,8 +91,8 @@ class NumberLowerBound
     public function minimalValue(): int
     {
         if (\PHP_INT_SIZE === 8) {
-            return -9223372036854775807 - 1;
+            return -9223372036854775806 - 2;
         }
-        return -2147483647 - 1;
+        return -2147483646 - 2;
     }
 }
