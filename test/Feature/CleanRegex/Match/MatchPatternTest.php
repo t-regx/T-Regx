@@ -310,7 +310,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_findFirst_OnUnmatchedPattern()
+    public function shouldThrow_asInt_findFirst_OnUnmatchedPattern_orThrow()
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -318,6 +318,15 @@ class MatchPatternTest extends TestCase
 
         // given
         pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail())->orThrow();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_asInt_findFirst_OnUnmatchedPattern_orElse()
+    {
+        // given
+        pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail())->orElse(Functions::pass());
     }
 
     /**
