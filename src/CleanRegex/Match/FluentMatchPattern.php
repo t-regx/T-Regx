@@ -11,7 +11,6 @@ use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
-use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\FilterStream;
@@ -20,7 +19,9 @@ use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\IntegerStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
+use TRegx\CleanRegex\Internal\Match\Stream\UniqueStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
+use TRegx\CleanRegex\Internal\Match\Stream\ValuesStream;
 use TRegx\CleanRegex\Internal\Number;
 use TRegx\CleanRegex\Internal\Predicate;
 
@@ -137,7 +138,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function distinct(): FluentMatchPattern
     {
-        return $this->next(new ArrayOnlyStream($this->stream, '\array_unique'));
+        return $this->next(new UniqueStream($this->stream));
     }
 
     public function filter(callable $predicate): FluentMatchPattern
@@ -147,7 +148,7 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function values(): FluentMatchPattern
     {
-        return $this->next(new ArrayOnlyStream($this->stream, '\array_values'));
+        return $this->next(new ValuesStream($this->stream));
     }
 
     public function keys(): FluentMatchPattern

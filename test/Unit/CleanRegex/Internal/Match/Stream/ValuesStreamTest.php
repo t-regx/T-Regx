@@ -6,14 +6,13 @@ use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstKeyStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\ThrowStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
-use Test\Utils\Functions;
-use TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
+use TRegx\CleanRegex\Internal\Match\Stream\ValuesStream;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\Stream\ArrayOnlyStream
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\ValuesStream
  */
-class ArrayOnlyStreamTest extends TestCase
+class ValuesStreamTest extends TestCase
 {
     /**
      * @test
@@ -21,7 +20,7 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $stream = new ArrayOnlyStream(new AllStream([10 => 'One', 20 => 'Two', 30 => 'Three']), 'array_values');
+        $stream = new ValuesStream(new AllStream([10 => 'One', 20 => 'Two', 30 => 'Three']));
 
         // when
         $all = $stream->all();
@@ -36,7 +35,7 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $stream = new ArrayOnlyStream(new FirstStream('One'), 'strToUpper');
+        $stream = new ValuesStream(new FirstStream('One'));
 
         // when
         $first = $stream->first();
@@ -51,7 +50,7 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = new ArrayOnlyStream(new FirstKeyStream('foo'), Functions::fail());
+        $stream = new ValuesStream(new FirstKeyStream('foo'));
 
         // when
         $firstKey = $stream->firstKey();
@@ -66,7 +65,7 @@ class ArrayOnlyStreamTest extends TestCase
     public function shouldFirstThrow()
     {
         // given
-        $stream = new ArrayOnlyStream(new ThrowStream(new EmptyStreamException()), 'strLen');
+        $stream = new ValuesStream(new ThrowStream(new EmptyStreamException()));
 
         // then
         $this->expectException(EmptyStreamException::class);

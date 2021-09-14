@@ -1,24 +1,21 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-class ArrayOnlyStream implements Upstream
+class UniqueStream implements Upstream
 {
     use PreservesKey;
 
     /** @var Upstream */
     private $stream;
-    /** @var callable */
-    private $mapper;
 
-    public function __construct(Upstream $stream, callable $mapper)
+    public function __construct(Upstream $stream)
     {
         $this->stream = $stream;
-        $this->mapper = $mapper;
     }
 
     public function all(): array
     {
-        return ($this->mapper)($this->stream->all());
+        return \array_unique($this->stream->all());
     }
 
     public function first()
