@@ -26,7 +26,7 @@ class ApiBase implements Base
         $this->userData = $userData;
     }
 
-    public function getPattern(): Definition
+    public function definition(): Definition
     {
         return $this->definition;
     }

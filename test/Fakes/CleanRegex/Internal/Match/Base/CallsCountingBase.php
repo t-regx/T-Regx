@@ -22,7 +22,7 @@ class CallsCountingBase implements Base
         $this->result = $result;
     }
 
-    public function getPattern(): Definition
+    public function definition(): Definition
     {
         $this->calls++;
     }

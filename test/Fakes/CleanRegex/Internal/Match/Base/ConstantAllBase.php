@@ -29,7 +29,7 @@ class ConstantAllBase implements Base
         return $this->matchesOffset;
     }
 
-    public function getPattern(): Definition
+    public function definition(): Definition
     {
         throw $this->fail();
     }

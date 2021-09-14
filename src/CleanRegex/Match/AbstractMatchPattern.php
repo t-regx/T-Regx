@@ -55,7 +55,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface
     public function __construct(Base $base, MatchAllFactory $factory)
     {
         $this->base = $base;
-        $this->groupAware = new LightweightGroupAware($this->base->getPattern());
+        $this->groupAware = new LightweightGroupAware($this->base->definition());
         $this->allFactory = $factory;
     }
 

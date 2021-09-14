@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\Subject;
 
 interface Base extends Subject
 {
-    public function getPattern(): Definition;
+    public function definition(): Definition;
 
     public function match(): RawMatch;
 

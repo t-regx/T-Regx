@@ -26,9 +26,9 @@ class DetailPredicateBaseDecorator implements Base
         $this->detailFactory = new DetailObjectFactory($this->base, $this->base->getUserData());
     }
 
-    public function getPattern(): Definition
+    public function definition(): Definition
     {
-        return $this->base->getPattern();
+        return $this->base->definition();
     }
 
     public function getSubject(): string

@@ -36,7 +36,7 @@ class MatchOnly
 
     private function validatePattern(): void
     {
-        preg::match($this->base->getPattern()->pattern, '');
+        preg::match($this->base->definition()->pattern, '');
     }
 
     private function getOneMatch(): array

@@ -20,7 +20,7 @@ class ThrowApiBase extends ApiBase
         parent::__construct(Definitions::pcre('//'), new ThrowSubject(), new UserData());
     }
 
-    public function getPattern(): Definition
+    public function definition(): Definition
     {
         throw $this->fail();
     }
