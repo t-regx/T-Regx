@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
 
 class NextStreamWorkerDecorator implements StreamWorker
 {
-    /** @var FluentStreamWorker */
+    /** @var StreamWorker */
     private $worker;
     /** @var StreamWorker */
     private $currentWorker;
