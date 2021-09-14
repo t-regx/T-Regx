@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
-use TRegx\CleanRegex\Internal\Match\FindFirst\PresentOptional;
+use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Number\Base;
 use TRegx\CleanRegex\Internal\Number\NumberFormatException;
 use TRegx\CleanRegex\Internal\Number\NumberOverflowException;

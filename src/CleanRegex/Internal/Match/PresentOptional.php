@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match\FindFirst;
+namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Match\Optional;
 
