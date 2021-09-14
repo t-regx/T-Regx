@@ -156,4 +156,16 @@ class AbstractMatchPatternTest extends TestCase
                 $this->assertSame(['pepsi'], $notMatched->groupNames());
             });
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_asInt_findNth_OnInfussificientMatch_orElse()
+    {
+        // given
+        pattern('(?<pepsi>\d+)')->match('Foo 14')->asInt()->findNth(1)
+            ->orElse(function (NotMatched $notMatched) {
+                $this->assertSame('Foo 14', $notMatched->subject());
+            });
+    }
 }

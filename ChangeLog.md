@@ -6,6 +6,10 @@ Incoming
 
 * Features
     * Added `Optional.map()`, which resembles Java 8 optionals.
+    * `pattern()->match()->asInt()->findFirst()->orElse()` receive `NotMatched` argument
+    * `pattern()->match()->asInt()->findNth()->orElse()` receive `NotMatched` argument
+    * `pattern()->match()->offsets()->findFirst()->orElse()` receive `NotMatched` argument
+    * `pattern()->match()->offsets()->findNth()->orElse()` receive `NotMatched` argument
 
 Added in 0.13.7
 ---------------

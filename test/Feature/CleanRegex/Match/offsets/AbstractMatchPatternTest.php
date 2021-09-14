@@ -157,4 +157,16 @@ class AbstractMatchPatternTest extends TestCase
                 $this->assertSame(['sparrow'], $notMatched->groupNames());
             });
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_offsets_findNth_OnInfussificientMatch_orElse()
+    {
+        // given
+        pattern('(?<sparrow>Foo)')->match('Foo')->offsets()->findNth(1)
+            ->orElse(function (NotMatched $notMatched) {
+                $this->assertSame(['sparrow'], $notMatched->groupNames());
+            });
+    }
 }
