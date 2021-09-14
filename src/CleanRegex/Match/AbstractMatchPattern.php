@@ -174,7 +174,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface
     {
         return new FluentMatchPattern(
             new OffsetLimitStream($this->base, new GroupIndex(0), $this->groupAware),
-            new NextStreamWorkerDecorator(new MatchStreamWorker(), new OffsetsWorker($this->base)));
+            new NextStreamWorkerDecorator(new MatchStreamWorker(), new OffsetsWorker($this->groupAware, $this->base)));
     }
 
     abstract public function count(): int;
@@ -197,7 +197,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface
     {
         return new FluentMatchPattern(
             new MatchIntStream(new StreamBase($this->base), new Number\Base($base)),
-            new NextStreamWorkerDecorator(new MatchStreamWorker(), new AsIntStreamWorker($this->base)));
+            new NextStreamWorkerDecorator(new MatchStreamWorker(), new AsIntStreamWorker($this->groupAware, $this->base)));
     }
 
     /**

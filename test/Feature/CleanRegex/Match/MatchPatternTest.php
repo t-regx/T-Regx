@@ -323,15 +323,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_findFirst_OnUnmatchedPattern_orElse()
-    {
-        // given
-        pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail())->orElse(Functions::pass());
-    }
-
-    /**
-     * @test
-     */
     public function shouldThrow_asInt_findFirst_OnInvalidBase()
     {
         // then

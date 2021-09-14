@@ -7,6 +7,7 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
+use TRegx\CleanRegex\Match\Details\NotMatched;
 use function pattern;
 
 /**
@@ -131,5 +132,29 @@ class AbstractMatchPatternTest extends TestCase
             // then
             $this->assertSame('12 13 14', $exception->subject);
         }
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_offsets_findFirst_OnUnmatchedPattern_orElse()
+    {
+        // given
+        pattern('(?<sparrow>Foo)')->match('Bar')->offsets()->findFirst(Functions::fail())
+            ->orElse(function (NotMatched $notMatched) {
+                $this->assertSame(['sparrow'], $notMatched->groupNames());
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_offsets_findNth_OnUnmatchedPattern_orElse()
+    {
+        // given
+        pattern('(?<sparrow>Foo)')->match('Bar')->offsets()->findNth(0)
+            ->orElse(function (NotMatched $notMatched) {
+                $this->assertSame(['sparrow'], $notMatched->groupNames());
+            });
     }
 }
