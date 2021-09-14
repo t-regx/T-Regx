@@ -27,4 +27,9 @@ class PresentOptional implements Optional
     {
         return $this->value;
     }
+
+    public function map(callable $mapper): Optional
+    {
+        return new PresentOptional($mapper($this->value));
+    }
 }

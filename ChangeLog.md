@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Features
+    * Added `Optional.map()`, which resembles Java 8 optionals.
 
 Added in 0.13.7
 ---------------

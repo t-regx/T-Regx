@@ -4,6 +4,7 @@ namespace Test\Fakes\CleanRegex\Match\Details\Group;
 use AssertionError;
 use Throwable;
 use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Optional;
 
 class ThrowGroup implements Group
 {
@@ -108,6 +109,11 @@ class ThrowGroup implements Group
     }
 
     public function orElse(callable $substituteProducer)
+    {
+        throw $this->fail();
+    }
+
+    public function map(callable $mapper): Optional
     {
         throw $this->fail();
     }

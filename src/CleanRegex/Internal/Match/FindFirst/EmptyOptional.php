@@ -28,4 +28,9 @@ class EmptyOptional implements Optional
     {
         return $substituteProducer(...$this->worker->arguments());
     }
+
+    public function map(callable $mapper): Optional
+    {
+        return $this;
+    }
 }

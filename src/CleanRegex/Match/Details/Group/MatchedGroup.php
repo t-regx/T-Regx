@@ -6,11 +6,13 @@ use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
+use TRegx\CleanRegex\Internal\Match\FindFirst\PresentOptional;
 use TRegx\CleanRegex\Internal\Number\Base;
 use TRegx\CleanRegex\Internal\Number\NumberFormatException;
 use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
 use TRegx\CleanRegex\Internal\Number\StringNumber;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Match\Optional;
 
 class MatchedGroup implements Group
 {
@@ -145,6 +147,11 @@ class MatchedGroup implements Group
     public function orElse(callable $substituteProducer): string
     {
         return $this->text();
+    }
+
+    public function map(callable $mapper): Optional
+    {
+        return new PresentOptional($mapper($this));
     }
 
     public function __toString(): string

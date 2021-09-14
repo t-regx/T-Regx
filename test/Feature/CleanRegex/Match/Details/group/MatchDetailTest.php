@@ -3,9 +3,12 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\Group\Group;
+use function pattern;
 
 /**
  * @coversNothing
@@ -204,5 +207,59 @@ class MatchDetailTest extends TestCase
             ->first(function (Detail $detail) {
                 $detail->group('group')->orThrow();
             });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMapGroupOptional()
+    {
+        // when
+        $group = pattern('foo:(\w+)')->match('foo:bar')
+            ->first(function (Detail $detail) {
+                return $detail->group(1)
+                    ->map(function (Group $group) {
+                        return \strToUpper($group->text());
+                    })
+                    ->orThrow();
+            });
+
+        // then
+        $this->assertSame('BAR', $group);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMapGroupOptionalEmpty()
+    {
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to get group #1, but it was not matched');
+
+        // when
+        pattern('foo:(\w+)?')->match('foo:')
+            ->first(function (Detail $detail) {
+                return $detail->group(1)->map(Functions::fail())->orThrow();
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMapGroupOptionalUsingDuplicateName()
+    {
+        // when
+        $group = pattern('foo:(?<name>\w+)')->match('foo:bar')
+            ->first(function (Detail $detail) {
+                return $detail->usingDuplicateName()->group('name')
+                    ->map(function (Group $group) {
+                        return \strToUpper($group->text());
+                    })
+                    ->orThrow();
+            });
+
+        // then
+        $this->assertSame('BAR', $group);
     }
 }

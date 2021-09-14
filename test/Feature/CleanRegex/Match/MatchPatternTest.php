@@ -625,4 +625,32 @@ class MatchPatternTest extends TestCase
         // when
         pattern('Bar')->match('Bar')->nth(-6);
     }
+
+    /**
+     * @test
+     */
+    public function shouldMapOptional()
+    {
+        // when
+        $result = pattern('Foo', 'i')->match('foo')
+            ->findFirst(Functions::surround('*'))
+            ->map('\strToUpper')
+            ->orThrow();
+
+        // then
+        $this->assertSame('*FOO*', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMapOptionalEmpty()
+    {
+        // then
+        $this->expectException(SubjectNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
+
+        // when
+        pattern('Foo')->match('bar')->findFirst(Functions::identity())->map(Functions::fail())->orThrow();
+    }
 }

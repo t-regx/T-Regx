@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Match\Optional;
 
 class NotMatchedGroup implements Group
 {
@@ -128,5 +129,10 @@ class NotMatchedGroup implements Group
     public function orElse(callable $substituteProducer)
     {
         return $substituteProducer(...$this->worker->arguments());
+    }
+
+    public function map(callable $mapper): Optional
+    {
+        return $this;
     }
 }

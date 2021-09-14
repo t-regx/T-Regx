@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\Details;
 
 use TRegx\CleanRegex\Match\Details\Group\DuplicateNamedGroup;
 use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Optional;
 
 class DuplicateNamedGroupAdapter implements DuplicateNamedGroup
 {
@@ -110,5 +111,10 @@ class DuplicateNamedGroupAdapter implements DuplicateNamedGroup
     public function orElse(callable $substituteProducer)
     {
         return $this->group->orElse($substituteProducer);
+    }
+
+    public function map(callable $mapper): Optional
+    {
+        return $this->group->map($mapper);
     }
 }
