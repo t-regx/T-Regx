@@ -2,10 +2,10 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\Details\Group;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Factory\Optional\ThrowOptionalWorker;
 use Test\Fakes\CleanRegex\Internal\Match\Details\Group\NameOnlyDetails;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceNotMatchedGroup;
 
 /**
@@ -19,7 +19,7 @@ class ReplaceNotMatchedGroupTest extends TestCase
     public function shouldNotGet_modifiedSubject()
     {
         // given
-        $matchGroup = new ReplaceNotMatchedGroup(new ThrowSubject(), new NameOnlyDetails('first'), $this->worker());
+        $matchGroup = new ReplaceNotMatchedGroup(new ThrowSubject(), new NameOnlyDetails('first'), new ThrowOptionalWorker());
 
         // then
         $this->expectException(GroupNotMatchedException::class);
@@ -35,7 +35,7 @@ class ReplaceNotMatchedGroupTest extends TestCase
     public function shouldNotGet_modifiedOffset()
     {
         // given
-        $matchGroup = new ReplaceNotMatchedGroup(new ThrowSubject(), new NameOnlyDetails('second'), $this->worker());
+        $matchGroup = new ReplaceNotMatchedGroup(new ThrowSubject(), new NameOnlyDetails('second'), new ThrowOptionalWorker());
 
         // then
         $this->expectException(GroupNotMatchedException::class);
@@ -51,7 +51,7 @@ class ReplaceNotMatchedGroupTest extends TestCase
     public function shouldNotGet_byteModifiedOffset()
     {
         // given
-        $matchGroup = new ReplaceNotMatchedGroup(new ThrowSubject(), new NameOnlyDetails('bar'), $this->worker());
+        $matchGroup = new ReplaceNotMatchedGroup(new ThrowSubject(), new NameOnlyDetails('bar'), new ThrowOptionalWorker());
 
         // then
         $this->expectException(GroupNotMatchedException::class);
@@ -59,10 +59,5 @@ class ReplaceNotMatchedGroupTest extends TestCase
 
         // when
         $matchGroup->byteModifiedOffset();
-    }
-
-    private function worker(): NotMatchedOptionalWorker
-    {
-        return $this->createMock(NotMatchedOptionalWorker::class);
     }
 }
