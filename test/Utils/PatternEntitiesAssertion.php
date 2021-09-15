@@ -2,7 +2,6 @@
 namespace Test\Utils;
 
 use PHPUnit\Framework\Assert;
-use TRegx\CleanRegex\Internal\Arrays;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;

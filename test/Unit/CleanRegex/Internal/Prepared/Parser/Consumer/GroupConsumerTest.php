@@ -150,10 +150,10 @@ class GroupConsumerTest extends TestCase
     public function shouldParseGroupComment()
     {
         // given
-        $assertion = PatternEntitiesAssertion::withConsumers([new GroupConsumer(), new LiteralConsumer()]);
+        $assertion = PatternEntitiesAssertion::withConsumers([new GroupConsumer(), new GroupCloseConsumer(), new LiteralConsumer()]);
 
         // then
-        $assertion->assertPatternRepresents('(?#c:\)', [new GroupComment('c:\\')]);
+        $assertion->assertPatternRepresents('(?#c:\)', [new GroupComment('c:\\'), new GroupClose()]);
     }
 
     /**
@@ -165,7 +165,7 @@ class GroupConsumerTest extends TestCase
         $assertion = PatternEntitiesAssertion::withConsumers([new GroupConsumer(), new GroupCloseConsumer(), new LiteralConsumer()]);
 
         // then
-        $assertion->assertPatternRepresents('(?#c:\)hello)', [new GroupComment('c:\\'), 'hello', new GroupClose()]);
+        $assertion->assertPatternRepresents('(?#c:\)hello)', [new GroupComment('c:\\'), new GroupClose(), 'hello', new GroupClose()]);
     }
 
     /**

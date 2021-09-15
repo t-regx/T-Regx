@@ -15,6 +15,6 @@ class GroupComment implements Entity
 
     public function pattern(): string
     {
-        return "(?#$this->comment)";
+        return "(?#$this->comment";
     }
 }
