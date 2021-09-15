@@ -34,8 +34,10 @@ class MatchedString
     private function match(): array
     {
         if (\preg_match($this->pattern, $this->shiftString->content(), $matches, \PREG_OFFSET_CAPTURE) === 1) {
-            [[$full]] = $matches;
-            return [$full, \array_slice($matches, 1)];
+            if ($matches[0][1] === 0) {
+                [[$full]] = $matches;
+                return [$full, \array_slice($matches, 1)];
+            }
         }
         // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();
