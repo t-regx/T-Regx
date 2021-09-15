@@ -39,7 +39,7 @@ class ShiftString
         if ($this->offset >= \mb_strlen($this->string)) {
             throw new InternalCleanRegexException();
         }
-        return $this->string[$this->offset];
+        return \mb_substr($this->string, $this->offset, 1);
     }
 
     public function content(): string

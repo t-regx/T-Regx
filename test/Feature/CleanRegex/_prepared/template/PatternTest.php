@@ -214,4 +214,16 @@ class PatternTest extends TestCase
         // when
         Pattern::template('@')->mask('foo', ['' => 'Bar'])->build();
     }
+
+    /**
+     * @test
+     */
+    public function shouldParseUnicode()
+    {
+        // when
+        $pattern = Pattern::template('ę')->build();
+
+        // then
+        $this->assertConsumesFirst('ę', $pattern);
+    }
 }
