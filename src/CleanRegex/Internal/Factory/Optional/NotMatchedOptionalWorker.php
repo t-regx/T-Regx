@@ -9,24 +9,21 @@ use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class NotMatchedOptionalWorker implements OptionalWorker
 {
-    /** @var Subject */
-    private $subject;
-    /** @var NotMatched */
-    private $notMatched;
-    /** @var string */
-    private $fallbackClassname;
     /** @var SignatureExceptionFactory */
     private $exceptionFactory;
+    /** @var NotMatched */
+    private $notMatched;
+    /** @var Subject */
+    private $subject;
+    /** @var string */
+    private $fallbackClassname;
 
-    public function __construct(NotMatchedMessage $message,
-                                Subject           $subject,
-                                NotMatched        $notMatched,
-                                string            $fallbackClassname)
+    public function __construct(NotMatchedMessage $message, Subject $subject, NotMatched $notMatched, string $fallbackClassname)
     {
-        $this->subject = $subject;
-        $this->notMatched = $notMatched;
-        $this->fallbackClassname = $fallbackClassname;
         $this->exceptionFactory = new SignatureExceptionFactory($message);
+        $this->notMatched = $notMatched;
+        $this->subject = $subject;
+        $this->fallbackClassname = $fallbackClassname;
     }
 
     public function arguments(): array
