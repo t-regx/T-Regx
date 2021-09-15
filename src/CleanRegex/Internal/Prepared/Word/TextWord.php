@@ -1,10 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Word;
 
-use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\SafeRegex\preg;
 
-class TextWord implements Phrase
+class TextWord implements Word
 {
     /** @var string */
     private $text;

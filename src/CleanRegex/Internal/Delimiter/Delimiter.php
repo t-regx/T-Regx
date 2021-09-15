@@ -16,6 +16,6 @@ class Delimiter
 
     public function delimited(Phrase $phrase, Flags $flags): string
     {
-        return $this->delimiter . $phrase->quoted($this->delimiter) . $this->delimiter . $flags;
+        return $this->delimiter . $phrase->conjugated($this->delimiter) . $this->delimiter . $flags;
     }
 }

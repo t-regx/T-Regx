@@ -360,4 +360,40 @@ class PatternTest extends TestCase
         // then
         $this->assertConsumesFirst('', $pattern);
     }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptControlCharacter()
+    {
+        // when
+        $pattern = Pattern::of('\c?');
+
+        // then
+        $this->assertConsumesFirst(\chr(127), $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptTrailingSlashInControlCharacter()
+    {
+        // when
+        $pattern = Pattern::of('\c\\');
+
+        // then
+        $this->assertConsumesFirst(\chr(28), $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptTrailingSlashInQuote()
+    {
+        // when
+        $pattern = Pattern::of('\Q\\');
+
+        // then
+        $this->assertConsumesFirst('\\', $pattern);
+    }
 }

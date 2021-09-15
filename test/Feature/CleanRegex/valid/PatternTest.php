@@ -61,6 +61,51 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldAcceptTrailingBackslashControl()
+    {
+        // given
+        $pattern = Pattern::of('\c\\');
+
+        // when
+        $valid = $pattern->valid();
+
+        // then
+        $this->assertTrue($valid);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptTrailingBackslashQuote()
+    {
+        // given
+        $pattern = Pattern::of('\Q\\');
+
+        // when
+        $valid = $pattern->valid();
+
+        // then
+        $this->assertTrue($valid);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptTrailingBackslashComment()
+    {
+        // given
+        $pattern = Pattern::of('#\\', 'x');
+
+        // when
+        $valid = $pattern->valid();
+
+        // then
+        $this->assertTrue($valid);
+    }
+
+    /**
+     * @test
+     */
     public function shouldNotAcceptTrailingBackslashCommentModeDisabled()
     {
         // given

@@ -1,7 +1,10 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
+namespace Test\Fakes\CleanRegex\Internal\Prepared\Word;
 
-class PatternPhrase extends Phrase
+use AssertionError;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
+
+class ConjugatedOnlyPhrase extends Phrase
 {
     /** @var string */
     private $pattern;
@@ -18,6 +21,6 @@ class PatternPhrase extends Phrase
 
     protected function unconjugated(string $delimiter): string
     {
-        return $this->pattern;
+        throw new AssertionError("Failed to assert that Phrase was used with padding");
     }
 }

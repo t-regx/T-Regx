@@ -1,7 +1,15 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
 
-interface Phrase
+/**
+ * I would make it an interface, but for some reason
+ * PHP doesn't allow access to protected methods between
+ * instances of the same interface. But does allow
+ * for abstract classes ¯\_(ツ)_/¯
+ */
+abstract class Phrase
 {
-    public function quoted(string $delimiter): string;
+    public abstract function conjugated(string $delimiter): string;
+
+    protected abstract function unconjugated(string $delimiter): string;
 }

@@ -26,7 +26,7 @@ class FiguresPlaceholderConsumerTest extends TestCase
         $assertion = PatternEntitiesAssertion::withConsumers([new FiguresPlaceholderConsumer(new ExpectedFigures(ConstantFigures::literal('one')))]);
 
         // then
-        $assertion->assertPatternRepresents('@', [new Placeholder(new Flags(''), new LiteralToken('one'))]);
+        $assertion->assertPatternRepresents('@', [new Placeholder(new Flags(''), new LiteralToken('one'))], 'one');
     }
 
     /**
@@ -38,7 +38,7 @@ class FiguresPlaceholderConsumerTest extends TestCase
         $assertion = PatternEntitiesAssertion::withConsumers([new FiguresPlaceholderConsumer(new ExpectedFigures(ConstantFigures::literal('one')))]);
 
         // then
-        $assertion->assertPatternFlagsRepresent('@', 'xi', [new Placeholder(new Flags('xi'), new LiteralToken('one'))]);
+        $assertion->assertPatternFlagsRepresent('@', 'xi', [new Placeholder(new Flags('xi'), new LiteralToken('one'))], 'one');
     }
 
     /**
@@ -56,7 +56,7 @@ class FiguresPlaceholderConsumerTest extends TestCase
         $assertion->assertPatternFlagsRepresent('(?m-i:@', 'xi', [
             new GroupOpenFlags('m-i'),
             new Placeholder(new Flags('xm'), new LiteralToken('one'))
-        ]);
+        ], '(?m-i:one');
     }
 
     /**
@@ -68,6 +68,6 @@ class FiguresPlaceholderConsumerTest extends TestCase
         $assertion = PatternEntitiesAssertion::withConsumers([new FiguresPlaceholderConsumer(new ExpectedFigures(ConstantFigures::literal('one')))]);
 
         // then
-        $assertion->assertPatternFlagsRepresent('@', 'xi', [new Placeholder(new Flags('xi'), new LiteralToken('one'))]);
+        $assertion->assertPatternFlagsRepresent('@', 'xi', [new Placeholder(new Flags('xi'), new LiteralToken('one'))], 'one');
     }
 }

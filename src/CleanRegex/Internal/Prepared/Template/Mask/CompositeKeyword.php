@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Needles;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\PatternPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPharse;
 use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
 
 class CompositeKeyword
@@ -48,6 +49,6 @@ class CompositeKeyword
         if (\array_key_exists($stringOrKeyword, $this->keywordPatterns)) {
             return new PatternPhrase($this->keywordPatterns[$stringOrKeyword]);
         }
-        return new TextWord($stringOrKeyword);
+        return new UnconjugatedPharse(new TextWord($stringOrKeyword));
     }
 }

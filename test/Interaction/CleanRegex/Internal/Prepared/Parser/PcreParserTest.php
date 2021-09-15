@@ -113,7 +113,7 @@ class PcreParserTest extends TestCase
             new GroupClose(),
             new Placeholder(new Flags('ix'), new LiteralToken('three')),
             new GroupClose(),
-        ]);
+        ], '(?i:(?x:one(?m-x)two)three)');
     }
 
     private function pcreDependantPatterns(): array

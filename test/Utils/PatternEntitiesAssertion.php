@@ -1,15 +1,18 @@
 <?php
 namespace Test\Utils;
 
+use AssertionError;
 use PHPUnit\Framework\Assert;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\TerminatingEscape;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
-use TRegx\CleanRegex\Internal\Prepared\Word\AlterationWord;
-use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\PatternPhrase;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
 class PatternEntitiesAssertion
 {
@@ -26,33 +29,27 @@ class PatternEntitiesAssertion
         return new self($consumers);
     }
 
-    public function assertPatternRepresents(string $pattern, array $expectedEntities): void
+    public function assertPatternRepresents(string $pattern, array $expectedEntities, string $expected = null): void
     {
-        $this->assertPatternFlagsRepresent($pattern, '', $expectedEntities);
+        $this->assertPatternFlagsRepresent($pattern, '', $expectedEntities, $expected);
     }
 
-    public function assertPatternFlagsRepresent(string $pattern, string $flags, array $expectedEntities): void
+    public function assertPatternFlagsRepresent(string $pattern, string $flags, array $expectedEntities, string $expected = null): void
     {
-        $entities = (new PcreParser(new Feed($pattern), new Flags($flags), $this->consumers))->entities();
+        $parser = new PcreParser(new Feed($pattern), new Flags($flags), $this->consumers);
+        try {
+            $entities = $parser->entities();
+        } catch (InternalCleanRegexException $exception) {
+            throw new AssertionError("Failed to parse '$pattern' with given consumers");
+        }
         Assert::assertEquals($entities, $this->stringsAsLiterals($expectedEntities));
-        Assert::assertSame($pattern, $this->joinEntities($entities));
+        Assert::assertSame($expected ?? $pattern, $this->joinEntities($entities));
     }
 
     private function joinEntities(array $entities): string
     {
-        return \join(\array_map(function (Entity $entity): string {
-            if ($entity instanceof TerminatingEscape) {
-                return '\\';
-            }
-            $word = $entity->phrase();
-            if ($word instanceof TextWord) {
-                return '@';
-            }
-            if ($word instanceof AlterationWord) {
-                return '@';
-            }
-            return $word->quoted("\1");
-        }, $entities));
+        $phrase = new CompositePhrase($this->phrases($entities));
+        return $phrase->conjugated('/');
     }
 
     private function stringsAsLiterals(array $expected): array
@@ -75,5 +72,15 @@ class PatternEntitiesAssertion
             return [];
         }
         return \array_merge(...$array);
+    }
+
+    private function phrases(array $entities): array
+    {
+        return \array_map(function (Entity $entity): Phrase {
+            if ($entity instanceof TerminatingEscape) {
+                return new PatternPhrase('\\');
+            }
+            return $entity->phrase();
+        }, $entities);
     }
 }

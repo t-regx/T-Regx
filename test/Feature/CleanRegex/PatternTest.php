@@ -292,4 +292,29 @@ class PatternTest extends TestCase
         // when
         Pattern::inject('You/her, (are|is) @ (you|her)', ['foo', 'bar', 'cat', 'door']);
     }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptTrailingBackslashControl()
+    {
+        // when
+        $pattern = Pattern::of('\c\\');
+
+        // then
+        $this->assertConsumesFirst(\chr(28), $pattern);
+        $this->assertSamePattern('/\c\\{1}/', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptTrailingBackslashControlCompose()
+    {
+        // when
+        $pattern = Pattern::compose(['\c\\']);
+
+        // then
+        $this->assertTrue($pattern->allMatch(\chr(28)));
+    }
 }

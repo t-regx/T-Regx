@@ -3,25 +3,41 @@ namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
 
 use Generator;
 
-class CompositePhrase implements Phrase
+class CompositePhrase extends Phrase
 {
     /** @var Phrase[] */
-    private $words;
+    private $phrases;
 
-    public function __construct(array $words)
+    public function __construct(array $phrases)
     {
-        $this->words = $words;
+        $this->phrases = $phrases;
     }
 
-    public function quoted(string $delimiter): string
+    public function conjugated(string $delimiter): string
     {
-        return \implode(\iterator_to_array($this->quotedWords($delimiter)));
+        return \implode(\iterator_to_array($this->conjugatedPhrases($delimiter)));
     }
 
-    private function quotedWords(string $delimiter): Generator
+    private function conjugatedPhrases(string $delimiter): Generator
     {
-        foreach ($this->words as $word) {
-            yield $word->quoted($delimiter);
+        foreach ($this->phrases as $key => $phrase) {
+            if ($key === \count($this->phrases) - 1) {
+                yield $phrase->conjugated($delimiter);
+            } else {
+                yield $phrase->unconjugated($delimiter);
+            }
+        }
+    }
+
+    protected function unconjugated(string $delimiter): string
+    {
+        return \implode(\iterator_to_array($this->unconjugatedPhrases($delimiter)));
+    }
+
+    private function unconjugatedPhrases(string $delimiter): Generator
+    {
+        foreach ($this->phrases as $phrase) {
+            yield $phrase->unconjugated($delimiter);
         }
     }
 }

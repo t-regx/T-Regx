@@ -226,6 +226,43 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldAcceptTrailingSlashInQuote()
+    {
+        // when
+        $pattern = Pattern::template('\Q\\\E!\Q\\')->build();
+
+        // then
+        $this->assertConsumesFirst('\\!\\', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldTemplateAddPadding()
+    {
+        // when
+        $pattern = Pattern::template('\c\\')->build();
+
+        // then
+        $this->assertConsumesFirst(\chr(28), $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldTemplatePatternAddPadding()
+    {
+        // when
+        $pattern = Pattern::template('/foo:@')->pattern('\c\\')->build();
+
+        // then
+        $this->assertSamePattern('#/foo:\c\{1}#', $pattern);
+        $this->assertConsumesFirst('/foo:' . \chr(28), $pattern);
+    }
+
+    /**
+     * @test
+     */
     public function shouldInjectAddPaddingToCommentBackslash()
     {
         // given

@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPharse;
 use TRegx\CleanRegex\Internal\Prepared\Word\AlterationWord;
 use TRegx\CleanRegex\Internal\Type\Type;
 use TRegx\CleanRegex\Internal\Type\ValueType;
@@ -20,7 +21,7 @@ class AlterationToken implements Token
 
     public function phrase(): Phrase
     {
-        return new AlterationWord($this->figures);
+        return new UnconjugatedPharse(new AlterationWord($this->figures));
     }
 
     public function type(): Type

@@ -37,4 +37,40 @@ class PatternTest extends TestCase
         // then
         $this->assertConsumesFirst('ę', $pattern);
     }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptControlCharacter()
+    {
+        // when
+        $pattern = Pattern::mask('!s', ['!s' => '\c!']);
+
+        // then
+        $this->assertConsumesFirst(\chr(97), $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptTrailingSlashInControlCharacter()
+    {
+        // when
+        $pattern = Pattern::mask('!s', ['!s' => '\c\\']);
+
+        // then
+        $this->assertConsumesFirst(\chr(28), $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptTrailingSlashInQuote()
+    {
+        // when
+        $pattern = Pattern::mask('!s', ['!s' => '\Q\\']);
+
+        // then
+        $this->assertConsumesFirst('\\', $pattern);
+    }
 }
