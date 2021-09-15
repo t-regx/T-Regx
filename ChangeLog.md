@@ -4,6 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
+* Bug fixes
+    * Fixed a bug, where using `Pattern::inject('()(?)')` failed parsing
 * Features
     * Added `Optional.map()`, which resembles Java 8 optionals.
     * `pattern()->match()->asInt()->findFirst()->orElse()` receive `NotMatched` argument

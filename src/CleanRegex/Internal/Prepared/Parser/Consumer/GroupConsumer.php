@@ -60,6 +60,6 @@ class GroupConsumer implements Consumer
         } else {
             $flags = '[ismxXUJ-]*';
         }
-        return "/\?(?:(\:\)?)|($flags)([:)])|#(.*?)\))/";
+        return "/^\?(?:(\:\)?)|($flags)([:)])|#(.*?)\))/";
     }
 }

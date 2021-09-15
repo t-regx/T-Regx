@@ -6,6 +6,7 @@ use Test\Fakes\CleanRegex\Internal\Prepared\Parser\Consumer\ThrowPlaceholderCons
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpen;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupRemainder;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;
 use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;
 
@@ -32,6 +33,44 @@ class PatternAsEntitiesTest extends TestCase
             new Literal('o'),
             new Literal('o'),
             new GroupClose(),
+        ];
+        $this->assertEquals($expected, $entities);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldConsumeImmediatelyClosedGroupsRemainder()
+    {
+        // given
+        $asEntities = new PatternAsEntities('()(?)', new Flags(''), new ThrowPlaceholderConsumer());
+
+        // when
+        $entities = $asEntities->entities();
+
+        // then
+        $this->assertEquals([new GroupOpen(), new GroupClose(), new GroupRemainder(''),], $entities);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldConsumeImmediatelyClosedGroupsRepeatedly()
+    {
+        // given
+        $asEntities = new PatternAsEntities('())))(?)', new Flags(''), new ThrowPlaceholderConsumer());
+
+        // when
+        $entities = $asEntities->entities();
+
+        // then
+        $expected = [
+            new GroupOpen(),
+            new GroupClose(),
+            new GroupClose(),
+            new GroupClose(),
+            new GroupClose(),
+            new GroupRemainder(''),
         ];
         $this->assertEquals($expected, $entities);
     }

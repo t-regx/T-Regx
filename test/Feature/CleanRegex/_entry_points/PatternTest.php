@@ -348,4 +348,16 @@ class PatternTest extends TestCase
             ])
             ->build();
     }
+
+    /**
+     * @test
+     */
+    public function shouldMatchDoubleGroups()
+    {
+        // when
+        $pattern = Pattern::inject('()(?:)', []);
+
+        // then
+        $this->assertConsumesFirst('', $pattern);
+    }
 }
