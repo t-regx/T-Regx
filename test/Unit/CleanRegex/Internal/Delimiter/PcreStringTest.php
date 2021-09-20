@@ -177,6 +177,7 @@ class PcreStringTest extends TestCase
     /**
      * @test
      * @link https://github.com/php/php-src/blob/5355cf33948299b2c1ee95b7140a464beecdfb12/ext/pcre/php_pcre.c#L751
+     * @note For some reason, PCRE ignores line feeds and spaces after delimiter
      */
     public function shouldIgnoreNewLinesInModifiers()
     {
