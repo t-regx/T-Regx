@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Expression;
 
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Word\AlternationWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\AlterationWord;
 use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
 class Alteration implements Expression
@@ -23,7 +23,7 @@ class Alteration implements Expression
 
     protected function word(): Word
     {
-        return new AlternationWord($this->texts);
+        return new AlterationWord($this->texts);
     }
 
     protected function delimiter(): Delimiter

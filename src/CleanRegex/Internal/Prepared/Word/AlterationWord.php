@@ -5,7 +5,7 @@ use Generator;
 use TRegx\CleanRegex\Internal\InvalidArgument;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 
-class AlternationWord implements Word
+class AlterationWord implements Word
 {
     /** @var array */
     private $figures;

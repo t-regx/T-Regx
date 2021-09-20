@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Builder;
 
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Orthography;
-use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
+use TRegx\CleanRegex\Internal\Prepared\Template\AlterationToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\PatternToken;
@@ -36,7 +36,7 @@ class TemplateBuilder
 
     public function alteration(array $figures): TemplateBuilder
     {
-        return $this->next(new AlternationToken($figures));
+        return $this->next(new AlterationToken($figures));
     }
 
     public function pattern(string $pattern): TemplateBuilder

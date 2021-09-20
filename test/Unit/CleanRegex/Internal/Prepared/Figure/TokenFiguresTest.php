@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Figure;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Figure\TokenFigures;
-use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
+use TRegx\CleanRegex\Internal\Prepared\Template\AlterationToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\NullToken;
 
@@ -79,15 +79,15 @@ class TokenFiguresTest extends TestCase
     /**
      * @test
      */
-    public function shouldAlternation()
+    public function shouldGetNextAlterationToken()
     {
         // given
-        $figures = new TokenFigures([new AlternationToken(['foo'])]);
+        $figures = new TokenFigures([new AlterationToken(['foo'])]);
 
         // when
         $token = $figures->nextToken();
 
         // then
-        $this->assertEquals(new AlternationToken(['foo']), $token);
+        $this->assertEquals(new AlterationToken(['foo']), $token);
     }
 }

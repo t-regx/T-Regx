@@ -2,12 +2,12 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Template;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
+use TRegx\CleanRegex\Internal\Prepared\Template\AlterationToken;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Template\AlterationToken
  */
-class AlternationTokenTest extends TestCase
+class AlterationTokenTest extends TestCase
 {
     /**
      * @test
@@ -15,7 +15,7 @@ class AlternationTokenTest extends TestCase
     public function shouldGetType()
     {
         // given
-        $token = new AlternationToken(['foo', 'bar', 'cat', 'door', 'fridge']);
+        $token = new AlterationToken(['foo', 'bar', 'cat', 'door', 'fridge']);
 
         // when
         $type = $token->type();

@@ -6,7 +6,7 @@ use Test\Fakes\CleanRegex\Internal\Prepared\Figure\ConstantFigures;
 use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Internal\Prepared\Figure\FigureExpectation;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
-use TRegx\CleanRegex\Internal\Prepared\Template\AlternationToken;
+use TRegx\CleanRegex\Internal\Prepared\Template\AlterationToken;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Prepared\Figure\FigureExpectation
@@ -74,7 +74,7 @@ class FigureExpectationTest extends TestCase
     public function shouldThrowForSuperfluousFigures()
     {
         // given
-        $expectation = new FigureExpectation(new ConstantFigures(5, new AlternationToken(['foo', 'bar'])));
+        $expectation = new FigureExpectation(new ConstantFigures(5, new AlterationToken(['foo', 'bar'])));
         $expectation->expectNext();
         $expectation->expectNext();
 

@@ -3,12 +3,12 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Word;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Prepared\Word\AlternationWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\AlterationWord;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Prepared\Word\AlternationWord
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Word\AlterationWord
  */
-class AlternationWordTest extends TestCase
+class AlterationWordTest extends TestCase
 {
     /**
      * @test
@@ -16,7 +16,7 @@ class AlternationWordTest extends TestCase
     public function shouldQuote()
     {
         // given
-        $word = new AlternationWord(['/()', '^#$']);
+        $word = new AlterationWord(['/()', '^#$']);
 
         // when
         $result = $word->quoted('~');
@@ -31,7 +31,7 @@ class AlternationWordTest extends TestCase
     public function shouldQuoteDelimiter()
     {
         // given
-        $word = new AlternationWord(['a', '%b']);
+        $word = new AlterationWord(['a', '%b']);
 
         // when
         $result = $word->quoted('%');
@@ -46,7 +46,7 @@ class AlternationWordTest extends TestCase
     public function shouldAddAnEmptyProduct_toIndicateAnEmptyString()
     {
         // given
-        $word = new AlternationWord(['a', '', '', 'b']);
+        $word = new AlterationWord(['a', '', '', 'b']);
 
         // when
         $result = $word->quoted('/');
@@ -61,7 +61,7 @@ class AlternationWordTest extends TestCase
     public function shouldNotRemoveFalsyStrings()
     {
         // given
-        $word = new AlternationWord(['|', ' ', '0']);
+        $word = new AlterationWord(['|', ' ', '0']);
 
         // when
         $result = $word->quoted('/');
@@ -76,7 +76,7 @@ class AlternationWordTest extends TestCase
     public function shouldThrowForArrayValues()
     {
         // given
-        $word = new AlternationWord(['|', []]);
+        $word = new AlterationWord(['|', []]);
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -92,7 +92,7 @@ class AlternationWordTest extends TestCase
     public function shouldThrowForIntegerValues()
     {
         // given
-        $word = new AlternationWord(['|', 5]);
+        $word = new AlterationWord(['|', 5]);
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -108,7 +108,7 @@ class AlternationWordTest extends TestCase
     public function shouldThrowForFalse()
     {
         // given
-        $word = new AlternationWord([false]);
+        $word = new AlterationWord([false]);
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -124,7 +124,7 @@ class AlternationWordTest extends TestCase
     public function shouldGetWithFalsyString()
     {
         // given
-        $word = new AlternationWord(['0']);
+        $word = new AlterationWord(['0']);
 
         // when
         $quote = $word->quoted('/');

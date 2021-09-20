@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\TerminatingEscape;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
-use TRegx\CleanRegex\Internal\Prepared\Word\AlternationWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\AlterationWord;
 use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
 
 class PatternEntitiesAssertion
@@ -48,7 +48,7 @@ class PatternEntitiesAssertion
             if ($word instanceof TextWord) {
                 return '@';
             }
-            if ($word instanceof AlternationWord) {
+            if ($word instanceof AlterationWord) {
                 return '@';
             }
             return $word->quoted("\1");

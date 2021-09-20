@@ -1,12 +1,12 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
-use TRegx\CleanRegex\Internal\Prepared\Word\AlternationWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\AlterationWord;
 use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 use TRegx\CleanRegex\Internal\Type\Type;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 
-class AlternationToken implements Token
+class AlterationToken implements Token
 {
     use DelimiterAgnostic;
 
@@ -20,7 +20,7 @@ class AlternationToken implements Token
 
     public function word(): Word
     {
-        return new AlternationWord($this->figures);
+        return new AlterationWord($this->figures);
     }
 
     public function type(): Type

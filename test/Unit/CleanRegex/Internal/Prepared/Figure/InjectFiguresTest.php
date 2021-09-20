@@ -35,7 +35,7 @@ class InjectFiguresTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAlternationFigure()
+    public function shouldThrowForAlterationFigure()
     {
         // given
         $figures = new InjectFigures([['foo', 'bar']]);
