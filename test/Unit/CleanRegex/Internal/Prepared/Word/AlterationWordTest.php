@@ -43,16 +43,16 @@ class AlterationWordTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddAnEmptyProduct_toIndicateAnEmptyString()
+    public function shouldRemoveDuplicates()
     {
         // given
-        $word = new AlterationWord(['a', '', '', 'b']);
+        $word = new AlterationWord(['a', '', '', 'b', 'a']);
 
         // when
         $result = $word->quoted('/');
 
         // then
-        $this->assertSame('(?:a|b|)', $result);
+        $this->assertSame('(?:a||b)', $result);
     }
 
     /**
