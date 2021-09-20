@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Expression;
 
-use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 
 /**
  * Dictionary definition
@@ -9,5 +9,5 @@ use TRegx\CleanRegex\Internal\Definition;
  */
 interface Expression
 {
-    public function definition(): Definition;
+    public function predefinition(): Predefinition;
 }

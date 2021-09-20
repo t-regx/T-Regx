@@ -2,6 +2,8 @@
 namespace TRegx\CleanRegex\Internal\Expression;
 
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Expression\Predefinition\IdentityPredefinition;
+use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 
 class Pcre implements Expression
 {
@@ -13,8 +15,8 @@ class Pcre implements Expression
         $this->pcre = $pcre;
     }
 
-    public function definition(): Definition
+    public function predefinition(): Predefinition
     {
-        return new Definition($this->pcre, $this->pcre);
+        return new IdentityPredefinition(new Definition($this->pcre, $this->pcre));
     }
 }

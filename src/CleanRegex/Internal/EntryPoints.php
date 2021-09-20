@@ -83,7 +83,7 @@ trait EntryPoints
              * {@see Pattern}, so it has access to its private fields. That's why we can just
              * pass a closure, which can map {@see Pattern} to {@see Definition}.
              */
-            return $pattern->definition;
+            return $pattern->predefinition->definition();
         }));
     }
 }

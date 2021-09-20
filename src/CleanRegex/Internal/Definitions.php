@@ -18,7 +18,7 @@ class Definitions
     private static function definitions(array $patterns, callable $patternDefinition): Generator
     {
         foreach ($patterns as $pattern) {
-            yield self::expression($pattern, $patternDefinition)->definition();
+            yield self::expression($pattern, $patternDefinition)->predefinition()->definition();
         }
     }
 

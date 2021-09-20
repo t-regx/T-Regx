@@ -26,25 +26,41 @@ class PatternTest extends TestCase
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
 
         // when
-        $entryPoint();
+        $entryPoint()->test('');
     }
 
     public function entryPoints(): array
     {
         return [
-            'Pattern::of()'      => [function () {
+            'Pattern::of()'                           => [function () {
                 return Pattern::of('Foo \\');
             }],
-            'Pattern::inject()'  => [function () {
+            'Pattern::of(,x)'                         => [function () {
+                return Pattern::of('Foo \\', 'x');
+            }],
+            'Pattern::inject()'                       => [function () {
                 return Pattern::inject('Foo \\', []);
             }],
-            'Pattern::compose()' => [function () {
-                return Pattern::compose(['Foo & \\']);
+            'Pattern::template(,x)->build()'          => [function () {
+                return Pattern::template('cat\\', 'x')->build();
             }],
             'Pattern::template()->literal()->build()' => [function () {
                 return Pattern::template('Foo @ \\')->literal('&')->build();
-            }]
+            }],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_forTrailingBackslash_compose(): void
+    {
+        // then
+        $this->expectException(PatternMalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
+
+        // when
+        Pattern::compose(['Foo & \\'])->anyMatches('Foo');
     }
 
     /**

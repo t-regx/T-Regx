@@ -94,16 +94,18 @@ class PatternTest extends TestCase
      */
     public function shouldThrowForSuperfluousTemplateFigure()
     {
+        // given
+        $builder = Pattern::template('You/her, (are|is) @ (you|her)')
+            ->literal('foo')
+            ->literal('bar')
+            ->literal('cat');
+
         // then
         $this->expectException(PlaceholderFigureException::class);
         $this->expectExceptionMessage("Found a superfluous figure: string ('bar'). Used 1 placeholders, but 3 figures supplied.");
 
         // when
-        Pattern::template('You/her, (are|is) @ (you|her)')
-            ->literal('foo')
-            ->literal('bar')
-            ->literal('cat')
-            ->build();
+        $builder->build();
     }
 
     /**
@@ -111,12 +113,15 @@ class PatternTest extends TestCase
      */
     public function shouldThrowForSuperfluousTemplateMask()
     {
+        // given
+        $builder = Pattern::template('Foo')->mask('foo', ['foo', 'bar']);
+
         // then
         $this->expectException(PlaceholderFigureException::class);
         $this->expectExceptionMessage("Found a superfluous figure: mask (2). Used 0 placeholders, but 1 figures supplied.");
 
         // when
-        Pattern::template('Foo')->mask('foo', ['foo', 'bar'])->build();
+        $builder->build();
     }
 
     /**
@@ -124,12 +129,15 @@ class PatternTest extends TestCase
      */
     public function shouldThrowForSuperfluousTemplateAlteration()
     {
+        // given
+        $builder = Pattern::template('Foo')->alteration(['foo', 'bar']);
+
         // then
         $this->expectException(PlaceholderFigureException::class);
         $this->expectExceptionMessage("Found a superfluous figure: array (2). Used 0 placeholders, but 1 figures supplied.");
 
         // when
-        Pattern::template('Foo')->alteration(['foo', 'bar'])->build();
+        $builder->build();
     }
 
     /**
@@ -137,25 +145,15 @@ class PatternTest extends TestCase
      */
     public function shouldThrowForSuperfluousTemplatePattern()
     {
+        // given
+        $builder = Pattern::template('Foo')->pattern('bar');
+
         // then
         $this->expectException(PlaceholderFigureException::class);
         $this->expectExceptionMessage('Found a superfluous figure: pattern (bar). Used 0 placeholders, but 1 figures supplied.');
 
         // when
-        Pattern::template('Foo')->pattern('bar')->build();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForMissingFigure()
-    {
-        // then
-        $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage('Not enough corresponding figures supplied. Used 1 placeholders, but 0 figures supplied');
-
-        // when
-        Pattern::template($this->exhaustedDelimiters())->build();
+        $builder->build();
     }
 
     /**
@@ -163,17 +161,15 @@ class PatternTest extends TestCase
      */
     public function shouldThrowForRequiredExplicitDelimiter()
     {
+        // given
+        $builder = Pattern::template("s~i/e#++m%a!@*`_-;=,\1");
+
         // then
         $this->expectException(ExplicitDelimiterRequiredException::class);
         $this->expectExceptionMessage("Failed to select a distinct delimiter to enable template in its entirety");
 
         // when
-        Pattern::template($this->exhaustedDelimiters())->literal('!')->build();
-    }
-
-    private function exhaustedDelimiters(): string
-    {
-        return "s~i/e#++m%a!@*`_-;=,\1";
+        $builder->build();
     }
 
     /**
@@ -225,5 +221,20 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirst('ę', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldInjectAddPaddingToCommentBackslash()
+    {
+        // given
+        $pattern = Pattern::inject('#\\', []);
+
+        // when
+        $valid = $pattern->valid();
+
+        // then
+        $this->assertFalse($valid);
     }
 }

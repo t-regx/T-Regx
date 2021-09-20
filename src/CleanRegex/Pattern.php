@@ -2,9 +2,9 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\ForArray\ForArrayPattern;
-use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\EntryPoints;
 use TRegx\CleanRegex\Internal\Expression\Expression;
+use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
@@ -14,66 +14,66 @@ class Pattern
 {
     use EntryPoints;
 
-    /** @var Definition */
-    private $definition;
+    /** @var Predefinition */
+    private $predefinition;
 
     public function __construct(Expression $expression)
     {
-        $this->definition = $expression->definition();
+        $this->predefinition = $expression->predefinition();
     }
 
     public function test(string $subject): bool
     {
-        return preg::match($this->definition->pattern, $subject) === 1;
+        return preg::match($this->predefinition->definition()->pattern, $subject) === 1;
     }
 
     public function fails(string $subject): bool
     {
-        return preg::match($this->definition->pattern, $subject) === 0;
+        return preg::match($this->predefinition->definition()->pattern, $subject) === 0;
     }
 
     public function match(string $subject): MatchPattern
     {
-        return new MatchPattern($this->definition, new StringSubject($subject));
+        return new MatchPattern($this->predefinition->definition(), new StringSubject($subject));
     }
 
     public function replace(string $subject): ReplaceLimit
     {
-        return new ReplaceLimit($this->definition, new StringSubject($subject));
+        return new ReplaceLimit($this->predefinition->definition(), new StringSubject($subject));
     }
 
     public function prune(string $subject): string
     {
-        return preg::replace($this->definition->pattern, '', $subject);
+        return preg::replace($this->predefinition->definition()->pattern, '', $subject);
     }
 
     public function forArray(array $haystack): ForArrayPattern
     {
-        return new ForArrayPattern($this->definition, $haystack);
+        return new ForArrayPattern($this->predefinition->definition(), $haystack);
     }
 
     public function split(string $subject): array
     {
-        return preg::split($this->definition->pattern, $subject, -1, \PREG_SPLIT_DELIM_CAPTURE);
+        return preg::split($this->predefinition->definition()->pattern, $subject, -1, \PREG_SPLIT_DELIM_CAPTURE);
     }
 
     public function count(string $subject): int
     {
-        return preg::match_all($this->definition->pattern, $subject);
+        return preg::match_all($this->predefinition->definition()->pattern, $subject);
     }
 
     public function valid(): bool
     {
-        return $this->definition->valid();
+        return $this->predefinition->valid();
     }
 
     public function delimited(): string
     {
-        return $this->definition->pattern;
+        return $this->predefinition->definition()->pattern;
     }
 
     public function __toString(): string
     {
-        return $this->definition->pattern;
+        return $this->predefinition->definition()->pattern;
     }
 }

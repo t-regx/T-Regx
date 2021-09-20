@@ -20,10 +20,10 @@ class StandardTest extends TestCase
         $standard = new Standard('foo', 'i');
 
         // when
-        $definition = $standard->definition();
+        $predefinition = $standard->predefinition();
 
         // then
-        $this->assertEquals(new Definition('/foo/i', 'foo'), $definition);
+        $this->assertEquals(new Definition('/foo/i', 'foo'), $predefinition->definition());
     }
 
     /**
@@ -35,10 +35,10 @@ class StandardTest extends TestCase
         $standard = new Standard('foo/bar', 'x');
 
         // when
-        $definition = $standard->definition();
+        $predefinition = $standard->predefinition();
 
         // then
-        $this->assertEquals(new Definition('#foo/bar#x', 'foo/bar'), $definition);
+        $this->assertEquals(new Definition('#foo/bar#x', 'foo/bar'), $predefinition->definition());
     }
 
     /**
@@ -54,7 +54,7 @@ class StandardTest extends TestCase
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
 
         // when
-        $standard->definition();
+        $standard->predefinition();
     }
 
     /**
@@ -66,9 +66,9 @@ class StandardTest extends TestCase
         $standard = new Standard('foo', 'mm');
 
         // when
-        $definition = $standard->definition();
+        $predefinition = $standard->predefinition();
 
         // then
-        $this->assertEquals(new Definition('/foo/m', 'foo'), $definition);
+        $this->assertEquals(new Definition('/foo/m', 'foo'), $predefinition->definition());
     }
 }

@@ -23,10 +23,10 @@ class MaskTest extends TestCase
         ], 'x');
 
         // when
-        $definition = $mask->definition();
+        $predefinition = $mask->predefinition();
 
         // then
-        $this->assertEquals(new Definition('/\(\w\:\s\\\\\\)/x', '(%w:%s\)'), $definition);
+        $this->assertEquals(new Definition('/\(\w\:\s\\\\\\)/x', '(%w:%s\)'), $predefinition->definition());
     }
 
     /**
@@ -38,10 +38,10 @@ class MaskTest extends TestCase
         $mask = new Mask('foo', ['x' => '%', '%w' => '#', '%s' => '/'], 'i');
 
         // when
-        $definition = $mask->definition();
+        $predefinition = $mask->predefinition();
 
         // then
-        $this->assertEquals(new Definition('~foo~i', 'foo'), $definition);
+        $this->assertEquals(new Definition('~foo~i', 'foo'), $predefinition->definition());
     }
 
     /**
@@ -53,10 +53,10 @@ class MaskTest extends TestCase
         $mask = new Mask('foo/bar', [], 'x');
 
         // when
-        $definition = $mask->definition();
+        $predefinition = $mask->predefinition();
 
         // then
-        $this->assertEquals(new Definition('/foo\/bar/x', 'foo/bar'), $definition);
+        $this->assertEquals(new Definition('/foo\/bar/x', 'foo/bar'), $predefinition->definition());
     }
 
     /**
@@ -75,7 +75,7 @@ class MaskTest extends TestCase
         $this->expectExceptionMessage("Malformed pattern '\w\' assigned to keyword '%w'");
 
         // when
-        $mask->definition();
+        $mask->predefinition();
     }
 
     /**
@@ -87,9 +87,9 @@ class MaskTest extends TestCase
         $mask = new Mask('foo', [], 'xx');
 
         // when
-        $definition = $mask->definition();
+        $predefinition = $mask->predefinition();
 
         // then
-        $this->assertEquals(new Definition('/foo/x', 'foo'), $definition);
+        $this->assertEquals(new Definition('/foo/x', 'foo'), $predefinition->definition());
     }
 }

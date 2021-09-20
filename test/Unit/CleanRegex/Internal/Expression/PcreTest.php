@@ -4,6 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Expression;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Expression\Pcre;
+use TRegx\CleanRegex\Internal\Expression\Predefinition\IdentityPredefinition;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Expression\Pcre
@@ -19,9 +20,9 @@ class PcreTest extends TestCase
         $pcre = new Pcre('/foo/x');
 
         // when
-        $actual = $pcre->definition();
+        $actual = $pcre->predefinition();
 
         // then
-        $this->assertEquals(new Definition('/foo/x', '/foo/x'), $actual);
+        $this->assertEquals(new IdentityPredefinition(new Definition('/foo/x', '/foo/x')), $actual);
     }
 }

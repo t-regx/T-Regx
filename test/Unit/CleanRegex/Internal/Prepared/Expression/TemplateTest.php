@@ -4,7 +4,6 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Expression;
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\EqualsCondition;
 use Test\Fakes\CleanRegex\Internal\Prepared\Figure\ConstantFigures;
-use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
@@ -25,10 +24,10 @@ class TemplateTest extends TestCase
         $template = new Template(new PcreSpelling('/foo:@/'), ConstantFigures::literal('bar{}'));
 
         // when
-        $definition = $template->definition();
+        $predefinition = $template->predefinition();
 
         // then
-        $this->assertEquals(new Definition('/foo:bar\{\}/', '/foo:@/'), $definition);
+        $this->assertEquals(new Definition('/foo:bar\{\}/', '/foo:@/'), $predefinition->definition());
     }
 
     /**
@@ -40,26 +39,10 @@ class TemplateTest extends TestCase
         $template = new Template(new PcreSpelling('%foo:@%m'), ConstantFigures::literal('bar%cat'));
 
         // when
-        $definition = $template->definition();
+        $predefinition = $template->predefinition();
 
         // then
-        $this->assertEquals(new Definition('%foo:bar\%cat%m', '%foo:@%m'), $definition);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForTrailingBackslash()
-    {
-        // given
-        $template = new Template(new StandardSpelling('cat\\', 'x', new EqualsCondition('/')), new InjectFigures([]));
-
-        // then
-        $this->expectException(PatternMalformedPatternException::class);
-        $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
-
-        // when
-        $template->definition();
+        $this->assertEquals(new Definition('%foo:bar\%cat%m', '%foo:@%m'), $predefinition->definition());
     }
 
     /**
@@ -71,10 +54,10 @@ class TemplateTest extends TestCase
         $template = new Template(new StandardSpelling('cat', 'xx', new EqualsCondition('/')), new InjectFigures([]));
 
         // when
-        $definition = $template->definition();
+        $predefinition = $template->predefinition();
 
         // then
-        $this->assertEquals(new Definition('/cat/x', 'cat'), $definition);
+        $this->assertEquals(new Definition('/cat/x', 'cat'), $predefinition->definition());
     }
 
     /**
@@ -86,10 +69,10 @@ class TemplateTest extends TestCase
         $template = new Template(new StandardSpelling("/#@\n", 'i', new EqualsCondition('~')), ConstantFigures::literal('cat~'));
 
         // when
-        $definition = $template->definition();
+        $predefinition = $template->predefinition();
 
         // then
-        $this->assertEquals(new Definition("~/#cat\~\n~i", "/#@\n"), $definition);
+        $this->assertEquals(new Definition("~/#cat\~\n~i", "/#@\n"), $predefinition->definition());
     }
 
     /**
@@ -101,9 +84,9 @@ class TemplateTest extends TestCase
         $template = new Template(new StandardSpelling('#@', 'x', new EqualsCondition('/')), new ConstantFigures(0));
 
         // when
-        $definition = $template->definition();
+        $predefinition = $template->predefinition();
 
         // then
-        $this->assertEquals(new Definition('/#@/x', '#@'), $definition);
+        $this->assertEquals(new Definition('/#@/x', '#@'), $predefinition->definition());
     }
 }
