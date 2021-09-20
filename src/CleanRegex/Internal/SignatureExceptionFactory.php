@@ -96,11 +96,7 @@ class SignatureExceptionFactory
 
     private function isWrongParametersError(string $className, Error $error): bool
     {
-        return $this->startsWith($error->getMessage(), "Wrong parameters for $className");
-    }
-
-    private function startsWith(string $haystack, string $needle): bool
-    {
-        return \strpos($haystack, $needle) === 0;
+        $message = new Chars($error->getMessage());
+        return $message->startsWith("Wrong parameters for $className");
     }
 }

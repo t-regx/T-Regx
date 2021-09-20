@@ -5,12 +5,12 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 
 class Flags
 {
-    /** @var string */
+    /** @var Chars */
     private $flags;
 
     public function __construct(string $flags)
     {
-        $this->flags = $flags;
+        $this->flags = new Chars($flags);
     }
 
     public static function parse(string $string): array
@@ -33,7 +33,7 @@ class Flags
     public function has(string $flag): bool
     {
         if (\mb_strlen($flag) === 1) {
-            return \mb_strpos($this->flags, $flag) > -1;
+            return $this->flags->contains($flag);
         }
         // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();
