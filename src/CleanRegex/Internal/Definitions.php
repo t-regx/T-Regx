@@ -5,6 +5,7 @@ use Generator;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\Identity;
 use TRegx\CleanRegex\Internal\Expression\Standard;
+use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Pattern;
 
@@ -25,7 +26,7 @@ class Definitions
     private static function expression($pattern, callable $patternDefinition): Expression
     {
         if (\is_string($pattern)) {
-            return new Standard($pattern, '');
+            return new Standard(new StandardSpelling($pattern, $flags ?? '', new UnsuitableStringCondition($pattern)));
         }
         if ($pattern instanceof Pattern) {
             return new Identity($patternDefinition($pattern));

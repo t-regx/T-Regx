@@ -57,4 +57,19 @@ class PatternTest extends TestCase
             'empty'        => ['', true, false],
         ];
     }
+
+    /**
+     * @test
+     */
+    public function shouldNotAcceptTrailingBackslashCommentModeDisabled()
+    {
+        // given
+        $pattern = Pattern::of('#\\');
+
+        // when
+        $valid = $pattern->valid();
+
+        // then
+        $this->assertFalse($valid);
+    }
 }

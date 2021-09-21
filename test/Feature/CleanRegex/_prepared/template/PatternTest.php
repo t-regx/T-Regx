@@ -237,4 +237,17 @@ class PatternTest extends TestCase
         // then
         $this->assertFalse($valid);
     }
+
+    /**
+     * @test
+     */
+    public function shouldAddPaddingToNonCapturingGroup()
+    {
+        // when
+        $pattern = Pattern::template('(?:@)')->pattern('\c\\')->build();
+
+        // then
+        $this->assertConsumesFirst(\chr(28), $pattern);
+        $this->assertSamePattern('/(?:\c\)/', $pattern);
+    }
 }

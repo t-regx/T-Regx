@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared;
 
+use Generator;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CommentConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\ControlConsumer;
@@ -14,6 +15,8 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\QuoteConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
+use TRegx\CleanRegex\Internal\Prepared\Word\CompositeWord;
+use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
 class PatternAsEntities
 {
@@ -41,5 +44,17 @@ class PatternAsEntities
     public function entities(): array
     {
         return $this->pcreParser->entities();
+    }
+
+    public function word(): Word
+    {
+        return new CompositeWord(\iterator_to_array($this->words()));
+    }
+
+    private function words(): Generator
+    {
+        foreach ($this->pcreParser->entities() as $entity) {
+            yield $entity->word();
+        }
     }
 }

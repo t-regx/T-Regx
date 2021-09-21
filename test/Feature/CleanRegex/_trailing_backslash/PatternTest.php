@@ -17,36 +17,26 @@ class PatternTest extends TestCase
     /**
      * @test
      * @dataProvider entryPoints
-     * @param callable $entryPoint
+     * @param Pattern $pattern
      */
-    public function shouldThrow_forTrailingBackslash(callable $entryPoint): void
+    public function shouldThrow_forTrailingBackslash(Pattern $pattern): void
     {
         // then
         $this->expectException(PatternMalformedPatternException::class);
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
 
         // when
-        $entryPoint()->test('');
+        $pattern->test('Foo');
     }
 
     public function entryPoints(): array
     {
         return [
-            'Pattern::of()'                           => [function () {
-                return Pattern::of('Foo \\');
-            }],
-            'Pattern::of(,x)'                         => [function () {
-                return Pattern::of('Foo \\', 'x');
-            }],
-            'Pattern::inject()'                       => [function () {
-                return Pattern::inject('Foo \\', []);
-            }],
-            'Pattern::template(,x)->build()'          => [function () {
-                return Pattern::template('cat\\', 'x')->build();
-            }],
-            'Pattern::template()->literal()->build()' => [function () {
-                return Pattern::template('Foo @ \\')->literal('&')->build();
-            }],
+            'Pattern::of()'                           => [Pattern::of('Foo \\')],
+            'Pattern::of(,x)'                         => [Pattern::of('Foo \\', 'x')],
+            'Pattern::inject()'                       => [Pattern::inject('Foo \\', [])],
+            'Pattern::template(,x)->build()'          => [Pattern::template('cat\\', 'x')->build()],
+            'Pattern::template()->literal()->build()' => [Pattern::template('Foo @ \\')->literal('&')->build()],
         ];
     }
 

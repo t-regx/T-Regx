@@ -19,7 +19,7 @@ trait EntryPoints
 {
     public static function of(string $pattern, string $flags = null): Pattern
     {
-        return new Pattern(new Standard($pattern, $flags ?? ''));
+        return new Pattern(new Standard(new StandardSpelling($pattern, $flags ?? '', new UnsuitableStringCondition($pattern))));
     }
 
     public static function inject(string $pattern, array $texts, string $flags = null): Pattern

@@ -2,9 +2,10 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Expression;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
+use Test\Fakes\CleanRegex\Internal\EqualsCondition;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Expression\Standard;
+use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Expression\Standard
@@ -17,7 +18,7 @@ class StandardTest extends TestCase
     public function test()
     {
         // given
-        $standard = new Standard('foo', 'i');
+        $standard = new Standard(new StandardSpelling('foo', 'i', new EqualsCondition('/')));
 
         // when
         $predefinition = $standard->predefinition();
@@ -29,41 +30,10 @@ class StandardTest extends TestCase
     /**
      * @test
      */
-    public function shouldChooseDelimiter()
-    {
-        // given
-        $standard = new Standard('foo/bar', 'x');
-
-        // when
-        $predefinition = $standard->predefinition();
-
-        // then
-        $this->assertEquals(new Definition('#foo/bar#x', 'foo/bar'), $predefinition->definition());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForTrailingEscape()
-    {
-        // given
-        $standard = new Standard('bar\\', 'x');
-
-        // then
-        $this->expectException(PatternMalformedPatternException::class);
-        $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
-
-        // when
-        $standard->predefinition();
-    }
-
-    /**
-     * @test
-     */
     public function shouldNotUseDuplicateFlags()
     {
         // given
-        $standard = new Standard('foo', 'mm');
+        $standard = new Standard(new StandardSpelling('foo', 'mm', new EqualsCondition('/')));
 
         // when
         $predefinition = $standard->predefinition();
