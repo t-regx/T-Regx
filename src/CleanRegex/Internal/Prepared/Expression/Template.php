@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Dictionary;
 use TRegx\CleanRegex\Internal\Prepared\Figure\CountedFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
-use TRegx\CleanRegex\Internal\Prepared\Word\Word;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
 class Template implements Expression
 {
@@ -26,9 +26,9 @@ class Template implements Expression
         $this->dictionary = new Dictionary($spelling, $figures);
     }
 
-    protected function word(): Word
+    protected function phrase(): Phrase
     {
-        return $this->dictionary->compositeWord();
+        return $this->dictionary->compositePhrase();
     }
 
     protected function delimiter(): Delimiter

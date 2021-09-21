@@ -2,12 +2,12 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Prepared\Word\Word;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Type\Type;
 
 class NullToken implements Token
 {
-    public function word(): Word
+    public function phrase(): Phrase
     {
         // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();

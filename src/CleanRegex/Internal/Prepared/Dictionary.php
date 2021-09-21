@@ -6,7 +6,8 @@ use TRegx\CleanRegex\Internal\Prepared\Figure\CountedFigures;
 use TRegx\CleanRegex\Internal\Prepared\Figure\ExpectedFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\FiguresPlaceholderConsumer;
-use TRegx\CleanRegex\Internal\Prepared\Word\CompositeWord;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
 class Dictionary
 {
@@ -21,17 +22,17 @@ class Dictionary
         $this->patternAsEntities = new PatternAsEntities($spelling->pattern(), $spelling->flags(), new FiguresPlaceholderConsumer($this->figures));
     }
 
-    public function compositeWord(): CompositeWord
+    public function compositePhrase(): Phrase
     {
-        return new CompositeWord(\iterator_to_array($this->words()));
+        return new CompositePhrase(\iterator_to_array($this->phrases()));
     }
 
-    private function words(): Generator
+    private function phrases(): Generator
     {
         $entities = $this->patternAsEntities->entities();
         $this->figures->meetExpectation();
         foreach ($entities as $entity) {
-            yield $entity->word();
+            yield $entity->phrase();
         }
     }
 }

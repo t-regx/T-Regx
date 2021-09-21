@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Template\Mask\CompositeKeyword;
-use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 use TRegx\CleanRegex\Internal\Type\MaskType;
 use TRegx\CleanRegex\Internal\Type\Type;
 
@@ -21,9 +21,9 @@ class MaskToken implements Token
         $this->keywordsAndPatterns = $keywordsAndPatterns;
     }
 
-    public function word(): Word
+    public function phrase(): Phrase
     {
-        return $this->compositeKeyword->word();
+        return $this->compositeKeyword->phrase();
     }
 
     public function type(): Type

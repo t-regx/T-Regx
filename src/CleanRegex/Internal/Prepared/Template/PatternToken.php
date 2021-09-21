@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Template;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralPlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;
-use TRegx\CleanRegex\Internal\Prepared\Word\Word;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Type\PatternType;
 use TRegx\CleanRegex\Internal\Type\Type;
 
@@ -23,9 +23,9 @@ class PatternToken implements Token
         $this->pattern = $pattern;
     }
 
-    public function word(): Word
+    public function phrase(): Phrase
     {
-        return $this->patternAsEntities->word();
+        return $this->patternAsEntities->phrase();
     }
 
     public function type(): Type

@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser\Entity;
 
 use TRegx\CleanRegex\Internal\Flags;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Template\Token;
-use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
 class Placeholder implements Entity
 {
@@ -20,8 +20,8 @@ class Placeholder implements Entity
         $this->token = $token;
     }
 
-    public function word(): Word
+    public function phrase(): Phrase
     {
-        return $this->token->word();
+        return $this->token->phrase();
     }
 }

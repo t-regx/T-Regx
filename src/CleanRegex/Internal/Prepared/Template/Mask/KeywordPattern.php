@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Template\Mask;
 use TRegx\CleanRegex\Internal\Candidates;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Word\PatternWord;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\PatternPhrase;
 use TRegx\CleanRegex\Internal\TrailingBackslash;
 use TRegx\CleanRegex\Internal\UnsuitableStringCondition;
 
@@ -31,6 +31,6 @@ class KeywordPattern
 
     private function definition(): Definition
     {
-        return new Definition($this->candidates->delimiter()->delimited(new PatternWord($this->pattern), new Flags('')), $this->pattern);
+        return new Definition($this->candidates->delimiter()->delimited(new PatternPhrase($this->pattern), new Flags('')), $this->pattern);
     }
 }

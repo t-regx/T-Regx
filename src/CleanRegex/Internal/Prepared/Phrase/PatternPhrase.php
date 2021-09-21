@@ -1,7 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Word;
+namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
 
-class PatternWord implements Word
+class PatternPhrase implements Phrase
 {
     /** @var string */
     private $pattern;

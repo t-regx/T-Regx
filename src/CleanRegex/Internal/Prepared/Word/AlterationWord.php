@@ -2,8 +2,9 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Word;
 
 use Generator;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
-class AlterationWord implements Word
+class AlterationWord implements Phrase
 {
     /** @var AlterationFigures */
     private $figures;

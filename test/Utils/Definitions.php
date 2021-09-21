@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Expression\Standard;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Word\PatternWord;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\PatternPhrase;
 use TRegx\CleanRegex\Internal\TrailingBackslash;
 use TRegx\CleanRegex\Internal\UnsuitableStringCondition;
 
@@ -21,9 +21,9 @@ class Definitions
         /**
          * I intentionally don't use {@see Standard}, because if there are bugs in it,
          * then the tests are compromised. By using low-level {@see Delimiter} and
-         * {@see PatternWord} to reduce the posibilities of false-positives in tests.
+         * {@see PatternPhrase} to reduce the posibilities of false-positives in tests.
          */
-        return new Definition(self::candidates($pattern)->delimiter()->delimited(new PatternWord($pattern), new Flags($flags ?? '')), $pattern);
+        return new Definition(self::candidates($pattern)->delimiter()->delimited(new PatternPhrase($pattern), new Flags($flags ?? '')), $pattern);
     }
 
     private static function candidates(string $delimiterable): Candidates

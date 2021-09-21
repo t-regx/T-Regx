@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Word\AlterationWord;
-use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 use TRegx\CleanRegex\Internal\Type\Type;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 
@@ -18,7 +18,7 @@ class AlterationToken implements Token
         $this->figures = $figures;
     }
 
-    public function word(): Word
+    public function phrase(): Phrase
     {
         return new AlterationWord($this->figures);
     }

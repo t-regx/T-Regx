@@ -8,8 +8,8 @@ use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\StrictInterpretation;
 use TRegx\CleanRegex\Internal\Flags;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
-use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
 class Mask implements Expression
 {
@@ -35,9 +35,9 @@ class Mask implements Expression
         $this->mask = $mask;
     }
 
-    protected function word(): Word
+    protected function phrase(): Phrase
     {
-        return $this->token->word();
+        return $this->token->phrase();
     }
 
     protected function delimiter(): Delimiter

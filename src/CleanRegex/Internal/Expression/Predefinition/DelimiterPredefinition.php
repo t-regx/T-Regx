@@ -4,16 +4,16 @@ namespace TRegx\CleanRegex\Internal\Expression\Predefinition;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Word\Word;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
 class DelimiterPredefinition implements Predefinition
 {
     /** @var Definition */
     private $definition;
 
-    public function __construct(Delimiter $delimiter, Flags $flags, Word $word, string $undeveloped)
+    public function __construct(Delimiter $delimiter, Flags $flags, Phrase $phrase, string $undeveloped)
     {
-        $this->definition = new Definition($delimiter->delimited($word, $flags), $undeveloped);
+        $this->definition = new Definition($delimiter->delimited($phrase, $flags), $undeveloped);
     }
 
     public function definition(): Definition

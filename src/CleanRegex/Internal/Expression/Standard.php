@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\Prepared\Expression\PredefinedExpression;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralPlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;
-use TRegx\CleanRegex\Internal\Prepared\Word\Word;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
 class Standard implements Expression
 {
@@ -26,9 +26,9 @@ class Standard implements Expression
         $this->patternAsEntities = new PatternAsEntities($spelling->pattern(), $spelling->flags(), new LiteralPlaceholderConsumer());
     }
 
-    protected function word(): Word
+    protected function phrase(): Phrase
     {
-        return $this->patternAsEntities->word();
+        return $this->patternAsEntities->phrase();
     }
 
     protected function delimiter(): Delimiter

@@ -15,8 +15,8 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\QuoteConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
-use TRegx\CleanRegex\Internal\Prepared\Word\CompositeWord;
-use TRegx\CleanRegex\Internal\Prepared\Word\Word;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
 class PatternAsEntities
 {
@@ -46,15 +46,15 @@ class PatternAsEntities
         return $this->pcreParser->entities();
     }
 
-    public function word(): Word
+    public function phrase(): Phrase
     {
-        return new CompositeWord(\iterator_to_array($this->words()));
+        return new CompositePhrase(\iterator_to_array($this->phrases()));
     }
 
-    private function words(): Generator
+    private function phrases(): Generator
     {
         foreach ($this->pcreParser->entities() as $entity) {
-            yield $entity->word();
+            yield $entity->phrase();
         }
     }
 }

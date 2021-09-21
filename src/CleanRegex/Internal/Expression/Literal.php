@@ -3,8 +3,8 @@ namespace TRegx\CleanRegex\Internal\Expression;
 
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
-use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
 class Literal implements Expression
 {
@@ -21,7 +21,7 @@ class Literal implements Expression
         $this->flags = new Flags($flags);
     }
 
-    protected function word(): Word
+    protected function phrase(): Phrase
     {
         return new TextWord($this->text);
     }

@@ -44,7 +44,7 @@ class PatternEntitiesAssertion
             if ($entity instanceof TerminatingEscape) {
                 return '\\';
             }
-            $word = $entity->word();
+            $word = $entity->phrase();
             if ($word instanceof TextWord) {
                 return '@';
             }

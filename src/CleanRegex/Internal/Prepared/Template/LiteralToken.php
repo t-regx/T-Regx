@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template;
 
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
-use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 use TRegx\CleanRegex\Internal\Type\Type;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 
@@ -18,7 +18,7 @@ class LiteralToken implements Token
         $this->text = $text;
     }
 
-    public function word(): Word
+    public function phrase(): Phrase
     {
         return new TextWord($this->text);
     }

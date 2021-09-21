@@ -5,11 +5,11 @@ use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\DelimiterPredefinition;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Word\Word;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
 trait StrictInterpretation
 {
-    abstract protected function word(): Word;
+    abstract protected function phrase(): Phrase;
 
     abstract protected function delimiter(): Delimiter;
 
@@ -19,6 +19,6 @@ trait StrictInterpretation
 
     public function predefinition(): Predefinition
     {
-        return new DelimiterPredefinition($this->delimiter(), $this->flags(), $this->word(), $this->undevelopedInput());
+        return new DelimiterPredefinition($this->delimiter(), $this->flags(), $this->phrase(), $this->undevelopedInput());
     }
 }

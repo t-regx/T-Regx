@@ -1,11 +1,11 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Word;
+namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
 
 use Generator;
 
-class CompositeWord implements Word
+class CompositePhrase implements Phrase
 {
-    /** @var Word[] */
+    /** @var Phrase[] */
     private $words;
 
     public function __construct(array $words)

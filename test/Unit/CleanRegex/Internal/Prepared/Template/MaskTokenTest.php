@@ -27,7 +27,7 @@ class MaskTokenTest extends TestCase
         $this->expectExceptionMessage("Malformed pattern '$invalidPattern' assigned to keyword '%f'");
 
         // when
-        $mask->word();
+        $mask->phrase();
     }
 
     /**
@@ -40,7 +40,7 @@ class MaskTokenTest extends TestCase
 
         // when
         try {
-            $mask->word();
+            $mask->phrase();
         } catch (MaskMalformedPatternException $silenced) {
         }
 
