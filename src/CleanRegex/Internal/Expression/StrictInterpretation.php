@@ -19,7 +19,6 @@ trait StrictInterpretation
 
     public function predefinition(): Predefinition
     {
-        $phrase = $this->phrase();
-        return new DelimiterPredefinition($this->delimiter(), $this->flags(), $phrase, $this->undevelopedInput());
+        return new DelimiterPredefinition($this->phrase(), $this->delimiter(), $this->flags(), $this->undevelopedInput());
     }
 }
