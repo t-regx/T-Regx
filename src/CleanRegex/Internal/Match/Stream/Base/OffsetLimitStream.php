@@ -1,13 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
-use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
-use TRegx\CleanRegex\Internal\Model\GroupHasAware;
 
 class OffsetLimitStream implements Upstream
 {
@@ -15,26 +11,17 @@ class OffsetLimitStream implements Upstream
 
     /** @var Base */
     private $base;
-    /** @var GroupKey */
-    private $group;
-    /** @var GroupHasAware */
-    private $groupAware;
 
-    public function __construct(Base $base, GroupKey $group, GroupHasAware $groupAware)
+    public function __construct(Base $base)
     {
         $this->base = $base;
-        $this->group = $group;
-        $this->groupAware = $groupAware;
     }
 
     protected function entries(): array
     {
         $matches = $this->base->matchAllOffsets();
-        if (!$matches->hasGroup($this->group->nameOrIndex())) {
-            throw new NonexistentGroupException($this->group);
-        }
         if ($matches->matched()) {
-            return $matches->getLimitedGroupOffsets($this->group->nameOrIndex(), -1);
+            return $matches->getLimitedGroupOffsets(0, -1);
         }
         throw new UnmatchedStreamException();
     }
@@ -42,18 +29,9 @@ class OffsetLimitStream implements Upstream
     protected function firstValue(): int
     {
         $match = $this->base->matchOffset();
-        if (!$match->hasGroup($this->group->nameOrIndex())) {
-            if (!$this->groupAware->hasGroup($this->group->nameOrIndex())) {
-                throw new NonexistentGroupException($this->group);
-            }
+        if ($match->matched()) {
+            return $match->byteOffset();
         }
-        if (!$match->matched()) {
-            throw new UnmatchedStreamException();
-        }
-        $group = $match->getGroupByteOffset($this->group->nameOrIndex());
-        if ($group !== null) {
-            return $group;
-        }
-        throw new EmptyStreamException();
+        throw new UnmatchedStreamException();
     }
 }

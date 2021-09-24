@@ -11,7 +11,6 @@ use TRegx\CleanRegex\Internal\Factory\Worker\AsIntStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\MatchStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\NextStreamWorkerDecorator;
 use TRegx\CleanRegex\Internal\Factory\Worker\OffsetsWorker;
-use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\EmptyOptional;
@@ -176,7 +175,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface
     public function offsets(): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            new OffsetLimitStream($this->base, new GroupIndex(0), $this->groupAware),
+            new OffsetLimitStream($this->base),
             new NextStreamWorkerDecorator(new MatchStreamWorker(), new OffsetsWorker($this->groupAware, $this->base)));
     }
 
