@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.13.8
+---------------
+
 * Bug fixes
     * Fixed a bug, where using `Pattern::inject('()(?)')` failed parsing
     * Fixed a bug, where using unicode in groups failed parsing
