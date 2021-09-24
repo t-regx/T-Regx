@@ -23,9 +23,10 @@ trait PredefinedExpression
     public function predefinition(): Predefinition
     {
         try {
+            $phrase = $this->phrase();
             return new DelimiterPredefinition($this->delimiter(),
                 $this->flags(),
-                $this->phrase(),
+                $phrase,
                 $this->undevelopedInput());
         } catch (TrailingBackslashException $exception) {
             return new TrailingBackslashPredefinition(new PatternMalformedPatternException('Pattern may not end with a trailing backslash'));

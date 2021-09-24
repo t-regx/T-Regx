@@ -18,6 +18,11 @@ class ExplicitDelimiterRequiredException extends \Exception implements PatternEx
         return new self('mask keywords in their entirety: ' . \implode(', ', $keywords));
     }
 
+    public static function forMaskKeyword(string $keyword, string $pattern): self
+    {
+        return new self("mask pattern '$pattern' assigned to keyword '$keyword'");
+    }
+
     public static function forTemplate(): self
     {
         return new self('template in its entirety');

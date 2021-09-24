@@ -1,36 +1,67 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template\Mask;
 
+use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
+use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Internal\Candidates;
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
+use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
+use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Phrase\PatternPhrase;
-use TRegx\CleanRegex\Internal\TrailingBackslash;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralPlaceholderConsumer;
+use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\UnsuitableStringCondition;
 
 class KeywordPattern
 {
-    /** @var string */
-    private $pattern;
     /** @var Candidates */
     private $candidates;
+    /** @var PatternAsEntities */
+    private $patternAsEntities;
+    /** @var string */
+    private $pattern;
+    /** @var string */
+    private $keyword;
 
-    public function __construct(string $keywordPattern)
+    public function __construct(string $keyword, string $pattern)
     {
-        $this->pattern = $keywordPattern;
-        $this->candidates = new Candidates(new UnsuitableStringCondition($keywordPattern));
+        $this->candidates = new Candidates(new UnsuitableStringCondition($pattern));
+        $this->patternAsEntities = new PatternAsEntities($pattern, new Flags(''), new LiteralPlaceholderConsumer());
+        $this->pattern = $pattern;
+        $this->keyword = $keyword;
     }
 
-    public function valid(): bool
+    public function phrase(): Phrase
     {
-        if (TrailingBackslash::hasTrailingSlash($this->pattern)) {
-            return false;
+        return $this->validPhrase($this->entitiesPhrase(), $this->delimiter());
+    }
+
+    private function validPhrase(Phrase $phrase, Delimiter $delimiter): Phrase
+    {
+        $definition = new Definition($delimiter->delimited($phrase, new Flags('')), '');
+        if ($definition->valid()) {
+            return $phrase;
         }
-        return $this->definition()->valid();
+        throw new MaskMalformedPatternException("Malformed pattern '$this->pattern' assigned to keyword '$this->keyword'");
     }
 
-    private function definition(): Definition
+    private function entitiesPhrase(): Phrase
     {
-        return new Definition($this->candidates->delimiter()->delimited(new PatternPhrase($this->pattern), new Flags('')), $this->pattern);
+        try {
+            return $this->patternAsEntities->phrase();
+        } catch (TrailingBackslashException $exception) {
+            throw new MaskMalformedPatternException("Malformed pattern '$this->pattern' assigned to keyword '$this->keyword'");
+        }
+    }
+
+    private function delimiter(): Delimiter
+    {
+        try {
+            return $this->candidates->delimiter();
+        } catch (UndelimiterablePatternException $exception) {
+            throw ExplicitDelimiterRequiredException::forMaskKeyword($this->keyword, $this->pattern);
+        }
     }
 }

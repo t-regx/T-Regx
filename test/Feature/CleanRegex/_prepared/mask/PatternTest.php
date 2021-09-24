@@ -4,6 +4,8 @@ namespace Test\Feature\CleanRegex\_prepared\mask;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
+use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
+use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -72,5 +74,44 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirst('\\', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForRequiredExplicitDelimiterSingleKeyword()
+    {
+        // then
+        $this->expectException(ExplicitDelimiterRequiredException::class);
+        $this->expectExceptionMessage("Failed to select a distinct delimiter to enable mask pattern 's~i/e#++m%a!@*`_-;=,\1' assigned to keyword '@'");
+
+        // when
+        Pattern::mask('@', ['@' => "s~i/e#++m%a!@*`_-;=,\1"]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowPreferentiallyTrailingBackslashInsteadOfExplicitDelimiter()
+    {
+        // then
+        $this->expectException(MaskMalformedPatternException::class);
+        $this->expectExceptionMessage("Malformed pattern 's~i/e#++m%a!@*`_-;=,\1\' assigned to keyword 's'");
+
+        // when
+        Pattern::mask('s', ['s' => "s~i/e#++m%a!@*`_-;=,\1\\"]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForRequiredExplicitDelimiterMultipleKeywordsUnused()
+    {
+        // then
+        $this->expectException(ExplicitDelimiterRequiredException::class);
+        $this->expectExceptionMessage("Failed to select a distinct delimiter to enable mask keywords in their entirety: s~i/e#++, m%a!@*`_-;=,\1");
+
+        // when
+        Pattern::mask(' ', ['@' => "s~i/e#++", '&' => "m%a!@*`_-;=,\1"]);
     }
 }

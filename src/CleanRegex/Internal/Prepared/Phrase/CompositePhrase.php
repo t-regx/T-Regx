@@ -15,16 +15,21 @@ class CompositePhrase extends Phrase
 
     public function conjugated(string $delimiter): string
     {
-        return \implode(\iterator_to_array($this->conjugatedPhrases($delimiter)));
+        return \implode(\array_reverse(\iterator_to_array($this->conjugatedPhrases($delimiter))));
     }
 
     private function conjugatedPhrases(string $delimiter): Generator
     {
-        foreach ($this->phrases as $key => $phrase) {
-            if ($key === \count($this->phrases) - 1) {
-                yield $phrase->conjugated($delimiter);
-            } else {
+        $firstConjugated = false;
+        foreach (\array_reverse($this->phrases) as $phrase) {
+            if ($firstConjugated !== false) {
                 yield $phrase->unconjugated($delimiter);
+            } else {
+                $conjugated = $phrase->conjugated($delimiter);
+                if ($conjugated !== '') {
+                    $firstConjugated = true;
+                }
+                yield $conjugated;
             }
         }
     }

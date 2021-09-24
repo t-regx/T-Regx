@@ -8,6 +8,11 @@ Incoming
     * Fixed a bug, where using `Pattern::inject('()(?)')` failed parsing
     * Fixed a bug, where using unicode in groups failed parsing
     * Fixed a bug, where using pattern in unclosed comment group failed parsing
+    * Added workaround for PHP inconsistencies ragarding backslash in patterns:
+        * PHP reports `\c\` as invalid entity, all T-Regx entry points correctly recognize it as valid
+        * PHP reports `\Q\` as invalid entity, all T-Regx entry points correctly recognize it as valid
+        * PHP reports `(?#\` as invalid entity, all T-Regx entry points correctly recognize it as valid
+        * PHP reports `#\` as invalid entity in `X`tended mode, all T-Regx entry points correctly recognize it as valid
 * Features
     * Added `Optional.map()`, which resembles Java 8 optionals.
     * `pattern()->match()->asInt()->findFirst()->orElse()` receive `NotMatched` argument

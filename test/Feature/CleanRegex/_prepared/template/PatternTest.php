@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
+use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
 
@@ -162,7 +163,7 @@ class PatternTest extends TestCase
     public function shouldThrowForRequiredExplicitDelimiter()
     {
         // given
-        $builder = Pattern::template("s~i/e#++m%a!@*`_-;=,\1");
+        $builder = Pattern::template("s~i/e#++m%a!\@*`_-;=,\1");
 
         // then
         $this->expectException(ExplicitDelimiterRequiredException::class);
@@ -286,5 +287,94 @@ class PatternTest extends TestCase
         // then
         $this->assertConsumesFirst(\chr(28), $pattern);
         $this->assertSamePattern('/(?:\c\)/', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddPaddingToNonCapturingGroupEmptyPattern()
+    {
+        // when
+        $pattern = Pattern::template('(?:@@)')->pattern('\c\\')->pattern('')->build();
+
+        // then
+        $this->assertConsumesFirst(\chr(28), $pattern);
+        $this->assertSamePattern('/(?:\c\)/', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddPaddingToNonCapturingGroupEmptyLiteral()
+    {
+        // when
+        $pattern = Pattern::template('(?:@@)')->pattern('\c\\')->literal('')->build();
+
+        // then
+        $this->assertConsumesFirst(\chr(28), $pattern);
+        $this->assertSamePattern('/(?:\c\)/', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMaskAcceptTrailingSlashInControlCharacter()
+    {
+        // when
+        $pattern = Pattern::template('@')->mask('!s', ['!s' => '\c\\'])->build();
+
+        // then
+        $this->assertConsumesFirst(\chr(28), $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMaskAcceptTrailingSlashInQuote()
+    {
+        // when
+        $pattern = Pattern::template('@')->mask('!s', ['!s' => '\Q\\'])->build();
+
+        // then
+        $this->assertConsumesFirst('\\', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldTemplateMaskThrowForRequiredExplicitDelimiterSingleKeyword()
+    {
+        // then
+        $this->expectException(ExplicitDelimiterRequiredException::class);
+        $this->expectExceptionMessage("Failed to select a distinct delimiter to enable mask pattern 's~i/e#++m%a!@*`_-;=,\1' assigned to keyword '@'");
+
+        // when
+        Pattern::template('@')->mask('@', ['@' => "s~i/e#++m%a!@*`_-;=,\1"])->build();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldTemplateMaskThrowPreferentiallyTrailingBackslashInsteadOfExplicitDelimiter()
+    {
+        // then
+        $this->expectException(MaskMalformedPatternException::class);
+        $this->expectExceptionMessage("Malformed pattern 's~i/e#++m%a!@*`_-;=,\1\' assigned to keyword 's'");
+
+        // when
+        Pattern::template('@')->mask('s', ['s' => "s~i/e#++m%a!@*`_-;=,\1\\"])->build();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldTemplateMaskThrowForRequiredExplicitDelimiterMultipleKeywordsUnused()
+    {
+        // then
+        $this->expectException(ExplicitDelimiterRequiredException::class);
+        $this->expectExceptionMessage("Failed to select a distinct delimiter to enable template in its entirety");
+
+        // when
+        Pattern::template('@')->mask(' ', ['@' => "s~i/e#++", '&' => "m%a!@*`_-;=,\1"])->build();
     }
 }
