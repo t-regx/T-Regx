@@ -12,8 +12,8 @@ use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
 use Test\Fakes\CleanRegex\Match\Details\ConstantInt;
 use Test\Utils\CustomException;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
+use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
 use TRegx\CleanRegex\Match\FluentMatchPattern;
 
 /**
@@ -393,8 +393,8 @@ class FluentMatchPatternTest extends TestCase
         $pattern = new FluentMatchPattern(new AllStream(['9', true]), new ThrowWorker());
 
         // then
-        $this->expectException(FluentMatchPatternException::class);
-        $this->expectExceptionMessage("Invalid data types passed to asInt() method. Expected integer|string, but boolean (true) given");
+        $this->expectException(InvalidIntegerTypeException::class);
+        $this->expectExceptionMessage("Failed to parse value as integer. Expected integer|string, but boolean (true) given");
 
         // when
         $pattern->asInt()->all();

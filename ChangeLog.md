@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Removed `FluentMatchPatternException`. In case of `asInt()`, `InvalidIntegerTypeException` is thrown instead
 
 Added in 0.15.0
 ---------------

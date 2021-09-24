@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomException;
 use Test\Utils\Definitions;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
@@ -196,5 +197,22 @@ class AbstractMatchPatternTest extends TestCase
 
         // when
         $pattern->fluent()->filter(Functions::constant(45))->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForUnparsableEntity()
+    {
+        // when
+        $this->expectException(InvalidIntegerTypeException::class);
+        $this->expectExceptionMessage('Failed to parse value as integer. Expected integer|string, but null given');
+
+        // when
+        pattern('\d+')->match('123')
+            ->fluent()
+            ->map(Functions::constant(null))
+            ->asInt()
+            ->first();
     }
 }

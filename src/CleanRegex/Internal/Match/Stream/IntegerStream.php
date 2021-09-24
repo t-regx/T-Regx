@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
+use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
 use TRegx\CleanRegex\Internal\Number\Base;
 use TRegx\CleanRegex\Internal\Number\NumberFormatException;
 use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
@@ -45,7 +45,7 @@ class IntegerStream implements Upstream
             return $value->toInt();
         }
         if (!\is_string($value)) {
-            throw FluentMatchPatternException::forInvalidInteger(new ValueType($value));
+            throw InvalidIntegerTypeException::forInvalidType(new ValueType($value));
         }
         $number = new StringNumber($value);
         try {

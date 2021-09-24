@@ -8,9 +8,9 @@ use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
 use Test\Fakes\CleanRegex\Internal\Number\ThrowBase;
 use Test\Fakes\CleanRegex\Match\Details\ConstantInt;
 use Test\Utils\ExactExceptionMessage;
-use TRegx\CleanRegex\Exception\FluentMatchPatternException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
+use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
 use TRegx\CleanRegex\Internal\Match\Stream\IntegerStream;
 use TRegx\CleanRegex\Internal\Number\Base;
 
@@ -58,11 +58,11 @@ class IntegerStreamTest extends TestCase
     public function shouldAllThrowForInvalidDataType()
     {
         // given
-        $stream = new IntegerStream(new AllStream([true]), new ThrowBase());
+        $stream = new IntegerStream(new AllStream([false]), new ThrowBase());
 
         // then
-        $this->expectException(FluentMatchPatternException::class);
-        $this->expectExceptionMessage("Invalid data types passed to asInt() method. Expected integer|string, but boolean (true) given");
+        $this->expectException(InvalidIntegerTypeException::class);
+        $this->expectExceptionMessage("Failed to parse value as integer. Expected integer|string, but boolean (false) given");
 
         // when
         $stream->all();
@@ -185,8 +185,8 @@ class IntegerStreamTest extends TestCase
         $stream = new IntegerStream(new FirstStream(true), new ThrowBase());
 
         // then
-        $this->expectException(FluentMatchPatternException::class);
-        $this->expectExceptionMessage("Invalid data types passed to asInt() method. Expected integer|string, but boolean (true) given");
+        $this->expectException(InvalidIntegerTypeException::class);
+        $this->expectExceptionMessage("Failed to parse value as integer. Expected integer|string, but boolean (true) given");
 
         // when
         $stream->first();
