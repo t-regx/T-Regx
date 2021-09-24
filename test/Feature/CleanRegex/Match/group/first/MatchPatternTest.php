@@ -131,15 +131,12 @@ class MatchPatternTest extends TestCase
      */
     public function shouldThrow_nonexistent()
     {
-        // given
-        $subject = 'L Three Four';
-
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'missing'");
 
         // when
-        pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)->group('missing')->first();
+        pattern('(?<existing>foo)')->match('foo')->group('missing')->first();
     }
 
     /**
