@@ -1,11 +1,11 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Expression;
+namespace TRegx\CleanRegex\Internal\Prepared\Expression;
 
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
+use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Expression\PredefinedExpression;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralPlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;

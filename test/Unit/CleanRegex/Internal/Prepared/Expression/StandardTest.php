@@ -1,14 +1,14 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Expression;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Expression;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\EqualsCondition;
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Expression\Standard;
+use TRegx\CleanRegex\Internal\Prepared\Expression\Standard;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Expression\Standard
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Expression\Standard
  */
 class StandardTest extends TestCase
 {
