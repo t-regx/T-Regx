@@ -2,13 +2,13 @@
 namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Messages\Group\FirstGroupMessage;
-use TRegx\CleanRegex\Internal\Messages\Group\MethodGetGroupMessage;
-use TRegx\CleanRegex\Internal\Messages\Group\MethodGroupMessage;
-use TRegx\CleanRegex\Internal\Messages\Group\NthGroupMessage;
-use TRegx\CleanRegex\Internal\Messages\Group\ReplacementWithUnmatchedGroupMessage;
-use TRegx\CleanRegex\Internal\Messages\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\Messages\Subject\FirstGroupOffsetMessage;
+use TRegx\CleanRegex\Internal\Message\Group\FirstGroupMessage;
+use TRegx\CleanRegex\Internal\Message\Group\MethodGetGroupMessage;
+use TRegx\CleanRegex\Internal\Message\Group\MethodGroupMessage;
+use TRegx\CleanRegex\Internal\Message\Group\NthGroupMessage;
+use TRegx\CleanRegex\Internal\Message\Group\ReplacementWithUnmatchedGroupMessage;
+use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Subject\FirstGroupOffsetMessage;
 
 class GroupNotMatchedException extends \Exception implements PatternException
 {

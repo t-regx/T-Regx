@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Internal\Replace\By\GroupMapper;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Messages\MissingReplacement\ForGroupMessage;
-use TRegx\CleanRegex\Internal\Messages\MissingReplacement\ForMatchMessage;
+use TRegx\CleanRegex\Internal\Message\MissingReplacement\ForGroupMessage;
+use TRegx\CleanRegex\Internal\Message\MissingReplacement\ForMatchMessage;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazySubjectRs;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;

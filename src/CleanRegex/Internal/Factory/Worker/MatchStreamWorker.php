@@ -4,10 +4,10 @@ namespace TRegx\CleanRegex\Internal\Factory\Worker;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Internal\Factory\Optional\ArgumentlessOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
-use TRegx\CleanRegex\Internal\Messages\FirstFluentMatchMessage;
-use TRegx\CleanRegex\Internal\Messages\FirstFluentMessage;
-use TRegx\CleanRegex\Internal\Messages\NthFluentMessage;
-use TRegx\CleanRegex\Internal\Messages\Subject\NthMatchFluentMessage;
+use TRegx\CleanRegex\Internal\Message\FirstFluentMatchMessage;
+use TRegx\CleanRegex\Internal\Message\FirstFluentMessage;
+use TRegx\CleanRegex\Internal\Message\NthFluentMessage;
+use TRegx\CleanRegex\Internal\Message\Subject\NthMatchFluentMessage;
 
 class MatchStreamWorker implements StreamWorker
 {

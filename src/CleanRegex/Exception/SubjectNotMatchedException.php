@@ -2,14 +2,14 @@
 namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Messages\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\Messages\Subject\FirstGroupOffsetSubjectMessage;
-use TRegx\CleanRegex\Internal\Messages\Subject\FirstGroupSubjectMessage;
-use TRegx\CleanRegex\Internal\Messages\Subject\FirstMatchMessage;
-use TRegx\CleanRegex\Internal\Messages\Subject\FirstTripleSubjectMessage;
-use TRegx\CleanRegex\Internal\Messages\Subject\FirstTupleSubjectMessage;
-use TRegx\CleanRegex\Internal\Messages\Subject\NthGroupMessage;
-use TRegx\CleanRegex\Internal\Messages\Subject\NthMatchMessage;
+use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Subject\FirstGroupOffsetSubjectMessage;
+use TRegx\CleanRegex\Internal\Message\Subject\FirstGroupSubjectMessage;
+use TRegx\CleanRegex\Internal\Message\Subject\FirstMatchMessage;
+use TRegx\CleanRegex\Internal\Message\Subject\FirstTripleSubjectMessage;
+use TRegx\CleanRegex\Internal\Message\Subject\FirstTupleSubjectMessage;
+use TRegx\CleanRegex\Internal\Message\Subject\NthGroupMessage;
+use TRegx\CleanRegex\Internal\Message\Subject\NthMatchMessage;
 use TRegx\CleanRegex\Internal\Subject;
 
 class SubjectNotMatchedException extends \Exception implements PatternException

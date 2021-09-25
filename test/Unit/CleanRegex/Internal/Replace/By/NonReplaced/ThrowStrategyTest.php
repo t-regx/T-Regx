@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
-use TRegx\CleanRegex\Internal\Messages\NonReplacedMessage;
+use TRegx\CleanRegex\Internal\Message\NonReplacedMessage;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\StringSubject;
 

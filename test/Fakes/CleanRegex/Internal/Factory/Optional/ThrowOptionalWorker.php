@@ -1,7 +1,7 @@
 <?php
 namespace Test\Fakes\CleanRegex\Internal\Factory\Optional;
 
-use Test\Fakes\CleanRegex\Internal\Messages\ThrowMessage;
+use Test\Fakes\CleanRegex\Internal\Message\ThrowMessage;
 use Test\Fakes\CleanRegex\Internal\Model\ThrowGroupAware;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\Fails;

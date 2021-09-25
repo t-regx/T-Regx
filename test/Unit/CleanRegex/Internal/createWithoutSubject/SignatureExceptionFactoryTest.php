@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\ClassWithDefaultConstructor;
 use Test\Utils\ClassWithoutSuitableConstructor;
 use TRegx\CleanRegex\Exception\NoSuitableConstructorException;
-use TRegx\CleanRegex\Internal\Messages\Subject\FirstMatchMessage;
+use TRegx\CleanRegex\Internal\Message\Subject\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 
 /**

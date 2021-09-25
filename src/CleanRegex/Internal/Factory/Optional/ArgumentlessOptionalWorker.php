@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Factory\Optional;
 
 use Throwable;
-use TRegx\CleanRegex\Internal\Messages\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 
 class ArgumentlessOptionalWorker implements OptionalWorker
