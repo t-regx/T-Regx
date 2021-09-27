@@ -29,6 +29,6 @@ class FlatFunction
         if (\is_array($result)) {
             return $result;
         }
-        throw (new InvalidReturnValueException($this->methodName, 'array', (new ValueType($result))));
+        throw new InvalidReturnValueException($this->methodName, 'array', new ValueType($result));
     }
 }
