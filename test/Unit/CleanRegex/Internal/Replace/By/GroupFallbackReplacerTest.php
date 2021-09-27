@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Message\Group\ReplacementWithUnmatchedGroupMessage;
+use TRegx\CleanRegex\Internal\Message\Replace\WithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
@@ -119,7 +119,7 @@ class GroupFallbackReplacerTest extends TestCase
         $fallbackReplacer->replaceOrFallback(
             new GroupIndex(1),
             new NoReplacementMapper(),
-            new ThrowStrategy(CustomSubjectException::class, new ReplacementWithUnmatchedGroupMessage(new GroupIndex(1))));
+            new ThrowStrategy(CustomSubjectException::class, new WithUnmatchedGroupMessage(new GroupIndex(1))));
     }
 
     /**
@@ -138,7 +138,7 @@ class GroupFallbackReplacerTest extends TestCase
         $fallbackReplacer->replaceOrFallback(
             new GroupIndex(1),
             new NoReplacementMapper(),
-            new ThrowStrategy(CustomSubjectException::class, new ReplacementWithUnmatchedGroupMessage(new GroupIndex(1))));
+            new ThrowStrategy(CustomSubjectException::class, new WithUnmatchedGroupMessage(new GroupIndex(1))));
     }
 
     public function create(string $pattern, string $subject): GroupFallbackReplacer

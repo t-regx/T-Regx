@@ -1,10 +1,10 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Message\Subject;
+namespace TRegx\CleanRegex\Internal\Message\GroupNotMatched;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
 
-class NthGroupMessage implements NotMatchedMessage
+class FromNthMatchMessage implements NotMatchedMessage
 {
     /** @var GroupKey */
     private $group;
@@ -19,6 +19,6 @@ class NthGroupMessage implements NotMatchedMessage
 
     public function getMessage(): string
     {
-        return "Expected to get group $this->group from the $this->index-nth match, but the subject was not matched";
+        return "Expected to get group $this->group from the $this->index-nth match, but the group was not matched";
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Message\MissingReplacement;
+namespace TRegx\CleanRegex\Internal\Message\Replace\Map;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;

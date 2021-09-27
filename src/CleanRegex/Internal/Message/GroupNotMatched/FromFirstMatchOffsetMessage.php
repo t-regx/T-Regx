@@ -1,10 +1,10 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Message\Group;
+namespace TRegx\CleanRegex\Internal\Message\GroupNotMatched;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
 
-class MethodGetGroupMessage implements NotMatchedMessage
+class FromFirstMatchOffsetMessage implements NotMatchedMessage
 {
     /** @var GroupKey */
     private $group;
@@ -16,6 +16,6 @@ class MethodGetGroupMessage implements NotMatchedMessage
 
     public function getMessage(): string
     {
-        return "Expected to get group $this->group, but the group was not matched";
+        return "Expected to get group $this->group offset from the first match, but the group was not matched";
     }
 }

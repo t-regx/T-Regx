@@ -100,7 +100,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchNthElementException::class);
-        $this->expectExceptionMessage('Expected to get the 2-nth match offset, but only 2 occurrences were matched');
+        $this->expectExceptionMessage('Expected to get the 2-nth match offset, but only 2 occurrences are available');
 
         // when
         pattern('\d+')->match('23 25')->offsets()->nth(2);

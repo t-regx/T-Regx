@@ -99,7 +99,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchNthElementException::class);
-        $this->expectExceptionMessage("Expected to get the 2-nth match as integer, but the elements feed has 2 element(s)");
+        $this->expectExceptionMessage("Expected to get the 2-nth match as integer, but only 2 occurrences are available");
 
         // when
         pattern('\d+')->match('23 25')->asInt()->nth(2);

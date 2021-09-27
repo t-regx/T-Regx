@@ -1,10 +1,10 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Message\Subject;
+namespace TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
 
-class FirstTupleSubjectMessage implements NotMatchedMessage
+class FromFirstMatchTupleMessage implements NotMatchedMessage
 {
     /** @var GroupKey */
     private $group1;

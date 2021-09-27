@@ -10,7 +10,7 @@ use Test\Utils\ClassWithoutSuitableConstructor;
 use Throwable;
 use TRegx\CleanRegex\Exception\ClassExpectedException;
 use TRegx\CleanRegex\Exception\NoSuitableConstructorException;
-use TRegx\CleanRegex\Internal\Message\Subject\FirstMatchMessage;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 use TRegx\CleanRegex\Internal\StringSubject;
 

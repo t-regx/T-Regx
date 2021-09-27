@@ -1,7 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Message;
+namespace TRegx\CleanRegex\Internal\Message\Stream;
 
-class NthFluentMessage implements NotMatchedMessage
+use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+
+class FromNthStreamMessage implements NotMatchedMessage
 {
     /** @var int */
     private $index;

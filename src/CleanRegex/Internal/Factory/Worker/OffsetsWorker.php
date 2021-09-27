@@ -6,9 +6,9 @@ use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
-use TRegx\CleanRegex\Internal\Message\NthOffsetMessage;
-use TRegx\CleanRegex\Internal\Message\Subject\FirstMatchOffsetMessage;
-use TRegx\CleanRegex\Internal\Message\Subject\NthMatchOffsetMessage;
+use TRegx\CleanRegex\Internal\Message\FromNthMatchOffsetMessage;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchOffsetMessage;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\NthMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -45,7 +45,7 @@ class OffsetsWorker implements StreamWorker
 
     public function noNth(int $nth, int $total): OptionalWorker
     {
-        return new NotMatchedOptionalWorker(new NthOffsetMessage($nth, $total), $this->subject, $this->notMatched, NoSuchNthElementException::class);
+        return new NotMatchedOptionalWorker(new FromNthMatchOffsetMessage($nth, $total), $this->subject, $this->notMatched, NoSuchNthElementException::class);
     }
 
     public function unmatchedNth(int $nth): OptionalWorker

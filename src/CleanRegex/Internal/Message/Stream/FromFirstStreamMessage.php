@@ -1,7 +1,9 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Message;
+namespace TRegx\CleanRegex\Internal\Message\Stream;
 
-class FirstFluentMessage implements NotMatchedMessage
+use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+
+class FromFirstStreamMessage implements NotMatchedMessage
 {
     public function getMessage(): string
     {

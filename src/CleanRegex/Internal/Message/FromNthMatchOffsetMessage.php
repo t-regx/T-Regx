@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Message;
 
-class NthAsIntMessage implements NotMatchedMessage
+class FromNthMatchOffsetMessage implements NotMatchedMessage
 {
     /** @var int */
     private $nth;
@@ -16,6 +16,6 @@ class NthAsIntMessage implements NotMatchedMessage
 
     public function getMessage(): string
     {
-        return "Expected to get the $this->nth-nth match as integer, but the elements feed has $this->total element(s)";
+        return "Expected to get the $this->nth-nth match offset, but only $this->total occurrences are available";
     }
 }

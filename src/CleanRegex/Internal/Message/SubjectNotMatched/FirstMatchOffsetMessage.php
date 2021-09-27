@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Message\Subject;
+namespace TRegx\CleanRegex\Internal\Message\SubjectNotMatched;
 
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
 

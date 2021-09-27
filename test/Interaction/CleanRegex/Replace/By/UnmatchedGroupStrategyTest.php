@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Message\NonReplacedMessage;
+use TRegx\CleanRegex\Internal\Message\Replace\NoReplacementsMessage;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
@@ -146,7 +146,7 @@ class UnmatchedGroupStrategyTest extends TestCase
             $pattern,
             new StringSubject($subject),
             -1,
-            new ThrowStrategy(\AssertionError::class, new NonReplacedMessage()), // anything
+            new ThrowStrategy(\AssertionError::class, new NoReplacementsMessage()), // anything
             new IgnoreCounting(),
             new ApiBase($pattern, new StringSubject($subject), new UserData())
         );

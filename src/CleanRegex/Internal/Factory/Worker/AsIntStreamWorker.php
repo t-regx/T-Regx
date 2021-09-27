@@ -6,9 +6,9 @@ use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Optional\OptionalWorker;
-use TRegx\CleanRegex\Internal\Message\NthAsIntMessage;
-use TRegx\CleanRegex\Internal\Message\Subject\FirstMatchAsIntMessage;
-use TRegx\CleanRegex\Internal\Message\Subject\NthMatchAsIntMessage;
+use TRegx\CleanRegex\Internal\Message\FromNthMatchAsIntMessage;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchAsIntMessage;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\NthMatchAsIntMessage;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -45,7 +45,7 @@ class AsIntStreamWorker implements StreamWorker
 
     public function noNth(int $nth, int $total): OptionalWorker
     {
-        return new NotMatchedOptionalWorker(new NthAsIntMessage($nth, $total), $this->subject, $this->notMatched, NoSuchNthElementException::class);
+        return new NotMatchedOptionalWorker(new FromNthMatchAsIntMessage($nth, $total), $this->subject, $this->notMatched, NoSuchNthElementException::class);
     }
 
     public function unmatchedNth(int $nth): OptionalWorker

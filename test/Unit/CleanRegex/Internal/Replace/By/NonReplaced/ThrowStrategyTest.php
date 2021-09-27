@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
-use TRegx\CleanRegex\Internal\Message\NonReplacedMessage;
+use TRegx\CleanRegex\Internal\Message\Replace\NoReplacementsMessage;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\StringSubject;
 
@@ -18,7 +18,7 @@ class ThrowStrategyTest extends TestCase
     public function shouldThrow()
     {
         // given
-        $strategy = new ThrowStrategy(CustomSubjectException::class, new NonReplacedMessage());
+        $strategy = new ThrowStrategy(CustomSubjectException::class, new NoReplacementsMessage());
 
         // then
         $this->expectException(CustomSubjectException::class);

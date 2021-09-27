@@ -2,13 +2,11 @@
 namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Message\Group\FirstGroupMessage;
-use TRegx\CleanRegex\Internal\Message\Group\MethodGetGroupMessage;
-use TRegx\CleanRegex\Internal\Message\Group\MethodGroupMessage;
-use TRegx\CleanRegex\Internal\Message\Group\NthGroupMessage;
-use TRegx\CleanRegex\Internal\Message\Group\ReplacementWithUnmatchedGroupMessage;
+use TRegx\CleanRegex\Internal\Message\GroupNotMatched\FromFirstMatchMessage;
+use TRegx\CleanRegex\Internal\Message\GroupNotMatched\FromFirstMatchOffsetMessage;
+use TRegx\CleanRegex\Internal\Message\GroupNotMatched\FromNthMatchMessage;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\Message\Subject\FirstGroupOffsetMessage;
+use TRegx\CleanRegex\Internal\Message\Replace\WithUnmatchedGroupMessage;
 
 class GroupNotMatchedException extends \Exception implements PatternException
 {
@@ -24,31 +22,31 @@ class GroupNotMatchedException extends \Exception implements PatternException
 
     public static function forFirst(GroupKey $group): self
     {
-        return self::exception(new FirstGroupMessage($group));
+        return self::exception(new FromFirstMatchMessage($group));
     }
 
     public static function forFirstOffset(GroupKey $group): self
     {
-        return self::exception(new FirstGroupOffsetMessage($group));
+        return self::exception(new FromFirstMatchOffsetMessage($group));
     }
 
     public static function forNth(GroupKey $group, int $index): self
     {
-        return self::exception(new NthGroupMessage($group, $index));
+        return self::exception(new FromNthMatchMessage($group, $index));
     }
 
     public static function forMethod(GroupKey $group, string $method): self
     {
-        return self::exception(new MethodGroupMessage($method, $group));
+        return new self("Expected to call $method() for group $group, but the group was not matched");
     }
 
     public static function forReplacement(GroupKey $group): self
     {
-        return self::exception(new ReplacementWithUnmatchedGroupMessage($group));
+        return self::exception(new WithUnmatchedGroupMessage($group));
     }
 
     public static function forGet(GroupKey $group): self
     {
-        return self::exception(new MethodGetGroupMessage($group));
+        return new self("Expected to get group $group, but the group was not matched");
     }
 }

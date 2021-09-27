@@ -14,9 +14,9 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
-use TRegx\CleanRegex\Internal\Message\Group\FirstGroupMessage;
+use TRegx\CleanRegex\Internal\Message\GroupNotMatched\FromFirstMatchMessage;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\Message\Subject\FirstGroupSubjectMessage;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -71,9 +71,9 @@ class GroupLimitFindFirst
     private function notMatchedOptional(RawMatchOffset $first): EmptyOptional
     {
         if ($first->matched()) {
-            return $this->notMatched(GroupNotMatchedException::class, new FirstGroupMessage($this->group));
+            return $this->notMatched(GroupNotMatchedException::class, new FromFirstMatchMessage($this->group));
         }
-        return $this->notMatched(SubjectNotMatchedException::class, new FirstGroupSubjectMessage($this->group));
+        return $this->notMatched(SubjectNotMatchedException::class, new Group\FromFirstMatchMessage($this->group));
     }
 
     private function notMatched(string $exception, NotMatchedMessage $message): EmptyOptional
