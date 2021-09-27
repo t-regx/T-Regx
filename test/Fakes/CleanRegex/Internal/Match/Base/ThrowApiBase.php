@@ -1,10 +1,9 @@
 <?php
 namespace Test\Fakes\CleanRegex\Internal\Match\Base;
 
-use AssertionError;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\Definitions;
-use Throwable;
+use Test\Utils\Fails;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -15,6 +14,8 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 class ThrowApiBase extends ApiBase
 {
+    use Fails;
+
     public function __construct()
     {
         parent::__construct(Definitions::pcre('//'), new ThrowSubject(), new UserData());
@@ -53,10 +54,5 @@ class ThrowApiBase extends ApiBase
     public function getSubject(): string
     {
         throw $this->fail();
-    }
-
-    private function fail(): Throwable
-    {
-        return new AssertionError("Failed to assert that ApiBase wasn't used");
     }
 }

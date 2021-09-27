@@ -1,13 +1,14 @@
 <?php
 namespace Test\Fakes\CleanRegex\Replace\Details;
 
-use AssertionError;
 use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowEntry;
-use Throwable;
+use Test\Utils\Fails;
 use TRegx\CleanRegex\Replace\Details\Modification;
 
 class ConstantModification extends Modification
 {
+    use Fails;
+
     /** @var int */
     private $offset;
     /** @var int */
@@ -33,10 +34,5 @@ class ConstantModification extends Modification
     public function byteOffset(): int
     {
         return $this->byteOffset;
-    }
-
-    private function fail(): Throwable
-    {
-        return new AssertionError("Failed to assert that Modification wasn't used");
     }
 }

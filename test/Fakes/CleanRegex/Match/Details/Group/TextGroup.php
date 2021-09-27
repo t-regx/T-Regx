@@ -1,12 +1,14 @@
 <?php
 namespace Test\Fakes\CleanRegex\Match\Details\Group;
 
-use AssertionError;
+use Test\Utils\Fails;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Optional;
 
 class TextGroup implements Group
 {
+    use Fails;
+
     /** @var string */
     private $text;
 
@@ -18,11 +20,6 @@ class TextGroup implements Group
     public function text(): string
     {
         return $this->text;
-    }
-
-    private function fail(): AssertionError
-    {
-        return new AssertionError("Failed to assert Detail wasn't used");
     }
 
     public function textLength(): int

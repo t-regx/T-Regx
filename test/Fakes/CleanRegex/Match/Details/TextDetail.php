@@ -1,7 +1,7 @@
 <?php
 namespace Test\Fakes\CleanRegex\Match\Details;
 
-use AssertionError;
+use Test\Utils\Fails;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
@@ -9,6 +9,8 @@ use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
 class TextDetail implements Detail
 {
+    use Fails;
+
     /** @var string */
     private $text;
 
@@ -20,11 +22,6 @@ class TextDetail implements Detail
     public function text(): string
     {
         return $this->text;
-    }
-
-    private function fail(): AssertionError
-    {
-        return new AssertionError("Failed to assert Detail wasn't used");
     }
 
     public function subject(): string

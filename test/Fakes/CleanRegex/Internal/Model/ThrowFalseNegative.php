@@ -1,21 +1,17 @@
 <?php
 namespace Test\Fakes\CleanRegex\Internal\Model;
 
-use AssertionError;
-use Throwable;
+use Test\Utils\Fails;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 class ThrowFalseNegative extends FalseNegative
 {
+    use Fails;
+
     public function __construct()
     {
         parent::__construct(new RawMatchOffset([], null));
-    }
-
-    private function fail(): Throwable
-    {
-        return new AssertionError("Failed to assert that FalseNegative wasn't used");
     }
 
     public function maybeGroupIsMissing($nameOrIndex): bool
@@ -44,16 +40,6 @@ class ThrowFalseNegative extends FalseNegative
     }
 
     public function getGroupTextAndOffset($nameOrIndex): array
-    {
-        throw $this->fail();
-    }
-
-    public function getGroupsTexts(): array
-    {
-        throw $this->fail();
-    }
-
-    public function getGroupsOffsets(): array
     {
         throw $this->fail();
     }

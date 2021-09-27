@@ -1,8 +1,7 @@
 <?php
 namespace Test\Fakes\CleanRegex\Internal\Match\Base;
 
-use AssertionError;
-use Throwable;
+use Test\Utils\Fails;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -13,6 +12,8 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 class ConstantAllBase implements Base
 {
+    use Fails;
+
     /** @var RawMatchesOffset */
     private $matchesOffset;
     /** @var string|null */
@@ -60,10 +61,5 @@ class ConstantAllBase implements Base
             throw $this->fail();
         }
         return $this->subject;
-    }
-
-    private function fail(): Throwable
-    {
-        return new AssertionError("Failed to assert that Base wasn't used");
     }
 }

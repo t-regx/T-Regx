@@ -1,17 +1,13 @@
 <?php
 namespace Test\Fakes\CleanRegex\Match\Details\Group;
 
-use AssertionError;
-use Throwable;
+use Test\Utils\Fails;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Optional;
 
 class ThrowGroup implements Group
 {
-    private function fail(): Throwable
-    {
-        return new AssertionError("Failed to assert that Group wasn't used");
-    }
+    use Fails;
 
     public function text(): string
     {

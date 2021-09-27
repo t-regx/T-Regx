@@ -1,8 +1,7 @@
 <?php
 namespace Test\Fakes\CleanRegex\Match\Details;
 
-use AssertionError;
-use Throwable;
+use Test\Utils\Fails;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
@@ -10,10 +9,7 @@ use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
 class ThrowDetail implements Detail
 {
-    private function fail(): Throwable
-    {
-        return new AssertionError("Failed to assert that Detail wasn't used");
-    }
+    use Fails;
 
     public function subject(): string
     {

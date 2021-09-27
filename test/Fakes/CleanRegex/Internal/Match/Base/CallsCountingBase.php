@@ -1,7 +1,7 @@
 <?php
 namespace Test\Fakes\CleanRegex\Internal\Match\Base;
 
-use AssertionError;
+use Test\Utils\Fails;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -12,6 +12,8 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
 class CallsCountingBase implements Base
 {
+    use Fails;
+
     /** @var int */
     private $calls = 0;
     /** @var RawMatchesOffset */
@@ -61,10 +63,5 @@ class CallsCountingBase implements Base
     public function calls(): int
     {
         return $this->calls;
-    }
-
-    private function fail(): AssertionError
-    {
-        return new AssertionError("Failed to assert that method from Base wasn't called");
     }
 }
