@@ -21,6 +21,6 @@ class ConjugatedOnlyPhrase extends Phrase
 
     protected function unconjugated(string $delimiter): string
     {
-        throw new AssertionError("Failed to assert that Phrase was used with padding");
+        throw new AssertionError('Failed to assert that Phrase was used unconjugated');
     }
 }

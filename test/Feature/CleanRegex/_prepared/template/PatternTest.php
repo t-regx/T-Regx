@@ -239,7 +239,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldTemplateAddPadding()
+    public function shouldTemplateAcceptTrailingControlBackslash()
     {
         // when
         $pattern = Pattern::template('\c\\')->build();
@@ -251,20 +251,20 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldTemplatePatternAddPadding()
+    public function shouldTemplatePatternAcceptTrailingControlBackslash()
     {
         // when
         $pattern = Pattern::template('/foo:@')->pattern('\c\\')->build();
 
         // then
-        $this->assertSamePattern('#/foo:\c\{1}#', $pattern);
         $this->assertConsumesFirst('/foo:' . \chr(28), $pattern);
+        $this->assertSamePattern('#/foo:\c\{1}#', $pattern);
     }
 
     /**
      * @test
      */
-    public function shouldInjectAddPaddingToCommentBackslash()
+    public function shouldInjectAcceptTrailingCommentBackslash()
     {
         // given
         $pattern = Pattern::inject('#\\', []);
@@ -279,40 +279,40 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddPaddingToNonCapturingGroup()
+    public function shouldTemplatePatternAcceptTrailingControlBackslash_emptyPattern()
     {
         // when
-        $pattern = Pattern::template('(?:@)')->pattern('\c\\')->build();
+        $pattern = Pattern::template('foo:@@')->pattern('\c\\')->pattern('')->build();
 
         // then
-        $this->assertConsumesFirst(\chr(28), $pattern);
-        $this->assertSamePattern('/(?:\c\)/', $pattern);
+        $this->assertConsumesFirst('foo:' . \chr(28), $pattern);
+        $this->assertSamePattern('/foo:\c\{1}/', $pattern);
     }
 
     /**
      * @test
      */
-    public function shouldAddPaddingToNonCapturingGroupEmptyPattern()
+    public function shouldTemplatePatternAcceptTrailingControlBackslash_nextToLastPattern()
     {
         // when
-        $pattern = Pattern::template('(?:@@)')->pattern('\c\\')->pattern('')->build();
+        $pattern = Pattern::template('foo:@@')->pattern('\c\\')->pattern('>')->build();
 
         // then
-        $this->assertConsumesFirst(\chr(28), $pattern);
-        $this->assertSamePattern('/(?:\c\)/', $pattern);
+        $this->assertConsumesFirst("foo:\x1C>", $pattern);
+        $this->assertSamePattern('/foo:\c\>/', $pattern);
     }
 
     /**
      * @test
      */
-    public function shouldAddPaddingToNonCapturingGroupEmptyLiteral()
+    public function shouldTemplatePatternAcceptTrailingControlBackslash_nextToLastLiteral()
     {
         // when
-        $pattern = Pattern::template('(?:@@)')->pattern('\c\\')->literal('')->build();
+        $pattern = Pattern::template('foo:@@')->pattern('\c\\')->literal('|')->build();
 
         // then
-        $this->assertConsumesFirst(\chr(28), $pattern);
-        $this->assertSamePattern('/(?:\c\)/', $pattern);
+        $this->assertConsumesFirst("foo:\x1C|", $pattern);
+        $this->assertSamePattern('/foo:\c\\\|/', $pattern);
     }
 
     /**
