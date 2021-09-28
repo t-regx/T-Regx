@@ -30,7 +30,12 @@ class PcreBuilder
         return new Pattern(new Template(new PcreSpelling($input), new InjectFigures($values)));
     }
 
-    public function template(string $pattern): TemplateBuilder
+    public function template(string $pattern): PatternTemplate
+    {
+        return new PatternTemplate(new PcreOrthography($pattern));
+    }
+
+    public function builder(string $pattern): TemplateBuilder
     {
         return new TemplateBuilder(new PcreOrthography($pattern), new Tokens([]));
     }

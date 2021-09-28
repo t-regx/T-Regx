@@ -27,12 +27,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_mask_build()
+    public function shouldBuild_template_mask()
     {
         // when
-        $pattern = Pattern::pcre()->template('%You/her, @ (her)%s')
-            ->mask('%s', ['%s' => '\s'])
-            ->build();
+        $pattern = Pattern::pcre()->template('%You/her, @ (her)%s')->mask('%s', ['%s' => '\s']);
 
         // then
         $this->assertSamePattern('%You/her, \s (her)%s', $pattern);
@@ -41,10 +39,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_literal_build()
+    public function shouldBuild_template_literal()
     {
         // when
-        $pattern = Pattern::pcre()->template('@You/her, @ (her)@s')->literal('{hi@}')->build();
+        $pattern = Pattern::pcre()->template('@You/her, @ (her)@s')->literal('{hi@}');
 
         // then
         $this->assertSamePattern('@You/her, \{hi\@\} (her)@s', $pattern);
@@ -53,10 +51,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_alteration_build()
+    public function shouldBuild_template_alteration()
     {
         // when
-        $pattern = Pattern::pcre()->template('%You/her, @ (her)%s')->alteration(['{hi}', '50%'])->build();
+        $pattern = Pattern::pcre()->template('%You/her, @ (her)%s')->alteration(['{hi}', '50%']);
 
         // then
         $this->assertSamePattern('%You/her, (?:\{hi\}|50\%) (her)%s', $pattern);

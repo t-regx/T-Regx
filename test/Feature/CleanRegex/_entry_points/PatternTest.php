@@ -265,7 +265,7 @@ class PatternTest extends TestCase
         $this->expectExceptionMessage($expectedMessage);
 
         // given
-        Pattern::pcre()->template($pattern)->build();
+        Pattern::pcre()->builder($pattern)->build();
     }
 
     public function malformedPregPatterns(): array

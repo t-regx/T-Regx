@@ -4,7 +4,10 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Renamed `Pattern::template()` to `Pattern::builder()`
+* Features
+    * Added `Pattern::template()`, which works similarly to `Pattern::builder()` but allows only one chain
 
 Added in 0.14.1
 ---------------
