@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use TRegx\CleanRegex\Builder\PatternTemplate;
 use TRegx\CleanRegex\Builder\PcreBuilder;
 use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Composite\CompositePattern;
@@ -32,7 +33,12 @@ trait EntryPoints
         return new Pattern(new Mask($mask, $keywords, $flags ?? ''));
     }
 
-    public static function template(string $pattern, string $flags = null): TemplateBuilder
+    public static function template(string $pattern, string $flags = null): PatternTemplate
+    {
+        return new PatternTemplate(new StandardOrthography($pattern, $flags ?? ''));
+    }
+
+    public static function builder(string $pattern, string $flags = null): TemplateBuilder
     {
         return new TemplateBuilder(new StandardOrthography($pattern, $flags ?? ''), new Tokens([]));
     }

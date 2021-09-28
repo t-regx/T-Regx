@@ -30,10 +30,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template()
+    public function shouldBuild_template_literal()
     {
         // given
-        $pattern = Pattern::template('Foo@', 'i')->literal('Bar')->build();
+        $pattern = Pattern::template('Foo@', 'i')->literal('Bar');
 
         // when
         $flagIsAdded = $pattern->test('foobar');

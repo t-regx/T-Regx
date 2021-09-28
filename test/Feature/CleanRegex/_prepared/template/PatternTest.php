@@ -25,7 +25,7 @@ class PatternTest extends TestCase
     public function shouldUsePlaceholder(string $pattern, string $expected)
     {
         // when
-        $pattern = Pattern::template($pattern)->literal('X')->build();
+        $pattern = Pattern::template($pattern)->literal('X');
 
         // then
         $this->assertSamePattern($expected, $pattern);
@@ -49,7 +49,7 @@ class PatternTest extends TestCase
     public function shouldNotMistakeLiteralForPlaceholder(string $pattern, string $expected)
     {
         // when
-        $pattern = Pattern::template($pattern)->build();
+        $pattern = Pattern::builder($pattern)->build();
 
         // then
         $this->assertSamePattern($expected, $pattern);
@@ -72,7 +72,7 @@ class PatternTest extends TestCase
     public function shouldNotMistakePlaceholderInCommentInExtendedMode()
     {
         // when
-        $pattern = Pattern::template("You/her #@\n her?", 'x')->build();
+        $pattern = Pattern::builder("You/her #@\n her?", 'x')->build();
 
         // then
         $this->assertSamePattern("%You/her #@\n her?%x", $pattern);
@@ -84,7 +84,7 @@ class PatternTest extends TestCase
     public function shouldUsePlaceholderInCommentInExtendedMode_butExtendedModeIsSwitchedOff()
     {
         // when
-        $pattern = Pattern::template("You/her (?-x:#@\n) her?", 'x')->literal('X')->build();
+        $pattern = Pattern::builder("You/her (?-x:#@\n) her?", 'x')->literal('X')->build();
 
         // then
         $this->assertSamePattern("%You/her (?-x:#X\n) her?%x", $pattern);
@@ -96,7 +96,7 @@ class PatternTest extends TestCase
     public function shouldThrowForSuperfluousTemplateFigure()
     {
         // given
-        $builder = Pattern::template('You/her, (are|is) @ (you|her)')
+        $builder = Pattern::builder('You/her, (are|is) @ (you|her)')
             ->literal('foo')
             ->literal('bar')
             ->literal('cat');
@@ -115,7 +115,7 @@ class PatternTest extends TestCase
     public function shouldThrowForSuperfluousTemplateMask()
     {
         // given
-        $builder = Pattern::template('Foo')->mask('foo', ['foo', 'bar']);
+        $builder = Pattern::builder('Foo')->mask('foo', ['foo', 'bar']);
 
         // then
         $this->expectException(PlaceholderFigureException::class);
@@ -131,7 +131,7 @@ class PatternTest extends TestCase
     public function shouldThrowForSuperfluousTemplateAlteration()
     {
         // given
-        $builder = Pattern::template('Foo')->alteration(['foo', 'bar']);
+        $builder = Pattern::builder('Foo')->alteration(['foo', 'bar']);
 
         // then
         $this->expectException(PlaceholderFigureException::class);
@@ -147,7 +147,7 @@ class PatternTest extends TestCase
     public function shouldThrowForSuperfluousTemplatePattern()
     {
         // given
-        $builder = Pattern::template('Foo')->pattern('bar');
+        $builder = Pattern::builder('Foo')->pattern('bar');
 
         // then
         $this->expectException(PlaceholderFigureException::class);
@@ -163,7 +163,7 @@ class PatternTest extends TestCase
     public function shouldThrowForRequiredExplicitDelimiter()
     {
         // given
-        $builder = Pattern::template("s~i/e#++m%a!\@*`_-;=,\1");
+        $builder = Pattern::builder("s~i/e#++m%a!\@*`_-;=,\1");
 
         // then
         $this->expectException(ExplicitDelimiterRequiredException::class);
@@ -179,7 +179,7 @@ class PatternTest extends TestCase
     public function shouldBuildTemplateWithPattern()
     {
         // when
-        $pattern = Pattern::template('foo:@')->pattern('#https?/www%')->build();
+        $pattern = Pattern::template('foo:@')->pattern('#https?/www%');
 
         // then
         $this->assertSamePattern('~foo:#https?/www%~', $pattern);
@@ -192,7 +192,7 @@ class PatternTest extends TestCase
     public function shouldMatchDelimiterPattern()
     {
         // when
-        $pattern = Pattern::template('@')->pattern('/')->build();
+        $pattern = Pattern::template('@')->pattern('/');
 
         // then
         $this->assertSamePattern('#/#', $pattern);
@@ -209,7 +209,7 @@ class PatternTest extends TestCase
         $this->expectExceptionMessage('Keyword cannot be empty, must consist of at least one character');
 
         // when
-        Pattern::template('@')->mask('foo', ['' => 'Bar'])->build();
+        Pattern::template('@')->mask('foo', ['' => 'Bar']);
     }
 
     /**
@@ -218,7 +218,7 @@ class PatternTest extends TestCase
     public function shouldParseUnicode()
     {
         // when
-        $pattern = Pattern::template('ę')->build();
+        $pattern = Pattern::builder('ę')->build();
 
         // then
         $this->assertConsumesFirst('ę', $pattern);
@@ -230,7 +230,7 @@ class PatternTest extends TestCase
     public function shouldAcceptTrailingSlashInQuote()
     {
         // when
-        $pattern = Pattern::template('\Q\\\E!\Q\\')->build();
+        $pattern = Pattern::builder('\Q\\\E!\Q\\')->build();
 
         // then
         $this->assertConsumesFirst('\\!\\', $pattern);
@@ -242,7 +242,7 @@ class PatternTest extends TestCase
     public function shouldTemplateAcceptTrailingControlBackslash()
     {
         // when
-        $pattern = Pattern::template('\c\\')->build();
+        $pattern = Pattern::builder('\c\\')->build();
 
         // then
         $this->assertConsumesFirst(\chr(28), $pattern);
@@ -254,7 +254,7 @@ class PatternTest extends TestCase
     public function shouldTemplatePatternAcceptTrailingControlBackslash()
     {
         // when
-        $pattern = Pattern::template('/foo:@')->pattern('\c\\')->build();
+        $pattern = Pattern::template('/foo:@')->pattern('\c\\');
 
         // then
         $this->assertConsumesFirst('/foo:' . \chr(28), $pattern);
@@ -282,7 +282,7 @@ class PatternTest extends TestCase
     public function shouldTemplatePatternAcceptTrailingControlBackslash_emptyPattern()
     {
         // when
-        $pattern = Pattern::template('foo:@@')->pattern('\c\\')->pattern('')->build();
+        $pattern = Pattern::builder('foo:@@')->pattern('\c\\')->pattern('')->build();
 
         // then
         $this->assertConsumesFirst('foo:' . \chr(28), $pattern);
@@ -295,7 +295,7 @@ class PatternTest extends TestCase
     public function shouldTemplatePatternAcceptTrailingControlBackslash_nextToLastPattern()
     {
         // when
-        $pattern = Pattern::template('foo:@@')->pattern('\c\\')->pattern('>')->build();
+        $pattern = Pattern::builder('foo:@@')->pattern('\c\\')->pattern('>')->build();
 
         // then
         $this->assertConsumesFirst("foo:\x1C>", $pattern);
@@ -308,7 +308,7 @@ class PatternTest extends TestCase
     public function shouldTemplatePatternAcceptTrailingControlBackslash_nextToLastLiteral()
     {
         // when
-        $pattern = Pattern::template('foo:@@')->pattern('\c\\')->literal('|')->build();
+        $pattern = Pattern::builder('foo:@@')->pattern('\c\\')->literal('|')->build();
 
         // then
         $this->assertConsumesFirst("foo:\x1C|", $pattern);
@@ -321,7 +321,7 @@ class PatternTest extends TestCase
     public function shouldMaskAcceptTrailingSlashInControlCharacter()
     {
         // when
-        $pattern = Pattern::template('@')->mask('!s', ['!s' => '\c\\'])->build();
+        $pattern = Pattern::template('@')->mask('!s', ['!s' => '\c\\']);
 
         // then
         $this->assertConsumesFirst(\chr(28), $pattern);
@@ -333,7 +333,7 @@ class PatternTest extends TestCase
     public function shouldMaskAcceptTrailingSlashInQuote()
     {
         // when
-        $pattern = Pattern::template('@')->mask('!s', ['!s' => '\Q\\'])->build();
+        $pattern = Pattern::template('@')->mask('!s', ['!s' => '\Q\\']);
 
         // then
         $this->assertConsumesFirst('\\', $pattern);
@@ -349,7 +349,7 @@ class PatternTest extends TestCase
         $this->expectExceptionMessage("Failed to select a distinct delimiter to enable mask pattern 's~i/e#++m%a!@*`_-;=,\1' assigned to keyword '@'");
 
         // when
-        Pattern::template('@')->mask('@', ['@' => "s~i/e#++m%a!@*`_-;=,\1"])->build();
+        Pattern::template('@')->mask('@', ['@' => "s~i/e#++m%a!@*`_-;=,\1"]);
     }
 
     /**
@@ -362,7 +362,7 @@ class PatternTest extends TestCase
         $this->expectExceptionMessage("Malformed pattern 's~i/e#++m%a!@*`_-;=,\1\' assigned to keyword 's'");
 
         // when
-        Pattern::template('@')->mask('s', ['s' => "s~i/e#++m%a!@*`_-;=,\1\\"])->build();
+        Pattern::template('@')->mask('s', ['s' => "s~i/e#++m%a!@*`_-;=,\1\\"]);
     }
 
     /**
@@ -375,6 +375,6 @@ class PatternTest extends TestCase
         $this->expectExceptionMessage("Failed to select a distinct delimiter to enable template in its entirety");
 
         // when
-        Pattern::template('@')->mask(' ', ['@' => "s~i/e#++", '&' => "m%a!@*`_-;=,\1"])->build();
+        Pattern::template('@')->mask(' ', ['@' => "s~i/e#++", '&' => "m%a!@*`_-;=,\1"]);
     }
 }

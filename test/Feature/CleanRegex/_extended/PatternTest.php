@@ -39,10 +39,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldInjecttemplate_ExtendedMode()
+    public function shouldTemplateLiteral_ExtendedMode()
     {
         // when
-        $pattern = Pattern::template('@:bar', 'x')->literal("user\n\vinput")->build();
+        $pattern = Pattern::template('@:bar', 'x')->literal("user\n\vinput");
 
         // then
         $this->assertConsumesFirst("user\n\vinput:bar", $pattern);

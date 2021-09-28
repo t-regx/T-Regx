@@ -120,10 +120,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_literal_mask_literal_build(): void
+    public function shouldBuild_builder_literal_mask_literal_build(): void
     {
         // when
-        $pattern = Pattern::template('^@ v@s. &@ or `s` %', 'i')
+        $pattern = Pattern::builder('^@ v@s. &@ or `s` %', 'i')
             ->literal('&')
             ->mask('This-is: %3 pattern %4', [
                 '%3' => 'x{3,}#',
@@ -139,10 +139,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_mask_literal_mask_build(): void
+    public function shouldBuild_builder_mask_literal_mask_build(): void
     {
         // when
-        $pattern = Pattern::template('^@ v@s. @$ or `s`', 'i')
+        $pattern = Pattern::builder('^@ v@s. @$ or `s`', 'i')
             ->mask('This-is: %3 pattern %4', [
                 '%3' => 'x{3,}',
                 '%4' => 'x{4,}',
@@ -161,12 +161,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_mask_build(): void
+    public function shouldBuild_template_mask_flag(): void
     {
         // when
-        $pattern = Pattern::template('^@ vs/$', 's')
-            ->mask('This-is: %3', ['%3' => 'x{3,}'])
-            ->build();
+        $pattern = Pattern::template('^@ vs/$', 's')->mask('This-is: %3', ['%3' => 'x{3,}']);
 
         // then
         $this->assertSamePattern('#^This\-is\:\ x{3,} vs/$#s', $pattern);
@@ -178,14 +176,12 @@ class PatternTest extends TestCase
     public function shouldBuild_template_mask(): void
     {
         // when
-        $pattern = Pattern::template('/@')
-            ->mask('%%:%h%f%s', [
-                '%%' => '%',
-                '%h' => '#',
-                '%f' => '/',
-                '%s' => '\s*',
-            ])
-            ->build();
+        $pattern = Pattern::template('/@')->mask('%%:%h%f%s', [
+            '%%' => '%',
+            '%h' => '#',
+            '%f' => '/',
+            '%s' => '\s*',
+        ]);
 
         // then
         $this->assertConsumesFirst('/%:#/   ', $pattern);
@@ -195,10 +191,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_literal_build(): void
+    public function shouldBuild_template_literal(): void
     {
         // when
-        $pattern = Pattern::template('^@ vs/ $', 's')->literal('&')->build();
+        $pattern = Pattern::template('^@ vs/ $', 's')->literal('&');
 
         // then
         $this->assertSamePattern('#^& vs/ $#s', $pattern);
@@ -207,10 +203,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_template_alteration_build()
+    public function shouldBuild_template_alteration()
     {
         // when
-        $pattern = Pattern::template('You/her, @ (her)', 's')->alteration(['{hi}', '50#'])->build();
+        $pattern = Pattern::template('You/her, @ (her)', 's')->alteration(['{hi}', '50#']);
 
         // then
         $this->assertConsumesFirst('You/her, {hi} her', $pattern);
@@ -340,13 +336,11 @@ class PatternTest extends TestCase
         $this->expectExceptionMessage("Failed to select a distinct delimiter to enable template in its entirety");
 
         // when
-        Pattern::template('@')
-            ->mask('foo', [
-                'foo' => 's~i/e#',
-                'bar' => 'm+m+%a!',
-                'cat' => "@*`_-;=,\1",
-            ])
-            ->build();
+        Pattern::template('@')->mask('foo', [
+            'foo' => 's~i/e#',
+            'bar' => 'm+m+%a!',
+            'cat' => "@*`_-;=,\1",
+        ]);
     }
 
     /**

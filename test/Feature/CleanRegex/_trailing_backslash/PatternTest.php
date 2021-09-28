@@ -32,11 +32,11 @@ class PatternTest extends TestCase
     public function entryPoints(): array
     {
         return [
-            'Pattern::of()'                           => [Pattern::of('Foo \\')],
-            'Pattern::of(,x)'                         => [Pattern::of('Foo \\', 'x')],
-            'Pattern::inject()'                       => [Pattern::inject('Foo \\', [])],
-            'Pattern::template(,x)->build()'          => [Pattern::template('cat\\', 'x')->build()],
-            'Pattern::template()->literal()->build()' => [Pattern::template('Foo @ \\')->literal('&')->build()],
+            'Pattern::of()'                  => [Pattern::of('Foo \\')],
+            'Pattern::of(,x)'                => [Pattern::of('Foo \\', 'x')],
+            'Pattern::inject()'              => [Pattern::inject('Foo \\', [])],
+            'Pattern::builder(,x)->build()'  => [Pattern::builder('cat\\', 'x')->build()],
+            'Pattern::template()->literal()' => [Pattern::template('Foo @ \\')->literal('&')],
         ];
     }
 
@@ -72,15 +72,15 @@ class PatternTest extends TestCase
     public function templateEntryPoints(): array
     {
         return [
-            'Pattern::mask()'                      => [
+            'Pattern::mask()'             => [
                 function () {
                     return Pattern::mask('Foo%', ['%' => '()\\']);
                 },
                 "Malformed pattern '()\' assigned to keyword '%'"
             ],
-            'Pattern::template()->mask()->build()' => [
+            'Pattern::template()->mask()' => [
                 function () {
-                    return Pattern::template('Foo @')->mask('w', ['w' => '\\'])->build();
+                    return Pattern::template('Foo @')->mask('w', ['w' => '\\']);
                 },
                 "Malformed pattern '\' assigned to keyword 'w'"
             ],
