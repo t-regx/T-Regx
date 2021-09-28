@@ -51,12 +51,15 @@ abstract class AbstractMatchPattern implements MatchPatternInterface
     private $groupAware;
     /** @var MatchAllFactory */
     private $allFactory;
+    /** @var MatchOnly */
+    private $matchOnly;
 
     public function __construct(Base $base, MatchAllFactory $factory)
     {
         $this->base = $base;
         $this->groupAware = new LightweightGroupAware($this->base->definition());
         $this->allFactory = $factory;
+        $this->matchOnly = new MatchOnly($this->base);
     }
 
     abstract public function test(): bool;
@@ -107,7 +110,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface
 
     public function only(int $limit): array
     {
-        return (new MatchOnly($this->base, $limit))->get();
+        return $this->matchOnly->get($limit);
     }
 
     public function nth(int $index): string

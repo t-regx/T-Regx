@@ -4,34 +4,30 @@ namespace TRegx\CleanRegex\Internal\Match;
 use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\SafeRegex\preg;
-use function array_slice;
 
 class MatchOnly
 {
     /** @var Base */
     private $base;
-    /** @var int */
-    private $limit;
 
-    public function __construct(Base $base, int $limit)
+    public function __construct(Base $base)
     {
         $this->base = $base;
-        $this->limit = $limit;
     }
 
-    public function get(): array
+    public function get(int $limit): array
     {
-        if ($this->limit < 0) {
-            throw new InvalidArgumentException("Negative limit: $this->limit");
+        if ($limit < 0) {
+            throw new InvalidArgumentException("Negative limit: $limit");
         }
-        if ($this->limit === 0) {
+        if ($limit === 0) {
             $this->validatePattern();
             return [];
         }
-        if ($this->limit === 1) {
+        if ($limit === 1) {
             return $this->getOneMatch();
         }
-        return array_slice($this->base->matchAll()->getTexts(), 0, $this->limit);
+        return \array_slice($this->base->matchAll()->getTexts(), 0, $limit);
     }
 
     private function validatePattern(): void
