@@ -36,6 +36,11 @@ class CompositePattern
         return false;
     }
 
+    public function failAny(string $subject): bool
+    {
+        return !$this->testAll($subject);
+    }
+
     public function prune(string $subject): string
     {
         return $this->chainedReplace($subject)->withReferences('');

@@ -8,6 +8,8 @@ Incoming
     * Renamed `Pattern::compose()->allMatch()` to `testAll()`
     * Renamed `Pattern::compose()->anyMatches()` to `testAny()`
     * Renamed `Pattern::compose()->chainedRemove()` to `prune()`
+* Features
+    * Added `Pattern::compose()->failAny()`, returning `true` if any of the patterns didn't match the subject
 
 Added in 0.13.8
 ---------------
