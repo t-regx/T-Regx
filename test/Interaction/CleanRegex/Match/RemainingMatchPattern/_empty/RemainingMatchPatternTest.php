@@ -365,7 +365,7 @@ class RemainingMatchPatternTest extends TestCase
         $matchPattern->forEach(Functions::collecting($matches));
 
         // then
-        $this->assertSame(['', 'a', '', 'c'], $matches);
+        $this->assertSame(['', 'a', 3 => '', 'c'], $matches);
     }
 
     private function matchPattern(callable $predicate): RemainingMatchPattern

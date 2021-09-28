@@ -83,10 +83,18 @@ class Functions
         };
     }
 
+    public static function collect(?array &$details, $return = null): callable
+    {
+        return function (Detail $detail) use (&$details, $return) {
+            $details[$detail->index()] = $detail->text();
+            return $return;
+        };
+    }
+
     public static function collecting(?array &$details, callable $return = null): callable
     {
         return function (Detail $detail) use (&$details, $return) {
-            $details[] = $detail->text();
+            $details[$detail->index()] = $detail->text();
             if ($return !== null) {
                 return $return($detail);
             }

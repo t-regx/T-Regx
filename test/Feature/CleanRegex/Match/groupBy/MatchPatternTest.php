@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\groupBy;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\GroupByPattern;
@@ -20,10 +21,11 @@ class MatchPatternTest extends TestCase
         $result = $this->groupBy()->all();
 
         // then
-        $this->assertSame([
+        $expected = [
             'cm' => ['14cm', '19cm', '2cm'],
             'mm' => ['13mm', '18mm']
-        ], $result);
+        ];
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -35,10 +37,11 @@ class MatchPatternTest extends TestCase
         $result = $this->groupBy()->offsets();
 
         // then
-        $this->assertSame([
+        $expected = [
             'cm' => [5, 15, 25],
             'mm' => [10, 20],
-        ], $result);
+        ];
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -50,10 +53,11 @@ class MatchPatternTest extends TestCase
         $result = $this->groupBy()->byteOffsets();
 
         // then
-        $this->assertSame([
+        $expected = [
             'cm' => [7, 17, 27],
             'mm' => [12, 22],
-        ], $result);
+        ];
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -67,10 +71,11 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame([
+        $expected = [
             'cm' => ['14cm', '19cm', '2cm'],
             'mm' => ['13mm', '18mm'],
-        ], $result);
+        ];
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -84,10 +89,11 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame([
+        $expected = [
             'cm' => ['14cm', 5, '19cm', 15, '2cm', 25],
             'mm' => ['13mm', 10, '18mm', 20],
-        ], $result);
+        ];
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -101,7 +107,7 @@ class MatchPatternTest extends TestCase
         });
 
         // then
-        $this->assertSame([
+        $expected = [
             'cm' => [
                 5  => '14cm',
                 15 => '19cm',
@@ -111,7 +117,8 @@ class MatchPatternTest extends TestCase
                 10 => '13mm',
                 20 => '18mm',
             ],
-        ], $result);
+        ];
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -202,16 +209,20 @@ class MatchPatternTest extends TestCase
     public function shouldPreserveUserData(string $function)
     {
         // given
-        $groupByPattern = $this->filtered();
+        $this->match()
+            ->remaining(function (Detail $detail) {
+                // when
+                $detail->setUserData("user data:$detail");
+                return true;
+            })
+            ->groupBy('unit')
+            ->$function(function (Detail $detail) {
+                // then
+                $this->assertSame("user data:$detail", $detail->getUserData());
 
-        // when
-        $groupByPattern->$function(function (Detail $detail) {
-            // when
-            $this->assertSame("verify me:$detail", $detail->getUserData());
-
-            // clean
-            return [];
-        });
+                // clean
+                return [];
+            });
     }
 
     /**
@@ -226,16 +237,10 @@ class MatchPatternTest extends TestCase
         $indexes = [];
 
         // when
-        $groupByPattern->$function(function (Detail $detail) use (&$indexes) {
-            // when
-            $indexes[$detail->text()] = $detail->index();
-
-            // clean
-            return [];
-        });
+        $groupByPattern->$function(Functions::collect($indexes, []));
 
         // then
-        $this->assertSame(['14cm' => 1, '13mm' => 2, '19cm' => 3, '18mm' => 4, '2cm' => 5], $indexes);
+        $this->assertSame(\array_flip(['14cm' => 1, '13mm' => 2, '19cm' => 3, '18mm' => 4, '2cm' => 5]), $indexes);
     }
 
     /**
@@ -284,15 +289,12 @@ class MatchPatternTest extends TestCase
     private function filtered(): GroupByPattern
     {
         return $this->match()
-            ->remaining(function (Detail $detail) {
-                $detail->setUserData("verify me:$detail");
-                return !in_array($detail->text(), ['14cm', '13mm']);
-            })
+            ->remaining(Functions::oneOf(['12', '19cm', '18mm', '2cm']))
             ->groupBy('unit');
     }
 
     private function match(): AbstractMatchPattern
     {
-        return pattern('\d+(?<unit>cm|mm)?', 'u')->match('€12, 14cm 13mm 19cm 18mm 2cm');
+        return pattern('\d+(?<unit>cm|mm)?')->match('€12, 14cm 13mm 19cm 18mm 2cm');
     }
 }
