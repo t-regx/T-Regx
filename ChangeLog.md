@@ -10,6 +10,7 @@ Incoming
     * Renamed `Pattern::compose()->chainedRemove()` to `prune()`
 * Features
     * Added `Pattern::compose()->failAny()`, returning `true` if any of the patterns didn't match the subject
+    * Added `Pattern::compose()->failAll()`, returning `true` if all the patterns didn't match the subject
 
 Added in 0.13.8
 ---------------

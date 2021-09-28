@@ -36,6 +36,11 @@ class CompositePattern
         return false;
     }
 
+    public function failAll(string $subject): bool
+    {
+        return !$this->testAny($subject);
+    }
+
     public function failAny(string $subject): bool
     {
         return !$this->testAll($subject);
