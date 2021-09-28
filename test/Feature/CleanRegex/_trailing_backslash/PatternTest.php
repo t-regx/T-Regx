@@ -50,7 +50,7 @@ class PatternTest extends TestCase
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
 
         // when
-        Pattern::compose(['Foo & \\'])->anyMatches('Foo');
+        Pattern::compose(['Foo & \\'])->testAny('Foo');
     }
 
     /**

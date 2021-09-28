@@ -315,6 +315,6 @@ class PatternTest extends TestCase
         $pattern = Pattern::compose(['\c\\']);
 
         // then
-        $this->assertTrue($pattern->allMatch(\chr(28)));
+        $this->assertTrue($pattern->testAll(\chr(28)));
     }
 }

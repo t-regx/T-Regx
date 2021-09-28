@@ -1,12 +1,12 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\allMatch;
+namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\testAny;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Definitions;
 use TRegx\CleanRegex\Composite\CompositePattern;
 
 /**
- * @covers \TRegx\CleanRegex\Composite\CompositePattern::allMatch
+ * @covers \TRegx\CleanRegex\Composite\CompositePattern::testAny
  */
 class CompositePatternTest extends TestCase
 {
@@ -19,10 +19,10 @@ class CompositePatternTest extends TestCase
         $pattern = new CompositePattern($this->patterns());
 
         // when
-        $match = $pattern->allMatch('Frodo');
+        $matches = $pattern->testAny('http');
 
         // then
-        $this->assertTrue($match);
+        $this->assertTrue($matches);
     }
 
     /**
@@ -34,18 +34,18 @@ class CompositePatternTest extends TestCase
         $pattern = new CompositePattern($this->patterns());
 
         // when
-        $match = $pattern->allMatch('Frodo2');
+        $matches = $pattern->testAny('Foo');
 
         // then
-        $this->assertFalse($match);
+        $this->assertFalse($matches);
     }
 
     private function patterns(): array
     {
         return [
-            Definitions::pcre('/^fro/i'),
-            Definitions::pcre('/rod/'),
-            Definitions::pcre('/odo$/')
+            Definitions::pcre('/https?/i'),
+            Definitions::pcre('/fail/'),
+            Definitions::pcre('/failed/i')
         ];
     }
 }

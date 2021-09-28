@@ -43,7 +43,7 @@ class PatternTest extends TestCase
         ]);
 
         // when
-        $matches = $pattern->allMatch('Frodo');
+        $matches = $pattern->testAll('Frodo');
 
         // then
         $this->assertTrue($matches);

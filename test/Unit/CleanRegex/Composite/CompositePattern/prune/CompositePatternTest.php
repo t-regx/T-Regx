@@ -1,12 +1,12 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\chainedRemove;
+namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\prune;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Definitions;
 use TRegx\CleanRegex\Composite\CompositePattern;
 
 /**
- * @covers \TRegx\CleanRegex\Composite\CompositePattern::chainedRemove
+ * @covers \TRegx\CleanRegex\Composite\CompositePattern::prune
  */
 class CompositePatternTest extends TestCase
 {
@@ -29,7 +29,7 @@ class CompositePatternTest extends TestCase
         ]));
 
         // when
-        $replaced = $composite->chainedRemove("Do you think that's air you're breathing now?");
+        $replaced = $composite->prune("Do you think that's air you're breathing now?");
 
         // then
         $this->assertSame($expected, $replaced);

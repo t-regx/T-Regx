@@ -16,7 +16,7 @@ class CompositePattern
         $this->definitions = $definitions;
     }
 
-    public function allMatch(string $subject): bool
+    public function testAll(string $subject): bool
     {
         foreach ($this->definitions as $definition) {
             if (!preg::match($definition->pattern, $subject)) {
@@ -26,7 +26,7 @@ class CompositePattern
         return true;
     }
 
-    public function anyMatches(string $subject): bool
+    public function testAny(string $subject): bool
     {
         foreach ($this->definitions as $definition) {
             if (preg::match($definition->pattern, $subject)) {
@@ -36,7 +36,7 @@ class CompositePattern
         return false;
     }
 
-    public function chainedRemove(string $subject): string
+    public function prune(string $subject): string
     {
         return $this->chainedReplace($subject)->withReferences('');
     }
