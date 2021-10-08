@@ -1,9 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\Type\Type;
-
-class VisibleCharacters implements Type
+class VisibleCharacters
 {
     /** @var string */
     private $string;
@@ -15,16 +13,11 @@ class VisibleCharacters implements Type
 
     public function __toString(): string
     {
-        return self::format($this->string);
-    }
-
-    public static function format(string $string): string
-    {
         $result = \preg_replace_callback("#\\p{C}|\xc2\xa0#u", static function (array $matches) {
             return self::formatWord($matches[0]);
-        }, $string);
+        }, $this->string);
         if (\preg_last_error() === PREG_BAD_UTF8_ERROR) {
-            return \join(\array_map([self::class, 'formatByteOrAscii'], \str_split($string)));
+            return \join(\array_map([self::class, 'formatByteOrAscii'], \str_split($this->string)));
         }
         return $result;
     }
