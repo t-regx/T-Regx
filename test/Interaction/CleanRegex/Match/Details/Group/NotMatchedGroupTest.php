@@ -16,6 +16,7 @@ use TRegx\CleanRegex\Internal\Message\Group\GroupMessage;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\StringSubject;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
@@ -94,25 +95,26 @@ class NotMatchedGroupTest extends TestCase
     public function shouldControlMatched_orThrow()
     {
         // given
-        $matchGroup = $this->matchGroup();
+        $matchGroup = $this->matchGroup(new StringSubject('subject'));
 
-        // then
-        $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage("Expected to get group 'first', but it was not matched");
-
-        // when
-        $matchGroup->orThrow(CustomSubjectException::class);
+        try {
+            // when
+            $matchGroup->orThrow(CustomSubjectException::class);
+        } catch (CustomSubjectException $exception) {
+            // then
+            $this->assertSame("Expected to get group 'first', but it was not matched", $exception->getMessage());
+            $this->assertSame('subject', $exception->subject);
+        }
     }
 
-    private function matchGroup(): NotMatchedGroup
+    private function matchGroup(Subject $subject = null): NotMatchedGroup
     {
-        $subject = new StringSubject('$unused');
         return new NotMatchedGroup(
-            $subject,
+            $subject ?? new ThrowSubject(),
             new GroupDetails(new GroupSignature(1, 'first'), new GroupName('first'), new EagerMatchAllFactory(new RawMatchesOffset([]))),
             new NotMatchedOptionalWorker(
                 new GroupMessage(new GroupName('first')),
-                $subject,
+                $subject ?? new ThrowSubject(),
                 new NotMatched(new RawMatches([]), new ThrowSubject()),
                 CustomException::class));
     }
