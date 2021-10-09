@@ -157,6 +157,18 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldFluent_findFirstCallback_orThrow()
+    {
+        // when
+        $letters = pattern('Foo')->match('Foo')->fluent()->findFirst(Functions::letters())->orThrow();
+
+        // then
+        $this->assertSame(['F', 'o', 'o'], $letters);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_filter_all_onInvalidReturnType()
     {
         // given
