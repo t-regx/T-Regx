@@ -4,7 +4,9 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Deprecation
+    * Deprecated `Optional.orThrow()`. Currently `orThrow()` accepts the exception class name. In the future it will
+      accept a real `\Throwable` instance. To preserve current behaviour of `orThrow()`, use `orElse()`.
 
 Added in 0.14.0
 ---------------
