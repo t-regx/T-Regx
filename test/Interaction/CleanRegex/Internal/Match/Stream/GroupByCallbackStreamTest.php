@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
+namespace Test\Interaction\TRegx\CleanRegex\Internal\Match\Stream;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstStream;
