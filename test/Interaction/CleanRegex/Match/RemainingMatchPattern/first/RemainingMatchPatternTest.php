@@ -13,7 +13,6 @@ use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\StringSubject;
-use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
@@ -150,7 +149,7 @@ class RemainingMatchPatternTest extends TestCase
         $this->assertSame($result, 15);
     }
 
-    private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
+    private function matchPattern(string $pattern, string $subject, callable $predicate): RemainingMatchPattern
     {
         $base = new ApiBase(Definitions::pattern($pattern), new StringSubject($subject), new UserData());
         return new RemainingMatchPattern(

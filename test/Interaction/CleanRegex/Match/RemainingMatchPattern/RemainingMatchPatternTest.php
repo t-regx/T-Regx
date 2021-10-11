@@ -14,7 +14,6 @@ use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\StringSubject;
-use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
@@ -426,22 +425,22 @@ class RemainingMatchPatternTest extends TestCase
         $this->assertSame(['first', 'third', 'fourth'], $array);
     }
 
-    private function standardMatchPattern_secondFiltered(): AbstractMatchPattern
+    private function standardMatchPattern_secondFiltered(): RemainingMatchPattern
     {
         return $this->matchPattern('[a-z]+', 'first second third fourth', DetailFunctions::notEquals('second'));
     }
 
-    private function standardMatchPattern_firstFiltered(): AbstractMatchPattern
+    private function standardMatchPattern_firstFiltered(): RemainingMatchPattern
     {
         return $this->matchPattern('[a-z]+', 'first second third fourth', DetailFunctions::notEquals('first'));
     }
 
-    private function standardMatchPattern_group(string $subject, string $filteredOut): AbstractMatchPattern
+    private function standardMatchPattern_group(string $subject, string $filteredOut): RemainingMatchPattern
     {
         return $this->matchPattern('(?<capital>[A-Z])[a-z]+', $subject, DetailFunctions::notEquals($filteredOut));
     }
 
-    private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
+    private function matchPattern(string $pattern, string $subject, callable $predicate): RemainingMatchPattern
     {
         $base = new ApiBase(Definitions::pattern($pattern), new StringSubject($subject), new UserData());
         return new RemainingMatchPattern(

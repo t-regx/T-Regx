@@ -12,7 +12,6 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\StringSubject;
-use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
 /**
@@ -80,7 +79,7 @@ class RemainingMatchPatternTest extends TestCase
         $this->assertSame(0, $count);
     }
 
-    private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern
+    private function matchPattern(string $pattern, string $subject, callable $predicate): RemainingMatchPattern
     {
         return new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
