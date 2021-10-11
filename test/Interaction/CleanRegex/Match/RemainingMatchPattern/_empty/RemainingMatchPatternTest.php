@@ -198,57 +198,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldMatch_all()
-    {
-        // given
-        $matchPattern = $this->matchPattern(Functions::constant(true));
-
-        // when
-        $matches = $matchPattern->test();
-        $fails = $matchPattern->fails();
-
-        // then
-        $this->assertTrue($matches);
-        $this->assertFalse($fails);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldMatch_some()
-    {
-        // given
-        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
-
-        // when
-        $matches = $matchPattern->test();
-        $fails = $matchPattern->fails();
-
-        // then
-        $this->assertTrue($matches);
-        $this->assertFalse($fails);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotMatch_matchedButFiltered()
-    {
-        // given
-        $matchPattern = $this->matchPattern(Functions::constant(false));
-
-        // when
-        $matches = $matchPattern->test();
-        $fails = $matchPattern->fails();
-
-        // then
-        $this->assertFalse($matches);
-        $this->assertTrue($fails);
-    }
-
-    /**
-     * @test
-     */
     public function shouldFlatMap()
     {
         // given

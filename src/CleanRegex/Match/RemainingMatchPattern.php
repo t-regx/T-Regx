@@ -79,11 +79,6 @@ class RemainingMatchPattern implements \Countable, \IteratorAggregate
             $this->allFactory);
     }
 
-    public function fails(): bool
-    {
-        return !$this->test();
-    }
-
     public function all(): array
     {
         return \array_values($this->base->matchAll()->getTexts());
