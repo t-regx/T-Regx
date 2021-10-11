@@ -61,11 +61,6 @@ class RemainingMatchPattern implements \Countable, \IteratorAggregate
         $this->matchOnly = new MatchOnly($this->base);
     }
 
-    public function test(): bool
-    {
-        return !empty($this->getDetailObjects());
-    }
-
     public function count(): int
     {
         return \count($this->getDetailObjects());
