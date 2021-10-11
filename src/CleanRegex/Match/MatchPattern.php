@@ -23,8 +23,9 @@ class MatchPattern extends AbstractMatchPattern
     public function __construct(Definition $definition, Subject $subject)
     {
         $base = new ApiBase($definition, $subject, new UserData());
-        $this->allFactory = new LazyMatchAllFactory($base);
-        parent::__construct($base, $this->allFactory);
+        $allFactory = new LazyMatchAllFactory($base);
+        parent::__construct($base, $allFactory);
+        $this->allFactory = $allFactory;
         $this->definition = $definition;
         $this->subject = $subject;
     }
