@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\fluent\filter;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 
 /**
@@ -94,5 +95,29 @@ class FilterStreamTest extends TestCase
 
         // then
         $this->assertSame(['Foo', 'Bar', 'Dor', 'Ver', 'Sir'], $calls);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilter_first_untilFound()
+    {
+        // given
+        $invokedFor = [];
+
+        // when
+        $first = pattern('(one|two|three|four|five|six)')
+            ->match('one two three four five six')
+            ->fluent()
+            ->filter(function (string $text) use (&$invokedFor) {
+                $invokedFor[] = $text;
+                return $text === 'four';
+            })
+            ->map(DetailFunctions::text())
+            ->first();
+
+        // then
+        $this->assertSame('four', $first);
+        $this->assertSame(['one', 'two', 'three', 'four'], $invokedFor);
     }
 }

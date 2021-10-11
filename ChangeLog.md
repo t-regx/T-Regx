@@ -4,6 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
+* Bug fixes
+    * Fixed a bug when calling `filter()->first()` called predicate for more than the first item.
 * Deprecation
     * Deprecated `Optional.orThrow()`. Currently `orThrow()` accepts the exception class name. In the future it will
       accept a real `\Throwable` instance. To preserve current behaviour of `orThrow()`, use `orElse()`.

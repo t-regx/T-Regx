@@ -8,10 +8,10 @@ class FilterStream implements Upstream
 {
     use ListStream;
 
-    /** @var MethodPredicate */
-    private $predicate;
     /** @var Upstream */
     private $stream;
+    /** @var MethodPredicate */
+    private $predicate;
 
     public function __construct(Upstream $stream, Predicate $predicate)
     {
@@ -30,19 +30,16 @@ class FilterStream implements Upstream
         if ($this->predicate->test($first)) {
             return $first;
         }
-        return $this->firstElement(\array_filter($this->shifted(), [$this->predicate, 'test']));
+        foreach ($this->shifted() as $item) {
+            if ($this->predicate->test($item)) {
+                return $item;
+            }
+        }
+        throw new EmptyStreamException();
     }
 
     private function shifted(): array
     {
         return \array_slice($this->stream->all(), 1);
-    }
-
-    private function firstElement(array $elements)
-    {
-        if (empty($elements)) {
-            throw new EmptyStreamException();
-        }
-        return \reset($elements);
     }
 }
