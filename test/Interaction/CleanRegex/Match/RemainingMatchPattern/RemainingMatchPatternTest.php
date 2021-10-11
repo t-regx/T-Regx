@@ -223,23 +223,6 @@ class RemainingMatchPatternTest extends TestCase
         $pattern->remaining(Functions::constant(2))->first();
     }
 
-    /**
-     * @test
-     */
-    public function shouldMap()
-    {
-        // given
-        $matchPattern = $this->standardMatchPattern_secondFiltered();
-        $mapper = function (Detail $detail) {
-            return lcfirst(strtoupper($detail));
-        };
-
-        // when
-        $mapped = $matchPattern->map($mapper);
-
-        // then
-        $this->assertSame(['fIRST', 'tHIRD', 'fOURTH'], $mapped);
-    }
 
     /**
      * @test

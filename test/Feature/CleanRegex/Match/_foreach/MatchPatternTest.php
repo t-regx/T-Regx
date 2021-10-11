@@ -42,10 +42,11 @@ class MatchPatternTest extends TestCase
     public function shouldIterateMatch_remaining_forEach()
     {
         // given
+        $pattern = $this->match()->stream()->filter(Functions::oneOf(['127', '1']));
         $result = [];
 
         // when
-        foreach ($this->match()->remaining(Functions::oneOf(['127', '1'])) as $match) {
+        foreach ($pattern as $match) {
             $result[] = $match->text();
         }
 

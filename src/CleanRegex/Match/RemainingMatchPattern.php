@@ -146,11 +146,6 @@ class RemainingMatchPattern implements \Countable, \IteratorAggregate
         }
     }
 
-    public function map(callable $mapper): array
-    {
-        return \array_values(\array_map($mapper, $this->getDetailObjects()));
-    }
-
     public function filter(callable $predicate): array
     {
         return \array_values(\array_map(static function (Detail $detail): string {

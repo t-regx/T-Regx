@@ -296,24 +296,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldMap()
-    {
-        // given
-        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
-        $mapper = function (Detail $detail) {
-            return lcfirst($detail) . ucfirst($detail);
-        };
-
-        // when
-        $mapped = $matchPattern->map($mapper);
-
-        // then
-        $this->assertSame(['', 'aA', '', 'cC'], $mapped);
-    }
-
-    /**
-     * @test
-     */
     public function shouldFindFirst()
     {
         // given

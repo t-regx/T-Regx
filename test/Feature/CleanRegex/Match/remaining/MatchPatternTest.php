@@ -141,11 +141,15 @@ class MatchPatternTest extends TestCase
      */
     public function shouldBe_Countable()
     {
+        // given
+        $pattern = pattern('\w+')->match('One, two, three')->stream()->filter(DetailFunctions::notEquals('two'));
+        $this->assertIsNotArray($pattern);
+
         // when
-        $count = count(pattern('\w+')->match('One, two, three')->remaining(DetailFunctions::notEquals('two')));
+        $size = count($pattern);
 
         // then
-        $this->assertSame(2, $count);
+        $this->assertSame(2, $size);
     }
 
     /**

@@ -58,17 +58,17 @@ class MatchDetailTest extends TestCase
     public function shouldPreserveUserData_map()
     {
         // given
-        $filtered = pattern('[A-Z][a-z]+')
+        $userData = pattern('[A-Z][a-z]+')
             ->match('First, Second, Third, Fourth, Fifth')
-            ->remaining(function (Detail $detail) {
+            ->stream()
+            ->filter(function (Detail $detail) {
                 $detail->setUserData($detail . $detail);
                 return true;
-            });
-
-        // when
-        $userData = $filtered->map(function (Detail $detail) {
-            return $detail->getUserData();
-        });
+            })
+            ->map(function (Detail $detail) {
+                return $detail->getUserData();
+            })
+            ->all();
 
         // then
         $this->assertSame(['FirstFirst', 'SecondSecond', 'ThirdThird', 'FourthFourth', 'FifthFifth'], $userData);
