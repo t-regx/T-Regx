@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.14.1
+---------------
+
 * Bug fixes
     * Fixed a bug when calling `filter()->first()` called predicate for more than the first item.
 * Deprecation
