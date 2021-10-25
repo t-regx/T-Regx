@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.14.0
+---------------
+
 * Breaking changes
     * Renamed `Pattern::compose()->allMatch()` to `testAll()`
     * Renamed `Pattern::compose()->anyMatches()` to `testAny()`
