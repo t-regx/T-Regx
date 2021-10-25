@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.15.0
+---------------
+
 * Breaking changes
     * Renamed `Pattern::template()` to `Pattern::builder()`
 * Features
