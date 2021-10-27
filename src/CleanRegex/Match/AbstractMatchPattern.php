@@ -3,14 +3,12 @@ namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\AsIntStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\MatchStreamWorker;
 use TRegx\CleanRegex\Internal\Factory\Worker\NextStreamWorkerDecorator;
 use TRegx\CleanRegex\Internal\Factory\Worker\OffsetsWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
@@ -33,9 +31,9 @@ use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Number;
 use TRegx\CleanRegex\Internal\Predicate;
+use TRegx\CleanRegex\Internal\SubjectEmptyOptional;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 
 abstract class AbstractMatchPattern implements MatchPatternInterface
 {
@@ -90,11 +88,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface
         if ($match->matched()) {
             return new PresentOptional($consumer($this->findFirstDetail($match)));
         }
-        return new EmptyOptional(new NotMatchedOptionalWorker(
-            new FirstMatchMessage(),
-            $this->base,
-            new NotMatched($this->groupAware, $this->base),
-            SubjectNotMatchedException::class));
+        return new SubjectEmptyOptional($this->groupAware, $this->base, new FirstMatchMessage());
     }
 
     private function findFirstDetail(RawMatchOffset $match): Detail

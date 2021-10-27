@@ -1,26 +1,20 @@
 <?php
 namespace TRegx\CleanRegex\Internal\GroupLimit;
 
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacadeMatched;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Match\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
-use TRegx\CleanRegex\Internal\Message\GroupNotMatched\FromFirstMatchMessage;
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Match\Details\NotMatched;
+use TRegx\CleanRegex\Internal\SubjectEmptyOptional;
 use TRegx\CleanRegex\Match\Optional;
 
 class GroupLimitFindFirst
@@ -68,20 +62,11 @@ class GroupLimitFindFirst
         return new PresentOptional($consumer($facade->createGroup($this->group, $false, $false)));
     }
 
-    private function notMatchedOptional(RawMatchOffset $first): EmptyOptional
+    private function notMatchedOptional(RawMatchOffset $first): Optional
     {
         if ($first->matched()) {
-            return $this->notMatched(GroupNotMatchedException::class, new FromFirstMatchMessage($this->group));
+            return new GroupEmptyOptional($this->groupAware, $this->base, $this->group);
         }
-        return $this->notMatched(SubjectNotMatchedException::class, new Group\FromFirstMatchMessage($this->group));
-    }
-
-    private function notMatched(string $exception, NotMatchedMessage $message): EmptyOptional
-    {
-        return new EmptyOptional(new NotMatchedOptionalWorker(
-            $message,
-            $this->base,
-            new NotMatched($this->groupAware, $this->base),
-            $exception));
+        return new SubjectEmptyOptional($this->groupAware, $this->base, new FromFirstMatchMessage($this->group));
     }
 }
