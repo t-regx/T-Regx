@@ -15,13 +15,13 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\StringSubject;
-use TRegx\CleanRegex\Replace\By\ByGroupReplacePatternImpl;
+use TRegx\CleanRegex\Replace\By\ByGroupReplacePattern;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 
 /**
- * @covers \TRegx\CleanRegex\Replace\By\ByGroupReplacePatternImpl
+ * @covers \TRegx\CleanRegex\Replace\By\ByGroupReplacePattern
  */
-class ByGroupReplacePatternImplTest extends TestCase
+class ByGroupReplacePatternTest extends TestCase
 {
     /**
      * @test
@@ -29,7 +29,7 @@ class ByGroupReplacePatternImplTest extends TestCase
     public function shouldOrElse()
     {
         // given
-        $byReplacePattern = $this->create('word(\d+)?', 'word');
+        $byReplacePattern = $this->byGroup('word(\d+)?', 'word');
 
         // when
         $result = $byReplacePattern->orElseWith('failing');
@@ -44,7 +44,7 @@ class ByGroupReplacePatternImplTest extends TestCase
     public function shouldOrReturn()
     {
         // given
-        $byReplacePattern = $this->create('word(\d+)?', 'word');
+        $byReplacePattern = $this->byGroup('word(\d+)?', 'word');
 
         // when
         $result = $byReplacePattern->orElseCalling(Functions::constant('called'));
@@ -59,7 +59,7 @@ class ByGroupReplacePatternImplTest extends TestCase
     public function shouldOrThrow()
     {
         // given
-        $byReplacePattern = $this->create('word(\d+)?', 'word');
+        $byReplacePattern = $this->byGroup('word(\d+)?', 'word');
 
         // then
         $this->expectException(CustomSubjectException::class);
@@ -69,12 +69,12 @@ class ByGroupReplacePatternImplTest extends TestCase
         $byReplacePattern->orElseThrow(CustomSubjectException::class);
     }
 
-    public function create(string $pattern, string $stringSubject): ByGroupReplacePatternImpl
+    public function byGroup(string $pattern, string $stringSubject): ByGroupReplacePattern
     {
         $definition = Definitions::pattern($pattern);
         $subject = new StringSubject($stringSubject);
 
-        return new ByGroupReplacePatternImpl(
+        return new ByGroupReplacePattern(
             new GroupFallbackReplacer(
                 $definition,
                 $subject,

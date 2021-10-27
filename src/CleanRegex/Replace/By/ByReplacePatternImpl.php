@@ -47,7 +47,7 @@ class ByReplacePatternImpl implements ByReplacePattern
 
     public function group($nameOrIndex): ByGroupReplacePattern
     {
-        return new ByGroupReplacePatternImpl(
+        return new ByGroupReplacePattern(
             $this->fallbackReplacer,
             $this->performanceReplace,
             $this->replaceCallbackInvoker,
