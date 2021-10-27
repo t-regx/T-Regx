@@ -1,16 +1,13 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details;
 
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\GroupNames;
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
+use TRegx\CleanRegex\Internal\Match\Details\DetailGroup;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
-use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\NumericDetail;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
@@ -43,14 +40,6 @@ class MatchDetail implements Detail
     private $groupAware;
     /** @var Entry */
     private $entry;
-    /** @var UsedInCompositeGroups */
-    private $usedInCompo;
-    /** @var UsedForGroup */
-    private $usedForGroup;
-    /** @var GroupHandle */
-    private $groupHandle;
-    /** @var GroupFacade */
-    private $groupFacade;
     /** @var SubjectCoordinates */
     private $coordinates;
     /** @var GroupNames */
@@ -59,6 +48,12 @@ class MatchDetail implements Detail
     private $duplicateName;
     /** @var NumericDetail */
     private $numericDetail;
+    /** @var DetailGroup */
+    private $detailGroup;
+    /** @var IndexedGroups */
+    private $indexedGroups;
+    /** @var NamedGroups */
+    private $namedGroups;
 
     private function __construct(
         Subject               $subject,
@@ -78,18 +73,15 @@ class MatchDetail implements Detail
         $this->limit = $limit;
         $this->groupAware = $groupAware;
         $this->entry = $matchEntry;
-        $this->usedInCompo = $usedInCompo;
-        $this->usedForGroup = $usedForGroup;
         $this->allFactory = $allFactory;
         $this->userData = $userData;
-        $this->groupHandle = new FirstNamedGroup($signatures);
-        $this->groupFacade = new GroupFacade($subject, $strategy, $allFactory,
-            new NotMatched($groupAware, $subject),
-            new FirstNamedGroup($signatures), $signatures);
         $this->coordinates = new SubjectCoordinates($matchEntry, $subject);
         $this->groupNames = new GroupNames($groupAware);
         $this->duplicateName = new DuplicateName($groupAware, $usedForGroup, $matchEntry, $subject, $strategy, $allFactory, $signatures);
         $this->numericDetail = new NumericDetail($matchEntry);
+        $this->detailGroup = new DetailGroup($groupAware, $matchEntry, $usedForGroup, $signatures, $strategy, $allFactory, $subject);
+        $this->indexedGroups = new IndexedGroups($groupAware, $usedInCompo, $subject);
+        $this->namedGroups = new NamedGroups($groupAware, $usedInCompo, $subject);
     }
 
     public static function create(Subject         $subject, int $index, int $limit,
@@ -143,20 +135,7 @@ class MatchDetail implements Detail
 
     public function get($nameOrIndex): string
     {
-        return $this->getGroup(GroupKey::of($nameOrIndex));
-    }
-
-    private function getGroup(GroupKey $group)
-    {
-        if (!$this->hasGroup($group->nameOrIndex())) {
-            throw new NonexistentGroupException($group);
-        }
-        $handle = $this->groupHandle->groupHandle($group);
-        if ($this->usedForGroup->isGroupMatched($handle)) {
-            [$text, $offset] = $this->usedForGroup->getGroupTextAndOffset($handle);
-            return $text;
-        }
-        throw GroupNotMatchedException::forGet($group);
+        return $this->detailGroup->text(GroupKey::of($nameOrIndex));
     }
 
     /**
@@ -166,15 +145,7 @@ class MatchDetail implements Detail
      */
     public function group($nameOrIndex): Group
     {
-        return $this->groupBuilder(GroupKey::of($nameOrIndex));
-    }
-
-    private function groupBuilder(GroupKey $group): Group
-    {
-        if (!$this->hasGroup($group->nameOrIndex())) {
-            throw new NonexistentGroupException($group);
-        }
-        return $this->groupFacade->createGroup($group, $this->usedForGroup, $this->entry);
+        return $this->detailGroup->group(GroupKey::of($nameOrIndex));
     }
 
     public function usingDuplicateName(): DuplicateName
@@ -198,12 +169,12 @@ class MatchDetail implements Detail
 
     public function groups(): IndexedGroups
     {
-        return new IndexedGroups($this->groupAware, $this->usedInCompo, $this->subject);
+        return $this->indexedGroups;
     }
 
     public function namedGroups(): NamedGroups
     {
-        return new NamedGroups($this->groupAware, $this->usedInCompo, $this->subject);
+        return $this->namedGroups;
     }
 
     /**
@@ -212,7 +183,7 @@ class MatchDetail implements Detail
      */
     public function hasGroup($nameOrIndex): bool
     {
-        return $this->groupAware->hasGroup(GroupKey::of($nameOrIndex)->nameOrIndex());
+        return $this->detailGroup->groupExists(GroupKey::of($nameOrIndex));
     }
 
     /**
@@ -222,7 +193,7 @@ class MatchDetail implements Detail
      */
     public function matched($nameOrIndex): bool
     {
-        return $this->group($nameOrIndex)->matched();
+        return $this->detailGroup->matched(GroupKey::of($nameOrIndex));
     }
 
     public function all(): array
