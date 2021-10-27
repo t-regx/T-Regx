@@ -23,14 +23,4 @@ class GroupSignature
     {
         return $this->name;
     }
-
-    public function full(): bool
-    {
-        return false;
-    }
-
-    public function __toString(): string
-    {
-        return GroupKey::of($this->name ?? $this->index);
-    }
 }
