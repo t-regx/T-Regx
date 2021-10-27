@@ -1,25 +1,18 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
+use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Subject;
 
 class LazyMessageThrowStrategy implements LazySubjectRs
 {
-    /** @var string */
-    private $className;
     /** @var NotMatchedMessage */
     private $message = null;
 
-    public function __construct(string $className)
-    {
-        $this->className = $className;
-    }
-
     public function substitute(Subject $subject): ?string
     {
-        $className = $this->className;
-        throw new $className($this->message->getMessage());
+        throw new MissingReplacementKeyException($this->message->getMessage());
     }
 
     public function useExceptionMessage(NotMatchedMessage $message): void

@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Message\Replace\WithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
@@ -72,10 +71,11 @@ class ByGroupReplacePattern implements GroupReplace
         return new UnmatchedGroupStrategy(
             $this->fallbackReplacer,
             $this->group,
-            new SubstituteFallbackMapper(new WrappingMapper($mapper, $this->middlewareMapper),
-                new LazyMessageThrowStrategy(MissingReplacementKeyException::class), $this->subject),
-            $this->middlewareMapper
-        );
+            new SubstituteFallbackMapper(
+                new WrappingMapper($mapper, $this->middlewareMapper),
+                new LazyMessageThrowStrategy(),
+                $this->subject),
+            $this->middlewareMapper);
     }
 
     public function mapIfExists(array $occurrencesAndReplacements): GroupReplace

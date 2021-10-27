@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
-use TRegx\CleanRegex\Exception\MissingReplacementKeyException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
@@ -74,7 +73,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
                 $this->substitute,
                 $this->countingStrategy,
                 new ApiBase($this->definition, $this->subject, new UserData())),
-            new LazyMessageThrowStrategy(MissingReplacementKeyException::class),
+            new LazyMessageThrowStrategy(),
             new PerformanceEmptyGroupReplace($this->definition, $this->subject, $this->limit),
             $this->invoker,
             $this->subject,

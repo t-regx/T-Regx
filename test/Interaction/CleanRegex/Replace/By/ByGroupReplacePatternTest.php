@@ -2,6 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\Replace\By;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Definitions;
 use Test\Utils\Functions;
@@ -10,8 +11,6 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
-use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\StringSubject;
@@ -79,11 +78,11 @@ class ByGroupReplacePatternTest extends TestCase
                 $definition,
                 $subject,
                 -1,
-                new DefaultStrategy(),
+                new ThrowStrategy(),
                 new IgnoreCounting(),
                 new ApiBase($definition, $subject, new UserData())),
             new PerformanceEmptyGroupReplace($definition, $subject, -1),
-            new ReplacePatternCallbackInvoker($definition, $subject, -1, new LazyMessageThrowStrategy(\AssertionError::class), new IgnoreCounting()),
+            new ReplacePatternCallbackInvoker($definition, $subject, -1, new ThrowStrategy(), new IgnoreCounting()),
             new GroupIndex(1),
             $subject,
             new IdentityWrapper());
