@@ -15,6 +15,6 @@ class FromNthStreamMessage implements NotMatchedMessage
 
     public function getMessage(): string
     {
-        return "Expected to get the $this->nth-nth element from fluent pattern, but the subject backing the feed was not matched";
+        return "Expected to get the $this->nth-nth stream element, but the subject backing the stream was not matched";
     }
 }

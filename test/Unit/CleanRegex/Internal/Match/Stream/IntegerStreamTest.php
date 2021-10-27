@@ -46,7 +46,7 @@ class IntegerStreamTest extends TestCase
 
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse fluent element 'Foo', but it is not a valid integer in base 10");
+        $this->expectExceptionMessage("Expected to parse stream element 'Foo', but it is not a valid integer in base 10");
 
         // when
         $stream->all();
@@ -138,7 +138,7 @@ class IntegerStreamTest extends TestCase
 
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse fluent element 'Foo', but it is not a valid integer in base 14");
+        $this->expectExceptionMessage("Expected to parse stream element 'Foo', but it is not a valid integer in base 14");
 
         // when
         $stream->first();
@@ -154,7 +154,7 @@ class IntegerStreamTest extends TestCase
 
         // then
         $this->expectException(IntegerOverflowException::class);
-        $this->expectExceptionMessage("Expected to parse fluent element '9223372036854775809', but it exceeds integer size on this architecture in base 10");
+        $this->expectExceptionMessage("Expected to parse stream element '9223372036854775809', but it exceeds integer size on this architecture in base 10");
 
         // when
         $stream->first();
@@ -170,7 +170,7 @@ class IntegerStreamTest extends TestCase
 
         // then
         $this->expectException(IntegerOverflowException::class);
-        $this->expectExceptionMessage("Expected to parse fluent element '922337203685477580000', but it exceeds integer size on this architecture in base 16");
+        $this->expectExceptionMessage("Expected to parse stream element '922337203685477580000', but it exceeds integer size on this architecture in base 16");
 
         // when
         $stream->first();

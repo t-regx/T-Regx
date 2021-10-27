@@ -13,7 +13,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluentAll_keepIndexes()
+    public function shouldAllKeepIndexes()
     {
         // given
         $indexes = pattern("(?:Foo|Bar|Lorem)")
@@ -31,7 +31,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluentAll_keepLimits()
+    public function shouldAllKeepLimits()
     {
         // given
         pattern("(?:Foo|Bar)")->match("Foo, Bar")->stream()
@@ -45,7 +45,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluentAll_preserveUserData()
+    public function shouldPreserveUserData_all()
     {
         // given
         pattern("(Foo|Bar|Lorem)")
@@ -66,7 +66,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluentAll_getAll()
+    public function shouldGet_map_all()
     {
         // given
         $indexes = pattern("(Foo|Bar|Lorem)")
@@ -85,7 +85,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluentFirst_keepIndex()
+    public function shouldKeepIndex_first()
     {
         // given
         pattern("(Foo|Bar)")->match("Foo, Bar")->stream()->first(function (Detail $detail) {
@@ -97,7 +97,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluentFirst_keepIndex_remaining()
+    public function shouldFirst_keepIndex_remaining()
     {
         // given
         pattern("(Foo|Bar)")->match("Foo, Bar")->remaining(Functions::equals('Bar'))->stream()->first(function (Detail $detail) {
@@ -109,7 +109,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluentFirst_keepLimit()
+    public function shouldFirst_keepLimit()
     {
         // given
         pattern("(Foo|Bar)")->match("Foo, Bar")->stream()->first(function (Detail $detail) {
@@ -120,7 +120,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluentFirst_preserveUserData()
+    public function shouldFirst_preserveUserData()
     {
         // given
         pattern("(Foo|Bar|Lorem)")
@@ -141,7 +141,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluentFirst_getAll()
+    public function shouldFirst_getAll()
     {
         // given
         $indexes = pattern("(Foo|Bar|Lorem)")

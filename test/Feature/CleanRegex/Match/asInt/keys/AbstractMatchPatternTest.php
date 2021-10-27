@@ -32,7 +32,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the 0-nth element from fluent pattern, but the subject backing the feed was not matched');
+        $this->expectExceptionMessage('Expected to get the 0-nth stream element, but the subject backing the stream was not matched');
 
         // when
         pattern('Foo')->match('Bar')->asInt()->keys()->nth(0);
@@ -58,7 +58,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the 2-nth element from fluent pattern, but the elements feed has 0 element(s)");
+        $this->expectExceptionMessage("Expected to get the 2-nth stream element, but the stream has 0 element(s)");
 
         // when
         pattern('\d+')->match('13 14')->asInt()->filter(Functions::constant(false))->keys()->nth(2);
@@ -71,7 +71,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the 2-nth element from fluent pattern, but the elements feed has 2 element(s)");
+        $this->expectExceptionMessage("Expected to get the 2-nth stream element, but the stream has 2 element(s)");
 
         // when
         pattern('\d+')->match('23 25')->asInt()->keys()->nth(2);
@@ -97,7 +97,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage('Expected to get the 5-nth element from fluent pattern, but the elements feed has 3 element(s)');
+        $this->expectExceptionMessage('Expected to get the 5-nth stream element, but the stream has 3 element(s)');
 
         // when
         pattern('\d+')->match('12 13 14')->asInt()->keys()->findNth(5)->orThrow(CustomSubjectException::class);

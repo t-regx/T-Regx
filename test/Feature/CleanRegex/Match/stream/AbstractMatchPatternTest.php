@@ -68,7 +68,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_passUserData()
+    public function shouldPassUserData()
     {
         // given
         pattern("(Foo|Bar)")
@@ -89,7 +89,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_findFirst_orThrow()
+    public function should_findFirst_orThrow()
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -102,7 +102,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_keys_findFirst_orThrow()
+    public function should_keys_findFirst_orThrow()
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
@@ -115,7 +115,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_findFirst_orThrow_custom()
+    public function should_findFirst_orThrow_custom()
     {
         try {
             // when
@@ -134,7 +134,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_filter_findFirst_orThrow_custom()
+    public function should_filter_findFirst_orThrow_custom()
     {
         try {
             // when
@@ -154,7 +154,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_findFirst_orElse()
+    public function should_findFirst_orElse()
     {
         // when
         pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail())->orElse(Functions::argumentless());
@@ -163,7 +163,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_findFirst_orValue()
+    public function should_findFirst_orValue()
     {
         // when
         $value = pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail())->orReturn('value');
@@ -175,7 +175,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_filter_findFirst_orElse()
+    public function should_filter_findFirst_orElse()
     {
         // when
         pattern('Foo')
@@ -189,7 +189,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_first_throw_InternalRegxException()
+    public function should_first_throw_InternalRegxException()
     {
         try {
             // when
@@ -203,7 +203,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_findFirst_orThrow_InternalRegxException()
+    public function should_findFirst_orThrow_InternalRegxException()
     {
         try {
             // when
@@ -217,7 +217,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent_findFirstCallback_orThrow()
+    public function should_findFirstCallback_orThrow()
     {
         // when
         $letters = pattern('Foo')->match('Foo')->stream()->findFirst(Functions::letters())->orThrow();

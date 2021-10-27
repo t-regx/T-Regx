@@ -16,8 +16,8 @@ class IntegerOverflowException extends \Exception implements PatternException
         return new self("Expected to parse '$value', but it exceeds integer size on this architecture in base $base");
     }
 
-    public static function forFluent(string $value, Base $base): self
+    public static function forStream(string $value, Base $base): self
     {
-        return new self("Expected to parse fluent element '$value', but it exceeds integer size on this architecture in base $base");
+        return new self("Expected to parse stream element '$value', but it exceeds integer size on this architecture in base $base");
     }
 }

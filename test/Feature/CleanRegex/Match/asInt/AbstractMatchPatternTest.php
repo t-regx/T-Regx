@@ -77,7 +77,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the 0-nth element from fluent pattern, but the subject backing the feed was not matched');
+        $this->expectExceptionMessage('Expected to get the 0-nth stream element, but the subject backing the stream was not matched');
 
         // when
         pattern('Foo')->match('Bar')->asInt()->map(Functions::fail())->nth(0);
@@ -103,7 +103,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the 2-nth element from fluent pattern, but the elements feed has 0 element(s)");
+        $this->expectExceptionMessage("Expected to get the 2-nth stream element, but the stream has 0 element(s)");
 
         // when
         pattern('\d+')->match('13 14')->asInt()->filter(Functions::constant(false))->nth(2);

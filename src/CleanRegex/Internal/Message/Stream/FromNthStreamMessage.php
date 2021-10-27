@@ -18,6 +18,6 @@ class FromNthStreamMessage implements NotMatchedMessage
 
     public function getMessage(): string
     {
-        return "Expected to get the $this->index-nth element from fluent pattern, but the elements feed has $this->count element(s)";
+        return "Expected to get the $this->index-nth stream element, but the stream has $this->count element(s)";
     }
 }

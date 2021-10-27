@@ -103,7 +103,7 @@ class MatchPatternTest extends TestCase
 
     /**
      * @test
-     * @dataProvider streamFluentMethods
+     * @dataProvider streamMethods
      * @param string $method
      */
     public function shouldThrow_method_OnUnmatchedSubject_OnNonexistentGroup(string $method)
@@ -116,14 +116,14 @@ class MatchPatternTest extends TestCase
         pattern('Foo')->match('Bar')->group(1)->stream()->$method();
     }
 
-    public function streamFluentMethods(): array
+    public function streamMethods(): array
     {
         return [['first'], ['all']];
     }
 
     /**
      * @test
-     * @dataProvider streamFluentMethods
+     * @dataProvider streamMethods
      * @param string $method
      */
     public function shouldThrow_keys_method_OnUnmatchedSubject_OnNonexistentGroup(string $method)

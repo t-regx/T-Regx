@@ -8,6 +8,7 @@ use Test\Fakes\CleanRegex\Internal\Match\Stream\ThrowStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Fakes\CleanRegex\Match\Details\ConstantInt;
+use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
@@ -18,6 +19,8 @@ use TRegx\CleanRegex\Match\Stream;
  */
 class StreamTest extends TestCase
 {
+    use ExactExceptionMessage;
+
     /**
      * @test
      */
@@ -343,7 +346,7 @@ class StreamTest extends TestCase
 
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse fluent element '--10', but it is not a valid integer");
+        $this->expectExceptionMessage("Expected to parse stream element '--10', but it is not a valid integer in base 10");
 
         // when
         $stream->asInt()->all();
@@ -374,7 +377,7 @@ class StreamTest extends TestCase
 
         // then
         $this->expectException(InvalidIntegerTypeException::class);
-        $this->expectExceptionMessage("Failed to parse value as integer. Expected integer|string, but boolean (true) given");
+        $this->expectExceptionMessage('Failed to parse value as integer. Expected integer|string, but boolean (true) given');
 
         // when
         $stream->asInt()->all();

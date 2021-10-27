@@ -51,9 +51,9 @@ class IntegerStream implements Upstream
         try {
             return $number->asInt($this->base);
         } catch (NumberOverflowException $exception) {
-            throw IntegerOverflowException::forFluent($value, $this->base);
+            throw IntegerOverflowException::forStream($value, $this->base);
         } catch (NumberFormatException $exception) {
-            throw IntegerFormatException::forFluent($value, $this->base);
+            throw IntegerFormatException::forStream($value, $this->base);
         }
     }
 }
