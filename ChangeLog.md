@@ -4,6 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
+* Bug fixes
+    * Fixed a bug when returning non-string value from `orElseCalling()` didn't throw `InvalidReturnValueException`
 * Breaking changes
     * Renamed `FluentMatchPattern` to `Stream`, similar to Java 8 streams
     * Renamed `fluent()` to `stream()`, similar to Java 8 streams

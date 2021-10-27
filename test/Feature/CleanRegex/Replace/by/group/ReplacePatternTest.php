@@ -104,6 +104,29 @@ class ReplacePatternTest extends TestCase
 
     /**
      * @test
+     */
+    public function shouldThrow_orElse_returnArray()
+    {
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid orElseCalling() callback return type. Expected string, but null given');
+
+        // when
+        pattern('(?<value>\d+)(?<unit>cm)?')
+            ->replace('15cm 14 16cm')
+            ->all()
+            ->by()
+            ->group('unit')
+            ->orElseCalling(function (LazyDetail $detail) {
+                $this->assertSame('14', $detail->text());
+
+                // when
+                return [2];
+            });
+    }
+
+    /**
+     * @test
      * @dataProvider shouldNotReplaceGroups
      * @param string|int $group
      * @param string $method
