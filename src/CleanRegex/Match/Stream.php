@@ -30,6 +30,8 @@ use TRegx\CleanRegex\Internal\Subject;
 
 class Stream implements \Countable, \IteratorAggregate
 {
+    /** @var StreamTerminal */
+    private $terminal;
     /** @var Upstream */
     private $upstream;
     /** @var Subject */
@@ -37,25 +39,19 @@ class Stream implements \Countable, \IteratorAggregate
 
     public function __construct(Upstream $upstream, Subject $subject)
     {
+        $this->terminal = new StreamTerminal($upstream);
         $this->upstream = $upstream;
         $this->subject = $subject;
     }
 
     public function all(): array
     {
-        try {
-            return $this->upstream->all();
-        } catch (UnmatchedStreamException $exception) {
-            return [];
-        }
+        return $this->terminal->all();
     }
 
     public function only(int $limit): array
     {
-        if ($limit < 0) {
-            throw new \InvalidArgumentException("Negative limit: $limit");
-        }
-        return \array_slice($this->all(), 0, $limit);
+        return $this->terminal->only($limit);
     }
 
     /**
@@ -105,23 +101,17 @@ class Stream implements \Countable, \IteratorAggregate
 
     public function forEach(callable $consumer): void
     {
-        foreach ($this->all() as $key => $value) {
-            $consumer($value, $key);
-        }
+        $this->terminal->forEach($consumer);
     }
 
     public function count(): int
     {
-        return \count($this->all());
+        return $this->terminal->count();
     }
 
     public function getIterator(): \Iterator
     {
-        try {
-            return new \ArrayIterator($this->upstream->all());
-        } catch (UnmatchedStreamException $exception) {
-            return new \EmptyIterator();
-        }
+        return $this->terminal->getIterator();
     }
 
     public function map(callable $mapper): Stream

@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
 use IteratorAggregate;
@@ -11,7 +10,6 @@ use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
-use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\FilterStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
@@ -27,6 +25,8 @@ use TRegx\CleanRegex\Internal\Subject;
 
 class IntStream implements IteratorAggregate
 {
+    /** @var StreamTerminal */
+    private $terminal;
     /** @var Upstream */
     protected $upstream;
     /** @var NthIntStreamElement */
@@ -36,6 +36,7 @@ class IntStream implements IteratorAggregate
 
     public function __construct(Upstream $upstream, NthIntStreamElement $nth, Subject $subject)
     {
+        $this->terminal = new StreamTerminal($upstream);
         $this->upstream = $upstream;
         $this->nth = $nth;
         $this->subject = $subject;
@@ -48,19 +49,12 @@ class IntStream implements IteratorAggregate
 
     public function all(): array
     {
-        try {
-            return $this->upstream->all();
-        } catch (UnmatchedStreamException $exception) {
-            return [];
-        }
+        return $this->terminal->all();
     }
 
     public function only(int $limit): array
     {
-        if ($limit < 0) {
-            throw new InvalidArgumentException("Negative limit: $limit");
-        }
-        return \array_slice($this->all(), 0, $limit);
+        return $this->terminal->only($limit);
     }
 
     public function first(callable $consumer = null)
@@ -100,27 +94,17 @@ class IntStream implements IteratorAggregate
 
     public function forEach(callable $consumer): void
     {
-        foreach ($this->all() as $key => $value) {
-            $consumer($value, $key);
-        }
+        $this->terminal->forEach($consumer);
     }
 
     public function count(): int
     {
-        try {
-            return \count($this->upstream->all());
-        } catch (UnmatchedStreamException $exception) {
-            return 0;
-        }
+        return $this->terminal->count();
     }
 
     public function getIterator(): Iterator
     {
-        try {
-            return new ArrayIterator($this->upstream->all());
-        } catch (UnmatchedStreamException $exception) {
-            return new \EmptyIterator();
-        }
+        return $this->terminal->getIterator();
     }
 
     public function map(callable $mapper): Stream
