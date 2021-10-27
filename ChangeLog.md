@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.16.0
+---------------
+
 * Breaking changes
     * Removed `FluentMatchPatternException`. In case of `asInt()`, `InvalidIntegerTypeException` is thrown instead.
     * Methods `asInt()` and `offsets()` return `IntStream` instead of `FluentMatchPattern`.
