@@ -46,14 +46,14 @@ class DetailGroup
         $this->groupFacade = new GroupFacade($subject, $strategy, $allFactory, new NotMatched($groupAware, $subject), $this->groupHandle, $signatures);
     }
 
-    public function groupExists(GroupKey $group): bool
+    public function exists(GroupKey $group): bool
     {
         return $this->groupAware->hasGroup($group->nameOrIndex());
     }
 
     public function matched(GroupKey $groupKey): bool
     {
-        if ($this->groupExists($groupKey)) {
+        if ($this->exists($groupKey)) {
             return $this->usedForGroup->isGroupMatched($this->groupHandle->groupHandle($groupKey));
         }
         throw new NonexistentGroupException($groupKey);
@@ -61,7 +61,7 @@ class DetailGroup
 
     public function group(GroupKey $group): Group
     {
-        if ($this->groupExists($group)) {
+        if ($this->exists($group)) {
             return $this->groupFacade->createGroup($group, $this->usedForGroup, $this->entry);
         }
         throw new NonexistentGroupException($group);
@@ -69,7 +69,7 @@ class DetailGroup
 
     public function text(GroupKey $group): string
     {
-        if ($this->groupExists($group)) {
+        if ($this->exists($group)) {
             return $this->groupText($group);
         }
         throw new NonexistentGroupException($group);

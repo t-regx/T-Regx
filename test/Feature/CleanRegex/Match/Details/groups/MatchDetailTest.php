@@ -113,14 +113,14 @@ class MatchDetailTest extends TestCase
     public function shouldGetGroupsCount()
     {
         // given
-        pattern('(?<one>first) and (second)')
-            ->match('first and second')
+        pattern("(?<one>first) and (second) and (third), (?:don't count me)")
+            ->match("first and second and third, don't count me")
             ->first(function (Detail $detail) {
                 // when
                 $groupsCount = $detail->groupsCount();
 
                 // then
-                $this->assertSame(2, $groupsCount);
+                $this->assertSame(3, $groupsCount);
             });
     }
 
