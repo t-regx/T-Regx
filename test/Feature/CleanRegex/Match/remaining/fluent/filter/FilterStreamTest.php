@@ -15,14 +15,14 @@ class FilterStreamTest extends TestCase
     public function shouldReturn_nth()
     {
         // when
-        $result = pattern('\w+')->match('Lorem ipsum dolor emet')
+        $result = pattern('\w+')->match('Lorem ipsum dolor sit amet')
             ->remaining(Functions::notEquals('Lorem'))
             ->fluent()
             ->filter(Functions::notEquals('ipsum'))
-            ->nth(1);
+            ->nth(2);
 
         // then
-        $this->assertSame('emet', $result->text());
+        $this->assertSame('amet', $result->text());
     }
 
     /**
