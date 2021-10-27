@@ -1,9 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use ArrayIterator;
-use InvalidArgumentException;
-use Iterator;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Factory\Optional\NotMatchedOptionalWorker;
@@ -115,7 +112,7 @@ abstract class AbstractMatchPattern implements MatchPatternInterface
     public function nth(int $index): string
     {
         if ($index < 0) {
-            throw new InvalidArgumentException("Negative nth: $index");
+            throw new \InvalidArgumentException("Negative nth: $index");
         }
         $texts = \array_values($this->base->matchAll()->getTexts());
         if (\array_key_exists($index, $texts)) {
@@ -181,9 +178,9 @@ abstract class AbstractMatchPattern implements MatchPatternInterface
 
     abstract public function count(): int;
 
-    public function getIterator(): Iterator
+    public function getIterator(): \Iterator
     {
-        return new ArrayIterator(\array_values($this->getDetailObjects()));
+        return new \ArrayIterator(\array_values($this->getDetailObjects()));
     }
 
     public abstract function remaining(callable $predicate): RemainingMatchPattern;

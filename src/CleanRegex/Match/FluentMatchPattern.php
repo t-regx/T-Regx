@@ -1,9 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use ArrayIterator;
-use InvalidArgumentException;
-use Iterator;
 use TRegx\CleanRegex\Internal\Factory\Worker\StreamWorker;
 use TRegx\CleanRegex\Internal\Match\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
@@ -50,7 +47,7 @@ class FluentMatchPattern implements MatchPatternInterface
     public function only(int $limit): array
     {
         if ($limit < 0) {
-            throw new InvalidArgumentException("Negative limit: $limit");
+            throw new \InvalidArgumentException("Negative limit: $limit");
         }
         return \array_slice($this->all(), 0, $limit);
     }
@@ -87,7 +84,7 @@ class FluentMatchPattern implements MatchPatternInterface
     public function findNth(int $index): Optional
     {
         if ($index < 0) {
-            throw new InvalidArgumentException("Negative index: $index");
+            throw new \InvalidArgumentException("Negative index: $index");
         }
         try {
             $elements = \array_values($this->stream->all());
@@ -112,10 +109,10 @@ class FluentMatchPattern implements MatchPatternInterface
         return \count($this->all());
     }
 
-    public function getIterator(): Iterator
+    public function getIterator(): \Iterator
     {
         try {
-            return new ArrayIterator($this->stream->all());
+            return new \ArrayIterator($this->stream->all());
         } catch (UnmatchedStreamException $exception) {
             return new \EmptyIterator();
         }
