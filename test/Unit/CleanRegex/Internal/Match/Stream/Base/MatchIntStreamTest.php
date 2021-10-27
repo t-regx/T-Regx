@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\Base\AllStreamBase;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\Base\FirstStreamBase;
 use Test\Fakes\CleanRegex\Internal\Number\ThrowBase;
+use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\ExactExceptionMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
@@ -24,7 +25,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldDelegate_all()
     {
         // given
-        $stream = new MatchIntStream(AllStreamBase::texts(['14', '19', '25']), new Base(10));
+        $stream = new MatchIntStream(AllStreamBase::texts(['14', '19', '25']), new Base(10), new ThrowSubject());
 
         // when
         $all = $stream->all();
@@ -39,7 +40,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldDelegate_all_unmatched()
     {
         // given
-        $stream = new MatchIntStream(AllStreamBase::texts([]), new ThrowBase());
+        $stream = new MatchIntStream(AllStreamBase::texts([]), new ThrowBase(), new ThrowSubject());
 
         // when
         $all = $stream->all();
@@ -54,7 +55,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldDelegate_first()
     {
         // given
-        $stream = new MatchIntStream(FirstStreamBase::text('10101'), new Base(2));
+        $stream = new MatchIntStream(FirstStreamBase::text('10101'), new Base(2), new ThrowSubject());
 
         // when
         $first = $stream->first();
@@ -69,7 +70,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldGetFirstLowerBound()
     {
         // given
-        $stream = new MatchIntStream(FirstStreamBase::text('-2147483648'), new Base(10));
+        $stream = new MatchIntStream(FirstStreamBase::text('-2147483648'), new Base(10), new ThrowSubject());
 
         // when
         $first = $stream->first();
@@ -84,7 +85,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldNotDelegate_firstKey()
     {
         // given
-        $stream = new MatchIntStream(FirstStreamBase::text('192'), new Base(10));
+        $stream = new MatchIntStream(FirstStreamBase::text('192'), new Base(10), new ThrowSubject());
 
         // when
         $key = $stream->firstKey();
@@ -99,7 +100,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldThrow_all_forMalformedInteger()
     {
         // given
-        $stream = new MatchIntStream(AllStreamBase::texts(['Foo', 'Bar']), new Base(10));
+        $stream = new MatchIntStream(AllStreamBase::texts(['Foo', 'Bar']), new Base(10), new ThrowSubject());
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -115,7 +116,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldThrow_first_forMalformedInteger()
     {
         // given
-        $stream = new MatchIntStream(FirstStreamBase::text('Foo'), new Base(11));
+        $stream = new MatchIntStream(FirstStreamBase::text('Foo'), new Base(11), new ThrowSubject());
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -131,7 +132,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldThrow_firstKey_forMalformedInteger()
     {
         // given
-        $stream = new MatchIntStream(FirstStreamBase::text('Foo'), new Base(13));
+        $stream = new MatchIntStream(FirstStreamBase::text('Foo'), new Base(13), new ThrowSubject());
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -147,7 +148,7 @@ class MatchIntStreamTest extends TestCase
     public function shouldThrow_firstKey_forOverflownInteger()
     {
         // given
-        $stream = new MatchIntStream(FirstStreamBase::text('922337203685477580700'), new Base(13));
+        $stream = new MatchIntStream(FirstStreamBase::text('922337203685477580700'), new Base(13), new ThrowSubject());
 
         // then
         $this->expectException(IntegerOverflowException::class);

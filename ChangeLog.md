@@ -5,7 +5,23 @@ Incoming
 --------
 
 * Breaking changes
-    * Removed `FluentMatchPatternException`. In case of `asInt()`, `InvalidIntegerTypeException` is thrown instead
+    * Removed `FluentMatchPatternException`. In case of `asInt()`, `InvalidIntegerTypeException` is thrown instead.
+    * Methods `asInt()` and `offsets()` return `IntStream` instead of `FluentMatchPattern`.
+    * Updated the rules when exceptions are thrown from `asInt()`, `offsets()` and `fluent()`:
+        * Exceptions thrown from `IntStream`:
+            * `pattern()->match()->asInt()` throws `SubjectNotMatchedException`
+            * `pattern()->match()->offsets()` throws `SubjectNotMatchedException`
+            * `pattern()->match()->group()->asInt()` throws `SubjectNotMatchedException` or `GroupNotMatchedException`
+            * `pattern()->match()->group()->offsets()` throws `SubjectNotMatchedException` or `GroupNotMatchedException`
+        * Exception thrown from `FluentMatchPattern`:
+            * `pattern()->match()->fluent()` throws `NoSuchElementFluentException`
+            * `pattern()->match()->asInt()->fluent()` throws `NoSuchElementFluentException`
+            * `pattern()->match()->offsets()->fluent()` throws `NoSuchElementFluentException`
+
+      Basically, `MatchPattern` and `IntStream` throw match-related exceptions (`SubjectNotMatchedException`
+      or `GroupNotMatchedException`), whereas `FluentMatchPattern` throws fluent-related
+      exception: `NoSuchElementFluentException`.
+    * Updated exception messages from `asInt()`, `offsets()` and `fluent()`.
 
 Added in 0.15.0
 ---------------

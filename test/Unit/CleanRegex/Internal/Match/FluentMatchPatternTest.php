@@ -3,14 +3,11 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Factory\Worker\ThrowingOptionalWorker;
-use Test\Fakes\CleanRegex\Internal\Factory\Worker\ThrowWorker;
-use Test\Fakes\CleanRegex\Internal\Match\Stream\EmptyStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\ThrowStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
+use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Fakes\CleanRegex\Match\Details\ConstantInt;
-use Test\Utils\CustomException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
@@ -27,7 +24,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar']), new ThrowSubject());
 
         // when
         $result = $pattern->all();
@@ -42,7 +39,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetOnly()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar', 'fail']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar', 'fail']), new ThrowSubject());
 
         // when
         $result = $pattern->only(2);
@@ -57,7 +54,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetOnly_overflowing()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar']), new ThrowSubject());
 
         // when
         $result = $pattern->only(4);
@@ -72,7 +69,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetOnly_throw()
     {
         // given
-        $pattern = new FluentMatchPattern(new ThrowStream(), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new ThrowStream(), new ThrowSubject());
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -88,7 +85,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldIterate()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar']), new ThrowSubject());
 
         // when
         $result = [];
@@ -106,7 +103,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldCount()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar', 'lorem', 'b' => 'ipsum']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar', 'lorem', 'b' => 'ipsum']), new ThrowSubject());
 
         // when
         $result = $pattern->count();
@@ -121,7 +118,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldIterator()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar', 'lorem', 'ipsum']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar', 'lorem', 'ipsum']), new ThrowSubject());
 
         // when
         $result = $pattern->getIterator();
@@ -136,7 +133,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldMap()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['foo', 'foo', 'bar', 'foo', 'Bar', 'bar']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['foo', 'foo', 'bar', 'foo', 'Bar', 'bar']), new ThrowSubject());
 
         // when
         $result = $pattern->map('strToUpper')->all();
@@ -151,7 +148,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldReturn_flatMap_all()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['foo', 'bar']), new ThrowSubject());
 
         // when
         $result = $pattern->flatMap('str_split')->all();
@@ -166,7 +163,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldReturn_flatMapAssoc_all()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['Quizzacious', 'Lorem', 'Foo']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['Quizzacious', 'Lorem', 'Foo']), new ThrowSubject());
 
         // when
         $result = $pattern->flatMapAssoc('str_split')->all();
@@ -181,7 +178,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldReturn_flatMap_first()
     {
         // given
-        $pattern = new FluentMatchPattern(new FirstStream('foo'), ThrowingOptionalWorker::none());
+        $pattern = new FluentMatchPattern(new FirstStream('foo'), new ThrowSubject());
 
         // when
         $result = $pattern->flatMap(Functions::letters())->first();
@@ -193,10 +190,25 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldReturn_flatMap_nth()
+    {
+        // given
+        $pattern = new FluentMatchPattern(new AllStream(['bar', 'cat']), new ThrowSubject());
+
+        // when
+        $result = $pattern->flatMap(Functions::letters())->nth(3);
+
+        // then
+        $this->assertSame('c', $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldReturn_flatMap_keys_first()
     {
         // given
-        $pattern = new FluentMatchPattern(new FirstStream('One'), ThrowingOptionalWorker::none());
+        $pattern = new FluentMatchPattern(new FirstStream('One'), new ThrowSubject());
 
         // when
         $result = $pattern->flatMap(Functions::lettersAsKeys())->keys()->first();
@@ -208,42 +220,10 @@ class FluentMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_flatMap_first_forEmpty()
-    {
-        // given
-        $pattern = new FluentMatchPattern(new EmptyStream(), ThrowingOptionalWorker::fluent(new CustomException('message')));
-
-        // then
-        $this->expectException(CustomException::class);
-        $this->expectExceptionMessage('message');
-
-        // when
-        $pattern->flatMap(Functions::identity())->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_flatMap_keys_first_forEmpty()
-    {
-        // given
-        $pattern = new FluentMatchPattern(new EmptyStream(), ThrowingOptionalWorker::fluent(new CustomException('message')));
-
-        // then
-        $this->expectException(CustomException::class);
-        $this->expectExceptionMessage('message');
-
-        // when
-        $pattern->flatMap(Functions::constant([]))->keys()->first();
-    }
-
-    /**
-     * @test
-     */
     public function shouldFilter()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['foo', 2, 'bar', 4]), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['foo', 2, 'bar', 4]), new ThrowSubject());
 
         // when
         $result = $pattern->filter('is_int')->all();
@@ -258,7 +238,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldUnique()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['foo', 'foo', 'bar', 'foo', 'Bar', 'bar']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['foo', 'foo', 'bar', 'foo', 'Bar', 'bar']), new ThrowSubject());
 
         // when
         $result = $pattern->distinct()->all();
@@ -273,7 +253,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetValues()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream([10 => 'foo', 20 => 'bar', 30 => 'lorem']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream([10 => 'foo', 20 => 'bar', 30 => 'lorem']), new ThrowSubject());
 
         // when
         $result = $pattern->values()->all();
@@ -288,7 +268,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGetKeys()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream([10 => 'foo', 20 => 'bar', 30 => 'lorem']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream([10 => 'foo', 20 => 'bar', 30 => 'lorem']), new ThrowSubject());
 
         // when
         $result = $pattern->keys()->all();
@@ -303,7 +283,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldMapToIntegers()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['a' => '9', '10', 'b' => 11, '100', 'c' => 12]), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['a' => '9', '10', 'b' => 11, '100', 'c' => 12]), new ThrowSubject());
 
         // when
         $integers = $pattern->asInt()->all();
@@ -319,7 +299,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrowForInvalidBase(array $input)
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream($input), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream($input), new ThrowSubject());
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -344,7 +324,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldMapToIntegersBase5()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['a' => '123']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['a' => '123']), new ThrowSubject());
 
         // when
         $integers = $pattern->asInt(5)->all();
@@ -359,7 +339,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrowForInvalidIntegers()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['9', '10', '--10', '100']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['9', '10', '--10', '100']), new ThrowSubject());
 
         // then
         $this->expectException(IntegerFormatException::class);
@@ -375,7 +355,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldMapMatchesToIntegers()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['a' => new ConstantInt(9), 'b' => new ConstantInt(10)]), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['a' => new ConstantInt(9), 'b' => new ConstantInt(10)]), new ThrowSubject());
 
         // when
         $integers = $pattern->asInt()->all();
@@ -390,7 +370,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrowForNonStringAndNonInt()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['9', true]), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['9', true]), new ThrowSubject());
 
         // then
         $this->expectException(InvalidIntegerTypeException::class);
@@ -407,7 +387,7 @@ class FluentMatchPatternTest extends TestCase
     {
         // given
         $theSeven = ['Father', 'Mother', 'Maiden', 'Crone', 'Warrior', 'Smith', 'Stranger'];
-        $pattern = new FluentMatchPattern(new AllStream($theSeven), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream($theSeven), new ThrowSubject());
 
         // when
         $result = $pattern->groupByCallback(Functions::charAt(0));
@@ -429,7 +409,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldForEach_acceptKey()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['Foo' => '9', 2 => 'Bar']), new ThrowWorker());
+        $pattern = new FluentMatchPattern(new AllStream(['Foo' => '9', 2 => 'Bar']), new ThrowSubject());
         $arguments = [];
 
         // when

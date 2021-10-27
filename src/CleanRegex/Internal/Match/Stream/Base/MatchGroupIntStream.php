@@ -10,7 +10,10 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
+use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
+use TRegx\CleanRegex\Internal\Message\GroupNotMatched;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchIntMessage;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Number;
@@ -42,10 +45,13 @@ class MatchGroupIntStream implements Upstream
     protected function entries(): array
     {
         $matches = $this->base->matchAllOffsets();
-        if ($matches->hasGroup($this->group->nameOrIndex())) {
+        if (!$matches->hasGroup($this->group->nameOrIndex())) {
+            throw new NonexistentGroupException($this->group);
+        }
+        if ($matches->matched()) {
             return \array_map([$this, 'parseIntegerOptional'], $matches->getGroupTexts($this->group->nameOrIndex()));
         }
-        throw new NonexistentGroupException($this->group);
+        throw new UnmatchedStreamException();
     }
 
     private function parseIntegerOptional(?string $text): ?int
@@ -64,10 +70,10 @@ class MatchGroupIntStream implements Upstream
             throw new NonexistentGroupException($this->group);
         }
         if (!$match->matched()) {
-            throw SubjectNotMatchedException::forFirstGroup($this->base, $this->group);
+            throw new StramRejectedException($this->base, SubjectNotMatchedException::class, new FromFirstMatchIntMessage($this->group));
         }
         if (!$polyfill->isGroupMatched($this->group->nameOrIndex())) {
-            throw GroupNotMatchedException::forFirst($this->group);
+            throw new StramRejectedException($this->base, GroupNotMatchedException::class, new GroupNotMatched\FromFirstMatchIntMessage($this->group));
         }
         return $this->parseInteger($match->getGroup($this->group->nameOrIndex()));
     }

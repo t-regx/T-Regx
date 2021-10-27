@@ -143,7 +143,7 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched');
+        $this->expectExceptionMessage('Expected to get group #0 from the first match, but subject was not matched at all');
 
         // when
         pattern('Foo')->match('Bar')->group(0)->fluent()->keys()->first();
@@ -184,23 +184,10 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched');
+        $this->expectExceptionMessage('Expected to get group #0 from the first match, but subject was not matched at all');
 
         // when
         pattern('Foo')->match('Bar')->group(0)->fluent()->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_first_callback(): void
-    {
-        // then
-        $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched');
-
-        // when
-        pattern('Foo')->match('Bar')->group(0)->fluent()->first(Functions::fail());
     }
 
     /**

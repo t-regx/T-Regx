@@ -5,7 +5,6 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchMessage;
-use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchTripleMessage;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchTupleMessage;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromNthMatchMessage;
@@ -38,11 +37,6 @@ class SubjectNotMatchedException extends \Exception implements PatternException
         return self::withMessage(new FromNthMatchMessage($group, $index), $subject);
     }
 
-    public static function forFirstGroupOffset(Subject $subject, GroupKey $group): self
-    {
-        return self::withMessage(new FromFirstMatchOffsetMessage($group), $subject);
-    }
-
     public static function forFirstGroup(Subject $subject, GroupKey $group): self
     {
         return self::withMessage(new FromFirstMatchMessage($group), $subject);
@@ -58,7 +52,7 @@ class SubjectNotMatchedException extends \Exception implements PatternException
         throw SubjectNotMatchedException::withMessage(new FromFirstMatchTripleMessage($group1, $group2, $group3), $subject);
     }
 
-    public static function withMessage(NotMatchedMessage $message, Subject $subject): self
+    private static function withMessage(NotMatchedMessage $message, Subject $subject): self
     {
         return new SubjectNotMatchedException($message->getMessage(), $subject->getSubject());
     }

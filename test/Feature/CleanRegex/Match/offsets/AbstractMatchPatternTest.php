@@ -7,7 +7,6 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 use function pattern;
 
 /**
@@ -22,7 +21,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get the first match offset, but subject was not matched");
+        $this->expectExceptionMessage('Expected to get the first match offset, but subject was not matched');
 
         // when
         pattern('Foo')->match('Bar')->offsets()->first();
@@ -35,7 +34,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get the 0-nth match offset, but subject was not matched");
+        $this->expectExceptionMessage('Expected to get the 0-nth match offset, but subject was not matched');
 
         // when
         pattern('Foo')->match('Bar')->offsets()->nth(0);
@@ -48,7 +47,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the subject backing the feed was not matched");
+        $this->expectExceptionMessage('Expected to get the first match offset, but subject was not matched');
 
         // when
         pattern('Foo')->match('Bar')->offsets()->map(Functions::fail())->first();
@@ -61,7 +60,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the 0-nth element from fluent pattern, but the subject backing the feed was not matched");
+        $this->expectExceptionMessage('Expected to get the 0-nth element from fluent pattern, but the subject backing the feed was not matched');
 
         // when
         pattern('Foo')->match('Bar')->offsets()->map(Functions::fail())->nth(0);
@@ -74,7 +73,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed has 0 element(s)");
+        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the elements feed has 0 element(s)');
 
         // when
         pattern('\d+')->match('12')->offsets()->filter(Functions::constant(false))->first();
@@ -87,7 +86,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the 2-nth element from fluent pattern, but the elements feed has 0 element(s)");
+        $this->expectExceptionMessage('Expected to get the 2-nth element from fluent pattern, but the elements feed has 0 element(s)');
 
         // when
         pattern('\d+')->match('13 14')->offsets()->filter(Functions::constant(false))->nth(2);
@@ -137,36 +136,27 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_offsets_findFirst_OnUnmatchedPattern_orElse()
+    public function shouldCall_offsets_findFirst_OnUnmatchedPattern_orElse()
     {
         // given
-        pattern('(?<sparrow>Foo)')->match('Bar')->offsets()->findFirst(Functions::fail())
-            ->orElse(function (NotMatched $notMatched) {
-                $this->assertSame(['sparrow'], $notMatched->groupNames());
-            });
+        pattern('(?<sparrow>Foo)')->match('Bar')->offsets()->findFirst(Functions::fail())->orElse(Functions::pass());
     }
 
     /**
      * @test
      */
-    public function shouldThrow_offsets_findNth_OnUnmatchedPattern_orElse()
+    public function shouldCall_offsets_findNth_OnUnmatchedPattern_orElse()
     {
         // given
-        pattern('(?<sparrow>Foo)')->match('Bar')->offsets()->findNth(0)
-            ->orElse(function (NotMatched $notMatched) {
-                $this->assertSame(['sparrow'], $notMatched->groupNames());
-            });
+        pattern('(?<sparrow>Foo)')->match('Bar')->offsets()->findNth(0)->orElse(Functions::pass());
     }
 
     /**
      * @test
      */
-    public function shouldThrow_offsets_findNth_OnInfussificientMatch_orElse()
+    public function shouldCall_offsets_findNth_OnInfussificientMatch_orElse()
     {
         // given
-        pattern('(?<sparrow>Foo)')->match('Foo')->offsets()->findNth(1)
-            ->orElse(function (NotMatched $notMatched) {
-                $this->assertSame(['sparrow'], $notMatched->groupNames());
-            });
+        pattern('(?<sparrow>Foo)')->match('Foo')->offsets()->findNth(1)->orElse(Functions::pass());
     }
 }

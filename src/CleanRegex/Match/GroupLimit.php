@@ -8,8 +8,6 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Factory\Worker\MatchStreamWorker;
-use TRegx\CleanRegex\Internal\Factory\Worker\ThrowInternalStreamWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFindFirst;
@@ -21,6 +19,9 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
+use TRegx\CleanRegex\Internal\Match\IntStream\GroupIntMessages;
+use TRegx\CleanRegex\Internal\Match\IntStream\GroupOffsetMessages;
+use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupOffsetStream;
@@ -181,23 +182,21 @@ class GroupLimit implements \IteratorAggregate
         }
     }
 
-    public function offsets(): FluentMatchPattern
+    public function offsets(): IntStream
     {
-        return new FluentMatchPattern(
-            new MatchGroupOffsetStream($this->base, $this->group, $this->matchAllFactory),
-            new ThrowInternalStreamWorker());
+        $upstream = new MatchGroupOffsetStream($this->base, $this->group, $this->matchAllFactory);
+        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new GroupOffsetMessages($this->group)), $this->base);
     }
 
     public function fluent(): FluentMatchPattern
     {
-        return new FluentMatchPattern($this->stream(), new MatchStreamWorker());
+        return new FluentMatchPattern($this->stream(), $this->base);
     }
 
-    public function asInt(int $base = null): FluentMatchPattern
+    public function asInt(int $base = null): IntStream
     {
-        return new FluentMatchPattern(
-            new MatchGroupIntStream($this->base, $this->group, $this->matchAllFactory, new Number\Base($base)),
-            new ThrowInternalStreamWorker());
+        $upstream = new MatchGroupIntStream($this->base, $this->group, $this->matchAllFactory, new Number\Base($base));
+        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new GroupIntMessages($this->group)), $this->base);
     }
 
     private function stream(): Upstream

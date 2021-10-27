@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\asInt\keys;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CustomException;
+use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use function pattern;
@@ -19,7 +19,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched');
+        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
 
         // when
         pattern('Foo')->match('Bar')->asInt()->keys()->first();
@@ -83,11 +83,11 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_findFirst_orThrow_WithCustomException()
     {
         // then
-        $this->expectException(CustomException::class);
-        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched');
+        $this->expectException(CustomSubjectException::class);
+        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
 
         // when
-        pattern('Foo')->match('Bar')->asInt()->keys()->findFirst(Functions::fail())->orThrow(CustomException::class);
+        pattern('Foo')->match('Bar')->asInt()->keys()->findFirst(Functions::fail())->orThrow(CustomSubjectException::class);
     }
 
     /**
@@ -96,11 +96,11 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_findNth_orThrow_WithCustomException()
     {
         // then
-        $this->expectException(CustomException::class);
+        $this->expectException(CustomSubjectException::class);
         $this->expectExceptionMessage('Expected to get the 5-nth element from fluent pattern, but the elements feed has 3 element(s)');
 
         // when
-        pattern('\d+')->match('12 13 14')->asInt()->keys()->findNth(5)->orThrow(CustomException::class);
+        pattern('\d+')->match('12 13 14')->asInt()->keys()->findNth(5)->orThrow(CustomSubjectException::class);
     }
 
     /**
@@ -126,7 +126,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched');
+        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
 
         // when
         pattern('Foo')->match('Bar')->asInt()->keys()->keys()->first();

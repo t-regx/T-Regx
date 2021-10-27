@@ -3,19 +3,19 @@ namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Factory\Worker\AsIntStreamWorker;
-use TRegx\CleanRegex\Internal\Factory\Worker\MatchStreamWorker;
-use TRegx\CleanRegex\Internal\Factory\Worker\NextStreamWorkerDecorator;
-use TRegx\CleanRegex\Internal\Factory\Worker\OffsetsWorker;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
+use TRegx\CleanRegex\Internal\Match\IntStream\MatchIntMessages;
+use TRegx\CleanRegex\Internal\Match\IntStream\MatchOffsetMessages;
+use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
+use TRegx\CleanRegex\Internal\Match\MatchPatternInterface;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream;
@@ -163,11 +163,10 @@ abstract class AbstractMatchPattern implements MatchPatternInterface
         return new GroupLimit($this->base, $this->groupAware, GroupKey::of($nameOrIndex));
     }
 
-    public function offsets(): FluentMatchPattern
+    public function offsets(): IntStream
     {
-        return new FluentMatchPattern(
-            new OffsetLimitStream($this->base),
-            new NextStreamWorkerDecorator(new MatchStreamWorker(), new OffsetsWorker($this->groupAware, $this->base)));
+        $upstream = new OffsetLimitStream($this->base);
+        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new MatchOffsetMessages()), $this->base);
     }
 
     abstract public function count(): int;
@@ -182,15 +181,13 @@ abstract class AbstractMatchPattern implements MatchPatternInterface
     public function fluent(): FluentMatchPattern
     {
         return new FluentMatchPattern(
-            new MatchStream(new StreamBase($this->base), $this->base, $this->base->getUserData(), new LazyMatchAllFactory($this->base)),
-            new MatchStreamWorker());
+            new MatchStream(new StreamBase($this->base), $this->base, $this->base->getUserData(), new LazyMatchAllFactory($this->base)), $this->base);
     }
 
-    public function asInt(int $base = null): FluentMatchPattern
+    public function asInt(int $base = null): IntStream
     {
-        return new FluentMatchPattern(
-            new MatchIntStream(new StreamBase($this->base), new Number\Base($base)),
-            new NextStreamWorkerDecorator(new MatchStreamWorker(), new AsIntStreamWorker($this->groupAware, $this->base)));
+        $upstream = new MatchIntStream(new StreamBase($this->base), new Number\Base($base), $this->base);
+        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new MatchIntMessages()), $this->base);
     }
 
     /**

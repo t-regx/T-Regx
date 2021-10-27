@@ -2,12 +2,14 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\asInt;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Message\ThrowMessage;
+use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\Details\NotMatched;
+use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
 
 /**
  * @coversNothing
@@ -17,11 +19,23 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldIgnore_asInt()
+    {
+        // when
+        $integer = pattern('\d+')->match('123')->asInt(10)->asInt(16)->first();
+
+        // then
+        $this->assertSame(123, $integer);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_first_OnUnmatchedSubject()
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get the first match as integer, but subject was not matched");
+        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
 
         // when
         pattern('Foo')->match('Bar')->asInt()->first();
@@ -34,7 +48,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get the 0-nth match as integer, but subject was not matched");
+        $this->expectExceptionMessage('Expected to get the 0-nth match as integer, but subject was not matched');
 
         // when
         pattern('Foo')->match('Bar')->asInt()->nth(0);
@@ -47,7 +61,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the subject backing the feed was not matched");
+        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
 
         // when
         pattern('Foo')->match('Bar')->asInt()->map(Functions::fail())->first();
@@ -60,7 +74,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the 0-nth element from fluent pattern, but the subject backing the feed was not matched");
+        $this->expectExceptionMessage('Expected to get the 0-nth element from fluent pattern, but the subject backing the feed was not matched');
 
         // when
         pattern('Foo')->match('Bar')->asInt()->map(Functions::fail())->nth(0);
@@ -136,36 +150,78 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_findFirst_OnUnmatchedPattern_orElse()
+    public function shouldCall_asInt_findFirst_OnUnmatchedPattern_orElse()
     {
-        // given
-        pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail())
-            ->orElse(function (NotMatched $notMatched) {
-                $this->assertSame('Bar', $notMatched->subject());
-            });
+        // when
+        pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail())->orElse(Functions::pass());
     }
 
     /**
      * @test
      */
-    public function shouldThrow_asInt_findNth_OnUnmatchedPattern_orElse()
+    public function shouldReturn_asInt_findFirst_OnUnmatchedPattern_orReturn()
     {
-        // given
-        pattern('(?<pepsi>Foo)')->match('Bar')->asInt()->findNth(0)
-            ->orElse(function (NotMatched $notMatched) {
-                $this->assertSame(['pepsi'], $notMatched->groupNames());
-            });
+        // when
+        $value = pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail())->orReturn('value');
+
+        // then
+        $this->assertSame('value', $value);
     }
 
     /**
      * @test
      */
-    public function shouldThrow_asInt_findNth_OnInfussificientMatch_orElse()
+    public function shouldCall_asInt_findFirst_OnUnmatchedPattern_mapped_orElse()
+    {
+        // when
+        pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail())->map(Functions::fail())->orElse(Functions::pass());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCall_asInt_findNth_OnUnmatchedPattern_orElse()
+    {
+        // when
+        pattern('(?<pepsi>Foo)')->match('Bar')->asInt()->findNth(0)->orElse(Functions::pass());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCall_asInt_findNth_OnInfussificientMatch_orElse()
     {
         // given
-        pattern('(?<pepsi>\d+)')->match('Foo 14')->asInt()->findNth(1)
-            ->orElse(function (NotMatched $notMatched) {
-                $this->assertSame('Foo 14', $notMatched->subject());
-            });
+        pattern('(?<pepsi>\d+)')->match('Foo 14')->asInt()->findNth(1)->orElse(Functions::pass());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupByCallback()
+    {
+        // when
+        $grouppedBy = pattern('\d+')->match('192.127.0.1')
+            ->asInt()
+            ->groupByCallback(Functions::mod('even', 'odd'))
+            ->all();
+
+        // then
+        $this->assertSame(['even' => [192, 0], 'odd' => [127, 1]], $grouppedBy);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPassThrough_first()
+    {
+        // given
+        $throwable = new StramRejectedException(new ThrowSubject(), '', new ThrowMessage());
+
+        // then
+        $this->expectException(StramRejectedException::class);
+
+        // when
+        pattern('(12)')->match('12')->asInt()->first(Functions::throws($throwable));
     }
 }

@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
 
-class FromNthMatchMessage implements NotMatchedMessage
+class FromNthMatchIntMessage implements NotMatchedMessage
 {
     /** @var GroupKey */
     private $group;
@@ -19,6 +19,6 @@ class FromNthMatchMessage implements NotMatchedMessage
 
     public function getMessage(): string
     {
-        return "Expected to get group $this->group from the $this->index-nth match, but the subject was not matched at all";
+        return "Expected to get group $this->group as integer from the $this->index-nth match, but the subject was not matched at all";
     }
 }

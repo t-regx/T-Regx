@@ -2,10 +2,10 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\_all_unmatched;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Factory\Worker\ThrowingOptionalWorker;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\EmptyStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\ThrowStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
+use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\Functions;
 use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
@@ -24,7 +24,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGet_all()
     {
         // given
-        $pattern = new FluentMatchPattern(new EmptyStream(), ThrowingOptionalWorker::none());
+        $pattern = new FluentMatchPattern(new EmptyStream(), new ThrowSubject());
 
         // when
         $all = $pattern->all();
@@ -39,7 +39,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGet_only()
     {
         // given
-        $pattern = new FluentMatchPattern(new EmptyStream(), ThrowingOptionalWorker::none());
+        $pattern = new FluentMatchPattern(new EmptyStream(), new ThrowSubject());
 
         // when
         $all = $pattern->only(2);
@@ -54,7 +54,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrow_only_ForNegativeIndex()
     {
         // given
-        $pattern = new FluentMatchPattern(new ThrowStream(), ThrowingOptionalWorker::none());
+        $pattern = new FluentMatchPattern(new ThrowStream(), new ThrowSubject());
 
         // then
         $this->expectException(\InvalidArgumentException::class);
@@ -70,7 +70,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldIgnore_forEach()
     {
         // given
-        $pattern = new FluentMatchPattern(new EmptyStream(), ThrowingOptionalWorker::none());
+        $pattern = new FluentMatchPattern(new EmptyStream(), new ThrowSubject());
 
         // when
         $pattern->forEach(Functions::fail());
@@ -85,7 +85,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldPassThrough_forEach()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['value']), ThrowingOptionalWorker::none());
+        $pattern = new FluentMatchPattern(new AllStream(['value']), new ThrowSubject());
 
         // then
         $this->expectException(UnmatchedStreamException::class);
@@ -100,7 +100,7 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGet_count()
     {
         // given
-        $pattern = new FluentMatchPattern(new EmptyStream(), ThrowingOptionalWorker::none());
+        $pattern = new FluentMatchPattern(new EmptyStream(), new ThrowSubject());
 
         // when
         $count = $pattern->count();
@@ -115,12 +115,12 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGet_getIterator()
     {
         // given
-        $pattern = new FluentMatchPattern(new EmptyStream(), ThrowingOptionalWorker::none());
+        $pattern = new FluentMatchPattern(new EmptyStream(), new ThrowSubject());
 
         // when
         $iterator = $pattern->getIterator();
 
         // then
-        $this->assertSame([], iterator_to_array($iterator));
+        $this->assertSame([], \iterator_to_array($iterator));
     }
 }

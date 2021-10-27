@@ -1,13 +1,15 @@
 <?php
 namespace Test\Fakes\CleanRegex\Internal\Message;
 
-use AssertionError;
+use Test\Utils\Fails;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
 
 class ThrowMessage implements NotMatchedMessage
 {
+    use Fails;
+
     public function getMessage(): string
     {
-        throw new AssertionError("Failed to assert that message wasn't used");
+        throw $this->fail();
     }
 }

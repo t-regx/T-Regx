@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\fluent;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CustomException;
+use Test\Utils\CustomSubjectException;
 use Test\Utils\Definitions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
@@ -22,7 +22,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFluent()
+    public function test()
     {
         // when
         $result = pattern("(?<capital>[A-Z])?[a-zA-Z']+")
@@ -90,7 +90,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the subject backing the feed was not matched");
+        $this->expectExceptionMessage("Expected to get the first match, but subject was not matched");
 
         // when
         pattern('Foo')->match('Bar')->fluent()->findFirst(Functions::fail())->orThrow();
@@ -103,7 +103,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched');
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
         pattern('Foo')->match('Bar')->fluent()->keys()->findFirst(Functions::fail())->orThrow();
@@ -120,11 +120,67 @@ class AbstractMatchPatternTest extends TestCase
                 ->match("Bar")
                 ->fluent()
                 ->findFirst(Functions::fail())
-                ->orThrow(CustomException::class);
-        } catch (CustomException $exception) {
+                ->orThrow(CustomSubjectException::class);
+        } catch (CustomSubjectException $exception) {
             // then
-            $this->assertSame('Expected to get the first element from fluent pattern, but the subject backing the feed was not matched', $exception->getMessage());
+            $this->assertSame('Expected to get the first match, but subject was not matched', $exception->getMessage());
+            $this->assertSame('Bar', $exception->subject);
         }
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFluent_filter_findFirst_orThrow_custom()
+    {
+        try {
+            // when
+            pattern('Foo')
+                ->match('Foo')
+                ->fluent()
+                ->filter(Functions::constant(false))
+                ->findFirst(Functions::fail())
+                ->orThrow(CustomSubjectException::class);
+        } catch (CustomSubjectException $exception) {
+            // then
+            $this->assertSame('Expected to get the first element from fluent pattern, but the elements feed has 0 element(s)', $exception->getMessage());
+            $this->assertSame('Foo', $exception->subject);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFluent_findFirst_orElse()
+    {
+        // when
+        pattern('Foo')->match('Bar')->fluent()->findFirst(Functions::fail())->orElse(Functions::argumentless());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFluent_findFirst_orValue()
+    {
+        // when
+        $value = pattern('Foo')->match('Bar')->fluent()->findFirst(Functions::fail())->orReturn('value');
+
+        // then
+        $this->assertSame('value', $value);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFluent_filter_findFirst_orElse()
+    {
+        // when
+        pattern('Foo')
+            ->match('Foo')
+            ->fluent()
+            ->filter(Functions::constant(false))
+            ->findFirst(Functions::fail())
+            ->orElse(Functions::argumentless());
     }
 
     /**

@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Message\GroupNotMatched\FromFirstMatchMessage;
-use TRegx\CleanRegex\Internal\Message\GroupNotMatched\FromFirstMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Message\GroupNotMatched\FromNthMatchMessage;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Message\Replace\WithUnmatchedGroupMessage;
@@ -23,11 +22,6 @@ class GroupNotMatchedException extends \Exception implements PatternException
     public static function forFirst(GroupKey $group): self
     {
         return self::exception(new FromFirstMatchMessage($group));
-    }
-
-    public static function forFirstOffset(GroupKey $group): self
-    {
-        return self::exception(new FromFirstMatchOffsetMessage($group));
     }
 
     public static function forNth(GroupKey $group, int $index): self

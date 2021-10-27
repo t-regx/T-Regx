@@ -1,10 +1,13 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
+use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
+use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Match\UserData;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
@@ -44,10 +47,19 @@ class MatchStream implements Upstream
     protected function firstValue(): Detail
     {
         return MatchDetail::create($this->subject,
-            $this->stream->firstKey(),
+            $this->tryFirstKey(),
             1,
             new GroupPolyfillDecorator(new FalseNegative($this->stream->first()), $this->allFactory, 0),
             $this->allFactory,
             $this->userData);
+    }
+
+    private function tryFirstKey(): int
+    {
+        try {
+            return $this->stream->firstKey();
+        } catch (UnmatchedStreamException $exception) {
+            throw new StramRejectedException($this->subject, SubjectNotMatchedException::class, new FirstMatchMessage());
+        }
     }
 }

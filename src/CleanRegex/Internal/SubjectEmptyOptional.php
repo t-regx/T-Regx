@@ -12,20 +12,23 @@ class SubjectEmptyOptional implements Optional
 {
     use EmptyOptional;
 
-    /** @var NotMatched */
-    private $notMatched;
+    /** @var GroupAware */
+    private $groupAware;
+    /** @var Subject */
+    private $subject;
     /** @var Rejection */
     private $rejection;
 
     public function __construct(GroupAware $groupAware, Subject $subject, NotMatchedMessage $message)
     {
-        $this->notMatched = new NotMatched($groupAware, $subject);
+        $this->groupAware = $groupAware;
+        $this->subject = $subject;
         $this->rejection = new Rejection($subject, SubjectNotMatchedException::class, $message);
     }
 
     public function orElse(callable $substituteProducer)
     {
-        return $substituteProducer($this->notMatched);
+        return $substituteProducer(new NotMatched($this->groupAware, $this->subject));
     }
 
     public function orThrow(string $exceptionClassName = null): void

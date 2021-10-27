@@ -16,7 +16,7 @@ class ClassName
         $this->className = $className;
     }
 
-    public function throwable(NotMatchedMessage $message, ?Subject $subject): Throwable
+    public function throwable(NotMatchedMessage $message, Subject $subject): Throwable
     {
         $instance = $this->instance($message, $subject);
         if ($instance instanceof Throwable) {
@@ -25,7 +25,7 @@ class ClassName
         throw ClassExpectedException::notThrowable($this->className);
     }
 
-    private function instance(NotMatchedMessage $message, ?Subject $subject)
+    private function instance(NotMatchedMessage $message, Subject $subject)
     {
         if (\class_exists($this->className)) {
             return $this->classInstance($message, $subject);
@@ -33,7 +33,7 @@ class ClassName
         throw $this->notClassException();
     }
 
-    private function classInstance(NotMatchedMessage $message, ?Subject $subject)
+    private function classInstance(NotMatchedMessage $message, Subject $subject)
     {
         foreach ($this->signatures($message, $subject) as $signature) {
             try {
@@ -53,13 +53,10 @@ class ClassName
         throw new NoSuitableConstructorException($this->className);
     }
 
-    private function signatures(NotMatchedMessage $message, ?Subject $subject): array
+    private function signatures(NotMatchedMessage $message, Subject $subject): array
     {
         return [
             function () use ($message, $subject) {
-                if ($subject === null) {
-                    return new $this->className($message->getMessage());
-                }
                 return new $this->className($message->getMessage(), $subject->getSubject());
             },
             function () use ($message) {

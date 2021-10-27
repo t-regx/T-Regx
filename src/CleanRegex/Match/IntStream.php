@@ -1,21 +1,20 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
+use ArrayIterator;
+use InvalidArgumentException;
+use Iterator;
+use IteratorAggregate;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
-use TRegx\CleanRegex\Internal\Match\MatchPatternInterface;
+use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
-use TRegx\CleanRegex\Internal\Match\Rejection;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
-use TRegx\CleanRegex\Internal\Match\Stream\BetterEmptyOptional;
-use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\FilterStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
-use TRegx\CleanRegex\Internal\Match\Stream\IntegerStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
@@ -23,24 +22,28 @@ use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\UniqueStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Match\Stream\ValuesStream;
-use TRegx\CleanRegex\Internal\Message\Stream\FromFirstStreamMessage;
-use TRegx\CleanRegex\Internal\Message\Stream\FromNthStreamMessage;
-use TRegx\CleanRegex\Internal\Message\Stream\SubjectNotMatched;
-use TRegx\CleanRegex\Internal\Number;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 
-class FluentMatchPattern implements MatchPatternInterface
+class IntStream implements IteratorAggregate
 {
     /** @var Upstream */
-    private $stream;
+    protected $stream;
+    /** @var NthIntStreamElement */
+    protected $nth;
     /** @var Subject */
     private $subject;
 
-    public function __construct(Upstream $stream, Subject $subject)
+    public function __construct(Upstream $stream, NthIntStreamElement $nth, Subject $subject)
     {
         $this->stream = $stream;
+        $this->nth = $nth;
         $this->subject = $subject;
+    }
+
+    public function asInt(): IntStream
+    {
+        return $this;
     }
 
     public function all(): array
@@ -55,36 +58,34 @@ class FluentMatchPattern implements MatchPatternInterface
     public function only(int $limit): array
     {
         if ($limit < 0) {
-            throw new \InvalidArgumentException("Negative limit: $limit");
+            throw new InvalidArgumentException("Negative limit: $limit");
         }
         return \array_slice($this->all(), 0, $limit);
     }
 
-    /**
-     * @param callable|null $consumer
-     * @return mixed
-     */
     public function first(callable $consumer = null)
     {
-        return $this->findFirst($consumer ?? static function ($argument) {
-                return $argument;
-            })
-            ->orThrow();
+        if ($consumer === null) {
+            return $this->firstOptional()->orThrow();
+        }
+        return $this->firstOptional()->map($consumer)->orThrow();
     }
 
     public function findFirst(callable $consumer): Optional
     {
-        try {
-            $firstElement = $this->stream->first();
-        } catch (StramRejectedException $exception) {
-            return new RejectedOptional(new Rejection($this->subject, NoSuchElementFluentException::class, $exception->notMatchedMessage()));
-        } catch (EmptyStreamException $exception) {
-            return new RejectedOptional(new Rejection($this->subject, NoSuchElementFluentException::class, new FromFirstStreamMessage()));
-        }
-        return new PresentOptional($consumer($firstElement));
+        return $this->firstOptional()->map($consumer);
     }
 
-    public function nth(int $index)
+    private function firstOptional(): Optional
+    {
+        try {
+            return new PresentOptional($this->stream->first());
+        } catch (StramRejectedException $exception) {
+            return new RejectedOptional($exception->rejection());
+        }
+    }
+
+    public function nth(int $index): int
     {
         return $this->findNth($index)->orThrow();
     }
@@ -92,17 +93,9 @@ class FluentMatchPattern implements MatchPatternInterface
     public function findNth(int $index): Optional
     {
         if ($index < 0) {
-            throw new \InvalidArgumentException("Negative index: $index");
+            throw new InvalidArgumentException("Negative index: $index");
         }
-        try {
-            $elements = \array_values($this->stream->all());
-        } catch (UnmatchedStreamException $exception) {
-            return new RejectedOptional(new Rejection($this->subject, NoSuchElementFluentException::class, new SubjectNotMatched\FromNthStreamMessage($index)));
-        }
-        if (!\array_key_exists($index, $elements)) {
-            return new RejectedOptional(new Rejection($this->subject, NoSuchElementFluentException::class, new FromNthStreamMessage($index, \count($elements))));
-        }
-        return new PresentOptional($elements[$index]);
+        return $this->nth->optional($index);
     }
 
     public function forEach(callable $consumer): void
@@ -114,13 +107,17 @@ class FluentMatchPattern implements MatchPatternInterface
 
     public function count(): int
     {
-        return \count($this->all());
+        try {
+            return \count($this->stream->all());
+        } catch (UnmatchedStreamException $exception) {
+            return 0;
+        }
     }
 
-    public function getIterator(): \Iterator
+    public function getIterator(): Iterator
     {
         try {
-            return new \ArrayIterator($this->stream->all());
+            return new ArrayIterator($this->stream->all());
         } catch (UnmatchedStreamException $exception) {
             return new \EmptyIterator();
         }
@@ -159,11 +156,6 @@ class FluentMatchPattern implements MatchPatternInterface
     public function keys(): FluentMatchPattern
     {
         return $this->next(new KeyStream($this->stream));
-    }
-
-    public function asInt(int $base = null): FluentMatchPattern
-    {
-        return $this->next(new IntegerStream($this->stream, new Number\Base($base)));
     }
 
     public function groupByCallback(callable $groupMapper): FluentMatchPattern

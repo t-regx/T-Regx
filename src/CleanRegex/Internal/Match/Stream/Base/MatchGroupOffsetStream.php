@@ -8,7 +8,10 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
+use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
+use TRegx\CleanRegex\Internal\Message\GroupNotMatched;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 
@@ -33,10 +36,13 @@ class MatchGroupOffsetStream implements Upstream
     protected function entries(): array
     {
         $matches = $this->base->matchAllOffsets();
-        if ($matches->hasGroup($this->group->nameOrIndex())) {
+        if (!$matches->hasGroup($this->group->nameOrIndex())) {
+            throw new NonexistentGroupException($this->group);
+        }
+        if ($matches->matched()) {
             return \array_map([$this, 'readOffset'], $matches->getGroupTextAndOffsetAll($this->group->nameOrIndex()));
         }
-        throw new NonexistentGroupException($this->group);
+        throw new UnmatchedStreamException();
     }
 
     private function readOffset($tuple): ?int
@@ -56,10 +62,10 @@ class MatchGroupOffsetStream implements Upstream
             throw new NonexistentGroupException($this->group);
         }
         if (!$match->matched()) {
-            throw SubjectNotMatchedException::forFirstGroupOffset($this->base, $this->group);
+            throw new StramRejectedException($this->base, SubjectNotMatchedException::class, new FromFirstMatchOffsetMessage($this->group));
         }
         if (!$polyfill->isGroupMatched($this->group->nameOrIndex())) {
-            throw GroupNotMatchedException::forFirstOffset($this->group);
+            throw new StramRejectedException($this->base, GroupNotMatchedException::class, new GroupNotMatched\FromFirstMatchOffsetMessage($this->group));
         }
         return $match->getGroupByteOffset($this->group->nameOrIndex());
     }

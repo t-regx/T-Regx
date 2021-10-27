@@ -1,8 +1,14 @@
 <?php
-namespace TRegx\CleanRegex\Match;
+namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
+use TRegx\CleanRegex\Match\GroupByPattern;
+use TRegx\CleanRegex\Match\Optional;
 
+/**
+ * @deprecated Remove me right away, and add StreamLike,
+ * but before release, and before, rename FluentMatch to Stream
+ */
 interface MatchPatternInterface extends \Countable, \IteratorAggregate
 {
     public function all(): array;
@@ -40,7 +46,7 @@ interface MatchPatternInterface extends \Countable, \IteratorAggregate
      */
     public function filter(callable $predicate);
 
-    public function asInt(int $base = null): FluentMatchPattern;
+    public function asInt(int $base = null);
 
     /**
      * @param callable $mapper

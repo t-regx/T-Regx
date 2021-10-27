@@ -175,4 +175,18 @@ class Functions
             return $object->$property();
         };
     }
+
+    public static function argumentless(): callable
+    {
+        return function (...$args): void {
+            Assert::assertEmpty($args, 'Failed to assert that function received 0 arguments');
+        };
+    }
+
+    public static function mod(string $even, string $odd): callable
+    {
+        return function (int $integer) use ($even, $odd): string {
+            return $integer % 2 === 0 ? $even : $odd;
+        };
+    }
 }
