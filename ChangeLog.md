@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.17.0
+---------------
+
 * Bug fixes
     * Fixed a bug when returning non-string value from `orElseCalling()` didn't throw `InvalidReturnValueException`
 * Breaking changes
