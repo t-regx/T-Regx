@@ -188,9 +188,9 @@ class GroupLimit implements \IteratorAggregate
         return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new GroupOffsetMessages($this->group)), $this->base);
     }
 
-    public function fluent(): FluentMatchPattern
+    public function fluent(): Stream
     {
-        return new FluentMatchPattern($this->stream(), $this->base);
+        return new Stream($this->upstream(), $this->base);
     }
 
     public function asInt(int $base = null): IntStream
@@ -199,7 +199,7 @@ class GroupLimit implements \IteratorAggregate
         return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new GroupIntMessages($this->group)), $this->base);
     }
 
-    private function stream(): Upstream
+    private function upstream(): Upstream
     {
         return new MatchGroupStream($this->base, $this->groupAware, $this->group, $this->matchAllFactory);
     }
@@ -207,7 +207,7 @@ class GroupLimit implements \IteratorAggregate
     private function details(): array
     {
         try {
-            return $this->stream()->all();
+            return $this->upstream()->all();
         } catch (UnmatchedStreamException $exception) {
             return [];
         }

@@ -9,24 +9,24 @@ class FilterStream implements Upstream
     use ListStream;
 
     /** @var Upstream */
-    private $stream;
+    private $upstream;
     /** @var MethodPredicate */
     private $predicate;
 
-    public function __construct(Upstream $stream, Predicate $predicate)
+    public function __construct(Upstream $upstream, Predicate $predicate)
     {
-        $this->stream = $stream;
+        $this->upstream = $upstream;
         $this->predicate = $predicate;
     }
 
     protected function entries(): array
     {
-        return \array_filter($this->stream->all(), [$this->predicate, 'test']);
+        return \array_filter($this->upstream->all(), [$this->predicate, 'test']);
     }
 
     protected function firstValue()
     {
-        $first = $this->stream->first();
+        $first = $this->upstream->first();
         if ($this->predicate->test($first)) {
             return $first;
         }
@@ -40,6 +40,6 @@ class FilterStream implements Upstream
 
     private function shifted(): array
     {
-        return \array_slice($this->stream->all(), 1);
+        return \array_slice($this->upstream->all(), 1);
     }
 }

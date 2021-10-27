@@ -8,22 +8,22 @@ use TRegx\CleanRegex\Internal\Nested;
 class FlatMapStream implements Upstream
 {
     /** @var Upstream */
-    private $stream;
+    private $upstream;
     /** @var FlatMapStrategy */
     private $strategy;
     /** @var FlatFunction */
     private $function;
 
-    public function __construct(ValueStream $stream, FlatMapStrategy $strategy, FlatFunction $function)
+    public function __construct(Upstream $upstream, FlatMapStrategy $strategy, FlatFunction $function)
     {
-        $this->stream = $stream;
+        $this->upstream = $upstream;
         $this->strategy = $strategy;
         $this->function = $function;
     }
 
     public function all(): array
     {
-        return $this->strategy->flatten(new Nested(\array_map([$this->function, 'apply'], $this->stream->all())));
+        return $this->strategy->flatten(new Nested(\array_map([$this->function, 'apply'], $this->upstream->all())));
     }
 
     public function first()
@@ -48,7 +48,7 @@ class FlatMapStream implements Upstream
 
     private function flatMapTryFirstOrAll(): array
     {
-        $mapped = $this->function->apply($this->stream->first());
+        $mapped = $this->function->apply($this->upstream->first());
         if (empty($mapped)) {
             return $this->all();
         }

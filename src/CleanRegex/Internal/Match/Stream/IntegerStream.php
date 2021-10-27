@@ -16,24 +16,24 @@ class IntegerStream implements Upstream
     use PreservesKey;
 
     /** @var Upstream */
-    private $stream;
+    private $upstream;
     /** @var Base */
     private $base;
 
-    public function __construct(Upstream $stream, Base $base)
+    public function __construct(Upstream $upstream, Base $base)
     {
-        $this->stream = $stream;
+        $this->upstream = $upstream;
         $this->base = $base;
     }
 
     public function all(): array
     {
-        return \array_map([$this, 'parse'], $this->stream->all());
+        return \array_map([$this, 'parse'], $this->upstream->all());
     }
 
     public function first(): int
     {
-        return $this->parse($this->stream->first());
+        return $this->parse($this->upstream->first());
     }
 
     private function parse($value): int

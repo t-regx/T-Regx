@@ -6,23 +6,23 @@ class MapStream implements Upstream
     use PreservesKey;
 
     /** @var Upstream */
-    private $stream;
+    private $upstream;
     /** @var callable */
     private $mapFunction;
 
-    public function __construct(Upstream $stream, callable $mapFunction)
+    public function __construct(Upstream $upstream, callable $mapFunction)
     {
-        $this->stream = $stream;
+        $this->upstream = $upstream;
         $this->mapFunction = $mapFunction;
     }
 
     public function all(): array
     {
-        return \array_map($this->mapFunction, $this->stream->all());
+        return \array_map($this->mapFunction, $this->upstream->all());
     }
 
     public function first()
     {
-        return ($this->mapFunction)($this->stream->first());
+        return ($this->mapFunction)($this->upstream->first());
     }
 }

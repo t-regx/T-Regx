@@ -177,9 +177,9 @@ abstract class AbstractMatchPattern implements \Countable, \IteratorAggregate
 
     public abstract function remaining(callable $predicate): RemainingMatchPattern;
 
-    public function fluent(): FluentMatchPattern
+    public function fluent(): Stream
     {
-        return new FluentMatchPattern(
+        return new Stream(
             new MatchStream(new StreamBase($this->base), $this->base, $this->base->getUserData(), new LazyMatchAllFactory($this->base)), $this->base);
     }
 

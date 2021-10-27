@@ -6,20 +6,20 @@ use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 class GroupByCallbackStream implements Upstream
 {
     /** @var Upstream */
-    private $stream;
+    private $upstream;
     /** @var GroupByFunction */
     private $function;
 
-    public function __construct(ValueStream $stream, GroupByFunction $function)
+    public function __construct(Upstream $upstream, GroupByFunction $function)
     {
-        $this->stream = $stream;
+        $this->upstream = $upstream;
         $this->function = $function;
     }
 
     public function all(): array
     {
         $map = [];
-        foreach ($this->stream->all() as $element) {
+        foreach ($this->upstream->all() as $element) {
             $map[$this->function->apply($element)][] = $element;
         }
         return $map;
@@ -27,13 +27,13 @@ class GroupByCallbackStream implements Upstream
 
     public function first()
     {
-        $value = $this->stream->first();
+        $value = $this->upstream->first();
         $this->function->apply($value);
         return $value;
     }
 
     public function firstKey()
     {
-        return $this->function->apply($this->stream->first());
+        return $this->function->apply($this->upstream->first());
     }
 }

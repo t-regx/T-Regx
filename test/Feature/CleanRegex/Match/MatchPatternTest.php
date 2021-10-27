@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
-use TRegx\CleanRegex\Match\FluentMatchPattern;
+use TRegx\CleanRegex\Match\Stream;
 use function pattern;
 
 /**
@@ -538,7 +538,7 @@ class MatchPatternTest extends TestCase
         $this->assertSame('cm', $result);
     }
 
-    private function fluentGroupByCallback(string $subject): FluentMatchPattern
+    private function fluentGroupByCallback(string $subject): Stream
     {
         return pattern('(?<value>\d+)(?<unit>cm|mm)')
             ->match($subject)

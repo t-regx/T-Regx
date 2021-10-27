@@ -28,23 +28,23 @@ use TRegx\CleanRegex\Internal\Number;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 
-class FluentMatchPattern implements \Countable, \IteratorAggregate
+class Stream implements \Countable, \IteratorAggregate
 {
     /** @var Upstream */
-    private $stream;
+    private $upstream;
     /** @var Subject */
     private $subject;
 
-    public function __construct(Upstream $stream, Subject $subject)
+    public function __construct(Upstream $upstream, Subject $subject)
     {
-        $this->stream = $stream;
+        $this->upstream = $upstream;
         $this->subject = $subject;
     }
 
     public function all(): array
     {
         try {
-            return $this->stream->all();
+            return $this->upstream->all();
         } catch (UnmatchedStreamException $exception) {
             return [];
         }
@@ -73,7 +73,7 @@ class FluentMatchPattern implements \Countable, \IteratorAggregate
     public function findFirst(callable $consumer): Optional
     {
         try {
-            $firstElement = $this->stream->first();
+            $firstElement = $this->upstream->first();
         } catch (StramRejectedException $exception) {
             return new RejectedOptional(new Rejection($this->subject, NoSuchElementFluentException::class, $exception->notMatchedMessage()));
         } catch (EmptyStreamException $exception) {
@@ -93,7 +93,7 @@ class FluentMatchPattern implements \Countable, \IteratorAggregate
             throw new \InvalidArgumentException("Negative index: $index");
         }
         try {
-            $elements = \array_values($this->stream->all());
+            $elements = \array_values($this->upstream->all());
         } catch (UnmatchedStreamException $exception) {
             return new RejectedOptional(new Rejection($this->subject, NoSuchElementFluentException::class, new SubjectNotMatched\FromNthStreamMessage($index)));
         }
@@ -118,59 +118,59 @@ class FluentMatchPattern implements \Countable, \IteratorAggregate
     public function getIterator(): \Iterator
     {
         try {
-            return new \ArrayIterator($this->stream->all());
+            return new \ArrayIterator($this->upstream->all());
         } catch (UnmatchedStreamException $exception) {
             return new \EmptyIterator();
         }
     }
 
-    public function map(callable $mapper): FluentMatchPattern
+    public function map(callable $mapper): Stream
     {
-        return $this->next(new MapStream($this->stream, $mapper));
+        return $this->next(new MapStream($this->upstream, $mapper));
     }
 
-    public function flatMap(callable $mapper): FluentMatchPattern
+    public function flatMap(callable $mapper): Stream
     {
-        return $this->next(new FlatMapStream($this->stream, new ArrayMergeStrategy(), new FlatFunction($mapper, 'flatMap')));
+        return $this->next(new FlatMapStream($this->upstream, new ArrayMergeStrategy(), new FlatFunction($mapper, 'flatMap')));
     }
 
-    public function flatMapAssoc(callable $mapper): FluentMatchPattern
+    public function flatMapAssoc(callable $mapper): Stream
     {
-        return $this->next(new FlatMapStream($this->stream, new AssignStrategy(), new FlatFunction($mapper, 'flatMapAssoc')));
+        return $this->next(new FlatMapStream($this->upstream, new AssignStrategy(), new FlatFunction($mapper, 'flatMapAssoc')));
     }
 
-    public function distinct(): FluentMatchPattern
+    public function distinct(): Stream
     {
-        return $this->next(new UniqueStream($this->stream));
+        return $this->next(new UniqueStream($this->upstream));
     }
 
-    public function filter(callable $predicate): FluentMatchPattern
+    public function filter(callable $predicate): Stream
     {
-        return $this->next(new FilterStream($this->stream, new Predicate($predicate, 'filter')));
+        return $this->next(new FilterStream($this->upstream, new Predicate($predicate, 'filter')));
     }
 
-    public function values(): FluentMatchPattern
+    public function values(): Stream
     {
-        return $this->next(new ValuesStream($this->stream));
+        return $this->next(new ValuesStream($this->upstream));
     }
 
-    public function keys(): FluentMatchPattern
+    public function keys(): Stream
     {
-        return $this->next(new KeyStream($this->stream));
+        return $this->next(new KeyStream($this->upstream));
     }
 
-    public function asInt(int $base = null): FluentMatchPattern
+    public function asInt(int $base = null): Stream
     {
-        return $this->next(new IntegerStream($this->stream, new Number\Base($base)));
+        return $this->next(new IntegerStream($this->upstream, new Number\Base($base)));
     }
 
-    public function groupByCallback(callable $groupMapper): FluentMatchPattern
+    public function groupByCallback(callable $groupMapper): Stream
     {
-        return $this->next(new GroupByCallbackStream($this->stream, new GroupByFunction('groupByCallback', $groupMapper)));
+        return $this->next(new GroupByCallbackStream($this->upstream, new GroupByFunction('groupByCallback', $groupMapper)));
     }
 
-    private function next(Upstream $stream): FluentMatchPattern
+    private function next(Upstream $upstream): Stream
     {
-        return new FluentMatchPattern($stream, $this->subject);
+        return new Stream($upstream, $this->subject);
     }
 }

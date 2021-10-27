@@ -9,12 +9,12 @@ use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\Functions;
 use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
-use TRegx\CleanRegex\Match\FluentMatchPattern;
+use TRegx\CleanRegex\Match\Stream;
 
 /**
- * @covers \TRegx\CleanRegex\Match\FluentMatchPattern
+ * @covers \TRegx\CleanRegex\Match\Stream
  */
-class FluentMatchPatternTest extends TestCase
+class StreamTest extends TestCase
 {
     use TestCasePasses;
 
@@ -24,10 +24,10 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGet_all()
     {
         // given
-        $pattern = new FluentMatchPattern(new EmptyStream(), new ThrowSubject());
+        $stream = new Stream(new EmptyStream(), new ThrowSubject());
 
         // when
-        $all = $pattern->all();
+        $all = $stream->all();
 
         // then
         $this->assertSame([], $all);
@@ -39,10 +39,10 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGet_only()
     {
         // given
-        $pattern = new FluentMatchPattern(new EmptyStream(), new ThrowSubject());
+        $stream = new Stream(new EmptyStream(), new ThrowSubject());
 
         // when
-        $all = $pattern->only(2);
+        $all = $stream->only(2);
 
         // then
         $this->assertSame([], $all);
@@ -54,14 +54,14 @@ class FluentMatchPatternTest extends TestCase
     public function shouldThrow_only_ForNegativeIndex()
     {
         // given
-        $pattern = new FluentMatchPattern(new ThrowStream(), new ThrowSubject());
+        $stream = new Stream(new ThrowStream(), new ThrowSubject());
 
         // then
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Negative limit: -2');
 
         // when
-        $pattern->only(-2);
+        $stream->only(-2);
     }
 
     /**
@@ -70,10 +70,10 @@ class FluentMatchPatternTest extends TestCase
     public function shouldIgnore_forEach()
     {
         // given
-        $pattern = new FluentMatchPattern(new EmptyStream(), new ThrowSubject());
+        $stream = new Stream(new EmptyStream(), new ThrowSubject());
 
         // when
-        $pattern->forEach(Functions::fail());
+        $stream->forEach(Functions::fail());
 
         // then
         $this->pass();
@@ -85,13 +85,13 @@ class FluentMatchPatternTest extends TestCase
     public function shouldPassThrough_forEach()
     {
         // given
-        $pattern = new FluentMatchPattern(new AllStream(['value']), new ThrowSubject());
+        $stream = new Stream(new AllStream(['value']), new ThrowSubject());
 
         // then
         $this->expectException(UnmatchedStreamException::class);
 
         // when
-        $pattern->forEach(Functions::throws(new UnmatchedStreamException()));
+        $stream->forEach(Functions::throws(new UnmatchedStreamException()));
     }
 
     /**
@@ -100,10 +100,10 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGet_count()
     {
         // given
-        $pattern = new FluentMatchPattern(new EmptyStream(), new ThrowSubject());
+        $stream = new Stream(new EmptyStream(), new ThrowSubject());
 
         // when
-        $count = $pattern->count();
+        $count = $stream->count();
 
         // then
         $this->assertSame(0, $count);
@@ -115,10 +115,10 @@ class FluentMatchPatternTest extends TestCase
     public function shouldGet_getIterator()
     {
         // given
-        $pattern = new FluentMatchPattern(new EmptyStream(), new ThrowSubject());
+        $stream = new Stream(new EmptyStream(), new ThrowSubject());
 
         // when
-        $iterator = $pattern->getIterator();
+        $iterator = $stream->getIterator();
 
         // then
         $this->assertSame([], \iterator_to_array($iterator));

@@ -1,7 +1,6 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstKeyStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstStream;
@@ -10,7 +9,6 @@ use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
-use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\MapStream
@@ -93,14 +91,5 @@ class MapStreamTest extends TestCase
 
         // when
         $stream->first();
-    }
-
-    private function mock(string $methodName, string $setter, $value): Upstream
-    {
-        /** @var Upstream|MockObject $stream */
-        $stream = $this->createMock(Upstream::class);
-        $stream->expects($this->once())->method($methodName)->$setter($value);
-        $stream->expects($this->never())->method($this->logicalNot($this->matches($methodName)));
-        return $stream;
     }
 }

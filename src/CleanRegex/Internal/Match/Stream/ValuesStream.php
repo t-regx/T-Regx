@@ -6,20 +6,20 @@ class ValuesStream implements Upstream
     use PreservesKey;
 
     /** @var Upstream */
-    private $stream;
+    private $upstream;
 
-    public function __construct(Upstream $stream)
+    public function __construct(Upstream $upstream)
     {
-        $this->stream = $stream;
+        $this->upstream = $upstream;
     }
 
     public function all(): array
     {
-        return \array_values($this->stream->all());
+        return \array_values($this->upstream->all());
     }
 
     public function first()
     {
-        return $this->stream->first();
+        return $this->upstream->first();
     }
 }
