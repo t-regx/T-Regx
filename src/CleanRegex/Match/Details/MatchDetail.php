@@ -2,8 +2,6 @@
 namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
@@ -14,6 +12,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
+use TRegx\CleanRegex\Internal\Match\Details\NumericDetail;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -22,9 +21,6 @@ use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
 use TRegx\CleanRegex\Internal\Model\Match\UsedInCompositeGroups;
 use TRegx\CleanRegex\Internal\Number\Base;
-use TRegx\CleanRegex\Internal\Number\NumberFormatException;
-use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
-use TRegx\CleanRegex\Internal\Number\StringNumber;
 use TRegx\CleanRegex\Internal\Offset\SubjectCoordinates;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\Group;
@@ -61,6 +57,8 @@ class MatchDetail implements Detail
     private $groupNames;
     /** @var DuplicateName */
     private $duplicateName;
+    /** @var NumericDetail */
+    private $numericDetail;
 
     private function __construct(
         Subject               $subject,
@@ -91,6 +89,7 @@ class MatchDetail implements Detail
         $this->coordinates = new SubjectCoordinates($matchEntry, $subject);
         $this->groupNames = new GroupNames($groupAware);
         $this->duplicateName = new DuplicateName($groupAware, $usedForGroup, $matchEntry, $subject, $strategy, $allFactory, $signatures);
+        $this->numericDetail = new NumericDetail($matchEntry);
     }
 
     public static function create(Subject         $subject, int $index, int $limit,
@@ -134,26 +133,12 @@ class MatchDetail implements Detail
 
     public function toInt(int $base = null): int
     {
-        $text = $this->entry->text();
-        $number = new StringNumber($text);
-        try {
-            return $number->asInt(new Base($base));
-        } catch (NumberFormatException $exception) {
-            throw IntegerFormatException::forMatch($text, new Base($base));
-        } catch (NumberOverflowException $exception) {
-            throw IntegerOverflowException::forMatch($text, new Base($base));
-        }
+        return $this->numericDetail->asInteger(new Base($base));
     }
 
     public function isInt(int $base = null): bool
     {
-        $number = new StringNumber($this->entry->text());
-        try {
-            $number->asInt(new Base($base));
-        } catch (NumberFormatException | NumberOverflowException $exception) {
-            return false;
-        }
-        return true;
+        return $this->numericDetail->isInteger(new Base($base));
     }
 
     public function get($nameOrIndex): string
