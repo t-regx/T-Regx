@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
+use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
@@ -142,7 +142,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_group_stream_keys_first_OnUnmatchedSubject()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get group #0 from the first match, but subject was not matched at all');
 
         // when
@@ -183,7 +183,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_first(): void
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get group #0 from the first match, but subject was not matched at all');
 
         // when

@@ -8,7 +8,7 @@ use Test\Utils\Definitions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
+use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -92,7 +92,7 @@ class AbstractMatchPatternTest extends TestCase
     public function should_findFirst_orThrow()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage("Expected to get the first match, but subject was not matched");
 
         // when
@@ -105,7 +105,7 @@ class AbstractMatchPatternTest extends TestCase
     public function should_keys_findFirst_orThrow()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when

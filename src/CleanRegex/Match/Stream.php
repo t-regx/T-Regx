@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
+use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
@@ -75,9 +75,9 @@ class Stream implements \Countable, \IteratorAggregate
         try {
             $firstElement = $this->upstream->first();
         } catch (StramRejectedException $exception) {
-            return new RejectedOptional(new Rejection($this->subject, NoSuchElementFluentException::class, $exception->notMatchedMessage()));
+            return new RejectedOptional(new Rejection($this->subject, NoSuchStreamElementException::class, $exception->notMatchedMessage()));
         } catch (EmptyStreamException $exception) {
-            return new RejectedOptional(new Rejection($this->subject, NoSuchElementFluentException::class, new FromFirstStreamMessage()));
+            return new RejectedOptional(new Rejection($this->subject, NoSuchStreamElementException::class, new FromFirstStreamMessage()));
         }
         return new PresentOptional($consumer($firstElement));
     }
@@ -95,10 +95,10 @@ class Stream implements \Countable, \IteratorAggregate
         try {
             $elements = \array_values($this->upstream->all());
         } catch (UnmatchedStreamException $exception) {
-            return new RejectedOptional(new Rejection($this->subject, NoSuchElementFluentException::class, new SubjectNotMatched\FromNthStreamMessage($index)));
+            return new RejectedOptional(new Rejection($this->subject, NoSuchStreamElementException::class, new SubjectNotMatched\FromNthStreamMessage($index)));
         }
         if (!\array_key_exists($index, $elements)) {
-            return new RejectedOptional(new Rejection($this->subject, NoSuchElementFluentException::class, new FromNthStreamMessage($index, \count($elements))));
+            return new RejectedOptional(new Rejection($this->subject, NoSuchStreamElementException::class, new FromNthStreamMessage($index, \count($elements))));
         }
         return new PresentOptional($elements[$index]);
     }

@@ -7,6 +7,7 @@ Incoming
 * Breaking changes
     * Renamed `FluentMatchPattern` to `Stream`, similar to Java 8 streams
     * Renamed `fluent()` to `stream()`, similar to Java 8 streams
+    * Renamed `NoSuchElementFluentException` to `NoSuchStreamElementException`
 
 Added in 0.16.0
 ---------------

@@ -4,7 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\asInt\keys;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
+use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use function pattern;
 
 /**
@@ -18,7 +18,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_first_OnUnmatchedSubject()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
 
         // when
@@ -31,7 +31,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_nth_OnUnmatchedSubject()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the 0-nth stream element, but the subject backing the stream was not matched');
 
         // when
@@ -44,7 +44,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_filter_first()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
 
         // when
@@ -57,7 +57,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_filter_nth()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage("Expected to get the 2-nth stream element, but the stream has 0 element(s)");
 
         // when
@@ -70,7 +70,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_nth()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage("Expected to get the 2-nth stream element, but the stream has 2 element(s)");
 
         // when
@@ -125,7 +125,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_keys_keys_first_OnUnmatchedSubject()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
 
         // when

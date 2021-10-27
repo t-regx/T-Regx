@@ -7,8 +7,8 @@ use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
+use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 
 /**
@@ -43,7 +43,7 @@ class MatchGroupOffsetStreamTest extends TestCase
         $optional = pattern('(Foo)')->match('Bar')->group(1)->offsets()->keys()->findFirst(Functions::fail());
 
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get group #1 offset from the first match, but subject was not matched at all');
 
         // when
@@ -161,7 +161,7 @@ class MatchGroupOffsetStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowEmptyFluentException()
+    public function shouldThrow_forEmptyStream()
     {
         // given
         $optional = pattern('Foo')
@@ -174,7 +174,7 @@ class MatchGroupOffsetStreamTest extends TestCase
             ->findFirst(Functions::fail());
 
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get group #0 offset from the first match, but subject was not matched at all');
 
         // when
@@ -190,7 +190,7 @@ class MatchGroupOffsetStreamTest extends TestCase
         $optional = pattern('(Foo)?')->match('')->group(1)->offsets()->keys()->findFirst(Functions::identity());
 
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage("Expected to get group #1 offset from the first match, but the group was not matched");
 
         // when

@@ -10,8 +10,8 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
+use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 
 /**
@@ -97,7 +97,7 @@ class MatchGroupIntStreamTest extends TestCase
     public function shouldThrow_first_keys_forUnmatchedSubject()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage("Expected to get group #1 as integer from the first match, but subject was not matched at all");
 
         // when
@@ -304,7 +304,7 @@ class MatchGroupIntStreamTest extends TestCase
     public function shouldThrow_first_keys_forUnmatchedGroup()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get group #1 as integer from the first match, but the group was not matched');
 
         // when

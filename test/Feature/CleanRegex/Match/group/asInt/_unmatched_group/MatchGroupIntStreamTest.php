@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
+use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 
 /**
  * @coversNothing
@@ -55,7 +55,7 @@ class MatchGroupIntStreamTest extends TestCase
         $optional = pattern('#(Foo)?')->match('#')->group(1)->asInt()->distinct()->findFirst(Functions::fail());
 
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get group #1 as integer from the first match, but the group was not matched');
 
         // when

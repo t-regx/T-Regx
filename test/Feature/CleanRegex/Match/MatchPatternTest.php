@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
+use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -424,7 +424,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_asInt_filter_first()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
 
         // when
@@ -437,7 +437,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_asInt_filter_first_OnUnmatchedSubject()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
 
         // when
@@ -450,7 +450,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_stream_filter_first_OnUnmatchedSubject()
     {
         // then
-        $this->expectException(NoSuchElementFluentException::class);
+        $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
