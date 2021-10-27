@@ -18,9 +18,7 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(er|ab|ay|ey)')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->first()
-            ->counting(function (int $count) {
-                $this->assertSame(1, $count);
-            })
+            ->counting(Functions::assertSame(1))
             ->with('$1');
     }
 
@@ -33,9 +31,7 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(er|ab|ay|ey)')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->all()
-            ->counting(function (int $count) {
-                $this->assertSame(4, $count);
-            })
+            ->counting(Functions::assertSame(4))
             ->with('$1');
     }
 
@@ -48,9 +44,7 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(er|ab|ay|ey)')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->all()
-            ->counting(function (int $count) {
-                $this->assertSame(4, $count);
-            })
+            ->counting(Functions::assertSame(4))
             ->focus(1)
             ->with('$1');
     }
@@ -64,9 +58,7 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(er|ab|ay|ey)')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->all()
-            ->counting(function (int $count) {
-                $this->assertSame(4, $count);
-            })
+            ->counting(Functions::assertSame(4))
             ->focus(1)
             ->by()
             ->group(1)
@@ -82,9 +74,7 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(er|ab|ay|ey)')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->all()
-            ->counting(function (int $count) {
-                $this->assertSame(4, $count);
-            })
+            ->counting(Functions::assertSame(4))
             ->focus(1)
             ->by()
             ->group(1)
@@ -100,9 +90,7 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(er|ab|ay|ey)')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->only(99)
-            ->counting(function (int $count) {
-                $this->assertSame(4, $count);
-            })
+            ->counting(Functions::assertSame(4))
             ->with('$1');
     }
 
@@ -115,9 +103,7 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(er|ab|ay|ey)')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->first()
-            ->counting(function (int $count) {
-                $this->assertSame(1, $count);
-            })
+            ->counting(Functions::assertSame(1))
             ->withReferences('$1');
     }
 
@@ -130,9 +116,7 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(er|ab|ay|ey)')
             ->replace('Foo')
             ->first()
-            ->counting(function (int $count) {
-                $this->assertSame(0, $count);
-            })
+            ->counting(Functions::assertSame(0))
             ->with('$1');
     }
 
@@ -145,9 +129,7 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(er|ab|ay|ey)')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->first()
-            ->counting(function (int $count) {
-                $this->assertSame(1, $count);
-            })
+            ->counting(Functions::assertSame(1))
             ->callback(Functions::constant(''));
     }
 
@@ -160,9 +142,7 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(er|ab|ay|ey)')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->only(2)
-            ->counting(function (int $count) {
-                $this->assertSame(2, $count);
-            })
+            ->counting(Functions::assertSame(2))
             ->by()
             ->map(['er' => 'ER', 'ab' => 'AB']);
     }
@@ -176,9 +156,7 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(er|ab|ay|ey)')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->only(2)
-            ->counting(function (int $count) {
-                $this->assertSame(2, $count);
-            })
+            ->counting(Functions::assertSame(2))
             ->by()
             ->group(1)
             ->map(['er' => 'ER', 'ab' => 'AB'])
@@ -194,9 +172,7 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(er|ab|ay|ey)')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->only(2)
-            ->counting(function (int $count) {
-                $this->assertSame(2, $count);
-            })
+            ->counting(Functions::assertSame(2))
             ->by()
             ->group(1)
             ->orElseThrow();

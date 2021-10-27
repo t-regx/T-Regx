@@ -162,10 +162,10 @@ class Functions
         };
     }
 
-    public static function assertSame($expected, callable $actual): callable
+    public static function assertSame($expected, callable $mapper = null): callable
     {
-        return function ($argument) use ($expected, $actual): void {
-            Assert::assertSame($expected, $actual($argument));
+        return function ($argument) use ($expected, $mapper): void {
+            Assert::assertSame($expected, $mapper === null ? $argument : $mapper($argument));
         };
     }
 
