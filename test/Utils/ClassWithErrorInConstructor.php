@@ -9,6 +9,6 @@ class ClassWithErrorInConstructor extends Exception
     public function __construct()
     {
         parent::__construct();
-        throw new Error();
+        throw new Error('error message');
     }
 }

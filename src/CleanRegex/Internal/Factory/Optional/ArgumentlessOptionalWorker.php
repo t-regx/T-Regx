@@ -1,21 +1,20 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Factory\Optional;
 
-use Throwable;
+use TRegx\CleanRegex\Internal\ClassName;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\SignatureExceptionFactory;
 
 class ArgumentlessOptionalWorker implements OptionalWorker
 {
-    /** @var SignatureExceptionFactory */
-    private $exceptionFactory;
     /** @var string */
     private $fallbackClassname;
+    /** @var NotMatchedMessage */
+    private $message;
 
     public function __construct(NotMatchedMessage $message, string $defaultExceptionClassname)
     {
-        $this->exceptionFactory = new SignatureExceptionFactory($message);
         $this->fallbackClassname = $defaultExceptionClassname;
+        $this->message = $message;
     }
 
     public function arguments(): array
@@ -23,8 +22,9 @@ class ArgumentlessOptionalWorker implements OptionalWorker
         return [];
     }
 
-    public function throwable(?string $exceptionClassname): Throwable
+    public function throwable(?string $exceptionClassname): \Throwable
     {
-        return $this->exceptionFactory->createWithoutSubject($exceptionClassname ?? $this->fallbackClassname);
+        $className = new ClassName($exceptionClassname ?? $this->fallbackClassname);
+        return $className->throwable($this->message, null);
     }
 }
