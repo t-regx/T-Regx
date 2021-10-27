@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\fluent;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsSameMatches;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Definitions;
 use Test\Utils\Functions;
@@ -19,6 +20,8 @@ use TRegx\CleanRegex\Match\MatchPattern;
  */
 class AbstractMatchPatternTest extends TestCase
 {
+    use AssertsSameMatches;
+
     /**
      * @test
      */
@@ -246,13 +249,14 @@ class AbstractMatchPatternTest extends TestCase
     {
         // given
         $pattern = new MatchPattern(Definitions::pattern('Foo'), new StringSubject('Foo'));
+        $fluent = $pattern->fluent()->filter(Functions::constant(45));
 
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid filter() callback return type. Expected bool, but integer (45) given');
 
         // when
-        $pattern->fluent()->filter(Functions::constant(45))->first();
+        $fluent->first();
     }
 
     /**
@@ -260,15 +264,44 @@ class AbstractMatchPatternTest extends TestCase
      */
     public function shouldThrowForUnparsableEntity()
     {
+        // given
+        $fluent = pattern('\d+')->match('123')->fluent()->map(Functions::constant(null))->asInt();
+
         // when
         $this->expectException(InvalidIntegerTypeException::class);
         $this->expectExceptionMessage('Failed to parse value as integer. Expected integer|string, but null given');
 
         // when
-        pattern('\d+')->match('123')
-            ->fluent()
-            ->map(Functions::constant(null))
-            ->asInt()
-            ->first();
+        $fluent->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeCountable()
+    {
+        // given
+        $fluent = pattern('\d+')->match('1, 2, 3')->fluent();
+
+        // when
+        $count = \count($fluent);
+
+        // then
+        $this->assertSame(3, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeIterable()
+    {
+        // given
+        $fluent = pattern('\d+([cm]?m)')->match('14cm 12mm 18m')->fluent();
+
+        // when
+        $result = \iterator_to_array($fluent);
+
+        // then
+        $this->assertSameMatches(['14cm', '12mm', '18m'], $result);
     }
 }

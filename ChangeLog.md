@@ -21,7 +21,8 @@ Incoming
       Basically, `MatchPattern` and `IntStream` throw match-related exceptions (`SubjectNotMatchedException`
       or `GroupNotMatchedException`), whereas `FluentMatchPattern` throws fluent-related
       exception: `NoSuchElementFluentException`.
-    * Updated exception messages from `asInt()`, `offsets()` and `fluent()`.
+  * Updated exception messages from `asInt()`, `offsets()` and `fluent()`.
+  * `MatchPatternInterface` is no longer part of T-Regx public API.
 
 Added in 0.15.0
 ---------------

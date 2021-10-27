@@ -15,7 +15,6 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
-use TRegx\CleanRegex\Internal\Match\MatchPatternInterface;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream;
@@ -35,7 +34,7 @@ use TRegx\CleanRegex\Internal\SubjectEmptyOptional;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 
-abstract class AbstractMatchPattern implements MatchPatternInterface
+abstract class AbstractMatchPattern implements \Countable, \IteratorAggregate
 {
     use MatchPatternHelpers;
 

@@ -6,11 +6,9 @@ use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
-use TRegx\CleanRegex\Internal\Match\MatchPatternInterface;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Rejection;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
-use TRegx\CleanRegex\Internal\Match\Stream\BetterEmptyOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\FilterStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMapStream;
@@ -30,7 +28,7 @@ use TRegx\CleanRegex\Internal\Number;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 
-class FluentMatchPattern implements MatchPatternInterface
+class FluentMatchPattern implements \Countable, \IteratorAggregate
 {
     /** @var Upstream */
     private $stream;
