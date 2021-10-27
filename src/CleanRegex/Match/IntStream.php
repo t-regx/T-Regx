@@ -148,4 +148,9 @@ class IntStream implements \Countable, \IteratorAggregate
     {
         return new Stream($upstream, $this->subject);
     }
+
+    public function stream(): Stream
+    {
+        return new Stream($this->upstream, $this->subject);
+    }
 }

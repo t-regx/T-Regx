@@ -242,4 +242,28 @@ class AbstractMatchPatternTest extends TestCase
         // then
         $this->assertSame(4, $count);
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrowExceptionAsIntStream()
+    {
+        // then
+        $this->expectException(SubjectNotMatchedException::class);
+
+        // when
+        pattern('\d+')->match('Foo')->asInt()->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowExceptionAsStream()
+    {
+        // then
+        $this->expectException(NoSuchStreamElementException::class);
+
+        // when
+        pattern('\d+')->match('Foo')->asInt()->stream()->first();
+    }
 }
