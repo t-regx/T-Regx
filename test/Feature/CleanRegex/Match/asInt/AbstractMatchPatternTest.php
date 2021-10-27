@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Message\ThrowMessage;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\CustomSubjectException;
+use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchElementFluentException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
@@ -16,6 +17,8 @@ use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
  */
 class AbstractMatchPatternTest extends TestCase
 {
+    use ExactExceptionMessage;
+
     /**
      * @test
      */
@@ -87,7 +90,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
-        $this->expectExceptionMessage("Expected to get the first element from fluent pattern, but the elements feed has 0 element(s)");
+        $this->expectExceptionMessage("Expected to get the first stream element, but the stream has 0 element(s)");
 
         // when
         pattern('\d+')->match('12')->asInt()->filter(Functions::constant(false))->first();

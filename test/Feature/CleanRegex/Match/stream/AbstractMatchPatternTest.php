@@ -146,7 +146,7 @@ class AbstractMatchPatternTest extends TestCase
                 ->orThrow(CustomSubjectException::class);
         } catch (CustomSubjectException $exception) {
             // then
-            $this->assertSame('Expected to get the first element from fluent pattern, but the elements feed has 0 element(s)', $exception->getMessage());
+            $this->assertSame('Expected to get the first stream element, but the stream has 0 element(s)', $exception->getMessage());
             $this->assertSame('Foo', $exception->subject);
         }
     }
