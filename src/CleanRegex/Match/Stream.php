@@ -21,6 +21,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\UniqueStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Match\Stream\ValuesStream;
+use TRegx\CleanRegex\Internal\Match\StreamTerminal;
 use TRegx\CleanRegex\Internal\Message\Stream\FromFirstStreamMessage;
 use TRegx\CleanRegex\Internal\Message\Stream\FromNthStreamMessage;
 use TRegx\CleanRegex\Internal\Message\Stream\SubjectNotMatched;

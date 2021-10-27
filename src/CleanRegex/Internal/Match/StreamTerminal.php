@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Match;
+namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
