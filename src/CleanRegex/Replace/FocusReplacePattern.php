@@ -17,7 +17,6 @@ use TRegx\CleanRegex\Internal\Replace\ReferencesReplacer;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
-use TRegx\CleanRegex\Replace\By\ByReplacePatternImpl;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 
 class FocusReplacePattern implements SpecificReplacePattern
@@ -85,7 +84,7 @@ class FocusReplacePattern implements SpecificReplacePattern
 
     public function by(): ByReplacePattern
     {
-        return new ByReplacePatternImpl(
+        return new ByReplacePattern(
             new GroupFallbackReplacer(
                 $this->definition,
                 $this->subject,
