@@ -61,6 +61,8 @@ class MatchDetail implements Detail
     private $groupFacade;
     /** @var SubjectCoordinates */
     private $coordinates;
+    /** @var GroupNames */
+    private $groupNames;
 
     private function __construct(
         Subject               $subject,
@@ -91,6 +93,7 @@ class MatchDetail implements Detail
             new NotMatched($this->groupAware, $subject),
             new FirstNamedGroup($this->signatures), $this->signatures);
         $this->coordinates = new SubjectCoordinates($matchEntry, $subject);
+        $this->groupNames = new GroupNames($groupAware);
     }
 
     public static function create(Subject         $subject, int $index, int $limit,
@@ -202,7 +205,7 @@ class MatchDetail implements Detail
      */
     public function groupNames(): array
     {
-        return (new GroupNames($this->groupAware))->groupNames();
+        return $this->groupNames->groupNames();
     }
 
     public function groupsCount(): int
