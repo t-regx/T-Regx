@@ -22,10 +22,10 @@ class CandidatesTest extends TestCase
         $candidates = new Candidates(new UnsuitableStringCondition($delimiterable));
 
         // when
-        $pattern = $candidates->delimiter();
+        $delimiter = $candidates->delimiter();
 
         // then
-        $this->assertEquals(new Delimiter($expectedDelimiter), $pattern);
+        $this->assertEquals(new Delimiter($expectedDelimiter), $delimiter);
     }
 
     public function delimiterables(): array

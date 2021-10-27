@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Renamed `FluentMatchPattern` to `Stream`, similar to Java 8 streams
 
 Added in 0.16.0
 ---------------
