@@ -54,6 +54,21 @@ class Stream implements \Countable, \IteratorAggregate
         return $this->terminal->only($limit);
     }
 
+    public function forEach(callable $consumer): void
+    {
+        $this->terminal->forEach($consumer);
+    }
+
+    public function count(): int
+    {
+        return $this->terminal->count();
+    }
+
+    public function getIterator(): \Iterator
+    {
+        return $this->terminal->getIterator();
+    }
+
     /**
      * @param callable|null $consumer
      * @return mixed
@@ -97,21 +112,6 @@ class Stream implements \Countable, \IteratorAggregate
             return new RejectedOptional(new Rejection($this->subject, NoSuchStreamElementException::class, new FromNthStreamMessage($index, \count($elements))));
         }
         return new PresentOptional($elements[$index]);
-    }
-
-    public function forEach(callable $consumer): void
-    {
-        $this->terminal->forEach($consumer);
-    }
-
-    public function count(): int
-    {
-        return $this->terminal->count();
-    }
-
-    public function getIterator(): \Iterator
-    {
-        return $this->terminal->getIterator();
     }
 
     public function map(callable $mapper): Stream

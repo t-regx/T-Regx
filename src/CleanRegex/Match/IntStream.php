@@ -42,11 +42,6 @@ class IntStream implements IteratorAggregate
         $this->subject = $subject;
     }
 
-    public function asInt(): IntStream
-    {
-        return $this;
-    }
-
     public function all(): array
     {
         return $this->terminal->all();
@@ -55,6 +50,21 @@ class IntStream implements IteratorAggregate
     public function only(int $limit): array
     {
         return $this->terminal->only($limit);
+    }
+
+    public function forEach(callable $consumer): void
+    {
+        $this->terminal->forEach($consumer);
+    }
+
+    public function count(): int
+    {
+        return $this->terminal->count();
+    }
+
+    public function getIterator(): Iterator
+    {
+        return $this->terminal->getIterator();
     }
 
     public function first(callable $consumer = null)
@@ -92,19 +102,9 @@ class IntStream implements IteratorAggregate
         return $this->nth->optional($index);
     }
 
-    public function forEach(callable $consumer): void
+    public function asInt(): IntStream
     {
-        $this->terminal->forEach($consumer);
-    }
-
-    public function count(): int
-    {
-        return $this->terminal->count();
-    }
-
-    public function getIterator(): Iterator
-    {
-        return $this->terminal->getIterator();
+        return $this;
     }
 
     public function map(callable $mapper): Stream
