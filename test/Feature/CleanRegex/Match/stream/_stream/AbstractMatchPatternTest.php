@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\fluent\_stream;
+namespace Test\Feature\TRegx\CleanRegex\Match\stream\_stream;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
@@ -18,7 +18,7 @@ class AbstractMatchPatternTest extends TestCase
         // given
         $indexes = pattern("(?:Foo|Bar|Lorem)")
             ->match("Foo, Bar, Lorem")
-            ->fluent()
+            ->stream()
             ->map(function (Detail $detail) {
                 return $detail->index();
             })
@@ -34,7 +34,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluentAll_keepLimits()
     {
         // given
-        pattern("(?:Foo|Bar)")->match("Foo, Bar")->fluent()
+        pattern("(?:Foo|Bar)")->match("Foo, Bar")->stream()
             ->map(function (Detail $detail) {
                 // then
                 $this->assertSame(-1, $detail->limit());
@@ -57,7 +57,7 @@ class AbstractMatchPatternTest extends TestCase
                 // cleanup
                 return true;
             })
-            ->fluent()
+            ->stream()
             ->forEach(function (Detail $detail) {
                 $this->assertSame('Foo', $detail->getUserData());
             });
@@ -71,7 +71,7 @@ class AbstractMatchPatternTest extends TestCase
         // given
         $indexes = pattern("(Foo|Bar|Lorem)")
             ->match("Foo, Bar, Lorem")
-            ->fluent()
+            ->stream()
             ->map(function (Detail $detail) {
                 return $detail->all();
             })
@@ -88,7 +88,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluentFirst_keepIndex()
     {
         // given
-        pattern("(Foo|Bar)")->match("Foo, Bar")->fluent()->first(function (Detail $detail) {
+        pattern("(Foo|Bar)")->match("Foo, Bar")->stream()->first(function (Detail $detail) {
             // then
             $this->assertSame(0, $detail->index());
         });
@@ -100,7 +100,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluentFirst_keepIndex_remaining()
     {
         // given
-        pattern("(Foo|Bar)")->match("Foo, Bar")->remaining(Functions::equals('Bar'))->fluent()->first(function (Detail $detail) {
+        pattern("(Foo|Bar)")->match("Foo, Bar")->remaining(Functions::equals('Bar'))->stream()->first(function (Detail $detail) {
             // then
             $this->assertSame(1, $detail->index());
         });
@@ -112,7 +112,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluentFirst_keepLimit()
     {
         // given
-        pattern("(Foo|Bar)")->match("Foo, Bar")->fluent()->first(function (Detail $detail) {
+        pattern("(Foo|Bar)")->match("Foo, Bar")->stream()->first(function (Detail $detail) {
             $this->assertSame(1, $detail->limit());
         });
     }
@@ -132,7 +132,7 @@ class AbstractMatchPatternTest extends TestCase
                 // cleanup
                 return true;
             })
-            ->fluent()
+            ->stream()
             ->first(function (Detail $detail) {
                 $this->assertSame('Foo', $detail->getUserData());
             });
@@ -146,7 +146,7 @@ class AbstractMatchPatternTest extends TestCase
         // given
         $indexes = pattern("(Foo|Bar|Lorem)")
             ->match("Foo, Bar, Lorem")
-            ->fluent()
+            ->stream()
             ->first(function (Detail $detail) {
                 return $detail->all();
             });

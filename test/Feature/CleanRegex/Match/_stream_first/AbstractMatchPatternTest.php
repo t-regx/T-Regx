@@ -34,57 +34,57 @@ class AbstractMatchPatternTest extends TestCase
     {
         // then
         $this->assertSame('123', $this->match()->first());
-        $this->assertSame('123', $this->match()->fluent()->first()->text());
+        $this->assertSame('123', $this->match()->stream()->first()->text());
     }
 
     public function test_asInt_first()
     {
         // then
         $this->assertSame(123, $this->match()->asInt()->first());
-        $this->assertSame(123, $this->match()->fluent()->asInt()->first());
+        $this->assertSame(123, $this->match()->stream()->asInt()->first());
     }
 
     public function test_asInt_group_first()
     {
         // then
         $this->assertSame(123, $this->match()->group(0)->asInt()->first());
-        $this->assertSame(123, $this->match()->group(0)->fluent()->asInt()->first());
+        $this->assertSame(123, $this->match()->group(0)->stream()->asInt()->first());
     }
 
     public function test_distinct_first()
     {
         // then
-        $this->assertSame('123', $this->match()->fluent()->distinct()->first()->text());
+        $this->assertSame('123', $this->match()->stream()->distinct()->first()->text());
     }
 
     public function test_values_first()
     {
         // then
-        $this->assertSame('123', $this->match()->fluent()->values()->first()->text());
+        $this->assertSame('123', $this->match()->stream()->values()->first()->text());
     }
 
     public function test_keys_first()
     {
         // then
-        $this->assertSame(0, $this->match()->fluent()->keys()->first());
+        $this->assertSame(0, $this->match()->stream()->keys()->first());
     }
 
-    public function test_fluent_map()
+    public function test_stream_map()
     {
         // then
-        $this->assertSame('123', $this->match()->fluent()->map(Functions::identity())->first()->text());
+        $this->assertSame('123', $this->match()->stream()->map(Functions::identity())->first()->text());
     }
 
-    public function test_fluent_groupByCallback()
+    public function test_stream_groupByCallback()
     {
         // then
-        $this->assertSame('123', $this->match()->fluent()->groupByCallback(Functions::identity())->first()->text());
+        $this->assertSame('123', $this->match()->stream()->groupByCallback(Functions::identity())->first()->text());
     }
 
-    public function test_fluent_groupByCallback_keys()
+    public function test_stream_groupByCallback_keys()
     {
         // then
-        $this->assertSame('123', $this->match()->fluent()->groupByCallback(Functions::identity())->keys()->first());
+        $this->assertSame('123', $this->match()->stream()->groupByCallback(Functions::identity())->keys()->first());
     }
 
     public function test_findFirst()
@@ -93,16 +93,16 @@ class AbstractMatchPatternTest extends TestCase
         $this->assertSame('123', $this->match()->findFirst(Functions::identity())->orThrow()->text());
     }
 
-    public function test_fluent_findFirst()
+    public function test_stream_findFirst()
     {
         // then
-        $this->assertSame('123', $this->match()->fluent()->findFirst(Functions::identity())->orThrow()->text());
+        $this->assertSame('123', $this->match()->stream()->findFirst(Functions::identity())->orThrow()->text());
     }
 
-    public function test_fluent_flatMap()
+    public function test_stream_flatMap()
     {
         // when
-        $first = $this->match()->fluent()
+        $first = $this->match()->stream()
             ->flatMap(function (Detail $a) {
                 return [$a->text(), $a->text()];
             })
@@ -112,16 +112,16 @@ class AbstractMatchPatternTest extends TestCase
         $this->assertSame('123', $first);
     }
 
-    public function test_fluent_filter()
+    public function test_stream_filter()
     {
         // then
-        $this->assertSame('123', $this->match()->fluent()->filter(Functions::constant(true))->first()->text());
+        $this->assertSame('123', $this->match()->stream()->filter(Functions::constant(true))->first()->text());
     }
 
-    public function test_fluent_filter_keys()
+    public function test_stream_filter_keys()
     {
         // then
-        $this->assertSame(0, $this->match()->fluent()->filter(Functions::constant(true))->keys()->first());
+        $this->assertSame(0, $this->match()->stream()->filter(Functions::constant(true))->keys()->first());
     }
 
     public function test_groups_and_offsets()
@@ -132,7 +132,7 @@ class AbstractMatchPatternTest extends TestCase
         $this->assertSame(2, $this->match()->offsets()->first());
 
         $this->assertSame(2, $this->match()->offsets()->first());
-        $this->assertSame('123', $this->match()->group(0)->fluent()->first()->text());
+        $this->assertSame('123', $this->match()->group(0)->stream()->first()->text());
         $this->assertSame(0, $this->match()->offsets()->keys()->first());
         $this->assertSame(2, $this->match()->group(0)->offsets()->first());
     }

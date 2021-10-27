@@ -447,14 +447,14 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_fluent_filter_first_OnUnmatchedSubject()
+    public function shouldThrow_stream_filter_first_OnUnmatchedSubject()
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
-        pattern('Foo')->match('Bar')->fluent()->filter(Functions::fail())->first();
+        pattern('Foo')->match('Bar')->stream()->filter(Functions::fail())->first();
     }
 
     /**
@@ -498,7 +498,7 @@ class MatchPatternTest extends TestCase
         $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
 
         // when
-        $result = $this->fluentGroupByCallback($subject)->all();
+        $result = $this->streamGroupByCallback($subject)->all();
 
         // then
         $expected = [
@@ -517,7 +517,7 @@ class MatchPatternTest extends TestCase
         $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
 
         // when
-        $result = $this->fluentGroupByCallback($subject)->keys()->all();
+        $result = $this->streamGroupByCallback($subject)->keys()->all();
 
         // then
         $this->assertSame(['cm', 'mm'], $result);
@@ -532,17 +532,17 @@ class MatchPatternTest extends TestCase
         $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
 
         // when
-        $result = $this->fluentGroupByCallback($subject)->keys()->first();
+        $result = $this->streamGroupByCallback($subject)->keys()->first();
 
         // then
         $this->assertSame('cm', $result);
     }
 
-    private function fluentGroupByCallback(string $subject): Stream
+    private function streamGroupByCallback(string $subject): Stream
     {
         return pattern('(?<value>\d+)(?<unit>cm|mm)')
             ->match($subject)
-            ->fluent()
+            ->stream()
             ->groupByCallback(function (Detail $detail) {
                 return $detail->get('unit');
             });

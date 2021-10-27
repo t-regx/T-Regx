@@ -188,7 +188,7 @@ class GroupLimit implements \IteratorAggregate
         return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new GroupOffsetMessages($this->group)), $this->base);
     }
 
-    public function fluent(): Stream
+    public function stream(): Stream
     {
         return new Stream($this->upstream(), $this->base);
     }

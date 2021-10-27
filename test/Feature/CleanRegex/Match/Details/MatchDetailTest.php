@@ -41,6 +41,6 @@ class MatchDetailTest extends TestCase
 
     public function detail(): Detail
     {
-        return pattern('Foo:.*')->match('Foo:€łść')->fluent()->first();
+        return pattern('Foo:.*')->match('Foo:€łść')->stream()->first();
     }
 }

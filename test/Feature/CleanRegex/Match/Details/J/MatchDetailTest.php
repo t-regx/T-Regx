@@ -78,7 +78,7 @@ class MatchDetailTest extends TestCase
         /**
          * This test verified whether GroupFacade calls Stream with
          * all().
-         * - fluent() is used here to use streams.
+         * - stream() is used here to use streams.
          * - forEach() is used here to call all(), but any method that
          * works for multiple matches would do. Don't use first() or findFirst().
          */
@@ -87,7 +87,7 @@ class MatchDetailTest extends TestCase
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
             ->match('Lorem')
             ->group('group')
-            ->fluent()
+            ->stream()
             ->forEach(function (NotMatchedGroup $group) {
                 $this->assertFalse($group->matched());
             });
@@ -101,7 +101,7 @@ class MatchDetailTest extends TestCase
         /**
          * This test verified whether GroupFacade calls Stream with
          * all().
-         * - fluent() is used here to use streams.
+         * - stream() is used here to use streams.
          * - forEach() is used here to call all(), but any method that
          * works for multiple matches would do. Don't use first() or findFirst().
          */
@@ -109,7 +109,7 @@ class MatchDetailTest extends TestCase
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
             ->match('Foo')
             ->group('group')
-            ->fluent()
+            ->stream()
             ->forEach(function (MatchedGroup $group) {
                 $this->assertSame('Foo', $group->text());
             });

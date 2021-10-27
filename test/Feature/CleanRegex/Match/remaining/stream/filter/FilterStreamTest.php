@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\remaining\fluent\filter;
+namespace Test\Feature\TRegx\CleanRegex\Match\remaining\stream\filter;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
@@ -15,14 +15,14 @@ class FilterStreamTest extends TestCase
     public function shouldReturn_nth()
     {
         // when
-        $result = pattern('\w+')->match('Lorem ipsum dolor sit amet')
+        $nth = pattern('\w+')->match('Lorem ipsum dolor sit amet')
             ->remaining(Functions::notEquals('Lorem'))
-            ->fluent()
+            ->stream()
             ->filter(Functions::notEquals('ipsum'))
             ->nth(2);
 
         // then
-        $this->assertSame('amet', $result->text());
+        $this->assertSame('amet', $nth->text());
     }
 
     /**
@@ -33,7 +33,7 @@ class FilterStreamTest extends TestCase
         // when
         pattern('Foo')->match('Bar')
             ->remaining(Functions::fail())
-            ->fluent()
+            ->stream()
             ->filter(Functions::fail())
             ->findFirst(Functions::fail())
             ->orElse(Functions::pass());
@@ -47,7 +47,7 @@ class FilterStreamTest extends TestCase
         // when
         $result = pattern('\w+')->match('Foo, Bar, Dor')
             ->remaining(Functions::notEquals('Foo'))
-            ->fluent()
+            ->stream()
             ->filter(Functions::equals('Bar'))
             ->first();
 
@@ -63,7 +63,7 @@ class FilterStreamTest extends TestCase
         // when
         $result = pattern('\w+')->match('Foo, Bar, Dor, Sir')
             ->remaining(Functions::notEquals('Foo'))
-            ->fluent()
+            ->stream()
             ->filter(Functions::equals('Sir'))
             ->first();
 
@@ -79,7 +79,7 @@ class FilterStreamTest extends TestCase
         // when
         $key = pattern('\w+')->match('Foo, Bar, Dor')
             ->remaining(Functions::notEquals('Foo'))
-            ->fluent()
+            ->stream()
             ->filter(Functions::equals('Bar'))
             ->keys()
             ->first();
@@ -96,7 +96,7 @@ class FilterStreamTest extends TestCase
         // when
         $key = pattern('\w+')->match('Foo, Bar, Dor, Ver, Sir')
             ->remaining(Functions::notEquals('Foo'))
-            ->fluent()
+            ->stream()
             ->filter(Functions::equals('Sir'))
             ->keys()
             ->first();

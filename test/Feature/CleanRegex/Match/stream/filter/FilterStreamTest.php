@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\fluent\filter;
+namespace Test\Feature\TRegx\CleanRegex\Match\stream\filter;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
@@ -16,7 +16,7 @@ class FilterStreamTest extends TestCase
     public function shouldReturn_filter_nth()
     {
         // when
-        $result = pattern('\w+')->match('Lorem ipsum dolor')->fluent()->filter(Functions::notEquals('Lorem'))->nth(1);
+        $result = pattern('\w+')->match('Lorem ipsum dolor')->stream()->filter(Functions::notEquals('Lorem'))->nth(1);
 
         // then
         $this->assertSame('dolor', $result->text());
@@ -28,7 +28,7 @@ class FilterStreamTest extends TestCase
     public function shouldNotCall_first_OnUnmatchedSubject()
     {
         // when
-        pattern('Foo')->match('Bar')->fluent()
+        pattern('Foo')->match('Bar')->stream()
             ->filter(Functions::fail())
             ->findFirst(Functions::fail())
             ->orElse(Functions::pass());
@@ -40,7 +40,7 @@ class FilterStreamTest extends TestCase
     public function shouldReturn_first_FirstMatch()
     {
         // when
-        $result = pattern('\w+')->match('Foo, Bar')->fluent()->filter(Functions::equals('Foo'))->first();
+        $result = pattern('\w+')->match('Foo, Bar')->stream()->filter(Functions::equals('Foo'))->first();
 
         // then
         $this->assertSame('Foo', $result->text());
@@ -52,7 +52,7 @@ class FilterStreamTest extends TestCase
     public function shouldReturn_first_NotFirstMatch()
     {
         // when
-        $result = pattern('\w+')->match('Foo, Bar, Dor')->fluent()->filter(Functions::equals('Dor'))->first();
+        $result = pattern('\w+')->match('Foo, Bar, Dor')->stream()->filter(Functions::equals('Dor'))->first();
 
         // then
         $this->assertSame('Dor', $result->text());
@@ -64,7 +64,7 @@ class FilterStreamTest extends TestCase
     public function shouldReturn_keys_first_FirstMatch()
     {
         // when
-        $key = pattern('\w+')->match('Foo, Bar')->fluent()->filter(Functions::equals('Foo'))->keys()->first();
+        $key = pattern('\w+')->match('Foo, Bar')->stream()->filter(Functions::equals('Foo'))->keys()->first();
 
         // then
         $this->assertSame(0, $key);
@@ -76,7 +76,7 @@ class FilterStreamTest extends TestCase
     public function shouldReturn_keys_first_NotFirstMatch()
     {
         // when
-        $key = pattern('\w+')->match('Foo, Bar, Dor')->fluent()->filter(Functions::equals('Dor'))->keys()->first();
+        $key = pattern('\w+')->match('Foo, Bar, Dor')->stream()->filter(Functions::equals('Dor'))->keys()->first();
 
         // then
         $this->assertSame(0, $key);
@@ -89,7 +89,7 @@ class FilterStreamTest extends TestCase
     {
         // when
         pattern('\w+')->match('Foo, Bar, Dor, Ver, Sir')
-            ->fluent()
+            ->stream()
             ->filter(Functions::collecting($calls, Functions::equals('Sir')))
             ->first();
 
@@ -108,7 +108,7 @@ class FilterStreamTest extends TestCase
         // when
         $first = pattern('(one|two|three|four|five|six)')
             ->match('one two three four five six')
-            ->fluent()
+            ->stream()
             ->filter(function (string $text) use (&$invokedFor) {
                 $invokedFor[] = $text;
                 return $text === 'four';

@@ -97,7 +97,7 @@ class MatchDetailTest extends TestCase
     {
         return pattern('(?<group>One)(?<group>Two)', 'J')
             ->match('OneTwo')
-            ->fluent()
+            ->stream()
             ->first();
     }
 

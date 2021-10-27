@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\group\fluent;
+namespace Test\Feature\TRegx\CleanRegex\Match\group\stream;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
@@ -26,7 +26,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage("Nonexistent group: 'missing'");
 
         // when
-        pattern('Foo')->match('Foo')->group('missing')->fluent()->all();
+        pattern('Foo')->match('Foo')->group('missing')->stream()->all();
     }
 
     /**
@@ -38,7 +38,7 @@ class MatchPatternTest extends TestCase
         $groups = pattern('\d+(?<unit>kg|[cm]?m)')
             ->match('15mm 12kg 16m 17cm 27kg')
             ->group('unit')
-            ->fluent()
+            ->stream()
             ->filter(Functions::notEquals("kg"))
             ->all();
 
@@ -56,7 +56,7 @@ class MatchPatternTest extends TestCase
             ->match('15mm 12kg 16m 17cm 27kg')
             ->remaining(Functions::oneOf(['12kg', '16m', '27kg']))
             ->group('unit')
-            ->fluent()
+            ->stream()
             ->keys()
             ->all();
 
@@ -74,7 +74,7 @@ class MatchPatternTest extends TestCase
             ->match('15mm 12kg 16m 17cm 27kg')
             ->remaining(Functions::equals('16m'))
             ->group('unit')
-            ->fluent()
+            ->stream()
             ->keys()
             ->first();
 
@@ -91,7 +91,7 @@ class MatchPatternTest extends TestCase
         $groups = pattern('[A-Z](?<lowercase>[a-z]+)?')
             ->match('D Computer')
             ->group('lowercase')
-            ->fluent()
+            ->stream()
             ->map(function (Group $group) {
                 return $group->orReturn("unmatched");
             })
@@ -113,7 +113,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Nonexistent group: #1');
 
         // when
-        pattern('Foo')->match('Bar')->group(1)->fluent()->$method();
+        pattern('Foo')->match('Bar')->group(1)->stream()->$method();
     }
 
     public function streamFluentMethods(): array
@@ -133,20 +133,20 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Nonexistent group: #1');
 
         // when
-        pattern('Foo')->match('Bar')->group(1)->fluent()->keys()->$method();
+        pattern('Foo')->match('Bar')->group(1)->stream()->keys()->$method();
     }
 
     /**
      * @test
      */
-    public function shouldThrow_group_fluent_keys_first_OnUnmatchedSubject()
+    public function shouldThrow_group_stream_keys_first_OnUnmatchedSubject()
     {
         // then
         $this->expectException(NoSuchElementFluentException::class);
         $this->expectExceptionMessage('Expected to get group #0 from the first match, but subject was not matched at all');
 
         // when
-        pattern('Foo')->match('Bar')->group(0)->fluent()->keys()->first();
+        pattern('Foo')->match('Bar')->group(0)->stream()->keys()->first();
     }
 
     /**
@@ -155,7 +155,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_keys_all_OnUnmatchedSubject()
     {
         // when
-        $all = pattern('Foo')->match('Bar')->group(0)->fluent()->keys()->all();
+        $all = pattern('Foo')->match('Bar')->group(0)->stream()->keys()->all();
 
         // then
         $this->assertSame([], $all);
@@ -170,7 +170,7 @@ class MatchPatternTest extends TestCase
         pattern('(Foo|Bar)')
             ->match(' Foo Bar')
             ->group(1)
-            ->fluent()
+            ->stream()
             ->map(function (Group $group) {
                 $this->assertSame($group->offset() === 1 ? 'Foo' : 'Bar', $group->text());
             })
@@ -187,7 +187,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Expected to get group #0 from the first match, but subject was not matched at all');
 
         // when
-        pattern('Foo')->match('Bar')->group(0)->fluent()->first();
+        pattern('Foo')->match('Bar')->group(0)->stream()->first();
     }
 
     /**
@@ -196,7 +196,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_first_()
     {
         // when
-        $group = pattern('(Foo)(Bar)?')->match('Foo')->group(2)->fluent()->first();
+        $group = pattern('(Foo)(Bar)?')->match('Foo')->group(2)->stream()->first();
 
         // then
         $this->assertFalse($group->matched());
@@ -208,7 +208,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_keys_first_()
     {
         // when
-        $key = pattern('(Foo)(Bar)?')->match('Foo')->group(2)->fluent()->keys()->first();
+        $key = pattern('(Foo)(Bar)?')->match('Foo')->group(2)->stream()->keys()->first();
 
         // then
         $this->assertSame(0, $key);
@@ -224,7 +224,7 @@ class MatchPatternTest extends TestCase
         $group = pattern('(?<one>Foo)(?<last>Bar)?')
             ->match('Foo')
             ->group('last')
-            ->fluent()
+            ->stream()
             ->first();
 
         // then

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\fluent;
+namespace Test\Feature\TRegx\CleanRegex\Match\stream;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
@@ -30,7 +30,7 @@ class AbstractMatchPatternTest extends TestCase
         // when
         $result = pattern("(?<capital>[A-Z])?[a-zA-Z']+")
             ->match("I'm rather old, He likes Apples")
-            ->fluent()
+            ->stream()
             ->filter(function (Detail $detail) {
                 return $detail->textLength() !== 3;
             })
@@ -58,7 +58,7 @@ class AbstractMatchPatternTest extends TestCase
         // when
         pattern('Foo(?<one>Bar)?(?<two>Bar)?')
             ->match('Foo')
-            ->fluent()
+            ->stream()
             ->first(function (Detail $detail) {
                 $this->assertEquals(['one', 'two'], $detail->groupNames());
                 $this->assertTrue($detail->hasGroup('one'));
@@ -73,7 +73,7 @@ class AbstractMatchPatternTest extends TestCase
         // given
         pattern("(Foo|Bar)")
             ->match("Foo, Bar")
-            ->fluent()
+            ->stream()
             ->filter(function (Detail $detail) {
                 // when
                 $detail->setUserData("$detail" === 'Foo' ? 'hey' : 'hello');
@@ -96,7 +96,7 @@ class AbstractMatchPatternTest extends TestCase
         $this->expectExceptionMessage("Expected to get the first match, but subject was not matched");
 
         // when
-        pattern('Foo')->match('Bar')->fluent()->findFirst(Functions::fail())->orThrow();
+        pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail())->orThrow();
     }
 
     /**
@@ -109,7 +109,7 @@ class AbstractMatchPatternTest extends TestCase
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
-        pattern('Foo')->match('Bar')->fluent()->keys()->findFirst(Functions::fail())->orThrow();
+        pattern('Foo')->match('Bar')->stream()->keys()->findFirst(Functions::fail())->orThrow();
     }
 
     /**
@@ -121,7 +121,7 @@ class AbstractMatchPatternTest extends TestCase
             // when
             pattern("Foo")
                 ->match("Bar")
-                ->fluent()
+                ->stream()
                 ->findFirst(Functions::fail())
                 ->orThrow(CustomSubjectException::class);
         } catch (CustomSubjectException $exception) {
@@ -140,7 +140,7 @@ class AbstractMatchPatternTest extends TestCase
             // when
             pattern('Foo')
                 ->match('Foo')
-                ->fluent()
+                ->stream()
                 ->filter(Functions::constant(false))
                 ->findFirst(Functions::fail())
                 ->orThrow(CustomSubjectException::class);
@@ -157,7 +157,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluent_findFirst_orElse()
     {
         // when
-        pattern('Foo')->match('Bar')->fluent()->findFirst(Functions::fail())->orElse(Functions::argumentless());
+        pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail())->orElse(Functions::argumentless());
     }
 
     /**
@@ -166,7 +166,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluent_findFirst_orValue()
     {
         // when
-        $value = pattern('Foo')->match('Bar')->fluent()->findFirst(Functions::fail())->orReturn('value');
+        $value = pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail())->orReturn('value');
 
         // then
         $this->assertSame('value', $value);
@@ -180,7 +180,7 @@ class AbstractMatchPatternTest extends TestCase
         // when
         pattern('Foo')
             ->match('Foo')
-            ->fluent()
+            ->stream()
             ->filter(Functions::constant(false))
             ->findFirst(Functions::fail())
             ->orElse(Functions::argumentless());
@@ -193,7 +193,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         try {
             // when
-            pattern("Foo")->match("Foo")->fluent()->first(Functions::throws(new EmptyStreamException()));
+            pattern("Foo")->match("Foo")->stream()->first(Functions::throws(new EmptyStreamException()));
         } catch (EmptyStreamException $exception) {
             // then
             $this->assertEmpty($exception->getMessage());
@@ -207,7 +207,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         try {
             // when
-            pattern("Foo")->match("Foo")->fluent()->findFirst(Functions::throws(new EmptyStreamException()))->orThrow();
+            pattern("Foo")->match("Foo")->stream()->findFirst(Functions::throws(new EmptyStreamException()))->orThrow();
         } catch (EmptyStreamException $exception) {
             // then
             $this->assertEmpty($exception->getMessage());
@@ -220,7 +220,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFluent_findFirstCallback_orThrow()
     {
         // when
-        $letters = pattern('Foo')->match('Foo')->fluent()->findFirst(Functions::letters())->orThrow();
+        $letters = pattern('Foo')->match('Foo')->stream()->findFirst(Functions::letters())->orThrow();
 
         // then
         $this->assertSame(['F', 'o', 'o'], $letters);
@@ -239,7 +239,7 @@ class AbstractMatchPatternTest extends TestCase
         $this->expectExceptionMessage('Invalid filter() callback return type. Expected bool, but integer (45) given');
 
         // when
-        $pattern->fluent()->filter(Functions::constant(45))->all();
+        $pattern->stream()->filter(Functions::constant(45))->all();
     }
 
     /**
@@ -249,14 +249,14 @@ class AbstractMatchPatternTest extends TestCase
     {
         // given
         $pattern = new MatchPattern(Definitions::pattern('Foo'), new StringSubject('Foo'));
-        $fluent = $pattern->fluent()->filter(Functions::constant(45));
+        $stream = $pattern->stream()->filter(Functions::constant(45));
 
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid filter() callback return type. Expected bool, but integer (45) given');
 
         // when
-        $fluent->first();
+        $stream->first();
     }
 
     /**
@@ -265,14 +265,14 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrowForUnparsableEntity()
     {
         // given
-        $fluent = pattern('\d+')->match('123')->fluent()->map(Functions::constant(null))->asInt();
+        $stream = pattern('\d+')->match('123')->stream()->map(Functions::constant(null))->asInt();
 
         // when
         $this->expectException(InvalidIntegerTypeException::class);
         $this->expectExceptionMessage('Failed to parse value as integer. Expected integer|string, but null given');
 
         // when
-        $fluent->first();
+        $stream->first();
     }
 
     /**
@@ -281,10 +281,10 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldBeCountable()
     {
         // given
-        $fluent = pattern('\d+')->match('1, 2, 3')->fluent();
+        $stream = pattern('\d+')->match('1, 2, 3')->stream();
 
         // when
-        $count = \count($fluent);
+        $count = \count($stream);
 
         // then
         $this->assertSame(3, $count);
@@ -296,10 +296,10 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldBeIterable()
     {
         // given
-        $fluent = pattern('\d+([cm]?m)')->match('14cm 12mm 18m')->fluent();
+        $stream = pattern('\d+([cm]?m)')->match('14cm 12mm 18m')->stream();
 
         // when
-        $result = \iterator_to_array($fluent);
+        $result = \iterator_to_array($stream);
 
         // then
         $this->assertSameMatches(['14cm', '12mm', '18m'], $result);

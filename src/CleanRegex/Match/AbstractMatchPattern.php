@@ -177,10 +177,9 @@ abstract class AbstractMatchPattern implements \Countable, \IteratorAggregate
 
     public abstract function remaining(callable $predicate): RemainingMatchPattern;
 
-    public function fluent(): Stream
+    public function stream(): Stream
     {
-        return new Stream(
-            new MatchStream(new StreamBase($this->base), $this->base, $this->base->getUserData(), new LazyMatchAllFactory($this->base)), $this->base);
+        return new Stream(new MatchStream(new StreamBase($this->base), $this->base, $this->base->getUserData(), new LazyMatchAllFactory($this->base)), $this->base);
     }
 
     public function asInt(int $base = null): IntStream
