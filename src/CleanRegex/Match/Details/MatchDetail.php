@@ -26,18 +26,10 @@ use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
 class MatchDetail implements Detail
 {
-    /** @var Subject */
-    private $subject;
-    /** @var int */
-    private $index;
-    /** @var MatchAllFactory */
-    private $allFactory;
+    /** @var DetailScalars */
+    private $scalars;
     /** @var UserData */
     private $userData;
-    /** @var int */
-    private $limit;
-    /** @var Entry */
-    private $entry;
     /** @var SubjectCoordinates */
     private $coordinates;
     /** @var DuplicateName */
@@ -62,11 +54,7 @@ class MatchDetail implements Detail
         GroupFactoryStrategy  $strategy,
         Signatures            $signatures)
     {
-        $this->subject = $subject;
-        $this->index = $index;
-        $this->limit = $limit;
-        $this->entry = $matchEntry;
-        $this->allFactory = $allFactory;
+        $this->scalars = new DetailScalars($matchEntry, $index, $limit, $allFactory, $subject);
         $this->userData = $userData;
         $this->coordinates = new SubjectCoordinates($matchEntry, $subject);
         $this->duplicateName = new DuplicateName($groupAware, $usedForGroup, $matchEntry, $subject, $strategy, $allFactory, $signatures);
@@ -86,22 +74,22 @@ class MatchDetail implements Detail
 
     public function subject(): string
     {
-        return $this->subject->getSubject();
+        return $this->scalars->subject();
     }
 
     public function index(): int
     {
-        return $this->index;
+        return $this->scalars->detailIndex();
     }
 
     public function limit(): int
     {
-        return $this->limit;
+        return $this->scalars->detailsLimit();
     }
 
     public function text(): string
     {
-        return $this->entry->text();
+        return $this->scalars->matchedText();
     }
 
     public function textLength(): int
@@ -188,7 +176,7 @@ class MatchDetail implements Detail
 
     public function all(): array
     {
-        return \array_values($this->allFactory->getRawMatches()->getTexts());
+        return $this->scalars->otherTexts();
     }
 
     public function offset(): int
