@@ -227,4 +227,19 @@ class AbstractMatchPatternTest extends TestCase
         // when
         pattern('(12)')->match('12')->asInt()->first(Functions::throws($throwable));
     }
+
+    /**
+     * @test
+     */
+    public function shouldBeCountable()
+    {
+        // given
+        $stream = pattern('\d+')->match('1, 2, 3, 4')->asInt();
+
+        // when
+        $count = \count($stream);
+
+        // then
+        $this->assertSame(4, $count);
+    }
 }

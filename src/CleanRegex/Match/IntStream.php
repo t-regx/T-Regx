@@ -1,9 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use InvalidArgumentException;
-use Iterator;
-use IteratorAggregate;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
@@ -23,7 +20,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\ValuesStream;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 
-class IntStream implements IteratorAggregate
+class IntStream implements \Countable, \IteratorAggregate
 {
     /** @var StreamTerminal */
     private $terminal;
@@ -62,7 +59,7 @@ class IntStream implements IteratorAggregate
         return $this->terminal->count();
     }
 
-    public function getIterator(): Iterator
+    public function getIterator(): \Iterator
     {
         return $this->terminal->getIterator();
     }
@@ -97,7 +94,7 @@ class IntStream implements IteratorAggregate
     public function findNth(int $index): Optional
     {
         if ($index < 0) {
-            throw new InvalidArgumentException("Negative index: $index");
+            throw new \InvalidArgumentException("Negative index: $index");
         }
         return $this->nth->optional($index);
     }
