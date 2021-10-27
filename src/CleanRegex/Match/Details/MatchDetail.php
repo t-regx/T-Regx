@@ -39,8 +39,6 @@ class MatchDetail implements Detail
     private $index;
     /** @var MatchAllFactory */
     private $allFactory;
-    /** @var GroupFactoryStrategy */
-    private $strategy;
     /** @var UserData */
     private $userData;
     /** @var int */
@@ -53,8 +51,6 @@ class MatchDetail implements Detail
     private $usedInCompo;
     /** @var UsedForGroup */
     private $usedForGroup;
-    /** @var Signatures */
-    private $signatures;
     /** @var GroupHandle */
     private $groupHandle;
     /** @var GroupFacade */
@@ -63,6 +59,8 @@ class MatchDetail implements Detail
     private $coordinates;
     /** @var GroupNames */
     private $groupNames;
+    /** @var DuplicateName */
+    private $duplicateName;
 
     private function __construct(
         Subject               $subject,
@@ -85,15 +83,14 @@ class MatchDetail implements Detail
         $this->usedInCompo = $usedInCompo;
         $this->usedForGroup = $usedForGroup;
         $this->allFactory = $allFactory;
-        $this->strategy = $strategy;
         $this->userData = $userData;
-        $this->signatures = $signatures;
-        $this->groupHandle = new FirstNamedGroup($this->signatures);
-        $this->groupFacade = new GroupFacade($subject, $this->strategy, $this->allFactory,
-            new NotMatched($this->groupAware, $subject),
-            new FirstNamedGroup($this->signatures), $this->signatures);
+        $this->groupHandle = new FirstNamedGroup($signatures);
+        $this->groupFacade = new GroupFacade($subject, $strategy, $allFactory,
+            new NotMatched($groupAware, $subject),
+            new FirstNamedGroup($signatures), $signatures);
         $this->coordinates = new SubjectCoordinates($matchEntry, $subject);
         $this->groupNames = new GroupNames($groupAware);
+        $this->duplicateName = new DuplicateName($groupAware, $usedForGroup, $matchEntry, $subject, $strategy, $allFactory, $signatures);
     }
 
     public static function create(Subject         $subject, int $index, int $limit,
@@ -197,7 +194,7 @@ class MatchDetail implements Detail
 
     public function usingDuplicateName(): DuplicateName
     {
-        return new DuplicateName($this->groupAware, $this->usedForGroup, $this->entry, $this->subject, $this->strategy, $this->allFactory, $this->signatures);
+        return $this->duplicateName;
     }
 
     /**
