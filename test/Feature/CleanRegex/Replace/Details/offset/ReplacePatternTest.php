@@ -56,4 +56,27 @@ class ReplacePatternTest extends TestCase
                 return '';
             });
     }
+
+    /**
+     * @test
+     */
+    public function shouldGet_compositeGroups_offset()
+    {
+        // given
+        $subject = '€ ęFoo'; // Subject specifically designed to expose errors with byte-offset bugs
+
+        // when
+        pattern('(?<group>Foo)')->replace($subject)->first()->callback(function (Detail $detail) {
+            // when
+            $indexedOffsets = $detail->groups()->offsets();
+            $namedOffsets = $detail->namedGroups()->offsets();
+
+            // then
+            $this->assertSame([3], $indexedOffsets);
+            $this->assertSame(['group' => 3], $namedOffsets);
+
+            // clean
+            return '';
+        });
+    }
 }

@@ -2,18 +2,16 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\Details;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Replace\Details\ConstantModification;
+use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowEntry;
 use Test\Fakes\CleanRegex\Match\Details\GroupDetail;
 use Test\Fakes\CleanRegex\Match\Details\TextDetail;
 use Test\Fakes\CleanRegex\Match\Details\ThrowDetail;
-use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowEntry;
-use Test\Fakes\CleanRegex\Replace\Details\ThrowModification;
 use Test\Fakes\CleanRegex\Match\Details\UserDataDetail;
+use Test\Fakes\CleanRegex\Replace\Details\ConstantModification;
+use Test\Fakes\CleanRegex\Replace\Details\ThrowModification;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
-use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
-use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 use TRegx\CleanRegex\Replace\Details\Modification;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
@@ -401,38 +399,6 @@ class ReplaceDetailTest extends TestCase
 
         // then
         $this->assertSame('text', $text);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_groups()
-    {
-        // given
-        $indexed = $this->createMock(IndexedGroups::class);
-        $detail = new ReplaceDetail($this->detail('groups', $indexed), new ThrowModification());
-
-        // when
-        $groups = $detail->groups();
-
-        // then
-        $this->assertSame($indexed, $groups);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_namedGroups()
-    {
-        // given
-        $named = $this->createMock(NamedGroups::class);
-        $detail = new ReplaceDetail($this->detail('namedGroups', $named), new ThrowModification());
-
-        // when
-        $groups = $detail->namedGroups();
-
-        // then
-        $this->assertSame($named, $groups);
     }
 
     private function detail(string $method, $returns): Detail
