@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\IdentityMapper;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\MapGroupMapperDecorator;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\SubstituteFallbackMapper;
+use TRegx\CleanRegex\Internal\Replace\By\IgnoreMessages;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ComputedMatchStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
