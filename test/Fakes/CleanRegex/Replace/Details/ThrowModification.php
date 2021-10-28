@@ -3,7 +3,7 @@ namespace Test\Fakes\CleanRegex\Replace\Details;
 
 use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowEntry;
 use Test\Utils\Fails;
-use TRegx\CleanRegex\Replace\Details\Modification;
+use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 
 class ThrowModification extends Modification
 {

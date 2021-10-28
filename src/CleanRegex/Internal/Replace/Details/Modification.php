@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Replace\Details;
+namespace TRegx\CleanRegex\Internal\Replace\Details;
 
 use TRegx\CleanRegex\Internal\Model\Match\Entry;
 use TRegx\CleanRegex\Internal\Offset\ByteOffset;

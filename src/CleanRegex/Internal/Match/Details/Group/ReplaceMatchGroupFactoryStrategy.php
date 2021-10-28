@@ -1,13 +1,13 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
+use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceMatchedGroup;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceNotMatchedGroup;
-use TRegx\CleanRegex\Replace\Details\Modification;
 
 class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
 {

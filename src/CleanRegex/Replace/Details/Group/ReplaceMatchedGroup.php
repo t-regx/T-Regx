@@ -4,9 +4,9 @@ namespace TRegx\CleanRegex\Replace\Details\Group;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
+use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
-use TRegx\CleanRegex\Replace\Details\Modification;
 
 class ReplaceMatchedGroup extends MatchedGroup implements ReplaceGroup
 {

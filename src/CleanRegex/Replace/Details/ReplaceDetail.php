@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Details;
 
+use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;

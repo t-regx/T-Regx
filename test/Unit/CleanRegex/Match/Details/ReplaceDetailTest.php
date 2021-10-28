@@ -10,9 +10,9 @@ use Test\Fakes\CleanRegex\Match\Details\UserDataDetail;
 use Test\Fakes\CleanRegex\Replace\Details\ConstantModification;
 use Test\Fakes\CleanRegex\Replace\Details\ThrowModification;
 use TRegx\CleanRegex\Internal\Match\UserData;
+use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
-use TRegx\CleanRegex\Replace\Details\Modification;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 /**

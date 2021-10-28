@@ -9,12 +9,12 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
+use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\CapturingGroup;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
-use TRegx\CleanRegex\Replace\Details\Modification;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 class ReplaceCallbackObject
