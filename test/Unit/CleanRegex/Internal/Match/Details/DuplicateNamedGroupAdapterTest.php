@@ -13,20 +13,6 @@ use TRegx\CleanRegex\Match\Details\Group\Group;
  */
 class DuplicateNamedGroupAdapterTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function shouldGetName(): void
-    {
-        // given
-        $adapter = new DuplicateNamedGroupAdapter('foo', $this->matchGroup('name', [], 'bar', 0));
-
-        // when
-        $name = $adapter->name();
-
-        // then
-        $this->assertSame('foo', $name);
-    }
 
     /**
      * @test
