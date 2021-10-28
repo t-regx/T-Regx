@@ -1,10 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Match\Details\ByteOffsetDetail;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Match\Details\Detail;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\UserData
@@ -18,8 +17,8 @@ class UserDataTest extends TestCase
     {
         // given
         $container = new UserData();
-        $detail = $this->createMockWithByteOffset(14);
-        $otherMatch = $this->createMockWithByteOffset(15);
+        $detail = new ByteOffsetDetail(14);
+        $otherMatch = new ByteOffsetDetail(15);
 
         // when
         $container->set($detail, false);
@@ -37,20 +36,11 @@ class UserDataTest extends TestCase
     {
         // given
         $container = new UserData();
-        $detail = $this->createMockWithByteOffset(14);
 
         // when
-        $result = $container->get($detail);
+        $result = $container->get(new ByteOffsetDetail(14));
 
         // then
         $this->assertNull($result);
-    }
-
-    private function createMockWithByteOffset(int $byteOffset): Detail
-    {
-        /** @var Detail|MockObject $detail */
-        $detail = $this->createMock(Detail::class);
-        $detail->method('byteOffset')->willReturn($byteOffset);
-        return $detail;
     }
 }
