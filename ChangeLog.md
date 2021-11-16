@@ -8,6 +8,8 @@ Incoming
     * Removed `replace()->otherwise()`. Use `counting()` instead.
     * Removed `replace()->otherwiseReturning()`. Use `counting()` instead.
     * Removed `replace()->otherwiseThrowing()`. Use `counting()` or `atLeast()` instead.
+* Other
+    * T-Regx follows [Semantic Versioning 2](https://semver.org/)
 
 Added in 0.17.0
 ---------------

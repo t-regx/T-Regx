@@ -4,7 +4,7 @@
 <p align="center">
     <a href="https://github.com/T-Regx/T-Regx/actions/"><img src="https://github.com/T-Regx/T-Regx/workflows/build/badge.svg?branch=master" alt="Build status"/></a>
     <a href="#about-coverage"><img src="https://img.shields.io/badge/coverage-100%25-green.svg" alt="Integration tests"/></a>    
-    <a href="https://github.com/T-Regx/T-Regx/releases"><img src="https://img.shields.io/badge/Stable-v0.17.0-brightgreen.svg?style=popout"/></a>
+    <a href="https://github.com/T-Regx/T-Regx/releases"><img src="https://img.shields.io/badge/latest-v0.17.0-brightgreen.svg?style=popout"/></a>
     <a href="https://github.com/T-Regx/T-Regx"><img src="https://img.shields.io/badge/dependencies-0-brightgreen.svg"/></a>
 </p>
 
