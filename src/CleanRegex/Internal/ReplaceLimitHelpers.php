@@ -30,21 +30,6 @@ trait ReplaceLimitHelpers
         return $this->all()->by();
     }
 
-    public function otherwiseThrowing(string $exceptionClassName = null): CompositeReplacePattern
-    {
-        return $this->all()->otherwiseThrowing($exceptionClassName);
-    }
-
-    public function otherwiseReturning($substitute): CompositeReplacePattern
-    {
-        return $this->all()->otherwiseReturning($substitute);
-    }
-
-    public function otherwise(callable $substituteProducer): CompositeReplacePattern
-    {
-        return $this->all()->otherwise($substituteProducer);
-    }
-
     public function counting(callable $countReceiver): CompositeReplacePattern
     {
         return $this->all()->counting($countReceiver);

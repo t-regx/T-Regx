@@ -4,7 +4,10 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Removed `replace()->otherwise()`. Use `counting()` instead.
+    * Removed `replace()->otherwiseReturning()`. Use `counting()` instead.
+    * Removed `replace()->otherwiseThrowing()`. Use `counting()` or `atLeast()` instead.
 
 Added in 0.17.0
 ---------------

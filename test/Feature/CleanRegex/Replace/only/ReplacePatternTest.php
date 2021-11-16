@@ -110,16 +110,4 @@ class ReplacePatternTest extends TestCase
         ];
         $this->assertSame($expected, $subjects);
     }
-
-    /**
-     * @test
-     */
-    public function shouldReturn_substitute()
-    {
-        // when
-        $result = pattern('Foo')->replace('Bar')->only(2)->otherwiseReturning('otherwise')->with('');
-
-        // then
-        $this->assertSame('otherwise', $result);
-    }
 }

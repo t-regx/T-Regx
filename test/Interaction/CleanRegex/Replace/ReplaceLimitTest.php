@@ -53,48 +53,6 @@ class ReplaceLimitTest extends TestCase
     /**
      * @test
      */
-    public function shouldLimit_otherwise_all()
-    {
-        // given
-        $limit = new ReplaceLimit(Definitions::pcre('/[0-9a-g]/'), new StringSubject('123456789abcdefg'));
-
-        // when
-        $limit->all()
-            ->otherwiseReturning('otherwise')
-            ->callback($this->assertReplaceLimit(-1));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldLimit_otherwise_first()
-    {
-        // given
-        $limit = new ReplaceLimit(Definitions::pcre('/[0-9]/'), new StringSubject('123'));
-
-        // when
-        $limit->first()
-            ->otherwiseReturning('otherwise')
-            ->callback($this->assertReplaceLimit(1));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldLimit_otherwise_only()
-    {
-        // given
-        $limit = new ReplaceLimit(Definitions::pcre('/[0-9]/'), new StringSubject('123'));
-
-        // when
-        $limit->only(2)
-            ->otherwiseReturning('otherwise')
-            ->callback($this->assertReplaceLimit(2));
-    }
-
-    /**
-     * @test
-     */
     public function shouldThrow_only_onNegativeLimit()
     {
         // given

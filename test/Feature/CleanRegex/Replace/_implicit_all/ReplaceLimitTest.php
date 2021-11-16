@@ -2,10 +2,8 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\_implicit_all;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
-use TRegx\CleanRegex\Exception\NotReplacedException;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 /**
@@ -74,109 +72,6 @@ class ReplaceLimitTest extends TestCase
 
         // then
         $this->assertSame('apple, orange, apple', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReplace_otherwiseThrowing()
-    {
-        // when
-        $result = pattern('\w+')->replace('Foo, Bar, Cat')->otherwiseThrowing()->with('X');
-
-        // then
-        $this->assertSame('X, X, X', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_otherwiseThrowing()
-    {
-        // then
-        $this->expectException(NotReplacedException::class);
-        $this->expectExceptionMessage("Replacements were supposed to be performed, but subject doesn't match the pattern");
-
-        // when
-        pattern('Foo')->replace('Bar')->otherwiseThrowing()->with('X');
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_otherwiseThrowing_WithCustomException()
-    {
-        // then
-        $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage("Replacements were supposed to be performed, but subject doesn't match the pattern");
-
-        // when
-        pattern('Foo')->replace('Bar')->otherwiseThrowing(CustomSubjectException::class)->with('X');
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReplace_otherwiseReturning()
-    {
-        // when
-        $result = pattern('Foo')->replace('Foo Foo Foo')->otherwiseReturning('Otherwise')->with('Bar');
-
-        // then
-        $this->assertSame('Bar Bar Bar', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturn_otherwiseReturning_OnUnmatchedSubject()
-    {
-        // when
-        $result = pattern('Foo')->replace('Bar')->otherwiseReturning('Otherwise')->with('Bar');
-
-        // then
-        $this->assertSame('Otherwise', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReplace_otherwise()
-    {
-        // when
-        $result = pattern('Foo')->replace('Foo Foo Foo')->otherwise(Functions::fail())->with('Bar');
-
-        // then
-        $this->assertSame('Bar Bar Bar', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturn_otherwise_OnUnmatchedSubject()
-    {
-        // when
-        $result = pattern('Foo')->replace('Bar')->otherwise(Functions::constant('Otherwise'))->with('Bar');
-
-        // then
-        $this->assertSame('Otherwise', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldCall_otherwise_OnUnmatchedSubject()
-    {
-        // when
-        pattern('Foo')->replace('subject')
-            ->otherwise(function ($subject) {
-                // then
-                $this->assertSame('subject', $subject);
-
-                // cleanup
-                return "";
-            })
-            ->with('Bar');
     }
 
     /**

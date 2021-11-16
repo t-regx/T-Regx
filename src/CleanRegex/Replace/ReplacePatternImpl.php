@@ -1,15 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
-use TRegx\CleanRegex\Exception\NotReplacedException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Message\Replace\NoReplacementsMessage;
-use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\OtherwiseStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
-use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\CallbackCountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
@@ -53,21 +48,6 @@ abstract class ReplacePatternImpl implements ReplacePattern
     public function by(): ByReplacePattern
     {
         return $this->replacePattern->by();
-    }
-
-    public function otherwiseThrowing(string $exceptionClassName = null): CompositeReplacePattern
-    {
-        return $this->replacePattern(new ThrowStrategy($exceptionClassName ?? NotReplacedException::class, new NoReplacementsMessage()), new IgnoreCounting());
-    }
-
-    public function otherwiseReturning($substitute): CompositeReplacePattern
-    {
-        return $this->replacePattern(new ConstantReturnStrategy($substitute), new IgnoreCounting());
-    }
-
-    public function otherwise(callable $substituteProducer): CompositeReplacePattern
-    {
-        return $this->replacePattern(new OtherwiseStrategy($substituteProducer), new IgnoreCounting());
     }
 
     public function counting(callable $countReceiver): CompositeReplacePattern

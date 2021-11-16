@@ -121,16 +121,4 @@ class ReplacePatternTest extends TestCase
             return '';
         });
     }
-
-    /**
-     * @test
-     */
-    public function shouldReturn_nonReplacedStrategy()
-    {
-        // when
-        $result = pattern('Foo')->replace('Bar')->all()->otherwiseReturning('otherwise')->with('');
-
-        // then
-        $this->assertSame('otherwise', $result);
-    }
 }
