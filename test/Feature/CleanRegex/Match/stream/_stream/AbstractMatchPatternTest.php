@@ -5,9 +5,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\Details\Detail;
 
-/**
- * @coversNothing
- */
 class AbstractMatchPatternTest extends TestCase
 {
     /**

@@ -6,9 +6,6 @@ use Test\Utils\CustomException;
 use Test\Utils\FocusGroupPairs;
 use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;
 
-/**
- * @coversNothing
- */
 class ReplacePatternTest extends TestCase
 {
     /**

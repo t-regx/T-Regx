@@ -8,9 +8,6 @@ use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeError;
 use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeErrorFactory;
 
-/**
- * @coversNothing
- */
 class RuntimeErrorTest extends TestCase
 {
     use Warnings;

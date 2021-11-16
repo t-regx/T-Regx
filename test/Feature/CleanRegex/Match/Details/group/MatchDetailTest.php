@@ -10,9 +10,6 @@ use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use function pattern;
 
-/**
- * @coversNothing
- */
 class MatchDetailTest extends TestCase
 {
     /**

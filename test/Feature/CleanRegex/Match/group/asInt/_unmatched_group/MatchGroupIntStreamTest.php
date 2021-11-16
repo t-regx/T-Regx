@@ -7,9 +7,6 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 
-/**
- * @coversNothing
- */
 class MatchGroupIntStreamTest extends TestCase
 {
     use ExactExceptionMessage;

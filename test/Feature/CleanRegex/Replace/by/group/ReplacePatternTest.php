@@ -14,9 +14,6 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Match\Details\LazyDetail;
 use TRegx\DataProvider\DataProviders;
 
-/**
- * @coversNothing
- */
 class ReplacePatternTest extends TestCase
 {
     /**

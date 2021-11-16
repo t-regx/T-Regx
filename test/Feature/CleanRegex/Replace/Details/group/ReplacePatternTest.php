@@ -5,9 +5,6 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
-/**
- * @coversNothing
- */
 class ReplacePatternTest extends TestCase
 {
     /**

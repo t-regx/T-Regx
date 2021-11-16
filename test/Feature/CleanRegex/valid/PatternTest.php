@@ -4,9 +4,6 @@ namespace Test\Feature\TRegx\CleanRegex\valid;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
 
-/**
- * @coversNothing
- */
 class PatternTest extends TestCase
 {
     /**

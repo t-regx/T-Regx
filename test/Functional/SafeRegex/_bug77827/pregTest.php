@@ -4,9 +4,6 @@ namespace Test\Functional\TRegx\SafeRegex\_bug77827;
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\preg;
 
-/**
- * @coversNothing
- */
 class pregTest extends TestCase
 {
     /**

@@ -7,9 +7,6 @@ use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 use function pattern;
 
-/**
- * @coversNothing
- */
 class ReplacePatternTest extends TestCase
 {
     use ExactExceptionMessage;

@@ -6,9 +6,6 @@ use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
 use TRegx\CleanRegex\Pattern;
 use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;
 
-/**
- * @coversNothing
- */
 class ReplacePatternTest extends TestCase
 {
     /**

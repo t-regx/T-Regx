@@ -8,9 +8,6 @@ use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
 
-/**
- * @coversNothing
- */
 class PatternTest extends TestCase
 {
     use AssertsPattern;

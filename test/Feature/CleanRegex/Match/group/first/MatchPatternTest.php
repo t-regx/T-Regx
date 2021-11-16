@@ -8,9 +8,6 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
-/**
- * @coversNothing
- */
 class MatchPatternTest extends TestCase
 {
     /**

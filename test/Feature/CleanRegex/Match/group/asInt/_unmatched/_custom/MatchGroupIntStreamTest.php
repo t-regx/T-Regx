@@ -5,9 +5,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Functions;
 
-/**
- * @coversNothing
- */
 class MatchGroupIntStreamTest extends TestCase
 {
     /**

@@ -7,9 +7,6 @@ use Test\DataProviders;
 use TRegx\DataProvider\CrossDataProviders;
 use function pattern;
 
-/**
- * @coversNothing
- */
 class PatternTest extends TestCase
 {
     /**

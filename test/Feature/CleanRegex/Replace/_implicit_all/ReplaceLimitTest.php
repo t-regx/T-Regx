@@ -6,9 +6,6 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Match\Details\Detail;
 
-/**
- * @coversNothing
- */
 class ReplaceLimitTest extends TestCase
 {
     /**

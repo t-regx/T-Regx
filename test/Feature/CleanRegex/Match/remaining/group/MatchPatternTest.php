@@ -5,9 +5,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 
-/**
- * @coversNothing
- */
 class MatchPatternTest extends TestCase
 {
     use AssertsSameMatches;

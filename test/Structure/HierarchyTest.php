@@ -11,9 +11,7 @@ use TRegx\SafeRegex\Exception\PregException;
 use TRegx\SafeRegex\Exception\PregMalformedPatternException;
 use TRegx\SafeRegex\preg;
 
-/**
- * @coversNothing
- */
+
 class HierarchyTest extends TestCase
 {
     use AssertsHasClass;

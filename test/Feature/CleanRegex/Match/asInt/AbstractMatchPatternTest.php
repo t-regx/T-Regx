@@ -12,9 +12,6 @@ use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
 
-/**
- * @coversNothing
- */
 class AbstractMatchPatternTest extends TestCase
 {
     use ExactExceptionMessage;

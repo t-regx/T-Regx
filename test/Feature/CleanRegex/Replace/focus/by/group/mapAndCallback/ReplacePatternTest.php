@@ -7,9 +7,6 @@ use Test\Utils\FocusGroupPairs;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;
 
-/**
- * @coversNothing
- */
 class ReplacePatternTest extends TestCase
 {
     /**

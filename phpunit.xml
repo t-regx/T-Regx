@@ -1,8 +1,6 @@
-<phpunit bootstrap="vendor/autoload.php"
-         forceCoversAnnotation="true"
-         failOnRisky="true">
+<phpunit bootstrap="vendor/autoload.php" failOnRisky="true">
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+        <whitelist>
             <directory suffix=".php">./src</directory>
             <exclude>
                 <directory suffix=".php">./vendor</directory>

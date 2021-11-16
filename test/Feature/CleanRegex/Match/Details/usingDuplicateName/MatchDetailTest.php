@@ -5,9 +5,6 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Detail;
 
-/**
- * @coversNothing
- */
 class MatchDetailTest extends TestCase
 {
     /**

@@ -7,9 +7,6 @@ use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
 
-/**
- * @coversNothing
- */
 class PatternTest extends TestCase
 {
     use AssertsPattern;

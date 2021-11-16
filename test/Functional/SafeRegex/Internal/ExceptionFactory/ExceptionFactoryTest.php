@@ -9,9 +9,7 @@ use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Internal\ExceptionFactory;
 use TRegx\SafeRegex\Internal\Guard\Strategy\DefaultSuspectedReturnStrategy;
 
-/**
- * @coversNothing
- */
+
 class ExceptionFactoryTest extends TestCase
 {
     protected function setUp(): void

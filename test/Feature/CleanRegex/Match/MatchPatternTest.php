@@ -14,9 +14,6 @@ use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\Stream;
 use function pattern;
 
-/**
- * @coversNothing
- */
 class MatchPatternTest extends TestCase
 {
     use AssertsSameMatches;

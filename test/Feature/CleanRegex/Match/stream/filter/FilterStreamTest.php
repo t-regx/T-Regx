@@ -5,9 +5,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 
-/**
- * @coversNothing
- */
 class FilterStreamTest extends TestCase
 {
     /**

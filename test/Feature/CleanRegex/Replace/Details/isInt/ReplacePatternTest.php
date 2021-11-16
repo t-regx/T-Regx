@@ -5,9 +5,6 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 use function pattern;
 
-/**
- * @coversNothing
- */
 class ReplacePatternTest extends TestCase
 {
     /**

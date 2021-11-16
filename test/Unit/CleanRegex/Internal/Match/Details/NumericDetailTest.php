@@ -6,9 +6,7 @@ use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowEntry;
 use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Internal\Match\Details\NumericDetail;
 
-/**
- * @coversNothing
- */
+
 class NumericDetailTest extends TestCase
 {
     use TestCasePasses;

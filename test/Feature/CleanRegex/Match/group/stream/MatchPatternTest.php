@@ -9,9 +9,6 @@ use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
-/**
- * @coversNothing
- */
 class MatchPatternTest extends TestCase
 {
     use AssertsSameMatches;

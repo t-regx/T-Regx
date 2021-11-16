@@ -9,9 +9,6 @@ use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
 
-/**
- * @coversNothing
- */
 class PatternTest extends TestCase
 {
     use AssertsPattern;

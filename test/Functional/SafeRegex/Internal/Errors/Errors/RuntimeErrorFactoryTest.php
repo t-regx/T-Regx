@@ -5,9 +5,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Warnings;
 use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeErrorFactory;
 
-/**
- * @coversNothing
- */
 class RuntimeErrorFactoryTest extends TestCase
 {
     use Warnings;

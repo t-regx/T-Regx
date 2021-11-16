@@ -7,9 +7,6 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use function pattern;
 
-/**
- * @coversNothing
- */
 class AbstractMatchPatternTest extends TestCase
 {
     /**

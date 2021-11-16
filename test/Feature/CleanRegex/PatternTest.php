@@ -7,9 +7,6 @@ use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 
-/**
- * @coversNothing
- */
 class PatternTest extends TestCase
 {
     use AssertsPattern;

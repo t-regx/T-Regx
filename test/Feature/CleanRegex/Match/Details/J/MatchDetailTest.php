@@ -7,9 +7,6 @@ use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 
-/**
- * @coversNothing
- */
 class MatchDetailTest extends TestCase
 {
     /**

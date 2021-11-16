@@ -11,9 +11,6 @@ use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 
-/**
- * @coversNothing
- */
 class MatchGroupOffsetStreamTest extends TestCase
 {
     use AssertsSameMatches, ExactExceptionMessage;

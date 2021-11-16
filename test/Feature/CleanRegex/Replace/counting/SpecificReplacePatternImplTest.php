@@ -4,9 +4,6 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\counting;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 
-/**
- * @coversNothing
- */
 class SpecificReplacePatternImplTest extends TestCase
 {
     /**

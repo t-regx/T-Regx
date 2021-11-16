@@ -2,8 +2,8 @@
     <a href="https://t-regx.com"><img src="t.regx.png" alt="T-Regx"></a>
 </p>
 <p align="center">
-    <a href="https://github.com/T-Regx/T-Regx/actions/"><img src="https://github.com/T-Regx/T-Regx/workflows/build/badge.svg?branch=master" alt="Build status"/></a>
-    <a href="#about-coverage"><img src="https://img.shields.io/badge/coverage-100%25-green.svg" alt="Integration tests"/></a>    
+    <a href="https://github.com/T-Regx/T-Regx/actions/"><img src="https://github.com/T-Regx/T-Regx/workflows/build/badge.svg" alt="Build status"/></a>
+    <a href="https://coveralls.io/github/T-Regx/T-Regx"><img src="https://coveralls.io/repos/github/T-Regx/T-Regx/badge.svg" alt="Unit tests"/></a>
     <a href="https://github.com/T-Regx/T-Regx/releases"><img src="https://img.shields.io/badge/latest-0.18.0-brightgreen.svg?style=popout"/></a>
     <a href="https://github.com/T-Regx/T-Regx"><img src="https://img.shields.io/badge/dependencies-0-brightgreen.svg"/></a>
 </p>
@@ -143,30 +143,6 @@ or
 
 - [Andreas Leathley](https://github.com/iquito) - developing [SquirrelPHP](https://github.com/squirrelphp)
 - [BarxizePL](https://github.com/BarxizePL) - Thanks!
-
-## About coverage
-
-We achived 100% coverage in T-Regx something about a year ago. We developed our library with the most rigorous TDD we
-could achieve, and got to 97% pretty easily. Then we used coverage to find the cases that weren't covered, and written
-unit tests, interaction tests and feature tests for those. And we didn't do that to bump the coverege, no, we did that
-to ensure the contracts and behaviours in the application, and most importantly, to reduce bugs. We think we did well.
-
-But now that we had 100% coverage, it became useless. I mean, yes, it was 100% but what could we do with it? When we had
-less than 100% at least we could use it to find places which aren't covered, we knew we squrewed up and had to look for
-more behaviorus and contracts to test. Now that we have 100%, we can't use it anymore. It became useless.
-
-In order to make coverage usable again, we excluded feautre tests and integration tests from the coverage reports. The
-tests are still being run by us during the development, and they still run in the CI, but we're ignoring it in the
-coverage. Only unit tests are covered by the coverage now. The second we did that, the coverage dropped to 40%. That's
-good, it gives us two things! First, it lets us know that not only everything is covered by feature tests and
-integration tests, but also more than half of the library is covered in unit tests. Secondly, now we exactly know what
-parts of the application aren't covered by unit tests. We can use it! Now, the coverage can actually help us again. When
-we cover more cases with unit tests and reach 100% again, then sadly, coverage will cease to be a useful tool for good,
-at which point we'll probably dismiss using it.
-
-- Integration tests <img src="https://img.shields.io/badge/coverage-100%25-green.svg" alt="Integration tests"/>
-- Unit
-  tests <a href="https://coveralls.io/github/T-Regx/T-Regx?branch=develop"><img src="https://coveralls.io/repos/github/T-Regx/T-Regx/badge.svg?branch=master" alt="Unit tests"/></a>
 
 # T-Regx is developed thanks to
 

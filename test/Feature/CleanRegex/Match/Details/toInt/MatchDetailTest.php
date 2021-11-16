@@ -9,9 +9,6 @@ use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use function pattern;
 
-/**
- * @coversNothing
- */
 class MatchDetailTest extends TestCase
 {
     use ExactExceptionMessage;
