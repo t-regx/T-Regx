@@ -78,7 +78,7 @@ class GroupConsumerTest extends TestCase
     /**
      * @test
      */
-    public function shouldconsumeGroupFlagsWithoutPatternFlags()
+    public function shouldConsumeGroupFlagsWithoutPatternFlags()
     {
         // given
         $assertion = PatternEntitiesAssertion::withConsumers([new GroupConsumer()]);
