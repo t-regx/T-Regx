@@ -23,7 +23,9 @@ class EscapeConsumer implements Consumer
     {
         $letter = $feed->letter();
         if ($letter->consumable()) {
-            return new Escaped($letter->consume());
+            $letterString = $letter->asString();
+            $letter->commit();
+            return new Escaped($letterString);
         }
         return new TerminatingEscape();
     }

@@ -22,7 +22,9 @@ class ControlConsumer implements Consumer
     {
         $letter = $feed->letter();
         if ($letter->consumable()) {
-            return new Control($letter->consume());
+            $letterString = $letter->asString();
+            $letter->commit();
+            return new Control($letterString);
         }
         return new Control('');
     }

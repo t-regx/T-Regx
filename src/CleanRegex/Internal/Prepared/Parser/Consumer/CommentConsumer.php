@@ -26,7 +26,9 @@ class CommentConsumer implements Consumer
                 $commentEnd->commit();
                 return new Comment("$comment\n");
             }
-            $comment .= $feed->letter()->consume();
+            $letter = $feed->letter();
+            $comment .= $letter->asString();
+            $letter->commit();
         }
         return new Comment($comment);
     }

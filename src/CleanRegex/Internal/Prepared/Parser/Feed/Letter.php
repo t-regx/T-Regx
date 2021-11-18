@@ -19,11 +19,9 @@ class Letter implements Condition
         return !$this->shiftString->empty();
     }
 
-    public function consume(): string
+    public function asString(): string
     {
-        $letter = $this->shiftString->firstLetter();
-        $this->shiftString->shift($letter);
-        return $letter;
+        return $this->shiftString->firstLetter();
     }
 
     public function met(EntitySequence $entities): bool
@@ -33,6 +31,6 @@ class Letter implements Condition
 
     public function commit(): void
     {
-        $this->consume();
+        $this->shiftString->shift($this->asString());
     }
 }
