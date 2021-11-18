@@ -204,18 +204,18 @@ class PcreParserTest extends TestCase
             'plain #3' => ['', "car\nhello", ["car\nhello"]],
             'plain #4' => ['', "car\\\nhello", ['car', new Escaped("\n"), 'hello']],
 
-            'extended #1' => ['x', 'car#hello', ['car', new Comment('hello', false)]],
+            'extended #1' => ['x', 'car#hello', ['car', new Comment('hello')]],
             'extended #2' => ['x', 'car\#hello', ['car', new Escaped('#'), 'hello']],
             'extended #3' => ['x', "car\nhello", ["car\nhello"]],
             'extended #4' => ['x', "car\\\nhello", ['car', new Escaped("\n"), 'hello']],
 
-            'in-pattern #0' => ['x', '#', [new Comment('', false)]],
-            'in-pattern #1' => ['', '(?x:car#hello)', [new GroupOpenFlags('x'), 'car', new Comment('hello)', false)]],
+            'in-pattern #0' => ['x', '#', [new Comment('')]],
+            'in-pattern #1' => ['', '(?x:car#hello)', [new GroupOpenFlags('x'), 'car', new Comment('hello)')]],
             'in-pattern #2' => ['x', '(?-x:car#hello)', [new GroupOpenFlags('-x'), 'car#hello', new GroupClose()]],
             'in-pattern #3' => ['x', "(?-x:(?x:#hello\n))", [
                 new GroupOpenFlags('-x'),
                 new GroupOpenFlags('x'),
-                new Comment('hello', true),
+                new Comment("hello\n"),
                 new GroupClose(),
                 new GroupClose()]
             ],

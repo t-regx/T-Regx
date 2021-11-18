@@ -43,7 +43,7 @@ class CommentConsumerTest extends TestCase
         // then
         $assertion->assertPatternRepresents("(?x:#boo\n", [
             new GroupOpenFlags('x'),
-            new Comment('boo', true)
+            new Comment("boo\n")
         ]);
     }
 
@@ -106,7 +106,7 @@ class CommentConsumerTest extends TestCase
             new GroupOpenFlags('x'),
             new GroupOpenFlags('-x'),
             new GroupClose(),
-            new Comment('boo', false)
+            new Comment('boo')
         ]);
     }
 
@@ -119,7 +119,7 @@ class CommentConsumerTest extends TestCase
         $assertion = PatternEntitiesAssertion::withConsumers([new CommentConsumer()]);
 
         // then
-        $assertion->assertPatternFlagsRepresent('#boo', 'x', [new Comment('boo', false)]);
+        $assertion->assertPatternFlagsRepresent('#boo', 'x', [new Comment('boo')]);
     }
 
     /**
@@ -154,7 +154,7 @@ class CommentConsumerTest extends TestCase
 
         // then
         $assertion->assertPatternFlagsRepresent("#foor\nbar", 'x', [
-            new Comment('foor', true),
+            new Comment("foor\n"),
             'bar',
         ]);
     }

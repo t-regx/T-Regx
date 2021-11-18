@@ -12,20 +12,14 @@ class Comment implements Entity
 
     /** @var Chars */
     private $comment;
-    /** @var bool */
-    private $closed;
 
-    public function __construct(string $comment, bool $closed)
+    public function __construct(string $comment)
     {
         $this->comment = new Chars($comment);
-        $this->closed = $closed;
     }
 
     public function phrase(): Phrase
     {
-        if ($this->closed) {
-            return new PatternPhrase("#$this->comment\n");
-        }
         if ($this->comment->endsWith('\\')) {
             return new ConjugatedPhrase("#\\\n", "#\\");
         }

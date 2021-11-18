@@ -24,10 +24,10 @@ class CommentConsumer implements Consumer
             $commentEnd = $feed->string("\n");
             if ($commentEnd->consumable()) {
                 $commentEnd->commit();
-                return new Comment($comment, true);
+                return new Comment("$comment\n");
             }
             $comment .= $feed->letter()->consume();
         }
-        return new Comment($comment, false);
+        return new Comment($comment);
     }
 }
