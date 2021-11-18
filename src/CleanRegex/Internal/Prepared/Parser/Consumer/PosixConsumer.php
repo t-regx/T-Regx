@@ -22,7 +22,7 @@ class PosixConsumer implements Consumer
         while (true) {
             $closingTag = $feed->string(']');
             if ($closingTag->consumable()) {
-                $closingTag->consume();
+                $closingTag->commit();
                 if ($posix !== '') {
                     $entities->append(new Posix($posix));
                 }

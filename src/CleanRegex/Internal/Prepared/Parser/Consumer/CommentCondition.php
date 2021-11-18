@@ -25,6 +25,6 @@ class CommentCondition implements Condition
 
     public function commit(): void
     {
-        $this->string->consume();
+        $this->string->commit();
     }
 }

@@ -22,11 +22,6 @@ class ConstantString implements Condition
         return $this->shiftString->startsWith($this->string);
     }
 
-    public function consume(): void
-    {
-        $this->shiftString->shift($this->string);
-    }
-
     public function met(EntitySequence $entities): bool
     {
         return $this->consumable();
@@ -34,6 +29,6 @@ class ConstantString implements Condition
 
     public function commit(): void
     {
-        $this->consume();
+        $this->shiftString->shift($this->string);
     }
 }

@@ -23,7 +23,7 @@ class CommentConsumer implements Consumer
         while (!$feed->empty()) {
             $commentEnd = $feed->string("\n");
             if ($commentEnd->consumable()) {
-                $commentEnd->consume();
+                $commentEnd->commit();
                 return new Comment($comment, true);
             }
             $comment .= $feed->letter()->consume();
