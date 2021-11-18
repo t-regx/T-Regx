@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser\Consumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Comment;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\StringConditions;
 
 class CommentConsumer implements Consumer
 {
@@ -14,22 +15,20 @@ class CommentConsumer implements Consumer
 
     public function consume(Feed $feed, EntitySequence $entities): void
     {
-        $entities->append($this->consumeComment($feed));
+        $strings = new StringConditions();
+        $this->commitToStrings($feed, $strings);
+        $entities->append(new Comment($strings->asString()));
     }
 
-    private function consumeComment(Feed $feed): Comment
+    private function commitToStrings(Feed $feed, StringConditions $strings): void
     {
-        $comment = '';
+        $commentEnd = $feed->string("\n");
         while (!$feed->empty()) {
-            $commentEnd = $feed->string("\n");
             if ($commentEnd->consumable()) {
-                $commentEnd->commit();
-                return new Comment("$comment\n");
+                $strings->add($commentEnd);
+                break;
             }
-            $letter = $feed->letter();
-            $comment .= $letter->asString();
-            $letter->commit();
+            $strings->add($feed->letter());
         }
-        return new Comment($comment);
     }
 }

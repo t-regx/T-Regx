@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\Condition;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
 
-class Letter implements Condition
+class Letter implements Condition, StringCondition
 {
     /** @var ShiftString */
     private $shiftString;
