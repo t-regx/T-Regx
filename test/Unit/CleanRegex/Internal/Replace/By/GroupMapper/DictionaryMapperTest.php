@@ -44,19 +44,6 @@ class DictionaryMapperTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_forInvalidKey()
-    {
-        // then
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid replacement map key. Expected string, but integer (1) given');
-
-        // when
-        new DictionaryMapper([1 => 'new']);
-    }
-
-    /**
-     * @test
-     */
     public function shouldThrow_forInvalidValue()
     {
         // then

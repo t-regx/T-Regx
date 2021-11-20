@@ -219,17 +219,16 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_onInvalidKey()
+    public function shouldReplaceWithNumericString()
     {
         // given
-        $map = [2 => ''];
-
-        // then
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Invalid replacement map key. Expected string, but integer (2) given");
+        $map = ['456' => '123'];
 
         // when
-        pattern('(One|Two)')->replace('')->first()->by()->group(1)->map($map)->orElseWith('failing');
+        $result = pattern('(456)')->replace('456')->first()->by()->group(1)->map($map)->orElseWith('failing');
+
+        // then
+        $this->assertSame('123', $result);
     }
 
     /**

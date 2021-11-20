@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Features
+    * `replace()->by()->map()` allows for replacing `int` and numeric strings (`"12"`)
 
 Added in 0.18.0
 ---------------

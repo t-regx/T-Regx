@@ -26,12 +26,9 @@ class DictionaryMapper implements GroupMapper
 
     private function validateMap(array $map): void
     {
-        foreach ($map as $occurrence => $replacement) {
-            if (!\is_string($occurrence)) {
-                throw InvalidArgument::typeGiven("Invalid replacement map key. Expected string", new ValueType($occurrence));
-            }
+        foreach ($map as $replacement) {
             if (!\is_string($replacement)) {
-                throw  InvalidArgument::typeGiven("Invalid replacement map value. Expected string", new ValueType($replacement));
+                throw InvalidArgument::typeGiven("Invalid replacement map value. Expected string", new ValueType($replacement));
             }
         }
     }
