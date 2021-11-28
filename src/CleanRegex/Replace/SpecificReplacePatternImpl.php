@@ -11,6 +11,7 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
+use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
