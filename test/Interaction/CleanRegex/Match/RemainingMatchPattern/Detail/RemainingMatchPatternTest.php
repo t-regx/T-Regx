@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Match\Base\ThrowApiBase;
 use Test\Fakes\CleanRegex\Internal\Match\CallbackPredicate;
 use Test\Utils\Definitions;
-use Test\Utils\Functions;
+use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
@@ -26,7 +26,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGetFirst_callMatch_all()
     {
         // given
-        $matchPattern = $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', Functions::equals('matching'));
+        $matchPattern = $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', DetailFunctions::equals('matching'));
 
         // when
         $all = $matchPattern->first(function (Detail $detail) {
@@ -43,7 +43,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGetFirst_callMatch_group_all()
     {
         // given
-        $matchPattern = $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', Functions::equals('matching'));
+        $matchPattern = $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', DetailFunctions::equals('matching'));
 
         // when
         $all = $matchPattern->first(function (Detail $detail) {
@@ -60,7 +60,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGetFirst_callMatch_all_two()
     {
         // given
-        $matchPattern = $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', Functions::notEquals('Nice'));
+        $matchPattern = $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', DetailFunctions::notEquals('Nice'));
 
         // when
         $all = $matchPattern->first(function (Detail $detail) {
@@ -77,7 +77,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGetFirst_callMatch_group_all_two()
     {
         // given
-        $matchPattern = $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', Functions::notEquals('Nice'));
+        $matchPattern = $this->matchPattern('([A-Z])?[a-z]+', 'Nice matching Pattern', DetailFunctions::notEquals('Nice'));
 
         // when
         $all = $matchPattern->first(function (Detail $detail) {

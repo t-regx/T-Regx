@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\stream\_stream;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Functions;
+use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class AbstractMatchPatternTest extends TestCase
@@ -97,7 +97,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldFirst_keepIndex_remaining()
     {
         // given
-        pattern("(Foo|Bar)")->match("Foo, Bar")->remaining(Functions::equals('Bar'))->stream()->first(function (Detail $detail) {
+        pattern("(Foo|Bar)")->match("Foo, Bar")->remaining(DetailFunctions::equals('Bar'))->stream()->first(function (Detail $detail) {
             // then
             $this->assertSame(1, $detail->index());
         });

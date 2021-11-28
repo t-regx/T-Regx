@@ -4,6 +4,7 @@ namespace Test\Interaction\TRegx\CleanRegex\Replace\Callback;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Definitions;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
@@ -66,7 +67,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
         $invoker = new ReplacePatternCallbackInvoker(Definitions::pattern('[0-9]+'), new StringSubject($subject), 3, new DefaultStrategy(), new IgnoreCounting());
 
         // when
-        $invoker->invoke(Functions::collecting($values, Functions::identity()), new MatchStrategy());
+        $invoker->invoke(DetailFunctions::collecting($values, Functions::identity()), new MatchStrategy());
 
         // then
         $this->assertSameMatches(['192', '168', '17'], $values);

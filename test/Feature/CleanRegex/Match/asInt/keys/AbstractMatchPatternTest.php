@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\asInt\keys;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CustomSubjectException;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use function pattern;
@@ -107,7 +108,7 @@ class AbstractMatchPatternTest extends TestCase
     {
         // when
         $key = pattern('\d+')->match('12 13 14')
-            ->remaining(Functions::equals('13'))
+            ->remaining(DetailFunctions::equals('13'))
             ->asInt()
             ->keys()
             ->first();

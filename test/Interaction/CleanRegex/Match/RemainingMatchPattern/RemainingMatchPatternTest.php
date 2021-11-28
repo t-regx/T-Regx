@@ -6,6 +6,7 @@ use Test\Fakes\CleanRegex\Internal\Match\Base\ThrowApiBase;
 use Test\Fakes\CleanRegex\Internal\Match\CallbackPredicate;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Definitions;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
@@ -90,7 +91,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGet_getIterator()
     {
         // given
-        $matchPattern = $this->matchPattern('\w+', 'a b c b e', Functions::notEquals('b'));
+        $matchPattern = $this->matchPattern('\w+', 'a b c b e', DetailFunctions::notEquals('b'));
 
         // when
         $iterator = $matchPattern->getIterator();
@@ -123,7 +124,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldFirst_firstFiltered()
     {
         // given
-        $matchPattern = $this->matchPattern('[a-z]+', 'first second', Functions::notEquals('first'));
+        $matchPattern = $this->matchPattern('[a-z]+', 'first second', DetailFunctions::notEquals('first'));
 
         // when
         $first = $matchPattern->first();
@@ -288,9 +289,9 @@ class RemainingMatchPatternTest extends TestCase
 
         // when
         $filtered = $this
-            ->matchPattern($pattern, $subject, Functions::notEquals('forgot'))
-            ->remaining(Functions::notEquals('very'))
-            ->remaining(Functions::notEquals('mate'))
+            ->matchPattern($pattern, $subject, DetailFunctions::notEquals('forgot'))
+            ->remaining(DetailFunctions::notEquals('very'))
+            ->remaining(DetailFunctions::notEquals('mate'))
             ->all();
 
         // then
@@ -308,9 +309,9 @@ class RemainingMatchPatternTest extends TestCase
 
         // when
         $indexes = $this
-            ->matchPattern($pattern, $subject, Functions::notEquals('forgot'))
-            ->remaining(Functions::notEquals('very'))
-            ->remaining(Functions::notEquals('thing'))
+            ->matchPattern($pattern, $subject, DetailFunctions::notEquals('forgot'))
+            ->remaining(DetailFunctions::notEquals('very'))
+            ->remaining(DetailFunctions::notEquals('thing'))
             ->flatMap(function (Detail $detail) {
                 return ["$detail" => $detail->index()];
             });
@@ -336,9 +337,9 @@ class RemainingMatchPatternTest extends TestCase
 
         // when
         $filtered = $this
-            ->matchPattern($pattern, $subject, Functions::notEquals('forgot'))
-            ->remaining(Functions::notEquals('very'))
-            ->remaining(Functions::notEquals('mate'))
+            ->matchPattern($pattern, $subject, DetailFunctions::notEquals('forgot'))
+            ->remaining(DetailFunctions::notEquals('very'))
+            ->remaining(DetailFunctions::notEquals('mate'))
             ->first(function (Detail $detail) {
                 return $detail->all();
             });
@@ -427,17 +428,17 @@ class RemainingMatchPatternTest extends TestCase
 
     private function standardMatchPattern_secondFiltered(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'first second third fourth', Functions::notEquals('second'));
+        return $this->matchPattern('[a-z]+', 'first second third fourth', DetailFunctions::notEquals('second'));
     }
 
     private function standardMatchPattern_firstFiltered(): AbstractMatchPattern
     {
-        return $this->matchPattern('[a-z]+', 'first second third fourth', Functions::notEquals('first'));
+        return $this->matchPattern('[a-z]+', 'first second third fourth', DetailFunctions::notEquals('first'));
     }
 
     private function standardMatchPattern_group(string $subject, string $filteredOut): AbstractMatchPattern
     {
-        return $this->matchPattern('(?<capital>[A-Z])[a-z]+', $subject, Functions::notEquals($filteredOut));
+        return $this->matchPattern('(?<capital>[A-Z])[a-z]+', $subject, DetailFunctions::notEquals($filteredOut));
     }
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): AbstractMatchPattern

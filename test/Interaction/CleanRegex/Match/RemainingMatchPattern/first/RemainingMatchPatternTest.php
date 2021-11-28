@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Match\Base\ThrowApiBase;
 use Test\Fakes\CleanRegex\Internal\Match\CallbackPredicate;
 use Test\Utils\Definitions;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
@@ -27,7 +28,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern', Functions::notEquals('matching'));
+        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern', DetailFunctions::notEquals('matching'));
 
         // when
         $first = $matchPattern->first();
@@ -42,7 +43,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGetFirst_callMatch_all()
     {
         // given
-        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern', Functions::notEquals('matching'));
+        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern', DetailFunctions::notEquals('matching'));
 
         // when
         $matchPattern->first(function (Detail $detail) {
@@ -60,7 +61,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGetFirst_callMatch_group_all()
     {
         // given
-        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern', Functions::notEquals('matching'));
+        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern', DetailFunctions::notEquals('matching'));
 
         // when
         $matchPattern->first(function (Detail $detail) {
@@ -78,7 +79,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGetFirst_notFirst()
     {
         // given
-        $matchPattern = $this->matchPattern('[a-z]+', 'foo bar', Functions::notEquals('foo'));
+        $matchPattern = $this->matchPattern('[a-z]+', 'foo bar', DetailFunctions::notEquals('foo'));
 
         // when
         $first = $matchPattern->first();
@@ -125,7 +126,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldNotInvokeFilter()
     {
         // given
-        $matchPattern = $this->matchPattern('\w+', 'One, two, three', Functions::collecting($invoked, Functions::constant(true)));
+        $matchPattern = $this->matchPattern('\w+', 'One, two, three', DetailFunctions::collecting($invoked, Functions::constant(true)));
 
         // when
         $matchPattern->first();
@@ -140,7 +141,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGet_group_asInt_first()
     {
         // given
-        $matchPattern = $this->matchPattern('(\d+)', '14 15', Functions::notEquals('14'));
+        $matchPattern = $this->matchPattern('(\d+)', '14 15', DetailFunctions::notEquals('14'));
 
         // when
         $result = $matchPattern->group(1)->asInt()->first();

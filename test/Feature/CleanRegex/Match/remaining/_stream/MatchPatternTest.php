@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\remaining\_stream;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 
 class MatchPatternTest extends TestCase
@@ -12,7 +13,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_stream_asInt_all()
     {
         // when
-        $all = pattern('\d+')->match('18 19')->remaining(Functions::equals('19'))->stream()->asInt()->all();
+        $all = pattern('\d+')->match('18 19')->remaining(DetailFunctions::equals('19'))->stream()->asInt()->all();
 
         // then
         $this->assertSame([19], $all);
@@ -24,7 +25,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_stream_keys_all()
     {
         // when
-        $keys = pattern('\d+')->match('18 19')->remaining(Functions::equals('19'))->stream()->keys()->all();
+        $keys = pattern('\d+')->match('18 19')->remaining(DetailFunctions::equals('19'))->stream()->keys()->all();
 
         // then
         $this->assertSame([0], $keys);
@@ -36,7 +37,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_stream_keys_first()
     {
         // when
-        $keys = pattern('\d+')->match('18 19 20')->remaining(Functions::equals('20'))->stream()->keys()->first();
+        $keys = pattern('\d+')->match('18 19 20')->remaining(DetailFunctions::equals('20'))->stream()->keys()->first();
 
         // then
         $this->assertSame(0, $keys);

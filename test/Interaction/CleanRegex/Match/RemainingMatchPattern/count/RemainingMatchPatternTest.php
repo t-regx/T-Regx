@@ -6,6 +6,7 @@ use Test\Fakes\CleanRegex\Internal\Match\Base\ThrowApiBase;
 use Test\Fakes\CleanRegex\Internal\Match\CallbackPredicate;
 use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ThrowFactory;
 use Test\Utils\Definitions;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
@@ -25,7 +26,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldCount()
     {
         // given
-        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern', Functions::notEquals('matching'));
+        $matchPattern = $this->matchPattern('[a-z]+', 'nice matching pattern', DetailFunctions::notEquals('matching'));
 
         // when
         $count = $matchPattern->count();

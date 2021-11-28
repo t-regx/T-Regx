@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\groupBy;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -234,7 +235,7 @@ class MatchPatternTest extends TestCase
         $indexes = [];
 
         // when
-        $groupByPattern->$function(Functions::collect($indexes, []));
+        $groupByPattern->$function(DetailFunctions::collect($indexes, []));
 
         // then
         $this->assertSame(\array_flip(['14cm' => 1, '13mm' => 2, '19cm' => 3, '18mm' => 4, '2cm' => 5]), $indexes);

@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\remaining;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 
 class MatchPatternTest extends TestCase
@@ -15,7 +16,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_test()
     {
         // when
-        $matched = pattern('[A-Z][a-z]+')->match('First, Second, Third')->remaining(Functions::equals('Third'))->test();
+        $matched = pattern('[A-Z][a-z]+')->match('First, Second, Third')->remaining(DetailFunctions::equals('Third'))->test();
 
         // then
         $this->assertTrue($matched);
@@ -105,7 +106,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_first()
     {
         // when
-        $first = pattern('[A-Z][a-z]+')->match('First, Second, Third')->remaining(Functions::notEquals('First'))->first();
+        $first = pattern('[A-Z][a-z]+')->match('First, Second, Third')->remaining(DetailFunctions::notEquals('First'))->first();
 
         // then
         $this->assertSame('Second', $first);
@@ -117,7 +118,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_nth()
     {
         // when
-        $result = pattern('\d+(cm|mm)')->match('12cm 14mm 13cm 19cm')->remaining(Functions::notEquals('14mm'))->nth(2);
+        $result = pattern('\d+(cm|mm)')->match('12cm 14mm 13cm 19cm')->remaining(DetailFunctions::notEquals('14mm'))->nth(2);
 
         // then
         $this->assertSame('19cm', $result);
@@ -129,7 +130,7 @@ class MatchPatternTest extends TestCase
     public function shouldReturn_count()
     {
         // when
-        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third')->remaining(Functions::notEquals('Second'))->count();
+        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third')->remaining(DetailFunctions::notEquals('Second'))->count();
 
         // then
         $this->assertSame(2, $filtered);
@@ -141,7 +142,7 @@ class MatchPatternTest extends TestCase
     public function shouldBe_Countable()
     {
         // when
-        $count = count(pattern('\w+')->match('One, two, three')->remaining(Functions::notEquals('two')));
+        $count = count(pattern('\w+')->match('One, two, three')->remaining(DetailFunctions::notEquals('two')));
 
         // then
         $this->assertSame(2, $count);
@@ -154,7 +155,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $iterator = pattern('\w+')->match('One, two, three')
-            ->remaining(Functions::notEquals('two'))
+            ->remaining(DetailFunctions::notEquals('two'))
             ->offsets()
             ->getIterator();
 

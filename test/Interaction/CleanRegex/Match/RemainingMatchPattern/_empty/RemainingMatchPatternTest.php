@@ -8,6 +8,7 @@ use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ThrowFactory;
 use Test\Utils\AssertsOptional;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Definitions;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
@@ -30,7 +31,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGet_All()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
+        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
 
         // when
         $all = $matchPattern->all();
@@ -45,7 +46,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldOnly_2()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
+        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
 
         // when
         $only = $matchPattern->only(2);
@@ -60,7 +61,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldOnly_1()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
+        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
 
         // when
         $only = $matchPattern->only(1);
@@ -75,7 +76,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldCount()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
+        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
 
         // when
         $count = $matchPattern->count();
@@ -105,7 +106,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGet_First()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
+        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
 
         // when
         $first = $matchPattern->first();
@@ -120,7 +121,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGet_First_notFirst()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::indexNotEquals(0));
+        $matchPattern = $this->matchPattern(DetailFunctions::indexNotEquals(0));
 
         // when
         $first = $matchPattern->first();
@@ -151,7 +152,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGet_findFirst()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
+        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
 
         // when
         $findFirst = $matchPattern->findFirst(function (Detail $detail) {
@@ -168,7 +169,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGet_findFirst_notFirst()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::indexNotEquals(0));
+        $matchPattern = $this->matchPattern(DetailFunctions::indexNotEquals(0));
 
         // when
         $findFirst = $matchPattern->findFirst(function (Detail $detail) {
@@ -217,7 +218,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldMatch_some()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
+        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
 
         // when
         $matches = $matchPattern->test();
@@ -251,7 +252,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldFlatMap()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::indexNotEquals(0));
+        $matchPattern = $this->matchPattern(DetailFunctions::indexNotEquals(0));
 
         // when
         $flatMap = $matchPattern->flatMap(function (Detail $detail) {
@@ -268,7 +269,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGet_Offsets_all()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
+        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
 
         // when
         $offsets = $matchPattern->offsets()->all();
@@ -283,7 +284,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGet_Offsets_first()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
+        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
 
         // when
         $offset = $matchPattern->offsets()->first();
@@ -298,7 +299,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldMap()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
+        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
         $mapper = function (Detail $detail) {
             return lcfirst($detail) . ucfirst($detail);
         };
@@ -316,7 +317,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldFindFirst()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
+        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
 
         // when
         $first = $matchPattern
@@ -339,14 +340,14 @@ class RemainingMatchPatternTest extends TestCase
         $pattern = new RemainingMatchPattern(
             new DetailPredicateBaseDecorator(
                 new ApiBase(Definitions::pcre('/[a-z]+/'), new StringSubject($subject), new UserData()),
-                new CallbackPredicate(Functions::notEquals('forgot'))),
+                new CallbackPredicate(DetailFunctions::notEquals('forgot'))),
             new ThrowApiBase(),
             new ThrowFactory());
 
         // when
         $filtered = $pattern
-            ->remaining(Functions::notEquals('very'))
-            ->remaining(Functions::notEquals('mate'))
+            ->remaining(DetailFunctions::notEquals('very'))
+            ->remaining(DetailFunctions::notEquals('mate'))
             ->all();
 
         // then
@@ -359,10 +360,10 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldForEach()
     {
         // given
-        $matchPattern = $this->matchPattern(Functions::notEquals('b'));
+        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
 
         // when
-        $matchPattern->forEach(Functions::collecting($matches));
+        $matchPattern->forEach(DetailFunctions::collecting($matches));
 
         // then
         $this->assertSame(['', 'a', 3 => '', 'c'], $matches);

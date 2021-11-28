@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\remaining\group;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
-use Test\Utils\Functions;
+use Test\Utils\DetailFunctions;
 
 class MatchPatternTest extends TestCase
 {
@@ -17,7 +17,7 @@ class MatchPatternTest extends TestCase
         // given
         $iterable = pattern('\d+([cm]?m)')
             ->match('14cm 12mm 18m')
-            ->remaining(Functions::notEquals('12mm'))
+            ->remaining(DetailFunctions::notEquals('12mm'))
             ->group(1);
 
         // when

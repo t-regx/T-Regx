@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\remaining;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Definitions;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\StringSubject;
@@ -22,7 +23,7 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(Definitions::pattern('\w+'), new StringSubject('Nice matching pattern'));
 
         // when
-        $remaining = $pattern->remaining(Functions::notEquals('Nice'))->all();
+        $remaining = $pattern->remaining(DetailFunctions::notEquals('Nice'))->all();
 
         // then
         $this->assertSame(['matching', 'pattern'], $remaining);

@@ -13,7 +13,7 @@ class FilterStreamTest extends TestCase
     public function shouldReturn_filter_nth()
     {
         // when
-        $result = pattern('\w+')->match('Lorem ipsum dolor')->stream()->filter(Functions::notEquals('Lorem'))->nth(1);
+        $result = pattern('\w+')->match('Lorem ipsum dolor')->stream()->filter(DetailFunctions::notEquals('Lorem'))->nth(1);
 
         // then
         $this->assertSame('dolor', $result->text());
@@ -37,7 +37,7 @@ class FilterStreamTest extends TestCase
     public function shouldReturn_first_FirstMatch()
     {
         // when
-        $result = pattern('\w+')->match('Foo, Bar')->stream()->filter(Functions::equals('Foo'))->first();
+        $result = pattern('\w+')->match('Foo, Bar')->stream()->filter(DetailFunctions::equals('Foo'))->first();
 
         // then
         $this->assertSame('Foo', $result->text());
@@ -49,7 +49,7 @@ class FilterStreamTest extends TestCase
     public function shouldReturn_first_NotFirstMatch()
     {
         // when
-        $result = pattern('\w+')->match('Foo, Bar, Dor')->stream()->filter(Functions::equals('Dor'))->first();
+        $result = pattern('\w+')->match('Foo, Bar, Dor')->stream()->filter(DetailFunctions::equals('Dor'))->first();
 
         // then
         $this->assertSame('Dor', $result->text());
@@ -61,7 +61,7 @@ class FilterStreamTest extends TestCase
     public function shouldReturn_keys_first_FirstMatch()
     {
         // when
-        $key = pattern('\w+')->match('Foo, Bar')->stream()->filter(Functions::equals('Foo'))->keys()->first();
+        $key = pattern('\w+')->match('Foo, Bar')->stream()->filter(DetailFunctions::equals('Foo'))->keys()->first();
 
         // then
         $this->assertSame(0, $key);
@@ -73,7 +73,7 @@ class FilterStreamTest extends TestCase
     public function shouldReturn_keys_first_NotFirstMatch()
     {
         // when
-        $key = pattern('\w+')->match('Foo, Bar, Dor')->stream()->filter(Functions::equals('Dor'))->keys()->first();
+        $key = pattern('\w+')->match('Foo, Bar, Dor')->stream()->filter(DetailFunctions::equals('Dor'))->keys()->first();
 
         // then
         $this->assertSame(0, $key);
@@ -87,7 +87,7 @@ class FilterStreamTest extends TestCase
         // when
         pattern('\w+')->match('Foo, Bar, Dor, Ver, Sir')
             ->stream()
-            ->filter(Functions::collecting($calls, Functions::equals('Sir')))
+            ->filter(DetailFunctions::collecting($calls, DetailFunctions::equals('Sir')))
             ->first();
 
         // then

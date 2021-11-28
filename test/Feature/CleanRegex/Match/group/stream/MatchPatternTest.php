@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group\stream;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
@@ -36,7 +37,7 @@ class MatchPatternTest extends TestCase
             ->match('15mm 12kg 16m 17cm 27kg')
             ->group('unit')
             ->stream()
-            ->filter(Functions::notEquals("kg"))
+            ->filter(DetailFunctions::notEquals("kg"))
             ->all();
 
         // then
@@ -69,7 +70,7 @@ class MatchPatternTest extends TestCase
         // when
         $groups = pattern('\d+(?<unit>kg|[cm]?m)')
             ->match('15mm 12kg 16m 17cm 27kg')
-            ->remaining(Functions::equals('16m'))
+            ->remaining(DetailFunctions::equals('16m'))
             ->group('unit')
             ->stream()
             ->keys()

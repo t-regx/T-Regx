@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group\asInt;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
+use Test\Utils\DetailFunctions;
 use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
@@ -314,7 +315,7 @@ class MatchGroupIntStreamTest extends TestCase
     public function shouldGet_remaining_first(): void
     {
         // when
-        $first = pattern('(\d+)')->match('45 65')->remaining(Functions::equals('65'))->group(1)->asInt()->first();
+        $first = pattern('(\d+)')->match('45 65')->remaining(DetailFunctions::equals('65'))->group(1)->asInt()->first();
 
         // then
         $this->assertSame(65, $first);
@@ -326,7 +327,7 @@ class MatchGroupIntStreamTest extends TestCase
     public function shouldGet_remaining_first_keys(): void
     {
         // when
-        $key = pattern('(\d+)')->match('90 60 75 85')->remaining(Functions::equals('75'))->group(1)->asInt()->keys()->first();
+        $key = pattern('(\d+)')->match('90 60 75 85')->remaining(DetailFunctions::equals('75'))->group(1)->asInt()->keys()->first();
 
         // then
         $this->assertSame(0, $key);

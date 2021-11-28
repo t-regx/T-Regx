@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group\offsets;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
+use Test\Utils\DetailFunctions;
 use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
@@ -200,7 +201,7 @@ class MatchGroupOffsetStreamTest extends TestCase
     public function shouldGet_remaining_first(): void
     {
         // when
-        $first = pattern('(\d+)')->match('Foo 45 65')->remaining(Functions::equals('65'))->group(1)->offsets()->first();
+        $first = pattern('(\d+)')->match('Foo 45 65')->remaining(DetailFunctions::equals('65'))->group(1)->offsets()->first();
 
         // then
         $this->assertSame(7, $first);
@@ -212,7 +213,7 @@ class MatchGroupOffsetStreamTest extends TestCase
     public function shouldGet_remaining_first_keys(): void
     {
         // when
-        $key = pattern('(\d+)')->match('90 60 75 85')->remaining(Functions::equals('75'))->group(1)->offsets()->keys()->first();
+        $key = pattern('(\d+)')->match('90 60 75 85')->remaining(DetailFunctions::equals('75'))->group(1)->offsets()->keys()->first();
 
         // then
         $this->assertSame(0, $key);

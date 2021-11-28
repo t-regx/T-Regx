@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
@@ -153,7 +154,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_filter()
     {
         // when
-        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->filter(Functions::notEquals('Bar'));
+        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->filter(DetailFunctions::notEquals('Bar'));
 
         // then
         $this->assertSame(['Foo', 'Top'], $mapped);

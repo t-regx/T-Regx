@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\remaining\stream\filter;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 
 class FilterStreamTest extends TestCase
@@ -13,9 +14,9 @@ class FilterStreamTest extends TestCase
     {
         // when
         $nth = pattern('\w+')->match('Lorem ipsum dolor sit amet')
-            ->remaining(Functions::notEquals('Lorem'))
+            ->remaining(DetailFunctions::notEquals('Lorem'))
             ->stream()
-            ->filter(Functions::notEquals('ipsum'))
+            ->filter(DetailFunctions::notEquals('ipsum'))
             ->nth(2);
 
         // then
@@ -43,9 +44,9 @@ class FilterStreamTest extends TestCase
     {
         // when
         $result = pattern('\w+')->match('Foo, Bar, Dor')
-            ->remaining(Functions::notEquals('Foo'))
+            ->remaining(DetailFunctions::notEquals('Foo'))
             ->stream()
-            ->filter(Functions::equals('Bar'))
+            ->filter(DetailFunctions::equals('Bar'))
             ->first();
 
         // then
@@ -59,9 +60,9 @@ class FilterStreamTest extends TestCase
     {
         // when
         $result = pattern('\w+')->match('Foo, Bar, Dor, Sir')
-            ->remaining(Functions::notEquals('Foo'))
+            ->remaining(DetailFunctions::notEquals('Foo'))
             ->stream()
-            ->filter(Functions::equals('Sir'))
+            ->filter(DetailFunctions::equals('Sir'))
             ->first();
 
         // then
@@ -75,9 +76,9 @@ class FilterStreamTest extends TestCase
     {
         // when
         $key = pattern('\w+')->match('Foo, Bar, Dor')
-            ->remaining(Functions::notEquals('Foo'))
+            ->remaining(DetailFunctions::notEquals('Foo'))
             ->stream()
-            ->filter(Functions::equals('Bar'))
+            ->filter(DetailFunctions::equals('Bar'))
             ->keys()
             ->first();
 
@@ -92,9 +93,9 @@ class FilterStreamTest extends TestCase
     {
         // when
         $key = pattern('\w+')->match('Foo, Bar, Dor, Ver, Sir')
-            ->remaining(Functions::notEquals('Foo'))
+            ->remaining(DetailFunctions::notEquals('Foo'))
             ->stream()
-            ->filter(Functions::equals('Sir'))
+            ->filter(DetailFunctions::equals('Sir'))
             ->keys()
             ->first();
 

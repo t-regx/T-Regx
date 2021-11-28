@@ -7,6 +7,7 @@ use Test\Fakes\CleanRegex\Internal\Match\CallbackPredicate;
 use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ThrowFactory;
 use Test\Utils\AssertsOptional;
 use Test\Utils\Definitions;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
@@ -29,7 +30,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $matchPattern = $this->matchPattern('Foo', 'Foo', Functions::indexNotEquals(1));
+        $matchPattern = $this->matchPattern('Foo', 'Foo', DetailFunctions::indexNotEquals(1));
 
         // when
         $findFirst = $matchPattern->findFirst(function (Detail $detail) {
@@ -46,7 +47,7 @@ class RemainingMatchPatternTest extends TestCase
     public function shouldFindFirst_notFirst()
     {
         // given
-        $matchPattern = $this->matchPattern('(Foo|Bar)', 'Foo Bar', Functions::indexNotEquals(0));
+        $matchPattern = $this->matchPattern('(Foo|Bar)', 'Foo Bar', DetailFunctions::indexNotEquals(0));
 
         // when
         $findFirst = $matchPattern->findFirst(function (Detail $detail) {
