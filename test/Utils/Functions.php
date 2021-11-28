@@ -61,8 +61,8 @@ class Functions
     public static function charAt(int $position): callable
     {
         return static function (string $string) use ($position): string {
-            if (empty($string)) {
-                throw new \AssertionError("Empty string");
+            if ($string === '') {
+                throw new \AssertionError('Failed to retrieve a character from an empty string');
             }
             return $string[$position];
         };
