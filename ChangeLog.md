@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Rename `BaseDetail` to `Structure`
 
 Added in 0.18.1
 ---------------

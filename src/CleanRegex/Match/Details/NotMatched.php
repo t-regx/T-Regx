@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Subject;
 
-class NotMatched implements BaseDetail
+class NotMatched implements Structure
 {
     /** @var GroupAware */
     private $groupAware;
