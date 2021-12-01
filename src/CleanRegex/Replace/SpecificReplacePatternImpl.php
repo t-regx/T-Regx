@@ -40,8 +40,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
         $this->limit = $limit;
         $this->substitute = $substitute;
         $this->countingStrategy = $countingStrategy;
-        $this->invoker = new ReplacePatternCallbackInvoker($this->definition, $this->subject,
-            $this->limit, $this->substitute, $this->countingStrategy);
+        $this->invoker = new ReplacePatternCallbackInvoker($definition, $subject, $limit, $substitute, $countingStrategy);
     }
 
     public function with(string $replacement): string
