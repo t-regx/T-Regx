@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.19.0
+---------------
+
 * Breaking changes
     * Rename `BaseDetail` to `Structure`
 * Features
