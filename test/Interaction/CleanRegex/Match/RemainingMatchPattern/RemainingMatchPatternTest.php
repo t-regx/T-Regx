@@ -24,21 +24,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_getIterator()
-    {
-        // given
-        $matchPattern = $this->matchPattern('\w+', 'a b c b e', DetailFunctions::notEquals('b'));
-
-        // when
-        $iterator = $matchPattern->getIterator();
-
-        // then
-        $this->assertSameMatches(['a', 'c', 'e'], iterator_to_array($iterator));
-    }
-
-    /**
-     * @test
-     */
     public function shouldOffsets()
     {
         // given
@@ -96,33 +81,9 @@ class RemainingMatchPatternTest extends TestCase
         $this->assertSame('S', $firstGroup);
     }
 
-    /**
-     * @test
-     */
-    public function shouldGet_iterator()
-    {
-        // given
-        $matchPattern = $this->standardMatchPattern_secondFiltered();
-
-        // when
-        $iterator = $matchPattern->getIterator();
-
-        // then
-        $array = [];
-        foreach ($iterator as $match) {
-            $array[] = $match->text();
-        }
-        $this->assertSame(['first', 'third', 'fourth'], $array);
-    }
-
     private function standardMatchPattern_secondFiltered(): RemainingMatchPattern
     {
         return $this->matchPattern('[a-z]+', 'first second third fourth', DetailFunctions::notEquals('second'));
-    }
-
-    private function standardMatchPattern_firstFiltered(): RemainingMatchPattern
-    {
-        return $this->matchPattern('[a-z]+', 'first second third fourth', DetailFunctions::notEquals('first'));
     }
 
     private function standardMatchPattern_group(string $subject, string $filteredOut): RemainingMatchPattern

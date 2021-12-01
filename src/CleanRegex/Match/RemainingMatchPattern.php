@@ -20,7 +20,7 @@ use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Number;
 use TRegx\CleanRegex\Match\Details\Detail;
 
-class RemainingMatchPattern implements \IteratorAggregate
+class RemainingMatchPattern
 {
     /** @var ApiBase */
     private $originalBase;
@@ -63,11 +63,6 @@ class RemainingMatchPattern implements \IteratorAggregate
     {
         $upstream = new OffsetLimitStream($this->base);
         return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new MatchOffsetMessages()), $this->base);
-    }
-
-    public function getIterator(): \Iterator
-    {
-        return new \ArrayIterator(\array_values($this->getDetailObjects()));
     }
 
     public function asInt(int $base = null): IntStream
