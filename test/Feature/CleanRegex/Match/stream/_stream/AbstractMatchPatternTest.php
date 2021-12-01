@@ -2,7 +2,6 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\stream\_stream;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class AbstractMatchPatternTest extends TestCase
@@ -42,27 +41,6 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldPreserveUserData_all()
-    {
-        // given
-        pattern("(Foo|Bar|Lorem)")
-            ->match("Foo, Bar, Lorem")
-            ->remaining(function (Detail $detail) {
-                // when
-                $detail->setUserData('Foo');
-
-                // cleanup
-                return true;
-            })
-            ->stream()
-            ->forEach(function (Detail $detail) {
-                $this->assertSame('Foo', $detail->getUserData());
-            });
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_map_all()
     {
         // given
@@ -94,45 +72,12 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFirst_keepIndex_remaining()
-    {
-        // given
-        pattern("(Foo|Bar)")->match("Foo, Bar")->remaining(DetailFunctions::equals('Bar'))->stream()->first(function (Detail $detail) {
-            // then
-            $this->assertSame(1, $detail->index());
-        });
-    }
-
-    /**
-     * @test
-     */
     public function shouldFirst_keepLimit()
     {
         // given
         pattern("(Foo|Bar)")->match("Foo, Bar")->stream()->first(function (Detail $detail) {
             $this->assertSame(1, $detail->limit());
         });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFirst_preserveUserData()
-    {
-        // given
-        pattern("(Foo|Bar|Lorem)")
-            ->match("Foo, Bar, Lorem")
-            ->remaining(function (Detail $detail) {
-                // when
-                $detail->setUserData('Foo');
-
-                // cleanup
-                return true;
-            })
-            ->stream()
-            ->first(function (Detail $detail) {
-                $this->assertSame('Foo', $detail->getUserData());
-            });
     }
 
     /**

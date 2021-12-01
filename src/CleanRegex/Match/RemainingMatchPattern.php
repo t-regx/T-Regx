@@ -10,14 +10,12 @@ use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\IntStream\MatchIntMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\MatchOffsetMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
-use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
-use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\OffsetLimitStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\MatchPatternHelpers;
@@ -138,11 +136,6 @@ class RemainingMatchPattern implements \IteratorAggregate
     public function getIterator(): \Iterator
     {
         return new \ArrayIterator(\array_values($this->getDetailObjects()));
-    }
-
-    public function stream(): Stream
-    {
-        return new Stream(new MatchStream(new StreamBase($this->base), $this->base, $this->base->getUserData(), new LazyMatchAllFactory($this->base)), $this->base);
     }
 
     public function asInt(int $base = null): IntStream
