@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
@@ -33,7 +34,7 @@ class ReplacePatternCallbackInvoker
     public function invoke(callable $callback, ReplaceCallbackArgumentStrategy $strategy): string
     {
         $result = $this->pregReplaceCallback($callback, $replaced, $strategy);
-        $this->countingStrategy->count($replaced);
+        $this->countingStrategy->count($replaced, new LightweightGroupAware($this->definition));
         if ($replaced === 0) {
             return $this->substitute->substitute($this->subject) ?? $result;
         }

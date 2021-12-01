@@ -52,7 +52,7 @@ abstract class ReplacePatternImpl implements ReplacePattern
 
     public function counting(callable $countReceiver): CompositeReplacePattern
     {
-        return $this->replacePattern(new DefaultStrategy(), new CallbackCountingStrategy($countReceiver));
+        return $this->replacePattern(new DefaultStrategy(), new CallbackCountingStrategy($countReceiver, $this->subject));
     }
 
     protected function replacePattern(SubjectRs $substitute, CountingStrategy $countingStrategy): CompositeReplacePattern

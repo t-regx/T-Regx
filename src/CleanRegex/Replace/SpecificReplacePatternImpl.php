@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
+use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
@@ -51,7 +52,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
     public function withReferences(string $replacement): string
     {
         $result = preg::replace($this->definition->pattern, $replacement, $this->subject->getSubject(), $this->limit, $replaced);
-        $this->countingStrategy->count($replaced);
+        $this->countingStrategy->count($replaced, new LightweightGroupAware($this->definition));
         if ($replaced === 0) {
             return $this->substitute->substitute($this->subject) ?? $result;
         }

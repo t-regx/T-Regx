@@ -6,6 +6,8 @@ Incoming
 
 * Breaking changes
     * Rename `BaseDetail` to `Structure`
+* Features
+    * Add second argument `Structure` as second parameter to `replace()->counting()`
 
 Added in 0.18.1
 ---------------

@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace\Counting;
 
+use TRegx\CleanRegex\Internal\Model\GroupAware;
+
 class CompositeCountingStrategy implements CountingStrategy
 {
     /** @var CountingStrategy */
@@ -14,9 +16,9 @@ class CompositeCountingStrategy implements CountingStrategy
         $this->strategy2 = $strategy2;
     }
 
-    public function count(int $replaced): void
+    public function count(int $replaced, GroupAware $groupAware): void
     {
-        $this->strategy1->count($replaced);
-        $this->strategy2->count($replaced);
+        $this->strategy1->count($replaced, $groupAware);
+        $this->strategy2->count($replaced, $groupAware);
     }
 }

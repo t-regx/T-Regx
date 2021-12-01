@@ -6,6 +6,8 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
+use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
@@ -31,6 +33,8 @@ class GroupFallbackReplacer
     private $base;
     /** @var int */
     private $counter = -1;
+    /** @var GroupAware */
+    private $groupAware;
 
     public function __construct(Definition $definition, Subject $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy, Base $base)
     {
@@ -40,6 +44,7 @@ class GroupFallbackReplacer
         $this->substitute = $substitute;
         $this->countingStrategy = $countingStrategy;
         $this->base = $base;
+        $this->groupAware = new LightweightGroupAware($definition);
     }
 
     public function replaceOrFallback(GroupKey $group, DetailGroupMapper $mapper, MatchRs $substitute): string
@@ -55,7 +60,7 @@ class GroupFallbackReplacer
     private function replaceUsingCallback(callable $closure): string
     {
         $result = $this->pregReplaceCallback($closure, $replaced);
-        $this->countingStrategy->count($replaced);
+        $this->countingStrategy->count($replaced, $this->groupAware);
         if ($replaced === 0) {
             return $this->substitute->substitute($this->subject) ?? $result;
         }

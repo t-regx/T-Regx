@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Internal\Replace\Counting;
 
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
 
@@ -25,7 +26,7 @@ class AtMostCountingStrategy implements CountingStrategy
         $this->limitPhrase = $phrase;
     }
 
-    public function count(int $replaced): void
+    public function count(int $replaced, GroupAware $groupAware): void
     {
         preg::replace($this->definition->pattern, '', $this->subject->getSubject(), $this->limit + 1, $realCount);
         if ($realCount > $this->limit) {

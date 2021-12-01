@@ -3,9 +3,13 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\counting;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use Test\Utils\TestCasePasses;
+use TRegx\CleanRegex\Match\Details\Structure;
 
 class SpecificReplacePatternImplTest extends TestCase
 {
+    use TestCasePasses;
+
     /**
      * @test
      */
@@ -173,5 +177,161 @@ class SpecificReplacePatternImplTest extends TestCase
             ->by()
             ->group(1)
             ->orElseThrow();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStructureGetSubject()
+    {
+        // when
+        pattern('Bar')
+            ->replace('Lorem ipsum Bar')
+            ->counting(function (int $count, Structure $structure) {
+                $this->assertSame('Lorem ipsum Bar', $structure->subject());
+            })
+            ->with('Bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCallbackStructureGetGroupNames()
+    {
+        // when
+        pattern('(?<value>Foo) or (Bar)')
+            ->replace('Foo or Bar')
+            ->counting(function (int $count, Structure $structure) {
+                $this->assertSame(['value', null], $structure->groupNames());
+            })
+            ->callback(Functions::constant('Bar'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStructureGetGroupNames()
+    {
+        // when
+        pattern('(?<value>Foo) or (Bar)')
+            ->replace('Foo or Bar')
+            ->counting(function (int $count, Structure $structure) {
+                $this->assertSame(['value', null], $structure->groupNames());
+            })
+            ->with('Bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStructureGetGroupsCount()
+    {
+        // when
+        pattern('(?<value>Foo) or (Bar)(?:)')
+            ->replace('Foo or Bar')
+            ->counting(function (int $count, Structure $structure) {
+                $this->assertSame(2, $structure->groupsCount());
+            })
+            ->with('Bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStructureHaveGroupWith()
+    {
+        // when
+        pattern('(?<value>Foo) or (Bar)(?:)')
+            ->replace('Foo or Bar')
+            ->counting(function (int $count, Structure $structure) {
+                $this->assertTrue($structure->hasGroup(0));
+                $this->assertTrue($structure->hasGroup(1));
+                $this->assertTrue($structure->hasGroup(2));
+                $this->assertTrue($structure->hasGroup('value'));
+
+                $this->assertFalse($structure->hasGroup(3));
+                $this->assertFalse($structure->hasGroup('missing'));
+            })
+            ->with('Bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStructureHaveGroupCallback()
+    {
+        // when
+        pattern('(?<value>Foo) or (Bar)(?:)')
+            ->replace('Foo or Bar')
+            ->counting(function (int $count, Structure $structure) {
+                $this->assertTrue($structure->hasGroup(0));
+                $this->assertTrue($structure->hasGroup(1));
+                $this->assertTrue($structure->hasGroup(2));
+                $this->assertTrue($structure->hasGroup('value'));
+
+                $this->assertFalse($structure->hasGroup(3));
+                $this->assertFalse($structure->hasGroup('missing'));
+            })
+            ->callback(Functions::constant('Bar'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStructureHaveGroupByMap()
+    {
+        // when
+        pattern('(?<value>Foo) or (Bar)(?:)')
+            ->replace('Foo or Bar')
+            ->counting(function (int $count, Structure $structure) {
+                $this->assertTrue($structure->hasGroup(0));
+                $this->assertTrue($structure->hasGroup(1));
+                $this->assertTrue($structure->hasGroup(2));
+                $this->assertTrue($structure->hasGroup('value'));
+
+                $this->assertFalse($structure->hasGroup(3));
+                $this->assertFalse($structure->hasGroup('missing'));
+            })
+            ->by()
+            ->map(['Foo or Bar' => 'Replaced']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldStructureHaveGroupByGroupMap()
+    {
+        // when
+        pattern('(?<value>Foo) or (Bar)(?:)')
+            ->replace('Foo or Bar')
+            ->counting(function (int $count, Structure $structure) {
+                $this->assertTrue($structure->hasGroup(2));
+                $this->assertTrue($structure->hasGroup('value'));
+
+                $this->assertFalse($structure->hasGroup(3));
+                $this->assertFalse($structure->hasGroup('missing'));
+            })
+            ->by()
+            ->group('value')
+            ->map(['Foo' => 'Replaced'])
+            ->orElseThrow();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMalformedGroupName()
+    {
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '2malformed' given");
+
+        // when
+        pattern('Foo')
+            ->replace('Foo')
+            ->counting(function (int $count, Structure $structure) {
+                $structure->hasGroup('2malformed');
+            })
+            ->with('Bar');
     }
 }
