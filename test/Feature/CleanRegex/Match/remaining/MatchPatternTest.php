@@ -78,18 +78,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_nth()
-    {
-        // when
-        $result = pattern('\d+(cm|mm)')->match('12cm 14mm 13cm 19cm')->remaining(DetailFunctions::notEquals('14mm'))->nth(2);
-
-        // then
-        $this->assertSame('19cm', $result);
-    }
-
-    /**
-     * @test
-     */
     public function shouldBe_Countable()
     {
         // given

@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
@@ -96,22 +95,6 @@ class RemainingMatchPattern implements \IteratorAggregate
         $firstIndex = $match->getIndex();
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, $firstIndex);
         return MatchDetail::create($this->base, $firstIndex, 1, $polyfill, $this->allFactory, $this->base->getUserData());
-    }
-
-
-    public function nth(int $index): string
-    {
-        if ($index < 0) {
-            throw new \InvalidArgumentException("Negative nth: $index");
-        }
-        $texts = \array_values($this->base->matchAll()->getTexts());
-        if (\array_key_exists($index, $texts)) {
-            return $texts[$index];
-        }
-        if (empty($texts)) {
-            throw SubjectNotMatchedException::forNth($this->base, $index);
-        }
-        throw NoSuchNthElementException::forSubject($index, \count($texts));
     }
 
     /**
