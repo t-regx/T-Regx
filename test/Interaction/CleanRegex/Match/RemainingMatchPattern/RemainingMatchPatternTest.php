@@ -12,7 +12,6 @@ use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\StringSubject;
-use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\RemainingMatchPattern;
 
 /**
@@ -95,42 +94,6 @@ class RemainingMatchPatternTest extends TestCase
 
         // then
         $this->assertSame('S', $firstGroup);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFindFirst_firstFiltered()
-    {
-        // given
-        $matchPattern = $this->standardMatchPattern_firstFiltered();
-        $callback = function (Detail $detail) {
-            return "for first: $detail";
-        };
-
-        // when
-        $findFirst = $matchPattern->findFirst($callback)->orReturn('');
-
-        // then
-        $this->assertSame('for first: second', $findFirst);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldForFirst_secondFiltered()
-    {
-        // given
-        $matchPattern = $this->standardMatchPattern_secondFiltered();
-        $callback = function (Detail $detail) {
-            return "for first: $detail";
-        };
-
-        // when
-        $findFirst = $matchPattern->findFirst($callback)->orReturn('');
-
-        // then
-        $this->assertSame('for first: first', $findFirst);
     }
 
     /**

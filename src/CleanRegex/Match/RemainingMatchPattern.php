@@ -11,21 +11,14 @@ use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
-use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\OffsetLimitStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
-use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
-use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
-use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Number;
-use TRegx\CleanRegex\Internal\SubjectEmptyOptional;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\MatchDetail;
 
 class RemainingMatchPattern implements \IteratorAggregate
 {
@@ -55,22 +48,6 @@ class RemainingMatchPattern implements \IteratorAggregate
             new DetailPredicateBaseDecorator($this->base, new MethodPredicate($predicate, 'remaining')),
             $this->originalBase,
             $this->allFactory);
-    }
-
-    public function findFirst(callable $consumer): Optional
-    {
-        $match = $this->base->matchOffset();
-        if ($match->matched()) {
-            return new PresentOptional($consumer($this->findFirstDetail($match)));
-        }
-        return new SubjectEmptyOptional($this->groupAware, $this->base, new FirstMatchMessage());
-    }
-
-    private function findFirstDetail(RawMatchOffset $match): Detail
-    {
-        $firstIndex = $match->getIndex();
-        $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, $firstIndex);
-        return MatchDetail::create($this->base, $firstIndex, 1, $polyfill, $this->allFactory, $this->base->getUserData());
     }
 
     /**
