@@ -24,21 +24,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldOffsets()
-    {
-        // given
-        $matchPattern = $this->standardMatchPattern_secondFiltered();
-
-        // when
-        $offsets = $matchPattern->offsets()->all();
-
-        // then
-        $this->assertSame([0, 13, 19], $offsets);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGroup_all()
     {
         // given

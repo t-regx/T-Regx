@@ -5,15 +5,10 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
-use TRegx\CleanRegex\Internal\Match\IntStream\MatchOffsetMessages;
-use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
-use TRegx\CleanRegex\Internal\Match\Stream\Base\OffsetLimitStream;
-use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
-use TRegx\CleanRegex\Match\Details\Detail;
 
 class RemainingMatchPattern
 {
@@ -51,12 +46,6 @@ class RemainingMatchPattern
         return new GroupLimit($this->base, $this->groupAware, GroupKey::of($nameOrIndex));
     }
 
-    public function offsets(): IntStream
-    {
-        $upstream = new OffsetLimitStream($this->base);
-        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new MatchOffsetMessages()), $this->base);
-    }
-
     /**
      * @param string|int $nameOrIndex
      * @return GroupByPattern
@@ -64,14 +53,5 @@ class RemainingMatchPattern
     public function groupBy($nameOrIndex): GroupByPattern
     {
         return new GroupByPattern($this->base, GroupKey::of($nameOrIndex));
-    }
-
-    /**
-     * @return Detail[]
-     */
-    protected function getDetailObjects(): array
-    {
-        $factory = new DetailObjectFactory($this->base, $this->base->getUserData());
-        return $factory->mapToDetailObjects($this->base->matchAllOffsets());
     }
 }
