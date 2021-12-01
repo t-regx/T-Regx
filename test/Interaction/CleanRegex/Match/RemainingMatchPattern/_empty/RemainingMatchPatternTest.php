@@ -255,21 +255,6 @@ class RemainingMatchPatternTest extends TestCase
         $this->assertSame(['you', 'one', 'important', 'thing'], $filtered);
     }
 
-    /**
-     * @test
-     */
-    public function shouldForEach()
-    {
-        // given
-        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
-
-        // when
-        $matchPattern->forEach(DetailFunctions::collecting($matches));
-
-        // then
-        $this->assertSame(['', 'a', 3 => '', 'c'], $matches);
-    }
-
     private function matchPattern(callable $predicate): RemainingMatchPattern
     {
         return new RemainingMatchPattern(

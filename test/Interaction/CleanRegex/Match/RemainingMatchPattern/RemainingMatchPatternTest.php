@@ -370,24 +370,6 @@ class RemainingMatchPatternTest extends TestCase
         $this->assertSame(['one', 'two', 'three', 'four', 'five', 'six'], $invokedFor);
     }
 
-    /**
-     * @test
-     */
-    public function shouldForEach()
-    {
-        // given
-        $matchPattern = $this->standardMatchPattern_secondFiltered();
-        $matches = [];
-        $callback = function (Detail $detail) use (&$matches) {
-            $matches[] = $detail->text();
-        };
-
-        // when
-        $matchPattern->forEach($callback);
-
-        // then
-        $this->assertSame(['first', 'third', 'fourth'], $matches);
-    }
 
     /**
      * @test

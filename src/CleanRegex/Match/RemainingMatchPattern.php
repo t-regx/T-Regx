@@ -124,13 +124,6 @@ class RemainingMatchPattern implements \IteratorAggregate
         throw NoSuchNthElementException::forSubject($index, \count($texts));
     }
 
-    public function forEach(callable $consumer): void
-    {
-        foreach (\array_values($this->getDetailObjects()) as $index => $object) {
-            $consumer($object, $index);
-        }
-    }
-
     public function filter(callable $predicate): array
     {
         return \array_values(\array_map(static function (Detail $detail): string {
