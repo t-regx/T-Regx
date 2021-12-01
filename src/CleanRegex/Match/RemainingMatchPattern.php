@@ -188,16 +188,6 @@ class RemainingMatchPattern implements \IteratorAggregate
         return new GroupByPattern($this->base, GroupKey::of($nameOrIndex));
     }
 
-    public function groupByCallback(callable $groupMapper): array
-    {
-        $result = [];
-        foreach ($this->getDetailObjects() as $detail) {
-            $key = $groupMapper($detail);
-            $result[$key][] = $detail->text();
-        }
-        return $result;
-    }
-
     /**
      * @return Detail[]
      */
