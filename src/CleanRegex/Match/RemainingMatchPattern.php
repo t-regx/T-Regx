@@ -29,7 +29,6 @@ use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Number;
-use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\SubjectEmptyOptional;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
@@ -119,13 +118,6 @@ class RemainingMatchPattern implements \IteratorAggregate
             throw SubjectNotMatchedException::forNth($this->base, $index);
         }
         throw NoSuchNthElementException::forSubject($index, \count($texts));
-    }
-
-    public function filter(callable $predicate): array
-    {
-        return \array_values(\array_map(static function (Detail $detail): string {
-            return $detail->text();
-        }, \array_filter($this->getDetailObjects(), [new Predicate($predicate, 'filter'), 'test'])));
     }
 
     /**
