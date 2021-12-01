@@ -128,11 +128,6 @@ class RemainingMatchPattern implements \IteratorAggregate
         }, \array_filter($this->getDetailObjects(), [new Predicate($predicate, 'filter'), 'test'])));
     }
 
-    public function distinct(): array
-    {
-        return \array_values(\array_unique($this->all()));
-    }
-
     /**
      * @param string|int $nameOrIndex
      * @return GroupLimit
