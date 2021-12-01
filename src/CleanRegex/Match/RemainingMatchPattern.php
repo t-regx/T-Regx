@@ -37,7 +37,7 @@ use TRegx\CleanRegex\Internal\SubjectEmptyOptional;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 
-class RemainingMatchPattern implements \Countable, \IteratorAggregate
+class RemainingMatchPattern implements \IteratorAggregate
 {
     use MatchPatternHelpers;
 
@@ -59,11 +59,6 @@ class RemainingMatchPattern implements \Countable, \IteratorAggregate
         $this->base = $base;
         $this->groupAware = new LightweightGroupAware($this->base->definition());
         $this->matchOnly = new MatchOnly($this->base);
-    }
-
-    public function count(): int
-    {
-        return \count($this->getDetailObjects());
     }
 
     public function remaining(callable $predicate): RemainingMatchPattern

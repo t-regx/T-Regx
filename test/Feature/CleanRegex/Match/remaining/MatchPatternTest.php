@@ -127,17 +127,6 @@ class MatchPatternTest extends TestCase
         $this->assertSame('19cm', $result);
     }
 
-    /**
-     * @test
-     */
-    public function shouldReturn_count()
-    {
-        // when
-        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third')->remaining(DetailFunctions::notEquals('Second'))->count();
-
-        // then
-        $this->assertSame(2, $filtered);
-    }
 
     /**
      * @test

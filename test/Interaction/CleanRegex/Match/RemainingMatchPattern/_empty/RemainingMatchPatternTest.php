@@ -73,36 +73,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldCount()
-    {
-        // given
-        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
-
-        // when
-        $count = $matchPattern->count();
-
-        // then
-        $this->assertSame(4, $count);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldCount_all()
-    {
-        // given
-        $matchPattern = $this->matchPattern(Functions::constant(true));
-
-        // when
-        $count = $matchPattern->count();
-
-        // then
-        $this->assertSame(5, $count);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_First()
     {
         // given
