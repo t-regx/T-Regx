@@ -98,10 +98,6 @@ class RemainingMatchPattern implements \IteratorAggregate
         return MatchDetail::create($this->base, $firstIndex, 1, $polyfill, $this->allFactory, $this->base->getUserData());
     }
 
-    public function only(int $limit): array
-    {
-        return $this->matchOnly->get($limit);
-    }
 
     public function nth(int $index): string
     {

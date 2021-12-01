@@ -42,51 +42,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldOnly_2()
-    {
-        // given
-        $matchPattern = $this->standardMatchPattern_secondFiltered();
-
-        // when
-        $only = $matchPattern->only(2);
-
-        // then
-        $this->assertSame(['first', 'third'], $only);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldOnly_1()
-    {
-        // given
-        $matchPattern = $this->standardMatchPattern_secondFiltered();
-
-        // when
-        $only = $matchPattern->only(1);
-
-        // then
-        $this->assertSame(['first'], $only);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldOnly_0()
-    {
-        // given
-        $matchPattern = $this->standardMatchPattern_secondFiltered();
-
-        // when
-        $only = $matchPattern->only(0);
-
-        // then
-        $this->assertEmpty($only);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_getIterator()
     {
         // given

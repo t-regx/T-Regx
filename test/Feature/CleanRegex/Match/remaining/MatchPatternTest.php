@@ -66,46 +66,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturn_only2()
-    {
-        // when
-        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->remaining(Functions::oneOf(['First', 'Third', 'Fifth']))
-            ->only(2);
-
-        // then
-        $this->assertSame(['First', 'Third'], $filtered);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturn_only1()
-    {
-        // when
-        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->remaining(Functions::oneOf(['First', 'Third', 'Fifth']))
-            ->only(1);
-
-        // then
-        $this->assertSame(['First'], $filtered);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturn_only1_filteredOut()
-    {
-        // when
-        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third')->remaining(Functions::constant(false))->only(1);
-
-        // then
-        $this->assertEmpty($filtered);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_first()
     {
         // when
@@ -126,7 +86,6 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertSame('19cm', $result);
     }
-
 
     /**
      * @test
@@ -173,7 +132,6 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertSame([6, 45], $integers);
     }
-
 
     /**
      * @test

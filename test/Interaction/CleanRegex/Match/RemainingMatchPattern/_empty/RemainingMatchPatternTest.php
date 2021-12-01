@@ -43,36 +43,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldOnly_2()
-    {
-        // given
-        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
-
-        // when
-        $only = $matchPattern->only(2);
-
-        // then
-        $this->assertSame(['', 'a'], $only);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldOnly_1()
-    {
-        // given
-        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
-
-        // when
-        $only = $matchPattern->only(1);
-
-        // then
-        $this->assertSame([''], $only);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_First()
     {
         // given
