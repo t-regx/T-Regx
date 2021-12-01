@@ -62,11 +62,6 @@ class RemainingMatchPattern implements \IteratorAggregate
             $this->allFactory);
     }
 
-    public function all(): array
-    {
-        return \array_values($this->base->matchAll()->getTexts());
-    }
-
     /**
      * @param null|callable $consumer
      * @return string|mixed

@@ -28,21 +28,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_All()
-    {
-        // given
-        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
-
-        // when
-        $all = $matchPattern->all();
-
-        // then
-        $this->assertSame(['', 'a', '', 'c'], $all);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_First()
     {
         // given
@@ -182,30 +167,6 @@ class RemainingMatchPatternTest extends TestCase
 
         // then
         $this->assertSame('for first: ', $first);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldChain_remaining()
-    {
-        // given
-        $subject = '...you forgot one very important thing mate.';
-        $pattern = new RemainingMatchPattern(
-            new DetailPredicateBaseDecorator(
-                new ApiBase(Definitions::pcre('/[a-z]+/'), new StringSubject($subject), new UserData()),
-                new CallbackPredicate(DetailFunctions::notEquals('forgot'))),
-            new ThrowApiBase(),
-            new ThrowFactory());
-
-        // when
-        $filtered = $pattern
-            ->remaining(DetailFunctions::notEquals('very'))
-            ->remaining(DetailFunctions::notEquals('mate'))
-            ->all();
-
-        // then
-        $this->assertSame(['you', 'one', 'important', 'thing'], $filtered);
     }
 
     private function matchPattern(callable $predicate): RemainingMatchPattern

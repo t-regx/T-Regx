@@ -27,21 +27,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldAll()
-    {
-        // given
-        $matchPattern = $this->standardMatchPattern_secondFiltered();
-
-        // when
-        $all = $matchPattern->all();
-
-        // then
-        $this->assertSame(['first', 'third', 'fourth'], $all);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_getIterator()
     {
         // given
@@ -199,26 +184,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldChain_remaining()
-    {
-        // given
-        $pattern = '[a-z]+';
-        $subject = '...you forgot one very important thing mate.';
-
-        // when
-        $filtered = $this
-            ->matchPattern($pattern, $subject, DetailFunctions::notEquals('forgot'))
-            ->remaining(DetailFunctions::notEquals('very'))
-            ->remaining(DetailFunctions::notEquals('mate'))
-            ->all();
-
-        // then
-        $this->assertSame(['you', 'one', 'important', 'thing'], $filtered);
-    }
-
-    /**
-     * @test
-     */
     public function shouldFilter_first_untilFound()
     {
         // given
@@ -234,26 +199,6 @@ class RemainingMatchPatternTest extends TestCase
         // then
         $this->assertSame('four', $first);
         $this->assertSame(['one', 'two', 'three', 'four'], $invokedFor);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFilter_all_untilFound()
-    {
-        // given
-        $invokedFor = [];
-        $pattern = $this->matchPattern('(one|two|three|four|five|six)', 'one two three four five six', function (Detail $detail) use (&$invokedFor) {
-            $invokedFor[] = $detail->text();
-            return $detail->text() === 'four';
-        });
-
-        // when
-        $all = $pattern->all();
-
-        // then
-        $this->assertSame(['four'], $all);
-        $this->assertSame(['one', 'two', 'three', 'four', 'five', 'six'], $invokedFor);
     }
 
     /**

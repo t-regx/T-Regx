@@ -52,20 +52,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturn_all()
-    {
-        // when
-        $filtered = pattern('[A-Z][a-z]+')->match('First, Second, Third, Fourth, Fifth')
-            ->remaining(Functions::oneOf(['First', 'Third', 'Fifth']))
-            ->all();
-
-        // then
-        $this->assertSame(['First', 'Third', 'Fifth'], $filtered);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_first()
     {
         // when
