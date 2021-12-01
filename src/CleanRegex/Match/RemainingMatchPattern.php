@@ -7,9 +7,6 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
-use TRegx\CleanRegex\Internal\Match\FlatFunction;
-use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
-use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\IntStream\MatchIntMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\MatchOffsetMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
@@ -129,18 +126,6 @@ class RemainingMatchPattern implements \IteratorAggregate
         return \array_values(\array_map(static function (Detail $detail): string {
             return $detail->text();
         }, \array_filter($this->getDetailObjects(), [new Predicate($predicate, 'filter'), 'test'])));
-    }
-
-    public function flatMap(callable $mapper): array
-    {
-        $function = new FlatFunction($mapper, 'flatMap');;
-        return (new ArrayMergeStrategy())->flatten($function->map($this->getDetailObjects()));
-    }
-
-    public function flatMapAssoc(callable $mapper): array
-    {
-        $function = new FlatFunction($mapper, 'flatMapAssoc');;
-        return (new AssignStrategy())->flatten($function->map($this->getDetailObjects()));
     }
 
     public function distinct(): array

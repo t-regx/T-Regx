@@ -102,24 +102,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFlatMap()
-    {
-        // given
-        $matchPattern = $this->standardMatchPattern_firstFiltered();
-        $callback = function (Detail $detail) {
-            return str_split($detail, 3);
-        };
-
-        // when
-        $flatMap = $matchPattern->flatMap($callback);
-
-        // then
-        $this->assertSame(['sec', 'ond', 'thi', 'rd', 'fou', 'rth'], $flatMap);
-    }
-
-    /**
-     * @test
-     */
     public function shouldFirst_firstFiltered()
     {
         // given
@@ -223,7 +205,6 @@ class RemainingMatchPatternTest extends TestCase
         $pattern->remaining(Functions::constant(2))->first();
     }
 
-
     /**
      * @test
      */
@@ -283,56 +264,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldChain_remaining_preserveIndex()
-    {
-        // given
-        $pattern = '[a-z]+';
-        $subject = '...you forgot one very important thing mate.';
-
-        // when
-        $indexes = $this
-            ->matchPattern($pattern, $subject, DetailFunctions::notEquals('forgot'))
-            ->remaining(DetailFunctions::notEquals('very'))
-            ->remaining(DetailFunctions::notEquals('thing'))
-            ->flatMap(function (Detail $detail) {
-                return ["$detail" => $detail->index()];
-            });
-
-        // then
-        $expected = [
-            'you'       => 0,
-            'one'       => 2,
-            'important' => 4,
-            'mate'      => 6
-        ];
-        $this->assertSame($expected, $indexes);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldDetailAll_returnAll()
-    {
-        // given
-        $pattern = '[a-z]+';
-        $subject = '...you forgot one very important thing mate.';
-
-        // when
-        $filtered = $this
-            ->matchPattern($pattern, $subject, DetailFunctions::notEquals('forgot'))
-            ->remaining(DetailFunctions::notEquals('very'))
-            ->remaining(DetailFunctions::notEquals('mate'))
-            ->first(function (Detail $detail) {
-                return $detail->all();
-            });
-
-        // then
-        $this->assertSame(['you', 'forgot', 'one', 'very', 'important', 'thing', 'mate'], $filtered);
-    }
-
-    /**
-     * @test
-     */
     public function shouldFilter_first_untilFound()
     {
         // given
@@ -369,7 +300,6 @@ class RemainingMatchPatternTest extends TestCase
         $this->assertSame(['four'], $all);
         $this->assertSame(['one', 'two', 'three', 'four', 'five', 'six'], $invokedFor);
     }
-
 
     /**
      * @test

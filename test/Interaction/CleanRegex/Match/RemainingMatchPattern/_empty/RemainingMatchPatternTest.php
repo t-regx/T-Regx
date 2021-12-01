@@ -168,23 +168,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFlatMap()
-    {
-        // given
-        $matchPattern = $this->matchPattern(DetailFunctions::indexNotEquals(0));
-
-        // when
-        $flatMap = $matchPattern->flatMap(function (Detail $detail) {
-            return str_split(str_repeat($detail, 2));
-        });
-
-        // then
-        $this->assertSame(['a', 'a', 'b', 'b', '', 'c', 'c'], $flatMap);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_Offsets_all()
     {
         // given
