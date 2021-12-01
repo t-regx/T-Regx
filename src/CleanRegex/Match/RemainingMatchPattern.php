@@ -5,19 +5,14 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
-use TRegx\CleanRegex\Internal\Match\IntStream\MatchIntMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\MatchOffsetMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Match\MatchOnly;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
-use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\OffsetLimitStream;
-use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
-use TRegx\CleanRegex\Internal\Number;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class RemainingMatchPattern
@@ -30,8 +25,6 @@ class RemainingMatchPattern
     protected $base;
     /** @var GroupAware */
     private $groupAware;
-    /** @var MatchOnly */
-    private $matchOnly;
 
     public function __construct(DetailPredicateBaseDecorator $base, Base $original, MatchAllFactory $allFactory)
     {
@@ -39,7 +32,6 @@ class RemainingMatchPattern
         $this->allFactory = $allFactory;
         $this->base = $base;
         $this->groupAware = new LightweightGroupAware($this->base->definition());
-        $this->matchOnly = new MatchOnly($this->base);
     }
 
     public function remaining(callable $predicate): RemainingMatchPattern
@@ -63,12 +55,6 @@ class RemainingMatchPattern
     {
         $upstream = new OffsetLimitStream($this->base);
         return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new MatchOffsetMessages()), $this->base);
-    }
-
-    public function asInt(int $base = null): IntStream
-    {
-        $upstream = new MatchIntStream(new StreamBase($this->base), new Number\Base($base), $this->base);
-        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new MatchIntMessages()), $this->base);
     }
 
     /**

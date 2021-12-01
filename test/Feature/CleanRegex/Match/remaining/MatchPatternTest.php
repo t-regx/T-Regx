@@ -83,21 +83,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_asInt_all()
-    {
-        // given
-        $subject = "I'll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.";
-
-        // when
-        $integers = pattern('\d+')->match($subject)->remaining(Functions::oneOf(['6', '45']))->asInt()->all();
-
-        // then
-        $this->assertSame([6, 45], $integers);
-    }
-
-    /**
-     * @test
-     */
     public function shouldForEachGroup_acceptKey()
     {
         // given
