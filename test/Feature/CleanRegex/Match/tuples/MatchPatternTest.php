@@ -4,7 +4,6 @@ namespace Test\Feature\TRegx\CleanRegex\Match\tuples;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchPatternTest extends TestCase
 {
@@ -60,42 +59,6 @@ class MatchPatternTest extends TestCase
         $this->assertNull($a);
         $this->assertNull($b);
         $this->assertNull($c);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturnTuple_remaining()
-    {
-        // when
-        [$value, $unit] = pattern('(\d+)(?<unit>cm|mm)')
-            ->match('12cm 14mm')
-            ->remaining(function (Detail $detail) {
-                return $detail->text() === '14mm';
-            })
-            ->tuple(1, 'unit');
-
-        // then
-        $this->assertSame('14', $value);
-        $this->assertSame('mm', $unit);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturnTriple_remaining()
-    {
-        // when
-        [$a, $b, $c] = pattern('([ab])([12])([$%])')->match('a1% b2$')
-            ->remaining(function (Detail $detail) {
-                return $detail->text() !== 'a1%';
-            })
-            ->triple(1, 3, 2);
-
-        // then
-        $this->assertSame('b', $a);
-        $this->assertSame('$', $b);
-        $this->assertSame('2', $c);
     }
 
     /**

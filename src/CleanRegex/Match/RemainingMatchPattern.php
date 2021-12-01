@@ -15,7 +15,6 @@ use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\OffsetLimitStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
-use TRegx\CleanRegex\Internal\MatchPatternHelpers;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
@@ -30,8 +29,6 @@ use TRegx\CleanRegex\Match\Details\MatchDetail;
 
 class RemainingMatchPattern implements \IteratorAggregate
 {
-    use MatchPatternHelpers;
-
     /** @var ApiBase */
     private $originalBase;
     /** @var MatchAllFactory */
