@@ -7,8 +7,6 @@ use Test\Fakes\CleanRegex\Internal\Match\CallbackPredicate;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Definitions;
 use Test\Utils\DetailFunctions;
-use Test\Utils\Functions;
-use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
@@ -37,36 +35,6 @@ class RemainingMatchPatternTest extends TestCase
 
         // then
         $this->assertSameMatches(['a', 'c', 'e'], iterator_to_array($iterator));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFirst_firstFiltered()
-    {
-        // given
-        $matchPattern = $this->matchPattern('[a-z]+', 'first second', DetailFunctions::notEquals('first'));
-
-        // when
-        $first = $matchPattern->first();
-
-        // then
-        $this->assertSame('second', $first);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFirst_secondFiltered()
-    {
-        // given
-        $matchPattern = $this->standardMatchPattern_secondFiltered();
-
-        // when
-        $first = $matchPattern->first();
-
-        // then
-        $this->assertSame('first', $first);
     }
 
     /**
@@ -132,22 +100,6 @@ class RemainingMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_remaining_forInvalidReturnType(): void
-    {
-        // given
-        $pattern = $this->matchPattern('Foo', 'Foo', Functions::constant(true));
-
-        // then
-        $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage('Invalid remaining() callback return type. Expected bool, but integer (2) given');
-
-        // when
-        $pattern->remaining(Functions::constant(2))->first();
-    }
-
-    /**
-     * @test
-     */
     public function shouldFindFirst_firstFiltered()
     {
         // given
@@ -179,26 +131,6 @@ class RemainingMatchPatternTest extends TestCase
 
         // then
         $this->assertSame('for first: first', $findFirst);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFilter_first_untilFound()
-    {
-        // given
-        $invokedFor = [];
-        $pattern = $this->matchPattern('(one|two|three|four|five|six)', 'one two three four five six', function (Detail $detail) use (&$invokedFor) {
-            $invokedFor[] = $detail->text();
-            return $detail->text() === 'four';
-        });
-
-        // when
-        $first = $pattern->first();
-
-        // then
-        $this->assertSame('four', $first);
-        $this->assertSame(['one', 'two', 'three', 'four'], $invokedFor);
     }
 
     /**

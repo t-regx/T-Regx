@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
@@ -10,7 +9,6 @@ use TRegx\CleanRegex\Internal\Match\IntStream\MatchIntMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\MatchOffsetMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
 use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
@@ -60,20 +58,6 @@ class RemainingMatchPattern implements \IteratorAggregate
             new DetailPredicateBaseDecorator($this->base, new MethodPredicate($predicate, 'remaining')),
             $this->originalBase,
             $this->allFactory);
-    }
-
-    /**
-     * @param null|callable $consumer
-     * @return string|mixed
-     * @throws SubjectNotMatchedException
-     */
-    public function first(callable $consumer = null)
-    {
-        $first = new MatchFirst($this->base, $this->allFactory);
-        if ($consumer === null) {
-            return $first->matchDetails()->text();
-        }
-        return $consumer($first->matchDetails());
     }
 
     public function findFirst(callable $consumer): Optional

@@ -10,7 +10,6 @@ use Test\Utils\AssertsSameMatches;
 use Test\Utils\Definitions;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -24,52 +23,6 @@ use TRegx\CleanRegex\Match\RemainingMatchPattern;
 class RemainingMatchPatternTest extends TestCase
 {
     use AssertsSameMatches, AssertsOptional;
-
-    /**
-     * @test
-     */
-    public function shouldGet_First()
-    {
-        // given
-        $matchPattern = $this->matchPattern(DetailFunctions::notEquals('b'));
-
-        // when
-        $first = $matchPattern->first();
-
-        // then
-        $this->assertSame('', $first);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_First_notFirst()
-    {
-        // given
-        $matchPattern = $this->matchPattern(DetailFunctions::indexNotEquals(0));
-
-        // when
-        $first = $matchPattern->first();
-
-        // then
-        $this->assertSame('a', $first);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotGet_First_matchedButFiltered()
-    {
-        // given
-        $matchPattern = $this->matchPattern(Functions::constant(false));
-
-        // then
-        $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
-
-        // when
-        $matchPattern->first();
-    }
 
     /**
      * @test

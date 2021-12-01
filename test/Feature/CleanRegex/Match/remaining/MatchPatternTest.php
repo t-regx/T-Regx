@@ -52,18 +52,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_first()
-    {
-        // when
-        $first = pattern('[A-Z][a-z]+')->match('First, Second, Third')->remaining(DetailFunctions::notEquals('First'))->first();
-
-        // then
-        $this->assertSame('Second', $first);
-    }
-
-    /**
-     * @test
-     */
     public function shouldBe_Countable()
     {
         // given

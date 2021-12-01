@@ -6,27 +6,6 @@ use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchDetailTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function shouldPreserveUserData_first()
-    {
-        // given
-        $filtered = pattern('[A-Z][a-z]+')
-            ->match('First, Second, Third')
-            ->remaining(function (Detail $detail) {
-                $detail->setUserData($detail . $detail);
-                return true;
-            });
-
-        // when
-        $userData = $filtered->first(function (Detail $detail) {
-            return $detail->getUserData();
-        });
-
-        // then
-        $this->assertSame('FirstFirst', $userData);
-    }
 
     /**
      * @test
