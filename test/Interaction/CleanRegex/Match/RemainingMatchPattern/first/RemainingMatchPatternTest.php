@@ -30,7 +30,7 @@ class RemainingMatchPatternTest extends TestCase
         $result = $matchPattern->group(1)->asInt()->first();
 
         // then
-        $this->assertSame($result, 15);
+        $this->assertSame(15, $result);
     }
 
     private function matchPattern(string $pattern, string $subject, callable $predicate): RemainingMatchPattern

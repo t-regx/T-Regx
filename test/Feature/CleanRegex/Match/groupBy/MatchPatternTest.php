@@ -4,9 +4,9 @@ namespace Test\Feature\TRegx\CleanRegex\Match\groupBy;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Match\AbstractMatchPattern;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\GroupByPattern;
+use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
 {
@@ -291,7 +291,7 @@ class MatchPatternTest extends TestCase
             ->groupBy('unit');
     }
 
-    private function match(): AbstractMatchPattern
+    private function match(): MatchPattern
     {
         return pattern('\d+(?<unit>cm|mm)?')->match('€12, 14cm 13mm 19cm 18mm 2cm');
     }

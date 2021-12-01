@@ -9,9 +9,9 @@ use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 /**
- * @covers \TRegx\CleanRegex\Match\AbstractMatchPattern
+ * @covers \TRegx\CleanRegex\Match\MatchPattern
  */
-class AbstractMatchPatternTest extends TestCase
+class MatchPatternTest extends TestCase
 {
     use ExactExceptionMessage;
 
