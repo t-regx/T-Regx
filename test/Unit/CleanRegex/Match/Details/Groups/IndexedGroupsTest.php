@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Model\GroupKeys;
 use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowRenameMe;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
+use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 
 /**
@@ -60,5 +61,20 @@ class IndexedGroupsTest extends TestCase
 
         // then
         $this->assertCount($count, $expectedNames);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupsCountInvalid()
+    {
+        // given
+        $matchGroups = new IndexedGroups(new GroupKeys([]), new ThrowRenameMe(), new ThrowSubject());
+
+        // then
+        $this->expectException(InternalCleanRegexException::class);
+
+        // when
+        $matchGroups->count();
     }
 }

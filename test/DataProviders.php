@@ -49,8 +49,7 @@ class DataProviders
     public static function namedAndIndexedGroups_mixed_keys(): array
     {
         return [
-            'potentially invalid' => [[], []],
-            'no groups'           => [[0], []],
+            'no groups' => [[0], []],
 
             'no named groups' => [
                 [0, 1, 2, 3, 4],

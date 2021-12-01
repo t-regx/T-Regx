@@ -16,15 +16,15 @@ class DetailGroups
     private $namedGroups;
     /** @var GroupNames */
     private $groupNames;
-    /** @var GroupAware */
-    private $groupAware;
+    /** @var GroupsCount */
+    private $groupsCount;
 
     public function __construct(GroupAware $groupAware, UsedInCompositeGroups $usedInCompo, Subject $subject)
     {
         $this->indexedGroups = new IndexedGroups($groupAware, $usedInCompo, $subject);
         $this->namedGroups = new NamedGroups($groupAware, $usedInCompo, $subject);
         $this->groupNames = new GroupNames($groupAware);
-        $this->groupAware = $groupAware;
+        $this->groupsCount = new GroupsCount($groupAware);
     }
 
     public function indexedGroups(): IndexedGroups
@@ -44,7 +44,6 @@ class DetailGroups
 
     public function groupsCount(): int
     {
-        $wholeMatchAndIndexedGroups = \array_filter($this->groupAware->getGroupKeys(), '\is_int');
-        return \count($wholeMatchAndIndexedGroups) - 1;
+        return $this->groupsCount->groupsCount();
     }
 }
