@@ -8,6 +8,9 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpen;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupRemainder;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Posix;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\PosixClose;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\PosixOpen;
 use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;
 
 /**
@@ -73,5 +76,56 @@ class PatternAsEntitiesTest extends TestCase
             new GroupRemainder(''),
         ];
         $this->assertEquals($expected, $entities);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldParseImmediatelyClosedCharacterClass()
+    {
+        // given
+        $asEntities = new PatternAsEntities('[]]]', new Flags(''), new ThrowPlaceholderConsumer());
+
+        // when
+        $entities = $asEntities->entities();
+
+        // then
+        $expected = [
+            new PosixOpen(),
+            new Posix(']'),
+            new PosixClose(),
+            new Literal(']'),
+        ];
+        $this->assertEquals($expected, $entities);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldParseDoubleColorWordInCharacterClass()
+    {
+        // given
+        $asEntities = new PatternAsEntities('[:alpha:]', new Flags(''), new ThrowPlaceholderConsumer());
+
+        // when
+        $entities = $asEntities->entities();
+
+        // then
+        $this->assertEquals([new PosixOpen(), new Posix(':alpha:'), new PosixClose()], $entities);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldParseEscapedClosingPosix()
+    {
+        // given
+        $asEntities = new PatternAsEntities('[F\]O]', new Flags(''), new ThrowPlaceholderConsumer());
+
+        // when
+        $entities = $asEntities->entities();
+
+        // then
+        $this->assertEquals([new PosixOpen(), new Posix('F\]O'), new PosixClose()], $entities);
     }
 }
