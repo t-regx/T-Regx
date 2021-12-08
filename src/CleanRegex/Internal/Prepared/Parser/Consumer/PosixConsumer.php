@@ -44,6 +44,17 @@ class PosixConsumer implements Consumer
                 $quoteConsumer->consume($feed, $entities);
                 continue;
             }
+            $condition = $feed->characterClass();
+            if ($condition->consumable()) {
+                $class = $condition->asString();
+                $condition->commit();
+                if ($posix !== '') {
+                    $entities->append(new Posix($posix));
+                    $posix = '';
+                }
+                $entities->append(new Posix($class));
+                continue;
+            }
             $feedLetter = $feed->letter();
             if (!$feedLetter->consumable()) {
                 break;

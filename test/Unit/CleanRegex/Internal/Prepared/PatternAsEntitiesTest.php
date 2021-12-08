@@ -128,4 +128,26 @@ class PatternAsEntitiesTest extends TestCase
         // then
         $this->assertEquals([new PosixOpen(), new Posix('F\]O'), new PosixClose()], $entities);
     }
+
+    /**
+     * @test
+     */
+    public function shouldParseNestedCharacterClass()
+    {
+        // given
+        $asEntities = new PatternAsEntities('[01[:alpha:]%]', new Flags(''), new ThrowPlaceholderConsumer());
+
+        // when
+        $entities = $asEntities->entities();
+
+        // then
+        $expected = [
+            new PosixOpen(),
+            new Posix('01'),
+            new Posix('[:alpha:]'),
+            new Posix('%'),
+            new PosixClose()
+        ];
+        $this->assertEquals($expected, $entities);
+    }
 }

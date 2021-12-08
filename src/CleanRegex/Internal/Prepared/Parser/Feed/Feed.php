@@ -21,6 +21,11 @@ class Feed
         return new ConstantString($this->shiftString, $string);
     }
 
+    public function characterClass(): CharacterClassCondition
+    {
+        return new CharacterClassCondition($this->shiftString);
+    }
+
     public function matchedString(string $regex, int $groups): MatchedString
     {
         return new MatchedString($this->shiftString, $regex, $groups);

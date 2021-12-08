@@ -6,6 +6,7 @@ Incoming
 
 * Bug fixes
     * Fixed a bug when pattern `[]]` with prepared pattern was parsed incorrectly.
+    * Fixed a bug when using character classes (e.g. `[:alpha:]`) with prepared pattern were parsed incorrectly.
 
 Added in 0.19.0
 ---------------
