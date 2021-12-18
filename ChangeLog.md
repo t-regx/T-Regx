@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.19.2
+---------------
+
 * Features
     * Added `$flags` parameter to `preg::replace_callback()` which was added in PHP 7.4.
 
