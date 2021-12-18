@@ -9,7 +9,7 @@ trait TestCaseConditional
 
     /**
      * This test really is marked as unncessary. If the condition is not met,
-     * I simpyl want to skip this test. Not mark it as risky, incomplete or skipped,
+     * I simply want to skip this test. Not mark it as risky, incomplete or skipped,
      * because it's not.
      *
      * This test simply doesn't make sense, if the condition is not met.

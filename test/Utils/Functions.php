@@ -145,4 +145,12 @@ class Functions
             return $integer % 2 === 0 ? $even : $odd;
         };
     }
+
+    public static function collect(&$collect, $return = null): callable
+    {
+        return function ($argument) use (&$collect, $return) {
+            $collect = $argument;
+            return $return;
+        };
+    }
 }

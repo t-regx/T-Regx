@@ -99,6 +99,7 @@ class preg
      *
      * @param string|string[] $pattern
      * @param string|string[] $subject
+     * @param int|null $flags
      * @return string|string[]
      *
      * @param-out int $count
@@ -111,11 +112,14 @@ class preg
      *
      * @throws PregException
      */
-    public static function replace_callback($pattern, callable $callback, $subject, int $limit = -1, int &$count = null)
+    public static function replace_callback($pattern, callable $callback, $subject, int $limit = -1, int &$count = null, int $flags = 0)
     {
         $pr = Bug::fix($pattern);
-        return Guard::invoke('preg_replace_callback', $pr, static function () use ($pr, $callback, $subject, $limit, &$count) {
-            return @\preg_replace_callback($pr, self::decorateCallback('preg_replace_callback', $pr, $callback), $subject, $limit, $count);
+        return Guard::invoke('preg_replace_callback', $pr, static function () use ($pr, $callback, $subject, $limit, &$count, $flags) {
+            if ($flags === 0) {
+                return @\preg_replace_callback($pr, self::decorateCallback('preg_replace_callback', $pr, $callback), $subject, $limit, $count);
+            }
+            return @\preg_replace_callback($pr, self::decorateCallback('preg_replace_callback', $pr, $callback), $subject, $limit, $count, $flags);
         });
     }
 
