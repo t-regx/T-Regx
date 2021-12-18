@@ -14,7 +14,7 @@ trait TestCaseConditional
      *
      * This test simply doesn't make sense, if the condition is not met.
      */
-    public function markTestRenderedUnnecessary(string $message): void
+    public function markTestUnnecessary(string $message): void
     {
         $this->expectException(Exception::class);
         throw new Exception($message);

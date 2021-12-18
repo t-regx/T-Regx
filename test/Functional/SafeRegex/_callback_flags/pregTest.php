@@ -16,7 +16,7 @@ class pregTest extends TestCase
     public function shouldPassFlagToPregReplaceCallback()
     {
         if (\PHP_VERSION_ID < 70400) {
-            $this->markTestRenderedUnnecessary("PHP with PCRE2 is not prone to constant override");
+            $this->markTestUnnecessary("PHP with PCRE2 is not prone to constant override");
         }
 
         // given

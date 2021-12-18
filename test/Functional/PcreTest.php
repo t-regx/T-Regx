@@ -53,7 +53,7 @@ class PcreTest extends TestCase
     public function shouldNotBeProneToConstantOverride()
     {
         if (\PHP_VERSION_ID >= 70300) {
-            $this->markTestRenderedUnnecessary("PHP with PCRE2 is not prone to constant override");
+            $this->markTestUnnecessary("PHP with PCRE2 is not prone to constant override");
         }
 
         // given
