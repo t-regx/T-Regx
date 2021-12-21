@@ -10,6 +10,11 @@ class ByteOffset
 
     public function __construct(int $bytes)
     {
+        if ($bytes < 0) {
+            // @codeCoverageIgnoreStart
+            throw new InternalCleanRegexException();
+            // @codeCoverageIgnoreEnd
+        }
         $this->bytes = $bytes;
     }
 
