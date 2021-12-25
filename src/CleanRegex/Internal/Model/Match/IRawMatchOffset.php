@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 interface IRawMatchOffset extends
     GroupAware,
     Entry,
-    UsedInCompositeGroups,
+    GroupEntries,
     UsedForGroup
 {
 }

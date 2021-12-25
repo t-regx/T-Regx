@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\Details\Groups;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Model\GroupKeys;
-use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowRenameMe;
+use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowEntries;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
@@ -35,7 +35,7 @@ class NamedGroupsTest extends TestCase
     public function shouldGetGroupsNames(array $groups, array $expectedNames)
     {
         // given
-        $matchGroups = new NamedGroups(new GroupKeys($groups), new ThrowRenameMe(), new ThrowSubject());
+        $matchGroups = new NamedGroups(new GroupKeys($groups), new ThrowEntries(), new ThrowSubject());
 
         // when
         $names = $matchGroups->names();
@@ -53,7 +53,7 @@ class NamedGroupsTest extends TestCase
     public function shouldGetGroupsCount(array $groups, array $expectedNames)
     {
         // given
-        $matchGroups = new NamedGroups(new GroupKeys($groups), new ThrowRenameMe(), new ThrowSubject());
+        $matchGroups = new NamedGroups(new GroupKeys($groups), new ThrowEntries(), new ThrowSubject());
 
         // when
         $count = $matchGroups->count();

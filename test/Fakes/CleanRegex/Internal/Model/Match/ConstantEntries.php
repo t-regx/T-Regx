@@ -2,9 +2,9 @@
 namespace Test\Fakes\CleanRegex\Internal\Model\Match;
 
 use AssertionError;
-use TRegx\CleanRegex\Internal\Model\Match\UsedInCompositeGroups;
+use TRegx\CleanRegex\Internal\Model\Match\GroupEntries;
 
-class ConstantRenameMe implements UsedInCompositeGroups
+class ConstantEntries implements GroupEntries
 {
     /** @var array */
     private $texts;

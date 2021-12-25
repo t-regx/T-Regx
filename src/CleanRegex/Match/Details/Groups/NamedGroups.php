@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Match\Details\Groups;
 
 use TRegx\CleanRegex\Internal\Model\GroupAware;
-use TRegx\CleanRegex\Internal\Model\Match\UsedInCompositeGroups;
+use TRegx\CleanRegex\Internal\Model\Match\GroupEntries;
 use TRegx\CleanRegex\Internal\Subject;
 
 class NamedGroups extends AbstractMatchGroups
@@ -10,9 +10,9 @@ class NamedGroups extends AbstractMatchGroups
     /** @var GroupAware */
     private $groupAware;
 
-    public function __construct(GroupAware $groupAware, UsedInCompositeGroups $match, Subject $subject)
+    public function __construct(GroupAware $groupAware, GroupEntries $entries, Subject $subject)
     {
-        parent::__construct($match, $subject);
+        parent::__construct($entries, $subject);
         $this->groupAware = $groupAware;
     }
 

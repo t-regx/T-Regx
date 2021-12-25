@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
-interface UsedInCompositeGroups
+interface GroupEntries
 {
     /**
      * @see AbstractMatchGroups::texts

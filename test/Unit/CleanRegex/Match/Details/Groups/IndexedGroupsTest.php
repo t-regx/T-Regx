@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\Details\Groups;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Model\GroupKeys;
-use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowRenameMe;
+use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowEntries;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
@@ -36,7 +36,7 @@ class IndexedGroupsTest extends TestCase
     public function shouldGetGroupsNames(array $groups, array $expectedNames)
     {
         // given
-        $matchGroups = new IndexedGroups(new GroupKeys($groups), new ThrowRenameMe(), new ThrowSubject());
+        $matchGroups = new IndexedGroups(new GroupKeys($groups), new ThrowEntries(), new ThrowSubject());
 
         // when
         $names = $matchGroups->names();
@@ -54,7 +54,7 @@ class IndexedGroupsTest extends TestCase
     public function shouldGetGroupsCount(array $groups, array $expectedNames)
     {
         // given
-        $matchGroups = new IndexedGroups(new GroupKeys($groups), new ThrowRenameMe(), new ThrowSubject());
+        $matchGroups = new IndexedGroups(new GroupKeys($groups), new ThrowEntries(), new ThrowSubject());
 
         // when
         $count = $matchGroups->count();
@@ -69,7 +69,7 @@ class IndexedGroupsTest extends TestCase
     public function shouldGetGroupsCountInvalid()
     {
         // given
-        $matchGroups = new IndexedGroups(new GroupKeys([]), new ThrowRenameMe(), new ThrowSubject());
+        $matchGroups = new IndexedGroups(new GroupKeys([]), new ThrowEntries(), new ThrowSubject());
 
         // then
         $this->expectException(InternalCleanRegexException::class);

@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\Details;
 
 use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
-use TRegx\CleanRegex\Internal\Model\Match\UsedInCompositeGroups;
+use TRegx\CleanRegex\Internal\Model\Match\GroupEntries;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
@@ -19,10 +19,10 @@ class DetailGroups
     /** @var GroupsCount */
     private $groupsCount;
 
-    public function __construct(GroupAware $groupAware, UsedInCompositeGroups $usedInCompo, Subject $subject)
+    public function __construct(GroupAware $groupAware, GroupEntries $entries, Subject $subject)
     {
-        $this->indexedGroups = new IndexedGroups($groupAware, $usedInCompo, $subject);
-        $this->namedGroups = new NamedGroups($groupAware, $usedInCompo, $subject);
+        $this->indexedGroups = new IndexedGroups($groupAware, $entries, $subject);
+        $this->namedGroups = new NamedGroups($groupAware, $entries, $subject);
         $this->groupNames = new GroupNames($groupAware);
         $this->groupsCount = new GroupsCount($groupAware);
     }

@@ -2,7 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match\Details\Groups;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Model\Match\ConstantRenameMe;
+use Test\Fakes\CleanRegex\Internal\Model\Match\ConstantEntries;
 use Test\Fakes\CleanRegex\Internal\Model\ThrowGroupAware;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
@@ -21,7 +21,7 @@ class AbstractMatchGroupsTest extends TestCase
     public function shouldThrowInternal($invalidValue)
     {
         // given
-        $matchGroups = new IndexedGroups(new ThrowGroupAware(), new ConstantRenameMe(['first', $invalidValue]), new ThrowSubject());
+        $matchGroups = new IndexedGroups(new ThrowGroupAware(), new ConstantEntries(['first', $invalidValue]), new ThrowSubject());
 
         // then
         $this->expectException(InternalCleanRegexException::class);

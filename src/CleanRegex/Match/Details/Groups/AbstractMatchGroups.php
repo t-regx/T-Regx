@@ -2,26 +2,26 @@
 namespace TRegx\CleanRegex\Match\Details\Groups;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Model\Match\UsedInCompositeGroups;
+use TRegx\CleanRegex\Internal\Model\Match\GroupEntries;
 use TRegx\CleanRegex\Internal\Offset\ByteOffset;
 use TRegx\CleanRegex\Internal\Subject;
 
 abstract class AbstractMatchGroups implements MatchGroups
 {
-    /** @var UsedInCompositeGroups */
-    private $match;
+    /** @var GroupEntries */
+    private $entries;
     /** @var Subject */
     private $subject;
 
-    public function __construct(UsedInCompositeGroups $match, Subject $subject)
+    public function __construct(GroupEntries $entries, Subject $subject)
     {
-        $this->match = $match;
+        $this->entries = $entries;
         $this->subject = $subject;
     }
 
     public function texts(): array
     {
-        return $this->sliceAndFilter($this->match->getGroupsTexts());
+        return $this->sliceAndFilter($this->entries->getGroupsTexts());
     }
 
     public function offsets(): array
@@ -33,7 +33,7 @@ abstract class AbstractMatchGroups implements MatchGroups
 
     public function byteOffsets(): array
     {
-        return $this->sliceAndFilter($this->match->getGroupsOffsets());
+        return $this->sliceAndFilter($this->entries->getGroupsOffsets());
     }
 
     private function sliceAndFilter(array $valuesWithWhole): array
