@@ -48,12 +48,12 @@ class RawMatchesToMatchAdapter implements IRawMatchOffset
         return $this->matches->getOffset($this->index);
     }
 
-    public function getGroupsTexts(): array
+    public function groupTexts(): array
     {
         return $this->matches->getGroupsTexts($this->index);
     }
 
-    public function getGroupsOffsets(): array
+    public function groupOffsets(): array
     {
         return $this->matches->getGroupsOffsets($this->index);
     }

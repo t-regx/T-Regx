@@ -79,14 +79,14 @@ class GroupPolyfillDecorator implements IRawMatchOffset
         return $this->falseMatch->byteOffset();
     }
 
-    public function getGroupsTexts(): array
+    public function groupTexts(): array
     {
-        return $this->trueMatch()->getGroupsTexts();
+        return $this->trueMatch()->groupTexts();
     }
 
-    public function getGroupsOffsets(): array
+    public function groupOffsets(): array
     {
-        return $this->trueMatch()->getGroupsOffsets();
+        return $this->trueMatch()->groupOffsets();
     }
 
     public function getGroupKeys(): array

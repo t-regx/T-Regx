@@ -3,13 +3,7 @@ namespace TRegx\CleanRegex\Internal\Model\Match;
 
 interface GroupEntries
 {
-    /**
-     * @see AbstractMatchGroups::texts
-     */
-    public function getGroupsTexts(): array;
+    public function groupTexts(): array;
 
-    /**
-     * @see AbstractMatchGroups::byteOffsets
-     */
-    public function getGroupsOffsets(): array;
+    public function groupOffsets(): array;
 }

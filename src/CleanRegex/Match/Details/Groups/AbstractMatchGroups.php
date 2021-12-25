@@ -21,7 +21,7 @@ abstract class AbstractMatchGroups implements MatchGroups
 
     public function texts(): array
     {
-        return $this->sliceAndFilter($this->entries->getGroupsTexts());
+        return $this->sliceAndFilter($this->entries->groupTexts());
     }
 
     public function offsets(): array
@@ -33,7 +33,7 @@ abstract class AbstractMatchGroups implements MatchGroups
 
     public function byteOffsets(): array
     {
-        return $this->sliceAndFilter($this->entries->getGroupsOffsets());
+        return $this->sliceAndFilter($this->entries->groupOffsets());
     }
 
     private function sliceAndFilter(array $valuesWithWhole): array

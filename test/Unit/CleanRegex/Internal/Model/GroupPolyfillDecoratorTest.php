@@ -179,7 +179,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         $decorator = new GroupPolyfillDecorator($this->match([0 => ['one', 15]]), new ConstantAll($matches), 0);
 
         // when + then
-        $this->assertSame(['foo' => 'bar', 'lorem' => 'ipsum'], $decorator->getGroupsTexts());
+        $this->assertSame(['foo' => 'bar', 'lorem' => 'ipsum'], $decorator->groupTexts());
     }
 
     /**
@@ -195,7 +195,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         $decorator = new GroupPolyfillDecorator($this->match([0 => ['one', 0]]), new ConstantAll($matches), 0);
 
         // when + then
-        $this->assertSame(['foo' => 10, 'lorem' => 15], $decorator->getGroupsOffsets());
+        $this->assertSame(['foo' => 10, 'lorem' => 15], $decorator->groupOffsets());
     }
 
     /**

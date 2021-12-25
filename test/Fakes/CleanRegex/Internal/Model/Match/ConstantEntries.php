@@ -14,12 +14,12 @@ class ConstantEntries implements GroupEntries
         $this->texts = $texts;
     }
 
-    public function getGroupsTexts(): array
+    public function groupTexts(): array
     {
         return $this->texts;
     }
 
-    public function getGroupsOffsets(): array
+    public function groupOffsets(): array
     {
         throw new AssertionError("Failed to assert that getGroupsOffsets() wasn't used");
     }

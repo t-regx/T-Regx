@@ -6,12 +6,12 @@ use TRegx\CleanRegex\Internal\Model\Match\GroupEntries;
 
 class ThrowEntries implements GroupEntries
 {
-    public function getGroupsTexts(): array
+    public function groupTexts(): array
     {
         throw new AssertionError("Failed to assert that GroupEntries wasn't used");
     }
 
-    public function getGroupsOffsets(): array
+    public function groupOffsets(): array
     {
         throw new AssertionError("Failed to assert that GroupEntries wasn't used");
     }
