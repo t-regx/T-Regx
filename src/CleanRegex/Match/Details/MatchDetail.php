@@ -120,7 +120,6 @@ class MatchDetail implements Detail
     /**
      * @param string|int $nameOrIndex
      * @return Group
-     * @throws NonexistentGroupException
      */
     public function group($nameOrIndex): Group
     {
@@ -139,7 +138,6 @@ class MatchDetail implements Detail
     /**
      * @param string|int $nameOrIndex
      * @return bool
-     * @throws NonexistentGroupException
      */
     public function matched($nameOrIndex): bool
     {
