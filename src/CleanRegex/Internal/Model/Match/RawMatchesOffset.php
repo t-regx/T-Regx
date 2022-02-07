@@ -136,22 +136,6 @@ class RawMatchesOffset implements GroupAware
         return false;
     }
 
-    public function getRawMatchOffset(int $index): RawMatchOffset
-    {
-        $matches = \array_map(static function (array $match) use ($index) {
-            return $match[$index];
-        }, $this->matches);
-        return new RawMatchOffset($matches, $index);
-    }
-
-    public function getRawMatch(int $index): RawMatch
-    {
-        return new RawMatch(\array_map(static function (array $match) use ($index) {
-            [$text, $offset] = $match[$index];
-            return $text;
-        }, $this->matches));
-    }
-
     /**
      * @return int[]
      */

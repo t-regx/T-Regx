@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Model;
 
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
-use TRegx\CleanRegex\Internal\Match\Predicate;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
@@ -33,15 +32,5 @@ class DetailObjectFactory
                 $this->userData);
         }
         return $matchObjects;
-    }
-
-    public function mapToDetailObjectsFiltered(RawMatchesOffset $matches, Predicate $predicate): array
-    {
-        $matchObjects = $this->mapToDetailObjects($matches);
-        $filteredMatches = \array_filter($matchObjects, [$predicate, 'test']);
-
-        return \array_map(static function (array $match) use ($filteredMatches): array {
-            return \array_intersect_key($match, $filteredMatches);
-        }, $matches->matches);
     }
 }
