@@ -179,4 +179,12 @@ class Functions
             return $a->asInt($base) + $b->asInt($base);
         };
     }
+
+    public static function collectAsEntries(array &$entries = null): callable
+    {
+        $entries = [];
+        return static function ($key, $value) use (&$entries) {
+            $entries[$key] = $value;
+        };
+    }
 }

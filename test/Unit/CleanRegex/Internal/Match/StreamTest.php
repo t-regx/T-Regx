@@ -413,12 +413,9 @@ class StreamTest extends TestCase
     {
         // given
         $stream = new Stream(new AllStream(['Foo' => '9', 2 => 'Bar']), new ThrowSubject());
-        $arguments = [];
 
         // when
-        $stream->forEach(function ($argument, $key) use (&$arguments) {
-            $arguments[$argument] = $key;
-        });
+        $stream->forEach(Functions::collectAsEntries($arguments));
 
         // then
         $this->assertSame(['9' => 'Foo', 'Bar' => 2], $arguments);
