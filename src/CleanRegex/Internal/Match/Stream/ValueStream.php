@@ -9,7 +9,7 @@ interface ValueStream
      * @throws UnmatchedStreamException Supposed to be thrown
      * when subject backing the stream wasn't matched, to
      * differentiate an empty stream from a stream that was
-     * empty from the begining.
+     * empty from the beginning.
      */
     public function all(): array;
 
