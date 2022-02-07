@@ -5,7 +5,9 @@ Incoming
 --------
 
 * Breaking changes
-  * Removed `pattern()->match()->remaining()`, as it was a failed idea.
+    * Removed `pattern()->match()->remaining()`, as it was a failed idea.
+* Features
+    * Add `pattern()->match()->reduce()`
 
 Added in 0.19.2
 ---------------
@@ -76,8 +78,8 @@ Added in 0.16.0
       Basically, `MatchPattern` and `IntStream` throw match-related exceptions (`SubjectNotMatchedException`
       or `GroupNotMatchedException`), whereas `FluentMatchPattern` throws fluent-related
       exception: `NoSuchElementFluentException`.
-  * Updated exception messages from `asInt()`, `offsets()` and `fluent()`.
-  * `MatchPatternInterface` is no longer part of T-Regx public API.
+    * Updated exception messages from `asInt()`, `offsets()` and `fluent()`.
+    * `MatchPatternInterface` is no longer part of T-Regx public API.
 
 Added in 0.15.0
 ---------------

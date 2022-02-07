@@ -227,4 +227,12 @@ class MatchPattern implements \Countable, \IteratorAggregate
         $factory = new DetailObjectFactory($this->base, $this->base->getUserData());
         return $factory->mapToDetailObjects($this->base->matchAllOffsets());
     }
+
+    public function reduce(callable $reducer, $accumulator)
+    {
+        foreach ($this as $detail) {
+            $accumulator = $reducer($accumulator, $detail);
+        };
+        return $accumulator;
+    }
 }

@@ -3,6 +3,8 @@ namespace Test\Utils;
 
 use PHPUnit\Framework\Assert;
 use Throwable;
+use TRegx\CleanRegex\Internal\Number\Base;
+use TRegx\CleanRegex\Internal\Number\StringNumber;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class Functions
@@ -151,6 +153,30 @@ class Functions
         return function ($argument) use (&$collect, $return) {
             $collect = $argument;
             return $return;
+        };
+    }
+
+    public static function asString(): callable
+    {
+        return function (string $argument): string {
+            return $argument;
+        };
+    }
+
+    public static function asStringSecond(): callable
+    {
+        return function ($irrelevant, string $argument): string {
+            return $argument;
+        };
+    }
+
+    public static function sum(): callable
+    {
+        return function (string $augend, string $addend): int {
+            $base = new Base(10);
+            $a = new StringNumber($augend);
+            $b = new StringNumber($addend);
+            return $a->asInt($base) + $b->asInt($base);
         };
     }
 }
