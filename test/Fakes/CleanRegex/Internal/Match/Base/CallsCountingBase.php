@@ -26,7 +26,7 @@ class CallsCountingBase implements Base
 
     public function definition(): Definition
     {
-        $this->calls++;
+        throw $this->fail();
     }
 
     public function match(): RawMatch
