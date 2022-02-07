@@ -6,6 +6,8 @@ Incoming
 
 * Breaking changes
     * Removed `pattern()->match()->remaining()`, as it was a failed idea.
+* Bug fixes
+    * Fixed a bug when `stream()->map()->asInt()` ignored integer-base, assumed base 10.
 * Features
     * Add `pattern()->match()->reduce()`
 

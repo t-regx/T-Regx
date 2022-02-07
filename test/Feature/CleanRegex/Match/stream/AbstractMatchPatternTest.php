@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\CustomSubjectException;
 use Test\Utils\Definitions;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
@@ -300,5 +301,41 @@ class AbstractMatchPatternTest extends TestCase
 
         // then
         $this->assertSameMatches(['14cm', '12mm', '18m'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMapToIntegerDifferentBaseBefore()
+    {
+        // when
+        $result = pattern('\d+')->match('12, 15, 16')->asInt(16)->stream()->all();
+
+        // then
+        $this->assertSameMatches([18, 21, 22], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMapToIntegerDifferentBaseAfter()
+    {
+        // when
+        $result = pattern('\d+')->match('12, 15, 16')->stream()->asInt(16)->all();
+
+        // then
+        $this->assertSameMatches([18, 21, 22], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMapToIntegerDifferentBaseAfterMapped()
+    {
+        // when
+        $result = pattern('\d+')->match('12, 15, 16')->stream()->map(DetailFunctions::text())->asInt(16)->all();
+
+        // then
+        $this->assertSameMatches([18, 21, 22], $result);
     }
 }

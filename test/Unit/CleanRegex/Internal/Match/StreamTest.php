@@ -316,7 +316,7 @@ class StreamTest extends TestCase
     {
         return [
             [[]],
-            [[new ConstantInt(12)]],
+            [[new ConstantInt(12, 37)]],
             [[1, 2, 3]],
         ];
     }
@@ -358,7 +358,7 @@ class StreamTest extends TestCase
     public function shouldMapMatchesToIntegers()
     {
         // given
-        $stream = new Stream(new AllStream(['a' => new ConstantInt(9), 'b' => new ConstantInt(10)]), new ThrowSubject());
+        $stream = new Stream(new AllStream(['a' => new ConstantInt(9, 10), 'b' => new ConstantInt(10, 10)]), new ThrowSubject());
 
         // when
         $integers = $stream->asInt()->all();

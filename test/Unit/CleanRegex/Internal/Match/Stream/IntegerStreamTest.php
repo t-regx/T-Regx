@@ -27,7 +27,7 @@ class IntegerStreamTest extends TestCase
     public function test()
     {
         // given
-        $stream = new IntegerStream(new AllStream(['1', 2, new ConstantInt(4)]), new Base(2));
+        $stream = new IntegerStream(new AllStream(['1', 2, new ConstantInt(4, 2)]), new Base(2));
 
         // when
         $values = $stream->all();
@@ -119,7 +119,7 @@ class IntegerStreamTest extends TestCase
     public function shouldGetFirstIntable()
     {
         // given
-        $stream = new IntegerStream(new FirstStream(new ConstantInt(4)), new ThrowBase());
+        $stream = new IntegerStream(new FirstStream(new ConstantInt(4, 11)), new Base(11));
 
         // when
         $value = $stream->first();
