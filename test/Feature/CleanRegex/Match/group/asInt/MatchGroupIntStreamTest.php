@@ -312,42 +312,6 @@ class MatchGroupIntStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_remaining_first(): void
-    {
-        // when
-        $first = pattern('(\d+)')->match('45 65')->remaining(DetailFunctions::equals('65'))->group(1)->asInt()->first();
-
-        // then
-        $this->assertSame(65, $first);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_remaining_first_keys(): void
-    {
-        // when
-        $key = pattern('(\d+)')->match('90 60 75 85')->remaining(DetailFunctions::equals('75'))->group(1)->asInt()->keys()->first();
-
-        // then
-        $this->assertSame(0, $key);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_remaining_all_keys(): void
-    {
-        // when
-        $key = pattern('(\d+)')->match('90 60 75 85')->remaining(Functions::oneOf(['60', '85']))->group(1)->asInt()->keys()->all();
-
-        // then
-        $this->assertSame([0, 1], $key);
-    }
-
-    /**
-     * @test
-     */
     public function shouldMapFirst()
     {
         // when

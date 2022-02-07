@@ -7,7 +7,6 @@ use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Base\DetailPredicateBaseDecorator;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
@@ -18,7 +17,6 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchFirst;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
-use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream;
@@ -192,14 +190,6 @@ class MatchPattern implements \Countable, \IteratorAggregate
     public function getIterator(): \Iterator
     {
         return new \ArrayIterator(\array_values($this->getDetailObjects()));
-    }
-
-    public function remaining(callable $predicate): RemainingMatchPattern
-    {
-        return new RemainingMatchPattern(
-            new DetailPredicateBaseDecorator($this->base, new MethodPredicate($predicate, 'remaining')),
-            $this->base,
-            $this->allFactory);
     }
 
     public function stream(): Stream

@@ -117,4 +117,20 @@ class FilterStreamTest extends TestCase
         $this->assertSame('four', $first);
         $this->assertSame(['one', 'two', 'three', 'four'], $invokedFor);
     }
+
+    /**
+     * @test
+     */
+    public function shouldBe_Countable()
+    {
+        // given
+        $pattern = pattern('\w+')->match('One, two, three')->stream()->filter(DetailFunctions::notEquals('two'));
+        $this->assertIsNotArray($pattern);
+
+        // when
+        $size = count($pattern);
+
+        // then
+        $this->assertSame(2, $size);
+    }
 }

@@ -121,110 +121,6 @@ class MatchPatternTest extends TestCase
 
     /**
      * @test
-     */
-    public function shouldNotIncludeFilteredOut_texts()
-    {
-        // given
-        $groupByPattern = $this->filtered();
-
-        // when
-        $result = $groupByPattern->all();
-
-        // then
-        $this->assertSame(['cm' => ['19cm', '2cm'], 'mm' => ['18mm']], $result);
-    }
-
-    /**
-     * @test
-     * @dataProvider mappersWithMatch
-     * @param string $function
-     * @param array $expected
-     */
-    public function shouldNotIncludeFilteredOut(string $function, array $expected)
-    {
-        // given
-        $groupByPattern = $this->filtered();
-
-        // when
-        $result = $groupByPattern->$function(function (Detail $detail) {
-            return [$detail->text(), $detail->offset()];
-        });
-
-        // then
-        $this->assertSame($expected, $result);
-    }
-
-    /**
-     * @test
-     * @dataProvider mappersWithMatch
-     * @param string $function
-     */
-    public function shouldNotHaveLimit(string $function)
-    {
-        // given
-        $groupBy = $this->filtered();
-        $called = [];
-
-        // when
-        $groupBy->$function(function (Detail $detail) use (&$called) {
-            // when
-            $called[] = $detail->text();
-            $this->assertSame(-1, $detail->limit());
-
-            // clean
-            return [];
-        });
-
-        // then
-        $this->assertSame(['19cm', '18mm', '2cm'], $called);
-    }
-
-    /**
-     * @test
-     * @dataProvider mappersWithMatch
-     * @param string $function
-     */
-    public function shouldReturnOtherMatches_whenFiltered(string $function)
-    {
-        // given
-        $groupByPattern = $this->filtered();
-
-        // when
-        $groupByPattern->$function(function (Detail $detail) {
-            // when
-            $this->assertSame(['12', '19cm', '18mm', '2cm'], $detail->all());
-
-            // clean
-            return [];
-        });
-    }
-
-    /**
-     * @test
-     * @dataProvider mappersWithMatch
-     * @param string $function
-     */
-    public function shouldPreserveUserData(string $function)
-    {
-        // given
-        $this->match()
-            ->remaining(function (Detail $detail) {
-                // when
-                $detail->setUserData("user data:$detail");
-                return true;
-            })
-            ->groupBy('unit')
-            ->$function(function (Detail $detail) {
-                // then
-                $this->assertSame("user data:$detail", $detail->getUserData());
-
-                // clean
-                return [];
-            });
-    }
-
-    /**
-     * @test
      * @dataProvider mappersWithMatch
      * @param string $function
      */
@@ -239,30 +135,6 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertSame(\array_flip(['14cm' => 1, '13mm' => 2, '19cm' => 3, '18mm' => 4, '2cm' => 5]), $indexes);
-    }
-
-    /**
-     * @test
-     * @dataProvider mappersWithMatch
-     * @param string $function
-     */
-    public function shouldIndexMatches_filtered(string $function)
-    {
-        // given
-        $groupByPattern = $this->filtered();
-        $indexes = [];
-
-        // when
-        $groupByPattern->$function(function (Detail $detail) use (&$indexes) {
-            // when
-            $indexes[$detail->text()] = $detail->index();
-
-            // clean
-            return [];
-        });
-
-        // then
-        $this->assertSame(['19cm' => 3, '18mm' => 4, '2cm' => 5], $indexes);
     }
 
     public function mappersWithMatch(): array
@@ -282,13 +154,6 @@ class MatchPatternTest extends TestCase
     private function groupBy(): GroupByPattern
     {
         return $this->match()->groupBy('unit');
-    }
-
-    private function filtered(): GroupByPattern
-    {
-        return $this->match()
-            ->remaining(Functions::oneOf(['12', '19cm', '18mm', '2cm']))
-            ->groupBy('unit');
     }
 
     private function match(): MatchPattern

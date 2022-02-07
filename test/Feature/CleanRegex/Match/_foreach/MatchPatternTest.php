@@ -39,7 +39,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldIterateMatch_remaining_forEach()
+    public function shouldIterateMatch_forEach()
     {
         // given
         $pattern = $this->match()->stream()->filter(Functions::oneOf(['127', '1']));
