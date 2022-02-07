@@ -164,4 +164,12 @@ class Stream implements \Countable, \IteratorAggregate
     {
         return new Stream($upstream, $this->subject);
     }
+
+    public function reduce(callable $reducer, $accumulator)
+    {
+        foreach ($this as $detail) {
+            $accumulator = $reducer($accumulator, $detail);
+        };
+        return $accumulator;
+    }
 }
