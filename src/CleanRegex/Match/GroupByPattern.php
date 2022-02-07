@@ -89,11 +89,11 @@ class GroupByPattern
         }
     }
 
-    private function flattenMap(array $groupped, FlatMapStrategy $strategy): array
+    private function flattenMap(array $grouped, FlatMapStrategy $strategy): array
     {
         $flattened = [];
-        foreach ($groupped as $groupKey => $grouppedValues) {
-            $flattened[$groupKey] = $strategy->flatten(new Nested($grouppedValues));
+        foreach ($grouped as $groupKey => $groupedValues) {
+            $flattened[$groupKey] = $strategy->flatten(new Nested($groupedValues));
         }
         return $flattened;
     }
