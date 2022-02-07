@@ -6,6 +6,7 @@
 4. Much important - **Minimisation of inconsistencies**
 5. Important - **No "general-purpose" classes**
 6. Yes - **Simple and clean design**
+7. Follow https://github.com/jupeter/clean-code-php
 
 ! * *Magic would be: defaults, `null`s, warnings, implicit arguments or false-positives*
 
