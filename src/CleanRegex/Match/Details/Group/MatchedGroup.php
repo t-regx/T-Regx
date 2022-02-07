@@ -7,10 +7,10 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
-use TRegx\CleanRegex\Internal\Number\Base;
-use TRegx\CleanRegex\Internal\Number\NumberFormatException;
-use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
-use TRegx\CleanRegex\Internal\Number\StringNumber;
+use TRegx\CleanRegex\Internal\Numeral\Base;
+use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
+use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;
+use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Optional;
 
@@ -50,22 +50,22 @@ class MatchedGroup implements Group
 
     public function toInt(int $base = null): int
     {
-        $number = new StringNumber($this->groupEntry->text());
+        $number = new StringNumeral($this->groupEntry->text());
         try {
             return $number->asInt(new Base($base));
-        } catch (NumberFormatException $exception) {
+        } catch (NumeralFormatException $exception) {
             throw IntegerFormatException::forGroup($this->details->group(), $this->groupEntry->text(), new Base($base));
-        } catch (NumberOverflowException $exception) {
+        } catch (NumeralOverflowException $exception) {
             throw IntegerOverflowException::forGroup($this->details->group(), $this->groupEntry->text(), new Base($base));
         }
     }
 
     public function isInt(int $base = null): bool
     {
-        $number = new StringNumber($this->groupEntry->text());
+        $number = new StringNumeral($this->groupEntry->text());
         try {
             $number->asInt(new Base($base));
-        } catch (NumberFormatException | NumberOverflowException $exception) {
+        } catch (NumeralFormatException | NumeralOverflowException $exception) {
             return false;
         }
         return true;

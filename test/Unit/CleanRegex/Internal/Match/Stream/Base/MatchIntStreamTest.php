@@ -4,13 +4,13 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream\Base;
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\Base\AllStreamBase;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\Base\FirstStreamBase;
-use Test\Fakes\CleanRegex\Internal\Number\ThrowBase;
+use Test\Fakes\CleanRegex\Internal\Numeral\ThrowBase;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\ExactExceptionMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
-use TRegx\CleanRegex\Internal\Number\Base;
+use TRegx\CleanRegex\Internal\Numeral\Base;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream

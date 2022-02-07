@@ -3,8 +3,8 @@ namespace Test\Utils;
 
 use PHPUnit\Framework\Assert;
 use Throwable;
-use TRegx\CleanRegex\Internal\Number\Base;
-use TRegx\CleanRegex\Internal\Number\StringNumber;
+use TRegx\CleanRegex\Internal\Numeral\Base;
+use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class Functions
@@ -174,8 +174,8 @@ class Functions
     {
         return function (string $augend, string $addend): int {
             $base = new Base(10);
-            $a = new StringNumber($augend);
-            $b = new StringNumber($addend);
+            $a = new StringNumeral($augend);
+            $b = new StringNumeral($addend);
             return $a->asInt($base) + $b->asInt($base);
         };
     }

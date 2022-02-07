@@ -4,10 +4,10 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
-use TRegx\CleanRegex\Internal\Number\Base;
-use TRegx\CleanRegex\Internal\Number\NumberFormatException;
-use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
-use TRegx\CleanRegex\Internal\Number\StringNumber;
+use TRegx\CleanRegex\Internal\Numeral\Base;
+use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
+use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;
+use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Intable;
 
@@ -47,12 +47,12 @@ class IntegerStream implements Upstream
         if (!\is_string($value)) {
             throw InvalidIntegerTypeException::forInvalidType(new ValueType($value));
         }
-        $number = new StringNumber($value);
+        $number = new StringNumeral($value);
         try {
             return $number->asInt($this->base);
-        } catch (NumberOverflowException $exception) {
+        } catch (NumeralOverflowException $exception) {
             throw IntegerOverflowException::forStream($value, $this->base);
-        } catch (NumberFormatException $exception) {
+        } catch (NumeralFormatException $exception) {
             throw IntegerFormatException::forStream($value, $this->base);
         }
     }

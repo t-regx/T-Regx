@@ -31,7 +31,7 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Number;
+use TRegx\CleanRegex\Internal\Numeral;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\SubjectEmptyOptional;
@@ -199,7 +199,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     public function asInt(int $base = null): IntStream
     {
-        $upstream = new MatchIntStream(new StreamBase($this->base), new Number\Base($base), $this->base);
+        $upstream = new MatchIntStream(new StreamBase($this->base), new Numeral\Base($base), $this->base);
         return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new MatchIntMessages()), $this->base);
     }
 

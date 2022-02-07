@@ -4,10 +4,10 @@ namespace TRegx\CleanRegex\Internal\Match\Details;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Internal\Model\Match\Entry;
-use TRegx\CleanRegex\Internal\Number\Base;
-use TRegx\CleanRegex\Internal\Number\NumberFormatException;
-use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
-use TRegx\CleanRegex\Internal\Number\StringNumber;
+use TRegx\CleanRegex\Internal\Numeral\Base;
+use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
+use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;
+use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
 
 class NumericDetail
 {
@@ -26,23 +26,23 @@ class NumericDetail
 
     private function textAsInteger(Base $base, string $text): int
     {
-        $number = new StringNumber($text);
+        $number = new StringNumeral($text);
         try {
             return $number->asInt($base);
-        } catch (NumberFormatException $exception) {
+        } catch (NumeralFormatException $exception) {
             throw IntegerFormatException::forMatch($text, $base);
-        } catch (NumberOverflowException $exception) {
+        } catch (NumeralOverflowException $exception) {
             throw IntegerOverflowException::forMatch($text, $base);
         }
     }
 
     public function isInteger(Base $base): bool
     {
-        $stringNumber = new StringNumber($this->entry->text());
+        $numeral = new StringNumeral($this->entry->text());
         try {
-            $stringNumber->asInt($base);
+            $numeral->asInt($base);
             return true;
-        } catch (NumberFormatException | NumberOverflowException $exception) {
+        } catch (NumeralFormatException | NumeralOverflowException $exception) {
             return false;
         }
     }

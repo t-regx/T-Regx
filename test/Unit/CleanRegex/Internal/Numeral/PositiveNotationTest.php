@@ -1,16 +1,16 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Number;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Numeral;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ArchitectureDependant;
-use TRegx\CleanRegex\Internal\Number\Base;
-use TRegx\CleanRegex\Internal\Number\NumberFormatException;
-use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
-use TRegx\CleanRegex\Internal\Number\PositiveNotation;
+use TRegx\CleanRegex\Internal\Numeral\Base;
+use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
+use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;
+use TRegx\CleanRegex\Internal\Numeral\PositiveNotation;
 use TRegx\DataProvider\CrossDataProviders;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Number\PositiveNotation
+ * @covers \TRegx\CleanRegex\Internal\Numeral\PositiveNotation
  */
 class PositiveNotationTest extends TestCase
 {
@@ -113,7 +113,7 @@ class PositiveNotationTest extends TestCase
         $number = new PositiveNotation($value);
 
         // then
-        $this->expectException(NumberOverflowException::class);
+        $this->expectException(NumeralOverflowException::class);
 
         // when
         $number->integer(new Base($base));
@@ -159,7 +159,7 @@ class PositiveNotationTest extends TestCase
         $number = new PositiveNotation($value);
 
         // then
-        $this->expectException(NumberFormatException::class);
+        $this->expectException(NumeralFormatException::class);
 
         // when
         $number->integer(new Base($base));
@@ -183,7 +183,7 @@ class PositiveNotationTest extends TestCase
         $number = new PositiveNotation($value);
 
         // then
-        $this->expectException(NumberFormatException::class);
+        $this->expectException(NumeralFormatException::class);
 
         // when
         $number->integer(new Base($base - 1));

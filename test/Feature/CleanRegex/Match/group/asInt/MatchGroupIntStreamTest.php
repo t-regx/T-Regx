@@ -4,7 +4,6 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group\asInt;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
-use Test\Utils\DetailFunctions;
 use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;

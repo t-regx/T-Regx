@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Number;
+namespace TRegx\CleanRegex\Internal\Numeral;
 
 class PositiveNotation implements Notation
 {
@@ -14,12 +14,12 @@ class PositiveNotation implements Notation
     public function integer(Base $base): int
     {
         if ($this->number === '') {
-            throw new NumberFormatException();
+            throw new NumeralFormatException();
         }
         if ($this->containsOnlyDigits($base)) {
             return $this->parseInteger($base);
         }
-        throw new NumberFormatException();
+        throw new NumeralFormatException();
     }
 
     private function containsOnlyDigits(Base $base): bool
@@ -36,7 +36,7 @@ class PositiveNotation implements Notation
     {
         $decimalString = \base_convert($this->number, $base->base(), 10);
         if (\filter_var($decimalString, \FILTER_VALIDATE_INT) === false) {
-            throw new NumberOverflowException();
+            throw new NumeralOverflowException();
         }
         return $decimalString;
     }

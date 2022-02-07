@@ -1,19 +1,19 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Number;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Numeral;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Number\ThrowBase;
+use Test\Fakes\CleanRegex\Internal\Numeral\ThrowBase;
 use Test\Utils\ArchitectureDependant;
-use TRegx\CleanRegex\Internal\Number\Base;
-use TRegx\CleanRegex\Internal\Number\NumberFormatException;
-use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
-use TRegx\CleanRegex\Internal\Number\StringNumber;
+use TRegx\CleanRegex\Internal\Numeral\Base;
+use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
+use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;
+use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
 use TRegx\DataProvider\CrossDataProviders;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Number\StringNumber
+ * @covers \TRegx\CleanRegex\Internal\Numeral\StringNumeral
  */
-class StringNumberTest extends TestCase
+class StringNumeralTest extends TestCase
 {
     use ArchitectureDependant;
 
@@ -24,10 +24,10 @@ class StringNumberTest extends TestCase
     public function shouldParse(string $input, $expected, int $base)
     {
         // given
-        $number = new StringNumber($input);
+        $numeral = new StringNumeral($input);
 
         // when
-        $integer = $number->asInt(new Base($base));
+        $integer = $numeral->asInt(new Base($base));
 
         // then
         $this->assertSame($expected, $integer);
@@ -226,10 +226,10 @@ class StringNumberTest extends TestCase
     public function shouldThrowForOverflow(string $value, int $base)
     {
         // given
-        $number = new StringNumber($value);
+        $number = new StringNumeral($value);
 
         // then
-        $this->expectException(NumberOverflowException::class);
+        $this->expectException(NumeralOverflowException::class);
 
         // when
         $number->asInt(new Base($base));
@@ -416,10 +416,10 @@ class StringNumberTest extends TestCase
     public function shouldThrowForMalformedValues(int $base, string $value)
     {
         // given
-        $number = new StringNumber($value);
+        $number = new StringNumeral($value);
 
         // then
-        $this->expectException(NumberFormatException::class);
+        $this->expectException(NumeralFormatException::class);
 
         // when
         $number->asInt(new Base($base));
@@ -437,10 +437,10 @@ class StringNumberTest extends TestCase
     public function shouldThrowForCornerDigit(int $base, string $value)
     {
         // given
-        $number = new StringNumber($value);
+        $number = new StringNumeral($value);
 
         // then
-        $this->expectException(NumberFormatException::class);
+        $this->expectException(NumeralFormatException::class);
 
         // when
         $number->asInt(new Base($base));
@@ -457,7 +457,7 @@ class StringNumberTest extends TestCase
     public function testZero()
     {
         // given
-        $number = new StringNumber('000');
+        $number = new StringNumeral('000');
 
         // when
         $format = $number->asInt(new Base(12));
@@ -472,10 +472,10 @@ class StringNumberTest extends TestCase
     public function shouldThrowMalformedForEmpty()
     {
         // given
-        $number = new StringNumber('');
+        $number = new StringNumeral('');
 
         // then
-        $this->expectException(NumberFormatException::class);
+        $this->expectException(NumeralFormatException::class);
 
         // when
         $number->asInt(new ThrowBase());
@@ -487,7 +487,7 @@ class StringNumberTest extends TestCase
     public function shouldParseCaseInsensitively()
     {
         // given
-        $number = new StringNumber('-ABC');
+        $number = new StringNumeral('-ABC');
 
         // when
         $integer = $number->asInt(new Base(13));
@@ -503,7 +503,7 @@ class StringNumberTest extends TestCase
     public function shouldBeCaseInsensitiveForBounds(string $number, int $expected)
     {
         // given
-        $number = new StringNumber($number);
+        $number = new StringNumeral($number);
 
         // when
         $integer = $number->asInt(new Base(36));

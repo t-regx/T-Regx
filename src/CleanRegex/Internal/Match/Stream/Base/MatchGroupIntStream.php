@@ -16,10 +16,10 @@ use TRegx\CleanRegex\Internal\Message\GroupNotMatched;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchIntMessage;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
-use TRegx\CleanRegex\Internal\Number;
-use TRegx\CleanRegex\Internal\Number\NumberFormatException;
-use TRegx\CleanRegex\Internal\Number\NumberOverflowException;
-use TRegx\CleanRegex\Internal\Number\StringNumber;
+use TRegx\CleanRegex\Internal\Numeral;
+use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
+use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;
+use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
 
 class MatchGroupIntStream implements Upstream
 {
@@ -31,10 +31,10 @@ class MatchGroupIntStream implements Upstream
     private $group;
     /** @var MatchAllFactory */
     private $allFactory;
-    /** @var Number\Base */
+    /** @var Numeral\Base */
     private $numberBase;
 
-    public function __construct(Base $base, GroupKey $group, MatchAllFactory $allFactory, Number\Base $numberBase)
+    public function __construct(Base $base, GroupKey $group, MatchAllFactory $allFactory, Numeral\Base $numberBase)
     {
         $this->base = $base;
         $this->group = $group;
@@ -80,12 +80,12 @@ class MatchGroupIntStream implements Upstream
 
     private function parseInteger(string $string): int
     {
-        $number = new StringNumber($string);
+        $number = new StringNumeral($string);
         try {
             return $number->asInt($this->numberBase);
-        } catch (NumberFormatException $exception) {
+        } catch (NumeralFormatException $exception) {
             throw IntegerFormatException::forGroup($this->group, $string, $this->numberBase);
-        } catch (NumberOverflowException $exception) {
+        } catch (NumeralOverflowException $exception) {
             throw IntegerOverflowException::forGroup($this->group, $string, $this->numberBase);
         }
     }

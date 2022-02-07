@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Number;
+namespace TRegx\CleanRegex\Internal\Numeral;
 
 interface Notation
 {

@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Number\Base;
+use TRegx\CleanRegex\Internal\Numeral\Base;
 
 class IntegerFormatException extends \Exception implements PatternException
 {

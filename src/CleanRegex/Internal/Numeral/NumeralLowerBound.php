@@ -1,7 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Number;
+namespace TRegx\CleanRegex\Internal\Numeral;
 
-class NumberLowerBound
+class NumeralLowerBound
 {
     /** @var string[] */
     private $lowerBounds64 = [

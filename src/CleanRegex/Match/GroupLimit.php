@@ -32,7 +32,7 @@ use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Nested;
-use TRegx\CleanRegex\Internal\Number;
+use TRegx\CleanRegex\Internal\Numeral;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\SafeRegex\Internal\Tuple;
 
@@ -195,7 +195,7 @@ class GroupLimit implements \IteratorAggregate
 
     public function asInt(int $base = null): IntStream
     {
-        $upstream = new MatchGroupIntStream($this->base, $this->group, $this->matchAllFactory, new Number\Base($base));
+        $upstream = new MatchGroupIntStream($this->base, $this->group, $this->matchAllFactory, new Numeral\Base($base));
         return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new GroupIntMessages($this->group)), $this->base);
     }
 

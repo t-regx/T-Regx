@@ -1,17 +1,17 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Number;
+namespace TRegx\CleanRegex\Internal\Numeral;
 
 class NegativeNotation implements Notation
 {
     /** @var PositiveNotation */
     private $absoluteValue;
-    /** @var NumberLowerBound */
+    /** @var NumeralLowerBound */
     private $lowerBound;
 
     public function __construct(PositiveNotation $absoluteValue)
     {
         $this->absoluteValue = $absoluteValue;
-        $this->lowerBound = new NumberLowerBound();
+        $this->lowerBound = new NumeralLowerBound();
     }
 
     public function integer(Base $base): int

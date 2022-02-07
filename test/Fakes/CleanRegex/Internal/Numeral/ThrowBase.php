@@ -1,8 +1,8 @@
 <?php
-namespace Test\Fakes\CleanRegex\Internal\Number;
+namespace Test\Fakes\CleanRegex\Internal\Numeral;
 
 use AssertionError;
-use TRegx\CleanRegex\Internal\Number\Base;
+use TRegx\CleanRegex\Internal\Numeral\Base;
 
 class ThrowBase extends Base
 {

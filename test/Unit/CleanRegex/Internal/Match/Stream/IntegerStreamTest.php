@@ -5,14 +5,14 @@ use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstKeyStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
-use Test\Fakes\CleanRegex\Internal\Number\ThrowBase;
+use Test\Fakes\CleanRegex\Internal\Numeral\ThrowBase;
 use Test\Fakes\CleanRegex\Match\Details\ConstantInt;
 use Test\Utils\ExactExceptionMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
 use TRegx\CleanRegex\Internal\Match\Stream\IntegerStream;
-use TRegx\CleanRegex\Internal\Number\Base;
+use TRegx\CleanRegex\Internal\Numeral\Base;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\IntegerStream

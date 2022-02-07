@@ -25,7 +25,7 @@ use TRegx\CleanRegex\Internal\Match\StreamTerminal;
 use TRegx\CleanRegex\Internal\Message\Stream\FromFirstStreamMessage;
 use TRegx\CleanRegex\Internal\Message\Stream\FromNthStreamMessage;
 use TRegx\CleanRegex\Internal\Message\Stream\SubjectNotMatched;
-use TRegx\CleanRegex\Internal\Number;
+use TRegx\CleanRegex\Internal\Numeral;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 
@@ -152,7 +152,7 @@ class Stream implements \Countable, \IteratorAggregate
 
     public function asInt(int $base = null): Stream
     {
-        return $this->next(new IntegerStream($this->upstream, new Number\Base($base)));
+        return $this->next(new IntegerStream($this->upstream, new Numeral\Base($base)));
     }
 
     public function groupByCallback(callable $groupMapper): Stream
