@@ -5,7 +5,7 @@
 /.gitignore export-ignore
 /.travis.yml export-ignore
 /ChangeLog.md export-ignore
-/CONTRIBUTING.md export-ignore
+/Contributing.md export-ignore
 /phpunit.xml export-ignore
 /ReadMe.md export-ignore
 /t.regx.png export-ignore
