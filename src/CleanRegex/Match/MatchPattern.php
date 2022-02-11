@@ -133,7 +133,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     public function forEach(callable $consumer): void
     {
-        foreach (\array_values($this->getDetailObjects()) as $index => $object) {
+        foreach ($this as $index => $object) {
             $consumer($object, $index);
         }
     }
@@ -215,7 +215,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
     public function groupByCallback(callable $groupMapper): array
     {
         $result = [];
-        foreach ($this->getDetailObjects() as $detail) {
+        foreach ($this as $detail) {
             $key = $groupMapper($detail);
             $result[$key][] = $detail->text();
         }
