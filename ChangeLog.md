@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.20.0
+---------------
+
 * Breaking changes
     * Removed `pattern()->match()->remaining()`, as it was a failed idea.
 * Bug fixes
