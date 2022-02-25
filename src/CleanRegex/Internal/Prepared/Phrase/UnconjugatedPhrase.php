@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
 
 use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
-class UnconjugatedPharse extends Phrase
+class UnconjugatedPhrase extends Phrase
 {
     /** @var Word */
     private $word;

@@ -5,7 +5,7 @@ use Generator;
 use TRegx\CleanRegex\Internal\Needles;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
-use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPharse;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
 
 class CompositeKeyword
@@ -35,7 +35,7 @@ class CompositeKeyword
             if (\array_key_exists($value, $phrases)) {
                 yield $phrases[$value];
             } else {
-                yield new UnconjugatedPharse(new TextWord($value));
+                yield new UnconjugatedPhrase(new TextWord($value));
             }
         }
     }
