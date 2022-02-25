@@ -314,4 +314,16 @@ class PatternTest extends TestCase
         // then
         $this->assertTrue($pattern->testAll(\chr(28)));
     }
+
+    /**
+     * @test
+     */
+    public function shouldPatternNewlineIsLineFeed()
+    {
+        // when
+        $lines = Pattern::of('^.*$', 'm')->match("\rone\r\ntwo\n\nthree\rfour\v\f")->all();
+
+        // then
+        $this->assertSame(["\rone\r", 'two', '', "three\rfour\v\f"], $lines);
+    }
 }

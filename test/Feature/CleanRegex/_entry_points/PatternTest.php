@@ -69,7 +69,7 @@ class PatternTest extends TestCase
     public function shouldBuild_mask_Delimiter(): void
     {
         // given
-        $pattern = Pattern::mask('%', ['%%' => '/', '%e' => '#',]);
+        $pattern = Pattern::mask('%', ['%%' => '/', '%e' => '#']);
 
         // then
         $this->assertSamePattern('%\%%', $pattern);
