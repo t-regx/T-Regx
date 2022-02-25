@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
 
-class PatternPhrase extends Phrase
+class PatternPhrase implements Phrase
 {
     /** @var string */
     private $pattern;
@@ -16,7 +16,7 @@ class PatternPhrase extends Phrase
         return $this->pattern;
     }
 
-    protected function unconjugated(string $delimiter): string
+    public function unconjugated(string $delimiter): string
     {
         return $this->pattern;
     }

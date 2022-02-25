@@ -4,7 +4,7 @@ namespace Test\Fakes\CleanRegex\Internal\Prepared\Word;
 use AssertionError;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
-class ConjugatedOnlyPhrase extends Phrase
+class ConjugatedOnlyPhrase implements Phrase
 {
     /** @var string */
     private $pattern;
@@ -19,7 +19,7 @@ class ConjugatedOnlyPhrase extends Phrase
         return $this->pattern;
     }
 
-    protected function unconjugated(string $delimiter): string
+    public function unconjugated(string $delimiter): string
     {
         throw new AssertionError('Failed to assert that Phrase was used unconjugated');
     }

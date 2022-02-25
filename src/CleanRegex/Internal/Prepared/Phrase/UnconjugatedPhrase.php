@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
 
 use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
-class UnconjugatedPhrase extends Phrase
+class UnconjugatedPhrase implements Phrase
 {
     /** @var Word */
     private $word;
@@ -18,7 +18,7 @@ class UnconjugatedPhrase extends Phrase
         return $this->word->quoted($delimiter);
     }
 
-    protected function unconjugated(string $delimiter): string
+    public function unconjugated(string $delimiter): string
     {
         return $this->word->quoted($delimiter);
     }

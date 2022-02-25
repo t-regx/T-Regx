@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
 
 use Generator;
 
-class CompositePhrase extends Phrase
+class CompositePhrase implements Phrase
 {
     /** @var Phrase[] */
     private $phrases;
@@ -15,34 +15,27 @@ class CompositePhrase extends Phrase
 
     public function conjugated(string $delimiter): string
     {
-        return \implode(\array_reverse(\iterator_to_array($this->conjugatedPhrases($delimiter))));
+        $conjugation = new IdempotentConjugation($delimiter);
+        $conjugated = '';
+        foreach ($this->reversedPhrases() as $phrase) {
+            $conjugated = $conjugation->conjugatedOnce($phrase) . $conjugated;
+        }
+        return $conjugated;
     }
 
-    private function conjugatedPhrases(string $delimiter): Generator
+    private function reversedPhrases(): Generator
     {
-        $firstConjugated = false;
-        foreach (\array_reverse($this->phrases) as $phrase) {
-            if ($firstConjugated !== false) {
-                yield $phrase->unconjugated($delimiter);
-            } else {
-                $conjugated = $phrase->conjugated($delimiter);
-                if ($conjugated !== '') {
-                    $firstConjugated = true;
-                }
-                yield $conjugated;
-            }
+        for (\end($this->phrases); \key($this->phrases) !== null; \prev($this->phrases)) {
+            yield \current($this->phrases);
         }
     }
 
-    protected function unconjugated(string $delimiter): string
+    public function unconjugated(string $delimiter): string
     {
-        return \implode(\iterator_to_array($this->unconjugatedPhrases($delimiter)));
-    }
-
-    private function unconjugatedPhrases(string $delimiter): Generator
-    {
+        $unconjugated = '';
         foreach ($this->phrases as $phrase) {
-            yield $phrase->unconjugated($delimiter);
+            $unconjugated .= $phrase->unconjugated($delimiter);
         }
+        return $unconjugated;
     }
 }

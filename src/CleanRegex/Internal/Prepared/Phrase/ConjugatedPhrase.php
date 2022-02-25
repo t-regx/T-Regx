@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
 
-class ConjugatedPhrase extends Phrase
+class ConjugatedPhrase implements Phrase
 {
     /** @var string */
     private $conjugated;
@@ -19,7 +19,7 @@ class ConjugatedPhrase extends Phrase
         return $this->conjugated;
     }
 
-    protected function unconjugated(string $delimiter): string
+    public function unconjugated(string $delimiter): string
     {
         return $this->phrase;
     }
