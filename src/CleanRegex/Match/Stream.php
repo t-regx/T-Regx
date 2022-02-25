@@ -17,7 +17,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\IntegerStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
-use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
+use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\UniqueStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Match\Stream\ValuesStream;
@@ -86,7 +86,7 @@ class Stream implements \Countable, \IteratorAggregate
     {
         try {
             $firstElement = $this->upstream->first();
-        } catch (StramRejectedException $exception) {
+        } catch (StreamRejectedException $exception) {
             return new RejectedOptional(new Rejection($this->subject, NoSuchStreamElementException::class, $exception->notMatchedMessage()));
         } catch (EmptyStreamException $exception) {
             return new RejectedOptional(new Rejection($this->subject, NoSuchStreamElementException::class, new FromFirstStreamMessage()));

@@ -14,7 +14,7 @@ interface ValueStream
     public function all(): array;
 
     /**
-     * @throws StramRejectedException Supposed to be thrown
+     * @throws StreamRejectedException Supposed to be thrown
      * when first element of the stream couldn't be resolved,
      * because of a match reason (unmatched subject or group).
      * @throws EmptyStreamException Supposed to be thrown

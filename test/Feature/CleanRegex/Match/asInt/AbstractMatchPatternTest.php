@@ -10,7 +10,7 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
+use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 
 class AbstractMatchPatternTest extends TestCase
 {
@@ -216,10 +216,10 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldPassThrough_first()
     {
         // given
-        $throwable = new StramRejectedException(new ThrowSubject(), '', new ThrowMessage());
+        $throwable = new StreamRejectedException(new ThrowSubject(), '', new ThrowMessage());
 
         // then
-        $this->expectException(StramRejectedException::class);
+        $this->expectException(StreamRejectedException::class);
 
         // when
         pattern('(12)')->match('12')->asInt()->first(Functions::throws($throwable));

@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
-use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
+use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
@@ -71,7 +71,7 @@ class MatchGroupStream implements Upstream
             }
         }
         if (!$match->matched()) {
-            throw new StramRejectedException($this->base, SubjectNotMatchedException::class, new FromFirstMatchMessage($this->group));
+            throw new StreamRejectedException($this->base, SubjectNotMatchedException::class, new FromFirstMatchMessage($this->group));
         }
         $signatures = new PerformanceSignatures($match, $this->groupAware);
         $groupFacade = new GroupFacade($this->base,

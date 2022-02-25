@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
-use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
+use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchAsIntMessage;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -60,7 +60,7 @@ class MatchIntStream implements Upstream
         try {
             return $this->stream->first();
         } catch (UnmatchedStreamException $exception) {
-            throw new StramRejectedException($this->subject, SubjectNotMatchedException::class, new FirstMatchAsIntMessage());
+            throw new StreamRejectedException($this->subject, SubjectNotMatchedException::class, new FirstMatchAsIntMessage());
         }
     }
 }

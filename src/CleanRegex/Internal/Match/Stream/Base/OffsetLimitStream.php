@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
-use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
+use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchOffsetMessage;
 
@@ -35,6 +35,6 @@ class OffsetLimitStream implements Upstream
         if ($match->matched()) {
             return $match->byteOffset();
         }
-        throw new StramRejectedException($this->base, SubjectNotMatchedException::class, new FirstMatchOffsetMessage());
+        throw new StreamRejectedException($this->base, SubjectNotMatchedException::class, new FirstMatchOffsetMessage());
     }
 }

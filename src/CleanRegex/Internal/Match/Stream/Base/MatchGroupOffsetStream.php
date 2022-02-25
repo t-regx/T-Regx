@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
-use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
+use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Message\GroupNotMatched;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchOffsetMessage;
@@ -62,10 +62,10 @@ class MatchGroupOffsetStream implements Upstream
             throw new NonexistentGroupException($this->group);
         }
         if (!$match->matched()) {
-            throw new StramRejectedException($this->base, SubjectNotMatchedException::class, new FromFirstMatchOffsetMessage($this->group));
+            throw new StreamRejectedException($this->base, SubjectNotMatchedException::class, new FromFirstMatchOffsetMessage($this->group));
         }
         if (!$polyfill->isGroupMatched($this->group->nameOrIndex())) {
-            throw new StramRejectedException($this->base, GroupNotMatchedException::class, new GroupNotMatched\FromFirstMatchOffsetMessage($this->group));
+            throw new StreamRejectedException($this->base, GroupNotMatchedException::class, new GroupNotMatched\FromFirstMatchOffsetMessage($this->group));
         }
         return $match->getGroupByteOffset($this->group->nameOrIndex());
     }

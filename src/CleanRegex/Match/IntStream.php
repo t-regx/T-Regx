@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
-use TRegx\CleanRegex\Internal\Match\Stream\StramRejectedException;
+use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\UniqueStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Match\Stream\ValuesStream;
@@ -82,7 +82,7 @@ class IntStream implements \Countable, \IteratorAggregate
     {
         try {
             return new PresentOptional($this->upstream->first());
-        } catch (StramRejectedException $exception) {
+        } catch (StreamRejectedException $exception) {
             return new RejectedOptional($exception->rejection());
         }
     }

@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Match\Rejection;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Subject;
 
-class StramRejectedException extends Exception
+class StreamRejectedException extends Exception
 {
     /** @var Subject */
     private $subject;

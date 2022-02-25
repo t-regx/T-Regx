@@ -73,7 +73,7 @@ trait EntryPoints
              * prepared pattern, or it can be user input in case of a mask with keywords.
              *
              * In the future, we plan to make {@see Definition::$undevelopedInput} visible
-             * in the public API for clients, perhas as a field in thrown exceptions, that
+             * in the public API for clients, perhaps as a field in thrown exceptions, that
              * clients could use for debugging.
              *
              * In order to use composite patterns, we consume strings and Patterns as an
