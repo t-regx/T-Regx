@@ -25,7 +25,7 @@ class FlagStack
         if (empty($this->stack)) {
             return $this->groundState;
         }
-        return end($this->stack);
+        return \end($this->stack);
     }
 
     public function pop(): void

@@ -16,7 +16,7 @@ class VisibleCharacters
         $result = \preg_replace_callback("#\\p{C}|\xc2\xa0#u", static function (array $matches) {
             return self::formatWord($matches[0]);
         }, $this->string);
-        if (\preg_last_error() === PREG_BAD_UTF8_ERROR) {
+        if (\preg_last_error() === \PREG_BAD_UTF8_ERROR) {
             return \join(\array_map([self::class, 'formatByteOrAscii'], \str_split($this->string)));
         }
         return $result;
