@@ -4,7 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Candidates;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
-use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
+use TRegx\CleanRegex\Internal\Delimiter\UndelimitablePatternException;
 use TRegx\CleanRegex\Internal\UnsuitableStringCondition;
 
 /**
@@ -14,12 +14,12 @@ class CandidatesTest extends TestCase
 {
     /**
      * @test
-     * @dataProvider delimiterables
+     * @dataProvider delimitables
      */
-    public function shouldBeDelimiterable(string $delimiterable, string $expectedDelimiter)
+    public function shouldBeDelimitable(string $delimitable, string $expectedDelimiter)
     {
         // given
-        $candidates = new Candidates(new UnsuitableStringCondition($delimiterable));
+        $candidates = new Candidates(new UnsuitableStringCondition($delimitable));
 
         // when
         $delimiter = $candidates->delimiter();
@@ -28,7 +28,7 @@ class CandidatesTest extends TestCase
         $this->assertEquals(new Delimiter($expectedDelimiter), $delimiter);
     }
 
-    public function delimiterables(): array
+    public function delimitables(): array
     {
         return [
             ['foo', '/'],
@@ -57,7 +57,7 @@ class CandidatesTest extends TestCase
         $candidates = new Candidates(new UnsuitableStringCondition("s~i/e#++m%a!@*`_-;=,\1"));
 
         // then
-        $this->expectException(UndelimiterablePatternException::class);
+        $this->expectException(UndelimitablePatternException::class);
 
         // when
         $candidates->delimiter();

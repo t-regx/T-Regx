@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Expression;
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Candidates;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
-use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
+use TRegx\CleanRegex\Internal\Delimiter\UndelimitablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\StrictInterpretation;
 use TRegx\CleanRegex\Internal\Flags;
@@ -44,7 +44,7 @@ class Mask implements Expression
     {
         try {
             return $this->candidates->delimiter();
-        } catch (UndelimiterablePatternException $exception) {
+        } catch (UndelimitablePatternException $exception) {
             throw ExplicitDelimiterRequiredException::forMask($this->keywords);
         }
     }

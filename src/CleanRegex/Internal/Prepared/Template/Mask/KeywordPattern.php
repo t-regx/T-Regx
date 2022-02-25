@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Candidates;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
-use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
+use TRegx\CleanRegex\Internal\Delimiter\UndelimitablePatternException;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralPlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;
@@ -60,7 +60,7 @@ class KeywordPattern
     {
         try {
             return $this->candidates->delimiter();
-        } catch (UndelimiterablePatternException $exception) {
+        } catch (UndelimitablePatternException $exception) {
             throw ExplicitDelimiterRequiredException::forMaskKeyword($this->keyword, $this->pattern);
         }
     }

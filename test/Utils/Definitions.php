@@ -21,9 +21,9 @@ class Definitions
         return new Definition(self::candidates($pattern)->delimiter()->delimited(new PatternPhrase($pattern), new Flags($flags ?? '')), $pattern);
     }
 
-    private static function candidates(string $delimiterable): Candidates
+    private static function candidates(string $delimitable): Candidates
     {
-        return new Candidates(new UnsuitableStringCondition($delimiterable));
+        return new Candidates(new UnsuitableStringCondition($delimitable));
     }
 
     public static function pcre(string $pattern): Definition

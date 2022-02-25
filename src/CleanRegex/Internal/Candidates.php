@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
-use TRegx\CleanRegex\Internal\Delimiter\UndelimiterablePatternException;
+use TRegx\CleanRegex\Internal\Delimiter\UndelimitablePatternException;
 
 class Candidates
 {
@@ -24,6 +24,6 @@ class Candidates
                 return new Delimiter($candidate);
             }
         }
-        throw new UndelimiterablePatternException();
+        throw new UndelimitablePatternException();
     }
 }
