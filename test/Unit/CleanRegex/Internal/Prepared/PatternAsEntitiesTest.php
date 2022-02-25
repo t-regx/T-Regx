@@ -4,6 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared;
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Prepared\Parser\Consumer\ThrowPlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Flags;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Escaped;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpen;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupRemainder;
@@ -38,6 +39,36 @@ class PatternAsEntitiesTest extends TestCase
             new GroupClose(),
         ];
         $this->assertEquals($expected, $entities);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldParseNullByte()
+    {
+        // given
+        $asEntities = new PatternAsEntities('\0', new Flags(''), new ThrowPlaceholderConsumer());
+
+        // when
+        $entities = $asEntities->entities();
+
+        // then
+        $this->assertEquals([new Escaped('0')], $entities);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldParseLookAroundAssertion()
+    {
+        // given
+        $asEntities = new PatternAsEntities('\K', new Flags(''), new ThrowPlaceholderConsumer());
+
+        // when
+        $entities = $asEntities->entities();
+
+        // then
+        $this->assertEquals([new Escaped('K')], $entities);
     }
 
     /**
