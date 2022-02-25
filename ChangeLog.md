@@ -123,7 +123,7 @@ Added in 0.13.8
     * Fixed a bug, where using `Pattern::inject('()(?)')` failed parsing
     * Fixed a bug, where using unicode in groups failed parsing
     * Fixed a bug, where using pattern in unclosed comment group failed parsing
-    * Added workaround for PHP inconsistencies ragarding backslash in patterns:
+    * Added workaround for PHP inconsistencies regarding backslash in patterns:
         * PHP reports `\c\` as invalid entity, all T-Regx entry points correctly recognize it as valid
         * PHP reports `\Q\` as invalid entity, all T-Regx entry points correctly recognize it as valid
         * PHP reports `(?#\` as invalid entity, all T-Regx entry points correctly recognize it as valid
@@ -185,7 +185,7 @@ Added in 0.13.4
         * `pattern()->match()->asInt()`
         * `pattern()->match()->group()->asInt()`
 * Other
-    * We added continuous integration runs for PHP on 32-bit architecutre, to test 32-bit integers with `toInt()`.
+    * We added continuous integration runs for PHP on 32-bit architecture, to test 32-bit integers with `toInt()`.
 
 Added in 0.13.3
 ---------------
@@ -201,7 +201,7 @@ Added in 0.13.2
       not `NumberFormatException`.
     * Fixed a bug when using `fluent()->keys()->keys()` (double `keys()`) then T-Regx exceptions wouldn't have been
       thrown.
-* Brekaing changes
+* Breaking changes
     * Previously `remaining()` and `filter()` would leave a resulting array with keys that aren't exactly sequential,
       giving the impression the iterated collection is not a list. Now it's fixed, so the resulting array is indexed.
 
@@ -237,7 +237,7 @@ Added in 0.12.0
 
 * Features
     * We added internal regular expression parser, that's used when creating Prepared patterns. Now in-pattern
-      structures can be properly recognized, eliminating cases of misuse. Most notablly `[@]`, `\Q@\E`, `\@`, `\c@` and
+      structures can be properly recognized, eliminating cases of misuse. Most notably `[@]`, `\Q@\E`, `\@`, `\c@` and
       others, like comment groups and comments in extended mode.
 * Breaking changes
     * Prepared patterns now use internal regular expression parser, to determine what is a placeholder and what isn't:
