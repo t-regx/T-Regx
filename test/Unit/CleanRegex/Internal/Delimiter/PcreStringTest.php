@@ -2,8 +2,6 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Delimiter\AcceptPredicate;
-use Test\Fakes\CleanRegex\Internal\Delimiter\ConstantPredicate;
 use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
 use TRegx\CleanRegex\Internal\Delimiter\PcreString;
 
@@ -18,7 +16,7 @@ class PcreStringTest extends TestCase
     public function shouldGetPattern()
     {
         // given
-        $string = new PcreString('/welcome/', new ConstantPredicate(true));
+        $string = new PcreString('/welcome/');
 
         // when
         $delimiter = $string->delimiter();
@@ -37,7 +35,7 @@ class PcreStringTest extends TestCase
     public function shouldGetEmptyPattern()
     {
         // given
-        $string = new PcreString('//', new ConstantPredicate(true));
+        $string = new PcreString('//');
 
         // when
         $pattern = $string->pattern();
@@ -54,7 +52,7 @@ class PcreStringTest extends TestCase
     public function shouldGetPatternWithFlags()
     {
         // given
-        $string = new PcreString('/welcome/bar', new ConstantPredicate(true));
+        $string = new PcreString('/welcome/bar');
 
         // when
         $pattern = $string->pattern();
@@ -73,7 +71,7 @@ class PcreStringTest extends TestCase
     public function shouldIgnoreInPatternDelimiter()
     {
         // given
-        $string = new PcreString('/foo/bar/cat/x', new ConstantPredicate(true));
+        $string = new PcreString('/foo/bar/cat/x');
 
         // when
         $pattern = $string->pattern();
@@ -92,7 +90,7 @@ class PcreStringTest extends TestCase
     public function shouldAcceptPcrePatternWithHashDelimiter()
     {
         // given
-        $string = new PcreString('#foo/bar#cat#x', new ConstantPredicate(true));
+        $string = new PcreString('#foo/bar#cat#x');
 
         // when
         $pattern = $string->pattern();
@@ -118,7 +116,7 @@ class PcreStringTest extends TestCase
         $this->expectExceptionMessage($expectedMessage);
 
         // given
-        new PcreString($pattern, new ConstantPredicate(true));
+        new PcreString($pattern);
     }
 
     public function unclosedPatterns(): array
@@ -135,14 +133,17 @@ class PcreStringTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowForUnaccptedPredicate()
+    public function shouldThrowForUnacceptedPredicate()
     {
+        // given
+        $invalid = chr(128); // non-ascii code points are never valid delimiters
+
         // then
         $this->expectException(MalformedPcreTemplateException::class);
-        $this->expectExceptionMessage("PCRE-compatible template is malformed, starting with an unexpected delimiter '&'");
+        $this->expectExceptionMessage("PCRE-compatible template is malformed, starting with an unexpected delimiter '$invalid'");
 
         // given
-        new PcreString('&foo', new AcceptPredicate('&', false));
+        new PcreString($invalid . 'foo');
     }
 
     /**
@@ -152,7 +153,7 @@ class PcreStringTest extends TestCase
     public function shouldAcceptLeadingSpace()
     {
         // given
-        $string = new PcreString("\t \n\v\f\r/foo/", new AcceptPredicate('/', true));
+        $string = new PcreString("\t \n\v\f\r/foo/");
 
         // when
         $pattern = $string->pattern();
@@ -171,18 +172,18 @@ class PcreStringTest extends TestCase
         $this->expectException(MalformedPcreTemplateException::class);
 
         // given
-        new PcreString("\0/foo/", new AcceptPredicate("\0", false));
+        new PcreString("\0/foo/");
     }
 
     /**
      * @test
      * @link https://github.com/php/php-src/blob/5355cf33948299b2c1ee95b7140a464beecdfb12/ext/pcre/php_pcre.c#L751
-     * @note For some reason, PCRE ignores line feeds and spaces after delimiter
+     * @note For some reason, PHP PCRE integration ignores line feeds and spaces after delimiter
      */
     public function shouldIgnoreNewLinesInModifiers()
     {
         // given
-        $string = new PcreString(" /foo/i\n m\r \0\t\f\v", new ConstantPredicate(true));
+        $string = new PcreString(" /foo/i\n m\r \0\t\f\v");
 
         // when
         $flags = $string->flags();
@@ -197,7 +198,7 @@ class PcreStringTest extends TestCase
     public function shouldPreserveNewLinesInPattern()
     {
         // given
-        $string = new PcreString(" /foo\n\r /i ", new ConstantPredicate(true));
+        $string = new PcreString(" /foo\n\r /i ");
 
         // when
         $pattern = $string->pattern();

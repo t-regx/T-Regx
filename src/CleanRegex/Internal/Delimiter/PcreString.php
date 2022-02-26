@@ -5,43 +5,33 @@ use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
 
 class PcreString
 {
+    /** @var PcreDelimiter */
+    private $delimiter;
     /** @var string */
     private $pattern;
     /** @var string */
     private $flags;
-    /** @var string */
-    private $delimiter;
 
-    public function __construct(string $pcre, PcreDelimiterPredicate $predicate)
+    public function __construct(string $pcre)
     {
-        [$this->delimiter, $remainder] = $this->openingDelimiter($pcre);
-        if (!$predicate->test($this->delimiter)) {
-            throw MalformedPcreTemplateException::invalidDelimiter($this->delimiter);
-        }
-        [$this->pattern, $this->flags] = $this->patternAndModifiers($remainder, $this->delimiter);
+        [$this->delimiter, $undelimitedPcre] = $this->undelimitedPcre($pcre);
+        [$this->pattern, $this->flags] = $this->delimiter->patternAndFlags($undelimitedPcre);
     }
 
-    private function openingDelimiter(string $pcre): array
+    private function undelimitedPcre(string $pcre): array
     {
         if ($pcre === '') {
             throw MalformedPcreTemplateException::emptyPattern();
         }
-        $cLikePcre = \ltrim($pcre, " \t\f\n\r\v");
-        return [$cLikePcre[0], \substr($cLikePcre, 1)];
+        return $this->shiftedDelimiter(\ltrim($pcre, " \t\f\n\r\v"));
     }
 
-    private function patternAndModifiers(string $pcre, string $delimiter): array
+    private function shiftedDelimiter(string $pcre): array
     {
-        return $this->splitAtPosition($pcre, $this->lastOccurrence($pcre, $delimiter));
-    }
-
-    private function lastOccurrence(string $pcre, string $delimiter): int
-    {
-        $position = \strrpos($pcre, $delimiter);
-        if ($position === false) {
-            throw MalformedPcreTemplateException::unclosed($delimiter);
-        }
-        return $position;
+        return [
+            new PcreDelimiter($pcre[0]),
+            \substr($pcre, 1)
+        ];
     }
 
     public function pattern(): string
@@ -56,13 +46,6 @@ class PcreString
 
     public function delimiter(): string
     {
-        return $this->delimiter;
-    }
-
-    private function splitAtPosition(string $string, int $position): array
-    {
-        $before = \substr($string, 0, $position);
-        $after = \substr($string, $position + 1);
-        return [$before, $after];
+        return $this->delimiter->delimiter;
     }
 }

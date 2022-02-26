@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Orthography;
 
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
-use TRegx\CleanRegex\Internal\Delimiter\PcreDelimiterPredicate;
 use TRegx\CleanRegex\Internal\Delimiter\PcreString;
 use TRegx\CleanRegex\Internal\Flags;
 
@@ -16,7 +15,7 @@ class PcreSpelling implements Spelling
     public function __construct(string $pcre)
     {
         $this->undeveloped = $pcre;
-        $this->pcre = new PcreString($pcre, new PcreDelimiterPredicate());
+        $this->pcre = new PcreString($pcre);
     }
 
     public function delimiter(): Delimiter
