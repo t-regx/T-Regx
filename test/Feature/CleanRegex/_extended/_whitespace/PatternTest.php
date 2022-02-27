@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\_extended;
+namespace Test\Feature\TRegx\CleanRegex\_extended\_whitespace;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;

@@ -62,31 +62,6 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotMistakePlaceholderInCommentInExtendedMode()
-    {
-        // when
-        $pattern = Pattern::inject("You/her #@\n her?", [], 'x');
-
-        // then
-        $this->assertSamePattern("%You/her #@\n her?%x", $pattern);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldUsePlaceholderInCommentInExtendedMode_butExtendedModeIsSwitchedOff()
-    {
-        // when
-        $pattern = Pattern::inject("You/her (?-x:#@\n) her?", ['X'], 'x');
-
-        // then
-        $this->assertConsumesFirst("You/her#X\nhe", $pattern);
-        $this->assertSamePattern("%You/her (?-x:#X\n) her?%x", $pattern);
-    }
-
-    /**
-     * @test
-     */
     public function shouldIgnorePlaceholderInGroupComment()
     {
         // when
