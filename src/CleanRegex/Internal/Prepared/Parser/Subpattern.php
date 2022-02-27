@@ -8,9 +8,9 @@ class Subpattern
     /** @var FlagStack */
     private $flagStack;
 
-    public function __construct(FlagStack $flagStack)
+    public function __construct(Flags $flags)
     {
-        $this->flagStack = $flagStack;
+        $this->flagStack = new FlagStack($flags);
     }
 
     public function setFlags(string $flagString)

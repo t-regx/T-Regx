@@ -14,7 +14,7 @@ class EntitySequence
     public function __construct(Flags $flags)
     {
         $this->entities = [];
-        $this->subpattern = new Subpattern(new FlagStack($flags));
+        $this->subpattern = new Subpattern($flags);
     }
 
     public function append(Entity $entity): void
