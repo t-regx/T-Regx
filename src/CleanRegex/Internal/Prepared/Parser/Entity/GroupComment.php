@@ -1,9 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser\Entity;
 
+use TRegx\CleanRegex\Internal\Prepared\Parser\Subpattern;
+
 class GroupComment implements Entity
 {
-    use TransitiveFlags, PatternEntity;
+    use PatternEntity;
 
     /** @var string */
     private $comment;
@@ -11,6 +13,11 @@ class GroupComment implements Entity
     public function __construct(string $comment)
     {
         $this->comment = $comment;
+    }
+
+    public function visit(Subpattern $subpattern): void
+    {
+        $subpattern->pushFlagsIdentity();
     }
 
     public function pattern(): string

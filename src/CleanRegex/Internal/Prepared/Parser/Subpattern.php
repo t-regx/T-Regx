@@ -13,10 +13,36 @@ class Subpattern
         $this->flagStack = new FlagStack($flags);
     }
 
-    public function setFlags(string $flagString)
+    public function pushFlags(string $flagString): void
+    {
+        $this->flagStack->put($this->modifiedPeek($flagString));
+    }
+
+    public function appendFlags(string $flagString): void
+    {
+        $this->replacePeek($this->modifiedPeek($flagString));
+    }
+
+    public function pushFlagsIdentity(): void
+    {
+        $this->flagStack->put($this->flagStack->peek());
+    }
+
+    private function modifiedPeek(string $flagString): Flags
+    {
+        return $this->modifiedFlags($this->flagStack->peek(), $flagString);
+    }
+
+    private function replacePeek(Flags $flags): void
+    {
+        $this->flagStack->pop();
+        $this->flagStack->put($flags);
+    }
+
+    private function modifiedFlags(Flags $flags, string $flagString): Flags
     {
         [$constructive, $destructive] = Flags::parse($flagString);
-        $this->flagStack->put($this->flagStack->peek()->append($constructive)->remove($destructive));
+        return $flags->append($constructive)->remove($destructive);
     }
 
     public function resetFlags(): void

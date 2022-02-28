@@ -70,4 +70,175 @@ class PatternTest extends TestCase
         // then
         $this->assertSamePattern('/foo(?#@/', $pattern);
     }
+
+    /**
+     * @test
+     */
+    public function shouldIncludeRemainderInPattern()
+    {
+        // when
+        $pattern = Pattern::inject("(?x)#@\n", []);
+
+        // then
+        $this->assertSamePattern("/(?x)#@\n/", $pattern);
+    }
+
+    /**
+     * @test
+     * @depends shouldIncludeRemainderInPattern
+     */
+    public function shouldCloseRemainder()
+    {
+        // when
+        $pattern = Pattern::inject("(#@\n(?x)#@\n)#@\n", ['One', 'Three']);
+
+        // then
+        $this->assertConsumesFirst("#One\n#Three\n", $pattern);
+        $this->assertSamePattern("/(#One\n(?x)#@\n)#Three\n/", $pattern);
+    }
+
+    /**
+     * @test
+     * @depends shouldCloseRemainder
+     */
+    public function shouldCloseRemainderAndParentPattern()
+    {
+        // when
+        $pattern = Pattern::inject("(?x:(?x))#@\n", ['Bar']);
+
+        // then
+        $this->assertConsumesFirst("#Bar\n", $pattern);
+        $this->assertSamePattern("/(?x:(?x))#Bar\n/", $pattern);
+    }
+
+    /**
+     * @test
+     * @depends shouldIncludeRemainderInPattern
+     */
+    public function shouldIncludeRemainderInSubpattern()
+    {
+        // when
+        $pattern = Pattern::inject("(?x)(#@\n)", []);
+
+        // then
+        $this->assertSamePattern("/(?x)(#@\n)/", $pattern);
+    }
+
+    /**
+     * @test
+     * @depends shouldIncludeRemainderInPattern
+     */
+    public function shouldIncludeRemainderInNextPattern()
+    {
+        // when
+        $pattern = Pattern::inject("(?x)()#@\n", []);
+
+        // then
+        $this->assertSamePattern("/(?x)()#@\n/", $pattern);
+    }
+
+    /**
+     * @test
+     * @depends shouldIncludeRemainderInSubpattern
+     * @depends shouldIncludeRemainderInNextPattern
+     */
+    public function shouldIncludeRemainderInNextSubpattern()
+    {
+        // when
+        $pattern = Pattern::inject("(?x)()(#@\n)", []);
+
+        // then
+        $this->assertSamePattern("/(?x)()(#@\n)/", $pattern);
+    }
+
+    /**
+     * @test
+     * @depends shouldIncludeRemainderInNextSubpattern
+     */
+    public function shouldIncludeRemainderInNextSubpatternBeforeGroupNull()
+    {
+        // when
+        $pattern = Pattern::inject("(?x)(?:)(#@\n)", []);
+
+        // then
+        $this->assertSamePattern("/(?x)(?:)(#@\n)/", $pattern);
+    }
+
+    /**
+     * @test
+     * @depends shouldIncludeRemainderInNextSubpattern
+     */
+    public function shouldIncludeRemainderInNextSubpatternBeforeGroupNullShort()
+    {
+        // when
+        $pattern = Pattern::inject("(?x)(?)(#@\n)", []);
+
+        // then
+        $this->assertSamePattern("/(?x)(?)(#@\n)/", $pattern);
+    }
+
+    /**
+     * @test
+     * @depends shouldIncludeRemainderInNextSubpattern
+     */
+    public function shouldIncludeRemainderInNextSubpatternBeforeGroupComment()
+    {
+        // when
+        $pattern = Pattern::inject("(?x)(?#)#@\n", []);
+
+        // then
+        $this->assertSamePattern("/(?x)(?#)#@\n/", $pattern);
+    }
+
+    /**
+     * @test
+     * @depends shouldIncludeRemainderInNextPattern
+     */
+    public function shouldCloseRemainderInNextPattern()
+    {
+        // when
+        $pattern = Pattern::inject("((?x))#@\n", ['Bar']);
+
+        // then
+        $this->assertSamePattern("/((?x))#Bar\n/", $pattern);
+    }
+
+    /**
+     * @test
+     * @depends shouldIncludeRemainderInNextSubpattern
+     */
+    public function shouldCloseRemainderInNextSubpattern()
+    {
+        // when
+        $pattern = Pattern::inject("((?x))(#@\n)", ['Bar']);
+
+        // then
+        $this->assertSamePattern("/((?x))(#Bar\n)/", $pattern);
+    }
+
+    /**
+     * @test
+     * @depends shouldIncludeRemainderInNextSubpattern
+     */
+    public function shouldIncludeManyRemainders()
+    {
+        // when
+        $pattern = Pattern::inject("(?x)(?-x)(#@\n)", ['Bar']);
+
+        // then
+        $this->assertSamePattern("/(?x)(?-x)(#Bar\n)/", $pattern);
+    }
+
+    /**
+     * @test
+     * @depends shouldIncludeRemainderInNextSubpattern
+     */
+    public function shouldCancelManyRemainders()
+    {
+        // when
+        $pattern = Pattern::inject("((?x)(?-x))#@\n", ['Bar']);
+
+        // then
+        $this->assertSamePattern("/((?x)(?-x))#Bar\n/", $pattern);
+    }
 }

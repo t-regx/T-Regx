@@ -111,7 +111,7 @@ class PcreParserTest extends TestCase
             new GroupRemainder('m-x'),
             new Placeholder(new Flags('im'), new LiteralToken('two')),
             new GroupClose(),
-            new Placeholder(new Flags('ix'), new LiteralToken('three')),
+            new Placeholder(new Flags('i'), new LiteralToken('three')),
             new GroupClose(),
         ], '(?i:(?x:one(?m-x)two)three)');
     }

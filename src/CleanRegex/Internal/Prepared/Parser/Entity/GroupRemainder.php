@@ -17,7 +17,7 @@ class GroupRemainder implements Entity
 
     public function visit(Subpattern $subpattern): void
     {
-        $subpattern->setFlags($this->flags);
+        $subpattern->appendFlags($this->flags);
     }
 
     public function pattern(): string

@@ -17,7 +17,7 @@ class GroupOpenFlags implements Entity
 
     public function visit(Subpattern $subpattern): void
     {
-        $subpattern->setFlags($this->flags);
+        $subpattern->pushFlags($this->flags);
     }
 
     public function pattern(): string
