@@ -16,10 +16,10 @@ class Literal implements Expression
     /** @var Flags */
     private $flags;
 
-    public function __construct(string $text, string $flags)
+    public function __construct(string $text, Flags $flags)
     {
         $this->text = $text;
-        $this->flags = new Flags($flags);
+        $this->flags = $flags;
     }
 
     protected function phrase(): Phrase

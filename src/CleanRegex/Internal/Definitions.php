@@ -26,7 +26,7 @@ class Definitions
     private static function expression($pattern, callable $patternDefinition): Expression
     {
         if (\is_string($pattern)) {
-            return new Standard(new StandardSpelling($pattern, $flags ?? '', new UnsuitableStringCondition($pattern)));
+            return new Standard(new StandardSpelling($pattern, Flags::empty(), new UnsuitableStringCondition($pattern)));
         }
         if ($pattern instanceof Pattern) {
             return new Identity($patternDefinition($pattern));

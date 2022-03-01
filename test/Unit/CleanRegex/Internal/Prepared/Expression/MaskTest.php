@@ -4,6 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Expression;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Mask;
 
 /**
@@ -20,7 +21,7 @@ class MaskTest extends TestCase
         $mask = new Mask('(%w:%s\)', [
             '%s' => '\s',
             '%w' => '\w'
-        ], 'x');
+        ], new Flags('x'));
 
         // when
         $predefinition = $mask->predefinition();
@@ -35,7 +36,7 @@ class MaskTest extends TestCase
     public function shouldChooseDelimiter()
     {
         // given
-        $mask = new Mask('foo', ['x' => '%', '%w' => '#', '%s' => '/'], 'i');
+        $mask = new Mask('foo', ['x' => '%', '%w' => '#', '%s' => '/'], new Flags('i'));
 
         // when
         $predefinition = $mask->predefinition();
@@ -50,7 +51,7 @@ class MaskTest extends TestCase
     public function shouldNotUseMaskToDelimiter()
     {
         // given
-        $mask = new Mask('foo/bar', [], 'x');
+        $mask = new Mask('foo/bar', [], new Flags('x'));
 
         // when
         $predefinition = $mask->predefinition();
@@ -68,7 +69,7 @@ class MaskTest extends TestCase
         $mask = new Mask('(%w:%s\)', [
             '%s' => '\s',
             '%w' => '\w\\'
-        ], 'x');
+        ], new Flags('x'));
 
         // then
         $this->expectException(MaskMalformedPatternException::class);
@@ -84,12 +85,12 @@ class MaskTest extends TestCase
     public function shouldNotUseDuplicateFlags()
     {
         // given
-        $mask = new Mask('foo', [], 'xx');
+        $mask = new Mask('foo', [], new Flags('ii'));
 
         // when
         $predefinition = $mask->predefinition();
 
         // then
-        $this->assertEquals(new Definition('/foo/x', 'foo'), $predefinition->definition());
+        $this->assertEquals(new Definition('/foo/i', 'foo'), $predefinition->definition());
     }
 }

@@ -19,7 +19,7 @@ class StandardSpellingTest extends TestCase
     public function shouldGetDelimiter()
     {
         // given
-        $standard = new StandardSpelling('#wel/come%', '', new EqualsCondition('#'));
+        $standard = new StandardSpelling('#wel/come%', Flags::empty(), new EqualsCondition('#'));
 
         // when
         $delimiter = $standard->delimiter();
@@ -34,7 +34,7 @@ class StandardSpellingTest extends TestCase
     public function shouldGetInputPattern()
     {
         // given
-        $standard = new StandardSpelling('#wel/{come}', '', new ThrowCondition());
+        $standard = new StandardSpelling('#wel/{come}', Flags::empty(), new ThrowCondition());
 
         // when
         $pattern = $standard->pattern();
@@ -49,7 +49,7 @@ class StandardSpellingTest extends TestCase
     public function shouldGetUndevelopedInput()
     {
         // given
-        $standard = new StandardSpelling('#wel/{come}', '', new ThrowCondition());
+        $standard = new StandardSpelling('#wel/{come}', Flags::empty(), new ThrowCondition());
 
         // when
         $undeveloped = $standard->undevelopedInput();
@@ -64,7 +64,7 @@ class StandardSpellingTest extends TestCase
     public function shouldGetFlags()
     {
         // given
-        $standard = new StandardSpelling('', 'ui', new ThrowCondition());
+        $standard = new StandardSpelling('', new Flags('ui'), new ThrowCondition());
 
         // when
         $flags = $standard->flags();

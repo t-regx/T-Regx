@@ -16,9 +16,9 @@ class Definitions
         /**
          * I intentionally don't use {@see Standard}, because if there are bugs in it,
          * then the tests are compromised. By using low-level {@see Delimiter} and
-         * {@see PatternPhrase} to reduce the posibilities of false-positives in tests.
+         * {@see PatternPhrase} to reduce the possibilities of false-positives in tests.
          */
-        return new Definition(self::candidates($pattern)->delimiter()->delimited(new PatternPhrase($pattern), new Flags($flags ?? '')), $pattern);
+        return new Definition(self::candidates($pattern)->delimiter()->delimited(new PatternPhrase($pattern), Flags::from($flags)), $pattern);
     }
 
     private static function candidates(string $delimitable): Candidates

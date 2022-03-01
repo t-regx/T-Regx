@@ -13,10 +13,10 @@ class StandardOrthography implements Orthography
     /** @var Flags */
     private $flags;
 
-    public function __construct(string $input, string $flags)
+    public function __construct(string $input, Flags $flags)
     {
         $this->input = $input;
-        $this->flags = new Flags($flags);
+        $this->flags = $flags;
     }
 
     public function spelling(Condition $condition): Spelling

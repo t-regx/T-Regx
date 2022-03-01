@@ -26,11 +26,11 @@ class Mask implements Expression
     /** @var string */
     private $mask;
 
-    public function __construct(string $mask, array $keywords, string $flags)
+    public function __construct(string $mask, array $keywords, Flags $flags)
     {
         $this->token = new MaskToken($mask, $keywords);
         $this->candidates = new Candidates($this->token);
-        $this->flags = new Flags($flags);
+        $this->flags = $flags;
         $this->keywords = $keywords;
         $this->mask = $mask;
     }

@@ -28,7 +28,7 @@ class KeywordPattern
     public function __construct(string $keyword, string $pattern)
     {
         $this->candidates = new Candidates(new UnsuitableStringCondition($pattern));
-        $this->patternAsEntities = new PatternAsEntities($pattern, new Flags(''), new LiteralPlaceholderConsumer());
+        $this->patternAsEntities = new PatternAsEntities($pattern, Flags::empty(), new LiteralPlaceholderConsumer());
         $this->pattern = $pattern;
         $this->keyword = $keyword;
     }
@@ -40,7 +40,7 @@ class KeywordPattern
 
     private function validPhrase(Phrase $phrase, Delimiter $delimiter): Phrase
     {
-        $definition = new Definition($delimiter->delimited($phrase, new Flags('')), '');
+        $definition = new Definition($delimiter->delimited($phrase, Flags::empty()), '');
         if ($definition->valid()) {
             return $phrase;
         }

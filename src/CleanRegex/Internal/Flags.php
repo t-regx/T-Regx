@@ -20,6 +20,16 @@ class Flags
         return [new Flags($constructiveSegment), new Flags(\join('', $segments))];
     }
 
+    public static function empty(): Flags
+    {
+        return new Flags('');
+    }
+
+    public static function from(?string $flagsString): Flags
+    {
+        return new Flags($flagsString ?? '');
+    }
+
     public function remove(string $flags): Flags
     {
         return new Flags(\join('', \array_diff(\str_split($this->flags), \str_split($flags))));

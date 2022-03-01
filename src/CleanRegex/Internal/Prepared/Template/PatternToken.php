@@ -19,7 +19,7 @@ class PatternToken implements Token
 
     public function __construct(string $pattern)
     {
-        $this->patternAsEntities = new PatternAsEntities($pattern, new Flags(''), new LiteralPlaceholderConsumer());
+        $this->patternAsEntities = new PatternAsEntities($pattern, Flags::empty(), new LiteralPlaceholderConsumer());
         $this->pattern = $pattern;
     }
 

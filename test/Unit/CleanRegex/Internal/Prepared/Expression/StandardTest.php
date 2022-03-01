@@ -4,6 +4,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Expression;
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\EqualsCondition;
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Standard;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling;
 
@@ -18,7 +19,7 @@ class StandardTest extends TestCase
     public function test()
     {
         // given
-        $standard = new Standard(new StandardSpelling('foo', 'i', new EqualsCondition('/')));
+        $standard = new Standard(new StandardSpelling('foo', new Flags('i'), new EqualsCondition('/')));
 
         // when
         $predefinition = $standard->predefinition();
@@ -33,7 +34,7 @@ class StandardTest extends TestCase
     public function shouldNotUseDuplicateFlags()
     {
         // given
-        $standard = new Standard(new StandardSpelling('foo', 'mm', new EqualsCondition('/')));
+        $standard = new Standard(new StandardSpelling('foo', new Flags('mm'), new EqualsCondition('/')));
 
         // when
         $predefinition = $standard->predefinition();

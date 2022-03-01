@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\EqualsCondition;
 use Test\Fakes\CleanRegex\Internal\Prepared\Figure\ConstantFigures;
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreSpelling;
@@ -51,7 +52,7 @@ class TemplateTest extends TestCase
     public function shouldNotUseDuplicateFlags()
     {
         // given
-        $template = new Template(new StandardSpelling('cat', 'xx', new EqualsCondition('/')), new InjectFigures([]));
+        $template = new Template(new StandardSpelling('cat', new Flags('xx'), new EqualsCondition('/')), new InjectFigures([]));
 
         // when
         $predefinition = $template->predefinition();
@@ -66,7 +67,7 @@ class TemplateTest extends TestCase
     public function shouldInjectInCommentWithoutExtendedMode()
     {
         // given
-        $template = new Template(new StandardSpelling("/#@\n", 'i', new EqualsCondition('~')), ConstantFigures::literal('cat~'));
+        $template = new Template(new StandardSpelling("/#@\n", new Flags('i'), new EqualsCondition('~')), ConstantFigures::literal('cat~'));
 
         // when
         $predefinition = $template->predefinition();
@@ -81,7 +82,7 @@ class TemplateTest extends TestCase
     public function shouldNotInjectPlaceholderInCommentExtendedMode()
     {
         // given
-        $template = new Template(new StandardSpelling('#@', 'x', new EqualsCondition('/')), new ConstantFigures(0));
+        $template = new Template(new StandardSpelling('#@', new Flags('x'), new EqualsCondition('/')), new ConstantFigures(0));
 
         // when
         $predefinition = $template->predefinition();

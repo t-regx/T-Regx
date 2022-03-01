@@ -30,7 +30,7 @@ class PcreSpelling implements Spelling
 
     public function flags(): Flags
     {
-        return new Flags($this->pcre->flags());
+        return Flags::from($this->pcre->flags());
     }
 
     public function undevelopedInput(): string

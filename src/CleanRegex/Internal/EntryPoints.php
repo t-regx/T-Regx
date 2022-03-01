@@ -20,37 +20,37 @@ trait EntryPoints
 {
     public static function of(string $pattern, string $flags = null): Pattern
     {
-        return new Pattern(new Standard(new StandardSpelling($pattern, $flags ?? '', new UnsuitableStringCondition($pattern))));
+        return new Pattern(new Standard(new StandardSpelling($pattern, Flags::from($flags), new UnsuitableStringCondition($pattern))));
     }
 
     public static function inject(string $pattern, array $texts, string $flags = null): Pattern
     {
-        return new Pattern(new Template(new StandardSpelling($pattern, $flags ?? '', new UnsuitableStringCondition($pattern)), new InjectFigures($texts)));
+        return new Pattern(new Template(new StandardSpelling($pattern, Flags::from($flags), new UnsuitableStringCondition($pattern)), new InjectFigures($texts)));
     }
 
     public static function mask(string $mask, array $keywords, string $flags = null): Pattern
     {
-        return new Pattern(new Mask($mask, $keywords, $flags ?? ''));
+        return new Pattern(new Mask($mask, $keywords, Flags::from($flags)));
     }
 
     public static function template(string $pattern, string $flags = null): PatternTemplate
     {
-        return new PatternTemplate(new StandardOrthography($pattern, $flags ?? ''));
+        return new PatternTemplate(new StandardOrthography($pattern, Flags::from($flags)));
     }
 
     public static function builder(string $pattern, string $flags = null): TemplateBuilder
     {
-        return new TemplateBuilder(new StandardOrthography($pattern, $flags ?? ''), new Tokens([]));
+        return new TemplateBuilder(new StandardOrthography($pattern, Flags::from($flags)), new Tokens([]));
     }
 
     public static function literal(string $text, string $flags = null): Pattern
     {
-        return new Pattern(new Literal($text, $flags ?? ''));
+        return new Pattern(new Literal($text, Flags::from($flags)));
     }
 
     public static function alteration(array $texts, string $flags = null): Pattern
     {
-        return new Pattern(new Alteration($texts, $flags ?? ''));
+        return new Pattern(new Alteration($texts, Flags::from($flags)));
     }
 
     public static function pcre(): PcreBuilder

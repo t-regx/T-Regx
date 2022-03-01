@@ -15,10 +15,10 @@ class StandardSpelling implements Spelling
     /** @var Candidates */
     private $delimiters;
 
-    public function __construct(string $input, string $flags, Condition $condition)
+    public function __construct(string $input, Flags $flags, Condition $condition)
     {
         $this->input = $input;
-        $this->flags = new Flags($flags);
+        $this->flags = $flags;
         $this->delimiters = new Candidates($condition);
     }
 
