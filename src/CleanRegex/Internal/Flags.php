@@ -23,6 +23,6 @@ class Flags
 
     public function __toString(): string
     {
-        return \join('', \array_unique(\str_split($this->flags)));
+        return $this->flags;
     }
 }

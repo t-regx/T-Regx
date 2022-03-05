@@ -78,19 +78,4 @@ class MaskTest extends TestCase
         // when
         $mask->predefinition();
     }
-
-    /**
-     * @test
-     */
-    public function shouldNotUseDuplicateFlags()
-    {
-        // given
-        $mask = new Mask('foo', [], new Flags('ii'));
-
-        // when
-        $predefinition = $mask->predefinition();
-
-        // then
-        $this->assertEquals(new Definition('/foo/i', 'foo'), $predefinition->definition());
-    }
 }

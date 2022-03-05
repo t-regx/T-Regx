@@ -27,19 +27,4 @@ class StandardTest extends TestCase
         // then
         $this->assertEquals(new Definition('/foo/i', 'foo'), $predefinition->definition());
     }
-
-    /**
-     * @test
-     */
-    public function shouldNotUseDuplicateFlags()
-    {
-        // given
-        $standard = new Standard(new StandardSpelling('foo', new Flags('mm'), new EqualsCondition('/')));
-
-        // when
-        $predefinition = $standard->predefinition();
-
-        // then
-        $this->assertEquals(new Definition('/foo/m', 'foo'), $predefinition->definition());
-    }
 }

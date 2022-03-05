@@ -7,7 +7,6 @@ use Test\Fakes\CleanRegex\Internal\Prepared\Figure\ConstantFigures;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
-use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreSpelling;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling;
 
@@ -44,21 +43,6 @@ class TemplateTest extends TestCase
 
         // then
         $this->assertEquals(new Definition('%foo:bar\%cat%m', '%foo:@%m'), $predefinition->definition());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotUseDuplicateFlags()
-    {
-        // given
-        $template = new Template(new StandardSpelling('cat', new Flags('xx'), new EqualsCondition('/')), new InjectFigures([]));
-
-        // when
-        $predefinition = $template->predefinition();
-
-        // then
-        $this->assertEquals(new Definition('/cat/x', 'cat'), $predefinition->definition());
     }
 
     /**

@@ -7,6 +7,8 @@ Incoming
 * Bug fixes
     * Corrected a bug in prepared patterns, where closing group after in-pattern (`(?i)`) modifier didn't update the
       flags properly, resulting in improper parsing of placeholders in `Pattern::inject()`/`Pattern::template()`
+* Other
+    * Previously T-Regx removed duplicate flags before passing them to PCRE. Now flags are passed without modification.
 
 Added in 0.20.0
 ---------------
