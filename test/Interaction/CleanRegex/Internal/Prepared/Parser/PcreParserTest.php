@@ -107,11 +107,11 @@ class PcreParserTest extends TestCase
         $assertion->assertPatternRepresents('(?i:(?x:@(?m-x)@)@)', [
             new GroupOpenFlags('i'),
             new GroupOpenFlags('x'),
-            new Placeholder(new Flags('ix'), new LiteralToken('one')),
+            new Placeholder(new LiteralToken('one')),
             new GroupRemainder('m-x'),
-            new Placeholder(new Flags('im'), new LiteralToken('two')),
+            new Placeholder(new LiteralToken('two')),
             new GroupClose(),
-            new Placeholder(new Flags('i'), new LiteralToken('three')),
+            new Placeholder(new LiteralToken('three')),
             new GroupClose(),
         ], '(?i:(?x:one(?m-x)two)three)');
     }

@@ -18,6 +18,6 @@ class FiguresPlaceholderConsumer extends PlaceholderConsumer
 
     public function consume(Feed $feed, EntitySequence $entities): void
     {
-        $entities->append(new Placeholder($entities->flags(), $this->figures->nextToken()));
+        $entities->append(new Placeholder($this->figures->nextToken()));
     }
 }
