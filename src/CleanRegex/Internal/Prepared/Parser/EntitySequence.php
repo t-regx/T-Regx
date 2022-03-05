@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
-use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
 
 class EntitySequence
@@ -11,7 +10,7 @@ class EntitySequence
     /** @var Subpattern */
     private $subpattern;
 
-    public function __construct(Flags $flags)
+    public function __construct(SubpatternFlags $flags)
     {
         $this->entities = [];
         $this->subpattern = new Subpattern($flags);
@@ -23,7 +22,7 @@ class EntitySequence
         $entity->visit($this->subpattern);
     }
 
-    public function flags(): Flags
+    public function flags(): SubpatternFlags
     {
         return $this->subpattern->flags();
     }

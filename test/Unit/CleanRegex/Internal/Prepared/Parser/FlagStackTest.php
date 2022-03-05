@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\FlagStack;
+use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\FlagStack
@@ -16,7 +16,7 @@ class FlagStackTest extends TestCase
     public function shouldHaveGroundState()
     {
         // when
-        $stack = new FlagStack(new Flags('bar'));
+        $stack = new FlagStack(new SubpatternFlags('bar'));
 
         // then
         $this->assertHasFlags('bar', $stack);
@@ -28,15 +28,17 @@ class FlagStackTest extends TestCase
     public function shouldReadTheStackTip()
     {
         // given
-        $stack = new FlagStack(new Flags(''));
+        $stack = new FlagStack(new SubpatternFlags(''));
 
         // when
-        $stack->put(new Flags('abc'));
-        $stack->put(new Flags('def'));
-        $stack->put(new Flags('ghi'));
+        $stack->put(new SubpatternFlags('abc'));
+        $stack->put(new SubpatternFlags('def'));
+        $stack->put(new SubpatternFlags('ghi'));
 
         // then
         $this->assertHasFlags('ghi', $stack);
+        $this->assertNotHasFlags('abc', $stack);
+        $this->assertNotHasFlags('def', $stack);
     }
 
     /**
@@ -45,10 +47,10 @@ class FlagStackTest extends TestCase
     public function shouldPutFlagsOnStack()
     {
         // given
-        $stack = new FlagStack(new Flags(''));
+        $stack = new FlagStack(new SubpatternFlags(''));
 
         // when
-        $stack->put(new Flags('abc'));
+        $stack->put(new SubpatternFlags('abc'));
 
         // then
         $this->assertHasFlags('abc', $stack);
@@ -60,14 +62,15 @@ class FlagStackTest extends TestCase
     public function shouldPop()
     {
         // given
-        $stack = new FlagStack(new Flags('bar'));
+        $stack = new FlagStack(new SubpatternFlags('xyz'));
 
         // when
-        $stack->put(new Flags('abc'));
+        $stack->put(new SubpatternFlags('ghi'));
         $stack->pop();
 
         // then
-        $this->assertHasFlags('bar', $stack);
+        $this->assertHasFlags('xyz', $stack);
+        $this->assertNotHasFlags('ghi', $stack);
     }
 
     /**
@@ -76,7 +79,7 @@ class FlagStackTest extends TestCase
     public function shouldPopEmpty()
     {
         // given
-        $stack = new FlagStack(new Flags('car'));
+        $stack = new FlagStack(new SubpatternFlags('car'));
 
         // when
         $stack->pop();
@@ -91,19 +94,31 @@ class FlagStackTest extends TestCase
     public function shouldPopLast()
     {
         // given
-        $stack = new FlagStack(new Flags(''));
+        $stack = new FlagStack(new SubpatternFlags(''));
 
         // when
-        $stack->put(new Flags('abc'));
-        $stack->put(new Flags('def'));
+        $stack->put(new SubpatternFlags('abc'));
+        $stack->put(new SubpatternFlags('def'));
         $stack->pop();
 
         // then
         $this->assertHasFlags('abc', $stack);
+        $this->assertNotHasFlags('def', $stack);
     }
 
     private function assertHasFlags(string $expectedFlags, FlagStack $stack): void
     {
-        $this->assertSame($expectedFlags, (string)$stack->peek());
+        $flags = $stack->peek();
+        foreach (\str_split($expectedFlags) as $flag) {
+            $this->assertTrue($flags->has($flag));
+        }
+    }
+
+    private function assertNotHasFlags(string $unwantedFlags, FlagStack $stack): void
+    {
+        $flags = $stack->peek();
+        foreach (\str_split($unwantedFlags) as $flag) {
+            $this->assertFalse($flags->has($flag));
+        }
     }
 }

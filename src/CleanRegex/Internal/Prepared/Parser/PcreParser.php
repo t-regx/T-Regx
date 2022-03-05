@@ -19,7 +19,7 @@ class PcreParser
     public function __construct(Feed $feed, Flags $flags, array $consumers)
     {
         $this->feed = $feed;
-        $this->sequence = new EntitySequence($flags);
+        $this->sequence = new EntitySequence(new SubpatternFlags($flags));
         $this->consumers = $consumers;
     }
 

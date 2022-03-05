@@ -2,10 +2,10 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpenFlags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
+use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence
@@ -15,22 +15,10 @@ class EntitySequenceTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetEmptyFlags()
-    {
-        // when
-        $sequence = new EntitySequence(new Flags(''));
-
-        // then
-        $this->assertHasFlags('', $sequence);
-    }
-
-    /**
-     * @test
-     */
     public function shouldHaveFlags()
     {
         // when
-        $sequence = new EntitySequence(new Flags('i'));
+        $sequence = new EntitySequence(new SubpatternFlags('i'));
 
         // then
         $this->assertHasFlags('i', $sequence);
@@ -42,7 +30,7 @@ class EntitySequenceTest extends TestCase
     public function shouldAddFlag()
     {
         // given
-        $sequence = new EntitySequence(new Flags(''));
+        $sequence = new EntitySequence(new SubpatternFlags(''));
 
         // when
         $sequence->append(new GroupOpenFlags('x'));
@@ -57,13 +45,14 @@ class EntitySequenceTest extends TestCase
     public function shouldRemoveFlag()
     {
         // given
-        $sequence = new EntitySequence(new Flags('uim'));
+        $sequence = new EntitySequence(new SubpatternFlags('uim'));
 
         // when
         $sequence->append(new GroupOpenFlags('-i'));
 
         // then
         $this->assertHasFlags('um', $sequence);
+        $this->assertNotHasFlags('i', $sequence);
     }
 
     /**
@@ -72,7 +61,7 @@ class EntitySequenceTest extends TestCase
     public function shouldChainFlags()
     {
         // given
-        $sequence = new EntitySequence(new Flags('ux'));
+        $sequence = new EntitySequence(new SubpatternFlags('ux'));
 
         // when
         $sequence->append(new GroupOpenFlags('i'));
@@ -81,6 +70,7 @@ class EntitySequenceTest extends TestCase
 
         // then
         $this->assertHasFlags('uim', $sequence);
+        $this->assertNotHasFlags('x', $sequence);
     }
 
     /**
@@ -89,7 +79,7 @@ class EntitySequenceTest extends TestCase
     public function shouldChainFlagsEnd()
     {
         // given
-        $sequence = new EntitySequence(new Flags('ux'));
+        $sequence = new EntitySequence(new SubpatternFlags('ux'));
 
         // when
         $sequence->append(new GroupOpenFlags('i'));
@@ -99,6 +89,7 @@ class EntitySequenceTest extends TestCase
 
         // then
         $this->assertHasFlags('ui', $sequence);
+        $this->assertNotHasFlags('x', $sequence);
     }
 
     /**
@@ -107,7 +98,7 @@ class EntitySequenceTest extends TestCase
     public function shouldChainFlagsDoubleEnd()
     {
         // given
-        $sequence = new EntitySequence(new Flags('ux'));
+        $sequence = new EntitySequence(new SubpatternFlags('ux'));
 
         // when
         $sequence->append(new GroupOpenFlags('i'));
@@ -118,6 +109,7 @@ class EntitySequenceTest extends TestCase
 
         // then
         $this->assertHasFlags('uxi', $sequence);
+        $this->assertNotHasFlags('m', $sequence);
     }
 
     /**
@@ -126,7 +118,7 @@ class EntitySequenceTest extends TestCase
     public function shouldChainFlagsTripleEnd()
     {
         // given
-        $sequence = new EntitySequence(new Flags('ux'));
+        $sequence = new EntitySequence(new SubpatternFlags('ux'));
 
         // when
         $sequence->append(new GroupOpenFlags('i'));
@@ -138,6 +130,7 @@ class EntitySequenceTest extends TestCase
 
         // then
         $this->assertHasFlags('ux', $sequence);
+        $this->assertNotHasFlags('im', $sequence);
     }
 
     /**
@@ -146,7 +139,7 @@ class EntitySequenceTest extends TestCase
     public function shouldAcceptSuperfluousEnd()
     {
         // given
-        $sequence = new EntitySequence(new Flags('uxi'));
+        $sequence = new EntitySequence(new SubpatternFlags('uxi'));
 
         // when
         $sequence->append(new GroupOpenFlags('i'));
@@ -163,17 +156,29 @@ class EntitySequenceTest extends TestCase
     public function shouldPreferDestruction()
     {
         // given
-        $sequence = new EntitySequence(new Flags('i'));
+        $sequence = new EntitySequence(new SubpatternFlags('i'));
 
         // when
         $sequence->append(new GroupOpenFlags('x-x'));
 
         // then
         $this->assertHasFlags('i', $sequence);
+        $this->assertNotHasFlags('x', $sequence);
     }
 
-    private function assertHasFlags(string $flags, EntitySequence $blocks): void
+    private function assertHasFlags(string $expectedFlags, EntitySequence $sequence): void
     {
-        $this->assertSame($flags, (string)$blocks->flags());
+        $flags = $sequence->flags();
+        foreach (\str_split($expectedFlags) as $flag) {
+            $this->assertTrue($flags->has($flag));
+        }
+    }
+
+    private function assertNotHasFlags(string $unwantedFlags, EntitySequence $sequence): void
+    {
+        $flags = $sequence->flags();
+        foreach (\str_split($unwantedFlags) as $flag) {
+            $this->assertFalse($flags->has($flag));
+        }
     }
 }

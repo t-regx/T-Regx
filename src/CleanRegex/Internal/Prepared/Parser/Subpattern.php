@@ -1,14 +1,12 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
-use TRegx\CleanRegex\Internal\Flags;
-
 class Subpattern
 {
     /** @var FlagStack */
     private $flagStack;
 
-    public function __construct(Flags $flags)
+    public function __construct(SubpatternFlags $flags)
     {
         $this->flagStack = new FlagStack($flags);
     }
@@ -28,20 +26,20 @@ class Subpattern
         $this->flagStack->put($this->flagStack->peek());
     }
 
-    private function modifiedPeek(string $flagString): Flags
+    private function modifiedPeek(string $flagString): SubpatternFlags
     {
         return $this->modifiedFlags($this->flagStack->peek(), $flagString);
     }
 
-    private function replacePeek(Flags $flags): void
+    private function replacePeek(SubpatternFlags $flags): void
     {
         $this->flagStack->pop();
         $this->flagStack->put($flags);
     }
 
-    private function modifiedFlags(Flags $flags, string $flagString): Flags
+    private function modifiedFlags(SubpatternFlags $flags, string $flagString): SubpatternFlags
     {
-        [$constructive, $destructive] = Flags::parse($flagString);
+        [$constructive, $destructive] = SubpatternFlags::parse($flagString);
         return $flags->append($constructive)->remove($destructive);
     }
 
@@ -50,7 +48,7 @@ class Subpattern
         $this->flagStack->pop();
     }
 
-    public function flags(): Flags
+    public function flags(): SubpatternFlags
     {
         return $this->flagStack->peek();
     }
