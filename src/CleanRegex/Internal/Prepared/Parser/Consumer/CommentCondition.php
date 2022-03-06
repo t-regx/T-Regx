@@ -20,7 +20,7 @@ class CommentCondition implements Condition
 
     public function met(EntitySequence $entities): bool
     {
-        return $this->string->consumable() && $entities->flags()->has('x');
+        return $this->string->consumable() && $entities->flags()->isExtended();
     }
 
     public function commit(): void

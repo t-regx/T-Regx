@@ -2,123 +2,148 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\StandardSubpatternFlags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\FlagStack;
-use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\FlagStack
  */
 class FlagStackTest extends TestCase
 {
+    use StandardSubpatternFlags;
+
     /**
      * @test
      */
     public function shouldHaveGroundState()
     {
-        // when
-        $stack = new FlagStack(new SubpatternFlags('bar'));
-
-        // then
-        $this->assertHasFlags('bar', $stack);
+        $this->assertIsNotExtended(new FlagStack($this->subpatternFlagsStandard()));
     }
 
     /**
      * @test
+     * @depends shouldHaveGroundState
+     */
+    public function shouldHaveGroundStateExtended()
+    {
+        $this->assertIsExtended(new FlagStack($this->subpatternFlagsExtended()));
+    }
+
+    /**
+     * @test
+     * @depends shouldHaveGroundState
      */
     public function shouldReadTheStackTip()
     {
         // given
-        $stack = new FlagStack(new SubpatternFlags(''));
-
+        $stack = new FlagStack($this->subpatternFlagsStandard());
         // when
-        $stack->put(new SubpatternFlags('abc'));
-        $stack->put(new SubpatternFlags('def'));
-        $stack->put(new SubpatternFlags('ghi'));
-
+        $stack->put($this->subpatternFlagsStandard());
+        $stack->put($this->subpatternFlagsExtended());
+        $stack->put($this->subpatternFlagsStandard());
         // then
-        $this->assertHasFlags('ghi', $stack);
-        $this->assertNotHasFlags('abc', $stack);
-        $this->assertNotHasFlags('def', $stack);
+        $this->assertIsNotExtended($stack);
     }
 
     /**
      * @test
+     * @depends shouldReadTheStackTip
      */
-    public function shouldPutFlagsOnStack()
+    public function shouldReadTheStackTipExtended()
     {
         // given
-        $stack = new FlagStack(new SubpatternFlags(''));
-
+        $stack = new FlagStack($this->subpatternFlagsStandard());
         // when
-        $stack->put(new SubpatternFlags('abc'));
-
+        $stack->put($this->subpatternFlagsStandard());
+        $stack->put($this->subpatternFlagsStandard());
+        $stack->put($this->subpatternFlagsExtended());
         // then
-        $this->assertHasFlags('abc', $stack);
+        $this->assertIsExtended($stack);
     }
 
     /**
      * @test
+     * @depends shouldReadTheStackTip
      */
     public function shouldPop()
     {
         // given
-        $stack = new FlagStack(new SubpatternFlags('xyz'));
-
+        $stack = new FlagStack($this->subpatternFlagsStandard());
         // when
-        $stack->put(new SubpatternFlags('ghi'));
+        $stack->put($this->subpatternFlagsExtended());
         $stack->pop();
-
         // then
-        $this->assertHasFlags('xyz', $stack);
-        $this->assertNotHasFlags('ghi', $stack);
+        $this->assertIsNotExtended($stack);
     }
 
     /**
      * @test
+     * @depends shouldPop
+     */
+    public function shouldPopExtended()
+    {
+        // given
+        $stack = new FlagStack($this->subpatternFlagsExtended());
+        // when
+        $stack->put($this->subpatternFlagsStandard());
+        $stack->pop();
+        // then
+        $this->assertIsExtended($stack);
+    }
+
+    /**
+     * @test
+     * @depends shouldPop
      */
     public function shouldPopEmpty()
     {
         // given
-        $stack = new FlagStack(new SubpatternFlags('car'));
-
+        $stack = new FlagStack($this->subpatternFlagsExtended());
         // when
         $stack->pop();
-
         // then
-        $this->assertHasFlags('car', $stack);
+        $this->assertIsExtended($stack);
     }
 
     /**
      * @test
+     * @depends shouldPop
      */
     public function shouldPopLast()
     {
         // given
-        $stack = new FlagStack(new SubpatternFlags(''));
-
+        $stack = new FlagStack($this->subpatternFlagsStandard());
         // when
-        $stack->put(new SubpatternFlags('abc'));
-        $stack->put(new SubpatternFlags('def'));
+        $stack->put($this->subpatternFlagsExtended());
+        $stack->put($this->subpatternFlagsStandard());
         $stack->pop();
-
         // then
-        $this->assertHasFlags('abc', $stack);
-        $this->assertNotHasFlags('def', $stack);
+        $this->assertIsExtended($stack);
     }
 
-    private function assertHasFlags(string $expectedFlags, FlagStack $stack): void
+    /**
+     * @test
+     * @depends shouldPopLast
+     */
+    public function shouldPopLastExtended()
     {
-        $flags = $stack->peek();
-        foreach (\str_split($expectedFlags) as $flag) {
-            $this->assertTrue($flags->has($flag));
-        }
+        // given
+        $stack = new FlagStack($this->subpatternFlagsExtended());
+        // when
+        $stack->put($this->subpatternFlagsStandard());
+        $stack->put($this->subpatternFlagsExtended());
+        $stack->pop();
+        // then
+        $this->assertIsNotExtended($stack);
     }
 
-    private function assertNotHasFlags(string $unwantedFlags, FlagStack $stack): void
+    private function assertIsNotExtended(FlagStack $stack): void
     {
-        $flags = $stack->peek();
-        foreach (\str_split($unwantedFlags) as $flag) {
-            $this->assertFalse($flags->has($flag));
-        }
+        $this->assertFalse($stack->peek()->isExtended());
+    }
+
+    private function assertIsExtended(FlagStack $stack): void
+    {
+        $this->assertTrue($stack->peek()->isExtended());
     }
 }

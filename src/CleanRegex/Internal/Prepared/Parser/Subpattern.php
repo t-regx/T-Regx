@@ -28,19 +28,13 @@ class Subpattern
 
     private function modifiedPeek(string $flagString): SubpatternFlags
     {
-        return $this->modifiedFlags($this->flagStack->peek(), $flagString);
+        return $this->flagStack->peek()->parsed($flagString);
     }
 
     private function replacePeek(SubpatternFlags $flags): void
     {
         $this->flagStack->pop();
         $this->flagStack->put($flags);
-    }
-
-    private function modifiedFlags(SubpatternFlags $flags, string $flagString): SubpatternFlags
-    {
-        [$constructive, $destructive] = SubpatternFlags::parse($flagString);
-        return $flags->append($constructive)->remove($destructive);
     }
 
     public function resetFlags(): void

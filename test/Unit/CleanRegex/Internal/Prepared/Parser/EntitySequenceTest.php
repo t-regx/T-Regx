@@ -2,124 +2,135 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\StandardSubpatternFlags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpenFlags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
-use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence
  */
 class EntitySequenceTest extends TestCase
 {
+    use StandardSubpatternFlags;
+
     /**
      * @test
      */
-    public function shouldHaveFlags()
+    public function shouldEmptyFlagsNotBeExtended()
     {
-        // when
-        $sequence = new EntitySequence(new SubpatternFlags('i'));
-
-        // then
-        $this->assertHasFlags('i', $sequence);
+        $this->assertIsNotExtended(new EntitySequence($this->subpatternFlagsStandard()));
     }
 
     /**
      * @test
+     */
+    public function shouldFlagsBeExtended()
+    {
+        $this->assertIsExtended(new EntitySequence($this->subpatternFlagsExtended()));
+    }
+
+    /**
+     * @test
+     * @depends shouldEmptyFlagsNotBeExtended
      */
     public function shouldAddFlag()
     {
         // given
-        $sequence = new EntitySequence(new SubpatternFlags(''));
-
+        $sequence = new EntitySequence($this->subpatternFlagsStandard());
         // when
         $sequence->append(new GroupOpenFlags('x'));
-
         // then
-        $this->assertHasFlags('x', $sequence);
+        $this->assertIsExtended($sequence);
     }
 
     /**
      * @test
+     * @depends shouldFlagsBeExtended
      */
     public function shouldRemoveFlag()
     {
         // given
-        $sequence = new EntitySequence(new SubpatternFlags('uim'));
-
+        $sequence = new EntitySequence($this->subpatternFlagsExtended());
         // when
-        $sequence->append(new GroupOpenFlags('-i'));
-
+        $sequence->append(new GroupOpenFlags('-x'));
         // then
-        $this->assertHasFlags('um', $sequence);
-        $this->assertNotHasFlags('i', $sequence);
+        $this->assertIsNotExtended($sequence);
     }
 
     /**
      * @test
+     * @depends shouldRemoveFlag
+     */
+    public function shouldRemoveFlagMultiple()
+    {
+        // given
+        $sequence = new EntitySequence($this->subpatternFlagsExtended());
+        // when
+        $sequence->append(new GroupOpenFlags('-x'));
+        // then
+        $this->assertIsNotExtended($sequence);
+    }
+
+    /**
+     * @test
+     * @depends shouldRemoveFlag
      */
     public function shouldChainFlags()
     {
         // given
-        $sequence = new EntitySequence(new SubpatternFlags('ux'));
-
+        $sequence = new EntitySequence($this->subpatternFlagsExtended());
         // when
         $sequence->append(new GroupOpenFlags('i'));
         $sequence->append(new GroupOpenFlags('-x'));
         $sequence->append(new GroupOpenFlags('m'));
-
         // then
-        $this->assertHasFlags('uim', $sequence);
-        $this->assertNotHasFlags('x', $sequence);
+        $this->assertIsNotExtended($sequence);
     }
 
     /**
      * @test
+     * @depends shouldChainFlags
      */
     public function shouldChainFlagsEnd()
     {
         // given
-        $sequence = new EntitySequence(new SubpatternFlags('ux'));
-
+        $sequence = new EntitySequence($this->subpatternFlagsExtended());
         // when
         $sequence->append(new GroupOpenFlags('i'));
         $sequence->append(new GroupOpenFlags('-x'));
         $sequence->append(new GroupOpenFlags('m'));
         $sequence->append(new GroupClose());
-
         // then
-        $this->assertHasFlags('ui', $sequence);
-        $this->assertNotHasFlags('x', $sequence);
+        $this->assertIsNotExtended($sequence);
     }
 
     /**
      * @test
+     * @depends shouldChainFlagsEnd
      */
     public function shouldChainFlagsDoubleEnd()
     {
         // given
-        $sequence = new EntitySequence(new SubpatternFlags('ux'));
-
+        $sequence = new EntitySequence($this->subpatternFlagsExtended());
         // when
         $sequence->append(new GroupOpenFlags('i'));
         $sequence->append(new GroupOpenFlags('-x'));
         $sequence->append(new GroupOpenFlags('m'));
         $sequence->append(new GroupClose());
         $sequence->append(new GroupClose());
-
         // then
-        $this->assertHasFlags('uxi', $sequence);
-        $this->assertNotHasFlags('m', $sequence);
+        $this->assertIsExtended($sequence);
     }
 
     /**
      * @test
+     * @depends shouldChainFlagsDoubleEnd
      */
     public function shouldChainFlagsTripleEnd()
     {
         // given
-        $sequence = new EntitySequence(new SubpatternFlags('ux'));
-
+        $sequence = new EntitySequence($this->subpatternFlagsExtended());
         // when
         $sequence->append(new GroupOpenFlags('i'));
         $sequence->append(new GroupOpenFlags('-x'));
@@ -127,58 +138,101 @@ class EntitySequenceTest extends TestCase
         $sequence->append(new GroupClose());
         $sequence->append(new GroupClose());
         $sequence->append(new GroupClose());
-
         // then
-        $this->assertHasFlags('ux', $sequence);
-        $this->assertNotHasFlags('im', $sequence);
+        $this->assertIsExtended($sequence);
     }
 
     /**
      * @test
+     * @depends shouldEmptyFlagsNotBeExtended
      */
     public function shouldAcceptSuperfluousEnd()
     {
         // given
-        $sequence = new EntitySequence(new SubpatternFlags('uxi'));
-
+        $sequence = new EntitySequence($this->subpatternFlagsExtended());
         // when
         $sequence->append(new GroupOpenFlags('i'));
         $sequence->append(new GroupClose());
         $sequence->append(new GroupClose());
-
         // then
-        $this->assertHasFlags('uxi', $sequence);
+        $this->assertIsExtended($sequence);
+    }
+
+    /**
+     * @test
+     * @depends shouldFlagsBeExtended
+     */
+    public function shouldPreferDestruction()
+    {
+        // given
+        $sequence = new EntitySequence($this->subpatternFlagsStandard());
+        // when
+        $sequence->append(new GroupOpenFlags('x-x'));
+        // then
+        $this->assertIsNotExtended($sequence);
+    }
+
+    /**
+     * @test
+     * @depends shouldPreferDestruction
+     */
+    public function shouldPreferDestructionCaseSensitive()
+    {
+        // given
+        $sequence = new EntitySequence($this->subpatternFlagsStandard());
+        // when
+        $sequence->append(new GroupOpenFlags('x-X'));
+        // then
+        $this->assertIsExtended($sequence);
+    }
+
+    /**
+     * @test
+     * @depends shouldFlagsBeExtended
+     */
+    public function shouldCountDestructionFromFirst()
+    {
+        // given
+        $sequence = new EntitySequence($this->subpatternFlagsStandard());
+        // when
+        $sequence->append(new GroupOpenFlags('x-x-i'));
+        // then
+        $this->assertIsNotExtended($sequence);
     }
 
     /**
      * @test
      */
-    public function shouldPreferDestruction()
+    public function shouldEmptyDestructRemainNotExtended()
     {
         // given
-        $sequence = new EntitySequence(new SubpatternFlags('i'));
-
+        $sequence = new EntitySequence($this->subpatternFlagsStandard());
         // when
-        $sequence->append(new GroupOpenFlags('x-x'));
-
+        $sequence->append(new GroupOpenFlags('-'));
         // then
-        $this->assertHasFlags('i', $sequence);
-        $this->assertNotHasFlags('x', $sequence);
+        $this->assertIsNotExtended($sequence);
     }
 
-    private function assertHasFlags(string $expectedFlags, EntitySequence $sequence): void
+    /**
+     * @test
+     */
+    public function shouldAddExtended_ManyFlags_ExtendedNotFirst()
     {
-        $flags = $sequence->flags();
-        foreach (\str_split($expectedFlags) as $flag) {
-            $this->assertTrue($flags->has($flag));
-        }
+        // given
+        $sequence = new EntitySequence($this->subpatternFlagsStandard());
+        // when
+        $sequence->append(new GroupOpenFlags('Ux'));
+        // then
+        $this->assertIsExtended($sequence);
     }
 
-    private function assertNotHasFlags(string $unwantedFlags, EntitySequence $sequence): void
+    private function assertIsExtended(EntitySequence $sequence): void
     {
-        $flags = $sequence->flags();
-        foreach (\str_split($unwantedFlags) as $flag) {
-            $this->assertFalse($flags->has($flag));
-        }
+        $this->assertTrue($sequence->flags()->isExtended());
+    }
+
+    private function assertIsNotExtended(EntitySequence $sequence): void
+    {
+        $this->assertFalse($sequence->flags()->isExtended());
     }
 }

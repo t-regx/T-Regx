@@ -1,42 +1,34 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
+use TRegx\CleanRegex\Internal\Flags;
 
 class SubpatternFlags
 {
-    /** @var string */
-    private $flags;
+    /** @var bool */
+    private $extended;
 
-    public function __construct(string $flags)
+    private function __construct(bool $extended)
     {
-        $this->flags = $flags;
+        $this->extended = $extended;
     }
 
-    public static function parse(string $string): array
+    public static function from(Flags $flags): SubpatternFlags
     {
-        $segments = \explode('-', $string);
-        $constructiveSegment = \array_shift($segments);
-        return [new SubpatternFlags($constructiveSegment), new SubpatternFlags(\join('', $segments))];
+        return new self($flags->isExtended());
     }
 
-    public function remove(SubpatternFlags $flags): SubpatternFlags
+    public function parsed(string $string): SubpatternFlags
     {
-        return new SubpatternFlags(\join('', \array_diff(\str_split($this->flags), \str_split($flags->flags))));
-    }
-
-    public function append(SubpatternFlags $flags): SubpatternFlags
-    {
-        return new SubpatternFlags(\join('', \array_merge(\str_split($this->flags), \str_split($flags->flags))));
-    }
-
-    public function has(string $flag): bool
-    {
-        if (\mb_strlen($flag) === 1) {
-            return \str_contains($this->flags, $flag);
+        $flagString = new FlagString($string);
+        if ($flagString->changesExtended()) {
+            return new SubpatternFlags($flagString->isExtended());
         }
-        // @codeCoverageIgnoreStart
-        throw new InternalCleanRegexException();
-        // @codeCoverageIgnoreEnd
+        return $this;
+    }
+
+    public function isExtended(): bool
+    {
+        return $this->extended;
     }
 }
