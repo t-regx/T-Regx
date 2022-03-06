@@ -16,12 +16,23 @@ class FlagString
 
     public function changesExtended(): bool
     {
+        if ($this->resetsFlags()) {
+            return true;
+        }
         return $this->extendedFlagPosition !== false;
     }
 
     public function isExtended(): bool
     {
+        if ($this->resetsFlags()) {
+            return $this->extendedFlagPosition !== false;
+        }
         return $this->extendedFlagPosition < $this->amountOfConstructionFlags();
+    }
+
+    private function resetsFlags(): bool
+    {
+        return \str_starts_with($this->flagString, '^');
     }
 
     private function amountOfConstructionFlags(): int

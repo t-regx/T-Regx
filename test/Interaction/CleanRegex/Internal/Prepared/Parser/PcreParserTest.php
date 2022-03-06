@@ -76,11 +76,19 @@ class PcreParserTest extends TestCase
     private function generalPatterns(): array
     {
         return [
-            'empty'        => ['', []],
-            'control'      => ['ab\c\word', ['ab', new Control('\\'), 'word']],
-            'quotes'       => ['\Q{@}(hi)[hey]\E', [new Quote('{@}(hi)[hey]', true)]],
-            'posix+quotes' => ['[\Qa-z]\E$', [new PosixOpen(), new Quote('a-z]', true), new Posix('$')]],
-            'groups+posix' => ['(?x:[a-z])$', [new GroupOpenFlags('x'), new PosixOpen(), new Posix('a-z'), new PosixClose(), new GroupClose(), '$']],
+            'empty'            => ['', []],
+            'control'          => ['ab\c\word', ['ab', new Control('\\'), 'word']],
+            'quotes'           => ['\Q{@}(hi)[hey]\E', [new Quote('{@}(hi)[hey]', true)]],
+            'posix+quotes'     => ['[\Qa-z]\E$', [new PosixOpen(), new Quote('a-z]', true), new Posix('$')]],
+            'groups+posix'     => ['(?x:[a-z])$', [new GroupOpenFlags('x'), new PosixOpen(), new Posix('a-z'), new PosixClose(), new GroupClose(), '$']],
+            'reset'            => ['(?^)', [new GroupRemainder('^')]],
+            'reset,set'        => ['(?^ix)', [new GroupRemainder('^ix')]],
+            'reset,set:'       => ['(?^ix:)', [new GroupOpenFlags('^ix'), new GroupClose()]],
+            'reset,invalid #1' => ['(?-i^)', [new GroupOpen(), '?-i^', new GroupClose()]],
+            'reset,invalid #2' => ['(?-^i)', [new GroupOpen(), '?-^i', new GroupClose()]],
+            'reset,invalid #3' => ['(?i^)', [new GroupOpen(), '?i^', new GroupClose()]],
+            'reset,unset'      => ['(?^-i)', [new GroupRemainder('^-i')]],
+            'reset,unset:'     => ['(?^-i:)', [new GroupOpenFlags('^-i'), new GroupClose()]],
         ];
     }
 
@@ -156,7 +164,7 @@ class PcreParserTest extends TestCase
                 new GroupOpenFlags('X'), new GroupClose(),
                 new GroupOpenFlags('U'), new GroupClose(),
                 new GroupOpenFlags('J'), new GroupClose()
-            ]],
+            ]]
         ], [
             'pcre2 groups #1' => ['(?X)', [new GroupOpen(), '?X', new GroupClose()]], // illegal in PCRE2
             'pcre2 groups #2' => ['foo(?UxmsiJn:)', ['foo', new GroupOpenFlags('UxmsiJn'), new GroupClose()]],
@@ -172,7 +180,7 @@ class PcreParserTest extends TestCase
                 new GroupOpenFlags('n'), new GroupClose(),
                 new GroupOpenFlags('U'), new GroupClose(),
                 new GroupOpenFlags('J'), new GroupClose()
-            ]],
+            ]]
         ]);
     }
 

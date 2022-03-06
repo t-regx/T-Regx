@@ -326,4 +326,18 @@ class PatternTest extends TestCase
         // then
         $this->assertSame(["\rone\r", 'two', '', "three\rfour\v\f"], $lines);
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForFlagResetInPattern()
+    {
+        // given
+        $pattern = Pattern::of('foo', '^x');
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage("Unknown modifier '^'");
+        // when
+        $pattern->test('foo');
+    }
 }

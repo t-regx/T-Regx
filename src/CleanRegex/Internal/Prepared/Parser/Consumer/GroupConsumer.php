@@ -56,9 +56,9 @@ class GroupConsumer implements Consumer
     private function groupOpenParenthesisRegex(): string
     {
         if (Pcre::pcre2()) {
-            $flags = '[ismxnUJ]*(?:-[ismxnUJ]*)?';
+            $flags = '\^?[ismxnUJ]*(?:-[ismxnUJ]*)?';
         } else {
-            $flags = '[ismxXUJ-]*';
+            $flags = '\^?[ismxXUJ-]*';
         }
         return "/^\?(?:(\:\)?)|($flags)([:)])|#([^)]*))/";
     }
