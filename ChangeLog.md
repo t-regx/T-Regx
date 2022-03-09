@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.20.1
+---------------
+
 * Bug fixes
     * Corrected a bug in prepared patterns, where closing group after in-pattern (`(?i)`) modifier didn't update the
       flags properly, resulting in improper parsing of placeholders in `Pattern::inject()`/`Pattern::template()`
