@@ -42,8 +42,8 @@ class PatternEntitiesAssertion
         } catch (InternalCleanRegexException $exception) {
             throw new AssertionError("Failed to parse '$pattern' with given consumers");
         }
-        Assert::assertEquals($entities, $this->stringsAsLiterals($expectedEntities));
-        Assert::assertSame($expected ?? $pattern, $this->joinEntities($entities));
+        Assert::assertEquals($this->stringsAsLiterals($expectedEntities), $entities);
+        Assert::assertSame($this->joinEntities($entities), $expected ?? $pattern);
     }
 
     private function joinEntities(array $entities): string
