@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 /**
  * The name {@see ListStream} is supposed to mean a stream
  * that behaves as if it was returning a list, an ordered
- * collection with consequentive indexes, starting at 0.
+ * collection with consecutive indexes, starting at 0.
  *
  * It has implementation details {@see ListStream::entries} and
  * {@see ListStream::firstValue}, which are supposed to receive
