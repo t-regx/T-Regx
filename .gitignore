@@ -2,7 +2,8 @@
 .idea/*
 vendor/
 build/cov/
-build/logs
+build/logs/
+profile/
 composer.phar
 composer.lock
 .phpunit.result.cache
