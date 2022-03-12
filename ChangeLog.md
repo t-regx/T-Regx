@@ -6,6 +6,8 @@ Incoming
 
 * Bug fixes
     * Fixed a bug when using `match()->groupBy()` for a nonexistent group didn't throw `NonexistentGroupException`.
+* Performance
+    * Refactored internal PCRE parser, to minimise number of instances created.
 
 Added in 0.20.1
 ---------------

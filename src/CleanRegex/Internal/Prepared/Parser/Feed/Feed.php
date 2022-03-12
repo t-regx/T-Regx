@@ -5,25 +5,34 @@ class Feed
 {
     /** @var ShiftString */
     private $shiftString;
+    /** @var Letter */
+    private $letter;
+    /** @var CharacterClassCondition */
+    private $characterClass;
+    /** @var ConstantStrings */
+    private $constantStrings;
 
     public function __construct(string $string)
     {
         $this->shiftString = new ShiftString($string);
+        $this->letter = new Letter($this->shiftString);
+        $this->characterClass = new CharacterClassCondition($this->shiftString);
+        $this->constantStrings = new ConstantStrings($this->shiftString);
     }
 
     public function letter(): Letter
     {
-        return new Letter($this->shiftString);
+        return $this->letter;
     }
 
     public function string(string $string): ConstantString
     {
-        return new ConstantString($this->shiftString, $string);
+        return $this->constantStrings->string($string);
     }
 
     public function characterClass(): CharacterClassCondition
     {
-        return new CharacterClassCondition($this->shiftString);
+        return $this->characterClass;
     }
 
     public function matchedString(string $regex, int $groups): MatchedString
