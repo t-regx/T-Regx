@@ -15,14 +15,11 @@ class KeywordPatterns
 
     public function phrases(): array
     {
-        return \iterator_to_array($this->phrasesGenerator());
-    }
-
-    private function phrasesGenerator(): Generator
-    {
+        $phrases = [];
         foreach ($this->patterns() as $keyword => $pattern) {
-            yield $keyword => $pattern->phrase();
+            $phrases[$keyword] = $pattern->phrase();
         }
+        return $phrases;
     }
 
     private function patterns(): Generator
