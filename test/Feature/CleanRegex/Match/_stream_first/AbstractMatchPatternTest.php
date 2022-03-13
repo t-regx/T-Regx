@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\_stream_first;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\CausesBacktracking;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -18,6 +19,8 @@ use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;
  */
 class AbstractMatchPatternTest extends TestCase
 {
+    use CausesBacktracking;
+
     /**
      * @test
      */
@@ -139,13 +142,6 @@ class AbstractMatchPatternTest extends TestCase
 
     private function match(): MatchPattern
     {
-        /**
-         * This pattern and subject are deliberately created to
-         * produce {@see CatastrophicBacktrackingException}, if they
-         * are called more than once. That way, we can test
-         * whether "first" method really tries to search the first
-         * occurrance.
-         */
-        return pattern("(([a\d]+[a\d]+)+3)")->match('  123 aaaaaaaaaaaaaaaaaaaa 3');
+        return $this->backtrackingMatch();
     }
 }
