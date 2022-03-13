@@ -16,7 +16,7 @@ PHP regular expressions brought up to modern standards.
 
 [![last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
 [![commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
-[![Commits since](https://img.shields.io/github/commits-since/T-Regx/T-Regx/0.20.1.svg)](https://github.com/T-Regx/T-Regx/compare/0.20.0...master)
+[![Commits since](https://img.shields.io/github/commits-since/T-Regx/T-Regx/0.20.1/develop.svg)](https://github.com/T-Regx/T-Regx/compare/0.20.1...develop)
 [![Unit tests](https://img.shields.io/badge/Unit%20tests-2507-brightgreen.svg)](https://github.com/T-Regx/T-Regx)
 [![Repository size](https://github-size-badge.herokuapp.com/T-Regx/fiddle.svg)](https://github.com/T-Regx/T-Regx)
 [![FQN](https://img.shields.io/badge/FQN-used-blue.svg)](https://github.com/kelunik/fqn-check)
