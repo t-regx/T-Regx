@@ -34,12 +34,15 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\Numeral;
 use TRegx\CleanRegex\Internal\Predicate;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\Internal\Tuple;
 
 class GroupLimit implements \IteratorAggregate
 {
     /** @var Base */
     private $base;
+    /** @var Subject */
+    private $subject;
     /** @var GroupAware */
     private $groupAware;
     /** @var GroupLimitFirst */
@@ -51,12 +54,13 @@ class GroupLimit implements \IteratorAggregate
     /** @var GroupKey */
     private $group;
 
-    public function __construct(Base $base, GroupAware $groupAware, GroupKey $group)
+    public function __construct(Base $base, Subject $subject, GroupAware $groupAware, GroupKey $group)
     {
         $this->base = $base;
+        $this->subject = $subject;
         $this->groupAware = $groupAware;
-        $this->firstFactory = new GroupLimitFirst($base, $groupAware, $group);
-        $this->findFirstFactory = new GroupLimitFindFirst($base, $groupAware, $group);
+        $this->firstFactory = new GroupLimitFirst($base, $subject, $groupAware, $group);
+        $this->findFirstFactory = new GroupLimitFindFirst($base, $subject, $groupAware, $group);
         $this->matchAllFactory = new LazyMatchAllFactory($base);
         $this->group = $group;
     }
@@ -72,7 +76,7 @@ class GroupLimit implements \IteratorAggregate
             return $first->getGroup($this->group->nameOrIndex());
         }
         $signatures = new PerformanceSignatures($first, $this->groupAware);
-        $facade = new GroupFacadeMatched($this->base,
+        $facade = new GroupFacadeMatched($this->subject,
             new MatchGroupFactoryStrategy(),
             $this->matchAllFactory,
             new FirstNamedGroup($signatures),
@@ -120,7 +124,7 @@ class GroupLimit implements \IteratorAggregate
             throw new InvalidArgumentException("Negative group nth: $index");
         }
         if (!$match->matched()) {
-            throw SubjectNotMatchedException::forNthGroup($this->base, $this->group, $index);
+            throw SubjectNotMatchedException::forNthGroup($this->subject, $this->group, $index);
         }
         if ($count <= $index) {
             throw NoSuchNthElementException::forGroup($this->group, $index, $count);
@@ -184,24 +188,24 @@ class GroupLimit implements \IteratorAggregate
 
     public function offsets(): IntStream
     {
-        $upstream = new MatchGroupOffsetStream($this->base, $this->group, $this->matchAllFactory);
-        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new GroupOffsetMessages($this->group)), $this->base);
+        $upstream = new MatchGroupOffsetStream($this->base, $this->subject, $this->group, $this->matchAllFactory);
+        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new GroupOffsetMessages($this->group)), $this->subject);
     }
 
     public function stream(): Stream
     {
-        return new Stream($this->upstream(), $this->base);
+        return new Stream($this->upstream(), $this->subject);
     }
 
     public function asInt(int $base = null): IntStream
     {
-        $upstream = new MatchGroupIntStream($this->base, $this->group, $this->matchAllFactory, new Numeral\Base($base));
-        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new GroupIntMessages($this->group)), $this->base);
+        $upstream = new MatchGroupIntStream($this->base, $this->subject, $this->group, $this->matchAllFactory, new Numeral\Base($base));
+        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new GroupIntMessages($this->group)), $this->subject);
     }
 
     private function upstream(): Upstream
     {
-        return new MatchGroupStream($this->base, $this->groupAware, $this->group, $this->matchAllFactory);
+        return new MatchGroupStream($this->base, $this->subject, $this->groupAware, $this->group, $this->matchAllFactory);
     }
 
     private function details(): array

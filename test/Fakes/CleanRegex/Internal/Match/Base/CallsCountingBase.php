@@ -55,11 +55,6 @@ class CallsCountingBase implements Base
         throw $this->fail();
     }
 
-    public function getSubject(): string
-    {
-        throw $this->fail();
-    }
-
     public function calls(): int
     {
         return $this->calls;

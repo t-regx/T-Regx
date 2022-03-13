@@ -19,6 +19,7 @@ use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchMess
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 
@@ -28,6 +29,8 @@ class MatchGroupStream implements Upstream
 
     /** @var Base */
     private $base;
+    /** @var Subject */
+    private $subject;
     /** @var GroupAware */
     private $groupAware;
     /** @var GroupKey */
@@ -35,9 +38,10 @@ class MatchGroupStream implements Upstream
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(Base $base, GroupAware $groupAware, GroupKey $group, MatchAllFactory $factory)
+    public function __construct(Base $base, Subject $subject, GroupAware $groupAware, GroupKey $group, MatchAllFactory $factory)
     {
         $this->base = $base;
+        $this->subject = $subject;
         $this->groupAware = $groupAware;
         $this->group = $group;
         $this->allFactory = $factory;
@@ -53,10 +57,10 @@ class MatchGroupStream implements Upstream
             throw new UnmatchedStreamException();
         }
         $signatures = new ArraySignatures($matches->getGroupKeys());
-        $facade = new GroupFacade($this->base,
+        $facade = new GroupFacade($this->subject,
             new MatchGroupFactoryStrategy(),
             new EagerMatchAllFactory($matches),
-            new NotMatched($matches, $this->base),
+            new NotMatched($matches, $this->subject),
             new FirstNamedGroup($signatures),
             $signatures);
         return $facade->createGroups($this->group, $matches);
@@ -71,13 +75,13 @@ class MatchGroupStream implements Upstream
             }
         }
         if (!$match->matched()) {
-            throw new StreamRejectedException($this->base, SubjectNotMatchedException::class, new FromFirstMatchMessage($this->group));
+            throw new StreamRejectedException($this->subject, SubjectNotMatchedException::class, new FromFirstMatchMessage($this->group));
         }
         $signatures = new PerformanceSignatures($match, $this->groupAware);
-        $groupFacade = new GroupFacade($this->base,
+        $groupFacade = new GroupFacade($this->subject,
             new MatchGroupFactoryStrategy(),
             $this->allFactory,
-            new NotMatched($this->groupAware, $this->base),
+            new NotMatched($this->groupAware, $this->subject),
             new FirstNamedGroup($signatures), $signatures);
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0);
         return $groupFacade->createGroup($this->group, $polyfill, $polyfill);

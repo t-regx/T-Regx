@@ -89,7 +89,7 @@ class GroupFallbackReplacer
     private function getReplacementOrHandle(array $match, GroupKey $group, DetailGroupMapper $mapper, MatchRs $substitute): string
     {
         $occurrence = $this->occurrence($match, $group);
-        $detail = new LazyDetail($this->base, $this->counter, $this->limit);
+        $detail = new LazyDetail($this->base, $this->subject, $this->counter, $this->limit);
         if ($occurrence === null) { // here "null" means group was not matched
             $replacement = $substitute->substituteGroup($detail);
             // here "null" means "no replacement provided, ignore me, use the full match"

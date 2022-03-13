@@ -50,9 +50,4 @@ class ThrowApiBase extends ApiBase
     {
         throw new \Exception();
     }
-
-    public function getSubject(): string
-    {
-        throw $this->fail();
-    }
 }

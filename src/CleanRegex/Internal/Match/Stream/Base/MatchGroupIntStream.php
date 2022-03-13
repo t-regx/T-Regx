@@ -20,6 +20,7 @@ use TRegx\CleanRegex\Internal\Numeral;
 use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
 use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;
 use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
+use TRegx\CleanRegex\Internal\Subject;
 
 class MatchGroupIntStream implements Upstream
 {
@@ -27,6 +28,8 @@ class MatchGroupIntStream implements Upstream
 
     /** @var Base */
     private $base;
+    /** @var Subject */
+    private $subject;
     /** @var GroupKey */
     private $group;
     /** @var MatchAllFactory */
@@ -34,9 +37,10 @@ class MatchGroupIntStream implements Upstream
     /** @var Numeral\Base */
     private $numberBase;
 
-    public function __construct(Base $base, GroupKey $group, MatchAllFactory $allFactory, Numeral\Base $numberBase)
+    public function __construct(Base $base, Subject $subject, GroupKey $group, MatchAllFactory $allFactory, Numeral\Base $numberBase)
     {
         $this->base = $base;
+        $this->subject = $subject;
         $this->group = $group;
         $this->allFactory = $allFactory;
         $this->numberBase = $numberBase;
@@ -70,10 +74,10 @@ class MatchGroupIntStream implements Upstream
             throw new NonexistentGroupException($this->group);
         }
         if (!$match->matched()) {
-            throw new StreamRejectedException($this->base, SubjectNotMatchedException::class, new FromFirstMatchIntMessage($this->group));
+            throw new StreamRejectedException($this->subject, SubjectNotMatchedException::class, new FromFirstMatchIntMessage($this->group));
         }
         if (!$polyfill->isGroupMatched($this->group->nameOrIndex())) {
-            throw new StreamRejectedException($this->base, GroupNotMatchedException::class, new GroupNotMatched\FromFirstMatchIntMessage($this->group));
+            throw new StreamRejectedException($this->subject, GroupNotMatchedException::class, new GroupNotMatched\FromFirstMatchIntMessage($this->group));
         }
         return $this->parseInteger($match->getGroup($this->group->nameOrIndex()));
     }

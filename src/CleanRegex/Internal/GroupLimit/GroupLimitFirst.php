@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Model\GroupHasAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Subject;
 
 class GroupLimitFirst
 {
@@ -17,12 +18,15 @@ class GroupLimitFirst
     private $groupAware;
     /** @var GroupKey */
     private $group;
+    /** @var Subject */
+    private $subject;
 
-    public function __construct(Base $base, GroupHasAware $groupAware, GroupKey $group)
+    public function __construct(Base $base, Subject $subject, GroupHasAware $groupAware, GroupKey $group)
     {
         $this->base = $base;
         $this->groupAware = $groupAware;
         $this->group = $group;
+        $this->subject = $subject;
     }
 
     public function getFirstForGroup(): RawMatchOffset
@@ -38,7 +42,7 @@ class GroupLimitFirst
                 throw new NonexistentGroupException($this->group);
             }
             if (!$rawMatch->matched()) {
-                throw SubjectNotMatchedException::forFirstGroup($this->base, $this->group);
+                throw SubjectNotMatchedException::forFirstGroup($this->subject, $this->group);
             }
         }
         throw GroupNotMatchedException::forFirst($this->group);

@@ -88,7 +88,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
      */
     public function first(callable $consumer = null)
     {
-        $first = new MatchFirst($this->base, $this->allFactory);
+        $first = new MatchFirst($this->base, $this->subject, $this->allFactory);
         if ($consumer === null) {
             return $first->matchDetails()->text();
         }
@@ -101,14 +101,14 @@ class MatchPattern implements \Countable, \IteratorAggregate
         if ($match->matched()) {
             return new PresentOptional($consumer($this->findFirstDetail($match)));
         }
-        return new SubjectEmptyOptional($this->groupAware, $this->base, new FirstMatchMessage());
+        return new SubjectEmptyOptional($this->groupAware, $this->subject, new FirstMatchMessage());
     }
 
     private function findFirstDetail(RawMatchOffset $match): Detail
     {
         $firstIndex = $match->getIndex();
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, $firstIndex);
-        return MatchDetail::create($this->base, $firstIndex, 1, $polyfill, $this->allFactory, $this->base->getUserData());
+        return MatchDetail::create($this->subject, $firstIndex, 1, $polyfill, $this->allFactory, $this->base->getUserData());
     }
 
     public function only(int $limit): array
@@ -126,7 +126,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
             return $texts[$index];
         }
         if (empty($texts)) {
-            throw SubjectNotMatchedException::forNth($this->base, $index);
+            throw SubjectNotMatchedException::forNth($this->subject, $index);
         }
         throw NoSuchNthElementException::forSubject($index, \count($texts));
     }
@@ -173,13 +173,13 @@ class MatchPattern implements \Countable, \IteratorAggregate
      */
     public function group($nameOrIndex): GroupLimit
     {
-        return new GroupLimit($this->base, $this->groupAware, GroupKey::of($nameOrIndex));
+        return new GroupLimit($this->base, $this->subject, $this->groupAware, GroupKey::of($nameOrIndex));
     }
 
     public function offsets(): IntStream
     {
-        $upstream = new OffsetLimitStream($this->base);
-        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new MatchOffsetMessages()), $this->base);
+        $upstream = new OffsetLimitStream($this->base, $this->subject);
+        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new MatchOffsetMessages()), $this->subject);
     }
 
     public function count(): int
@@ -194,13 +194,13 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     public function stream(): Stream
     {
-        return new Stream(new MatchStream(new StreamBase($this->base), $this->base, $this->base->getUserData(), new LazyMatchAllFactory($this->base)), $this->base);
+        return new Stream(new MatchStream(new StreamBase($this->base), $this->subject, $this->base->getUserData(), new LazyMatchAllFactory($this->base)), $this->subject);
     }
 
     public function asInt(int $base = null): IntStream
     {
-        $upstream = new MatchIntStream(new StreamBase($this->base), new Numeral\Base($base), $this->base);
-        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->base, new MatchIntMessages()), $this->base);
+        $upstream = new MatchIntStream(new StreamBase($this->base), new Numeral\Base($base), $this->subject);
+        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new MatchIntMessages()), $this->subject);
     }
 
     /**
@@ -209,7 +209,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
      */
     public function groupBy($nameOrIndex): GroupByPattern
     {
-        return new GroupByPattern($this->base, $this->groupAware, GroupKey::of($nameOrIndex));
+        return new GroupByPattern($this->base, $this->subject, $this->groupAware, GroupKey::of($nameOrIndex));
     }
 
     public function groupByCallback(callable $groupMapper): array
@@ -224,7 +224,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     private function getDetailObjects(): array
     {
-        $factory = new DetailObjectFactory($this->base, $this->base->getUserData());
+        $factory = new DetailObjectFactory($this->subject, $this->base->getUserData());
         return $factory->mapToDetailObjects($this->base->matchAllOffsets());
     }
 

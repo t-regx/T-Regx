@@ -15,6 +15,7 @@ use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\NonNestedValueException;
 use TRegx\CleanRegex\Internal\Offset\ByteOffset;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\SafeRegex\Internal\Tuple;
 
@@ -22,14 +23,17 @@ class GroupByPattern
 {
     /** * @var Base */
     private $base;
+    /** @var Subject */
+    private $subject;
     /** @var GroupHasAware */
     private $groupAware;
     /** * @var GroupKey */
     private $group;
 
-    public function __construct(Base $base, GroupHasAware $groupAware, GroupKey $group)
+    public function __construct(Base $base, Subject $subject, GroupHasAware $groupAware, GroupKey $group)
     {
         $this->base = $base;
+        $this->subject = $subject;
         $this->groupAware = $groupAware;
         $this->group = $group;
     }
@@ -45,7 +49,7 @@ class GroupByPattern
     {
         return $this->groupBySimple(function (RawMatchesOffset $matches, int $index): int {
             $offset = Tuple::second($matches->getGroupTextAndOffset(0, $index));
-            return ByteOffset::toCharacterOffset($this->base->getSubject(), $offset);
+            return ByteOffset::toCharacterOffset($this->subject->getSubject(), $offset);
         });
     }
 
@@ -108,7 +112,7 @@ class GroupByPattern
 
     private function detail(RawMatchesOffset $matches, int $index): MatchDetail
     {
-        return MatchDetail::create($this->base,
+        return MatchDetail::create($this->subject,
             $index,
             -1,
             new RawMatchesToMatchAdapter($matches, $index),

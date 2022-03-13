@@ -54,12 +54,4 @@ class ConstantAllBase implements Base
     {
         throw $this->fail();
     }
-
-    public function getSubject(): string
-    {
-        if ($this->subject === null) {
-            throw $this->fail();
-        }
-        return $this->subject;
-    }
 }

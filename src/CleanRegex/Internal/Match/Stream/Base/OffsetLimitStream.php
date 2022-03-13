@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchOffsetMessage;
+use TRegx\CleanRegex\Internal\Subject;
 
 class OffsetLimitStream implements Upstream
 {
@@ -14,10 +15,13 @@ class OffsetLimitStream implements Upstream
 
     /** @var Base */
     private $base;
+    /** @var Subject */
+    private $subject;
 
-    public function __construct(Base $base)
+    public function __construct(Base $base, Subject $subject)
     {
         $this->base = $base;
+        $this->subject = $subject;
     }
 
     protected function entries(): array
@@ -35,6 +39,6 @@ class OffsetLimitStream implements Upstream
         if ($match->matched()) {
             return $match->byteOffset();
         }
-        throw new StreamRejectedException($this->base, SubjectNotMatchedException::class, new FirstMatchOffsetMessage());
+        throw new StreamRejectedException($this->subject, SubjectNotMatchedException::class, new FirstMatchOffsetMessage());
     }
 }

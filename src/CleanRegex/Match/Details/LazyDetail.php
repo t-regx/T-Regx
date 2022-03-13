@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
@@ -12,6 +13,8 @@ class LazyDetail implements Detail
 {
     /** @var Base */
     private $base;
+    /** @var Subject */
+    private $subject;
     /** @var int */
     private $index;
     /** @var int */
@@ -19,9 +22,10 @@ class LazyDetail implements Detail
     /** @var MatchDetail|null */
     private $lazyMatch = null;
 
-    public function __construct(Base $base, int $index, int $limit)
+    public function __construct(Base $base, Subject $subject, int $index, int $limit)
     {
         $this->base = $base;
+        $this->subject = $subject;
         $this->index = $index;
         $this->limit = $limit;
     }
@@ -36,7 +40,7 @@ class LazyDetail implements Detail
     {
         $matches = $this->base->matchAllOffsets();
         return MatchDetail::create(
-            $this->base,
+            $this->subject,
             -99, // These values are never used, because `index()` and `limit()` in LazyMatch aren't
             -99, // passed through `Detail`, because they are read from fields.
             // We could pass real data here, but we could never test it, since the code doesn't
@@ -49,7 +53,7 @@ class LazyDetail implements Detail
 
     public function subject(): string
     {
-        return $this->base->getSubject();
+        return $this->subject->getSubject();
     }
 
     public function groupNames(): array

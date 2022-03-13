@@ -31,11 +31,6 @@ class ApiBase implements Base
         return $this->definition;
     }
 
-    public function getSubject(): string
-    {
-        return $this->subject->getSubject();
-    }
-
     public function match(): RawMatch
     {
         preg::match($this->definition->pattern, $this->subject->getSubject(), $match);

@@ -7,9 +7,8 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Subject;
 
-interface Base extends Subject
+interface Base
 {
     public function definition(): Definition;
 

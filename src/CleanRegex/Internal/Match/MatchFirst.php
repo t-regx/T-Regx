@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 
@@ -13,12 +14,15 @@ class MatchFirst
 {
     /** @var Base */
     private $base;
+    /** @var Subject */
+    private $subject;
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(Base $base, MatchAllFactory $allFactory)
+    public function __construct(Base $base, Subject $subject, MatchAllFactory $allFactory)
     {
         $this->base = $base;
+        $this->subject = $subject;
         $this->allFactory = $allFactory;
     }
 
@@ -28,12 +32,12 @@ class MatchFirst
         if ($match->matched()) {
             return $this->detail($match->getIndex(), new FalseNegative($match));
         }
-        throw SubjectNotMatchedException::forFirst($this->base);
+        throw SubjectNotMatchedException::forFirst($this->subject);
     }
 
     private function detail(int $index, FalseNegative $false): Detail
     {
-        return MatchDetail::create($this->base,
+        return MatchDetail::create($this->subject,
             $index,
             1,
             new GroupPolyfillDecorator($false, $this->allFactory, $index),

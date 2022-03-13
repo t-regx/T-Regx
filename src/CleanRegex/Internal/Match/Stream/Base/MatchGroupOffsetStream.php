@@ -14,6 +14,7 @@ use TRegx\CleanRegex\Internal\Message\GroupNotMatched;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
+use TRegx\CleanRegex\Internal\Subject;
 
 class MatchGroupOffsetStream implements Upstream
 {
@@ -25,12 +26,15 @@ class MatchGroupOffsetStream implements Upstream
     private $group;
     /** @var MatchAllFactory */
     private $allFactory;
+    /** @var Subject */
+    private $subject;
 
-    public function __construct(Base $base, GroupKey $group, MatchAllFactory $allFactory)
+    public function __construct(Base $base, Subject $subject, GroupKey $group, MatchAllFactory $allFactory)
     {
         $this->base = $base;
         $this->group = $group;
         $this->allFactory = $allFactory;
+        $this->subject = $subject;
     }
 
     protected function entries(): array
@@ -62,10 +66,10 @@ class MatchGroupOffsetStream implements Upstream
             throw new NonexistentGroupException($this->group);
         }
         if (!$match->matched()) {
-            throw new StreamRejectedException($this->base, SubjectNotMatchedException::class, new FromFirstMatchOffsetMessage($this->group));
+            throw new StreamRejectedException($this->subject, SubjectNotMatchedException::class, new FromFirstMatchOffsetMessage($this->group));
         }
         if (!$polyfill->isGroupMatched($this->group->nameOrIndex())) {
-            throw new StreamRejectedException($this->base, GroupNotMatchedException::class, new GroupNotMatched\FromFirstMatchOffsetMessage($this->group));
+            throw new StreamRejectedException($this->subject, GroupNotMatchedException::class, new GroupNotMatched\FromFirstMatchOffsetMessage($this->group));
         }
         return $match->getGroupByteOffset($this->group->nameOrIndex());
     }

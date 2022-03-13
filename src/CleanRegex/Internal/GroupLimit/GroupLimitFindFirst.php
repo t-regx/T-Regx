@@ -14,6 +14,7 @@ use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchMess
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\SubjectEmptyOptional;
 use TRegx\CleanRegex\Match\Optional;
 
@@ -25,12 +26,15 @@ class GroupLimitFindFirst
     private $groupAware;
     /** @var GroupKey */
     private $group;
+    /** @var Subject */
+    private $subject;
 
-    public function __construct(Base $base, GroupAware $groupAware, GroupKey $group)
+    public function __construct(Base $base, Subject $subject, GroupAware $groupAware, GroupKey $group)
     {
         $this->base = $base;
         $this->groupAware = $groupAware;
         $this->group = $group;
+        $this->subject = $subject;
     }
 
     public function getOptionalForGroup(callable $consumer): Optional
@@ -53,7 +57,7 @@ class GroupLimitFindFirst
     private function matchedOptional(RawMatchOffset $match, callable $consumer): PresentOptional
     {
         $signatures = new PerformanceSignatures($match, $this->groupAware);
-        $facade = new GroupFacadeMatched($this->base,
+        $facade = new GroupFacadeMatched($this->subject,
             new MatchGroupFactoryStrategy(),
             new LazyMatchAllFactory($this->base),
             new FirstNamedGroup($signatures),
@@ -65,8 +69,8 @@ class GroupLimitFindFirst
     private function notMatchedOptional(RawMatchOffset $first): Optional
     {
         if ($first->matched()) {
-            return new GroupEmptyOptional($this->groupAware, $this->base, $this->group);
+            return new GroupEmptyOptional($this->groupAware, $this->subject, $this->group);
         }
-        return new SubjectEmptyOptional($this->groupAware, $this->base, new FromFirstMatchMessage($this->group));
+        return new SubjectEmptyOptional($this->groupAware, $this->subject, new FromFirstMatchMessage($this->group));
     }
 }
