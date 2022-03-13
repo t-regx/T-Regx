@@ -6,6 +6,8 @@ Incoming
 
 * Bug fixes
     * Fixed a bug when using `match()->groupBy()` for a nonexistent group didn't throw `NonexistentGroupException`.
+* Features
+    * Added `Pattern.cut()` which splits string into exactly two parts.
 * Performance
     * Refactored internal PCRE parser, to minimise number of instances created.
     * Improved performance of `CompositePattern.chainedReplace()` by using single call to PCRE

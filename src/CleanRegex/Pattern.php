@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\ForArray\ForArrayPattern;
+use TRegx\CleanRegex\Internal\Cut;
 use TRegx\CleanRegex\Internal\EntryPoints;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
@@ -55,6 +56,12 @@ class Pattern
     public function split(string $subject): array
     {
         return preg::split($this->predefinition->definition()->pattern, $subject, -1, \PREG_SPLIT_DELIM_CAPTURE);
+    }
+
+    public function cut(string $subject): array
+    {
+        $cut = new Cut($this->predefinition->definition());
+        return $cut->twoPieces($subject);
     }
 
     public function count(string $subject): int
