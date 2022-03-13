@@ -60,6 +60,9 @@ abstract class ReplacePatternImpl implements ReplacePattern
         return new SpecificReplacePatternImpl($this->definition, $this->subject, $this->limit, $substitute, $countingStrategy);
     }
 
+    /**
+     * @deprecated
+     */
     public function focus($nameOrIndex): FocusReplacePattern
     {
         return new FocusReplacePattern($this->replacePattern, $this->definition, $this->subject, $this->limit, GroupKey::of($nameOrIndex), new IgnoreCounting());

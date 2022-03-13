@@ -81,6 +81,9 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
             new IdentityWrapper());
     }
 
+    /**
+     * @deprecated
+     */
     public function focus($nameOrIndex): FocusReplacePattern
     {
         return new FocusReplacePattern($this, $this->definition, $this->subject, $this->limit, GroupKey::of($nameOrIndex), $this->countingStrategy);

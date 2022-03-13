@@ -35,6 +35,9 @@ trait ReplaceLimitHelpers
         return $this->all()->counting($countReceiver);
     }
 
+    /**
+     * @deprecated
+     */
     public function focus($nameOrIndex): FocusReplacePattern
     {
         return $this->all()->focus($nameOrIndex);

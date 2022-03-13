@@ -11,6 +11,7 @@ Incoming
     * Improved performance of `CompositePattern.chainedReplace()` by using single call to PCRE
 * Deprecation
     * Deprecated `Detail.substitute()`
+    * Deprecated `pattern()->replace()->focus()`
 
 Added in 0.20.1
 ---------------
