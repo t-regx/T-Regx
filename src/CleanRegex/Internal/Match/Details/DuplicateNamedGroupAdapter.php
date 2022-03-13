@@ -83,6 +83,9 @@ class DuplicateNamedGroupAdapter implements DuplicateNamedGroup
         return $this->group->byteTail();
     }
 
+    /**
+     * @deprecated
+     */
     public function substitute(string $replacement): string
     {
         return $this->group->substitute($replacement);

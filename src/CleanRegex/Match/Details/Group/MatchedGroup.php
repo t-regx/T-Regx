@@ -119,6 +119,9 @@ class MatchedGroup implements Group
         return $this->groupEntry->byteTail();
     }
 
+    /**
+     * @deprecated
+     */
     public function substitute(string $replacement): string
     {
         return $this->substitutedGroup->with($replacement);

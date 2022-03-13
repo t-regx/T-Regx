@@ -34,6 +34,9 @@ interface CapturingGroup extends Optional
 
     public function byteTail(): int;
 
+    /**
+     * @deprecated
+     */
     public function substitute(string $replacement): string;
 
     public function subject(): string;

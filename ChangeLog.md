@@ -9,6 +9,8 @@ Incoming
 * Performance
     * Refactored internal PCRE parser, to minimise number of instances created.
     * Improved performance of `CompositePattern.chainedReplace()` by using single call to PCRE
+* Deprecation
+    * Deprecated `Detail.substitute()`
 
 Added in 0.20.1
 ---------------

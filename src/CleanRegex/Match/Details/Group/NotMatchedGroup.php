@@ -106,6 +106,9 @@ class NotMatchedGroup implements Group
         throw $this->groupNotMatched('byteTail');
     }
 
+    /**
+     * @deprecated
+     */
     public function substitute(string $replacement): string
     {
         throw $this->groupNotMatched('substitute');
