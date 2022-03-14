@@ -168,7 +168,7 @@ class GroupLimitTest extends TestCase
     public function shouldThrow_nth_forSubjectNotMatched()
     {
         // given
-        $limit = new GroupLimit(new ConstantAllBase($this->rawMatches([], 'name'), 'subject'), new Subject($subject ?? ''), new GroupKeys(['name']), new GroupName('name'));
+        $limit = new GroupLimit(new ConstantAllBase($this->rawMatches([], 'name')), new Subject($subject ?? ''), new GroupKeys(['name']), new GroupName('name'));
 
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -180,7 +180,7 @@ class GroupLimitTest extends TestCase
 
     public function groupLimitAll(array $allValues, $nameOrIndex = 0, string $subject = null): GroupLimit
     {
-        return new GroupLimit(new ConstantAllBase($this->rawMatches($allValues, $nameOrIndex), $subject), new Subject($subject ?? ''), new GroupKeys([$nameOrIndex]), GroupKey::of($nameOrIndex));
+        return new GroupLimit(new ConstantAllBase($this->rawMatches($allValues, $nameOrIndex)), new Subject($subject ?? ''), new GroupKeys([$nameOrIndex]), GroupKey::of($nameOrIndex));
     }
 
     private function rawMatches(array $allValues, $nameOrIndex): RawMatchesOffset

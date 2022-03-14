@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream\Base;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Match\Base\Base;
+use Test\Fakes\CleanRegex\Internal\Match\Base\ConstantAllBase;
+use Test\Fakes\CleanRegex\Internal\Match\Base\ConstantFirstBase;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
@@ -20,7 +20,7 @@ class StreamBaseTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $stream = new StreamBase($this->baseAll());
+        $stream = new StreamBase(new ConstantAllBase($this->matchesOffset()));
 
         // when
         $all = $stream->all();
@@ -35,7 +35,7 @@ class StreamBaseTest extends TestCase
     public function shouldReturn_first()
     {
         // given
-        $stream = new StreamBase($this->baseFirst());
+        $stream = new StreamBase(new ConstantFirstBase($this->matchOffset()));
 
         // when
         $first = $stream->first();
@@ -50,7 +50,7 @@ class StreamBaseTest extends TestCase
     public function shouldThrow_first_forUnmatched()
     {
         // given
-        $stream = new StreamBase($this->baseFirstUnmatched());
+        $stream = new StreamBase(new ConstantFirstBase(new RawMatchOffset([], null)));
 
         // then
         $this->expectException(UnmatchedStreamException::class);
@@ -65,7 +65,7 @@ class StreamBaseTest extends TestCase
     public function shouldThrow_firstKey_forUnmatched()
     {
         // given
-        $stream = new StreamBase($this->baseFirstUnmatched());
+        $stream = new StreamBase(new ConstantFirstBase(new RawMatchOffset([], null)));
 
         // then
         $this->expectException(UnmatchedStreamException::class);
@@ -80,51 +80,13 @@ class StreamBaseTest extends TestCase
     public function shouldAll_returnEmpty_unmatched()
     {
         // given
-        $stream = new StreamBase($this->baseAllUnmatched());
+        $stream = new StreamBase(new ConstantAllBase(new RawMatchesOffset([[]])));
 
         // then
         $this->expectException(UnmatchedStreamException::class);
 
         // when
         $stream->all();
-    }
-
-    private function baseAllUnmatched(): Base
-    {
-        return $this->baseAllWith(new RawMatchesOffset([[]]));
-    }
-
-    private function baseAll(): Base
-    {
-        return $this->baseAllWith($this->matchesOffset());
-    }
-
-    private function baseAllWith(RawMatchesOffset $matches): Base
-    {
-        /** @var Base|MockObject $base */
-        $base = $this->createMock(Base::class);
-        $base->expects($this->once())->method('matchAllOffsets')->willReturn($matches);
-        $base->expects($this->never())->method($this->logicalNot($this->matches('matchAllOffsets')));
-        return $base;
-    }
-
-    private function baseFirst(): Base
-    {
-        return $this->baseFirstWith($this->matchOffset());
-    }
-
-    private function baseFirstUnmatched(): Base
-    {
-        return $this->baseFirstWith(new RawMatchOffset([], null));
-    }
-
-    private function baseFirstWith(RawMatchOffset $match): Base
-    {
-        /** @var Base|MockObject $base */
-        $base = $this->createMock(Base::class);
-        $base->expects($this->once())->method('matchOffset')->willReturn($match);
-        $base->expects($this->never())->method($this->logicalNot($this->matches('matchOffset')));
-        return $base;
     }
 
     private function matchesOffset(): RawMatchesOffset

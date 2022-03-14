@@ -8,21 +8,16 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
-class ConstantAllBase implements Base
+class ConstantFirstBase implements Base
 {
     use Fails;
 
-    /** @var RawMatchesOffset */
-    private $matchesOffset;
+    /** @var RawMatchOffset */
+    private $matchFirst;
 
-    public function __construct(RawMatchesOffset $matchesOffset)
+    public function __construct(RawMatchOffset $matchFirst)
     {
-        $this->matchesOffset = $matchesOffset;
-    }
-
-    public function matchAllOffsets(): RawMatchesOffset
-    {
-        return $this->matchesOffset;
+        $this->matchFirst = $matchFirst;
     }
 
     public function match(): RawMatch
@@ -32,10 +27,15 @@ class ConstantAllBase implements Base
 
     public function matchOffset(): RawMatchOffset
     {
-        throw $this->fail();
+        return $this->matchFirst;
     }
 
     public function matchAll(): RawMatches
+    {
+        throw $this->fail();
+    }
+
+    public function matchAllOffsets(): RawMatchesOffset
     {
         throw $this->fail();
     }
