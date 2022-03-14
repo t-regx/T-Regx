@@ -69,3 +69,9 @@ jobs:
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+
+      - name: Upload coverage results to Code Climate
+        if: "${{ matrix.coverage != 'none' }}"
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORTER_ID }}
