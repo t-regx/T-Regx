@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\groupBy;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\GroupByPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -149,6 +150,38 @@ class MatchPatternTest extends TestCase
                 'mm' => ['18mm', 20],
             ]],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForNonexistentGroup_byteOffsets()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'bar'");
+
+        // when
+        pattern('(?<foo>foo)')
+            ->match('foo')
+            ->groupBy('bar')
+            ->byteOffsets();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForNonexistentGroup_map()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'cat'");
+
+        // when
+        pattern('(?<foo>foo)')
+            ->match('foo')
+            ->groupBy('cat')
+            ->map(Functions::fail());
     }
 
     private function groupBy(): GroupByPattern

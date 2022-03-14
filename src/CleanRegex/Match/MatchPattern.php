@@ -209,7 +209,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
      */
     public function groupBy($nameOrIndex): GroupByPattern
     {
-        return new GroupByPattern($this->base, GroupKey::of($nameOrIndex));
+        return new GroupByPattern($this->base, $this->groupAware, GroupKey::of($nameOrIndex));
     }
 
     public function groupByCallback(callable $groupMapper): array

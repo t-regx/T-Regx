@@ -2,12 +2,14 @@
 namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\FlatMapStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Model\GroupHasAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Nested;
@@ -20,12 +22,15 @@ class GroupByPattern
 {
     /** * @var Base */
     private $base;
+    /** @var GroupHasAware */
+    private $groupAware;
     /** * @var GroupKey */
     private $group;
 
-    public function __construct(Base $base, GroupKey $group)
+    public function __construct(Base $base, GroupHasAware $groupAware, GroupKey $group)
     {
         $this->base = $base;
+        $this->groupAware = $groupAware;
         $this->group = $group;
     }
 
@@ -62,6 +67,9 @@ class GroupByPattern
     {
         $matches = $this->base->matchAllOffsets();
         $map = [];
+        if (!$this->groupAware->hasGroup($this->group->nameOrIndex())) {
+            throw new NonexistentGroupException($this->group);
+        }
         foreach ($matches->getIndexes() as $index) {
             if ($matches->isGroupMatched($this->group->nameOrIndex(), $index)) {
                 $key = Tuple::first($matches->getGroupTextAndOffset($this->group->nameOrIndex(), $index));

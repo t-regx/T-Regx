@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Bug fixes
+    * Fixed a bug when using `match()->groupBy()` for a nonexistent group didn't throw `NonexistentGroupException`.
 
 Added in 0.20.1
 ---------------

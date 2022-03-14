@@ -2,6 +2,7 @@
 namespace Test\Unit\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Model\IgnoreAware;
 use Test\Utils\Functions;
 use Test\Utils\ThrowsForUnmockedMethods;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
@@ -24,7 +25,7 @@ class GroupByPatternTest extends TestCase
     public function shouldThrow_forFlatMap_forInvalidReturnType()
     {
         // given
-        $pattern = new GroupByPattern($this->base(), new GroupName('victim'));
+        $pattern = new GroupByPattern($this->base(), new IgnoreAware(), new GroupName('victim'));
 
         // then
         $this->expectException(InvalidReturnValueException::class);
@@ -40,7 +41,7 @@ class GroupByPatternTest extends TestCase
     public function shouldThrow_forFlatMapAssoc_forInvalidReturnType()
     {
         // given
-        $pattern = new GroupByPattern($this->base(), new GroupName('victim'));
+        $pattern = new GroupByPattern($this->base(), new IgnoreAware(), new GroupName('victim'));
 
         // then
         $this->expectException(InvalidReturnValueException::class);
