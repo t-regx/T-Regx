@@ -152,13 +152,13 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     public function flatMap(callable $mapper): array
     {
-        $function = new FlatFunction($mapper, 'flatMap');;
+        $function = new FlatFunction($mapper, 'flatMap');
         return (new ArrayMergeStrategy())->flatten($function->map($this->getDetailObjects()));
     }
 
     public function flatMapAssoc(callable $mapper): array
     {
-        $function = new FlatFunction($mapper, 'flatMapAssoc');;
+        $function = new FlatFunction($mapper, 'flatMapAssoc');
         return (new AssignStrategy())->flatten($function->map($this->getDetailObjects()));
     }
 
