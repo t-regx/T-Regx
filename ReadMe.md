@@ -38,12 +38,15 @@ PHP regular expressions brought up to modern standards.
 
 1. [Installation](#installation)
     * [Composer](#installation)
-2. [API](#api)
-3. [Documentation](#documentation)
-4. [T-Regx fiddle - Try online](#try-it-online-in-your-browser)
-5. [Overview](#why-t-regx-stands-out)
-6. [Comparison](#whats-better)
-7. [License](#license)
+2. [What T-Regx is and isn't](#what-t-regx-is-and-isnt)
+3. [API](#api)
+    1. [For legacy projects - `preg::match_all()`](#no-change-in-api-for-legacy-projects)
+    2. [For standard projects -`pattern()`](#written-with-clean-api)
+4. [Documentation](#documentation)
+5. [T-Regx fiddle - Try online](#try-it-online-in-your-browser)
+6. [Overview](#why-t-regx-stands-out)
+7. [Comparison](#whats-better)
+8. [License](#license)
 
 # Installation
 
@@ -53,20 +56,45 @@ Installation for PHP 7.1 and later (PHP 8 as well):
 composer require rawr/t-regx
 ```
 
-T-Regx only requires `mb-string` extension, no additional dependencies.
+T-Regx only requires `mb-string` extension. No additional dependencies or extensions are required.
+
+## What T-Regx is and isn't
+
+- ### T-Regx is not a tool for building regular expressions
+
+  We don't want to build the patterns for you. T-Regx is to be used exactly with "raw patterns".
+
+  :bulb: For a tool to help you build and understand your patterns, consider using
+  [PHPVerbalExpressions](https://github.com/VerbalExpressions/PHPVerbalExpressions):
+
+  ```php
+  $regex = new VerbalExpressions();
+  $regex->startOfLine()->then("http")->maybe("s")->then("://")->maybe("www.")->endOfLine();
+  ```
+
+- ### T-Regx is a regex solution as it should've been made in PHP
+
+  In our humble opinions, T-Regx is a well-crafted, robust, reliable and predictable tool for using regular expression in modern applications. It eliminates
+  unknowns and complexity, for the sake of concise code and revealing intentions. It utilizes numerous checks and operations to ensure
+  each method does exactly what it's supposed to.
+
+  - T-Regx is to `preg_match()`, what PDO was to `mysql_query()`.
+  - T-Regx uses `preg_match()`/`preg_replace()` as an engine internally, but doesn't leak the horribleness of their design out.
+
+  #### Read more, [Scroll to "Overview"](#why-t-regx-stands-out)...
 
 # API
 
-You, choose the interface:
+**You** choose the interface:
 
-- I choose to **keep PHP methods** *(but protected from errors)*:
+- I choose to **keep PHP methods** *(but protected from errors/warnings)*:
 
-  [Scroll to see](#no-change-in-api) - `preg::match_all()`, `preg::replace_callback()`, `preg::split()`
+  [Scroll to see](#no-change-in-api-for-legacy-projects) - `preg::match_all()`, `preg::replace_callback()`, `preg::split()`
 - I choose the **modern regex API**:
 
   [Scroll to see](#written-with-clean-api) - `pattern()->test()`, `pattern()->match()`, `pattern()->replace()`
 
-For legacy projects, we suggest `preg::match_all()`, for standard projects, we suggest `pattern()`.
+For legacy projects, we suggest `preg::match_all()`. For standard projects, we suggest `pattern()`.
 
 # Current work in progress
 
@@ -84,54 +112,82 @@ in [ChangeLog.md](https://github.com/T-Regx/T-Regx/blob/develop/ChangeLog.md).
 
 # Try it online, in your browser!
 
-Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing around.
+Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing around right in your browser.
 
 # Why T-Regx stands out?
 
 :bulb: [See documentation at t-regx.com](https://t-regx.com/)
 
-* ### No change in API!
-    * You can use T-Regx safe features and exception-based error handling, without changing your API.
-
-      Simply swap `preg_match()` to `preg::match()`, and your method is safe! Arguments and return types remain the
-      same.
+* ### No change in API for legacy projects
+    * You can use T-Regx exception-based error handling, without changing your API much. Simply swap `preg_match()` to
+      `preg::match()`, and the method will only ever throws exceptions! Won't return `null` or `false` or issue a warning or a notice. Nor will it throw a fatal
+      error.
+    * Arguments, structure and return types remain the same. Nobody needs to know :)
+    * You still deal with complex and unintuitive API of PHP, but we handle the errors and warnings for you.
 
 * ### Prepared patterns
 
-  Using user data (for example with `preg_quote()`) isn't always safe with PCRE, as well as just not being that
-  convenient to use. T-Regx provides `Pattern::inject()`, designed specifically for handling potentially unsafe
-  data. `Pattern::mask()` allows converting user-supplied masks into full-fledged patterns safely.
+  Using user data (for example with `preg_quote()`) isn't always safe with PCRE, as well as just not being that convenient to use. T-Regx
+  provides `Pattern::inject()`, designed specifically for handling potentially unsafe data. `Pattern::mask()` allows converting user-supplied masks into
+  full-fledged patterns safely. Use
+  `Pattern::template()` for constructing more complex patterns.
 
 * ### Working **with** the developer
     * Errors:
-        * Not even touching your error handlers **in any way**
-        * Converts all PCRE notices/error/warnings to exceptions
-        * Preventing fatal errors
+        * Not even touching your error handlers or exception handlers **in any way**!
+        * In case of an error PHP either: triggers an error, issues a warning/notice, returns `null`/`false`/`-1`, sets a flag to be read later
+          by `preg_last_error()`, sometimes *does nothing*, and sometimes crashes the application by throwing fatal error. T-Regx does none of those, and simply
+          throws a dedicated exception.
+        * Preventing fatal errors.
+        * Different error messages are issued on different PHP versions, in T-Regx they are unified.
     * Strings:
-        * [Tracking offset](https://t-regx.com/docs/replace-match-details) and subjects while replacing strings
-        * [Fixing error with multi-byte offset (utf-8 safe)](https://t-regx.com/docs/match-details#offsets)
+        * [Tracking offset](https://t-regx.com/docs/replace-match-details) and subjects while replacing strings.
+        * [Fixing error with multi-byte offset (utf-8 safe)](https://t-regx.com/docs/match-details#offsets).
+        * Separate methods for positions:
+            * `offset()` - which returns position of a match in characters in UTF-8
+            * `byteOffset()` - which returns position of a match in bytes, regardless of encoding
+    * Groups:
+        * PHP provides groups in an `array`. When read, `$match['group']`, regardless if the group name is invalid, the group is missing, the group is unmatched
+          or matched an empty string - PHP handles them identically.
+        * What the values in the `array` *really mean* is a complex mess.
+        * In T-Regx, when invalid group named is used `get('!@#')` - `InvalidArgumentException` is thrown. When attempt to read a missing group
+          - `NonexistentGroupException` is thrown. For a case of valid group, reading a group that happens not to be matched - `GroupNotMatchedException` is
+          thrown, or you can use `matched()` method.
+    * Simple methods
+        * T-Regx exposes functionality by simple methods, which return `int`, `string`, `string[]` or `bool`, and aren't nullable If you wish to do something
+          with your match or pattern, there's probably a method for that, which does exactly and only that.
 
 * ### Automatic delimiters for your pattern
-  Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory.
+  Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory (if you use `pattern()`). Methods `preg::match()`/`preg::replace()` still
+  require them, not to introduce unnecessary changes in your legacy project.
 
 * ### Converting Warnings/Errors to Exceptions
-    * Detects malformed patterns in `preg_()` (which is impossible with `preg_last_error()`).
-    * Notices, warnings or errors during `preg::` are converted to exceptions.
-    * `preg_()` can never fail, because it throws `PregException` on warning/error.
-    * In some cases, `preg_()` methods might fail, return `false`/`null` and **NOT** trigger a warning. Separate
-      exception,
-      `SuspectedReturnPregException` is then thrown by T-Regx.
+    * Detects **malformed patterns** in `preg_()` and throws `MalformedPatternException`. This is impossible to catch with `preg_last_error()` and yet, if any
+      error should be caught it's this one.
+    * Notices, warnings or errors during `preg::` are converted to exceptions, for example `CatastrophicBacktrackingException`.
+    * In some cases, `preg_()` methods might fail, return `false`/`null` and **NOT** trigger a warning (basically silence it). T-Regx detects those silent fails
+      by analyzing return types and throws `SuspectedReturnPregException` in that case.
+    * Not every error in PHP can be read from `preg_last_error()`, however T-Regx throws dedicated exceptions for those events.
 
 * ### Written with clean API
-    * Descriptive, chainable interface
+    * Descriptive, simple interface
     * SRP methods
     * UTF-8 support out-of-the-box
     * `No Reflection used`, `No (...varargs)`, `No (boolean arguments, true)`, `(No flags, 1)`
       , `[No [nested, [arrays]]]`
+    * Inconsistencies between PHP versions are eliminated in T-Regx
 
-* ### Protects your from fatal errors
-  Certain arguments cause fatal errors with `preg_()` methods. T-Regx will throw a catchable exception, instead of a
-  Fatal Error.
+* ### Protects you from fatal errors
+  Certain arguments cause fatal errors with `preg_()` methods, which terminate the application and can't be caught. T-Regx will predict if given argument would
+  cause a fatal error, and will throw a catchable exception instead,
+
+* ### Fixes PHP bugs in regular expressions
+  PHP fails for some really simple patterns. For example, with vanilla PHP using patterns ending with `\ `
+  (even escaped one!) ends in a parse error. With T-Regx that **just** works: `pattern('\\')`.
+
+* ### T-Regx follows the philosophy of Uncle Bob and "Clean Code"
+
+  Function should do one thing, it should do it well. A function should do exactly what you expect it to do. No surprises.
 
 # What's better
 
@@ -139,7 +195,7 @@ Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing aro
 
 or
 
-![Pretty api](https://t-regx.com/img/external/readme/t-regx.png)
+![Pretty api](https://t-regx.com/img/external/readme/t-regx.png?)
 
 # Sponsors
 
