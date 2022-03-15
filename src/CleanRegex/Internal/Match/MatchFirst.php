@@ -18,12 +18,15 @@ class MatchFirst
     private $subject;
     /** @var MatchAllFactory */
     private $allFactory;
+    /** @var UserData */
+    private $userData;
 
-    public function __construct(Base $base, Subject $subject, MatchAllFactory $allFactory)
+    public function __construct(Base $base, Subject $subject, UserData $userData, MatchAllFactory $allFactory)
     {
         $this->base = $base;
         $this->subject = $subject;
         $this->allFactory = $allFactory;
+        $this->userData = $userData;
     }
 
     public function matchDetails(): Detail
@@ -42,6 +45,6 @@ class MatchFirst
             1,
             new GroupPolyfillDecorator($false, $this->allFactory, $index),
             $this->allFactory,
-            $this->base->getUserData());
+            $this->userData);
     }
 }

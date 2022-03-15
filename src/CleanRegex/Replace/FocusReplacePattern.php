@@ -5,7 +5,6 @@ use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
-use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\FocusWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
@@ -90,7 +89,7 @@ class FocusReplacePattern implements SpecificReplacePattern
                 $this->limit,
                 new DefaultStrategy(),
                 $this->countingStrategy,
-                new ApiBase($this->definition, $this->subject, new UserData())),
+                new ApiBase($this->definition, $this->subject)),
             new LazyMessageThrowStrategy(),
             new PerformanceEmptyGroupReplace($this->definition, $this->subject, $this->limit),
             new ReplacePatternCallbackInvoker($this->definition, $this->subject, $this->limit, new DefaultStrategy(), $this->countingStrategy),

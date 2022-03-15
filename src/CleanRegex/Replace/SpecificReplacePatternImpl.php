@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Replace;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
-use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
@@ -73,7 +72,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
                 $this->limit,
                 $this->substitute,
                 $this->countingStrategy,
-                new ApiBase($this->definition, $this->subject, new UserData())),
+                new ApiBase($this->definition, $this->subject)),
             new LazyMessageThrowStrategy(),
             new PerformanceEmptyGroupReplace($this->definition, $this->subject, $this->limit),
             $this->invoker,

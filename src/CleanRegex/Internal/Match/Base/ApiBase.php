@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Match\Base;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
@@ -16,14 +15,11 @@ class ApiBase implements Base
     private $definition;
     /** @var Subject */
     private $subject;
-    /** @var UserData */
-    private $userData;
 
-    public function __construct(Definition $definition, Subject $subject, UserData $userData)
+    public function __construct(Definition $definition, Subject $subject)
     {
         $this->definition = $definition;
         $this->subject = $subject;
-        $this->userData = $userData;
     }
 
     public function definition(): Definition
@@ -61,10 +57,5 @@ class ApiBase implements Base
             return \PREG_OFFSET_CAPTURE | \PREG_UNMATCHED_AS_NULL;
         }
         return \PREG_OFFSET_CAPTURE;
-    }
-
-    public function getUserData(): UserData
-    {
-        return $this->userData;
     }
 }

@@ -10,7 +10,6 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
-use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Message\Replace\WithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
@@ -149,6 +148,6 @@ class GroupFallbackReplacerTest extends TestCase
             -1,
             new ConstantReturnStrategy('Subject not matched'),
             new IgnoreCounting(),
-            new ApiBase(Definitions::pattern($pattern), new StringSubject($subject), new UserData()));
+            new ApiBase(Definitions::pattern($pattern), new StringSubject($subject)));
     }
 }

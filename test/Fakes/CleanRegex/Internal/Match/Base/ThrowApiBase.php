@@ -6,7 +6,6 @@ use Test\Utils\Definitions;
 use Test\Utils\Fails;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
-use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
@@ -18,7 +17,7 @@ class ThrowApiBase extends ApiBase
 
     public function __construct()
     {
-        parent::__construct(Definitions::pcre('//'), new ThrowSubject(), new UserData());
+        parent::__construct(Definitions::pcre('//'), new ThrowSubject());
     }
 
     public function definition(): Definition
@@ -44,10 +43,5 @@ class ThrowApiBase extends ApiBase
     public function matchAllOffsets(): RawMatchesOffset
     {
         throw $this->fail();
-    }
-
-    public function getUserData(): UserData
-    {
-        throw new \Exception();
     }
 }

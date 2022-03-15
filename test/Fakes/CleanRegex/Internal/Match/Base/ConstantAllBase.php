@@ -4,7 +4,6 @@ namespace Test\Fakes\CleanRegex\Internal\Match\Base;
 use Test\Utils\Fails;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
@@ -46,11 +45,6 @@ class ConstantAllBase implements Base
     }
 
     public function matchAll(): RawMatches
-    {
-        throw $this->fail();
-    }
-
-    public function getUserData(): UserData
     {
         throw $this->fail();
     }
