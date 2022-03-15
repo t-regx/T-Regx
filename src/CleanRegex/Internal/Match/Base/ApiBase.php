@@ -9,6 +9,9 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
 
+/**
+ * @deprecated
+ */
 class ApiBase implements Base
 {
     /** @var Definition */

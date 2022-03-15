@@ -4,6 +4,9 @@ namespace TRegx\CleanRegex\Internal\Model;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 
+/**
+ * @deprecated
+ */
 class RawMatchesToMatchAdapter implements IRawMatchOffset
 {
     /** @var RawMatchesOffset */

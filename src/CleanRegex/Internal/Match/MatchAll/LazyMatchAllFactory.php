@@ -4,6 +4,9 @@ namespace TRegx\CleanRegex\Internal\Match\MatchAll;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 
+/**
+ * @deprecated
+ */
 class LazyMatchAllFactory implements MatchAllFactory
 {
     /** @var Base */

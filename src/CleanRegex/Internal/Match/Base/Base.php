@@ -6,6 +6,9 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 
+/**
+ * @deprecated
+ */
 interface Base
 {
     public function match(): RawMatch;

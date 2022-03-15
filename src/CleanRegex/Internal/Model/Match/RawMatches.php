@@ -4,6 +4,9 @@ namespace TRegx\CleanRegex\Internal\Model\Match;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 
+/**
+ * @deprecated
+ */
 class RawMatches implements GroupAware
 {
     /** @var array */

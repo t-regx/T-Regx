@@ -7,6 +7,9 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 
+/**
+ * @deprecated
+ */
 class DetailObjectFactory
 {
     /** @var Subject */

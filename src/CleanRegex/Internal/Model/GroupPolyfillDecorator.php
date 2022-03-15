@@ -5,6 +5,9 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
 
+/**
+ * @deprecated
+ */
 class GroupPolyfillDecorator implements IRawMatchOffset
 {
     /** @var FalseNegative */

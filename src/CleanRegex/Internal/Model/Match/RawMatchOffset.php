@@ -4,6 +4,9 @@ namespace TRegx\CleanRegex\Internal\Model\Match;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Internal\Tuple;
 
+/**
+ * @deprecated
+ */
 class RawMatchOffset
 {
     /** @var array[] */

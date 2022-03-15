@@ -1,6 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
+/**
+ * @deprecated
+ */
 class RawMatch
 {
     /** @var array */

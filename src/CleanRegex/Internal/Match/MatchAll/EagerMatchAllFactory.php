@@ -3,6 +3,9 @@ namespace TRegx\CleanRegex\Internal\Match\MatchAll;
 
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 
+/**
+ * @deprecated
+ */
 class EagerMatchAllFactory implements MatchAllFactory
 {
     /** @var RawMatchesOffset */
