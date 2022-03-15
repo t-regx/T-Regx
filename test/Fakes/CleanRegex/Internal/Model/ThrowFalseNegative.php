@@ -11,7 +11,7 @@ class ThrowFalseNegative extends FalseNegative
 
     public function __construct()
     {
-        parent::__construct(new RawMatchOffset([], null));
+        parent::__construct(new RawMatchOffset([]));
     }
 
     public function maybeGroupIsMissing($nameOrIndex): bool

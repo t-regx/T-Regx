@@ -34,7 +34,7 @@ class ApiBase implements Base
     public function matchOffset(): RawMatchOffset
     {
         preg::match($this->definition->pattern, $this->subject, $match, \PREG_OFFSET_CAPTURE);
-        return new RawMatchOffset($match, 0);
+        return new RawMatchOffset($match);
     }
 
     public function matchAll(): RawMatches

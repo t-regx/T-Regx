@@ -268,6 +268,6 @@ class GroupPolyfillDecoratorTest extends TestCase
 
     private function match(array $match): FalseNegative
     {
-        return new FalseNegative(new RawMatchOffset($match, 0));
+        return new FalseNegative(new RawMatchOffset($match));
     }
 }

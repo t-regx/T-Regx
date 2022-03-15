@@ -33,17 +33,17 @@ class MatchFirst
     {
         $match = $this->base->matchOffset();
         if ($match->matched()) {
-            return $this->detail($match->getIndex(), new FalseNegative($match));
+            return $this->detail(new FalseNegative($match));
         }
         throw SubjectNotMatchedException::forFirst($this->subject);
     }
 
-    private function detail(int $index, FalseNegative $false): Detail
+    private function detail(FalseNegative $false): Detail
     {
         return MatchDetail::create($this->subject,
-            $index,
+            0,
             1,
-            new GroupPolyfillDecorator($false, $this->allFactory, $index),
+            new GroupPolyfillDecorator($false, $this->allFactory, 0),
             $this->allFactory,
             $this->userData);
     }

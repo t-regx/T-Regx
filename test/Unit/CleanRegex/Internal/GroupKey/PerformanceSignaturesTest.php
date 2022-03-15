@@ -22,7 +22,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldGetGroupSignatureByName()
     {
         // given
-        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null, 'first' => null, 1 => null], 0), new ThrowGroupAware());
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null, 'first' => null, 1 => null]), new ThrowGroupAware());
 
         // when
         $signature = $performance->signature(new GroupName('first'));
@@ -37,7 +37,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldGetGroupSignatureByIndex()
     {
         // given
-        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null, 'foo' => null, 1 => null], 0), new ThrowGroupAware());
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null, 'foo' => null, 1 => null]), new ThrowGroupAware());
 
         // when
         $signature = $performance->signature(new GroupIndex(1));
@@ -52,7 +52,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldGetGroupSignatureForUnnamtedGRoup()
     {
         // given
-        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null, 1 => null, 'foo' => null], 0), new ThrowGroupAware());
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null, 1 => null, 'foo' => null]), new ThrowGroupAware());
 
         // when
         $signature = $performance->signature(new GroupIndex(1));
@@ -67,7 +67,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldGetSignatureByIndexFromGroupAware()
     {
         // given
-        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null], 0), new GroupKeys([0, 'foo', 1]));
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null]), new GroupKeys([0, 'foo', 1]));
 
         // when
         $signature = $performance->signature(new GroupIndex(1));
@@ -82,7 +82,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldGetSignatureByIndexFromGroupAwareUnnamed()
     {
         // given
-        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null], 0), new GroupKeys([0, 1, 'foo', 2]));
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null]), new GroupKeys([0, 1, 'foo', 2]));
 
         // when
         $signature = $performance->signature(new GroupIndex(1));
@@ -97,7 +97,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldGetSignatureByNameFromGroupAware()
     {
         // given
-        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null], 0), new GroupKeys([0, 'foo', 1]));
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null]), new GroupKeys([0, 'foo', 1]));
 
         // when
         $signature = $performance->signature(new GroupName('foo'));
@@ -112,7 +112,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldThrowForMissingGroupByName()
     {
         // given
-        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null], 0), new GroupKeys([0, 'foo', 1]));
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null]), new GroupKeys([0, 'foo', 1]));
 
         // then
         $this->expectException(InternalCleanRegexException::class);
@@ -127,7 +127,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldThrowForMissingGroupByIndex()
     {
         // given
-        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null], 0), new GroupKeys([0, 'foo', 1]));
+        $performance = new PerformanceSignatures(new RawMatchOffset([0 => null]), new GroupKeys([0, 'foo', 1]));
 
         // then
         $this->expectException(InternalCleanRegexException::class);

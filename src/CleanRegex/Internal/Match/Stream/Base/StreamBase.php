@@ -37,7 +37,7 @@ class StreamBase
     {
         $match = $this->base->matchOffset();
         if ($match->matched()) {
-            return $match->getIndex();
+            return 0;
         }
         throw new UnmatchedStreamException();
     }

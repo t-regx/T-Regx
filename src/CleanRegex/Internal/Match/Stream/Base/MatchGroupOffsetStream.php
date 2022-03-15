@@ -61,7 +61,7 @@ class MatchGroupOffsetStream implements Upstream
     protected function firstValue(): int
     {
         $match = $this->base->matchOffset();
-        $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, $match->getIndex());
+        $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0);
         if (!$polyfill->hasGroup($this->group->nameOrIndex())) {
             throw new NonexistentGroupException($this->group);
         }

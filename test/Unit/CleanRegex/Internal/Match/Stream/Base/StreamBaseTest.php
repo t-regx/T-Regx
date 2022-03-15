@@ -50,7 +50,7 @@ class StreamBaseTest extends TestCase
     public function shouldThrow_first_forUnmatched()
     {
         // given
-        $stream = new StreamBase(new ConstantFirstBase(new RawMatchOffset([], null)));
+        $stream = new StreamBase(new ConstantFirstBase(new RawMatchOffset([])));
 
         // then
         $this->expectException(UnmatchedStreamException::class);
@@ -65,7 +65,7 @@ class StreamBaseTest extends TestCase
     public function shouldThrow_firstKey_forUnmatched()
     {
         // given
-        $stream = new StreamBase(new ConstantFirstBase(new RawMatchOffset([], null)));
+        $stream = new StreamBase(new ConstantFirstBase(new RawMatchOffset([])));
 
         // then
         $this->expectException(UnmatchedStreamException::class);
@@ -101,6 +101,6 @@ class StreamBaseTest extends TestCase
 
     private function matchOffset(): RawMatchOffset
     {
-        return new RawMatchOffset([['Joffrey', 1]], 0);
+        return new RawMatchOffset([['Joffrey', 1]]);
     }
 }

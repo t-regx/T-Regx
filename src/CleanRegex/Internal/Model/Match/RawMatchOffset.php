@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Internal\Tuple;
 
 /**
@@ -11,13 +10,10 @@ class RawMatchOffset
 {
     /** @var array[] */
     private $match;
-    /** @var int|null */
-    private $index;
 
-    public function __construct(array $match, ?int $index)
+    public function __construct(array $match)
     {
         $this->match = $match;
-        $this->index = $index;
     }
 
     public function matched(): bool
@@ -78,15 +74,5 @@ class RawMatchOffset
     public function getGroupTextAndOffset($nameOrIndex): array
     {
         return $this->match[$nameOrIndex];
-    }
-
-    public function getIndex(): int
-    {
-        if ($this->index === null) {
-            // @codeCoverageIgnoreStart
-            throw new InternalCleanRegexException();
-            // @codeCoverageIgnoreEnd
-        }
-        return $this->index;
     }
 }

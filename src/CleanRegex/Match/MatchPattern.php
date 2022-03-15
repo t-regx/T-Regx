@@ -109,9 +109,8 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     private function findFirstDetail(RawMatchOffset $match): Detail
     {
-        $firstIndex = $match->getIndex();
-        $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, $firstIndex);
-        return MatchDetail::create($this->subject, $firstIndex, 1, $polyfill, $this->allFactory, $this->userData);
+        $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0);
+        return MatchDetail::create($this->subject, 0, 1, $polyfill, $this->allFactory, $this->userData);
     }
 
     public function only(int $limit): array

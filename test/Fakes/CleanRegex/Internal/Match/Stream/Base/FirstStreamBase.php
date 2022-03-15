@@ -22,17 +22,17 @@ class FirstStreamBase extends StreamBase
 
     public static function text(string $value): self
     {
-        return new self(null, new RawMatchOffset([[$value, 0]], null));
+        return new self(null, new RawMatchOffset([[$value, 0]]));
     }
 
     public static function entry(int $index, string $value, int $offset = null): self
     {
-        return new self($index, new RawMatchOffset([[$value, $offset ?? 0]], $index));
+        return new self($index, new RawMatchOffset([[$value, $offset ?? 0]]));
     }
 
     public static function dummy(): self
     {
-        return new self(-99, new RawMatchOffset([['', -99]], -99));
+        return new self(-99, new RawMatchOffset([['', -99]]));
     }
 
     public function first(): RawMatchOffset
