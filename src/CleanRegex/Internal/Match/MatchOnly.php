@@ -2,16 +2,20 @@
 namespace TRegx\CleanRegex\Internal\Match;
 
 use InvalidArgumentException;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\SafeRegex\preg;
 
 class MatchOnly
 {
+    /** @var Definition */
+    private $definition;
     /** @var Base */
     private $base;
 
-    public function __construct(Base $base)
+    public function __construct(Definition $definition, Base $base)
     {
+        $this->definition = $definition;
         $this->base = $base;
     }
 
@@ -32,7 +36,7 @@ class MatchOnly
 
     private function validatePattern(): void
     {
-        preg::match($this->base->definition()->pattern, '');
+        preg::match($this->definition->pattern, '');
     }
 
     private function getOneMatch(): array

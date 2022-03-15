@@ -63,9 +63,9 @@ class MatchPattern implements \Countable, \IteratorAggregate
         $this->definition = $definition;
         $this->subject = $subject;
         $this->base = new ApiBase($definition, $subject);
-        $this->groupAware = new LightweightGroupAware($this->base->definition());
+        $this->groupAware = new LightweightGroupAware($definition);
         $this->allFactory = new LazyMatchAllFactory($this->base);
-        $this->matchOnly = new MatchOnly($this->base);
+        $this->matchOnly = new MatchOnly($definition, $this->base);
         $this->userData = new UserData();
     }
 

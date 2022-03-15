@@ -4,7 +4,6 @@ namespace Test\Fakes\CleanRegex\Internal\Match\Base;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\Definitions;
 use Test\Utils\Fails;
-use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
@@ -18,11 +17,6 @@ class ThrowApiBase extends ApiBase
     public function __construct()
     {
         parent::__construct(Definitions::pcre('//'), new ThrowSubject());
-    }
-
-    public function definition(): Definition
-    {
-        throw $this->fail();
     }
 
     public function match(): RawMatch

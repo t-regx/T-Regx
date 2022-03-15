@@ -2,7 +2,6 @@
 namespace Test\Fakes\CleanRegex\Internal\Match\Base;
 
 use Test\Utils\Fails;
-use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
@@ -27,11 +26,6 @@ class ConstantAllBase implements Base
     public function matchAllOffsets(): RawMatchesOffset
     {
         return $this->matchesOffset;
-    }
-
-    public function definition(): Definition
-    {
-        throw $this->fail();
     }
 
     public function match(): RawMatch
