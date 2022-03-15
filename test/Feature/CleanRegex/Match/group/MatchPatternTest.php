@@ -1,6 +1,7 @@
 <?php
 namespace Test\Feature\TRegx\CleanRegex\Match\group;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
@@ -122,6 +123,30 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertSame([null], $groups1);
         $this->assertSame([null, 'omputer'], $groups2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForNegativeOnly()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Negative limit: -1');
+        // when
+        pattern('(Foo)')->match('Foo')->group(0)->only(-1);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowPreferNonexistentGroupForNegativeOnly()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+        // when
+        pattern('Foo')->match('Foo')->group('missing')->only(-1);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\groupBy;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\GroupByPattern;
@@ -182,6 +183,32 @@ class MatchPatternTest extends TestCase
             ->match('foo')
             ->groupBy('cat')
             ->map(Functions::fail());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_forFlatMap_forInvalidReturnType()
+    {
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid flatMap() callback return type. Expected array, but integer (4) given');
+
+        // when
+        $this->groupBy()->flatMap(Functions::constant(4));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_forFlatMapAssoc_forInvalidReturnType()
+    {
+        // then
+        $this->expectException(InvalidReturnValueException::class);
+        $this->expectExceptionMessage('Invalid flatMapAssoc() callback return type. Expected array, but integer (4) given');
+
+        // when
+        $this->groupBy()->flatMapAssoc(Functions::constant(4));
     }
 
     private function groupBy(): GroupByPattern

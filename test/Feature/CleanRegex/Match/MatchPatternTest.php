@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
+use Test\Utils\CausesBacktracking;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
@@ -17,7 +18,7 @@ use function pattern;
 
 class MatchPatternTest extends TestCase
 {
-    use AssertsSameMatches;
+    use AssertsSameMatches, CausesBacktracking;
 
     /**
      * @test
@@ -650,5 +651,54 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('Foo')->match('bar')->findFirst(Functions::identity())->map(Functions::fail())->orThrow();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCallOnceForLimit1()
+    {
+        // when
+        $only = $this->backtrackingMatch()->only(1);
+        // then
+        $this->assertSame(['123'], $only);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotCallForLimit0()
+    {
+        // when
+        $only = $this->backtrackingMatch()->only(0);
+        // then
+        $this->assertSame([], $only);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldIterateTwice()
+    {
+        // given
+        $iterator = pattern('\d+')->match('123,456,789')->getIterator();
+
+        // when
+        $firstIteration = \iterator_to_array($iterator);
+        $iterator->rewind();
+        $secondIteration = \iterator_to_array($iterator);
+
+        // then
+        $this->assertSame(['123', '456', '789'], $this->detailTexts($firstIteration));
+        $this->assertSame(['123', '456', '789'], $this->detailTexts($secondIteration));
+    }
+
+    private function detailTexts(array $details): array
+    {
+        $texts = [];
+        foreach ($details as $detail) {
+            $texts[] = $detail->text();
+        }
+        return $texts;
     }
 }
