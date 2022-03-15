@@ -23,7 +23,8 @@ class Flags
 
     public function isExtended(): bool
     {
-        return \str_contains($this->flags, 'x');
+        $flags = new Chars($this->flags);
+        return $flags->contains('x');
     }
 
     public function __toString(): string

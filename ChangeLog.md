@@ -4,27 +4,35 @@ T-Regx Changelog
 Incoming
 --------
 
+* Compatibility fixed
+    * Removed usage of `str_contains()` and `str_starts_with()` from previous version, to maintain support for PHP 7.1.
 * Bug fixes
     * Fixed a bug when using `match()->groupBy()` for a nonexistent group didn't throw `NonexistentGroupException`.
 * Features
     * Added `Pattern.cut()` which splits string into exactly two parts.
 * Performance
     * Refactored internal PCRE parser, to minimise number of instances created.
-    * Improved performance of `CompositePattern.chainedReplace()` by using single call to PCRE
+    * Improved performance of `CompositePattern.chainedReplace()` by using single call to PCRE.
 * Deprecation
-    * Deprecated `Detail.substitute()`
-    * Deprecated `pattern()->replace()->focus()`
+    * Deprecated `Detail.substitute()`.
+    * Deprecated `pattern()->replace()->focus()`.
 
 Added in 0.20.1
 ---------------
 
 * Bug fixes
     * Corrected a bug in prepared patterns, where closing group after in-pattern (`(?i)`) modifier didn't update the
-      flags properly, resulting in improper parsing of placeholders in `Pattern::inject()`/`Pattern::template()`
+      flags properly, resulting in improper parsing of placeholders in `Pattern::inject()`/`Pattern::template()`.
     * Corrected a bug when using modifier reset `(?^)` didn't properly unset extended pattern, leading to improper
       placeholder `@` parsing inside comments.
 * Other
     * Previously T-Regx removed duplicate flags before passing them to PCRE. Now flags are passed without modification.
+
+Footnote (15.03.2022):
+
+* Accidental compatibility breaks:
+    * We mistakenly used `str_contains()` and `str_starts_with()`. Our tests didn't find it, because we also used
+      `php-coveralls/php-coveralls` which introduced polyfill for PHP8 methods.
 
 Added in 0.20.0
 ---------------
