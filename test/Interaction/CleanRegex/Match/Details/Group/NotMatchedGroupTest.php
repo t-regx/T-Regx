@@ -12,7 +12,6 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -92,7 +91,7 @@ class NotMatchedGroupTest extends TestCase
     public function shouldControlMatched_orThrow()
     {
         // given
-        $matchGroup = $this->matchGroup(new StringSubject('subject'));
+        $matchGroup = $this->matchGroup(new Subject('subject'));
 
         try {
             // when

@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Cut;
 use TRegx\CleanRegex\Internal\EntryPoints;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
-use TRegx\CleanRegex\Internal\StringSubject;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\SafeRegex\preg;
@@ -35,12 +35,12 @@ class Pattern
 
     public function match(string $subject): MatchPattern
     {
-        return new MatchPattern($this->predefinition->definition(), new StringSubject($subject));
+        return new MatchPattern($this->predefinition->definition(), new Subject($subject));
     }
 
     public function replace(string $subject): ReplaceLimit
     {
-        return new ReplaceLimit($this->predefinition->definition(), new StringSubject($subject));
+        return new ReplaceLimit($this->predefinition->definition(), new Subject($subject));
     }
 
     public function prune(string $subject): string

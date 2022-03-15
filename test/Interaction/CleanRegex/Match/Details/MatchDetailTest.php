@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
-use TRegx\CleanRegex\Internal\StringSubject;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 
@@ -424,7 +424,7 @@ class MatchDetailTest extends TestCase
 
         $rawMatches = new RawMatchesOffset($matches);
         return MatchDetail::create(
-            new StringSubject($subject),
+            new Subject($subject),
             $index,
             -1,
             new RawMatchesToMatchAdapter($rawMatches, $index),

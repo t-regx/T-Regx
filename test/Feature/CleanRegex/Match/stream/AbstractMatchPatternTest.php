@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
-use TRegx\CleanRegex\Internal\StringSubject;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -230,7 +230,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_filter_all_onInvalidReturnType()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pattern('Foo'), new StringSubject('Foo'));
+        $pattern = new MatchPattern(Definitions::pattern('Foo'), new Subject('Foo'));
 
         // then
         $this->expectException(InvalidReturnValueException::class);
@@ -246,7 +246,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_filter_first_onInvalidReturnType()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pattern('Foo'), new StringSubject('Foo'));
+        $pattern = new MatchPattern(Definitions::pattern('Foo'), new Subject('Foo'));
         $stream = $pattern->stream()->filter(Functions::constant(45));
 
         // then

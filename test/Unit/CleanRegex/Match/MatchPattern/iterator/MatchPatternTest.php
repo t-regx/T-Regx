@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\iterator;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Definitions;
-use TRegx\CleanRegex\Internal\StringSubject;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 /**
@@ -17,7 +17,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_iterator()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pattern("([A-Z])?[a-z']+"), new StringSubject("Nice matching pattern"));
+        $pattern = new MatchPattern(Definitions::pattern("([A-Z])?[a-z']+"), new Subject("Nice matching pattern"));
         $matches = ['Nice', 'matching', 'pattern'];
 
         // when
@@ -39,7 +39,7 @@ class MatchPatternTest extends TestCase
     public function should_hasNext_matched()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pattern('[A-Z]+'), new StringSubject('Nice matching pattern'));
+        $pattern = new MatchPattern(Definitions::pattern('[A-Z]+'), new Subject('Nice matching pattern'));
 
         // when
         $iterator = $pattern->getIterator();
@@ -54,7 +54,7 @@ class MatchPatternTest extends TestCase
     public function shouldNot_hasNext_unmatched()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pattern("[0-9]+"), new StringSubject('Nice matching pattern'));
+        $pattern = new MatchPattern(Definitions::pattern("[0-9]+"), new Subject('Nice matching pattern'));
 
         // when
         $iterator = $pattern->getIterator();

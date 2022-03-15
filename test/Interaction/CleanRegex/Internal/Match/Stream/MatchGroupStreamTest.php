@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\StringSubject;
+use TRegx\CleanRegex\Internal\Subject;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupStream
@@ -25,7 +25,7 @@ class MatchGroupStreamTest extends TestCase
     {
         // given
         $stream = new MatchGroupStream(
-            new ApiBase(Definitions::pattern('(?<group>\w+)'), new StringSubject('foo bar cat')),
+            new ApiBase(Definitions::pattern('(?<group>\w+)'), new Subject('foo bar cat')),
             new ThrowSubject(),
             new ThrowGroupAware(),
             new GroupName('group'),
@@ -47,7 +47,7 @@ class MatchGroupStreamTest extends TestCase
     {
         // given
         $stream = new MatchGroupStream(
-            new ApiBase(Definitions::pattern('(?<group>\w+)'), new StringSubject('foo bar')),
+            new ApiBase(Definitions::pattern('(?<group>\w+)'), new Subject('foo bar')),
             new ThrowSubject(),
             new ThrowGroupAware(),
             new GroupName('group'),
@@ -67,7 +67,7 @@ class MatchGroupStreamTest extends TestCase
     {
         // given
         $stream = new MatchGroupStream(
-            new ApiBase(Definitions::pattern('(?<group>\w+)'), new StringSubject('foo bar')),
+            new ApiBase(Definitions::pattern('(?<group>\w+)'), new Subject('foo bar')),
             new ThrowSubject(),
             new ThrowGroupAware(),
             new GroupName('group'),
@@ -87,7 +87,7 @@ class MatchGroupStreamTest extends TestCase
     {
         // given
         $stream = new MatchGroupStream(
-            new ApiBase(Definitions::pattern('(?<group>\w+)'), new StringSubject('foo bar cat')),
+            new ApiBase(Definitions::pattern('(?<group>\w+)'), new Subject('foo bar cat')),
             new ThrowSubject(),
             new ThrowGroupAware(),
             new GroupName('group'),
@@ -109,7 +109,7 @@ class MatchGroupStreamTest extends TestCase
     {
         // given
         $stream = new MatchGroupStream(
-            new ApiBase(Definitions::pattern('(?<group>\w+)'), new StringSubject('foo bar cat')),
+            new ApiBase(Definitions::pattern('(?<group>\w+)'), new Subject('foo bar cat')),
             new ThrowSubject(),
             new ThrowGroupAware(),
             new GroupName('group'),
@@ -131,7 +131,7 @@ class MatchGroupStreamTest extends TestCase
     {
         // given
         $stream = new MatchGroupStream(
-            new ApiBase(Definitions::pattern('(?<group>\w+)'), new StringSubject('foo bar cat')),
+            new ApiBase(Definitions::pattern('(?<group>\w+)'), new Subject('foo bar cat')),
             new ThrowSubject(),
             new ThrowGroupAware(),
             new GroupName('group'),

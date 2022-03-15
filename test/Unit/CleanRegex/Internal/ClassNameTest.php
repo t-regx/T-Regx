@@ -19,7 +19,7 @@ use TRegx\CleanRegex\Exception\NoSuitableConstructorException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\ClassName;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
-use TRegx\CleanRegex\Internal\StringSubject;
+use TRegx\CleanRegex\Internal\Subject;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\ClassName
@@ -87,7 +87,7 @@ class ClassNameTest extends TestCase
         $this->expectExceptionMessage('Class \stdClass is not throwable');
 
         // when
-        $className->throwable(new FirstMatchMessage(), new StringSubject('subject'));
+        $className->throwable(new FirstMatchMessage(), new Subject('subject'));
     }
 
     /**
@@ -103,7 +103,7 @@ class ClassNameTest extends TestCase
         $this->expectExceptionMessage("Class 'Test\Utils\ClassWithoutSuitableConstructor' doesn't have a constructor with supported signature");
 
         // when
-        $className->throwable(new FirstMatchMessage(), new StringSubject('subject'));
+        $className->throwable(new FirstMatchMessage(), new Subject('subject'));
     }
 
     /**
@@ -119,7 +119,7 @@ class ClassNameTest extends TestCase
         $this->expectExceptionMessage('error message');
 
         // when
-        $className->throwable(new FirstMatchMessage(), new StringSubject('subject'));
+        $className->throwable(new FirstMatchMessage(), new Subject('subject'));
     }
 
     /**
@@ -131,7 +131,7 @@ class ClassNameTest extends TestCase
         $class = new ClassName(ClassWithTwoStringParamsConstructor::class);
 
         // when
-        $throwable = $class->throwable(new FirstMatchMessage(), new StringSubject('lorem ispum'));
+        $throwable = $class->throwable(new FirstMatchMessage(), new Subject('lorem ispum'));
 
         // then
         $this->assertInstanceOf(ClassWithTwoStringParamsConstructor::class, $throwable);
@@ -148,7 +148,7 @@ class ClassNameTest extends TestCase
         $className = new ClassName(ClassWithStringParamConstructor::class);
 
         // when
-        $exception = $className->throwable(new FirstMatchMessage(), new StringSubject('subject'));
+        $exception = $className->throwable(new FirstMatchMessage(), new Subject('subject'));
 
         // then
         $this->assertInstanceOf(ClassWithStringParamConstructor::class, $exception);
@@ -164,7 +164,7 @@ class ClassNameTest extends TestCase
         $className = new ClassName(ClassWithDefaultConstructor::class);
 
         // when
-        $exception = $className->throwable(new FirstMatchMessage(), new StringSubject('subject'));
+        $exception = $className->throwable(new FirstMatchMessage(), new Subject('subject'));
 
         // then
         $this->assertInstanceOf(ClassWithDefaultConstructor::class, $exception);
@@ -181,7 +181,7 @@ class ClassNameTest extends TestCase
         $className = new ClassName($classNameString);
 
         // when
-        $exception = $className->throwable(new FirstMatchMessage(), (new StringSubject('subject')));
+        $exception = $className->throwable(new FirstMatchMessage(), (new Subject('subject')));
 
         // then
         $this->assertInstanceOf($classNameString, $exception);

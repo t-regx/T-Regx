@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\Definitions;
-use TRegx\CleanRegex\Internal\StringSubject;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 
@@ -20,7 +20,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldLimit_all()
     {
         // given
-        $limit = new ReplaceLimit(Definitions::pcre('/[0-9a-g]/'), new StringSubject('123456789abcdefg'));
+        $limit = new ReplaceLimit(Definitions::pcre('/[0-9a-g]/'), new Subject('123456789abcdefg'));
 
         // when
         $limit->all()->callback($this->assertReplaceLimit(-1));
@@ -32,7 +32,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldLimit_first()
     {
         // given
-        $limit = new ReplaceLimit(Definitions::pcre('/[0-9]/'), new StringSubject('123'));
+        $limit = new ReplaceLimit(Definitions::pcre('/[0-9]/'), new Subject('123'));
 
         // when
         $limit->first()->callback($this->assertReplaceLimit(1));
@@ -44,7 +44,7 @@ class ReplaceLimitTest extends TestCase
     public function shouldLimit_only()
     {
         // given
-        $limit = new ReplaceLimit(Definitions::pcre('/[0-9]/'), new StringSubject('123'));
+        $limit = new ReplaceLimit(Definitions::pcre('/[0-9]/'), new Subject('123'));
 
         // when
         $limit->only(2)->callback($this->assertReplaceLimit(2));

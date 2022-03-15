@@ -1,7 +1,18 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-interface Subject
+class Subject
 {
-    public function getSubject(): string;
+    /** @var string */
+    private $subject;
+
+    public function __construct(string $subject)
+    {
+        $this->subject = $subject;
+    }
+
+    public function getSubject(): string
+    {
+        return $this->subject;
+    }
 }

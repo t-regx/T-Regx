@@ -7,7 +7,7 @@ use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\Definitions;
 use Test\Utils\PhpunitPolyfill;
 use Test\Utils\PhpVersionDependent;
-use TRegx\CleanRegex\Internal\StringSubject;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\Exception\MalformedPatternException;
 
@@ -24,7 +24,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pattern('\w+'), new StringSubject('Nice matching pattern'));
+        $pattern = new MatchPattern(Definitions::pattern('\w+'), new Subject('Nice matching pattern'));
 
         // when
         $only = $pattern->only(2);
@@ -39,7 +39,7 @@ class MatchPatternTest extends TestCase
     public function shouldReturnEmptyArray_onNoMatches()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pattern('([A-Z])?[a-z]+'), new StringSubject('NOT MATCHING'));
+        $pattern = new MatchPattern(Definitions::pattern('([A-Z])?[a-z]+'), new Subject('NOT MATCHING'));
 
         // when
         $only = $pattern->only(2);
@@ -54,7 +54,7 @@ class MatchPatternTest extends TestCase
     public function shouldReturnEmptyArray_onNoMatches_onlyOne()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pattern('Foo'), new StringSubject('Bar'));
+        $pattern = new MatchPattern(Definitions::pattern('Foo'), new Subject('Bar'));
 
         // when
         $only = $pattern->only(1);
@@ -85,7 +85,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetOne_withPregMatch()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pattern('\w+'), new StringSubject('Nice matching pattern'));
+        $pattern = new MatchPattern(Definitions::pattern('\w+'), new Subject('Nice matching pattern'));
 
         // when
         $only = $pattern->only(1);

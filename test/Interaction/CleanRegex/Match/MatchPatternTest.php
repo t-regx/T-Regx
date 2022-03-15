@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Definitions;
 use Test\Utils\ExactExceptionMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Internal\StringSubject;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 /**
@@ -21,7 +21,7 @@ class MatchPatternTest extends TestCase
     public function test_asInt_all()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pcre('/\d+/'), new StringSubject('Foo 1 Bar 34 Lorem 42 Ipsum'));
+        $pattern = new MatchPattern(Definitions::pcre('/\d+/'), new Subject('Foo 1 Bar 34 Lorem 42 Ipsum'));
 
         // when
         $integers = $pattern->asInt()->all();
@@ -36,7 +36,7 @@ class MatchPatternTest extends TestCase
     public function test_asInt_first()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pcre('/\d+/'), new StringSubject('Foo 1 Bar 34 Lorem 42 Ipsum'));
+        $pattern = new MatchPattern(Definitions::pcre('/\d+/'), new Subject('Foo 1 Bar 34 Lorem 42 Ipsum'));
 
         // when
         $integers = $pattern->asInt()->first();
@@ -51,7 +51,7 @@ class MatchPatternTest extends TestCase
     public function test_asInt_first_consumer()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pcre('/\d+/'), new StringSubject('Foo 1 Bar 34 Lorem 42 Ipsum'));
+        $pattern = new MatchPattern(Definitions::pcre('/\d+/'), new Subject('Foo 1 Bar 34 Lorem 42 Ipsum'));
 
         // when
         $pattern->asInt()->first(function ($argument) {
@@ -65,7 +65,7 @@ class MatchPatternTest extends TestCase
     public function shouldThrowOnInvalidInteger_asInt()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pcre('/\d+s?/'), new StringSubject('One number 9 large, Two number 45s'));
+        $pattern = new MatchPattern(Definitions::pcre('/\d+s?/'), new Subject('One number 9 large, Two number 45s'));
 
         // then
         $this->expectException(IntegerFormatException::class);

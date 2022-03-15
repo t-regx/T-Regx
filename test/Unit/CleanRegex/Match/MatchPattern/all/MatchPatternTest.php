@@ -3,7 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\all;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Definitions;
-use TRegx\CleanRegex\Internal\StringSubject;
+use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 /**
@@ -17,7 +17,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pattern('\w+'), new StringSubject('Nice matching pattern'));
+        $pattern = new MatchPattern(Definitions::pattern('\w+'), new Subject('Nice matching pattern'));
 
         // when
         $all = $pattern->all();
@@ -32,7 +32,7 @@ class MatchPatternTest extends TestCase
     public function shouldReturnEmptyArray_onNoMatches()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pattern('Foo'), new StringSubject('Bar'));
+        $pattern = new MatchPattern(Definitions::pattern('Foo'), new Subject('Bar'));
 
         // when
         $all = $pattern->all();

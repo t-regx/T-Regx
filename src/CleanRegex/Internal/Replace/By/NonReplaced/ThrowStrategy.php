@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use TRegx\CleanRegex\Internal\ClassName;
 use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
-use TRegx\CleanRegex\Internal\StringSubject;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 
@@ -27,6 +26,6 @@ class ThrowStrategy implements SubjectRs, MatchRs
 
     public function substituteGroup(Detail $detail): string
     {
-        throw $this->className->throwable($this->message, new StringSubject($detail->subject()));
+        throw $this->className->throwable($this->message, new Subject($detail->subject()));
     }
 }

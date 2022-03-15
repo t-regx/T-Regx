@@ -6,7 +6,7 @@ use Test\Fakes\CleanRegex\Internal\Model\Match\ConstantEntry;
 use Test\Fakes\CleanRegex\Internal\Model\Match\OffsetEntry;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use TRegx\CleanRegex\Internal\Offset\SubjectCoordinates;
-use TRegx\CleanRegex\Internal\StringSubject;
+use TRegx\CleanRegex\Internal\Subject;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Offset\SubjectCoordinates
@@ -19,7 +19,7 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetCharactersOffset()
     {
         // given
-        $coordinates = new SubjectCoordinates(new OffsetEntry(4), new StringSubject('foo bar'));
+        $coordinates = new SubjectCoordinates(new OffsetEntry(4), new Subject('foo bar'));
 
         // when
         $offset = $coordinates->characterOffset();
@@ -34,7 +34,7 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetCharactersOffsetUnicode()
     {
         // given
-        $coordinates = new SubjectCoordinates(new OffsetEntry(4), new StringSubject('łść'));
+        $coordinates = new SubjectCoordinates(new OffsetEntry(4), new Subject('łść'));
 
         // when
         $offset = $coordinates->characterOffset();
@@ -49,7 +49,7 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetByteOffset()
     {
         // given
-        $coordinates = new SubjectCoordinates(new OffsetEntry(4), new StringSubject('łść'));
+        $coordinates = new SubjectCoordinates(new OffsetEntry(4), new Subject('łść'));
 
         // when
         $offset = $coordinates->byteOffset();
@@ -64,7 +64,7 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetCharactersTail()
     {
         // given
-        $coordinates = new SubjectCoordinates(new ConstantEntry('bar', 4), new StringSubject('foo bar'));
+        $coordinates = new SubjectCoordinates(new ConstantEntry('bar', 4), new Subject('foo bar'));
 
         // when
         $offset = $coordinates->characterTail();
@@ -79,7 +79,7 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetCharactersTailUnicode()
     {
         // given
-        $coordinates = new SubjectCoordinates(new ConstantEntry('ść', 2), new StringSubject('łść'));
+        $coordinates = new SubjectCoordinates(new ConstantEntry('ść', 2), new Subject('łść'));
 
         // when
         $tail = $coordinates->characterTail();
@@ -94,7 +94,7 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetByteTail()
     {
         // given
-        $coordinates = new SubjectCoordinates(new ConstantEntry('ść', 2), new StringSubject('łść'));
+        $coordinates = new SubjectCoordinates(new ConstantEntry('ść', 2), new Subject('łść'));
 
         // when
         $tail = $coordinates->byteTail();
