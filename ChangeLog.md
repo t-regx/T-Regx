@@ -47,7 +47,7 @@ Added in 0.20.0
 * Bug fixes
     * Fixed a bug when `stream()->map()->asInt()` ignored integer-base, assumed base 10.
 * Features
-    * Add `pattern()->match()->reduce()`
+    * Added `pattern()->match()->reduce()`
 
 Added in 0.19.2
 ---------------

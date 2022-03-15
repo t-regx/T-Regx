@@ -19,7 +19,7 @@ PHP regular expressions brought up to modern standards.
 [![Commits since](https://img.shields.io/github/commits-since/T-Regx/T-Regx/0.20.2/develop.svg)](https://github.com/T-Regx/T-Regx/compare/0.20.2...develop)
 [![Unit tests](https://img.shields.io/badge/Unit%20tests-2516-brightgreen.svg)](https://github.com/T-Regx/T-Regx)
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/T-Regx/T-Regx.svg)](https://codeclimate.com/github/T-Regx/T-Regx)
-[![Repository size](https://github-size-badge.herokuapp.com/T-Regx/fiddle.svg)](https://github.com/T-Regx/T-Regx)
+[![Repository size](https://img.shields.io/github/languages/code-size/T-Regx/vanilla.svg?label=size)](https://github.com/T-Regx/T-Regx)
 [![FQN](https://img.shields.io/badge/FQN-used-blue.svg)](https://github.com/kelunik/fqn-check)
 [![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 [![Gitter](https://badges.gitter.im/T-Regx/community.svg)](https://gitter.im/T-Regx/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
