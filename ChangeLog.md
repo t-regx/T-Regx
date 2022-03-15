@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.20.2
+---------------
+
 * Compatibility fixed
     * Removed usage of `str_contains()` and `str_starts_with()` from previous version, to maintain support for PHP 7.1.
 * Bug fixes
@@ -32,7 +37,7 @@ Footnote (15.03.2022):
 
 * Accidental compatibility breaks:
     * We mistakenly used `str_contains()` and `str_starts_with()`. Our tests didn't find it, because we also used
-      `php-coveralls/php-coveralls` which introduced polyfill for PHP8 methods.
+      `php-coveralls/php-coveralls` which introduced polyfill for PHP8 methods. It's fixed in 0.20.2.
 
 Added in 0.20.0
 ---------------
