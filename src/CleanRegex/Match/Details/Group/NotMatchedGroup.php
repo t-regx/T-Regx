@@ -116,7 +116,7 @@ class NotMatchedGroup implements Group
 
     public function subject(): string
     {
-        return $this->subject->getSubject();
+        return $this->subject;
     }
 
     public function all(): array

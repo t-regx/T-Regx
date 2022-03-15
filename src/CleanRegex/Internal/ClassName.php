@@ -57,7 +57,7 @@ class ClassName
     {
         return [
             function () use ($message, $subject) {
-                return new $this->className($message->getMessage(), $subject->getSubject());
+                return new $this->className($message->getMessage(), $subject->asString());
             },
             function () use ($message) {
                 return new $this->className($message->getMessage());

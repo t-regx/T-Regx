@@ -54,6 +54,6 @@ class SubjectNotMatchedException extends \Exception implements PatternException
 
     private static function withMessage(NotMatchedMessage $message, Subject $subject): self
     {
-        return new SubjectNotMatchedException($message->getMessage(), $subject->getSubject());
+        return new SubjectNotMatchedException($message->getMessage(), $subject);
     }
 }

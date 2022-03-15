@@ -72,7 +72,7 @@ class GroupFallbackReplacer
         return preg::replace_callback(
             $this->definition->pattern,
             $closure,
-            $this->subject->getSubject(),
+            $this->subject,
             $this->limit,
             $replaced);
     }

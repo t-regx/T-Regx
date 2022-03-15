@@ -28,7 +28,7 @@ class AtMostCountingStrategy implements CountingStrategy
 
     public function count(int $replaced, GroupAware $groupAware): void
     {
-        preg::replace($this->definition->pattern, '', $this->subject->getSubject(), $this->limit + 1, $realCount);
+        preg::replace($this->definition->pattern, '', $this->subject, $this->limit + 1, $realCount);
         if ($realCount > $this->limit) {
             throw ReplacementExpectationFailedException::superfluous($realCount, $this->limit, $this->limitPhrase);
         }

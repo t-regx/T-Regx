@@ -71,7 +71,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     public function test(): bool
     {
-        return preg::match($this->definition->pattern, $this->subject->getSubject()) === 1;
+        return preg::match($this->definition->pattern, $this->subject) === 1;
     }
 
     public function fails(): bool
@@ -187,7 +187,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     public function count(): int
     {
-        return preg::match_all($this->definition->pattern, $this->subject->getSubject());
+        return preg::match_all($this->definition->pattern, $this->subject);
     }
 
     public function getIterator(): \Iterator

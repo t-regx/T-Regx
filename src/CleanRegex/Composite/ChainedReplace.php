@@ -33,7 +33,7 @@ class ChainedReplace
 
     public function withReferences(string $replacement): string
     {
-        return preg::replace($this->definitionsPatterns(), $replacement, $this->subject->getSubject());
+        return preg::replace($this->definitionsPatterns(), $replacement, $this->subject);
     }
 
     private function definitionsPatterns(): array
@@ -47,7 +47,7 @@ class ChainedReplace
 
     public function callback(callable $callback): string
     {
-        $subject = $this->subject->getSubject();
+        $subject = $this->subject->asString();
         foreach ($this->definitions as $definition) {
             $subject = $this->replaceNext($definition, $subject, $callback);
         }

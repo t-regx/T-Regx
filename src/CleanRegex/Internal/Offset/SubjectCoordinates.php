@@ -22,12 +22,12 @@ class SubjectCoordinates
 
     public function characterOffset(): int
     {
-        return $this->coordinate->offset()->characters($this->subject->getSubject());
+        return $this->coordinate->offset()->characters($this->subject);
     }
 
     public function characterTail(): int
     {
-        return $this->coordinate->tail()->characters($this->subject->getSubject());
+        return $this->coordinate->tail()->characters($this->subject);
     }
 
     public function characterLength(): int

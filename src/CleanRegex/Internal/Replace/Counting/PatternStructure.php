@@ -29,7 +29,7 @@ class PatternStructure implements Structure
 
     public function subject(): string
     {
-        return $this->subject->getSubject();
+        return $this->subject;
     }
 
     public function groupNames(): array

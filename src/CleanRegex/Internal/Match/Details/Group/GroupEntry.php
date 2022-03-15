@@ -31,7 +31,7 @@ class GroupEntry implements Entry
 
     public function offset(): int
     {
-        return $this->offset->characters($this->subject->getSubject());
+        return $this->offset->characters($this->subject);
     }
 
     public function byteOffset(): int
@@ -41,7 +41,7 @@ class GroupEntry implements Entry
 
     public function tail(): int
     {
-        return $this->tail->characters($this->subject->getSubject());
+        return $this->tail->characters($this->subject);
     }
 
     public function byteTail(): int

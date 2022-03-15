@@ -45,7 +45,7 @@ class ReplacePatternCallbackInvoker
     {
         return preg::replace_callback($this->definition->pattern,
             $this->getObjectCallback($callback, $strategy),
-            $this->subject->getSubject(),
+            $this->subject,
             $this->limit,
             $replaced);
     }
@@ -67,7 +67,7 @@ class ReplacePatternCallbackInvoker
 
     private function analyzePattern(): RawMatchesOffset
     {
-        preg::match_all($this->definition->pattern, $this->subject->getSubject(), $matches, \PREG_OFFSET_CAPTURE);
+        preg::match_all($this->definition->pattern, $this->subject, $matches, \PREG_OFFSET_CAPTURE);
         return new RawMatchesOffset($matches);
     }
 }

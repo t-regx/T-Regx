@@ -53,7 +53,7 @@ class GroupByPattern
     {
         return $this->groupBySimple(function (RawMatchesOffset $matches, int $index): int {
             $offset = Tuple::second($matches->getGroupTextAndOffset(0, $index));
-            return ByteOffset::toCharacterOffset($this->subject->getSubject(), $offset);
+            return ByteOffset::toCharacterOffset($this->subject, $offset);
         });
     }
 

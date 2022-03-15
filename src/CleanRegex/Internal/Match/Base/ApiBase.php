@@ -27,25 +27,25 @@ class ApiBase implements Base
 
     public function match(): RawMatch
     {
-        preg::match($this->definition->pattern, $this->subject->getSubject(), $match);
+        preg::match($this->definition->pattern, $this->subject, $match);
         return new RawMatch($match);
     }
 
     public function matchOffset(): RawMatchOffset
     {
-        preg::match($this->definition->pattern, $this->subject->getSubject(), $match, \PREG_OFFSET_CAPTURE);
+        preg::match($this->definition->pattern, $this->subject, $match, \PREG_OFFSET_CAPTURE);
         return new RawMatchOffset($match, 0);
     }
 
     public function matchAll(): RawMatches
     {
-        preg::match_all($this->definition->pattern, $this->subject->getSubject(), $matches);
+        preg::match_all($this->definition->pattern, $this->subject, $matches);
         return new RawMatches($matches);
     }
 
     public function matchAllOffsets(): RawMatchesOffset
     {
-        preg::match_all($this->definition->pattern, $this->subject->getSubject(), $matches, $this->matchAllOffsetsFlags());
+        preg::match_all($this->definition->pattern, $this->subject, $matches, $this->matchAllOffsetsFlags());
         return new RawMatchesOffset($matches);
     }
 

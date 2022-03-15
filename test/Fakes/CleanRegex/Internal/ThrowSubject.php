@@ -10,7 +10,7 @@ class ThrowSubject extends Subject
         parent::__construct('');
     }
 
-    public function getSubject(): string
+    public function asString(): string
     {
         throw new \Exception("Subject wasn't expected to be used");
     }

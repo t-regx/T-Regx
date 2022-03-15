@@ -11,7 +11,12 @@ class Subject
         $this->subject = $subject;
     }
 
-    public function getSubject(): string
+    public function asString(): string
+    {
+        return $this->subject;
+    }
+
+    public function __toString(): string
     {
         return $this->subject;
     }

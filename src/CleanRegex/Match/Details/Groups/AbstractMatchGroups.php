@@ -27,7 +27,7 @@ abstract class AbstractMatchGroups implements MatchGroups
     public function offsets(): array
     {
         return \array_map(function (int $offset): int {
-            return ByteOffset::toCharacterOffset($this->subject->getSubject(), $offset);
+            return ByteOffset::toCharacterOffset($this->subject, $offset);
         }, $this->byteOffsets());
     }
 

@@ -45,7 +45,7 @@ class ReplaceCallbackObject
         $this->callback = $callback;
         $this->subject = $subject;
         $this->analyzedPattern = $analyzedPattern;
-        $this->subjectModification = $this->subject->getSubject();
+        $this->subjectModification = $this->subject->asString();
         $this->limit = $limit;
         $this->argumentStrategy = $argumentStrategy;
     }

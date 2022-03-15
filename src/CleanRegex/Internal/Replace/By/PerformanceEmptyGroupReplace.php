@@ -35,7 +35,7 @@ class PerformanceEmptyGroupReplace
         return preg::replace(
             $this->definition->pattern,
             "\\$index",
-            $this->subject->getSubject(),
+            $this->subject,
             $this->limit);
     }
 }

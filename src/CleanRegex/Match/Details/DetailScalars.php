@@ -49,6 +49,6 @@ class DetailScalars
 
     public function subject(): string
     {
-        return $this->subject->getSubject();
+        return $this->subject;
     }
 }
