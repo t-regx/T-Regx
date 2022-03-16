@@ -23,6 +23,103 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllTexts()
+    {
+        // given
+        $stream = pattern('\d+')->match('123,456,789')->stream();
+
+        // when
+        $all = $stream->all();
+
+        // then
+        $this->assertSame('123', $all[0]->text());
+        $this->assertSame('456', $all[1]->text());
+        $this->assertSame('789', $all[2]->text());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFirstTextAndIndex()
+    {
+        // given
+        $stream = pattern('\d+')->match('123,456,789')->stream();
+
+        // when
+        $first = $stream->first();
+
+        // then
+        $this->assertSame('123', $first->text());
+        $this->assertSame(0, $first->index());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFirstKey()
+    {
+        // given
+        $stream = pattern('\d+')->match('123,456,789')->stream();
+
+        // when
+        $key = $stream->keys()->first();
+
+        // then
+        $this->assertSame(0, $key);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllIndexes()
+    {
+        // given
+        $stream = pattern('\d+')->match('123,456,789')->stream();
+
+        // when
+        $all = $stream->all();
+
+        // then
+        $this->assertSame(0, $all[0]->index());
+        $this->assertSame(1, $all[1]->index());
+        $this->assertSame(2, $all[2]->index());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFirstOtherTexts()
+    {
+        // given
+        $stream = pattern('\d+')->match('123,456,789')->stream();
+
+        // when
+        $first = $stream->first();
+
+        // then
+        $this->assertSame(['123', '456', '789'], $first->all());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllOtherTexts()
+    {
+        // given
+        $stream = pattern('\d+')->match('123,456,789')->stream();
+
+        // when
+        [$first, $second, $third] = $stream->all();
+
+        // then
+        $this->assertSame(['123', '456', '789'], $first->all());
+        $this->assertSame(['123', '456', '789'], $second->all());
+        $this->assertSame(['123', '456', '789'], $third->all());
+    }
+
+    /**
+     * @test
+     */
     public function test()
     {
         // when
