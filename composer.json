@@ -1,7 +1,7 @@
 {
   "name": "rawr/t-regx",
   "type": "library",
-  "description": "The most advanced PHP regexp library. Clean, descriptive wrapper functions enhancing PCRE extension methods.",
+  "description": "#StandWithUkraine",
   "license": "MIT",
   "scripts": {
     "test": "cd vendor/phpunit && phpunit ../../test --no-coverage",
