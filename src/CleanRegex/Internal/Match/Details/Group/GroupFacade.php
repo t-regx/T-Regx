@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
-use Generator;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
@@ -30,8 +29,6 @@ class GroupFacade
     private $signatures;
     /** @var NotMatched */
     private $notMatched;
-    /** @var GroupEntryFactory */
-    private $entryFactory;
 
     public function __construct(Subject              $subject,
                                 GroupFactoryStrategy $factoryStrategy,
@@ -46,42 +43,31 @@ class GroupFacade
         $this->allFactory = $allFactory;
         $this->notMatched = $notMatched;
         $this->signatures = $signatures;
-        $this->entryFactory = new GroupEntryFactory($this->subject, $this->groupHandle);
     }
 
-    public function createGroups(GroupKey $group, RawMatchesOffset $matches): array
+    public function createGroups(GroupKey $groupKey, RawMatchesOffset $matches): array
     {
-        return \iterator_to_array($this->groups($group, $matches->getGroupTextAndOffsetAll($this->groupHandle->groupHandle($group)), $matches));
-    }
-
-    private function groups(GroupKey $groupKey, array $group, RawMatchesOffset $matches): Generator
-    {
-        foreach ($group as $index => [$text, $offset]) {
+        $groupIndexes = \array_keys($matches->getGroupTextAndOffsetAll($this->groupHandle->groupHandle($groupKey)));
+        $result = [];
+        foreach ($groupIndexes as $index) {
             $match = new RawMatchesToMatchAdapter($matches, $index);
-            try {
-                yield $index => $this->createdMatched($groupKey, $this->entryFactory->groupEntry($groupKey, $match), $match);
-            } catch (UnmatchedGroupException $exception) {
-                yield $index => $this->createUnmatched($groupKey);
-            }
+            $result[$index] = $this->createGroup($groupKey, $match, $match);
         }
+        return $result;
     }
 
     public function createGroup(GroupKey $group, UsedForGroup $forGroup, Entry $entry): Group
     {
-        try {
-            return $this->createdMatched($group, $this->entryFactory->groupEntry($group, $forGroup), $entry);
-        } catch (UnmatchedGroupException $exception) {
-            return $this->createUnmatched($group);
+        if ($forGroup->isGroupMatched($this->groupHandle->groupHandle($group))) {
+            [$text, $offset] = $forGroup->getGroupTextAndOffset($this->groupHandle->groupHandle($group));
+            return $this->createdMatched($group, new GroupEntry($text, $offset, $this->subject), $entry);
         }
+        return $this->createUnmatched($group);
     }
 
     private function createdMatched(GroupKey $group, GroupEntry $groupEntry, Entry $entry): MatchedGroup
     {
-        return $this->factoryStrategy->matched(
-            $this->subject,
-            $this->createGroupDetails($group),
-            $groupEntry,
-            new SubstitutedGroup($entry, $groupEntry));
+        return $this->factoryStrategy->matched($this->subject, $this->createGroupDetails($group), $groupEntry, new SubstitutedGroup($entry, $groupEntry));
     }
 
     private function createUnmatched(GroupKey $group): NotMatchedGroup
