@@ -91,11 +91,10 @@ class MatchPattern implements \Countable, \IteratorAggregate
      */
     public function first(callable $consumer = null)
     {
-        $first = new MatchFirst($this->base, $this->subject, $this->userData, $this->allFactory);
         if ($consumer === null) {
-            return $first->matchDetails()->text();
+            return $this->matchDetail()->text();
         }
-        return $consumer($first->matchDetails());
+        return $consumer($this->matchDetail());
     }
 
     public function findFirst(callable $consumer): Optional
@@ -105,6 +104,15 @@ class MatchPattern implements \Countable, \IteratorAggregate
             return new PresentOptional($consumer($this->findFirstDetail($match)));
         }
         return new SubjectEmptyOptional($this->groupAware, $this->subject, new FirstMatchMessage());
+    }
+
+    private function matchDetail(): Detail
+    {
+        $match = $this->base->matchOffset();
+        if ($match->matched()) {
+            return $this->findFirstDetail($match);
+        }
+        throw SubjectNotMatchedException::forFirst($this->subject);
     }
 
     private function findFirstDetail(RawMatchOffset $match): Detail
