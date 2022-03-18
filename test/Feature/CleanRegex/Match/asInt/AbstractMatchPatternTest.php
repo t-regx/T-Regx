@@ -22,7 +22,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldIgnore_asInt()
     {
         // when
-        $integer = pattern('\d+')->match('123')->asInt(10)->asInt(16)->first();
+        $integer = pattern('\d+')->match('123')->asInt(10)->asInt()->first();
 
         // then
         $this->assertSame(123, $integer);
@@ -189,7 +189,7 @@ class AbstractMatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldCall_asInt_findNth_OnInfussificientMatch_orElse()
+    public function shouldCall_asInt_findNth_OnInsufficientMatch_orElse()
     {
         // given
         pattern('(?<pepsi>\d+)')->match('Foo 14')->asInt()->findNth(1)->orElse(Functions::pass());
