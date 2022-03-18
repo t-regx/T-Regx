@@ -26,9 +26,9 @@ class IntStream implements \Countable, \IteratorAggregate
     /** @var StreamTerminal */
     private $terminal;
     /** @var Upstream */
-    protected $upstream;
+    private $upstream;
     /** @var NthIntStreamElement */
-    protected $nth;
+    private $nth;
     /** @var Subject */
     private $subject;
 
