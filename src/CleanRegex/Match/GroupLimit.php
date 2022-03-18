@@ -31,6 +31,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\Numeral;
 use TRegx\CleanRegex\Internal\Predicate;
@@ -45,8 +46,6 @@ class GroupLimit implements \IteratorAggregate
     private $subject;
     /** @var GroupAware */
     private $groupAware;
-    /** @var GroupLimitFirst */
-    private $firstFactory;
     /** @var GroupLimitFindFirst */
     private $findFirstFactory;
     /** @var LazyMatchAllFactory */
@@ -59,7 +58,6 @@ class GroupLimit implements \IteratorAggregate
         $this->base = $base;
         $this->subject = $subject;
         $this->groupAware = $groupAware;
-        $this->firstFactory = new GroupLimitFirst($base, $subject, $groupAware, $group);
         $this->findFirstFactory = new GroupLimitFindFirst($base, $subject, $groupAware, $group);
         $this->matchAllFactory = new LazyMatchAllFactory($base);
         $this->group = $group;
@@ -71,7 +69,7 @@ class GroupLimit implements \IteratorAggregate
      */
     public function first(callable $consumer = null)
     {
-        $first = $this->firstFactory->getFirstForGroup();
+        $first = $this->getFirstForGroup();
         if ($consumer === null) {
             return $first->getGroup($this->group->nameOrIndex());
         }
@@ -83,6 +81,25 @@ class GroupLimit implements \IteratorAggregate
             $signatures);
         $false = new FalseNegative($first);
         return $consumer($facade->createGroup($this->group, $false, $false));
+    }
+
+    private function getFirstForGroup(): RawMatchOffset
+    {
+        $rawMatch = $this->base->matchOffset();
+        if ($rawMatch->hasGroup($this->group->nameOrIndex())) {
+            $group = $rawMatch->getGroup($this->group->nameOrIndex());
+            if ($group !== null) {
+                return $rawMatch;
+            }
+        } else {
+            if (!$this->groupAware->hasGroup($this->group->nameOrIndex())) {
+                throw new NonexistentGroupException($this->group);
+            }
+            if (!$rawMatch->matched()) {
+                throw SubjectNotMatchedException::forFirstGroup($this->subject, $this->group);
+            }
+        }
+        throw GroupNotMatchedException::forFirst($this->group);
     }
 
     public function findFirst(callable $consumer): Optional
