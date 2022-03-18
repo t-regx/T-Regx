@@ -100,11 +100,6 @@ class IntStream implements \Countable, \IteratorAggregate
         return $this->nth->optional($index);
     }
 
-    public function asInt(): IntStream
-    {
-        return $this;
-    }
-
     public function map(callable $mapper): Stream
     {
         return $this->next(new MapStream($this->upstream, $mapper));
@@ -140,6 +135,11 @@ class IntStream implements \Countable, \IteratorAggregate
         return $this->next(new KeyStream($this->upstream));
     }
 
+    public function asInt(): IntStream
+    {
+        return $this;
+    }
+
     public function groupByCallback(callable $groupMapper): Stream
     {
         return $this->next(new GroupByCallbackStream($this->upstream, new GroupByFunction('groupByCallback', $groupMapper)));
@@ -148,6 +148,14 @@ class IntStream implements \Countable, \IteratorAggregate
     private function next(Upstream $upstream): Stream
     {
         return new Stream($upstream, $this->subject);
+    }
+
+    public function reduce(callable $reducer, $accumulator)
+    {
+        foreach ($this as $detail) {
+            $accumulator = $reducer($accumulator, $detail);
+        }
+        return $accumulator;
     }
 
     public function stream(): Stream

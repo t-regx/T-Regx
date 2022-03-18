@@ -170,6 +170,13 @@ class Functions
         };
     }
 
+    public static function second(): callable
+    {
+        return function ($irrelevant, $argument) {
+            return $argument;
+        };
+    }
+
     public static function sum(): callable
     {
         return function (string $augend, string $addend): int {

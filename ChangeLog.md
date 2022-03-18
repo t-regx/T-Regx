@@ -6,6 +6,8 @@ Incoming
 
 * Performance
     * Improved performance of certain validations, by not parsing PHP errors, when it's not necessary.
+* Features
+    * Added `pattern()->match()->asInt()->reduce()`
 
 Added in 0.20.2
 ---------------

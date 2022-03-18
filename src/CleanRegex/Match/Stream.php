@@ -70,10 +70,6 @@ class Stream implements \Countable, \IteratorAggregate
         return $this->terminal->getIterator();
     }
 
-    /**
-     * @param callable|null $consumer
-     * @return mixed
-     */
     public function first(callable $consumer = null)
     {
         return $this->findFirst($consumer ?? static function ($argument) {
@@ -169,7 +165,7 @@ class Stream implements \Countable, \IteratorAggregate
     {
         foreach ($this as $detail) {
             $accumulator = $reducer($accumulator, $detail);
-        };
+        }
         return $accumulator;
     }
 }
