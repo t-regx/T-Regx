@@ -247,6 +247,21 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGet_offsets_ofMatchedEmptyGroups()
+    {
+        // given
+        $offsets = pattern('Foo (?<foo>)')
+            ->match('Foo ')
+            ->group('foo')
+            ->offsets()->all();
+
+        // then
+        $this->assertSame([4], $offsets);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGet_offsets_onlyOne_null()
     {
         // given

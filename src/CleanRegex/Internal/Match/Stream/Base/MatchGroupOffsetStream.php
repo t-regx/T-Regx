@@ -14,6 +14,7 @@ use TRegx\CleanRegex\Internal\Message\GroupNotMatched;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
+use TRegx\CleanRegex\Internal\Offset\ByteOffset;
 use TRegx\CleanRegex\Internal\Subject;
 
 class MatchGroupOffsetStream implements Upstream
@@ -51,11 +52,17 @@ class MatchGroupOffsetStream implements Upstream
 
     private function readOffset($tuple): ?int
     {
+        if ($tuple === '') {
+            return null;
+        }
+        if ($tuple === null) {
+            return null;
+        }
         [$text, $offset] = $tuple;
         if ($offset === -1) {
             return null;
         }
-        return $offset;
+        return ByteOffset::toCharacterOffset($this->subject, $offset);
     }
 
     protected function firstValue(): int
@@ -71,6 +78,6 @@ class MatchGroupOffsetStream implements Upstream
         if (!$polyfill->isGroupMatched($this->group->nameOrIndex())) {
             throw new StreamRejectedException($this->subject, GroupNotMatchedException::class, new GroupNotMatched\FromFirstMatchOffsetMessage($this->group));
         }
-        return $match->getGroupByteOffset($this->group->nameOrIndex());
+        return ByteOffset::toCharacterOffset($this->subject, $match->getGroupByteOffset($this->group->nameOrIndex()));
     }
 }

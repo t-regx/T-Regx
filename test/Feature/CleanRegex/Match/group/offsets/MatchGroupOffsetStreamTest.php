@@ -3,7 +3,6 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group\offsets;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
-use Test\Utils\DetailFunctions;
 use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
@@ -237,5 +236,26 @@ class MatchGroupOffsetStreamTest extends TestCase
 
         // when
         $optional->orThrow();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_offsets()
+    {
+        // given
+        $offsets = pattern('(\w+)')->match('€ Foo, Bar, Cat')->group(0)->offsets();
+
+        // when
+        $first = $offsets->first();
+        $only1 = $offsets->only(1);
+        $only2 = $offsets->only(2);
+        $all = $offsets->all();
+
+        // then
+        $this->assertSame(2, $first);
+        $this->assertSame([2], $only1);
+        $this->assertSame([2, 7], $only2);
+        $this->assertSame([2, 7, 12], $all);
     }
 }

@@ -118,8 +118,8 @@ class MatchPatternTest extends TestCase
     public function shouldGet_findFirst_orElse_groupsCount()
     {
         // when
-        $value = pattern('[a-z]+')
-            ->match('NOT MATCHING')
+        $value = pattern('Foo')
+            ->match('Bar')
             ->findFirst(Functions::fail())
             ->orElse(function (NotMatched $notMatched) {
                 // then
@@ -137,7 +137,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_map()
     {
         // when
-        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->map('str_split');
+        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->map(Functions::letters());
 
         // then
         $expected = [
@@ -154,7 +154,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_filter()
     {
         // when
-        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->filter(DetailFunctions::notEquals('Bar'));
+        $mapped = pattern('\w+')->match('Foo, Bar, Top')->filter(DetailFunctions::notEquals('Bar'));
 
         // then
         $this->assertSame(['Foo', 'Top'], $mapped);
@@ -179,7 +179,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_distinct()
     {
         // when
-        $mapped = pattern('[A-Za-z]+')->match('One, One, Two, One, Three, Two, One')->distinct();
+        $mapped = pattern('\w+')->match('One, One, Two, One, Three, Two, One')->distinct();
 
         // then
         $this->assertSame(['One', 'Two', 'Three'], $mapped);
@@ -191,7 +191,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_flatMap()
     {
         // when
-        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->flatMap('str_split');
+        $mapped = pattern('[A-Za-z]+')->match('Foo, Bar, Top')->flatMap(Functions::letters());
 
         // then
         $this->assertSame(['F', 'o', 'o', 'B', 'a', 'r', 'T', 'o', 'p'], $mapped);
@@ -203,7 +203,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_flatMapAssoc()
     {
         // when
-        $mapped = pattern('[A-Za-z]+')->match('Docker, Down, Foo')->flatMapAssoc('str_split');
+        $mapped = pattern('[A-Za-z]+')->match('Docker, Down, Foo')->flatMapAssoc(Functions::letters());
 
         // then
         $this->assertSame(['F', 'o', 'o', 'n', 'e', 'r'], $mapped);
@@ -277,7 +277,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_offsets()
     {
         // given
-        $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')->match('xd Computer L Three Four')->offsets();
+        $offsets = pattern('\w+')->match('€ Foo, Bar, Cat')->offsets();
 
         // when
         $first = $offsets->first();
@@ -286,10 +286,10 @@ class MatchPatternTest extends TestCase
         $all = $offsets->all();
 
         // then
-        $this->assertSame(3, $first);
-        $this->assertSame([3], $only1);
-        $this->assertSame([3, 12], $only2);
-        $this->assertSame([3, 12, 14, 20], $all);
+        $this->assertSame(2, $first);
+        $this->assertSame([2], $only1);
+        $this->assertSame([2, 7], $only2);
+        $this->assertSame([2, 7, 12], $all);
     }
 
     /**
@@ -336,8 +336,11 @@ class MatchPatternTest extends TestCase
      */
     public function shouldBe_Countable()
     {
+        // given
+        $match = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar');
+
         // when
-        $count = count(pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar'));
+        $count = \count($match);
 
         // then
         $this->assertSame(3, $count);
@@ -392,7 +395,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_asInt_first()
     {
         // given
-        $subject = "I’ll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.";
+        $subject = "I'll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.";
 
         // when
         $integer = pattern('\d+')->match($subject)->asInt()->first();

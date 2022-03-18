@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchOffsetMessage;
+use TRegx\CleanRegex\Internal\Offset\ByteOffset;
 use TRegx\CleanRegex\Internal\Subject;
 
 class OffsetLimitStream implements Upstream
@@ -28,7 +29,9 @@ class OffsetLimitStream implements Upstream
     {
         $matches = $this->base->matchAllOffsets();
         if ($matches->matched()) {
-            return $matches->getLimitedGroupOffsets(0, -1);
+            return \array_map(function (int $offset): int {
+                return ByteOffset::toCharacterOffset($this->subject, $offset);
+            }, $matches->getLimitedGroupOffsets(0, -1));
         }
         throw new UnmatchedStreamException();
     }
@@ -37,7 +40,7 @@ class OffsetLimitStream implements Upstream
     {
         $match = $this->base->matchOffset();
         if ($match->matched()) {
-            return $match->byteOffset();
+            return ByteOffset::toCharacterOffset($this->subject, $match->byteOffset());
         }
         throw new StreamRejectedException($this->subject, SubjectNotMatchedException::class, new FirstMatchOffsetMessage());
     }

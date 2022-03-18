@@ -4,7 +4,9 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Bug fixes
+    * `match()->offsets()` and `match()->group()->offsets()` now return offsets as characters. Previously they returned
+      them as bytes.
 
 Added in 0.20.3
 ---------------
