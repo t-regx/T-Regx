@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.20.3
+---------------
+
 * Performance
     * Improved performance of certain validations, by not parsing PHP errors, when it's not necessary.
 * Features
