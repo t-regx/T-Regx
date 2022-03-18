@@ -2,13 +2,13 @@
 namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\Numeral\GroupExceptions;
+use TRegx\CleanRegex\Internal\Match\Numeral\MatchBase;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
@@ -17,9 +17,6 @@ use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchIntM
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Numeral;
-use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
-use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;
-use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
 use TRegx\CleanRegex\Internal\Subject;
 
 class MatchGroupIntStream implements Upstream
@@ -34,7 +31,7 @@ class MatchGroupIntStream implements Upstream
     private $group;
     /** @var MatchAllFactory */
     private $allFactory;
-    /** @var Numeral\Base */
+    /** @var MatchBase */
     private $numberBase;
 
     public function __construct(Base $base, Subject $subject, GroupKey $group, MatchAllFactory $allFactory, Numeral\Base $numberBase)
@@ -43,7 +40,7 @@ class MatchGroupIntStream implements Upstream
         $this->subject = $subject;
         $this->group = $group;
         $this->allFactory = $allFactory;
-        $this->numberBase = $numberBase;
+        $this->numberBase = new MatchBase($numberBase, new GroupExceptions($this->group));
     }
 
     protected function entries(): array
@@ -63,7 +60,7 @@ class MatchGroupIntStream implements Upstream
         if ($text === null) {
             return null;
         }
-        return $this->parseInteger($text);
+        return $this->numberBase->integer($text);
     }
 
     protected function firstValue(): int
@@ -79,18 +76,6 @@ class MatchGroupIntStream implements Upstream
         if (!$polyfill->isGroupMatched($this->group->nameOrIndex())) {
             throw new StreamRejectedException($this->subject, GroupNotMatchedException::class, new GroupNotMatched\FromFirstMatchIntMessage($this->group));
         }
-        return $this->parseInteger($match->getGroup($this->group->nameOrIndex()));
-    }
-
-    private function parseInteger(string $string): int
-    {
-        $number = new StringNumeral($string);
-        try {
-            return $number->asInt($this->numberBase);
-        } catch (NumeralFormatException $exception) {
-            throw IntegerFormatException::forGroup($this->group, $string, $this->numberBase);
-        } catch (NumeralOverflowException $exception) {
-            throw IntegerOverflowException::forGroup($this->group, $string, $this->numberBase);
-        }
+        return $this->numberBase->integer($match->getGroup($this->group->nameOrIndex()));
     }
 }

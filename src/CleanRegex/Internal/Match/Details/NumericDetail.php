@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details;
 
-use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Exception\IntegerOverflowException;
+use TRegx\CleanRegex\Internal\Match\Numeral\MatchBase;
+use TRegx\CleanRegex\Internal\Match\Numeral\MatchExceptions;
 use TRegx\CleanRegex\Internal\Model\Match\Entry;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
@@ -21,19 +21,7 @@ class NumericDetail
 
     public function asInteger(Base $base): int
     {
-        return $this->textAsInteger($base, $this->entry->text());
-    }
-
-    private function textAsInteger(Base $base, string $text): int
-    {
-        $number = new StringNumeral($text);
-        try {
-            return $number->asInt($base);
-        } catch (NumeralFormatException $exception) {
-            throw IntegerFormatException::forMatch($text, $base);
-        } catch (NumeralOverflowException $exception) {
-            throw IntegerOverflowException::forMatch($text, $base);
-        }
+        return (new MatchBase($base, new MatchExceptions()))->integer($this->entry->text());
     }
 
     public function isInteger(Base $base): bool
