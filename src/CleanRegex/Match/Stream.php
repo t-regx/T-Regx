@@ -72,22 +72,26 @@ class Stream implements \Countable, \IteratorAggregate
 
     public function first(callable $consumer = null)
     {
-        return $this->findFirst($consumer ?? static function ($argument) {
-                return $argument;
-            })
-            ->orThrow();
+        if ($consumer === null) {
+            return $this->firstOptional()->orThrow();
+        }
+        return $this->firstOptional()->map($consumer)->orThrow();
     }
 
     public function findFirst(callable $consumer): Optional
     {
+        return $this->firstOptional()->map($consumer);
+    }
+
+    private function firstOptional(): Optional
+    {
         try {
-            $firstElement = $this->upstream->first();
+            return new PresentOptional($this->upstream->first());
         } catch (StreamRejectedException $exception) {
             return new RejectedOptional(new Rejection($this->subject, NoSuchStreamElementException::class, $exception->notMatchedMessage()));
         } catch (EmptyStreamException $exception) {
             return new RejectedOptional(new Rejection($this->subject, NoSuchStreamElementException::class, new FromFirstStreamMessage()));
         }
-        return new PresentOptional($consumer($firstElement));
     }
 
     public function nth(int $index)
