@@ -1,23 +1,14 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\Match\Details\Group;
+namespace Test\Feature\TRegx\CleanRegex\Match\Details\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Match\Details\Group\ThrowGroupDetails;
-use Test\Fakes\CleanRegex\Internal\Match\Details\Group\ThrowSubstituted;
-use Test\Fakes\CleanRegex\Internal\Model\Match\ConstantEntry;
-use Test\Fakes\CleanRegex\Internal\ThrowSubject;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
-use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
-use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
-use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Details\Group\MatchedGroup
@@ -30,11 +21,9 @@ class MatchedGroupTest extends TestCase
     public function shouldGetText()
     {
         // given
-        $matchGroup = $this->matchGroup();
-
+        $matchGroup = $this->exampleMatchedGroup();
         // when
         $text = $matchGroup->text();
-
         // then
         $this->assertSame('Nice matching', $text);
     }
@@ -42,14 +31,12 @@ class MatchedGroupTest extends TestCase
     /**
      * @test
      */
-    public function shouldMatch()
+    public function shouldBeMatched()
     {
         // given
-        $matchGroup = $this->matchGroup();
-
+        $matchGroup = $this->exampleMatchedGroup();
         // when
         $matches = $matchGroup->matched();
-
         // then
         $this->assertTrue($matches);
     }
@@ -60,11 +47,10 @@ class MatchedGroupTest extends TestCase
     public function shouldEqual()
     {
         // given
-        $matchGroup = $this->matchGroup();
-
+        $matchGroup = $this->exampleMatchedGroup();
         // when + then
-        $this->assertTrue($matchGroup->equals("Nice matching"));
-        $this->assertFalse($matchGroup->equals("some other"));
+        $this->assertTrue($matchGroup->equals('Nice matching'));
+        $this->assertFalse($matchGroup->equals('some other'));
     }
 
     /**
@@ -73,12 +59,10 @@ class MatchedGroupTest extends TestCase
     public function shouldGetOffset()
     {
         // given
-        $matchGroup = $this->buildMatchGroup("ść Łukasz ść", "Łukasz", "Łu", new GroupIndex(1), 5);
-
+        $matchGroup = $this->matchedGroup('(Łu)kasz', 'ść Łukasz ść', 1);
         // when
         $offset = $matchGroup->offset();
         $byteOffset = $matchGroup->byteOffset();
-
         // then
         $this->assertSame(3, $offset);
         $this->assertSame(5, $byteOffset);
@@ -90,12 +74,10 @@ class MatchedGroupTest extends TestCase
     public function shouldGetTail()
     {
         // given
-        $matchGroup = $this->buildMatchGroup("ść Łukaśz ść", "Łukaśz", "Łu", new GroupIndex(1), 5);
-
+        $matchGroup = $this->matchedGroup('(Łu)kaśz', 'ść Łukaśz ść', 1);
         // when
         $tail = $matchGroup->tail();
         $byteTail = $matchGroup->byteTail();
-
         // then
         $this->assertSame(5, $tail);
         $this->assertSame(8, $byteTail);
@@ -107,11 +89,9 @@ class MatchedGroupTest extends TestCase
     public function shouldGetName()
     {
         // given
-        $matchGroup = $this->matchGroup();
-
+        $matchGroup = $this->exampleMatchedGroup();
         // when
         $name = $matchGroup->name();
-
         // then
         $this->assertSame('first', $name);
     }
@@ -122,11 +102,9 @@ class MatchedGroupTest extends TestCase
     public function shouldGetIndex()
     {
         // given
-        $matchGroup = $this->matchGroup();
-
+        $matchGroup = $this->exampleMatchedGroup();
         // when
         $index = $matchGroup->index();
-
         // then
         $this->assertSame(1, $index);
     }
@@ -134,16 +112,14 @@ class MatchedGroupTest extends TestCase
     /**
      * @test
      */
-    public function shouldReplaceGroup()
+    public function shouldSubstituteGroup()
     {
         // given
-        $matchGroup = $this->matchGroup();
-
+        $matchGroup = $this->exampleMatchedGroup();
         // when
         $result = $matchGroup->substitute('<replaced value>');
-
         // then
-        $this->assertSame('start(<replaced value>)end', $result);
+        $this->assertSame('start:<replaced value>:end', $result);
     }
 
     /**
@@ -152,11 +128,9 @@ class MatchedGroupTest extends TestCase
     public function shouldCastToString()
     {
         // given
-        $matchGroup = $this->matchGroup();
-
+        $matchGroup = $this->exampleMatchedGroup();
         // when
         $text = (string)$matchGroup;
-
         // then
         $this->assertSame('Nice matching', $text);
     }
@@ -167,13 +141,11 @@ class MatchedGroupTest extends TestCase
     public function shouldControlMatched()
     {
         // given
-        $matchGroup = $this->matchGroup();
-
+        $matchGroup = $this->exampleMatchedGroup();
         // when
         $orElse = $matchGroup->orElse('strToUpper');
         $orReturn = $matchGroup->orReturn(13);
         $orThrow = $matchGroup->orThrow();
-
         // then
         $this->assertSame('Nice matching', $orElse);
         $this->assertSame('Nice matching', $orReturn);
@@ -185,16 +157,22 @@ class MatchedGroupTest extends TestCase
      * @dataProvider identifiers
      * @param GroupKey $group
      */
-    public function shouldGet_usedIdentifier(GroupKey $group)
+    public function shouldGetUsedIdentifier(GroupKey $group)
     {
         // given
-        $matchGroup = $this->buildMatchGroup('before- start(Nice matching)end -after match', 'start(Nice matching)end', 'Nice matching', $group, 14);
-
+        $matchGroup = $this->exampleMatchedGroup($group);
         // when
-        $result = $matchGroup->usedIdentifier();
-
+        $identifier = $matchGroup->usedIdentifier();
         // then
-        $this->assertSame($group->nameOrIndex(), $result);
+        $this->assertSame($group->nameOrIndex(), $identifier);
+    }
+
+    public function identifiers(): array
+    {
+        return [
+            [new GroupName('first')],
+            [new GroupIndex(1)],
+        ];
     }
 
     /**
@@ -204,11 +182,9 @@ class MatchedGroupTest extends TestCase
     public function shouldParseIntegerBase10Default(string $text, int $expected, ?int $base)
     {
         // given
-        $matchedGroup = new MatchedGroup(new ThrowSubject(), new ThrowGroupDetails(), new GroupEntry($text, 0, new ThrowSubject()), new ThrowSubstituted());
-
+        $matchedGroup = $this->matchedGroup('(\w+)', $text, 1);
         // when
         $integer = $matchedGroup->toInt($base);
-
         // then
         $this->assertSame($expected, $integer);
     }
@@ -228,12 +204,10 @@ class MatchedGroupTest extends TestCase
     public function shouldToIntThrowForInvalidBase()
     {
         // given
-        $matchedGroup = new MatchedGroup(new ThrowSubject(), new ThrowGroupDetails(), new GroupEntry('af6', 0, new ThrowSubject()), new ThrowSubstituted());
-
+        $matchedGroup = $this->exampleMatchedGroup();
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid base: -2 (supported bases 2-36, case-insensitive)');
-
         // when
         $matchedGroup->toInt(-2);
     }
@@ -244,41 +218,24 @@ class MatchedGroupTest extends TestCase
     public function shouldIsIntThrowForInvalidBase()
     {
         // given
-        $matchedGroup = new MatchedGroup(new ThrowSubject(), new ThrowGroupDetails(), new GroupEntry('af6', 0, new ThrowSubject()), new ThrowSubstituted());
-
+        $matchedGroup = $this->exampleMatchedGroup();
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid base: -2 (supported bases 2-36, case-insensitive)');
-
         // when
         $matchedGroup->isInt(-2);
     }
 
-    public function identifiers(): array
+    private function exampleMatchedGroup(GroupKey $group = null): MatchedGroup
     {
-        return [
-            [new GroupName('first')],
-            [new GroupIndex(1)],
-        ];
+        $subject = 'before- start:Nice matching:end -after';
+        $pattern = 'start:(?<first>Nice matching):end';
+        return $this->matchedGroup($pattern, $subject, $group ? $group->nameOrIndex() : 'first');
     }
 
-    private function matchGroup(): MatchedGroup
+    private function matchedGroup(string $pattern, string $subject, $groupIdentifier): MatchedGroup
     {
-        return $this->buildMatchGroup(
-            'before- start(Nice matching)end -after match',
-            'start(Nice matching)end',
-            'Nice matching',
-            new GroupName('first'),
-            14);
-    }
-
-    private function buildMatchGroup(string $subject, string $match, string $group, GroupKey $groupKey, $groupOffset): MatchedGroup
-    {
-        $matchedGroup = new GroupEntry($group, $groupOffset, new Subject($subject));
-        return new MatchedGroup(
-            new Subject($subject),
-            new GroupDetails(new GroupSignature(1, 'first'), $groupKey, new EagerMatchAllFactory(new RawMatchesOffset([]))),
-            $matchedGroup,
-            new SubstitutedGroup(new ConstantEntry($match, 8), $matchedGroup));
+        Pattern::of($pattern)->match($subject)->first(Functions::collect($detail));
+        return $detail->group($groupIdentifier);
     }
 }
