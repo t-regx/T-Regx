@@ -225,6 +225,19 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrowSubjectNotMatched_getSubject()
+    {
+        // given
+        try {
+            pattern('Foo')->match('Bar')->first(Functions::fail());
+        } catch (SubjectNotMatchedException $exception) {
+            $this->assertSame('Bar', $exception->getSubject());
+        }
+    }
+
+    /**
+     * @test
+     */
     public function shouldNotCall_forEach_OnUnmatchedPattern()
     {
         // given

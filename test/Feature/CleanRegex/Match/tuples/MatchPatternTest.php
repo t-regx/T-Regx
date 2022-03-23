@@ -76,6 +76,19 @@ class MatchPatternTest extends TestCase
 
     /**
      * @test
+     * @depends shouldThrow_tuple_onUnmatchedSubject
+     */
+    public function shouldGetSubject_SubjectNotMatchedException_tuple()
+    {
+        try {
+            pattern('(F)(o)(o)')->match('Winter is coming')->tuple(2, 3);
+        } catch (SubjectNotMatchedException $exception) {
+            $this->assertSame('Winter is coming', $exception->getSubject());
+        }
+    }
+
+    /**
+     * @test
      */
     public function shouldThrow_triple_onUnmatchedSubject()
     {
@@ -85,6 +98,19 @@ class MatchPatternTest extends TestCase
 
         // then
         pattern('(F)(o)(o)')->match('Bar')->triple(0, 1, 2);
+    }
+
+    /**
+     * @test
+     * @depends shouldThrow_triple_onUnmatchedSubject
+     */
+    public function shouldGetSubject_SubjectNotMatchedException_triple()
+    {
+        try {
+            pattern('(F)(o)(o)')->match('Winter is coming')->triple(0, 1, 2);
+        } catch (SubjectNotMatchedException $exception) {
+            $this->assertSame('Winter is coming', $exception->getSubject());
+        }
     }
 
     /**

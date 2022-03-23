@@ -14,12 +14,17 @@ use TRegx\CleanRegex\Internal\Subject;
 class SubjectNotMatchedException extends \Exception implements PatternException
 {
     /** @var string */
-    private $subject; // Debugger
+    private $subject;
 
     public function __construct(string $message, string $subject)
     {
         parent::__construct($message);
         $this->subject = $subject;
+    }
+
+    public function getSubject(): string
+    {
+        return $this->subject;
     }
 
     public static function forFirst(Subject $subject): self
@@ -44,12 +49,12 @@ class SubjectNotMatchedException extends \Exception implements PatternException
 
     public static function forFirstTuple(Subject $subject, GroupKey $group1, GroupKey $group2): self
     {
-        throw SubjectNotMatchedException::withMessage(new FromFirstMatchTupleMessage($group1, $group2), $subject);
+        return SubjectNotMatchedException::withMessage(new FromFirstMatchTupleMessage($group1, $group2), $subject);
     }
 
     public static function forFirstTriple(Subject $subject, GroupKey $group1, GroupKey $group2, GroupKey $group3): self
     {
-        throw SubjectNotMatchedException::withMessage(new FromFirstMatchTripleMessage($group1, $group2, $group3), $subject);
+        return SubjectNotMatchedException::withMessage(new FromFirstMatchTripleMessage($group1, $group2, $group3), $subject);
     }
 
     private static function withMessage(NotMatchedMessage $message, Subject $subject): self

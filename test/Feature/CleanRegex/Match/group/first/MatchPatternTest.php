@@ -101,7 +101,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_OnSubjectUnmatched()
+    public function shouldThrow_SubjectNotMatched()
     {
         // then
         $this->expectException(SubjectNotMatchedException::class);
@@ -109,6 +109,18 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('Foo')->match('Bar')->group(0)->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_SubjectNotMatched_getSubject()
+    {
+        try {
+            pattern('Family, Duty, Honor')->match('Winter is coming')->group(0)->first();
+        } catch (SubjectNotMatchedException $exception) {
+            $this->assertSame('Winter is coming', $exception->getSubject());
+        }
     }
 
     /**

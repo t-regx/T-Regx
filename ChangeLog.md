@@ -7,6 +7,8 @@ Incoming
 * Bug fixes
     * `match()->offsets()` and `match()->group()->offsets()` now return offsets as characters. Previously they returned
       them as bytes.
+* Features
+    * Added `SubjectNotMatchedException.getSubject()`
 
 Added in 0.20.3
 ---------------
