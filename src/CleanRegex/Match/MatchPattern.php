@@ -179,11 +179,11 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     /**
      * @param string|int $nameOrIndex
-     * @return GroupLimit
+     * @return GroupMatch
      */
-    public function group($nameOrIndex): GroupLimit
+    public function group($nameOrIndex): GroupMatch
     {
-        return new GroupLimit($this->base, $this->subject, $this->groupAware, GroupKey::of($nameOrIndex));
+        return new GroupMatch($this->base, $this->subject, $this->groupAware, GroupKey::of($nameOrIndex));
     }
 
     public function offsets(): IntStream

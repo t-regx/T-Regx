@@ -9,9 +9,9 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Pattern;
 
 /**
- * @covers \TRegx\CleanRegex\Match\GroupLimit
+ * @covers \TRegx\CleanRegex\Match\GroupMatch
  */
-class GroupLimitTest extends TestCase
+class GroupMatchTest extends TestCase
 {
     /**
      * @test

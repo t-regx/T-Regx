@@ -18,7 +18,7 @@ use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\SubjectEmptyOptional;
 use TRegx\CleanRegex\Match\Optional;
 
-class GroupLimitFindFirst
+class GroupMatchFindFirst
 {
     /** @var Base */
     private $base;

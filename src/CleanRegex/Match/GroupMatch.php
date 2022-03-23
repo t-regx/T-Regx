@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
-use TRegx\CleanRegex\Internal\GroupLimit\GroupLimitFindFirst;
+use TRegx\CleanRegex\Internal\GroupLimit\GroupMatchFindFirst;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacadeMatched;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
@@ -37,7 +37,7 @@ use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\Internal\Tuple;
 
-class GroupLimit implements \IteratorAggregate
+class GroupMatch implements \IteratorAggregate
 {
     /** @var Base */
     private $base;
@@ -45,7 +45,7 @@ class GroupLimit implements \IteratorAggregate
     private $subject;
     /** @var GroupAware */
     private $groupAware;
-    /** @var GroupLimitFindFirst */
+    /** @var GroupMatchFindFirst */
     private $findFirstFactory;
     /** @var LazyMatchAllFactory */
     private $matchAllFactory;
@@ -57,7 +57,7 @@ class GroupLimit implements \IteratorAggregate
         $this->base = $base;
         $this->subject = $subject;
         $this->groupAware = $groupAware;
-        $this->findFirstFactory = new GroupLimitFindFirst($base, $subject, $groupAware, $group);
+        $this->findFirstFactory = new GroupMatchFindFirst($base, $subject, $groupAware, $group);
         $this->matchAllFactory = new LazyMatchAllFactory($base);
         $this->group = $group;
     }

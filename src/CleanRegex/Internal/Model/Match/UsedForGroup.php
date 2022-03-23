@@ -22,8 +22,8 @@ interface UsedForGroup
     /**
      * @see MatchDetail::get
      * @see MatchedGroup
-     * @see GroupLimit
-     * @see GroupLimitFindFirst
+     * @see GroupMatch
+     * @see GroupMatchFindFirst
      * @see DuplicateName::group
      * @see MatchDetail::group
      */

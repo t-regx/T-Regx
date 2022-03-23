@@ -4,6 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
+* Breaking changes
+    * Renamed `GroupLimit` to `GroupMatch`.
 * Bug fixes
     * `match()->offsets()` and `match()->group()->offsets()` now return offsets as characters. Previously they returned
       them as bytes.
