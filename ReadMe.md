@@ -76,14 +76,16 @@ T-Regx only requires `mb-string` extension. No additional dependencies or extens
 
 - ### T-Regx is a regex solution as it should've been made in PHP
 
-  In our humble opinions, T-Regx is a well-crafted, robust, reliable and predictable tool for using regular expression in modern applications. It eliminates
-  unknowns and complexity, for the sake of concise code and revealing intentions. It utilizes numerous checks and operations to ensure
-  each method does exactly what it's supposed to.
+  In our humble opinions, T-Regx is a well-crafted, robust, reliable and predictable tool for using regular expression
+  in modern applications. It eliminates unknowns and complexity, for the sake of concise code and revealing intentions.
+  It utilizes numerous, performant and lightweight checks and operations to ensure each method does exactly what it's
+  supposed to.
 
-  - T-Regx is to `preg_match()`, what PDO was to `mysql_query()`.
-  - T-Regx uses `preg_match()`/`preg_replace()` as an engine internally, but doesn't leak the horribleness of their design out.
+    - T-Regx uses `preg_match()`/`preg_replace()` as an engine internally, but doesn't leak the horribleness of their
+      design out.
+    - T-Regx is to `preg_match()`, what PDO was to `mysql_query()`.
 
-  #### Read more, [Scroll to "Overview"](#why-t-regx-stands-out)...
+    #### Read more, [Scroll to "Overview"](#why-t-regx-stands-out)...
 
 # API
 
@@ -122,9 +124,9 @@ Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing aro
 
 * ### No change in API for legacy projects
     * You can use T-Regx exception-based error handling, without changing your API much. Simply swap `preg_match()` to
-      `preg::match()`, and the method will only ever throws exceptions! Won't return `null` or `false` or issue a warning or a notice. Nor will it throw a fatal
-      error.
-    * Arguments, structure and return types remain the same. Nobody needs to know :)
+      `preg::match()`, and the method will only ever throw exceptions! Won't return `null` or `false` or issue a warning
+      or a notice. Nor will it throw a fatal error.
+    * Arguments, structure and return types remain the same. Your code will not break.
     * You still deal with complex and unintuitive API of PHP, but we handle the errors and warnings for you.
 
 * ### Prepared patterns
@@ -152,21 +154,23 @@ Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing aro
         * PHP provides groups in an `array`. When read, `$match['group']`, regardless if the group name is invalid, the group is missing, the group is unmatched
           or matched an empty string - PHP handles them identically.
         * What the values in the `array` *really mean* is a complex mess.
-        * In T-Regx, when invalid group named is used `get('!@#')` - `InvalidArgumentException` is thrown. When attempt to read a missing group
-          - `NonexistentGroupException` is thrown. For a case of valid group, reading a group that happens not to be matched - `GroupNotMatchedException` is
-          thrown, or you can use `matched()` method.
+        * In T-Regx, when invalid group named is used `get('!@#')` - `InvalidArgumentException` is thrown. When attempt
+          to read a missing group \- `NonexistentGroupException` is thrown. For a case of valid group, reading a group
+          that happens not to be matched - `GroupNotMatchedException` is thrown, or you can use `matched()` method.
     * Simple methods
-        * T-Regx exposes functionality by simple methods, which return `int`, `string`, `string[]` or `bool`, and aren't nullable If you wish to do something
-          with your match or pattern, there's probably a method for that, which does exactly and only that.
+        * T-Regx exposes functionality by simple methods, which return `int`, `string`, `string[]` or `bool`, and aren't
+          nullable. If you wish to do something with your match or pattern, there's probably a method for that, which
+          does exactly and only that.
 
 * ### Automatic delimiters for your pattern
   Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory (if you use `pattern()`). Methods `preg::match()`/`preg::replace()` still
   require them, not to introduce unnecessary changes in your legacy project.
 
 * ### Converting Warnings/Errors to Exceptions
-    * Detects **malformed patterns** in `preg_()` and throws `MalformedPatternException`. This is impossible to catch with `preg_last_error()` and yet, if any
-      error should be caught it's this one.
-    * Notices, warnings or errors during `preg::` are converted to exceptions, for example `CatastrophicBacktrackingException`.
+    * Detects **malformed patterns** in `preg_()` and throws `MalformedPatternException`. This is impossible to catch
+      with `preg_last_error()`.
+    * Notices, warnings or errors during `preg::` are converted to exceptions, for
+      example `CatastrophicBacktrackingException`.
     * In some cases, `preg_()` methods might fail, return `false`/`null` and **NOT** trigger a warning (basically silence it). T-Regx detects those silent fails
       by analyzing return types and throws `SuspectedReturnPregException` in that case.
     * Not every error in PHP can be read from `preg_last_error()`, however T-Regx throws dedicated exceptions for those events.
