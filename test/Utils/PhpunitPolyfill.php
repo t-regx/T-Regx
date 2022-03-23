@@ -6,15 +6,17 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Remove this class when PhpUnit7 is no longer used by T-Regx
+ * @method expectExceptionMessageRegExp
+ * @method expectException(string)
  */
 trait PhpunitPolyfill
 {
     public function expectExceptionMessageMatches(string $message): void
     {
-        if (!method_exists(TestCase::class, 'expectExceptionMessageMatches')) {
-            parent::expectExceptionMessageRegExp($message);
-        } else {
+        if (method_exists(TestCase::class, 'expectExceptionMessageMatches')) {
             parent::expectExceptionMessageMatches($message);
+        } else {
+            $this->expectExceptionMessageRegExp($message);
         }
     }
 
@@ -23,7 +25,7 @@ trait PhpunitPolyfill
         if (method_exists(TestCase::class, 'expectError')) {
             parent::expectError();
         } else {
-            parent::expectException(Error::class);
+            $this->expectException(Error::class);
         }
     }
 }
