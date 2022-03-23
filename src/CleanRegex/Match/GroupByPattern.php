@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Match\Details\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\FlatMapStrategy;
@@ -116,7 +117,7 @@ class GroupByPattern
 
     private function detail(RawMatchesOffset $matches, int $index): MatchDetail
     {
-        return MatchDetail::create($this->subject,
+        return DeprecatedMatchDetail::create($this->subject,
             $index,
             -1,
             new RawMatchesToMatchAdapter($matches, $index),

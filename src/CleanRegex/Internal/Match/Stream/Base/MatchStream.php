@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
+use TRegx\CleanRegex\Internal\Match\Details\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
@@ -13,7 +14,6 @@ use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\MatchDetail;
 
 class MatchStream implements Upstream
 {
@@ -46,7 +46,7 @@ class MatchStream implements Upstream
 
     protected function firstValue(): Detail
     {
-        return MatchDetail::create($this->subject,
+        return DeprecatedMatchDetail::create($this->subject,
             $this->tryFirstKey(),
             1,
             new GroupPolyfillDecorator(new FalseNegative($this->stream->first()), $this->allFactory, 0),

@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Match\Details\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
@@ -36,7 +37,6 @@ use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\SubjectEmptyOptional;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\SafeRegex\preg;
 
 class MatchPattern implements \Countable, \IteratorAggregate
@@ -118,7 +118,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
     private function findFirstDetail(RawMatchOffset $match): Detail
     {
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0);
-        return MatchDetail::create($this->subject, 0, 1, $polyfill, $this->allFactory, $this->userData);
+        return DeprecatedMatchDetail::create($this->subject, 0, 1, $polyfill, $this->allFactory, $this->userData);
     }
 
     public function only(int $limit): array

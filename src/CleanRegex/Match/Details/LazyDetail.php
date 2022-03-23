@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Match\Details\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
@@ -39,7 +40,7 @@ class LazyDetail implements Detail
     private function createLazyMatch(): MatchDetail
     {
         $matches = $this->base->matchAllOffsets();
-        return MatchDetail::create(
+        return DeprecatedMatchDetail::create(
             $this->subject,
             -99, // These values are never used, because `index()` and `limit()` in LazyMatch aren't
             -99, // passed through `Detail`, because they are read from fields.

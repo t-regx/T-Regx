@@ -4,13 +4,13 @@ namespace Test\Interaction\TRegx\CleanRegex\Match\Details;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Internal\Match\Details\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\MatchDetail;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Details\MatchDetail
@@ -423,7 +423,7 @@ class MatchDetailTest extends TestCase
         $matches = $parameters['matches'] ?? [];
 
         $rawMatches = new RawMatchesOffset($matches);
-        return MatchDetail::create(
+        return DeprecatedMatchDetail::create(
             new Subject($subject),
             $index,
             -1,

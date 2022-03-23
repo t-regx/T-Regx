@@ -2,19 +2,16 @@
 namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\GroupKey\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\DetailGroup;
 use TRegx\CleanRegex\Internal\Match\Details\DetailGroups;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\NumericDetail;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\Entry;
 use TRegx\CleanRegex\Internal\Model\Match\GroupEntries;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Offset\SubjectCoordinates;
@@ -40,7 +37,7 @@ class MatchDetail implements Detail
     /** @var DetailGroups */
     private $groups;
 
-    private function __construct(
+    public function __construct(
         Subject              $subject,
         int                  $index,
         int                  $limit,
@@ -60,15 +57,6 @@ class MatchDetail implements Detail
         $this->numericDetail = new NumericDetail($matchEntry);
         $this->group = new DetailGroup($groupAware, $matchEntry, $usedForGroup, $signatures, $strategy, $allFactory, $subject);
         $this->groups = new DetailGroups($groupAware, $entries, $subject);
-    }
-
-    public static function create(Subject         $subject, int $index, int $limit,
-                                  IRawMatchOffset $match, MatchAllFactory $allFactory,
-                                  UserData        $userData, GroupFactoryStrategy $strategy = null): MatchDetail
-    {
-        return new self($subject, $index, $limit, $match, $match, $match, $match, $allFactory, $userData,
-            $strategy ?? new MatchGroupFactoryStrategy(),
-            new PerformanceSignatures($match, $match));
     }
 
     public function subject(): string

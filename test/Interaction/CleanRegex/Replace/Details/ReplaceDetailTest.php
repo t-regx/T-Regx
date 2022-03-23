@@ -2,6 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\Replace\Details;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Match\Details\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -9,7 +10,6 @@ use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 /**
@@ -71,7 +71,7 @@ class ReplaceDetailTest extends TestCase
     {
         $matches = new RawMatchesOffset($matches);
         $match = new RawMatchesToMatchAdapter($matches, 0);
-        return new ReplaceDetail(MatchDetail::create(
+        return new ReplaceDetail(DeprecatedMatchDetail::create(
             new Subject($subject),
             0,
             -1,

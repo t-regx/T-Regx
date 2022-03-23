@@ -1,11 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
+use TRegx\CleanRegex\Internal\Match\Details\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\MatchDetail;
 
 /**
  * @deprecated
@@ -27,7 +27,7 @@ class DetailObjectFactory
     {
         $matchObjects = [];
         foreach ($matches->matches[0] as $index => $firstWhole) {
-            $matchObjects[$index] = MatchDetail::create($this->subject,
+            $matchObjects[$index] = DeprecatedMatchDetail::create($this->subject,
                 $index,
                 -1,
                 new RawMatchesToMatchAdapter($matches, $index),

@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Replace\Callback;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\Match\Details\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
@@ -14,7 +15,6 @@ use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\CapturingGroup;
-use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 class ReplaceCallbackObject
@@ -75,7 +75,7 @@ class ReplaceCallbackObject
     {
         $index = $this->counter++;
         $match = new RawMatchesToMatchAdapter($this->analyzedPattern, $index);
-        return new ReplaceDetail(MatchDetail::create(
+        return new ReplaceDetail(DeprecatedMatchDetail::create(
             $this->subject,
             $index,
             $this->limit,
