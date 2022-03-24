@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Offset;
 use TRegx\CleanRegex\Internal\Model\Match\Entry;
 use TRegx\CleanRegex\Internal\Subject;
 
-class SubjectCoordinates
+class SubjectCoordinate
 {
     /** @var Entry */
     private $entry;

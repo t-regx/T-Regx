@@ -5,13 +5,13 @@ use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Model\Match\ConstantEntry;
 use Test\Fakes\CleanRegex\Internal\Model\Match\OffsetEntry;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
-use TRegx\CleanRegex\Internal\Offset\SubjectCoordinates;
+use TRegx\CleanRegex\Internal\Offset\SubjectCoordinate;
 use TRegx\CleanRegex\Internal\Subject;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Offset\SubjectCoordinates
+ * @covers \TRegx\CleanRegex\Internal\Offset\SubjectCoordinate
  */
-class SubjectCoordinatesTest extends TestCase
+class SubjectCoordinateTest extends TestCase
 {
     /**
      * @test
@@ -19,26 +19,23 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetCharactersOffset()
     {
         // given
-        $coordinates = new SubjectCoordinates(new OffsetEntry(4), new Subject('foo bar'));
-
+        $coordinate = new SubjectCoordinate(new OffsetEntry(4), new Subject('foo bar'));
         // when
-        $offset = $coordinates->characterOffset();
-
+        $offset = $coordinate->characterOffset();
         // then
         $this->assertSame(4, $offset);
     }
 
     /**
      * @test
+     * @depends shouldGetCharactersOffset
      */
     public function shouldGetCharactersOffsetUnicode()
     {
         // given
-        $coordinates = new SubjectCoordinates(new OffsetEntry(4), new Subject('łść'));
-
+        $coordinate = new SubjectCoordinate(new OffsetEntry(4), new Subject('łść'));
         // when
-        $offset = $coordinates->characterOffset();
-
+        $offset = $coordinate->characterOffset();
         // then
         $this->assertSame(2, $offset);
     }
@@ -49,11 +46,9 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetByteOffset()
     {
         // given
-        $coordinates = new SubjectCoordinates(new OffsetEntry(4), new Subject('łść'));
-
+        $coordinate = new SubjectCoordinate(new OffsetEntry(4), new Subject('łść'));
         // when
-        $offset = $coordinates->byteOffset();
-
+        $offset = $coordinate->byteOffset();
         // then
         $this->assertSame(4, $offset);
     }
@@ -64,26 +59,23 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetCharactersTail()
     {
         // given
-        $coordinates = new SubjectCoordinates(new ConstantEntry('bar', 4), new Subject('foo bar'));
-
+        $coordinate = new SubjectCoordinate(new ConstantEntry('bar', 4), new Subject('foo bar'));
         // when
-        $offset = $coordinates->characterTail();
-
+        $offset = $coordinate->characterTail();
         // then
         $this->assertSame(7, $offset);
     }
 
     /**
      * @test
+     * @depends shouldGetCharactersTail
      */
     public function shouldGetCharactersTailUnicode()
     {
         // given
-        $coordinates = new SubjectCoordinates(new ConstantEntry('ść', 2), new Subject('łść'));
-
+        $coordinate = new SubjectCoordinate(new ConstantEntry('ść', 2), new Subject('łść'));
         // when
-        $tail = $coordinates->characterTail();
-
+        $tail = $coordinate->characterTail();
         // then
         $this->assertSame(3, $tail);
     }
@@ -94,11 +86,9 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetByteTail()
     {
         // given
-        $coordinates = new SubjectCoordinates(new ConstantEntry('ść', 2), new Subject('łść'));
-
+        $coordinate = new SubjectCoordinate(new ConstantEntry('ść', 2), new Subject('łść'));
         // when
-        $tail = $coordinates->byteTail();
-
+        $tail = $coordinate->byteTail();
         // then
         $this->assertSame(6, $tail);
     }
@@ -109,11 +99,9 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetLength()
     {
         // given
-        $coordinates = new SubjectCoordinates(new ConstantEntry('śćł€', 2), new ThrowSubject());
-
+        $coordinate = new SubjectCoordinate(new ConstantEntry('śćł€', 2), new ThrowSubject());
         // when
-        $length = $coordinates->characterLength();
-
+        $length = $coordinate->characterLength();
         // then
         $this->assertSame(4, $length);
     }
@@ -124,11 +112,9 @@ class SubjectCoordinatesTest extends TestCase
     public function shouldGetByteLength()
     {
         // given
-        $coordinates = new SubjectCoordinates(new ConstantEntry('śćł€', 2), new ThrowSubject());
-
+        $coordinate = new SubjectCoordinate(new ConstantEntry('śćł€', 2), new ThrowSubject());
         // when
-        $length = $coordinates->byteLength();
-
+        $length = $coordinate->byteLength();
         // then
         $this->assertSame(9, $length);
     }
