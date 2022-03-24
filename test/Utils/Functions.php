@@ -156,6 +156,14 @@ class Functions
         };
     }
 
+    public static function collect(array &$collection = null, $return = null): callable
+    {
+        return function ($argument) use (&$collection, $return) {
+            $collection[] = $argument;
+            return $return;
+        };
+    }
+
     public static function asString(): callable
     {
         return function (string $argument): string {
