@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.21.0
+---------------
+
 * Breaking changes
     * Renamed `GroupLimit` to `GroupMatch`.
     * Previously `nth()`/`findNth()` threw different exceptions when the subject wasn't matched and when the item was
