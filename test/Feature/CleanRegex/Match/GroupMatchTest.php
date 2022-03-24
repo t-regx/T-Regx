@@ -2,10 +2,10 @@
 namespace Test\Feature\TRegx\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -13,6 +13,8 @@ use TRegx\CleanRegex\Pattern;
  */
 class GroupMatchTest extends TestCase
 {
+    use ExactExceptionMessage;
+
     /**
      * @test
      */
@@ -130,8 +132,8 @@ class GroupMatchTest extends TestCase
         // given
         $group = Pattern::of('(?<value>Foo)')->match('Bar')->group('value');
         // then
-        $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get group 'value' from the 3-nth match, but the subject was not matched");
+        $this->expectException(NoSuchNthElementException::class);
+        $this->expectExceptionMessage("Expected to get group 'value' from the 3-nth match, but the subject was not matched at all");
         // when
         $group->nth(3);
     }
@@ -145,9 +147,23 @@ class GroupMatchTest extends TestCase
         // given
         $group = Pattern::of('(?<name>Foo)')->match('Bar')->group('name');
         // then
-        $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get group 'name' from the 5-nth match, but the subject was not matched");
+        $this->expectException(NoSuchNthElementException::class);
+        $this->expectExceptionMessage("Expected to get group 'name' from the 5-nth match, but the subject was not matched at all");
         // when
         $group->nth(5);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNthThrowForUnmatchedSubject_stream()
+    {
+        // given
+        $group = Pattern::of('(?<value>Foo)')->match('Bar')->group('value')->stream();
+        // then
+        $this->expectException(NoSuchNthElementException::class);
+        $this->expectExceptionMessage("Expected to get the 3-nth stream element, but the subject backing the stream was not matched");
+        // when
+        $group->nth(3);
     }
 }

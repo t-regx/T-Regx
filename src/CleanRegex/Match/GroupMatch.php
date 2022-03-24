@@ -132,16 +132,13 @@ class GroupMatch implements \IteratorAggregate
     public function nth(int $index): string
     {
         $match = $this->base->matchAllOffsets();
-        $count = $match->getCount();
         if (!$match->hasGroup($this->group->nameOrIndex())) {
             throw new NonexistentGroupException($this->group);
         }
         if ($index < 0) {
             throw new InvalidArgumentException("Negative group nth: $index");
         }
-        if (!$match->matched()) {
-            throw SubjectNotMatchedException::forNthGroup($this->subject, $this->group, $index);
-        }
+        $count = $match->getCount();
         if ($count <= $index) {
             throw NoSuchNthElementException::forGroup($this->group, $index, $count);
         }
