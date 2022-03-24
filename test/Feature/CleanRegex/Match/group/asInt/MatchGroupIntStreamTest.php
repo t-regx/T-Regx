@@ -345,7 +345,7 @@ class MatchGroupIntStreamTest extends TestCase
         $optional = pattern('(Foo)')->match('Bar')->group(1)->asInt()->findNth(0);
 
         // then
-        $this->expectException(SubjectNotMatchedException::class);
+        $this->expectException(NoSuchNthElementException::class);
         $this->expectExceptionMessage('Expected to get group #1 as integer from the 0-nth match, but the subject was not matched at all');
 
         // when

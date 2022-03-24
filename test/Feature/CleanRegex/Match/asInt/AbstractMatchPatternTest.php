@@ -47,7 +47,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_nth_OnUnmatchedSubject()
     {
         // then
-        $this->expectException(SubjectNotMatchedException::class);
+        $this->expectException(NoSuchNthElementException::class);
         $this->expectExceptionMessage('Expected to get the 0-nth match as integer, but subject was not matched');
 
         // when

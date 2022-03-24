@@ -2,12 +2,12 @@
 namespace TRegx\CleanRegex\Internal\Match\IntStream;
 
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Rejection;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
+use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Optional;
 
@@ -47,11 +47,16 @@ class NthIntStreamElement
 
     private function unmatchedNth(int $index): Rejection
     {
-        return new Rejection($this->subject, SubjectNotMatchedException::class, $this->messages->messageUnmatched($index));
+        return $this->rejection($this->messages->messageUnmatched($index));
     }
 
     private function insufficientNth(int $index, int $count): Rejection
     {
-        return new Rejection($this->subject, NoSuchNthElementException::class, $this->messages->messageInsufficient($index, $count));
+        return $this->rejection($this->messages->messageInsufficient($index, $count));
+    }
+
+    private function rejection(NotMatchedMessage $message): Rejection
+    {
+        return new Rejection($this->subject, NoSuchNthElementException::class, $message);
     }
 }
