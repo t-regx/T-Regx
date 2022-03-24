@@ -90,8 +90,9 @@ class GroupByPattern
 
     public function flatMap(callable $mapper): array
     {
+        $grouped = $this->map($mapper);
         try {
-            return $this->flattenMap($this->map($mapper), new ArrayMergeStrategy());
+            return $this->flattenMap($grouped, new ArrayMergeStrategy());
         } catch (NonNestedValueException $exception) {
             throw new InvalidReturnValueException('flatMap', 'array', $exception->getType());
         }
@@ -99,8 +100,9 @@ class GroupByPattern
 
     public function flatMapAssoc(callable $mapper): array
     {
+        $grouped = $this->map($mapper);
         try {
-            return $this->flattenMap($this->map($mapper), new AssignStrategy());
+            return $this->flattenMap($grouped, new AssignStrategy());
         } catch (NonNestedValueException $exception) {
             throw new InvalidReturnValueException('flatMapAssoc', 'array', $exception->getType());
         }

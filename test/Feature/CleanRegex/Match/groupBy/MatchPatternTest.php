@@ -6,6 +6,8 @@ use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Internal\NonNestedValueException;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\GroupByPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -196,6 +198,30 @@ class MatchPatternTest extends TestCase
 
         // when
         $this->groupBy()->flatMap(Functions::constant(4));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotSilenceInternalException_flatMap()
+    {
+        // then
+        $this->expectException(NonNestedValueException::class);
+
+        // when
+        $this->groupBy()->flatMap(Functions::throws(new NonNestedValueException(new ValueType(null))));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotSilenceInternalException_flatMapAssoc()
+    {
+        // then
+        $this->expectException(NonNestedValueException::class);
+
+        // when
+        $this->groupBy()->flatMapAssoc(Functions::throws(new NonNestedValueException(new ValueType(null))));
     }
 
     /**
