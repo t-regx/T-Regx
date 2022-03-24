@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\Numeral\GroupExceptions;
-use TRegx\CleanRegex\Internal\Match\Numeral\MatchBase;
+use TRegx\CleanRegex\Internal\Match\Numeral\IntegerBase;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
@@ -31,7 +31,7 @@ class MatchGroupIntStream implements Upstream
     private $group;
     /** @var MatchAllFactory */
     private $allFactory;
-    /** @var MatchBase */
+    /** @var IntegerBase */
     private $numberBase;
 
     public function __construct(Base $base, Subject $subject, GroupKey $group, MatchAllFactory $allFactory, Numeral\Base $numberBase)
@@ -40,7 +40,7 @@ class MatchGroupIntStream implements Upstream
         $this->subject = $subject;
         $this->group = $group;
         $this->allFactory = $allFactory;
-        $this->numberBase = new MatchBase($numberBase, new GroupExceptions($this->group));
+        $this->numberBase = new IntegerBase($numberBase, new GroupExceptions($this->group));
     }
 
     protected function entries(): array

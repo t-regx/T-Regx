@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Match\Numeral\MatchBase;
+use TRegx\CleanRegex\Internal\Match\Numeral\IntegerBase;
 use TRegx\CleanRegex\Internal\Match\Numeral\MatchExceptions;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
@@ -17,7 +17,7 @@ class MatchIntStream implements Upstream
 
     /** @var StreamBase */
     private $stream;
-    /** @var MatchBase */
+    /** @var IntegerBase */
     private $base;
     /** @var Subject */
     private $subject;
@@ -25,7 +25,7 @@ class MatchIntStream implements Upstream
     public function __construct(StreamBase $stream, Base $base, Subject $subject)
     {
         $this->stream = $stream;
-        $this->base = new MatchBase($base, new MatchExceptions());
+        $this->base = new IntegerBase($base, new MatchExceptions());
         $this->subject = $subject;
     }
 

@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
 use TRegx\CleanRegex\Internal\Match\Numeral\GroupExceptions;
-use TRegx\CleanRegex\Internal\Match\Numeral\MatchBase;
+use TRegx\CleanRegex\Internal\Match\Numeral\IntegerBase;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
@@ -50,7 +50,7 @@ class MatchedGroup implements Group
 
     public function toInt(int $base = null): int
     {
-        $match = new MatchBase(new Base($base), new GroupExceptions($this->details->group()));
+        $match = new IntegerBase(new Base($base), new GroupExceptions($this->details->group()));
         return $match->integer($this->groupEntry->text());
     }
 

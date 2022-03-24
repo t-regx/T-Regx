@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
 use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;
 use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
 
-class MatchBase
+class IntegerBase
 {
     /** @var Base */
     private $base;

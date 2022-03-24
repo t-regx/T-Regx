@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
-use TRegx\CleanRegex\Internal\Match\Numeral\MatchBase;
+use TRegx\CleanRegex\Internal\Match\Numeral\IntegerBase;
 use TRegx\CleanRegex\Internal\Match\Numeral\StreamExceptions;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Type\ValueType;
@@ -16,14 +16,14 @@ class IntegerStream implements Upstream
     private $upstream;
     /** @var Base */
     private $base;
-    /** @var MatchBase */
-    private $matchBase;
+    /** @var IntegerBase */
+    private $integerBase;
 
     public function __construct(Upstream $upstream, Base $base)
     {
         $this->upstream = $upstream;
         $this->base = $base;
-        $this->matchBase = new MatchBase($this->base, new StreamExceptions());
+        $this->integerBase = new IntegerBase($this->base, new StreamExceptions());
     }
 
     public function all(): array
@@ -45,7 +45,7 @@ class IntegerStream implements Upstream
             return $value->toInt($this->base->base());
         }
         if (\is_string($value)) {
-            return $this->matchBase->integer($value);
+            return $this->integerBase->integer($value);
         }
         throw InvalidIntegerTypeException::forInvalidType(new ValueType($value));
     }
