@@ -4,7 +4,10 @@ namespace Test\Feature\TRegx\CleanRegex\Match\_foreach;
 use PHPUnit\Framework\TestCase;
 use function pattern;
 
-class OffsetLimitTest extends TestCase
+/**
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\Base\MatchOffsetStream
+ */
+class MatchOffsetStreamTest extends TestCase
 {
     /**
      * @test

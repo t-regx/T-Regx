@@ -19,8 +19,8 @@ use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchOffsetStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream;
-use TRegx\CleanRegex\Internal\Match\Stream\Base\OffsetLimitStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\MatchPatternHelpers;
@@ -184,7 +184,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     public function offsets(): IntStream
     {
-        $upstream = new OffsetLimitStream($this->base, $this->subject);
+        $upstream = new MatchOffsetStream($this->base, $this->subject);
         return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new MatchOffsetMessages()), $this->subject);
     }
 

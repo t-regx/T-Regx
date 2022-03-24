@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Offset\ByteOffset;
 use TRegx\CleanRegex\Internal\Subject;
 
-class OffsetLimitStream implements Upstream
+class MatchOffsetStream implements Upstream
 {
     use ListStream;
 
