@@ -14,16 +14,13 @@ class IntegerStream implements Upstream
 
     /** @var Upstream */
     private $upstream;
-    /** @var Base */
-    private $base;
     /** @var IntegerBase */
-    private $integerBase;
+    private $base;
 
     public function __construct(Upstream $upstream, Base $base)
     {
         $this->upstream = $upstream;
-        $this->base = $base;
-        $this->integerBase = new IntegerBase($this->base, new StreamExceptions());
+        $this->base = new IntegerBase($base, new StreamExceptions());
     }
 
     public function all(): array
@@ -45,7 +42,7 @@ class IntegerStream implements Upstream
             return $value->toInt($this->base->base());
         }
         if (\is_string($value)) {
-            return $this->integerBase->integer($value);
+            return $this->base->integer($value);
         }
         throw InvalidIntegerTypeException::forInvalidType(new ValueType($value));
     }

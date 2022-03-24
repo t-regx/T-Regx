@@ -19,6 +19,11 @@ class IntegerBase
         $this->exceptions = $exceptions;
     }
 
+    public function base(): int
+    {
+        return $this->base->base();
+    }
+
     public function integer(string $numeral): int
     {
         return $this->numberAsInt(new StringNumeral($numeral), $numeral);

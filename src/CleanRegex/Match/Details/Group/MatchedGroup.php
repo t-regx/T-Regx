@@ -50,8 +50,8 @@ class MatchedGroup implements Group
 
     public function toInt(int $base = null): int
     {
-        $match = new IntegerBase(new Base($base), new GroupExceptions($this->details->group()));
-        return $match->integer($this->groupEntry->text());
+        $integerBase = new IntegerBase(new Base($base), new GroupExceptions($this->details->group()));
+        return $integerBase->integer($this->groupEntry->text());
     }
 
     public function isInt(int $base = null): bool
