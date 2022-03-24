@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\stream\group;
+namespace Test\Feature\CleanRegex\Match\stream\group;
 
 use PHPUnit\Framework\TestCase;
 use function pattern;
