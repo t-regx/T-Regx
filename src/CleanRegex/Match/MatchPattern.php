@@ -134,9 +134,6 @@ class MatchPattern implements \Countable, \IteratorAggregate
         if (\array_key_exists($index, $texts)) {
             return $texts[$index];
         }
-        if (empty($texts)) {
-            throw SubjectNotMatchedException::forNth($this->subject, $index);
-        }
         throw NoSuchNthElementException::forSubject($index, \count($texts));
     }
 

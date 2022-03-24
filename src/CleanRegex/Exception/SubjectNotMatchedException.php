@@ -8,7 +8,6 @@ use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchMess
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchTripleMessage;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchTupleMessage;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromNthMatchMessage;
-use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\NthMatchMessage;
 use TRegx\CleanRegex\Internal\Subject;
 
 class SubjectNotMatchedException extends \Exception implements PatternException
@@ -30,11 +29,6 @@ class SubjectNotMatchedException extends \Exception implements PatternException
     public static function forFirst(Subject $subject): self
     {
         return self::withMessage(new FirstMatchMessage(), $subject);
-    }
-
-    public static function forNth(Subject $subject, int $index): self
-    {
-        return self::withMessage(new NthMatchMessage($index), $subject);
     }
 
     public static function forNthGroup(Subject $subject, GroupKey $group, int $index): self

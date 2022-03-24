@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\CausesBacktracking;
 use Test\Utils\DetailFunctions;
+use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
@@ -17,7 +18,7 @@ use function pattern;
 
 class MatchPatternTest extends TestCase
 {
-    use AssertsSameMatches, CausesBacktracking;
+    use AssertsSameMatches, CausesBacktracking, ExactExceptionMessage;
 
     /**
      * @test
@@ -540,8 +541,8 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_nth_forUnmatchedSubject()
     {
         // then
-        $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get the 6-nth match, but subject was not matched");
+        $this->expectException(NoSuchNthElementException::class);
+        $this->expectExceptionMessage("Expected to get the 6-nth match, but subject was not matched at all");
 
         // when
         pattern('Not matching')->match('Lorem Ipsum')->nth(6);
