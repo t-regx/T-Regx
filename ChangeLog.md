@@ -6,6 +6,18 @@ Incoming
 
 * Breaking changes
     * Renamed `GroupLimit` to `GroupMatch`.
+    * Previously `nth()`/`findNth()` threw different exceptions when the subject wasn't matched and when the item was
+      missing. Now they always throw `NoSuchNthElementException` (regardless of whether the subject was matched or not).
+      Exception messages still remain, to inform you whether there was not enough occurrences or whether the subject
+      wasn't matched.
+        * `match()->nth()` throws `NoSuchNthElementException`, instead of `SubjectNotMatchedException`
+        * `match()->asInt()->nth()` throws `NoSuchNthElementException`, instead of `NoSuchStreamElementException`
+        * `match()->stream()->nth()` throws `NoSuchNthElementException`, instead of `NoSuchStreamElementException`
+        * `match()->group()->nth()` throws `NoSuchNthElementException`, instead of `SubjectNotMatchedException`
+        * `match()->group()->asInt()->nth()` throws `NoSuchNthElementException`, instead
+          of `NoSuchStreamElementException`
+        * `match()->group()->stream()->nth()` throws `NoSuchNthElementException`, instead
+          of `NoSuchStreamElementException`
 * Bug fixes
     * `match()->offsets()` and `match()->group()->offsets()` now return offsets as characters. Previously they returned
       them as bytes.
