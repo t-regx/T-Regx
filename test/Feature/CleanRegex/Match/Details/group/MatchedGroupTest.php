@@ -235,7 +235,7 @@ class MatchedGroupTest extends TestCase
 
     private function matchedGroup(string $pattern, string $subject, $groupIdentifier): MatchedGroup
     {
-        Pattern::of($pattern)->match($subject)->first(Functions::collect($detail));
+        Pattern::of($pattern)->match($subject)->first(Functions::out($detail));
         return $detail->group($groupIdentifier);
     }
 }

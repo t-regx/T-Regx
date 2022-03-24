@@ -333,7 +333,7 @@ class MatchDetailTest extends TestCase
 
     private function detail(MatchPattern $matchPattern): MatchDetail
     {
-        $matchPattern->first(Functions::collect($detail));
+        $matchPattern->first(Functions::out($detail));
         return $detail;
     }
 

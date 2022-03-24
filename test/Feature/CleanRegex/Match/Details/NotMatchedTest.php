@@ -23,7 +23,7 @@ class NotMatchedTest extends TestCase
         pattern('Foo')
             ->match('Bar')
             ->findFirst(Functions::fail())
-            ->orElse(Functions::collect($notMatched));
+            ->orElse(Functions::out($notMatched));
 
         // when
         $subject = $notMatched->subject();
@@ -43,7 +43,7 @@ class NotMatchedTest extends TestCase
         pattern('(?<first>first)(?<second>second)')
             ->match('Bar')
             ->findFirst(Functions::fail())
-            ->orElse(Functions::collect($notMatched));
+            ->orElse(Functions::out($notMatched));
 
         // when
         $hasGroup = $notMatched->hasGroup($group);
@@ -63,7 +63,7 @@ class NotMatchedTest extends TestCase
         pattern('(?<first>first)(?<second>second)')
             ->match('Bar')
             ->findFirst(Functions::fail())
-            ->orElse(Functions::collect($notMatched));
+            ->orElse(Functions::out($notMatched));
 
         // when
         $hasGroup = $notMatched->hasGroup($groupIdentifier);
@@ -94,7 +94,7 @@ class NotMatchedTest extends TestCase
         pattern('Foo')
             ->match('Bar')
             ->findFirst(Functions::fail())
-            ->orElse(Functions::collect($notMatched));
+            ->orElse(Functions::out($notMatched));
 
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -124,7 +124,7 @@ class NotMatchedTest extends TestCase
         pattern('(?<first>first)(?<second>second)')
             ->match('Bar')
             ->findFirst(Functions::fail())
-            ->orElse(Functions::collect($notMatched));
+            ->orElse(Functions::out($notMatched));
 
         // when
         $groupNames = $notMatched->groupNames();
@@ -143,7 +143,7 @@ class NotMatchedTest extends TestCase
         pattern('(?<group>a)(b)(?<bar>c)(d)')
             ->match('Bar')
             ->findFirst(Functions::fail())
-            ->orElse(Functions::collect($notMatched));
+            ->orElse(Functions::out($notMatched));
 
         // when
         $groupNames = $notMatched->groupNames();
@@ -161,7 +161,7 @@ class NotMatchedTest extends TestCase
         pattern('(?<group>a)(b)(?<bar>c)(d)')
             ->match('Bar')
             ->findFirst(Functions::fail())
-            ->orElse(Functions::collect($notMatched));
+            ->orElse(Functions::out($notMatched));
 
         // when
         $groupsCount = $notMatched->groupsCount();
@@ -179,7 +179,7 @@ class NotMatchedTest extends TestCase
         pattern('Foo')
             ->match('Bar')
             ->findFirst(Functions::fail())
-            ->orElse(Functions::collect($notMatched));
+            ->orElse(Functions::out($notMatched));
 
         // when
         $this->expectExceptionCastsToString($notMatched, NotMatched::class);

@@ -23,7 +23,7 @@ class pregTest extends TestCase
         $collected = null;
 
         // when
-        preg::replace_callback('/Foo/', Functions::collect($collected), 'Foo', -1, $count, \PREG_OFFSET_CAPTURE);
+        preg::replace_callback('/Foo/', Functions::out($collected), 'Foo', -1, $count, \PREG_OFFSET_CAPTURE);
 
         // then
         $this->assertSame([['Foo', 0]], $collected);
@@ -38,7 +38,7 @@ class pregTest extends TestCase
         $collected = null;
 
         // when
-        preg::replace_callback('/Foo/', Functions::collect($collected), 'Foo', -1, $count, 0);
+        preg::replace_callback('/Foo/', Functions::out($collected), 'Foo', -1, $count, 0);
 
         // then
         $this->assertSame(['Foo'], $collected);
