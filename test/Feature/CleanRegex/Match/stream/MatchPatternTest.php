@@ -16,7 +16,7 @@ use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\MatchPattern;
 
-class AbstractMatchPatternTest extends TestCase
+class MatchPatternTest extends TestCase
 {
     use AssertsSameMatches;
 

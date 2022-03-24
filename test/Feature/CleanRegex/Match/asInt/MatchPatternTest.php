@@ -18,7 +18,7 @@ use TRegx\CleanRegex\Pattern;
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream
  */
-class AbstractMatchPatternTest extends TestCase
+class MatchPatternTest extends TestCase
 {
     use ExactExceptionMessage;
 

@@ -17,7 +17,7 @@ use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;
  *
  * @coversNothing
  */
-class AbstractMatchPatternTest extends TestCase
+class MatchPatternTest extends TestCase
 {
     use CausesBacktracking;
 

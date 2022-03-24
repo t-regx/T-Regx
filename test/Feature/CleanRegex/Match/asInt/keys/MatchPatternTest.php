@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use function pattern;
 
-class AbstractMatchPatternTest extends TestCase
+class MatchPatternTest extends TestCase
 {
     /**
      * @test

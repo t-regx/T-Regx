@@ -4,7 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\stream\_stream;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Detail;
 
-class AbstractMatchPatternTest extends TestCase
+class MatchPatternTest extends TestCase
 {
     /**
      * @test
