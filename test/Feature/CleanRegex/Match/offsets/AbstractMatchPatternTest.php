@@ -56,7 +56,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_map_nth_OnUnmatchedSubject()
     {
         // then
-        $this->expectException(NoSuchStreamElementException::class);
+        $this->expectException(NoSuchNthElementException::class);
         $this->expectExceptionMessage('Expected to get the 0-nth stream element, but the subject backing the stream was not matched');
 
         // when
@@ -82,7 +82,7 @@ class AbstractMatchPatternTest extends TestCase
     public function shouldThrow_filter_nth()
     {
         // then
-        $this->expectException(NoSuchStreamElementException::class);
+        $this->expectException(NoSuchNthElementException::class);
         $this->expectExceptionMessage('Expected to get the 2-nth stream element, but the stream has 0 element(s)');
 
         // when
