@@ -44,6 +44,6 @@ class NotMatched implements Structure
      */
     public function hasGroup($nameOrIndex): bool
     {
-        return $this->groupAware->hasGroup(GroupKey::of($nameOrIndex)->nameOrIndex());
+        return $this->groupAware->hasGroup(GroupKey::of($nameOrIndex));
     }
 }

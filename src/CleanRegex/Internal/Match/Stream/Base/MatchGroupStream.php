@@ -50,7 +50,7 @@ class MatchGroupStream implements Upstream
     protected function entries(): array
     {
         $matches = $this->base->matchAllOffsets();
-        if (!$matches->hasGroup($this->group->nameOrIndex())) {
+        if (!$matches->hasGroup($this->group)) {
             throw new NonexistentGroupException($this->group);
         }
         if (!$matches->matched()) {
@@ -69,8 +69,8 @@ class MatchGroupStream implements Upstream
     protected function firstValue(): Group
     {
         $match = $this->base->matchOffset();
-        if (!$match->hasGroup($this->group->nameOrIndex())) {
-            if (!$this->groupAware->hasGroup($this->group->nameOrIndex())) {
+        if (!$match->hasGroup($this->group)) {
+            if (!$this->groupAware->hasGroup($this->group)) {
                 throw new NonexistentGroupException($this->group);
             }
         }

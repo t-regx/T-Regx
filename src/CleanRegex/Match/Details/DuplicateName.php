@@ -112,7 +112,7 @@ class DuplicateName
     public function group(string $groupName): DuplicateNamedGroup
     {
         $group = new GroupName($groupName);
-        if (!$this->groupAware->hasGroup($group->nameOrIndex())) {
+        if (!$this->groupAware->hasGroup($group)) {
             throw new NonexistentGroupException($group);
         }
         return new DuplicateNamedGroupAdapter($groupName, $this->groupFacade->createGroup($group, $this->forGroup, $this->entry));

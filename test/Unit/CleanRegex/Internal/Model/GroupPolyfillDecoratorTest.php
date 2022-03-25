@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ConstantAll;
 use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ThrowFactory;
 use Test\Fakes\CleanRegex\Internal\Model\ThrowFalseNegative;
+use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
@@ -23,7 +24,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         $decorator = new GroupPolyfillDecorator($this->match(['group' => 'value']), new ThrowFactory(), -10);
 
         // when + then
-        $this->assertTrue($decorator->hasGroup('group'));
+        $this->assertTrue($decorator->hasGroup(new GroupName('group')));
     }
 
     /**
@@ -35,7 +36,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll(['group' => null]), -10);
 
         // when + then
-        $this->assertTrue($decorator->hasGroup('group'));
+        $this->assertTrue($decorator->hasGroup(new GroupName('group')));
     }
 
     /**
@@ -47,7 +48,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll([]), -10);
 
         // when + then
-        $this->assertFalse($decorator->hasGroup('group'));
+        $this->assertFalse($decorator->hasGroup(new GroupName('group')));
     }
 
     /**

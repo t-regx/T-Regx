@@ -84,13 +84,13 @@ class GroupMatch implements \IteratorAggregate
     private function getFirstForGroup(): RawMatchOffset
     {
         $rawMatch = $this->base->matchOffset();
-        if ($rawMatch->hasGroup($this->group->nameOrIndex())) {
+        if ($rawMatch->hasGroup($this->group)) {
             $group = $rawMatch->getGroup($this->group->nameOrIndex());
             if ($group !== null) {
                 return $rawMatch;
             }
         } else {
-            if (!$this->groupAware->hasGroup($this->group->nameOrIndex())) {
+            if (!$this->groupAware->hasGroup($this->group)) {
                 throw new NonexistentGroupException($this->group);
             }
             if (!$rawMatch->matched()) {
@@ -122,7 +122,7 @@ class GroupMatch implements \IteratorAggregate
     private function getAllForGroup(): RawMatchesOffset
     {
         $rawMatches = $this->base->matchAllOffsets();
-        if ($rawMatches->hasGroup($this->group->nameOrIndex())) {
+        if ($rawMatches->hasGroup($this->group)) {
             return $rawMatches;
         }
         throw new NonexistentGroupException($this->group);
@@ -131,7 +131,7 @@ class GroupMatch implements \IteratorAggregate
     public function nth(int $index): string
     {
         $match = $this->base->matchAllOffsets();
-        if (!$match->hasGroup($this->group->nameOrIndex())) {
+        if (!$match->hasGroup($this->group)) {
             throw new NonexistentGroupException($this->group);
         }
         if ($index < 0) {

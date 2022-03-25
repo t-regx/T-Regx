@@ -43,7 +43,7 @@ class GroupMatchFindFirst
         if ($this->matched($first)) {
             return $this->matchedOptional($first, $consumer);
         }
-        if ($this->groupAware->hasGroup($this->group->nameOrIndex())) {
+        if ($this->groupAware->hasGroup($this->group)) {
             return $this->notMatchedOptional($first);
         }
         throw new NonexistentGroupException($this->group);
@@ -51,7 +51,7 @@ class GroupMatchFindFirst
 
     private function matched(RawMatchOffset $first): bool
     {
-        return $first->hasGroup($this->group->nameOrIndex()) && $first->getGroup($this->group->nameOrIndex()) !== null;
+        return $first->hasGroup($this->group) && $first->getGroup($this->group->nameOrIndex()) !== null;
     }
 
     private function matchedOptional(RawMatchOffset $match, callable $consumer): PresentOptional

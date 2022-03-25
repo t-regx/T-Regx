@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\SafeRegex\Internal\Tuple;
 
 /**
@@ -26,9 +27,9 @@ class RawMatchOffset
         return Tuple::first($this->match[0]);
     }
 
-    public function hasGroup($nameOrIndex): bool
+    public function hasGroup(GroupKey $group): bool
     {
-        return \array_key_exists($nameOrIndex, $this->match);
+        return \array_key_exists($group->nameOrIndex(), $this->match);
     }
 
     public function getGroup($nameOrIndex): ?string

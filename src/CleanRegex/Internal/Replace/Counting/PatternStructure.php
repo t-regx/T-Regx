@@ -44,7 +44,6 @@ class PatternStructure implements Structure
 
     public function hasGroup($nameOrIndex): bool
     {
-        GroupKey::of($nameOrIndex);
-        return $this->groupAware->hasGroup($nameOrIndex);
+        return $this->groupAware->hasGroup(GroupKey::of($nameOrIndex));
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\UsedForGroup;
@@ -27,14 +28,10 @@ class GroupPolyfillDecorator implements IRawMatchOffset
         $this->newMatchIndex = $newMatchIndex;
     }
 
-    /**
-     * @param string|int $nameOrIndex
-     * @return bool
-     */
-    public function hasGroup($nameOrIndex): bool
+    public function hasGroup(GroupKey $group): bool
     {
-        if ($this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
-            return $this->trueMatch()->hasGroup($nameOrIndex);
+        if ($this->falseMatch->maybeGroupIsMissing($group->nameOrIndex())) {
+            return $this->trueMatch()->hasGroup($group);
         }
         return true;
     }

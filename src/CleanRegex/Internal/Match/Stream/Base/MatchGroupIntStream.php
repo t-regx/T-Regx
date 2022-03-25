@@ -46,7 +46,7 @@ class MatchGroupIntStream implements Upstream
     protected function entries(): array
     {
         $matches = $this->base->matchAllOffsets();
-        if (!$matches->hasGroup($this->group->nameOrIndex())) {
+        if (!$matches->hasGroup($this->group)) {
             throw new NonexistentGroupException($this->group);
         }
         if ($matches->matched()) {
@@ -67,7 +67,7 @@ class MatchGroupIntStream implements Upstream
     {
         $match = $this->base->matchOffset();
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0);
-        if (!$polyfill->hasGroup($this->group->nameOrIndex())) {
+        if (!$polyfill->hasGroup($this->group)) {
             throw new NonexistentGroupException($this->group);
         }
         if (!$match->matched()) {

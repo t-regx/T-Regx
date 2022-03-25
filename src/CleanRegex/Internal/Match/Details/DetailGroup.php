@@ -48,7 +48,7 @@ class DetailGroup
 
     public function exists(GroupKey $group): bool
     {
-        return $this->groupAware->hasGroup($group->nameOrIndex());
+        return $this->groupAware->hasGroup($group);
     }
 
     public function matched(GroupKey $groupKey): bool

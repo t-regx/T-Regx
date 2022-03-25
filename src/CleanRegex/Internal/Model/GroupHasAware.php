@@ -1,11 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+
 interface GroupHasAware
 {
-    /**
-     * @param string|int $nameOrIndex
-     * @return bool
-     */
-    public function hasGroup($nameOrIndex): bool;
+    public function hasGroup(GroupKey $group): bool;
 }

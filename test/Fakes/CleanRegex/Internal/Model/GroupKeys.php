@@ -1,10 +1,14 @@
 <?php
 namespace Test\Fakes\CleanRegex\Internal\Model;
 
+use Test\Utils\Fails;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 
 class GroupKeys implements GroupAware
 {
+    use Fails;
+
     /** @var array */
     private $groupKeys;
 
@@ -13,9 +17,9 @@ class GroupKeys implements GroupAware
         $this->groupKeys = $groupKeys;
     }
 
-    public function hasGroup($nameOrIndex): bool
+    public function hasGroup(GroupKey $group): bool
     {
-        return \in_array($nameOrIndex, $this->groupKeys);
+        throw $this->fail();
     }
 
     public function getGroupKeys(): array

@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 
@@ -26,9 +27,9 @@ class RawMatchesToMatchAdapter implements IRawMatchOffset
         return $all[$this->index];
     }
 
-    public function hasGroup($nameOrIndex): bool
+    public function hasGroup(GroupKey $group): bool
     {
-        return $this->matches->hasGroup($nameOrIndex);
+        return $this->matches->hasGroup($group);
     }
 
     public function getGroupKeys(): array

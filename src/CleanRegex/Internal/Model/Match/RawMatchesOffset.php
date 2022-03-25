@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 
 /**
@@ -27,13 +28,9 @@ class RawMatchesOffset implements GroupAware
         return \count($this->matches[0]);
     }
 
-    /**
-     * @param string|int $nameOrIndex
-     * @return bool
-     */
-    public function hasGroup($nameOrIndex): bool
+    public function hasGroup(GroupKey $group): bool
     {
-        return \array_key_exists($nameOrIndex, $this->matches);
+        return \array_key_exists($group->nameOrIndex(), $this->matches);
     }
 
     public function getLimitedGroupOffsets($nameOrIndex, int $limit): array

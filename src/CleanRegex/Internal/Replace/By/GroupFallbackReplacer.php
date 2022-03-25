@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Replace\By;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Base\Base;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -80,7 +81,7 @@ class GroupFallbackReplacer
     private function validateGroup(array $match, GroupKey $group): void
     {
         if (!array_key_exists($group->nameOrIndex(), $match)) {
-            if (!$this->base->matchAllOffsets()->hasGroup($group->nameOrIndex())) {
+            if (!$this->base->matchAllOffsets()->hasGroup($group)) {
                 throw new NonexistentGroupException($group);
             }
         }
@@ -114,7 +115,7 @@ class GroupFallbackReplacer
         }
         // With preg_replace_callback - it's impossible to distinguish unmatched group from a matched empty string
         $matches = $this->base->matchAllOffsets();
-        if (!$matches->hasGroup($this->counter)) {
+        if (!$matches->hasGroup(new GroupIndex($this->counter))) {
             // @codeCoverageIgnoreStart
             throw new InternalCleanRegexException();
             // @codeCoverageIgnoreEnd

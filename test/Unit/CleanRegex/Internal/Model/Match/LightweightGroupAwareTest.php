@@ -3,6 +3,7 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Model\Match;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Definitions;
+use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 
 /**
@@ -37,7 +38,7 @@ class LightweightGroupAwareTest extends TestCase
         $groupAware = new LightweightGroupAware(Definitions::pcre($pattern));
 
         // when
-        $hasGroup = $groupAware->hasGroup('group');
+        $hasGroup = $groupAware->hasGroup(new GroupName('group'));
 
         // then
         $this->assertSame($expected, $hasGroup);

@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Model\Match;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 
 /**
@@ -29,9 +30,9 @@ class RawMatches implements GroupAware
         return $this->matches[0];
     }
 
-    public function hasGroup($nameOrIndex): bool
+    public function hasGroup(GroupKey $group): bool
     {
-        return \array_key_exists($nameOrIndex, $this->matches);
+        return \array_key_exists($group->nameOrIndex(), $this->matches);
     }
 
     public function getGroupKeys(): array

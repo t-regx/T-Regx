@@ -78,7 +78,7 @@ class GroupByPattern
 
     private function groupedByFunction(DetailFunction $function): array
     {
-        if (!$this->groupAware->hasGroup($this->group->nameOrIndex())) {
+        if (!$this->groupAware->hasGroup($this->group)) {
             throw new NonexistentGroupException($this->group);
         }
         $map = [];
