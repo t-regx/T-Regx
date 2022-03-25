@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\FlatMapStrategy;
-use TRegx\CleanRegex\Internal\Nested;
 
 class FlatMapStream implements Upstream
 {
@@ -23,7 +22,7 @@ class FlatMapStream implements Upstream
 
     public function all(): array
     {
-        return $this->strategy->flatten(new Nested(\array_map([$this->function, 'apply'], $this->upstream->all())));
+        return $this->strategy->flatten($this->function->map($this->upstream->all()));
     }
 
     public function first()

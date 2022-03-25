@@ -31,7 +31,6 @@ use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\Numeral;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
@@ -161,13 +160,13 @@ class GroupMatch implements \IteratorAggregate
     public function flatMap(callable $mapper): array
     {
         $function = new FlatFunction($mapper, 'flatMap');
-        return (new ArrayMergeStrategy())->flatten(new Nested(\array_map([$function, 'apply'], $this->details())));
+        return (new ArrayMergeStrategy())->flatten($function->map($this->details()));
     }
 
     public function flatMapAssoc(callable $mapper): array
     {
         $function = new FlatFunction($mapper, 'flatMapAssoc');
-        return (new AssignStrategy())->flatten(new Nested(\array_map([$function, 'apply'], $this->details())));
+        return (new AssignStrategy())->flatten($function->map($this->details()));
     }
 
     /**
