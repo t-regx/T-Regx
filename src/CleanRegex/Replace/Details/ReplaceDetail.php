@@ -164,11 +164,17 @@ class ReplaceDetail implements Detail
         return $this->detail->byteTail();
     }
 
+    /**
+     * @deprecated
+     */
     public function setUserData($userData): void
     {
         $this->detail->setUserData($userData);
     }
 
+    /**
+     * @deprecated
+     */
     public function getUserData()
     {
         return $this->detail->getUserData();

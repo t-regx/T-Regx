@@ -10,6 +10,10 @@ Incoming
     * Fixed a bug when `groups()->texts()` with `LazyDetail` returned `''` for an unmatched group on PHP7.1.
 
       `LazyDetail` is the implementation of `Detail` used with `replace()->orElseCalling()`.
+* Deprecation
+    * User-data in `Detail` will be removed in future release
+        * Deprecated `Detail.setUserData()`
+        * Deprecated `Detail.getUserData()`
 
 Added in 0.21.0
 ---------------

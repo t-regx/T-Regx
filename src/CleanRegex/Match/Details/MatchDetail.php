@@ -184,11 +184,17 @@ class MatchDetail implements Detail
         return $this->coordinate->byteTail();
     }
 
+    /**
+     * @deprecated
+     */
     public function setUserData($userData): void
     {
         $this->userData->set($this, $userData);
     }
 
+    /**
+     * @deprecated
+     */
     public function getUserData()
     {
         return $this->userData->get($this);
