@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Pattern;
 
@@ -113,6 +114,20 @@ class GroupMatchTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrow_nth_forNonexistentGroup()
+    {
+        // given
+        $group = Pattern::of('(?<value>Foo)')->match('Foo')->group('missing');
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+        // when
+        $group->nth(0);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_nth_forNegativeIndex()
     {
         // given
@@ -127,7 +142,7 @@ class GroupMatchTest extends TestCase
     /**
      * @test
      */
-    public function shouldNthThrowForUnmatchedSubject()
+    public function shouldThrow_nth_forUnmatchedSubject()
     {
         // given
         $group = Pattern::of('(?<value>Foo)')->match('Bar')->group('value');
@@ -140,7 +155,24 @@ class GroupMatchTest extends TestCase
 
     /**
      * @test
-     * @depends shouldNthThrowForUnmatchedSubject
+     * @depends shouldThrow_nth_forNonexistentGroup
+     * @depends shouldThrow_nth_forNegativeIndex
+     * @depends shouldThrow_nth_forUnmatchedSubject
+     */
+    public function shouldThrow_forNonexistentGroup_overNegativeIndex()
+    {
+        // given
+        $group = Pattern::of('(?<value>Foo)')->match('Bar')->group('missing');
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+        // when
+        $group->nth(-3);
+    }
+
+    /**
+     * @test
+     * @depends shouldThrow_nth_forUnmatchedSubject
      */
     public function shouldNthThrowForUnmatchedSubject_5th()
     {
