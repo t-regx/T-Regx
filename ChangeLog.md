@@ -4,6 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
+* Breaking changes
+    * Changed the namespace of `LazyDetail` to `TRegx\CleanRegex\Replace\By\LazyDetail`.
 * Bug fixes
     * Fixed a bug when `groups()->texts()` with `LazyDetail` returned `''` for an unmatched group on PHP7.1.
 

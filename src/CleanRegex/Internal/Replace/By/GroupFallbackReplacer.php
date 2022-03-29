@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\LazyDetail;
+use TRegx\CleanRegex\Replace\By\LazyDetail;
 use TRegx\SafeRegex\preg;
 use function array_key_exists;
 

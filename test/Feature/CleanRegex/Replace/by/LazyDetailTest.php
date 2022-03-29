@@ -1,15 +1,15 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\Details;
+namespace Test\Feature\TRegx\CleanRegex\Replace\by;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Match\Details\LazyDetail;
 use TRegx\CleanRegex\Pattern;
+use TRegx\CleanRegex\Replace\By\LazyDetail;
 use TRegx\CleanRegex\Replace\ReplacePattern;
 
 /**
- * @covers \TRegx\CleanRegex\Match\Details\LazyDetail
+ * @covers \TRegx\CleanRegex\Replace\By\LazyDetail
  */
 class LazyDetailTest extends TestCase
 {
@@ -317,6 +317,19 @@ class LazyDetailTest extends TestCase
         $result = $detail->groups()->texts();
         // then
         $this->assertSame([null, 'one', 'two'], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupsMiddleMissing()
+    {
+        // given
+        $detail = $this->detail(Pattern::of('!(?<first>one),(Bar)?(?<second>two)!')->replace('!one,two!'), 2);
+        // when
+        $result = $detail->groups()->texts();
+        // then
+        $this->assertSame(['one', null, 'two'], $result);
     }
 
     /**

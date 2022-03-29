@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
-use TRegx\CleanRegex\Match\Details\LazyDetail;
+use TRegx\CleanRegex\Replace\By\LazyDetail;
 use TRegx\DataProvider\DataProviders;
 
 class ReplacePatternTest extends TestCase
