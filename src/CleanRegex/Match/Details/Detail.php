@@ -26,7 +26,6 @@ interface Detail extends Structure, Intable
     /**
      * @param string|int $nameOrIndex
      * @return string
-     * @throws NonexistentGroupException
      */
     public function get($nameOrIndex): string;
 
@@ -46,7 +45,6 @@ interface Detail extends Structure, Intable
     /**
      * @param string|int $nameOrIndex
      * @return bool
-     * @throws NonexistentGroupException
      */
     public function matched($nameOrIndex): bool;
 

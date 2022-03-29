@@ -86,7 +86,6 @@ class MatchPattern implements \Countable, \IteratorAggregate
     /**
      * @param null|callable $consumer
      * @return string|mixed
-     * @throws SubjectNotMatchedException
      */
     public function first(callable $consumer = null)
     {
