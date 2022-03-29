@@ -108,8 +108,11 @@ class RawMatchesOffset implements GroupAware
 
     public function getGroupsTexts(int $index): array
     {
-        return \array_map(static function (array $match) use ($index) {
+        return \array_map(static function (array $match) use ($index): ?string {
             [$text, $offset] = $match[$index];
+            if ($offset === -1) {
+                return null;
+            }
             return $text;
         }, $this->matches);
     }

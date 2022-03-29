@@ -4,7 +4,10 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Bug fixes
+    * Fixed a bug when `groups()->texts()` with `LazyDetail` returned `''` for an unmatched group on PHP7.1.
+
+      `LazyDetail` is the implementation of `Detail` used with `replace()->orElseCalling()`.
 
 Added in 0.21.0
 ---------------
