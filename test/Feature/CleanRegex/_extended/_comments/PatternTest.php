@@ -16,9 +16,9 @@ class PatternTest extends TestCase
     public function shouldAddComment()
     {
         // when
-        $pattern = Pattern::inject("You/her #@\n her?", [], 'x');
+        $pattern = Pattern::inject("You/her #@\n her?", [], 'ix');
         // then
-        $this->assertSamePattern("%You/her #@\n her?%x", $pattern);
+        $this->assertSamePattern("%You/her #@\n her?%ix", $pattern);
     }
 
     /**

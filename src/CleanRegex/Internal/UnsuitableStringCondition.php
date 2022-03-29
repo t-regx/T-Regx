@@ -8,11 +8,11 @@ class UnsuitableStringCondition implements Condition
 
     public function __construct(string $string)
     {
-        $this->string = new Chars($string);
+        $this->string = $string;
     }
 
     public function suitable(string $candidate): bool
     {
-        return !$this->string->contains($candidate);
+        return \strPos($this->string, $candidate) === false;
     }
 }

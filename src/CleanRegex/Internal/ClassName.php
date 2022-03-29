@@ -75,8 +75,7 @@ class ClassName
 
     private function isWrongParametersError(string $className, \Error $error): bool
     {
-        $message = new Chars($error->getMessage());
-        return $message->startsWith("Wrong parameters for $className");
+        return \strPos($error->getMessage(), "Wrong parameters for $className") === 0;
     }
 
     private function notClassException(): ClassExpectedException

@@ -1,8 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
-use TRegx\CleanRegex\Internal\Chars;
-
 class FlagString
 {
     /** @var string */
@@ -34,8 +32,10 @@ class FlagString
 
     private function resetsFlags(): bool
     {
-        $flags = new Chars($this->flagString);
-        return $flags->startsWith('^');
+        if ($this->flagString === '') {
+            return false;
+        }
+        return $this->flagString[0] === '^';
     }
 
     private function amountOfConstructionFlags(): int

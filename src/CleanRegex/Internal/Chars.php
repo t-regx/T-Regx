@@ -16,23 +16,12 @@ class Chars
         $this->string = $string;
     }
 
-    public function contains(string $infix): bool
-    {
-        if ($infix === '') {
-            return true;
-        }
-        return \mb_substr($this->string, \mb_strpos($this->string, $infix), \mb_strlen($infix)) === $infix;
-    }
-
-    public function startsWith(string $prefix): bool
-    {
-        return \mb_substr($this->string, 0, \mb_strlen($prefix)) === $prefix;
-    }
-
     public function endsWith(string $suffix): bool
     {
-        $suffixLength = \mb_strlen($suffix);
-        return \mb_substr($this->string, -$suffixLength, $suffixLength) === $suffix;
+        if ($this->string === '') {
+            return false;
+        }
+        return $this->string[-1] === $suffix;
     }
 
     public function __toString(): string
