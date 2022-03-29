@@ -49,7 +49,7 @@ class PerformanceSignaturesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroupSignatureForUnnamtedGRoup()
+    public function shouldGetGroupSignatureForUnmatchedGroup()
     {
         // given
         $performance = new PerformanceSignatures(new RawMatchOffset([0 => null, 1 => null, 'foo' => null]), new ThrowGroupAware());

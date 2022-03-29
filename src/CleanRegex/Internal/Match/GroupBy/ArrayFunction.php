@@ -18,7 +18,7 @@ class ArrayFunction implements DetailFunction
         $this->methodName = $methodName;
     }
 
-    public function apply(Detail $detail)
+    public function apply(Detail $detail): array
     {
         $result = ($this->mapper)($detail);
         if (\is_array($result)) {
