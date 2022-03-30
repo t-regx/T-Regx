@@ -2,6 +2,11 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\all;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\InvalidReplacementException;
+use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 class ReplacePatternTest extends TestCase
@@ -9,7 +14,7 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReplace_withString()
+    public function shouldReplaceWithString()
     {
         // when
         $result = pattern('er|ab|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->all()->with('*');
@@ -21,19 +26,60 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReplace_withCallback()
+    public function shouldReplaceWithCallback()
     {
-        // given
-        $pattern = 'http://(?<name>[a-z]+)\.(com|org)';
-        $subject = 'Links: http://google.com, http://other.org and http://website.org.';
-
         // when
-        $result = pattern($pattern)->replace($subject)->all()->callback(function (ReplaceDetail $detail) {
-            return $detail->group('name');
-        });
+        $replaced = Pattern::of('white')
+            ->replace('Gandalf the white')
+            ->callback(Functions::constant('fool'));
 
         // then
-        $this->assertSame('Links: google, other and website.', $result);
+        $this->assertSame('Gandalf the fool', $replaced);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReplaceWithMatchedGroup()
+    {
+        // when
+        $result = Pattern::of('Foo(?<matched>Bar)')
+            ->replace('FooBar')
+            ->all()
+            ->callback(function (Detail $detail) {
+                return $detail->group('matched');
+            });
+
+        // then
+        $this->assertSame('Bar', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForReplacementWithUnmatchedGroup()
+    {
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to replace with group 'unmatched', but the group was not matched");
+        // when
+        Pattern::of('Foo(?<unmatched>Bar)?')
+            ->replace('Foo')
+            ->callback(function (Detail $detail) {
+                return $detail->group('unmatched');
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_OnNonStringReplacement()
+    {
+        // then
+        $this->expectException(InvalidReplacementException::class);
+        $this->expectExceptionMessage('Invalid callback() callback return type. Expected string, but integer (123) given');
+        // when
+        Pattern::of('Foo')->replace('Foo')->callback(Functions::constant(123));
     }
 
     /**
@@ -68,6 +114,24 @@ class ReplacePatternTest extends TestCase
 
             return '';
         });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCaptureReplaceDetail()
+    {
+        // when
+        Pattern::of('[a-z]+')
+            ->replace('...hello there, general kenobi')
+            ->callback(Functions::out($detail, 'replacement'));
+        // then
+        $this->assertSame(['hello', 'there', 'general', 'kenobi'], $detail->all());
+        $this->assertSame('...hello there, general kenobi', $detail->subject());
+        $this->assertSame('hello', $detail->text());
+        $this->assertSame(0, $detail->index());
+        $this->assertSame(3, $detail->offset());
+        $this->assertSame(3, $detail->modifiedOffset());
     }
 
     /**
