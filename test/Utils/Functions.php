@@ -148,10 +148,15 @@ class Functions
         };
     }
 
-    public static function out(&$output, $return = null): callable
+    public static function out(&$argument, $return = null): callable
     {
-        return function ($argument) use (&$output, $return) {
-            $output = $argument;
+        $captured = false;
+        return function ($capturedArgument) use (&$captured, &$argument, $return) {
+            if ($captured) {
+                return $return;
+            }
+            $argument = $capturedArgument;
+            $captured = true;
             return $return;
         };
     }
