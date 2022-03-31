@@ -3,8 +3,10 @@ namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\GroupKey\WholeMatch;
 use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
+use TRegx\CleanRegex\Internal\Replace\AllowAllGroupAware;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
@@ -40,7 +42,6 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
         $this->limit = $limit;
         $this->substitute = $substitute;
         $this->countingStrategy = $countingStrategy;
-        $this->invoker = new ReplacePatternCallbackInvoker($definition, $subject, $limit, $substitute, $countingStrategy);
     }
 
     public function with(string $replacement): string
@@ -60,7 +61,9 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
 
     public function callback(callable $callback): string
     {
-        return $this->invoker->invoke($callback, new MatchStrategy());
+        $invoker = new ReplacePatternCallbackInvoker($this->definition, $this->subject, $this->limit, $this->substitute, $this->countingStrategy,
+            new AllowAllGroupAware(), new WholeMatch());
+        return $invoker->invoke($callback, new MatchStrategy());
     }
 
     public function by(): ByReplacePattern
@@ -75,7 +78,10 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
                 new ApiBase($this->definition, $this->subject)),
             new LazyMessageThrowStrategy(),
             new PerformanceEmptyGroupReplace($this->definition, $this->subject, $this->limit),
-            $this->invoker,
+            $this->definition,
+            $this->limit,
+            $this->countingStrategy,
+            new LightweightGroupAware($this->definition),
             $this->subject,
             new IdentityWrapper());
     }

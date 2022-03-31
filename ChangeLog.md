@@ -10,10 +10,15 @@ Incoming
     * Fixed a bug when `groups()->texts()` with `LazyDetail` returned `''` for an unmatched group on PHP7.1.
 
       `LazyDetail` is the implementation of `Detail` used with `replace()->orElseCalling()`.
+    * Fixed a bug when using `replace()->by()->group()` with a nonexistent group, didn't
+      throw `NonexistentGroupException` for unmatched subject.
 * Deprecation
     * User-data in `Detail` will be removed in future release
         * Deprecated `Detail.setUserData()`
         * Deprecated `Detail.getUserData()`
+* Other
+    * Updated `replace()->by()->group()`, so that certain scenarios which would normally
+      throw `CatastrophicBacktrackingException`, are handled in such a way that no catastrophic backtracking happens.
 
 Added in 0.21.0
 ---------------

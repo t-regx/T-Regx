@@ -2,10 +2,12 @@
 namespace Test\Interaction\TRegx\CleanRegex\Replace\Callback;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Model\ThrowGroupAware;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Definitions;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Internal\GroupKey\WholeMatch;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Subject;
@@ -27,7 +29,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     {
         // given
         $subject = 'Tom Cruise is 21 years old and has 192cm';
-        $invoker = new ReplacePatternCallbackInvoker(Definitions::pattern('[0-9]+'), new Subject($subject), 2, new DefaultStrategy(), new IgnoreCounting());
+        $invoker = new ReplacePatternCallbackInvoker(Definitions::pattern('[0-9]+'), new Subject($subject), 2, new DefaultStrategy(), new IgnoreCounting(), new ThrowGroupAware(), new WholeMatch());
 
         // when
         $result = $invoker->invoke(Functions::surround('*'), new MatchStrategy());
@@ -43,7 +45,8 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     {
         // given
         $subject = 'Tom Cruise is 21 years old and has 192cm';
-        $invoker = new ReplacePatternCallbackInvoker(Definitions::pattern('[0-9]+'), new Subject($subject), 2, new DefaultStrategy(), new IgnoreCounting());
+        $invoker = new ReplacePatternCallbackInvoker(Definitions::pattern('[0-9]+'), new Subject($subject), 2,
+            new DefaultStrategy(), new IgnoreCounting(), new ThrowGroupAware(), new WholeMatch());
         $offsets = [];
         $callback = function (ReplaceDetail $detail) use (&$offsets) {
             $offsets[] = $detail->offset();
@@ -64,7 +67,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     {
         // given
         $subject = '192.168.17.20';
-        $invoker = new ReplacePatternCallbackInvoker(Definitions::pattern('[0-9]+'), new Subject($subject), 3, new DefaultStrategy(), new IgnoreCounting());
+        $invoker = new ReplacePatternCallbackInvoker(Definitions::pattern('[0-9]+'), new Subject($subject), 3, new DefaultStrategy(), new IgnoreCounting(), new ThrowGroupAware(), new WholeMatch());
 
         // when
         $invoker->invoke(DetailFunctions::collecting($values, Functions::identity()), new MatchStrategy());
@@ -80,7 +83,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     {
         // given
         $subject = '192.168.17.20';
-        $invoker = new ReplacePatternCallbackInvoker(Definitions::pattern('[0-9]+'), new Subject($subject), 3, new DefaultStrategy(), new IgnoreCounting());
+        $invoker = new ReplacePatternCallbackInvoker(Definitions::pattern('[0-9]+'), new Subject($subject), 3, new DefaultStrategy(), new IgnoreCounting(), new ThrowGroupAware(), new WholeMatch());
         $callback = function (ReplaceDetail $detail) {
             // then
             $this->assertSame(['192', '168', '17', '20'], $detail->all());
@@ -99,7 +102,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     {
         // given
         $subject = 'Tom Cruise is 21 years old and has 192cm';
-        $invoker = new ReplacePatternCallbackInvoker(Definitions::pattern('[0-9]+'), new Subject($subject), 2, new DefaultStrategy(), new IgnoreCounting());
+        $invoker = new ReplacePatternCallbackInvoker(Definitions::pattern('[0-9]+'), new Subject($subject), 2, new DefaultStrategy(), new IgnoreCounting(), new ThrowGroupAware(), new WholeMatch());
         $callback = function (ReplaceDetail $detail) use ($subject) {
             // then
             $this->assertSame($subject, $detail->subject());
@@ -117,7 +120,7 @@ class ReplacePatternCallbackInvokerTest extends TestCase
     public function shouldNotInvokeCallback_limit_0()
     {
         // given
-        $invoker = new ReplacePatternCallbackInvoker(Definitions::pcre('//'), new Subject(''), 0, new DefaultStrategy(), new IgnoreCounting());
+        $invoker = new ReplacePatternCallbackInvoker(Definitions::pcre('//'), new Subject(''), 0, new DefaultStrategy(), new IgnoreCounting(), new ThrowGroupAware(), new WholeMatch());
 
         // when
         $result = $invoker->invoke(Functions::fail(), new MatchStrategy());

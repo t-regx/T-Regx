@@ -2,10 +2,16 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\by\group\callback;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\CausesBacktracking;
+use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Pattern;
 
 class ReplacePatternTest extends TestCase
 {
+    use CausesBacktracking;
+
     /**
      * @test
      */
@@ -66,5 +72,54 @@ class ReplacePatternTest extends TestCase
 
         // then
         $this->assertSame('Replace replaced!, replaced! and replaced!', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForNonexistentGroupMatchedSubject()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+        // when
+        Pattern::of('Foo')
+            ->replace('Foo')
+            ->by()
+            ->group('missing')
+            ->callback(Functions::fail());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForNonexistentGroupUnmatchedSubject()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+        // when
+        Pattern::of('Foo')
+            ->replace('Bar')
+            ->by()
+            ->group('missing')
+            ->callback(Functions::fail());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotCallEverythingForUnmatchedGroup()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+        // when
+        Pattern::of('([a\d]+[a\d]+)+3')
+            ->replace('aa3 aaaaaaaaaaaaaaaaaaaa 3')
+            ->first()
+            ->by()
+            ->group('missing')
+            ->callback(Functions::fail());
     }
 }
