@@ -2,8 +2,10 @@
 namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Match\Base\ApiBase;
+use TRegx\CleanRegex\Internal\Match\MatchAll\LazyMatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Subject;
@@ -21,6 +23,8 @@ class ReplacePatternCallbackInvoker
     private $substitute;
     /** @var CountingStrategy */
     private $countingStrategy;
+    /** @var MatchAllFactory */
+    private $allFactory;
 
     public function __construct(Definition $definition, Subject $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy)
     {
@@ -29,6 +33,7 @@ class ReplacePatternCallbackInvoker
         $this->limit = $limit;
         $this->substitute = $substitute;
         $this->countingStrategy = $countingStrategy;
+        $this->allFactory = new LazyMatchAllFactory(new ApiBase($definition, $subject));
     }
 
     public function invoke(callable $callback, ReplaceCallbackArgumentStrategy $strategy): string
@@ -61,13 +66,7 @@ class ReplacePatternCallbackInvoker
 
     private function createObjectCallback(callable $callback, ReplaceCallbackArgumentStrategy $strategy): callable
     {
-        $object = new ReplaceCallbackObject($callback, $this->subject, $this->analyzePattern(), $this->limit, $strategy);
+        $object = new ReplaceCallbackObject($callback, $this->subject, $this->allFactory, $this->limit, $strategy);
         return $object->getCallback();
-    }
-
-    private function analyzePattern(): RawMatchesOffset
-    {
-        preg::match_all($this->definition->pattern, $this->subject, $matches, \PREG_OFFSET_CAPTURE);
-        return new RawMatchesOffset($matches);
     }
 }

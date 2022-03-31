@@ -6,9 +6,8 @@ use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Details\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 use TRegx\CleanRegex\Internal\Subject;
@@ -23,8 +22,8 @@ class ReplaceCallbackObject
     private $callback;
     /** @var Subject */
     private $subject;
-    /** @var RawMatchesOffset */
-    private $analyzedPattern;
+    /** @var MatchAllFactory */
+    private $factory;
     /** @var int */
     private $counter = 0;
     /** @var int */
@@ -38,13 +37,13 @@ class ReplaceCallbackObject
 
     public function __construct(callable                        $callback,
                                 Subject                         $subject,
-                                RawMatchesOffset                $analyzedPattern,
+                                MatchAllFactory                 $factory,
                                 int                             $limit,
                                 ReplaceCallbackArgumentStrategy $argumentStrategy)
     {
         $this->callback = $callback;
         $this->subject = $subject;
-        $this->analyzedPattern = $analyzedPattern;
+        $this->factory = $factory;
         $this->subjectModification = $this->subject->asString();
         $this->limit = $limit;
         $this->argumentStrategy = $argumentStrategy;
@@ -74,13 +73,13 @@ class ReplaceCallbackObject
     private function createDetailObject(): ReplaceDetail
     {
         $index = $this->counter++;
-        $match = new RawMatchesToMatchAdapter($this->analyzedPattern, $index);
+        $match = new RawMatchesToMatchAdapter($this->factory->getRawMatches(), $index);
         return new ReplaceDetail(DeprecatedMatchDetail::create(
             $this->subject,
             $index,
             $this->limit,
             $match,
-            new EagerMatchAllFactory($this->analyzedPattern),
+            $this->factory,
             new UserData(),
             new ReplaceMatchGroupFactoryStrategy(
                 $this->byteOffsetModification,
@@ -117,7 +116,7 @@ class ReplaceCallbackObject
 
     private function modifySubject(string $replacement): void
     {
-        [$text, $offset] = $this->analyzedPattern->getTextAndOffset($this->counter - 1);
+        [$text, $offset] = $this->factory->getRawMatches()->getTextAndOffset($this->counter - 1);
 
         $this->subjectModification = \substr_replace(
             $this->subjectModification,
