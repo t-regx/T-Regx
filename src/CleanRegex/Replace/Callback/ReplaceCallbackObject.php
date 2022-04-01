@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
-use TRegx\CleanRegex\Internal\Replace\Details\Modification;
+use TRegx\CleanRegex\Internal\Replace\Details\EntryModification;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -105,7 +105,7 @@ class ReplaceCallbackObject
             new ReplaceMatchGroupFactoryStrategy(
                 $this->byteOffsetModification,
                 $this->subjectModification)),
-            new Modification($match, $this->subjectModification, $this->byteOffsetModification));
+            new EntryModification($match, $this->subjectModification, $this->byteOffsetModification));
     }
 
     private function getReplacement($replacement): string

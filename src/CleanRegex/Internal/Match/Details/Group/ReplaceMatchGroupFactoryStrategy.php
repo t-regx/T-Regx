@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
-use TRegx\CleanRegex\Internal\Replace\Details\Modification;
+use TRegx\CleanRegex\Internal\Replace\Details\EntryModification;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
@@ -25,7 +25,7 @@ class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
     public function matched(Subject $subject, GroupDetails $details, GroupEntry $entry, SubstitutedGroup $substituted): MatchedGroup
     {
         return new ReplaceMatchedGroup($subject, $details, $entry, $substituted,
-            new Modification($entry, $this->subjectModification, $this->byteOffsetModification));
+            new EntryModification($entry, $this->subjectModification, $this->byteOffsetModification));
     }
 
     public function notMatched(Subject $subject, GroupDetails $details, NotMatched $notMatched): NotMatchedGroup

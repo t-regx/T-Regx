@@ -1,11 +1,10 @@
 <?php
 namespace Test\Fakes\CleanRegex\Replace\Details;
 
-use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowEntry;
 use Test\Utils\Fails;
 use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 
-class ConstantModification extends Modification
+class ConstantModification implements Modification
 {
     use Fails;
 
@@ -16,7 +15,6 @@ class ConstantModification extends Modification
 
     public function __construct(int $offset, int $byteOffset)
     {
-        parent::__construct(new ThrowEntry(), '', -1);
         $this->offset = $offset;
         $this->byteOffset = $byteOffset;
     }

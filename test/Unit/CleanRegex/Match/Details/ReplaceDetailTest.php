@@ -10,7 +10,7 @@ use Test\Fakes\CleanRegex\Match\Details\UserDataDetail;
 use Test\Fakes\CleanRegex\Replace\Details\ConstantModification;
 use Test\Fakes\CleanRegex\Replace\Details\ThrowModification;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Replace\Details\Modification;
+use TRegx\CleanRegex\Internal\Replace\Details\EntryModification;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
@@ -26,7 +26,7 @@ class ReplaceDetailTest extends TestCase
     public function shouldGetModifiedSubject()
     {
         // given
-        $detail = new ReplaceDetail(new ThrowDetail(), new Modification(new ThrowEntry(), 'subject', 0));
+        $detail = new ReplaceDetail(new ThrowDetail(), new EntryModification(new ThrowEntry(), 'subject', 0));
 
         // when
         $subject = $detail->modifiedSubject();
