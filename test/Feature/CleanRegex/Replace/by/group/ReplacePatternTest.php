@@ -53,6 +53,64 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldReplaceWithMiddleGroupNotMatched()
+    {
+        // when
+        $result = pattern('(One)(Two)?(Three)')->replace('Replacement:OneThree')
+            ->by()
+            ->group(2)
+            ->orElseWith('unmatched');
+        // then
+        $this->assertSame('Replacement:unmatched', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReplaceWithMiddleGroupEmpty()
+    {
+        // when
+        $result = pattern('(One)()(Three)')->replace('Replace "OneThree"')
+            ->by()
+            ->group(2)
+            ->orElseIgnore();
+
+        // then
+        $this->assertSame('Replace ""', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReplaceWithLastGroupNotMatched()
+    {
+        // when
+        $result = pattern('(One)(Two)?(Three)?.')->replace('One.')
+            ->by()
+            ->group(3)
+            ->orElseIgnore();
+        // then
+        $this->assertSame('One.', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReplaceWithLastGroupEmpty()
+    {
+        // when
+        $result = pattern('(One)(Two)?().')->replace('Replace "One."')
+            ->by()
+            ->group(3)
+            ->orElseIgnore();
+
+        // then
+        $this->assertSame('Replace ""', $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldNotReplace_passMatchDetails_orElse()
     {
         // when
@@ -385,5 +443,20 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group(1)
             ->orElseThrow(CustomSubjectException::class);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReplace_emptyString()
+    {
+        // when
+        $result = pattern('<(\w*)>')
+            ->replace('<two> <> <four>')
+            ->by()
+            ->group(1)
+            ->callback(Functions::asString('strLen'));
+        // then
+        $this->assertSame('3 0 4', $result);
     }
 }

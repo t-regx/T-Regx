@@ -169,14 +169,7 @@ class Functions
         };
     }
 
-    public static function asString(): callable
-    {
-        return function (string $argument): string {
-            return $argument;
-        };
-    }
-
-    public static function asStringSecond(): callable
+    public static function secondArgument(): callable
     {
         return function ($irrelevant, string $argument): string {
             return $argument;
@@ -205,6 +198,13 @@ class Functions
         $entries = [];
         return static function ($key, $value) use (&$entries) {
             $entries[$key] = $value;
+        };
+    }
+
+    public static function asString(callable $function): callable
+    {
+        return static function ($argument) use ($function) {
+            return (string)($function)($argument);
         };
     }
 }

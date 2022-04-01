@@ -133,7 +133,7 @@ class MatchPatternTest extends TestCase
     public function shouldReduceSecond()
     {
         // when
-        $reduced = pattern('\w+')->match('Foo, Bar')->reduce(Functions::asStringSecond(), 'Accumulator');
+        $reduced = pattern('\w+')->match('Foo, Bar')->reduce(Functions::secondArgument(), 'Accumulator');
 
         // then
         $this->assertSame('Bar', $reduced);
