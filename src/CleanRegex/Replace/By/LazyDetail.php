@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\By;
 
-use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
 use TRegx\CleanRegex\Internal\Replace\By\DelegatedDetail;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;

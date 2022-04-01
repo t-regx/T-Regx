@@ -1,9 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Model;
+namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Model\Match\IRawMatchOffset;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
 
 /**
  * @deprecated

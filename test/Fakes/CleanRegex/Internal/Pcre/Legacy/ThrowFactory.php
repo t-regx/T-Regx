@@ -1,9 +1,9 @@
 <?php
-namespace Test\Fakes\CleanRegex\Internal\Match\MatchAll;
+namespace Test\Fakes\CleanRegex\Internal\Pcre\Legacy;
 
 use AssertionError;
-use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
 
 class ThrowFactory implements MatchAllFactory
 {

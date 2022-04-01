@@ -2,12 +2,12 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream\Base;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Match\Base\ConstantAllBase;
-use Test\Fakes\CleanRegex\Internal\Match\Base\ConstantFirstBase;
+use Test\Fakes\CleanRegex\Internal\Pcre\Legacy\ConstantAllBase;
+use Test\Fakes\CleanRegex\Internal\Pcre\Legacy\ConstantFirstBase;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase

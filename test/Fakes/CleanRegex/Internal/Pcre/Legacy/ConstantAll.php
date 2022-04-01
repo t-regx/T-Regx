@@ -1,8 +1,8 @@
 <?php
-namespace Test\Fakes\CleanRegex\Internal\Match\MatchAll;
+namespace Test\Fakes\CleanRegex\Internal\Pcre\Legacy;
 
-use TRegx\CleanRegex\Internal\Match\MatchAll\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
 
 class ConstantAll implements MatchAllFactory
 {

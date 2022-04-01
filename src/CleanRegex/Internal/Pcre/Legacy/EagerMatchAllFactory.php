@@ -1,7 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match\MatchAll;
-
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
+namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
 
 /**
  * @deprecated

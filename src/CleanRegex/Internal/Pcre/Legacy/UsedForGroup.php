@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Model\Match;
+namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
 
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupStream;

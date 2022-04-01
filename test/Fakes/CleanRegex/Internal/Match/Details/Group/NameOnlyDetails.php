@@ -1,7 +1,7 @@
 <?php
 namespace Test\Fakes\CleanRegex\Internal\Match\Details\Group;
 
-use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ThrowFactory;
+use Test\Fakes\CleanRegex\Internal\Pcre\Legacy\ThrowFactory;
 use Test\Utils\Fails;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;

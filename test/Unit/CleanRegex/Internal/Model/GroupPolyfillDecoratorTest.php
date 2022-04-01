@@ -2,16 +2,16 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Model;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ConstantAll;
-use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ThrowFactory;
 use Test\Fakes\CleanRegex\Internal\Model\ThrowFalseNegative;
+use Test\Fakes\CleanRegex\Internal\Pcre\Legacy\ConstantAll;
+use Test\Fakes\CleanRegex\Internal\Pcre\Legacy\ThrowFactory;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
-use TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\GroupPolyfillDecorator;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Model\GroupPolyfillDecorator
+ * @covers \TRegx\CleanRegex\Internal\Pcre\Legacy\GroupPolyfillDecorator
  */
 class GroupPolyfillDecoratorTest extends TestCase
 {

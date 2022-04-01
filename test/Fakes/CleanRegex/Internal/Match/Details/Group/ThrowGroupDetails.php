@@ -2,7 +2,7 @@
 namespace Test\Fakes\CleanRegex\Internal\Match\Details\Group;
 
 use AssertionError;
-use Test\Fakes\CleanRegex\Internal\Match\MatchAll\ThrowFactory;
+use Test\Fakes\CleanRegex\Internal\Pcre\Legacy\ThrowFactory;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;

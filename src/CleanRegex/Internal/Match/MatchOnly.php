@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match;
 
 use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Match\Base\Base;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
 use TRegx\SafeRegex\preg;
 
 class MatchOnly

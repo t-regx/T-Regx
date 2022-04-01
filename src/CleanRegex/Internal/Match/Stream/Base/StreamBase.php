@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
-use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 
 class StreamBase
 {

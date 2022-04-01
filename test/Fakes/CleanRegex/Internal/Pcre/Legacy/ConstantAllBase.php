@@ -1,12 +1,12 @@
 <?php
-namespace Test\Fakes\CleanRegex\Internal\Match\Base;
+namespace Test\Fakes\CleanRegex\Internal\Pcre\Legacy;
 
 use Test\Utils\Fails;
-use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatch;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatches;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 
 class ConstantAllBase implements Base
 {

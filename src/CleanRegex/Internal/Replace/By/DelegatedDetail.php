@@ -1,11 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace\By;
 
-use TRegx\CleanRegex\Internal\Match\Base\Base;
-use TRegx\CleanRegex\Internal\Match\Details\DeprecatedMatchDetail;
-use TRegx\CleanRegex\Internal\Match\MatchAll\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Match\UserData;
-use TRegx\CleanRegex\Internal\Model\RawMatchesToMatchAdapter;
+use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 

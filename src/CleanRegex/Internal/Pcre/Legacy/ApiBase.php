@@ -1,11 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match\Base;
+namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatch;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatches;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
 

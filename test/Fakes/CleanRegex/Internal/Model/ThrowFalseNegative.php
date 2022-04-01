@@ -3,7 +3,7 @@ namespace Test\Fakes\CleanRegex\Internal\Model;
 
 use Test\Utils\Fails;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
-use TRegx\CleanRegex\Internal\Model\Match\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 
 class ThrowFalseNegative extends FalseNegative
 {
