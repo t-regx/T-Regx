@@ -11,7 +11,6 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
-use TRegx\CleanRegex\Internal\Replace\Details\EntryModification;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -29,10 +28,6 @@ class ReplaceCallbackObject
     /** @var int */
     private $counter = 0;
     /** @var int */
-    private $byteOffsetModification = 0;
-    /** @var string */
-    private $subjectModification;
-    /** @var int */
     private $limit;
     /** @var ReplaceCallbackArgumentStrategy */
     private $argumentStrategy;
@@ -40,6 +35,8 @@ class ReplaceCallbackObject
     private $groupAware;
     /** @var GroupKey */
     private $groupKey;
+    /** @var SubjectAlteration */
+    private $alteration;
 
     public function __construct(callable                        $callback,
                                 Subject                         $subject,
@@ -52,11 +49,11 @@ class ReplaceCallbackObject
         $this->callback = $callback;
         $this->subject = $subject;
         $this->factory = $factory;
-        $this->subjectModification = $this->subject->asString();
         $this->limit = $limit;
         $this->argumentStrategy = $argumentStrategy;
         $this->groupAware = $groupAware;
         $this->groupKey = $groupKey;
+        $this->alteration = new SubjectAlteration($subject);
     }
 
     public function getCallback(): callable
@@ -73,8 +70,7 @@ class ReplaceCallbackObject
         }
         $result = ($this->callback)($this->matchObject());
         $replacement = $this->getReplacement($result);
-        $this->modifySubject($replacement);
-        $this->modifyOffset($match[0], $replacement);
+        $this->modify($match, $replacement);
         return $replacement;
     }
 
@@ -103,9 +99,9 @@ class ReplaceCallbackObject
             $this->factory,
             new UserData(),
             new ReplaceMatchGroupFactoryStrategy(
-                $this->byteOffsetModification,
-                $this->subjectModification)),
-            new EntryModification($match, $this->subjectModification, $this->byteOffsetModification));
+                $this->alteration->byteOffset(),
+                $this->alteration->subject())),
+            $this->alteration->modification($match->byteOffset()));
     }
 
     private function getReplacement($replacement): string
@@ -130,19 +126,20 @@ class ReplaceCallbackObject
         throw GroupNotMatchedException::forReplacement(GroupKey::of($group->usedIdentifier()));
     }
 
-    private function modifyOffset(string $search, string $replacement): void
+    private function modify(array $match, string $replacement): void
     {
-        $this->byteOffsetModification += \strlen($replacement) - \strlen($search);
+        [$text, $offset] = $this->textAndOffset($match);
+        $this->alteration->modify($text, $offset, $replacement);
     }
 
-    private function modifySubject(string $replacement): void
+    private function textAndOffset(array $match): array
     {
-        [$text, $offset] = $this->factory->getRawMatches()->getTextAndOffset($this->counter - 1);
+        return [$match[0], $this->matchOffset()];
+    }
 
-        $this->subjectModification = \substr_replace(
-            $this->subjectModification,
-            $replacement,
-            $offset + $this->byteOffsetModification,
-            \strlen($text));
+    private function matchOffset(): int
+    {
+        [$_, $offset] = $this->factory->getRawMatches()->getTextAndOffset($this->counter - 1);
+        return $offset;
     }
 }
