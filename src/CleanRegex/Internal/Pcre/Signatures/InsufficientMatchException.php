@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\GroupKey;
+namespace TRegx\CleanRegex\Internal\Pcre\Signatures;
 
 class InsufficientMatchException extends \Exception
 {

@@ -1,7 +1,10 @@
 <?php
-namespace TRegx\CleanRegex\Internal\GroupKey;
+namespace TRegx\CleanRegex\Internal\Pcre\Signatures;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
+use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 
 class ArraySignatures implements Signatures
 {
