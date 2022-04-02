@@ -45,15 +45,7 @@ class ApiBase implements Base
 
     public function matchAllOffsets(): RawMatchesOffset
     {
-        preg::match_all($this->definition->pattern, $this->subject, $matches, $this->matchAllOffsetsFlags());
+        preg::match_all($this->definition->pattern, $this->subject, $matches, \PREG_OFFSET_CAPTURE);
         return new RawMatchesOffset($matches);
-    }
-
-    private function matchAllOffsetsFlags(): int
-    {
-        if (\defined('PREG_UNMATCHED_AS_NULL')) {
-            return \PREG_OFFSET_CAPTURE | \PREG_UNMATCHED_AS_NULL;
-        }
-        return \PREG_OFFSET_CAPTURE;
     }
 }
