@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.22.0
+---------------
+
 * Breaking changes
     * Changed the namespace of `LazyDetail` to `TRegx\CleanRegex\Replace\By\LazyDetail`.
 * Bug fixes
