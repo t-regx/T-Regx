@@ -71,6 +71,11 @@ class Stream implements \Countable, \IteratorAggregate
         return $this->terminal->getIterator();
     }
 
+    public function reduce(callable $reducer, $accumulator)
+    {
+        return $this->terminal->reduce($reducer, $accumulator);
+    }
+
     public function first(callable $consumer = null)
     {
         if ($consumer === null) {
@@ -156,13 +161,5 @@ class Stream implements \Countable, \IteratorAggregate
     private function next(Upstream $upstream): Stream
     {
         return new Stream($upstream, $this->subject);
-    }
-
-    public function reduce(callable $reducer, $accumulator)
-    {
-        foreach ($this as $detail) {
-            $accumulator = $reducer($accumulator, $detail);
-        }
-        return $accumulator;
     }
 }

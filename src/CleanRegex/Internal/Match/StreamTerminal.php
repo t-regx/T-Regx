@@ -51,4 +51,12 @@ class StreamTerminal
             return new \EmptyIterator();
         }
     }
+
+    public function reduce(callable $reducer, $accumulator)
+    {
+        foreach ($this->all() as $detail) {
+            $accumulator = $reducer($accumulator, $detail);
+        }
+        return $accumulator;
+    }
 }
