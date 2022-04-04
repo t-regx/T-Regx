@@ -32,8 +32,6 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
     private $substitute;
     /** @var CountingStrategy */
     private $countingStrategy;
-    /** @var ReplacePatternCallbackInvoker */
-    private $invoker;
 
     public function __construct(Definition $definition, Subject $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy)
     {

@@ -4,7 +4,6 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group\stream;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\DetailFunctions;
-use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
