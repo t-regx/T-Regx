@@ -1,11 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-
 interface GroupReplace
 {
-    public function orElseThrow(string $exceptionClassName = GroupNotMatchedException::class): string;
+    public function orElseThrow(\Throwable $throwable = null): string;
 
     public function orElseIgnore(): string;
 

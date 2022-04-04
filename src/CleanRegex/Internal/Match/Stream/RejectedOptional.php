@@ -1,25 +1,28 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
+use Throwable;
 use TRegx\CleanRegex\Internal\EmptyOptional;
-use TRegx\CleanRegex\Internal\Match\Rejection;
 use TRegx\CleanRegex\Match\Optional;
 
 class RejectedOptional implements Optional
 {
     use EmptyOptional;
 
-    /** @var Rejection */
-    private $rejection;
+    /** @var Throwable */
+    private $throwable;
 
-    public function __construct(Rejection $rejection)
+    public function __construct(Throwable $throwable)
     {
-        $this->rejection = $rejection;
+        $this->throwable = $throwable;
     }
 
-    public function orThrow(string $exceptionClassName = null): void
+    public function orThrow(Throwable $throwable = null): void
     {
-        $this->rejection->throw($exceptionClassName);
+        if ($throwable === null) {
+            throw $this->throwable;
+        }
+        throw $throwable;
     }
 
     public function orElse(callable $substituteProducer)

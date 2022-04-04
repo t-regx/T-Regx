@@ -1,11 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Numeral\IntegerBase;
 use TRegx\CleanRegex\Internal\Match\Numeral\MatchExceptions;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
-use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
+use TRegx\CleanRegex\Internal\Match\Stream\SubjectStreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchAsIntMessage;
 use TRegx\CleanRegex\Internal\Numeral\Base;
@@ -39,7 +38,7 @@ class MatchIntStream implements Upstream
         try {
             return $this->base->integer($this->stream->first()->getText());
         } catch (UnmatchedStreamException $exception) {
-            throw new StreamRejectedException($this->subject, SubjectNotMatchedException::class, new FirstMatchAsIntMessage());
+            throw new SubjectStreamRejectedException(new FirstMatchAsIntMessage(), $this->subject);
         }
     }
 }

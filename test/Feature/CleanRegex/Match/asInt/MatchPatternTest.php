@@ -2,17 +2,15 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\asInt;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Message\ThrowMessage;
-use Test\Fakes\CleanRegex\Internal\ThrowSubject;
-use Test\Utils\CustomSubjectException;
 use Test\Utils\ExactExceptionMessage;
+use Test\Utils\ExampleException;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -130,13 +128,10 @@ class MatchPatternTest extends TestCase
      */
     public function shouldThrow_findFirst_orThrow_WithCustomException()
     {
-        try {
-            // when
-            pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail())->orThrow(CustomSubjectException::class);
-        } catch (CustomSubjectException $exception) {
-            // then
-            $this->assertSame('Bar', $exception->subject);
-        }
+        // then
+        $this->expectException(ExampleException::class);
+        // when
+        pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail())->orThrow(new ExampleException());
     }
 
     /**
@@ -144,13 +139,10 @@ class MatchPatternTest extends TestCase
      */
     public function shouldThrow_findNth_orThrow_WithCustomException()
     {
-        try {
-            // when
-            pattern('\d+')->match('12 13 14')->asInt()->findNth(5)->orThrow(CustomSubjectException::class);
-        } catch (CustomSubjectException $exception) {
-            // then
-            $this->assertSame('12 13 14', $exception->subject);
-        }
+        // then
+        $this->expectException(ExampleException::class);
+        // when
+        pattern('\d+')->match('12 13 14')->asInt()->findNth(5)->orThrow(new ExampleException());
     }
 
     /**
@@ -222,11 +214,9 @@ class MatchPatternTest extends TestCase
     public function shouldPassThrough_first()
     {
         // given
-        $throwable = new StreamRejectedException(new ThrowSubject(), '', new ThrowMessage());
-
+        $throwable = new GroupNotMatchedException('message');
         // then
-        $this->expectException(StreamRejectedException::class);
-
+        $this->expectException(GroupNotMatchedException::class);
         // when
         pattern('(12)')->match('12')->asInt()->first(Functions::throws($throwable));
     }
@@ -238,10 +228,8 @@ class MatchPatternTest extends TestCase
     {
         // given
         $stream = pattern('\d+')->match('1, 2, 3, 4')->asInt();
-
         // when
         $count = \count($stream);
-
         // then
         $this->assertSame(4, $count);
     }

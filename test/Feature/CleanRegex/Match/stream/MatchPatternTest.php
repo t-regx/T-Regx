@@ -3,9 +3,9 @@ namespace Test\Feature\TRegx\CleanRegex\Match\stream;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
-use Test\Utils\CustomSubjectException;
 use Test\Utils\Definitions;
 use Test\Utils\DetailFunctions;
+use Test\Utils\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
@@ -212,18 +212,14 @@ class MatchPatternTest extends TestCase
      */
     public function should_findFirst_orThrow_custom()
     {
-        try {
-            // when
-            pattern("Foo")
-                ->match("Bar")
-                ->stream()
-                ->findFirst(Functions::fail())
-                ->orThrow(CustomSubjectException::class);
-        } catch (CustomSubjectException $exception) {
-            // then
-            $this->assertSame('Expected to get the first match, but subject was not matched', $exception->getMessage());
-            $this->assertSame('Bar', $exception->subject);
-        }
+        // then
+        $this->expectException(ExampleException::class);
+        // when
+        pattern("Foo")
+            ->match("Bar")
+            ->stream()
+            ->findFirst(Functions::fail())
+            ->orThrow(new ExampleException());
     }
 
     /**
@@ -231,19 +227,15 @@ class MatchPatternTest extends TestCase
      */
     public function should_filter_findFirst_orThrow_custom()
     {
-        try {
-            // when
-            pattern('Foo')
-                ->match('Foo')
-                ->stream()
-                ->filter(Functions::constant(false))
-                ->findFirst(Functions::fail())
-                ->orThrow(CustomSubjectException::class);
-        } catch (CustomSubjectException $exception) {
-            // then
-            $this->assertSame('Expected to get the first stream element, but the stream has 0 element(s)', $exception->getMessage());
-            $this->assertSame('Foo', $exception->subject);
-        }
+        // then
+        $this->expectException(ExampleException::class);
+        // when
+        pattern('Foo')
+            ->match('Foo')
+            ->stream()
+            ->filter(Functions::constant(false))
+            ->findFirst(Functions::fail())
+            ->orThrow(new ExampleException());
     }
 
     /**

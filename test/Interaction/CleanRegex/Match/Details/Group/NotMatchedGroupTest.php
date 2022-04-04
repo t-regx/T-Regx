@@ -2,7 +2,7 @@
 namespace Test\Interaction\TRegx\CleanRegex\Match\Details\Group;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CustomSubjectException;
+use Test\Utils\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Subject;
@@ -85,15 +85,10 @@ class NotMatchedGroupTest extends TestCase
     {
         // given
         $matchGroup = $this->matchGroup(new Subject('subject'));
-
-        try {
-            // when
-            $matchGroup->orThrow(CustomSubjectException::class);
-        } catch (CustomSubjectException $exception) {
-            // then
-            $this->assertSame("Expected to get group 'first', but it was not matched", $exception->getMessage());
-            $this->assertSame('subject', $exception->subject);
-        }
+        // then
+        $this->expectException(ExampleException::class);
+        // when
+        $matchGroup->orThrow(new ExampleException());
     }
 
     private function matchGroup(Subject $subject = null): NotMatchedGroup

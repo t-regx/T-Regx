@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\focus\by\group\map;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CustomException;
+use Test\Utils\ExampleException;
 use Test\Utils\FocusGroupPairs;
 use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;
 
@@ -34,11 +34,9 @@ class ReplacePatternTest extends TestCase
     {
         // given
         [$pattern, $subject] = FocusGroupPairs::patternAndSubjectUnmatched();
-
         // then
         $this->expectException(FocusGroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to replace focused group 'name', but the group was not matched");
-
         // when
         pattern($pattern)->replace($subject)
             ->all()
@@ -46,6 +44,6 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group('domain')
             ->map([])
-            ->orElseThrow(CustomException::class);
+            ->orElseThrow(new ExampleException());
     }
 }

@@ -7,7 +7,6 @@ use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
-use TRegx\CleanRegex\Internal\Match\Rejection;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\FilterStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMapStream;
@@ -94,9 +93,9 @@ class Stream implements \Countable, \IteratorAggregate
         try {
             return new PresentOptional($this->upstream->first());
         } catch (StreamRejectedException $exception) {
-            return new RejectedOptional(new Rejection($this->subject, NoSuchStreamElementException::class, $exception->notMatchedMessage()));
+            return new RejectedOptional(new NoSuchStreamElementException($exception->notMatchedMessage()));
         } catch (EmptyStreamException $exception) {
-            return new RejectedOptional(new Rejection($this->subject, NoSuchStreamElementException::class, new FromFirstStreamMessage()));
+            return new RejectedOptional(new NoSuchStreamElementException(new FromFirstStreamMessage()));
         }
     }
 

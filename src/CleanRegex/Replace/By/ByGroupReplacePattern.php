@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Replace\By;
 
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Message\Replace\WithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
@@ -88,9 +87,9 @@ class ByGroupReplacePattern implements GroupReplace
             $this->middlewareMapper);
     }
 
-    public function orElseThrow(string $exceptionClassName = GroupNotMatchedException::class): string
+    public function orElseThrow(\Throwable $throwable = null): string
     {
-        return $this->replaceGroupOptional(new ThrowStrategy($exceptionClassName, new WithUnmatchedGroupMessage($this->group)));
+        return $this->replaceGroupOptional(new ThrowStrategy($throwable, new WithUnmatchedGroupMessage($this->group)));
     }
 
     public function orElseWith(string $replacement): string

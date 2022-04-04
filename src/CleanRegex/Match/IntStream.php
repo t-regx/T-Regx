@@ -83,7 +83,7 @@ class IntStream implements \Countable, \IteratorAggregate
         try {
             return new PresentOptional($this->upstream->first());
         } catch (StreamRejectedException $exception) {
-            return new RejectedOptional($exception->rejection());
+            return new RejectedOptional($exception->throwable());
         }
     }
 

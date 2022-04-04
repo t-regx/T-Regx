@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
+use Throwable;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
-use TRegx\CleanRegex\Internal\Match\Rejection;
 use TRegx\CleanRegex\Internal\Message\GroupMessage;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -17,15 +17,15 @@ class NotMatchedGroup implements Group
     private $details;
     /** @var NotMatched */
     private $notMatched;
-    /** @var Rejection */
-    private $rejection;
+    /** @var GroupMessage */
+    private $groupMessage;
 
     public function __construct(Subject $subject, GroupDetails $details, NotMatched $notMatched)
     {
         $this->subject = $subject;
         $this->details = $details;
         $this->notMatched = $notMatched;
-        $this->rejection = new Rejection($subject, GroupNotMatchedException::class, new GroupMessage($this->details->group()));
+        $this->groupMessage = new GroupMessage($this->details->group());
     }
 
     public function text(): string
@@ -129,9 +129,12 @@ class NotMatchedGroup implements Group
         return $substitute;
     }
 
-    public function orThrow(string $exceptionClassName = null): void
+    public function orThrow(Throwable $throwable = null): void
     {
-        $this->rejection->throw($exceptionClassName);
+        if ($throwable === null) {
+            throw new GroupNotMatchedException($this->groupMessage->getMessage());
+        }
+        throw $throwable;
     }
 
     public function orElse(callable $substituteProducer)

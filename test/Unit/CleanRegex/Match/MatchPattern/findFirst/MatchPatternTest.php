@@ -1,9 +1,9 @@
 <?php
 namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\findFirst;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Definitions;
+use Test\Utils\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Subject;
@@ -60,7 +60,7 @@ class MatchPatternTest extends TestCase
 
         // when
         $first1 = $pattern->findFirst('strToUpper')->orReturn(null);
-        $first2 = $pattern->findFirst('strToUpper')->orThrow();
+        $first2 = $pattern->findFirst('strToUpper')->orThrow(new \Exception());
         $first3 = $pattern->findFirst('strToUpper')->orElse(Functions::fail());
 
         // then
@@ -105,33 +105,14 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function should_onNotMatchingSubject_throw_userGivenException()
+    public function should_onNotMatchingSubject()
     {
         // given
         $pattern = new MatchPattern(Definitions::pattern('Foo'), new Subject('Bar'));
-
         // then
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
-
+        $this->expectException(ExampleException::class);
         // when
-        $pattern->findFirst('strRev')->orThrow(InvalidArgumentException::class);
-    }
-
-    /**
-     * @test
-     */
-    public function should_onNotMatchingSubject_throw_withMessage()
-    {
-        // given
-        $pattern = new MatchPattern(Definitions::pattern('Foo'), new Subject('Bar'));
-
-        // then
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
-
-        // when
-        $pattern->findFirst('strRev')->orThrow(InvalidArgumentException::class);
+        $pattern->findFirst('strRev')->orThrow(new ExampleException());
     }
 
     /**

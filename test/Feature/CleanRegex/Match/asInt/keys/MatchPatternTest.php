@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\asInt\keys;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CustomSubjectException;
+use Test\Utils\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
@@ -81,11 +81,9 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_findFirst_orThrow_WithCustomException()
     {
         // then
-        $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
-
+        $this->expectException(ExampleException::class);
         // when
-        pattern('Foo')->match('Bar')->asInt()->keys()->findFirst(Functions::fail())->orThrow(CustomSubjectException::class);
+        pattern('Foo')->match('Bar')->asInt()->keys()->findFirst(Functions::fail())->orThrow(new ExampleException());
     }
 
     /**
@@ -94,11 +92,9 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_findNth_orThrow_WithCustomException()
     {
         // then
-        $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage('Expected to get the 5-nth stream element, but the stream has 3 element(s)');
-
+        $this->expectException(ExampleException::class);
         // when
-        pattern('\d+')->match('12 13 14')->asInt()->keys()->findNth(5)->orThrow(CustomSubjectException::class);
+        pattern('\d+')->match('12 13 14')->asInt()->keys()->findNth(5)->orThrow(new ExampleException());
     }
 
     /**

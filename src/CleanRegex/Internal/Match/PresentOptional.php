@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match;
 
+use Throwable;
 use TRegx\CleanRegex\Match\Optional;
 
 class PresentOptional implements Optional
@@ -13,7 +14,7 @@ class PresentOptional implements Optional
         $this->value = $value;
     }
 
-    public function orThrow(string $exceptionClassName = null)
+    public function orThrow(Throwable $throwable = null)
     {
         return $this->value;
     }

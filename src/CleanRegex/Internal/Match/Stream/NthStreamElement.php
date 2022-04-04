@@ -3,9 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
-use TRegx\CleanRegex\Internal\Match\Rejection;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
-use TRegx\CleanRegex\Internal\Message\Message;
 use TRegx\CleanRegex\Internal\Message\Stream\FromNthStreamMessage;
 use TRegx\CleanRegex\Internal\Message\Stream\SubjectNotMatched;
 use TRegx\CleanRegex\Internal\Subject;
@@ -29,7 +27,7 @@ class NthStreamElement
         try {
             return $this->unmatchedOptional($index);
         } catch (UnmatchedStreamException $exception) {
-            return new RejectedOptional($this->unmatchedNth($index));
+            return new RejectedOptional(new NoSuchNthElementException((new SubjectNotMatched\FromNthStreamMessage($index))->getMessage()));
         }
     }
 
@@ -39,21 +37,6 @@ class NthStreamElement
         if (\array_key_exists($index, $elements)) {
             return new PresentOptional($elements[$index]);
         }
-        return new RejectedOptional($this->insufficientNth($index, \count($elements)));
-    }
-
-    private function unmatchedNth(int $index): Rejection
-    {
-        return $this->rejection(new SubjectNotMatched\FromNthStreamMessage($index));
-    }
-
-    private function insufficientNth(int $index, int $count): Rejection
-    {
-        return $this->rejection(new FromNthStreamMessage($index, $count));
-    }
-
-    private function rejection(Message $message): Rejection
-    {
-        return new Rejection($this->subject, NoSuchNthElementException::class, $message);
+        return new RejectedOptional(new NoSuchNthElementException((new FromNthStreamMessage($index, \count($elements)))->getMessage()));
     }
 }

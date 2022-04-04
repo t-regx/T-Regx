@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\by\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CustomSubjectException;
+use Test\Utils\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
@@ -224,16 +224,14 @@ class ReplacePatternTest extends TestCase
     public function shouldNotReplace_orThrow($groupIdentifier, string $group)
     {
         // then
-        $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage("Expected to replace with group $group, but the group was not matched");
-
+        $this->expectException(ExampleException::class);
         // when
         pattern('https?://(?<name>NotMatched)?\.com')
             ->replace('Links: https://.com,http://.com.')
             ->all()
             ->by()
             ->group($groupIdentifier)
-            ->orElseThrow(CustomSubjectException::class);
+            ->orElseThrow(new ExampleException());
     }
 
     public function groups(): array
@@ -433,16 +431,14 @@ class ReplacePatternTest extends TestCase
     public function shouldThrow_custom_notMatchedGroup()
     {
         // then
-        $this->expectException(CustomSubjectException::class);
-        $this->expectExceptionMessage("Expected to replace with group #1, but the group was not matched");
-
+        $this->expectException(ExampleException::class);
         // when
         pattern('(https?)?://(google|facebook)\.com')
             ->replace('Links: https://google.com and ://facebook.com')
             ->all()
             ->by()
             ->group(1)
-            ->orElseThrow(CustomSubjectException::class);
+            ->orElseThrow(new ExampleException());
     }
 
     /**

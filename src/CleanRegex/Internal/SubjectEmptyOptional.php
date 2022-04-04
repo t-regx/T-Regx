@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use Throwable;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Internal\Match\Rejection;
 use TRegx\CleanRegex\Internal\Message\Message;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -12,27 +12,30 @@ class SubjectEmptyOptional implements Optional
 {
     use EmptyOptional;
 
-    /** @var GroupAware */
-    private $groupAware;
+    /** @var NotMatched */
+    private $notMatched;
+    /** @var Message */
+    private $message;
     /** @var Subject */
     private $subject;
-    /** @var Rejection */
-    private $rejection;
 
     public function __construct(GroupAware $groupAware, Subject $subject, Message $message)
     {
-        $this->groupAware = $groupAware;
+        $this->notMatched = new NotMatched($groupAware, $subject);
+        $this->message = $message;
         $this->subject = $subject;
-        $this->rejection = new Rejection($subject, SubjectNotMatchedException::class, $message);
     }
 
     public function orElse(callable $substituteProducer)
     {
-        return $substituteProducer(new NotMatched($this->groupAware, $this->subject));
+        return $substituteProducer($this->notMatched);
     }
 
-    public function orThrow(string $exceptionClassName = null): void
+    public function orThrow(Throwable $throwable = null): void
     {
-        $this->rejection->throw($exceptionClassName);
+        if ($throwable === null) {
+            throw new SubjectNotMatchedException($this->message->getMessage(), $this->subject);
+        }
+        throw $throwable;
     }
 }

@@ -4,7 +4,13 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Previously deprecated `Optional.orThrow()` accepted exception classname as `string`. Currently, `orThrow()`
+      accepts an instance of [`\Throwable`].
+    * Removed `ClassExpectedException`, which was throw when invalid classname was passed to `orThrow()`.
+    * Removed `NoSuitableConstructorException`, which was throw when invalid class was passed to `orThrow()`.
+
+[`\Throwable`]: https://www.php.net/manual/en/class.throwable.php
 
 Added in 0.22.0
 ---------------

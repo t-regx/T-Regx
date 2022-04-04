@@ -1,9 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
-use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
+use TRegx\CleanRegex\Internal\Match\Stream\SubjectStreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchOffsetMessage;
 use TRegx\CleanRegex\Internal\Offset\ByteOffset;
@@ -42,6 +41,6 @@ class MatchOffsetStream implements Upstream
         if ($match->matched()) {
             return ByteOffset::toCharacterOffset($this->subject, $match->byteOffset());
         }
-        throw new StreamRejectedException($this->subject, SubjectNotMatchedException::class, new FirstMatchOffsetMessage());
+        throw new SubjectStreamRejectedException(new FirstMatchOffsetMessage(), $this->subject);
     }
 }

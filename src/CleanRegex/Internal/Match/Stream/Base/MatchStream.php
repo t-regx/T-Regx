@@ -1,9 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
-use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
+use TRegx\CleanRegex\Internal\Match\Stream\SubjectStreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
@@ -59,7 +58,7 @@ class MatchStream implements Upstream
         try {
             return $this->stream->firstKey();
         } catch (UnmatchedStreamException $exception) {
-            throw new StreamRejectedException($this->subject, SubjectNotMatchedException::class, new FirstMatchMessage());
+            throw new SubjectStreamRejectedException(new FirstMatchMessage(), $this->subject);
         }
     }
 }

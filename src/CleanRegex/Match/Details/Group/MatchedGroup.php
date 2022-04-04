@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
+use Throwable;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
@@ -131,7 +132,7 @@ class MatchedGroup implements Group
         return $this->details->all();
     }
 
-    public function orThrow(string $exceptionClassName = null): string
+    public function orThrow(Throwable $throwable = null): string
     {
         return $this->text();
     }

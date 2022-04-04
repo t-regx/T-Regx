@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\focus\by\group\mapAndCallback;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CustomException;
+use Test\Utils\ExampleException;
 use Test\Utils\FocusGroupPairs;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;
@@ -52,6 +52,6 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group('domain')
             ->mapAndCallback([], Functions::fail())
-            ->orElseThrow(CustomException::class);
+            ->orElseThrow(new ExampleException());
     }
 }

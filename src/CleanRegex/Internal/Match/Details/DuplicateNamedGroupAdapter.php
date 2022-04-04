@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details;
 
+use Throwable;
 use TRegx\CleanRegex\Match\Details\Group\DuplicateNamedGroup;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Optional;
@@ -101,9 +102,9 @@ class DuplicateNamedGroupAdapter implements DuplicateNamedGroup
         return $this->group->all();
     }
 
-    public function orThrow(string $exceptionClassName = null)
+    public function orThrow(Throwable $throwable = null)
     {
-        return $this->group->orThrow($exceptionClassName);
+        return $this->group->orThrow($throwable);
     }
 
     public function orReturn($substitute)

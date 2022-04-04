@@ -1,11 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal\GroupLimit;
 
+use Throwable;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\EmptyOptional;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Match\Rejection;
-use TRegx\CleanRegex\Internal\Message\GroupNotMatched\FromFirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\NotMatched;
@@ -17,13 +16,13 @@ class GroupEmptyOptional implements Optional
 
     /** @var NotMatched */
     private $notMatched;
-    /** @var Rejection */
-    private $rejection;
+    /** @var GroupKey */
+    private $group;
 
     public function __construct(GroupAware $groupAware, Subject $subject, GroupKey $group)
     {
         $this->notMatched = new NotMatched($groupAware, $subject);
-        $this->rejection = new Rejection($subject, GroupNotMatchedException::class, new FromFirstMatchMessage($group));
+        $this->group = $group;
     }
 
     public function orElse(callable $substituteProducer)
@@ -31,8 +30,11 @@ class GroupEmptyOptional implements Optional
         return $substituteProducer($this->notMatched);
     }
 
-    public function orThrow(string $exceptionClassName = null): void
+    public function orThrow(Throwable $throwable = null): void
     {
-        $this->rejection->throw($exceptionClassName);
+        if ($throwable === null) {
+            throw GroupNotMatchedException::forFirst($this->group);
+        }
+        throw $throwable;
     }
 }

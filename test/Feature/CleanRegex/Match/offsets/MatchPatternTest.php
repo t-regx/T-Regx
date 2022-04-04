@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\offsets;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CustomSubjectException;
+use Test\Utils\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
@@ -107,13 +107,10 @@ class MatchPatternTest extends TestCase
      */
     public function shouldThrow_findFirst_orThrow_WithCustomException()
     {
-        try {
-            // when
-            pattern('Foo')->match('Bar')->offsets()->findFirst(Functions::fail())->orThrow(CustomSubjectException::class);
-        } catch (CustomSubjectException $exception) {
-            // then
-            $this->assertSame('Bar', $exception->subject);
-        }
+        // then
+        $this->expectException(ExampleException::class);
+        // when
+        pattern('Foo')->match('Bar')->offsets()->findFirst(Functions::fail())->orThrow(new ExampleException());
     }
 
     /**
@@ -121,13 +118,10 @@ class MatchPatternTest extends TestCase
      */
     public function shouldThrow_findNth_orThrow_WithCustomException()
     {
-        try {
-            // when
-            pattern('\d+')->match('12 13 14')->offsets()->findNth(5)->orThrow(CustomSubjectException::class);
-        } catch (CustomSubjectException $exception) {
-            // then
-            $this->assertSame('12 13 14', $exception->subject);
-        }
+        // then
+        $this->expectException(ExampleException::class);
+        // when
+        pattern('\d+')->match('12 13 14')->offsets()->findNth(5)->orThrow(new ExampleException());
     }
 
     /**

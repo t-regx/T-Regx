@@ -2,6 +2,7 @@
 namespace Test\Fakes\CleanRegex\Match\Details\Group;
 
 use Test\Utils\Fails;
+use Throwable;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Optional;
 
@@ -102,7 +103,7 @@ class TextGroup implements Group
         throw $this->fail();
     }
 
-    public function orThrow(string $exceptionClassName = null)
+    public function orThrow(Throwable $throwable = null)
     {
         throw $this->fail();
     }

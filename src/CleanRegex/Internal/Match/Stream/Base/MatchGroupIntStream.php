@@ -1,14 +1,13 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Numeral\GroupExceptions;
 use TRegx\CleanRegex\Internal\Match\Numeral\IntegerBase;
+use TRegx\CleanRegex\Internal\Match\Stream\GroupStreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\ListStream;
-use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
+use TRegx\CleanRegex\Internal\Match\Stream\SubjectStreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Message\GroupNotMatched;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchIntMessage;
@@ -71,10 +70,10 @@ class MatchGroupIntStream implements Upstream
             throw new NonexistentGroupException($this->group);
         }
         if (!$match->matched()) {
-            throw new StreamRejectedException($this->subject, SubjectNotMatchedException::class, new FromFirstMatchIntMessage($this->group));
+            throw new SubjectStreamRejectedException(new FromFirstMatchIntMessage($this->group), $this->subject);
         }
         if (!$polyfill->isGroupMatched($this->group->nameOrIndex())) {
-            throw new StreamRejectedException($this->subject, GroupNotMatchedException::class, new GroupNotMatched\FromFirstMatchIntMessage($this->group));
+            throw new GroupStreamRejectedException(new GroupNotMatched\FromFirstMatchIntMessage($this->group));
         }
         return $this->numberBase->integer($match->getGroup($this->group->nameOrIndex()));
     }
