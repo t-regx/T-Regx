@@ -19,19 +19,19 @@ class GroupByFunction
         $this->function = $function;
     }
 
-    /**
-     * @param $argument
-     * @return int|string
-     */
-    public function apply($argument)
+    public function apply($argument): string
     {
-        $newKey = ($this->function)($argument);
-        if ($newKey instanceof Detail || $newKey instanceof Group) {
-            return $newKey->text();
+        return $this->groupKey(($this->function)($argument));
+    }
+
+    private function groupKey($key): string
+    {
+        if ($key instanceof Detail || $key instanceof Group) {
+            return $key->text();
         }
-        if (\is_int($newKey) || \is_string($newKey)) {
-            return $newKey;
+        if (\is_int($key) || \is_string($key)) {
+            return $key;
         }
-        throw new InvalidReturnValueException($this->methodName, 'int|string', new ValueType($newKey));
+        throw new InvalidReturnValueException($this->methodName, 'int|string', new ValueType($key));
     }
 }

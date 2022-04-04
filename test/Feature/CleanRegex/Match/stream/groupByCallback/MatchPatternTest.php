@@ -70,4 +70,28 @@ class MatchPatternTest extends TestCase
                 return $detail->get('unit');
             });
     }
+
+    /**
+     * @test
+     */
+    public function shouldGroupByIntegerValues()
+    {
+        // when
+        $result = pattern('(?<value>\d+)(?<unit>cm|mm)')
+            ->match('12cm 14mm 2cm 19cm 12mm 2mm')
+            ->stream()
+            ->groupByCallback(function (Detail $detail) {
+                return $detail->group('value')->toInt();
+            })
+            ->all();
+
+        // then
+        $expected = [
+            12 => ['12cm', '12mm'],
+            14 => ['14mm'],
+            2  => ['2cm', '2mm'],
+            19 => ['19cm'],
+        ];
+        $this->assertSameMatches($expected, $result);
+    }
 }
