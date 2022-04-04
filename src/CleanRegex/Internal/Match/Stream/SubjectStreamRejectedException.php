@@ -19,6 +19,6 @@ class SubjectStreamRejectedException extends StreamRejectedException
 
     public function throwable(): Throwable
     {
-        return new SubjectNotMatchedException($this->exceptionMessage->getMessage(), $this->subject);
+        return new SubjectNotMatchedException($this->exceptionMessage, $this->subject);
     }
 }

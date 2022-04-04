@@ -110,7 +110,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
         if ($match->matched()) {
             return $this->findFirstDetail($match);
         }
-        throw SubjectNotMatchedException::forFirst($this->subject);
+        throw new SubjectNotMatchedException(new FirstMatchMessage(), $this->subject);
     }
 
     private function findFirstDetail(RawMatchOffset $match): Detail

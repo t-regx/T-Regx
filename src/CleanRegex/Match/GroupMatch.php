@@ -24,6 +24,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupOffsetStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Numeral;
@@ -94,7 +95,7 @@ class GroupMatch implements \IteratorAggregate
                 throw new NonexistentGroupException($this->group);
             }
             if (!$rawMatch->matched()) {
-                throw SubjectNotMatchedException::forFirstGroup($this->subject, $this->group);
+                throw new SubjectNotMatchedException(new FromFirstMatchMessage($this->group), $this->subject);
             }
         }
         throw GroupNotMatchedException::forFirst($this->group);

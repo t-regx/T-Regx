@@ -4,6 +4,8 @@ namespace TRegx\CleanRegex\Internal;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchTripleMessage;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchTupleMessage;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\Optional;
@@ -23,10 +25,10 @@ trait MatchPatternHelpers
             })
             ->orElse(static function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2) {
                 self::validateGroups($notMatched, [$nameOrIndex1, $nameOrIndex2]);
-                throw SubjectNotMatchedException::forFirstTuple(
-                    new Subject($notMatched->subject()),
+                throw new SubjectNotMatchedException(new FromFirstMatchTupleMessage(
                     GroupKey::of($nameOrIndex1),
-                    GroupKey::of($nameOrIndex2));
+                    GroupKey::of($nameOrIndex2)),
+                    new Subject($notMatched->subject()));
             });
     }
 
@@ -42,11 +44,11 @@ trait MatchPatternHelpers
             })
             ->orElse(static function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
                 self::validateGroups($notMatched, [$nameOrIndex1, $nameOrIndex2, $nameOrIndex3]);
-                throw SubjectNotMatchedException::forFirstTriple(
-                    new Subject($notMatched->subject()),
+                throw new SubjectNotMatchedException(new FromFirstMatchTripleMessage(
                     GroupKey::of($nameOrIndex1),
                     GroupKey::of($nameOrIndex2),
-                    GroupKey::of($nameOrIndex3));
+                    GroupKey::of($nameOrIndex3)),
+                    new Subject($notMatched->subject()));
             });
     }
 
