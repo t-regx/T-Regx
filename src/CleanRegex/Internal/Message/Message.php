@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Message;
 
-interface NotMatchedMessage
+interface Message
 {
     public function getMessage(): string;
 }

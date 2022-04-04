@@ -2,9 +2,9 @@
 namespace Test\Fakes\CleanRegex\Internal\Message;
 
 use Test\Utils\Fails;
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 
-class ThrowMessage implements NotMatchedMessage
+class ThrowMessage implements Message
 {
     use Fails;
 

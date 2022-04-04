@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Message\Replace\Map;
 
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 
-class ForMatchMessage implements NotMatchedMessage
+class ForMatchMessage implements Message
 {
     /** @var string */
     private $match;

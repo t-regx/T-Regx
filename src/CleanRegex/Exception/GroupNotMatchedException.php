@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Exception;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Message\GroupNotMatched\FromFirstMatchMessage;
 use TRegx\CleanRegex\Internal\Message\GroupNotMatched\FromNthMatchMessage;
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 use TRegx\CleanRegex\Internal\Message\Replace\WithUnmatchedGroupMessage;
 
 class GroupNotMatchedException extends \Exception implements PatternException
@@ -14,7 +14,7 @@ class GroupNotMatchedException extends \Exception implements PatternException
         parent::__construct($message);
     }
 
-    private static function exception(NotMatchedMessage $message): self
+    private static function exception(Message $message): self
     {
         return new GroupNotMatchedException($message->getMessage());
     }

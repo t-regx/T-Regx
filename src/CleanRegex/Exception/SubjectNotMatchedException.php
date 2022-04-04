@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchMessage;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchTripleMessage;
@@ -45,7 +45,7 @@ class SubjectNotMatchedException extends \Exception implements PatternException
         return SubjectNotMatchedException::withMessage(new FromFirstMatchTripleMessage($group1, $group2, $group3), $subject);
     }
 
-    private static function withMessage(NotMatchedMessage $message, Subject $subject): self
+    private static function withMessage(Message $message, Subject $subject): self
     {
         return new SubjectNotMatchedException($message->getMessage(), $subject);
     }

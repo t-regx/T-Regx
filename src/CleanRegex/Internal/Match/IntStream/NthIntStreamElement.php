@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Match\Rejection;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Optional;
 
@@ -55,7 +55,7 @@ class NthIntStreamElement
         return $this->rejection($this->messages->messageInsufficient($index, $count));
     }
 
-    private function rejection(NotMatchedMessage $message): Rejection
+    private function rejection(Message $message): Rejection
     {
         return new Rejection($this->subject, NoSuchNthElementException::class, $message);
     }

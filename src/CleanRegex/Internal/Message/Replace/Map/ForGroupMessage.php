@@ -2,9 +2,9 @@
 namespace TRegx\CleanRegex\Internal\Message\Replace\Map;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 
-class ForGroupMessage implements NotMatchedMessage
+class ForGroupMessage implements Message
 {
     /** @var string */
     private $match;

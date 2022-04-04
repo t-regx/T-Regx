@@ -2,9 +2,9 @@
 namespace TRegx\CleanRegex\Internal\Message\Group;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 
-class FromNthMatchOffsetMessage implements NotMatchedMessage
+class FromNthMatchOffsetMessage implements Message
 {
     /** @var GroupKey */
     private $group;

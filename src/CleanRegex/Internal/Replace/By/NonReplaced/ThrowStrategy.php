@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use TRegx\CleanRegex\Internal\ClassName;
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 
@@ -10,10 +10,10 @@ class ThrowStrategy implements SubjectRs, MatchRs
 {
     /** @var ClassName */
     private $className;
-    /** @var NotMatchedMessage */
+    /** @var Message */
     private $message;
 
-    public function __construct(string $className, NotMatchedMessage $message)
+    public function __construct(string $className, Message $message)
     {
         $this->className = new ClassName($className);
         $this->message = $message;

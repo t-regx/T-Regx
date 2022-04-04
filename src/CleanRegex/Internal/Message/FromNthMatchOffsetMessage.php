@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Message;
 
-class FromNthMatchOffsetMessage implements NotMatchedMessage
+class FromNthMatchOffsetMessage implements Message
 {
     /** @var int */
     private $nth;

@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Message;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 
-class GroupMessage implements NotMatchedMessage
+class GroupMessage implements Message
 {
     /** @var GroupKey */
     private $group;

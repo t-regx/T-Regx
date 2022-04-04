@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Message\Replace;
 
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 
-class NoReplacementsMessage implements NotMatchedMessage
+class NoReplacementsMessage implements Message
 {
     public function getMessage(): string
     {

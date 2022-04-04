@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal;
 use Throwable;
 use TRegx\CleanRegex\Exception\ClassExpectedException;
 use TRegx\CleanRegex\Exception\NoSuitableConstructorException;
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 
 class ClassName
 {
@@ -16,7 +16,7 @@ class ClassName
         $this->className = $className;
     }
 
-    public function throwable(NotMatchedMessage $message, Subject $subject): Throwable
+    public function throwable(Message $message, Subject $subject): Throwable
     {
         $instance = $this->instance($message, $subject);
         if ($instance instanceof Throwable) {
@@ -25,7 +25,7 @@ class ClassName
         throw ClassExpectedException::notThrowable($this->className);
     }
 
-    private function instance(NotMatchedMessage $message, Subject $subject)
+    private function instance(Message $message, Subject $subject)
     {
         if (\class_exists($this->className)) {
             return $this->classInstance($message, $subject);
@@ -33,7 +33,7 @@ class ClassName
         throw $this->notClassException();
     }
 
-    private function classInstance(NotMatchedMessage $message, Subject $subject)
+    private function classInstance(Message $message, Subject $subject)
     {
         foreach ($this->signatures($message, $subject) as $signature) {
             try {
@@ -53,7 +53,7 @@ class ClassName
         throw new NoSuitableConstructorException($this->className);
     }
 
-    private function signatures(NotMatchedMessage $message, Subject $subject): array
+    private function signatures(Message $message, Subject $subject): array
     {
         return [
             function () use ($message, $subject) {

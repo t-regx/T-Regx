@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Message\Stream\SubjectNotMatched;
 
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 
-class FromNthStreamMessage implements NotMatchedMessage
+class FromNthStreamMessage implements Message
 {
     /** @var int */
     private $nth;

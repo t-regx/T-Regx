@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Rejection;
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\Optional;
@@ -19,7 +19,7 @@ class SubjectEmptyOptional implements Optional
     /** @var Rejection */
     private $rejection;
 
-    public function __construct(GroupAware $groupAware, Subject $subject, NotMatchedMessage $message)
+    public function __construct(GroupAware $groupAware, Subject $subject, Message $message)
     {
         $this->groupAware = $groupAware;
         $this->subject = $subject;

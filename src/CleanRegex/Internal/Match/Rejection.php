@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Internal\ClassName;
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 use TRegx\CleanRegex\Internal\Subject;
 
 class Rejection
@@ -11,10 +11,10 @@ class Rejection
     public $subject;
     /** @var string */
     private $exceptionClassName;
-    /** @var NotMatchedMessage */
+    /** @var Message */
     private $message;
 
-    public function __construct(Subject $subject, string $exceptionClassName, NotMatchedMessage $message)
+    public function __construct(Subject $subject, string $exceptionClassName, Message $message)
     {
         $this->subject = $subject;
         $this->exceptionClassName = $exceptionClassName;

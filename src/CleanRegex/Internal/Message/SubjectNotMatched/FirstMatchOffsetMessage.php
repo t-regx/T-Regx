@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Message\SubjectNotMatched;
 
-use TRegx\CleanRegex\Internal\Message\NotMatchedMessage;
+use TRegx\CleanRegex\Internal\Message\Message;
 
-class FirstMatchOffsetMessage implements NotMatchedMessage
+class FirstMatchOffsetMessage implements Message
 {
     public function getMessage(): string
     {
