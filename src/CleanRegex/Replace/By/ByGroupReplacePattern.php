@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Replace\By;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Message\Replace\WithUnmatchedGroupMessage;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
@@ -89,7 +88,7 @@ class ByGroupReplacePattern implements GroupReplace
 
     public function orElseThrow(\Throwable $throwable = null): string
     {
-        return $this->replaceGroupOptional(new ThrowStrategy($throwable, new WithUnmatchedGroupMessage($this->group)));
+        return $this->replaceGroupOptional(new ThrowStrategy($throwable, $this->group));
     }
 
     public function orElseWith(string $replacement): string

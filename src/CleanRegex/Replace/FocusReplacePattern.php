@@ -51,7 +51,7 @@ class FocusReplacePattern implements SpecificReplacePattern
     {
         return $this->replacePattern->callback(function (Detail $detail) use ($replacement) {
             if (!$detail->matched($this->group->nameOrIndex())) {
-                throw new FocusGroupNotMatchedException($detail->subject(), $this->group);
+                throw new FocusGroupNotMatchedException($this->group);
             }
             return $detail->group($this->group->nameOrIndex())->substitute($replacement);
         });
@@ -61,7 +61,7 @@ class FocusReplacePattern implements SpecificReplacePattern
     {
         return $this->replacePattern->callback(function (Detail $detail) use ($replacement) {
             if (!$detail->matched($this->group->nameOrIndex())) {
-                throw new FocusGroupNotMatchedException($detail->subject(), $this->group);
+                throw new FocusGroupNotMatchedException($this->group);
             }
             $group = $detail->group($this->group->nameOrIndex());
             return $group->substitute(ReferencesReplacer::replace($replacement, \array_merge(
@@ -76,7 +76,7 @@ class FocusReplacePattern implements SpecificReplacePattern
             if ($detail->matched($this->group->nameOrIndex())) {
                 return $detail->group($this->group->nameOrIndex())->substitute($callback($detail));
             }
-            throw new FocusGroupNotMatchedException($detail->subject(), $this->group);
+            throw new FocusGroupNotMatchedException($this->group);
         });
     }
 

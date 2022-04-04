@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use Throwable;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Internal\Message\Message;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 
@@ -11,28 +11,30 @@ class ThrowStrategy implements SubjectRs, MatchRs
 {
     /** @var Throwable|null */
     private $throwable;
-    /** @var Message */
-    private $message;
+    /** @var GroupKey */
+    private $group;
 
-    public function __construct(?Throwable $throwable, Message $message)
+    public function __construct(?Throwable $throwable, GroupKey $group)
     {
         $this->throwable = $throwable;
-        $this->message = $message;
+        $this->group = $group;
     }
 
     public function substitute(Subject $subject): string
     {
-        if ($this->throwable === null) {
-            throw new GroupNotMatchedException($this->message->getMessage());
-        }
-        throw $this->throwable;
+        throw $this->throwable();
     }
 
     public function substituteGroup(Detail $detail): string
     {
+        throw $this->throwable();
+    }
+
+    private function throwable(): Throwable
+    {
         if ($this->throwable === null) {
-            throw new GroupNotMatchedException($this->message->getMessage());
+            return GroupNotMatchedException::forReplacement($this->group);
         }
-        throw $this->throwable;
+        return $this->throwable;
     }
 }

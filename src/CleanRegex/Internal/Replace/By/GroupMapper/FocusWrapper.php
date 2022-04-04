@@ -21,7 +21,7 @@ class FocusWrapper implements Wrapper
     {
         $group = $initialDetail->group($this->group->nameOrIndex());
         if (!$group->matched()) {
-            throw new FocusGroupNotMatchedException($initialDetail->subject(), $this->group);
+            throw new FocusGroupNotMatchedException($this->group);
         }
         $replacement = $wrappable->apply($initialDetail);
         if ($replacement === null) {
