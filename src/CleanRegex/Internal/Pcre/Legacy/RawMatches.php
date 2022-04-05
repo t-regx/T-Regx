@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
 
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 
@@ -16,13 +15,6 @@ class RawMatches implements GroupAware
     public function __construct(array $matches)
     {
         $this->matches = $matches;
-    }
-
-    public function matched(): bool
-    {
-        // @codeCoverageIgnoreStart
-        throw new InternalCleanRegexException();
-        // @codeCoverageIgnoreEnd
     }
 
     public function getTexts(): array
