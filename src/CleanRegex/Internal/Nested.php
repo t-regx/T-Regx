@@ -1,8 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Internal\Type\ValueType;
-
 class Nested
 {
     /** @var array */
@@ -15,11 +13,6 @@ class Nested
 
     public function asArray(): array
     {
-        foreach ($this->nestedValues as $nestedValue) {
-            if (!\is_array($nestedValue)) {
-                throw new NonNestedValueException(new ValueType($nestedValue));
-            }
-        }
         return $this->nestedValues;
     }
 }

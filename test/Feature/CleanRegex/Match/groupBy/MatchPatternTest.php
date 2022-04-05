@@ -3,11 +3,10 @@ namespace Test\Feature\TRegx\CleanRegex\Match\groupBy;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
+use Test\Utils\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Internal\NonNestedValueException;
-use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\GroupByPattern;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -206,10 +205,10 @@ class MatchPatternTest extends TestCase
     public function shouldNotSilenceInternalException_flatMap()
     {
         // then
-        $this->expectException(NonNestedValueException::class);
+        $this->expectException(ExampleException::class);
 
         // when
-        $this->groupBy()->flatMap(Functions::throws(new NonNestedValueException(new ValueType(null))));
+        $this->groupBy()->flatMap(Functions::throws(new ExampleException()));
     }
 
     /**
@@ -218,10 +217,10 @@ class MatchPatternTest extends TestCase
     public function shouldNotSilenceInternalException_flatMapAssoc()
     {
         // then
-        $this->expectException(NonNestedValueException::class);
+        $this->expectException(ExampleException::class);
 
         // when
-        $this->groupBy()->flatMapAssoc(Functions::throws(new NonNestedValueException(new ValueType(null))));
+        $this->groupBy()->flatMapAssoc(Functions::throws(new ExampleException()));
     }
 
     /**
