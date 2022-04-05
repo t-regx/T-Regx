@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ExplicitStringEncoding;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
@@ -14,6 +15,8 @@ use TRegx\CleanRegex\Pattern;
  */
 class MatchDetailTest extends TestCase
 {
+    use ExplicitStringEncoding;
+
     /**
      * @test
      */
@@ -53,6 +56,26 @@ class MatchDetailTest extends TestCase
         // then
         $this->assertSame(9, $length);
         $this->assertSame(11, $byteLength);
+    }
+
+    /**
+     * @test
+     */
+    public function x()
+    {
+        $a = mb_internal_encoding("7bit");
+        // given
+        $detail = $this->detail(Pattern::of('foo bar €')->match('foo bar €'));
+        // when
+        $length = $detail->textLength();
+        $byteLength = $detail->textByteLength();
+        // then
+        $this->assertSame(9, $length);
+        $this->assertSame(11, $byteLength);
+        $result = mb_internal_encoding("UTF-8");
+        if ($result === false) {
+            throw new \AssertionError();
+        }
     }
 
     /**

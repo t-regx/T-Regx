@@ -41,7 +41,7 @@ class MatchedGroup implements Group
 
     public function textLength(): int
     {
-        return \mb_strlen($this->groupEntry->text());
+        return \mb_strlen($this->groupEntry->text(), 'UTF-8');
     }
 
     public function textByteLength(): int

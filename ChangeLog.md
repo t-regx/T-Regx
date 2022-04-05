@@ -5,12 +5,17 @@ Incoming
 --------
 
 * Breaking changes
-    * Previously deprecated `Optional.orThrow()` accepted exception classname as `string`. Currently, `orThrow()`
+    * Previously deprecated `Optional.orThrow()` accepted exception class name as `string`. Currently, `orThrow()`
       accepts an instance of [`\Throwable`].
-    * Removed `ClassExpectedException`, which was throw when invalid classname was passed to `orThrow()`.
-    * Removed `NoSuitableConstructorException`, which was throw when invalid class was passed to `orThrow()`.
+    * Removed `ClassExpectedException`, which was thrown when an invalid class name was passed to `orThrow()`.
+    * Removed `NoSuitableConstructorException`, which was thrown when an invalid class was passed to `orThrow()`.
+    * Previously T-Regx used whatever encoding was set for [`mb_internal_encoding()`] for `Detail.offset()`/`tail()`
+      /`textLength()`. Now, T-Regx always uses UTF-8 regardless of [`mb_internal_encoding()`]. For byte manipulation in
+      encoding other than UTF-8 use `byteOffset()`/`byteTail()`/`byteTextLength()`.
 
 [`\Throwable`]: https://www.php.net/manual/en/class.throwable.php
+
+[`mb_internal_encoding()`]: https://www.php.net/manual/en/function.mb-internal-encoding.php
 
 Added in 0.22.0
 ---------------

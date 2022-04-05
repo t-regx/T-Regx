@@ -25,7 +25,7 @@ class ByteOffset
             throw new InternalCleanRegexException();
             // @codeCoverageIgnoreEnd
         }
-        return \mb_strlen(\substr($subject, 0, $this->bytes));
+        return \mb_strlen(\substr($subject, 0, $this->bytes), 'UTF-8');
     }
 
     public function bytes(): int
@@ -40,6 +40,6 @@ class ByteOffset
             throw new InternalCleanRegexException();
             // @codeCoverageIgnoreEnd
         }
-        return \mb_strlen(\substr($subject, 0, $offset));
+        return \mb_strlen(\substr($subject, 0, $offset), 'UTF-8');
     }
 }

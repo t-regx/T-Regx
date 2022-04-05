@@ -21,29 +21,29 @@ class ShiftString
         if (!$this->startsWith($string)) {
             throw new InternalCleanRegexException();
         }
-        $this->offset += \mb_strlen($string);
+        $this->offset += \strLen($string);
     }
 
     public function startsWith(string $infix): bool
     {
-        return \mb_substr($this->string, $this->offset, \mb_strlen($infix)) === $infix;
+        return \subStr($this->string, $this->offset, \strLen($infix)) === $infix;
     }
 
     public function empty(): bool
     {
-        return $this->offset >= \mb_strlen($this->string);
+        return $this->offset >= \strLen($this->string);
     }
 
     public function firstLetter(): string
     {
-        if ($this->offset >= \mb_strlen($this->string)) {
+        if ($this->offset >= \strLen($this->string)) {
             throw new InternalCleanRegexException();
         }
-        return \mb_substr($this->string, $this->offset, 1);
+        return \subStr($this->string, $this->offset, 1);
     }
 
     public function content(): string
     {
-        return \mb_substr($this->string, $this->offset);
+        return \subStr($this->string, $this->offset);
     }
 }

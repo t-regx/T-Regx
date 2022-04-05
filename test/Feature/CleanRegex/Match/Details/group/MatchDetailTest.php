@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ExplicitStringEncoding;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
@@ -12,6 +13,8 @@ use function pattern;
 
 class MatchDetailTest extends TestCase
 {
+    use ExplicitStringEncoding;
+
     /**
      * @test
      */
