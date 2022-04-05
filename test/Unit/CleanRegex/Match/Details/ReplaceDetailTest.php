@@ -328,7 +328,6 @@ class ReplaceDetailTest extends TestCase
     public function shouldGroupBeMatched()
     {
         // given
-
         $detail = new ReplaceDetail(new GroupDetail(['foo' => true]), new ThrowModification());
 
         // when
@@ -344,7 +343,6 @@ class ReplaceDetailTest extends TestCase
     public function shouldGroupNotBeMatched()
     {
         // given
-
         $detail = new ReplaceDetail(new GroupDetail(['bar' => false]), new ThrowModification());
 
         // when
@@ -360,7 +358,6 @@ class ReplaceDetailTest extends TestCase
     public function shouldHaveGroup()
     {
         // given
-
         $detail = new ReplaceDetail(new GroupDetail(['group' => false]), new ThrowModification());
 
         // when
@@ -376,7 +373,6 @@ class ReplaceDetailTest extends TestCase
     public function shouldNotHaveGroup()
     {
         // given
-
         $detail = new ReplaceDetail(new GroupDetail([]), new ThrowModification());
 
         // when

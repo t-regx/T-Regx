@@ -237,7 +237,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
     {
         foreach ($this as $detail) {
             $accumulator = $reducer($accumulator, $detail);
-        };
+        }
         return $accumulator;
     }
 }
