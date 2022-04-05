@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal;
 
 class UnsuitableStringCondition implements Condition
 {
-    /** @var Chars */
+    /** @var string */
     private $string;
 
     public function __construct(string $string)

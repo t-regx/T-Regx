@@ -30,13 +30,6 @@ class DetailFunctions
         };
     }
 
-    public static function indexNotEquals(int $index): callable
-    {
-        return function (Detail $detail) use ($index) {
-            return $detail->index() !== $index;
-        };
-    }
-
     public static function collect(?array &$details, $return = null): callable
     {
         return function (Detail $detail) use (&$details, $return) {

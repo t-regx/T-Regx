@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-use TRegx\CleanRegex\Internal\Match\MethodPredicate;
 use TRegx\CleanRegex\Internal\Predicate;
 
 class FilterStream implements Upstream
@@ -10,7 +9,7 @@ class FilterStream implements Upstream
 
     /** @var Upstream */
     private $upstream;
-    /** @var MethodPredicate */
+    /** @var Predicate */
     private $predicate;
 
     public function __construct(Upstream $upstream, Predicate $predicate)
