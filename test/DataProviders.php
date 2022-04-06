@@ -4,7 +4,6 @@ namespace Test;
 use Test\Utils\ClassWithToString;
 use Test\Utils\Definitions;
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Match\Details\Detail;
 
 class DataProviders
 {
@@ -102,18 +101,5 @@ class DataProviders
     {
         $resources = get_resources();
         return reset($resources);
-    }
-
-    public function groupReplaceFallbacks(): array
-    {
-        return [
-            'orElseThrow'   => ['orElseThrow', []],
-            'orElseIgnore'  => ['orElseIgnore', []],
-            'orElseEmpty'   => ['orElseEmpty', []],
-            'orElseWith'    => ['orElseWith', ['word']],
-            'orElseCalling' => ['orElseCalling', [function (Detail $detail) {
-                return "fallback: '$detail'";
-            }]],
-        ];
     }
 }
