@@ -48,4 +48,12 @@ class DetailFunctions
             return null;
         };
     }
+
+    public static function out($nameOrIndex, ?Group &$group, $return): callable
+    {
+        return function (Detail $detail) use ($nameOrIndex, &$group, $return) {
+            $group = $detail->group($nameOrIndex);
+            return $return;
+        };
+    }
 }
