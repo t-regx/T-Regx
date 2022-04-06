@@ -32,6 +32,17 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetUnmatchedGroupInEmptySubject()
+    {
+        // when
+        $groups = pattern('(Foo)?')->match('')->group(1)->all();
+        // then
+        $this->assertSame([null], $groups);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGet_all_unmatched()
     {
         // given

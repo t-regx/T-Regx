@@ -166,6 +166,18 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetSecondEmptyGroup()
+    {
+        // when
+        $group = pattern('(Foo)()')->match('Foo')->group(2)->stream()->first();
+
+        // then
+        $this->assertTrue($group->matched());
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_keys_first_()
     {
         // when

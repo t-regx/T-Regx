@@ -271,6 +271,19 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
+    public function shouldGet_matched_ForEmptyGroup()
+    {
+        // given
+        $detail = $this->detail(Pattern::of('(Foo)()')->match('Foo'));
+        // when
+        $matched = $detail->matched(2);
+        // then
+        $this->assertTrue($matched);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_matched_OnNonExistentGroup()
     {
         // given

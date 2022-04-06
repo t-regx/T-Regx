@@ -158,6 +158,19 @@ class MatchGroupOffsetStreamTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrow_first_forEmptyGroup()
+    {
+        // given
+        $optional = pattern('()')->match('')->group(1)->offsets()->findFirst(Functions::identity());
+        // when
+        $offset = $optional->orThrow();
+        // then
+        $this->assertSame(0, $offset);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_forEmptyStream()
     {
         // given

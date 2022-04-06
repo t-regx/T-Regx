@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
@@ -81,6 +82,22 @@ class GroupMatchTest extends TestCase
         $nth = $group->nth(0);
         // then
         $this->assertSame('Valar', $nth);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForNthGroupUnmatched()
+    {
+        // given
+        $group = pattern('Foo(?<group>Bar)?')
+            ->match('Foo')
+            ->group('group');
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to get group 'group' from the 0-nth match, but the group was not matched");
+        // when
+        $group->nth(0);
     }
 
     /**

@@ -9,6 +9,8 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
+use TRegx\CleanRegex\Match\Details\NotMatched;
 use function pattern;
 
 class MatchDetailTest extends TestCase
@@ -261,5 +263,25 @@ class MatchDetailTest extends TestCase
 
         // then
         $this->assertSame('BAR', $group);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDelegateNotMatched()
+    {
+        // when
+        pattern('\w+(?<group>Bar)?')
+            ->match('Lorem ipsum')
+            ->group('group')
+            ->stream()
+            ->forEach(function (NotMatchedGroup $group) {
+                $group->orElse(function (NotMatched $notMatched) {
+                    $this->assertSame(1, $notMatched->groupsCount());
+                    $this->assertSame(['group'], $notMatched->groupNames());
+                    $this->assertTrue($notMatched->hasGroup('group'));
+                    $this->assertFalse($notMatched->hasGroup('missing'));
+                });
+            });
     }
 }

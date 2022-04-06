@@ -298,6 +298,55 @@ class MatchGroupIntStreamTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrow_first_forUnmatchedGroup_notLast()
+    {
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to get group #1 as integer from the first match, but the group was not matched');
+
+        // when
+        pattern('(Foo)?(Bar)')->match('Bar')->group(1)->asInt()->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_first_forUnmatchedGroup_notLast_lastEmpty()
+    {
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to get group #1 as integer from the first match, but the group was not matched');
+
+        // when
+        pattern('(Foo)?()')->match('')->group(1)->asInt()->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_first_emptyGroup()
+    {
+        // when
+        $result = pattern('()')->match('')->group(1)->first();
+        // then
+        $this->assertSame('', $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_first_emptyGroup_notLast()
+    {
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to get group #1 from the first match, but the group was not matched');
+        // when
+        pattern('(Foo)?(Bar)')->match('Bar')->group(1)->first();
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrow_first_keys_forUnmatchedGroup()
     {
         // then
