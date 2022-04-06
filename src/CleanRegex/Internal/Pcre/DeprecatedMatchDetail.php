@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal\Pcre;
 
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Signatures\PerformanceSignatures;
@@ -18,11 +17,11 @@ class DeprecatedMatchDetail
     /**
      * @deprecated
      */
-    public static function create(Subject         $subject, int $index, int $limit,
-                                  IRawMatchOffset $match, MatchAllFactory $allFactory,
-                                  UserData        $userData, GroupFactoryStrategy $strategy = null): MatchDetail
+    public static function create(Subject              $subject, int $index, int $limit,
+                                  IRawMatchOffset      $match, MatchAllFactory $allFactory,
+                                  GroupFactoryStrategy $strategy = null): MatchDetail
     {
-        return new MatchDetail($subject, $index, $limit, $match, $match, $match, $match, $allFactory, $userData,
+        return new MatchDetail($subject, $index, $limit, $match, $match, $match, $match, $allFactory,
             $strategy ?? new MatchGroupFactoryStrategy(),
             new PerformanceSignatures($match, $match));
     }

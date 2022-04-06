@@ -6,10 +6,8 @@ use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowEntry;
 use Test\Fakes\CleanRegex\Match\Details\GroupDetail;
 use Test\Fakes\CleanRegex\Match\Details\TextDetail;
 use Test\Fakes\CleanRegex\Match\Details\ThrowDetail;
-use Test\Fakes\CleanRegex\Match\Details\UserDataDetail;
 use Test\Fakes\CleanRegex\Replace\Details\ConstantModification;
 use Test\Fakes\CleanRegex\Replace\Details\ThrowModification;
-use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Replace\Details\EntryModification;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
@@ -264,21 +262,6 @@ class ReplaceDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetUserData()
-    {
-        // given
-        $detail = new ReplaceDetail($this->detail('getUserData', 14), new ThrowModification());
-
-        // when
-        $userData = $detail->getUserData();
-
-        // then
-        $this->assertSame(14, $userData);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetToInt()
     {
         // given
@@ -304,22 +287,6 @@ class ReplaceDetailTest extends TestCase
 
         // then
         $this->assertTrue($isInt);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldSetUserData()
-    {
-        // given
-        $userData = new UserData();
-        $detail = new ReplaceDetail(new UserDataDetail($userData), new ThrowModification());
-
-        // when
-        $detail->setUserData('14');
-
-        // then
-        $this->assertSame('14', $userData->get($detail));
     }
 
     /**

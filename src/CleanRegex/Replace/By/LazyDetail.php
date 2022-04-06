@@ -143,16 +143,6 @@ class LazyDetail implements Detail
         return $this->detail()->byteTail();
     }
 
-    public function setUserData($userData): void
-    {
-        $this->detail()->setUserData($userData);
-    }
-
-    public function getUserData()
-    {
-        return $this->detail()->getUserData();
-    }
-
     public function __toString(): string
     {
         return $this->detail();

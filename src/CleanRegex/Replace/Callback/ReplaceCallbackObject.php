@@ -6,7 +6,6 @@ use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
@@ -97,7 +96,6 @@ class ReplaceCallbackObject
             $this->limit,
             $match,
             $this->factory,
-            new UserData(),
             new ReplaceMatchGroupFactoryStrategy(
                 $this->alteration->byteOffset(),
                 $this->alteration->subject())),

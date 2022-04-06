@@ -12,7 +12,6 @@ use TRegx\CleanRegex\Internal\Match\GroupBy\CallableFunction;
 use TRegx\CleanRegex\Internal\Match\GroupBy\DetailFunction;
 use TRegx\CleanRegex\Internal\Match\GroupBy\OffsetFunction;
 use TRegx\CleanRegex\Internal\Match\GroupBy\TextFunction;
-use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\GroupHasAware;
 use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
@@ -34,16 +33,13 @@ class GroupByPattern
     private $groupAware;
     /** * @var GroupKey */
     private $group;
-    /** @var UserData */
-    private $userData;
 
-    public function __construct(Base $base, Subject $subject, UserData $userData, GroupHasAware $groupAware, GroupKey $group)
+    public function __construct(Base $base, Subject $subject, GroupHasAware $groupAware, GroupKey $group)
     {
         $this->base = $base;
         $this->subject = $subject;
         $this->groupAware = $groupAware;
         $this->group = $group;
-        $this->userData = $userData;
     }
 
     public function all(): array
@@ -108,7 +104,6 @@ class GroupByPattern
             $index,
             -1,
             new RawMatchesToMatchAdapter($matches, $index),
-            new EagerMatchAllFactory($matches),
-            $this->userData);
+            new EagerMatchAllFactory($matches));
     }
 }

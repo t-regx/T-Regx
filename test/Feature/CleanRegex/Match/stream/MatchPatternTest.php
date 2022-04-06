@@ -163,27 +163,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldPassUserData()
-    {
-        // given
-        pattern("(Foo|Bar)")
-            ->match("Foo, Bar")
-            ->stream()
-            ->filter(function (Detail $detail) {
-                // when
-                $detail->setUserData("$detail" === 'Foo' ? 'hey' : 'hello');
-
-                return true;
-            })
-            ->forEach(function (Detail $detail) {
-                // then
-                $this->assertSame($detail->index() === 0 ? 'hey' : 'hello', $detail->getUserData());
-            });
-    }
-
-    /**
-     * @test
-     */
     public function should_findFirst_orThrow()
     {
         // then

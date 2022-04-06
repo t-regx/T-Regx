@@ -361,20 +361,6 @@ class LazyDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetUserData()
-    {
-        // given
-        $detail = $this->detail(Pattern::of('(Bar)?Foo')->replace('Foo'));
-        // when
-        $detail->setUserData('welcome');
-        $result = $detail->getUserData();
-        // then
-        $this->assertSame('welcome', $result);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetOffset()
     {
         // given

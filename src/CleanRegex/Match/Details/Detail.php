@@ -61,15 +61,5 @@ interface Detail extends Structure, Intable
 
     public function byteTail(): int;
 
-    /**
-     * @deprecated
-     */
-    public function setUserData($userData): void;
-
-    /**
-     * @deprecated
-     */
-    public function getUserData();
-
     public function __toString(): string;
 }

@@ -129,16 +129,6 @@ class TextDetail implements Detail
         throw $this->fail();
     }
 
-    public function setUserData($userData): void
-    {
-        throw $this->fail();
-    }
-
-    public function getUserData()
-    {
-        throw $this->fail();
-    }
-
     public function __toString(): string
     {
         throw $this->fail();

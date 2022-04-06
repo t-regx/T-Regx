@@ -7,7 +7,6 @@ use TRegx\CleanRegex\Internal\Match\Details\DetailGroup;
 use TRegx\CleanRegex\Internal\Match\Details\DetailGroups;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\NumericDetail;
-use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\Match\Entry;
 use TRegx\CleanRegex\Internal\Model\Match\GroupEntries;
@@ -24,8 +23,6 @@ class MatchDetail implements Detail
 {
     /** @var DetailScalars */
     private $scalars;
-    /** @var UserData */
-    private $userData;
     /** @var SubjectCoordinate */
     private $coordinate;
     /** @var DuplicateName */
@@ -46,12 +43,10 @@ class MatchDetail implements Detail
         GroupEntries         $entries,
         UsedForGroup         $usedForGroup,
         MatchAllFactory      $allFactory,
-        UserData             $userData,
         GroupFactoryStrategy $strategy,
         Signatures           $signatures)
     {
         $this->scalars = new DetailScalars($matchEntry, $index, $limit, $allFactory, $subject);
-        $this->userData = $userData;
         $this->coordinate = new SubjectCoordinate($matchEntry, $subject);
         $this->duplicateName = new DuplicateName($groupAware, $usedForGroup, $matchEntry, $subject, $strategy, $allFactory, $signatures);
         $this->numericDetail = new NumericDetail($matchEntry);
@@ -182,22 +177,6 @@ class MatchDetail implements Detail
     public function byteTail(): int
     {
         return $this->coordinate->byteTail();
-    }
-
-    /**
-     * @deprecated
-     */
-    public function setUserData($userData): void
-    {
-        $this->userData->set($this, $userData);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getUserData()
-    {
-        return $this->userData->get($this);
     }
 
     public function __toString(): string

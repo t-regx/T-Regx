@@ -12,6 +12,7 @@ Incoming
     * Previously T-Regx used whatever encoding was set for [`mb_internal_encoding()`] for `Detail.offset()`/`tail()`
       /`textLength()`. Now, T-Regx always uses UTF-8 regardless of [`mb_internal_encoding()`]. For byte manipulation in
       encoding other than UTF-8 use `byteOffset()`/`byteTail()`/`byteTextLength()`.
+    * Removed previously deprecated `Detail.setUserData()`/`getUserData()`
 
 [`\Throwable`]: https://www.php.net/manual/en/class.throwable.php
 

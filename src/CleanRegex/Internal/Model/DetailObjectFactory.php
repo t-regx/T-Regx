@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-use TRegx\CleanRegex\Internal\Match\UserData;
+
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
@@ -15,13 +15,10 @@ class DetailObjectFactory
 {
     /** @var Subject */
     private $subject;
-    /** @var UserData */
-    private $userData;
 
-    public function __construct(Subject $subject, UserData $userData)
+    public function __construct(Subject $subject)
     {
         $this->subject = $subject;
-        $this->userData = $userData;
     }
 
     public function mapToDetailObjects(RawMatchesOffset $matches): array
@@ -32,8 +29,7 @@ class DetailObjectFactory
                 $index,
                 -1,
                 new RawMatchesToMatchAdapter($matches, $index),
-                new EagerMatchAllFactory($matches),
-                $this->userData);
+                new EagerMatchAllFactory($matches));
         }
         return $matchObjects;
     }

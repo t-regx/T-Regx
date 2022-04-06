@@ -337,23 +337,6 @@ class MatchDetailTest extends TestCase
         $detail->group(true);
     }
 
-    /**
-     * @test
-     */
-    public function shouldPreserveUserData()
-    {
-        // given
-        $detail = $this->detail(Pattern::of('Yikes!')->match('Yikes!'));
-        $mixed = (object)['value' => 'foo'];
-
-        // when
-        $detail->setUserData($mixed);
-        $userData = $detail->getUserData();
-
-        // then
-        $this->assertSame($mixed, $userData);
-    }
-
     private function detail(MatchPattern $matchPattern): MatchDetail
     {
         $matchPattern->first(Functions::out($detail));

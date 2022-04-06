@@ -17,7 +17,6 @@ use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchOffsetStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
-use TRegx\CleanRegex\Internal\Match\UserData;
 use TRegx\CleanRegex\Internal\MatchPatternHelpers;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
@@ -54,8 +53,6 @@ class MatchPattern implements \Countable, \IteratorAggregate
     private $allFactory;
     /** @var MatchOnly */
     private $matchOnly;
-    /** @var UserData */
-    private $userData;
 
     public function __construct(Definition $definition, Subject $subject)
     {
@@ -65,7 +62,6 @@ class MatchPattern implements \Countable, \IteratorAggregate
         $this->groupAware = new LightweightGroupAware($definition);
         $this->allFactory = new LazyMatchAllFactory($this->base);
         $this->matchOnly = new MatchOnly($definition, $this->base);
-        $this->userData = new UserData();
     }
 
     public function test(): bool
@@ -116,7 +112,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
     private function findFirstDetail(RawMatchOffset $match): Detail
     {
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0);
-        return DeprecatedMatchDetail::create($this->subject, 0, 1, $polyfill, $this->allFactory, $this->userData);
+        return DeprecatedMatchDetail::create($this->subject, 0, 1, $polyfill, $this->allFactory);
     }
 
     public function only(int $limit): array
@@ -199,7 +195,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     public function stream(): Stream
     {
-        return new Stream(new MatchStream(new StreamBase($this->base), $this->subject, $this->userData, new LazyMatchAllFactory($this->base)), $this->subject);
+        return new Stream(new MatchStream(new StreamBase($this->base), $this->subject, new LazyMatchAllFactory($this->base)), $this->subject);
     }
 
     public function asInt(int $base = null): IntStream
@@ -214,7 +210,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
      */
     public function groupBy($nameOrIndex): GroupByPattern
     {
-        return new GroupByPattern($this->base, $this->subject, $this->userData, $this->groupAware, GroupKey::of($nameOrIndex));
+        return new GroupByPattern($this->base, $this->subject, $this->groupAware, GroupKey::of($nameOrIndex));
     }
 
     public function groupByCallback(callable $groupMapper): array
@@ -229,7 +225,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     private function getDetailObjects(): array
     {
-        $factory = new DetailObjectFactory($this->subject, $this->userData);
+        $factory = new DetailObjectFactory($this->subject);
         return $factory->mapToDetailObjects($this->base->matchAllOffsets());
     }
 

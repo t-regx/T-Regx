@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace\By;
 
-use TRegx\CleanRegex\Internal\Match\UserData;
+
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\EagerMatchAllFactory;
@@ -45,7 +45,6 @@ class DelegatedDetail
             // use those values. We could also pass it and read it, but then LazyDetail.index()
             // and  LazyDetail.limit() would perform match unnecessarily.
             new RawMatchesToMatchAdapter($matches, $this->index),
-            new EagerMatchAllFactory($matches),
-            new UserData());
+            new EagerMatchAllFactory($matches));
     }
 }
