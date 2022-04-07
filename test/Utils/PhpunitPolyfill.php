@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Remove this class when PhpUnit7 is no longer used by T-Regx
- * @method expectExceptionMessageRegExp
- * @method expectException(string)
+ * @method expectExceptionMessageRegExp(string $regexp)
+ * @method expectException(string $message)
  */
 trait PhpunitPolyfill
 {

@@ -72,14 +72,6 @@ class MatchDetailTest extends TestCase
      */
     public function shouldStreamHandleDuplicateGroups_notMatched()
     {
-        /**
-         * This test verified whether GroupFacade calls Stream with
-         * all().
-         * - stream() is used here to use streams.
-         * - forEach() is used here to call all(), but any method that
-         * works for multiple matches would do. Don't use first() or findFirst().
-         */
-
         // when
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
             ->match('Lorem')
@@ -95,13 +87,6 @@ class MatchDetailTest extends TestCase
      */
     public function shouldStreamHandleDuplicateGroups_matched()
     {
-        /**
-         * This test verified whether GroupFacade calls Stream with
-         * all().
-         * - stream() is used here to use streams.
-         * - forEach() is used here to call all(), but any method that
-         * works for multiple matches would do. Don't use first() or findFirst().
-         */
         // given
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
             ->match('Foo')
