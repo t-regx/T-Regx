@@ -1,13 +1,12 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\flatMap;
+namespace Test\Feature\TRegx\CleanRegex\Match\flatMap;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Definitions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\MatchPattern::flatMap
@@ -20,11 +19,9 @@ class MatchPatternTest extends TestCase
     public function shouldMap()
     {
         // given
-        $pattern = $this->getMatchPattern('Nice 1 matching 2 pattern');
-
+        $pattern = $this->match('Nice 1 matching 2 pattern');
         // when
-        $map = $pattern->flatMap('str_split');
-
+        $map = $pattern->flatMap(Functions::letters());
         // then
         $expected = [
             'N', 'i', 'c', 'e',
@@ -40,7 +37,7 @@ class MatchPatternTest extends TestCase
     public function shouldMap_withKeys()
     {
         // given
-        $pattern = $this->getMatchPattern('Nice 1 matching 2 pattern');
+        $pattern = $this->match('Nice 1 matching 2 pattern');
 
         // when
         $map = $pattern->flatMap(function (Detail $detail) {
@@ -62,7 +59,7 @@ class MatchPatternTest extends TestCase
     public function shouldMap_withDetails()
     {
         // given
-        $pattern = $this->getMatchPattern("Nice matching pattern");
+        $pattern = $this->match("Nice matching pattern");
         $counter = 0;
         $matches = ['Nice', 'matching', 'pattern'];
 
@@ -84,11 +81,9 @@ class MatchPatternTest extends TestCase
     public function shouldNotInvokeMap_onNotMatchingSubject()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
-
+        $pattern = $this->match('NOT MATCHING');
         // when
         $pattern->flatMap(Functions::fail());
-
         // then
         $this->assertTrue(true);
     }
@@ -99,11 +94,9 @@ class MatchPatternTest extends TestCase
     public function shouldReturnEmptyArray_onNoMatches()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
-
+        $pattern = $this->match('NOT MATCHING');
         // when
         $map = $pattern->flatMap(Functions::fail());
-
         // then
         $this->assertEmpty($map, 'Failed asserting that flatMap() returned an empty array');
     }
@@ -114,18 +107,16 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onNonArrayReturnType()
     {
         // given
-        $pattern = $this->getMatchPattern('Nice 1 matching 2 pattern');
-
+        $pattern = $this->match('Nice 1 matching 2 pattern');
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage("Invalid flatMap() callback return type. Expected array, but string ('string') given");
-
         // when
         $pattern->flatMap(Functions::constant('string'));
     }
 
-    private function getMatchPattern(string $subject): MatchPattern
+    private function match(string $subject): MatchPattern
     {
-        return new MatchPattern(Definitions::pattern("([A-Z])?[a-z']+"), new Subject($subject));
+        return Pattern::of("([A-Z])?[a-z']+")->match($subject);
     }
 }

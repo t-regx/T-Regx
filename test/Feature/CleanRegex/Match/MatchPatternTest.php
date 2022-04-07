@@ -363,6 +363,18 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldCount()
+    {
+        // given
+        $count = pattern('Foo')->match('Foo, Foo')->count();
+
+        // then
+        $this->assertSame(2, $count);
+    }
+
+    /**
+     * @test
+     */
     public function shouldReturn_asInt_all()
     {
         // given

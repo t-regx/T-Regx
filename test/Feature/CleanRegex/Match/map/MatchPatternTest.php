@@ -1,29 +1,29 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\map;
+namespace Test\Feature\TRegx\CleanRegex\Match\map;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Definitions;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Internal\Subject;
+use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\MatchPattern::map
  */
 class MatchPatternTest extends TestCase
 {
+    use TestCasePasses;
+
     /**
      * @test
      */
     public function shouldMap()
     {
         // given
-        $pattern = $this->getMatchPattern("Nice matching pattern");
-
+        $pattern = $this->match("Nice matching pattern");
         // when
         $map = $pattern->map('strToUpper');
-
         // then
         $this->assertSame(['NICE', 'MATCHING', 'PATTERN'], $map);
     }
@@ -34,10 +34,9 @@ class MatchPatternTest extends TestCase
     public function shouldGetMatch_withDetails()
     {
         // given
-        $pattern = $this->getMatchPattern("Nice matching pattern");
+        $pattern = $this->match("Nice matching pattern");
         $counter = 0;
         $matches = ['Nice', 'matching', 'pattern'];
-
         // when
         $pattern->map(function (Detail $detail) use (&$counter, $matches) {
             // then
@@ -54,13 +53,11 @@ class MatchPatternTest extends TestCase
     public function shouldNotInvokeMap_onNotMatchingSubject()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
-
+        $pattern = $this->match('NOT MATCHING');
         // when
         $pattern->map(Functions::fail());
-
         // then
-        $this->assertTrue(true);
+        $this->pass();
     }
 
     /**
@@ -69,17 +66,15 @@ class MatchPatternTest extends TestCase
     public function shouldReturnEmptyArray_onNoMatches()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
-
+        $pattern = $this->match('NOT MATCHING');
         // when
         $map = $pattern->map(Functions::fail());
-
         // then
         $this->assertEmpty($map, 'Failed asserting that map() returned an empty array');
     }
 
-    private function getMatchPattern(string $subject): MatchPattern
+    private function match(string $subject): MatchPattern
     {
-        return new MatchPattern(Definitions::pattern("([A-Z])?[a-z']+"), new Subject($subject));
+        return Pattern::of("([A-Z])?[a-z']+")->match($subject);
     }
 }

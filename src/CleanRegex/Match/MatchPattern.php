@@ -77,7 +77,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     public function all(): array
     {
-        return \array_values($this->base->matchAll()->getTexts());
+        return $this->base->matchAll()->getTexts();
     }
 
     /**

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\first;
+namespace Test\Feature\TRegx\CleanRegex\Match\first;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Definitions;
@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\MatchPattern::first
@@ -20,11 +21,9 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $pattern = $this->getMatchPattern('Nice matching pattern');
-
+        $pattern = $this->match('Nice matching pattern');
         // when
         $first = $pattern->first();
-
         // then
         $this->assertSame('Nice', $first);
     }
@@ -36,10 +35,8 @@ class MatchPatternTest extends TestCase
     {
         // given
         $pattern = new MatchPattern(Definitions::pattern("9?(?=matching)"), new Subject('Nice matching pattern'));
-
         // when
         $first = $pattern->first();
-
         // then
         $this->assertSame('', $first);
     }
@@ -50,11 +47,9 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirst_withCallback()
     {
         // given
-        $pattern = $this->getMatchPattern('Nice matching pattern');
-
+        $pattern = $this->match('Nice matching pattern');
         // when
         $first = $pattern->first('strRev');
-
         // then
         $this->assertSame('eciN', $first);
     }
@@ -65,8 +60,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetMatch_withDetails()
     {
         // given
-        $pattern = $this->getMatchPattern('Nice matching pattern');
-
+        $pattern = $this->match('Nice matching pattern');
         // when
         $pattern->first(function (Detail $detail) {
             // then
@@ -83,12 +77,10 @@ class MatchPatternTest extends TestCase
     public function shouldNotInvokeFirst_onNotMatchingSubject()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
-
+        $pattern = $this->match('NOT MATCHING');
         // then
         $this->expectException(SubjectNotMatchedException::class);
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
-
         // when
         $pattern->first(Functions::fail());
     }
@@ -99,12 +91,10 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onNotMatchingSubject()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
-
+        $pattern = $this->match('NOT MATCHING');
         // then
         $this->expectException(SubjectNotMatchedException::class);
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
-
         // when
         $pattern->first();
     }
@@ -115,18 +105,16 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_withCallback_onNotMatchingSubject()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
-
+        $pattern = $this->match('NOT MATCHING');
         // then
         $this->expectException(SubjectNotMatchedException::class);
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
-
         // when
         $pattern->first('strRev');
     }
 
-    private function getMatchPattern(string $subject): MatchPattern
+    private function match(string $subject): MatchPattern
     {
-        return new MatchPattern(Definitions::pattern("([A-Z])?[a-z]+"), new Subject($subject));
+        return Pattern::of("([A-Z])?[a-z]+")->match($subject);
     }
 }

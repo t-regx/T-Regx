@@ -1,13 +1,11 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Match\MatchPattern\for_each;
+namespace Test\Feature\TRegx\CleanRegex\Match\for_each;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Definitions;
 use Test\Utils\Functions;
 use Test\Utils\TestCasePasses;
-use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\MatchPattern::forEach
@@ -22,10 +20,9 @@ class MatchPatternTest extends TestCase
     public function shouldGetMatch_withDetails()
     {
         // given
-        $pattern = $this->getMatchPattern("Nice matching pattern");
+        $pattern = Pattern::of("([A-Z])?[a-z']+")->match("Nice matching pattern");
         $counter = 0;
         $matches = ['Nice', 'matching', 'pattern'];
-
         // when
         $pattern->forEach(function (Detail $detail) use (&$counter, $matches) {
             // then
@@ -42,17 +39,10 @@ class MatchPatternTest extends TestCase
     public function shouldNotInvokeCallback_onNotMatchingSubject()
     {
         // given
-        $pattern = $this->getMatchPattern('NOT MATCHING');
-
+        $pattern = Pattern::of("([A-Z])?[a-z']+")->match('NOT MATCHING');
         // when
         $pattern->forEach(Functions::fail());
-
         // then
         $this->pass();
-    }
-
-    private function getMatchPattern(string $subject): MatchPattern
-    {
-        return new MatchPattern(Definitions::pattern("([A-Z])?[a-z']+"), new Subject($subject));
     }
 }
