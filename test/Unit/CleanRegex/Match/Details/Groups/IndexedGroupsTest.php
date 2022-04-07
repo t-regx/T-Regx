@@ -16,7 +16,7 @@ use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
  *  - shouldGetGroupsNames()
  *  - shouldGetGroupsCount()
  *
- * ...should be copy-pastes of one another, with the exception of
+ * ...should be copy-pastes of one another, except
  * {@see IndexedGroups::names} and {@see IndexedGroups::count} assertions.
  *
  * NamedGroupsTest and IndexedGroupsTest should have exactly alike structure
@@ -36,11 +36,9 @@ class IndexedGroupsTest extends TestCase
     public function shouldGetGroupsNames(array $groups, array $expectedNames)
     {
         // given
-        $matchGroups = new IndexedGroups(new GroupKeys($groups), new ThrowEntries(), new ThrowSubject());
-
+        $indexedGroups = new IndexedGroups(new GroupKeys($groups), new ThrowEntries(), new ThrowSubject());
         // when
-        $names = $matchGroups->names();
-
+        $names = $indexedGroups->names();
         // then
         $this->assertSame($expectedNames, $names);
     }
@@ -54,11 +52,9 @@ class IndexedGroupsTest extends TestCase
     public function shouldGetGroupsCount(array $groups, array $expectedNames)
     {
         // given
-        $matchGroups = new IndexedGroups(new GroupKeys($groups), new ThrowEntries(), new ThrowSubject());
-
+        $indexedGroups = new IndexedGroups(new GroupKeys($groups), new ThrowEntries(), new ThrowSubject());
         // when
-        $count = $matchGroups->count();
-
+        $count = $indexedGroups->count();
         // then
         $this->assertCount($count, $expectedNames);
     }
@@ -69,12 +65,10 @@ class IndexedGroupsTest extends TestCase
     public function shouldGetGroupsCountInvalid()
     {
         // given
-        $matchGroups = new IndexedGroups(new GroupKeys([]), new ThrowEntries(), new ThrowSubject());
-
+        $indexedGroups = new IndexedGroups(new GroupKeys([]), new ThrowEntries(), new ThrowSubject());
         // then
         $this->expectException(InternalCleanRegexException::class);
-
         // when
-        $matchGroups->count();
+        $indexedGroups->count();
     }
 }

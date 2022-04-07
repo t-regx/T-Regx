@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-interface GroupAware extends GroupHasAware
+interface GroupAware extends GroupHasAware, GroupKeys
 {
-    public function getGroupKeys(): array;
 }

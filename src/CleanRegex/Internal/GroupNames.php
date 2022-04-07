@@ -2,21 +2,21 @@
 namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Model\GroupAware;
+use TRegx\CleanRegex\Internal\Model\GroupKeys;
 
 class GroupNames
 {
-    /** @var GroupAware */
-    private $groupAware;
+    /** @var GroupKeys */
+    private $groupKeys;
 
-    public function __construct(GroupAware $groupAware)
+    public function __construct(GroupKeys $groupKeys)
     {
-        $this->groupAware = $groupAware;
+        $this->groupKeys = $groupKeys;
     }
 
     public function groupNames(): array
     {
-        $groupKeys = $this->groupAware->getGroupKeys();
+        $groupKeys = $this->groupKeys->getGroupKeys();
         if (\count($groupKeys) <= 1) {
             return [];
         }

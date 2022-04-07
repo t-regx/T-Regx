@@ -1,19 +1,19 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Groups;
 
-use TRegx\CleanRegex\Internal\Model\GroupAware;
+use TRegx\CleanRegex\Internal\Model\GroupKeys;
 use TRegx\CleanRegex\Internal\Model\Match\GroupEntries;
 use TRegx\CleanRegex\Internal\Subject;
 
 class NamedGroups extends AbstractMatchGroups
 {
-    /** @var GroupAware */
-    private $groupAware;
+    /** @var GroupKeys */
+    private $groupKeys;
 
-    public function __construct(GroupAware $groupAware, GroupEntries $entries, Subject $subject)
+    public function __construct(GroupKeys $groupKeys, GroupEntries $entries, Subject $subject)
     {
         parent::__construct($entries, $subject);
-        $this->groupAware = $groupAware;
+        $this->groupKeys = $groupKeys;
     }
 
     protected function filterGroupKey($nameOrIndex): bool
@@ -23,11 +23,11 @@ class NamedGroups extends AbstractMatchGroups
 
     public function names(): array
     {
-        return \array_values(\array_filter($this->groupAware->getGroupKeys(), '\is_string'));
+        return \array_values(\array_filter($this->groupKeys->getGroupKeys(), '\is_string'));
     }
 
     public function count(): int
     {
-        return \count(\array_filter($this->groupAware->getGroupKeys(), '\is_string'));
+        return \count(\array_filter($this->groupKeys->getGroupKeys(), '\is_string'));
     }
 }

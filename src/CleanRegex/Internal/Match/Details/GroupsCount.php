@@ -2,16 +2,16 @@
 namespace TRegx\CleanRegex\Internal\Match\Details;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Model\GroupAware;
+use TRegx\CleanRegex\Internal\Model\GroupKeys;
 
 class GroupsCount
 {
-    /** @var GroupAware */
-    private $groupAware;
+    /** @var GroupKeys */
+    private $groupKeys;
 
-    public function __construct(GroupAware $groupAware)
+    public function __construct(GroupKeys $groupKeys)
     {
-        $this->groupAware = $groupAware;
+        $this->groupKeys = $groupKeys;
     }
 
     public function groupsCount(): int
@@ -31,6 +31,6 @@ class GroupsCount
 
     private function wholeMatchAndIndexedGroups(): int
     {
-        return \count(\array_filter($this->groupAware->getGroupKeys(), '\is_int'));
+        return \count(\array_filter($this->groupKeys->getGroupKeys(), '\is_int'));
     }
 }

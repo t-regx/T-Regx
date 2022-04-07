@@ -5,20 +5,20 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
-use TRegx\CleanRegex\Internal\Model\GroupAware;
+use TRegx\CleanRegex\Internal\Model\GroupKeys;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 
 class PerformanceSignatures implements Signatures
 {
     /** @var RawMatchOffset */
     private $rawMatchOffset;
-    /** @var GroupAware */
-    private $groupAware;
+    /** @var GroupKeys */
+    private $groupKeys;
 
-    public function __construct($rawMatchOffset, GroupAware $groupAware)
+    public function __construct($rawMatchOffset, GroupKeys $groupKeys)
     {
         $this->rawMatchOffset = $rawMatchOffset;
-        $this->groupAware = $groupAware;
+        $this->groupKeys = $groupKeys;
     }
 
     public function signature(GroupKey $group): GroupSignature
@@ -27,7 +27,7 @@ class PerformanceSignatures implements Signatures
             return (new ArraySignatures($this->rawMatchOffset->getGroupKeys()))->signature($group);
         } catch (InsufficientMatchException $exception) {
             try {
-                return (new ArraySignatures($this->groupAware->getGroupKeys()))->signature($group);
+                return (new ArraySignatures($this->groupKeys->getGroupKeys()))->signature($group);
             } catch (InsufficientMatchException $exception) {
                 throw new InternalCleanRegexException();
             }

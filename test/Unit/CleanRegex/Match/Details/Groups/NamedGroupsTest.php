@@ -15,7 +15,7 @@ use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
  *  - shouldGetGroupsNames()
  *  - shouldGetGroupsCount()
  *
- * ...should be copy-pastes of one another, with the exception of
+ * ...should be copy-pastes of one another, except
  * {@see NamedGroups::names} and {@see NamedGroups::count} assertions.
  *
  * NamedGroupsTest and IndexedGroupsTest should have exactly alike structure
@@ -35,11 +35,9 @@ class NamedGroupsTest extends TestCase
     public function shouldGetGroupsNames(array $groups, array $expectedNames)
     {
         // given
-        $matchGroups = new NamedGroups(new GroupKeys($groups), new ThrowEntries(), new ThrowSubject());
-
+        $namedGroups = new NamedGroups(new GroupKeys($groups), new ThrowEntries(), new ThrowSubject());
         // when
-        $names = $matchGroups->names();
-
+        $names = $namedGroups->names();
         // then
         $this->assertSame(\array_values(\array_filter($expectedNames, 'is_string')), $names);
     }
@@ -53,11 +51,9 @@ class NamedGroupsTest extends TestCase
     public function shouldGetGroupsCount(array $groups, array $expectedNames)
     {
         // given
-        $matchGroups = new NamedGroups(new GroupKeys($groups), new ThrowEntries(), new ThrowSubject());
-
+        $namedGroups = new NamedGroups(new GroupKeys($groups), new ThrowEntries(), new ThrowSubject());
         // when
-        $count = $matchGroups->count();
-
+        $count = $namedGroups->count();
         // then
         $this->assertCount($count, \array_filter($expectedNames, 'is_string'));
     }
