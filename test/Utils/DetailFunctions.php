@@ -13,6 +13,13 @@ class DetailFunctions
         };
     }
 
+    public static function index(): callable
+    {
+        return static function (Detail $detail): int {
+            return $detail->index();
+        };
+    }
+
     public static function equals(string $detail): callable
     {
         return function (Detail $match) use ($detail) {

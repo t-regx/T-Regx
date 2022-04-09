@@ -200,4 +200,11 @@ class Functions
             return (string)($function)($argument);
         };
     }
+
+    public static function from(array $values): callable
+    {
+        return static function (int $index) use ($values) {
+            return $values[$index];
+        };
+    }
 }
