@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\only;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 class ReplacePatternTest extends TestCase
@@ -106,5 +107,19 @@ class ReplacePatternTest extends TestCase
             'Links: +com+ and http://other.org. and again http://google.com'
         ];
         $this->assertSame($expected, $subjects);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_only_onNegativeLimit()
+    {
+        // given
+        $replace = Pattern::of('Foo')->replace('Bar');
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Negative limit: -2');
+        // when
+        $replace->only(-2);
     }
 }

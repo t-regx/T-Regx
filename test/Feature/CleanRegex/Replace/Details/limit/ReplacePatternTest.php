@@ -2,70 +2,44 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\limit;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Detail;
+use Test\Utils\Functions;
+use TRegx\CleanRegex\Pattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Replace\Details\ReplaceDetail::limit
+ */
 class ReplacePatternTest extends TestCase
 {
     /**
      * @test
      */
-    public function shouldBeLimited_replace_first()
+    public function shouldLimit_all()
     {
         // given
-        pattern('\d+')
-            ->replace('111-222-333')
-            ->first()
-            ->callback(function (Detail $detail) {
-                // when
-                $limit = $detail->limit();
-
-                // then
-                $this->assertSame(1, $limit);
-
-                // clean up
-                return '';
-            });
+        $replace = Pattern::of('\d+')->replace('123');
+        // when
+        $replace->all()->callback(Functions::peek(Functions::assertSame(-1, Functions::property('limit')), ''));
     }
 
     /**
      * @test
      */
-    public function shouldBeLimited_replace_all()
+    public function shouldReplaceFirstCallback()
     {
         // given
-        pattern('\d+')
-            ->replace('111-222-333')
-            ->all()
-            ->callback(function (Detail $detail) {
-                // when
-                $limit = $detail->limit();
-
-                // then
-                $this->assertSame(-1, $limit);
-
-                // clean up
-                return '';
-            });
+        $replace = Pattern::of('\d+')->replace('123');
+        // when
+        $replace->first()->callback(Functions::peek(Functions::assertSame(1, Functions::property('limit')), ''));
     }
 
     /**
      * @test
      */
-    public function shouldBeLimited_replace_only_3()
+    public function shouldReplaceOnly2Callback()
     {
         // given
-        pattern('\d+')
-            ->replace('111-222-333')
-            ->only(3)
-            ->callback(function (Detail $detail) {
-                // when
-                $limit = $detail->limit();
-
-                // then
-                $this->assertSame(3, $limit);
-
-                // clean up
-                return '';
-            });
+        $replace = Pattern::of('\d+')->replace('123');
+        // when
+        $replace->only(2)->callback(Functions::peek(Functions::assertSame(2, Functions::property('limit')), ''));
     }
 }
