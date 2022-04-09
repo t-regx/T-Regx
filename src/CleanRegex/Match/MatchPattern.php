@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
+use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 use TRegx\CleanRegex\Internal\Match\IntStream\MatchIntMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\MatchOffsetMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
@@ -215,10 +216,14 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     public function groupByCallback(callable $groupMapper): array
     {
+        return $this->groupped(new GroupByFunction('groupByCallback', $groupMapper));
+    }
+
+    private function groupped(GroupByFunction $function): array
+    {
         $result = [];
         foreach ($this as $detail) {
-            $key = $groupMapper($detail);
-            $result[$key][] = $detail->text();
+            $result[$function->apply($detail)][] = $detail->text();
         }
         return $result;
     }

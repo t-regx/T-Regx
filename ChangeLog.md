@@ -13,6 +13,9 @@ Incoming
       /`textLength()`. Now, T-Regx always uses UTF-8 regardless of [`mb_internal_encoding()`]. For byte manipulation in
       encoding other than UTF-8 use `byteOffset()`/`byteTail()`/`byteTextLength()`.
     * Removed previously deprecated `Detail.setUserData()`/`getUserData()`
+* Bug fixes
+    * Fixed a bug when using `match()->groupByCallback()` didn't throw `InvalidReturnValueException` for invalid group
+      value
 
 [`\Throwable`]: https://www.php.net/manual/en/class.throwable.php
 

@@ -637,24 +637,4 @@ class MatchPatternTest extends TestCase
         }
         return $texts;
     }
-
-    /**
-     * @test
-     */
-    public function shouldGroupByCallback()
-    {
-        // when
-        $result = pattern('(?<value>\d+)(?<unit>cm|mm)')
-            ->match('12cm 14mm 13cm 19cm 18mm 2mm')
-            ->groupByCallback(function (Detail $detail) {
-                return $detail->get('unit');
-            });
-
-        // then
-        $expected = [
-            'cm' => ['12cm', '13cm', '19cm'],
-            'mm' => ['14mm', '18mm', '2mm']
-        ];
-        $this->assertSame($expected, $result);
-    }
 }
