@@ -1,12 +1,11 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex;
+namespace Test\Functional\SafeRegex;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Warnings;
 use TRegx\DataProvider\DataProviders;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\preg;
-
 
 class PatternExceptionsTest extends TestCase
 {
@@ -22,7 +21,6 @@ class PatternExceptionsTest extends TestCase
     {
         // then
         $this->expectException(MalformedPatternException::class);
-
         // when
         $function($argument);
     }

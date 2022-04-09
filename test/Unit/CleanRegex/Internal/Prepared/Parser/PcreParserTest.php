@@ -1,5 +1,5 @@
 <?php
-namespace Test\Interaction\TRegx\CleanRegex\Internal\Prepared\Parser;
+namespace Test\Unit\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\PatternEntitiesAssertion;

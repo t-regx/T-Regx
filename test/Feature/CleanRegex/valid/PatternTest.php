@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\valid;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
+use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
 {
@@ -113,5 +114,33 @@ class PatternTest extends TestCase
 
         // then
         $this->assertFalse($valid);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotInfluenceFurtherChecks()
+    {
+        // when
+        pattern('/[a-')->valid();
+        // when
+        $valid = pattern('/[a-z]/')->valid();
+        // then
+        $this->assertTrue($valid);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotInterfereWithFurtherMatches()
+    {
+        try {
+            pattern('/[a-')->test('');
+        } catch (MalformedPatternException $e) {
+        }
+        // when
+        $valid = pattern('[a-z]')->test('a');
+        // then
+        $this->assertTrue($valid);
     }
 }
