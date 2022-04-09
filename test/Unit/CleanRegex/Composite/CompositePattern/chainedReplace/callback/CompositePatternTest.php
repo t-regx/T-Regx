@@ -47,7 +47,7 @@ class CompositePatternTest extends TestCase
         $pattern = new CompositePattern([Definitions::pcre('/Foo/')]);
 
         // when
-        $pattern->chainedReplace("Foo")->callback(Functions::peek(Functions::assertSame(-1, Functions::property('limit')), Functions::constant('_')));
+        $pattern->chainedReplace("Foo")->callback(Functions::peek(Functions::assertSame(-1, Functions::property('limit')), '_'));
     }
 
     public function times(): array

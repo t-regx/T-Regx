@@ -98,11 +98,11 @@ class Functions
         };
     }
 
-    public static function peek(callable $peek, callable $callback): callable
+    public static function peek(callable $peek, $return): callable
     {
-        return function ($value) use ($peek, $callback) {
+        return function ($value) use ($peek, $return) {
             $peek($value);
-            return $callback($value);
+            return $return;
         };
     }
 
@@ -110,13 +110,6 @@ class Functions
     {
         return function (string $string) use ($character): string {
             return $character . $string . $character;
-        };
-    }
-
-    public static function json(): callable
-    {
-        return function ($value): string {
-            return \json_encode($value, \JSON_UNESCAPED_SLASHES);
         };
     }
 
