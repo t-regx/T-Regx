@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
 
+use TRegx\CleanRegex\Internal\GroupMatchFindFirst;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupStream;
 

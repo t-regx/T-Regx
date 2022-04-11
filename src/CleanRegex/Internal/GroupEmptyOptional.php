@@ -1,12 +1,10 @@
 <?php
-namespace TRegx\CleanRegex\Internal\GroupLimit;
+namespace TRegx\CleanRegex\Internal;
 
 use Throwable;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Internal\EmptyOptional;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
-use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\Optional;
 
