@@ -1,0 +1,86 @@
+<?php
+namespace Test\Feature\TRegx\CleanRegex;
+
+use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
+use TRegx\CleanRegex\Match\Details\NotMatched;
+use TRegx\CleanRegex\Pattern;
+
+/**
+ * @covers \TRegx\CleanRegex\Internal\GroupNames
+ */
+class GroupNamesTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function shouldReturnNoNamesForPatternWithoutGroups()
+    {
+        // given
+        $notMatched = $this->notMatched(Pattern::of('Foo'));
+        // when
+        $this->assertSame([], $notMatched->groupNames());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNullNames()
+    {
+        // given
+        $notMatched = $this->notMatched(Pattern::of('(Foo)(1)(2)'));
+        // when
+        $this->assertSame([null, null, null], $notMatched->groupNames());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNames()
+    {
+        // given
+        $notMatched = $this->notMatched(Pattern::of('(?<a>Foo)(?<b>1)(?<c>2)'));
+        // when
+        $this->assertSame(['a', 'b', 'c'], $notMatched->groupNames());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNamesAndNulls()
+    {
+        // given
+        $notMatched = $this->notMatched(Pattern::of('(?<a>Foo)(1)(?<c>2)(3)'));
+        // when
+        $this->assertSame(['a', null, 'c', null], $notMatched->groupNames());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNamesAndNullsNullFirst()
+    {
+        // given
+        $notMatched = $this->notMatched(Pattern::of('()(?<a>1)(2)(?<b>3)'));
+        // when
+        $this->assertSame([null, 'a', null, 'b'], $notMatched->groupNames());
+    }
+
+    /**
+     * @test
+     * @depends shouldGetNamesAndNullsNullFirst
+     */
+    public function shouldGetNamesAndNullsNullFirstAlternate()
+    {
+        // given
+        $notMatched = $this->notMatched(Pattern::of('()(?<a>1)(?<b>2)(3)(?<c>4)'));
+        // when
+        $this->assertSame([null, 'a', 'b', null, 'c'], $notMatched->groupNames());
+    }
+
+    private function notMatched(Pattern $pattern): NotMatched
+    {
+        $pattern->match('Bar')->findFirst(Functions::fail())->orElse(Functions::out($notMatched));
+        return $notMatched;
+    }
+}
