@@ -64,6 +64,10 @@ class MatchDetail implements Detail
         return $this->scalars->detailIndex();
     }
 
+    /**
+     * @return int
+     * @deprecated
+     */
     public function limit(): int
     {
         return $this->scalars->detailsLimit();

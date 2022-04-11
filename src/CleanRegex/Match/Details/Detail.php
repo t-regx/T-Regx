@@ -21,6 +21,10 @@ interface Detail extends Structure, Intable
 
     public function index(): int;
 
+    /**
+     * @return int
+     * @deprecated
+     */
     public function limit(): int;
 
     /**

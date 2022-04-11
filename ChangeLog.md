@@ -16,6 +16,8 @@ Incoming
 * Bug fixes
     * Fixed a bug when using `match()->groupByCallback()` didn't throw `InvalidReturnValueException` for invalid group
       value
+* Deprecation
+    * Deprecated `Detail.limit()`
 
 [`\Throwable`]: https://www.php.net/manual/en/class.throwable.php
 

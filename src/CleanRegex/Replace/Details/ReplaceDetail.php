@@ -112,6 +112,10 @@ class ReplaceDetail implements Detail
         return $this->detail->index();
     }
 
+    /**
+     * @return int
+     * @deprecated
+     */
     public function limit(): int
     {
         return $this->detail->limit();
