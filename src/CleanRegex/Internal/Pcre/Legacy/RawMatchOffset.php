@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\SafeRegex\Internal\Tuple;
 
 /**
  * @deprecated
@@ -24,7 +23,7 @@ class RawMatchOffset
 
     public function getText(): string
     {
-        return Tuple::first($this->match[0]);
+        return $this->match[0][0];
     }
 
     public function hasGroup(GroupKey $group): bool
@@ -48,7 +47,7 @@ class RawMatchOffset
 
     public function getGroupByteOffset($nameOrIndex): ?int
     {
-        $offset = Tuple::second($this->match[$nameOrIndex]);
+        [$text, $offset] = $this->match[$nameOrIndex];
         if ($offset === -1) {
             return null;
         }
@@ -67,7 +66,7 @@ class RawMatchOffset
         }
         $match = $this->match[$nameOrIndex];
         if (\is_array($match)) {
-            return Tuple::second($match) !== -1;
+            return $match[1] !== -1;
         }
         return false;
     }

@@ -35,7 +35,6 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Pcre\Signatures\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\SafeRegex\Internal\Tuple;
 
 class GroupMatch implements \IteratorAggregate
 {
@@ -145,7 +144,7 @@ class GroupMatch implements \IteratorAggregate
         if (!$match->isGroupMatched($this->group->nameOrIndex(), $index)) {
             throw GroupNotMatchedException::forNth($this->group, $index);
         }
-        return Tuple::first($match->getGroupTextAndOffset($this->group->nameOrIndex(), $index));
+        return $match->getGroupTextAndOffset($this->group->nameOrIndex(), $index)[0];
     }
 
     public function getIterator(): Iterator

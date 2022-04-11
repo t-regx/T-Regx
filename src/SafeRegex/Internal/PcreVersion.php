@@ -32,6 +32,7 @@ class PcreVersion
 
     public function minorVersion(): int
     {
-        return Tuple::second(\explode('.', $this->semanticVersion()));
+        [$major, $minor] = \explode('.', $this->semanticVersion());
+        return $minor;
     }
 }

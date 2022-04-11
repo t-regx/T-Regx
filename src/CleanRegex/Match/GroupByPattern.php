@@ -21,7 +21,6 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
-use TRegx\SafeRegex\Internal\Tuple;
 
 class GroupByPattern
 {
@@ -81,7 +80,7 @@ class GroupByPattern
         $matches = $this->base->matchAllOffsets();
         foreach ($matches->getIndexes() as $index) {
             if ($matches->isGroupMatched($this->group->nameOrIndex(), $index)) {
-                $key = Tuple::first($matches->getGroupTextAndOffset($this->group->nameOrIndex(), $index));
+                [$key] = $matches->getGroupTextAndOffset($this->group->nameOrIndex(), $index);
                 $detail = $this->detail($matches, $index);
                 $map[$key][] = $function->apply($detail);
             }
