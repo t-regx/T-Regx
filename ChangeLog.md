@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.23.0
+---------------
+
 * Breaking changes
     * Previously deprecated `Optional.orThrow()` accepted exception class name as `string`. Currently, `orThrow()`
       accepts an instance of [`\Throwable`].
