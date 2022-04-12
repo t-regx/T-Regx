@@ -48,10 +48,23 @@ abstract class AbstractMatchGroups implements MatchGroups
 
     private function validateAndFilterGroupKey($value, $key): bool
     {
-        if ((\is_int($value) && $value > -1) || \is_string($value) || $value === null) {
+        if ($this->isGroupValue($value)) {
             return $this->filterGroupKey($key);
         }
+        // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();
+        // @codeCoverageIgnoreEnd
+    }
+
+    private function isGroupValue($value): bool
+    {
+        if (\is_int($value) && $value > -1) {
+            return true;
+        }
+        if (\is_string($value)) {
+            return true;
+        }
+        return $value === null;
     }
 
     abstract protected function filterGroupKey($nameOrIndex): bool;
