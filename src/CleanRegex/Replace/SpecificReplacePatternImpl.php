@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\WholeMatch;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
-use TRegx\CleanRegex\Internal\Replace\AllowAllGroupAware;
+use TRegx\CleanRegex\Internal\Replace\BrokenLspGroupAware;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
@@ -60,7 +60,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
     public function callback(callable $callback): string
     {
         $invoker = new ReplacePatternCallbackInvoker($this->definition, $this->subject, $this->limit, $this->substitute, $this->countingStrategy,
-            new AllowAllGroupAware(), new WholeMatch());
+            new BrokenLspGroupAware(), new WholeMatch());
         return $invoker->invoke($callback, new MatchStrategy());
     }
 

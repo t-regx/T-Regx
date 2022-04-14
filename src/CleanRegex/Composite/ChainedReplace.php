@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Composite;
 
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\WholeMatch;
-use TRegx\CleanRegex\Internal\Replace\AllowAllGroupAware;
+use TRegx\CleanRegex\Internal\Replace\BrokenLspGroupAware;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
@@ -59,7 +59,7 @@ class ChainedReplace
     private function replaceNext(Definition $definition, string $subject, callable $callback): string
     {
         $invoker = new ReplacePatternCallbackInvoker($definition, new Subject($subject), -1, $this->substitute, new IgnoreCounting(),
-            new AllowAllGroupAware(), new WholeMatch());
+            new BrokenLspGroupAware(), new WholeMatch());
         return $invoker->invoke($callback, new MatchStrategy());
     }
 }
