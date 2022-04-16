@@ -8,8 +8,8 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Replace\Callback\GroupAwareSubstitute;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
+use TRegx\CleanRegex\Replace\Callback\NaiveSubstitute;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\SafeRegex\preg;
 
@@ -61,8 +61,7 @@ class ChainedReplace
     {
         $subject = new Subject($subjectString);
         $invoker = new ReplacePatternCallbackInvoker($definition, $subject, -1, new IgnoreCounting(),
-            new BrokenLspGroupAware(), new WholeMatch(),
-            new GroupAwareSubstitute($subject, $this->substitute, new WholeMatch(), new BrokenLspGroupAware()));
+            new BrokenLspGroupAware(), new WholeMatch(), new NaiveSubstitute($subject, $this->substitute));
         return $invoker->invoke($callback, new MatchStrategy());
     }
 }
