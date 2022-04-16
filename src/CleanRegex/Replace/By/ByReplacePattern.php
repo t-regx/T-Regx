@@ -16,6 +16,7 @@ use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Wrapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMapper;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Replace\Callback\GroupAwareSubstitute;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 
 class ByReplacePattern
@@ -73,10 +74,10 @@ class ByReplacePattern
             new ReplacePatternCallbackInvoker($this->definition,
                 $this->subject,
                 $this->limit,
-                $this->substitute,
                 $this->countingStrategy,
                 $this->groupAware,
-                $group),
+                $group,
+                new GroupAwareSubstitute($this->subject, $this->substitute, $group, $this->groupAware)),
             $group,
             $this->subject,
             $this->wrapper);

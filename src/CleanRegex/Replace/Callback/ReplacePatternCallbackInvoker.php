@@ -8,7 +8,6 @@ use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
@@ -35,10 +34,10 @@ class ReplacePatternCallbackInvoker
     public function __construct(Definition       $definition,
                                 Subject          $subject,
                                 int              $limit,
-                                SubjectRs        $substitute,
                                 CountingStrategy $countingStrategy,
                                 GroupAware       $groupAware,
-                                GroupKey         $group)
+                                GroupKey         $group,
+                                GroupSubstitute  $groupSubstitute)
     {
         $this->definition = $definition;
         $this->subject = $subject;
@@ -47,7 +46,7 @@ class ReplacePatternCallbackInvoker
         $this->allFactory = new LazyMatchAllFactory(new ApiBase($definition, $subject));
         $this->groupAware = $groupAware;
         $this->group = $group;
-        $this->substitute = new GroupSubstitute($subject, $substitute, $group, $groupAware);
+        $this->substitute = $groupSubstitute;
     }
 
     public function invoke(callable $callback, ReplaceCallbackArgumentStrategy $strategy): string

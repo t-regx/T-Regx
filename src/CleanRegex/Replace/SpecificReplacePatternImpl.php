@@ -16,6 +16,7 @@ use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
+use TRegx\CleanRegex\Replace\Callback\GroupAwareSubstitute;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\SafeRegex\preg;
@@ -59,8 +60,9 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
 
     public function callback(callable $callback): string
     {
-        $invoker = new ReplacePatternCallbackInvoker($this->definition, $this->subject, $this->limit, $this->substitute, $this->countingStrategy,
-            new BrokenLspGroupAware(), new WholeMatch());
+        $invoker = new ReplacePatternCallbackInvoker($this->definition, $this->subject, $this->limit, $this->countingStrategy,
+            new BrokenLspGroupAware(), new WholeMatch(),
+            new GroupAwareSubstitute($this->subject, $this->substitute, new WholeMatch(), new BrokenLspGroupAware()));
         return $invoker->invoke($callback, new MatchStrategy());
     }
 
