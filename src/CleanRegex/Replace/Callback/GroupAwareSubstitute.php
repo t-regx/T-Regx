@@ -5,12 +5,9 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
-use TRegx\CleanRegex\Internal\Subject;
 
 class GroupAwareSubstitute implements GroupSubstitute
 {
-    /** @var Subject */
-    private $subject;
     /** @var SubjectRs */
     private $substitute;
     /** @var GroupKey */
@@ -18,9 +15,8 @@ class GroupAwareSubstitute implements GroupSubstitute
     /** @var GroupAware */
     private $groupAware;
 
-    public function __construct(Subject $subject, SubjectRs $substitute, GroupKey $group, GroupAware $groupAware)
+    public function __construct(SubjectRs $substitute, GroupKey $group, GroupAware $groupAware)
     {
-        $this->subject = $subject;
         $this->substitute = $substitute;
         $this->group = $group;
         $this->groupAware = $groupAware;
@@ -29,7 +25,7 @@ class GroupAwareSubstitute implements GroupSubstitute
     public function substitute(string $fallback): string
     {
         if ($this->groupExists()) {
-            return $this->substitute->substitute($this->subject) ?? $fallback;
+            return $this->substitute->substitute() ?? $fallback;
         }
         throw new NonexistentGroupException($this->group);
     }

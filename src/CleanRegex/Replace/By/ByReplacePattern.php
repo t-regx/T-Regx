@@ -75,9 +75,8 @@ class ByReplacePattern
                 $this->subject,
                 $this->limit,
                 $this->countingStrategy,
-                new GroupAwareSubstitute($this->subject, $this->substitute, $group, $this->groupAware)),
+                new GroupAwareSubstitute($this->substitute, $group, $this->groupAware)),
             $group,
-            $this->subject,
             $this->wrapper,
             $this->groupAware);
     }
@@ -98,8 +97,7 @@ class ByReplacePattern
             new WholeMatch(),
             new SubstituteFallbackMapper(
                 new WrappingMapper(new DictionaryMapper($map), $this->wrapper),
-                $substitute,
-                $this->subject),
+                $substitute),
             new ThrowMatchRs()); // ThrowMatchRs, because impossible for group 0 not to be matched
     }
 }

@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 use Throwable;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class ThrowStrategy implements SubjectRs, MatchRs
@@ -20,7 +19,7 @@ class ThrowStrategy implements SubjectRs, MatchRs
         $this->group = $group;
     }
 
-    public function substitute(Subject $subject): string
+    public function substitute(): string
     {
         throw $this->throwable();
     }

@@ -22,7 +22,6 @@ use TRegx\CleanRegex\Internal\Replace\By\UnmatchedGroupStrategy;
 use TRegx\CleanRegex\Internal\Replace\Wrapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMatchRs;
-use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\Callback\MatchGroupStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\GroupReplace;
@@ -33,8 +32,6 @@ class ByGroupReplacePattern implements GroupReplace
     private $fallbackReplacer;
     /** @var GroupKey */
     private $group;
-    /** @var Subject */
-    private $subject;
     /** @var PerformanceEmptyGroupReplace */
     private $performanceReplace;
     /** @var ReplacePatternCallbackInvoker */
@@ -48,13 +45,11 @@ class ByGroupReplacePattern implements GroupReplace
                                 PerformanceEmptyGroupReplace  $performanceReplace,
                                 ReplacePatternCallbackInvoker $replaceCallbackInvoker,
                                 GroupKey                      $group,
-                                Subject                       $subject,
                                 Wrapper                       $middlewareMapper,
                                 GroupAware                    $groupAware)
     {
         $this->fallbackReplacer = $fallbackReplacer;
         $this->group = $group;
-        $this->subject = $subject;
         $this->performanceReplace = $performanceReplace;
         $this->replaceCallbackInvoker = $replaceCallbackInvoker;
         $this->middlewareMapper = $middlewareMapper;
@@ -78,8 +73,7 @@ class ByGroupReplacePattern implements GroupReplace
             $this->group,
             new SubstituteFallbackMapper(
                 new WrappingMapper($mapper, $this->middlewareMapper),
-                new LazyMessageThrowStrategy(),
-                $this->subject),
+                new LazyMessageThrowStrategy()),
             $this->middlewareMapper);
     }
 

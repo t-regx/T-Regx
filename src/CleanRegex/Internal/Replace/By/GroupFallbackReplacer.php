@@ -63,7 +63,7 @@ class GroupFallbackReplacer
         $result = $this->pregReplaceCallback($closure, $replaced);
         $this->countingStrategy->count($replaced, $this->groupAware);
         if ($replaced === 0) {
-            return $this->substitute->substitute($this->subject) ?? $result;
+            return $this->substitute->substitute() ?? $result;
         }
         return $result;
     }

@@ -51,7 +51,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
         $result = preg::replace($this->definition->pattern, $replacement, $this->subject, $this->limit, $replaced);
         $this->countingStrategy->count($replaced, new LightweightGroupAware($this->definition));
         if ($replaced === 0) {
-            return $this->substitute->substitute($this->subject) ?? $result;
+            return $this->substitute->substitute() ?? $result;
         }
         return $result;
     }
@@ -59,7 +59,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
     public function callback(callable $callback): string
     {
         $invoker = new ReplacePatternCallbackInvoker($this->definition, $this->subject, $this->limit, $this->countingStrategy,
-            new NaiveSubstitute($this->subject, $this->substitute));
+            new NaiveSubstitute($this->substitute));
         return $invoker->invoke($callback, new MatchStrategy());
     }
 

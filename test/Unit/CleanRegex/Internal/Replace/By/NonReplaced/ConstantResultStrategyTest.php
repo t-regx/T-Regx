@@ -2,7 +2,6 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
 
 /**
@@ -17,10 +16,8 @@ class ConstantResultStrategyTest extends TestCase
     {
         // given
         $strategy = new ConstantReturnStrategy('constant');
-
         // when
-        $result = $strategy->substitute(new ThrowSubject());
-
+        $result = $strategy->substitute();
         // then
         $this->assertSame('constant', $result);
     }

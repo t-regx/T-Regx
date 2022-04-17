@@ -55,10 +55,10 @@ class ChainedReplace
         return $subject;
     }
 
-    private function replaceNext(Definition $definition, string $subjectString, callable $callback): string
+    private function replaceNext(Definition $definition, string $subject, callable $callback): string
     {
-        $subject = new Subject($subjectString);
-        $invoker = new ReplacePatternCallbackInvoker($definition, $subject, -1, new IgnoreCounting(), new NaiveSubstitute($subject, $this->substitute));
+        $invoker = new ReplacePatternCallbackInvoker($definition, new Subject($subject), -1,
+            new IgnoreCounting(), new NaiveSubstitute($this->substitute));
         return $invoker->invoke($callback, new MatchStrategy());
     }
 }
