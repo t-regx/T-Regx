@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.23.1
+---------------
+
 * Bug fixes
     * Normally, pattern errors take precendece over subject errors. That is, `NonexistentGroupException`
       should be thrown before `CatastrophicBacktrackingException`.
