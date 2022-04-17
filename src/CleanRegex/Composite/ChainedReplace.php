@@ -2,8 +2,6 @@
 namespace TRegx\CleanRegex\Composite;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\GroupKey\WholeMatch;
-use TRegx\CleanRegex\Internal\Replace\BrokenLspGroupAware;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
@@ -60,8 +58,7 @@ class ChainedReplace
     private function replaceNext(Definition $definition, string $subjectString, callable $callback): string
     {
         $subject = new Subject($subjectString);
-        $invoker = new ReplacePatternCallbackInvoker($definition, $subject, -1, new IgnoreCounting(),
-            new BrokenLspGroupAware(), new WholeMatch(), new NaiveSubstitute($subject, $this->substitute));
+        $invoker = new ReplacePatternCallbackInvoker($definition, $subject, -1, new IgnoreCounting(), new NaiveSubstitute($subject, $this->substitute));
         return $invoker->invoke($callback, new MatchStrategy());
     }
 }

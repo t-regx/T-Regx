@@ -75,12 +75,11 @@ class ByReplacePattern
                 $this->subject,
                 $this->limit,
                 $this->countingStrategy,
-                $this->groupAware,
-                $group,
                 new GroupAwareSubstitute($this->subject, $this->substitute, $group, $this->groupAware)),
             $group,
             $this->subject,
-            $this->wrapper);
+            $this->wrapper,
+            $this->groupAware);
     }
 
     public function map(array $occurrencesAndReplacements): string

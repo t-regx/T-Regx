@@ -3,10 +3,8 @@ namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\GroupKey\WholeMatch;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
-use TRegx\CleanRegex\Internal\Replace\BrokenLspGroupAware;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
@@ -61,7 +59,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
     public function callback(callable $callback): string
     {
         $invoker = new ReplacePatternCallbackInvoker($this->definition, $this->subject, $this->limit, $this->countingStrategy,
-            new BrokenLspGroupAware(), new WholeMatch(), new NaiveSubstitute($this->subject, $this->substitute));
+            new NaiveSubstitute($this->subject, $this->substitute));
         return $invoker->invoke($callback, new MatchStrategy());
     }
 

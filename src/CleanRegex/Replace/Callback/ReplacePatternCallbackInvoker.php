@@ -1,10 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Callback;
 
-use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\LazyMatchAllFactory;
@@ -23,10 +20,6 @@ class ReplacePatternCallbackInvoker
     private $limit;
     /** @var CountingStrategy */
     private $countingStrategy;
-    /** @var GroupAware */
-    private $groupAware;
-    /** @var GroupKey */
-    private $group;
     /** @var MatchAllFactory */
     private $allFactory;
     /** @var GroupSubstitute */
@@ -36,8 +29,6 @@ class ReplacePatternCallbackInvoker
                                 Subject          $subject,
                                 int              $limit,
                                 CountingStrategy $countingStrategy,
-                                GroupAware       $groupAware,
-                                GroupKey         $group,
                                 GroupSubstitute  $groupSubstitute)
     {
         $this->definition = $definition;
@@ -45,8 +36,6 @@ class ReplacePatternCallbackInvoker
         $this->limit = $limit;
         $this->countingStrategy = $countingStrategy;
         $this->allFactory = new LazyMatchAllFactory(new ApiBase($definition, $subject));
-        $this->groupAware = $groupAware;
-        $this->group = $group;
         $this->substitute = $groupSubstitute;
     }
 
@@ -75,9 +64,6 @@ class ReplacePatternCallbackInvoker
             return static function () {
             };
         }
-        if (!$this->groupExists()) {
-            throw new NonexistentGroupException($this->group);
-        }
         return $this->createObjectCallback($callback, $strategy);
     }
 
@@ -85,13 +71,5 @@ class ReplacePatternCallbackInvoker
     {
         $object = new ReplaceCallbackObject($callback, $this->subject, $this->allFactory, $this->limit, $strategy);
         return $object->getCallback();
-    }
-
-    private function groupExists(): bool
-    {
-        if ($this->group->nameOrIndex() === 0) {
-            return true;
-        }
-        return $this->groupAware->hasGroup($this->group);
     }
 }

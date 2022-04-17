@@ -1,7 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Replace\By;
 
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DictionaryMapper;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
@@ -39,13 +41,16 @@ class ByGroupReplacePattern implements GroupReplace
     private $replaceCallbackInvoker;
     /** @var Wrapper */
     private $middlewareMapper;
+    /** @var GroupAware */
+    private $groupAware;
 
     public function __construct(GroupFallbackReplacer         $fallbackReplacer,
                                 PerformanceEmptyGroupReplace  $performanceReplace,
                                 ReplacePatternCallbackInvoker $replaceCallbackInvoker,
                                 GroupKey                      $group,
                                 Subject                       $subject,
-                                Wrapper                       $middlewareMapper)
+                                Wrapper                       $middlewareMapper,
+                                GroupAware                    $groupAware)
     {
         $this->fallbackReplacer = $fallbackReplacer;
         $this->group = $group;
@@ -53,6 +58,7 @@ class ByGroupReplacePattern implements GroupReplace
         $this->performanceReplace = $performanceReplace;
         $this->replaceCallbackInvoker = $replaceCallbackInvoker;
         $this->middlewareMapper = $middlewareMapper;
+        $this->groupAware = $groupAware;
     }
 
     public function map(array $occurrencesAndReplacements): GroupReplace
@@ -123,6 +129,17 @@ class ByGroupReplacePattern implements GroupReplace
 
     public function callback(callable $callback): string
     {
-        return $this->replaceCallbackInvoker->invoke($callback, new MatchGroupStrategy($this->group));
+        if ($this->groupExists()) {
+            return $this->replaceCallbackInvoker->invoke($callback, new MatchGroupStrategy($this->group));
+        }
+        throw new NonexistentGroupException($this->group);
+    }
+
+    private function groupExists(): bool
+    {
+        if ($this->group->nameOrIndex() === 0) {
+            return true;
+        }
+        return $this->groupAware->hasGroup($this->group);
     }
 }
