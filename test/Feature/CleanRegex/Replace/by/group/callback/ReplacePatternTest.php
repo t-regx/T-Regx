@@ -109,6 +109,23 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldNotCallEverythingForUnmatchedGroupFirstGroup()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+        // when
+        Pattern::of('([a\d]+[a\d]+)+3')
+            ->replace('aaaaaaaaaaaaaaaaaaaa 3')
+            ->first()
+            ->by()
+            ->group('missing')
+            ->callback(Functions::fail());
+    }
+
+    /**
+     * @test
+     */
     public function shouldNotCallEverythingForUnmatchedGroup()
     {
         // then

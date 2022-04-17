@@ -57,6 +57,9 @@ class ReplaceCallbackObject
 
     public function getCallback(): callable
     {
+        if (!$this->groupExists()) {
+            throw new NonexistentGroupException($this->groupKey);
+        }
         return function (array $match) {
             return $this->invoke($match);
         };
@@ -64,9 +67,6 @@ class ReplaceCallbackObject
 
     private function invoke(array $match): string
     {
-        if (!$this->groupExists()) {
-            throw new NonexistentGroupException($this->groupKey);
-        }
         $result = ($this->callback)($this->matchObject());
         $replacement = $this->getReplacement($result);
         $this->modify($match, $replacement);
