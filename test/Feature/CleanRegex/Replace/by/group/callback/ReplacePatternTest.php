@@ -139,4 +139,21 @@ class ReplacePatternTest extends TestCase
             ->group('missing')
             ->callback(Functions::fail());
     }
+
+    /**
+     * @test
+     */
+    public function shouldNotCallEverythingForUnmatchedGroupLimit0()
+    {
+        // then
+        $this->expectException(NonexistentGroupException::class);
+        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+        // when
+        Pattern::of('Foo')
+            ->replace('Bar')
+            ->only(0)
+            ->by()
+            ->group('missing')
+            ->callback(Functions::fail());
+    }
 }

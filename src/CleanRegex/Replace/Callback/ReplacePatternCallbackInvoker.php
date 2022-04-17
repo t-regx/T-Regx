@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Callback;
 
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -74,12 +75,23 @@ class ReplacePatternCallbackInvoker
             return static function () {
             };
         }
+        if (!$this->groupExists()) {
+            throw new NonexistentGroupException($this->group);
+        }
         return $this->createObjectCallback($callback, $strategy);
     }
 
     private function createObjectCallback(callable $callback, ReplaceCallbackArgumentStrategy $strategy): callable
     {
-        $object = new ReplaceCallbackObject($callback, $this->subject, $this->allFactory, $this->limit, $strategy, $this->groupAware, $this->group);
+        $object = new ReplaceCallbackObject($callback, $this->subject, $this->allFactory, $this->limit, $strategy);
         return $object->getCallback();
+    }
+
+    private function groupExists(): bool
+    {
+        if ($this->group->nameOrIndex() === 0) {
+            return true;
+        }
+        return $this->groupAware->hasGroup($this->group);
     }
 }

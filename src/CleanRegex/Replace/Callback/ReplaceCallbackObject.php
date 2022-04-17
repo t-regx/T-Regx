@@ -3,10 +3,8 @@ namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
-use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
@@ -30,10 +28,6 @@ class ReplaceCallbackObject
     private $limit;
     /** @var ReplaceCallbackArgumentStrategy */
     private $argumentStrategy;
-    /** @var GroupAware */
-    private $groupAware;
-    /** @var GroupKey */
-    private $groupKey;
     /** @var SubjectAlteration */
     private $alteration;
 
@@ -41,25 +35,18 @@ class ReplaceCallbackObject
                                 Subject                         $subject,
                                 MatchAllFactory                 $factory,
                                 int                             $limit,
-                                ReplaceCallbackArgumentStrategy $argumentStrategy,
-                                GroupAware                      $groupAware,
-                                GroupKey                        $groupKey)
+                                ReplaceCallbackArgumentStrategy $argumentStrategy)
     {
         $this->callback = $callback;
         $this->subject = $subject;
         $this->factory = $factory;
         $this->limit = $limit;
         $this->argumentStrategy = $argumentStrategy;
-        $this->groupAware = $groupAware;
-        $this->groupKey = $groupKey;
         $this->alteration = new SubjectAlteration($subject);
     }
 
     public function getCallback(): callable
     {
-        if (!$this->groupExists()) {
-            throw new NonexistentGroupException($this->groupKey);
-        }
         return function (array $match) {
             return $this->invoke($match);
         };
@@ -71,14 +58,6 @@ class ReplaceCallbackObject
         $replacement = $this->getReplacement($result);
         $this->modify($match, $replacement);
         return $replacement;
-    }
-
-    private function groupExists(): bool
-    {
-        if ($this->groupKey->nameOrIndex() === 0) {
-            return true;
-        }
-        return $this->groupAware->hasGroup($this->groupKey);
     }
 
     private function matchObject()
