@@ -1,9 +1,9 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\prune;
+namespace Test\Feature\TRegx\CleanRegex\Composite\CompositePattern\prune;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Definitions;
-use TRegx\CleanRegex\Composite\CompositePattern;
+use TRegx\CleanRegex\Pattern;
+use function array_slice;
 
 /**
  * @covers \TRegx\CleanRegex\Composite\CompositePattern::prune
@@ -19,18 +19,16 @@ class CompositePatternTest extends TestCase
     public function test(int $times, string $expected)
     {
         // given
-        $composite = new CompositePattern($this->nthPatterns($times, [
-            "/at's ai/",
-            "/thr you're bre/",
-            "/nk ath/",
-            "/thi{2}ng/",
-            '/(\s+|\?)/',
-            "/[ou]/"
-        ]));
-
+        $composite = Pattern::compose(array_slice([
+            "at's ai",
+            "thr you're bre",
+            "nk ath",
+            "thi{2}ng",
+            '(\s+|\?)',
+            "[ou]",
+        ], 0, $times));
         // when
         $replaced = $composite->prune("Do you think that's air you're breathing now?");
-
         // then
         $this->assertSame($expected, $replaced);
     }
@@ -46,10 +44,5 @@ class CompositePatternTest extends TestCase
             [5, "Doyounow"],
             [6, "Dynw"],
         ];
-    }
-
-    private function nthPatterns(int $times, array $patterns): array
-    {
-        return \array_map([Definitions::class, 'pcre'], \array_slice($patterns, 0, $times));
     }
 }

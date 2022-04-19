@@ -1,17 +1,27 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\chainedReplace\callback;
+namespace Test\Feature\TRegx\CleanRegex\Composite\CompositePattern\chainedReplace\callback;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Definitions;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Composite\CompositePattern;
+use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
+use function array_slice;
 
 /**
  * @covers \TRegx\CleanRegex\Composite\CompositePattern::chainedReplace
  */
 class CompositePatternTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function shouldGetLimit()
+    {
+        Pattern::compose(['Foo'])
+            ->chainedReplace("Foo")
+            ->callback(Functions::peek(Functions::assertSame(-1, Functions::property('limit')), '_'));
+    }
+
     /**
      * @test
      * @dataProvider times
@@ -21,13 +31,14 @@ class CompositePatternTest extends TestCase
     public function test(int $times, string $expected)
     {
         // given
-        $pattern = new CompositePattern($this->nthPatterns($times, [
-            "/at's ai/",
-            "/th__r you're (?<group>bre)(?<unmatched>lol)?/",
-            "/nk __ath/",
-            "/thi__ing/",
-            '/(\s+|\?)/',
-        ]));
+        $patterns = [
+            "at's ai",
+            "th__r you're (?<group>bre)(?<unmatched>lol)?",
+            "nk __ath",
+            "thi__ing",
+            '(\s+|\?)',
+        ];
+        $pattern = Pattern::compose(array_slice($patterns, 0, $times));
 
         // when
         $replaced = $pattern
@@ -36,18 +47,6 @@ class CompositePatternTest extends TestCase
 
         // then
         $this->assertSame($expected, $replaced);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetLimit()
-    {
-        // given
-        $pattern = new CompositePattern([Definitions::pcre('/Foo/')]);
-
-        // when
-        $pattern->chainedReplace("Foo")->callback(Functions::peek(Functions::assertSame(-1, Functions::property('limit')), '_'));
     }
 
     public function times(): array
@@ -70,10 +69,7 @@ class CompositePatternTest extends TestCase
     public function shouldInvokeCallbackForOnePattern()
     {
         // given
-        $pattern = new CompositePattern([
-            Definitions::pcre('/[a-z]/'),
-            Definitions::pcre('/[1-9]/')
-        ]);
+        $pattern = Pattern::compose(['[a-z]', '[1-9]']);
         $chainedReplace = $pattern->chainedReplace('a 1 b 2 c 3');
         $matches = [];
         $subjects = [];
@@ -104,10 +100,5 @@ class CompositePatternTest extends TestCase
         $this->assertSame([$first, $first, $first, $second, $second, $second], $subjects);
         $this->assertSame($expectedModified, $modified);
         $this->assertSame($expectedResult, $result);
-    }
-
-    private function nthPatterns(int $times, array $patterns): array
-    {
-        return \array_map([Definitions::class, 'pcre'], \array_slice($patterns, 0, $times));
     }
 }

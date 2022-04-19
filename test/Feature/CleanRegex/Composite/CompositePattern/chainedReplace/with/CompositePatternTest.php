@@ -1,9 +1,9 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Composite\CompositePattern\chainedReplace\with;
+namespace Test\Feature\TRegx\CleanRegex\Composite\CompositePattern\chainedReplace\with;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Definitions;
-use TRegx\CleanRegex\Composite\CompositePattern;
+use TRegx\CleanRegex\Pattern;
+use function array_slice;
 
 /**
  * @covers \TRegx\CleanRegex\Composite\CompositePattern::chainedReplace
@@ -19,17 +19,15 @@ class CompositePatternTest extends TestCase
     public function test(int $times, string $expected)
     {
         // given
-        $pattern = new CompositePattern($this->nthPatterns($times, [
-            "/at's ai/",
-            "/th__r you're bre/",
-            '/nk __ath/',
-            '/thi__ing/',
-            '/(\s+|\?)/',
-        ]));
-
+        $pattern = Pattern::compose(array_slice([
+            "at's ai",
+            "th__r you're bre",
+            'nk __ath',
+            'thi__ing',
+            '(\s+|\?)',
+        ], 0, $times));
         // when
         $replaced = $pattern->chainedReplace("Do you think that's air you're breathing now?")->with('__');
-
         // then
         $this->assertSame($expected, $replaced);
     }
@@ -54,15 +52,9 @@ class CompositePatternTest extends TestCase
     public function shouldQuoteReferences()
     {
         // given
-        $pattern = new CompositePattern([
-            Definitions::pcre('/One(1)/'),
-            Definitions::pcre('/Two(2)/'),
-            Definitions::pcre('/Three(3)/'),
-        ]);
-
+        $pattern = Pattern::compose(['One(1)', 'Two(2)', 'Three(3)']);
         // when
         $replaced = $pattern->chainedReplace("One1 Two2 Three3")->with('$1');
-
         // then
         $this->assertSame('$1 $1 $1', $replaced);
     }
@@ -73,21 +65,10 @@ class CompositePatternTest extends TestCase
     public function shouldReplaceWithReferences()
     {
         // given
-        $pattern = new CompositePattern([
-            Definitions::pcre('/One(1)/'),
-            Definitions::pcre('/Two(2)/'),
-            Definitions::pcre('/Three(3)/'),
-        ]);
-
+        $pattern = Pattern::compose(['One(1)', 'Two(2)', 'Three(3)']);
         // when
         $replaced = $pattern->chainedReplace("One1 Two2 Three3")->withReferences('$1');
-
         // then
         $this->assertSame('1 2 3', $replaced);
-    }
-
-    private function nthPatterns(int $times, array $patterns): array
-    {
-        return \array_map([Definitions::class, 'pcre'], \array_slice($patterns, 0, $times));
     }
 }
