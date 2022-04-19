@@ -25,7 +25,7 @@ class ThrowGroup implements Group
         throw $this->fail();
     }
 
-    public function toInt(int $base = null): int
+    public function toInt(int $base = 10): int
     {
         throw $this->fail();
     }

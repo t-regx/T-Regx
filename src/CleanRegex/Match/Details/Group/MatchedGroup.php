@@ -49,13 +49,13 @@ class MatchedGroup implements Group
         return \strlen($this->groupEntry->text());
     }
 
-    public function toInt(int $base = null): int
+    public function toInt(int $base = 10): int
     {
         $integerBase = new IntegerBase(new Base($base), new GroupExceptions($this->details->group()));
         return $integerBase->integer($this->groupEntry->text());
     }
 
-    public function isInt(int $base = null): bool
+    public function isInt(int $base = 10): bool
     {
         $number = new StringNumeral($this->groupEntry->text());
         try {

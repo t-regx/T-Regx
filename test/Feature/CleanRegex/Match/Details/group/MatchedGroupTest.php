@@ -179,12 +179,12 @@ class MatchedGroupTest extends TestCase
      * @test
      * @dataProvider integers
      */
-    public function shouldParseIntegerBase10Default(string $text, int $expected, ?int $base)
+    public function shouldParseIntegerBase10Default(string $text, int $expected, array $arguments)
     {
         // given
         $matchedGroup = $this->matchedGroup('(\w+)', $text, 1);
         // when
-        $integer = $matchedGroup->toInt($base);
+        $integer = $matchedGroup->toInt(...$arguments);
         // then
         $this->assertSame($expected, $integer);
     }
@@ -192,9 +192,9 @@ class MatchedGroupTest extends TestCase
     public function integers(): array
     {
         return [
-            ['194', 194, null],
-            ['194', 194, 10],
-            ['a4f', 2639, 16],
+            ['194', 194, []],
+            ['194', 194, [10]],
+            ['a4f', 2639, [16]],
         ];
     }
 

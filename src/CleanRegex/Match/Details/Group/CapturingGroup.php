@@ -11,9 +11,9 @@ interface CapturingGroup extends Optional
 
     public function textByteLength(): int;
 
-    public function toInt(int $base = null): int;
+    public function toInt(int $base = 10): int;
 
-    public function isInt(int $base = null): bool;
+    public function isInt(int $base = 10): bool;
 
     public function matched(): bool;
 

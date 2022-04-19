@@ -16,7 +16,7 @@ class IntGroup extends ThrowGroup
         $this->base = $base;
     }
 
-    public function toInt(int $base = null): int
+    public function toInt(int $base = 10): int
     {
         if ($base === $this->base) {
             return $this->int;

@@ -16,7 +16,7 @@ class ConstantInt implements Intable
         $this->expectedBase = $expectedBase;
     }
 
-    public function toInt(int $base = null): int
+    public function toInt(int $base = 10): int
     {
         if ($this->expectedBase === $base) {
             return $this->integer;

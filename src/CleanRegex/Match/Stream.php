@@ -147,7 +147,7 @@ class Stream implements \Countable, \IteratorAggregate
         return $this->next(new KeyStream($this->upstream));
     }
 
-    public function asInt(int $base = null): Stream
+    public function asInt(int $base = 10): Stream
     {
         return $this->next(new IntegerStream($this->upstream, new Numeral\Base($base)));
     }

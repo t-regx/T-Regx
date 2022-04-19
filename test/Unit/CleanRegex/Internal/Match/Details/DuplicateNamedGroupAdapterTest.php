@@ -80,7 +80,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
     public function shouldGetInt(): void
     {
         // given
-        $adapter = new DuplicateNamedGroupAdapter('foo', new IntGroup(12, null));
+        $adapter = new DuplicateNamedGroupAdapter('foo', new IntGroup(12, 10));
 
         // when
         $integer = $adapter->toInt();
@@ -122,7 +122,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
     public function shouldBeIntDefaultBase(): void
     {
         // given
-        $adapter = new DuplicateNamedGroupAdapter('foo', new IntGroup(13, null));
+        $adapter = new DuplicateNamedGroupAdapter('foo', new IntGroup(13, 10));
 
         // when + then
         $this->assertSame(13, $adapter->toInt());
@@ -134,7 +134,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
     public function shouldNotBeInt(): void
     {
         // given
-        $adapter = new DuplicateNamedGroupAdapter('foo', new IsIntGroup(false, null));
+        $adapter = new DuplicateNamedGroupAdapter('foo', new IsIntGroup(false, 10));
 
         // when + then
         $this->assertFalse($adapter->isInt());

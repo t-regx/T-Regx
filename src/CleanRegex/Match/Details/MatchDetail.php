@@ -78,12 +78,12 @@ class MatchDetail implements Detail
         return $this->coordinate->byteLength();
     }
 
-    public function toInt(int $base = null): int
+    public function toInt(int $base = 10): int
     {
         return $this->numericDetail->asInteger(new Base($base));
     }
 
-    public function isInt(int $base = null): bool
+    public function isInt(int $base = 10): bool
     {
         return $this->numericDetail->isInteger(new Base($base));
     }

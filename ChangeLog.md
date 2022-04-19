@@ -6,6 +6,11 @@ Incoming
 
 * Breaking changes
     * Removed previously deprecated `Detail.limit()`. `ReplaceDetail.limit()` remains unchanged.
+    * Integer methods (`toInt()`, `isInt()`, `asInt()`) accept `$base` as their optional argument,
+      which defaults to `10`.
+        * Previously passing `null` as argument to integer methods was allowed, which also defaulted
+          to `10`. Currently, the argument can either be of type `int` or omitted, but `null` is
+          no longer allowed as `$base`.
 
 Added in 0.23.1
 ---------------
@@ -950,7 +955,8 @@ Available in 0.9.0
     * Add [`Match.limit()`](https://t-regx.com/docs/match-details#limit)
     * Add `Match.group()->all()`
     *
-  Add [`Match.getUserData()`](https://t-regx.com/docs/match-details#user-data)/[`setUserData()`](https://t-regx.com/docs/match-details#user-data)
+  Add [`Match.getUserData()`](https://t-regx.com/docs/match-details#user-data)
+  /[`setUserData()`](https://t-regx.com/docs/match-details#user-data)
     * Add [`ReplaceMatch.modifiedSubject()`](https://t-regx.com/docs/replace-match-details#modifiedsubject-example)
     * Returning from [`match()->first(callable)`] modifies its return value
     * Add [`pattern()->remove()`](https://t-regx.com/docs/replace-with#remove-occurrence)
