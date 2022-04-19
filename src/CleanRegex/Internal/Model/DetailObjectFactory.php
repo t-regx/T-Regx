@@ -24,7 +24,7 @@ class DetailObjectFactory
     {
         $matchObjects = [];
         foreach ($matches->matches[0] as $index => $firstWhole) {
-            $matchObjects[$index] = DeprecatedMatchDetail::create($this->subject,
+            $matchObjects[] = DeprecatedMatchDetail::create($this->subject,
                 $index,
                 new RawMatchesToMatchAdapter($matches, $index),
                 new EagerMatchAllFactory($matches));

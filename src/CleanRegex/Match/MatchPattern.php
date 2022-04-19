@@ -191,7 +191,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     public function getIterator(): \Iterator
     {
-        return new \ArrayIterator(\array_values($this->getDetailObjects()));
+        return new \ArrayIterator($this->getDetailObjects());
     }
 
     public function stream(): Stream
