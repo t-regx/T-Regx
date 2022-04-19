@@ -406,17 +406,4 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertSameMatches([18, 21, 22], $result);
     }
-
-    /**
-     * @test
-     */
-    public function shouldNthDetailReturnNoLimit()
-    {
-        // given
-        $detail = pattern('\w+')->match('lorem ipsum dolor sit amet')->stream()->nth(2);
-        // when
-        $limit = $detail->limit();
-        // then
-        $this->assertSame(-1, $limit);
-    }
 }

@@ -43,7 +43,6 @@ class MatchStream implements Upstream
     {
         return DeprecatedMatchDetail::create($this->subject,
             $this->tryFirstKey(),
-            1,
             new GroupPolyfillDecorator(new FalseNegative($this->stream->first()), $this->allFactory, 0),
             $this->allFactory);
     }

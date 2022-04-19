@@ -37,7 +37,6 @@ class MatchDetail implements Detail
     public function __construct(
         Subject              $subject,
         int                  $index,
-        int                  $limit,
         GroupAware           $groupAware,
         Entry                $matchEntry,
         GroupEntries         $entries,
@@ -46,7 +45,7 @@ class MatchDetail implements Detail
         GroupFactoryStrategy $strategy,
         Signatures           $signatures)
     {
-        $this->scalars = new DetailScalars($matchEntry, $index, $limit, $allFactory, $subject);
+        $this->scalars = new DetailScalars($matchEntry, $index, $allFactory, $subject);
         $this->coordinate = new SubjectCoordinate($matchEntry, $subject);
         $this->duplicateName = new DuplicateName($groupAware, $usedForGroup, $matchEntry, $subject, $strategy, $allFactory, $signatures);
         $this->numericDetail = new NumericDetail($matchEntry);
@@ -62,15 +61,6 @@ class MatchDetail implements Detail
     public function index(): int
     {
         return $this->scalars->detailIndex();
-    }
-
-    /**
-     * @return int
-     * @deprecated
-     */
-    public function limit(): int
-    {
-        return $this->scalars->detailsLimit();
     }
 
     public function text(): string

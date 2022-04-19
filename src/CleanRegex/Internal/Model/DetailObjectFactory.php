@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
-
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
@@ -27,7 +26,6 @@ class DetailObjectFactory
         foreach ($matches->matches[0] as $index => $firstWhole) {
             $matchObjects[$index] = DeprecatedMatchDetail::create($this->subject,
                 $index,
-                -1,
                 new RawMatchesToMatchAdapter($matches, $index),
                 new EagerMatchAllFactory($matches));
         }

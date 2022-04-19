@@ -72,12 +72,11 @@ class ReplaceCallbackObject
         return new ReplaceDetail(DeprecatedMatchDetail::create(
             $this->subject,
             $index,
-            $this->limit,
             $match,
             $this->factory,
             new ReplaceMatchGroupFactoryStrategy(
                 $this->alteration->byteOffset(),
-                $this->alteration->subject())),
+                $this->alteration->subject())), $this->limit,
             $this->alteration->modification($match->byteOffset()));
     }
 

@@ -27,20 +27,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldAllKeepLimits()
-    {
-        // given
-        pattern("(?:Foo|Bar)")->match("Foo, Bar")->stream()
-            ->map(function (Detail $detail) {
-                // then
-                $this->assertSame(-1, $detail->limit());
-            })
-            ->all();
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_map_all()
     {
         // given
@@ -66,17 +52,6 @@ class MatchPatternTest extends TestCase
         pattern("(Foo|Bar)")->match("Foo, Bar")->stream()->first(function (Detail $detail) {
             // then
             $this->assertSame(0, $detail->index());
-        });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFirst_keepLimit()
-    {
-        // given
-        pattern("(Foo|Bar)")->match("Foo, Bar")->stream()->first(function (Detail $detail) {
-            $this->assertSame(1, $detail->limit());
         });
     }
 

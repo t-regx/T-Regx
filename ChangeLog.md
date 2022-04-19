@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Removed previously deprecated `Detail.limit()`. `ReplaceDetail.limit()` remains unchanged.
 
 Added in 0.23.1
 ---------------

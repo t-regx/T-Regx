@@ -12,12 +12,15 @@ class ReplaceDetail implements Detail
 {
     /** @var Detail */
     private $detail;
+    /** @var int */
+    private $limit;
     /** @var Modification */
     private $modification;
 
-    public function __construct(Detail $detail, Modification $modification)
+    public function __construct(Detail $detail, int $limit, Modification $modification)
     {
         $this->detail = $detail;
+        $this->limit = $limit;
         $this->modification = $modification;
     }
 
@@ -112,13 +115,9 @@ class ReplaceDetail implements Detail
         return $this->detail->index();
     }
 
-    /**
-     * @return int
-     * @deprecated
-     */
     public function limit(): int
     {
-        return $this->detail->limit();
+        return $this->limit;
     }
 
     public function groups(): IndexedGroups

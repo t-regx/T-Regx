@@ -113,7 +113,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
     private function findFirstDetail(RawMatchOffset $match): Detail
     {
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0);
-        return DeprecatedMatchDetail::create($this->subject, 0, 1, $polyfill, $this->allFactory);
+        return DeprecatedMatchDetail::create($this->subject, 0, $polyfill, $this->allFactory);
     }
 
     public function only(int $limit): array

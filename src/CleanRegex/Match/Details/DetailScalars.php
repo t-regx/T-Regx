@@ -11,18 +11,15 @@ class DetailScalars
     private $entry;
     /** @var int */
     private $index;
-    /** @var int */
-    private $limit;
     /** @var MatchAllFactory */
     private $allFactory;
     /** @var Subject */
     private $subject;
 
-    public function __construct(Entry $entry, int $index, int $limit, MatchAllFactory $allFactory, Subject $subject)
+    public function __construct(Entry $entry, int $index, MatchAllFactory $allFactory, Subject $subject)
     {
         $this->entry = $entry;
         $this->index = $index;
-        $this->limit = $limit;
         $this->allFactory = $allFactory;
         $this->subject = $subject;
     }
@@ -30,11 +27,6 @@ class DetailScalars
     public function detailIndex(): int
     {
         return $this->index;
-    }
-
-    public function detailsLimit(): int
-    {
-        return $this->limit;
     }
 
     public function matchedText(): string

@@ -101,7 +101,6 @@ class GroupByPattern
     {
         return DeprecatedMatchDetail::create($this->subject,
             $index,
-            -1,
             new RawMatchesToMatchAdapter($matches, $index),
             new EagerMatchAllFactory($matches));
     }
