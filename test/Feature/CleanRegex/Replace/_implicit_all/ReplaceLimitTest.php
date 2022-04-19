@@ -2,12 +2,15 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\_implicit_all;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class ReplaceLimitTest extends TestCase
 {
+    use ExactExceptionMessage;
+
     /**
      * @test
      */
