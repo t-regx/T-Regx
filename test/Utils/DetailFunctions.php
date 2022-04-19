@@ -56,7 +56,7 @@ class DetailFunctions
         };
     }
 
-    public static function out($nameOrIndex, ?Group &$group, $return): callable
+    public static function outGroup($nameOrIndex, ?Group &$group, $return): callable
     {
         return function (Detail $detail) use ($nameOrIndex, &$group, $return) {
             $group = $detail->group($nameOrIndex);

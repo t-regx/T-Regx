@@ -110,7 +110,7 @@ class ReplacePatternTest extends TestCase
     public function shouldNotGet_modifiedSubject()
     {
         // given
-        Pattern::of('Foo(Bar)?')->replace('Foo')->callback(DetailFunctions::out(1, $group, ''));
+        Pattern::of('Foo(Bar)?')->replace('Foo')->callback(DetailFunctions::outGroup(1, $group, ''));
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to call modifiedSubject() for group #1, but the group was not matched");
@@ -124,7 +124,7 @@ class ReplacePatternTest extends TestCase
     public function shouldNotGet_modifiedOffset()
     {
         // given
-        Pattern::of('Foo(?<second>Bar)?')->replace('Foo')->callback(DetailFunctions::out('second', $group, ''));
+        Pattern::of('Foo(?<second>Bar)?')->replace('Foo')->callback(DetailFunctions::outGroup('second', $group, ''));
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to call modifiedOffset() for group 'second', but the group was not matched");
@@ -138,7 +138,7 @@ class ReplacePatternTest extends TestCase
     public function shouldNotGet_byteModifiedOffset()
     {
         // given
-        Pattern::of('Foo(?<bar>Bar)?')->replace('Foo')->callback(DetailFunctions::out('bar', $group, ''));
+        Pattern::of('Foo(?<bar>Bar)?')->replace('Foo')->callback(DetailFunctions::outGroup('bar', $group, ''));
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to call byteModifiedOffset() for group 'bar', but the group was not matched");
