@@ -233,16 +233,32 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldMapGroupOptionalEmpty()
+    public function shouldMapGroupOptionalEmptyFirst()
     {
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get group #1, but it was not matched');
+        $this->expectExceptionMessage('Expected to get group #1, but the group was not matched');
 
         // when
         pattern('foo:(\w+)?')->match('foo:')
             ->first(function (Detail $detail) {
                 return $detail->group(1)->map(Functions::fail())->orThrow();
+            });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMapGroupOptionalEmpty()
+    {
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to get group #1, but the group was not matched');
+
+        // when
+        pattern('foo:(\w+)?')->match('foo:123 foo:')
+            ->forEach(function (Detail $detail) {
+                $detail->group(1)->map(Functions::identity())->orThrow();
             });
     }
 

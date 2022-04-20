@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 use Throwable;
 use TRegx\CleanRegex\Match\Optional;
 
-interface CapturingGroup extends Optional
+interface CapturingGroup
 {
     public function text(): string;
 

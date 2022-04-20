@@ -1,10 +1,11 @@
 T-Regx Changelog
 ================
 
-Incoming
---------
+Incoming in 0.25.0
+------------------
 
-* Soon
+* Breaking changes
+    * `Detail.group()` no longer implements `Optional`
 
 Added in 0.24.0
 ---------------

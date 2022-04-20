@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Internal;
 use Throwable;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\Optional;
 
@@ -14,13 +13,23 @@ class GroupEmptyOptional implements Optional
 
     /** @var NotMatched */
     private $notMatched;
-    /** @var GroupKey */
-    private $group;
+    /** @var string */
+    private $message;
 
-    public function __construct(GroupAware $groupAware, Subject $subject, GroupKey $group)
+    private function __construct(NotMatched $notMatched, string $message)
     {
-        $this->notMatched = new NotMatched($groupAware, $subject);
-        $this->group = $group;
+        $this->notMatched = $notMatched;
+        $this->message = $message;
+    }
+
+    public static function forFirst(NotMatched $notMatched, GroupKey $group): Optional
+    {
+        return new self($notMatched, "Expected to get group $group from the first match, but the group was not matched");
+    }
+
+    public static function forGet(NotMatched $notMatched, GroupKey $group): Optional
+    {
+        return new self($notMatched, "Expected to get group $group, but the group was not matched");
     }
 
     public function orElse(callable $substituteProducer)
@@ -31,7 +40,7 @@ class GroupEmptyOptional implements Optional
     public function orThrow(Throwable $throwable = null): void
     {
         if ($throwable === null) {
-            throw GroupNotMatchedException::forFirst($this->group);
+            throw new GroupNotMatchedException($this->message);
         }
         throw $throwable;
     }

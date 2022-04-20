@@ -14,6 +14,7 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Pcre\Signatures\PerformanceSignatures;
+use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\Optional;
 
 class GroupMatchFindFirst
@@ -67,7 +68,7 @@ class GroupMatchFindFirst
     private function notMatchedOptional(RawMatchOffset $first): Optional
     {
         if ($first->matched()) {
-            return new GroupEmptyOptional($this->groupAware, $this->subject, $this->group);
+            return GroupEmptyOptional::forFirst(new NotMatched($this->groupAware, $this->subject), $this->group);
         }
         return new SubjectEmptyOptional($this->groupAware, $this->subject, new FromFirstMatchMessage($this->group));
     }

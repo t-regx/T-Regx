@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 
 use Throwable;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
+use TRegx\CleanRegex\Internal\GroupEmptyOptional;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Message\GroupMessage;
 use TRegx\CleanRegex\Internal\Subject;
@@ -144,6 +145,6 @@ class NotMatchedGroup implements Group
 
     public function map(callable $mapper): Optional
     {
-        return $this;
+        return GroupEmptyOptional::forGet($this->notMatched, $this->details->group());
     }
 }
