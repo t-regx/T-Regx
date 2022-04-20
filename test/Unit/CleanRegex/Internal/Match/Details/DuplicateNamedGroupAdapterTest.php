@@ -53,8 +53,6 @@ class DuplicateNamedGroupAdapterTest extends TestCase
             'byteTail'       => ['byteTail', [], 12],
             'subject'        => ['subject', [], 'the subject'],
             'all'            => ['all', [], ['a', 'b']],
-            'orThrow []'     => ['orThrow', [], 'substitute'],
-            'orThrow [arg]'  => ['orThrow', [new \Exception()], 'substitute'],
             'orReturn'       => ['orReturn', ['substitute'], 'substitute'],
             'orElse'         => ['orElse', ['strToUpper'], 'substitute'],
         ];

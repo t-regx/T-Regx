@@ -2,7 +2,6 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\group;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
@@ -194,19 +193,6 @@ class NotMatchedGroupTest extends TestCase
         $this->expectExceptionMessage("Expected to call substitute() for group 'first', but the group was not matched");
         // when
         $group->substitute('');
-    }
-
-    /**
-     * @test
-     */
-    public function shouldControlMatched_orThrow()
-    {
-        // given
-        $group = $this->groupOf();
-        // then
-        $this->expectException(ExampleException::class);
-        // when
-        $group->orThrow(new ExampleException());
     }
 
     private function groupOf(): NotMatchedGroup

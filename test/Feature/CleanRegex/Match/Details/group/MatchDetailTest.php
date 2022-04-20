@@ -201,13 +201,13 @@ class MatchDetailTest extends TestCase
     {
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get group 'group', but it was not matched");
+        $this->expectExceptionMessage("Expected to call text() for group 'group', but the group was not matched");
 
         // when
         pattern('(?<group>Foo)?')
             ->match('Bar')
             ->first(function (Detail $detail) {
-                $detail->group('group')->orThrow();
+                $detail->group('group')->text();
             });
     }
 

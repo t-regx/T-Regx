@@ -6,6 +6,8 @@ Incoming in 0.25.0
 
 * Breaking changes
     * `Detail.group()` no longer implements `Optional`
+    * Removed previously deprecated `Detail.group().orThrow()`
+    * Removed previously deprecated `ReplaceDetail.group().orThrow()`
 
 Added in 0.24.0
 ---------------

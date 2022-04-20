@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Details\Group;
 
-use Throwable;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Optional;
 
@@ -12,11 +11,6 @@ interface ReplaceGroup extends Group
     public function modifiedOffset(): int;
 
     public function byteModifiedOffset(): int;
-
-    /**
-     * @deprecated
-     */
-    public function orThrow(Throwable $throwable = null);
 
     /**
      * @deprecated

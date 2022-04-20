@@ -123,7 +123,7 @@ class MatchDetailTest extends TestCase
     {
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get group 'group', but it was not matched");
+        $this->expectExceptionMessage("Expected to call text() for group 'group', but the group was not matched");
 
         // given
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
@@ -131,7 +131,7 @@ class MatchDetailTest extends TestCase
             ->group('group')
             ->forEach(function (NotMatchedGroup $group) {
                 // when
-                $group->orThrow();
+                $group->text();
             });
     }
 

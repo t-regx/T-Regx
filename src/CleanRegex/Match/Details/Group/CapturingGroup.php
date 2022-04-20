@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
-use Throwable;
 use TRegx\CleanRegex\Match\Optional;
 
 interface CapturingGroup
@@ -43,11 +42,6 @@ interface CapturingGroup
     public function subject(): string;
 
     public function all(): array;
-
-    /**
-     * @deprecated
-     */
-    public function orThrow(Throwable $throwable = null);
 
     /**
      * @deprecated
