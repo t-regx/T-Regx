@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
+use Throwable;
 use TRegx\CleanRegex\Match\Optional;
 
 interface CapturingGroup extends Optional
@@ -42,4 +43,24 @@ interface CapturingGroup extends Optional
     public function subject(): string;
 
     public function all(): array;
+
+    /**
+     * @deprecated
+     */
+    public function orThrow(Throwable $throwable = null);
+
+    /**
+     * @deprecated
+     */
+    public function orReturn($substitute);
+
+    /**
+     * @deprecated
+     */
+    public function orElse(callable $substituteProducer);
+
+    /**
+     * @deprecated
+     */
+    public function map(callable $mapper): Optional;
 }

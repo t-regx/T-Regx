@@ -16,6 +16,15 @@ Incoming
     * Refactored `Pattern::pcre()->builder()` to `PcrePattern::builder()`
     * Refactored `Pattern::pcre()->template()` to `PcrePattern::template()`
     * Removed `Pattern::pcre()`
+* Deprecation
+    * Deprecated `Detail.group().orReturn()`
+    * Deprecated `Detail.group().orElse()`
+    * Deprecated `Detail.group().orThrow()`
+    * Deprecated `Detail.group().map()`
+    * Deprecated `ReplaceDetail.group().orReturn()`
+    * Deprecated `ReplaceDetail.group().orElse()`
+    * Deprecated `ReplaceDetail.group().orThrow()`
+    * Deprecated `ReplaceDetail.group().map()`
 
 Added in 0.23.1
 ---------------
