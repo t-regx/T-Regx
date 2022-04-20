@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\pcre;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
-use TRegx\CleanRegex\Pattern;
+use TRegx\CleanRegex\PcrePattern;
 
 class PatternTest extends TestCase
 {
@@ -15,8 +15,7 @@ class PatternTest extends TestCase
     public function shouldBuild_inject()
     {
         // when
-        $pattern = Pattern::pcre()->inject('%You/her (are|is) @ %', ['#real?']);
-
+        $pattern = PcrePattern::inject('%You/her (are|is) @ %', ['#real?']);
         // then
         $this->assertConsumesFirst('You/her are #real? ', $pattern);
     }
@@ -27,8 +26,7 @@ class PatternTest extends TestCase
     public function shouldBuild_template_mask()
     {
         // when
-        $pattern = Pattern::pcre()->template('%You/her, @ (her)%s')->mask('%s', ['%s' => '\s']);
-
+        $pattern = PcrePattern::template('%You/her, @ (her)%s')->mask('%s', ['%s' => '\s']);
         // then
         $this->assertSamePattern('%You/her, \s (her)%s', $pattern);
     }
@@ -39,8 +37,7 @@ class PatternTest extends TestCase
     public function shouldBuild_template_literal()
     {
         // when
-        $pattern = Pattern::pcre()->template('@You/her, @ (her)@s')->literal('{hi@}');
-
+        $pattern = PcrePattern::template('@You/her, @ (her)@s')->literal('{hi@}');
         // then
         $this->assertSamePattern('@You/her, \{hi\@\} (her)@s', $pattern);
     }
@@ -51,8 +48,7 @@ class PatternTest extends TestCase
     public function shouldBuild_template_alteration()
     {
         // when
-        $pattern = Pattern::pcre()->template('%You/her, @ (her)%s')->alteration(['{hi}', '50%']);
-
+        $pattern = PcrePattern::template('%You/her, @ (her)%s')->alteration(['{hi}', '50%']);
         // then
         $this->assertSamePattern('%You/her, (?:\{hi\}|50\%) (her)%s', $pattern);
     }

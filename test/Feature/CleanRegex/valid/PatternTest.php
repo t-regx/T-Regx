@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\valid;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
+use TRegx\CleanRegex\PcrePattern;
 use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
@@ -36,11 +37,9 @@ class PatternTest extends TestCase
     public function testPcre(string $pattern, bool $_, bool $expected)
     {
         // given
-        $pattern = Pattern::pcre()->of($pattern);
-
+        $pattern = PcrePattern::of($pattern);
         // when
         $valid = $pattern->valid();
-
         // then
         $this->assertSame($expected, $valid);
     }

@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
+use TRegx\CleanRegex\PcrePattern;
 use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
@@ -119,19 +120,6 @@ class PatternTest extends TestCase
         // then
         $expected = ['Uppercase' => 0, 'Uppercase again' => 2];
         $this->assertSame($expected, $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowMalformedPatternException_forUndelimitedPcrePattern()
-    {
-        // then
-        $this->expectException(MalformedPatternException::class);
-        $this->expectExceptionMessage('Delimiter must not be alphanumeric or backslash');
-
-        // when
-        Pattern::pcre()->of('foo')->test('bar');
     }
 
     /**
@@ -253,11 +241,9 @@ class PatternTest extends TestCase
     public function shouldCast_pcre()
     {
         // given
-        $pattern = Pattern::pcre()->of('/Foo{1,2}/n');
-
+        $pattern = PcrePattern::of('/Foo{1,2}/n');
         // when
         $string = (string)$pattern;
-
         // then
         $this->assertSame('/Foo{1,2}/n', $string);
     }

@@ -5,10 +5,10 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
 use Test\Utils\ExactExceptionMessage;
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
-use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
+use TRegx\CleanRegex\PcrePattern;
 
 class PatternTest extends TestCase
 {
@@ -36,12 +36,10 @@ class PatternTest extends TestCase
         $pattern = Pattern::compose([
             pattern('^Fro'),
             Pattern::of('rod'),
-            Pattern::pcre()->of('/do$/'),
+            PcrePattern::of('/do$/'),
         ]);
-
         // when
         $matches = $pattern->testAll('Frodo');
-
         // then
         $this->assertTrue($matches);
     }
@@ -219,9 +217,8 @@ class PatternTest extends TestCase
         // then
         $this->expectException(PatternMalformedPatternException::class);
         $this->expectExceptionMessage("PCRE-compatible template is malformed, unclosed pattern '%'");
-
         // when
-        Pattern::pcre()->inject("%Foo", [])->test('bar');
+        PcrePattern::inject("%Foo", [])->test('bar');
     }
 
     /**
@@ -251,43 +248,13 @@ class PatternTest extends TestCase
 
     /**
      * @test
-     * @dataProvider malformedPregPatterns
-     * @param string $pattern
-     * @param string $expectedMessage
-     */
-    public function shouldThrowForAlphanumericFirstCharacter(string $pattern, string $expectedMessage)
-    {
-        // then
-        $this->expectException(MalformedPcreTemplateException::class);
-        $this->expectExceptionMessage($expectedMessage);
-
-        // given
-        Pattern::pcre()->builder($pattern)->build();
-    }
-
-    public function malformedPregPatterns(): array
-    {
-        return [
-            ['', 'PCRE-compatible template is malformed, pattern is empty'],
-            ['&foo', "PCRE-compatible template is malformed, unclosed pattern '&'"],
-            ['#foo/', "PCRE-compatible template is malformed, unclosed pattern '#'"],
-            ['/foo', "PCRE-compatible template is malformed, unclosed pattern '/'"],
-            ['ooo', "PCRE-compatible template is malformed, alphanumeric delimiter 'o'"],
-            ['4oo', "PCRE-compatible template is malformed, alphanumeric delimiter '4'"],
-        ];
-    }
-
-    /**
-     * @test
      */
     public function shouldPcreQuoteNonStandardDelimiter()
     {
         // given
         $delimiter = \chr(58);
-
         // when
-        $pattern = Pattern::pcre()->inject($delimiter . 'foo(@)' . $delimiter, [$delimiter]);
-
+        $pattern = PcrePattern::inject($delimiter . 'foo(@)' . $delimiter, [$delimiter]);
         // then
         $this->assertConsumesFirst("foo$delimiter", $pattern);
         $this->assertSamePattern("\x3Afoo(\\\x3A)\x3A", $pattern);
@@ -301,7 +268,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(ExplicitDelimiterRequiredException::class);
         $this->expectExceptionMessage("Failed to select a distinct delimiter to enable pattern: s~i/e#++m%a!@*`_-;=,\1");
-
         // when
         Pattern::of("s~i/e#++m%a!@*`_-;=,\1");
     }

@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Builder\PatternTemplate;
-use TRegx\CleanRegex\Builder\PcreBuilder;
 use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Composite\CompositePattern;
 use TRegx\CleanRegex\Internal\Expression\Alteration;
@@ -51,11 +50,6 @@ trait EntryPoints
     public static function alteration(array $texts, string $flags = null): Pattern
     {
         return new Pattern(new Alteration($texts, Flags::from($flags)));
-    }
-
-    public static function pcre(): PcreBuilder
-    {
-        return new PcreBuilder();
     }
 
     public static function compose(array $patterns): CompositePattern

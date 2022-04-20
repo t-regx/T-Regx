@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\_prepared\inject\pcre;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
-use TRegx\CleanRegex\Pattern;
+use TRegx\CleanRegex\PcrePattern;
 
 class PatternTest extends TestCase
 {
@@ -18,8 +18,7 @@ class PatternTest extends TestCase
     public function shouldUsePlaceholder(string $pattern, string $expected)
     {
         // when
-        $pattern = Pattern::pcre()->inject($pattern, ['X']);
-
+        $pattern = PcrePattern::inject($pattern, ['X']);
         // then
         $this->assertSamePattern($expected, $pattern);
     }
@@ -42,8 +41,7 @@ class PatternTest extends TestCase
     public function shouldNotMistakeLiteralForPlaceholder(string $pattern, string $expected)
     {
         // when
-        $pattern = Pattern::pcre()->inject($pattern, []);
-
+        $pattern = PcrePattern::inject($pattern, []);
         // then
         $this->assertSamePattern($expected, $pattern);
     }
@@ -65,8 +63,7 @@ class PatternTest extends TestCase
     public function shouldNotMistakePlaceholderInCommentInExtendedMode()
     {
         // when
-        $pattern = Pattern::pcre()->inject("%You/her #@\n her?%x", []);
-
+        $pattern = PcrePattern::inject("%You/her #@\n her?%x", []);
         // then
         $this->assertSamePattern("%You/her #@\n her?%x", $pattern);
     }
@@ -77,8 +74,7 @@ class PatternTest extends TestCase
     public function shouldUsePlaceholderInCommentInExtendedMode_butExtendedModeIsSwitchedOff()
     {
         // when
-        $pattern = Pattern::pcre()->inject("%You/her (?-x:#@\n) her?%x", ['X']);
-
+        $pattern = PcrePattern::inject("%You/her (?-x:#@\n) her?%x", ['X']);
         // then
         $this->assertSamePattern("%You/her (?-x:#X\n) her?%x", $pattern);
     }

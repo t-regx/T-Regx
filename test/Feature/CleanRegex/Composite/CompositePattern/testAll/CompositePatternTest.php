@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Composite\CompositePattern\testAll;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
+use TRegx\CleanRegex\PcrePattern;
 
 /**
  * @covers \TRegx\CleanRegex\Composite\CompositePattern::testAll
@@ -34,9 +35,9 @@ class CompositePatternTest extends TestCase
     private function patterns(): array
     {
         return [
-            Pattern::pcre()->of('/^fro/i'),
-            Pattern::pcre()->of('/rod/'),
-            Pattern::pcre()->of('/odo$/')
+            PcrePattern::of('/^fro/i'),
+            PcrePattern::of('/rod/'),
+            PcrePattern::of('/odo$/')
         ];
     }
 }

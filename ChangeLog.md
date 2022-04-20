@@ -11,6 +11,11 @@ Incoming
         * Previously passing `null` as argument to integer methods was allowed, which also defaulted
           to `10`. Currently, the argument can either be of type `int` or omitted, but `null` is
           no longer allowed as `$base`.
+    * Refactored `Pattern::pcre()->of()` to `PcrePattern::of()`
+    * Refactored `Pattern::pcre()->inject()` to `PcrePattern::inject()`
+    * Refactored `Pattern::pcre()->builder()` to `PcrePattern::builder()`
+    * Refactored `Pattern::pcre()->template()` to `PcrePattern::template()`
+    * Removed `Pattern::pcre()`
 
 Added in 0.23.1
 ---------------
