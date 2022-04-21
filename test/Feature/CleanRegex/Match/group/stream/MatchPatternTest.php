@@ -55,7 +55,7 @@ class MatchPatternTest extends TestCase
             ->group('lowercase')
             ->stream()
             ->map(function (Group $group) {
-                return $group->orReturn("unmatched");
+                return $group->or("unmatched");
             })
             ->all();
 

@@ -6,10 +6,14 @@ Incoming in 0.25.0
 
 * Breaking changes
     * `Detail.group()` no longer implements `Optional`
+    * Removed previously deprecated `Detail.group().orReturn()`. Use `or()` instead.
     * Removed previously deprecated `Detail.group().orElse()`
     * Removed previously deprecated `Detail.group().orThrow()`
+    * Removed previously deprecated `ReplaceDetail.group().orReturn()`. Use `or()` instead.
     * Removed previously deprecated `ReplaceDetail.group().orElse()`
     * Removed previously deprecated `ReplaceDetail.group().orThrow()`
+* Features
+    * Added `Detail.group().or()` which behaves similarly to `orReturn()` but only accepts a non-nullable `string`.
 
 Added in 0.24.0
 ---------------

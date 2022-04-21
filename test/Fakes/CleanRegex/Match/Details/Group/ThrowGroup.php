@@ -94,7 +94,7 @@ class ThrowGroup implements Group
         throw $this->fail();
     }
 
-    public function orReturn($substitute)
+    public function or(string $substitute): string
     {
         throw $this->fail();
     }

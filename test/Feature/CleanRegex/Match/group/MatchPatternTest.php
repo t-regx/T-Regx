@@ -193,7 +193,7 @@ class MatchPatternTest extends TestCase
             ->match('D Computer')
             ->group('lowercase')
             ->forEach(function (Group $group) use (&$groups) {
-                $groups[] = $group->orReturn("unmatched");
+                $groups[] = $group->or("unmatched");
             });
 
         // then

@@ -18,9 +18,11 @@ trait MatchPatternHelpers
     {
         return $this
             ->findFirst(static function (Detail $detail) use ($nameOrIndex1, $nameOrIndex2) {
+                $first = $detail->group($nameOrIndex1);
+                $second = $detail->group($nameOrIndex2);
                 return [
-                    $detail->group($nameOrIndex1)->orReturn(null),
-                    $detail->group($nameOrIndex2)->orReturn(null),
+                    $first->matched() ? $first->text() : null,
+                    $second->matched() ? $second->text() : null,
                 ];
             })
             ->orElse(static function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2) {
@@ -36,10 +38,13 @@ trait MatchPatternHelpers
     {
         return $this
             ->findFirst(static function (Detail $detail) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
+                $first = $detail->group($nameOrIndex1);
+                $second = $detail->group($nameOrIndex2);
+                $third = $detail->group($nameOrIndex3);
                 return [
-                    $detail->group($nameOrIndex1)->orReturn(null),
-                    $detail->group($nameOrIndex2)->orReturn(null),
-                    $detail->group($nameOrIndex3)->orReturn(null),
+                    $first->matched() ? $first->text() : null,
+                    $second->matched() ? $second->text() : null,
+                    $third->matched() ? $third->text() : null
                 ];
             })
             ->orElse(static function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {

@@ -120,7 +120,7 @@ class NotMatchedGroup implements Group
         return $this->details->all();
     }
 
-    public function orReturn($substitute)
+    public function or(string $substitute): string
     {
         return $substitute;
     }

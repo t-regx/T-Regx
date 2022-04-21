@@ -65,9 +65,9 @@ class NotMatchedGroupTest extends TestCase
         // given
         $group = $this->groupOf();
         // when
-        $result = $group->orReturn(13);
+        $result = $group->or(13);
         // when, then
-        $this->assertSame(13, $result);
+        $this->assertSame('13', $result);
     }
 
     /**

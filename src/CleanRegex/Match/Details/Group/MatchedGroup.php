@@ -131,7 +131,7 @@ class MatchedGroup implements Group
         return $this->details->all();
     }
 
-    public function orReturn($substitute): string
+    public function or(string $substitute): string
     {
         return $this->text();
     }

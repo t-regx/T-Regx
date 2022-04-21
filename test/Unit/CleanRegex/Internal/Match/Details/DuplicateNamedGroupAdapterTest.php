@@ -53,7 +53,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
             'byteTail'       => ['byteTail', [], 12],
             'subject'        => ['subject', [], 'the subject'],
             'all'            => ['all', [], ['a', 'b']],
-            'orReturn'       => ['orReturn', ['substitute'], 'substitute']
+            'or'             => ['or', ['substitute'], 'substitute'],
         ];
     }
 

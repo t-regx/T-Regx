@@ -101,9 +101,9 @@ class DuplicateNamedGroupAdapter implements DuplicateNamedGroup
         return $this->group->all();
     }
 
-    public function orReturn($substitute)
+    public function or(string $substitute): string
     {
-        return $this->group->orReturn($substitute);
+        return $this->group->or($substitute);
     }
 
     public function map(callable $mapper): Optional

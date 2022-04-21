@@ -43,10 +43,7 @@ interface CapturingGroup
 
     public function all(): array;
 
-    /**
-     * @deprecated
-     */
-    public function orReturn($substitute);
+    public function or(string $substitute): string;
 
     /**
      * @deprecated
