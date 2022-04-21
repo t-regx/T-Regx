@@ -143,10 +143,8 @@ class MatchedGroupTest extends TestCase
         // given
         $matchGroup = $this->exampleMatchedGroup();
         // when
-        $orElse = $matchGroup->orElse('strToUpper');
         $orReturn = $matchGroup->orReturn(13);
         // then
-        $this->assertSame('Nice matching', $orElse);
         $this->assertSame('Nice matching', $orReturn);
     }
 

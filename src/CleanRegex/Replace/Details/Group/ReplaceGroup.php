@@ -20,10 +20,5 @@ interface ReplaceGroup extends Group
     /**
      * @deprecated
      */
-    public function orElse(callable $substituteProducer);
-
-    /**
-     * @deprecated
-     */
     public function map(callable $mapper): Optional;
 }

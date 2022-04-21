@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\group\stream;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\DetailFunctions;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
@@ -193,17 +194,17 @@ class MatchPatternTest extends TestCase
     public function shouldHaveGroup_lastGroup()
     {
         // when
-        /** @var Group $group */
-        $group = pattern('(?<one>Foo)(?<last>Bar)?')
+        pattern('(?<one>Foo)(?<last>Bar)?')
             ->match('Foo')
             ->group('last')
             ->stream()
-            ->first();
-
-        // then
-        $group->orElse(function (NotMatched $notMatched) {
-            $this->assertSame(['one', 'last'], $notMatched->groupNames());
-            $this->assertTrue($notMatched->hasGroup('last'));
-        });
+            ->first()
+            ->map(Functions::identity())
+            ->orElse(function (NotMatched $notMatched) {
+                $this->assertSame(['one', 'last'], $notMatched->groupNames());
+                $this->assertTrue($notMatched->hasGroup('last'));
+                $this->assertTrue($notMatched->hasGroup('one'));
+                $this->assertFalse($notMatched->hasGroup('two'));
+            });
     }
 }

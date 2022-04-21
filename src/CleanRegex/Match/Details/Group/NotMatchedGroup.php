@@ -125,11 +125,6 @@ class NotMatchedGroup implements Group
         return $substitute;
     }
 
-    public function orElse(callable $substituteProducer)
-    {
-        return $substituteProducer($this->notMatched);
-    }
-
     public function map(callable $mapper): Optional
     {
         return GroupEmptyOptional::forGet($this->notMatched, $this->details->group());

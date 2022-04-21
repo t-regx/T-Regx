@@ -106,11 +106,6 @@ class DuplicateNamedGroupAdapter implements DuplicateNamedGroup
         return $this->group->orReturn($substitute);
     }
 
-    public function orElse(callable $substituteProducer)
-    {
-        return $this->group->orElse($substituteProducer);
-    }
-
     public function map(callable $mapper): Optional
     {
         return $this->group->map($mapper);

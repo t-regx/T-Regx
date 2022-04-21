@@ -99,11 +99,6 @@ class ThrowGroup implements Group
         throw $this->fail();
     }
 
-    public function orElse(callable $substituteProducer)
-    {
-        throw $this->fail();
-    }
-
     public function map(callable $mapper): Optional
     {
         throw $this->fail();

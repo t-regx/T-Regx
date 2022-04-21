@@ -53,11 +53,13 @@ class DuplicateNamedGroupAdapterTest extends TestCase
             'byteTail'       => ['byteTail', [], 12],
             'subject'        => ['subject', [], 'the subject'],
             'all'            => ['all', [], ['a', 'b']],
-            'orReturn'       => ['orReturn', ['substitute'], 'substitute'],
-            'orElse'         => ['orElse', ['strToUpper'], 'substitute'],
+            'orReturn'       => ['orReturn', ['substitute'], 'substitute']
         ];
     }
 
+    /**
+     * @deprecated
+     */
     private function matchGroup(string $method, $arguments, $result, int $count = 1): Group
     {
         /** @var MockObject|Group $group */

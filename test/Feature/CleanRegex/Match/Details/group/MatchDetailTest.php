@@ -292,12 +292,14 @@ class MatchDetailTest extends TestCase
             ->group('group')
             ->stream()
             ->forEach(function (NotMatchedGroup $group) {
-                $group->orElse(function (NotMatched $notMatched) {
-                    $this->assertSame(1, $notMatched->groupsCount());
-                    $this->assertSame(['group'], $notMatched->groupNames());
-                    $this->assertTrue($notMatched->hasGroup('group'));
-                    $this->assertFalse($notMatched->hasGroup('missing'));
-                });
+                $group
+                    ->map(Functions::identity())
+                    ->orElse(function (NotMatched $notMatched) {
+                        $this->assertSame(1, $notMatched->groupsCount());
+                        $this->assertSame(['group'], $notMatched->groupNames());
+                        $this->assertTrue($notMatched->hasGroup('group'));
+                        $this->assertFalse($notMatched->hasGroup('missing'));
+                    });
             });
     }
 }

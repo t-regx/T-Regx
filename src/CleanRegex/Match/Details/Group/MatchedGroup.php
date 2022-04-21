@@ -136,11 +136,6 @@ class MatchedGroup implements Group
         return $this->text();
     }
 
-    public function orElse(callable $substituteProducer): string
-    {
-        return $this->text();
-    }
-
     public function map(callable $mapper): Optional
     {
         return new PresentOptional($mapper($this));

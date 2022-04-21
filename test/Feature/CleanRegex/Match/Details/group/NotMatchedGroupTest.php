@@ -60,19 +60,6 @@ class NotMatchedGroupTest extends TestCase
     /**
      * @test
      */
-    public function shouldCallOrElse()
-    {
-        // given
-        $group = $this->groupOf();
-        // when
-        $result = $group->orElse(Functions::constant('result'));
-        // when, then
-        $this->assertSame('result', $result);
-    }
-
-    /**
-     * @test
-     */
     public function shouldCallOrReturn()
     {
         // given
