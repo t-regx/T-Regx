@@ -1,38 +1,42 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\GroupKey;
+namespace Test\Feature\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use Test\Utils\Functions;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\GroupKey\GroupKey
  */
-class GroupKeyTest extends TestCase
+class GroupIdentifierTest extends TestCase
 {
     /**
      * @test
      * @dataProvider validGroups
-     * @param string|int $identifier
+     * @param string|int $groupIdentifier
      */
-    public function shouldValidate($identifier)
+    public function shouldBeValidGroup(string $pattern, $groupIdentifier)
     {
+        // given
+        Pattern::of($pattern)->match('Foo')->first(Functions::out($detail));
+
         // when
-        $actual = GroupKey::of($identifier)->nameOrIndex();
+        $identifier = $detail->group($groupIdentifier)->usedIdentifier();
 
         // then
-        $this->assertSame($actual, $identifier);
+        $this->assertSame($identifier, $groupIdentifier);
     }
 
     public function validGroups(): array
     {
         return [
-            ['group'],
-            ['_group'],
-            ['GROUP'],
-            ['g'],
-            ['a123_'],
-            [0],
-            [14],
+            ['(?<_group>)', '_group'],
+            ['(?<GROUP>)', 'GROUP'],
+            ['(?<g>)', 'g'],
+            ['(?<a123_>)', 'a123_'],
+            ['', 0],
+            ['()', 1],
+            [str_repeat('()', 14), 14],
         ];
     }
 
@@ -48,8 +52,11 @@ class GroupKeyTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage($message);
 
+        // given
+        Pattern::of('Foo')->match('Foo')->first(Functions::out($detail));
+
         // when
-        GroupKey::of($invalidGroupIdentifier);
+        $detail->group($invalidGroupIdentifier);
     }
 
     public function invalidGroup(): array
