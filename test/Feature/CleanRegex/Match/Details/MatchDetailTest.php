@@ -61,26 +61,6 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
-    public function x()
-    {
-        $a = mb_internal_encoding("7bit");
-        // given
-        $detail = $this->detail(Pattern::of('foo bar €')->match('foo bar €'));
-        // when
-        $length = $detail->textLength();
-        $byteLength = $detail->textByteLength();
-        // then
-        $this->assertSame(9, $length);
-        $this->assertSame(11, $byteLength);
-        $result = mb_internal_encoding("UTF-8");
-        if ($result === false) {
-            throw new \AssertionError();
-        }
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_subject()
     {
         // given

@@ -17,7 +17,7 @@ trait ExplicitStringEncoding
     {
         $result = mb_internal_encoding('UTF-8');
         if ($result === false) {
-            throw new \AssertionError();
+            throw new \AssertionError("Failed to assert that internal encoding was reset back to UTF-8");
         }
     }
 }
