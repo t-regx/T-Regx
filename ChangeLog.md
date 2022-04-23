@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.24.0
+---------------
+
 * Breaking changes
     * Removed previously deprecated `Detail.limit()`. `ReplaceDetail.limit()` remains unchanged.
     * Integer methods (`toInt()`, `isInt()`, `asInt()`) accept `$base` as their optional argument,
