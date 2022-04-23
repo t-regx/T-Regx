@@ -90,7 +90,7 @@ class MatchDetailTest extends TestCase
         pattern('(?<one>first) (and) (?<two>second)')
             ->match('first and second')
             ->first(Functions::out($detail));
-        // when + then
+        // when, then
         $this->assertSame(['one', null, 'two'], $detail->groupNames());
     }
 
@@ -118,7 +118,7 @@ class MatchDetailTest extends TestCase
         pattern('(?<existing>first) and (?<two_existing>second)')
             ->match('first and second')
             ->first(Functions::out($detail));
-        // when + then
+        // when, then
         $this->assertTrue($detail->hasGroup('existing'));
     }
 
@@ -144,7 +144,7 @@ class MatchDetailTest extends TestCase
         pattern('(zero) (?<existing>first) and (?<two_existing>second)')
             ->match('zero first and second')
             ->first(Functions::out($detail));
-        // when + then
+        // when, then
         $this->assertSame([null, 'existing', 'two_existing'], $detail->groups()->names());
         $this->assertSame(['existing', 'two_existing'], $detail->namedGroups()->names());
     }
@@ -156,7 +156,7 @@ class MatchDetailTest extends TestCase
     {
         // given
         pattern('(Foo)')->match('Foo')->first(Functions::out($detail));
-        // when + then
+        // when, then
         $this->assertSame(1, $detail->groups()->count());
         $this->assertSame(0, $detail->namedGroups()->count());
     }
@@ -170,7 +170,7 @@ class MatchDetailTest extends TestCase
         pattern('(zero) (?<first>first) and (?<second>second)')
             ->match('zero first and second')
             ->first(Functions::out($detail));
-        // when + then
+        // when, then
         $this->assertSame(3, $detail->groups()->count());
         $this->assertSame(2, $detail->namedGroups()->count());
     }

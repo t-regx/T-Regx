@@ -30,7 +30,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         Pattern::of('.+')->replace('12.14€')->callback(DetailFunctions::out($detail, ''));
-        // when + then
+        // when, then
         $this->assertSame(6, $detail->textLength());
         $this->assertSame(8, $detail->textByteLength());
     }
@@ -42,7 +42,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         Pattern::of('\w+')->replace('Foo, Bar')->callback(DetailFunctions::out($detail, '_'));
-        // when + then
+        // when, then
         $this->assertSame('Foo, Bar', $detail->subject());
         $this->assertSame('_, Bar', $detail->modifiedSubject());
     }
@@ -54,7 +54,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         Pattern::of('[\w€]+')->replace('Foo€, Bar')->callback(DetailFunctions::out($detail, '€'));
-        // when + then
+        // when, then
         $this->assertSame(6, $detail->offset());
         $this->assertSame(3, $detail->modifiedOffset());
     }
@@ -66,7 +66,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         Pattern::of('[\w€]+')->replace('Foo€, Bar')->callback(DetailFunctions::out($detail, '€'));
-        // when + then
+        // when, then
         $this->assertSame(8, $detail->byteOffset());
         $this->assertSame(5, $detail->byteModifiedOffset());
     }
@@ -78,7 +78,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         Pattern::of('(?<name>One),(?<name>Two)', 'J')->replace('One,Two')->callback(DetailFunctions::out($detail, ''));
-        // when + then
+        // when, then
         $this->assertSame('One', $detail->get('name'));
         $this->assertSame('Two', $detail->usingDuplicateName()->get('name'));
     }
@@ -168,7 +168,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         Pattern::of('Łódź')->replace('€--Łódź')->callback(DetailFunctions::out($detail, ''));
-        // when + then
+        // when, then
         $this->assertSame(7, $detail->tail());
         $this->assertSame(12, $detail->byteTail());
     }
@@ -193,7 +193,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         Pattern::of('\w+')->replace('14')->callback(DetailFunctions::out($detail, ''));
-        // when + then
+        // when, then
         $this->assertTrue($detail->isInt());
     }
 
@@ -204,7 +204,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         Pattern::of('\w+')->replace('14a')->callback(DetailFunctions::out($detail, ''));
-        // when + then
+        // when, then
         $this->assertFalse($detail->isInt());
     }
 
@@ -215,7 +215,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         Pattern::of('(One)?(Two)')->replace('Two')->callback(DetailFunctions::out($detail, ''));
-        // when + then
+        // when, then
         $this->assertTrue($detail->matched(0));
         $this->assertFalse($detail->matched(1));
         $this->assertTrue($detail->matched(2));
@@ -228,7 +228,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         Pattern::of('(One)(Two)?')->replace('One')->callback(DetailFunctions::out($detail, ''));
-        // when + then
+        // when, then
         $this->assertTrue($detail->matched(0));
         $this->assertTrue($detail->matched(1));
         $this->assertFalse($detail->matched(2));
@@ -241,7 +241,7 @@ class ReplaceDetailTest extends TestCase
     {
         // given
         Pattern::of('(?<Foo>\w+)')->replace('Quizzaciously')->callback(DetailFunctions::out($detail, ''));
-        // when + then
+        // when, then
         $this->assertTrue($detail->hasGroup('Foo'));
         $this->assertFalse($detail->hasGroup('missing'));
     }

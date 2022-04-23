@@ -221,7 +221,7 @@ class MatchDetailTest extends TestCase
     {
         // given
         $detail = $this->detail(Pattern::of('(?<value>12€)(cm)(?<nothing>)', 'i')->match('€€ 12€cm'));
-        // when + then
+        // when, then
         $this->assertSame(['value', null, 'nothing'], $detail->groupNames());
         $this->assertSame(['value', null, 'nothing'], $detail->groups()->names());
         $this->assertSame(['value', 'nothing'], $detail->namedGroups()->names());

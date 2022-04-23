@@ -48,7 +48,7 @@ class MatchedGroupTest extends TestCase
     {
         // given
         $matchGroup = $this->exampleMatchedGroup();
-        // when + then
+        // when, then
         $this->assertTrue($matchGroup->equals('Nice matching'));
         $this->assertFalse($matchGroup->equals('some other'));
     }

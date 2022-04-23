@@ -43,7 +43,7 @@ class PcreTest extends TestCase
      */
     public function shouldBePcre2()
     {
-        // when + then
+        // when, then
         $this->assertSame(Pcre::pcre2(), \PHP_VERSION_ID >= 70300);
     }
 

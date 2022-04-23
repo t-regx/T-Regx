@@ -16,7 +16,7 @@ class CompositePatternTest extends TestCase
     {
         // given
         $pattern = Pattern::compose(['^P', 'R', 'E$']);
-        // when + then
+        // when, then
         $this->assertFalse($pattern->failAny('PRE'));
     }
 
@@ -27,7 +27,7 @@ class CompositePatternTest extends TestCase
     {
         // given
         $pattern = Pattern::compose(['^P$', 'R', 'E', 'x']);
-        // when + then
+        // when, then
         $this->assertTrue($pattern->failAny('PRE'));
     }
 
@@ -38,7 +38,7 @@ class CompositePatternTest extends TestCase
     {
         // given
         $pattern = Pattern::compose(['/1/', '/2/', '/3/', '/4/']);
-        // when + then
+        // when, then
         $this->assertTrue($pattern->failAny('PRE'));
     }
 }

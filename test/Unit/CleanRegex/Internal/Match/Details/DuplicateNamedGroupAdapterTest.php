@@ -112,7 +112,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
         // given
         $adapter = new DuplicateNamedGroupAdapter('foo', new IntGroup(14, 4));
 
-        // when + then
+        // when, then
         $this->assertSame(14, $adapter->toInt(4));
     }
 
@@ -124,7 +124,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
         // given
         $adapter = new DuplicateNamedGroupAdapter('foo', new IntGroup(13, 10));
 
-        // when + then
+        // when, then
         $this->assertSame(13, $adapter->toInt());
     }
 
@@ -136,7 +136,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
         // given
         $adapter = new DuplicateNamedGroupAdapter('foo', new IsIntGroup(false, 10));
 
-        // when + then
+        // when, then
         $this->assertFalse($adapter->isInt());
     }
 
@@ -148,7 +148,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
         // given
         $adapter = new DuplicateNamedGroupAdapter('foo', new IsIntGroup(false, 16));
 
-        // when + then
+        // when, then
         $this->assertFalse($adapter->isInt(16));
     }
 
@@ -160,7 +160,7 @@ class DuplicateNamedGroupAdapterTest extends TestCase
         // given
         $adapter = new DuplicateNamedGroupAdapter('foo', new IsIntGroup(true, 10));
 
-        // when + then
+        // when, then
         $this->assertTrue($adapter->isInt(10));
     }
 }

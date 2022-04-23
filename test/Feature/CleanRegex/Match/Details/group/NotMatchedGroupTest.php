@@ -21,7 +21,7 @@ class NotMatchedGroupTest extends TestCase
     {
         // given
         $group = $this->groupOf();
-        // when + then
+        // when, then
         $this->assertFalse($group->matched());
     }
 
@@ -32,7 +32,7 @@ class NotMatchedGroupTest extends TestCase
     {
         // given
         $group = $this->groupOf();
-        // when + then
+        // when, then
         $this->assertFalse($group->equals('any'));
     }
 
@@ -43,7 +43,7 @@ class NotMatchedGroupTest extends TestCase
     {
         // given
         $group = $this->groupOf();
-        // when + then
+        // when, then
         $this->assertSame('first', $group->name());
     }
 
@@ -54,7 +54,7 @@ class NotMatchedGroupTest extends TestCase
     {
         // given
         $group = $this->groupOf();
-        // when + then
+        // when, then
         $this->assertSame(1, $group->index());
     }
 
@@ -67,7 +67,7 @@ class NotMatchedGroupTest extends TestCase
         $group = $this->groupOf();
         // when
         $result = $group->orElse(Functions::constant('result'));
-        // when + then
+        // when, then
         $this->assertSame('result', $result);
     }
 
@@ -80,7 +80,7 @@ class NotMatchedGroupTest extends TestCase
         $group = $this->groupOf();
         // when
         $result = $group->orReturn(13);
-        // when + then
+        // when, then
         $this->assertSame(13, $result);
     }
 

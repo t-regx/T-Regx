@@ -47,7 +47,7 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGet_modifiedOffset(array $details)
     {
-        // when + then
+        // when, then
         $this->assertSame([0, 2, 5, 7, 11, 19, 30, 32, 36, 39], $this->each($details, Functions::property('offset')));
         $this->assertSame([0, 1, 3, 4, 7, 14, 24, 25, 28, 30], $this->each($details, Functions::property('modifiedOffset')));
     }
@@ -58,7 +58,7 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGet_byteModifiedOffset(array $details)
     {
-        // when + then
+        // when, then
         $this->assertSame([0, 2, 6, 8, 12, 20, 31, 33, 37, 40], $this->each($details, Functions::property('byteOffset')));
         $this->assertSame([0, 1, 4, 5, 8, 15, 25, 26, 29, 31], $this->each($details, Functions::property('byteModifiedOffset')));
     }

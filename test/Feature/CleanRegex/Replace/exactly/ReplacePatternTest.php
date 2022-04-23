@@ -62,7 +62,7 @@ class ReplacePatternTest extends TestCase
         try {
             pattern('Foo')->replace('Foo Bar Bar Bar')->only(2)->exactly()->with('Bar');
         } catch (ReplacementExpectationFailedException $exception) {
-            // when + then
+            // when, then
             $this->assertSame(2, $exception->getExpected());
             $this->assertSame(1, $exception->getReplaced());
         }
@@ -103,7 +103,7 @@ class ReplacePatternTest extends TestCase
         try {
             pattern('Foo')->replace('Foo Foo Foo Bar')->only(2)->exactly()->with('Bar');
         } catch (ReplacementExpectationFailedException $exception) {
-            // when + then
+            // when, then
             $this->assertSame(2, $exception->getExpected());
             $this->assertSame(3, $exception->getReplaced());
         }

@@ -17,7 +17,7 @@ class CompositePatternTest extends TestCase
     {
         // given
         $pattern = Pattern::compose($this->patterns());
-        // when + then
+        // when, then
         $this->assertTrue($pattern->testAny('http'));
     }
 
@@ -28,7 +28,7 @@ class CompositePatternTest extends TestCase
     {
         // given
         $pattern = Pattern::compose($this->patterns());
-        // when + then
+        // when, then
         $this->assertFalse($pattern->testAny('Foo'));
     }
 

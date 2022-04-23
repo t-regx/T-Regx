@@ -23,7 +23,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator($this->match(['group' => 'value']), new ThrowFactory(), -10);
 
-        // when + then
+        // when, then
         $this->assertTrue($decorator->hasGroup(new GroupName('group')));
     }
 
@@ -35,7 +35,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll(['group' => null]), -10);
 
-        // when + then
+        // when, then
         $this->assertTrue($decorator->hasGroup(new GroupName('group')));
     }
 
@@ -47,7 +47,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll([]), -10);
 
-        // when + then
+        // when, then
         $this->assertFalse($decorator->hasGroup(new GroupName('group')));
     }
 
@@ -59,7 +59,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator($this->match(['group' => ['value', 0]]), new ThrowFactory(), -10);
 
-        // when + then
+        // when, then
         $this->assertTrue($decorator->isGroupMatched('group'));
     }
 
@@ -71,7 +71,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll(['group' => [['value', 0]]]), 0);
 
-        // when + then
+        // when, then
         $this->assertTrue($decorator->isGroupMatched('group'));
     }
 
@@ -87,7 +87,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator($this->match(['group' => ['value', -1]]), new ThrowFactory(), -10);
 
-        // when + then
+        // when, then
         $this->assertFalse($decorator->isGroupMatched('group'));
     }
 
@@ -99,7 +99,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll(['group' => [[null, -1]]]), 0);
 
-        // when + then
+        // when, then
         $this->assertFalse($decorator->isGroupMatched('group'));
     }
 
@@ -111,7 +111,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator($this->match(['group' => ['Foo', 2]]), new ThrowFactory(), -10);
 
-        // when + then
+        // when, then
         $this->assertSame(['Foo', 2], $decorator->getGroupTextAndOffset('group'));
     }
 
@@ -123,7 +123,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll(['group' => [['Foo', 2]]]), 0);
 
-        // when + then
+        // when, then
         $this->assertSame(['Foo', 2], $decorator->getGroupTextAndOffset('group'));
     }
 
@@ -139,7 +139,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator($this->match(['group' => ['value', -1]]), new ThrowFactory(), -10);
 
-        // when + then
+        // when, then
         $this->assertSame(['value', -1], $decorator->getGroupTextAndOffset('group'));
     }
 
@@ -151,7 +151,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator($this->match([0 => ['value', -10]]), new ThrowFactory(), -10);
 
-        // when + then
+        // when, then
         $this->assertSame('value', $decorator->text());
     }
 
@@ -163,7 +163,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator($this->match([0 => ['value', 15]]), new ThrowFactory(), -10);
 
-        // when + then
+        // when, then
         $this->assertSame(15, $decorator->byteOffset());
     }
 
@@ -179,7 +179,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         ];
         $decorator = new GroupPolyfillDecorator($this->match([0 => ['one', 15]]), new ConstantAll($matches), 0);
 
-        // when + then
+        // when, then
         $this->assertSame(['foo' => 'bar', 'lorem' => 'ipsum'], $decorator->groupTexts());
     }
 
@@ -195,7 +195,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         ];
         $decorator = new GroupPolyfillDecorator($this->match([0 => ['one', 0]]), new ConstantAll($matches), 0);
 
-        // when + then
+        // when, then
         $this->assertSame(['foo' => 10, 'lorem' => 15], $decorator->groupOffsets());
     }
 
@@ -211,7 +211,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         ];
         $decorator = new GroupPolyfillDecorator($this->match([0 => ['one', 0]]), new ConstantAll($matches), 0);
 
-        // when + then
+        // when, then
         $this->assertSame(['foo', 'lorem'], $decorator->getGroupKeys());
     }
 
@@ -223,7 +223,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator($this->match(['group' => ['value', 0]]), new ThrowFactory(), -10);
 
-        // when + then
+        // when, then
         $this->assertSame('value', $decorator->getGroup('group'));
     }
 
@@ -235,7 +235,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll(['group' => [['value', 0]]]), 0);
 
-        // when + then
+        // when, then
         $this->assertSame('value', $decorator->getGroup('group'));
     }
 
@@ -251,7 +251,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator($this->match(['group' => ['value', -1]]), new ThrowFactory(), -10);
 
-        // when + then
+        // when, then
         $this->assertNull($decorator->getGroup('group'));
     }
 
@@ -263,7 +263,7 @@ class GroupPolyfillDecoratorTest extends TestCase
         // given
         $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll(['group' => [[null, -1]]]), 0);
 
-        // when + then
+        // when, then
         $this->assertNull($decorator->getGroup('group'));
     }
 

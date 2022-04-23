@@ -21,7 +21,7 @@ class MatchDetailTest extends TestCase
                 // given
                 $group = $detail->group('group');
 
-                // when + then
+                // when, then
                 $this->assertSame(['group', null], $detail->groups()->names());
                 $this->assertSame(1, $group->index());
                 $this->assertSame(0, $group->offset());
@@ -42,7 +42,7 @@ class MatchDetailTest extends TestCase
                 // given
                 $group = $detail->group('group');
 
-                // when + then
+                // when, then
                 $this->assertSame(['group', null, null], $detail->groups()->names());
                 $this->assertSame(1, $group->index());
                 $this->assertFalse($group->matched(), "Failed asserting that the last group was not matched");
