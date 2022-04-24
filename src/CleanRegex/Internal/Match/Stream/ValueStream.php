@@ -21,8 +21,9 @@ class ValueStream implements Upstream
         return $this->upstream->first();
     }
 
-    public function firstKey()
+    public function firstKey(): int
     {
-        return $this->upstream->firstKey();
+        $this->upstream->firstKey();
+        return 0;
     }
 }

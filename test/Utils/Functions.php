@@ -37,12 +37,13 @@ class Functions
         };
     }
 
-    public static function pass(): callable
+    public static function pass($return = null): callable
     {
-        return function () {
+        return function () use ($return) {
             // Let PhpUnit know that missing assertions
             // are expected, not accidental
             Assert::assertTrue(true);
+            return $return;
         };
     }
 

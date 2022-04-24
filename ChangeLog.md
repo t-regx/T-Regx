@@ -21,6 +21,8 @@ Incoming in 0.25.0
         * Now `null` and `false` are no longer considered equal
 
       For all intents and purposes, now `Stream.distinct()` works as-if it used strict-comparison `===`.
+* Bug fixes
+    * Fixed a bug when using `Stream.values().keys().first()` didn't always reindex to `0`
 * Features
     * Added `Detail.group().or()` which behaves similarly to `orReturn()` but only accepts a non-nullable `string`.
 
