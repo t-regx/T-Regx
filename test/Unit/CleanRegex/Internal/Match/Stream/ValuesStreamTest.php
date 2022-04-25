@@ -7,10 +7,10 @@ use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\ThrowStream;
 use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
-use TRegx\CleanRegex\Internal\Match\Stream\ValuesStream;
+use TRegx\CleanRegex\Internal\Match\Stream\ValueStream;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\Stream\ValuesStream
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\ValueStream
  */
 class ValuesStreamTest extends TestCase
 {
@@ -20,7 +20,7 @@ class ValuesStreamTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $stream = new ValuesStream(new AllStream([10 => 'One', 20 => 'Two', 30 => 'Three']));
+        $stream = new ValueStream(new AllStream([10 => 'One', 20 => 'Two', 30 => 'Three']));
 
         // when
         $all = $stream->all();
@@ -35,7 +35,7 @@ class ValuesStreamTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $stream = new ValuesStream(new FirstStream('One'));
+        $stream = new ValueStream(new FirstStream('One'));
 
         // when
         $first = $stream->first();
@@ -50,7 +50,7 @@ class ValuesStreamTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = new ValuesStream(new FirstKeyStream('foo'));
+        $stream = new ValueStream(new FirstKeyStream('foo'));
 
         // when
         $firstKey = $stream->firstKey();
@@ -65,7 +65,7 @@ class ValuesStreamTest extends TestCase
     public function shouldFirstThrow()
     {
         // given
-        $stream = new ValuesStream(new ThrowStream(new EmptyStreamException()));
+        $stream = new ValueStream(new ThrowStream(new EmptyStreamException()));
 
         // then
         $this->expectException(EmptyStreamException::class);

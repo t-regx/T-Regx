@@ -16,7 +16,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\UniqueStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
-use TRegx\CleanRegex\Internal\Match\Stream\ValuesStream;
+use TRegx\CleanRegex\Internal\Match\Stream\ValueStream;
 use TRegx\CleanRegex\Internal\Match\StreamTerminal;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
@@ -127,7 +127,7 @@ class IntStream implements \Countable, \IteratorAggregate
 
     public function values(): Stream
     {
-        return $this->next(new ValuesStream($this->upstream));
+        return $this->next(new ValueStream($this->upstream));
     }
 
     public function keys(): Stream

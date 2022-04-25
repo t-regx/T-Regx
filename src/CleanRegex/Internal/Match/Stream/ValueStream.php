@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-class ValuesStream implements Upstream
+class ValueStream implements Upstream
 {
     /** @var Upstream */
     private $upstream;
