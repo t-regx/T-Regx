@@ -1,23 +1,20 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream;
+namespace Test\Feature\TRegx\CleanRegex\Match\stream\asInt;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstKeyStream;
-use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstStream;
-use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
-use Test\Fakes\CleanRegex\Internal\Numeral\ThrowBase;
 use Test\Fakes\CleanRegex\Match\Details\ConstantInt;
+use Test\Utils\DetailFunctions;
 use Test\Utils\ExactExceptionMessage;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
-use TRegx\CleanRegex\Internal\Match\Stream\IntegerStream;
-use TRegx\CleanRegex\Internal\Numeral\Base;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\IntegerStream
  */
-class IntegerStreamTest extends TestCase
+class MatchPatternTest extends TestCase
 {
     use ExactExceptionMessage;
 
@@ -26,14 +23,15 @@ class IntegerStreamTest extends TestCase
      */
     public function test()
     {
-        // given
-        $stream = new IntegerStream(new AllStream(['1', 2, new ConstantInt(4, 2)]), new Base(2));
-
         // when
-        $values = $stream->all();
-
+        $values = Pattern::of('Foo')
+            ->match('Foo')
+            ->stream()
+            ->flatMap(Functions::constant(['1', 2, new ConstantInt(4, 2), '11']))
+            ->asInt(2)
+            ->all();
         // then
-        $this->assertSame([1, 2, 4], $values);
+        $this->assertSame([1, 2, 4, 3], $values);
     }
 
     /**
@@ -42,12 +40,10 @@ class IntegerStreamTest extends TestCase
     public function shouldAllThrowForMalformedInteger()
     {
         // given
-        $stream = new IntegerStream(new AllStream(['Foo']), new Base(10));
-
+        $stream = Pattern::of('\w+')->match('12, One')->stream()->map(DetailFunctions::text())->asInt();
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse stream element 'Foo', but it is not a valid integer in base 10");
-
+        $this->expectExceptionMessage("Expected to parse stream element 'One', but it is not a valid integer in base 10");
         // when
         $stream->all();
     }
@@ -58,12 +54,13 @@ class IntegerStreamTest extends TestCase
     public function shouldAllThrowForInvalidDataType()
     {
         // given
-        $stream = new IntegerStream(new AllStream([false]), new ThrowBase());
-
+        $stream = Pattern::literal('Foo')->match('Foo')
+            ->stream()
+            ->map(Functions::constant(false))
+            ->asInt();
         // then
         $this->expectException(InvalidIntegerTypeException::class);
         $this->expectExceptionMessage("Failed to parse value as integer. Expected integer|string, but boolean (false) given");
-
         // when
         $stream->all();
     }
@@ -73,12 +70,8 @@ class IntegerStreamTest extends TestCase
      */
     public function shouldGetFirstString()
     {
-        // given
-        $stream = new IntegerStream(new FirstStream('-123'), new Base(10));
-
         // when
-        $value = $stream->first();
-
+        $value = Pattern::literal('-123')->match('-123')->stream()->asInt()->first();
         // then
         $this->assertSame(-123, $value);
     }
@@ -88,12 +81,8 @@ class IntegerStreamTest extends TestCase
      */
     public function shouldGetFirstStringBase4()
     {
-        // given
-        $stream = new IntegerStream(new FirstStream('-123'), new Base(4));
-
         // when
-        $value = $stream->first();
-
+        $value = Pattern::literal('-123')->match('-123')->stream()->asInt(4)->first();
         // then
         $this->assertSame(-27, $value);
     }
@@ -103,12 +92,8 @@ class IntegerStreamTest extends TestCase
      */
     public function shouldGetFirstInteger()
     {
-        // given
-        $stream = new IntegerStream(new FirstStream(1), new ThrowBase());
-
         // when
-        $value = $stream->first();
-
+        $value = Pattern::literal('Foo')->match('Foo')->stream()->map(Functions::constant(1))->asInt()->first();
         // then
         $this->assertSame(1, $value);
     }
@@ -118,12 +103,12 @@ class IntegerStreamTest extends TestCase
      */
     public function shouldGetFirstIntable()
     {
-        // given
-        $stream = new IntegerStream(new FirstStream(new ConstantInt(4, 11)), new Base(11));
-
         // when
-        $value = $stream->first();
-
+        $value = Pattern::literal('Foo')->match('Foo')
+            ->stream()
+            ->map(Functions::constant(new ConstantInt(4, 11)))
+            ->asInt(11)
+            ->first();
         // then
         $this->assertSame(4, $value);
     }
@@ -134,12 +119,13 @@ class IntegerStreamTest extends TestCase
     public function shouldFirstThrowForMalformedInteger()
     {
         // given
-        $stream = new IntegerStream(new FirstStream('Foo'), new Base(14));
-
+        $stream = Pattern::literal('Foo')->match('Foo')
+            ->stream()
+            ->map(DetailFunctions::text())
+            ->asInt(14);
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse stream element 'Foo', but it is not a valid integer in base 14");
-
         // when
         $stream->first();
     }
@@ -150,12 +136,13 @@ class IntegerStreamTest extends TestCase
     public function shouldFirstThrowForOverflownInteger()
     {
         // given
-        $stream = new IntegerStream(new FirstStream('9223372036854775809'), new Base(10));
-
+        $stream = Pattern::of('\d+')->match('9223372036854775809')
+            ->stream()
+            ->map(DetailFunctions::text())
+            ->asInt();
         // then
         $this->expectException(IntegerOverflowException::class);
         $this->expectExceptionMessage("Expected to parse stream element '9223372036854775809', but it exceeds integer size on this architecture in base 10");
-
         // when
         $stream->first();
     }
@@ -166,12 +153,13 @@ class IntegerStreamTest extends TestCase
     public function shouldFirstThrowForOverflownInteger_inBase16()
     {
         // given
-        $stream = new IntegerStream(new FirstStream('922337203685477580000'), new Base(16));
-
+        $stream = Pattern::of('\d+')->match('922337203685477580000')
+            ->stream()
+            ->map(DetailFunctions::text())
+            ->asInt(16);
         // then
         $this->expectException(IntegerOverflowException::class);
         $this->expectExceptionMessage("Expected to parse stream element '922337203685477580000', but it exceeds integer size on this architecture in base 16");
-
         // when
         $stream->first();
     }
@@ -182,12 +170,13 @@ class IntegerStreamTest extends TestCase
     public function shouldFirstThrowForInvalidDataType()
     {
         // given
-        $stream = new IntegerStream(new FirstStream(true), new ThrowBase());
-
+        $stream = Pattern::literal('Foo')->match('Foo')
+            ->stream()
+            ->map(Functions::constant(true))
+            ->asInt(16);
         // then
         $this->expectException(InvalidIntegerTypeException::class);
         $this->expectExceptionMessage("Failed to parse value as integer. Expected integer|string, but boolean (true) given");
-
         // when
         $stream->first();
     }
@@ -197,13 +186,13 @@ class IntegerStreamTest extends TestCase
      */
     public function shouldGetIdentityKey()
     {
-        // given
-        $stream = new IntegerStream(new FirstKeyStream(4), new ThrowBase());
-
         // when
-        $firstKey = $stream->firstKey();
-
+        $key = Pattern::of('\d+')->match('14, 15')
+            ->stream()
+            ->filter(DetailFunctions::equals('15'))
+            ->keys()
+            ->first();
         // then
-        $this->assertSame(4, $firstKey);
+        $this->assertSame(1, $key);
     }
 }

@@ -20,10 +20,10 @@ class DetailFunctions
         };
     }
 
-    public static function equals(string $detail): callable
+    public static function equals(string $text): callable
     {
-        return function (Detail $match) use ($detail) {
-            return "$match" === $detail;
+        return function (Detail $detail) use ($text) {
+            return "$detail" === $text;
         };
     }
 
