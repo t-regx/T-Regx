@@ -21,27 +21,20 @@ class FilterStream implements Upstream
         return \array_filter($this->upstream->all(), [$this->predicate, 'test']);
     }
 
-    public function first()
+    public function first(): array
     {
-        [$key, $first] = $this->firstEntry();
-        return $first;
-    }
-
-    public function firstKey()
-    {
-        [$key] = $this->firstEntry();
-        return $key;
-    }
-
-    private function firstEntry(): array
-    {
-        $first = $this->upstream->first();
-        if ($this->predicate->test($first)) {
-            return [$this->upstream->firstKey(), $first];
+        [$firstKey, $firstValue] = $this->upstream->first();
+        if ($this->predicate->test($firstValue)) {
+            return [$firstKey, $firstValue];
         }
-        foreach ($this->shifted() as $key => $item) {
-            if ($this->predicate->test($item)) {
-                return [$key, $item];
+        return $this->remainingEntries();
+    }
+
+    private function remainingEntries(): array
+    {
+        foreach ($this->shifted() as $key => $value) {
+            if ($this->predicate->test($value)) {
+                return [$key, $value];
             }
         }
         throw new EmptyStreamException();

@@ -25,15 +25,9 @@ class GroupByCallbackStream implements Upstream
         return $map;
     }
 
-    public function first()
+    public function first(): array
     {
-        $value = $this->upstream->first();
-        $this->function->apply($value);
-        return $value;
-    }
-
-    public function firstKey()
-    {
-        return $this->function->apply($this->upstream->first());
+        [$key, $value] = $this->upstream->first();
+        return [$this->function->apply($value), $value];
     }
 }

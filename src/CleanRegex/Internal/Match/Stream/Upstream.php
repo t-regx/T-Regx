@@ -25,10 +25,5 @@ interface Upstream
      * when first element of the stream couldn't be resolved,
      * because of a match reason (unmatched subject or group).
      */
-    public function first();
-
-    /**
-     * @return string|int
-     */
-    public function firstKey();
+    public function first(): array;
 }

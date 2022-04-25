@@ -11,7 +11,7 @@ namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
  * values as if from a dictionary.
  *
  * So {@see ListStream::all()} returns a sequential array,
- * and {@see ListStream::firstKey()} returns 0.
+ * and {@see ListStream::first()} returns 0 as its key.
  */
 trait ListStream
 {
@@ -20,15 +20,9 @@ trait ListStream
         return \array_values($this->entries());
     }
 
-    public function first()
+    public function first(): array
     {
-        return $this->firstValue();
-    }
-
-    public function firstKey(): int
-    {
-        $this->firstValue();
-        return 0;
+        return [0, $this->firstValue()];
     }
 
     protected abstract function entries(): array;

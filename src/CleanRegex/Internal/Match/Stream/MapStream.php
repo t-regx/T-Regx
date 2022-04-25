@@ -19,13 +19,9 @@ class MapStream implements Upstream
         return \array_map($this->mapFunction, $this->upstream->all());
     }
 
-    public function first()
+    public function first(): array
     {
-        return ($this->mapFunction)($this->upstream->first());
-    }
-
-    public function firstKey()
-    {
-        return $this->upstream->firstKey();
+        [$key, $value] = $this->upstream->first();
+        return [$key, ($this->mapFunction)($value)];
     }
 }

@@ -16,14 +16,9 @@ class ValueStream implements Upstream
         return \array_values($this->upstream->all());
     }
 
-    public function first()
+    public function first(): array
     {
-        return $this->upstream->first();
-    }
-
-    public function firstKey(): int
-    {
-        $this->upstream->firstKey();
-        return 0;
+        [$key, $value] = $this->upstream->first();
+        return [0, $value];
     }
 }

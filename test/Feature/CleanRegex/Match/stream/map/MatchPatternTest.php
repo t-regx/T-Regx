@@ -108,4 +108,34 @@ class MatchPatternTest extends TestCase
         // when
         $stream->first();
     }
+
+    /**
+     * @test
+     */
+    public function shouldNotCallMapperForMoreThanFirstKey()
+    {
+        // when
+        Pattern::of('\w+')->match('One, Two, Three')
+            ->stream()
+            ->map(Functions::assertSame('One', DetailFunctions::text()))
+            ->keys()
+            ->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCallFlatMapOnce()
+    {
+        // when
+        Pattern::of('Foo')
+            ->match('Foo')
+            ->stream()
+            ->flatMap(Functions::once(['key']))
+            ->map(Functions::identity())
+            ->keys()
+            ->first();
+        // then
+        $this->pass();
+    }
 }

@@ -81,10 +81,11 @@ class IntStream implements \Countable, \IteratorAggregate
     private function firstOptional(): Optional
     {
         try {
-            return new PresentOptional($this->upstream->first());
+            [$key, $value] = $this->upstream->first();
         } catch (StreamRejectedException $exception) {
             return new RejectedOptional($exception->throwable());
         }
+        return new PresentOptional($value);
     }
 
     public function nth(int $index): int

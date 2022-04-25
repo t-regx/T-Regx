@@ -23,13 +23,8 @@ class UniqueStream implements Upstream
         return $distinct;
     }
 
-    public function first()
+    public function first(): array
     {
         return $this->upstream->first();
-    }
-
-    public function firstKey()
-    {
-        return $this->upstream->firstKey();
     }
 }

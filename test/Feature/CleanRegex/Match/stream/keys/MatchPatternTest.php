@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\stream\keys;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
@@ -117,6 +118,66 @@ class MatchPatternTest extends TestCase
             ->keys()
             ->keys()
             ->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFirstKeyCallFirstMap()
+    {
+        // when
+        Pattern::of('\w+')->match('Foo,Bar')
+            ->stream()
+            ->map(Functions::assertSame('Foo', DetailFunctions::text()))
+            ->keys()
+            ->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFirstKeyKeyCallFirstMap()
+    {
+        // when
+        Pattern::of('\w+')->match('Foo,Bar')
+            ->stream()
+            ->map(Functions::assertSame('Foo', DetailFunctions::text()))
+            ->keys()
+            ->keys()
+            ->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldKeysCallFlatMapOnce()
+    {
+        // when
+        Pattern::of('Foo')
+            ->match('Foo')
+            ->stream()
+            ->flatMap(Functions::once(['key']))
+            ->keys()
+            ->first();
+        // then
+        $this->pass();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldKeysKeysCallFlatMapOnce()
+    {
+        // when
+        Pattern::of('Foo')
+            ->match('Foo')
+            ->stream()
+            ->flatMap(Functions::once(['key']))
+            ->keys()
+            ->keys()
+            ->first();
+        // then
+        $this->pass();
     }
 
     private function streamOf(array $elements): Stream

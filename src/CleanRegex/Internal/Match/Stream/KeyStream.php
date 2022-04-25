@@ -16,14 +16,9 @@ class KeyStream implements Upstream
         return \array_keys($this->upstream->all());
     }
 
-    public function first()
+    public function first(): array
     {
-        return $this->upstream->firstKey();
-    }
-
-    public function firstKey(): int
-    {
-        $this->upstream->firstKey();
-        return 0;
+        [$key] = $this->upstream->first();
+        return [0, $key];
     }
 }

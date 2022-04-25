@@ -91,12 +91,13 @@ class Stream implements \Countable, \IteratorAggregate
     private function firstOptional(): Optional
     {
         try {
-            return new PresentOptional($this->upstream->first());
+            [$key, $value] = $this->upstream->first();
         } catch (StreamRejectedException $exception) {
             return new RejectedOptional(new NoSuchStreamElementException($exception->notMatchedMessage()));
         } catch (EmptyStreamException $exception) {
             return new RejectedOptional(new NoSuchStreamElementException(new FromFirstStreamMessage()));
         }
+        return new PresentOptional($value);
     }
 
     public function nth(int $index)

@@ -26,9 +26,10 @@ class IntegerStream implements Upstream
         return \array_map([$this, 'number'], $this->upstream->all());
     }
 
-    public function first(): int
+    public function first(): array
     {
-        return $this->number($this->upstream->first());
+        [$key, $value] = $this->upstream->first();
+        return [$key, $this->number($value)];
     }
 
     private function number($value): int
@@ -43,10 +44,5 @@ class IntegerStream implements Upstream
             return $this->base->integer($value);
         }
         throw InvalidIntegerTypeException::forInvalidType(new ValueType($value));
-    }
-
-    public function firstKey()
-    {
-        return $this->upstream->firstKey();
     }
 }

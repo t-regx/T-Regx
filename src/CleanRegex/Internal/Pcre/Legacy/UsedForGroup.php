@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
 
 use TRegx\CleanRegex\Internal\GroupMatchFindFirst;
-use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupStream;
 
 /**
@@ -13,8 +12,6 @@ interface UsedForGroup
     /**
      * @see MatchDetail::get
      * @see MatchedGroup
-     * @see MatchGroupIntStream::first()
-     * @see MatchGroupIntStream::firstKey()
      * @see MatchGroupStream::all
      * @see GroupFacade which is called by everything that calls {@see getGroupTextAndOffset}
      */
