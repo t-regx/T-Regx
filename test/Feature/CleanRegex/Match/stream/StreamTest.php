@@ -1,18 +1,15 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
+namespace Test\Feature\TRegx\CleanRegex\Match\stream;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Match\Stream\FirstStream;
-use Test\Fakes\CleanRegex\Internal\Match\Stream\ThrowStream;
-use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
-use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Fakes\CleanRegex\Match\Details\ConstantInt;
+use Test\Utils\DetailFunctions;
 use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
-use TRegx\CleanRegex\Match\Stream;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Stream
@@ -24,60 +21,35 @@ class StreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAll()
-    {
-        // given
-        $stream = new Stream(new AllStream(['foo', 'bar']), new ThrowSubject());
-
-        // when
-        $values = $stream->all();
-
-        // then
-        $this->assertSame(['foo', 'bar'], $values);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetOnly()
     {
-        // given
-        $stream = new Stream(new AllStream(['foo', 'bar', 'fail']), new ThrowSubject());
-
         // when
-        $only = $stream->only(2);
-
+        $only = Pattern::alteration(['Two', 'One', 'Three'])->match('One, Two, Three')->stream()->map(DetailFunctions::text())->only(2);
         // then
-        $this->assertSame(['foo', 'bar'], $only);
+        $this->assertSame(['One', 'Two'], $only);
     }
 
     /**
      * @test
      */
-    public function shouldGetOnly_overflowing()
+    public function shouldGetOnlyOverflow()
     {
-        // given
-        $stream = new Stream(new AllStream(['foo', 'bar']), new ThrowSubject());
-
         // when
-        $only = $stream->only(4);
-
+        $only = Pattern::alteration(['Two', 'One', 'Three'])->match('One, Two, Three')->stream()->map(DetailFunctions::text())->only(4);
         // then
-        $this->assertSame(['foo', 'bar'], $only);
+        $this->assertSame(['One', 'Two', 'Three'], $only);
     }
 
     /**
      * @test
      */
-    public function shouldGetOnly_throw()
+    public function shouldThrowOnlyForNegativeLimit()
     {
-        // given
-        $stream = new Stream(new ThrowStream(), new ThrowSubject());
-
+        // when
+        $stream = Pattern::alteration(['Two', 'One', 'Three'])->match('One, Two, Three')->stream()->map(DetailFunctions::text());
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Negative limit: -2');
-
         // when
         $stream->only(-2);
     }
@@ -88,16 +60,11 @@ class StreamTest extends TestCase
     public function shouldIterate()
     {
         // given
-        $stream = new Stream(new AllStream(['foo', 'bar']), new ThrowSubject());
-
+        $stream = Pattern::alteration(['Two', 'One', 'Three'])->match('One, Two, Three')->stream()->map(DetailFunctions::text());
         // when
-        $result = [];
-        $stream->forEach(function (string $input) use (&$result) {
-            $result[] = $input;
-        });
-
+        $stream->forEach(Functions::collect($result));
         // then
-        $this->assertSame(['foo', 'bar'], $result);
+        $this->assertSame(['One', 'Two', 'Three'], $result);
     }
 
     /**
@@ -106,11 +73,9 @@ class StreamTest extends TestCase
     public function shouldCount()
     {
         // given
-        $stream = new Stream(new AllStream(['foo', 'bar', 'lorem', 'b' => 'ipsum']), new ThrowSubject());
-
+        $stream = Pattern::of('\w+')->match('One, Two, Three, Four')->stream();
         // when
         $count = $stream->count();
-
         // then
         $this->assertSame(4, $count);
     }
@@ -118,14 +83,25 @@ class StreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldIterator()
+    public function shouldBeCountable()
     {
         // given
-        $stream = new Stream(new AllStream(['foo', 'bar', 'lorem', 'ipsum']), new ThrowSubject());
+        $stream = Pattern::of('\w+')->match('One, Two, Three, Four')->stream();
+        // when
+        $count = \count($stream);
+        // then
+        $this->assertSame(4, $count);
+    }
 
+    /**
+     * @test
+     */
+    public function shouldGetIterator()
+    {
+        // given
+        $stream = Pattern::of('\w+')->match('foo, bar, lorem, ipsum')->stream()->map(DetailFunctions::text());
         // when
         $iterator = $stream->getIterator();
-
         // then
         $this->assertSame(['foo', 'bar', 'lorem', 'ipsum'], \iterator_to_array($iterator));
     }
@@ -136,13 +112,11 @@ class StreamTest extends TestCase
     public function shouldMap()
     {
         // given
-        $stream = new Stream(new AllStream(['foo', 'foo', 'bar', 'foo', 'Bar', 'bar']), new ThrowSubject());
-
+        $stream = Pattern::of('\w+')->match('foo, bar, lorem, ipsum')->stream();
         // when
-        $upper = $stream->map('strToUpper')->all();
-
+        $mapped = $stream->map('strToUpper')->all();
         // then
-        $this->assertSame(['FOO', 'FOO', 'BAR', 'FOO', 'BAR', 'BAR'], $upper);
+        $this->assertSame(['FOO', 'BAR', 'LOREM', 'IPSUM'], $mapped);
     }
 
     /**
@@ -151,13 +125,11 @@ class StreamTest extends TestCase
     public function shouldReturn_flatMap_all()
     {
         // given
-        $stream = new Stream(new AllStream(['foo', 'bar']), new ThrowSubject());
-
+        $stream = Pattern::of('\w+')->match('Foo, Bar')->stream();
         // when
         $flatMapped = $stream->flatMap('str_split')->all();
-
         // then
-        $this->assertSame(['f', 'o', 'o', 'b', 'a', 'r'], $flatMapped);
+        $this->assertSame(['F', 'o', 'o', 'B', 'a', 'r'], $flatMapped);
     }
 
     /**
@@ -166,11 +138,9 @@ class StreamTest extends TestCase
     public function shouldReturn_flatMapAssoc_all()
     {
         // given
-        $stream = new Stream(new AllStream(['Quizzacious', 'Lorem', 'Foo']), new ThrowSubject());
-
+        $stream = Pattern::of('\w+')->match('Quizzacious, Lorem, Foo')->stream()->map(DetailFunctions::text());
         // when
         $flatMapped = $stream->flatMapAssoc('str_split')->all();
-
         // then
         $this->assertSame(['F', 'o', 'o', 'e', 'm', 'a', 'c', 'i', 'o', 'u', 's'], $flatMapped);
     }
@@ -181,13 +151,11 @@ class StreamTest extends TestCase
     public function shouldReturn_flatMap_first()
     {
         // given
-        $stream = new Stream(new FirstStream('foo'), new ThrowSubject());
-
+        $stream = Pattern::literal('Foo')->match('Foo')->stream();
         // when
         $firstFlatMapped = $stream->flatMap(Functions::letters())->first();
-
         // then
-        $this->assertSame('f', $firstFlatMapped);
+        $this->assertSame('F', $firstFlatMapped);
     }
 
     /**
@@ -196,13 +164,11 @@ class StreamTest extends TestCase
     public function shouldReturn_flatMap_nth()
     {
         // given
-        $stream = new Stream(new AllStream(['bar', 'cat']), new ThrowSubject());
-
+        $stream = Pattern::of('\w+')->match('Bar, Cat')->stream();
         // when
         $flatMapped = $stream->flatMap(Functions::letters())->nth(3);
-
         // then
-        $this->assertSame('c', $flatMapped);
+        $this->assertSame('C', $flatMapped);
     }
 
     /**
@@ -211,13 +177,11 @@ class StreamTest extends TestCase
     public function shouldReturn_flatMap_keys_first()
     {
         // given
-        $stream = new Stream(new FirstStream('One'), new ThrowSubject());
-
+        $stream = Pattern::of('\w+')->match('Bar, Cat')->stream();
         // when
-        $flatMappedKey = $stream->flatMap(Functions::lettersAsKeys())->keys()->first();
-
+        $flatMappedKey = $stream->flatMapAssoc(Functions::lettersAsKeys())->keys()->first();
         // then
-        $this->assertSame('O', $flatMappedKey);
+        $this->assertSame('B', $flatMappedKey);
     }
 
     /**
@@ -226,11 +190,9 @@ class StreamTest extends TestCase
     public function shouldFilter()
     {
         // given
-        $stream = new Stream(new AllStream(['foo', 2, 'bar', 4]), new ThrowSubject());
-
+        $stream = Pattern::of('Foo')->match('Foo')->stream()->flatMap(Functions::constant(['foo', 2, 'bar', 4]));
         // when
         $filtered = $stream->filter('is_int')->all();
-
         // then
         $this->assertSame([1 => 2, 3 => 4], $filtered);
     }
@@ -238,16 +200,14 @@ class StreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldUnique()
+    public function shouldReturnUniqueElements()
     {
         // given
-        $stream = new Stream(new AllStream(['foo', 'foo', 'bar', 'foo', 'Bar', 'bar']), new ThrowSubject());
-
+        $stream = Pattern::of('\w+')->match('foo, foo, bar, foo, Bar, bar')->stream()->map(DetailFunctions::text());
         // when
-        $result = $stream->distinct()->all();
-
+        $distinct = $stream->distinct()->all();
         // then
-        $this->assertSame(['foo', 2 => 'bar', 4 => 'Bar'], $result);
+        $this->assertSame(['foo', 2 => 'bar', 4 => 'Bar'], $distinct);
     }
 
     /**
@@ -256,13 +216,14 @@ class StreamTest extends TestCase
     public function shouldGetValues()
     {
         // given
-        $stream = new Stream(new AllStream([10 => 'foo', 20 => 'bar', 30 => 'lorem']), new ThrowSubject());
-
+        $stream = Pattern::literal('Foo')
+            ->match('Foo')
+            ->stream()
+            ->flatMapAssoc(Functions::constant([10 => 'foo', 20 => 'bar', 30 => 'lorem']));
         // when
-        $result = $stream->values()->all();
-
+        $values = $stream->values()->all();
         // then
-        $this->assertSame(['foo', 'bar', 'lorem'], $result);
+        $this->assertSame(['foo', 'bar', 'lorem'], $values);
     }
 
     /**
@@ -271,11 +232,12 @@ class StreamTest extends TestCase
     public function shouldGetKeys()
     {
         // given
-        $stream = new Stream(new AllStream([10 => 'foo', 20 => 'bar', 30 => 'lorem']), new ThrowSubject());
-
+        $stream = Pattern::literal('Foo')
+            ->match('Foo')
+            ->stream()
+            ->flatMapAssoc(Functions::constant([10 => 'foo', 20 => 'bar', 30 => 'lorem']));
         // when
         $keys = $stream->keys()->all();
-
         // then
         $this->assertSame([10, 20, 30], $keys);
     }
@@ -286,11 +248,12 @@ class StreamTest extends TestCase
     public function shouldMapToIntegers()
     {
         // given
-        $stream = new Stream(new AllStream(['a' => '9', '10', 'b' => 11, '100', 'c' => 12]), new ThrowSubject());
-
+        $stream = Pattern::literal('Foo')
+            ->match('Foo')
+            ->stream()
+            ->flatMapAssoc(Functions::constant(['a' => '9', '10', 'b' => 11, '100', 'c' => 12]));
         // when
         $integers = $stream->asInt()->all();
-
         // then
         $this->assertSame(['a' => 9, 10, 'b' => 11, 100, 'c' => 12], $integers);
     }
@@ -302,12 +265,13 @@ class StreamTest extends TestCase
     public function shouldThrowForInvalidBase(array $input)
     {
         // given
-        $stream = new Stream(new AllStream($input), new ThrowSubject());
-
+        $stream = Pattern::literal('Foo')
+            ->match('Foo')
+            ->stream()
+            ->flatMapAssoc(Functions::constant($input));
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid base: 37 (supported bases 2-36, case-insensitive)');
-
         // when
         $stream->asInt(37)->all();
     }
@@ -327,11 +291,11 @@ class StreamTest extends TestCase
     public function shouldMapToIntegersBase5()
     {
         // given
-        $stream = new Stream(new AllStream(['a' => '123']), new ThrowSubject());
-
+        $stream = Pattern::literal('Foo')->match('Foo')
+            ->stream()
+            ->flatMapAssoc(Functions::constant(['a' => '123']));
         // when
         $integers = $stream->asInt(5)->all();
-
         // then
         $this->assertSame(['a' => 38], $integers);
     }
@@ -342,12 +306,12 @@ class StreamTest extends TestCase
     public function shouldThrowForInvalidIntegers()
     {
         // given
-        $stream = new Stream(new AllStream(['9', '10', '--10', '100']), new ThrowSubject());
-
+        $stream = Pattern::of('-*\d+')->match('9, 10, --10, 100')
+            ->stream()
+            ->map(DetailFunctions::text());
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse stream element '--10', but it is not a valid integer in base 10");
-
         // when
         $stream->asInt()->all();
     }
@@ -358,11 +322,10 @@ class StreamTest extends TestCase
     public function shouldMapMatchesToIntegers()
     {
         // given
-        $stream = new Stream(new AllStream(['a' => new ConstantInt(9, 10), 'b' => new ConstantInt(10, 10)]), new ThrowSubject());
-
+        $values = ['a' => new ConstantInt(9, 10), 'b' => new ConstantInt(10, 10)];
+        $stream = Pattern::of('Foo')->match('Foo')->stream()->flatMapAssoc(Functions::constant($values));
         // when
         $integers = $stream->asInt()->all();
-
         // then
         $this->assertSame(['a' => 9, 'b' => 10], $integers);
     }
@@ -373,12 +336,10 @@ class StreamTest extends TestCase
     public function shouldThrowForNonStringAndNonInt()
     {
         // given
-        $stream = new Stream(new AllStream(['9', true]), new ThrowSubject());
-
+        $stream = Pattern::of('Foo')->match('Foo')->stream()->flatMapAssoc(Functions::constant(['9', true]));
         // then
         $this->expectException(InvalidIntegerTypeException::class);
         $this->expectExceptionMessage('Failed to parse value as integer. Expected integer|string, but boolean (true) given');
-
         // when
         $stream->asInt()->all();
     }
@@ -389,12 +350,9 @@ class StreamTest extends TestCase
     public function shouldGroupByCallback()
     {
         // given
-        $theSeven = ['Father', 'Mother', 'Maiden', 'Crone', 'Warrior', 'Smith', 'Stranger'];
-        $stream = new Stream(new AllStream($theSeven), new ThrowSubject());
-
+        $stream = Pattern::of('\w+')->match('Father, Mother, Maiden, Crone, Warrior, Smith, Stranger')->stream()->map(DetailFunctions::text());
         // when
         $grouppedBy = $stream->groupByCallback(Functions::charAt(0));
-
         // then
         $expected = [
             'F' => ['Father'],
@@ -412,11 +370,11 @@ class StreamTest extends TestCase
     public function shouldForEach_acceptKey()
     {
         // given
-        $stream = new Stream(new AllStream(['Foo' => '9', 2 => 'Bar']), new ThrowSubject());
-
+        $stream = Pattern::of('Foo')->match('Foo')
+            ->stream()
+            ->flatMapAssoc(Functions::constant(['Foo' => '9', 2 => 'Bar']));
         // when
         $stream->forEach(Functions::collectAsEntries($arguments));
-
         // then
         $this->assertSame(['9' => 'Foo', 'Bar' => 2], $arguments);
     }

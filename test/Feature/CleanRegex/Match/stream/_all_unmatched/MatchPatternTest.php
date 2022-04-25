@@ -1,20 +1,16 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Match\_all_unmatched;
+namespace Test\Feature\TRegx\CleanRegex\Match\stream\_all_unmatched;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Match\Stream\EmptyStream;
-use Test\Fakes\CleanRegex\Internal\Match\Stream\ThrowStream;
-use Test\Fakes\CleanRegex\Internal\Match\Stream\Upstream\AllStream;
-use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use Test\Utils\Functions;
 use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
-use TRegx\CleanRegex\Match\Stream;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Stream
  */
-class StreamTest extends TestCase
+class MatchPatternTest extends TestCase
 {
     use TestCasePasses;
 
@@ -24,11 +20,9 @@ class StreamTest extends TestCase
     public function shouldGet_all()
     {
         // given
-        $stream = new Stream(new EmptyStream(), new ThrowSubject());
-
+        $stream = Pattern::of('Foo')->match('Bar');
         // when
         $all = $stream->all();
-
         // then
         $this->assertSame([], $all);
     }
@@ -39,11 +33,9 @@ class StreamTest extends TestCase
     public function shouldGet_only()
     {
         // given
-        $stream = new Stream(new EmptyStream(), new ThrowSubject());
-
+        $stream = Pattern::of('Foo')->match('Bar');
         // when
         $all = $stream->only(2);
-
         // then
         $this->assertSame([], $all);
     }
@@ -54,12 +46,10 @@ class StreamTest extends TestCase
     public function shouldThrow_only_ForNegativeIndex()
     {
         // given
-        $stream = new Stream(new ThrowStream(), new ThrowSubject());
-
+        $stream = Pattern::of('Foo')->match('Bar')->stream();
         // then
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Negative limit: -2');
-
         // when
         $stream->only(-2);
     }
@@ -70,11 +60,9 @@ class StreamTest extends TestCase
     public function shouldIgnore_forEach()
     {
         // given
-        $stream = new Stream(new EmptyStream(), new ThrowSubject());
-
+        $stream = Pattern::of('Foo')->match('Bar');
         // when
         $stream->forEach(Functions::fail());
-
         // then
         $this->pass();
     }
@@ -85,11 +73,9 @@ class StreamTest extends TestCase
     public function shouldPassThrough_forEach()
     {
         // given
-        $stream = new Stream(new AllStream(['value']), new ThrowSubject());
-
+        $stream = Pattern::of('Foo')->match('Foo')->stream();
         // then
         $this->expectException(UnmatchedStreamException::class);
-
         // when
         $stream->forEach(Functions::throws(new UnmatchedStreamException()));
     }
@@ -100,11 +86,9 @@ class StreamTest extends TestCase
     public function shouldGet_count()
     {
         // given
-        $stream = new Stream(new EmptyStream(), new ThrowSubject());
-
+        $stream = Pattern::of('Foo')->match('Bar');
         // when
         $count = $stream->count();
-
         // then
         $this->assertSame(0, $count);
     }
@@ -115,11 +99,9 @@ class StreamTest extends TestCase
     public function shouldGet_getIterator()
     {
         // given
-        $stream = new Stream(new EmptyStream(), new ThrowSubject());
-
+        $stream = Pattern::of('Foo')->match('Bar');
         // when
         $iterator = $stream->getIterator();
-
         // then
         $this->assertSame([], \iterator_to_array($iterator));
     }
