@@ -3,8 +3,6 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 class UniqueStream implements Upstream
 {
-    use PreservesKey;
-
     /** @var Upstream */
     private $upstream;
 
@@ -28,5 +26,10 @@ class UniqueStream implements Upstream
     public function first()
     {
         return $this->upstream->first();
+    }
+
+    public function firstKey()
+    {
+        return $this->upstream->firstKey();
     }
 }

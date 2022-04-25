@@ -3,8 +3,6 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 class ValuesStream implements Upstream
 {
-    use PreservesKey;
-
     /** @var Upstream */
     private $upstream;
 
@@ -21,5 +19,10 @@ class ValuesStream implements Upstream
     public function first()
     {
         return $this->upstream->first();
+    }
+
+    public function firstKey()
+    {
+        return $this->upstream->firstKey();
     }
 }

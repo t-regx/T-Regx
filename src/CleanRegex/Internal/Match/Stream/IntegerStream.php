@@ -10,8 +10,6 @@ use TRegx\CleanRegex\Match\Details\Intable;
 
 class IntegerStream implements Upstream
 {
-    use PreservesKey;
-
     /** @var Upstream */
     private $upstream;
     /** @var IntegerBase */
@@ -45,5 +43,10 @@ class IntegerStream implements Upstream
             return $this->base->integer($value);
         }
         throw InvalidIntegerTypeException::forInvalidType(new ValueType($value));
+    }
+
+    public function firstKey()
+    {
+        return $this->upstream->firstKey();
     }
 }
