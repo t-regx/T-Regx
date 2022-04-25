@@ -18,29 +18,30 @@ class FilterStream implements Upstream
 
     public function all(): array
     {
-        return \array_values(\array_filter($this->upstream->all(), [$this->predicate, 'test']));
+        return \array_filter($this->upstream->all(), [$this->predicate, 'test']);
     }
 
     public function first()
     {
-        return $this->firstValue();
+        [$key, $first] = $this->firstEntry();
+        return $first;
     }
 
-    public function firstKey(): int
+    public function firstKey()
     {
-        $this->firstValue();
-        return 0;
+        [$key] = $this->firstEntry();
+        return $key;
     }
 
-    private function firstValue()
+    private function firstEntry(): array
     {
         $first = $this->upstream->first();
         if ($this->predicate->test($first)) {
-            return $first;
+            return [$this->upstream->firstKey(), $first];
         }
-        foreach ($this->shifted() as $item) {
+        foreach ($this->shifted() as $key => $item) {
             if ($this->predicate->test($item)) {
-                return $item;
+                return [$key, $item];
             }
         }
         throw new EmptyStreamException();
@@ -48,6 +49,6 @@ class FilterStream implements Upstream
 
     private function shifted(): array
     {
-        return \array_slice($this->upstream->all(), 1);
+        return \array_slice($this->upstream->all(), 1, null, true);
     }
 }

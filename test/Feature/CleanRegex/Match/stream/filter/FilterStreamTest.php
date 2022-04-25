@@ -76,7 +76,32 @@ class FilterStreamTest extends TestCase
         $key = pattern('\w+')->match('Foo, Bar, Dor')->stream()->filter(DetailFunctions::equals('Dor'))->keys()->first();
 
         // then
+        $this->assertSame(2, $key);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnFirstKeysKeyFiltered()
+    {
+        // when
+        $key = pattern('\w+')->match('Foo, Bar, Dor')->stream()->filter(DetailFunctions::equals('Dor'))->keys()->keys()->first();
+        // then
         $this->assertSame(0, $key);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCallFilterFirstKeysKey()
+    {
+        // when
+        pattern('\w+')->match('Foo, Bar, Dor')
+            ->stream()
+            ->filter(Functions::pass(true))
+            ->keys()
+            ->keys()
+            ->first();
     }
 
     /**
@@ -132,5 +157,89 @@ class FilterStreamTest extends TestCase
 
         // then
         $this->assertSame(2, $size);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturn_keys_first_NotFirstMatch_Fifth()
+    {
+        // when
+        $key = pattern('Foo')->match('Foo')
+            ->stream()
+            ->flatMapAssoc(Functions::constant(['Foo', 'Bar', 15 => 'Dor']))
+            ->filter(Functions::equals('Dor'))
+            ->keys()
+            ->first();
+        // then
+        $this->assertSame(15, $key);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturn_keys_first_Assoc()
+    {
+        // when
+        $key = pattern('\w+')->match('Foo, Bar, Dor')
+            ->stream()
+            ->map(DetailFunctions::text())
+            ->flatMapAssoc(Functions::toMap())
+            ->filter(Functions::equals('Dor'))
+            ->keys()
+            ->first();
+
+        // then
+        $this->assertSame('Dor', $key);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturn_keys_first_Entry()
+    {
+        // when
+        $entries = pattern('\w+')->match('Foo, Bar, Dor')
+            ->stream()
+            ->map(DetailFunctions::text())
+            ->flatMapAssoc(Functions::toMap())
+            ->filter(Functions::equals('Dor'))
+            ->all();
+
+        // then
+        $this->assertSame(['Dor' => 'Dor'], $entries);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilterThousandFirst()
+    {
+        // when
+        $first = pattern('Foo')->match('Foo')
+            ->stream()
+            ->flatMap(Functions::arrayOfSize(1000, ['Bar', 'Cat']))
+            ->filter(Functions::equals('Bar'))
+            ->first();
+        // then
+        $this->assertSame('Bar', $first);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFilterThousandFirstKey()
+    {
+        // when
+        $first = pattern('Foo')->match('Foo')
+            ->stream()
+            ->map(DetailFunctions::text())
+            ->flatMap(Functions::arrayOfSize(1000, ['Bar', 'Cat']))
+            ->flatMapAssoc(Functions::toMap())
+            ->filter(Functions::equals('Bar'))
+            ->keys()
+            ->first();
+        // then
+        $this->assertSame('Bar', $first);
     }
 }

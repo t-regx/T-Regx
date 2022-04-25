@@ -5,6 +5,7 @@ use PHPUnit\Framework\Assert;
 use Throwable;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
+use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class Functions
@@ -206,6 +207,47 @@ class Functions
     {
         return static function (int $index) use ($values) {
             return $values[$index];
+        };
+    }
+
+    public static function arrayOfSize(int $size, array $append): callable
+    {
+        return function ($argument) use ($size, $append) {
+            $array = array_fill(0, $size, $argument);
+            foreach ($append as $tailItem) {
+                $array[] = $tailItem;
+            }
+            return $array;
+        };
+    }
+
+    public static function toMap(): callable
+    {
+        return static function ($argument) {
+            if (is_int($argument) || is_string($argument)) {
+                return [$argument => $argument];
+            }
+            $type = new ValueType($argument);
+            throw new \AssertionError("Failed to represent argument of type $type as an array entry");
+        };
+    }
+
+    public static function equals($expected): callable
+    {
+        return static function ($actual) use ($expected) {
+            return $expected === $actual;
+        };
+    }
+
+    public static function once($return = null): callable
+    {
+        $called = false;
+        return static function () use ($return, &$called) {
+            if ($called === false) {
+                $called = true;
+                return $return;
+            }
+            throw new \AssertionError("Failed to assert that callback was called only once");
         };
     }
 }

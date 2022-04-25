@@ -21,6 +21,8 @@ Incoming in 0.25.0
         * Now `null` and `false` are no longer considered equal
 
       For all intents and purposes, now `Stream.distinct()` works as-if it used strict-comparison `===`.
+    * `Stream.filter()` no longer reindexes stream elements. To reindex them, chain the stream with `values()`.
+      `match().filter()` still returns a sequential array with reindexed values.
 * Bug fixes
     * Fixed a bug when using `Stream.values().keys().first()` didn't always reindex to `0`
 * Features

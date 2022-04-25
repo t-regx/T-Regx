@@ -232,7 +232,7 @@ class StreamTest extends TestCase
         $filtered = $stream->filter('is_int')->all();
 
         // then
-        $this->assertSame([2, 4], $filtered);
+        $this->assertSame([1 => 2, 3 => 4], $filtered);
     }
 
     /**

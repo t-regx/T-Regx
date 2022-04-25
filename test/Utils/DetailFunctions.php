@@ -71,4 +71,11 @@ class DetailFunctions
             return $return;
         };
     }
+
+    public static function toInt(): callable
+    {
+        return function (Detail $detail) {
+            return $detail->toInt();
+        };
+    }
 }
