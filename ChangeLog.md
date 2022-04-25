@@ -27,6 +27,7 @@ Incoming in 0.25.0
     * Fixed a bug when using `Stream.values().keys().first()` didn't always reindex to `0`
 * Features
     * Added `Detail.group().or()` which behaves similarly to `orReturn()` but only accepts a non-nullable `string`.
+    * Added `Stream.limit()`, which limits elements present in a stream from the end
 * Other
     * Previously, using `Stream.keys().first()` return `0` for sequential arrays, and T-Regx didn't evaluate previous
       chains, such as `map()` or `flatMap()`. As of this release, they will be called for completeness,

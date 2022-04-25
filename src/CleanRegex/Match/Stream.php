@@ -13,6 +13,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\FlatMapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\IntegerStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
+use TRegx\CleanRegex\Internal\Match\Stream\LimitStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\NthStreamElement;
 use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
@@ -156,6 +157,14 @@ class Stream implements \Countable, \IteratorAggregate
     public function groupByCallback(callable $groupMapper): Stream
     {
         return $this->next(new GroupByCallbackStream($this->upstream, new GroupByFunction('groupByCallback', $groupMapper)));
+    }
+
+    public function limit(int $limit): Stream
+    {
+        if ($limit < 0) {
+            throw new \InvalidArgumentException("Negative limit: $limit");
+        }
+        return $this->next(new LimitStream($this->upstream, $limit));
     }
 
     private function next(Upstream $upstream): Stream
