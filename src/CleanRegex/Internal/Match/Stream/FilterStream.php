@@ -5,8 +5,6 @@ use TRegx\CleanRegex\Internal\Predicate;
 
 class FilterStream implements Upstream
 {
-    use ListStream;
-
     /** @var Upstream */
     private $upstream;
     /** @var Predicate */
@@ -18,12 +16,23 @@ class FilterStream implements Upstream
         $this->predicate = $predicate;
     }
 
-    protected function entries(): array
+    public function all(): array
     {
-        return \array_filter($this->upstream->all(), [$this->predicate, 'test']);
+        return \array_values(\array_filter($this->upstream->all(), [$this->predicate, 'test']));
     }
 
-    protected function firstValue()
+    public function first()
+    {
+        return $this->firstValue();
+    }
+
+    public function firstKey(): int
+    {
+        $this->firstValue();
+        return 0;
+    }
+
+    private function firstValue()
     {
         $first = $this->upstream->first();
         if ($this->predicate->test($first)) {

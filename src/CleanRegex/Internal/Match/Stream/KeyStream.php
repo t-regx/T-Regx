@@ -3,8 +3,6 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 class KeyStream implements Upstream
 {
-    use ListStream;
-
     /** @var Upstream */
     private $upstream;
 
@@ -13,13 +11,19 @@ class KeyStream implements Upstream
         $this->upstream = $upstream;
     }
 
-    protected function entries(): array
+    public function all(): array
     {
         return \array_keys($this->upstream->all());
     }
 
-    protected function firstValue()
+    public function first()
     {
         return $this->upstream->firstKey();
+    }
+
+    public function firstKey(): int
+    {
+        $this->upstream->firstKey();
+        return 0;
     }
 }
