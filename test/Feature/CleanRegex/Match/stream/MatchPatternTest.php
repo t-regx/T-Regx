@@ -15,6 +15,8 @@ use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\CleanRegex\Match\Stream;
+use TRegx\CleanRegex\Pattern;
 
 class MatchPatternTest extends TestCase
 {
@@ -405,5 +407,87 @@ class MatchPatternTest extends TestCase
 
         // then
         $this->assertSameMatches([18, 21, 22], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveDuplicates()
+    {
+        // given
+        $distinct = $this->streamOf(['12', '12', 12, '12' => 13])
+            ->distinct()
+            ->all();
+        // then
+        $this->assertSame(['12', 2 => 12, '12' => 13], $distinct);
+    }
+
+    /**
+     * @test
+     * @dataProvider distinctValues
+     */
+    public function shouldNotMistakeValues(array $distinctValues)
+    {
+        // given
+        $distinct = $this->streamOf($distinctValues)->distinct()->all();
+        // then
+        $this->assertSame($distinctValues, $distinct);
+    }
+
+    public function distinctValues(): array
+    {
+        return [
+            [[false, 0]],
+            [[null, '']],
+            [['', false]],
+            [['0', false]],
+            [['0', 0]],
+            [['12', 12]],
+            [['1', true]],
+            [[1, true]],
+        ];
+    }
+
+    private function streamOf(array $value): Stream
+    {
+        return Pattern::of('Foo')->match('Foo')->stream()->flatMapAssoc(Functions::constant($value));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDistinctObjects()
+    {
+        // when
+        [$one, $two, $three] = Pattern::of('\w+')->match('One, Two, Three')
+            ->stream()
+            ->distinct()
+            ->all();
+
+        // then
+        $this->assertSame('One', $one->text());
+        $this->assertSame('Two', $two->text());
+        $this->assertSame('Three', $three->text());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDistinctObjectsMultiple()
+    {
+        // when
+        $all = Pattern::of('\w+')->match('One, Two, Three')
+            ->stream()
+            ->flatMap(function (Detail $detail) {
+                return [$detail, $detail];
+            })
+            ->distinct()
+            ->all();
+
+        // then
+        $this->assertSame([0, 2, 4], \array_keys($all));
+        $this->assertSame('One', $all[0]->text());
+        $this->assertSame('Two', $all[2]->text());
+        $this->assertSame('Three', $all[4]->text());
     }
 }

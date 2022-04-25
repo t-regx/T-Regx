@@ -12,6 +12,15 @@ Incoming in 0.25.0
     * Removed previously deprecated `ReplaceDetail.group().orReturn()`. Use `or()` instead.
     * Removed previously deprecated `ReplaceDetail.group().orElse()`
     * Removed previously deprecated `ReplaceDetail.group().orThrow()`
+    * Updated how `Stream.distinct()` removes elements:
+        * Now `'1'` and `true` are no longer considered equal
+        * Now `''` and `false` are no longer considered equal
+        * Now `0` and `false` are no longer considered equal
+        * Now `1` and `true` are no longer considered equal
+        * Now `0` and `'0'` are no longer considered equal
+        * Now `null` and `false` are no longer considered equal
+
+      For all intents and purposes, now `Stream.distinct()` works as-if it used strict-comparison `===`.
 * Features
     * Added `Detail.group().or()` which behaves similarly to `orReturn()` but only accepts a non-nullable `string`.
 
