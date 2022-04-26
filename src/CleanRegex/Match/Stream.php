@@ -28,7 +28,6 @@ use TRegx\CleanRegex\Internal\Message\Stream\FromFirstStreamMessage;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Numeral;
 use TRegx\CleanRegex\Internal\Predicate;
-use TRegx\CleanRegex\Internal\Subject;
 
 class Stream implements \Countable, \IteratorAggregate
 {
@@ -38,15 +37,12 @@ class Stream implements \Countable, \IteratorAggregate
     private $upstream;
     /** @var NthStreamElement */
     private $nth;
-    /** @var Subject */
-    private $subject;
 
-    public function __construct(Upstream $upstream, Subject $subject)
+    public function __construct(Upstream $upstream)
     {
         $this->terminal = new StreamTerminal($upstream);
         $this->upstream = $upstream;
-        $this->nth = new NthStreamElement($upstream, $subject);
-        $this->subject = $subject;
+        $this->nth = new NthStreamElement($upstream);
     }
 
     public function all(): array
@@ -183,6 +179,6 @@ class Stream implements \Countable, \IteratorAggregate
 
     private function next(Upstream $upstream): Stream
     {
-        return new Stream($upstream, $this->subject);
+        return new Stream($upstream);
     }
 }

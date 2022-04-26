@@ -181,7 +181,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
     public function offsets(): IntStream
     {
         $upstream = new MatchOffsetStream($this->base, $this->subject);
-        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new MatchOffsetMessages()), $this->subject);
+        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new MatchOffsetMessages()));
     }
 
     public function count(): int
@@ -196,13 +196,13 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     public function stream(): Stream
     {
-        return new Stream(new MatchStream(new StreamBase($this->base), $this->subject, new LazyMatchAllFactory($this->base)), $this->subject);
+        return new Stream(new MatchStream(new StreamBase($this->base), $this->subject, new LazyMatchAllFactory($this->base)));
     }
 
     public function asInt(int $base = 10): IntStream
     {
         $upstream = new MatchIntStream(new StreamBase($this->base), new Numeral\Base($base), $this->subject);
-        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new MatchIntMessages()), $this->subject);
+        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new MatchIntMessages()));
     }
 
     /**

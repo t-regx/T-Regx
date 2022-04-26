@@ -19,7 +19,6 @@ use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Match\Stream\ValueStream;
 use TRegx\CleanRegex\Internal\Match\StreamTerminal;
 use TRegx\CleanRegex\Internal\Predicate;
-use TRegx\CleanRegex\Internal\Subject;
 
 class IntStream implements \Countable, \IteratorAggregate
 {
@@ -29,15 +28,12 @@ class IntStream implements \Countable, \IteratorAggregate
     private $upstream;
     /** @var NthIntStreamElement */
     private $nth;
-    /** @var Subject */
-    private $subject;
 
-    public function __construct(Upstream $upstream, NthIntStreamElement $nth, Subject $subject)
+    public function __construct(Upstream $upstream, NthIntStreamElement $nth)
     {
         $this->terminal = new StreamTerminal($upstream);
         $this->upstream = $upstream;
         $this->nth = $nth;
-        $this->subject = $subject;
     }
 
     public function all(): array
@@ -148,7 +144,7 @@ class IntStream implements \Countable, \IteratorAggregate
 
     private function next(Upstream $upstream): Stream
     {
-        return new Stream($upstream, $this->subject);
+        return new Stream($upstream);
     }
 
     public function reduce(callable $reducer, $accumulator)
@@ -161,6 +157,6 @@ class IntStream implements \Countable, \IteratorAggregate
 
     public function stream(): Stream
     {
-        return new Stream($this->upstream, $this->subject);
+        return new Stream($this->upstream);
     }
 }

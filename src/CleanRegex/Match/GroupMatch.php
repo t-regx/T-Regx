@@ -201,18 +201,18 @@ class GroupMatch implements \IteratorAggregate
     public function offsets(): IntStream
     {
         $upstream = new MatchGroupOffsetStream($this->base, $this->subject, $this->group, $this->matchAllFactory);
-        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new GroupOffsetMessages($this->group)), $this->subject);
+        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new GroupOffsetMessages($this->group)));
     }
 
     public function stream(): Stream
     {
-        return new Stream($this->upstream(), $this->subject);
+        return new Stream($this->upstream());
     }
 
     public function asInt(int $base = 10): IntStream
     {
         $upstream = new MatchGroupIntStream($this->base, $this->subject, $this->group, $this->matchAllFactory, new Numeral\Base($base));
-        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new GroupIntMessages($this->group)), $this->subject);
+        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new GroupIntMessages($this->group)));
     }
 
     private function upstream(): Upstream
