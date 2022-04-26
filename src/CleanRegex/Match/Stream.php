@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\FilterStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMapStream;
@@ -17,12 +18,14 @@ use TRegx\CleanRegex\Internal\Match\Stream\LimitStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\NthStreamElement;
 use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
+use TRegx\CleanRegex\Internal\Match\Stream\SkipStream;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\UniqueStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Match\Stream\ValueStream;
 use TRegx\CleanRegex\Internal\Match\StreamTerminal;
 use TRegx\CleanRegex\Internal\Message\Stream\FromFirstStreamMessage;
+use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Numeral;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
@@ -93,12 +96,15 @@ class Stream implements \Countable, \IteratorAggregate
     {
         try {
             [$key, $value] = $this->upstream->first();
+            return new PresentOptional($value);
         } catch (StreamRejectedException $exception) {
-            return new RejectedOptional(new NoSuchStreamElementException($exception->notMatchedMessage()));
+            $message = $exception->notMatchedMessage();
         } catch (EmptyStreamException $exception) {
-            return new RejectedOptional(new NoSuchStreamElementException(new FromFirstStreamMessage()));
+            $message = new FromFirstStreamMessage();
+        } catch (UnmatchedStreamException $exception) {
+            $message = new FirstMatchMessage();
         }
-        return new PresentOptional($value);
+        return new RejectedOptional(new NoSuchStreamElementException($message));
     }
 
     public function nth(int $index)
@@ -165,6 +171,14 @@ class Stream implements \Countable, \IteratorAggregate
             throw new \InvalidArgumentException("Negative limit: $limit");
         }
         return $this->next(new LimitStream($this->upstream, $limit));
+    }
+
+    public function skip(int $offset): Stream
+    {
+        if ($offset < 0) {
+            throw new \InvalidArgumentException("Negative offset: $offset");
+        }
+        return $this->next(new SkipStream($this->upstream, $offset));
     }
 
     private function next(Upstream $upstream): Stream
