@@ -4,8 +4,8 @@
   "description": "#StandWithUkraine",
   "license": "MIT",
   "scripts": {
-    "test": "cd vendor/phpunit && phpunit ../../test --no-coverage",
-    "fqn": "cd vendor/bin && fqn-check ../../src"
+    "test": "phpunit test --no-coverage",
+    "fqn": "fqn-check src"
   },
   "keywords": [
     "php",
