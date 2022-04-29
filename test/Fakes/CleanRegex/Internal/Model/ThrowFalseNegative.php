@@ -19,11 +19,6 @@ class ThrowFalseNegative extends FalseNegative
         return true;
     }
 
-    public function getGroupKeys(): array
-    {
-        throw $this->fail();
-    }
-
     public function text(): string
     {
         throw $this->fail();

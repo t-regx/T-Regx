@@ -13,7 +13,7 @@ trait StringCasts
     {
         $errorReporting = \error_reporting(E_ALL);
         $this->expectedCastToStringError($className);
-        $string = (string)$object;
+        (string)$object;
         error_reporting($errorReporting);
     }
 
