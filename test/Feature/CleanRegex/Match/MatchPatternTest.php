@@ -14,6 +14,7 @@ use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
+use TRegx\CleanRegex\Pattern;
 use function pattern;
 
 class MatchPatternTest extends TestCase
@@ -648,5 +649,22 @@ class MatchPatternTest extends TestCase
             $texts[] = $detail->text();
         }
         return $texts;
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDuplicatelyNamedGroupBeIntable()
+    {
+        // when
+        $first = Pattern::of('(?<name>\d+)')->match('123')
+            ->stream()
+            ->map(function (Detail $detail) {
+                return $detail->usingDuplicateName()->group('name');
+            })
+            ->asInt()
+            ->first();
+        // then
+        $this->assertSame(123, $first);
     }
 }

@@ -1,9 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
+use TRegx\CleanRegex\Match\Details\Intable;
 use TRegx\CleanRegex\Match\Optional;
 
-interface CapturingGroup
+interface CapturingGroup extends Intable
 {
     public function text(): string;
 

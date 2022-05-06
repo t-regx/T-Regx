@@ -24,7 +24,10 @@ Incoming in 0.25.0
     * `Stream.filter()` no longer reindexes stream elements. To reindex them, chain the stream with `values()`.
       `match().filter()` still returns a sequential array with reindexed values.
 * Bug fixes
-    * Fixed a bug when using `Stream.values().keys().first()` didn't always reindex to `0`
+    * Fixed a bug when using `Stream.values().keys().first()` didn't always reindex to `0`.
+    * Fixed a bug when using regular groups in `stream()->asInt()` was allowed, but `usingDuplicateName()` groups
+      weren't.
+      Now both kinds of groups are correctly passed into `stream()->asInt()`.
 * Features
     * Added `Detail.group().or()` which behaves similarly to `orReturn()` but only accepts a non-nullable `string`.
     * Added `Stream.limit()`, which limits elements present in a stream from the end
