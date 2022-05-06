@@ -28,6 +28,9 @@ Incoming in 0.25.0
     * Fixed a bug when using regular groups in `stream()->asInt()` was allowed, but `usingDuplicateName()` groups
       weren't.
       Now both kinds of groups are correctly passed into `stream()->asInt()`.
+    * Fixed a bug when using regular groups in `groupByCallback()` was allowed, but `usingDuplicateName()` groups
+      weren't.
+      Now both kinds of groups are correctly passed into `groupByCallback()`.
 * Features
     * Added `Detail.group().or()` which behaves similarly to `orReturn()` but only accepts a non-nullable `string`.
     * Added `Stream.limit()`, which limits elements present in a stream from the end

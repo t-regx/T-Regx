@@ -667,4 +667,18 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertSame(123, $first);
     }
+
+    /**
+     * @test
+     */
+    public function shouldGroupByDuplicateNamedGroup()
+    {
+        // when
+        $groupped = Pattern::of('(?<name>value)')->match('value')
+            ->groupByCallback(function (Detail $detail) {
+                return $detail->usingDuplicateName()->group('name');
+            });
+        // then
+        $this->assertSame(['value' => ['value']], $groupped);
+    }
 }
