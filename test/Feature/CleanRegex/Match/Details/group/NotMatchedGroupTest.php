@@ -107,9 +107,9 @@ class NotMatchedGroupTest extends TestCase
         $group = $this->groupOf();
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call textByteLength() for group 'first', but the group was not matched");
+        $this->expectExceptionMessage("Expected to call byteLength() for group 'first', but the group was not matched");
         // when
-        $group->textByteLength();
+        $group->byteLength();
     }
 
     /**

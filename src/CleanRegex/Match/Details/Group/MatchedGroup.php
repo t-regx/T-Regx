@@ -113,7 +113,7 @@ class MatchedGroup implements Group
         return $this->groupEntry->byteTail();
     }
 
-    public function textByteLength(): int
+    public function byteLength(): int
     {
         return \strlen($this->groupEntry->text());
     }

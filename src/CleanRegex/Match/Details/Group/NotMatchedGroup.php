@@ -97,9 +97,9 @@ class NotMatchedGroup implements Group
         throw $this->groupNotMatched('byteTail');
     }
 
-    public function textByteLength(): int
+    public function byteLength(): int
     {
-        throw $this->groupNotMatched('textByteLength');
+        throw $this->groupNotMatched('byteLength');
     }
 
     protected function groupNotMatched(string $method): GroupNotMatchedException

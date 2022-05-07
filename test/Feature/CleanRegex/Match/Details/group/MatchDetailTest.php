@@ -49,7 +49,7 @@ class MatchDetailTest extends TestCase
                 // then
                 $this->assertSame('Łomża', $detail->group(1)->text());
                 $this->assertSame(5, $detail->group(1)->length());
-                $this->assertSame(7, $detail->group(1)->textByteLength());
+                $this->assertSame(7, $detail->group(1)->byteLength());
             });
     }
 

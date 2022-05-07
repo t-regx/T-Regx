@@ -35,7 +35,7 @@ interface CapturingGroup extends Intable
 
     public function byteTail(): int;
 
-    public function textByteLength(): int;
+    public function byteLength(): int;
 
     public function subject(): string;
 

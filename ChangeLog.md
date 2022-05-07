@@ -27,6 +27,7 @@ Incoming in 0.25.0
     * Removed `Stream.only()`. Use `Stream.limit().all()` instead.
     * Removed `IntStream.only()`. Use `IntStream.limit().all()` instead.
     * Renamed `Group.textLength()` to `Group.length()`.
+    * Renamed `Group.textByteLength()` to `Group.byteLength()`.
 * Bug fixes
     * Fixed a bug when using `Stream.values().keys().first()` didn't always reindex to `0`.
     * Fixed a bug when using regular groups in `stream()->asInt()` was allowed, but `usingDuplicateName()` groups
