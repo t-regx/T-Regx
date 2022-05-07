@@ -326,4 +326,15 @@ class PatternTest extends TestCase
         // when
         $pattern->test('foo');
     }
+
+    /**
+     * @test
+     */
+    public function shouldNotMistakeEmptyStringForZero()
+    {
+        // when
+        $matches = Pattern::of('|0')->match('0')->distinct();
+        // then
+        $this->assertSame(['', '0'], $matches);
+    }
 }
