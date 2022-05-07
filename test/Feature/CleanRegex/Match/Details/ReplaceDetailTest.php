@@ -26,12 +26,12 @@ class ReplaceDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetTextLength()
+    public function shouldGetLength()
     {
         // given
         Pattern::of('.+')->replace('12.14€')->callback(DetailFunctions::out($detail, ''));
         // when, then
-        $this->assertSame(6, $detail->textLength());
+        $this->assertSame(6, $detail->length());
         $this->assertSame(8, $detail->textByteLength());
     }
 

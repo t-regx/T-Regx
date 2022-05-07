@@ -58,9 +58,9 @@ class LazyDetail implements Detail
         return $this->detail()->text();
     }
 
-    public function textLength(): int
+    public function length(): int
     {
-        return $this->detail()->textLength();
+        return $this->detail()->length();
     }
 
     public function textByteLength(): int

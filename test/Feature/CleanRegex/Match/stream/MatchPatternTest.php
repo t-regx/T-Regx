@@ -129,7 +129,7 @@ class MatchPatternTest extends TestCase
             ->match("I'm rather old, He likes Apples")
             ->stream()
             ->filter(function (Detail $detail) {
-                return $detail->textLength() !== 3;
+                return $detail->length() !== 3;
             })
             ->map(function (Detail $detail) {
                 return $detail->group('capital');

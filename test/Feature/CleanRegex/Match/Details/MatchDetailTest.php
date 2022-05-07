@@ -46,12 +46,12 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetTextLength()
+    public function shouldGetLength()
     {
         // given
         $detail = $this->detail(Pattern::of('foo bar €')->match('foo bar €'));
         // when
-        $length = $detail->textLength();
+        $length = $detail->length();
         $byteLength = $detail->textByteLength();
         // then
         $this->assertSame(9, $length);

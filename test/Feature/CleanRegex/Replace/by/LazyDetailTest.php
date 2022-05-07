@@ -396,7 +396,7 @@ class LazyDetailTest extends TestCase
         // given
         $detail = $this->detail(Pattern::of('(Bar)?Źrebię')->replace('€ Źrebię'));
         // when
-        $tail = $detail->textLength();
+        $tail = $detail->length();
         $byteTail = $detail->textByteLength();
         // then
         $this->assertSame(6, $tail);

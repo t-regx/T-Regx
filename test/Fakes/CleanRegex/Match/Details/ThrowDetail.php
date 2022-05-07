@@ -36,7 +36,7 @@ class ThrowDetail implements Detail
         throw $this->fail();
     }
 
-    public function textLength(): int
+    public function length(): int
     {
         throw $this->fail();
     }

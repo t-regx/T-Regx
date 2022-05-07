@@ -68,7 +68,7 @@ class MatchDetail implements Detail
         return $this->scalars->matchedText();
     }
 
-    public function textLength(): int
+    public function length(): int
     {
         return $this->coordinate->characterLength();
     }
