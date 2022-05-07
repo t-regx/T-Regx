@@ -21,37 +21,16 @@ class StreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetOnly()
-    {
-        // when
-        $only = Pattern::alteration(['Two', 'One', 'Three'])->match('One, Two, Three')->stream()->map(DetailFunctions::text())->only(2);
-        // then
-        $this->assertSame(['One', 'Two'], $only);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetOnlyOverflow()
     {
         // when
-        $only = Pattern::alteration(['Two', 'One', 'Three'])->match('One, Two, Three')->stream()->map(DetailFunctions::text())->only(4);
+        $only = Pattern::alteration(['Two', 'One', 'Three'])->match('One, Two, Three')
+            ->stream()
+            ->map(DetailFunctions::text())
+            ->limit(4)
+            ->all();
         // then
         $this->assertSame(['One', 'Two', 'Three'], $only);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowOnlyForNegativeLimit()
-    {
-        // when
-        $stream = Pattern::alteration(['Two', 'One', 'Three'])->match('One, Two, Three')->stream()->map(DetailFunctions::text());
-        // then
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Negative limit: -2');
-        // when
-        $stream->only(-2);
     }
 
     /**

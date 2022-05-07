@@ -51,7 +51,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Negative limit: -2');
         // when
-        $stream->only(-2);
+        $stream->limit(-2);
     }
 
     /**

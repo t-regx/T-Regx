@@ -289,22 +289,53 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_offsets()
+    public function shouldGetOffsetFirst()
     {
         // given
         $offsets = pattern('\w+')->match('€ Foo, Bar, Cat')->offsets();
-
         // when
         $first = $offsets->first();
-        $only1 = $offsets->only(1);
-        $only2 = $offsets->only(2);
-        $all = $offsets->all();
-
         // then
         $this->assertSame(2, $first);
-        $this->assertSame([2], $only1);
-        $this->assertSame([2, 7], $only2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetOffsetAll()
+    {
+        // given
+        $offsets = pattern('\w+')->match('€ Foo, Bar, Cat')->offsets();
+        // when
+        $all = $offsets->all();
+        // then
         $this->assertSame([2, 7, 12], $all);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetOffsetLimitedOne()
+    {
+        // given
+        $offsets = pattern('\w+')->match('€ Foo, Bar, Cat')->offsets();
+        // when
+        $limited = $offsets->limit(1)->all();
+        // then
+        $this->assertSame([2], $limited);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetOffsetLimitedTwo()
+    {
+        // given
+        $offsets = pattern('\w+')->match('€ Foo, Bar, Cat')->offsets();
+        // when
+        $limited = $offsets->limit(2)->all();
+        // then
+        $this->assertSame([2, 7], $limited);
     }
 
     /**

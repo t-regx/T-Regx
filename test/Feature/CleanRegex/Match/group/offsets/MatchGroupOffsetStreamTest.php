@@ -254,21 +254,52 @@ class MatchGroupOffsetStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_offsets()
+    public function shouldGetFirstOffset()
     {
         // given
         $offsets = pattern('(\w+)')->match('€ Foo, Bar, Cat')->group(0)->offsets();
-
         // when
         $first = $offsets->first();
-        $only1 = $offsets->only(1);
-        $only2 = $offsets->only(2);
-        $all = $offsets->all();
-
         // then
         $this->assertSame(2, $first);
-        $this->assertSame([2], $only1);
-        $this->assertSame([2, 7], $only2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllOffsets()
+    {
+        // given
+        $offsets = pattern('(\w+)')->match('€ Foo, Bar, Cat')->group(0)->offsets();
+        // when
+        $all = $offsets->all();
+        // then
         $this->assertSame([2, 7, 12], $all);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetLimitOffsetsOne()
+    {
+        // given
+        $offsets = pattern('(\w+)')->match('€ Foo, Bar, Cat')->group(0)->offsets();
+        // when
+        $limited = $offsets->limit(1)->all();
+        // then
+        $this->assertSame([2], $limited);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetLimitOffsetsTwo()
+    {
+        // given
+        $offsets = pattern('(\w+)')->match('€ Foo, Bar, Cat')->group(0)->offsets();
+        // when
+        $limited = $offsets->limit(2)->all();
+        // then
+        $this->assertSame([2, 7], $limited);
     }
 }

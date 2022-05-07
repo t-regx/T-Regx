@@ -245,8 +245,8 @@ class MatchPatternTest extends TestCase
             ->offsets();
 
         // when
-        $only1 = $offsets->only(1);
-        $only2 = $offsets->only(2);
+        $only1 = $offsets->limit(1)->all();
+        $only2 = $offsets->limit(2)->all();
         $all = $offsets->all();
 
         // then
@@ -273,19 +273,17 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_offsets_onlyOne_null()
+    public function shouldGet_offsets_limitOne_null()
     {
         // given
-        $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')
+        $limited = pattern('[A-Z](?<lowercase>[a-z]+)?')
             ->match('xd L Three Four')
             ->group('lowercase')
-            ->offsets();
-
-        // when
-        $only1 = $offsets->only(1);
-
+            ->offsets()
+            ->limit(1)
+            ->all();
         // then
-        $this->assertSame([null], $only1);
+        $this->assertSame([null], $limited);
     }
 
     /**

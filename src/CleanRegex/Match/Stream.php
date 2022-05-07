@@ -50,11 +50,6 @@ class Stream implements \Countable, \IteratorAggregate
         return $this->terminal->all();
     }
 
-    public function only(int $limit): array
-    {
-        return $this->terminal->only($limit);
-    }
-
     public function forEach(callable $consumer): void
     {
         $this->terminal->forEach($consumer);

@@ -24,6 +24,8 @@ Incoming in 0.25.0
       For all intents and purposes, now `Stream.distinct()` works as-if it used strict-comparison `===`.
     * `Stream.filter()` no longer reindexes stream elements. To reindex them, chain the stream with `values()`.
       `match().filter()` still returns a sequential array with reindexed values.
+    * Removed `Stream.only()`. Use `Stream.limit().all()` instead.
+    * Removed `IntStream.only()`. Use `IntStream.limit().all()` instead.
 * Bug fixes
     * Fixed a bug when using `Stream.values().keys().first()` didn't always reindex to `0`.
     * Fixed a bug when using regular groups in `stream()->asInt()` was allowed, but `usingDuplicateName()` groups
