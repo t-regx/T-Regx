@@ -52,7 +52,7 @@ class MatchDetailTest extends TestCase
         $detail = $this->detail(Pattern::of('foo bar €')->match('foo bar €'));
         // when
         $length = $detail->length();
-        $byteLength = $detail->textByteLength();
+        $byteLength = $detail->byteLength();
         // then
         $this->assertSame(9, $length);
         $this->assertSame(11, $byteLength);

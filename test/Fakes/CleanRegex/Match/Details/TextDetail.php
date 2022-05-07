@@ -49,7 +49,7 @@ class TextDetail implements Detail
         throw $this->fail();
     }
 
-    public function textByteLength(): int
+    public function byteLength(): int
     {
         throw $this->fail();
     }

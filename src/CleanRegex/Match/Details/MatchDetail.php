@@ -73,7 +73,7 @@ class MatchDetail implements Detail
         return $this->coordinate->characterLength();
     }
 
-    public function textByteLength(): int
+    public function byteLength(): int
     {
         return $this->coordinate->byteLength();
     }

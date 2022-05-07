@@ -50,7 +50,7 @@ interface Detail extends Structure, Intable
 
     public function byteTail(): int;
 
-    public function textByteLength(): int;
+    public function byteLength(): int;
 
     /**
      * @return string[]

@@ -32,7 +32,7 @@ class ReplaceDetailTest extends TestCase
         Pattern::of('.+')->replace('12.14€')->callback(DetailFunctions::out($detail, ''));
         // when, then
         $this->assertSame(6, $detail->length());
-        $this->assertSame(8, $detail->textByteLength());
+        $this->assertSame(8, $detail->byteLength());
     }
 
     /**

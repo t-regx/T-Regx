@@ -29,6 +29,7 @@ Incoming in 0.25.0
     * Renamed `Group.textLength()` to `Group.length()`.
     * Renamed `Group.textByteLength()` to `Group.byteLength()`.
     * Renamed `Detail.textLength()` to `Detail.length()`.
+    * Renamed `Detail.textByteLength()` to `Detail.byteLength()`.
 * Bug fixes
     * Fixed a bug when using `Stream.values().keys().first()` didn't always reindex to `0`.
     * Fixed a bug when using regular groups in `stream()->asInt()` was allowed, but `usingDuplicateName()` groups
