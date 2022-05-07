@@ -4,7 +4,6 @@ namespace Test\Feature\TRegx\CleanRegex\Match\map;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use Test\Utils\TestCasePasses;
-use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Pattern;
 
@@ -34,17 +33,23 @@ class MatchPatternTest extends TestCase
     public function shouldGetMatch_withDetails()
     {
         // given
-        $pattern = $this->match("Nice matching pattern");
-        $counter = 0;
-        $matches = ['Nice', 'matching', 'pattern'];
+        $pattern = $this->match('Nice matching pattern');
         // when
-        $pattern->map(function (Detail $detail) use (&$counter, $matches) {
-            // then
-            $this->assertSame($matches[$counter], $detail->text());
-            $this->assertSame($counter++, $detail->index());
-            $this->assertSame("Nice matching pattern", $detail->subject());
-            $this->assertSame($matches, $detail->all());
-        });
+        $pattern->map(Functions::collect($details));
+        // then
+        [$first, $second, $third] = $details;
+
+        $this->assertSame(['Nice', 'matching', 'pattern'], ["$first", "$second", "$third"]);
+        $this->assertSame([0, 1, 2], [$first->index(), $second->index(), $third->index()]);
+
+        $this->assertSame('Nice matching pattern', $first->subject());
+        $this->assertSame('Nice matching pattern', $second->subject());
+        $this->assertSame('Nice matching pattern', $third->subject());
+
+        $matches = ['Nice', 'matching', 'pattern'];
+        $this->assertSame($matches, $first->all());
+        $this->assertSame($matches, $second->all());
+        $this->assertSame($matches, $third->all());
     }
 
     /**

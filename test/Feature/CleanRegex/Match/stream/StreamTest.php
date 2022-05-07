@@ -127,7 +127,7 @@ class StreamTest extends TestCase
         // given
         $stream = Pattern::of('\w+')->match('Foo, Bar')->stream();
         // when
-        $flatMapped = $stream->flatMap('str_split')->all();
+        $flatMapped = $stream->flatMap(Functions::letters())->all();
         // then
         $this->assertSame(['F', 'o', 'o', 'B', 'a', 'r'], $flatMapped);
     }
@@ -140,7 +140,7 @@ class StreamTest extends TestCase
         // given
         $stream = Pattern::of('\w+')->match('Quizzacious, Lorem, Foo')->stream()->map(DetailFunctions::text());
         // when
-        $flatMapped = $stream->flatMapAssoc('str_split')->all();
+        $flatMapped = $stream->flatMapAssoc(Functions::letters())->all();
         // then
         $this->assertSame(['F', 'o', 'o', 'e', 'm', 'a', 'c', 'i', 'o', 'u', 's'], $flatMapped);
     }
