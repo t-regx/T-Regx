@@ -38,16 +38,6 @@ class MatchedGroup implements Group
         return $this->groupEntry->text();
     }
 
-    public function textLength(): int
-    {
-        return \mb_strlen($this->groupEntry->text(), 'UTF-8');
-    }
-
-    public function textByteLength(): int
-    {
-        return \strlen($this->groupEntry->text());
-    }
-
     public function toInt(int $base = 10): int
     {
         $integerBase = new IntegerBase(new Base($base), new GroupExceptions($this->details->group()));
@@ -75,14 +65,19 @@ class MatchedGroup implements Group
         return $this->groupEntry->text() === $expected;
     }
 
-    public function index(): int
+    public function or(string $substitute): string
     {
-        return $this->details->index();
+        return $this->text();
     }
 
     public function name(): ?string
     {
         return $this->details->name();
+    }
+
+    public function index(): int
+    {
+        return $this->details->index();
     }
 
     /**
@@ -103,6 +98,11 @@ class MatchedGroup implements Group
         return $this->groupEntry->tail();
     }
 
+    public function textLength(): int
+    {
+        return \mb_strlen($this->groupEntry->text(), 'UTF-8');
+    }
+
     public function byteOffset(): int
     {
         return $this->groupEntry->byteOffset();
@@ -113,12 +113,9 @@ class MatchedGroup implements Group
         return $this->groupEntry->byteTail();
     }
 
-    /**
-     * @deprecated
-     */
-    public function substitute(string $replacement): string
+    public function textByteLength(): int
     {
-        return $this->substitutedGroup->with($replacement);
+        return \strlen($this->groupEntry->text());
     }
 
     public function subject(): string
@@ -131,11 +128,17 @@ class MatchedGroup implements Group
         return $this->details->all();
     }
 
-    public function or(string $substitute): string
+    /**
+     * @deprecated
+     */
+    public function substitute(string $replacement): string
     {
-        return $this->text();
+        return $this->substitutedGroup->with($replacement);
     }
 
+    /**
+     * @deprecated
+     */
     public function map(callable $mapper): Optional
     {
         return new PresentOptional($mapper($this));
