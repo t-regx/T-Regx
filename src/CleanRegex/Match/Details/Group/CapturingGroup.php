@@ -8,10 +8,6 @@ interface CapturingGroup extends Intable
 {
     public function text(): string;
 
-    public function textLength(): int;
-
-    public function textByteLength(): int;
-
     public function toInt(int $base = 10): int;
 
     public function isInt(int $base = 10): bool;
@@ -19,6 +15,8 @@ interface CapturingGroup extends Intable
     public function matched(): bool;
 
     public function equals(string $expected): bool;
+
+    public function or(string $substitute): string;
 
     public function name(): ?string;
 
@@ -31,20 +29,22 @@ interface CapturingGroup extends Intable
 
     public function tail(): int;
 
+    public function textLength(): int;
+
     public function byteOffset(): int;
 
     public function byteTail(): int;
 
-    /**
-     * @deprecated
-     */
-    public function substitute(string $replacement): string;
+    public function textByteLength(): int;
 
     public function subject(): string;
 
     public function all(): array;
 
-    public function or(string $substitute): string;
+    /**
+     * @deprecated
+     */
+    public function substitute(string $replacement): string;
 
     /**
      * @deprecated
