@@ -20,13 +20,13 @@ class PcrePattern
      * because of delimiter errors within PHP engine itself - that is, there are
      * certain patterns that just don't work with {@see PcrePattern} or {@see preg_match},
      * that will however work just fine with {@see Pattern}.
-     * @param string $pcrePatternWithFlags
+     * @param string $pcrePattern
      * @return Pattern
      * @see \TRegx\CleanRegex\Pattern::of
      */
-    public static function of(string $pcrePatternWithFlags): Pattern
+    public static function of(string $pcrePattern): Pattern
     {
-        return new Pattern(new Pcre($pcrePatternWithFlags));
+        return new Pattern(new Pcre($pcrePattern));
     }
 
     public static function inject(string $pcreTemplate, array $values): Pattern
