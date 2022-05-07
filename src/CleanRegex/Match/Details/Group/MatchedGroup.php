@@ -98,7 +98,7 @@ class MatchedGroup implements Group
         return $this->groupEntry->tail();
     }
 
-    public function textLength(): int
+    public function length(): int
     {
         return \mb_strlen($this->groupEntry->text(), 'UTF-8');
     }

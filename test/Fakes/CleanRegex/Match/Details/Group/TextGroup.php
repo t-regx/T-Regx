@@ -22,7 +22,7 @@ class TextGroup implements Group
         return $this->text;
     }
 
-    public function textLength(): int
+    public function length(): int
     {
         throw $this->fail();
     }

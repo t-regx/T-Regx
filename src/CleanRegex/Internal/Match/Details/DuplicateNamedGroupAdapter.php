@@ -28,9 +28,9 @@ class DuplicateNamedGroupAdapter implements DuplicateNamedGroup
         return $this->group->text();
     }
 
-    public function textLength(): int
+    public function length(): int
     {
-        return $this->group->textLength();
+        return $this->group->length();
     }
 
     public function textByteLength(): int

@@ -87,15 +87,15 @@ class NotMatchedGroupTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_textLength()
+    public function shouldThrow_length()
     {
         // given
         $group = $this->groupOf();
         // then
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call textLength() for group 'first', but the group was not matched");
+        $this->expectExceptionMessage("Expected to call length() for group 'first', but the group was not matched");
         // when
-        $group->textLength();
+        $group->length();
     }
 
     /**

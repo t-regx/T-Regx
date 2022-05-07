@@ -29,7 +29,7 @@ interface CapturingGroup extends Intable
 
     public function tail(): int;
 
-    public function textLength(): int;
+    public function length(): int;
 
     public function byteOffset(): int;
 

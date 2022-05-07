@@ -82,9 +82,9 @@ class NotMatchedGroup implements Group
         throw $this->groupNotMatched('tail');
     }
 
-    public function textLength(): int
+    public function length(): int
     {
-        throw $this->groupNotMatched('textLength');
+        throw $this->groupNotMatched('length');
     }
 
     public function byteOffset(): int

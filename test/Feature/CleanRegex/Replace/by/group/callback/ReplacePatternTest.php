@@ -27,7 +27,7 @@ class ReplacePatternTest extends TestCase
             ->by()
             ->group('capital')
             ->callback(function (Group $group) {
-                return $group->text() . ':' . $group->textLength();
+                return $group->text() . ':' . $group->length();
             });
 
         // then

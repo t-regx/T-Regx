@@ -14,7 +14,7 @@ class ThrowGroup implements Group
         throw $this->fail();
     }
 
-    public function textLength(): int
+    public function length(): int
     {
         throw $this->fail();
     }

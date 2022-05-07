@@ -48,7 +48,7 @@ class MatchDetailTest extends TestCase
             ->first(function (Detail $detail) {
                 // then
                 $this->assertSame('Łomża', $detail->group(1)->text());
-                $this->assertSame(5, $detail->group(1)->textLength());
+                $this->assertSame(5, $detail->group(1)->length());
                 $this->assertSame(7, $detail->group(1)->textByteLength());
             });
     }
