@@ -11,6 +11,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\FilterStream;
 use TRegx\CleanRegex\Internal\Match\Stream\FlatMapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
+use TRegx\CleanRegex\Internal\Match\Stream\LimitStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
@@ -153,6 +154,14 @@ class IntStream implements \Countable, \IteratorAggregate
             $accumulator = $reducer($accumulator, $detail);
         }
         return $accumulator;
+    }
+
+    public function limit(int $limit): Stream
+    {
+        if ($limit < 0) {
+            throw new \InvalidArgumentException("Negative offset: $limit");
+        }
+        return $this->next(new LimitStream($this->upstream, $limit));
     }
 
     public function stream(): Stream
