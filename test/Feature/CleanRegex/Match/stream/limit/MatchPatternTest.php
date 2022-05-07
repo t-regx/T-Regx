@@ -10,6 +10,10 @@ use TRegx\CleanRegex\Match\Stream;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\Stream
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\LimitStream
+ */
 class MatchPatternTest extends TestCase
 {
     /**

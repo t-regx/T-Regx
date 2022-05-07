@@ -10,6 +10,10 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Pattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\Stream
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\SkipStream
+ */
 class MatchPatternTest extends TestCase
 {
     use AssertsSameMatches, CausesBacktracking;
@@ -94,7 +98,7 @@ class MatchPatternTest extends TestCase
         // when
         $empty = pattern('Foo')->match('Bar')->stream()->skip(0)->all();
         // then
-        $this->assertSameMatches([], $empty);
+        $this->assertSame([], $empty);
     }
 
     /**
@@ -105,7 +109,7 @@ class MatchPatternTest extends TestCase
         // when
         $empty = pattern('Foo')->match('Foo,Foo')->stream()->skip(10)->all();
         // then
-        $this->assertSameMatches([], $empty);
+        $this->assertSame([], $empty);
     }
 
     /**
