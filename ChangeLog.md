@@ -6,6 +6,7 @@ Incoming in 0.25.0
 
 * Breaking changes
     * `Detail.group()` no longer implements `Optional`
+    * `Detail.usingDuplicateName().group()` no longer implements `Optional`
     * Removed previously deprecated `Detail.group().orReturn()`. Use `or()` instead.
     * Removed previously deprecated `Detail.group().orElse()`
     * Removed previously deprecated `Detail.group().orThrow()`
