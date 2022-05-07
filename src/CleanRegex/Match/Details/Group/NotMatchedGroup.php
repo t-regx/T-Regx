@@ -29,16 +29,6 @@ class NotMatchedGroup implements Group
         throw $this->groupNotMatched('text');
     }
 
-    public function textLength(): int
-    {
-        throw $this->groupNotMatched('textLength');
-    }
-
-    public function textByteLength(): int
-    {
-        throw $this->groupNotMatched('textByteLength');
-    }
-
     public function toInt(int $base = 10): int
     {
         throw $this->groupNotMatched('toInt');
@@ -49,11 +39,6 @@ class NotMatchedGroup implements Group
         throw $this->groupNotMatched('isInt');
     }
 
-    protected function groupNotMatched(string $method): GroupNotMatchedException
-    {
-        return GroupNotMatchedException::forMethod($this->details->group(), $method);
-    }
-
     public function matched(): bool
     {
         return false;
@@ -62,6 +47,11 @@ class NotMatchedGroup implements Group
     public function equals(string $expected): bool
     {
         return false;
+    }
+
+    public function or(string $substitute): string
+    {
+        return $substitute;
     }
 
     public function name(): ?string
@@ -92,6 +82,11 @@ class NotMatchedGroup implements Group
         throw $this->groupNotMatched('tail');
     }
 
+    public function textLength(): int
+    {
+        throw $this->groupNotMatched('textLength');
+    }
+
     public function byteOffset(): int
     {
         throw $this->groupNotMatched('byteOffset');
@@ -102,12 +97,14 @@ class NotMatchedGroup implements Group
         throw $this->groupNotMatched('byteTail');
     }
 
-    /**
-     * @deprecated
-     */
-    public function substitute(string $replacement): string
+    public function textByteLength(): int
     {
-        throw $this->groupNotMatched('substitute');
+        throw $this->groupNotMatched('textByteLength');
+    }
+
+    protected function groupNotMatched(string $method): GroupNotMatchedException
+    {
+        return GroupNotMatchedException::forMethod($this->details->group(), $method);
     }
 
     public function subject(): string
@@ -120,11 +117,17 @@ class NotMatchedGroup implements Group
         return $this->details->all();
     }
 
-    public function or(string $substitute): string
+    /**
+     * @deprecated
+     */
+    public function substitute(string $replacement): string
     {
-        return $substitute;
+        throw $this->groupNotMatched('substitute');
     }
 
+    /**
+     * @deprecated
+     */
     public function map(callable $mapper): Optional
     {
         return GroupEmptyOptional::forGet($this->notMatched, $this->details->group());
