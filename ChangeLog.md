@@ -4,8 +4,13 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.26.0
+---------------
+
 * Breaking changes
-    * `match().groupBy(string|int)` now returns `array`.
+    * `match().groupBy(string|int)` now returns `array` of `Detail`, previously returned `array` of `string`.
     * Removed `match().groupBy().all()`. Use `match.groupBy()`
     * Removed `match().groupBy().offsets()`. Use `stream().groupByCallback()`
     * Removed `match().groupBy().byteOffsets()`. Use `stream().groupByCallback()`
