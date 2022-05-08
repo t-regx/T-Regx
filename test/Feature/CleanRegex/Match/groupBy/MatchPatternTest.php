@@ -1,248 +1,101 @@
 <?php
 namespace Test\Feature\TRegx\CleanRegex\Match\groupBy;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\DetailFunctions;
-use Test\Utils\ExampleException;
-use Test\Utils\Functions;
-use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\GroupByPattern;
-use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\CleanRegex\Pattern;
+use function pattern;
 
 class MatchPatternTest extends TestCase
 {
     /**
      * @test
      */
-    public function shouldGroupBy_texts()
+    public function shouldGroupBy()
     {
         // when
-        $result = $this->groupBy()->all();
-
+        $result = pattern('\d+(?<unit>cm|mm)?')->match('14cm 13mm 19cm 18mm 2cm')->groupBy('unit');
         // then
-        $expected = [
-            'cm' => ['14cm', '19cm', '2cm'],
-            'mm' => ['13mm', '18mm']
-        ];
-        $this->assertSame($expected, $result);
+        [$first, $second, $third] = $result['cm'];
+        [$fourth, $fifth] = $result['mm'];
+        $this->assertSame('14cm', $first->text());
+        $this->assertSame('19cm', $second->text());
+        $this->assertSame('2cm', $third->text());
+        $this->assertSame('13mm', $fourth->text());
+        $this->assertSame('18mm', $fifth->text());
     }
 
     /**
      * @test
      */
-    public function shouldGroupBy_offsets()
+    public function shouldDetailGetSubject()
     {
         // when
-        $result = $this->groupBy()->offsets();
-
+        $result = pattern('Foo')->match('subject:Foo')->groupBy(0);
         // then
-        $expected = [
-            'cm' => [5, 15, 25],
-            'mm' => [10, 20],
-        ];
-        $this->assertSame($expected, $result);
+        [$detail] = $result['Foo'];
+        $this->assertSame('subject:Foo', $detail->subject());
     }
 
     /**
      * @test
      */
-    public function shouldGroupBy_byteOffsets()
+    public function shouldThrowForUnmatchedGroupIndex()
     {
-        // when
-        $result = $this->groupBy()->byteOffsets();
-
         // then
-        $expected = [
-            'cm' => [7, 17, 27],
-            'mm' => [12, 22],
-        ];
-        $this->assertSame($expected, $result);
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to group matches by group #1, but the group was not matched');
+        // when
+        pattern('Foo(Bar)?')->match('FooBar, Foo')->groupBy(1);
     }
 
     /**
      * @test
      */
-    public function shouldGroupBy_map()
+    public function shouldThrowForUnmatchedGroupName()
     {
-        // when
-        $result = $this->groupBy()->map(function (Detail $detail) {
-            return "$detail";
-        });
-
         // then
-        $expected = [
-            'cm' => ['14cm', '19cm', '2cm'],
-            'mm' => ['13mm', '18mm'],
-        ];
-        $this->assertSame($expected, $result);
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to group matches by group 'group', but the group was not matched");
+        // when
+        pattern('Foo(?<group>Bar)?')->match('FooBar, Foo')->groupBy('group');
     }
 
     /**
      * @test
      */
-    public function shouldGroupBy_flatMap()
+    public function shouldThrowForInvalidGroupName()
     {
-        // when
-        $result = $this->groupBy()->flatMap(function (Detail $detail) {
-            return [$detail->offset() => "$detail", $detail->offset()];
-        });
-
         // then
-        $expected = [
-            'cm' => ['14cm', 5, '19cm', 15, '2cm', 25],
-            'mm' => ['13mm', 10, '18mm', 20],
-        ];
-        $this->assertSame($expected, $result);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '2bar' given");
+        // when
+        Pattern::of('(?<foo>foo)')->match('foo')->groupBy('2bar');
     }
 
     /**
      * @test
      */
-    public function shouldGroupBy_flatMapAssoc()
+    public function shouldThrowForNegativeGroupIndex()
     {
-        // when
-        $result = $this->groupBy()->flatMapAssoc(function (Detail $detail) {
-            return [$detail->offset() => "$detail"];
-        });
-
         // then
-        $expected = [
-            'cm' => [
-                5  => '14cm',
-                15 => '19cm',
-                25 => '2cm',
-            ],
-            'mm' => [
-                10 => '13mm',
-                20 => '18mm',
-            ],
-        ];
-        $this->assertSame($expected, $result);
-    }
-
-    /**
-     * @test
-     * @dataProvider mappersWithMatch
-     * @param string $function
-     */
-    public function shouldIndexMatches(string $function)
-    {
-        // given
-        $groupByPattern = $this->groupBy();
-        $indexes = [];
-
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group index must be a non-negative integer, but -1 given");
         // when
-        $groupByPattern->$function(DetailFunctions::collect($indexes, []));
-
-        // then
-        $this->assertSame(\array_flip(['14cm' => 1, '13mm' => 2, '19cm' => 3, '18mm' => 4, '2cm' => 5]), $indexes);
-    }
-
-    public function mappersWithMatch(): array
-    {
-        return [
-            'map'     => ['map', [
-                'cm' => [['19cm', 15], ['2cm', 25]],
-                'mm' => [['18mm', 20]],
-            ]],
-            'flatMap' => ['flatMap', [
-                'cm' => ['19cm', 15, '2cm', 25],
-                'mm' => ['18mm', 20],
-            ]],
-        ];
+        Pattern::of('(?<foo>foo)')->match('foo')->groupBy(-1);
     }
 
     /**
      * @test
      */
-    public function shouldThrowForNonexistentGroup_byteOffsets()
+    public function shouldThrowForNonexistentGroup()
     {
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'bar'");
-
         // when
-        pattern('(?<foo>foo)')
-            ->match('foo')
-            ->groupBy('bar')
-            ->byteOffsets();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForNonexistentGroup_map()
-    {
-        // then
-        $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage("Nonexistent group: 'cat'");
-
-        // when
-        pattern('(?<foo>foo)')
-            ->match('foo')
-            ->groupBy('cat')
-            ->map(Functions::fail());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_forFlatMap_forInvalidReturnType()
-    {
-        // then
-        $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage('Invalid flatMap() callback return type. Expected array, but integer (4) given');
-
-        // when
-        $this->groupBy()->flatMap(Functions::constant(4));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotSilenceInternalException_flatMap()
-    {
-        // then
-        $this->expectException(ExampleException::class);
-
-        // when
-        $this->groupBy()->flatMap(Functions::throws(new ExampleException()));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotSilenceInternalException_flatMapAssoc()
-    {
-        // then
-        $this->expectException(ExampleException::class);
-
-        // when
-        $this->groupBy()->flatMapAssoc(Functions::throws(new ExampleException()));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_forFlatMapAssoc_forInvalidReturnType()
-    {
-        // then
-        $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage('Invalid flatMapAssoc() callback return type. Expected array, but integer (4) given');
-
-        // when
-        $this->groupBy()->flatMapAssoc(Functions::constant(4));
-    }
-
-    private function groupBy(): GroupByPattern
-    {
-        return $this->match()->groupBy('unit');
-    }
-
-    private function match(): MatchPattern
-    {
-        return pattern('\d+(?<unit>cm|mm)?')->match('€12, 14cm 13mm 19cm 18mm 2cm');
+        Pattern::of('(?<foo>foo)')->match('foo')->groupBy('bar');
     }
 }

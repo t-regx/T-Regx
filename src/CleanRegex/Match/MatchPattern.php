@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
+use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Definition;
@@ -207,11 +209,26 @@ class MatchPattern implements \Countable, \IteratorAggregate
 
     /**
      * @param string|int $nameOrIndex
-     * @return GroupByPattern
+     * @return array
      */
-    public function groupBy($nameOrIndex): GroupByPattern
+    public function groupBy($nameOrIndex): array
     {
-        return new GroupByPattern($this->base, $this->subject, $this->groupAware, GroupKey::of($nameOrIndex));
+        $group = GroupKey::of($nameOrIndex);
+        if (!$this->groupAware->hasGroup($group)) {
+            throw new NonexistentGroupException($group);
+        }
+        $map = [];
+        $factory = new DetailObjectFactory($this->subject);
+        $matches = $this->base->matchAllOffsets();
+        foreach ($matches->getIndexes() as $index) {
+            if ($matches->isGroupMatched($group->nameOrIndex(), $index)) {
+                [$text] = $matches->getGroupTextAndOffset($group->nameOrIndex(), $index);
+                $map[$text][] = $factory->mapToDetailObject($matches, $index);
+            } else {
+                throw GroupNotMatchedException::forGroupBy($group);
+            }
+        }
+        return $map;
     }
 
     public function groupByCallback(callable $groupMapper): array

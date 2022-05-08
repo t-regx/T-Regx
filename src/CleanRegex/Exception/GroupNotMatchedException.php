@@ -34,4 +34,9 @@ class GroupNotMatchedException extends \Exception implements PatternException
     {
         return new self("Expected to get group $group, but the group was not matched");
     }
+
+    public static function forGroupBy(GroupKey $group): self
+    {
+        return new self("Expected to group matches by group $group, but the group was not matched");
+    }
 }

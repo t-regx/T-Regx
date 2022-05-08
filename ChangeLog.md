@@ -4,7 +4,16 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * `match().groupBy(string|int)` now returns `array`.
+    * Removed `match().groupBy().all()`. Use `match.groupBy()`
+    * Removed `match().groupBy().offsets()`. Use `stream().groupByCallback()`
+    * Removed `match().groupBy().byteOffsets()`. Use `stream().groupByCallback()`
+    * Removed `match().groupBy().map()`. Use `stream().groupByCallback().map()`
+    * Removed `match().groupBy().flatMap()`. Use `stream().groupByCallback().flatMap()`
+    * Removed `match().groupBy().flatMapAssoc()`. Use `stream().groupByCallback().flatMapAssoc()`
+    * Previously `groupBy()` simply ignored unmatched groups. Now `GroupNotMatchedException` is thrown. To
+      control unmatched elements use `Group.matched()`, `stream().filter()` or other elements of T-Regx API.
 
 Added in 0.25.0
 ---------------

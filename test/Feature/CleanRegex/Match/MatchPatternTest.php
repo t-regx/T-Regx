@@ -532,25 +532,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturn_groupBy_all()
-    {
-        // given
-        $subject = '12cm 14mm 13cm 19cm 18mm 2mm';
-
-        // when
-        $result = pattern('\d+(?<unit>cm|mm)')->match($subject)->groupBy('unit')->all();
-
-        // then
-        $expected = [
-            'cm' => ['12cm', '13cm', '19cm'],
-            'mm' => ['14mm', '18mm', '2mm']
-        ];
-        $this->assertSame($expected, $result);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_nth()
     {
         // given

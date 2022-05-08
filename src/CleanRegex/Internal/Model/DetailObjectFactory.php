@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Match\Details\MatchDetail;
 
 /**
  * @deprecated
@@ -24,11 +25,16 @@ class DetailObjectFactory
     {
         $matchObjects = [];
         foreach ($matches->matches[0] as $index => $firstWhole) {
-            $matchObjects[] = DeprecatedMatchDetail::create($this->subject,
-                $index,
-                new RawMatchesToMatchAdapter($matches, $index),
-                new EagerMatchAllFactory($matches));
+            $matchObjects[] = $this->mapToDetailObject($matches, $index);
         }
         return $matchObjects;
+    }
+
+    public function mapToDetailObject(RawMatchesOffset $matches, int $index): MatchDetail
+    {
+        return DeprecatedMatchDetail::create($this->subject,
+            $index,
+            new RawMatchesToMatchAdapter($matches, $index),
+            new EagerMatchAllFactory($matches));
     }
 }
