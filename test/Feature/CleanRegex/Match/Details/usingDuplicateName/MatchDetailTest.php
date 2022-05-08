@@ -2,8 +2,10 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\usingDuplicateName;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Detail;
+use function pattern;
 
 class MatchDetailTest extends TestCase
 {
@@ -159,5 +161,31 @@ class MatchDetailTest extends TestCase
 
         // when
         $detail->usingDuplicateName()->$method('missing');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupBeMatched()
+    {
+        // given
+        pattern('(?<group>One)(?<group>Two)?', 'J')->match('One')->first(Functions::out($detail));
+        // when
+        $matched = $detail->usingDuplicateName()->matched('group');
+        // then
+        $this->assertTrue($matched);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupNotBeMatched()
+    {
+        // given
+        pattern('(?<group>One)?(?<group>Two)?', 'J')->match('Foo')->first(Functions::out($detail));
+        // when
+        $matched = $detail->usingDuplicateName()->matched('group');
+        // then
+        $this->assertFalse($matched);
     }
 }
