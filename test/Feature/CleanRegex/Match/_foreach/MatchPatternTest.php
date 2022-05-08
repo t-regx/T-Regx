@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\_foreach;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Functions;
+use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Match\MatchPattern;
 
 class MatchPatternTest extends TestCase
@@ -42,7 +42,7 @@ class MatchPatternTest extends TestCase
     public function shouldIterateMatch_forEach()
     {
         // given
-        $pattern = $this->match()->stream()->filter(Functions::oneOf(['127', '1']));
+        $pattern = $this->match()->stream()->filter(DetailFunctions::oneOf(['127', '1']));
         $result = [];
 
         // when

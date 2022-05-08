@@ -6,7 +6,6 @@ use Throwable;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
 use TRegx\CleanRegex\Internal\Type\ValueType;
-use TRegx\CleanRegex\Match\Details\Detail;
 
 class Functions
 {
@@ -52,13 +51,6 @@ class Functions
     {
         return function ($argument) use ($callable) { // ignore remaining arguments
             return $callable($argument);
-        };
-    }
-
-    public static function oneOf(array $haystack): callable
-    {
-        return function (Detail $match) use ($haystack) {
-            return \in_array("$match", $haystack);
         };
     }
 

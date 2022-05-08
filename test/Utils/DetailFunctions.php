@@ -78,4 +78,11 @@ class DetailFunctions
             return $detail->toInt();
         };
     }
+
+    public static function oneOf(array $haystack): callable
+    {
+        return function (Detail $match) use ($haystack) {
+            return \in_array("$match", $haystack);
+        };
+    }
 }
