@@ -16,14 +16,12 @@ class TextWordTest extends TestCase
      * @param string $text
      * @param string $expected
      */
-    public function shouldQuoteExtended(string $text, string $expected)
+    public function shouldEscapeExtended(string $text, string $expected)
     {
         // given
         $word = new TextWord($text);
-
         // when
-        $result = $word->quoted('/');
-
+        $result = $word->escaped('/');
         // then
         $this->assertSame($expected, $result);
     }
@@ -51,11 +49,9 @@ class TextWordTest extends TestCase
     {
         // given
         $word = new TextWord('welcome');
-
         // then
         $this->expectException(InvalidArgumentException::class);
-
         // when
-        $word->quoted('foo');
+        $word->escaped('foo');
     }
 }

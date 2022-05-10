@@ -15,11 +15,11 @@ class UnconjugatedPhrase implements Phrase
 
     public function conjugated(string $delimiter): string
     {
-        return $this->word->quoted($delimiter);
+        return $this->word->escaped($delimiter);
     }
 
     public function unconjugated(string $delimiter): string
     {
-        return $this->word->quoted($delimiter);
+        return $this->word->escaped($delimiter);
     }
 }

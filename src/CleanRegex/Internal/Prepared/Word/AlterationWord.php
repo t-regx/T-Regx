@@ -13,15 +13,15 @@ class AlterationWord implements Word
         $this->figures = new AlterationFigures($figures);
     }
 
-    public function quoted(string $delimiter): string
+    public function escaped(string $delimiter): string
     {
-        return '(?:' . \implode('|', \iterator_to_array($this->quotedFigures($delimiter))) . ')';
+        return '(?:' . \implode('|', \iterator_to_array($this->escapedFigures($delimiter))) . ')';
     }
 
-    private function quotedFigures(string $delimiter): Generator
+    private function escapedFigures(string $delimiter): Generator
     {
         foreach ($this->figures->figures() as $figure) {
-            yield (new TextWord($figure))->quoted($delimiter);
+            yield (new TextWord($figure))->escaped($delimiter);
         }
     }
 }
