@@ -43,7 +43,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
 
     public function with(string $replacement): string
     {
-        return $this->withReferences(ReplaceReferences::quote($replacement));
+        return $this->withReferences(ReplaceReferences::escaped($replacement));
     }
 
     public function withReferences(string $replacement): string
