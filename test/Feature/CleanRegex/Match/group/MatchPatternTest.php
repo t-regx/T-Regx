@@ -236,59 +236,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_offsets()
-    {
-        // given
-        $offsets = pattern('[A-Z](?<lowercase>[a-z]+)?')
-            ->match('xd Computer L Three Four')
-            ->group('lowercase')
-            ->offsets();
-
-        // when
-        $only1 = $offsets->limit(1)->all();
-        $only2 = $offsets->limit(2)->all();
-        $all = $offsets->all();
-
-        // then
-        $this->assertSame([4], $only1);
-        $this->assertSame([4, null], $only2);
-        $this->assertSame([4, null, 15, 21], $all);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_offsets_ofMatchedEmptyGroups()
-    {
-        // given
-        $offsets = pattern('Foo (?<foo>)')
-            ->match('Foo ')
-            ->group('foo')
-            ->offsets()->all();
-
-        // then
-        $this->assertSame([4], $offsets);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_offsets_limitOne_null()
-    {
-        // given
-        $limited = pattern('[A-Z](?<lowercase>[a-z]+)?')
-            ->match('xd L Three Four')
-            ->group('lowercase')
-            ->offsets()
-            ->limit(1)
-            ->all();
-        // then
-        $this->assertSame([null], $limited);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet_nth()
     {
         // given

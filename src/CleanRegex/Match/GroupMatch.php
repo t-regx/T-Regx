@@ -17,10 +17,8 @@ use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\IntStream\GroupIntMessages;
-use TRegx\CleanRegex\Internal\Match\IntStream\GroupOffsetMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupIntStream;
-use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupOffsetStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
@@ -196,12 +194,6 @@ class GroupMatch implements \IteratorAggregate
         foreach ($this->details() as $index => $group) {
             $consumer($group, $index);
         }
-    }
-
-    public function offsets(): IntStream
-    {
-        $upstream = new MatchGroupOffsetStream($this->base, $this->subject, $this->group, $this->matchAllFactory);
-        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new GroupOffsetMessages($this->group)));
     }
 
     public function stream(): Stream

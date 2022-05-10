@@ -2,7 +2,6 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\group\first;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
@@ -166,37 +165,5 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('(?<existing>foo)')->match('foo')->group('missing')->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_offsets()
-    {
-        // when
-        $first = pattern('[A-Z](?<lowercase>[a-z]+)?')
-            ->match('xd Computer L Three Four')
-            ->group('lowercase')
-            ->offsets()
-            ->first();
-
-        // then
-        $this->assertSame(4, $first);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_offsets_first()
-    {
-        // when
-        $offset = pattern('Samu(rai)')
-            ->match('Wake the fuck up Samurai, we have a city to burn')
-            ->group(1)
-            ->offsets()
-            ->first(Functions::surround('*'));
-
-        // then
-        $this->assertSame('*21*', $offset);
     }
 }

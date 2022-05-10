@@ -6,6 +6,7 @@ Incoming
 
 * Breaking changes
     * Removed `Pattern.match().offsets()`. Use `Pattern.match().map()`.
+    * Removed `Pattern.match().group().offsets()`. Use `Pattern.match().group().map()`.
 
 Added in 0.26.0
 ---------------

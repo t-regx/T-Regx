@@ -127,13 +127,10 @@ class MatchPatternTest extends TestCase
         $this->assertSame(0, $this->match()->stream()->filter(Functions::constant(true))->keys()->first());
     }
 
-    public function test_groups_and_offsets()
+    public function test_groups()
     {
         $this->assertSame('123', $this->match()->group(0)->first());
-        $this->assertSame(2, $this->match()->group(0)->offsets()->first());
-
         $this->assertSame('123', $this->match()->group(0)->stream()->first()->text());
-        $this->assertSame(2, $this->match()->group(0)->offsets()->first());
     }
 
     private function match(): MatchPattern
