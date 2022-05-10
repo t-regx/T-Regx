@@ -12,12 +12,10 @@ use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 use TRegx\CleanRegex\Internal\Match\IntStream\MatchIntMessages;
-use TRegx\CleanRegex\Internal\Match\IntStream\MatchOffsetMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
-use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchOffsetStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\MatchPatternHelpers;
@@ -178,12 +176,6 @@ class MatchPattern implements \Countable, \IteratorAggregate
     public function group($nameOrIndex): GroupMatch
     {
         return new GroupMatch($this->base, $this->subject, $this->groupAware, GroupKey::of($nameOrIndex));
-    }
-
-    public function offsets(): IntStream
-    {
-        $upstream = new MatchOffsetStream($this->base, $this->subject);
-        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new MatchOffsetMessages()));
     }
 
     public function count(): int

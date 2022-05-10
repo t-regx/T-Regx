@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Removed `Pattern.match().offsets()`. Use `Pattern.match().map()`.
 
 Added in 0.26.0
 ---------------

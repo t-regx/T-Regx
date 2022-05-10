@@ -5,28 +5,10 @@ use PHPUnit\Framework\TestCase;
 use function pattern;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\Stream\Base\MatchOffsetStream
+ * @coversNothing
  */
 class MatchOffsetStreamTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function shouldIterateMatchOffset()
-    {
-        // given
-        $match = pattern('\d+([cm]?m)')->match('14cm 127mm 18m');
-        $result = [];
-
-        // when
-        foreach ($match->offsets() as $offset) {
-            $result[] = $offset;
-        }
-
-        // then
-        $this->assertSame([0, 5, 11], $result);
-    }
-
     /**
      * @test
      */
