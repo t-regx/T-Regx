@@ -21,10 +21,10 @@ class Needles
 
     private function splitPattern(): string
     {
-        return '/(' . \implode('|', \array_map([$this, 'quote'], $this->needles)) . ')/';
+        return '/(' . \implode('|', \array_map([$this, 'escape'], $this->needles)) . ')/';
     }
 
-    private function quote(string $input): string
+    private function escape(string $input): string
     {
         return \preg_quote($input, '/');
     }
