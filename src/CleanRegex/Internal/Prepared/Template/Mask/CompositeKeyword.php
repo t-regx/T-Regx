@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Template\Mask;
 
 use Generator;
-use TRegx\CleanRegex\Internal\Needles;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPhrase;

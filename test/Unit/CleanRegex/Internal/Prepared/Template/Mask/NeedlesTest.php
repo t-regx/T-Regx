@@ -1,11 +1,11 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal;
+namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Template\Mask;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\Needles;
+use TRegx\CleanRegex\Internal\Prepared\Template\Mask\Needles;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Needles
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Template\Mask\Needles
  */
 class NeedlesTest extends TestCase
 {
@@ -20,10 +20,8 @@ class NeedlesTest extends TestCase
     {
         // given
         $needles = new Needles($needles);
-
         // when
         $result = $needles->split($string);
-
         // then
         $this->assertSame($expected, $result);
     }
@@ -70,10 +68,8 @@ class NeedlesTest extends TestCase
     {
         // given
         $needles = new Needles([]);
-
         // when
         $result = $needles->split('Welcome');
-
         // then
         $this->assertSame(['Welcome'], $result);
     }
@@ -85,10 +81,8 @@ class NeedlesTest extends TestCase
     {
         // given
         $needles = new Needles(["\t"]);
-
         // when
         $result = $needles->split("Hi\tthere");
-
         // then
         $this->assertSame(['Hi', "\t", 'there'], $result);
     }
@@ -100,10 +94,8 @@ class NeedlesTest extends TestCase
     {
         // given
         $needles = new Needles(['#', '/']);
-
         // when
         $result = $needles->split('Hi/there#general');
-
         // then
         $this->assertSame(['Hi', '/', 'there', '#', 'general'], $result);
     }
