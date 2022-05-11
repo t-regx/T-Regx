@@ -16,6 +16,8 @@ trait MatchPatternHelpers
 
     public function tuple($nameOrIndex1, $nameOrIndex2): array
     {
+        GroupKey::of($nameOrIndex1);
+        GroupKey::of($nameOrIndex2);
         return $this
             ->findFirst(static function (Detail $detail) use ($nameOrIndex1, $nameOrIndex2) {
                 $first = $detail->group($nameOrIndex1);

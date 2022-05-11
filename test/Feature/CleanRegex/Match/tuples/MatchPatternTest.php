@@ -162,4 +162,28 @@ class MatchPatternTest extends TestCase
             [0, 0, 'missing'],
         ];
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onMalformedGroup_second()
+    {
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '2group' given");
+        // then
+        pattern('Foo')->match('Foo')->tuple(2, '2group');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onMalformedGroup_both()
+    {
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group index must be a non-negative integer, but -1 given");
+        // then
+        pattern('Foo')->match('Foo')->tuple(-1, '2group');
+    }
 }

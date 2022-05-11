@@ -7,6 +7,10 @@ Incoming
 * Breaking changes
     * Removed `Pattern.match().offsets()`. Use `Pattern.match().map()`.
     * Removed `Pattern.match().group().offsets()`. Use `Pattern.match().group().map()`.
+* Bug fixes
+    * Fixed a bug when calling `tuple($a,$b)` where `$a` was a non-existent group, and `$b` was a malformed
+      group, T-Regx threw `NonexistentGroupException`, instead of `InvalidArgumentException`. Now it
+      throws `InvalidArgumentException`.
 
 Added in 0.26.0
 ---------------
