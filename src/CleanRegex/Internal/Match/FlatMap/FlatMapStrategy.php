@@ -6,4 +6,6 @@ use TRegx\CleanRegex\Internal\Nested;
 interface FlatMapStrategy
 {
     public function flatten(Nested $nested): array;
+
+    public function firstKey($key);
 }

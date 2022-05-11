@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\stream\flatMap;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -72,7 +73,76 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturn_firstKey_forEmptyFirstTrailAll()
+    public function shouldFlatMapReturn_firstKey_forEmptyFirstTrailAll()
+    {
+        // when
+        $first = Pattern::of('"(\w*)"')->match('"", "", "Apple"')
+            ->group(1)
+            ->stream()
+            ->flatMap(Functions::lettersAsKeys())
+            ->keys()
+            ->first();
+        // then
+        $this->assertSame(0, $first);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFlatMapReturn_allKeys_forEmptyFirstTrailAll()
+    {
+        // when
+        $first = Pattern::of('"(\w*)"')->match('"", "", "Orange"')
+            ->group(1)
+            ->stream()
+            ->flatMap(Functions::lettersAsKeys())
+            ->keys()
+            ->all();
+        // then
+        $this->assertSame([0, 1, 2, 3, 4, 5], $first);
+    }
+
+    /**
+     * @test
+     */
+    public function a()
+    {
+        // when
+        $first = Pattern::of('.')->match('Apple')
+            ->stream()
+            ->flatMapAssoc(function (Detail $detail) {
+                return [$detail->text() => $detail->offset()];
+            })
+            ->all();
+        // then
+        $expected = [
+            'A' => 0,
+            'p' => 2,
+            'l' => 3,
+            'e' => 4,
+        ];
+        $this->assertSame($expected, $first);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnFlatMapFirstKey()
+    {
+        // when
+        $first = Pattern::of('\w+')->match('One, two, three')
+            ->stream()
+            ->flatMap(Functions::lettersAsKeys())
+            ->keys()
+            ->first();
+        // then
+        $this->assertSame(0, $first);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFlatMapAssocReturn_firstKey_forEmptyFirstTrailAll()
     {
         // when
         $first = Pattern::of('"(\w*)"')->match('"", "", "Apple"')

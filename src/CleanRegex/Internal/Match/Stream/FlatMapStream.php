@@ -44,7 +44,7 @@ class FlatMapStream implements Upstream
     {
         $value = \reset($array);
         $key = \key($array);
-        return [$key, $value];
+        return [$this->strategy->firstKey($key), $value];
     }
 
     private function remainingArraysFlat(): array

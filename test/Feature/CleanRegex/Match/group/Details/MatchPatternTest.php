@@ -39,9 +39,31 @@ class MatchPatternTest extends TestCase
 
         // then
         $expected = [
-            'word:abc' => 'offset:4', ['abc', 'efg', 'ijk'],
-            'word:efg' => 'offset:12', ['abc', 'efg', 'ijk'],
-            'word:ijk' => 'offset:20', ['abc', 'efg', 'ijk'],
+            'offset:4', ['abc', 'efg', 'ijk'],
+            'offset:12', ['abc', 'efg', 'ijk'],
+            'offset:20', ['abc', 'efg', 'ijk'],
+        ];
+        $this->assertSame($expected, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFlatMapDuplicateKeys()
+    {
+        // given
+        $subject = 'XXX:abc YYY:efg ZZZ:ijk';
+
+        // when
+        $result = pattern('[A-Z]+:(?<lowercase>[a-z]+)')->match($subject)->group('lowercase')->flatMap(function (Group $group) {
+            return ['key' => 'offset:' . $group->offset(), $group->all()];
+        });
+
+        // then
+        $expected = [
+            'offset:4', ['abc', 'efg', 'ijk'],
+            'offset:12', ['abc', 'efg', 'ijk'],
+            'offset:20', ['abc', 'efg', 'ijk'],
         ];
         $this->assertSame($expected, $result);
     }

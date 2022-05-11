@@ -9,6 +9,14 @@ Incoming
     * Removed `Pattern.match().group().offsets()`. Use `Pattern.match().group().map()`.
     * When using `Pattern.split()`, previously unmatched separators were represented as an empty `string`. Now, they're
       represented as `null`.
+    * Previously `Pattern.match().flatMap()` reindexed `int` keys, and preserved `string` keys, making it similarly
+      ill-behaved as other PHP functions. From now on `flatMap()` treats any `array` as a sequential `array`, that is:
+        * It's returned value will be a sequential array (as if `array_values()` was called on it)
+        * Duplicate keys returned from `flatMap(callable)` will not make values no appear in the result. Only the
+          sequence matters.
+
+      Method `Pattern.match().flatMapAssoc()` is unchanged, in that case the elements are treated as a dictionary/map -
+      neither `string` nor `int` keys are reindexed.
 * Bug fixes
     * Fixed a bug when calling `tuple($a,$b)` where `$a` was a non-existent group, and `$b` was a malformed
       group, T-Regx threw `NonexistentGroupException`, instead of `InvalidArgumentException`. Now it

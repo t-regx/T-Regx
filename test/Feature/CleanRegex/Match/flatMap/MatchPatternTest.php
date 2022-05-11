@@ -38,19 +38,12 @@ class MatchPatternTest extends TestCase
     {
         // given
         $pattern = $this->match('Nice 1 matching 2 pattern');
-
         // when
         $map = $pattern->flatMap(function (Detail $detail) {
             return [$detail->text() => $detail->offset()];
         });
-
         // then
-        $expected = [
-            'Nice'     => 0,
-            'matching' => 7,
-            'pattern'  => 18
-        ];
-        $this->assertSame($expected, $map);
+        $this->assertSame([0, 7, 18], $map);
     }
 
     /**

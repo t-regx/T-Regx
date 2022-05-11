@@ -11,6 +11,11 @@ class ArrayMergeStrategy implements FlatMapStrategy
         if (empty($array)) {
             return [];
         }
-        return \array_merge(...$array);
+        return \array_merge(...\array_map('array_values', $array));
+    }
+
+    public function firstKey($key): int
+    {
+        return 0;
     }
 }

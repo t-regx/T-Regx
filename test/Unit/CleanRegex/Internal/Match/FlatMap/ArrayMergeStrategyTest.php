@@ -41,7 +41,7 @@ class ArrayMergeStrategyTest extends TestCase
         $result = $strategy->flatten(new Nested($array));
 
         // then
-        $this->assertSame(['Foo', 4, 'key' => 'value', 'Bar', 8, 'lorem' => 'ipsum'], $result);
+        $this->assertSame(['Foo', 4, 'value', 'Bar', 8, 'ipsum'], $result);
     }
 
     /**

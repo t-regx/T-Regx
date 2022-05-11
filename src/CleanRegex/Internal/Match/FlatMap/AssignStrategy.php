@@ -15,4 +15,9 @@ class AssignStrategy implements FlatMapStrategy
         }
         return $result;
     }
+
+    public function firstKey($key)
+    {
+        return $key;
+    }
 }
