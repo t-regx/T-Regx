@@ -7,6 +7,8 @@ Incoming
 * Breaking changes
     * Removed `Pattern.match().offsets()`. Use `Pattern.match().map()`.
     * Removed `Pattern.match().group().offsets()`. Use `Pattern.match().group().map()`.
+    * When using `Pattern.split()`, previously unmatched separators were represented as an empty `string`. Now, they're
+      represented as `null`.
 * Bug fixes
     * Fixed a bug when calling `tuple($a,$b)` where `$a` was a non-existent group, and `$b` was a malformed
       group, T-Regx threw `NonexistentGroupException`, instead of `InvalidArgumentException`. Now it
@@ -14,6 +16,11 @@ Incoming
     * Fixed a bug when calling `triple($a,$a,$b)` where `$a` was a non-existent group, and `$b` was a malformed
       group, T-Regx threw `NonexistentGroupException`, instead of `InvalidArgumentException`. Now it
       throws `InvalidArgumentException`.
+* Features
+    * Added `Pattern.splitStart()`, which works similarly to `Pattern.split()` but accepts a non-negative `maxSplits`
+      argument, which can be used to limit splits from the start of the subject.
+    * Added `Pattern.splitEnd()`, which works similarly to `Pattern.split()` but accepts a non-negative `maxSplits`
+      argument, which can be used to limit splits from the end of the subject.
 
 Added in 0.26.0
 ---------------

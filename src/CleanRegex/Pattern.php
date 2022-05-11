@@ -2,10 +2,10 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\ForArray\ForArrayPattern;
-use TRegx\CleanRegex\Internal\Cut;
 use TRegx\CleanRegex\Internal\EntryPoints;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
+use TRegx\CleanRegex\Internal\Needle;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
@@ -17,10 +17,13 @@ class Pattern
 
     /** @var Predefinition */
     private $predefinition;
+    /** @var Needle */
+    private $needle;
 
     public function __construct(Expression $expression)
     {
         $this->predefinition = $expression->predefinition();
+        $this->needle = new Needle($this->predefinition);
     }
 
     public function test(string $subject): bool
@@ -53,15 +56,30 @@ class Pattern
         return new ForArrayPattern($this->predefinition->definition(), $haystack);
     }
 
-    public function split(string $subject): array
-    {
-        return preg::split($this->predefinition->definition()->pattern, $subject, -1, \PREG_SPLIT_DELIM_CAPTURE);
-    }
-
     public function cut(string $subject): array
     {
-        $cut = new Cut($this->predefinition->definition());
-        return $cut->twoPieces($subject);
+        return $this->needle->twoPieces($subject);
+    }
+
+    public function split(string $subject): array
+    {
+        return $this->needle->splitAll($subject);
+    }
+
+    public function splitStart(string $subject, int $maxSplits): array
+    {
+        if ($maxSplits < 0) {
+            throw new \InvalidArgumentException("Negative splits: $maxSplits");
+        }
+        return $this->needle->splitFromStart($subject, $maxSplits);
+    }
+
+    public function splitEnd(string $subject, int $maxSplits): array
+    {
+        if ($maxSplits < 0) {
+            throw new \InvalidArgumentException("Negative splits: $maxSplits");
+        }
+        return $this->needle->splitFromEnd($subject, $maxSplits);
     }
 
     public function count(string $subject): int
