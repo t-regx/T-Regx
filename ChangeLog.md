@@ -11,6 +11,9 @@ Incoming
     * Fixed a bug when calling `tuple($a,$b)` where `$a` was a non-existent group, and `$b` was a malformed
       group, T-Regx threw `NonexistentGroupException`, instead of `InvalidArgumentException`. Now it
       throws `InvalidArgumentException`.
+    * Fixed a bug when calling `triple($a,$a,$b)` where `$a` was a non-existent group, and `$b` was a malformed
+      group, T-Regx threw `NonexistentGroupException`, instead of `InvalidArgumentException`. Now it
+      throws `InvalidArgumentException`.
 
 Added in 0.26.0
 ---------------

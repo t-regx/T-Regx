@@ -186,4 +186,17 @@ class MatchPatternTest extends TestCase
         // then
         pattern('Foo')->match('Foo')->tuple(-1, '2group');
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_onMalformedGroup_third()
+    {
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '2group' given");
+        // then
+        pattern('Foo')->match('Foo')->triple(2, 2, '2group');
+    }
+
 }

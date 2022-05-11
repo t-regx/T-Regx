@@ -38,6 +38,9 @@ trait MatchPatternHelpers
 
     public function triple($nameOrIndex1, $nameOrIndex2, $nameOrIndex3): array
     {
+        GroupKey::of($nameOrIndex1);
+        GroupKey::of($nameOrIndex2);
+        GroupKey::of($nameOrIndex3);
         return $this
             ->findFirst(static function (Detail $detail) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
                 $first = $detail->group($nameOrIndex1);
