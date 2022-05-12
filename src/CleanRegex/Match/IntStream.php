@@ -61,9 +61,9 @@ class IntStream implements \Countable, \IteratorAggregate
     public function first(callable $consumer = null)
     {
         if ($consumer === null) {
-            return $this->firstOptional()->orThrow();
+            return $this->firstOptional()->get();
         }
-        return $this->firstOptional()->map($consumer)->orThrow();
+        return $this->firstOptional()->map($consumer)->get();
     }
 
     public function findFirst(callable $consumer): Optional
@@ -83,7 +83,7 @@ class IntStream implements \Countable, \IteratorAggregate
 
     public function nth(int $index): int
     {
-        return $this->findNth($index)->orThrow();
+        return $this->findNth($index)->get();
     }
 
     public function findNth(int $index): Optional

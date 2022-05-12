@@ -17,6 +17,7 @@ Incoming
 
       Method `Pattern.match().flatMapAssoc()` is unchanged, in that case the elements are treated as a dictionary/map -
       neither `string` nor `int` keys are reindexed.
+    * Method `Optional.orThrow()` can no longer be called without an argument. Instead, use `Optional.get()`.
 * Bug fixes
     * Fixed a bug when calling `tuple($a,$b)` where `$a` was a non-existent group, and `$b` was a malformed
       group, T-Regx threw `NonexistentGroupException`, instead of `InvalidArgumentException`. Now it

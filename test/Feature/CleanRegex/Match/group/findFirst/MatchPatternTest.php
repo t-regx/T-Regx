@@ -22,7 +22,7 @@ class MatchPatternTest extends TestCase
             ->match('Computer')
             ->group(0)
             ->findFirst(Functions::constant('result'))
-            ->orThrow();
+            ->get();
 
         // then
         $this->assertSame('result', $result);
@@ -40,7 +40,7 @@ class MatchPatternTest extends TestCase
             ->findFirst(function (Group $group) {
                 $this->assertSame('omputer', $group->text());
             })
-            ->orThrow();
+            ->get();
     }
 
     /**
@@ -55,7 +55,7 @@ class MatchPatternTest extends TestCase
             ->findFirst(function (Group $group) {
                 $this->assertSame(['omputer', null, 'hree', 'our'], $group->all());
             })
-            ->orThrow();
+            ->get();
     }
 
     /**
@@ -70,7 +70,7 @@ class MatchPatternTest extends TestCase
             ->findFirst(function (Group $group) {
                 $this->assertSame('', $group->text());
             })
-            ->orThrow();
+            ->get();
     }
 
     /**
@@ -100,7 +100,7 @@ class MatchPatternTest extends TestCase
             ->match('123')
             ->group(0)
             ->findFirst(Functions::fail())
-            ->orThrow();
+            ->get();
     }
 
     /**

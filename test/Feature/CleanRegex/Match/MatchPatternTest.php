@@ -297,7 +297,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
 
         // given
-        pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail())->orThrow();
+        pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail())->get();
     }
 
     /**
@@ -310,7 +310,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Invalid base: 1 (supported bases 2-36, case-insensitive)');
 
         // given
-        pattern('Foo')->match('Bar')->asInt(1)->findFirst(Functions::fail())->orThrow();
+        pattern('Foo')->match('Bar')->asInt(1)->findFirst(Functions::fail())->get();
     }
 
     /**
@@ -531,7 +531,7 @@ class MatchPatternTest extends TestCase
         $result = pattern('Foo', 'i')->match('foo')
             ->findFirst(Functions::surround('*'))
             ->map('\strToUpper')
-            ->orThrow();
+            ->get();
 
         // then
         $this->assertSame('*FOO*', $result);

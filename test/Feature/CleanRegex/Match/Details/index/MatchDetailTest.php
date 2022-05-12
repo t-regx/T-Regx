@@ -38,7 +38,7 @@ class MatchDetailTest extends TestCase
                 // then
                 $this->assertSame(0, $index);
             })
-            ->orThrow();
+            ->get();
     }
 
     /**

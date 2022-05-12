@@ -172,7 +172,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage("Expected to get the first match, but subject was not matched");
 
         // when
-        pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail())->orThrow();
+        pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail())->get();
     }
 
     /**
@@ -185,7 +185,7 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
-        pattern('Foo')->match('Bar')->stream()->keys()->findFirst(Functions::fail())->orThrow();
+        pattern('Foo')->match('Bar')->stream()->keys()->findFirst(Functions::fail())->get();
     }
 
     /**
@@ -288,7 +288,7 @@ class MatchPatternTest extends TestCase
     public function should_findFirstCallback_orThrow()
     {
         // when
-        $letters = pattern('Foo')->match('Foo')->stream()->findFirst(Functions::letters())->orThrow();
+        $letters = pattern('Foo')->match('Foo')->stream()->findFirst(Functions::letters())->get();
 
         // then
         $this->assertSame(['F', 'o', 'o'], $letters);

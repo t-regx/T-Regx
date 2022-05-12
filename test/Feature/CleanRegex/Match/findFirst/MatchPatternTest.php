@@ -28,7 +28,7 @@ class MatchPatternTest extends TestCase
                 $this->assertSame('Foo foo FOO', $detail->subject());
                 $this->assertSame(['Foo', 'foo', 'FOO'], $detail->all());
             })
-            ->orThrow();
+            ->get();
     }
 
     /**
@@ -75,7 +75,7 @@ class MatchPatternTest extends TestCase
         $pattern->findFirst(Functions::fail())->orReturn(null);
         $pattern->findFirst(Functions::fail())->orElse(Functions::pass());
         try {
-            $pattern->findFirst(Functions::fail())->orThrow();
+            $pattern->findFirst(Functions::fail())->get();
         } catch (SubjectNotMatchedException $ignored) {
         }
     }
@@ -91,7 +91,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(SubjectNotMatchedException::class);
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
         // when
-        $pattern->findFirst('strRev')->orThrow();
+        $pattern->findFirst('strRev')->get();
     }
 
     /**

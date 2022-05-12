@@ -224,7 +224,7 @@ class MatchDetailTest extends TestCase
                     ->map(function (Group $group) {
                         return \strToUpper($group->text());
                     })
-                    ->orThrow();
+                    ->get();
             });
 
         // then

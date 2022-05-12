@@ -36,11 +36,8 @@ class SubjectEmptyOptional implements Optional
         throw new SubjectNotMatchedException($this->message, $this->subject);
     }
 
-    public function orThrow(Throwable $throwable = null): void
+    public function orThrow(Throwable $throwable): void
     {
-        if ($throwable === null) {
-            throw new SubjectNotMatchedException($this->message, $this->subject);
-        }
         throw $throwable;
     }
 }

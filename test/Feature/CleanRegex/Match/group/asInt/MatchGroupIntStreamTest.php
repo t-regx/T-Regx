@@ -382,7 +382,7 @@ class MatchGroupIntStreamTest extends TestCase
         $this->expectExceptionMessage('Expected to get group #1 as integer from the first match, but subject was not matched at all');
 
         // when
-        $optional->orThrow();
+        $optional->get();
     }
 
     /**
@@ -398,7 +398,7 @@ class MatchGroupIntStreamTest extends TestCase
         $this->expectExceptionMessage('Expected to get group #1 as integer from the 0-nth match, but the subject was not matched at all');
 
         // when
-        $optional->orThrow();
+        $optional->get();
     }
 
     /**
@@ -430,6 +430,6 @@ class MatchGroupIntStreamTest extends TestCase
         $this->expectExceptionMessage("Expected to get group #1 as integer from the 2-nth match, but only 2 occurrences are available");
 
         // when
-        $optional->orThrow();
+        $optional->get();
     }
 }

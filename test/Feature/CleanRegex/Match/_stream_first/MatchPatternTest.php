@@ -93,13 +93,13 @@ class MatchPatternTest extends TestCase
     public function test_findFirst()
     {
         // then
-        $this->assertSame('123', $this->match()->findFirst(Functions::identity())->orThrow()->text());
+        $this->assertSame('123', $this->match()->findFirst(Functions::identity())->get()->text());
     }
 
     public function test_stream_findFirst()
     {
         // then
-        $this->assertSame('123', $this->match()->stream()->findFirst(Functions::identity())->orThrow()->text());
+        $this->assertSame('123', $this->match()->stream()->findFirst(Functions::identity())->get()->text());
     }
 
     public function test_stream_flatMap()

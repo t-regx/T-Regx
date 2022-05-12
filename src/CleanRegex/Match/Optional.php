@@ -7,7 +7,7 @@ interface Optional
 {
     public function get();
 
-    public function orThrow(Throwable $throwable = null);
+    public function orThrow(Throwable $throwable);
 
     public function orReturn($substitute);
 

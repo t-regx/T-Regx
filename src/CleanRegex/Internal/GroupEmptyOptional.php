@@ -42,7 +42,7 @@ class GroupEmptyOptional implements Optional
         return $substituteProducer($this->notMatched);
     }
 
-    public function orThrow(Throwable $throwable = null): void
+    public function orThrow(Throwable $throwable): void
     {
         throw $throwable;
     }
