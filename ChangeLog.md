@@ -29,6 +29,8 @@ Incoming
       argument, which can be used to limit splits from the start of the subject.
     * Added `Pattern.splitEnd()`, which works similarly to `Pattern.split()` but accepts a non-negative `maxSplits`
       argument, which can be used to limit splits from the end of the subject.
+    * Added method `Optional.get()`, which returns the optional value or throws an exception (similarly to
+      previous `Optional.orThrow(null)`).
 
 Added in 0.26.0
 ---------------

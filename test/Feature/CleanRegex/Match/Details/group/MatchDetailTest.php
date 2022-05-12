@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\ExampleException;
 use Test\Utils\ExplicitStringEncoding;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
@@ -242,8 +243,22 @@ class MatchDetailTest extends TestCase
         // when
         pattern('foo:(\w+)?')->match('foo:')
             ->first(function (Detail $detail) {
-                return $detail->group(1)->map(Functions::fail())->orThrow();
+                return $detail->group(1)->map(Functions::fail())->get();
             });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMapGroupOptionalEmptyFirstOrThrow()
+    {
+        // when
+        pattern('foo:(\w+)?')->match('foo:')->first(Functions::out($detail));
+        // then
+        $this->expectException(ExampleException::class);
+        $this->expectExceptionMessage('message');
+        // then
+        $detail->group(1)->map(Functions::fail())->orThrow(new ExampleException('message'));
     }
 
     /**
@@ -258,7 +273,7 @@ class MatchDetailTest extends TestCase
         // when
         pattern('foo:(\w+)?')->match('foo:123 foo:')
             ->forEach(function (Detail $detail) {
-                $detail->group(1)->map(Functions::identity())->orThrow();
+                $detail->group(1)->map(Functions::identity())->get();
             });
     }
 
@@ -267,16 +282,13 @@ class MatchDetailTest extends TestCase
      */
     public function shouldMapGroupOptionalUsingDuplicateName()
     {
+        // given
+        pattern('foo:(?<name>\w+)')->match('foo:bar')->first(Functions::out($detail));
         // when
-        $group = pattern('foo:(?<name>\w+)')->match('foo:bar')
-            ->first(function (Detail $detail) {
-                return $detail->usingDuplicateName()->group('name')
-                    ->map(function (Group $group) {
-                        return \strToUpper($group->text());
-                    })
-                    ->orThrow();
-            });
-
+        $map = $detail->usingDuplicateName()->group('name')
+            ->map('\strToUpper');
+        $group = $map
+            ->get();
         // then
         $this->assertSame('BAR', $group);
     }

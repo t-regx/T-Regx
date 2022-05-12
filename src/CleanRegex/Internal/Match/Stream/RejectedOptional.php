@@ -17,6 +17,11 @@ class RejectedOptional implements Optional
         $this->throwable = $throwable;
     }
 
+    public function get()
+    {
+        throw $this->throwable;
+    }
+
     public function orThrow(Throwable $throwable = null): void
     {
         if ($throwable === null) {

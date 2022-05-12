@@ -7,6 +7,7 @@ use Test\Utils\AssertsSameMatches;
 use Test\Utils\CausesBacktracking;
 use Test\Utils\DetailFunctions;
 use Test\Utils\ExactExceptionMessage;
+use Test\Utils\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
@@ -117,7 +118,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_findFirst_orElse_groupsCount()
+    public function shouldGet_findFirst_orElseGet_groupsCount()
     {
         // when
         $value = pattern('Foo')
@@ -546,7 +547,35 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
 
         // when
-        pattern('Foo')->match('bar')->findFirst(Functions::identity())->map(Functions::fail())->orThrow();
+        pattern('Foo')->match('bar')->findFirst(Functions::identity())->map(Functions::fail())->get();
+    }
+
+    /**
+     * @test
+     * @depends shouldMapOptionalEmpty
+     */
+    public function shouldMapOptionalEmptyExceptionSubject()
+    {
+        // given
+        $optional = pattern('Foo')->match('bar')->findFirst(Functions::identity())->map(Functions::fail());
+        try {
+            // when
+            $optional->get();
+        } catch (SubjectNotMatchedException $exception) {
+            // then
+            $this->assertSame('bar', $exception->getSubject());
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMapOptionalEmptyOrThrow()
+    {
+        // then
+        $this->expectException(ExampleException::class);
+        // when
+        pattern('Foo')->match('bar')->findFirst(Functions::identity())->map(Functions::fail())->orThrow(new ExampleException());
     }
 
     /**

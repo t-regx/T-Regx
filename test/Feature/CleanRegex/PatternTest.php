@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PcrePattern;
@@ -312,5 +313,16 @@ class PatternTest extends TestCase
         $matches = Pattern::of('|0')->match('0')->distinct();
         // then
         $this->assertSame(['', '0'], $matches);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFirstOptional()
+    {
+        // when
+        $result = Pattern::of('Foo')->match('Foo')->findFirst(Functions::identity())->get();
+        // then
+        $this->assertSame('Foo', $result->text());
     }
 }

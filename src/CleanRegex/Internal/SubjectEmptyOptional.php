@@ -31,6 +31,11 @@ class SubjectEmptyOptional implements Optional
         return $substituteProducer($this->notMatched);
     }
 
+    public function get()
+    {
+        throw new SubjectNotMatchedException($this->message, $this->subject);
+    }
+
     public function orThrow(Throwable $throwable = null): void
     {
         if ($throwable === null) {

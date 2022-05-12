@@ -5,6 +5,8 @@ use Throwable;
 
 interface Optional
 {
+    public function get();
+
     public function orThrow(Throwable $throwable = null);
 
     public function orReturn($substitute);

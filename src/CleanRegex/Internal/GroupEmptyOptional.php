@@ -32,6 +32,11 @@ class GroupEmptyOptional implements Optional
         return new self($notMatched, "Expected to get group $group, but the group was not matched");
     }
 
+    public function get()
+    {
+        throw new GroupNotMatchedException($this->message);
+    }
+
     public function orElse(callable $substituteProducer)
     {
         return $substituteProducer($this->notMatched);
@@ -39,9 +44,6 @@ class GroupEmptyOptional implements Optional
 
     public function orThrow(Throwable $throwable = null): void
     {
-        if ($throwable === null) {
-            throw new GroupNotMatchedException($this->message);
-        }
         throw $throwable;
     }
 }

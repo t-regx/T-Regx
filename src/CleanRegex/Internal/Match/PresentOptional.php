@@ -14,6 +14,11 @@ class PresentOptional implements Optional
         $this->value = $value;
     }
 
+    public function get()
+    {
+        return $this->value;
+    }
+
     public function orThrow(Throwable $throwable = null)
     {
         return $this->value;

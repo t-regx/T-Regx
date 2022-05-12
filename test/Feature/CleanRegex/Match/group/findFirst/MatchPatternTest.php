@@ -117,7 +117,7 @@ class MatchPatternTest extends TestCase
             ->match('Foo')
             ->group('group')
             ->findFirst(Functions::fail())
-            ->orThrow();
+            ->get();
     }
 
     /**
