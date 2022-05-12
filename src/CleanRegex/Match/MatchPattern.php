@@ -259,4 +259,10 @@ class MatchPattern implements \Countable, \IteratorAggregate
     {
         return $this->groupNames->groupNames();
     }
+
+    public function groupsCount(): int
+    {
+        preg::match_all($this->definition->pattern, '', $matches);
+        return \count(\array_filter(\array_keys($matches), '\is_int')) - 1;
+    }
 }

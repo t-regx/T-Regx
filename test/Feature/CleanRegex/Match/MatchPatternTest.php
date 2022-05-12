@@ -718,7 +718,7 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowForMalformedElements()
+    public function shouldGroupNamesThrowForMalformedElements()
     {
         // given
         $match = Pattern::of('+')->match('Bar');
@@ -732,11 +732,69 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotCauseCatastrophicBacktracking()
+    public function shouldGroupNamesNotCauseCatastrophicBacktracking()
     {
         // when
         $this->backtrackingMatch()->groupNames();
         // then
         $this->pass();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetZeroGroups()
+    {
+        // when
+        $count = Pattern::of('Foo')->match('Foo')->groupsCount();
+        // then
+        $this->assertSame(0, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFourGroups()
+    {
+        // when
+        $count = Pattern::of('(Foo)()()()')->match('Foo')->groupsCount();
+        // then
+        $this->assertSame(4, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFourGroupsMixed()
+    {
+        // when
+        $count = Pattern::of('(Foo)(?<name>)()(?<other>)')->match('Foo')->groupsCount();
+        // then
+        $this->assertSame(4, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupsCountNotCauseCatastrophicBacktracking()
+    {
+        // when
+        $this->backtrackingMatch()->groupsCount();
+        // then
+        $this->pass();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupsCountThrowForMalformedElements()
+    {
+        // given
+        $match = Pattern::of('+')->match('Bar');
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
+        // when
+        $match->groupsCount();
     }
 }
