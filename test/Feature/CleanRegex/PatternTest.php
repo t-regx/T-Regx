@@ -4,7 +4,9 @@ namespace Test\Feature\TRegx\CleanRegex;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PcrePattern;
 use TRegx\Exception\MalformedPatternException;
@@ -324,5 +326,37 @@ class PatternTest extends TestCase
         $result = Pattern::of('Foo')->match('Foo')->findFirst(Functions::identity())->get();
         // then
         $this->assertSame('Foo', $result->text());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupByUnmatchedGroup()
+    {
+        // given
+        $match = Pattern::of('Foo(?<missing>missing)?')->match('Foo');
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to group matches by group 'missing', but the group was not matched");
+        // when
+        $match->groupByCallback(function (Detail $detail) {
+            return $detail->group('missing');
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupByUnmatchedGroupIndexed()
+    {
+        // given
+        $match = Pattern::of('Foo(?<missing>missing)?')->match('Foo');
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to group matches by group #1, but the group was not matched");
+        // when
+        $match->groupByCallback(function (Detail $detail) {
+            return $detail->group(1);
+        });
     }
 }

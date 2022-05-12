@@ -44,7 +44,7 @@ class TextGroup implements Group
 
     public function matched(): bool
     {
-        throw $this->fail();
+        return true;
     }
 
     public function equals(string $expected): bool

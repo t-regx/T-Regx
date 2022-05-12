@@ -24,6 +24,7 @@ Incoming
     * Fixed a bug when calling `triple($a,$a,$b)` where `$a` was a non-existent group, and `$b` was a malformed
       group, T-Regx threw `NonexistentGroupException`, instead of `InvalidArgumentException`. Now it
       throws `InvalidArgumentException`.
+    * Updated misleading message of `GroupNotMatchedException` thrown when using `groupByCallback()`.
 * Features
     * Added `Pattern.splitStart()`, which works similarly to `Pattern.split()` but accepts a non-negative `maxSplits`
       argument, which can be used to limit splits from the start of the subject.
