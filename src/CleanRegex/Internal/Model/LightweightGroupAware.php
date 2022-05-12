@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Internal\Model;
 
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\SafeRegex\preg;
 
 class LightweightGroupAware implements GroupAware
 {
@@ -29,7 +30,7 @@ class LightweightGroupAware implements GroupAware
     private function matches(): array
     {
         if ($this->matches === null) {
-            \preg_match_all($this->definition->pattern, '', $this->matches);
+            preg::match_all($this->definition->pattern, '', $this->matches);
         }
         return $this->matches;
     }

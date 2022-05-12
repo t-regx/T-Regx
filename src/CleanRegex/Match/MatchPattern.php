@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
@@ -54,6 +55,8 @@ class MatchPattern implements \Countable, \IteratorAggregate
     private $allFactory;
     /** @var MatchOnly */
     private $matchOnly;
+    /** @var GroupNames */
+    private $groupNames;
 
     public function __construct(Definition $definition, Subject $subject)
     {
@@ -63,6 +66,7 @@ class MatchPattern implements \Countable, \IteratorAggregate
         $this->groupAware = new LightweightGroupAware($definition);
         $this->allFactory = new LazyMatchAllFactory($this->base);
         $this->matchOnly = new MatchOnly($definition, $this->base);
+        $this->groupNames = new GroupNames($this->groupAware);
     }
 
     public function test(): bool
@@ -249,5 +253,10 @@ class MatchPattern implements \Countable, \IteratorAggregate
             $accumulator = $reducer($accumulator, $detail);
         }
         return $accumulator;
+    }
+
+    public function groupNames(): array
+    {
+        return $this->groupNames->groupNames();
     }
 }

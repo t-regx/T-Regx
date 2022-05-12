@@ -9,6 +9,7 @@ use Test\Utils\DetailFunctions;
 use Test\Utils\ExactExceptionMessage;
 use Test\Utils\ExampleException;
 use Test\Utils\Functions;
+use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
@@ -16,11 +17,12 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Pattern;
+use TRegx\Exception\MalformedPatternException;
 use function pattern;
 
 class MatchPatternTest extends TestCase
 {
-    use AssertsSameMatches, CausesBacktracking, ExactExceptionMessage;
+    use TestCasePasses, AssertsSameMatches, CausesBacktracking, ExactExceptionMessage;
 
     /**
      * @test
@@ -656,5 +658,85 @@ class MatchPatternTest extends TestCase
             });
         // then
         $this->assertSame(['value' => ['value']], $groupped);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetEmptyGroupNames()
+    {
+        // when
+        $groupNames = Pattern::of('Foo')->match('Foo')->groupNames();
+        // then
+        $this->assertSame([], $groupNames);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupNames()
+    {
+        // when
+        $groupNames = Pattern::of('(?<first>first), (?<second>second)')->match('first, second')->groupNames();
+        // then
+        $this->assertSame(['first', 'second'], $groupNames);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupNameUnnamed()
+    {
+        // when
+        $groupNames = Pattern::of('(Foo)')->match('Foo')->groupNames();
+        // then
+        $this->assertSame([null], $groupNames);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupNamesMixed()
+    {
+        // when
+        $groupNames = Pattern::of('(?<name>Foo)(Missing)?')->match('Foo')->groupNames();
+        // then
+        $this->assertSame(['name', null], $groupNames);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupNamesDuplicateNamed()
+    {
+        // when
+        $groupNames = Pattern::of('(?<name>Foo)(?<name>Foo)', 'J')->match('Foo')->groupNames();
+        // then
+        $this->assertSame(['name', null], $groupNames);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMalformedElements()
+    {
+        // given
+        $match = Pattern::of('+')->match('Bar');
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
+        // when
+        $match->groupNames();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotCauseCatastrophicBacktracking()
+    {
+        // when
+        $this->backtrackingMatch()->groupNames();
+        // then
+        $this->pass();
     }
 }
