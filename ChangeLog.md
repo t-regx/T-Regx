@@ -38,6 +38,8 @@ Incoming
         * Added `Pattern.match().hasGroup()`, same as `Detail.hasGroup()` and `NotMatched.hasGroup()`.
         * Added `Pattern.match().groupNames()`, same as `Detail.groupNames()` and `NotMatched.groupNames()`.
         * Added `Pattern.match().groupsCount()`, same as `Detail.groupsCount()` and `NotMatched.groupNames()`.
+* Deprecation
+    * Deprecated `NotMatched` passed as `findFirst().orElse()` argument.
 
 Added in 0.26.0
 ---------------

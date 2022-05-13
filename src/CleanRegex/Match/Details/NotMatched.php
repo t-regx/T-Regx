@@ -6,6 +6,9 @@ use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Subject;
 
+/**
+ * @deprecated
+ */
 class NotMatched implements Structure
 {
     /** @var GroupAware */
