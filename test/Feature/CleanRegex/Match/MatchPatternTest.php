@@ -797,4 +797,111 @@ class MatchPatternTest extends TestCase
         // when
         $match->groupsCount();
     }
+
+    /**
+     * @test
+     */
+    public function shouldPatternHaveGroup0()
+    {
+        $this->assertTrue(Pattern::of('Foo')->match('Foo')->hasGroup(0));
+        $this->assertTrue(Pattern::of('Foo')->match('Bar')->hasGroup(0));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPatternNotHaveGroup()
+    {
+        $this->assertFalse(Pattern::of('Foo')->match('Foo')->hasGroup(1));
+        $this->assertFalse(Pattern::of('Foo')->match('Bar')->hasGroup(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPatternHaveGroup1()
+    {
+        $this->assertTrue(Pattern::of('(Foo)')->match('Foo')->hasGroup(1));
+        $this->assertTrue(Pattern::of('(Foo)')->match('Bar')->hasGroup(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPatternNotHaveNonCapturingGroup()
+    {
+        $this->assertFalse(Pattern::of('(?:Foo)')->match('Foo')->hasGroup(1));
+        $this->assertFalse(Pattern::of('(?:Foo)')->match('Bar')->hasGroup(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPatternHaveNamedGroup()
+    {
+        $this->assertTrue(Pattern::of('-(?<name>Foo)')->match('Foo')->hasGroup('name'));
+        $this->assertTrue(Pattern::of('-(?<name>Foo)')->match('Bar')->hasGroup('name'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPatternNotHaveNamedGroup()
+    {
+        $this->assertFalse(Pattern::of('-(?<name>Foo)')->match('Foo')->hasGroup('missing'));
+        $this->assertFalse(Pattern::of('-(?<name>Foo)')->match('Bar')->hasGroup('missing'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMalformedPattern()
+    {
+        // given
+        $match = Pattern::of('+')->match('Foo');
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
+        // when
+        $match->hasGroup(2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldHasGroupNotCauseCatastrophicBacktracking()
+    {
+        // when
+        $this->backtrackingMatch()->hasGroup(2);
+        // then
+        $this->pass();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMalformedGroupName()
+    {
+        // given
+        $match = Pattern::of('Foo')->match('Foo');
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '2group' given");
+        // when
+        $match->hasGroup('2group');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForNegativeIndex()
+    {
+        // given
+        $match = Pattern::of('Foo')->match('Foo');
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group index must be a non-negative integer, but -1 given");
+        // when
+        $match->hasGroup(-1);
+    }
 }
