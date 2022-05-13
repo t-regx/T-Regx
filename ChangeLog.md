@@ -33,6 +33,11 @@ Incoming
       argument, which can be used to limit splits from the end of the subject.
     * Added method `Optional.get()`, which returns the optional value or throws an exception (similarly to
       previous `Optional.orThrow(null)`).
+    * Added methods to `Pattern.match()`:
+        * Added `Pattern.match().subject()`, same as `Detail.subject()` and `NotMatched.subject()`.
+        * Added `Pattern.match().hasGroup()`, same as `Detail.hasGroup()` and `NotMatched.hasGroup()`.
+        * Added `Pattern.match().groupNames()`, same as `Detail.groupNames()` and `NotMatched.groupNames()`.
+        * Added `Pattern.match().groupsCount()`, same as `Detail.groupsCount()` and `NotMatched.groupNames()`.
 
 Added in 0.26.0
 ---------------
