@@ -56,16 +56,25 @@ class Pattern
         return new ForArrayPattern($this->predefinition->definition(), $haystack);
     }
 
+    /**
+     * @return string[]
+     */
     public function cut(string $subject): array
     {
         return $this->needle->twoPieces($subject);
     }
 
+    /**
+     * @return string[]
+     */
     public function split(string $subject): array
     {
         return $this->needle->splitAll($subject);
     }
 
+    /**
+     * @return string[]
+     */
     public function splitStart(string $subject, int $maxSplits): array
     {
         if ($maxSplits < 0) {
@@ -74,6 +83,9 @@ class Pattern
         return $this->needle->splitFromStart($subject, $maxSplits);
     }
 
+    /**
+     * @return string[]
+     */
     public function splitEnd(string $subject, int $maxSplits): array
     {
         if ($maxSplits < 0) {
