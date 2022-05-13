@@ -3,7 +3,6 @@ namespace Test\Feature\TRegx\CleanRegex\Match;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsSameMatches;
 use Test\Utils\CausesBacktracking;
 use Test\Utils\DetailFunctions;
 use Test\Utils\ExactExceptionMessage;
@@ -22,7 +21,20 @@ use function pattern;
 
 class MatchPatternTest extends TestCase
 {
-    use TestCasePasses, AssertsSameMatches, CausesBacktracking, ExactExceptionMessage;
+    use TestCasePasses, CausesBacktracking, ExactExceptionMessage;
+
+    /**
+     * @test
+     */
+    public function shouldGetSubject()
+    {
+        // given
+        $match = Pattern::of('Foo')->match('Not all those who wander are lost');
+        // when
+        $subject = $match->subject();
+        // then
+        $this->assertSame('Not all those who wander are lost', $subject);
+    }
 
     /**
      * @test

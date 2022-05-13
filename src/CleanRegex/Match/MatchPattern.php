@@ -37,9 +37,10 @@ use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\SubjectEmptyOptional;
 use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\Structure;
 use TRegx\SafeRegex\preg;
 
-class MatchPattern implements \Countable, \IteratorAggregate
+class MatchPattern implements \Countable, \IteratorAggregate, Structure
 {
     use MatchPatternHelpers;
 
@@ -269,5 +270,10 @@ class MatchPattern implements \Countable, \IteratorAggregate
     public function hasGroup($nameOrIndex): bool
     {
         return $this->groupAware->hasGroup(GroupKey::of($nameOrIndex));
+    }
+
+    public function subject(): string
+    {
+        return $this->subject->asString();
     }
 }
