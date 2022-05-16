@@ -11,7 +11,6 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 use function pattern;
 
 class MatchDetailTest extends TestCase
@@ -296,7 +295,7 @@ class MatchDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldDelegateNotMatched()
+    public function shouldOrElseRecieveNoArguments()
     {
         // when
         pattern('\w+(?<group>Bar)?')
@@ -306,12 +305,7 @@ class MatchDetailTest extends TestCase
             ->forEach(function (NotMatchedGroup $group) {
                 $group
                     ->map(Functions::identity())
-                    ->orElse(function (NotMatched $notMatched) {
-                        $this->assertSame(1, $notMatched->groupsCount());
-                        $this->assertSame(['group'], $notMatched->groupNames());
-                        $this->assertTrue($notMatched->hasGroup('group'));
-                        $this->assertFalse($notMatched->hasGroup('missing'));
-                    });
+                    ->orElse(Functions::argumentless());
             });
     }
 }

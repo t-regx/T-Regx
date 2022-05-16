@@ -15,7 +15,6 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\UsedForGroup;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\Group;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class DetailGroup
 {
@@ -43,7 +42,7 @@ class DetailGroup
         $this->entry = $matchEntry;
         $this->usedForGroup = $usedForGroup;
         $this->groupHandle = new FirstNamedGroup($signatures);
-        $this->groupFacade = new GroupFacade($subject, $strategy, $allFactory, new NotMatched($groupAware, $subject), $this->groupHandle, $signatures);
+        $this->groupFacade = new GroupFacade($subject, $strategy, $allFactory, $this->groupHandle, $signatures);
     }
 
     public function exists(GroupKey $group): bool

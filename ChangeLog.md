@@ -4,7 +4,9 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Removed previously deprecated `NotMatched`. Every functionallity of `NotMatched` was also added to
+      `Pattern.match()` in previous release. This was done to unify the interface of each `Optional` implementation.
 
 Added in 0.26.0
 ---------------

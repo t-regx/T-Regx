@@ -8,7 +8,6 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class MatchPatternTest extends TestCase
 {
@@ -155,21 +154,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldPass_NotMatched_unmatchedSubject()
-    {
-        // when
-        pattern('Foo(?<one>)(?<two>)')
-            ->match('123')
-            ->group(0)
-            ->findFirst(Functions::fail())
-            ->orElse(function (NotMatched $notMatched) {
-                $this->assertSame(['one', 'two'], $notMatched->groupNames());
-            });
-    }
-
-    /**
-     * @test
-     */
     public function shouldPass_NotMatched_unmatchedGroup()
     {
         // when
@@ -177,9 +161,7 @@ class MatchPatternTest extends TestCase
             ->match('Foo')
             ->group(1)
             ->findFirst(Functions::fail())
-            ->orElse(function (NotMatched $notMatched) {
-                $this->assertSame(['one'], $notMatched->groupNames());
-            });
+            ->orElse(Functions::argumentless());
     }
 
     /**

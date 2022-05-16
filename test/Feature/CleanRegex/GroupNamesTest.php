@@ -2,8 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Functions;
-use TRegx\CleanRegex\Match\Details\NotMatched;
+use TRegx\CleanRegex\Match\Details\Structure;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -78,9 +77,8 @@ class GroupNamesTest extends TestCase
         $this->assertSame([null, 'a', 'b', null, 'c'], $notMatched->groupNames());
     }
 
-    private function notMatched(Pattern $pattern): NotMatched
+    private function notMatched(Pattern $pattern): Structure
     {
-        $pattern->match('Bar')->findFirst(Functions::fail())->orElse(Functions::out($notMatched));
-        return $notMatched;
+        return $pattern->match('Bar');
     }
 }

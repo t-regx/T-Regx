@@ -5,7 +5,6 @@ use TRegx\CleanRegex\Internal\Replace\Details\EntryModification;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceMatchedGroup;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceNotMatchedGroup;
 
@@ -28,8 +27,8 @@ class ReplaceMatchGroupFactoryStrategy implements GroupFactoryStrategy
             new EntryModification($entry, $this->subjectModification, $this->byteOffsetModification));
     }
 
-    public function notMatched(Subject $subject, GroupDetails $details, NotMatched $notMatched): NotMatchedGroup
+    public function notMatched(Subject $subject, GroupDetails $details): NotMatchedGroup
     {
-        return new ReplaceNotMatchedGroup($subject, $details, $notMatched);
+        return new ReplaceNotMatchedGroup($subject, $details);
     }
 }

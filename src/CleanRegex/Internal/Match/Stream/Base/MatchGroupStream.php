@@ -19,7 +19,6 @@ use TRegx\CleanRegex\Internal\Pcre\Signatures\ArraySignatures;
 use TRegx\CleanRegex\Internal\Pcre\Signatures\PerformanceSignatures;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\Group;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class MatchGroupStream implements Upstream
 {
@@ -58,7 +57,6 @@ class MatchGroupStream implements Upstream
         $facade = new GroupFacade($this->subject,
             new MatchGroupFactoryStrategy(),
             new EagerMatchAllFactory($matches),
-            new NotMatched($matches, $this->subject),
             new FirstNamedGroup($signatures),
             $signatures);
         return $facade->createGroups($this->group, $matches);
@@ -79,7 +77,6 @@ class MatchGroupStream implements Upstream
         $groupFacade = new GroupFacade($this->subject,
             new MatchGroupFactoryStrategy(),
             $this->allFactory,
-            new NotMatched($this->groupAware, $this->subject),
             new FirstNamedGroup($signatures), $signatures);
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0);
         return $groupFacade->createGroup($this->group, $polyfill, $polyfill);

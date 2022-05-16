@@ -21,14 +21,4 @@ class RejectedOptional implements Optional
     {
         throw $this->throwable;
     }
-
-    public function orThrow(Throwable $throwable): void
-    {
-        throw $throwable;
-    }
-
-    public function orElse(callable $substituteProducer)
-    {
-        return $substituteProducer();
-    }
 }

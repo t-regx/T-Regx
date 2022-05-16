@@ -103,7 +103,7 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
         if ($match->matched()) {
             return new PresentOptional($consumer($this->findFirstDetail($match)));
         }
-        return new SubjectEmptyOptional($this->groupAware, $this->subject, new FirstMatchMessage());
+        return new SubjectEmptyOptional($this->subject, new FirstMatchMessage());
     }
 
     private function matchDetail(): Detail

@@ -6,7 +6,6 @@ use Test\Utils\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -136,20 +135,11 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function should_onNotMatchingSubject_call_withDetails()
+    public function shouldOrElseRecieveNoArguments()
     {
         // given
-        $pattern = Pattern::of("(?:[A-Z])?[a-z']+ (?<group>.)")->match('NOT MATCHING');
+        $pattern = Pattern::of('Foo')->match('Bar');
         // when
-        $pattern->findFirst('strRev')->orElse(function (NotMatched $details) {
-            // then
-            $this->assertSame('NOT MATCHING', $details->subject());
-            $this->assertSame(['group'], $details->groupNames());
-            $this->assertTrue($details->hasGroup('group'));
-            $this->assertTrue($details->hasGroup(0));
-            $this->assertTrue($details->hasGroup(1));
-            $this->assertFalse($details->hasGroup('other'));
-            $this->assertFalse($details->hasGroup(2));
-        });
+        $pattern->findFirst(Functions::fail())->orElse(Functions::argumentless());
     }
 }

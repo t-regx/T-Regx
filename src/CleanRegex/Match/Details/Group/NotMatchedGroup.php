@@ -5,7 +5,6 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupEmptyOptional;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\Optional;
 
 class NotMatchedGroup implements Group
@@ -14,14 +13,11 @@ class NotMatchedGroup implements Group
     private $subject;
     /** @var GroupDetails */
     private $details;
-    /** @var NotMatched */
-    private $notMatched;
 
-    public function __construct(Subject $subject, GroupDetails $details, NotMatched $notMatched)
+    public function __construct(Subject $subject, GroupDetails $details)
     {
         $this->subject = $subject;
         $this->details = $details;
-        $this->notMatched = $notMatched;
     }
 
     public function text(): string
@@ -130,6 +126,6 @@ class NotMatchedGroup implements Group
      */
     public function map(callable $mapper): Optional
     {
-        return GroupEmptyOptional::forGet($this->notMatched, $this->details->group());
+        return GroupEmptyOptional::forGet($this->details->group());
     }
 }

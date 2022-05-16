@@ -7,12 +7,13 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchTripleMessage;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchTupleMessage;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Match\Optional;
 
 trait MatchPatternHelpers
 {
     abstract public function findFirst(callable $consumer): Optional;
+
+    abstract public function subject(): string;
 
     public function tuple($nameOrIndex1, $nameOrIndex2): array
     {
@@ -27,12 +28,12 @@ trait MatchPatternHelpers
                     $second->matched() ? $second->text() : null,
                 ];
             })
-            ->orElse(static function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2) {
-                self::validateGroups($notMatched, [$nameOrIndex1, $nameOrIndex2]);
+            ->orElse(function () use ($nameOrIndex1, $nameOrIndex2) {
+                self::validateGroups([$nameOrIndex1, $nameOrIndex2]);
                 throw new SubjectNotMatchedException(new FromFirstMatchTupleMessage(
                     GroupKey::of($nameOrIndex1),
                     GroupKey::of($nameOrIndex2)),
-                    new Subject($notMatched->subject()));
+                    new Subject($this->subject()));
             });
     }
 
@@ -52,20 +53,20 @@ trait MatchPatternHelpers
                     $third->matched() ? $third->text() : null
                 ];
             })
-            ->orElse(static function (NotMatched $notMatched) use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
-                self::validateGroups($notMatched, [$nameOrIndex1, $nameOrIndex2, $nameOrIndex3]);
+            ->orElse(function () use ($nameOrIndex1, $nameOrIndex2, $nameOrIndex3) {
+                $this->validateGroups([$nameOrIndex1, $nameOrIndex2, $nameOrIndex3]);
                 throw new SubjectNotMatchedException(new FromFirstMatchTripleMessage(
                     GroupKey::of($nameOrIndex1),
                     GroupKey::of($nameOrIndex2),
                     GroupKey::of($nameOrIndex3)),
-                    new Subject($notMatched->subject()));
+                    new Subject($this->subject()));
             });
     }
 
-    private static function validateGroups(NotMatched $notMatched, array $groups): void
+    private function validateGroups(array $groups): void
     {
         foreach ($groups as $group) {
-            if (!$notMatched->hasGroup($group)) {
+            if (!$this->hasGroup($group)) {
                 throw new NonexistentGroupException(GroupKey::of($group));
             }
         }

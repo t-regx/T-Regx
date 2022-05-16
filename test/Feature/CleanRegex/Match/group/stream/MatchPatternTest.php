@@ -8,7 +8,6 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class MatchPatternTest extends TestCase
 {
@@ -200,11 +199,6 @@ class MatchPatternTest extends TestCase
             ->stream()
             ->first()
             ->map(Functions::identity())
-            ->orElse(function (NotMatched $notMatched) {
-                $this->assertSame(['one', 'last'], $notMatched->groupNames());
-                $this->assertTrue($notMatched->hasGroup('last'));
-                $this->assertTrue($notMatched->hasGroup('one'));
-                $this->assertFalse($notMatched->hasGroup('two'));
-            });
+            ->orElse(Functions::argumentless());
     }
 }

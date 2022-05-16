@@ -13,7 +13,6 @@ use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 
 class GroupFacade
 {
@@ -27,13 +26,10 @@ class GroupFacade
     private $allFactory;
     /** @var Signatures */
     private $signatures;
-    /** @var NotMatched */
-    private $notMatched;
 
     public function __construct(Subject              $subject,
                                 GroupFactoryStrategy $factoryStrategy,
                                 MatchAllFactory      $allFactory,
-                                NotMatched           $notMatched,
                                 GroupHandle          $groupHandle,
                                 Signatures           $signatures)
     {
@@ -41,7 +37,6 @@ class GroupFacade
         $this->groupHandle = $groupHandle;
         $this->factoryStrategy = $factoryStrategy;
         $this->allFactory = $allFactory;
-        $this->notMatched = $notMatched;
         $this->signatures = $signatures;
     }
 
@@ -72,7 +67,7 @@ class GroupFacade
 
     private function createUnmatched(GroupKey $group): NotMatchedGroup
     {
-        return $this->factoryStrategy->notMatched($this->subject, $this->createGroupDetails($group), $this->notMatched);
+        return $this->factoryStrategy->notMatched($this->subject, $this->createGroupDetails($group));
     }
 
     private function createGroupDetails(GroupKey $group): GroupDetails

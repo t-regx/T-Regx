@@ -104,8 +104,7 @@ class DuplicateName
     {
         $this->forGroup = $forGroup;
         $this->entry = $entry;
-        $this->groupFacade = new GroupFacade($subject, $factoryStrategy, $allFactory,
-            new NotMatched($groupAware, $subject), new RuntimeNamedGroup(), $signatures);
+        $this->groupFacade = new GroupFacade($subject, $factoryStrategy, $allFactory, new RuntimeNamedGroup(), $signatures);
         $this->groupAware = $groupAware;
     }
 

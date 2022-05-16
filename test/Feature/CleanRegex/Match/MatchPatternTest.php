@@ -14,7 +14,6 @@ use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\NotMatched;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 use function pattern;
@@ -138,12 +137,7 @@ class MatchPatternTest extends TestCase
         $value = pattern('Foo')
             ->match('Bar')
             ->findFirst(Functions::fail())
-            ->orElse(function (NotMatched $notMatched) {
-                // then
-                $this->assertSame(0, $notMatched->groupsCount());
-                return 'Different';
-            });
-
+            ->orElse(Functions::constant('Different'));
         // then
         $this->assertSame('Different', $value);
     }
