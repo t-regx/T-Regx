@@ -1,9 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
 
-use TRegx\CleanRegex\Internal\Model\GroupKeys;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 
-class FactoryGroupKeys implements GroupKeys
+class FactoryGroupAware implements GroupAware
 {
     /** @var MatchAllFactory */
     private $allFactory;
@@ -16,5 +17,10 @@ class FactoryGroupKeys implements GroupKeys
     public function getGroupKeys(): array
     {
         return $this->allFactory->getRawMatches()->getGroupKeys();
+    }
+
+    public function hasGroup(GroupKey $group): bool
+    {
+        return $this->allFactory->getRawMatches()->hasGroup($group);
     }
 }

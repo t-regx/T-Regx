@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
-use TRegx\CleanRegex\Internal\Model\GroupKeys;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 
 /**
  * @deprecated
@@ -18,22 +18,22 @@ class GroupPolyfillDecorator implements IRawMatchOffset
     private $allFactory;
     /** @var int */
     private $newMatchIndex;
-    /** @var GroupKeys */
-    private $groupKeys;
+    /** @var GroupAware */
+    private $groupAware;
 
-    public function __construct(FalseNegative $match, MatchAllFactory $allFactory, int $newMatchIndex, GroupKeys $groupKeys = null)
+    public function __construct(FalseNegative $match, MatchAllFactory $allFactory, int $newMatchIndex, GroupAware $groupAware = null)
     {
         $this->falseMatch = $match;
         $this->trueMatch = null;
         $this->allFactory = $allFactory;
         $this->newMatchIndex = $newMatchIndex;
-        $this->groupKeys = $groupKeys ?? new FactoryGroupKeys($allFactory);
+        $this->groupAware = $groupAware ?? new FactoryGroupAware($allFactory);
     }
 
     public function hasGroup(GroupKey $group): bool
     {
         if ($this->falseMatch->maybeGroupIsMissing($group->nameOrIndex())) {
-            return $this->trueMatch()->hasGroup($group);
+            return $this->reloadAndHasGroup($group);
         }
         return true;
     }
@@ -46,9 +46,17 @@ class GroupPolyfillDecorator implements IRawMatchOffset
     public function isGroupMatched($nameOrIndex): bool
     {
         if ($this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
-            return $this->trueMatch()->isGroupMatched($nameOrIndex);
+            return false;
         }
         return $this->falseMatch->isGroupMatched($nameOrIndex);
+    }
+
+    private function reloadAndHasGroup(GroupKey $group): bool
+    {
+        if ($this->trueMatch !== null) {
+            return $this->trueMatch->hasGroup($group);
+        }
+        return $this->groupAware->hasGroup($group);
     }
 
     public function getGroup($nameOrIndex): ?string
@@ -96,7 +104,7 @@ class GroupPolyfillDecorator implements IRawMatchOffset
         if ($this->trueMatch !== null) {
             return $this->trueMatch->getGroupKeys();
         }
-        return $this->groupKeys->getGroupKeys();
+        return $this->groupAware->getGroupKeys();
     }
 
     private function trueMatch(): IRawMatchOffset

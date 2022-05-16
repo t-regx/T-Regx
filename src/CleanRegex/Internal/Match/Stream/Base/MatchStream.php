@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
-use TRegx\CleanRegex\Internal\Model\GroupKeys;
+use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
@@ -25,16 +25,16 @@ class MatchStream implements Upstream
     private $allFactory;
     /** @var DetailObjectFactory */
     private $detailObjects;
-    /** @var GroupKeys */
-    private $groupKeys;
+    /** @var GroupAware */
+    private $groupAware;
 
-    public function __construct(StreamBase $stream, Subject $subject, MatchAllFactory $allFactory, GroupKeys $groupKeys)
+    public function __construct(StreamBase $stream, Subject $subject, MatchAllFactory $allFactory, GroupAware $groupAware)
     {
         $this->stream = $stream;
         $this->subject = $subject;
         $this->allFactory = $allFactory;
         $this->detailObjects = new DetailObjectFactory($subject);
-        $this->groupKeys = $groupKeys;
+        $this->groupAware = $groupAware;
     }
 
     protected function entries(): array
@@ -47,7 +47,7 @@ class MatchStream implements Upstream
         return DeprecatedMatchDetail::create($this->subject,
             $this->tryFirstKey(),
             new GroupPolyfillDecorator(new FalseNegative($this->stream->first()), $this->allFactory, 0,
-                $this->groupKeys),
+                $this->groupAware),
             $this->allFactory);
     }
 

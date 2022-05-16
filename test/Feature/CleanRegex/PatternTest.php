@@ -378,6 +378,20 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldFirstGroupProtectAgainstCatastrophicBacktracking_group()
+    {
+        // given
+        $pattern = Pattern::of('(([a\d]+[a\d]+)+3(2)?)');
+        $pattern->match('123 aaaaaaaaaaaaaaaaaaaa 32')->first(Functions::out($detail));
+        // when
+        $detail->group(3);
+        // then
+        $this->pass();
+    }
+
+    /**
+     * @test
+     */
     public function shouldGroupNamesProtectAgainstCatastrophicBacktracking_stream()
     {
         // given

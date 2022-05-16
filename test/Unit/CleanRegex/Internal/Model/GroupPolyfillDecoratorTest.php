@@ -2,11 +2,12 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Model;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Model\GroupKeys;
+use Test\Fakes\CleanRegex\Internal\Model\ConstantGroupAware;
 use Test\Fakes\CleanRegex\Internal\Model\ThrowFalseNegative;
 use Test\Fakes\CleanRegex\Internal\Model\ThrowGroupAware;
 use Test\Fakes\CleanRegex\Internal\Pcre\Legacy\ConstantAll;
 use Test\Fakes\CleanRegex\Internal\Pcre\Legacy\ThrowFactory;
+use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\GroupPolyfillDecorator;
@@ -71,10 +72,9 @@ class GroupPolyfillDecoratorTest extends TestCase
     public function test_isGroupMatched_call()
     {
         // given
-        $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll(['group' => [['value', 0]]]), 0);
-
+        $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ThrowFactory(), 0);
         // when, then
-        $this->assertTrue($decorator->isGroupMatched('group'));
+        $this->assertFalse($decorator->isGroupMatched('group'));
     }
 
     /**
@@ -207,9 +207,22 @@ class GroupPolyfillDecoratorTest extends TestCase
     public function test_getGroupKeys()
     {
         // given
-        $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ThrowFactory(), 0, new GroupKeys(['one', 'two']));
+        $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ThrowFactory(), 0, new ConstantGroupAware(['one', 'two']));
         // when, then
         $this->assertSame(['one', 'two'], $decorator->getGroupKeys());
+    }
+
+    /**
+     * @test
+     */
+    public function test_hasGroup()
+    {
+        // given
+        $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ThrowFactory(), 0, new ConstantGroupAware(['one', 'two']));
+        // when, then
+        $this->assertTrue($decorator->hasGroup(GroupKey::of('one')));
+        $this->assertTrue($decorator->hasGroup(GroupKey::of('two')));
+        $this->assertFalse($decorator->hasGroup(GroupKey::of('three')));
     }
 
     /**
