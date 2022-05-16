@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
+use TRegx\CleanRegex\Internal\Model\GroupKeys;
 
 /**
  * @deprecated
@@ -17,13 +18,16 @@ class GroupPolyfillDecorator implements IRawMatchOffset
     private $allFactory;
     /** @var int */
     private $newMatchIndex;
+    /** @var GroupKeys */
+    private $groupKeys;
 
-    public function __construct(FalseNegative $match, MatchAllFactory $allFactory, int $newMatchIndex)
+    public function __construct(FalseNegative $match, MatchAllFactory $allFactory, int $newMatchIndex, GroupKeys $groupKeys = null)
     {
         $this->falseMatch = $match;
         $this->trueMatch = null;
         $this->allFactory = $allFactory;
         $this->newMatchIndex = $newMatchIndex;
+        $this->groupKeys = $groupKeys ?? new FactoryGroupKeys($allFactory);
     }
 
     public function hasGroup(GroupKey $group): bool
@@ -89,7 +93,10 @@ class GroupPolyfillDecorator implements IRawMatchOffset
 
     public function getGroupKeys(): array
     {
-        return $this->trueMatch()->getGroupKeys();
+        if ($this->trueMatch !== null) {
+            return $this->trueMatch->getGroupKeys();
+        }
+        return $this->groupKeys->getGroupKeys();
     }
 
     private function trueMatch(): IRawMatchOffset

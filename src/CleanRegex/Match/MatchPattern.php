@@ -117,7 +117,7 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
 
     private function findFirstDetail(RawMatchOffset $match): Detail
     {
-        $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0);
+        $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0, $this->groupAware);
         return DeprecatedMatchDetail::create($this->subject, 0, $polyfill, $this->allFactory);
     }
 
@@ -195,7 +195,7 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
 
     public function stream(): Stream
     {
-        return new Stream(new MatchStream(new StreamBase($this->base), $this->subject, new LazyMatchAllFactory($this->base)));
+        return new Stream(new MatchStream(new StreamBase($this->base), $this->subject, new LazyMatchAllFactory($this->base), $this->groupAware));
     }
 
     public function asInt(int $base = 10): IntStream

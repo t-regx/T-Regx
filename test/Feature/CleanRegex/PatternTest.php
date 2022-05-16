@@ -359,4 +359,32 @@ class PatternTest extends TestCase
             return $detail->group(1);
         });
     }
+
+    /**
+     * @test
+     */
+    public function shouldGroupNamesProtectAgainstCatastrophicBacktracking()
+    {
+        // given
+        $pattern = Pattern::of('(([a\d]+[a\d]+)+3(2)?)');
+        $pattern->match('123 aaaaaaaaaaaaaaaaaaaa 32')->first(Functions::out($detail));
+        // when
+        $groupNames = $detail->groupNames();
+        // then
+        $this->assertSame([null, null, null], $groupNames);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupNamesProtectAgainstCatastrophicBacktracking_stream()
+    {
+        // given
+        $pattern = Pattern::of('(([a\d]+[a\d]+)+3(2)?)');
+        $detail = $pattern->match('123 aaaaaaaaaaaaaaaaaaaa 32')->stream()->first();
+        // when
+        $groupNames = $detail->groupNames();
+        // then
+        $this->assertSame([null, null, null], $groupNames);
+    }
 }

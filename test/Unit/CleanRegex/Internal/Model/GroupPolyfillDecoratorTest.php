@@ -2,7 +2,9 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Model;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Model\GroupKeys;
 use Test\Fakes\CleanRegex\Internal\Model\ThrowFalseNegative;
+use Test\Fakes\CleanRegex\Internal\Model\ThrowGroupAware;
 use Test\Fakes\CleanRegex\Internal\Pcre\Legacy\ConstantAll;
 use Test\Fakes\CleanRegex\Internal\Pcre\Legacy\ThrowFactory;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
@@ -205,12 +207,23 @@ class GroupPolyfillDecoratorTest extends TestCase
     public function test_getGroupKeys()
     {
         // given
+        $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ThrowFactory(), 0, new GroupKeys(['one', 'two']));
+        // when, then
+        $this->assertSame(['one', 'two'], $decorator->getGroupKeys());
+    }
+
+    /**
+     * @test
+     */
+    public function test_getGroupKeys_second()
+    {
+        // given
         $matches = [
             'foo'   => [['bar', 10]],
             'lorem' => [['ipsum', 15]],
         ];
-        $decorator = new GroupPolyfillDecorator($this->match([0 => ['one', 0]]), new ConstantAll($matches), 0);
-
+        $decorator = new GroupPolyfillDecorator($this->match([0 => ['one', 0]]), new ConstantAll($matches), 0, new ThrowGroupAware());
+        $decorator->groupTexts();
         // when, then
         $this->assertSame(['foo', 'lorem'], $decorator->getGroupKeys());
     }
