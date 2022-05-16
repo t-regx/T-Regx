@@ -7,6 +7,10 @@ Incoming
 * Breaking changes
     * Removed previously deprecated `NotMatched`. Every functionallity of `NotMatched` was also added to
       `Pattern.match()` in previous release. This was done to unify the interface of each `Optional` implementation.
+* Features
+    * Updated usages of certain methods, like `Detail.groupNames()` and others, so that they don't call full matches
+      when it's not necessary, making it usable even when "regular" usage would
+      throw `CatastrophicBacktrackingException`.
 
 Added in 0.26.0
 ---------------

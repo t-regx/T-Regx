@@ -203,7 +203,8 @@ class GroupMatch implements \IteratorAggregate
 
     public function asInt(int $base = 10): IntStream
     {
-        $upstream = new MatchGroupIntStream($this->base, $this->subject, $this->group, $this->matchAllFactory, new Numeral\Base($base));
+        $upstream = new MatchGroupIntStream($this->base, $this->subject, $this->group, $this->matchAllFactory, new Numeral\Base($base),
+            $this->groupAware);
         return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new GroupIntMessages($this->group)));
     }
 

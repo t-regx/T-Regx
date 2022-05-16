@@ -4,6 +4,7 @@ namespace Test\Feature\TRegx\CleanRegex;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
 use Test\Utils\Functions;
+use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -13,7 +14,7 @@ use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
 {
-    use AssertsPattern;
+    use AssertsPattern, TestCasePasses;
 
     /**
      * @test
@@ -386,5 +387,32 @@ class PatternTest extends TestCase
         $groupNames = $detail->groupNames();
         // then
         $this->assertSame([null, null, null], $groupNames);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupNamesProtectAgainstCatastrophicBacktracking_group_asInt()
+    {
+        // given
+        $pattern = Pattern::of('(([a\d]+[a\d]+)+3(2)?)');
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to get group #3 as integer from the first match, but the group was not matched');
+        // when
+        $pattern->match('123 aaaaaaaaaaaaaaaaaaaa 3')->group(3)->asInt()->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupNamesProtectAgainstCatastrophicBacktracking_group_asInt_existing()
+    {
+        // given
+        $pattern = Pattern::of('(([a\d]+[a\d]+)+3(2)?)');
+        // when
+        $pattern->match('123 aaaaaaaaaaaaaaaaaaaa 32')->group(2)->asInt()->first();
+        // then
+        $this->pass();
     }
 }
