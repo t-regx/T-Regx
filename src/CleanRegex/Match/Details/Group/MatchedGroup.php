@@ -6,13 +6,11 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
 use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
 use TRegx\CleanRegex\Internal\Match\Numeral\GroupExceptions;
 use TRegx\CleanRegex\Internal\Match\Numeral\IntegerBase;
-use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
 use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;
 use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Optional;
 
 class MatchedGroup implements Group
 {
@@ -134,14 +132,6 @@ class MatchedGroup implements Group
     public function substitute(string $replacement): string
     {
         return $this->substitutedGroup->with($replacement);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function map(callable $mapper): Optional
-    {
-        return new PresentOptional($mapper($this));
     }
 
     public function __toString(): string

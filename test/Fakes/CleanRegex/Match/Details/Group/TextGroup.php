@@ -3,7 +3,6 @@ namespace Test\Fakes\CleanRegex\Match\Details\Group;
 
 use Test\Utils\Fails;
 use TRegx\CleanRegex\Match\Details\Group\Group;
-use TRegx\CleanRegex\Match\Optional;
 
 class TextGroup implements Group
 {
@@ -103,11 +102,6 @@ class TextGroup implements Group
     }
 
     public function or(string $substitute): string
-    {
-        throw $this->fail();
-    }
-
-    public function map(callable $mapper): Optional
     {
         throw $this->fail();
     }

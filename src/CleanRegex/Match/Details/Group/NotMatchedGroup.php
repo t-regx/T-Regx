@@ -2,10 +2,8 @@
 namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Internal\GroupEmptyOptional;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Optional;
 
 class NotMatchedGroup implements Group
 {
@@ -119,13 +117,5 @@ class NotMatchedGroup implements Group
     public function substitute(string $replacement): string
     {
         throw $this->groupNotMatched('substitute');
-    }
-
-    /**
-     * @deprecated
-     */
-    public function map(callable $mapper): Optional
-    {
-        return GroupEmptyOptional::forGet($this->details->group());
     }
 }

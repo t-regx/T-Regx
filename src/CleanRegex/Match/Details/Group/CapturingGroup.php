@@ -1,8 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
-use TRegx\CleanRegex\Match\Optional;
-
 interface CapturingGroup extends Element
 {
     public function matched(): bool;
@@ -24,9 +22,4 @@ interface CapturingGroup extends Element
      * @deprecated
      */
     public function substitute(string $replacement): string;
-
-    /**
-     * @deprecated
-     */
-    public function map(callable $mapper): Optional;
 }
