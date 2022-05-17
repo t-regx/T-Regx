@@ -72,6 +72,6 @@ class GroupFacade
 
     private function createGroupDetails(GroupKey $group): GroupDetails
     {
-        return new GroupDetails($this->signatures->signature($group), $group, $this->allFactory);
+        return new GroupDetails($this->groupHandle, $group, $this->allFactory, $this->signatures->signature($group));
     }
 }

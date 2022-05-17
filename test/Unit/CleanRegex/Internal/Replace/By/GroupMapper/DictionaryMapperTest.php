@@ -3,8 +3,8 @@ namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By\GroupMapper;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Match\Details\ThrowDetail;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DictionaryMapper;
-use TRegx\CleanRegex\Match\Details\Detail;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DictionaryMapper
@@ -18,10 +18,8 @@ class DictionaryMapperTest extends TestCase
     {
         // given
         $mapReplace = new DictionaryMapper(['old' => 'new']);
-
         // when
-        $result = $mapReplace->map('old', $this->detail());
-
+        $result = $mapReplace->map('old', new ThrowDetail());
         // then
         $this->assertSame('new', $result);
     }
@@ -33,10 +31,8 @@ class DictionaryMapperTest extends TestCase
     {
         // given
         $mapReplace = new DictionaryMapper(['old' => 'new']);
-
         // when
-        $result = $mapReplace->map('missing', $this->detail());
-
+        $result = $mapReplace->map('missing', new ThrowDetail());
         // then
         $this->assertNull($result);
     }
@@ -49,13 +45,7 @@ class DictionaryMapperTest extends TestCase
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid replacement map value. Expected string, but integer (1) given');
-
         // when
         new DictionaryMapper(['old' => 1]);
-    }
-
-    private function detail(): Detail
-    {
-        return $this->createMock(Detail::class);
     }
 }

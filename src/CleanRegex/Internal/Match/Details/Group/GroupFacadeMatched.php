@@ -42,7 +42,7 @@ class GroupFacadeMatched
         $groupEntry = new GroupEntry($text, $offset, $this->subject);
         return $this->factoryStrategy->matched(
             $this->subject,
-            new GroupDetails($this->signatures->signature($group), $group, $this->allFactory),
+            new GroupDetails($this->groupHandle, $group, $this->allFactory, $this->signatures->signature($group)),
             $groupEntry,
             new SubstitutedGroup($entry, $groupEntry));
     }
