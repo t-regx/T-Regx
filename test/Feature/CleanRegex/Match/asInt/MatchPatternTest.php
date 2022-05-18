@@ -26,7 +26,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetIntegerFirst()
     {
         // when
-        $integer = pattern('\d+')->match('123')->asInt(10)->asInt()->first();
+        $integer = pattern('\d+')->match('123')->asInt(10)->first();
         // then
         $this->assertSame(123, $integer);
     }

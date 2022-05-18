@@ -8,6 +8,7 @@ Incoming
     * Removed previously deprecated `NotMatched`. Every functionallity of `NotMatched` was also added to
       `Pattern.match()` in previous release. This was done to unify the interface of each `Optional` implementation.
     * Removed previously deprecated `Group.map()`.
+    * Removed `IntStream.asInt()` which returned itself.
 * Bug fixes
     * Fixed a bug when using `usingDuplicateName().group().all()` in certain situations resulted in a list of
       indexed groups, not duplicately-named groups.

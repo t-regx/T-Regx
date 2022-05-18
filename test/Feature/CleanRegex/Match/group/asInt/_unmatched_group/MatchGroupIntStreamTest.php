@@ -30,22 +30,6 @@ class MatchGroupIntStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_asInt()
-    {
-        // given
-        $optional = pattern('#(Foo)?')->match('#')->group(1)->asInt()->asInt()->findFirst(Functions::fail());
-
-        // then
-        $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get group #1 as integer from the first match, but the group was not matched');
-
-        // when
-        $optional->get();
-    }
-
-    /**
-     * @test
-     */
     public function shouldThrow_asInt_distinct()
     {
         // given

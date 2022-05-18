@@ -129,11 +129,6 @@ class IntStream implements \Countable, \IteratorAggregate
         return $this->next(new KeyStream($this->upstream));
     }
 
-    public function asInt(): IntStream
-    {
-        return $this;
-    }
-
     public function groupByCallback(callable $groupMapper): Stream
     {
         return $this->next(new GroupByCallbackStream($this->upstream, new GroupByFunction('groupByCallback', $groupMapper)));
