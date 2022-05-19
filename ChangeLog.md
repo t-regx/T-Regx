@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.28.0
+---------------
+
 * Breaking changes
     * Removed previously deprecated `NotMatched`. Every functionallity of `NotMatched` was also added to
       `Pattern.match()` in previous release. This was done to unify the interface of each `Optional` implementation.
@@ -24,7 +29,7 @@ Incoming
       Now, `group()` doesn't do full match unless it's necessary. Only one call to PREG happens either way, meaning
       there isn't any performance loss.
 
-Added in 0.26.0
+Added in 0.27.0
 ---------------
 
 * Breaking changes
