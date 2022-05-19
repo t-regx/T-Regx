@@ -75,7 +75,7 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Negative offset: -1');
+        $this->expectExceptionMessage('Negative limit: -1');
         // when
         pattern('\d+')->match('12, 15, 16')->asInt()->limit(-1);
     }
@@ -87,7 +87,7 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Negative offset: -3');
+        $this->expectExceptionMessage('Negative limit: -3');
         // when
         pattern('\d+')->match('12, 15, 16')->asInt()->limit(-3);
     }

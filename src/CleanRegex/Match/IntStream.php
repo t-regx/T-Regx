@@ -58,6 +58,11 @@ class IntStream implements \Countable, \IteratorAggregate
         return $this->terminal->getIterator();
     }
 
+    public function reduce(callable $reducer, $accumulator)
+    {
+        return $this->terminal->reduce($reducer, $accumulator);
+    }
+
     public function first(callable $consumer = null)
     {
         if ($consumer === null) {
@@ -129,28 +134,20 @@ class IntStream implements \Countable, \IteratorAggregate
         return $this->next(new KeyStream($this->upstream));
     }
 
+    public function stream(): Stream
+    {
+        return new Stream($this->upstream);
+    }
+
     public function groupByCallback(callable $groupMapper): Stream
     {
         return $this->next(new GroupByCallbackStream($this->upstream, new GroupByFunction('groupByCallback', $groupMapper)));
     }
 
-    private function next(Upstream $upstream): Stream
-    {
-        return new Stream($upstream);
-    }
-
-    public function reduce(callable $reducer, $accumulator)
-    {
-        foreach ($this as $detail) {
-            $accumulator = $reducer($accumulator, $detail);
-        }
-        return $accumulator;
-    }
-
     public function limit(int $limit): Stream
     {
         if ($limit < 0) {
-            throw new \InvalidArgumentException("Negative offset: $limit");
+            throw new \InvalidArgumentException("Negative limit: $limit");
         }
         return $this->next(new LimitStream($this->upstream, $limit));
     }
@@ -163,8 +160,8 @@ class IntStream implements \Countable, \IteratorAggregate
         return $this->next(new SkipStream($this->upstream, $offset));
     }
 
-    public function stream(): Stream
+    private function next(Upstream $upstream): Stream
     {
-        return new Stream($this->upstream);
+        return new Stream($upstream);
     }
 }

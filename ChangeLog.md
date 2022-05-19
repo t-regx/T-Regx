@@ -12,6 +12,7 @@ Incoming
 * Bug fixes
     * Fixed a bug when using `usingDuplicateName().group().all()` in certain situations resulted in a list of
       indexed groups, not duplicately-named groups.
+    * Corrected exception messages of `asInt().limit()`.
 * Features
     * Updated usages of certain methods, like `Detail.groupNames()` and others, so that they don't call full matches
       when it's not necessary, making it usable even when "regular" usage would
