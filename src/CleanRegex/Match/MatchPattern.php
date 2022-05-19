@@ -196,7 +196,7 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
 
     public function stream(): Stream
     {
-        return new Stream(new MatchStream(new StreamBase($this->base), $this->subject, new LazyMatchAllFactory($this->base), $this->groupAware));
+        return new Stream(new MatchStream(new StreamBase($this->base), $this->subject, $this->allFactory, $this->groupAware));
     }
 
     public function asInt(int $base = 10): IntStream
