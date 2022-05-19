@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Replace\By\DelegatedDetail;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
@@ -93,7 +94,7 @@ class LazyDetail implements Detail
         return $this->detail()->get($nameOrIndex);
     }
 
-    public function group($nameOrIndex)
+    public function group($nameOrIndex): Group
     {
         return $this->detail()->group($nameOrIndex);
     }

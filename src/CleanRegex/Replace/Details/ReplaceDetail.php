@@ -50,7 +50,9 @@ class ReplaceDetail implements Detail
      */
     public function group($nameOrIndex): ReplaceGroup
     {
-        return $this->detail->group($nameOrIndex);
+        /** @var ReplaceGroup $group */
+        $group = $this->detail->group($nameOrIndex);
+        return $group;
     }
 
     public function usingDuplicateName(): DuplicateName

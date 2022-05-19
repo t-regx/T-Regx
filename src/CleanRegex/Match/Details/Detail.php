@@ -5,7 +5,6 @@ use TRegx\CleanRegex\Match\Details\Group\Element;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
-use TRegx\CleanRegex\Replace\Details\Group\ReplaceGroup;
 
 interface Detail extends Structure, Element
 {
@@ -19,7 +18,7 @@ interface Detail extends Structure, Element
 
     /**
      * @param string|int $nameOrIndex
-     * @return Group|ReplaceGroup
+     * @return Group
      */
     public function group($nameOrIndex);
 

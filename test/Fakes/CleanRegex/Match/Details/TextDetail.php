@@ -4,6 +4,7 @@ namespace Test\Fakes\CleanRegex\Match\Details;
 use Test\Utils\Fails;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
 use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
@@ -79,7 +80,7 @@ class TextDetail implements Detail
         throw $this->fail();
     }
 
-    public function group($nameOrIndex)
+    public function group($nameOrIndex): Group
     {
         throw $this->fail();
     }
