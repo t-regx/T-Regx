@@ -177,6 +177,7 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
     /**
      * @param string|int $nameOrIndex
      * @return GroupMatch
+     * @deprecated Will be removed in the next release
      */
     public function group($nameOrIndex): GroupMatch
     {

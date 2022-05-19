@@ -16,6 +16,8 @@ Incoming
     * Updated usages of certain methods, like `Detail.groupNames()` and others, so that they don't call full matches
       when it's not necessary, making it usable even when "regular" usage would
       throw `CatastrophicBacktrackingException`.
+* Deprecation
+    * Deprecated inline-groups `Pattern.match().group()`.
 * Other
     * Previously, just looking up `Detail.group()` caused full match, potentially ending in catastrophic backtracking.
       Now, `group()` doesn't do full match unless it's necessary. Only one call to PREG happens either way, meaning
