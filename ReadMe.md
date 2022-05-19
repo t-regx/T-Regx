@@ -146,7 +146,7 @@ Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing aro
         * Different error messages are issued on different PHP versions, in T-Regx they are unified.
     * Strings:
         * [Tracking offset](https://t-regx.com/docs/replace-match-details) and subjects while replacing strings.
-        * [Fixing error with multi-byte offset (utf-8 safe)](https://t-regx.com/docs/match-details#offsets).
+        * [Fixing error with multibyte offset (utf-8 safe)](https://t-regx.com/docs/match-details#offsets).
         * Separate methods for positions:
             * `offset()` - which returns position of a match in characters in UTF-8
             * `byteOffset()` - which returns position of a match in bytes, regardless of encoding

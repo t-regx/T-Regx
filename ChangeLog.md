@@ -1142,7 +1142,7 @@ Available in 0.9.0
       debugger**, you'll see the constant name (i.e. [`PREG_BAD_UTF8_ERROR`]) instead of the constant value (i.e. `4`).
     * Handle bug [PHP #75355](https://bugs.php.net/bug.php?id=75355)
 * Bug fixes
-    * `preg::replace()` and `preg::filter()` only consider `[]` error prone if input subject was also an empty array.
+    * `preg::replace()` and `preg::filter()` only consider `[]` error-prone if input subject was also an empty array.
 
 [`pattern()`]: https://t-regx.com/docs/introduction-clean#entry-points
 
