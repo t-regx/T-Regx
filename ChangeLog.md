@@ -4,7 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Bug fixes
+    * Calling `Detail.group().asInt()` with invalid integer base on an unmatched group, threw `GroupNotMatchedException`
+      . Now it throws `InvalidArgumentException`.
+    * Calling `Detail.group().toInt()` with invalid integer base on an unmatched group, threw `GroupNotMatchedException`
+      . Now it throws `InvalidArgumentException`.
 
 Added in 0.28.0
 ---------------

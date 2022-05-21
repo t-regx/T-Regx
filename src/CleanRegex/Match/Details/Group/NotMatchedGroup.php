@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
+use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Subject;
 
 class NotMatchedGroup implements Group
@@ -25,11 +26,13 @@ class NotMatchedGroup implements Group
 
     public function toInt(int $base = 10): int
     {
+        new Base($base);
         throw $this->groupNotMatched('toInt');
     }
 
     public function isInt(int $base = 10): bool
     {
+        new Base($base);
         throw $this->groupNotMatched('isInt');
     }
 

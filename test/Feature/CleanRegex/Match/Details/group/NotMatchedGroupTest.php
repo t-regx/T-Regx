@@ -1,6 +1,7 @@
 <?php
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\group;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
@@ -180,6 +181,62 @@ class NotMatchedGroupTest extends TestCase
         $this->expectExceptionMessage("Expected to call substitute() for group 'first', but the group was not matched");
         // when
         $group->substitute('');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldIsIntThrowForInvalidBase()
+    {
+        // given
+        $matchedGroup = $this->groupOf();
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid base: 37 (supported bases 2-36, case-insensitive)');
+        // when
+        $matchedGroup->isInt(37);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldIsIntThrowForInvalidBaseNegative()
+    {
+        // given
+        $matchedGroup = $this->groupOf();
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid base: -2 (supported bases 2-36, case-insensitive)');
+        // when
+        $matchedGroup->isInt(-2);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldToIntThrowForInvalidBase()
+    {
+        // given
+        $matchedGroup = $this->groupOf();
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid base: 37 (supported bases 2-36, case-insensitive)');
+        // when
+        $matchedGroup->toInt(37);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldToIntThrowForInvalidBaseNegative()
+    {
+        // given
+        $matchedGroup = $this->groupOf();
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid base: -2 (supported bases 2-36, case-insensitive)');
+        // when
+        $matchedGroup->toInt(-2);
     }
 
     private function groupOf(): NotMatchedGroup
