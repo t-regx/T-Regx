@@ -9,7 +9,7 @@ trait PcreDependant
 
     public function pcreDependentStructure(array $pcre1Patterns, array $pcre2Patterns): array
     {
-        $this->assertStructuresCompatible($pcre1Patterns, $pcre2Patterns);
+        $this->assertStructuresCompatible(array_values($pcre1Patterns), array_values($pcre2Patterns));
         return $this->pcreDependant($pcre1Patterns, $pcre2Patterns);
     }
 
