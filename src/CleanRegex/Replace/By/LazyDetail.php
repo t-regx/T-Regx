@@ -49,9 +49,9 @@ class LazyDetail implements Detail
         return $this->detail()->groupsCount();
     }
 
-    public function hasGroup($nameOrIndex): bool
+    public function groupExists($nameOrIndex): bool
     {
-        return $this->detail()->hasGroup($nameOrIndex);
+        return $this->detail()->groupExists($nameOrIndex);
     }
 
     public function text(): string

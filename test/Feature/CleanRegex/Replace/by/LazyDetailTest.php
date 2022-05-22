@@ -236,7 +236,7 @@ class LazyDetailTest extends TestCase
         // given
         $detail = $this->detail(Pattern::of('(Bar)?!(?<first>one)(?<second>two)!')->replace('!onetwo!'));
         // when
-        $hasGroup = $detail->hasGroup('second');
+        $hasGroup = $detail->groupExists('second');
         // then
         $this->assertTrue($hasGroup);
     }
@@ -249,7 +249,7 @@ class LazyDetailTest extends TestCase
         // given
         $detail = $this->detail(Pattern::of('(Bar)?!(?<first>one)(?<second>two)!')->replace('!onetwo!'));
         // when
-        $hasGroup = $detail->hasGroup('foo');
+        $hasGroup = $detail->groupExists('foo');
         // then
         $this->assertFalse($hasGroup);
     }

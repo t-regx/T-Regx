@@ -158,7 +158,7 @@ class MatchPatternTest extends TestCase
             ->stream()
             ->first(function (Detail $detail) {
                 $this->assertEquals(['one', 'two'], $detail->groupNames());
-                $this->assertTrue($detail->hasGroup('one'));
+                $this->assertTrue($detail->groupExists('one'));
             });
     }
 

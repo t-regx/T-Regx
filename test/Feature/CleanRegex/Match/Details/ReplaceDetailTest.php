@@ -242,8 +242,8 @@ class ReplaceDetailTest extends TestCase
         // given
         Pattern::of('(?<Foo>\w+)')->replace('Quizzaciously')->callback(DetailFunctions::out($detail, ''));
         // when, then
-        $this->assertTrue($detail->hasGroup('Foo'));
-        $this->assertFalse($detail->hasGroup('missing'));
+        $this->assertTrue($detail->groupExists('Foo'));
+        $this->assertFalse($detail->groupExists('missing'));
     }
 
     /**

@@ -809,8 +809,8 @@ class MatchPatternTest extends TestCase
      */
     public function shouldPatternHaveGroup0()
     {
-        $this->assertTrue(Pattern::of('Foo')->match('Foo')->hasGroup(0));
-        $this->assertTrue(Pattern::of('Foo')->match('Bar')->hasGroup(0));
+        $this->assertTrue(Pattern::of('Foo')->match('Foo')->groupExists(0));
+        $this->assertTrue(Pattern::of('Foo')->match('Bar')->groupExists(0));
     }
 
     /**
@@ -818,8 +818,8 @@ class MatchPatternTest extends TestCase
      */
     public function shouldPatternNotHaveGroup()
     {
-        $this->assertFalse(Pattern::of('Foo')->match('Foo')->hasGroup(1));
-        $this->assertFalse(Pattern::of('Foo')->match('Bar')->hasGroup(1));
+        $this->assertFalse(Pattern::of('Foo')->match('Foo')->groupExists(1));
+        $this->assertFalse(Pattern::of('Foo')->match('Bar')->groupExists(1));
     }
 
     /**
@@ -827,8 +827,8 @@ class MatchPatternTest extends TestCase
      */
     public function shouldPatternHaveGroup1()
     {
-        $this->assertTrue(Pattern::of('(Foo)')->match('Foo')->hasGroup(1));
-        $this->assertTrue(Pattern::of('(Foo)')->match('Bar')->hasGroup(1));
+        $this->assertTrue(Pattern::of('(Foo)')->match('Foo')->groupExists(1));
+        $this->assertTrue(Pattern::of('(Foo)')->match('Bar')->groupExists(1));
     }
 
     /**
@@ -836,8 +836,8 @@ class MatchPatternTest extends TestCase
      */
     public function shouldPatternNotHaveNonCapturingGroup()
     {
-        $this->assertFalse(Pattern::of('(?:Foo)')->match('Foo')->hasGroup(1));
-        $this->assertFalse(Pattern::of('(?:Foo)')->match('Bar')->hasGroup(1));
+        $this->assertFalse(Pattern::of('(?:Foo)')->match('Foo')->groupExists(1));
+        $this->assertFalse(Pattern::of('(?:Foo)')->match('Bar')->groupExists(1));
     }
 
     /**
@@ -845,8 +845,8 @@ class MatchPatternTest extends TestCase
      */
     public function shouldPatternHaveNamedGroup()
     {
-        $this->assertTrue(Pattern::of('-(?<name>Foo)')->match('Foo')->hasGroup('name'));
-        $this->assertTrue(Pattern::of('-(?<name>Foo)')->match('Bar')->hasGroup('name'));
+        $this->assertTrue(Pattern::of('-(?<name>Foo)')->match('Foo')->groupExists('name'));
+        $this->assertTrue(Pattern::of('-(?<name>Foo)')->match('Bar')->groupExists('name'));
     }
 
     /**
@@ -854,8 +854,8 @@ class MatchPatternTest extends TestCase
      */
     public function shouldPatternNotHaveNamedGroup()
     {
-        $this->assertFalse(Pattern::of('-(?<name>Foo)')->match('Foo')->hasGroup('missing'));
-        $this->assertFalse(Pattern::of('-(?<name>Foo)')->match('Bar')->hasGroup('missing'));
+        $this->assertFalse(Pattern::of('-(?<name>Foo)')->match('Foo')->groupExists('missing'));
+        $this->assertFalse(Pattern::of('-(?<name>Foo)')->match('Bar')->groupExists('missing'));
     }
 
     /**
@@ -869,7 +869,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        $match->hasGroup(2);
+        $match->groupExists(2);
     }
 
     /**
@@ -878,7 +878,7 @@ class MatchPatternTest extends TestCase
     public function shouldHasGroupNotCauseCatastrophicBacktracking()
     {
         // when
-        $this->backtrackingMatch()->hasGroup(2);
+        $this->backtrackingMatch()->groupExists(2);
         // then
         $this->pass();
     }
@@ -894,7 +894,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '2group' given");
         // when
-        $match->hasGroup('2group');
+        $match->groupExists('2group');
     }
 
     /**
@@ -908,6 +908,6 @@ class MatchPatternTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Group index must be a non-negative integer, but -1 given");
         // when
-        $match->hasGroup(-1);
+        $match->groupExists(-1);
     }
 }

@@ -106,7 +106,7 @@ class MatchDetail implements Detail
      * @param string|int $nameOrIndex
      * @return bool
      */
-    public function hasGroup($nameOrIndex): bool
+    public function groupExists($nameOrIndex): bool
     {
         return $this->group->exists(GroupKey::of($nameOrIndex));
     }

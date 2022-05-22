@@ -27,7 +27,7 @@ class ThrowDetail implements Detail
         throw $this->fail();
     }
 
-    public function hasGroup($nameOrIndex): bool
+    public function groupExists($nameOrIndex): bool
     {
         throw $this->fail();
     }

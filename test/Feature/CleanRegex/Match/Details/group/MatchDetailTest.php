@@ -28,8 +28,8 @@ class MatchDetailTest extends TestCase
                 $this->assertSame(6, $detail->group('one')->offset());
                 $this->assertTrue($detail->group('one')->matched());
 
-                $this->assertTrue($detail->hasGroup('one'));
-                $this->assertFalse($detail->hasGroup('two'));
+                $this->assertTrue($detail->groupExists('one'));
+                $this->assertFalse($detail->groupExists('two'));
             });
     }
 

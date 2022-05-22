@@ -215,8 +215,8 @@ class MatchDetailTest extends TestCase
         // given
         $detail = $this->detail(Pattern::of('(?<foo>value)')->match('value'));
         // when
-        $existent = $detail->hasGroup('foo');
-        $nonExistent = $detail->hasGroup('bar');
+        $existent = $detail->groupExists('foo');
+        $nonExistent = $detail->groupExists('bar');
         // then
         $this->assertTrue($existent);
         $this->assertFalse($nonExistent);

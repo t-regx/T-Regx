@@ -244,13 +244,13 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(?<value>Foo) or (Bar)(?:)')
             ->replace('Foo or Bar')
             ->counting(function (int $count, Structure $structure) {
-                $this->assertTrue($structure->hasGroup(0));
-                $this->assertTrue($structure->hasGroup(1));
-                $this->assertTrue($structure->hasGroup(2));
-                $this->assertTrue($structure->hasGroup('value'));
+                $this->assertTrue($structure->groupExists(0));
+                $this->assertTrue($structure->groupExists(1));
+                $this->assertTrue($structure->groupExists(2));
+                $this->assertTrue($structure->groupExists('value'));
 
-                $this->assertFalse($structure->hasGroup(3));
-                $this->assertFalse($structure->hasGroup('missing'));
+                $this->assertFalse($structure->groupExists(3));
+                $this->assertFalse($structure->groupExists('missing'));
             })
             ->with('Bar');
     }
@@ -264,13 +264,13 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(?<value>Foo) or (Bar)(?:)')
             ->replace('Foo or Bar')
             ->counting(function (int $count, Structure $structure) {
-                $this->assertTrue($structure->hasGroup(0));
-                $this->assertTrue($structure->hasGroup(1));
-                $this->assertTrue($structure->hasGroup(2));
-                $this->assertTrue($structure->hasGroup('value'));
+                $this->assertTrue($structure->groupExists(0));
+                $this->assertTrue($structure->groupExists(1));
+                $this->assertTrue($structure->groupExists(2));
+                $this->assertTrue($structure->groupExists('value'));
 
-                $this->assertFalse($structure->hasGroup(3));
-                $this->assertFalse($structure->hasGroup('missing'));
+                $this->assertFalse($structure->groupExists(3));
+                $this->assertFalse($structure->groupExists('missing'));
             })
             ->callback(Functions::constant('Bar'));
     }
@@ -284,13 +284,13 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(?<value>Foo) or (Bar)(?:)')
             ->replace('Foo or Bar')
             ->counting(function (int $count, Structure $structure) {
-                $this->assertTrue($structure->hasGroup(0));
-                $this->assertTrue($structure->hasGroup(1));
-                $this->assertTrue($structure->hasGroup(2));
-                $this->assertTrue($structure->hasGroup('value'));
+                $this->assertTrue($structure->groupExists(0));
+                $this->assertTrue($structure->groupExists(1));
+                $this->assertTrue($structure->groupExists(2));
+                $this->assertTrue($structure->groupExists('value'));
 
-                $this->assertFalse($structure->hasGroup(3));
-                $this->assertFalse($structure->hasGroup('missing'));
+                $this->assertFalse($structure->groupExists(3));
+                $this->assertFalse($structure->groupExists('missing'));
             })
             ->by()
             ->map(['Foo or Bar' => 'Replaced']);
@@ -305,11 +305,11 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('(?<value>Foo) or (Bar)(?:)')
             ->replace('Foo or Bar')
             ->counting(function (int $count, Structure $structure) {
-                $this->assertTrue($structure->hasGroup(2));
-                $this->assertTrue($structure->hasGroup('value'));
+                $this->assertTrue($structure->groupExists(2));
+                $this->assertTrue($structure->groupExists('value'));
 
-                $this->assertFalse($structure->hasGroup(3));
-                $this->assertFalse($structure->hasGroup('missing'));
+                $this->assertFalse($structure->groupExists(3));
+                $this->assertFalse($structure->groupExists('missing'));
             })
             ->by()
             ->group('value')
@@ -330,7 +330,7 @@ class SpecificReplacePatternImplTest extends TestCase
         pattern('Foo')
             ->replace('Foo')
             ->counting(function (int $count, Structure $structure) {
-                $structure->hasGroup('2malformed');
+                $structure->groupExists('2malformed');
             })
             ->with('Bar');
     }

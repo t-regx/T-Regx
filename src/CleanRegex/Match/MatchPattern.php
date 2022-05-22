@@ -268,7 +268,7 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
         return \count(\array_filter(\array_keys($matches), '\is_int')) - 1;
     }
 
-    public function hasGroup($nameOrIndex): bool
+    public function groupExists($nameOrIndex): bool
     {
         return $this->groupAware->hasGroup(GroupKey::of($nameOrIndex));
     }

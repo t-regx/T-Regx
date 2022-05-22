@@ -16,5 +16,5 @@ interface Structure
      * @param string|int $nameOrIndex
      * @return bool
      */
-    public function hasGroup($nameOrIndex): bool;
+    public function groupExists($nameOrIndex): bool;
 }

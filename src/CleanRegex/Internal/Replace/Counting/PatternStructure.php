@@ -42,7 +42,7 @@ class PatternStructure implements Structure
         return $this->groupsCount->groupsCount();
     }
 
-    public function hasGroup($nameOrIndex): bool
+    public function groupExists($nameOrIndex): bool
     {
         return $this->groupAware->hasGroup(GroupKey::of($nameOrIndex));
     }

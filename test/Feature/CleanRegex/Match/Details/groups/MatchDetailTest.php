@@ -119,7 +119,7 @@ class MatchDetailTest extends TestCase
             ->match('first and second')
             ->first(Functions::out($detail));
         // when, then
-        $this->assertTrue($detail->hasGroup('existing'));
+        $this->assertTrue($detail->groupExists('existing'));
     }
 
     /**
@@ -132,7 +132,7 @@ class MatchDetailTest extends TestCase
             ->match('first and second')
             ->first(Functions::out($detail));
         // when +  then
-        $this->assertFalse($detail->hasGroup('nonexistent'));
+        $this->assertFalse($detail->groupExists('nonexistent'));
     }
 
     /**
@@ -188,6 +188,6 @@ class MatchDetailTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '2sd' given");
         // when
-        $detail->hasGroup('2sd');
+        $detail->groupExists('2sd');
     }
 }

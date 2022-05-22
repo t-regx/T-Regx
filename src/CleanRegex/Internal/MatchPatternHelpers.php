@@ -66,7 +66,7 @@ trait MatchPatternHelpers
     private function validateGroups(array $groups): void
     {
         foreach ($groups as $group) {
-            if (!$this->hasGroup($group)) {
+            if (!$this->groupExists($group)) {
                 throw new NonexistentGroupException(GroupKey::of($group));
             }
         }
