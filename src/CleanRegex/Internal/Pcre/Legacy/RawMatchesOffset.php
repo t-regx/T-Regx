@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
 
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 
@@ -31,42 +30,6 @@ class RawMatchesOffset implements GroupAware
     public function hasGroup(GroupKey $group): bool
     {
         return \array_key_exists($group->nameOrIndex(), $this->matches);
-    }
-
-    public function getLimitedGroupOffsets($nameOrIndex, int $limit): array
-    {
-        return $this->mapToOffset($this->getLimitedGroups($nameOrIndex, $limit));
-    }
-
-    private function getLimitedGroups($group, int $limit): array
-    {
-        $match = $this->matches[$group];
-        if ($limit === -1) {
-            return $match;
-        }
-        return \array_slice($match, 0, $limit);
-    }
-
-    private function mapToOffset(array $matches): array
-    {
-        return \array_map([$this, 'mapMatch'], $matches);
-    }
-
-    private function mapMatch($match): ?int
-    {
-        if ($match === null || \is_string($match)) {
-            return null;
-        }
-        if (!\is_array($match)) {
-            // @codeCoverageIgnoreStart
-            throw new InternalCleanRegexException();
-            // @codeCoverageIgnoreEnd
-        }
-        [$text, $offset] = $match;
-        if ($offset === -1) {
-            return null;
-        }
-        return $offset;
     }
 
     public function getOffset(int $index): int
