@@ -88,6 +88,10 @@ class MatchDetail implements Detail
         return $this->numericDetail->isInteger(new Base($base));
     }
 
+    /**
+     * @param string|int $nameOrIndex
+     * @return string
+     */
     public function get($nameOrIndex): string
     {
         return $this->group->text(GroupKey::of($nameOrIndex));
@@ -148,6 +152,9 @@ class MatchDetail implements Detail
         return $this->groups->namedGroups();
     }
 
+    /**
+     * @return string[]
+     */
     public function all(): array
     {
         return $this->scalars->otherTexts();

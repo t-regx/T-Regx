@@ -257,6 +257,9 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
         return $accumulator;
     }
 
+    /**
+     * @return string[]
+     */
     public function groupNames(): array
     {
         return $this->groupNames->groupNames();
@@ -268,6 +271,10 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
         return \count(\array_filter(\array_keys($matches), '\is_int')) - 1;
     }
 
+    /**
+     * @param string|int $nameOrIndex
+     * @return bool
+     */
     public function groupExists($nameOrIndex): bool
     {
         return $this->groupAware->hasGroup(GroupKey::of($nameOrIndex));

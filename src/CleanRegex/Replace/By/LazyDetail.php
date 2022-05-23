@@ -39,6 +39,9 @@ class LazyDetail implements Detail
         return $this->subject;
     }
 
+    /**
+     * @return string[]
+     */
     public function groupNames(): array
     {
         return $this->detail()->groupNames();
@@ -49,6 +52,10 @@ class LazyDetail implements Detail
         return $this->detail()->groupsCount();
     }
 
+    /**
+     * @param string|int $nameOrIndex
+     * @return bool
+     */
     public function groupExists($nameOrIndex): bool
     {
         return $this->detail()->groupExists($nameOrIndex);
@@ -89,11 +96,19 @@ class LazyDetail implements Detail
         return $this->limit;
     }
 
+    /**
+     * @param string|int $nameOrIndex
+     * @return string
+     */
     public function get($nameOrIndex): string
     {
         return $this->detail()->get($nameOrIndex);
     }
 
+    /**
+     * @param string|int $nameOrIndex
+     * @return Group
+     */
     public function group($nameOrIndex): Group
     {
         return $this->detail()->group($nameOrIndex);
@@ -114,11 +129,18 @@ class LazyDetail implements Detail
         return $this->detail()->namedGroups();
     }
 
+    /**
+     * @param string|int $nameOrIndex
+     * @return bool
+     */
     public function matched($nameOrIndex): bool
     {
         return $this->detail()->matched($nameOrIndex);
     }
 
+    /**
+     * @return string[]
+     */
     public function all(): array
     {
         return $this->detail()->all();

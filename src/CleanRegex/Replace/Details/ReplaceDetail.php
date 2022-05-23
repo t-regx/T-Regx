@@ -39,6 +39,10 @@ class ReplaceDetail implements Detail
         return $this->modification->byteOffset();
     }
 
+    /**
+     * @param string|int $nameOrIndex
+     * @return string
+     */
     public function get($nameOrIndex): string
     {
         return $this->detail->get($nameOrIndex);

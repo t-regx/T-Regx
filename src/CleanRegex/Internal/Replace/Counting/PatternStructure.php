@@ -32,6 +32,9 @@ class PatternStructure implements Structure
         return $this->subject;
     }
 
+    /**
+     * @return string[]
+     */
     public function groupNames(): array
     {
         return $this->groupNames->groupNames();
@@ -42,6 +45,10 @@ class PatternStructure implements Structure
         return $this->groupsCount->groupsCount();
     }
 
+    /**
+     * @param string|int $nameOrIndex
+     * @return bool
+     */
     public function groupExists($nameOrIndex): bool
     {
         return $this->groupAware->hasGroup(GroupKey::of($nameOrIndex));
