@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\Details\groups;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Pattern;
 
 class ReplacePatternTest extends TestCase
 {
@@ -12,7 +13,7 @@ class ReplacePatternTest extends TestCase
     public function shouldGetGroupsNames()
     {
         // given
-        pattern('(zero) (?<existing>first) and (?<two_existing>second)')
+        Pattern::of('(zero) (?<existing>first) and (?<two_existing>second)')
             ->replace('zero first and second')
             ->all()
             ->callback(function (Detail $detail) {

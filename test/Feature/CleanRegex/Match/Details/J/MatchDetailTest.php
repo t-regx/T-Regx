@@ -2,8 +2,8 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\J;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 
@@ -17,17 +17,15 @@ class MatchDetailTest extends TestCase
         // when
         pattern('(?<group>Foo)(?<group>Bar)', 'J')
             ->match('FooBar')
-            ->first(function (Detail $detail) {
-                // given
-                $group = $detail->group('group');
-
-                // when, then
-                $this->assertSame(['group', null], $detail->groups()->names());
-                $this->assertSame(1, $group->index());
-                $this->assertSame(0, $group->offset());
-                $this->assertSame('Foo', $group->text());
-                $this->assertSame('Foo', $detail->get('group'));
-            });
+            ->first(Functions::out($detail));
+        // given
+        $group = $detail->group('group');
+        // when, then
+        $this->assertSame(['group', null], $detail->groups()->names());
+        $this->assertSame(1, $group->index());
+        $this->assertSame(0, $group->offset());
+        $this->assertSame('Foo', $group->text());
+        $this->assertSame('Foo', $detail->get('group'));
     }
 
     /**
@@ -38,15 +36,13 @@ class MatchDetailTest extends TestCase
         // when
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
             ->match('Lorem')
-            ->first(function (Detail $detail) {
-                // given
-                $group = $detail->group('group');
-
-                // when, then
-                $this->assertSame(['group', null, null], $detail->groups()->names());
-                $this->assertSame(1, $group->index());
-                $this->assertFalse($group->matched(), "Failed asserting that the last group was not matched");
-            });
+            ->first(Functions::out($detail));
+        // given
+        $group = $detail->group('group');
+        // when, then
+        $this->assertSame(['group', null, null], $detail->groups()->names());
+        $this->assertSame(1, $group->index());
+        $this->assertFalse($group->matched(), "Failed asserting that the last group was not matched");
     }
 
     /**
@@ -54,17 +50,15 @@ class MatchDetailTest extends TestCase
      */
     public function shouldGetThrow_forUnmatchedGroup()
     {
-        // then
-        $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get group 'group', but the group was not matched");
-
         // given
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
             ->match('Lorem')
-            ->first(function (Detail $detail) {
-                // when
-                $detail->get('group');
-            });
+            ->first(Functions::out($detail));
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to get group 'group', but the group was not matched");
+        // when
+        $detail->get('group');
     }
 
     /**

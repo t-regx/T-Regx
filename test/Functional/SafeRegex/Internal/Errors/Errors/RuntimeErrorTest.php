@@ -67,7 +67,6 @@ class RuntimeErrorTest extends TestCase
         $error = new RuntimeError(PREG_BAD_UTF8_ERROR);
 
         // when
-        /** @var RuntimePregException $exception TODO Remove stupid type from PHP 7.4 */
         $exception = $error->getSafeRegexpException('preg_replace', '/pattern/');
 
         // then
