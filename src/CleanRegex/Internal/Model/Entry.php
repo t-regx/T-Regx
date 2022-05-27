@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Model\Match;
+namespace TRegx\CleanRegex\Internal\Model;
 
 interface Entry
 {

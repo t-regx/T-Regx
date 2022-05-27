@@ -2,10 +2,10 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Details;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Model\Match\ThrowEntry;
+use Test\Fakes\CleanRegex\Internal\Model\ThrowEntry;
 use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Internal\Match\Details\NumericDetail;
-
+use TRegx\CleanRegex\Internal\Model\Entry;
 
 class NumericDetailTest extends TestCase
 {

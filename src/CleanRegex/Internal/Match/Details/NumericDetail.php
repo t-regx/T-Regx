@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\Details;
 
 use TRegx\CleanRegex\Internal\Match\Numeral\IntegerBase;
 use TRegx\CleanRegex\Internal\Match\Numeral\MatchExceptions;
-use TRegx\CleanRegex\Internal\Model\Match\Entry;
+use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
 use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;

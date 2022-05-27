@@ -2,8 +2,8 @@
 namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Model\Match\ConstantEntry;
-use Test\Fakes\CleanRegex\Internal\Model\Match\OffsetEntry;
+use Test\Fakes\CleanRegex\Internal\Model\ConstantEntry;
+use Test\Fakes\CleanRegex\Internal\Model\OffsetEntry;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
 use TRegx\CleanRegex\Internal\Offset\SubjectCoordinate;
 use TRegx\CleanRegex\Internal\Subject;

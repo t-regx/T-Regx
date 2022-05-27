@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Offset;
 
-use TRegx\CleanRegex\Internal\Model\Match\Entry;
+use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Subject;
 
 class SubjectCoordinate

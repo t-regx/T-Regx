@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Model;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Model\Match\Entry;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\UsedForGroup;
 

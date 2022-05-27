@@ -1,7 +1,7 @@
 <?php
-namespace Test\Fakes\CleanRegex\Internal\Model\Match;
+namespace Test\Fakes\CleanRegex\Internal\Model;
 
-use TRegx\CleanRegex\Internal\Model\Match\Entry;
+use TRegx\CleanRegex\Internal\Model\Entry;
 
 class ConstantEntry implements Entry
 {
