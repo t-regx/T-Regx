@@ -26,11 +26,11 @@ trait CausesBacktracking
 
     public function backtrackingPattern(): Pattern
     {
-        return Pattern::of('(([a\d]+[a\d]+)+3)');
+        return Pattern::of('(\d+\d+)+3');
     }
 
     public function backtrackingSubject(): string
     {
-        return '  123 aaaaaaaaaaaaaaaaaaaa 3';
+        return '€, 123, 11111111111111111111, 3';
     }
 }
