@@ -56,7 +56,7 @@ class DetailFunctions
         };
     }
 
-    public static function out(?Detail &$detail, $return): callable
+    public static function outLast(?Detail &$detail, $return): callable
     {
         return function (Detail $argument) use (&$detail, $return) {
             $detail = $argument;
