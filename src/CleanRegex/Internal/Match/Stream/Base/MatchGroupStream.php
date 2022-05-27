@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupsFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Stream\SubjectStreamRejectedException;
@@ -54,7 +55,7 @@ class MatchGroupStream implements Upstream
             throw new UnmatchedStreamException();
         }
         $signatures = new ArraySignatures($matches->getGroupKeys());
-        $facade = new GroupFacade($this->subject,
+        $facade = new GroupsFacade($this->subject,
             new MatchGroupFactoryStrategy(),
             new EagerMatchAllFactory($matches),
             new FirstNamedGroup($signatures),

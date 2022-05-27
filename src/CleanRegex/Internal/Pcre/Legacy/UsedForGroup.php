@@ -13,7 +13,7 @@ interface UsedForGroup
      * @see MatchDetail::get
      * @see MatchedGroup
      * @see MatchGroupStream::all
-     * @see GroupFacade which is called by everything that calls {@see getGroupTextAndOffset}
+     * @see GroupsFacade which is called by everything that calls {@see getGroupTextAndOffset}
      */
     public function isGroupMatched($nameOrIndex): bool;
 

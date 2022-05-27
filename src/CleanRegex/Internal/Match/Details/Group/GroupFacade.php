@@ -6,8 +6,6 @@ use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Model\Match\Entry;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
-use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\UsedForGroup;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\Group;
@@ -38,17 +36,6 @@ class GroupFacade
         $this->factoryStrategy = $factoryStrategy;
         $this->allFactory = $allFactory;
         $this->signatures = $signatures;
-    }
-
-    public function createGroups(GroupKey $groupKey, RawMatchesOffset $matches): array
-    {
-        $groupIndexes = \array_keys($matches->getGroupTextAndOffsetAll($this->groupHandle->groupHandle($groupKey)));
-        $result = [];
-        foreach ($groupIndexes as $index) {
-            $match = new RawMatchesToMatchAdapter($matches, $index);
-            $result[$index] = $this->createGroup($groupKey, $match, $match);
-        }
-        return $result;
     }
 
     public function createGroup(GroupKey $group, UsedForGroup $forGroup, Entry $entry): Group
