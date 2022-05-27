@@ -3,8 +3,8 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\DetailFunctions;
 use Test\Utils\ExplicitStringEncoding;
-use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -332,7 +332,7 @@ class MatchDetailTest extends TestCase
 
     private function detail(MatchPattern $matchPattern): MatchDetail
     {
-        $matchPattern->first(Functions::out($detail));
+        $matchPattern->first(DetailFunctions::out($detail));
         return $detail;
     }
 

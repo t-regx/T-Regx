@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
@@ -368,7 +369,7 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::of('(([a\d]+[a\d]+)+3(2)?)');
-        $pattern->match('123 aaaaaaaaaaaaaaaaaaaa 32')->first(Functions::out($detail));
+        $pattern->match('123 aaaaaaaaaaaaaaaaaaaa 32')->first(DetailFunctions::out($detail));
         // when
         $groupNames = $detail->groupNames();
         // then
@@ -382,7 +383,7 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::of('(([a\d]+[a\d]+)+3(2)?)');
-        $pattern->match('123 aaaaaaaaaaaaaaaaaaaa 32')->first(Functions::out($detail));
+        $pattern->match('123 aaaaaaaaaaaaaaaaaaaa 32')->first(DetailFunctions::out($detail));
         // when
         $detail->group(3);
         // then

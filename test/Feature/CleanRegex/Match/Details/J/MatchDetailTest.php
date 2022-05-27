@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\J;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Functions;
+use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
@@ -17,7 +17,7 @@ class MatchDetailTest extends TestCase
         // when
         pattern('(?<group>Foo)(?<group>Bar)', 'J')
             ->match('FooBar')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // given
         $group = $detail->group('group');
         // when, then
@@ -36,7 +36,7 @@ class MatchDetailTest extends TestCase
         // when
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
             ->match('Lorem')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // given
         $group = $detail->group('group');
         // when, then
@@ -53,7 +53,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
             ->match('Lorem')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to get group 'group', but the group was not matched");

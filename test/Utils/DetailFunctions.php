@@ -56,6 +56,19 @@ class DetailFunctions
         };
     }
 
+    public static function out(?Detail &$argument, $return = null): callable
+    {
+        $captured = false;
+        return function ($capturedArgument) use (&$captured, &$argument, $return) {
+            if ($captured) {
+                return $return;
+            }
+            $argument = $capturedArgument;
+            $captured = true;
+            return $return;
+        };
+    }
+
     public static function outLast(?Detail &$detail, $return): callable
     {
         return function (Detail $argument) use (&$detail, $return) {

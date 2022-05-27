@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Functions;
+use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
@@ -231,7 +231,7 @@ class MatchedGroupTest extends TestCase
 
     private function matchedGroup(string $pattern, string $subject, $groupIdentifier): MatchedGroup
     {
-        Pattern::of($pattern)->match($subject)->first(Functions::out($detail));
+        Pattern::of($pattern)->match($subject)->first(DetailFunctions::out($detail));
         return $detail->group($groupIdentifier);
     }
 }

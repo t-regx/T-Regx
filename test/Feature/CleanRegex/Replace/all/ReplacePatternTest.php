@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\all;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
@@ -124,7 +125,7 @@ class ReplacePatternTest extends TestCase
         // when
         Pattern::of('[a-z]+')
             ->replace('...hello there, general kenobi')
-            ->callback(Functions::out($detail, 'replacement'));
+            ->callback(DetailFunctions::out($detail, 'replacement'));
         // then
         $this->assertSame(['hello', 'there', 'general', 'kenobi'], $detail->all());
         $this->assertSame('...hello there, general kenobi', $detail->subject());

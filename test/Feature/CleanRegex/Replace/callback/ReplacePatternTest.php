@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\callback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Pattern;
@@ -25,7 +26,7 @@ class ReplacePatternTest extends TestCase
         Pattern::of('[0-9]+')
             ->replace($subject)
             ->first()
-            ->callback(Functions::out($detail, ''));
+            ->callback(DetailFunctions::out($detail, ''));
         // then
         $this->assertSame(14, $detail->offset());
         $this->assertSame($subject, $detail->subject());

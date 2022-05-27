@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Functions;
+use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -18,7 +18,7 @@ class GroupIdentifierTest extends TestCase
     public function shouldBeValidGroup(string $pattern, $groupIdentifier)
     {
         // given
-        Pattern::of($pattern)->match('Foo')->first(Functions::out($detail));
+        Pattern::of($pattern)->match('Foo')->first(DetailFunctions::out($detail));
 
         // when
         $identifier = $detail->group($groupIdentifier)->usedIdentifier();
@@ -53,7 +53,7 @@ class GroupIdentifierTest extends TestCase
         $this->expectExceptionMessage($message);
 
         // given
-        Pattern::of('Foo')->match('Foo')->first(Functions::out($detail));
+        Pattern::of('Foo')->match('Foo')->first(DetailFunctions::out($detail));
 
         // when
         $detail->group($invalidGroupIdentifier);

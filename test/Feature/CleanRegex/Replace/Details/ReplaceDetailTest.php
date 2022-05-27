@@ -2,6 +2,7 @@
 namespace Test\Feature\CleanRegex\Replace\Details;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Pattern;
 
@@ -18,7 +19,7 @@ class ReplaceDetailTest extends TestCase
         // given
         Pattern::of('"[ \w]+"')
             ->replace('"Tyler Durden", "Marla Singer"')
-            ->callback(Functions::out($detail, ''));
+            ->callback(DetailFunctions::out($detail, ''));
 
         // when
         $all = $detail->all();

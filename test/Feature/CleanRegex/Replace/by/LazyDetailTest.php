@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\by;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\Replace\By\LazyDetail;
@@ -420,7 +421,7 @@ class LazyDetailTest extends TestCase
 
     private function detail(ReplacePattern $pattern, int $group = null): LazyDetail
     {
-        $pattern->by()->group($group ?? 1)->orElseCalling(Functions::out($detail, ''));
+        $pattern->by()->group($group ?? 1)->orElseCalling(DetailFunctions::out($detail, ''));
         $this->assertNotNull($detail, "Failed to assert that subject was matched without group #$group");
         return $detail;
     }

@@ -3,7 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details\groups;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Functions;
+use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchDetailTest extends TestCase
@@ -36,7 +36,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when
         $groupNames = $detail->namedGroups()->texts();
         // then
@@ -55,7 +55,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(?<one>first ę) and (?<two>second)')
             ->match('first ę and second')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when
         $offsets = $detail->groups()->offsets();
         $byteOffsets = $detail->groups()->byteOffsets();
@@ -72,7 +72,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(?<one>first ę) and (?<two>second)')
             ->match('first ę and second')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when
         $offsets = $detail->namedGroups()->offsets();
         $byteOffsets = $detail->namedGroups()->byteOffsets();
@@ -89,7 +89,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(?<one>first) (and) (?<two>second)')
             ->match('first and second')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when, then
         $this->assertSame(['one', null, 'two'], $detail->groupNames());
     }
@@ -102,7 +102,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern("(?<one>first) and (second) and (third), (?:don't count me)")
             ->match("first and second and third, don't count me")
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when +  then
         $this->assertSame(3, $detail->groups()->count());
         $this->assertSame(1, $detail->namedGroups()->count());
@@ -117,7 +117,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(?<existing>first) and (?<two_existing>second)')
             ->match('first and second')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when, then
         $this->assertTrue($detail->groupExists('existing'));
     }
@@ -130,7 +130,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when +  then
         $this->assertFalse($detail->groupExists('nonexistent'));
     }
@@ -143,7 +143,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(zero) (?<existing>first) and (?<two_existing>second)')
             ->match('zero first and second')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when, then
         $this->assertSame([null, 'existing', 'two_existing'], $detail->groups()->names());
         $this->assertSame(['existing', 'two_existing'], $detail->namedGroups()->names());
@@ -155,7 +155,7 @@ class MatchDetailTest extends TestCase
     public function shouldCount()
     {
         // given
-        pattern('(Foo)')->match('Foo')->first(Functions::out($detail));
+        pattern('(Foo)')->match('Foo')->first(DetailFunctions::out($detail));
         // when, then
         $this->assertSame(1, $detail->groups()->count());
         $this->assertSame(0, $detail->namedGroups()->count());
@@ -169,7 +169,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(zero) (?<first>first) and (?<second>second)')
             ->match('zero first and second')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when, then
         $this->assertSame(3, $detail->groups()->count());
         $this->assertSame(2, $detail->namedGroups()->count());
@@ -183,7 +183,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(?<one>first) and (?<two>second)')
             ->match('first and second')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '2sd' given");

@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\usingDuplicateName;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Functions;
+use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Pattern;
@@ -52,7 +52,7 @@ class MatchDetailTest extends TestCase
         // given
         Pattern::of('(?<group>Plane)?(?<group>Bird)?Superman', 'J')
             ->match('Superman')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when
         $declared = $detail->group('group');
         $parsed = $detail->usingDuplicateName()->group('group');
@@ -204,7 +204,7 @@ class MatchDetailTest extends TestCase
     public function shouldGroupBeMatched()
     {
         // given
-        pattern('(?<group>One)(?<group>Two)?', 'J')->match('One')->first(Functions::out($detail));
+        pattern('(?<group>One)(?<group>Two)?', 'J')->match('One')->first(DetailFunctions::out($detail));
         // when
         $matched = $detail->usingDuplicateName()->matched('group');
         // then
@@ -217,7 +217,7 @@ class MatchDetailTest extends TestCase
     public function shouldGroupNotBeMatched()
     {
         // given
-        pattern('(?<group>One)?(?<group>Two)?', 'J')->match('Foo')->first(Functions::out($detail));
+        pattern('(?<group>One)?(?<group>Two)?', 'J')->match('Foo')->first(DetailFunctions::out($detail));
         // when
         $matched = $detail->usingDuplicateName()->matched('group');
         // then
@@ -232,7 +232,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(?<group>\S+) (?<group>\S+)', 'J')
             ->match('Chrząszcz Wąż')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when
         $group = $detail->usingDuplicateName()->group('group');
         // then
@@ -252,7 +252,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(?<group>\S+) (?<group>\S+)', 'J')
             ->match('Chrząszcz Wąż')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when
         $group = $detail->usingDuplicateName()->group('group');
         // then
@@ -268,7 +268,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(?<group>foo)?:(?<group>[\w ]+)', 'J')
             ->match(':near, :far, :wherever you are')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when
         $group = $detail->usingDuplicateName()->group('group');
         // then
@@ -283,7 +283,7 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(?<group>foo)?:(?<group>[\w ]+)', 'J')
             ->match(':near, :far, :wherever you are')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when
         $group = $detail->usingDuplicateName()->group('group');
         // then
@@ -296,7 +296,7 @@ class MatchDetailTest extends TestCase
     public function shouldGetUsedIdentifier()
     {
         // given
-        pattern('(?<foo>Foo)', 'J')->match('Foo')->first(Functions::out($detail));
+        pattern('(?<foo>Foo)', 'J')->match('Foo')->first(DetailFunctions::out($detail));
         // when
         $group = $detail->usingDuplicateName()->group('foo');
         // then
@@ -311,7 +311,7 @@ class MatchDetailTest extends TestCase
         // given
         Pattern::of('(?<group>123),(?<group>456)', 'J')
             ->match('123,456')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when
         $declared = $detail->group('group');
         $parsed = $detail->usingDuplicateName()->group('group');
@@ -328,7 +328,7 @@ class MatchDetailTest extends TestCase
         // given
         Pattern::of('(?<group>123a),(?<group>456a)', 'J')
             ->match('123a,456a')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when
         $declared = $detail->group('group');
         $parsed = $detail->usingDuplicateName()->group('group');
@@ -345,7 +345,7 @@ class MatchDetailTest extends TestCase
         // given
         Pattern::of('(?<group>___),(?<group>123)', 'J')
             ->match('___,123')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when
         $declared = $detail->group('group');
         $parsed = $detail->usingDuplicateName()->group('group');
@@ -362,7 +362,7 @@ class MatchDetailTest extends TestCase
         // given
         Pattern::of('(?<group>123),(?<group>___)', 'J')
             ->match('123,___')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when
         $declared = $detail->group('group');
         $parsed = $detail->usingDuplicateName()->group('group');
@@ -380,7 +380,7 @@ class MatchDetailTest extends TestCase
         // given
         Pattern::of('<(?<group>Old):(?<group>Old)>', 'J')
             ->match('Subject <Old:Old>.')
-            ->first(Functions::out($detail));
+            ->first(DetailFunctions::out($detail));
         // when
         $declared = $detail->group('group')->substitute('New');
         $parsed = $detail->usingDuplicateName()->group('group')->substitute('New');
