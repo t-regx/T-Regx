@@ -54,8 +54,7 @@ class GroupFacade
     public function createGroup(GroupKey $group, UsedForGroup $forGroup, Entry $entry): Group
     {
         if ($forGroup->isGroupMatched($this->groupHandle->groupHandle($group))) {
-            [$text, $offset] = $forGroup->getGroupTextAndOffset($this->groupHandle->groupHandle($group));
-            return $this->createdMatched($group, new GroupEntry($text, $offset, $this->subject), $entry);
+            return $this->createdMatched($group, $this->groupEntry($forGroup, $group), $entry);
         }
         return $this->createUnmatched($group);
     }
@@ -73,5 +72,11 @@ class GroupFacade
     private function createGroupDetails(GroupKey $group): GroupDetails
     {
         return new GroupDetails($this->groupHandle, $group, $this->allFactory, $this->signatures->signature($group));
+    }
+
+    private function groupEntry(UsedForGroup $forGroup, GroupKey $group): GroupEntry
+    {
+        [$text, $offset] = $forGroup->getGroupTextAndOffset($this->groupHandle->groupHandle($group));
+        return new GroupEntry($text, $offset, $this->subject);
     }
 }
