@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\offset;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Detail;
+use Test\Utils\DetailFunctions;
 
 class ReplacePatternTest extends TestCase
 {
@@ -15,18 +15,13 @@ class ReplacePatternTest extends TestCase
         pattern('Tomek')
             ->replace('€€€€, Tomek')
             ->first()
-            ->callback(function (Detail $detail) {
-                // when
-                $offset = $detail->offset();
-                $byteOffset = $detail->byteOffset();
-
-                // then
-                $this->assertSame(6, $offset);
-                $this->assertSame(14, $byteOffset);
-
-                // clean
-                return '';
-            });
+            ->callback(DetailFunctions::out($detail, ''));
+        // when
+        $offset = $detail->offset();
+        $byteOffset = $detail->byteOffset();
+        // then
+        $this->assertSame(6, $offset);
+        $this->assertSame(14, $byteOffset);
     }
 
     /**
@@ -38,20 +33,13 @@ class ReplacePatternTest extends TestCase
         pattern('(Tomek|Kamil)')
             ->replace('€€€€, Tomek i Kamil')
             ->all()
-            ->callback(function (Detail $detail) {
-                if ($detail->index() !== 1) return '';
-
-                // when
-                $offset = $detail->offset();
-                $byteOffset = $detail->byteOffset();
-
-                // then
-                $this->assertSame(14, $offset);
-                $this->assertSame(22, $byteOffset);
-
-                // clean
-                return '';
-            });
+            ->callback(DetailFunctions::outLast($detail, ''));
+        // when
+        $offset = $detail->offset();
+        $byteOffset = $detail->byteOffset();
+        // then
+        $this->assertSame(14, $offset);
+        $this->assertSame(22, $byteOffset);
     }
 
     /**
@@ -60,20 +48,13 @@ class ReplacePatternTest extends TestCase
     public function shouldGet_compositeGroups_offset()
     {
         // given
-        $subject = '€ ęFoo'; // Subject specifically designed to expose errors with byte-offset bugs
-
+        $subject = '€ ęFoo'; // Subject chosen to expose errors with byte-offset bugs
+        pattern('(?<group>Foo)')->replace($subject)->first()->callback(DetailFunctions::out($detail, ''));
         // when
-        pattern('(?<group>Foo)')->replace($subject)->first()->callback(function (Detail $detail) {
-            // when
-            $indexedOffsets = $detail->groups()->offsets();
-            $namedOffsets = $detail->namedGroups()->offsets();
-
-            // then
-            $this->assertSame([3], $indexedOffsets);
-            $this->assertSame(['group' => 3], $namedOffsets);
-
-            // clean
-            return '';
-        });
+        $indexedOffsets = $detail->groups()->offsets();
+        $namedOffsets = $detail->namedGroups()->offsets();
+        // then
+        $this->assertSame([3], $indexedOffsets);
+        $this->assertSame(['group' => 3], $namedOffsets);
     }
 }

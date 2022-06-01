@@ -2,7 +2,8 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\index;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Detail;
+use Test\Utils\DetailFunctions;
+use Test\Utils\Functions;
 
 class ReplacePatternTest extends TestCase
 {
@@ -12,19 +13,11 @@ class ReplacePatternTest extends TestCase
     public function shouldGetIndex_replace_first()
     {
         // given
-        pattern('\d+')
-            ->replace('111-222-333')
-            ->first()
-            ->callback(function (Detail $detail) {
-                // when
-                $index = $detail->index();
-
-                // then
-                $this->assertSame(0, $index);
-
-                // clean up
-                return '';
-            });
+        pattern('\d+')->replace('111-222-333')->first()->callback(DetailFunctions::out($detail, ''));
+        // when
+        $index = $detail->index();
+        // then
+        $this->assertSame(0, $index);
     }
 
     /**
@@ -35,25 +28,15 @@ class ReplacePatternTest extends TestCase
      */
     public function shouldGetIndex_replace(string $method, array $arguments)
     {
-        // given
-        $indexes = [];
-
         pattern('\d+')
             ->replace('111-222-333')
             ->$method(...$arguments)
-            ->callback(function (Detail $detail) use (&$indexes) {
-                // when
-                $index = $detail->index();
-
-                // then
-                $indexes[] = $index;
-
-                // clean up
-                return '';
-            });
-
+            ->callback(Functions::collect($details, ''));
         // then
-        $this->assertSame([0, 1, 2], $indexes);
+        [$first, $second, $third] = $details;
+        $this->assertSame(0, $first->index());
+        $this->assertSame(1, $second->index());
+        $this->assertSame(2, $third->index());
     }
 
     public function iteratingReplaceMethods(): array

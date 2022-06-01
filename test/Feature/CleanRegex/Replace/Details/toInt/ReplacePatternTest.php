@@ -2,9 +2,9 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\toInt;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\DetailFunctions;
 use Test\Utils\ExactExceptionMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
-use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 use function pattern;
 
 class ReplacePatternTest extends TestCase
@@ -17,15 +17,9 @@ class ReplacePatternTest extends TestCase
     public function shouldGetInteger()
     {
         // given
-        pattern('194')
-            ->replace('194')
-            ->first()
-            ->callback(function (ReplaceDetail $detail) {
-                $this->assertSame(194, $detail->toInt());
-
-                // cleanup
-                return '';
-            });
+        pattern('194')->replace('194')->first()->callback(DetailFunctions::out($detail, ''));
+        // when, then
+        $this->assertSame(194, $detail->toInt());
     }
 
     /**
@@ -34,15 +28,9 @@ class ReplacePatternTest extends TestCase
     public function shouldGetIntegerBase11()
     {
         // given
-        pattern('1abc')
-            ->replace('1abc')
-            ->first()
-            ->callback(function (ReplaceDetail $detail) {
-                $this->assertSame(4042, $detail->toInt(13));
-
-                // cleanup
-                return '';
-            });
+        pattern('1abc')->replace('1abc')->first()->callback(DetailFunctions::out($detail, ''));
+        // when, then
+        $this->assertSame(4042, $detail->toInt(13));
     }
 
     /**
@@ -51,19 +39,11 @@ class ReplacePatternTest extends TestCase
     public function shouldThrowForInvalidArgumentBase9()
     {
         // given
-        pattern('9')
-            ->replace('9')
-            ->first()
-            ->callback(function (ReplaceDetail $detail) {
-                // then
-                $this->expectException(IntegerFormatException::class);
-                $this->expectExceptionMessage("Expected to parse '9', but it is not a valid integer in base 9");
-
-                // when
-                $detail->toInt(9);
-
-                // cleanup
-                return '';
-            });
+        pattern('9')->replace('9')->first()->callback(DetailFunctions::out($detail, ''));
+        // then
+        $this->expectException(IntegerFormatException::class);
+        $this->expectExceptionMessage("Expected to parse '9', but it is not a valid integer in base 9");
+        // when
+        $detail->toInt(9);
     }
 }

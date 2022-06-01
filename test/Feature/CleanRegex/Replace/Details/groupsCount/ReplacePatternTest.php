@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\groupsCount;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Detail;
+use Test\Utils\DetailFunctions;
 
 class ReplacePatternTest extends TestCase
 {
@@ -15,15 +15,10 @@ class ReplacePatternTest extends TestCase
         pattern('(?<one>first) and (second)')
             ->replace('first and second')
             ->all()
-            ->callback(function (Detail $detail) {
-                // when
-                $groupsCount = $detail->groupsCount();
-
-                // then
-                $this->assertSame(2, $groupsCount);
-
-                // clean up
-                return '';
-            });
+            ->callback(DetailFunctions::out($detail, ''));
+        // when
+        $groupsCount = $detail->groupsCount();
+        // then
+        $this->assertSame(2, $groupsCount);
     }
 }

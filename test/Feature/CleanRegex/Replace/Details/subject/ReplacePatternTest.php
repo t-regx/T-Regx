@@ -2,7 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\subject;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
+use Test\Utils\DetailFunctions;
 
 class ReplacePatternTest extends TestCase
 {
@@ -15,12 +15,9 @@ class ReplacePatternTest extends TestCase
         pattern('(?<matched>Foo)(?<unmatched>Bar)?')
             ->replace('Hello:Foo')
             ->first()
-            ->callback(function (ReplaceDetail $detail) {
-                $this->assertSame('Hello:Foo', $detail->group('matched')->subject());
-                $this->assertSame('Hello:Foo', $detail->group('unmatched')->subject());
-
-                // cleanup
-                return '';
-            });
+            ->callback(DetailFunctions::out($detail, ''));
+        // when
+        $this->assertSame('Hello:Foo', $detail->group('matched')->subject());
+        $this->assertSame('Hello:Foo', $detail->group('unmatched')->subject());
     }
 }
