@@ -3,8 +3,6 @@ namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Match\Details\Group\Element;
 use TRegx\CleanRegex\Match\Details\Group\Group;
-use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
-use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
 interface Detail extends Structure, Element
 {
@@ -24,9 +22,15 @@ interface Detail extends Structure, Element
 
     public function usingDuplicateName(): DuplicateName;
 
-    public function groups(): IndexedGroups;
+    /**
+     * @return Group[]
+     */
+    public function groups(): array;
 
-    public function namedGroups(): NamedGroups;
+    /**
+     * @return Group[]
+     */
+    public function namedGroups(): array;
 
     /**
      * @param string|int $nameOrIndex

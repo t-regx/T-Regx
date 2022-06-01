@@ -1,32 +1,14 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\Details\groups;
+namespace Test\Feature\CleanRegex\Match\Details\groups\first;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsGroup;
 use Test\Utils\DetailFunctions;
-use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchDetailTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function shouldGetEmptyMatchedGroup()
-    {
-        // when
-        $groups = pattern('([a-z]+)(?:\((\d*)\))?')
-            ->match('sin(20) + cos() + tan')
-            ->map(function (Detail $detail) {
-                return $detail->groups()->texts();
-            });
-        // then
-        $expected = [
-            ['sin', '20'], // braces value
-            ['cos', ''],   // empty braces
-            ['tan', null], // no braces
-        ];
-        $this->assertSame($expected, $groups);
-    }
+    use AssertsGroup;
 
     /**
      * @test
@@ -38,13 +20,9 @@ class MatchDetailTest extends TestCase
             ->match('first and second')
             ->first(DetailFunctions::out($detail));
         // when
-        $groupNames = $detail->namedGroups()->texts();
+        $groups = $detail->namedGroups();
         // then
-        $expected = [
-            'one' => 'first',
-            'two' => 'second'
-        ];
-        $this->assertSame($expected, $groupNames);
+        $this->assertGroupTexts(['one' => 'first', 'two' => 'second'], $groups);
     }
 
     /**
@@ -57,11 +35,11 @@ class MatchDetailTest extends TestCase
             ->match('first ę and second')
             ->first(DetailFunctions::out($detail));
         // when
-        $offsets = $detail->groups()->offsets();
-        $byteOffsets = $detail->groups()->byteOffsets();
+        $groups = $detail->groups();
         // then
-        $this->assertSame([0, 12], $offsets);
-        $this->assertSame([0, 13], $byteOffsets);
+        $this->assertGroupOffsets([0, 12], $groups);
+        $this->assertGroupByteOffsets([0, 13], $groups);
+        $this->assertGroupIndicesConsequetive($groups);
     }
 
     /**
@@ -74,11 +52,11 @@ class MatchDetailTest extends TestCase
             ->match('first ę and second')
             ->first(DetailFunctions::out($detail));
         // when
-        $offsets = $detail->namedGroups()->offsets();
-        $byteOffsets = $detail->namedGroups()->byteOffsets();
+        $groups = $detail->namedGroups();
         // then
-        $this->assertSame(['one' => 0, 'two' => 12], $offsets);
-        $this->assertSame(['one' => 0, 'two' => 13], $byteOffsets);
+        $this->assertGroupOffsets(['one' => 0, 'two' => 12], $groups);
+        $this->assertGroupByteOffsets(['one' => 0, 'two' => 13], $groups);
+        $this->assertGroupIndices(['one' => 1, 'two' => 2], $groups);
     }
 
     /**
@@ -104,8 +82,8 @@ class MatchDetailTest extends TestCase
             ->match("first and second and third, don't count me")
             ->first(DetailFunctions::out($detail));
         // when +  then
-        $this->assertSame(3, $detail->groups()->count());
-        $this->assertSame(1, $detail->namedGroups()->count());
+        $this->assertCount(3, $detail->groups());
+        $this->assertCount(1, $detail->namedGroups());
         $this->assertSame(3, $detail->groupsCount());
     }
 
@@ -145,8 +123,8 @@ class MatchDetailTest extends TestCase
             ->match('zero first and second')
             ->first(DetailFunctions::out($detail));
         // when, then
-        $this->assertSame([null, 'existing', 'two_existing'], $detail->groups()->names());
-        $this->assertSame(['existing', 'two_existing'], $detail->namedGroups()->names());
+        $this->assertGroupNames([null, 'existing', 'two_existing'], $detail->groups());
+        $this->assertGroupNames(['existing' => 'existing', 'two_existing' => 'two_existing'], $detail->namedGroups());
     }
 
     /**
@@ -157,8 +135,8 @@ class MatchDetailTest extends TestCase
         // given
         pattern('(Foo)')->match('Foo')->first(DetailFunctions::out($detail));
         // when, then
-        $this->assertSame(1, $detail->groups()->count());
-        $this->assertSame(0, $detail->namedGroups()->count());
+        $this->assertCount(1, $detail->groups());
+        $this->assertCount(0, $detail->namedGroups());
     }
 
     /**
@@ -171,8 +149,8 @@ class MatchDetailTest extends TestCase
             ->match('zero first and second')
             ->first(DetailFunctions::out($detail));
         // when, then
-        $this->assertSame(3, $detail->groups()->count());
-        $this->assertSame(2, $detail->namedGroups()->count());
+        $this->assertCount(3, $detail->groups());
+        $this->assertCount(2, $detail->namedGroups());
     }
 
     /**

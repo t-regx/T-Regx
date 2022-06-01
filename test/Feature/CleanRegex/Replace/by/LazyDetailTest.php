@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Replace\by;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsGroup;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Pattern;
@@ -14,6 +15,8 @@ use TRegx\CleanRegex\Replace\ReplacePattern;
  */
 class LazyDetailTest extends TestCase
 {
+    use AssertsGroup;
+
     /**
      * @test
      */
@@ -315,9 +318,10 @@ class LazyDetailTest extends TestCase
         // given
         $detail = $this->detail(Pattern::of('(Bar)?!(?<first>one),(?<second>two)!')->replace('!one,two!'), 1);
         // when
-        $result = $detail->groups()->texts();
+        $groups = $detail->groups();
         // then
-        $this->assertSame([null, 'one', 'two'], $result);
+        $this->assertGroupTextsOptional([null, 'one', 'two'], $groups);
+        $this->assertGroupIndicesConsequetive($groups);
     }
 
     /**
@@ -328,9 +332,10 @@ class LazyDetailTest extends TestCase
         // given
         $detail = $this->detail(Pattern::of('!(?<first>one),(Bar)?(?<second>two)!')->replace('!one,two!'), 2);
         // when
-        $result = $detail->groups()->texts();
+        $groups = $detail->groups();
         // then
-        $this->assertSame(['one', null, 'two'], $result);
+        $this->assertGroupTextsOptional(['one', null, 'two'], $groups);
+        $this->assertGroupIndicesConsequetive($groups);
     }
 
     /**
@@ -341,9 +346,10 @@ class LazyDetailTest extends TestCase
         // given
         $detail = $this->detail(Pattern::of('!(?<first>one),(?<second>two)!(Bar)?')->replace('!one,two!'), 3);
         // when
-        $result = $detail->groups()->texts();
+        $groups = $detail->groups();
         // then
-        $this->assertSame(['one', 'two', null], $result);
+        $this->assertGroupTextsOptional(['one', 'two', null], $groups);
+        $this->assertGroupIndicesConsequetive($groups);
     }
 
     /**
@@ -354,9 +360,10 @@ class LazyDetailTest extends TestCase
         // given
         $detail = $this->detail(Pattern::of('(Bar)?!(?<first>one)(?<second>two)!')->replace('!onetwo!'));
         // when
-        $result = $detail->namedGroups()->texts();
+        $groups = $detail->namedGroups();
         // then
-        $this->assertSame(['first' => 'one', 'second' => 'two'], $result);
+        $this->assertGroupTexts(['first' => 'one', 'second' => 'two'], $groups);
+        $this->assertGroupIndices(['first' => 2, 'second' => 3], $groups);
     }
 
     /**

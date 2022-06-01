@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\Details;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsGroup;
 use Test\Utils\DetailFunctions;
 use Test\Utils\ExplicitStringEncoding;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
@@ -15,7 +16,7 @@ use TRegx\CleanRegex\Pattern;
  */
 class MatchDetailTest extends TestCase
 {
-    use ExplicitStringEncoding;
+    use ExplicitStringEncoding, AssertsGroup;
 
     /**
      * @test
@@ -107,9 +108,10 @@ class MatchDetailTest extends TestCase
         // given
         $detail = $this->detail(Pattern::of('(12€)(cm)', 'i')->match('€€ 12€cm'));
         // when
-        $offsets = $detail->groups()->offsets();
+        $groups = $detail->groups();
         // then
-        $this->assertSame([3, 6], $offsets);
+        $this->assertGroupOffsets([3, 6], $groups);
+        $this->assertGroupIndicesConsequetive($groups);
     }
 
     /**
@@ -120,13 +122,10 @@ class MatchDetailTest extends TestCase
         // given
         $detail = $this->detail(Pattern::of('(?<value>12€)(?<unit>cm)', 'i')->match('€€ 12€cm'));
         // when
-        $offsets = $detail->namedGroups()->offsets();
+        $groups = $detail->namedGroups();
         // then
-        $expectedOffsets = [
-            'value' => 3,
-            'unit'  => 6,
-        ];
-        $this->assertSame($expectedOffsets, $offsets);
+        $this->assertGroupOffsets(['value' => 3, 'unit' => 6], $groups);
+        $this->assertGroupIndices(['value' => 1, 'unit' => 2], $groups);
     }
 
     /**
@@ -137,9 +136,9 @@ class MatchDetailTest extends TestCase
         // given
         $detail = $this->detail(Pattern::of('(12€)(cm)', 'i')->match('€€ 12€cm'));
         // when
-        $groups = $detail->groups()->texts();
+        $groups = $detail->groups();
         // then
-        $this->assertSame(['12€', 'cm'], $groups);
+        $this->assertGroupTexts(['12€', 'cm'], $groups);
     }
 
     /**
@@ -150,9 +149,9 @@ class MatchDetailTest extends TestCase
         // given
         $detail = $this->detail(Pattern::of('(?<value>12€)(?<unit>cm)', 'i')->match('€€ 12€cm'));
         // when
-        $named = $detail->namedGroups()->texts();
+        $groups = $detail->namedGroups();
         // then
-        $this->assertSame(['value' => '12€', 'unit' => 'cm'], $named);
+        $this->assertGroupTexts(['value' => '12€', 'unit' => 'cm'], $groups);
     }
 
     /**
@@ -203,8 +202,9 @@ class MatchDetailTest extends TestCase
         $detail = $this->detail(Pattern::of('(?<value>12€)(cm)(?<nothing>)', 'i')->match('€€ 12€cm'));
         // when, then
         $this->assertSame(['value', null, 'nothing'], $detail->groupNames());
-        $this->assertSame(['value', null, 'nothing'], $detail->groups()->names());
-        $this->assertSame(['value', 'nothing'], $detail->namedGroups()->names());
+        $this->assertGroupNames(['value', null, 'nothing'], $detail->groups());
+        $this->assertGroupNames(['value' => 'value', 'nothing' => 'nothing'], $detail->namedGroups());
+        $this->assertGroupIndices(['value' => 1, 'nothing' => 3], $detail->namedGroups());
     }
 
     /**

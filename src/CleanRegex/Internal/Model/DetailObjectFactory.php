@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Internal\Model;
 
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchesFirstPrime;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Subject;
@@ -35,6 +36,7 @@ class DetailObjectFactory
         return DeprecatedMatchDetail::create($this->subject,
             $index,
             new RawMatchesToMatchAdapter($matches, $index),
-            new EagerMatchAllFactory($matches));
+            new EagerMatchAllFactory($matches),
+            new MatchesFirstPrime($matches));
     }
 }

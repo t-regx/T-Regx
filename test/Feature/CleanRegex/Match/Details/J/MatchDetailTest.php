@@ -2,6 +2,7 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\Details\J;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsGroup;
 use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
@@ -9,6 +10,8 @@ use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 
 class MatchDetailTest extends TestCase
 {
+    use AssertsGroup;
+
     /**
      * @test
      */
@@ -21,7 +24,7 @@ class MatchDetailTest extends TestCase
         // given
         $group = $detail->group('group');
         // when, then
-        $this->assertSame(['group', null], $detail->groups()->names());
+        $this->assertSame(['group', null], $detail->groupNames());
         $this->assertSame(1, $group->index());
         $this->assertSame(0, $group->offset());
         $this->assertSame('Foo', $group->text());
@@ -33,16 +36,15 @@ class MatchDetailTest extends TestCase
      */
     public function shouldLastGroupNotBeMatched()
     {
-        // when
+        // given
         pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
             ->match('Lorem')
             ->first(DetailFunctions::out($detail));
-        // given
         $group = $detail->group('group');
         // when, then
-        $this->assertSame(['group', null, null], $detail->groups()->names());
-        $this->assertSame(1, $group->index());
-        $this->assertFalse($group->matched(), "Failed asserting that the last group was not matched");
+        $this->assertSame(['group', null, null], $detail->groupNames());
+        $this->assertGroupIndex(1, $group);
+        $this->assertGroupNotMatched($group);
     }
 
     /**
@@ -142,5 +144,68 @@ class MatchDetailTest extends TestCase
                 // when
                 $this->assertSame('group', $group->usedIdentifier());
             });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroups()
+    {
+        // given
+        pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J')
+            ->match('Lorem')
+            ->first(DetailFunctions::out($detail));
+        // when
+        $groups = $detail->groups();
+        // then
+        $this->assertGroupTextsOptional([null, null, 'Lorem'], $groups);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupNames()
+    {
+        // given
+        pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J')
+            ->match('Lorem')
+            ->first(DetailFunctions::out($detail));
+        // when
+        $groups = $detail->groups();
+        // then
+        $this->assertGroupNames(['group', null, null], $groups);
+        $this->assertGroupIndicesConsequetive($groups);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNamedGroups()
+    {
+        // given
+        pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J')
+            ->match('Lorem')
+            ->first(DetailFunctions::out($detail));
+        // when
+        $groups = $detail->namedGroups();
+        // then
+        $this->assertGroupTextsOptional(['group' => null], $groups);
+        $this->assertGroupIndices(['group' => 1], $groups);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNamedGroupNames()
+    {
+        // given
+        pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J')
+            ->match('Lorem')
+            ->first(DetailFunctions::out($detail));
+        // when
+        $groups = $detail->namedGroups();
+        // then
+        $this->assertGroupNames(['group' => 'group'], $groups);
+        $this->assertGroupIndices(['group' => 1], $groups);
     }
 }

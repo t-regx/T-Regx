@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchPrime;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 
@@ -44,11 +45,12 @@ class MatchStream implements Upstream
 
     protected function firstValue(): Detail
     {
+        $match = $this->stream->first();
         return DeprecatedMatchDetail::create($this->subject,
             $this->tryFirstKey(),
-            new GroupPolyfillDecorator(new FalseNegative($this->stream->first()), $this->allFactory, 0,
-                $this->groupAware),
-            $this->allFactory);
+            new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0, $this->groupAware),
+            $this->allFactory,
+            new MatchPrime($match));
     }
 
     private function tryFirstKey(): int

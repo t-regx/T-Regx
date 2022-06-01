@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchesFirstPrime;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\Type\ValueType;
@@ -68,12 +69,14 @@ class ReplaceCallbackObject
     private function createDetailObject(): ReplaceDetail
     {
         $index = $this->counter++;
-        $match = new RawMatchesToMatchAdapter($this->factory->getRawMatches(), $index);
+        $matches = $this->factory->getRawMatches();
+        $match = new RawMatchesToMatchAdapter($matches, $index);
         return new ReplaceDetail(DeprecatedMatchDetail::create(
             $this->subject,
             $index,
             $match,
             $this->factory,
+            new MatchesFirstPrime($matches),
             new ReplaceMatchGroupFactoryStrategy(
                 $this->alteration->byteOffset(),
                 $this->alteration->subject())), $this->limit,

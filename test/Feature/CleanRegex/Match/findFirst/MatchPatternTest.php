@@ -2,10 +2,12 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\findFirst;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\DetailFunctions;
 use Test\Utils\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -141,5 +143,22 @@ class MatchPatternTest extends TestCase
         $pattern = Pattern::of('Foo')->match('Bar');
         // when
         $pattern->findFirst(Functions::fail())->orElse(Functions::argumentless());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSubstituteGroup()
+    {
+        // given
+        $match = Pattern::of('!"(Foo)"')->match('€Subject: !"Foo"');
+        $match->findFirst(DetailFunctions::out($detail))->get();
+
+        /** @var Group $first */
+        [$first] = $detail->groups();
+        // when
+        $substitute = $first->substitute('Bar');
+        // then
+        $this->assertSame('!"Bar"', $substitute);
     }
 }

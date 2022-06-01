@@ -66,7 +66,7 @@ class FocusReplacePattern implements SpecificReplacePattern
             $group = $detail->group($this->group->nameOrIndex());
             return $group->substitute(ReferencesReplacer::replace($replacement, \array_merge(
                 [$group->text()],
-                $detail->groups()->texts())));
+                $this->groupTexts($detail))));
         });
     }
 
@@ -96,5 +96,14 @@ class FocusReplacePattern implements SpecificReplacePattern
             new LightweightGroupAware($this->definition),
             $this->subject,
             new FocusWrapper($this->group));
+    }
+
+    private function groupTexts(Detail $detail): array
+    {
+        $texts = [];
+        foreach ($detail->groups() as $group) {
+            $texts[] = $group->text();
+        }
+        return $texts;
     }
 }

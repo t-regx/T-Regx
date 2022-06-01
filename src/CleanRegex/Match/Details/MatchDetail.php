@@ -3,21 +3,21 @@ namespace TRegx\CleanRegex\Match\Details;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
+use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Match\Details\DetailGroup;
-use TRegx\CleanRegex\Internal\Match\Details\DetailGroups;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
+use TRegx\CleanRegex\Internal\Match\Details\Groups\PrimeDetailGroups;
+use TRegx\CleanRegex\Internal\Match\Details\GroupsCount;
 use TRegx\CleanRegex\Internal\Match\Details\NumericDetail;
 use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
-use TRegx\CleanRegex\Internal\Model\Match\GroupEntries;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Offset\SubjectCoordinate;
+use TRegx\CleanRegex\Internal\Pcre\Legacy;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\UsedForGroup;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\Group;
-use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
-use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
 class MatchDetail implements Detail
 {
@@ -31,26 +31,32 @@ class MatchDetail implements Detail
     private $numericDetail;
     /** @var DetailGroup */
     private $group;
-    /** @var DetailGroups */
+    /** @var PrimeDetailGroups */
     private $groups;
+    /** @var GroupNames */
+    private $groupNames;
+    /** @var GroupsCount */
+    private $groupsCount;
 
     public function __construct(
         Subject              $subject,
         int                  $index,
         GroupAware           $groupAware,
         Entry                $matchEntry,
-        GroupEntries         $entries,
         UsedForGroup         $usedForGroup,
         MatchAllFactory      $allFactory,
         GroupFactoryStrategy $strategy,
-        Signatures           $signatures)
+        Signatures           $signatures,
+        Legacy\Prime\Prime   $prime)
     {
         $this->scalars = new DetailScalars($matchEntry, $index, $allFactory, $subject);
         $this->coordinate = new SubjectCoordinate($matchEntry, $subject);
         $this->duplicateName = new DuplicateName($groupAware, $usedForGroup, $matchEntry, $subject, $strategy, $allFactory, $signatures);
         $this->numericDetail = new NumericDetail($matchEntry);
         $this->group = new DetailGroup($groupAware, $matchEntry, $usedForGroup, $signatures, $strategy, $allFactory, $subject);
-        $this->groups = new DetailGroups($groupAware, $entries, $subject);
+        $this->groups = new PrimeDetailGroups($subject, $signatures, $index, $allFactory, $groupAware, $prime);
+        $this->groupNames = new GroupNames($groupAware);
+        $this->groupsCount = new GroupsCount($groupAware);
     }
 
     public function subject(): string
@@ -134,20 +140,26 @@ class MatchDetail implements Detail
      */
     public function groupNames(): array
     {
-        return $this->groups->groupNames();
+        return $this->groupNames->groupNames();
     }
 
     public function groupsCount(): int
     {
-        return $this->groups->groupsCount();
+        return $this->groupsCount->groupsCount();
     }
 
-    public function groups(): IndexedGroups
+    /**
+     * @return Group[]
+     */
+    public function groups(): array
     {
         return $this->groups->indexedGroups();
     }
 
-    public function namedGroups(): NamedGroups
+    /**
+     * @return Group[]
+     */
+    public function namedGroups(): array
     {
         return $this->groups->namedGroups();
     }

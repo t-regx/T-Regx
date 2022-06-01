@@ -4,8 +4,7 @@ namespace TRegx\CleanRegex\Replace\Details;
 use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
-use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
-use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceGroup;
 
 class ReplaceDetail implements Detail
@@ -126,12 +125,18 @@ class ReplaceDetail implements Detail
         return $this->limit;
     }
 
-    public function groups(): IndexedGroups
+    /**
+     * @return Group[]
+     */
+    public function groups(): array
     {
         return $this->detail->groups();
     }
 
-    public function namedGroups(): NamedGroups
+    /**
+     * @return Group[]
+     */
+    public function namedGroups(): array
     {
         return $this->detail->namedGroups();
     }
