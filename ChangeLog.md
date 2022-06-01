@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.30.0
+---------------
+
 * Breaking changes
     * Completely refactored `Detail.groups()` and `Detail.namedGroups()`
         * Removed `Detail.groups().count()`
