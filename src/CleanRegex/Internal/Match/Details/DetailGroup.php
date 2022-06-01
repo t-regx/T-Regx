@@ -7,7 +7,6 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
 use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -41,7 +40,7 @@ class DetailGroup
         $this->groupAware = $groupAware;
         $this->entry = $matchEntry;
         $this->usedForGroup = $usedForGroup;
-        $this->groupHandle = new FirstNamedGroup($signatures);
+        $this->groupHandle = new GroupHandle($signatures);
         $this->groupFacade = new GroupFacade($subject, $strategy, $allFactory, $this->groupHandle, $signatures);
     }
 

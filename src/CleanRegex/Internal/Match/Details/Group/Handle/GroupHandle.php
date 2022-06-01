@@ -2,8 +2,20 @@
 namespace TRegx\CleanRegex\Internal\Match\Details\Group\Handle;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 
-interface GroupHandle
+class GroupHandle
 {
-    public function groupHandle(GroupKey $groupKey);
+    /** @var Signatures */
+    private $signatures;
+
+    public function __construct(Signatures $signatures)
+    {
+        $this->signatures = $signatures;
+    }
+
+    public function groupHandle(GroupKey $groupKey): int
+    {
+        return $this->signatures->signature($groupKey)->index();
+    }
 }

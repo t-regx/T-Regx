@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Match\Details\Groups;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
-use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
+use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Model\GroupKeys;
@@ -22,7 +22,7 @@ class DetailGroups
     public function __construct(Subject $subject, Signatures $signatures, MatchAllFactory $allFactory, GroupKeys $groupKeys)
     {
         $this->groupKeys = $groupKeys;
-        $this->facade = new GroupFacade($subject, new MatchGroupFactoryStrategy(), $allFactory, new FirstNamedGroup($signatures), $signatures);
+        $this->facade = new GroupFacade($subject, new MatchGroupFactoryStrategy(), $allFactory, new GroupHandle($signatures), $signatures);
     }
 
     public function groups(GroupArrayKey $arrayKey, UsedForGroup $forGroup, Entry $entry): array

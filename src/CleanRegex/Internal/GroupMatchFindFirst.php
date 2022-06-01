@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacadeMatched;
-use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
+use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchMessage;
@@ -58,7 +58,7 @@ class GroupMatchFindFirst
         $facade = new GroupFacadeMatched($this->subject,
             new MatchGroupFactoryStrategy(),
             new LazyMatchAllFactory($this->base),
-            new FirstNamedGroup($signatures),
+            new GroupHandle($signatures),
             $signatures);
         $false = new FalseNegative($match);
         return new PresentOptional($consumer($facade->createGroup($this->group, $false, $false)));

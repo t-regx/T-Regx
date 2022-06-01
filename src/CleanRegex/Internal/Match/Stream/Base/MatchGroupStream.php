@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupsFacade;
-use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\FirstNamedGroup;
+use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Stream\SubjectStreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
@@ -58,7 +58,7 @@ class MatchGroupStream implements Upstream
         $facade = new GroupsFacade($this->subject,
             new MatchGroupFactoryStrategy(),
             new EagerMatchAllFactory($matches),
-            new FirstNamedGroup($signatures),
+            new GroupHandle($signatures),
             $signatures);
         return $facade->createGroups($this->group, $matches);
     }
@@ -78,7 +78,7 @@ class MatchGroupStream implements Upstream
         $groupFacade = new GroupFacade($this->subject,
             new MatchGroupFactoryStrategy(),
             $this->allFactory,
-            new FirstNamedGroup($signatures), $signatures);
+            new GroupHandle($signatures), $signatures);
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0);
         return $groupFacade->createGroup($this->group, $polyfill, $polyfill);
     }
