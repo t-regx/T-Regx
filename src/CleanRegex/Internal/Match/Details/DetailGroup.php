@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;

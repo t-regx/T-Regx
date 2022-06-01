@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
-use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 
 class GroupDetails

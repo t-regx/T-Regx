@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacadeMatched;
-use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchMessage;

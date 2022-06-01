@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupMatchFindFirst;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacadeMatched;
-use TRegx\CleanRegex\Internal\Match\Details\Group\Handle\GroupHandle;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;

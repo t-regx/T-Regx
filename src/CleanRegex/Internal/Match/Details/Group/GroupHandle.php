@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match\Details\Group\Handle;
+namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
