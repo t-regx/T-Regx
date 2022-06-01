@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.29.0
+---------------
+
 * Breaking changes
     * Renamed `Detail.hasGroup()` to `Detail.groupExists()`.
     * Renamed `ReplaceDetail.hasGroup()` to `ReplaceDetail.groupExists()`.
