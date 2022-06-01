@@ -5,8 +5,10 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsGroup;
 use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
+use TRegx\CleanRegex\Pattern;
 
 class MatchDetailTest extends TestCase
 {
@@ -207,5 +209,182 @@ class MatchDetailTest extends TestCase
         // then
         $this->assertGroupNames(['group' => 'group'], $groups);
         $this->assertGroupIndices(['group' => 1], $groups);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_text()
+    {
+        // given
+        $detail = $this->detail();
+        // when
+        $declared = $detail->group('group');
+        // then
+        $this->assertSame('One', $declared->text());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_text_or()
+    {
+        // given
+        $detail = $this->detail();
+        // when
+        $declared = $detail->group('group');
+        // then
+        $this->assertSame('One', $declared->or('other'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetOr_forUnmatchedGroup()
+    {
+        // given
+        Pattern::of('(?<group>Plane)?(?<group>Bird)?Superman', 'J')
+            ->match('Superman')
+            ->first(DetailFunctions::out($detail));
+        // when
+        $declared = $detail->group('group');
+        // then
+        $this->assertSame('other', $declared->or('other'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_get()
+    {
+        // given
+        $detail = $this->detail();
+        // when
+        $declared = $detail->get('group');
+        // then
+        $this->assertSame('One', $declared);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetOffset()
+    {
+        // given
+        $detail = $this->detail();
+        // when
+        $declared = $detail->group('group');
+        // then
+        $this->assertSame(0, $declared->offset());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetName()
+    {
+        // given
+        $detail = $this->detail();
+        // when
+        $declared = $detail->group('group');
+        // then
+        $this->assertSame('group', $declared->name());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetIndex()
+    {
+        // given
+        $detail = $this->detail();
+        // when
+        $declared = $detail->group('group');
+        // then
+        $this->assertSame(1, $declared->index());
+    }
+
+    public function detail(): Detail
+    {
+        return pattern('(?<group>One)(?<group>Two)', 'J')
+            ->match('OneTwo')
+            ->stream()
+            ->first();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAsInt()
+    {
+        // given
+        Pattern::of('(?<group>123),(?<group>456)', 'J')
+            ->match('123,456')
+            ->first(DetailFunctions::out($detail));
+        // when
+        $declared = $detail->group('group');
+        // then
+        $this->assertSame(123, $declared->toInt());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAsIntBase16()
+    {
+        // given
+        Pattern::of('(?<group>123a),(?<group>456a)', 'J')
+            ->match('123a,456a')
+            ->first(DetailFunctions::out($detail));
+        // when
+        $declared = $detail->group('group');
+        // then
+        $this->assertSame(4666, $declared->toInt(16));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeInt()
+    {
+        // given
+        Pattern::of('(?<group>___),(?<group>123)', 'J')
+            ->match('___,123')
+            ->first(DetailFunctions::out($detail));
+        // when
+        $declared = $detail->group('group');
+        // then
+        $this->assertFalse($declared->isInt());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotBeInt()
+    {
+        // given
+        Pattern::of('(?<group>123),(?<group>___)', 'J')
+            ->match('123,___')
+            ->first(DetailFunctions::out($detail));
+        // when
+        $declared = $detail->group('group');
+        // then
+        $this->assertTrue($declared->isInt());
+    }
+
+    /**
+     * @test
+     * @deprecated
+     */
+    public function shouldSubstitute()
+    {
+        // given
+        Pattern::of('<(?<group>Old):(?<group>Old)>', 'J')
+            ->match('Subject <Old:Old>.')
+            ->first(DetailFunctions::out($detail));
+        // when
+        $declared = $detail->group('group')->substitute('New');
+        // then
+        $this->assertEquals('<New:Old>', $declared);
     }
 }

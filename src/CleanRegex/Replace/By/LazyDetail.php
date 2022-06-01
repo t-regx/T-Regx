@@ -5,7 +5,6 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
 use TRegx\CleanRegex\Internal\Replace\By\DelegatedDetail;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class LazyDetail implements Detail
@@ -110,11 +109,6 @@ class LazyDetail implements Detail
     public function group($nameOrIndex): Group
     {
         return $this->detail()->group($nameOrIndex);
-    }
-
-    public function usingDuplicateName(): DuplicateName
-    {
-        return $this->detail()->usingDuplicateName();
     }
 
     /**

@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Removed `Detail.usingDuplicateGroup()`. Using `J` modifier is still allowed, though of little use now.
 
 Added in 0.30.0
 ---------------

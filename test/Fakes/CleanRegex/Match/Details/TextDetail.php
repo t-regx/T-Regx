@@ -3,7 +3,6 @@ namespace Test\Fakes\CleanRegex\Match\Details;
 
 use Test\Utils\Fails;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class TextDetail implements Detail
@@ -79,11 +78,6 @@ class TextDetail implements Detail
     }
 
     public function group($nameOrIndex): Group
-    {
-        throw $this->fail();
-    }
-
-    public function usingDuplicateName(): DuplicateName
     {
         throw $this->fail();
     }

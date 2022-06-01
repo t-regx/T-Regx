@@ -414,16 +414,14 @@ class LazyDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldDuplicateGroups()
+    public function shouldGetGroupDuplicateGroups()
     {
         // given
         $detail = $this->detail(Pattern::of('(Bar)?(?<group>One)(?<group>Two)', 'J')->replace('OneTwo'));
         // when
-        $text1 = $detail->get('group');
-        $text2 = $detail->usingDuplicateName()->get('group');
+        $text = $detail->get('group');
         // then
-        $this->assertSame('One', $text1);
-        $this->assertSame('Two', $text2);
+        $this->assertSame('One', $text);
     }
 
     private function detail(ReplacePattern $pattern, int $group = null): LazyDetail

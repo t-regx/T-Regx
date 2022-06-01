@@ -20,8 +20,6 @@ interface Detail extends Structure, Element
      */
     public function group($nameOrIndex);
 
-    public function usingDuplicateName(): DuplicateName;
-
     /**
      * @return Group[]
      */

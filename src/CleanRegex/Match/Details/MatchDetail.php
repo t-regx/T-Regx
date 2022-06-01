@@ -25,8 +25,6 @@ class MatchDetail implements Detail
     private $scalars;
     /** @var SubjectCoordinate */
     private $coordinate;
-    /** @var DuplicateName */
-    private $duplicateName;
     /** @var NumericDetail */
     private $numericDetail;
     /** @var DetailGroup */
@@ -51,7 +49,6 @@ class MatchDetail implements Detail
     {
         $this->scalars = new DetailScalars($matchEntry, $index, $allFactory, $subject);
         $this->coordinate = new SubjectCoordinate($matchEntry, $subject);
-        $this->duplicateName = new DuplicateName($groupAware, $usedForGroup, $matchEntry, $subject, $strategy, $allFactory, $signatures);
         $this->numericDetail = new NumericDetail($matchEntry);
         $this->group = new DetailGroup($groupAware, $matchEntry, $usedForGroup, $signatures, $strategy, $allFactory, $subject);
         $this->groups = new PrimeDetailGroups($subject, $signatures, $index, $allFactory, $groupAware, $prime);
@@ -128,11 +125,6 @@ class MatchDetail implements Detail
     public function matched($nameOrIndex): bool
     {
         return $this->group->matched(GroupKey::of($nameOrIndex));
-    }
-
-    public function usingDuplicateName(): DuplicateName
-    {
-        return $this->duplicateName;
     }
 
     /**

@@ -80,7 +80,6 @@ class ReplaceDetailTest extends TestCase
         Pattern::of('(?<name>One),(?<name>Two)', 'J')->replace('One,Two')->callback(DetailFunctions::outLast($detail, ''));
         // when, then
         $this->assertSame('One', $detail->get('name'));
-        $this->assertSame('Two', $detail->usingDuplicateName()->get('name'));
     }
 
     /**

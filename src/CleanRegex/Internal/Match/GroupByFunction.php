@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\CapturingGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class GroupByFunction
 {
@@ -31,7 +31,7 @@ class GroupByFunction
         if ($key instanceof Detail) {
             return $key->text();
         }
-        if ($key instanceof CapturingGroup) {
+        if ($key instanceof Group) {
             if ($key->matched()) {
                 return $key->text();
             }

@@ -12,7 +12,7 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\CapturingGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 class ReplaceCallbackObject
@@ -88,7 +88,7 @@ class ReplaceCallbackObject
         if (\is_string($replacement)) {
             return $replacement;
         }
-        if ($replacement instanceof CapturingGroup) {
+        if ($replacement instanceof Group) {
             return $this->groupAsReplacement($replacement);
         }
         if ($replacement instanceof Detail) {
@@ -97,7 +97,7 @@ class ReplaceCallbackObject
         throw new InvalidReplacementException(new ValueType($replacement));
     }
 
-    private function groupAsReplacement(CapturingGroup $group): string
+    private function groupAsReplacement(Group $group): string
     {
         if ($group->matched()) {
             return $group->text();

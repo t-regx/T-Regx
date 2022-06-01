@@ -22,7 +22,6 @@ interface UsedForGroup
      * @see MatchedGroup
      * @see GroupMatch
      * @see GroupMatchFindFirst
-     * @see DuplicateName::group
      * @see MatchDetail::group
      */
     public function getGroupTextAndOffset($nameOrIndex): array;

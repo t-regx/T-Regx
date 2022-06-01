@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Replace\Details;
 
 use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceGroup;
 
@@ -56,11 +55,6 @@ class ReplaceDetail implements Detail
         /** @var ReplaceGroup $group */
         $group = $this->detail->group($nameOrIndex);
         return $group;
-    }
-
-    public function usingDuplicateName(): DuplicateName
-    {
-        return $this->detail->usingDuplicateName();
     }
 
     public function subject(): string

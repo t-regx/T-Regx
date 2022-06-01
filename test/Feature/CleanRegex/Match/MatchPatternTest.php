@@ -638,37 +638,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldDuplicatelyNamedGroupBeIntable()
-    {
-        // when
-        $first = Pattern::of('(?<name>\d+)')->match('123')
-            ->stream()
-            ->map(function (Detail $detail) {
-                return $detail->usingDuplicateName()->group('name');
-            })
-            ->asInt()
-            ->first();
-        // then
-        $this->assertSame(123, $first);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGroupByDuplicateNamedGroup()
-    {
-        // when
-        $groupped = Pattern::of('(?<name>value)')->match('value')
-            ->groupByCallback(function (Detail $detail) {
-                return $detail->usingDuplicateName()->group('name');
-            });
-        // then
-        $this->assertSame(['value' => ['value']], $groupped);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetEmptyGroupNames()
     {
         // when
