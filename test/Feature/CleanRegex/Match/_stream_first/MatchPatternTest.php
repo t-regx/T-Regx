@@ -3,6 +3,7 @@ namespace Test\Feature\TRegx\CleanRegex\Match\_stream_first;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CausesBacktracking;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\MatchPattern;
@@ -131,6 +132,13 @@ class MatchPatternTest extends TestCase
     {
         $this->assertSame('123', $this->match()->group(0)->first());
         $this->assertSame('123', $this->match()->group(0)->stream()->first()->text());
+    }
+
+    public function test_groups_text()
+    {
+        $this->match()->first(DetailFunctions::out($detail));
+        [$group] = $detail->groups();
+        $this->assertSame('12', $group->text());
     }
 
     private function match(): MatchPattern

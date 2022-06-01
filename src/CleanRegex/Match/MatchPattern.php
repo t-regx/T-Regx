@@ -32,6 +32,7 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchPrime;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
@@ -118,7 +119,7 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
     private function findFirstDetail(RawMatchOffset $match): Detail
     {
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0, $this->groupAware);
-        return DeprecatedMatchDetail::create($this->subject, 0, $polyfill, $this->allFactory);
+        return DeprecatedMatchDetail::create($this->subject, 0, $polyfill, $this->allFactory, new MatchPrime($match));
     }
 
     public function only(int $limit): array

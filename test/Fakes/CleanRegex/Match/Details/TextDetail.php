@@ -5,8 +5,6 @@ use Test\Utils\Fails;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\DuplicateName;
 use TRegx\CleanRegex\Match\Details\Group\Group;
-use TRegx\CleanRegex\Match\Details\Groups\IndexedGroups;
-use TRegx\CleanRegex\Match\Details\Groups\NamedGroups;
 
 class TextDetail implements Detail
 {
@@ -90,12 +88,12 @@ class TextDetail implements Detail
         throw $this->fail();
     }
 
-    public function groups(): IndexedGroups
+    public function groups(): array
     {
         throw $this->fail();
     }
 
-    public function namedGroups(): NamedGroups
+    public function namedGroups(): array
     {
         throw $this->fail();
     }

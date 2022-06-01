@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Replace\By;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\EagerMatchAllFactory;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchesFirstPrime;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -38,12 +39,9 @@ class DelegatedDetail
         $matches = $this->base->matchAllOffsets();
         return DeprecatedMatchDetail::create(
             $this->subject,
-            -99, // This value is never used, because `index()` in LazyMatch isn't
-            // passed through `Detail`, because it's read from fields.
-            // We could pass real data here, but we could never test it, since the code doesn't
-            // use those values. We could also pass it and read it, but then LazyDetail.index()
-            // would perform match unnecessarily.
+            $this->index,
             new RawMatchesToMatchAdapter($matches, $this->index),
-            new EagerMatchAllFactory($matches));
+            new EagerMatchAllFactory($matches),
+            new MatchesFirstPrime($matches));
     }
 }

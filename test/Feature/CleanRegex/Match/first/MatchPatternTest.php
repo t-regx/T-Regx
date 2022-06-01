@@ -2,8 +2,13 @@
 namespace Test\Feature\TRegx\CleanRegex\Match\first;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsGroup;
+use Test\Utils\CausesBacktracking;
+use Test\Utils\ControledBacktracking;
 use Test\Utils\Definitions;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
+use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -15,6 +20,8 @@ use TRegx\CleanRegex\Pattern;
  */
 class MatchPatternTest extends TestCase
 {
+    use AssertsGroup, CausesBacktracking, TestCasePasses;
+
     /**
      * @test
      */
@@ -67,7 +74,7 @@ class MatchPatternTest extends TestCase
             $this->assertSame(0, $detail->index());
             $this->assertSame('Nice matching pattern', $detail->subject());
             $this->assertSame(['Nice', 'matching', 'pattern'], $detail->all());
-            $this->assertSame(['N'], $detail->groups()->texts());
+            $this->assertGroupTexts(['N'], $detail->groups());
         });
     }
 
@@ -116,5 +123,67 @@ class MatchPatternTest extends TestCase
     private function match(string $subject): MatchPattern
     {
         return Pattern::of("([A-Z])?[a-z]+")->match($subject);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFirstGroupsNotCauseCatastrophicBacktracking()
+    {
+        // given
+        $match = $this->backtrackingPattern()->match($this->backtrackingSubject());
+        $match->first(DetailFunctions::out($detail));
+        // when
+        $detail->groups();
+        // then
+        $this->pass();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFirstNamedGroupsNotCauseCatastrophicBacktracking()
+    {
+        // given
+        $match = $this->backtrackingPattern()->match($this->backtrackingSubject());
+        $match->first(DetailFunctions::out($detail));
+        // when
+        $detail->namedGroups();
+        // then
+        $this->pass();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNth0GroupsNotCauseCatastrophicBacktracking()
+    {
+        // given
+        $control = new ControledBacktracking();
+        $detail = $control->match()->stream()->nth(0);
+        // when
+        $control->inStrictEnvironment(function () use ($detail) {
+            // when
+            $detail->groups();
+            // then
+            $this->pass();
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNth0NamedGroupsNotCauseCatastrophicBacktracking()
+    {
+        // given
+        $control = new ControledBacktracking();
+        $detail = $control->match()->stream()->nth(0);
+        // when
+        $control->inStrictEnvironment(function () use ($detail) {
+            // when
+            $detail->namedGroups();
+            // then
+            $this->pass();
+        });
     }
 }

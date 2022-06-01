@@ -2,10 +2,13 @@
 namespace Test\Feature\TRegx\CleanRegex\Replace\Details\offset;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsGroup;
 use Test\Utils\DetailFunctions;
 
 class ReplacePatternTest extends TestCase
 {
+    use AssertsGroup;
+
     /**
      * @test
      */
@@ -47,14 +50,11 @@ class ReplacePatternTest extends TestCase
      */
     public function shouldGet_compositeGroups_offset()
     {
-        // given
-        $subject = '€ ęFoo'; // Subject chosen to expose errors with byte-offset bugs
-        pattern('(?<group>Foo)')->replace($subject)->first()->callback(DetailFunctions::out($detail, ''));
         // when
-        $indexedOffsets = $detail->groups()->offsets();
-        $namedOffsets = $detail->namedGroups()->offsets();
+        pattern('(?<group>Foo)')->replace('€ ęFoo')->callback(DetailFunctions::out($detail, ''));
         // then
-        $this->assertSame([3], $indexedOffsets);
-        $this->assertSame(['group' => 3], $namedOffsets);
+        $this->assertGroupOffsets([3], $detail->groups());
+        $this->assertGroupIndicesConsequetive($detail->groups());
+        $this->assertGroupOffsets(['group' => 3], $detail->namedGroups());
     }
 }

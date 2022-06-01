@@ -4,7 +4,23 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Completely refactored `Detail.groups()` and `Detail.namedGroups()`
+        * Removed `Detail.groups().count()`
+        * Removed `Detail.groups().texts()`
+        * Removed `Detail.groups().offsets()`
+        * Removed `Detail.groups().byteOffsets()`
+        * Removed `Detail.groups().names()`
+        * Removed `Detail.namedGroups().count()`
+        * Removed `Detail.namedGroups().texts()`
+        * Removed `Detail.namedGroups().offsets()`
+        * Removed `Detail.namedGroups().byteOffsets()`
+        * Removed `Detail.namedGroups().names()`
+* Features
+    * Now `Detail.groups()` and `Detail.namedGroups()` return an `array` of `Group`.
+
+        * `Detail.groups()` returns a sequential `array` of `Group` (sequential means indexed `0`, `1`, `2`, etc.)
+        * `Detail.namedGroups()` returns an associative `array` of `Group`, where array keys are the group names.
 
 Added in 0.29.0
 ---------------
