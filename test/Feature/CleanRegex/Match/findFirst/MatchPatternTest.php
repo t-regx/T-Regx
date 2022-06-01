@@ -151,6 +151,22 @@ class MatchPatternTest extends TestCase
     public function shouldSubstituteGroup()
     {
         // given
+        $match = Pattern::of('[!?]"(Foo)"')->match('€Subject: !"Foo", ?"Foo"');
+        [$first, $second] = $match->map(Functions::identity());
+        /** @var Group $group */
+        [$group] = $second->groups();
+        // when
+        $substitute = $group->substitute('Bar');
+        // then
+        $this->assertSame('?"Bar"', $substitute);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSubstituteGroupFirst()
+    {
+        // given
         $match = Pattern::of('!"(Foo)"')->match('€Subject: !"Foo"');
         $match->findFirst(DetailFunctions::out($detail))->get();
 
