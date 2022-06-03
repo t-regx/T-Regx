@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Match\Details;
+namespace TRegx\CleanRegex\Internal\Match\Details;
 
 use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;

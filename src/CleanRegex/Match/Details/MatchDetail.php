@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Match\Details\DetailGroup;
+use TRegx\CleanRegex\Internal\Match\Details\DetailScalars;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Groups\PrimeDetailGroups;
 use TRegx\CleanRegex\Internal\Match\Details\GroupsCount;
