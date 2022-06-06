@@ -314,9 +314,9 @@ class PatternTest extends TestCase
     public function shouldNotMistakeEmptyStringForZero()
     {
         // when
-        $matches = Pattern::of('|0')->match('0')->distinct();
+        $distinct = Pattern::of('|0')->match('0')->distinct();
         // then
-        $this->assertSame(['', '0'], $matches);
+        $this->assertSame(['', '0'], $distinct);
     }
 
     /**
@@ -325,9 +325,9 @@ class PatternTest extends TestCase
     public function shouldGetFirstOptional()
     {
         // when
-        $result = Pattern::of('Foo')->match('Foo')->findFirst(Functions::identity())->get();
+        $first = Pattern::of('Foo')->match('Foo')->findFirst(Functions::identity())->get();
         // then
-        $this->assertSame('Foo', $result->text());
+        $this->assertSame('Foo', $first->text());
     }
 
     /**

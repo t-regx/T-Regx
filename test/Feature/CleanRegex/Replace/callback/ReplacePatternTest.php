@@ -2,7 +2,6 @@
 namespace Test\Feature\CleanRegex\Replace\callback;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsSameMatches;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use Test\Utils\TestCasePasses;
@@ -13,7 +12,7 @@ use TRegx\CleanRegex\Pattern;
  */
 class ReplacePatternTest extends TestCase
 {
-    use AssertsSameMatches, TestCasePasses;
+    use TestCasePasses;
 
     /**
      * @test

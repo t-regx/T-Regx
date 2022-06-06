@@ -229,4 +229,11 @@ class Functions
             throw new \AssertionError("Failed to assert that callback was called only once");
         };
     }
+
+    public static function duplicate(): callable
+    {
+        return function ($argument): array {
+            return [$argument, $argument];
+        };
+    }
 }

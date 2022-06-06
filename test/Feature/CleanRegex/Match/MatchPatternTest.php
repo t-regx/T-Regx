@@ -190,10 +190,10 @@ class MatchPatternTest extends TestCase
     public function shouldGet_distinct()
     {
         // when
-        $mapped = pattern('\w+')->match('One, One, Two, One, Three, Two, One')->distinct();
+        $distinct = pattern('\w+')->match('One, One, Two, One, Three, Two, One')->distinct();
 
         // then
-        $this->assertSame(['One', 'Two', 'Three'], $mapped);
+        $this->assertSame(['One', 'Two', 'Three'], $distinct);
     }
 
     /**

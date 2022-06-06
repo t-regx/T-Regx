@@ -98,4 +98,11 @@ class DetailFunctions
             return \in_array("$match", $haystack);
         };
     }
+
+    public static function duplicate(): callable
+    {
+        return function (Detail $detail): array {
+            return [$detail->text(), $detail->text()];
+        };
+    }
 }
