@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\SafeRegex\Internal\Errors\Errors;
+namespace Test\Unit\SafeRegex\Internal\Errors\Errors;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\SafeRegex\Internal\Errors\Errors\ClearableError;

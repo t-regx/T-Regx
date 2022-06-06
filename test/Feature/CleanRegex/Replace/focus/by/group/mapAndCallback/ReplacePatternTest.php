@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\focus\by\group\mapAndCallback;
+namespace Test\Feature\CleanRegex\Replace\focus\by\group\mapAndCallback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ExampleException;

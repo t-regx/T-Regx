@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\atMost;
+namespace Test\Feature\CleanRegex\Replace\atMost;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CausesBacktracking;

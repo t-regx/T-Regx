@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\focus;
+namespace Test\Feature\CleanRegex\Replace\focus;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

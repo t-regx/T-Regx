@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Template\Mask;
+namespace Test\Unit\CleanRegex\Internal\Prepared\Template\Mask;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Template\Mask\Needles;

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\_trailing_backslash;
+namespace Test\Feature\CleanRegex\_trailing_backslash;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;

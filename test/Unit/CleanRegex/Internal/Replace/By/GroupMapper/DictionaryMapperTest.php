@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Replace\By\GroupMapper;
+namespace Test\Unit\CleanRegex\Internal\Replace\By\GroupMapper;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

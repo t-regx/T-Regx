@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\Details\limit;
+namespace Test\Feature\CleanRegex\Replace\Details\limit;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\SafeRegex\Internal\Factory;
+namespace Test\Unit\SafeRegex\Internal\Factory;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;

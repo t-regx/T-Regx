@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\_delimiter;
+namespace Test\Feature\CleanRegex\_delimiter;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;

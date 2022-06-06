@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\by\mapIfExists;
+namespace Test\Feature\CleanRegex\Replace\by\mapIfExists;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

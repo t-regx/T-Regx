@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Delimiter;
+namespace Test\Unit\CleanRegex\Internal\Delimiter;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\TestCasePasses;

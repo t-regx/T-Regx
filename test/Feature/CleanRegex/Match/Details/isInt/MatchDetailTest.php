@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\Details\isInt;
+namespace Test\Feature\CleanRegex\Match\Details\isInt;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

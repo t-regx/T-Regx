@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\focus\by\mapIfExists;
+namespace Test\Feature\CleanRegex\Replace\focus\by\mapIfExists;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;

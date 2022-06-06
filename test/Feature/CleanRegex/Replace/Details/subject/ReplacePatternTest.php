@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\Details\subject;
+namespace Test\Feature\CleanRegex\Replace\Details\subject;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;

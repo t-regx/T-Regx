@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\focus\by\group;
+namespace Test\Feature\CleanRegex\Replace\focus\by\group;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\FocusGroupPairs;

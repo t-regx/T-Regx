@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\stream\_all_unmatched;
+namespace Test\Feature\CleanRegex\Match\stream\_all_unmatched;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;

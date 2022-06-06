@@ -1,5 +1,5 @@
 <?php
-namespace Test\Functional\TRegx;
+namespace Test\Functional;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\TestCaseConditional;

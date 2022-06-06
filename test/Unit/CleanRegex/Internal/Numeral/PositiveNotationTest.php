@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Numeral;
+namespace Test\Unit\CleanRegex\Internal\Numeral;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ArchitectureDependant;

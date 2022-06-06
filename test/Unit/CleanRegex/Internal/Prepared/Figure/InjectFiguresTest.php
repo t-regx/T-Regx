@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Figure;
+namespace Test\Unit\CleanRegex\Internal\Prepared\Figure;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Expression;
+namespace Test\Unit\CleanRegex\Internal\Expression;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Definition;

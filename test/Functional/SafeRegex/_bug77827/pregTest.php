@@ -1,5 +1,5 @@
 <?php
-namespace Test\Functional\TRegx\SafeRegex\_bug77827;
+namespace Test\Functional\SafeRegex\_bug77827;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\preg;

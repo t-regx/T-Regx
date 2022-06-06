@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\_group_last;
+namespace Test\Feature\CleanRegex\_group_last;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsGroup;

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\Details\get;
+namespace Test\Feature\CleanRegex\Match\Details\get;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

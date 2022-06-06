@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\SafeRegex;
+namespace Test\Unit\SafeRegex;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Internal\PhpError;

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Functional\TRegx\SafeRegex\_offsets;
+namespace Test\Functional\SafeRegex\_offsets;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\preg;

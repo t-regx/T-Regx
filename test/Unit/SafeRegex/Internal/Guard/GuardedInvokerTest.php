@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\SafeRegex\Internal\Guard;
+namespace Test\Unit\SafeRegex\Internal\Guard;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsHasClass;

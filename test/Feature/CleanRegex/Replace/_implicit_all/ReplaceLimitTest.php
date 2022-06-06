@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\_implicit_all;
+namespace Test\Feature\CleanRegex\Replace\_implicit_all;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ExactExceptionMessage;

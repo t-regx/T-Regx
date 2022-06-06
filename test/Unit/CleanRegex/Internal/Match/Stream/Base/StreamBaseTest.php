@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Match\Stream\Base;
+namespace Test\Unit\CleanRegex\Internal\Match\Stream\Base;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Pcre\Legacy\ConstantAllBase;

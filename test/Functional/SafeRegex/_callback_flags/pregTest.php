@@ -1,5 +1,5 @@
 <?php
-namespace Test\Functional\TRegx\SafeRegex\_callback_flags;
+namespace Test\Functional\SafeRegex\_callback_flags;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;

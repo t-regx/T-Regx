@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Template;
+namespace Test\Unit\CleanRegex\Internal\Prepared\Template;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Template\AlterationToken;

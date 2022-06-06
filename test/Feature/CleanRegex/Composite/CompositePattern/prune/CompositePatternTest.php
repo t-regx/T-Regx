@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Composite\CompositePattern\prune;
+namespace Test\Feature\CleanRegex\Composite\CompositePattern\prune;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;

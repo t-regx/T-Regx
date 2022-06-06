@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Word;
+namespace Test\Unit\CleanRegex\Internal\Prepared\Word;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

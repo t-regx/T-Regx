@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Helper;
+namespace Test\Feature\CleanRegex\Helper;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Helper\GroupName;

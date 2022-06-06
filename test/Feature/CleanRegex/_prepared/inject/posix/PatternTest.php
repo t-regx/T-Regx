@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\_prepared\inject\posix;
+namespace Test\Feature\CleanRegex\_prepared\inject\posix;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;

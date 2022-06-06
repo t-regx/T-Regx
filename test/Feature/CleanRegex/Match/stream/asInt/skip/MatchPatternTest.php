@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\stream\asInt\skip;
+namespace Test\Feature\CleanRegex\Match\stream\asInt\skip;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

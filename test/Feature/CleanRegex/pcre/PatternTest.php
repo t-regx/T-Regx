@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\pcre;
+namespace Test\Feature\CleanRegex\pcre;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;

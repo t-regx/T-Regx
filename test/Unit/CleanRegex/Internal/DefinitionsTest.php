@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal;
+namespace Test\Unit\CleanRegex\Internal;
 
 use AssertionError;
 use InvalidArgumentException;

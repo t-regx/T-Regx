@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\SafeRegex\Internal\Guard\Strategy;
+namespace Test\Unit\SafeRegex\Internal\Guard\Strategy;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Internal\Guard\Strategy\PregFilterSuspectedReturnStrategy;

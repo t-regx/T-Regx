@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\iterator;
+namespace Test\Feature\CleanRegex\Match\iterator;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\TestCasePasses;

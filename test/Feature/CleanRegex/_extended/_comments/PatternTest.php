@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\_extended\_comments;
+namespace Test\Feature\CleanRegex\_extended\_comments;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;

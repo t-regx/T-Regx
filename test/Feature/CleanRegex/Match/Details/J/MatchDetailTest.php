@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\Details\J;
+namespace Test\Feature\CleanRegex\Match\Details\J;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsGroup;

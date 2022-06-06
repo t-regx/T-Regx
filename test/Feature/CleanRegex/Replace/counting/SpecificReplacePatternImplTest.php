@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\counting;
+namespace Test\Feature\CleanRegex\Replace\counting;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;

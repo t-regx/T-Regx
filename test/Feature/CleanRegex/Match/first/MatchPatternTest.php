@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\first;
+namespace Test\Feature\CleanRegex\Match\first;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsGroup;

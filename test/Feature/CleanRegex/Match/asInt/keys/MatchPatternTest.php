@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\asInt\keys;
+namespace Test\Feature\CleanRegex\Match\asInt\keys;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ExampleException;

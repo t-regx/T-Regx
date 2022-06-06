@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\all;
+namespace Test\Feature\CleanRegex\Replace\all;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;

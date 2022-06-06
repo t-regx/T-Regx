@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\SafeRegex\Internal\Constants;
+namespace Test\Unit\SafeRegex\Internal\Constants;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Internal\Constants\PregConstants;

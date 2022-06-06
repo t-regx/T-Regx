@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Expression;
+namespace Test\Unit\CleanRegex\Internal\Prepared\Expression;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\EqualsCondition;

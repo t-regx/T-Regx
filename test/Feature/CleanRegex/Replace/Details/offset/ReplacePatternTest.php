@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\Details\offset;
+namespace Test\Feature\CleanRegex\Replace\Details\offset;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsGroup;

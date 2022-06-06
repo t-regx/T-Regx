@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Replace;
+namespace Test\Unit\CleanRegex\Internal\Replace;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Replace\ReferencesReplacer;

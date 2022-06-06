@@ -1,5 +1,5 @@
 <?php
-namespace Test\Functional\TRegx\SafeRegex\grep_keys;
+namespace Test\Functional\SafeRegex\grep_keys;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\Exception\MalformedPatternException;

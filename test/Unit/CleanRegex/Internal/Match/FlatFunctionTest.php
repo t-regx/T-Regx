@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Match;
+namespace Test\Unit\CleanRegex\Internal\Match;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ExactExceptionMessage;

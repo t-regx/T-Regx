@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Prepared\Figure;
+namespace Test\Unit\CleanRegex\Internal\Prepared\Figure;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Figure\SingleFigure;

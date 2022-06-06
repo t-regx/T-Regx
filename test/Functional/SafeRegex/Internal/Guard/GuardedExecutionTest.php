@@ -1,5 +1,5 @@
 <?php
-namespace Test\Functional\TRegx\SafeRegex\Internal\Guard;
+namespace Test\Functional\SafeRegex\Internal\Guard;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -11,7 +11,6 @@ use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Internal\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Internal\Guard\GuardedExecution;
-
 
 class GuardedExecutionTest extends TestCase
 {

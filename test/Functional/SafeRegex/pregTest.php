@@ -1,5 +1,5 @@
 <?php
-namespace Test\Functional\TRegx\SafeRegex;
+namespace Test\Functional\SafeRegex;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -11,7 +11,6 @@ use TRegx\SafeRegex\Exception\InvalidReturnValueException;
 use TRegx\SafeRegex\Exception\PregMalformedPatternException;
 use TRegx\SafeRegex\Exception\UnicodeOffsetException;
 use TRegx\SafeRegex\preg;
-
 
 class pregTest extends TestCase
 {

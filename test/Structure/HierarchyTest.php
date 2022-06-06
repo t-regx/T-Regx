@@ -1,5 +1,5 @@
 <?php
-namespace Test\Structure\TRegx;
+namespace Test\Structure;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsHasClass;
@@ -10,7 +10,6 @@ use TRegx\Exception\RegexException;
 use TRegx\SafeRegex\Exception\PregException;
 use TRegx\SafeRegex\Exception\PregMalformedPatternException;
 use TRegx\SafeRegex\preg;
-
 
 class HierarchyTest extends TestCase
 {

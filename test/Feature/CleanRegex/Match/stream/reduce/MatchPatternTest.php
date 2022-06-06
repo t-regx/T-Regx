@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\stream\reduce;
+namespace Test\Feature\CleanRegex\Match\stream\reduce;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;

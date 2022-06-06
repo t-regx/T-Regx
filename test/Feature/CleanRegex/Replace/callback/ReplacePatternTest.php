@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\callback;
+namespace Test\Feature\CleanRegex\Replace\callback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsSameMatches;

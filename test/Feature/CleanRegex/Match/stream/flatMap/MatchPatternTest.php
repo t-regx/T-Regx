@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\stream\flatMap;
+namespace Test\Feature\CleanRegex\Match\stream\flatMap;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;

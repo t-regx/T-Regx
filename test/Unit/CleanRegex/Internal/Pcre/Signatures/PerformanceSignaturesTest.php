@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Pcre\Signatures;
+namespace Test\Unit\CleanRegex\Internal\Pcre\Signatures;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Model\GroupKeys;

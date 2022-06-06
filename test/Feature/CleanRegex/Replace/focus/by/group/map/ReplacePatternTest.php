@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\focus\by\group\map;
+namespace Test\Feature\CleanRegex\Replace\focus\by\group\map;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ExampleException;

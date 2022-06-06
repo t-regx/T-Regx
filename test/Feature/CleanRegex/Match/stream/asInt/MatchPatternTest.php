@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\stream\asInt;
+namespace Test\Feature\CleanRegex\Match\stream\asInt;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Match\Details\ConstantInt;

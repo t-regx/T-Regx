@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\stream\groupByCallback;
+namespace Test\Feature\CleanRegex\Match\stream\groupByCallback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Match\Details\Group\TextGroup;

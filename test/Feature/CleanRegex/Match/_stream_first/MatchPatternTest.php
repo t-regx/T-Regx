@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\_stream_first;
+namespace Test\Feature\CleanRegex\Match\_stream_first;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CausesBacktracking;

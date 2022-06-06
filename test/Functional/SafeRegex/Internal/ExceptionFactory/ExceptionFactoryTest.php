@@ -1,5 +1,5 @@
 <?php
-namespace Test\Functional\TRegx\SafeRegex\Internal\ExceptionFactory;
+namespace Test\Functional\SafeRegex\Internal\ExceptionFactory;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\Exception\MalformedPatternException;
@@ -8,7 +8,6 @@ use TRegx\SafeRegex\Exception\SuspectedReturnPregException;
 use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Internal\ExceptionFactory;
 use TRegx\SafeRegex\Internal\Guard\Strategy\DefaultSuspectedReturnStrategy;
-
 
 class ExceptionFactoryTest extends TestCase
 {

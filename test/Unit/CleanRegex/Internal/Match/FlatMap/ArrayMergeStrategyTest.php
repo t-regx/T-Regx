@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Match\FlatMap;
+namespace Test\Unit\CleanRegex\Internal\Match\FlatMap;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;

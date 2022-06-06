@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\by\group\mapAndCallback;
+namespace Test\Feature\CleanRegex\Replace\by\group\mapAndCallback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;

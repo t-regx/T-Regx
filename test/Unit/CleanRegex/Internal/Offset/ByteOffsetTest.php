@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit\TRegx\CleanRegex\Internal\Offset;
+namespace Test\Unit\CleanRegex\Internal\Offset;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;

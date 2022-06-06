@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\findFirst;
+namespace Test\Feature\CleanRegex\Match\findFirst;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;

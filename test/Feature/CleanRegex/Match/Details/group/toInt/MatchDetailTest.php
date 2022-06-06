@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\Details\group\toInt;
+namespace Test\Feature\CleanRegex\Match\Details\group\toInt;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\ExactExceptionMessage;

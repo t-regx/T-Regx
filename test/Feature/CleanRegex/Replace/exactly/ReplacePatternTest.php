@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\exactly;
+namespace Test\Feature\CleanRegex\Replace\exactly;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;

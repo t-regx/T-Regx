@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\group;
+namespace Test\Feature\CleanRegex\Match\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

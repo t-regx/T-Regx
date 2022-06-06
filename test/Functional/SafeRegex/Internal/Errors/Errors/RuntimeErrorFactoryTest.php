@@ -1,5 +1,5 @@
 <?php
-namespace Test\Functional\TRegx\SafeRegex\Internal\Errors\Errors;
+namespace Test\Functional\SafeRegex\Internal\Errors\Errors;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Warnings;

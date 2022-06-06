@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\Details\groups;
+namespace Test\Feature\CleanRegex\Replace\Details\groups;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsGroup;

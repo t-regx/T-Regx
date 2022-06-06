@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\cut;
+namespace Test\Feature\CleanRegex\cut;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\UnevenCutException;

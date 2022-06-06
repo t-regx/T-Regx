@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\by\group\callback;
+namespace Test\Feature\CleanRegex\Replace\by\group\callback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\CausesBacktracking;

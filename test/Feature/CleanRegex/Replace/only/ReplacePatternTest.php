@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Replace\only;
+namespace Test\Feature\CleanRegex\Replace\only;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

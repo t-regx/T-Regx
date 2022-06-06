@@ -1,5 +1,5 @@
 <?php
-namespace Test\Functional\TRegx\SafeRegex\_fatalErrors;
+namespace Test\Functional\SafeRegex\_fatalErrors;
 
 use PHPUnit\Framework\TestCase;
 use Test\DataProviders;

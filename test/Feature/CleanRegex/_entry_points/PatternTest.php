@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\_entry_points;
+namespace Test\Feature\CleanRegex\_entry_points;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;

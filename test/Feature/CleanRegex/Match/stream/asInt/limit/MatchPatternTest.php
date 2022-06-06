@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\TRegx\CleanRegex\Match\stream\asInt\limit;
+namespace Test\Feature\CleanRegex\Match\stream\asInt\limit;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
