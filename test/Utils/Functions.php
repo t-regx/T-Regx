@@ -121,7 +121,7 @@ class Functions
         };
     }
 
-    public static function argumentless(): callable
+    public static function assertArgumentless(): callable
     {
         return function (...$args): void {
             Assert::assertEmpty($args, 'Failed to assert that function received 0 arguments');

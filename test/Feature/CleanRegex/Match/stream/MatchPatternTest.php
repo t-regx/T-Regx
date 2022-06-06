@@ -225,7 +225,7 @@ class MatchPatternTest extends TestCase
     public function should_findFirst_orElse()
     {
         // when
-        pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail())->orElse(Functions::argumentless());
+        pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail())->orElse(Functions::assertArgumentless());
     }
 
     /**
@@ -251,7 +251,7 @@ class MatchPatternTest extends TestCase
             ->stream()
             ->filter(Functions::constant(false))
             ->findFirst(Functions::fail())
-            ->orElse(Functions::argumentless());
+            ->orElse(Functions::assertArgumentless());
     }
 
     /**

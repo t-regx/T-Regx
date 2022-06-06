@@ -161,7 +161,7 @@ class MatchPatternTest extends TestCase
             ->match('Foo')
             ->group(1)
             ->findFirst(Functions::fail())
-            ->orElse(Functions::argumentless());
+            ->orElse(Functions::assertArgumentless());
     }
 
     /**

@@ -142,7 +142,7 @@ class MatchPatternTest extends TestCase
         // given
         $pattern = Pattern::of('Foo')->match('Bar');
         // when
-        $pattern->findFirst(Functions::fail())->orElse(Functions::argumentless());
+        $pattern->findFirst(Functions::fail())->orElse(Functions::assertArgumentless());
     }
 
     /**
