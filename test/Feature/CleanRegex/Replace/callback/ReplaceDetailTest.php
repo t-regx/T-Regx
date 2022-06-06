@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\Match\Details;
+namespace Test\Feature\CleanRegex\Replace\callback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
