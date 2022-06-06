@@ -62,21 +62,6 @@ class StreamBaseTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_firstKey_forUnmatched()
-    {
-        // given
-        $stream = new StreamBase(new ConstantFirstBase(new RawMatchOffset([])));
-
-        // then
-        $this->expectException(UnmatchedStreamException::class);
-
-        // when
-        $stream->firstKey();
-    }
-
-    /**
-     * @test
-     */
     public function shouldAll_returnEmpty_unmatched()
     {
         // given

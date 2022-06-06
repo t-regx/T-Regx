@@ -32,13 +32,4 @@ class StreamBase
         }
         throw new UnmatchedStreamException();
     }
-
-    public function firstKey(): int
-    {
-        $match = $this->base->matchOffset();
-        if ($match->matched()) {
-            return 0;
-        }
-        throw new UnmatchedStreamException();
-    }
 }

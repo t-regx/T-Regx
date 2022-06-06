@@ -1,9 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
-use TRegx\CleanRegex\Internal\Match\Stream\SubjectStreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
-use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -47,18 +45,9 @@ class MatchStream implements Upstream
     {
         $match = $this->stream->first();
         return DeprecatedMatchDetail::create($this->subject,
-            $this->tryFirstKey(),
+            0,
             new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0, $this->groupAware),
             $this->allFactory,
             new MatchPrime($match));
-    }
-
-    private function tryFirstKey(): int
-    {
-        try {
-            return $this->stream->firstKey();
-        } catch (UnmatchedStreamException $exception) {
-            throw new SubjectStreamRejectedException(new FirstMatchMessage(), $this->subject);
-        }
     }
 }
