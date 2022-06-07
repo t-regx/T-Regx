@@ -89,37 +89,25 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
         return $this->base->matchAll()->getTexts();
     }
 
-    /**
-     * @param null|callable $consumer
-     * @return string|mixed
-     */
-    public function first(callable $consumer = null)
-    {
-        if ($consumer === null) {
-            return $this->matchDetail()->text();
-        }
-        return $consumer($this->matchDetail());
-    }
-
-    public function findFirst(callable $consumer): Optional
+    public function first(): Detail
     {
         $match = $this->base->matchOffset();
         if ($match->matched()) {
-            return new PresentOptional($consumer($this->findFirstDetail($match)));
-        }
-        return new EmptyOptional();
-    }
-
-    private function matchDetail(): Detail
-    {
-        $match = $this->base->matchOffset();
-        if ($match->matched()) {
-            return $this->findFirstDetail($match);
+            return $this->firstDetail($match);
         }
         throw new SubjectNotMatchedException(new FirstMatchMessage(), $this->subject);
     }
 
-    private function findFirstDetail(RawMatchOffset $match): Detail
+    public function findFirst(): Optional
+    {
+        $match = $this->base->matchOffset();
+        if ($match->matched()) {
+            return new PresentOptional($this->firstDetail($match));
+        }
+        return new EmptyOptional();
+    }
+
+    private function firstDetail(RawMatchOffset $match): Detail
     {
         $polyfill = new GroupPolyfillDecorator(new FalseNegative($match), $this->allFactory, 0, $this->groupAware);
         return DeprecatedMatchDetail::create($this->subject, 0, $polyfill, $this->allFactory, new MatchPrime($match));

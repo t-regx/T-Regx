@@ -27,7 +27,7 @@ class FilterStreamTest extends TestCase
         // when
         pattern('Foo')->match('Bar')->stream()
             ->filter(Functions::fail())
-            ->findFirst(Functions::fail())
+            ->findFirst()
             ->orElse(Functions::pass());
     }
 

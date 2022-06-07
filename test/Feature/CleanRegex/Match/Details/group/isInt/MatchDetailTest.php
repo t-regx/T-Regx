@@ -14,13 +14,9 @@ class MatchDetailTest extends TestCase
     public function shouldBeInt()
     {
         // given
-        $result = pattern('(?<name>\d+)')
-            ->match('11')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group(1)->isInt();
-            });
-
+        $detail = pattern('(?<name>11)')->match('11')->first();
+        // when
+        $result = $detail->group(1)->isInt();
         // then
         $this->assertTrue($result);
     }
@@ -31,13 +27,9 @@ class MatchDetailTest extends TestCase
     public function shouldPseudoInteger_notBeInt_becausePhpSucks()
     {
         // given
-        $result = pattern('(1e3)')
-            ->match('1e3')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group(1)->isInt();
-            });
-
+        $detail = pattern('(1e3)')->match('1e3')->first();
+        // when
+        $result = $detail->group(1)->isInt();
         // then
         $this->assertFalse($result);
     }
@@ -82,13 +74,11 @@ class MatchDetailTest extends TestCase
     public function shouldBeIntBase12()
     {
         // given
-        pattern('14b2')->match('14b2')->first(function (Detail $detail) {
-            // when
-            $isInt = $detail->group(0)->isInt(12);
-
-            // then
-            $this->assertTrue($isInt, "Failed asserting that {$detail->subject()} is int in base 12");
-        });
+        $detail = pattern('14b2')->match('14b2')->first();
+        // when
+        $isInt = $detail->group(0)->isInt(12);
+        // then
+        $this->assertTrue($isInt, "Failed asserting that {$detail->subject()} is int in base 12");
     }
 
     /**
@@ -97,13 +87,11 @@ class MatchDetailTest extends TestCase
     public function shouldIntegerBase11NotBeIntegerBase10()
     {
         // given
-        pattern('10a')->match('10a')->first(function (Detail $detail) {
-            // when
-            $isInt = $detail->group(0)->isInt();
-
-            // then
-            $this->assertFalse($isInt);
-        });
+        $detail = pattern('10a')->match('10a')->first();
+        // when
+        $isInt = $detail->group(0)->isInt();
+        // then
+        $this->assertFalse($isInt);
     }
 
     /**
@@ -112,15 +100,11 @@ class MatchDetailTest extends TestCase
     public function shouldNotBeInteger_byName()
     {
         // given
-        pattern('(?<name>Foo)')
-            ->match('Foo bar')
-            ->first(function (Detail $detail) {
-                // when
-                $result = $detail->group('name')->isInt();
-
-                // then
-                $this->assertFalse($result);
-            });
+        $detail = pattern('(?<name>Foo)')->match('Foo bar')->first();
+        // when
+        $result = $detail->group('name')->isInt();
+        // then
+        $this->assertFalse($result);
     }
 
     /**
@@ -129,15 +113,11 @@ class MatchDetailTest extends TestCase
     public function shouldNotBeInteger_byIndex()
     {
         // given
-        pattern('(?<name>Foo)')
-            ->match('Foo bar')
-            ->first(function (Detail $detail) {
-                // when
-                $result = $detail->group(1)->isInt();
-
-                // then
-                $this->assertFalse($result);
-            });
+        $detail = pattern('(?<name>Foo)')->match('Foo bar')->first();
+        // when
+        $result = $detail->group(1)->isInt();
+        // then
+        $this->assertFalse($result);
     }
 
     /**
@@ -146,15 +126,11 @@ class MatchDetailTest extends TestCase
     public function shouldNotBeInteger_overflown()
     {
         // given
-        pattern('(?<name>\d+)')
-            ->match('-92233720368547758080')
-            ->first(function (Detail $detail) {
-                // when
-                $result = $detail->group('name')->isInt();
-
-                // then
-                $this->assertFalse($result);
-            });
+        $detail = pattern('(?<name>\d+)')->match('-92233720368547758080')->first();
+        // when
+        $result = $detail->group('name')->isInt();
+        // then
+        $this->assertFalse($result);
     }
 
     /**
@@ -162,16 +138,12 @@ class MatchDetailTest extends TestCase
      */
     public function shouldThrowForUnmatchedGroup()
     {
+        // given
+        $detail = pattern('(?<name>Foo)(?<missing>\d+)?')->match('Foo bar')->first();
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to call isInt() for group 'missing', but the group was not matched");
-
-        // given
-        pattern('(?<name>Foo)(?<missing>\d+)?')
-            ->match('Foo bar')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group('missing')->isInt();
-            });
+        // when
+        $detail->group('missing')->isInt();
     }
 }

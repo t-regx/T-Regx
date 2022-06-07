@@ -3,10 +3,8 @@ namespace Test\Feature\CleanRegex\Match\Details\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
-use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -241,12 +239,6 @@ class NotMatchedGroupTest extends TestCase
 
     private function groupOf(): NotMatchedGroup
     {
-        return $this->groupOfFirst(Pattern::of('Foo(?<first>first)?')->match('Foo'));
-    }
-
-    private function groupOfFirst(MatchPattern $matchPattern): NotMatchedGroup
-    {
-        $matchPattern->first(DetailFunctions::out($detail));
-        return $detail->group('first');
+        return Pattern::of('Foo(?<first>first)?')->match('Foo')->first()->group('first');
     }
 }

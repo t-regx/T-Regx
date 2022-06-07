@@ -5,7 +5,6 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchDetailTest extends TestCase
 {
@@ -15,13 +14,11 @@ class MatchDetailTest extends TestCase
     public function shouldGetGroup()
     {
         // given
-        pattern('Hello (?<one>there)')->match('Hello there, General Kenobi')->first(function (Detail $detail) {
-            // when
-            $group = $detail->get('one');
-
-            // then
-            $this->assertSame('there', $group);
-        });
+        $detail = pattern('Hello (?<one>there)')->match('Hello there, General Kenobi')->first();
+        // when
+        $group = $detail->get('one');
+        // then
+        $this->assertSame('there', $group);
     }
 
     /**
@@ -32,15 +29,13 @@ class MatchDetailTest extends TestCase
      */
     public function shouldGroup_notMatch(string $pattern, string $subject)
     {
+        // given
+        $detail = pattern($pattern)->match($subject)->first();
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to get group 'one', but the group was not matched");
-
-        // given
-        pattern($pattern)->match($subject)->first(function (Detail $detail) {
-            // when
-            $detail->get('one');
-        });
+        // when
+        $detail->get('one');
     }
 
     public function shouldGroup_notMatch_dataProvider(): array
@@ -56,15 +51,13 @@ class MatchDetailTest extends TestCase
      */
     public function shouldThrow_onMissingGroup()
     {
+        // given
+        $detail = pattern('(?<one>hello)')->match('hello')->first();
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'two'");
-
-        // given
-        pattern('(?<one>hello)')->match('hello')->first(function (Detail $detail) {
-            // when
-            $detail->get('two');
-        });
+        // when
+        $detail->get('two');
     }
 
     /**
@@ -75,13 +68,9 @@ class MatchDetailTest extends TestCase
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Group index must be an integer or a string, but boolean (true) given');
-
         // given
-        pattern('(?<one>first) and (?<two>second)')
-            ->match('first and second')
-            ->first(function (Detail $detail) {
-                // when
-                $detail->group(true);
-            });
+        $detail = pattern('(?<one>first) and (?<two>second)')->match('first and second')->first();
+        // when
+        $detail->group(true);
     }
 }

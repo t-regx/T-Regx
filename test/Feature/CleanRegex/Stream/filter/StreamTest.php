@@ -75,7 +75,7 @@ class StreamTest extends TestCase
     public function shouldNotCall_first_forEmptyStream(Stream $stream)
     {
         // when, then
-        $stream->filter(Functions::fail())->findFirst(Functions::fail())->orElse(Functions::pass());
+        $stream->filter(Functions::fail())->findFirst()->orElse(Functions::pass());
     }
 
     public function emptyStreams(): array

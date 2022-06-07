@@ -56,7 +56,7 @@ class DetailFunctions
         };
     }
 
-    public static function out(?Detail &$argument, $return = null): callable
+    public static function out(&$argument, $return = null): callable
     {
         $captured = false;
         return function ($capturedArgument) use (&$captured, &$argument, $return) {

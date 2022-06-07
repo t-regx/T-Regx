@@ -3,7 +3,6 @@ namespace Test\Feature\CleanRegex\_group_last;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsGroup;
-use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Pattern;
 
 class MatchDetailTest extends TestCase
@@ -16,9 +15,9 @@ class MatchDetailTest extends TestCase
     public function shouldGetGroupsLastMissing()
     {
         // given
-        Pattern::of('!(?<first>one),(?<second>two)!(Bar)?')
+        $detail = Pattern::of('!(?<first>one),(?<second>two)!(Bar)?')
             ->match('!one,two!')
-            ->first(DetailFunctions::out($detail));
+            ->first();
         // when
         $groups = $detail->groups();
         // then
@@ -32,9 +31,9 @@ class MatchDetailTest extends TestCase
     public function shouldGetGroupsNamedLastMissing()
     {
         // given
-        Pattern::of('!(?<first>one),(?<second>two)!(?<name>Bar)?')
+        $detail = Pattern::of('!(?<first>one),(?<second>two)!(?<name>Bar)?')
             ->match('!one,two!')
-            ->first(DetailFunctions::out($detail));
+            ->first();
         // when
         $groups = $detail->groups();
         // then
@@ -48,9 +47,9 @@ class MatchDetailTest extends TestCase
     public function shouldLastGroupExist()
     {
         // given
-        Pattern::of('!(?<first>one),(?<second>two)!(Bar)?')
+        $detail = Pattern::of('!(?<first>one),(?<second>two)!(Bar)?')
             ->match('!one,two!')
-            ->first(DetailFunctions::out($detail));
+            ->first();
         // when,  then
         $this->assertTrue($detail->groupExists(3));
         $this->assertFalse($detail->groupExists(4));
@@ -62,9 +61,9 @@ class MatchDetailTest extends TestCase
     public function shouldLastNamedGroupExist()
     {
         // given
-        Pattern::of('!(?<first>one),(?<second>two)!(?<name>Bar)?')
+        $detail = Pattern::of('!(?<first>one),(?<second>two)!(?<name>Bar)?')
             ->match('!one,two!')
-            ->first(DetailFunctions::out($detail));
+            ->first();
         // when,  then
         $this->assertTrue($detail->groupExists('name'));
     }

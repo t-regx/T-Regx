@@ -4,7 +4,6 @@ namespace Test\Feature\CleanRegex\Match\Details;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsGroup;
-use Test\Utils\DetailFunctions;
 use Test\Utils\Runtime\ExplicitStringEncoding;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
@@ -24,7 +23,7 @@ class MatchDetailTest extends TestCase
     public function shouldGetText()
     {
         // given
-        $detail = $this->detail(Pattern::of("Here's Johnny!")->match("Here's Johnny!"));
+        $detail = Pattern::of("Here's Johnny!")->match("Here's Johnny!")->first();
         // when
         $text = $detail->text();
         // then
@@ -37,7 +36,7 @@ class MatchDetailTest extends TestCase
     public function shouldCastToString()
     {
         // given
-        $detail = $this->detail(Pattern::of('Bond')->match('James Bond'));
+        $detail = Pattern::of('Bond')->match('James Bond')->first();
         // when
         $text = "$detail";
         // then
@@ -50,7 +49,7 @@ class MatchDetailTest extends TestCase
     public function shouldGetLength()
     {
         // given
-        $detail = $this->detail(Pattern::of('foo bar €')->match('foo bar €'));
+        $detail = Pattern::of('foo bar €')->match('foo bar €')->first();
         // when
         $length = $detail->length();
         $byteLength = $detail->byteLength();
@@ -65,7 +64,7 @@ class MatchDetailTest extends TestCase
     public function shouldGet_subject()
     {
         // given
-        $detail = $this->detail(Pattern::of('Previous', 'i')->match('My previous!'));
+        $detail = Pattern::of('Previous', 'i')->match('My previous!')->first();
         // when
         $subject = $detail->subject();
         // then
@@ -91,7 +90,7 @@ class MatchDetailTest extends TestCase
     public function shouldGetOffset()
     {
         // given
-        $detail = $this->detail(Pattern::of('Foo', 'i')->match('€Foo'));
+        $detail = Pattern::of('Foo', 'i')->match('€Foo')->first();
         // when
         $offset = $detail->offset();
         $byteOffset = $detail->byteOffset();
@@ -106,7 +105,7 @@ class MatchDetailTest extends TestCase
     public function shouldGet_groups_offset()
     {
         // given
-        $detail = $this->detail(Pattern::of('(12€)(cm)', 'i')->match('€€ 12€cm'));
+        $detail = Pattern::of('(12€)(cm)', 'i')->match('€€ 12€cm')->first();
         // when
         $groups = $detail->groups();
         // then
@@ -120,7 +119,7 @@ class MatchDetailTest extends TestCase
     public function shouldGet_namedGroups_offsets()
     {
         // given
-        $detail = $this->detail(Pattern::of('(?<value>12€)(?<unit>cm)', 'i')->match('€€ 12€cm'));
+        $detail = Pattern::of('(?<value>12€)(?<unit>cm)', 'i')->match('€€ 12€cm')->first();
         // when
         $groups = $detail->namedGroups();
         // then
@@ -134,7 +133,7 @@ class MatchDetailTest extends TestCase
     public function shouldGet_groups()
     {
         // given
-        $detail = $this->detail(Pattern::of('(12€)(cm)', 'i')->match('€€ 12€cm'));
+        $detail = Pattern::of('(12€)(cm)', 'i')->match('€€ 12€cm')->first();
         // when
         $groups = $detail->groups();
         // then
@@ -147,7 +146,7 @@ class MatchDetailTest extends TestCase
     public function shouldGet_namedGroups()
     {
         // given
-        $detail = $this->detail(Pattern::of('(?<value>12€)(?<unit>cm)', 'i')->match('€€ 12€cm'));
+        $detail = Pattern::of('(?<value>12€)(?<unit>cm)', 'i')->match('€€ 12€cm')->first();
         // when
         $groups = $detail->namedGroups();
         // then
@@ -160,7 +159,7 @@ class MatchDetailTest extends TestCase
     public function shouldGet_group_text()
     {
         // given
-        $detail = $this->detail(Pattern::of('(12€)(cm)', 'i')->match('€€ 12€cm'));
+        $detail = Pattern::of('(12€)(cm)', 'i')->match('€€ 12€cm')->first();
         // then
         $value = $detail->group(2)->text();
         // then
@@ -173,7 +172,7 @@ class MatchDetailTest extends TestCase
     public function shouldCast_group_toString()
     {
         // given
-        $detail = $this->detail(Pattern::of('(12€)(cm)', 'i')->match('€€ 12€cm'));
+        $detail = Pattern::of('(12€)(cm)', 'i')->match('€€ 12€cm')->first();
         // then
         $value = (string)$detail->group(2);
         // then
@@ -186,7 +185,7 @@ class MatchDetailTest extends TestCase
     public function shouldGetGroup()
     {
         // given
-        $detail = $this->detail(Pattern::of('(12€)(cm)', 'i')->match('€€ 12€cm'));
+        $detail = Pattern::of('(12€)(cm)', 'i')->match('€€ 12€cm')->first();
         // then
         $value = $detail->get(1);
         // then
@@ -199,7 +198,7 @@ class MatchDetailTest extends TestCase
     public function shouldGet_groupNames()
     {
         // given
-        $detail = $this->detail(Pattern::of('(?<value>12€)(cm)(?<nothing>)', 'i')->match('€€ 12€cm'));
+        $detail = Pattern::of('(?<value>12€)(cm)(?<nothing>)', 'i')->match('€€ 12€cm')->first();
         // when, then
         $this->assertSame(['value', null, 'nothing'], $detail->groupNames());
         $this->assertGroupNames(['value', null, 'nothing'], $detail->groups());
@@ -213,7 +212,7 @@ class MatchDetailTest extends TestCase
     public function shouldHaveGroup()
     {
         // given
-        $detail = $this->detail(Pattern::of('(?<foo>value)')->match('value'));
+        $detail = Pattern::of('(?<foo>value)')->match('value')->first();
         // when
         $existent = $detail->groupExists('foo');
         $nonExistent = $detail->groupExists('bar');
@@ -228,7 +227,7 @@ class MatchDetailTest extends TestCase
     public function shouldGet_matched()
     {
         // given
-        $detail = $this->detail(Pattern::of('(Foo)(Bar)?')->match('Foo'));
+        $detail = Pattern::of('(Foo)(Bar)?')->match('Foo')->first();
         // when
         $matched = $detail->matched(1);
         // then
@@ -241,7 +240,7 @@ class MatchDetailTest extends TestCase
     public function shouldGet_matched_ForUnmatchedGroup()
     {
         // given
-        $detail = $this->detail(Pattern::of('(Foo)(Bar)?')->match('Foo'));
+        $detail = Pattern::of('(Foo)(Bar)?')->match('Foo')->first();
         // when
         $matched = $detail->matched(2);
         // then
@@ -254,7 +253,7 @@ class MatchDetailTest extends TestCase
     public function shouldGet_matched_ForEmptyGroup()
     {
         // given
-        $detail = $this->detail(Pattern::of('(Foo)()')->match('Foo'));
+        $detail = Pattern::of('(Foo)()')->match('Foo')->first();
         // when
         $matched = $detail->matched(2);
         // then
@@ -267,7 +266,7 @@ class MatchDetailTest extends TestCase
     public function shouldThrow_matched_OnNonExistentGroup()
     {
         // given
-        $detail = $this->detail(Pattern::of('Foo')->match('Foo'));
+        $detail = Pattern::of('Foo')->match('Foo')->first();
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'bar'");
@@ -281,7 +280,7 @@ class MatchDetailTest extends TestCase
     public function shouldGet_all()
     {
         // given
-        $detail = $this->detail(Pattern::of('\w[\w ]+(?=,|$)')->match('Joffrey, Cersei, Ilyn Payne'));
+        $detail = Pattern::of('\w[\w ]+(?=,|$)')->match('Joffrey, Cersei, Ilyn Payne')->first();
         // when
         $all = $detail->all();
         // then
@@ -294,8 +293,7 @@ class MatchDetailTest extends TestCase
     public function shouldGet_group_all()
     {
         // given
-        $pattern = Pattern::of('(\d+)(?<unit>[cmk]?m)?');
-        $detail = $this->detail($pattern->match('12mm, 18km, 17, 19cm'));
+        $detail = Pattern::of('(\d+)(?<unit>[cmk]?m)?')->match('12mm, 18km, 17, 19cm')->first();
         // when
         $all = $detail->group('unit')->all();
         // then
@@ -308,7 +306,7 @@ class MatchDetailTest extends TestCase
     public function shouldThrow_group_all_OnNonexistentGroup()
     {
         // given
-        $detail = $this->detail(Pattern::of('Yikes!')->match('Yikes!'));
+        $detail = Pattern::of('Yikes!')->match('Yikes!')->first();
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'missing'");
@@ -322,18 +320,12 @@ class MatchDetailTest extends TestCase
     public function shouldThrow_group_ForInvalidGroupNameType()
     {
         // given
-        $detail = $this->detail(Pattern::of('Yikes!')->match('Yikes!'));
+        $detail = Pattern::of('Yikes!')->match('Yikes!')->first();
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Group index must be an integer or a string, but boolean (true) given');
         // when
         $detail->group(true);
-    }
-
-    private function detail(MatchPattern $matchPattern): MatchDetail
-    {
-        $matchPattern->first(DetailFunctions::out($detail));
-        return $detail;
     }
 
     private function lastDetail(MatchPattern $match): MatchDetail

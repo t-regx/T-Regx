@@ -14,7 +14,6 @@ use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 use function pattern;
@@ -63,41 +62,12 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGet_first()
+    public function shouldGetFirstDetail()
     {
         // when
-        $text = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->first();
-
+        $first = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->first();
         // then
-        $this->assertSame('Foo Bar', $text);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_first_withCallback()
-    {
-        // when
-        $value = pattern('[A-Za-z]{4}\.')->match('What do you need? - Guns.')->first(function (Detail $detail) {
-            return "Lots of $detail";
-        });
-
-        // then
-        $this->assertSame("Lots of Guns.", $value);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_first_returnArbitraryType()
-    {
-        // when
-        $value = pattern('[A-Z]+')
-            ->match('F')
-            ->first(Functions::constant(new \stdClass()));
-
-        // then
-        $this->assertInstanceOf(\stdClass::class, $value);
+        $this->assertSame('Foo Bar', $first->text());
     }
 
     /**
@@ -106,12 +76,9 @@ class MatchPatternTest extends TestCase
     public function shouldGet_first_matchAll()
     {
         // when
-        pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')
-            ->match('Foo, Leszek Ziom, Bar')
-            ->first(function (Detail $detail) {
-                // then
-                $this->assertSame(['Foo', 'Leszek', 'Ziom', 'Bar'], $detail->all());
-            });
+        $first = pattern('(?<capital>[A-Z])(?<lowercase>[a-z]+)')->match('Foo, Leszek Ziom, Bar')->first();
+        // then
+        $this->assertSame(['Foo', 'Leszek', 'Ziom', 'Bar'], $first->all());
     }
 
     /**
@@ -120,13 +87,41 @@ class MatchPatternTest extends TestCase
     public function shouldGet_findFirst_orElse()
     {
         // when
-        $value = pattern('[A-Z]+')
+        $detail = pattern('[A-Z]+')
             ->match('FOO')
-            ->findFirst(Functions::constant('Different'))
+            ->findFirst()
             ->orElse(Functions::fail());
-
         // then
-        $this->assertSame("Different", $value);
+        $this->assertSame('FOO', $detail->text());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_findFirst_orElse_offset()
+    {
+        // when
+        $detail = pattern('Foo')
+            ->match('One:Foo')
+            ->findFirst()
+            ->orElse(Functions::fail());
+        // then
+        $this->assertSame(4, $detail->offset());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_findFirst_map_orElse()
+    {
+        // when
+        $value = pattern('Foo')
+            ->match('Foo')
+            ->findFirst()
+            ->map(Functions::constant('Different'))
+            ->orElse(Functions::fail());
+        // then
+        $this->assertSame('Different', $value);
     }
 
     /**
@@ -135,7 +130,7 @@ class MatchPatternTest extends TestCase
     public function shouldGet_findFirst_orElseGet_groupsCount()
     {
         // when
-        $optional = pattern('Foo')->match('Bar')->findFirst(Functions::fail());
+        $optional = pattern('Foo')->match('Bar')->findFirst();
         // then
         $this->assertOptionalEmpty($optional);
     }
@@ -226,9 +221,8 @@ class MatchPatternTest extends TestCase
         // then
         $this->expectException(SubjectNotMatchedException::class);
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
-
         // given
-        pattern('Foo')->match('Bar')->first(Functions::fail());
+        pattern('Foo')->match('Bar')->first();
     }
 
     /**
@@ -236,10 +230,11 @@ class MatchPatternTest extends TestCase
      */
     public function shouldThrowSubjectNotMatched_getSubject()
     {
-        // given
         try {
-            pattern('Foo')->match('Bar')->first(Functions::fail());
+            // when
+            pattern('Foo')->match('Bar')->first();
         } catch (SubjectNotMatchedException $exception) {
+            // then
             $this->assertSame('Bar', $exception->getSubject());
         }
     }
@@ -360,10 +355,10 @@ class MatchPatternTest extends TestCase
     {
         // when
         $result = pattern('Foo', 'i')->match('foo')
-            ->findFirst(Functions::surround('*'))
+            ->findFirst()
+            ->map(Functions::surround('*'))
             ->map('\strToUpper')
             ->get();
-
         // then
         $this->assertSame('*FOO*', $result);
     }
@@ -374,7 +369,7 @@ class MatchPatternTest extends TestCase
     public function shouldMapOptionalEmpty()
     {
         // when
-        $optional = pattern('Foo')->match('bar')->findFirst(Functions::identity())->map(Functions::fail());
+        $optional = pattern('Foo')->match('bar')->findFirst()->map(Functions::fail());
         // then
         $this->assertOptionalEmpty($optional);
     }
@@ -387,7 +382,7 @@ class MatchPatternTest extends TestCase
         // then
         $this->expectException(ExampleException::class);
         // when
-        pattern('Foo')->match('bar')->findFirst(Functions::identity())->map(Functions::fail())->orThrow(new ExampleException());
+        pattern('Foo')->match('bar')->findFirst()->map(Functions::fail())->orThrow(new ExampleException());
     }
 
     /**

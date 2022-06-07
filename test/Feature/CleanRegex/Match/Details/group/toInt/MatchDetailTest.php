@@ -22,15 +22,11 @@ class MatchDetailTest extends TestCase
     public function shouldParseInt(string $string, int $expected)
     {
         // given
-        $result = pattern('(?<name>-?\d+)')
-            ->match($string)
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group(1)->toInt();
-            });
-
+        $detail = pattern('(?<name>-?\d+)')->match($string)->first();
+        // when
+        $int = $detail->group(1)->toInt();
         // then
-        $this->assertSame($expected, $result);
+        $this->assertSame($expected, $int);
     }
 
     public function validIntegers(): array
@@ -51,11 +47,9 @@ class MatchDetailTest extends TestCase
     public function shouldParseIntBase4()
     {
         // given
-        $result = pattern('(?<name>-?\d+)')->match('-321')->first(function (Detail $detail) {
-            // when
-            return $detail->group(1)->toInt(4);
-        });
-
+        $detail = pattern('(?<name>-?\d+)')->match('-321')->first();
+        // when
+        $result = $detail->group(1)->toInt(4);
         // then
         $this->assertSame(-57, $result);
     }
@@ -65,17 +59,13 @@ class MatchDetailTest extends TestCase
      */
     public function shouldThrow_forPseudoInteger_becausePhpSucks()
     {
+        // given
+        $detail = pattern('(.*)', 's')->match(' 10')->first();
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse group #1, but ' 10' is not a valid integer in base 10");
-
-        // given
-        pattern('(.*)', 's')
-            ->match(' 10')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group(1)->toInt();
-            });
+        // when
+        $detail->group(1)->toInt();
     }
 
     /**
@@ -83,17 +73,13 @@ class MatchDetailTest extends TestCase
      */
     public function shouldThrow_forInvalidInteger_base4()
     {
+        // given
+        $detail = pattern('(4)')->match('4')->first();
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse group #1, but '4' is not a valid integer in base 4");
-
-        // given
-        pattern('(4)')
-            ->match('4')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group(1)->toInt(4);
-            });
+        // when
+        $detail->group(1)->toInt(4);
     }
 
     /**
@@ -135,17 +121,13 @@ class MatchDetailTest extends TestCase
      */
     public function shouldThrow_forInvalidInteger_byName()
     {
+        // given
+        $detail = pattern('(?<name>Foo)')->match('Foo bar')->first();
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse group 'name', but 'Foo' is not a valid integer in base 10");
-
-        // given
-        pattern('(?<name>Foo)')
-            ->match('Foo bar')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group('name')->toInt();
-            });
+        // when
+        $detail->group('name')->toInt();
     }
 
     /**
@@ -153,17 +135,13 @@ class MatchDetailTest extends TestCase
      */
     public function shouldThrow_forInvalidInteger_byIndex()
     {
+        // given
+        $detail = pattern('(?<name>Foo)')->match('Foo bar')->first();
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse group #1, but 'Foo' is not a valid integer in base 10");
-
-        // given
-        pattern('(?<name>Foo)')
-            ->match('Foo bar')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group(1)->toInt();
-            });
+        // when
+        $detail->group(1)->toInt();
     }
 
     /**
@@ -171,17 +149,13 @@ class MatchDetailTest extends TestCase
      */
     public function shouldThrow_forOverflownInteger_byName()
     {
+        // given
+        $detail = pattern('(?<name>\d+)')->match('9223372036854775808')->first();
         // then
         $this->expectException(IntegerOverflowException::class);
         $this->expectExceptionMessage("Expected to parse group 'name', but '9223372036854775808' exceeds integer size on this architecture in base 10");
-
-        // given
-        pattern('(?<name>\d+)')
-            ->match('9223372036854775808')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group('name')->toInt();
-            });
+        // when
+        $detail->group('name')->toInt();
     }
 
     /**
@@ -189,17 +163,13 @@ class MatchDetailTest extends TestCase
      */
     public function shouldThrow_forOverflownInteger_byIndex()
     {
+        // given
+        $detail = pattern('(?<name>-\d+)')->match('-922337203685477580700')->first();
         // then
         $this->expectException(IntegerOverflowException::class);
         $this->expectExceptionMessage("Expected to parse group #1, but '-922337203685477580700' exceeds integer size on this architecture in base 10");
-
-        // given
-        pattern('(?<name>-\d+)')
-            ->match('-922337203685477580700')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group(1)->toInt();
-            });
+        // when
+        $detail->group(1)->toInt();
     }
 
     /**
@@ -207,17 +177,13 @@ class MatchDetailTest extends TestCase
      */
     public function shouldThrow_forOverflownInteger_inBase16()
     {
+        // given
+        $detail = pattern('(?<name>\d+)')->match('9223372036854775000')->first();
         // then
         $this->expectException(IntegerOverflowException::class);
         $this->expectExceptionMessage("Expected to parse group 'name', but '9223372036854775000' exceeds integer size on this architecture in base 16");
-
-        // given
-        pattern('(?<name>\d+)')
-            ->match('9223372036854775000')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group('name')->toInt(16);
-            });
+        // when
+        $detail->group('name')->toInt(16);
     }
 
     /**
@@ -225,16 +191,12 @@ class MatchDetailTest extends TestCase
      */
     public function shouldThrowForUnmatchedGroup()
     {
+        // given
+        $detail = pattern('(?<name>Foo)(?<missing>\d+)?')->match('Foo bar')->first();
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to call toInt() for group 'missing', but the group was not matched");
-
-        // given
-        pattern('(?<name>Foo)(?<missing>\d+)?')
-            ->match('Foo bar')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group('missing')->toInt();
-            });
+        // when
+        $detail->group('missing')->toInt();
     }
 }
