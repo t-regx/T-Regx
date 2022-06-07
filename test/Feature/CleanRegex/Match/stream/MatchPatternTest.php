@@ -273,9 +273,11 @@ class MatchPatternTest extends TestCase
      */
     public function should_findFirst_orThrow_InternalRegxException()
     {
+        // given
+        $stream = pattern("Foo")->match("Foo")->stream();
         try {
             // when
-            pattern("Foo")->match("Foo")->stream()->findFirst(Functions::throws(new EmptyStreamException()))->orThrow();
+            $stream->findFirst(Functions::throws(new EmptyStreamException()));
         } catch (EmptyStreamException $exception) {
             // then
             $this->assertEmpty($exception->getMessage());
