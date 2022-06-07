@@ -5,7 +5,6 @@ use PHPUnit\Framework\Assert;
 use Throwable;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
-use TRegx\CleanRegex\Internal\Type\ValueType;
 
 class Functions
 {
@@ -107,18 +106,19 @@ class Functions
         };
     }
 
+    public static function wrapKeySequential(int $start = 0): callable
+    {
+        $index = $start;
+        return function ($value) use (&$index): array {
+            return [$index++ => $value];
+        };
+    }
+
     public static function peek(callable $peek, $return): callable
     {
         return function ($value) use ($peek, $return) {
             $peek($value);
             return $return;
-        };
-    }
-
-    public static function surround(string $character): callable
-    {
-        return function (string $string) use ($character): string {
-            return $character . $string . $character;
         };
     }
 
@@ -143,11 +143,10 @@ class Functions
         };
     }
 
-    public static function assertArgumentless($return = null): callable
+    public static function assertArgumentless(): callable
     {
-        return function (...$args) use ($return) {
+        return function (...$args) {
             Assert::assertEmpty($args, 'Failed to assert that function received 0 arguments');
-            return $return;
         };
     }
 
@@ -155,6 +154,14 @@ class Functions
     {
         return function (int $integer) use ($even, $odd): string {
             return $integer % 2 === 0 ? $even : $odd;
+        };
+    }
+
+    public static function outLast(&$argument, $return = null): callable
+    {
+        return function ($capturedArgument) use (&$captured, &$argument, $return) {
+            $argument = $capturedArgument;
+            return $return;
         };
     }
 
@@ -216,28 +223,6 @@ class Functions
         };
     }
 
-    public static function arrayOfSize(int $size, array $append): callable
-    {
-        return function ($argument) use ($size, $append) {
-            $array = array_fill(0, $size, $argument);
-            foreach ($append as $tailItem) {
-                $array[] = $tailItem;
-            }
-            return $array;
-        };
-    }
-
-    public static function toMap(): callable
-    {
-        return static function ($argument) {
-            if (is_int($argument) || is_string($argument)) {
-                return [$argument => $argument];
-            }
-            $type = new ValueType($argument);
-            throw new \AssertionError("Failed to represent argument of type $type as an array entry");
-        };
-    }
-
     public static function equals($expected): callable
     {
         return static function ($actual) use ($expected) {
@@ -268,6 +253,22 @@ class Functions
     {
         return function ($argument): array {
             return [$argument, $argument];
+        };
+    }
+
+    public static function eachNext(array $values): callable
+    {
+        return function () use (&$values) {
+            $value = current($values);
+            next($values);
+            return $value;
+        };
+    }
+
+    public static function oneOf(array $elements): callable
+    {
+        return function ($argument) use ($elements): bool {
+            return \in_array($argument, $elements, true);
         };
     }
 

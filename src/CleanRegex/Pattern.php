@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Needle;
 use TRegx\CleanRegex\Internal\Splits;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\CleanRegex\Match\Search;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\SafeRegex\preg;
 
@@ -35,6 +36,11 @@ class Pattern
     public function fails(string $subject): bool
     {
         return preg::match($this->predefinition->definition()->pattern, $subject) === 0;
+    }
+
+    public function search(string $subject): Search
+    {
+        return new Search($this->predefinition->definition(), new Subject($subject));
     }
 
     public function match(string $subject): MatchPattern

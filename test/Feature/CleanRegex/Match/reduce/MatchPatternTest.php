@@ -6,6 +6,9 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\Details\Detail;
 use function pattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\MatchPattern
+ */
 class MatchPatternTest extends TestCase
 {
     /**
@@ -14,8 +17,7 @@ class MatchPatternTest extends TestCase
     public function shouldReduce_returnAccumulatorForEmptyMatch()
     {
         // when
-        $result = pattern('Foo')->match('Bar')->reduce(Functions::fail(), 12);
-
+        $result = pattern('Beep')->match('Boop')->reduce(Functions::fail(), 12);
         // then
         $this->assertSame(12, $result);
     }
@@ -27,7 +29,6 @@ class MatchPatternTest extends TestCase
     {
         // when
         $result = pattern('Match')->match('Match')->reduce(Functions::constant('Lorem'), 'Accumulator');
-
         // then
         $this->assertSame('Lorem', $result);
     }
@@ -39,7 +40,6 @@ class MatchPatternTest extends TestCase
     {
         // when
         $result = pattern('Foo')->match('Foo')->reduce(Functions::identity(), 'Accumulator');
-
         // then
         $this->assertSame('Accumulator', $result);
     }
@@ -53,10 +53,8 @@ class MatchPatternTest extends TestCase
         $secondString = function ($acc, string $string) {
             return $string;
         };
-
         // when
         $result = pattern('Match')->match('Match')->reduce($secondString, 'Accumulator');
-
         // then
         $this->assertSame('Match', $result);
     }
@@ -70,10 +68,8 @@ class MatchPatternTest extends TestCase
         $detailText = function ($acc, Detail $detail) {
             return $detail->text();
         };
-
         // when
         $result = pattern('Foo')->match('Foo')->reduce($detailText, 'Accumulator');
-
         // then
         $this->assertSame('Foo', $result);
     }
@@ -87,10 +83,8 @@ class MatchPatternTest extends TestCase
         $tooManyArguments = function ($one, $two, $three) {
             $this->fail();
         };
-
         // then
         $this->expectException(\ArgumentCountError::class);
-
         // when
         pattern('Foo')->match('Foo')->reduce($tooManyArguments, 'Accumulator');
     }
@@ -104,10 +98,8 @@ class MatchPatternTest extends TestCase
         $tooManyArguments = function ($one, int $invalid) {
             $this->fail();
         };
-
         // then
         $this->expectException(\TypeError::class);
-
         // when
         pattern('Foo')->match('Foo')->reduce($tooManyArguments, 'Accumulator');
     }
@@ -119,7 +111,6 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(\TypeError::class);
-
         // when
         pattern('Foo')->match('Foo')->reduce(null, 'Accumulator');
     }
@@ -131,9 +122,9 @@ class MatchPatternTest extends TestCase
     {
         // when
         $reduced = pattern('\w+')->match('Foo, Bar')->reduce(Functions::secondArgument(), 'Accumulator');
-
         // then
         $this->assertSame('Bar', $reduced->text());
+        $this->assertSame('Foo, Bar', $reduced->subject());
     }
 
     /**
@@ -143,7 +134,6 @@ class MatchPatternTest extends TestCase
     {
         // when
         $reduced = pattern('\d+')->match('15,16,17')->reduce(Functions::sum(), 0);
-
         // then
         $this->assertSame(48, $reduced);
     }
@@ -155,7 +145,6 @@ class MatchPatternTest extends TestCase
     {
         // when
         $reduced = pattern('Foo')->match('Foo,Foo')->reduce(Functions::constant(null), 0);
-
         // then
         $this->assertNull($reduced);
     }
@@ -167,7 +156,6 @@ class MatchPatternTest extends TestCase
     {
         // when
         $reduced = pattern('Foo')->match('Bar')->reduce(Functions::fail(), null);
-
         // then
         $this->assertNull($reduced);
     }

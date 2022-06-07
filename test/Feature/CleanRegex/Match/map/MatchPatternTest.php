@@ -2,9 +2,12 @@
 namespace Test\Feature\CleanRegex\Match\map;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Assertion\AssertsDetail;
 use Test\Utils\Functions;
+use Test\Utils\Structure\AssertsStructure;
+use Test\Utils\Structure\Expect;
 use Test\Utils\TestCase\TestCasePasses;
-use TRegx\CleanRegex\Match\MatchPattern;
+use Test\Utils\TypeFunctions;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -12,55 +15,86 @@ use TRegx\CleanRegex\Pattern;
  */
 class MatchPatternTest extends TestCase
 {
-    use TestCasePasses;
+    use TestCasePasses, AssertsDetail, AssertsStructure;
 
     /**
      * @test
      */
-    public function shouldMap()
+    public function shouldMapIdentity()
     {
         // given
-        $pattern = $this->match("Nice matching pattern");
+        $match = Pattern::of('\w[\w ]+')->match('Joffrey, Cersei, Ilyn Payne, The Hound');
         // when
-        $map = $pattern->map('strToUpper');
+        $details = $match->map(Functions::identity());
         // then
-        $this->assertSame(['NICE', 'MATCHING', 'PATTERN'], $map);
+        $this->assertStructure($details, [
+            Expect::text('Joffrey'),
+            Expect::text('Cersei'),
+            Expect::text('Ilyn Payne'),
+            Expect::text('The Hound'),
+        ]);
     }
 
     /**
      * @test
      */
-    public function shouldGetMatch_withDetails()
+    public function shouldMapValues()
     {
         // given
-        $pattern = $this->match('Nice matching pattern');
+        $match = Pattern::of('\w[\w ]+')->match('Joffrey, Cersei, Ilyn Payne, The Hound');
         // when
-        $pattern->map(Functions::collect($details));
+        [$first, $second, $third, $fourth] = $match->map(Functions::eachNext(['One', true, false, null]));
         // then
-        [$first, $second, $third] = $details;
-
-        $this->assertSame(['Nice', 'matching', 'pattern'], ["$first", "$second", "$third"]);
-        $this->assertSame([0, 1, 2], [$first->index(), $second->index(), $third->index()]);
-
-        $this->assertSame('Nice matching pattern', $first->subject());
-        $this->assertSame('Nice matching pattern', $second->subject());
-        $this->assertSame('Nice matching pattern', $third->subject());
-
-        $matches = ['Nice', 'matching', 'pattern'];
-        $this->assertSame($matches, $first->all());
-        $this->assertSame($matches, $second->all());
-        $this->assertSame($matches, $third->all());
+        $this->assertSame('One', $first);
+        $this->assertSame(true, $second);
+        $this->assertSame(false, $third);
+        $this->assertSame(null, $fourth);
     }
 
     /**
      * @test
      */
-    public function shouldNotInvokeMap_onNotMatchingSubject()
+    public function shouldInvokeWithTypeDetail()
     {
         // given
-        $pattern = $this->match('NOT MATCHING');
+        $match = Pattern::of('\w[\w ]+')->match('Joffrey, Cersei, Ilyn Payne, The Hound');
         // when
-        $pattern->map(Functions::fail());
+        $match->map(TypeFunctions::assertTypeDetail());
+        // then
+        $this->pass();
+    }
+
+    /**
+     * @test
+     * @depends shouldInvokeWithTypeDetail
+     */
+    public function shouldInvokeWithDetail()
+    {
+        // given
+        $subject = "Boil 'em, mash 'em, stick 'em in a stew";
+        $match = Pattern::of('[^, ].+?(?=,|$)')->match($subject);
+        // when
+        $match->map(Functions::collect($details));
+        // then
+        $this->assertStructure($details, [
+            Expect::text("Boil 'em"),
+            Expect::text("mash 'em"),
+            Expect::text("stick 'em in a stew"),
+        ]);
+        $this->assertDetailsIndexed(...$details);
+        $this->assertDetailsSubject($subject, ...$details);
+        $this->assertDetailsAll(["Boil 'em", "mash 'em", "stick 'em in a stew"], ...$details);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotInvoke_onUnmatchedSubject()
+    {
+        // given
+        $match = Pattern::of('Gandalf the white?')->match('Gandalf the fool!');
+        // when
+        $match->map(Functions::fail());
         // then
         $this->pass();
     }
@@ -68,18 +102,13 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnEmptyArray_onNoMatches()
+    public function shouldReturnEmptyArray_onUnmatchedSubject()
     {
         // given
-        $pattern = $this->match('NOT MATCHING');
+        $match = Pattern::of('Equality')->match('Equity');
         // when
-        $map = $pattern->map(Functions::fail());
+        $result = $match->map(Functions::fail());
         // then
-        $this->assertEmpty($map, 'Failed asserting that map() returned an empty array');
-    }
-
-    private function match(string $subject): MatchPattern
-    {
-        return Pattern::of("([A-Z])?[a-z']+")->match($subject);
+        $this->assertEmpty($result);
     }
 }

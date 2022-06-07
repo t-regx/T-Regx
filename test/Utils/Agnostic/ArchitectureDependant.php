@@ -1,16 +1,24 @@
 <?php
 namespace Test\Utils\Agnostic;
 
+use Test\Utils\TestCase\TestCaseConditional;
+
 trait ArchitectureDependant
 {
-    /**
-     * @return bool
-     */
+    use TestCaseConditional;
+
     public function isArchitecture64(): bool
     {
         // 4-bytes integers (32-bit architecture)
         // 8-bytes integers (64-bit architecture)
         return \PHP_INT_SIZE === 8;
+    }
+
+    public function onlyArchitecture64(): void
+    {
+        if (!$this->isArchitecture64()) {
+            $this->markTestUnnecessary('Test is valuable only on 64-bit architecture');
+        }
     }
 
     public function onArchitecture32(array $dataProvider): array

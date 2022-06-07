@@ -18,6 +18,6 @@ trait AssertsPattern
 
     public function assertConsumesAll(string $text, array $texts, Pattern $pattern): void
     {
-        $this->assertSame($pattern->match($text)->all(), $texts);
+        $this->assertSame($pattern->search($text)->all(), $texts);
     }
 }

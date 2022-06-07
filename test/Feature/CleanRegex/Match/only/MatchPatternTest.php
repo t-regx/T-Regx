@@ -3,37 +3,59 @@ namespace Test\Feature\CleanRegex\Match\only;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\ThrowSubject;
-use Test\Utils\Values\Definitions;
-use TRegx\CleanRegex\Match\MatchPattern;
+use Test\Utils\Agnostic\PhpVersionDependent;
+use Test\Utils\Assertion\AssertsDetail;
+use Test\Utils\Backtrack\CausesBacktracking;
+use Test\Utils\TestCase\TestCasePasses;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 
 /**
  * @covers \TRegx\CleanRegex\Match\MatchPattern
+ * @covers \TRegx\CleanRegex\Internal\Match\MatchOnly
  */
 class MatchPatternTest extends TestCase
 {
+    use TestCasePasses, AssertsDetail, CausesBacktracking, PhpVersionDependent;
+
     /**
      * @test
      */
-    public function shouldGetAll()
+    public function shouldLimitTwoDetails()
     {
         // given
-        $pattern = Pattern::of('\w+')->match('Nice matching pattern');
+        $pattern = Pattern::of('\w+')->match('Fili, Kili, Oin, Gloin');
         // when
         $only = $pattern->only(2);
         // then
-        $this->assertSame(['Nice', 'matching'], $only);
+        [$fili, $kili] = $only;
+        $this->assertDetailText('Fili', $fili);
+        $this->assertDetailText('Kili', $kili);
+        $this->assertDetailsIndexed($fili, $kili);
+    }
+
+    /**
+     * @test
+     * @depends shouldLimitTwoDetails
+     */
+    public function shouldLimitTwo()
+    {
+        // given
+        $pattern = Pattern::of('\w+')->match('Fili, Kili, Oin, Gloin');
+        // when
+        $only = $pattern->only(2);
+        // then
+        $this->assertSame(2, \count($only));
     }
 
     /**
      * @test
      */
-    public function shouldReturnEmptyArray_onNoMatches()
+    public function shouldLimitTwo_onUnmatchedSubject()
     {
         // given
-        $pattern = Pattern::of('([A-Z])?[a-z]+')->match('NOT MATCHING');
+        $pattern = Pattern::of('Foo')->match('Bar');
         // when
         $only = $pattern->only(2);
         // then
@@ -43,7 +65,49 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnEmptyArray_onNoMatches_onlyOne()
+    public function shouldLimitOne()
+    {
+        // given
+        $pattern = Pattern::of('\w+')->match('Thorin, Thrain, Thror');
+        // when
+        [$first] = $pattern->only(1);
+        // then
+        $this->assertDetailText('Thorin', $first);
+        $this->assertDetailIndex(0, $first);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLimitOne_getDetailWithGroupEmpty()
+    {
+        // given
+        $pattern = Pattern::of('Foo()')->match('Foo');
+        // when
+        [$first] = $pattern->only(1);
+        // then
+        $this->assertSame('', $first->get(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLimitOne_getDetailWithGroupUnmatched()
+    {
+        // given
+        $pattern = Pattern::of('Foo(Bar)?')->match('Foo');
+        [$first] = $pattern->only(1);
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage('Expected to get group #1, but the group was not matched');
+        // when
+        $first->get(1);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLimitOne_onUnmatchedSubject()
     {
         // given
         $pattern = Pattern::of('Foo')->match('Bar');
@@ -51,6 +115,32 @@ class MatchPatternTest extends TestCase
         $only = $pattern->only(1);
         // then
         $this->assertEmpty($only);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLimitZero()
+    {
+        // given
+        $pattern = Pattern::of('Foo')->match('Foo');
+        // when
+        $only = $pattern->only(0);
+        // then
+        $this->assertSame([], $only);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLimitZero_onUnmatchedSubject()
+    {
+        // given
+        $pattern = Pattern::of('Foo')->match('Bar');
+        // when
+        $only = $pattern->only(0);
+        // then
+        $this->assertSame([], $only);
     }
 
     /**
@@ -70,56 +160,54 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetOne_withPregMatch()
+    public function shouldLimitTwo_validatePattern()
     {
         // given
-        $pattern = Pattern::of('\w+')->match('Nice matching pattern');
-        // when
-        $only = $pattern->only(1);
-        // then
-        $this->assertSame(['Nice'], $only);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetNone()
-    {
-        // given
-        $pattern = Pattern::of('Foo')->match('Bar');
-        // when
-        $only = $pattern->only(0);
-        // then
-        $this->assertEmpty($only);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldValidatePattern_onOnly0()
-    {
-        // given
-        $pattern = new MatchPattern(Definitions::pattern('invalid)'), new ThrowSubject());
+        $match = Pattern::of('invalid)')->match('subject');
         // then
         $this->expectException(MalformedPatternException::class);
-        $this->expectExceptionMessageMatches($this->getUnmatchedParenthesisMessage(7));
+        $this->expectExceptionMessageMatches($this->unmatchedParenthesisMessage(7));
         // when
-        $pattern->only(0);
+        $match->only(2);
     }
 
-    public function expectExceptionMessageMatches(string $message): void
+    /**
+     * @test
+     */
+    public function shouldLimitZero_validatePattern()
     {
-        if (method_exists($this, 'expectExceptionMessageMatches')) {
-            parent::expectExceptionMessageMatches($message);
-        } else if (method_exists($this, 'expectExceptionMessageRegExp')) {
-            $this->expectExceptionMessageRegExp($message);
-        } else {
-            $this->fail();
-        }
+        // given
+        $match = Pattern::of('invalid)')->match('subject');
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessageMatches($this->unmatchedParenthesisMessage(7));
+        // when
+        $match->only(0);
     }
 
-    private function getUnmatchedParenthesisMessage(int $offset): string
+    /**
+     * @test
+     */
+    public function shouldLimitZero_backtrackingAtEdge()
     {
-        return "/(preg_match_all\(\): )?(Compilation failed: )?([Mm]issing|[Uu]nmatched) (closing parenthesis|parentheses|\)) at offset $offset/";
+        // given
+        $match = $this->backtrackingPattern()->match($this->backtrackingSubject(0));
+        // when
+        $match->only(0);
+        // then
+        $this->pass();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLimitOne_backtrackingAtEdge()
+    {
+        // given
+        $match = $this->backtrackingPattern()->match($this->backtrackingSubject(1));
+        // when
+        $match->only(1);
+        // then
+        $this->pass();
     }
 }
