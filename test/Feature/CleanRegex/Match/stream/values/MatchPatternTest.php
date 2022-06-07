@@ -3,7 +3,6 @@ namespace Test\Feature\CleanRegex\Match\stream\values;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Match\Stream;
 use TRegx\CleanRegex\Pattern;
@@ -13,8 +12,6 @@ use TRegx\CleanRegex\Pattern;
  */
 class MatchPatternTest extends TestCase
 {
-    use TestCasePasses;
-
     /**
      * @test
      */

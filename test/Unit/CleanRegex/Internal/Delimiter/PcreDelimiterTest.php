@@ -2,7 +2,6 @@
 namespace Test\Unit\CleanRegex\Internal\Delimiter;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
 use TRegx\CleanRegex\Internal\Delimiter\PcreDelimiter;
 
@@ -11,8 +10,6 @@ use TRegx\CleanRegex\Internal\Delimiter\PcreDelimiter;
  */
 class PcreDelimiterTest extends TestCase
 {
-    use TestCasePasses;
-
     /**
      * @test
      */

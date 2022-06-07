@@ -3,13 +3,10 @@ namespace Test\Feature\CleanRegex\Replace\counting;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Match\Details\Structure;
 
 class SpecificReplacePatternImplTest extends TestCase
 {
-    use TestCasePasses;
-
     /**
      * @test
      */

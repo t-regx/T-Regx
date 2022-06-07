@@ -3,7 +3,6 @@ namespace Test\Feature\CleanRegex\Match\group\asInt;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsSameMatches;
 use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
@@ -16,7 +15,7 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 
 class MatchGroupIntStreamTest extends TestCase
 {
-    use AssertsSameMatches, ExactExceptionMessage;
+    use ExactExceptionMessage;
 
     /**
      * @test

@@ -3,13 +3,12 @@ namespace Test\Feature\CleanRegex\_prepared\inject\posix;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\AssertsPattern;
-use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Pattern;
 use TRegx\SafeRegex\Exception\PregMalformedPatternException;
 
 class PatternTest extends TestCase
 {
-    use AssertsPattern, TestCasePasses;
+    use AssertsPattern;
 
     /**
      * @test

@@ -2,15 +2,12 @@
 namespace Test\Feature\CleanRegex\Match\reduce;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsSameMatches;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\Details\Detail;
 use function pattern;
 
 class MatchPatternTest extends TestCase
 {
-    use AssertsSameMatches;
-
     /**
      * @test
      */
