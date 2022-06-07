@@ -365,6 +365,27 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldGroupBy()
+    {
+        // given
+        $pattern = Pattern::of('\w+');
+        $stream = $pattern->match('Father, Mother, Maiden, Crone, Warrior, Smith, Stranger');
+        // when
+        $result = $stream->groupByCallback(Functions::charAt(0));
+        // then
+        $expected = [
+            'F' => ['Father'],
+            'M' => ['Mother', 'Maiden'],
+            'C' => ['Crone'],
+            'W' => ['Warrior'],
+            'S' => ['Smith', 'Stranger'],
+        ];
+        $this->assertSame($expected, $result);
+    }
+
+    /**
+     * @test
+     */
     public function shouldGroupNamesProtectAgainstCatastrophicBacktracking()
     {
         // given
