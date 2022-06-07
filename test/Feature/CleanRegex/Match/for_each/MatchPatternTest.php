@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Pattern;
 
 /**
- * @covers \TRegx\CleanRegex\Match\MatchPattern::forEach
+ * @covers \TRegx\CleanRegex\Match\MatchPattern
  */
 class MatchPatternTest extends TestCase
 {

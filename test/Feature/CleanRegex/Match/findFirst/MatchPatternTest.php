@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Pattern;
 
 /**
- * @covers \TRegx\CleanRegex\Match\MatchPattern::findFirst
+ * @covers \TRegx\CleanRegex\Match\MatchPattern
  */
 class MatchPatternTest extends TestCase
 {

@@ -6,7 +6,7 @@ use Test\Utils\TestCasePasses;
 use TRegx\CleanRegex\Pattern;
 
 /**
- * @covers \TRegx\CleanRegex\Match\MatchPattern::getIterator
+ * @covers \TRegx\CleanRegex\Match\MatchPattern
  */
 class MatchPatternTest extends TestCase
 {

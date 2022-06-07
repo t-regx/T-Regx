@@ -12,7 +12,7 @@ use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 
 /**
- * @covers \TRegx\CleanRegex\Match\MatchPattern::only
+ * @covers \TRegx\CleanRegex\Match\MatchPattern
  */
 class MatchPatternTest extends TestCase
 {
