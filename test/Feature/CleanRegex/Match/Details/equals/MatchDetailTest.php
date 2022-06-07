@@ -2,7 +2,6 @@
 namespace Test\Feature\CleanRegex\Match\Details\equals;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchDetailTest extends TestCase
 {
@@ -12,9 +11,9 @@ class MatchDetailTest extends TestCase
     public function shouldEqual_findFirst()
     {
         // given
-        pattern('Foo(Bar)')->match('FooBar')->findFirst(function (Detail $detail) {
-            $this->assertTrue($detail->group(1)->equals('Bar'));
-        });
+        $detail = pattern('Foo(Bar)')->match('FooBar')->first();
+        // then
+        $this->assertTrue($detail->group(1)->equals('Bar'));
     }
 
     /**
@@ -23,9 +22,9 @@ class MatchDetailTest extends TestCase
     public function shouldNotEqual_findFirst_forUnequal()
     {
         // given
-        pattern('Foo(Bar)')->match('FooBar')->findFirst(function (Detail $detail) {
-            $this->assertFalse($detail->group(1)->equals('something else'));
-        });
+        $detail = pattern('Foo(Bar)')->match('FooBar')->first();
+        // then
+        $this->assertFalse($detail->group(1)->equals('something else'));
     }
 
     /**
@@ -34,8 +33,8 @@ class MatchDetailTest extends TestCase
     public function shouldNotEqual_findFirst_forUnmatchedGroup()
     {
         // given
-        pattern('Foo(Bar)?')->match('Foo')->findFirst(function (Detail $detail) {
-            $this->assertFalse($detail->group(1)->equals('irrelevant'));
-        });
+        $detail = pattern('Foo(Bar)?')->match('Foo')->first();
+        // then
+        $this->assertFalse($detail->group(1)->equals('irrelevant'));
     }
 }

@@ -13,7 +13,7 @@ trait AssertsPattern
 
     public function assertConsumesFirst(string $text, Pattern $pattern): void
     {
-        $this->assertSame($pattern->match($text)->first(), $text);
+        $this->assertSame($pattern->match($text)->first()->text(), $text);
     }
 
     public function assertConsumesAll(string $text, array $texts, Pattern $pattern): void

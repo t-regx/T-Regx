@@ -12,15 +12,11 @@ class MatchDetailTest extends TestCase
     public function shouldGetIndex_match_first()
     {
         // given
-        pattern('\d+')
-            ->match('111-222-333')
-            ->first(function (Detail $detail) {
-                // when
-                $index = $detail->index();
-
-                // then
-                $this->assertSame(0, $index);
-            });
+        $detail = pattern('\d+')->match('111-222-333')->first();
+        // when
+        $index = $detail->index();
+        // then
+        $this->assertSame(0, $index);
     }
 
     /**
@@ -29,16 +25,11 @@ class MatchDetailTest extends TestCase
     public function shouldGetIndex_match_findFirst()
     {
         // given
-        pattern('\d+')
-            ->match('111-222-333')
-            ->findFirst(function (Detail $detail) {
-                // when
-                $index = $detail->index();
-
-                // then
-                $this->assertSame(0, $index);
-            })
-            ->get();
+        $detail = pattern('\d+')->match('111-222-333')->findFirst()->get();
+        // when
+        $index = $detail->index();
+        // then
+        $this->assertSame(0, $index);
     }
 
     /**

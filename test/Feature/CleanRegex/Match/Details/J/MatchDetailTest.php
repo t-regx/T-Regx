@@ -3,7 +3,6 @@ namespace Test\Feature\CleanRegex\Match\Details\J;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsGroup;
-use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Pattern;
@@ -17,11 +16,9 @@ class MatchDetailTest extends TestCase
      */
     public function shouldGroupGetRightValue()
     {
-        // when
-        pattern('(?<group>Foo)(?<group>Bar)', 'J')
-            ->match('FooBar')
-            ->first(DetailFunctions::out($detail));
         // given
+        $detail = pattern('(?<group>Foo)(?<group>Bar)', 'J')->match('FooBar')->first();
+        // when
         $group = $detail->group('group');
         // when, then
         $this->assertSame(['group', null], $detail->groupNames());
@@ -37,9 +34,9 @@ class MatchDetailTest extends TestCase
     public function shouldLastGroupNotBeMatched()
     {
         // given
-        pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
-            ->match('Lorem')
-            ->first(DetailFunctions::out($detail));
+        $pattern = pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J');
+        $detail = $pattern->match('Lorem')->first();
+        // when
         $group = $detail->group('group');
         // when, then
         $this->assertSame(['group', null, null], $detail->groupNames());
@@ -53,9 +50,8 @@ class MatchDetailTest extends TestCase
     public function shouldGetThrow_forUnmatchedGroup()
     {
         // given
-        pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
-            ->match('Lorem')
-            ->first(DetailFunctions::out($detail));
+        $pattern = pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J');
+        $detail = $pattern->match('Lorem')->first();
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to get group 'group', but the group was not matched");
@@ -69,9 +65,8 @@ class MatchDetailTest extends TestCase
     public function shouldGetGroups()
     {
         // given
-        pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J')
-            ->match('Lorem')
-            ->first(DetailFunctions::out($detail));
+        $pattern = pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
+        $detail = $pattern->match('Lorem')->first();
         // when
         $groups = $detail->groups();
         // then
@@ -84,9 +79,8 @@ class MatchDetailTest extends TestCase
     public function shouldGetGroupNames()
     {
         // given
-        pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J')
-            ->match('Lorem')
-            ->first(DetailFunctions::out($detail));
+        $pattern = pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
+        $detail = $pattern->match('Lorem')->first();
         // when
         $groups = $detail->groups();
         // then
@@ -100,9 +94,8 @@ class MatchDetailTest extends TestCase
     public function shouldGetNamedGroups()
     {
         // given
-        pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J')
-            ->match('Lorem')
-            ->first(DetailFunctions::out($detail));
+        $pattern = pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
+        $detail = $pattern->match('Lorem')->first();
         // when
         $groups = $detail->namedGroups();
         // then
@@ -116,9 +109,8 @@ class MatchDetailTest extends TestCase
     public function shouldGetNamedGroupNames()
     {
         // given
-        pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J')
-            ->match('Lorem')
-            ->first(DetailFunctions::out($detail));
+        $pattern = pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
+        $detail = $pattern->match('Lorem')->first();
         // when
         $groups = $detail->namedGroups();
         // then
@@ -158,9 +150,8 @@ class MatchDetailTest extends TestCase
     public function shouldGetOr_forUnmatchedGroup()
     {
         // given
-        Pattern::of('(?<group>Plane)?(?<group>Bird)?Superman', 'J')
-            ->match('Superman')
-            ->first(DetailFunctions::out($detail));
+        $pattern = Pattern::of('(?<group>Plane)?(?<group>Bird)?Superman', 'J');
+        $detail = $pattern->match('Superman')->first();
         // when
         $declared = $detail->group('group');
         // then
@@ -233,9 +224,8 @@ class MatchDetailTest extends TestCase
     public function shouldGetAsInt()
     {
         // given
-        Pattern::of('(?<group>123),(?<group>456)', 'J')
-            ->match('123,456')
-            ->first(DetailFunctions::out($detail));
+        $pattern = Pattern::of('(?<group>123),(?<group>456)', 'J');
+        $detail = $pattern->match('123,456')->first();
         // when
         $declared = $detail->group('group');
         // then
@@ -248,9 +238,8 @@ class MatchDetailTest extends TestCase
     public function shouldGetAsIntBase16()
     {
         // given
-        Pattern::of('(?<group>123a),(?<group>456a)', 'J')
-            ->match('123a,456a')
-            ->first(DetailFunctions::out($detail));
+        $pattern = Pattern::of('(?<group>123a),(?<group>456a)', 'J');
+        $detail = $pattern->match('123a,456a')->first();
         // when
         $declared = $detail->group('group');
         // then
@@ -263,9 +252,8 @@ class MatchDetailTest extends TestCase
     public function shouldBeInt()
     {
         // given
-        Pattern::of('(?<group>___),(?<group>123)', 'J')
-            ->match('___,123')
-            ->first(DetailFunctions::out($detail));
+        $pattern = Pattern::of('(?<group>___),(?<group>123)', 'J');
+        $detail = $pattern->match('___,123')->first();
         // when
         $declared = $detail->group('group');
         // then
@@ -278,9 +266,8 @@ class MatchDetailTest extends TestCase
     public function shouldNotBeInt()
     {
         // given
-        Pattern::of('(?<group>123),(?<group>___)', 'J')
-            ->match('123,___')
-            ->first(DetailFunctions::out($detail));
+        $pattern = Pattern::of('(?<group>123),(?<group>___)', 'J');
+        $detail = $pattern->match('123,___')->first();
         // when
         $declared = $detail->group('group');
         // then
@@ -294,9 +281,8 @@ class MatchDetailTest extends TestCase
     public function shouldSubstitute()
     {
         // given
-        Pattern::of('<(?<group>Old):(?<group>Old)>', 'J')
-            ->match('Subject <Old:Old>.')
-            ->first(DetailFunctions::out($detail));
+        $pattern = Pattern::of('<(?<group>Old):(?<group>Old)>', 'J');
+        $detail = $pattern->match('Subject <Old:Old>.')->first();
         // when
         $declared = $detail->group('group')->substitute('New');
         // then

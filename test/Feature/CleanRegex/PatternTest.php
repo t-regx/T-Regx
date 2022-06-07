@@ -236,12 +236,10 @@ class PatternTest extends TestCase
     {
         // given
         $whitespace = " \t\n\x0B\f\r";
-
         // when
-        $match = Pattern::inject('^@$', [$whitespace], 'x')->match($whitespace)->first();
-
+        $detail = Pattern::inject('^@$', [$whitespace], 'x')->match($whitespace)->first();
         // then
-        $this->assertSame($whitespace, $match);
+        $this->assertSame($whitespace, $detail->text());
     }
 
     /**
@@ -325,7 +323,7 @@ class PatternTest extends TestCase
     public function shouldGetFirstOptional()
     {
         // when
-        $first = Pattern::of('Foo')->match('Foo')->findFirst(Functions::identity())->get();
+        $first = Pattern::of('Foo')->match('Foo')->findFirst()->get();
         // then
         $this->assertSame('Foo', $first->text());
     }
@@ -390,7 +388,7 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::of('(([a\d]+[a\d]+)+3(2)?)');
-        $pattern->match('123 aaaaaaaaaaaaaaaaaaaa 32')->first(DetailFunctions::out($detail));
+        $detail = $pattern->match('123 aaaaaaaaaaaaaaaaaaaa 32')->first();
         // when
         $groupNames = $detail->groupNames();
         // then
@@ -404,7 +402,7 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::of('(([a\d]+[a\d]+)+3(2)?)');
-        $pattern->match('123 aaaaaaaaaaaaaaaaaaaa 32')->first(DetailFunctions::out($detail));
+        $detail = $pattern->match('123 aaaaaaaaaaaaaaaaaaaa 32')->first();
         // when
         $detail->group(3);
         // then

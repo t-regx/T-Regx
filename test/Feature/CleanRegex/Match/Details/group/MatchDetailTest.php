@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Runtime\ExplicitStringEncoding;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Detail;
 use function pattern;
 
 class MatchDetailTest extends TestCase
@@ -19,18 +18,14 @@ class MatchDetailTest extends TestCase
     public function shouldGetGroup()
     {
         // given
-        pattern('Hello (?<one>there)')
-            ->match('Hello there, General Kenobi')
-            ->first(function (Detail $detail) {
-                // then
-                $this->assertSame('there', "" . $detail->group('one'));
-                $this->assertSame('there', $detail->group('one')->text());
-                $this->assertSame(6, $detail->group('one')->offset());
-                $this->assertTrue($detail->group('one')->matched());
-
-                $this->assertTrue($detail->groupExists('one'));
-                $this->assertFalse($detail->groupExists('two'));
-            });
+        $detail = pattern('Hello (?<one>there)')->match('Hello there, General Kenobi')->first();
+        // when, then
+        $this->assertSame('there', "" . $detail->group('one'));
+        $this->assertSame('there', $detail->group('one')->text());
+        $this->assertSame(6, $detail->group('one')->offset());
+        $this->assertTrue($detail->group('one')->matched());
+        $this->assertTrue($detail->groupExists('one'));
+        $this->assertFalse($detail->groupExists('two'));
     }
 
     /**
@@ -39,14 +34,24 @@ class MatchDetailTest extends TestCase
     public function shouldGet_groupTextLength()
     {
         // given
-        pattern('(\p{L}+)', 'u')
-            ->match('Łomża')
-            ->first(function (Detail $detail) {
-                // then
-                $this->assertSame('Łomża', $detail->group(1)->text());
-                $this->assertSame(5, $detail->group(1)->length());
-                $this->assertSame(7, $detail->group(1)->byteLength());
-            });
+        $detail = pattern('(\p{L}+)', 'u')->match('Łomża')->first();
+        // then
+        $this->assertSame('Łomża', $detail->group(1)->text());
+        $this->assertSame(5, $detail->group(1)->length());
+        $this->assertSame(7, $detail->group(1)->byteLength());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGet_all_matched()
+    {
+        // given
+        $detail = pattern('Hello (?<one>there|here)?')->match('Hello there, General Kenobi, maybe Hello and Hello here')->first();
+        // when
+        $all = $detail->all();
+        // then
+        $this->assertSame(['Hello there', 'Hello ', 'Hello here'], $all);
     }
 
     /**
@@ -55,17 +60,11 @@ class MatchDetailTest extends TestCase
     public function shouldGetGroup_all_matched()
     {
         // given
-        pattern('Hello (?<one>there|here)?')
-            ->match('Hello there, General Kenobi, maybe Hello and Hello here')
-            ->first(function (Detail $detail) {
-                // when
-                $all = $detail->all();
-                $groupAll = $detail->group('one')->all();
-
-                // then
-                $this->assertSame(['Hello there', 'Hello ', 'Hello here'], $all);
-                $this->assertSame(['there', null, 'here'], $groupAll);
-            });
+        $detail = pattern('Hello (?<one>there|here)?')->match('Hello there, General Kenobi, maybe Hello and Hello here')->first();
+        // when
+        $all = $detail->group('one')->all();
+        // then
+        $this->assertSame(['there', null, 'here'], $all);
     }
 
     /**
@@ -74,15 +73,11 @@ class MatchDetailTest extends TestCase
     public function shouldGetGroup_all_unmatched()
     {
         // given
-        pattern('Hello (?<one>there|here)?')
-            ->match('Hello , General Kenobi, maybe Hello there and Hello here')
-            ->first(function (Detail $detail) {
-                // when
-                $groupAll = $detail->group('one')->all();
-
-                // then
-                $this->assertSame([null, 'there', 'here'], $groupAll);
-            });
+        $detail = pattern('Hello (?<one>there|here)?')->match('Hello , General Kenobi, maybe Hello there and Hello here')->first();
+        // when
+        $groupAll = $detail->group('one')->all();
+        // then
+        $this->assertSame([null, 'there', 'here'], $groupAll);
     }
 
     /**
@@ -90,18 +85,14 @@ class MatchDetailTest extends TestCase
      */
     public function shouldGetGroup_empty_string()
     {
+        // given
+        $detail = pattern('Hello (?<one>there|here|)')->match('Hello there, General Kenobi, maybe Hello and Hello here')->first();
         // when
-        pattern('Hello (?<one>there|here|)')
-            ->match('Hello there, General Kenobi, maybe Hello and Hello here')
-            ->first(function (Detail $detail) {
-                // when
-                $all = $detail->all();
-                $groupAll = $detail->group('one')->all();
-
-                // then
-                $this->assertSame(['Hello there', 'Hello ', 'Hello here'], $all);
-                $this->assertSame(['there', '', 'here'], $groupAll);
-            });
+        $all = $detail->all();
+        $groupAll = $detail->group('one')->all();
+        // then
+        $this->assertSame(['Hello there', 'Hello ', 'Hello here'], $all);
+        $this->assertSame(['there', '', 'here'], $groupAll);
     }
 
     /**
@@ -109,22 +100,14 @@ class MatchDetailTest extends TestCase
      */
     public function shouldGetSubject()
     {
+        // given
+        $detail = pattern('(?<matched>Foo)(?<unmatched>Bar)?')->match('Hello:Foo')->first();
         // when
-        pattern('(?<matched>Foo)(?<unmatched>Bar)?')
-            ->match('Hello:Foo')
-            ->first(function (Detail $detail) {
-                // given
-                $matched = $detail->group('matched');
-                $unmatched = $detail->group('unmatched');
-
-                // when
-                $matchedSubject = $matched->subject();
-                $unmatchedSubject = $unmatched->subject();
-
-                // then
-                $this->assertSame('Hello:Foo', $matchedSubject);
-                $this->assertSame('Hello:Foo', $unmatchedSubject);
-            });
+        $matchedSubject = $detail->group('matched')->subject();
+        $unmatchedSubject = $detail->group('unmatched')->subject();
+        // then
+        $this->assertSame('Hello:Foo', $matchedSubject);
+        $this->assertSame('Hello:Foo', $unmatchedSubject);
     }
 
     /**
@@ -136,15 +119,11 @@ class MatchDetailTest extends TestCase
     public function shouldGroup_notMatch(string $pattern, string $subject)
     {
         // given
-        pattern($pattern)->match($subject)->first(function (Detail $detail) {
-            $group = $detail->group('one');
-
-            // when
-            $matches = $group->matched();
-
-            // then
-            $this->assertFalse($matches);
-        });
+        $detail = pattern($pattern)->match($subject)->first();
+        // when
+        $matches = $detail->group('one')->matched();
+        // then
+        $this->assertFalse($matches);
     }
 
     public function shouldGroup_notMatch_dataProvider(): array
@@ -160,16 +139,13 @@ class MatchDetailTest extends TestCase
      */
     public function shouldThrow_onMissingGroup()
     {
+        // given
+        $detail = pattern('(?<one>hello)')->match('hello')->first();
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'two'");
-
         // when
-        pattern('(?<one>hello)')
-            ->match('hello')
-            ->first(function (Detail $detail) {
-                $detail->group('two');
-            });
+        $detail->group('two');
     }
 
     /**
@@ -177,17 +153,13 @@ class MatchDetailTest extends TestCase
      */
     public function shouldValidateGroupName()
     {
+        // given
+        $detail = pattern('(?<one>first) and (?<two>second)')->match('first and second')->first();
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Group index must be an integer or a string, but boolean (true) given');
-
-        // given
-        pattern('(?<one>first) and (?<two>second)')
-            ->match('first and second')
-            ->first(function (Detail $detail) {
-                // when
-                $detail->group(true);
-            });
+        // when
+        $detail->group(true);
     }
 
     /**
@@ -195,15 +167,12 @@ class MatchDetailTest extends TestCase
      */
     public function shouldThrowGroupNotMatchedException()
     {
+        // given
+        $detail = pattern('(?<group>Foo)?')->match('Bar')->first();
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to call text() for group 'group', but the group was not matched");
-
         // when
-        pattern('(?<group>Foo)?')
-            ->match('Bar')
-            ->first(function (Detail $detail) {
-                $detail->group('group')->text();
-            });
+        $detail->group('group')->text();
     }
 }

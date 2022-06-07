@@ -3,10 +3,7 @@ namespace Test\Feature\CleanRegex\Match\findFirst;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsOptional;
-use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Exception\EmptyOptionalException;
-use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Pattern;
 
@@ -23,15 +20,14 @@ class MatchPatternTest extends TestCase
     public function shouldCallWithDetails()
     {
         // when
-        Pattern::literal('Foo', 'i')
+        $detail = Pattern::literal('Foo', 'i')
             ->match('Foo foo FOO')
-            ->findFirst(function (Detail $detail) {
-                // then
-                $this->assertSame(0, $detail->index());
-                $this->assertSame('Foo foo FOO', $detail->subject());
-                $this->assertSame(['Foo', 'foo', 'FOO'], $detail->all());
-            })
+            ->findFirst()
             ->get();
+        // then
+        $this->assertSame(0, $detail->index());
+        $this->assertSame('Foo foo FOO', $detail->subject());
+        $this->assertSame(['Foo', 'foo', 'FOO'], $detail->all());
     }
 
     /**
@@ -40,12 +36,12 @@ class MatchPatternTest extends TestCase
     public function shouldCallEvenWithoutCollapsingOrMethod()
     {
         // when
-        Pattern::literal('Foo')
+        $detail = Pattern::literal('Foo')
             ->match('Foo')
-            ->findFirst(function (Detail $detail) {
-                // then
-                $this->assertSame('Foo', $detail->subject());
-            });
+            ->findFirst()
+            ->get();
+        // then
+        $this->assertSame('Foo', $detail->subject());
     }
 
     /**
@@ -56,25 +52,24 @@ class MatchPatternTest extends TestCase
         // given
         $pattern = Pattern::literal('Foo')->match('Foo');
         // when
-        $optional = $pattern->findFirst('strToUpper');
+        $optional = $pattern->findFirst();
         // then
-        $this->assertOptionalPresent($optional, 'FOO');
+        $this->assertOptionalIsPresent($optional);
     }
 
     /**
      * @test
      */
-    public function shouldNotInvokeFirst_ForUnmatchedSubject()
+    public function shouldGetFirstDetail()
     {
         // given
-        $pattern = Pattern::literal('Foo')->match('Bar');
+        $pattern = Pattern::literal('Foo')->match('Foo');
         // when
-        $pattern->findFirst(Functions::fail())->orReturn(null);
-        $pattern->findFirst(Functions::fail())->orElse(Functions::pass());
-        try {
-            $pattern->findFirst(Functions::fail())->get();
-        } catch (EmptyOptionalException $ignored) {
-        }
+        $optional = $pattern->findFirst();
+        // then
+        $detail = $optional->get();
+        $this->assertSame('Foo', $detail->text());
+        $this->assertSame(0, $detail->index());
     }
 
     /**
@@ -111,7 +106,7 @@ class MatchPatternTest extends TestCase
         // given
         $pattern = Pattern::literal('Foo')->match('Bar');
         // when
-        $value = $pattern->findFirst('strRev')->orReturn('def');
+        $value = $pattern->findFirst()->orReturn('def');
         // then
         $this->assertSame('def', $value);
     }
@@ -124,7 +119,7 @@ class MatchPatternTest extends TestCase
         // given
         $pattern = Pattern::literal('Foo')->match('Bar');
         // when
-        $value = $pattern->findFirst('strRev')->orElse(Functions::constant('new value'));
+        $value = $pattern->findFirst()->orElse(Functions::constant('new value'));
         // then
         $this->assertSame('new value', $value);
     }
@@ -137,7 +132,7 @@ class MatchPatternTest extends TestCase
         // given
         $pattern = Pattern::of('Foo')->match('Bar');
         // when
-        $pattern->findFirst(Functions::fail())->orElse(Functions::assertArgumentless());
+        $pattern->findFirst()->orElse(Functions::assertArgumentless());
     }
 
     /**
@@ -163,9 +158,7 @@ class MatchPatternTest extends TestCase
     {
         // given
         $match = Pattern::of('!"(Foo)"')->match('€Subject: !"Foo"');
-        $match->findFirst(DetailFunctions::out($detail))->get();
-
-        /** @var Group $first */
+        $detail = $match->findFirst()->get();
         [$first] = $detail->groups();
         // when
         $substitute = $first->substitute('Bar');

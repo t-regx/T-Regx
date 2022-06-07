@@ -11,21 +11,15 @@ class MatchDetailTest extends TestCase
      */
     public function shouldGetTail_first()
     {
+        // given
+        $detail = pattern('K[^ ]+')->match(' Cześć, Kraśko ')->first();
         // when
-        pattern('K[^ ]+')
-            ->match(' Cześć, Kraśko ')
-            ->first(function (Detail $detail) {
-                // given
-                $this->assertSame("Kraśko", "$detail");
-
-                // when
-                $tail = $detail->tail();
-                $byteTail = $detail->byteTail();
-
-                // then
-                $this->assertSame(14, $tail);
-                $this->assertSame(17, $byteTail);
-            });
+        $tail = $detail->tail();
+        $byteTail = $detail->byteTail();
+        // then
+        $this->assertSame("Kraśko", "$detail");
+        $this->assertSame(14, $tail);
+        $this->assertSame(17, $byteTail);
     }
 
     /**

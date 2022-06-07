@@ -29,13 +29,9 @@ class MatchDetailTest extends TestCase
     public function shouldReplaceEmpty()
     {
         // given
-        $result = pattern('https?://(?<domain>)/users')
-            ->match('Link: http:///users')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group('domain')->substitute('Welp');
-            });
-
+        $detail = pattern('https?://(?<domain>)/users')->match('Link: http:///users')->first();
+        // when
+        $result = $detail->group('domain')->substitute('Welp');
         // then
         $this->assertSame('http://Welp/users', $result);
     }
@@ -46,13 +42,9 @@ class MatchDetailTest extends TestCase
     public function shouldReplace_utf8()
     {
         // given
-        $result = pattern('hłłps?://(?<domain>ąść)/users')
-            ->match('Link: hłłp://ąść/users')
-            ->first(function (Detail $detail) {
-                // when
-                return $detail->group('domain')->substitute('ś');
-            });
-
+        $detail = pattern('hłłps?://(?<domain>ąść)/users')->match('Link: hłłp://ąść/users')->first();
+        // when
+        $result = $detail->group('domain')->substitute('ś');
         // then
         $this->assertSame('hłłp://ś/users', $result);
     }

@@ -50,6 +50,21 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldLimitUnderflow()
+    {
+        // when
+        $all = pattern('\d+')->match('12, 15')
+            ->stream()
+            ->asInt()
+            ->limit(4)
+            ->all();
+        // then
+        $this->assertSame([12, 15], $all);
+    }
+
+    /**
+     * @test
+     */
     public function shouldLimitUnmatched()
     {
         // when

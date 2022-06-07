@@ -33,7 +33,7 @@ class MatchPatternTest extends TestCase
 
     public function test_first()
     {
-        $this->assertSame('123', $this->match()->first());
+        $this->assertSame('123', $this->match()->first()->text());
         $this->assertSame('123', $this->match()->stream()->first()->text());
     }
 
@@ -79,12 +79,12 @@ class MatchPatternTest extends TestCase
 
     public function test_findFirst()
     {
-        $this->assertSame('123', $this->match()->findFirst(Functions::identity())->get()->text());
+        $this->assertSame('123', $this->match()->findFirst()->get()->text());
     }
 
     public function test_stream_findFirst()
     {
-        $this->assertSame('123', $this->match()->stream()->findFirst(Functions::identity())->get()->text());
+        $this->assertSame('123', $this->match()->stream()->findFirst()->get()->text());
     }
 
     public function test_stream_flatMap()
@@ -107,10 +107,8 @@ class MatchPatternTest extends TestCase
 
     public function test_groups_text()
     {
-        // given
-        $this->match()->first(DetailFunctions::out($detail));
         // when
-        [$group] = $detail->groups();
+        [$group] = $this->match()->first()->groups();
         // then
         $this->assertSame('12', $group->text());
     }

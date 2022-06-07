@@ -49,10 +49,9 @@ class MatchPatternTest extends TestCase
     public function shouldKeepIndex_first()
     {
         // given
-        pattern("(Foo|Bar)")->match("Foo, Bar")->stream()->first(function (Detail $detail) {
-            // then
-            $this->assertSame(0, $detail->index());
-        });
+        $detail = pattern("(Foo|Bar)")->match("Foo, Bar")->stream()->first();
+        // then
+        $this->assertSame(0, $detail->index());
     }
 
     /**
@@ -61,13 +60,9 @@ class MatchPatternTest extends TestCase
     public function shouldFirst_getAll()
     {
         // given
-        $indexes = pattern("(Foo|Bar|Lorem)")
-            ->match("Foo, Bar, Lorem")
-            ->stream()
-            ->first(function (Detail $detail) {
-                return $detail->all();
-            });
-
+        $detail = pattern("(Foo|Bar|Lorem)")->match("Foo, Bar, Lorem")->stream()->first();
+        // when
+        $indexes = $detail->all();
         // then
         $this->assertSame(['Foo', 'Bar', 'Lorem'], $indexes);
     }

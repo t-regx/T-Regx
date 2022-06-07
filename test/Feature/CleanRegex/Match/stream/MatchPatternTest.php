@@ -153,13 +153,13 @@ class MatchPatternTest extends TestCase
     public function shouldGetGroupNames_lastGroup()
     {
         // when
-        pattern('Foo(?<one>Bar)?(?<two>Bar)?')
+        $detail = pattern('Foo(?<one>Bar)?(?<two>Bar)?')
             ->match('Foo')
             ->stream()
-            ->first(function (Detail $detail) {
-                $this->assertEquals(['one', 'two'], $detail->groupNames());
-                $this->assertTrue($detail->groupExists('one'));
-            });
+            ->first();
+        // then
+        $this->assertEquals(['one', 'two'], $detail->groupNames());
+        $this->assertTrue($detail->groupExists('one'));
     }
 
     /**
@@ -168,7 +168,7 @@ class MatchPatternTest extends TestCase
     public function should_findFirst_orThrow()
     {
         // when
-        $optional = pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail());
+        $optional = pattern('Foo')->match('Bar')->stream()->findFirst();
         // then
         $this->assertOptionalEmpty($optional);
     }
@@ -179,7 +179,7 @@ class MatchPatternTest extends TestCase
     public function should_keys_findFirst_orThrow()
     {
         // when
-        $optional = pattern('Foo')->match('Bar')->stream()->keys()->findFirst(Functions::fail());
+        $optional = pattern('Foo')->match('Bar')->stream()->keys()->findFirst();
         // then
         $this->assertOptionalEmpty($optional);
     }
@@ -195,7 +195,7 @@ class MatchPatternTest extends TestCase
         pattern("Foo")
             ->match("Bar")
             ->stream()
-            ->findFirst(Functions::fail())
+            ->findFirst()
             ->orThrow(new ExampleException());
     }
 
@@ -211,7 +211,7 @@ class MatchPatternTest extends TestCase
             ->match('Foo')
             ->stream()
             ->filter(Functions::constant(false))
-            ->findFirst(Functions::fail())
+            ->findFirst()
             ->orThrow(new ExampleException());
     }
 
@@ -221,7 +221,7 @@ class MatchPatternTest extends TestCase
     public function should_findFirst_orElse()
     {
         // when
-        pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail())->orElse(Functions::assertArgumentless());
+        pattern('Foo')->match('Bar')->stream()->findFirst()->orElse(Functions::assertArgumentless());
     }
 
     /**
@@ -230,7 +230,7 @@ class MatchPatternTest extends TestCase
     public function should_findFirst_orValue()
     {
         // when
-        $value = pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail())->orReturn('value');
+        $value = pattern('Foo')->match('Bar')->stream()->findFirst()->orReturn('value');
 
         // then
         $this->assertSame('value', $value);
@@ -246,22 +246,8 @@ class MatchPatternTest extends TestCase
             ->match('Foo')
             ->stream()
             ->filter(Functions::constant(false))
-            ->findFirst(Functions::fail())
+            ->findFirst()
             ->orElse(Functions::assertArgumentless());
-    }
-
-    /**
-     * @test
-     */
-    public function should_first_throw_InternalRegxException()
-    {
-        try {
-            // when
-            pattern("Foo")->match("Foo")->stream()->first(Functions::throws(new EmptyStreamException()));
-        } catch (EmptyStreamException $exception) {
-            // then
-            $this->assertEmpty($exception->getMessage());
-        }
     }
 
     /**
@@ -269,11 +255,9 @@ class MatchPatternTest extends TestCase
      */
     public function should_findFirst_orThrow_InternalRegxException()
     {
-        // given
-        $stream = pattern("Foo")->match("Foo")->stream();
         try {
             // when
-            $stream->findFirst(Functions::throws(new EmptyStreamException()));
+            pattern("Foo")->match("Foo")->stream()->findFirst()->map(Functions::throws(new EmptyStreamException()));
         } catch (EmptyStreamException $exception) {
             // then
             $this->assertEmpty($exception->getMessage());
@@ -283,12 +267,30 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function should_findFirstCallback_orThrow()
+    public function shouldGetFirstOptional()
     {
         // when
-        $optional = pattern('Foo')->match('Foo')->stream()->findFirst(Functions::letters());
+        $optional = pattern('Foo')->match('Foo')->stream()
+            ->findFirst()
+            ->map(Functions::letters());
+
         // then
         $this->assertOptionalPresent($optional, ['F', 'o', 'o']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFindFirstDetail()
+    {
+        // given
+        $stream = pattern('Foo')->match('ę Foo')->stream();
+        // when
+        $optional = $stream->findFirst();
+        // then
+        $detail = $optional->get();
+        $this->assertSame(2, $detail->offset());
+        $this->assertSame(3, $detail->length());
     }
 
     /**

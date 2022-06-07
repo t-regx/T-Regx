@@ -7,6 +7,10 @@ Incoming
 * Breaking changes
     * Removed previously deprecated `Pattern.match().group()`.
     * Removed `Pattern.match().asInt()`. Use `stream().asInt()` or `Detail.toInt()`.
+    * `Pattern.match().first()` no longer accepts `callable` as its argument
+    * `Pattern.match().findFirst()` no longer accepts `callable` as its argument
+    * `Stream.first()` no longer accepts `callable` as its argument
+    * `Stream.findFirst()` no longer accepts `callable` as its argument
 
 Added in 0.32.0
 ---------------

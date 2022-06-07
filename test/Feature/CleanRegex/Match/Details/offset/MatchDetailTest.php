@@ -11,18 +11,14 @@ class MatchDetailTest extends TestCase
      */
     public function shouldGetOffset_first()
     {
+        // given
+        $detail = pattern('Tomek')->match('€€€€, Tomek')->first();
         // when
-        pattern('Tomek')
-            ->match('€€€€, Tomek')
-            ->first(function (Detail $detail) {
-                // when
-                $offset = $detail->offset();
-                $byteOffset = $detail->byteOffset();
-
-                // then
-                $this->assertSame(6, $offset);
-                $this->assertSame(14, $byteOffset);
-            });
+        $offset = $detail->offset();
+        $byteOffset = $detail->byteOffset();
+        // then
+        $this->assertSame(6, $offset);
+        $this->assertSame(14, $byteOffset);
     }
 
     /**

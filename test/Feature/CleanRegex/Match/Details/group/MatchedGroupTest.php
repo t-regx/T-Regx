@@ -3,11 +3,10 @@ namespace Test\Feature\CleanRegex\Match\Details\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
-use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -59,7 +58,7 @@ class MatchedGroupTest extends TestCase
     public function shouldGetOffset()
     {
         // given
-        $matchGroup = $this->matchedGroup('(Łu)kasz', 'ść Łukasz ść', 1);
+        $matchGroup = Pattern::of('(Łu)kasz')->match('ść Łukasz ść')->first()->group(1);
         // when
         $offset = $matchGroup->offset();
         $byteOffset = $matchGroup->byteOffset();
@@ -74,7 +73,7 @@ class MatchedGroupTest extends TestCase
     public function shouldGetTail()
     {
         // given
-        $matchGroup = $this->matchedGroup('(Łu)kaśz', 'ść Łukaśz ść', 1);
+        $matchGroup = Pattern::of('(Łu)kaśz')->match('ść Łukaśz ść')->first()->group(1);
         // when
         $tail = $matchGroup->tail();
         $byteTail = $matchGroup->byteTail();
@@ -178,7 +177,7 @@ class MatchedGroupTest extends TestCase
     public function shouldParseIntegerBase10Default(string $text, int $expected, array $arguments)
     {
         // given
-        $matchedGroup = $this->matchedGroup('(\w+)', $text, 1);
+        $matchedGroup = Pattern::of('(\w+)')->match($text)->first()->group(1);
         // when
         $integer = $matchedGroup->toInt(...$arguments);
         // then
@@ -222,16 +221,11 @@ class MatchedGroupTest extends TestCase
         $matchedGroup->isInt(-2);
     }
 
-    private function exampleMatchedGroup(GroupKey $group = null): MatchedGroup
+    private function exampleMatchedGroup(GroupKey $group = null): Group
     {
         $subject = 'before- start:Nice matching:end -after';
         $pattern = 'start:(?<first>Nice matching):end';
-        return $this->matchedGroup($pattern, $subject, $group ? $group->nameOrIndex() : 'first');
-    }
-
-    private function matchedGroup(string $pattern, string $subject, $groupIdentifier): MatchedGroup
-    {
-        Pattern::of($pattern)->match($subject)->first(DetailFunctions::out($detail));
-        return $detail->group($groupIdentifier);
+        $detail = Pattern::of($pattern)->match($subject)->first();
+        return $detail->group($group ? $group->nameOrIndex() : 'first');
     }
 }
