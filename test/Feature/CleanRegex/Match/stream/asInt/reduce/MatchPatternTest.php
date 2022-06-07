@@ -164,7 +164,7 @@ class MatchPatternTest extends TestCase
         // when
         $reduced = pattern('\d+')->match('123, 345')
             ->asInt()
-            ->reduce(Functions::second(), 'Accumulator');
+            ->reduce(Functions::secondArgument(), 'Accumulator');
 
         // then
         $this->assertSame(345, $reduced);

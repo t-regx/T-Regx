@@ -154,7 +154,7 @@ class MatchPatternTest extends TestCase
             ->reduce(Functions::secondArgument(), 'Accumulator');
 
         // then
-        $this->assertSame('Bar', $reduced);
+        $this->assertSame('Bar', $reduced->text());
     }
 
     /**

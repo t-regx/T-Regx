@@ -136,7 +136,7 @@ class MatchPatternTest extends TestCase
         $reduced = pattern('\w+')->match('Foo, Bar')->reduce(Functions::secondArgument(), 'Accumulator');
 
         // then
-        $this->assertSame('Bar', $reduced);
+        $this->assertSame('Bar', $reduced->text());
     }
 
     /**

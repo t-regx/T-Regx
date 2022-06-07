@@ -145,13 +145,6 @@ class Functions
 
     public static function secondArgument(): callable
     {
-        return function ($irrelevant, string $argument): string {
-            return $argument;
-        };
-    }
-
-    public static function second(): callable
-    {
         return function ($irrelevant, $argument) {
             return $argument;
         };
