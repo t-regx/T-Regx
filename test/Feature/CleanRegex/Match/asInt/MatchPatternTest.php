@@ -14,7 +14,8 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Pattern;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream
+ * @covers \TRegx\CleanRegex\Match\MatchPattern
+ * @covers \TRegx\CleanRegex\Match\Stream
  */
 class MatchPatternTest extends TestCase
 {

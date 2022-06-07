@@ -64,6 +64,13 @@ class Functions
         };
     }
 
+    public static function substring(int $start, int $length): callable
+    {
+        return function (string $argument) use ($start, $length): string {
+            return \substr($argument, $start, $length);
+        };
+    }
+
     public static function letters(): callable
     {
         return static function (string $string): array {
@@ -75,6 +82,14 @@ class Functions
     {
         return function (string $value): array {
             return \array_flip(self::splitLetters($value));
+        };
+    }
+
+    public static function lettersAsEntries(): callable
+    {
+        return function (string $value): array {
+            $letters = self::splitLetters($value);
+            return \array_combine($letters, $letters);
         };
     }
 
@@ -140,6 +155,17 @@ class Functions
         return function ($argument) use (&$collection, $return) {
             $collection[] = $argument;
             return $return;
+        };
+    }
+
+    public static function collecting(?array &$arguments, callable $return = null): callable
+    {
+        return function ($argument) use (&$arguments, $return) {
+            $arguments[] = $argument;
+            if ($return === null) {
+                return null;
+            }
+            return $return($argument);
         };
     }
 
@@ -211,6 +237,13 @@ class Functions
         };
     }
 
+    public static function notEquals(string $rejected): callable
+    {
+        return static function ($actual) use ($rejected) {
+            return $rejected !== $actual;
+        };
+    }
+
     public static function once($return = null): callable
     {
         $called = false;
@@ -227,6 +260,14 @@ class Functions
     {
         return function ($argument): array {
             return [$argument, $argument];
+        };
+    }
+
+    public static function toInt(): callable
+    {
+        return function (string $argument): int {
+            $numeral = new StringNumeral($argument);
+            return $numeral->asInt(new Base(10));
         };
     }
 }
