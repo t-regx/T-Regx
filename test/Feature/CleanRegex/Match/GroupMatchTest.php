@@ -215,4 +215,18 @@ class GroupMatchTest extends TestCase
         // when
         $group->nth(3);
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_nth_forNegativeIndex_stream()
+    {
+        // given
+        $group = Pattern::of('(?<value>Foo)')->match('Foo')->group('value')->stream();
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Negative index: -3");
+        // when
+        $group->nth(-3);
+    }
 }
