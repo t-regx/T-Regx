@@ -81,6 +81,9 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
         return !$this->test();
     }
 
+    /**
+     * @return string[]
+     */
     public function all(): array
     {
         return $this->base->matchAll()->getTexts();
@@ -122,6 +125,10 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
         return DeprecatedMatchDetail::create($this->subject, 0, $polyfill, $this->allFactory, new MatchPrime($match));
     }
 
+    /**
+     * @param int $limit
+     * @return string[]
+     */
     public function only(int $limit): array
     {
         return $this->matchOnly->get($limit);
@@ -151,6 +158,9 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
         return \array_values(\array_map($mapper, $this->getDetailObjects()));
     }
 
+    /**
+     * @return string[]
+     */
     public function filter(callable $predicate): array
     {
         return \array_values(\array_map(static function (Detail $detail): string {
@@ -170,6 +180,9 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
         return (new AssignStrategy())->flatten($function->map($this->getDetailObjects()));
     }
 
+    /**
+     * @return string[]
+     */
     public function distinct(): array
     {
         return \array_values(\array_unique($this->all()));
@@ -208,7 +221,7 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
 
     /**
      * @param string|int $nameOrIndex
-     * @return array
+     * @return string[][]
      */
     public function groupBy($nameOrIndex): array
     {
@@ -230,6 +243,10 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
         return $map;
     }
 
+    /**
+     * @param callable $groupMapper
+     * @return string[][]
+     */
     public function groupByCallback(callable $groupMapper): array
     {
         return $this->groupped(new GroupByFunction('groupByCallback', $groupMapper));
