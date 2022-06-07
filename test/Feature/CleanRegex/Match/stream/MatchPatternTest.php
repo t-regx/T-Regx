@@ -2,326 +2,71 @@
 namespace Test\Feature\CleanRegex\Match\stream;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Assertion\AssertsOptional;
+use Test\Utils\Assertion\AssertsDetail;
 use Test\Utils\Assertion\AssertsSameMatches;
-use Test\Utils\Classes\ExampleException;
-use Test\Utils\DetailFunctions;
-use Test\Utils\Functions;
-use Test\Utils\Values\Definitions;
-use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
-use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
-use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\Group;
-use TRegx\CleanRegex\Match\MatchPattern;
-use TRegx\CleanRegex\Match\Stream;
+use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Pattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\MatchPattern
+ */
 class MatchPatternTest extends TestCase
 {
-    use AssertsSameMatches, AssertsOptional;
+    use AssertsDetail;
 
     /**
      * @test
      */
-    public function shouldGetAllTexts()
+    public function shouldGetStream()
     {
         // given
-        $stream = pattern('\d+')->match('123,456,789')->stream();
-
+        $match = Pattern::of('\w+')->match('Gandalf the White');
         // when
-        $all = $stream->all();
-
+        $stream = $match->stream();
         // then
-        $this->assertSame('123', $all[0]->text());
-        $this->assertSame('456', $all[1]->text());
-        $this->assertSame('789', $all[2]->text());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetFirstTextAndIndex()
-    {
-        // given
-        $stream = pattern('\d+')->match('123,456,789')->stream();
-
-        // when
-        $first = $stream->first();
-
-        // then
-        $this->assertSame('123', $first->text());
-        $this->assertSame(0, $first->index());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetFirstKey()
-    {
-        // given
-        $stream = pattern('\d+')->match('123,456,789')->stream();
-
-        // when
-        $key = $stream->keys()->first();
-
-        // then
-        $this->assertSame(0, $key);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetAllIndexes()
-    {
-        // given
-        $stream = pattern('\d+')->match('123,456,789')->stream();
-
-        // when
-        $all = $stream->all();
-
-        // then
-        $this->assertSame(0, $all[0]->index());
-        $this->assertSame(1, $all[1]->index());
-        $this->assertSame(2, $all[2]->index());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetFirstOtherTexts()
-    {
-        // given
-        $stream = pattern('\d+')->match('123,456,789')->stream();
-
-        // when
-        $first = $stream->first();
-
-        // then
-        $this->assertSame(['123', '456', '789'], $first->all());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetAllOtherTexts()
-    {
-        // given
-        $stream = pattern('\d+')->match('123,456,789')->stream();
-
-        // when
         [$first, $second, $third] = $stream->all();
-
-        // then
-        $this->assertSame(['123', '456', '789'], $first->all());
-        $this->assertSame(['123', '456', '789'], $second->all());
-        $this->assertSame(['123', '456', '789'], $third->all());
+        $this->assertSame('Gandalf', $first->text());
+        $this->assertSame('the', $second->text());
+        $this->assertSame('White', $third->text());
     }
 
     /**
      * @test
      */
-    public function test()
-    {
-        // when
-        $result = pattern("(?<capital>[A-Z])?[a-zA-Z']+")
-            ->match("I'm rather old, He likes Apples")
-            ->stream()
-            ->filter(function (Detail $detail) {
-                return $detail->length() !== 3;
-            })
-            ->map(function (Detail $detail) {
-                return $detail->group('capital');
-            })
-            ->map(function (Group $detailGroup) {
-                if ($detailGroup->matched()) {
-                    return "yes: $detailGroup";
-                }
-                return "no";
-            })
-            ->values()
-            ->all();
-
-        // then
-        $this->assertSame(['no', 'yes: H', 'no', 'yes: A'], $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetGroupNames_lastGroup()
-    {
-        // when
-        $detail = pattern('Foo(?<one>Bar)?(?<two>Bar)?')
-            ->match('Foo')
-            ->stream()
-            ->first();
-        // then
-        $this->assertEquals(['one', 'two'], $detail->groupNames());
-        $this->assertTrue($detail->groupExists('one'));
-    }
-
-    /**
-     * @test
-     */
-    public function should_findFirst_orThrow()
-    {
-        // when
-        $optional = pattern('Foo')->match('Bar')->stream()->findFirst();
-        // then
-        $this->assertOptionalEmpty($optional);
-    }
-
-    /**
-     * @test
-     */
-    public function should_keys_findFirst_orThrow()
-    {
-        // when
-        $optional = pattern('Foo')->match('Bar')->stream()->keys()->findFirst();
-        // then
-        $this->assertOptionalEmpty($optional);
-    }
-
-    /**
-     * @test
-     */
-    public function should_findFirst_orThrow_custom()
-    {
-        // then
-        $this->expectException(ExampleException::class);
-        // when
-        pattern("Foo")
-            ->match("Bar")
-            ->stream()
-            ->findFirst()
-            ->orThrow(new ExampleException());
-    }
-
-    /**
-     * @test
-     */
-    public function should_filter_findFirst_orThrow_custom()
-    {
-        // then
-        $this->expectException(ExampleException::class);
-        // when
-        pattern('Foo')
-            ->match('Foo')
-            ->stream()
-            ->filter(Functions::constant(false))
-            ->findFirst()
-            ->orThrow(new ExampleException());
-    }
-
-    /**
-     * @test
-     */
-    public function should_findFirst_orElse()
-    {
-        // when
-        pattern('Foo')->match('Bar')->stream()->findFirst()->orElse(Functions::assertArgumentless());
-    }
-
-    /**
-     * @test
-     */
-    public function should_findFirst_orValue()
-    {
-        // when
-        $value = pattern('Foo')->match('Bar')->stream()->findFirst()->orReturn('value');
-
-        // then
-        $this->assertSame('value', $value);
-    }
-
-    /**
-     * @test
-     */
-    public function should_filter_findFirst_orElse()
-    {
-        // when
-        pattern('Foo')
-            ->match('Foo')
-            ->stream()
-            ->filter(Functions::constant(false))
-            ->findFirst()
-            ->orElse(Functions::assertArgumentless());
-    }
-
-    /**
-     * @test
-     */
-    public function should_findFirst_orThrow_InternalRegxException()
-    {
-        try {
-            // when
-            pattern("Foo")->match("Foo")->stream()->findFirst()->map(Functions::throws(new EmptyStreamException()));
-        } catch (EmptyStreamException $exception) {
-            // then
-            $this->assertEmpty($exception->getMessage());
-        }
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetFirstOptional()
-    {
-        // when
-        $optional = pattern('Foo')->match('Foo')->stream()
-            ->findFirst()
-            ->map(Functions::letters());
-
-        // then
-        $this->assertOptionalPresent($optional, ['F', 'o', 'o']);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFindFirstDetail()
+    public function shouldGetStreamFirst()
     {
         // given
-        $stream = pattern('Foo')->match('ę Foo')->stream();
+        $match = Pattern::of('\w+')->match('Gandalf the White');
         // when
-        $optional = $stream->findFirst();
+        $stream = $match->stream();
         // then
-        $detail = $optional->get();
-        $this->assertSame(2, $detail->offset());
-        $this->assertSame(3, $detail->length());
+        $first = $stream->first();
+        $this->assertSame('Gandalf', $first->text());
     }
 
     /**
      * @test
      */
-    public function shouldThrow_filter_all_onInvalidReturnType()
+    public function shouldGetStreamKey()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pattern('Foo'), new Subject('Foo'));
-
-        // then
-        $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage('Invalid filter() callback return type. Expected bool, but integer (45) given');
-
+        $match = Pattern::of('\w+')->match('Gandalf the White');
         // when
-        $pattern->stream()->filter(Functions::constant(45))->all();
+        $stream = $match->stream();
+        // then
+        $this->assertSame(0, $stream->keys()->first());
     }
 
     /**
      * @test
      */
-    public function shouldThrow_filter_first_onInvalidReturnType()
+    public function shouldThrowFirst_forUnmatchedSubject()
     {
         // given
-        $pattern = new MatchPattern(Definitions::pattern('Foo'), new Subject('Foo'));
-        $stream = $pattern->stream()->filter(Functions::constant(45));
-
+        $stream = Pattern::of('I love you, Boromir')->match('Faramir')->stream();
         // then
-        $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage('Invalid filter() callback return type. Expected bool, but integer (45) given');
-
+        $this->expectException(NoSuchStreamElementException::class);
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
         // when
         $stream->first();
     }
@@ -329,32 +74,27 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowForUnparsableEntity()
+    public function shouldCount_forUnmatchedSubject()
     {
         // given
-        $stream = pattern('\d+')->match('123')->stream()->map(Functions::constant(null))->asInt();
-
+        $stream = Pattern::of('Foo')->match('Bar')->stream();
         // when
-        $this->expectException(InvalidIntegerTypeException::class);
-        $this->expectExceptionMessage('Failed to parse value as integer. Expected integer|string, but null given');
-
-        // when
-        $stream->first();
+        $count = $stream->count();
+        // then
+        $this->assertSame(0, $count);
     }
 
     /**
      * @test
      */
-    public function shouldBeCountable()
+    public function shouldGetEmptyIterator_forUnmatchedSubject()
     {
         // given
-        $stream = pattern('\d+')->match('1, 2, 3')->stream();
-
+        $stream = Pattern::of('I love you, Boromir')->match('Faramir')->stream();
         // when
-        $count = \count($stream);
-
+        $iterator = $stream->getIterator();
         // then
-        $this->assertSame(3, $count);
+        $this->assertSame([], \iterator_to_array($iterator));
     }
 
     /**
@@ -363,118 +103,79 @@ class MatchPatternTest extends TestCase
     public function shouldBeIterable()
     {
         // given
-        $stream = pattern('\d+([cm]?m)')->match('14cm 12mm 18m')->stream();
-
+        $stream = pattern('\d+([cm]m)')->match('14cm, 12mm')->stream();
         // when
-        $result = \iterator_to_array($stream);
-
+        [$first, $second] = \iterator_to_array($stream);
         // then
-        $this->assertSameMatches(['14cm', '12mm', '18m'], $result);
+        $this->assertDetailText('14cm', $first);
+        $this->assertDetailText('12mm', $second);
     }
 
     /**
      * @test
      */
-    public function shouldMapToIntegerDifferentBaseAfter()
-    {
-        // when
-        $result = pattern('\d+')->match('12, 15, 16')->stream()->asInt(16)->all();
-
-        // then
-        $this->assertSameMatches([18, 21, 22], $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldMapToIntegerDifferentBaseAfterMapped()
-    {
-        // when
-        $result = pattern('\d+')->match('12, 15, 16')->stream()->map(DetailFunctions::text())->asInt(16)->all();
-
-        // then
-        $this->assertSameMatches([18, 21, 22], $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldRemoveDuplicates()
+    public function shouldGetAll_forUnmatchedSubject()
     {
         // given
-        $distinct = $this->streamOf(['12', '12', 12, '12' => 13])
-            ->distinct()
-            ->all();
+        $stream = Pattern::of('I love you, Boromir')->match('Faramir')->stream();
+        // when
+        $all = $stream->all();
         // then
-        $this->assertSame(['12', 2 => 12, '12' => 13], $distinct);
+        $this->assertSame([], $all);
     }
 
     /**
      * @test
-     * @dataProvider distinctValues
      */
-    public function shouldNotMistakeValues(array $distinctValues)
+    public function shouldKeepIndices()
     {
         // given
-        $distinct = $this->streamOf($distinctValues)->distinct()->all();
+        $stream = pattern('Foo|Bar|Lorem')->match("Foo, Bar, Lorem")->stream();
+        // when
+        [$first, $second, $third] = $stream->all();
         // then
-        $this->assertSame($distinctValues, $distinct);
-    }
-
-    public function distinctValues(): array
-    {
-        return [
-            [[false, 0]],
-            [[null, '']],
-            [['', false]],
-            [['0', false]],
-            [['0', 0]],
-            [['12', 12]],
-            [['1', true]],
-            [[1, true]],
-        ];
-    }
-
-    private function streamOf(array $value): Stream
-    {
-        return Pattern::of('Foo')->match('Foo')->stream()->flatMapAssoc(Functions::constant($value));
+        $this->assertDetailIndex(0, $first);
+        $this->assertDetailIndex(1, $second);
+        $this->assertDetailIndex(2, $third);
     }
 
     /**
      * @test
      */
-    public function shouldDistinctObjects()
+    public function shouldKeepIndex_first()
     {
-        // when
-        [$one, $two, $three] = Pattern::of('\w+')->match('One, Two, Three')
-            ->stream()
-            ->distinct()
-            ->all();
-
+        // given
+        $detail = pattern('Foo|Bar')->match("Foo, Bar")->stream()->first();
         // then
-        $this->assertSame('One', $one->text());
-        $this->assertSame('Two', $two->text());
-        $this->assertSame('Three', $three->text());
+        $this->assertDetailIndex(0, $detail);
     }
 
     /**
      * @test
      */
-    public function shouldDistinctObjectsMultiple()
+    public function shouldGetDetailAll_first()
     {
+        // given
+        $detail = pattern('Foo|Bar|Lorem')->match('Foo, Bar, Lorem')->stream()->first();
         // when
-        $all = Pattern::of('\w+')->match('One, Two, Three')
-            ->stream()
-            ->flatMap(function (Detail $detail) {
-                return [$detail, $detail];
-            })
-            ->distinct()
-            ->all();
-
+        $other = $detail->all();
         // then
-        $this->assertSame([0, 2, 4], \array_keys($all));
-        $this->assertSame('One', $all[0]->text());
-        $this->assertSame('Two', $all[2]->text());
-        $this->assertSame('Three', $all[4]->text());
+        $this->assertSame(['Foo', 'Bar', 'Lorem'], $other);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetDetailAll()
+    {
+        // given
+        $stream = pattern('Foo|Bar|Lorem')->match('Foo, Bar, Lorem')->stream();
+        // when
+        [$first, $second, $third] = $stream->all();
+        // then
+        $expected = ['Foo', 'Bar', 'Lorem'];
+        $this->assertSame($expected, $first->all());
+        $this->assertSame($expected, $second->all());
+        $this->assertSame($expected, $third->all());
     }
 }

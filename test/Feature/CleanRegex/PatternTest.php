@@ -2,9 +2,11 @@
 namespace Test\Feature\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Assertion\AssertsDetail;
 use Test\Utils\Assertion\AssertsPattern;
-use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
+use Test\Utils\Structure\AssertsStructure;
+use Test\Utils\Structure\Expect;
 use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
@@ -15,7 +17,7 @@ use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
 {
-    use AssertsPattern, TestCasePasses;
+    use AssertsPattern, AssertsDetail, TestCasePasses, AssertsStructure;
 
     /**
      * @test
@@ -286,7 +288,7 @@ class PatternTest extends TestCase
     public function shouldPatternNewlineIsLineFeed()
     {
         // when
-        $lines = Pattern::of('^.*$', 'm')->match("\rone\r\ntwo\n\nthree\rfour\v\f")->all();
+        $lines = Pattern::of('^.*$', 'm')->search("\rone\r\ntwo\n\nthree\rfour\v\f")->all();
 
         // then
         $this->assertSame(["\rone\r", 'two', '', "three\rfour\v\f"], $lines);
@@ -312,7 +314,7 @@ class PatternTest extends TestCase
     public function shouldNotMistakeEmptyStringForZero()
     {
         // when
-        $distinct = Pattern::of('|0')->match('0')->distinct();
+        $distinct = Pattern::of('|0')->search('0')->distinct();
         // then
         $this->assertSame(['', '0'], $distinct);
     }
@@ -371,14 +373,13 @@ class PatternTest extends TestCase
         // when
         $result = $stream->groupByCallback(Functions::charAt(0));
         // then
-        $expected = [
-            'F' => ['Father'],
-            'M' => ['Mother', 'Maiden'],
-            'C' => ['Crone'],
-            'W' => ['Warrior'],
-            'S' => ['Smith', 'Stranger'],
-        ];
-        $this->assertSame($expected, $result);
+        $this->assertStructure($result, [
+            'F' => [Expect::text('Father')],
+            'M' => [Expect::text('Mother'), Expect::text('Maiden')],
+            'C' => [Expect::text('Crone')],
+            'W' => [Expect::text('Warrior')],
+            'S' => [Expect::text('Smith'), Expect::text('Stranger')],
+        ]);
     }
 
     /**

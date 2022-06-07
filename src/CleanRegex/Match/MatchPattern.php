@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Internal\EmptyOptional;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Limit;
+use TRegx\CleanRegex\Internal\Match\Amount;
 use TRegx\CleanRegex\Internal\Match\ArrayFunction;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Flat\DictionaryFunction;
@@ -18,7 +19,8 @@ use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 use TRegx\CleanRegex\Internal\Match\MatchItems;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
-use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream;
+use TRegx\CleanRegex\Internal\Match\SearchBase;
+use TRegx\CleanRegex\Internal\Match\Stream\Base\DetailStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
@@ -38,12 +40,9 @@ use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Structure;
-use TRegx\SafeRegex\preg;
 
 class MatchPattern implements Structure, \Countable, \IteratorAggregate
 {
-    /** @var Definition */
-    private $definition;
     /** @var Subject */
     private $subject;
     /** @var Base */
@@ -58,35 +57,37 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
     private $groupNames;
     /** @var MatchItems */
     private $matchItems;
+    /** @var Amount */
+    private $amount;
 
     public function __construct(Definition $definition, Subject $subject)
     {
-        $this->definition = $definition;
         $this->subject = $subject;
         $this->base = new ApiBase($definition, $subject);
         $this->groupAware = new LightweightGroupAware($definition);
         $this->allFactory = new LazyMatchAllFactory($this->base);
-        $this->matchOnly = new MatchOnly($definition, $this->base);
+        $this->matchOnly = new MatchOnly($definition, $subject, $this->base);
         $this->groupNames = new GroupNames($this->groupAware);
         $this->matchItems = new MatchItems($this->base, $subject);
+        $this->amount = new Amount(new SearchBase($definition, $subject));
     }
 
     public function test(): bool
     {
-        return preg::match($this->definition->pattern, $this->subject) === 1;
+        return $this->amount->atLeastOne();
     }
 
     public function fails(): bool
     {
-        return !$this->test();
+        return $this->amount->none();
     }
 
     /**
-     * @return string[]
+     * @return Detail[]
      */
     public function all(): array
     {
-        return $this->base->matchAll()->getTexts();
+        return $this->stream()->all();
     }
 
     public function first(): Detail
@@ -115,21 +116,22 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
 
     /**
      * @param int $limit
-     * @return string[]
+     * @return Detail[]
      */
     public function only(int $limit): array
     {
         return $this->matchOnly->get(new Limit($limit));
     }
 
-    public function nth(int $index): string
+    public function nth(int $index): Detail
     {
         if ($index < 0) {
             throw new \InvalidArgumentException("Negative nth: $index");
         }
         $texts = \array_values($this->base->matchAll()->getTexts());
         if (\array_key_exists($index, $texts)) {
-            return $texts[$index];
+            $factory = new DetailObjectFactory($this->subject);
+            return $factory->mapToDetailObject($this->base->matchAllOffsets(), $index);
         }
         throw NoSuchNthElementException::forSubject($index, \count($texts));
     }
@@ -147,7 +149,7 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return string[]
+     * @return Detail[]
      */
     public function filter(callable $predicate): array
     {
@@ -165,7 +167,7 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return string[]
+     * @return Detail[]
      */
     public function distinct(): array
     {
@@ -174,7 +176,7 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
 
     public function count(): int
     {
-        return preg::match_all($this->definition->pattern, $this->subject);
+        return $this->amount->intValue();
     }
 
     public function getIterator(): \Iterator
@@ -184,7 +186,7 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
 
     public function stream(): Stream
     {
-        return new Stream(new MatchStream(new StreamBase($this->base), $this->subject, $this->allFactory, $this->groupAware));
+        return new Stream(new DetailStream(new StreamBase($this->base), $this->subject, $this->allFactory, $this->groupAware));
     }
 
     /**
@@ -193,29 +195,32 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
      */
     public function groupBy($nameOrIndex): array
     {
-        $group = GroupKey::of($nameOrIndex);
+        return $this->performGroupBy(GroupKey::of($nameOrIndex));
+    }
+
+    private function performGroupBy(GroupKey $group): array
+    {
+        $factory = new DetailObjectFactory($this->subject);
+        $matches = $this->base->matchAllOffsets();
         if (!$this->groupAware->hasGroup($group)) {
             throw new NonexistentGroupException($group);
         }
         $map = [];
-        $factory = new DetailObjectFactory($this->subject);
-        $matches = $this->base->matchAllOffsets();
         $handle = new GroupHandle(new ArraySignatures($matches->getGroupKeys()));
         foreach ($matches->getIndexes() as $index) {
             $handled = $handle->groupHandle($group);
-            if ($matches->isGroupMatched($handled, $index)) {
-                [$text] = $matches->getGroupTextAndOffset($handled, $index);
-                $map[$text][] = $factory->mapToDetailObject($matches, $index);
-            } else {
+            if (!$matches->isGroupMatched($handled, $index)) {
                 throw GroupNotMatchedException::forGroupBy($group);
             }
+            [$text] = $matches->getGroupTextAndOffset($handled, $index);
+            $map[$text][] = $factory->mapToDetailObject($matches, $index);
         }
         return $map;
     }
 
     /**
      * @param callable $groupMapper
-     * @return string[][]
+     * @return Detail[][]
      */
     public function groupByCallback(callable $groupMapper): array
     {
@@ -226,7 +231,7 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
     {
         $result = [];
         foreach ($this as $detail) {
-            $result[$function->apply($detail)][] = $detail->text();
+            $result[$function->apply($detail)][] = $detail;
         }
         return $result;
     }
@@ -245,6 +250,11 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
         return $accumulator;
     }
 
+    public function subject(): string
+    {
+        return $this->subject->asString();
+    }
+
     /**
      * @return string[]
      */
@@ -255,8 +265,7 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
 
     public function groupsCount(): int
     {
-        preg::match_all($this->definition->pattern, '', $matches);
-        return \count(\array_filter(\array_keys($matches), '\is_int')) - 1;
+        return \count(\array_filter($this->groupAware->getGroupKeys(), '\is_int')) - 1;
     }
 
     /**
@@ -266,10 +275,5 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
     public function groupExists($nameOrIndex): bool
     {
         return $this->groupAware->hasGroup(GroupKey::of($nameOrIndex));
-    }
-
-    public function subject(): string
-    {
-        return $this->subject->asString();
     }
 }

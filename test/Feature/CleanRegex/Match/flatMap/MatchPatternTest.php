@@ -2,96 +2,132 @@
 namespace Test\Feature\CleanRegex\Match\flatMap;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Assertion\AssertsDetail;
 use Test\Utils\Functions;
+use Test\Utils\Structure\AssertsStructure;
+use Test\Utils\Structure\Expect;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Pattern;
+use TRegx\Exception\MalformedPatternException;
 
 /**
  * @covers \TRegx\CleanRegex\Match\MatchPattern
  */
 class MatchPatternTest extends TestCase
 {
+    use TestCasePasses, AssertsDetail, AssertsStructure;
+
     /**
      * @test
      */
-    public function shouldMap()
+    public function shouldFlatMap()
     {
         // given
-        $pattern = $this->match('Nice 1 matching 2 pattern');
+        $match = Pattern::of('\w+')->match('Winter is coming');
         // when
-        $map = $pattern->flatMap(Functions::letters());
+        $flatMap = $match->flatMap(Functions::letters());
         // then
         $expected = [
-            'N', 'i', 'c', 'e',
-            'm', 'a', 't', 'c', 'h', 'i', 'n', 'g',
-            'p', 'a', 't', 't', 'e', 'r', 'n'
+            'W', 'i', 'n', 't', 'e', 'r',
+            'i', 's',
+            'c', 'o', 'm', 'i', 'n', 'g'
         ];
-        $this->assertSame($expected, $map);
+        $this->assertSame($expected, $flatMap);
     }
 
     /**
      * @test
      */
-    public function shouldMap_withKeys()
+    public function shouldFlatMap_withKeys()
     {
         // given
-        $pattern = $this->match('Nice 1 matching 2 pattern');
+        $match = Pattern::of('\w+')->match('Family, Duty, Honor');
         // when
-        $map = $pattern->flatMap(function (Detail $detail) {
+        $flatMap = $match->flatMap(function (Detail $detail) {
             return [$detail->text() => $detail->offset()];
         });
         // then
-        $this->assertSame([0, 7, 18], $map);
+        $this->assertSame([0, 8, 14], $flatMap);
     }
 
     /**
      * @test
      */
-    public function shouldMap_withDetails()
+    public function shouldFlatMap_withDuplicateKeys()
     {
         // given
-        $pattern = $this->match("Nice matching pattern");
-        $counter = 0;
-        $matches = ['Nice', 'matching', 'pattern'];
-
+        $match = Pattern::of('\w+')->match('Family, Duty, Honor');
         // when
-        $pattern->flatMap(function (Detail $detail) use (&$counter, $matches) {
-            // then
-            $this->assertSame($matches[$counter], $detail->text());
-            $this->assertSame($counter++, $detail->index());
-            $this->assertSame("Nice matching pattern", $detail->subject());
-            $this->assertSame($matches, $detail->all());
-
-            return [];
+        $flatMap = $match->flatMap(function (Detail $detail) {
+            return ['duplicate' => $detail->offset()];
         });
+        // then
+        $this->assertSame([0, 8, 14], $flatMap);
     }
 
     /**
      * @test
      */
-    public function shouldNotInvokeMap_onNotMatchingSubject()
+    public function shouldFlatMap_withDetails()
     {
         // given
-        $pattern = $this->match('NOT MATCHING');
+        $match = Pattern::of('\w+')->match("Hear me roar");
         // when
-        $pattern->flatMap(Functions::fail());
+        $match->flatMap(Functions::collect($details, []));
         // then
-        $this->assertTrue(true);
+        $this->assertStructure($details, [
+            Expect::text('Hear'),
+            Expect::text('me'),
+            Expect::text('roar'),
+        ]);
+        $this->assertDetailsIndexed(...$details);
+        $this->assertDetailsAll(['Hear', 'me', 'roar'], ...$details);
     }
 
     /**
      * @test
      */
-    public function shouldReturnEmptyArray_onNoMatches()
+    public function shouldFlatMap_withDetails_identity()
     {
         // given
-        $pattern = $this->match('NOT MATCHING');
+        $match = Pattern::of('\w+')->match("Hear me roar");
         // when
-        $map = $pattern->flatMap(Functions::fail());
+        $details = $match->flatMap(Functions::wrap());
         // then
-        $this->assertEmpty($map, 'Failed asserting that flatMap() returned an empty array');
+        [$hear, $me, $roar] = $details;
+        $this->assertDetailText('Hear', $hear);
+        $this->assertDetailText('me', $me);
+        $this->assertDetailText('roar', $roar);
+        $this->assertDetailsIndexed(...$details);
+        $this->assertDetailsAll(['Hear', 'me', 'roar'], ...$details);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotInvoke_onNotMatchingSubject()
+    {
+        // given
+        $match = Pattern::of('Foo')->match('Bar');
+        // when
+        $match->flatMap(Functions::fail());
+        // then
+        $this->pass();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnEmptyArray_onUnmatchedSubject()
+    {
+        // given
+        $match = Pattern::of('Foo')->match('Bar');
+        // when
+        $map = $match->flatMap(Functions::fail());
+        // then
+        $this->assertEmpty($map);
     }
 
     /**
@@ -100,12 +136,24 @@ class MatchPatternTest extends TestCase
     public function shouldThrow_onNonArrayReturnType()
     {
         // given
-        $pattern = $this->match('Nice 1 matching 2 pattern');
+        $match = Pattern::of('Foo')->match('Foo');
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage("Invalid flatMap() callback return type. Expected array, but string ('string') given");
         // when
-        $pattern->flatMap(Functions::constant('string'));
+        $match->flatMap(Functions::constant('string'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForInvalidPattern()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
+        // when
+        Pattern::of('+')->match('Foo')->flatMap(Functions::fail());
     }
 
     /**
@@ -119,10 +167,5 @@ class MatchPatternTest extends TestCase
         $result = $match->flatMap(Functions::constant(['a', ['b'], [['c']]]));
         // then
         $this->assertSame(['a', ['b'], [['c']]], $result);
-    }
-
-    private function match(string $subject): MatchPattern
-    {
-        return Pattern::of("([A-Z])?[a-z']+")->match($subject);
     }
 }

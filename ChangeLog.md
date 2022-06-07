@@ -11,6 +11,15 @@ Incoming
     * `Pattern.match().findFirst()` no longer accepts `callable` as its argument
     * `Stream.first()` no longer accepts `callable` as its argument
     * `Stream.findFirst()` no longer accepts `callable` as its argument
+    * Refactored `Pattern.match()` into `match()` and `search()`.
+
+      `Pattern.match()` and `Pattern.search()` have virtually the same set of methods,
+      with a slight difference. All of `Pattern.search()` operate on `string` which
+      is the matched occurrence, and all of `Pattern.match()` methods now operate on
+      `Detail`.
+* Features
+    * Added `Pattern.search()`, which is similar to `Pattern.match()`, but its methods
+      only operate on `string`. From now on, `Pattern.match()` only operates on `Detail`.
 
 Added in 0.32.0
 ---------------

@@ -3,8 +3,13 @@ namespace Test\Feature\CleanRegex\Match\test;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\Exception\MalformedPatternException;
 use function pattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\MatchPattern
+ * @covers \TRegx\CleanRegex\Match\MatchPattern
+ */
 class MatchPatternTest extends TestCase
 {
     /**
@@ -13,11 +18,11 @@ class MatchPatternTest extends TestCase
     public function shouldTestSubject()
     {
         // given
-        $subject = 'You forgot one very important thing, mate';
+        $subject = "I'm dishonest, and a dishonest man you can always trust to be dishonest";
         // when
-        $matchPattern = pattern($subject)->match($subject);
+        $match = pattern($subject)->match($subject);
         // then
-        $this->assertTests(true, $matchPattern);
+        $this->assertTests($match);
     }
 
     /**
@@ -26,11 +31,11 @@ class MatchPatternTest extends TestCase
     public function shouldFailSubject()
     {
         // given
-        $subject = 'You forgot one very important thing, mate';
+        $pattern = pattern('You forgot one very important thing, mate');
         // when
-        $matchPattern = pattern($subject)->match("I'm captain Jack Sparrow");
+        $match = $pattern->match("I'm captain Jack Sparrow");
         // then
-        $this->assertTests(false, $matchPattern);
+        $this->assertFails($match);
     }
 
     /**
@@ -39,14 +44,48 @@ class MatchPatternTest extends TestCase
     public function shouldTestSubjectRegularExpression()
     {
         // when
-        $matchPattern = pattern('Foo(Bar)')->match('FooBar');
+        $match = pattern('Valar (Morghulis)')->match('Valar Morghulis');
         // then
-        $this->assertTests(true, $matchPattern);
+        $this->assertTests($match);
     }
 
-    private function assertTests(bool $expected, MatchPattern $match): void
+    private function assertTests(MatchPattern $match): void
     {
-        $this->assertSame($expected, $match->test());
-        $this->assertSame(!$expected, $match->fails());
+        $this->assertTrue($match->test());
+        $this->assertFalse($match->fails());
+    }
+
+    private function assertFails(MatchPattern $match): void
+    {
+        $this->assertFalse($match->test());
+        $this->assertTrue($match->fails());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldTestThrowForMalformedPattern()
+    {
+        // given
+        $match = pattern('+')->match('Valar Dohaeris');
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
+        // when
+        $match->test();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFailsThrowForMalformedPattern()
+    {
+        // given
+        $match = pattern('+')->match('Valar Dohaeris');
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
+        // when
+        $match->fails();
     }
 }

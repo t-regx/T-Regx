@@ -2,83 +2,95 @@
 namespace Test\Feature\CleanRegex\Match\groupNames;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Structure;
+use Test\Utils\Backtrack\CausesBacktracking;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Pattern;
+use TRegx\Exception\MalformedPatternException;
 
 /**
  * @covers \TRegx\CleanRegex\Match\MatchPattern
  */
 class MatchPatternTest extends TestCase
 {
+    use TestCasePasses, CausesBacktracking;
+
     /**
      * @test
      */
-    public function shouldReturnNoNamesForPatternWithoutGroups()
+    public function shouldGetEmpty()
     {
-        // given
-        $notMatched = $this->notMatched(Pattern::of('Foo'));
         // when
-        $this->assertSame([], $notMatched->groupNames());
+        $groupNames = Pattern::of('Foo')->match('Foo')->groupNames();
+        // then
+        $this->assertSame([], $groupNames);
     }
 
     /**
      * @test
      */
-    public function shouldGetNullNames()
+    public function shouldGetGroupNames()
     {
-        // given
-        $notMatched = $this->notMatched(Pattern::of('(Foo)(1)(2)'));
         // when
-        $this->assertSame([null, null, null], $notMatched->groupNames());
+        $groupNames = Pattern::of('(?<first>first), (?<second>second)')->match('first, second')->groupNames();
+        // then
+        $this->assertSame(['first', 'second'], $groupNames);
     }
 
     /**
      * @test
      */
-    public function shouldGetNames()
+    public function shouldGetUnnamed()
     {
-        // given
-        $notMatched = $this->notMatched(Pattern::of('(?<a>Foo)(?<b>1)(?<c>2)'));
         // when
-        $this->assertSame(['a', 'b', 'c'], $notMatched->groupNames());
+        $groupNames = Pattern::of('(Foo)')->match('Foo')->groupNames();
+        // then
+        $this->assertSame([null], $groupNames);
     }
 
     /**
      * @test
      */
-    public function shouldGetNamesAndNulls()
+    public function shouldGetMixed()
     {
-        // given
-        $notMatched = $this->notMatched(Pattern::of('(?<a>Foo)(1)(?<c>2)(3)'));
         // when
-        $this->assertSame(['a', null, 'c', null], $notMatched->groupNames());
+        $groupNames = Pattern::of('(?<name>Foo)(Missing)?')->match('Foo')->groupNames();
+        // then
+        $this->assertSame(['name', null], $groupNames);
     }
 
     /**
      * @test
      */
-    public function shouldGetNamesAndNullsNullFirst()
+    public function shouldGetDuplicateNamed()
     {
-        // given
-        $notMatched = $this->notMatched(Pattern::of('()(?<a>1)(2)(?<b>3)'));
         // when
-        $this->assertSame([null, 'a', null, 'b'], $notMatched->groupNames());
+        $groupNames = Pattern::of('(?<name>Foo)(?<name>Foo)', 'J')->match('Foo')->groupNames();
+        // then
+        $this->assertSame(['name', null], $groupNames);
     }
 
     /**
      * @test
-     * @depends shouldGetNamesAndNullsNullFirst
      */
-    public function shouldGetNamesAndNullsNullFirstAlternate()
+    public function shouldThrowForMalformedPattern()
     {
         // given
-        $notMatched = $this->notMatched(Pattern::of('()(?<a>1)(?<b>2)(3)(?<c>4)'));
+        $match = Pattern::of('+')->match('Bar');
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        $this->assertSame([null, 'a', 'b', null, 'c'], $notMatched->groupNames());
+        $match->groupNames();
     }
 
-    private function notMatched(Pattern $pattern): Structure
+    /**
+     * @test
+     */
+    public function shouldNotCauseCatastrophicBacktracking()
     {
-        return $pattern->match('Bar');
+        // when
+        $this->backtrackingMatch()->groupNames();
+        // then
+        $this->pass();
     }
 }

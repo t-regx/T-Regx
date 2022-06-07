@@ -3,29 +3,34 @@ namespace Test\Feature\CleanRegex\Match\groupBy;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Assertion\AssertsDetail;
+use Test\Utils\Structure\AssertsStructure;
+use Test\Utils\Structure\Expect;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Pattern;
 use function pattern;
 
+/**
+ * @covers \TRegx\CleanRegex\Match\MatchPattern
+ */
 class MatchPatternTest extends TestCase
 {
+    use AssertsDetail, AssertsStructure;
+
     /**
      * @test
      */
     public function shouldGroupBy()
     {
         // when
-        $result = pattern('\d+(?<unit>cm|mm)?')->match('14cm 13mm 19cm 18mm 2cm')->groupBy('unit');
+        $groupped = pattern('\d+(?<unit>cm|mm)?')->match('14cm 13mm 19cm 18mm 2cm')->groupBy('unit');
         // then
-        [$first, $second, $third] = $result['cm'];
-        [$fourth, $fifth] = $result['mm'];
-        $this->assertSame('14cm', $first->text());
-        $this->assertSame('19cm', $second->text());
-        $this->assertSame('2cm', $third->text());
-        $this->assertSame('13mm', $fourth->text());
-        $this->assertSame('18mm', $fifth->text());
+        $this->assertStructure($groupped, [
+            'cm' => [Expect::text('14cm'), Expect::text('19cm'), Expect::text('2cm')],
+            'mm' => [Expect::text('13mm'), Expect::text('18mm')],
+        ]);
     }
 
     /**
@@ -34,10 +39,11 @@ class MatchPatternTest extends TestCase
     public function shouldDetailGetSubject()
     {
         // when
-        $result = pattern('Foo')->match('subject:Foo')->groupBy(0);
+        $groupped = pattern('Foo')->match('subject:Foo')->groupBy(0);
         // then
-        [$detail] = $result['Foo'];
-        $this->assertSame('subject:Foo', $detail->subject());
+        $this->assertStructure($groupped, [
+            'Foo' => [Expect::subject('subject:Foo')]
+        ]);
     }
 
     /**
@@ -126,5 +132,18 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage("Expected to group matches by group 'one', but the group was not matched");
         // when
         $match->groupBy('one');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupByEmptyElement()
+    {
+        // when
+        $groupped = pattern('()')->match('')->groupBy(1);
+        // then
+        $this->assertStructure($groupped, [
+            '' => [Expect::text('')]
+        ]);
     }
 }

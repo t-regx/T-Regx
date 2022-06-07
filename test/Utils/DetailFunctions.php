@@ -31,9 +31,9 @@ class DetailFunctions
     {
         return function ($match) use ($detail) {
             if ($match instanceof Detail || $match instanceof Group) {
-                return "$match" !== $detail;
+                return $match->text() !== $detail;
             }
-            throw new \Exception();
+            throw new \TypeError();
         };
     }
 
@@ -42,17 +42,6 @@ class DetailFunctions
         return function (Detail $detail) use (&$details, $return) {
             $details[$detail->index()] = $detail->text();
             return $return;
-        };
-    }
-
-    public static function collecting(?array &$details, callable $return = null): callable
-    {
-        return function (Detail $detail) use (&$details, $return) {
-            $details[$detail->index()] = $detail->text();
-            if ($return !== null) {
-                return $return($detail);
-            }
-            return null;
         };
     }
 
@@ -92,10 +81,17 @@ class DetailFunctions
         };
     }
 
-    public static function oneOf(array $haystack): callable
+    public static function get(string $groupName): callable
     {
-        return function (Detail $match) use ($haystack) {
-            return \in_array("$match", $haystack);
+        return function (Detail $detail) use ($groupName): string {
+            return $detail->get($groupName);
+        };
+    }
+
+    public static function group(string $groupname): callable
+    {
+        return function (Detail $detail) use ($groupname): Group {
+            return $detail->group($groupname);
         };
     }
 

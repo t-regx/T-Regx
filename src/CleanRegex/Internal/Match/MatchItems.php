@@ -6,7 +6,6 @@ use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Detail;
 
 class MatchItems
 {
@@ -28,9 +27,7 @@ class MatchItems
 
     public function filter(Predicate $predicate): array
     {
-        return \array_values(\array_map(static function (Detail $detail): string {
-            return $detail->text();
-        }, \array_filter($this->getDetailObjects(), [$predicate, 'test'])));
+        return \array_values(\array_filter($this->getDetailObjects(), [$predicate, 'test']));
     }
 
     public function flatMap(FlatFunction $function): array

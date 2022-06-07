@@ -2,23 +2,19 @@
 namespace Test\Feature\CleanRegex\Match\first;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Assertion\AssertsGroup;
+use Test\Utils\Assertion\AssertsDetail;
 use Test\Utils\Backtrack\CausesBacktracking;
-use Test\Utils\Backtrack\ControledBacktracking;
-use Test\Utils\DetailFunctions;
-use Test\Utils\Functions;
 use Test\Utils\TestCase\TestCasePasses;
-use Test\Utils\Values\Definitions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
-use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Pattern;
+use TRegx\Exception\MalformedPatternException;
 
 /**
  * @covers \TRegx\CleanRegex\Match\MatchPattern
  */
 class MatchPatternTest extends TestCase
 {
-    use AssertsGroup, CausesBacktracking, TestCasePasses;
+    use AssertsDetail, CausesBacktracking, TestCasePasses;
 
     /**
      * @test
@@ -26,11 +22,11 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirst()
     {
         // given
-        $pattern = $this->match('Nice matching pattern');
+        $match = Pattern::of('\w+')->match('Socrates, Plato, Aristotle');
         // when
-        $first = $pattern->first();
+        $first = $match->first();
         // then
-        $this->assertSame('Nice', $first->text());
+        $this->assertDetailText('Socrates', $first);
     }
 
     /**
@@ -39,11 +35,12 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirst_emptyMatch()
     {
         // given
-        $match = Pattern::of('9?(?=matching)')->match('Nice matching pattern');
+        $match = Pattern::of('()(?=ness)')->match('Emptyness');
         // when
-        $first = $match->first();
+        $detail = $match->first();
         // then
-        $this->assertSame('', $first->text());
+        $this->assertDetailText('', $detail);
+        $this->assertDetailOffset(5, $detail);
     }
 
     /**
@@ -52,59 +49,52 @@ class MatchPatternTest extends TestCase
     public function shouldGetMatch_withDetails()
     {
         // given
-        $pattern = $this->match('Nice matching pattern');
+        $match = Pattern::of("\w{2,}")->match('€ One, Two, Three');
         // when
-        $detail = $pattern->first();
+        $detail = $match->first();
         // then
+        $this->assertDetailText('One', $detail);
         $this->assertSame(0, $detail->index());
-        $this->assertSame('Nice matching pattern', $detail->subject());
-        $this->assertSame(['Nice', 'matching', 'pattern'], $detail->all());
-        $this->assertGroupTexts(['N'], $detail->groups());
+        $this->assertSame(['One', 'Two', 'Three'], $detail->all());
     }
 
     /**
      * @test
      */
-    public function shouldNotInvokeFirst_onNotMatchingSubject()
+    public function shouldThrow_onUnmatchedSubject()
     {
         // given
-        $pattern = $this->match('NOT MATCHING');
+        $match = Pattern::of('Foo')->match('Bar');
         // then
         $this->expectException(SubjectNotMatchedException::class);
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
         // when
-        $pattern->first();
+        $match->first();
     }
 
     /**
      * @test
      */
-    public function shouldThrow_onNotMatchingSubject()
+    public function shouldThrowSubjectNotMatched_getSubject()
     {
-        // given
-        $pattern = $this->match('NOT MATCHING');
-        // then
-        $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
-        // when
-        $pattern->first();
-    }
-
-    private function match(string $subject): MatchPattern
-    {
-        return Pattern::of("([A-Z])?[a-z]+")->match($subject);
+        try {
+            // when
+            pattern('Foo')->match('Bar')->first();
+        } catch (SubjectNotMatchedException $exception) {
+            // then
+            $this->assertSame('Bar', $exception->getSubject());
+        }
     }
 
     /**
      * @test
      */
-    public function shouldFirstGroupsNotCauseCatastrophicBacktracking()
+    public function shouldGetFirst_backtrackingAtEdge()
     {
         // given
-        $match = $this->backtrackingPattern()->match($this->backtrackingSubject());
-        $detail = $match->first();
+        $match = $this->backtrackingPattern()->match($this->backtrackingSubject(1));
         // when
-        $detail->groups();
+        $match->first();
         // then
         $this->pass();
     }
@@ -112,48 +102,14 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldFirstNamedGroupsNotCauseCatastrophicBacktracking()
+    public function shouldThrowForMalformedPattern()
     {
         // given
-        $match = $this->backtrackingPattern()->match($this->backtrackingSubject());
-        $detail = $match->first();
-        // when
-        $detail->namedGroups();
+        $match = Pattern::of('+')->match('Bar');
         // then
-        $this->pass();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNth0GroupsNotCauseCatastrophicBacktracking()
-    {
-        // given
-        $control = new ControledBacktracking();
-        $detail = $control->match()->stream()->nth(0);
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        $control->inStrictEnvironment(function () use ($detail) {
-            // when
-            $detail->groups();
-            // then
-            $this->pass();
-        });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNth0NamedGroupsNotCauseCatastrophicBacktracking()
-    {
-        // given
-        $control = new ControledBacktracking();
-        $detail = $control->match()->stream()->nth(0);
-        // when
-        $control->inStrictEnvironment(function () use ($detail) {
-            // when
-            $detail->namedGroups();
-            // then
-            $this->pass();
-        });
+        $match->first();
     }
 }
