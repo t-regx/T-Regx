@@ -6,6 +6,8 @@ Incoming
 
 * Breaking changes
     * Removed `Detail.usingDuplicateGroup()`. Using `J` modifier is still allowed, though of little use now.
+* Bug fixes
+    * `Pattern.match().groupBy()` now correctly groups by duplicate name with `J` modifier.
 
 Added in 0.30.0
 ---------------

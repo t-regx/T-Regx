@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Pattern;
 use function pattern;
 
@@ -97,5 +98,33 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage("Nonexistent group: 'bar'");
         // when
         Pattern::of('(?<foo>foo)')->match('foo')->groupBy('bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupByCorrectlyByDuplicateName()
+    {
+        // when
+        $result = pattern('(?<one>Foo)(?<one>Bar)', 'J')->match('FooBar')->groupBy('one');
+        // then
+        /** @var Detail $detail */
+        [$detail] = $result['Foo'];
+        $this->assertSame('FooBar', $detail->text());
+        $this->assertSame('FooBar', $detail->subject());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroupByCorrectlyThrowForUnmatchedDuplicateName()
+    {
+        // given
+        $match = pattern('(?<one>Foo){0}(?<one>Bar)', 'J')->match('Bar');
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to group matches by group 'one', but the group was not matched");
+        // when
+        $match->groupBy('one');
     }
 }

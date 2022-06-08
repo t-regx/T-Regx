@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupNames;
+use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
@@ -34,6 +35,7 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchPrime;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
+use TRegx\CleanRegex\Internal\Pcre\Signatures\ArraySignatures;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\SubjectEmptyOptional;
@@ -232,9 +234,11 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
         $map = [];
         $factory = new DetailObjectFactory($this->subject);
         $matches = $this->base->matchAllOffsets();
+        $handle = new GroupHandle(new ArraySignatures($matches->getGroupKeys()));
         foreach ($matches->getIndexes() as $index) {
-            if ($matches->isGroupMatched($group->nameOrIndex(), $index)) {
-                [$text] = $matches->getGroupTextAndOffset($group->nameOrIndex(), $index);
+            $handled = $handle->groupHandle($group);
+            if ($matches->isGroupMatched($handled, $index)) {
+                [$text] = $matches->getGroupTextAndOffset($handled, $index);
                 $map[$text][] = $factory->mapToDetailObject($matches, $index);
             } else {
                 throw GroupNotMatchedException::forGroupBy($group);
