@@ -2,11 +2,13 @@
 namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacadeMatched;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
+use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -69,6 +71,6 @@ class GroupMatchFindFirst
         if ($first->matched()) {
             return GroupEmptyOptional::forFirst($this->group);
         }
-        return new SubjectEmptyOptional($this->subject, new FromFirstMatchMessage($this->group));
+        return new RejectedOptional(new SubjectNotMatchedException(new FromFirstMatchMessage($this->group), $this->subject));
     }
 }

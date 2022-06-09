@@ -20,6 +20,7 @@ use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
+use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
 use TRegx\CleanRegex\Internal\MatchPatternHelpers;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
@@ -38,7 +39,6 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Pcre\Signatures\ArraySignatures;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Internal\SubjectEmptyOptional;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Structure;
 use TRegx\SafeRegex\preg;
@@ -109,7 +109,7 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
         if ($match->matched()) {
             return new PresentOptional($consumer($this->findFirstDetail($match)));
         }
-        return new SubjectEmptyOptional($this->subject, new FirstMatchMessage());
+        return new RejectedOptional(new SubjectNotMatchedException(new FirstMatchMessage(), $this->subject));
     }
 
     private function matchDetail(): Detail
