@@ -188,16 +188,6 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
         return \array_values(\array_unique($this->all()));
     }
 
-    /**
-     * @param string|int $nameOrIndex
-     * @return GroupMatch
-     * @deprecated Will be removed in the next release
-     */
-    public function group($nameOrIndex): GroupMatch
-    {
-        return new GroupMatch($this->base, $this->subject, $this->groupAware, GroupKey::of($nameOrIndex));
-    }
-
     public function count(): int
     {
         return preg::match_all($this->definition->pattern, $this->subject);
