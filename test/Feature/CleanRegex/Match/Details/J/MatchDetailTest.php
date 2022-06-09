@@ -6,8 +6,6 @@ use Test\Utils\Assertion\AssertsGroup;
 use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
-use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Pattern;
 
 class MatchDetailTest extends TestCase
@@ -63,89 +61,6 @@ class MatchDetailTest extends TestCase
         $this->expectExceptionMessage("Expected to get group 'group', but the group was not matched");
         // when
         $detail->get('group');
-    }
-
-    /**
-     * @test
-     */
-    public function shouldStreamHandleDuplicateGroups_notMatched()
-    {
-        // when
-        pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
-            ->match('Lorem')
-            ->group('group')
-            ->stream()
-            ->forEach(function (NotMatchedGroup $group) {
-                $this->assertFalse($group->matched());
-            });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldStreamHandleDuplicateGroups_matched()
-    {
-        // given
-        pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
-            ->match('Foo')
-            ->group('group')
-            ->stream()
-            ->forEach(function (MatchedGroup $group) {
-                $this->assertSame('Foo', $group->text());
-            });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowWithMessage()
-    {
-        // then
-        $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call text() for group 'group', but the group was not matched");
-
-        // given
-        pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
-            ->match('Lorem')
-            ->group('group')
-            ->forEach(function (NotMatchedGroup $group) {
-                // when
-                $group->text();
-            });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldOptionalThrowWithMessage()
-    {
-        // then
-        $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call text() for group 'group', but the group was not matched");
-
-        // given
-        pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
-            ->match('Lorem')
-            ->group('group')
-            ->forEach(function (NotMatchedGroup $group) {
-                // when
-                $group->text();
-            });
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetIdentifier()
-    {
-        // given
-        pattern('(?:(?<group>Foo)|(?<group>Bar)|(?<group>Lorem))', 'J')
-            ->match('Lorem')
-            ->group('group')
-            ->forEach(function (NotMatchedGroup $group) {
-                // when
-                $this->assertSame('group', $group->usedIdentifier());
-            });
     }
 
     /**

@@ -59,53 +59,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturn_first_forEmptyFirstTrailAll()
-    {
-        // when
-        $first = Pattern::of('"(\w*)"')->match('"", "", "Three"')
-            ->group(1)
-            ->stream()
-            ->flatMap(Functions::letters())
-            ->first();
-        // then
-        $this->assertSame('T', $first);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFlatMapReturn_firstKey_forEmptyFirstTrailAll()
-    {
-        // when
-        $first = Pattern::of('"(\w*)"')->match('"", "", "Apple"')
-            ->group(1)
-            ->stream()
-            ->flatMap(Functions::lettersAsKeys())
-            ->keys()
-            ->first();
-        // then
-        $this->assertSame(0, $first);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFlatMapReturn_allKeys_forEmptyFirstTrailAll()
-    {
-        // when
-        $first = Pattern::of('"(\w*)"')->match('"", "", "Orange"')
-            ->group(1)
-            ->stream()
-            ->flatMap(Functions::lettersAsKeys())
-            ->keys()
-            ->all();
-        // then
-        $this->assertSame([0, 1, 2, 3, 4, 5], $first);
-    }
-
-    /**
-     * @test
-     */
     public function a()
     {
         // when
@@ -138,22 +91,6 @@ class MatchPatternTest extends TestCase
             ->first();
         // then
         $this->assertSame(0, $first);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFlatMapAssocReturn_firstKey_forEmptyFirstTrailAll()
-    {
-        // when
-        $first = Pattern::of('"(\w*)"')->match('"", "", "Apple"')
-            ->group(1)
-            ->stream()
-            ->flatMapAssoc(Functions::lettersAsKeys())
-            ->keys()
-            ->first();
-        // then
-        $this->assertSame('A', $first);
     }
 
     /**

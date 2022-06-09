@@ -43,12 +43,6 @@ class MatchPatternTest extends TestCase
         $this->assertSame(123, $this->match()->stream()->asInt()->first());
     }
 
-    public function test_asInt_group_first()
-    {
-        $this->assertSame(123, $this->match()->group(0)->asInt()->first());
-        $this->assertSame(123, $this->match()->group(0)->stream()->asInt()->first());
-    }
-
     public function test_distinct_first()
     {
         $this->assertSame('123', $this->match()->stream()->distinct()->first()->text());
@@ -110,12 +104,6 @@ class MatchPatternTest extends TestCase
     public function test_stream_filter_keys()
     {
         $this->assertSame(0, $this->match()->stream()->filter(Functions::constant(true))->keys()->first());
-    }
-
-    public function test_groups()
-    {
-        $this->assertSame('123', $this->match()->group(0)->first());
-        $this->assertSame('123', $this->match()->group(0)->stream()->first()->text());
     }
 
     public function test_groups_text()

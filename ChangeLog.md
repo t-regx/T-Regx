@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Removed previously deprecated `Pattern.match().group()`.
 
 Added in 0.32.0
 ---------------

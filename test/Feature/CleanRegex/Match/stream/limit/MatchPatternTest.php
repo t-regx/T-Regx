@@ -4,7 +4,6 @@ namespace Test\Feature\CleanRegex\Match\stream\limit;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Match\Stream;
 use TRegx\CleanRegex\Pattern;
@@ -327,77 +326,5 @@ class MatchPatternTest extends TestCase
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
         Pattern::of('+')->match('Foo')->stream()->limit(0)->keys()->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForMissingGroupAllLimitZero()
-    {
-        // then
-        $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage('Nonexistent group: #2');
-        // when
-        Pattern::of('(Foo)')->match('Foo')->group(2)->stream()->limit(0)->all();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForMissingGroupFirstLimitZero()
-    {
-        // then
-        $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage('Nonexistent group: #2');
-        // when
-        Pattern::of('(Foo)')->match('Foo')->group(2)->stream()->limit(0)->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForMissingGroupFirstKeyLimitZero()
-    {
-        // then
-        $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage('Nonexistent group: #2');
-        // when
-        Pattern::of('(Foo)')->match('Foo')->group(2)->stream()->limit(0)->keys()->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForMissingGroupAllLimitZeroUnmatched()
-    {
-        // then
-        $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage('Nonexistent group: #2');
-        // when
-        Pattern::of('(Foo)')->match('Bar')->group(2)->stream()->limit(0)->all();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForMissingGroupFirstLimitZeroUnmatched()
-    {
-        // then
-        $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage('Nonexistent group: #2');
-        // when
-        Pattern::of('(Foo)')->match('Bar')->group(2)->stream()->limit(0)->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForMissingGroupFirstKeyLimitZeroUnmatched()
-    {
-        // then
-        $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage('Nonexistent group: #2');
-        // when
-        Pattern::of('(Foo)')->match('Bar')->group(2)->stream()->limit(0)->keys()->first();
     }
 }
