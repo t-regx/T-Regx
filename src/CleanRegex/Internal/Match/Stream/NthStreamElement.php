@@ -24,7 +24,7 @@ class NthStreamElement
         try {
             return $this->unmatchedOptional($index);
         } catch (UnmatchedStreamException $exception) {
-            return new EmptyOptional(new NoSuchNthElementException((new SubjectNotMatched\FromNthStreamMessage($index))->getMessage()));
+            return new EmptyOptional();
         }
     }
 
@@ -34,6 +34,24 @@ class NthStreamElement
         if (\array_key_exists($index, $elements)) {
             return new PresentOptional($elements[$index]);
         }
-        return new EmptyOptional(new NoSuchNthElementException((new FromNthStreamMessage($index, \count($elements)))->getMessage()));
+        return new EmptyOptional();
+    }
+
+    public function value(int $index)
+    {
+        try {
+            return $this->unmatchedValue($index);
+        } catch (UnmatchedStreamException $exception) {
+            throw new NoSuchNthElementException((new SubjectNotMatched\FromNthStreamMessage($index))->getMessage());
+        }
+    }
+
+    private function unmatchedValue(int $index)
+    {
+        $elements = \array_values($this->upstream->all());
+        if (\array_key_exists($index, $elements)) {
+            return $elements[$index];
+        }
+        throw new NoSuchNthElementException((new FromNthStreamMessage($index, \count($elements)))->getMessage());
     }
 }

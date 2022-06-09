@@ -3,6 +3,7 @@ namespace Test\Feature\CleanRegex\Match\group\asInt;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsOptionalEmpty;
 use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
@@ -15,7 +16,7 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 
 class MatchGroupIntStreamTest extends TestCase
 {
-    use ExactExceptionMessage;
+    use ExactExceptionMessage, AssertsOptionalEmpty;
 
     /**
      * @test
@@ -371,33 +372,23 @@ class MatchGroupIntStreamTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_findFirst_forUnmatchedSubject()
+    public function shouldReturnEmptyOptional_forUnmatchedSubject()
     {
         // given
         $optional = pattern('(Foo)')->match('Bar')->group(1)->asInt()->findFirst(Functions::fail());
-
         // then
-        $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get group #1 as integer from the first match, but subject was not matched at all');
-
-        // when
-        $optional->get();
+        $this->assertOptionalEmpty($optional);
     }
 
     /**
      * @test
      */
-    public function shouldThrow_findNth_forUnmatchedSubject()
+    public function shouldReturnEmptyOptional_findNth_forUnmatchedSubject()
     {
         // given
         $optional = pattern('(Foo)')->match('Bar')->group(1)->asInt()->findNth(0);
-
         // then
-        $this->expectException(NoSuchNthElementException::class);
-        $this->expectExceptionMessage('Expected to get group #1 as integer from the 0-nth match, but the subject was not matched at all');
-
-        // when
-        $optional->get();
+        $this->assertOptionalEmpty($optional);
     }
 
     /**
@@ -423,12 +414,7 @@ class MatchGroupIntStreamTest extends TestCase
     {
         // given
         $optional = pattern('(\d+)')->match('23 25')->group(1)->asInt()->findNth(2);
-
         // then
-        $this->expectException(NoSuchNthElementException::class);
-        $this->expectExceptionMessage("Expected to get group #1 as integer from the 2-nth match, but only 2 occurrences are available");
-
-        // when
-        $optional->get();
+        $this->assertOptionalEmpty($optional);
     }
 }

@@ -2,6 +2,7 @@
 namespace Test\Feature\CleanRegex\Match\stream;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsOptional;
 use Test\Utils\AssertsSameMatches;
 use Test\Utils\Definitions;
 use Test\Utils\DetailFunctions;
@@ -9,7 +10,6 @@ use Test\Utils\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -20,7 +20,7 @@ use TRegx\CleanRegex\Pattern;
 
 class MatchPatternTest extends TestCase
 {
-    use AssertsSameMatches;
+    use AssertsSameMatches, AssertsOptional;
 
     /**
      * @test
@@ -167,12 +167,10 @@ class MatchPatternTest extends TestCase
      */
     public function should_findFirst_orThrow()
     {
-        // then
-        $this->expectException(NoSuchStreamElementException::class);
-        $this->expectExceptionMessage("Expected to get the first match, but subject was not matched");
-
         // when
-        pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail())->get();
+        $optional = pattern('Foo')->match('Bar')->stream()->findFirst(Functions::fail());
+        // then
+        $this->assertOptionalEmpty($optional);
     }
 
     /**
@@ -180,12 +178,10 @@ class MatchPatternTest extends TestCase
      */
     public function should_keys_findFirst_orThrow()
     {
-        // then
-        $this->expectException(NoSuchStreamElementException::class);
-        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
-
         // when
-        pattern('Foo')->match('Bar')->stream()->keys()->findFirst(Functions::fail())->get();
+        $optional = pattern('Foo')->match('Bar')->stream()->keys()->findFirst(Functions::fail());
+        // then
+        $this->assertOptionalEmpty($optional);
     }
 
     /**
@@ -290,10 +286,9 @@ class MatchPatternTest extends TestCase
     public function should_findFirstCallback_orThrow()
     {
         // when
-        $letters = pattern('Foo')->match('Foo')->stream()->findFirst(Functions::letters())->get();
-
+        $optional = pattern('Foo')->match('Foo')->stream()->findFirst(Functions::letters());
         // then
-        $this->assertSame(['F', 'o', 'o'], $letters);
+        $this->assertOptionalPresent($optional, ['F', 'o', 'o']);
     }
 
     /**

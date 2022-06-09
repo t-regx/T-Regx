@@ -66,9 +66,19 @@ class IntStream implements \Countable, \IteratorAggregate
     public function first(callable $consumer = null)
     {
         if ($consumer === null) {
-            return $this->firstOptional()->get();
+            return $this->firstValue();
         }
-        return $this->firstOptional()->map($consumer)->get();
+        return $consumer($this->firstValue());
+    }
+
+    private function firstValue()
+    {
+        try {
+            [$key, $value] = $this->upstream->first();
+            return $value;
+        } catch (StreamRejectedException $exception) {
+            throw $exception->throwable();
+        }
     }
 
     public function findFirst(callable $consumer): Optional
@@ -81,14 +91,17 @@ class IntStream implements \Countable, \IteratorAggregate
         try {
             [$key, $value] = $this->upstream->first();
         } catch (StreamRejectedException $exception) {
-            return new EmptyOptional($exception->throwable());
+            return new EmptyOptional();
         }
         return new PresentOptional($value);
     }
 
     public function nth(int $index): int
     {
-        return $this->findNth($index)->get();
+        if ($index < 0) {
+            throw new \InvalidArgumentException("Negative index: $index");
+        }
+        return $this->nth->value($index);
     }
 
     public function findNth(int $index): Optional

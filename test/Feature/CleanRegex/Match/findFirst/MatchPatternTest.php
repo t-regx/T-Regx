@@ -2,10 +2,10 @@
 namespace Test\Feature\CleanRegex\Match\findFirst;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsOptional;
 use Test\Utils\DetailFunctions;
-use Test\Utils\ExampleException;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
+use TRegx\CleanRegex\Exception\EmptyOptionalException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Pattern;
@@ -15,6 +15,8 @@ use TRegx\CleanRegex\Pattern;
  */
 class MatchPatternTest extends TestCase
 {
+    use AssertsOptional;
+
     /**
      * @test
      */
@@ -53,16 +55,10 @@ class MatchPatternTest extends TestCase
     {
         // given
         $pattern = Pattern::literal('Foo')->match('Foo');
-
         // when
-        $first1 = $pattern->findFirst('strToUpper')->orReturn(null);
-        $first2 = $pattern->findFirst('strToUpper')->orThrow(new \Exception());
-        $first3 = $pattern->findFirst('strToUpper')->orElse(Functions::fail());
-
+        $optional = $pattern->findFirst('strToUpper');
         // then
-        $this->assertSame('FOO', $first1);
-        $this->assertSame('FOO', $first2);
-        $this->assertSame('FOO', $first3);
+        $this->assertOptionalPresent($optional, 'FOO');
     }
 
     /**
@@ -77,22 +73,21 @@ class MatchPatternTest extends TestCase
         $pattern->findFirst(Functions::fail())->orElse(Functions::pass());
         try {
             $pattern->findFirst(Functions::fail())->get();
-        } catch (SubjectNotMatchedException $ignored) {
+        } catch (EmptyOptionalException $ignored) {
         }
     }
 
     /**
      * @test
      */
-    public function shouldThrow_orThrow_onNotMatchingSubject_throw()
+    public function shouldReturnEmptyOptional_onUnmatchingSubject()
     {
         // given
         $pattern = Pattern::literal('Foo')->match('Bar');
-        // then
-        $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
         // when
-        $pattern->findFirst('strRev')->get();
+        $optional = $pattern->findFirst('strRev');
+        // then
+        $this->assertOptionalEmpty($optional);
     }
 
     /**
@@ -102,10 +97,10 @@ class MatchPatternTest extends TestCase
     {
         // given
         $pattern = Pattern::literal('Foo')->match('Bar');
-        // then
-        $this->expectException(ExampleException::class);
         // when
-        $pattern->findFirst('strRev')->orThrow(new ExampleException());
+        $optional = $pattern->findFirst('strRev');
+        // then
+        $this->assertOptionalEmpty($optional);
     }
 
     /**

@@ -2,15 +2,16 @@
 namespace Test\Feature\CleanRegex\Match\group\findFirst;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsOptionalEmpty;
 use Test\Utils\ExampleException;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class MatchPatternTest extends TestCase
 {
+    use AssertsOptionalEmpty;
+
     /**
      * @test
      */
@@ -88,18 +89,15 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_unmatchedSubject()
+    public function shouldReturnEmptyOptional_forUnmatchedSubject()
     {
-        // then
-        $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get group #0 from the first match, but subject was not matched at all");
-
         // when
-        pattern('Foo')
+        $optional = pattern('Foo')
             ->match('123')
             ->group(0)
-            ->findFirst(Functions::fail())
-            ->get();
+            ->findFirst(Functions::fail());
+        // then
+        $this->assertOptionalEmpty($optional);
     }
 
     /**
@@ -107,16 +105,13 @@ class MatchPatternTest extends TestCase
      */
     public function shouldThrow_unmatchedGroup()
     {
-        // then
-        $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to get group 'group' from the first match, but the group was not matched");
-
         // when
-        pattern('Foo(?<group>Bar)?')
+        $optional = pattern('Foo(?<group>Bar)?')
             ->match('Foo')
             ->group('group')
-            ->findFirst(Functions::fail())
-            ->get();
+            ->findFirst(Functions::fail());
+        // then
+        $this->assertOptionalEmpty($optional);
     }
 
     /**
@@ -157,11 +152,12 @@ class MatchPatternTest extends TestCase
     public function shouldPass_NotMatched_unmatchedGroup()
     {
         // when
-        pattern('Foo(?<one>Bar)?')
+        $optional = pattern('Foo(?<one>Bar)?')
             ->match('Foo')
             ->group(1)
-            ->findFirst(Functions::fail())
-            ->orElse(Functions::assertArgumentless());
+            ->findFirst(Functions::fail());
+        // then
+        $this->assertOptionalEmpty($optional);
     }
 
     /**
@@ -179,7 +175,6 @@ class MatchPatternTest extends TestCase
         // when
         pattern('[A-Z](?<lowercase>[a-z]+)?')->match($subject)
             ->group('missing')
-            ->findFirst(Functions::fail())
-            ->orReturn('');
+            ->findFirst(Functions::fail());
     }
 }

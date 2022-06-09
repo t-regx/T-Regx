@@ -136,10 +136,11 @@ class Functions
         };
     }
 
-    public static function assertArgumentless(): callable
+    public static function assertArgumentless($return = null): callable
     {
-        return function (...$args): void {
+        return function (...$args) use ($return) {
             Assert::assertEmpty($args, 'Failed to assert that function received 0 arguments');
+            return $return;
         };
     }
 

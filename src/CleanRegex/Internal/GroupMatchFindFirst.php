@@ -1,15 +1,12 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacadeMatched;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
-use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
@@ -44,7 +41,7 @@ class GroupMatchFindFirst
             return $this->matchedOptional($first, $consumer);
         }
         if ($this->groupAware->hasGroup($this->group)) {
-            return new EmptyOptional($this->notMatchedOptional($first));
+            return new EmptyOptional();
         }
         throw new NonexistentGroupException($this->group);
     }
@@ -64,13 +61,5 @@ class GroupMatchFindFirst
             $signatures);
         $false = new FalseNegative($match);
         return new PresentOptional($consumer($facade->createGroup($this->group, $false, $false)));
-    }
-
-    private function notMatchedOptional(RawMatchOffset $first): \Throwable
-    {
-        if ($first->matched()) {
-            return new GroupNotMatchedException("Expected to get group $this->group from the first match, but the group was not matched");
-        }
-        return new SubjectNotMatchedException(new FromFirstMatchMessage($this->group), $this->subject);
     }
 }

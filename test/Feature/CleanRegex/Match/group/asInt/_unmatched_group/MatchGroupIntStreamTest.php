@@ -2,44 +2,33 @@
 namespace Test\Feature\CleanRegex\Match\group\asInt\_unmatched_group;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsOptionalEmpty;
 use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 
 class MatchGroupIntStreamTest extends TestCase
 {
-    use ExactExceptionMessage;
+    use ExactExceptionMessage, AssertsOptionalEmpty;
 
     /**
      * @test
      */
-    public function shouldThrow_asInt()
+    public function shouldGetEmptyOptional()
     {
         // given
         $optional = pattern('#(Foo)?')->match('#')->group(1)->asInt()->findFirst(Functions::fail());
-
         // then
-        $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get group #1 as integer from the first match, but the group was not matched');
-
-        // when
-        $optional->get();
+        $this->assertOptionalEmpty($optional);
     }
 
     /**
      * @test
      */
-    public function shouldThrow_asInt_distinct()
+    public function shouldGetEmptyOptional_distinct()
     {
         // given
         $optional = pattern('#(Foo)?')->match('#')->group(1)->asInt()->distinct()->findFirst(Functions::fail());
-
         // then
-        $this->expectException(NoSuchStreamElementException::class);
-        $this->expectExceptionMessage('Expected to get group #1 as integer from the first match, but the group was not matched');
-
-        // when
-        $optional->get();
+        $this->assertOptionalEmpty($optional);
     }
 }

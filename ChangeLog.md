@@ -6,6 +6,8 @@ Incoming
 
 * Breaking changes
     * Removed `Detail.usingDuplicateGroup()`. Using `J` modifier is still allowed, though of little use now.
+    * Previously `Optional.get()` threw exception depending on where the optional came from. Now
+      `Optional.get()` always throws `EmptyOptionalException`.
 * Bug fixes
     * `Pattern.match().groupBy()` now correctly groups by duplicate name with `J` modifier.
 

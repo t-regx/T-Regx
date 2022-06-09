@@ -2,21 +2,14 @@
 namespace TRegx\CleanRegex\Internal;
 
 use Throwable;
+use TRegx\CleanRegex\Exception\EmptyOptionalException;
 use TRegx\CleanRegex\Match\Optional;
 
 class EmptyOptional implements Optional
 {
-    /** @var Throwable */
-    private $throwable;
-
-    public function __construct(Throwable $throwable)
-    {
-        $this->throwable = $throwable;
-    }
-
     public function get()
     {
-        throw $this->throwable;
+        throw new EmptyOptionalException();
     }
 
     public function orReturn($substitute)

@@ -73,9 +73,24 @@ class Stream implements \Countable, \IteratorAggregate
     public function first(callable $consumer = null)
     {
         if ($consumer === null) {
-            return $this->firstOptional()->get();
+            return $this->firstValue();
         }
-        return $this->firstOptional()->map($consumer)->get();
+        return $consumer($this->firstValue());
+    }
+
+    private function firstValue()
+    {
+        try {
+            [$key, $value] = $this->upstream->first();
+            return $value;
+        } catch (StreamRejectedException $exception) {
+            $message = $exception->notMatchedMessage();
+        } catch (EmptyStreamException $exception) {
+            $message = new FromFirstStreamMessage();
+        } catch (UnmatchedStreamException $exception) {
+            $message = new FirstMatchMessage();
+        }
+        throw new NoSuchStreamElementException($message);
     }
 
     public function findFirst(callable $consumer): Optional
@@ -88,19 +103,17 @@ class Stream implements \Countable, \IteratorAggregate
         try {
             [$key, $value] = $this->upstream->first();
             return new PresentOptional($value);
-        } catch (StreamRejectedException $exception) {
-            $message = $exception->notMatchedMessage();
-        } catch (EmptyStreamException $exception) {
-            $message = new FromFirstStreamMessage();
-        } catch (UnmatchedStreamException $exception) {
-            $message = new FirstMatchMessage();
+        } catch (StreamRejectedException | EmptyStreamException | UnmatchedStreamException $exception) {
+            return new EmptyOptional();
         }
-        return new EmptyOptional(new NoSuchStreamElementException($message));
     }
 
     public function nth(int $index)
     {
-        return $this->findNth($index)->get();
+        if ($index < 0) {
+            throw new \InvalidArgumentException("Negative index: $index");
+        }
+        return $this->nth->value($index);
     }
 
     public function findNth(int $index): Optional

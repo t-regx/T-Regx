@@ -3,6 +3,7 @@ namespace Test\Feature\CleanRegex\Match;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\AssertsOptional;
 use Test\Utils\CausesBacktracking;
 use Test\Utils\DetailFunctions;
 use Test\Utils\ExactExceptionMessage;
@@ -20,7 +21,7 @@ use function pattern;
 
 class MatchPatternTest extends TestCase
 {
-    use TestCasePasses, CausesBacktracking, ExactExceptionMessage;
+    use TestCasePasses, CausesBacktracking, ExactExceptionMessage, AssertsOptional;
 
     /**
      * @test
@@ -134,12 +135,9 @@ class MatchPatternTest extends TestCase
     public function shouldGet_findFirst_orElseGet_groupsCount()
     {
         // when
-        $value = pattern('Foo')
-            ->match('Bar')
-            ->findFirst(Functions::fail())
-            ->orElse(Functions::constant('Different'));
+        $optional = pattern('Foo')->match('Bar')->findFirst(Functions::fail());
         // then
-        $this->assertSame('Different', $value);
+        $this->assertOptionalEmpty($optional);
     }
 
     /**
@@ -300,12 +298,10 @@ class MatchPatternTest extends TestCase
      */
     public function shouldThrow_asInt_findFirst_OnUnmatchedPattern_orThrow()
     {
+        // when
+        $optional = pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail());
         // then
-        $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
-
-        // given
-        pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail())->get();
+        $this->assertOptionalEmpty($optional);
     }
 
     /**
@@ -550,29 +546,10 @@ class MatchPatternTest extends TestCase
      */
     public function shouldMapOptionalEmpty()
     {
-        // then
-        $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
-
         // when
-        pattern('Foo')->match('bar')->findFirst(Functions::identity())->map(Functions::fail())->get();
-    }
-
-    /**
-     * @test
-     * @depends shouldMapOptionalEmpty
-     */
-    public function shouldMapOptionalEmptyExceptionSubject()
-    {
-        // given
         $optional = pattern('Foo')->match('bar')->findFirst(Functions::identity())->map(Functions::fail());
-        try {
-            // when
-            $optional->get();
-        } catch (SubjectNotMatchedException $exception) {
-            // then
-            $this->assertSame('bar', $exception->getSubject());
-        }
+        // then
+        $this->assertOptionalEmpty($optional);
     }
 
     /**
