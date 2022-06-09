@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
@@ -44,7 +45,7 @@ class GroupMatchFindFirst
             return $this->matchedOptional($first, $consumer);
         }
         if ($this->groupAware->hasGroup($this->group)) {
-            return $this->notMatchedOptional($first);
+            return new RejectedOptional($this->notMatchedOptional($first));
         }
         throw new NonexistentGroupException($this->group);
     }
@@ -66,11 +67,11 @@ class GroupMatchFindFirst
         return new PresentOptional($consumer($facade->createGroup($this->group, $false, $false)));
     }
 
-    private function notMatchedOptional(RawMatchOffset $first): Optional
+    private function notMatchedOptional(RawMatchOffset $first): \Throwable
     {
         if ($first->matched()) {
-            return GroupEmptyOptional::forFirst($this->group);
+            return new GroupNotMatchedException("Expected to get group $this->group from the first match, but the group was not matched");
         }
-        return new RejectedOptional(new SubjectNotMatchedException(new FromFirstMatchMessage($this->group), $this->subject));
+        return new SubjectNotMatchedException(new FromFirstMatchMessage($this->group), $this->subject);
     }
 }
