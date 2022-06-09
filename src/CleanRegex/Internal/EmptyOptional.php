@@ -4,8 +4,21 @@ namespace TRegx\CleanRegex\Internal;
 use Throwable;
 use TRegx\CleanRegex\Match\Optional;
 
-trait EmptyOptional
+class EmptyOptional implements Optional
 {
+    /** @var Throwable */
+    private $throwable;
+
+    public function __construct(Throwable $throwable)
+    {
+        $this->throwable = $throwable;
+    }
+
+    public function get()
+    {
+        throw $this->throwable;
+    }
+
     public function orReturn($substitute)
     {
         return $substitute;

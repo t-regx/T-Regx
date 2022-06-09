@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
+use TRegx\CleanRegex\Internal\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
@@ -13,7 +14,6 @@ use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\LimitStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
-use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\SkipStream;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\UniqueStream;
@@ -81,7 +81,7 @@ class IntStream implements \Countable, \IteratorAggregate
         try {
             [$key, $value] = $this->upstream->first();
         } catch (StreamRejectedException $exception) {
-            return new RejectedOptional($exception->throwable());
+            return new EmptyOptional($exception->throwable());
         }
         return new PresentOptional($value);
     }

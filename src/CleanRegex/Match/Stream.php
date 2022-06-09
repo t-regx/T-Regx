@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
+use TRegx\CleanRegex\Internal\EmptyOptional;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
@@ -17,7 +18,6 @@ use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\LimitStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\NthStreamElement;
-use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\SkipStream;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\UniqueStream;
@@ -95,7 +95,7 @@ class Stream implements \Countable, \IteratorAggregate
         } catch (UnmatchedStreamException $exception) {
             $message = new FirstMatchMessage();
         }
-        return new RejectedOptional(new NoSuchStreamElementException($message));
+        return new EmptyOptional(new NoSuchStreamElementException($message));
     }
 
     public function nth(int $index)

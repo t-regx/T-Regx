@@ -9,7 +9,6 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacadeMatched;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
-use TRegx\CleanRegex\Internal\Match\Stream\RejectedOptional;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\Group\FromFirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -45,7 +44,7 @@ class GroupMatchFindFirst
             return $this->matchedOptional($first, $consumer);
         }
         if ($this->groupAware->hasGroup($this->group)) {
-            return new RejectedOptional($this->notMatchedOptional($first));
+            return new EmptyOptional($this->notMatchedOptional($first));
         }
         throw new NonexistentGroupException($this->group);
     }
