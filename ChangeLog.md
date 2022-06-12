@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.31.0
+---------------
+
 * Breaking changes
     * Removed `Detail.usingDuplicateGroup()`. Using `J` modifier is still allowed, though of little use now.
     * Previously `Optional.get()` threw exception depending on where the optional came from. Now
