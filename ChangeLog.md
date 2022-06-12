@@ -4,7 +4,14 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Removed `Pattern.match().tuple()`.
+    * Removed `Pattern.match().triple()`.
+
+      These methods were added in earlier versions of T-Regx, when getting two
+      groups was complicated. However now that the library matured enough, there
+      is plenty of ways to get two groups. Additionally, `tuple()` implicitly
+      calls first, but it's not obvious from the look of the method.
 
 Added in 0.31.0
 ---------------

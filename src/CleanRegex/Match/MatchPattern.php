@@ -22,7 +22,6 @@ use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
-use TRegx\CleanRegex\Internal\MatchPatternHelpers;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
@@ -46,8 +45,6 @@ use TRegx\SafeRegex\preg;
 
 class MatchPattern implements \Countable, \IteratorAggregate, Structure
 {
-    use MatchPatternHelpers;
-
     /** @var Definition */
     private $definition;
     /** @var Subject */
