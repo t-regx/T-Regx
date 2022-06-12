@@ -16,7 +16,11 @@ class Cut
 
     public function twoPieces(string $subject): array
     {
-        $pieces = preg::split($this->definition->pattern, $subject, 3);
+        return $this->exactlyTwoPieces(preg::split($this->definition->pattern, $subject, 3));
+    }
+
+    private function exactlyTwoPieces(array $pieces): array
+    {
         $piecesAmount = \count($pieces);
         if ($piecesAmount === 2) {
             return $pieces;
