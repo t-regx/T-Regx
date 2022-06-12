@@ -23,6 +23,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $all = pattern('\d+')->match('12, 15, 16, 19, 20')
+            ->stream()
             ->asInt()
             ->limit(3)
             ->all();
@@ -37,6 +38,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $all = pattern('98')->match('98')
+            ->stream()
             ->asInt()
             ->flatMapAssoc(Functions::constant([14 => 'one', 18 => 'two']))
             ->limit(2)
@@ -51,7 +53,7 @@ class MatchPatternTest extends TestCase
     public function shouldLimitUnmatched()
     {
         // when
-        $empty = pattern('Foo')->match('Bar')->asInt()->limit(4)->all();
+        $empty = pattern('Foo')->match('Bar')->stream()->asInt()->limit(4)->all();
         // then
         $this->assertSame([], $empty);
     }
@@ -76,7 +78,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Negative limit: -1');
         // when
-        pattern('\d+')->match('12, 15, 16')->asInt()->limit(-1);
+        pattern('\d+')->match('12, 15, 16')->stream()->asInt()->limit(-1);
     }
 
     /**
@@ -88,7 +90,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Negative limit: -3');
         // when
-        pattern('\d+')->match('12, 15, 16')->asInt()->limit(-3);
+        pattern('\d+')->match('12, 15, 16')->stream()->asInt()->limit(-3);
     }
 
     /**
@@ -97,7 +99,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirstLimitOne()
     {
         // when
-        $first = pattern('54')->match('54')->asInt()->limit(1)->first();
+        $first = pattern('54')->match('54')->stream()->asInt()->limit(1)->first();
         // then
         $this->assertSame(54, $first);
     }
@@ -108,7 +110,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirstLimitThree()
     {
         // when
-        $first = pattern('54')->match('54,54')->asInt()->limit(3)->first();
+        $first = pattern('54')->match('54,54')->stream()->asInt()->limit(3)->first();
         // then
         $this->assertSame(54, $first);
     }
@@ -120,9 +122,9 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchStreamElementException::class);
-        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
         // when
-        pattern('Foo')->match('Bar')->asInt()->limit(2)->first();
+        pattern('Foo')->match('Bar')->stream()->asInt()->limit(2)->first();
     }
 
     /**
@@ -158,7 +160,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer in base 10");
         // when
-        pattern('Foo')->match('Foo')->asInt()->limit(0)->first();
+        pattern('Foo')->match('Foo')->stream()->asInt()->limit(0)->first();
     }
 
     /**
@@ -170,7 +172,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
         // when
-        pattern('54')->match('54')->asInt()->limit(0)->first();
+        pattern('54')->match('54')->stream()->asInt()->limit(0)->first();
     }
 
     /**
@@ -179,7 +181,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirstKey()
     {
         // when
-        $firstKey = pattern('54')->match('54,54')->asInt()->limit(3)->keys()->first();
+        $firstKey = pattern('54')->match('54,54')->stream()->asInt()->limit(3)->keys()->first();
         // then
         $this->assertSame(0, $firstKey);
     }
@@ -191,6 +193,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $firstKey = pattern('65')->match('65')
+            ->stream()
             ->asInt()
             ->flatMapAssoc(Functions::constant(['one' => 'one', 'two' => 'two']))
             ->limit(2)
@@ -207,9 +210,9 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchStreamElementException::class);
-        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
         // when
-        pattern('Foo')->match('Bar')->asInt()->limit(2)->keys()->first();
+        pattern('Foo')->match('Bar')->stream()->asInt()->limit(2)->keys()->first();
     }
 
     /**
@@ -219,9 +222,9 @@ class MatchPatternTest extends TestCase
     {
         // then
         $this->expectException(NoSuchStreamElementException::class);
-        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
         // when
-        pattern('Foo')->match('Bar')->asInt()->limit(0)->keys()->first();
+        pattern('Foo')->match('Bar')->stream()->asInt()->limit(0)->keys()->first();
     }
 
     /**
@@ -257,12 +260,12 @@ class MatchPatternTest extends TestCase
         $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
         // when
-        pattern('54')->match('54')->asInt()->limit(0)->keys()->first();
+        pattern('54')->match('54')->stream()->asInt()->limit(0)->keys()->first();
     }
 
     private function emptyStream(): Stream
     {
-        return pattern('14')->match('14')->asInt()->filter(Functions::constant(false));
+        return pattern('14')->match('14')->stream()->asInt()->filter(Functions::constant(false));
     }
 
     /**
@@ -274,7 +277,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        Pattern::of('+')->match('Foo')->asInt()->limit(2)->all();
+        Pattern::of('+')->match('Foo')->stream()->asInt()->limit(2)->all();
     }
 
     /**
@@ -286,7 +289,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        Pattern::of('+')->match('Foo')->asInt()->limit(2)->first();
+        Pattern::of('+')->match('Foo')->stream()->asInt()->limit(2)->first();
     }
 
     /**
@@ -298,7 +301,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        Pattern::of('+')->match('Foo')->asInt()->limit(0)->first();
+        Pattern::of('+')->match('Foo')->stream()->asInt()->limit(0)->first();
     }
 
     /**
@@ -310,7 +313,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        Pattern::of('+')->match('Foo')->asInt()->limit(0)->first();
+        Pattern::of('+')->match('Foo')->stream()->asInt()->limit(0)->first();
     }
 
     /**
@@ -322,6 +325,6 @@ class MatchPatternTest extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        Pattern::of('+')->match('Foo')->asInt()->limit(0)->keys()->first();
+        Pattern::of('+')->match('Foo')->stream()->asInt()->limit(0)->keys()->first();
     }
 }

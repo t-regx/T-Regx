@@ -6,6 +6,7 @@ Incoming
 
 * Breaking changes
     * Removed previously deprecated `Pattern.match().group()`.
+    * Removed `Pattern.match().asInt()`. Use `stream().asInt()` or `Detail.toInt()`.
 
 Added in 0.32.0
 ---------------

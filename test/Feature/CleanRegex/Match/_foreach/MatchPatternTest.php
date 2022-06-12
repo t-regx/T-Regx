@@ -27,18 +27,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldIterateMatch_asInt()
-    {
-        // when
-        $result = \iterator_to_array($this->match()->asInt());
-
-        // then
-        $this->assertSame([127, 0, 1, 2], $result);
-    }
-
-    /**
-     * @test
-     */
     public function shouldIterateMatch_forEach()
     {
         // given

@@ -22,7 +22,6 @@ use TRegx\CleanRegex\Internal\Match\Stream\MapEntriesStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\NthStreamElement;
 use TRegx\CleanRegex\Internal\Match\Stream\SkipStream;
-use TRegx\CleanRegex\Internal\Match\Stream\StreamRejectedException;
 use TRegx\CleanRegex\Internal\Match\Stream\StreamTerminal;
 use TRegx\CleanRegex\Internal\Match\Stream\UniqueStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
@@ -86,8 +85,6 @@ class Stream implements \Countable, \IteratorAggregate
         try {
             [$key, $value] = $this->upstream->first();
             return $value;
-        } catch (StreamRejectedException $exception) {
-            $message = $exception->notMatchedMessage();
         } catch (EmptyStreamException $exception) {
             $message = new FromFirstStreamMessage();
         } catch (UnmatchedStreamException $exception) {
@@ -106,7 +103,7 @@ class Stream implements \Countable, \IteratorAggregate
         try {
             [$key, $value] = $this->upstream->first();
             return new PresentOptional($value);
-        } catch (StreamRejectedException | EmptyStreamException | UnmatchedStreamException $exception) {
+        } catch (EmptyStreamException | UnmatchedStreamException $exception) {
             return new EmptyOptional();
         }
     }

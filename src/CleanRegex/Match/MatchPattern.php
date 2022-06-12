@@ -15,12 +15,9 @@ use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Flat\DictionaryFunction;
 use TRegx\CleanRegex\Internal\Match\Flat\ListFunction;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
-use TRegx\CleanRegex\Internal\Match\IntStream\MatchIntMessages;
-use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
 use TRegx\CleanRegex\Internal\Match\MatchItems;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
-use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
@@ -28,7 +25,6 @@ use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
-use TRegx\CleanRegex\Internal\Numeral;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
@@ -201,12 +197,6 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
     public function stream(): Stream
     {
         return new Stream(new MatchStream(new StreamBase($this->base), $this->subject, $this->allFactory, $this->groupAware));
-    }
-
-    public function asInt(int $base = 10): IntStream
-    {
-        $upstream = new MatchIntStream(new StreamBase($this->base), new Numeral\Base($base), $this->subject);
-        return new IntStream($upstream, new NthIntStreamElement($upstream, $this->subject, new MatchIntMessages()));
     }
 
     /**

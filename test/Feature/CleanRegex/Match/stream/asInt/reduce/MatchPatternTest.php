@@ -14,6 +14,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $reduced = pattern('\d+')->match('14, 15, 16')
+            ->stream()
             ->asInt()
             ->reduce(Functions::sum(), 2);
 
@@ -28,6 +29,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $result = pattern('Foo')->match('Bar')
+            ->stream()
             ->asInt()
             ->reduce(Functions::fail(), 12);
 
@@ -42,6 +44,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $result = pattern('123')->match('123')
+            ->stream()
             ->asInt()
             ->reduce(Functions::constant('Lorem'), 'Accumulator');
 
@@ -56,6 +59,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $result = pattern('45')->match('45')
+            ->stream()
             ->asInt()
             ->reduce(Functions::identity(), 'Accumulator');
 
@@ -75,6 +79,7 @@ class MatchPatternTest extends TestCase
 
         // when
         $result = pattern('45')->match('45')
+            ->stream()
             ->asInt()
             ->reduce($secondString, 'Accumulator');
 
@@ -94,6 +99,7 @@ class MatchPatternTest extends TestCase
 
         // when
         $result = pattern('58')->match('58')
+            ->stream()
             ->asInt()
             ->reduce($detailText, 'Accumulator');
 
@@ -116,6 +122,7 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('1')->match('1')
+            ->stream()
             ->asInt()
             ->reduce($tooManyArguments, 'Accumulator');
     }
@@ -135,6 +142,7 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('1')->match('1')
+            ->stream()
             ->asInt()
             ->reduce($tooManyArguments, 'Accumulator');
     }
@@ -149,6 +157,7 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('Foo')->match('Foo')
+            ->stream()
             ->asInt()
             ->reduce(null, 'Accumulator');
     }
@@ -160,6 +169,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $reduced = pattern('\d+')->match('123, 345')
+            ->stream()
             ->asInt()
             ->reduce(Functions::secondArgument(), 'Accumulator');
 
@@ -174,6 +184,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $reduced = pattern('\d+')->match('15,16,17')
+            ->stream()
             ->asInt()
             ->reduce(Functions::sum(), 0);
 
@@ -188,6 +199,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $reduced = pattern('\d+')->match('13,14')
+            ->stream()
             ->asInt()
             ->reduce(Functions::constant(null), 0);
 
@@ -202,6 +214,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $reduced = pattern('Foo')->match('Bar')
+            ->stream()
             ->asInt()
             ->reduce(Functions::fail(), null);
 

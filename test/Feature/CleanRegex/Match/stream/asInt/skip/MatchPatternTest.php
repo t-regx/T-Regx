@@ -24,7 +24,7 @@ class MatchPatternTest extends TestCase
     public function shouldSkipFirstTwoStreamElements()
     {
         // when
-        $remaining = pattern('\d+')->match('12, 15, 16, 18, 20')->asInt()->skip(2)->all();
+        $remaining = pattern('\d+')->match('12, 15, 16, 18, 20')->stream()->asInt()->skip(2)->all();
         // then
         $this->assertSameMatches([2 => 16, 3 => 18, 4 => 20], $remaining);
     }
@@ -35,7 +35,7 @@ class MatchPatternTest extends TestCase
     public function shouldSkipFirstFourStreamElements()
     {
         // when
-        $remaining = pattern('\d+')->match('12, 15, 16, 18, 20')->asInt()->skip(4)->all();
+        $remaining = pattern('\d+')->match('12, 15, 16, 18, 20')->stream()->asInt()->skip(4)->all();
         // then
         $this->assertSameMatches([4 => 20], $remaining);
     }
@@ -46,7 +46,7 @@ class MatchPatternTest extends TestCase
     public function shouldSkipZeroElements()
     {
         // when
-        $remaining = pattern('\d+')->match('12, 15, 16')->asInt()->skip(0)->all();
+        $remaining = pattern('\d+')->match('12, 15, 16')->stream()->asInt()->skip(0)->all();
         // then
         $this->assertSameMatches([12, 15, 16], $remaining);
     }
@@ -60,7 +60,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Negative offset: -1');
         // when
-        pattern('\d+')->match('12, 15, 16')->asInt()->skip(-1);
+        pattern('\d+')->match('12, 15, 16')->stream()->asInt()->skip(-1);
     }
 
     /**
@@ -72,7 +72,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Negative offset: -3');
         // when
-        pattern('\d+')->match('12, 15, 16')->asInt()->skip(-3);
+        pattern('\d+')->match('12, 15, 16')->stream()->asInt()->skip(-3);
     }
 
     /**
@@ -82,6 +82,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $count = pattern('13')->match('13')
+            ->stream()
             ->asInt()
             ->flatMap(Functions::arrayOfSize(1000, []))
             ->skip(2)
@@ -96,7 +97,7 @@ class MatchPatternTest extends TestCase
     public function shouldSkipEmptyStream()
     {
         // when
-        $empty = pattern('Foo')->match('Bar')->asInt()->skip(0)->all();
+        $empty = pattern('Foo')->match('Bar')->stream()->asInt()->skip(0)->all();
         // then
         $this->assertSame([], $empty);
     }
@@ -110,7 +111,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer in base 10");
         // when
-        pattern('Foo')->match('Foo,Foo')->asInt()->skip(10)->all();
+        pattern('Foo')->match('Foo,Foo')->stream()->asInt()->skip(10)->all();
     }
 
     /**
@@ -119,7 +120,7 @@ class MatchPatternTest extends TestCase
     public function shouldReturnEmptyStreamForOverflowingSkip()
     {
         // when
-        $empty = pattern('12')->match('12,12')->asInt()->skip(10)->all();
+        $empty = pattern('12')->match('12,12')->stream()->asInt()->skip(10)->all();
         // then
         $this->assertSame([], $empty);
     }
@@ -130,7 +131,7 @@ class MatchPatternTest extends TestCase
     public function shouldSkipKeys()
     {
         // when
-        $remainingKeys = pattern('\d+')->match('12, 15, 16, 18, 20')->asInt()->skip(2)->keys()->all();
+        $remainingKeys = pattern('\d+')->match('12, 15, 16, 18, 20')->stream()->asInt()->skip(2)->keys()->all();
         // then
         $this->assertSame([2, 3, 4], $remainingKeys);
     }
@@ -141,7 +142,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirstNoneSkippedFirst()
     {
         // when
-        $first = pattern('\d+')->match('12, 15, 16, 18, 20')->asInt()->skip(0)->first();
+        $first = pattern('\d+')->match('12, 15, 16, 18, 20')->stream()->asInt()->skip(0)->first();
         // then
         $this->assertSame(12, $first);
     }
@@ -152,7 +153,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetSecondOneSkippedFirst()
     {
         // when
-        $first = pattern('\d+')->match('12, 15, 16, 18, 20')->asInt()->skip(1)->first();
+        $first = pattern('\d+')->match('12, 15, 16, 18, 20')->stream()->asInt()->skip(1)->first();
         // then
         $this->assertSame(15, $first);
     }
@@ -163,7 +164,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetFourthThreeSkippedFirst()
     {
         // when
-        $first = pattern('\d+')->match('12, 15, 16, 18, 20')->asInt()->skip(3)->first();
+        $first = pattern('\d+')->match('12, 15, 16, 18, 20')->stream()->asInt()->skip(3)->first();
         // then
         $this->assertSame(18, $first);
     }
@@ -174,7 +175,7 @@ class MatchPatternTest extends TestCase
     public function shouldNotCauseCatastrophicBacktracking()
     {
         // when
-        $first = $this->backtrackingMatch()->asInt()->skip(0)->first();
+        $first = $this->backtrackingMatch()->stream()->asInt()->skip(0)->first();
         // then
         $this->assertSame(123, $first);
     }
@@ -185,7 +186,7 @@ class MatchPatternTest extends TestCase
     public function shouldNotCauseCatastrophicBacktrackingKeys()
     {
         // when
-        $first = $this->backtrackingMatch()->asInt()->skip(0)->keys()->first();
+        $first = $this->backtrackingMatch()->stream()->asInt()->skip(0)->keys()->first();
         // then
         $this->assertSame(0, $first);
     }
@@ -196,7 +197,9 @@ class MatchPatternTest extends TestCase
     public function shouldNotCauseCatastrophicBacktrackingKeysassoc()
     {
         // when
-        $first = $this->backtrackingMatch()->asInt()
+        $first = $this->backtrackingMatch()
+            ->stream()
+            ->asInt()
             ->flatMapAssoc(Functions::constant(['key' => 'value']))
             ->skip(0)
             ->keys()
@@ -211,7 +214,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirstKeyZero()
     {
         // when
-        $firstKey = pattern('\d+')->match('12, 15, 16, 18, 20')->asInt()->skip(0)->keys()->first();
+        $firstKey = pattern('\d+')->match('12, 15, 16, 18, 20')->stream()->asInt()->skip(0)->keys()->first();
         // then
         $this->assertSame(0, $firstKey);
     }
@@ -222,7 +225,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetFirstKeyThree()
     {
         // when
-        $firstKey = pattern('\d+')->match('12, 15, 16, 18, 20')->asInt()->skip(3)->keys()->first();
+        $firstKey = pattern('\d+')->match('12, 15, 16, 18, 20')->stream()->asInt()->skip(3)->keys()->first();
         // then
         $this->assertSame(3, $firstKey);
     }
@@ -234,6 +237,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $firstKey = pattern('13')->match('13')
+            ->stream()
             ->asInt()
             ->flatMapAssoc(Functions::constant([
                 'One'   => 1,
@@ -254,6 +258,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $firstKey = pattern('54')->match('54')
+            ->stream()
             ->asInt()
             ->flatMapAssoc(Functions::constant([
                 10 => 'One',
@@ -273,6 +278,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         $firstKey = pattern('65')->match('65')
+            ->stream()
             ->asInt()
             ->flatMapAssoc(Functions::constant([
                 'One'   => 'One',
@@ -294,7 +300,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
         // when
-        pattern('Foo')->match('Bar')->asInt()->skip(1)->first();
+        pattern('Foo')->match('Bar')->stream()->asInt()->skip(1)->first();
     }
 
     /**
@@ -306,7 +312,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
         // when
-        pattern('Foo')->match('Bar')->asInt()->skip(1)->keys()->first();
+        pattern('Foo')->match('Bar')->stream()->asInt()->skip(1)->keys()->first();
     }
 
     /**
@@ -318,7 +324,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
         // when
-        pattern('12')->match('12')->asInt()->skip(2)->first();
+        pattern('12')->match('12')->stream()->asInt()->skip(2)->first();
     }
 
     /**
@@ -330,7 +336,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
         // when
-        pattern('13')->match('13')->asInt()->skip(2)->keys()->first();
+        pattern('13')->match('13')->stream()->asInt()->skip(2)->keys()->first();
     }
 
     /**
@@ -342,7 +348,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
         // when
-        Pattern::of('13|14')->match('13, 14')->asInt()->map(Functions::identity())->skip(2)->first();
+        Pattern::of('13|14')->match('13, 14')->stream()->asInt()->map(Functions::identity())->skip(2)->first();
     }
 
     /**
@@ -354,7 +360,7 @@ class MatchPatternTest extends TestCase
         $this->expectException(NoSuchStreamElementException::class);
         $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
         // when
-        pattern('25')->match('25')->asInt()->skip(2)->keys()->first();
+        pattern('25')->match('25')->stream()->asInt()->skip(2)->keys()->first();
     }
 
     /**
@@ -364,6 +370,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         pattern('\d+')->match('123, 456, 789')
+            ->stream()
             ->asInt()
             ->map(Functions::collect($texts))
             ->skip(2)
@@ -379,6 +386,7 @@ class MatchPatternTest extends TestCase
     {
         // when
         pattern('\d+')->match('321, 654, 987')
+            ->stream()
             ->asInt()
             ->map(Functions::collect($texts))
             ->skip(2)
@@ -394,7 +402,7 @@ class MatchPatternTest extends TestCase
     public function shouldGetSecondSkippedFirst()
     {
         // when
-        $second = Pattern::of('42|69')->match('42, 69')->asInt()->map(Functions::identity())->skip(1)->first();
+        $second = Pattern::of('42|69')->match('42, 69')->stream()->asInt()->map(Functions::identity())->skip(1)->first();
         // then
         $this->assertSame(69, $second);
     }

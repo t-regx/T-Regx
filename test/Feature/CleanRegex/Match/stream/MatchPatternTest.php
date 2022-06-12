@@ -373,18 +373,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldMapToIntegerDifferentBaseBefore()
-    {
-        // when
-        $result = pattern('\d+')->match('12, 15, 16')->asInt(16)->stream()->all();
-
-        // then
-        $this->assertSameMatches([18, 21, 22], $result);
-    }
-
-    /**
-     * @test
-     */
     public function shouldMapToIntegerDifferentBaseAfter()
     {
         // when
