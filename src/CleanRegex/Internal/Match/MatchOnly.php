@@ -1,8 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match;
 
-use InvalidArgumentException;
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Limit;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
 use TRegx\SafeRegex\preg;
 
@@ -19,19 +19,16 @@ class MatchOnly
         $this->base = $base;
     }
 
-    public function get(int $limit): array
+    public function get(Limit $limit): array
     {
-        if ($limit < 0) {
-            throw new InvalidArgumentException("Negative limit: $limit");
-        }
-        if ($limit === 0) {
+        if ($limit->empty()) {
             $this->validatePattern();
             return [];
         }
-        if ($limit === 1) {
+        if ($limit->intValue() === 1) {
             return $this->getOneMatch();
         }
-        return \array_slice($this->base->matchAll()->getTexts(), 0, $limit);
+        return \array_slice($this->base->matchAll()->getTexts(), 0, $limit->intValue());
     }
 
     private function validatePattern(): void

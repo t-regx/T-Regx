@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupMatchFindFirst;
+use TRegx\CleanRegex\Internal\Limit;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacadeMatched;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
@@ -110,11 +111,13 @@ class GroupMatch implements \IteratorAggregate
 
     public function only(int $limit): array
     {
-        if ($limit < 0) {
-            throw new InvalidArgumentException("Negative limit: $limit");
-        }
+        return $this->limitedGroups(new Limit($limit));
+    }
+
+    private function limitedGroups(Limit $limit): array
+    {
         $matches = $this->getAllForGroup();
-        return \array_slice($matches->getGroupTexts($this->group->nameOrIndex()), 0, $limit);
+        return \array_slice($matches->getGroupTexts($this->group->nameOrIndex()), 0, $limit->intValue());
     }
 
     private function getAllForGroup(): RawMatchesOffset

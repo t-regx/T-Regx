@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\EmptyOptional;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupNames;
+use TRegx\CleanRegex\Internal\Limit;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
@@ -133,7 +134,7 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
      */
     public function only(int $limit): array
     {
-        return $this->matchOnly->get($limit);
+        return $this->matchOnly->get(new Limit($limit));
     }
 
     public function nth(int $index): string

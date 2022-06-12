@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Internal\EmptyOptional;
+use TRegx\CleanRegex\Internal\Limit;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
 use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
@@ -171,10 +172,7 @@ class Stream implements \Countable, \IteratorAggregate
 
     public function limit(int $limit): Stream
     {
-        if ($limit < 0) {
-            throw new \InvalidArgumentException("Negative limit: $limit");
-        }
-        return $this->next(new LimitStream($this->upstream, $limit));
+        return $this->next(new LimitStream($this->upstream, new Limit($limit)));
     }
 
     public function skip(int $offset): Stream
