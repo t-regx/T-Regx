@@ -110,10 +110,10 @@ class GroupMatch implements \IteratorAggregate
 
     public function only(int $limit): array
     {
-        $matches = $this->getAllForGroup();
         if ($limit < 0) {
             throw new InvalidArgumentException("Negative limit: $limit");
         }
+        $matches = $this->getAllForGroup();
         return \array_slice($matches->getGroupTexts($this->group->nameOrIndex()), 0, $limit);
     }
 

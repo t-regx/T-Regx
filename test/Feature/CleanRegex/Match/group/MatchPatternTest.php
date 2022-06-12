@@ -154,8 +154,8 @@ class MatchPatternTest extends TestCase
     public function shouldThrowPreferNonexistentGroupForNegativeOnly()
     {
         // then
-        $this->expectException(NonexistentGroupException::class);
-        $this->expectExceptionMessage("Nonexistent group: 'missing'");
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Negative limit: -1");
         // when
         pattern('Foo')->match('Foo')->group('missing')->only(-1);
     }
