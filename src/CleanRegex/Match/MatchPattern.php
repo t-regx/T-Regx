@@ -43,7 +43,7 @@ use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Structure;
 use TRegx\SafeRegex\preg;
 
-class MatchPattern implements \Countable, \IteratorAggregate, Structure
+class MatchPattern implements Structure, \Countable, \IteratorAggregate
 {
     /** @var Definition */
     private $definition;
@@ -155,7 +155,7 @@ class MatchPattern implements \Countable, \IteratorAggregate, Structure
 
     public function map(callable $mapper): array
     {
-        return \array_values(\array_map($mapper, $this->getDetailObjects()));
+        return \array_map($mapper, $this->getDetailObjects());
     }
 
     /**
