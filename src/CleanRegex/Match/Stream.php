@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Internal\EmptyOptional;
+use TRegx\CleanRegex\Internal\Index;
 use TRegx\CleanRegex\Internal\Limit;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
@@ -111,18 +112,12 @@ class Stream implements \Countable, \IteratorAggregate
 
     public function nth(int $index)
     {
-        if ($index < 0) {
-            throw new \InvalidArgumentException("Negative index: $index");
-        }
-        return $this->nth->value($index);
+        return $this->nth->value(new Index($index));
     }
 
     public function findNth(int $index): Optional
     {
-        if ($index < 0) {
-            throw new \InvalidArgumentException("Negative index: $index");
-        }
-        return $this->nth->optional($index);
+        return $this->nth->optional(new Index($index));
     }
 
     public function map(callable $mapper): Stream

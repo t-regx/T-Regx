@@ -1,16 +1,17 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Message\Stream;
 
+use TRegx\CleanRegex\Internal\Index;
 use TRegx\CleanRegex\Internal\Message\Message;
 
 class FromNthStreamMessage implements Message
 {
-    /** @var int */
+    /** @var Index */
     private $index;
     /** @var int */
     private $count;
 
-    public function __construct(int $index, int $count)
+    public function __construct(Index $index, int $count)
     {
         $this->index = $index;
         $this->count = $count;

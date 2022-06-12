@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Internal\EmptyOptional;
+use TRegx\CleanRegex\Internal\Index;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Message\Stream\FromNthStreamMessage;
@@ -19,7 +20,7 @@ class NthStreamElement
         $this->upstream = $upstream;
     }
 
-    public function optional(int $index): Optional
+    public function optional(Index $index): Optional
     {
         try {
             return $this->unmatchedOptional($index);
@@ -28,16 +29,16 @@ class NthStreamElement
         }
     }
 
-    private function unmatchedOptional(int $index): Optional
+    private function unmatchedOptional(Index $index): Optional
     {
         $elements = \array_values($this->upstream->all());
-        if (\array_key_exists($index, $elements)) {
-            return new PresentOptional($elements[$index]);
+        if ($index->in($elements)) {
+            return new PresentOptional($index->valueFrom($elements));
         }
         return new EmptyOptional();
     }
 
-    public function value(int $index)
+    public function value(Index $index)
     {
         try {
             return $this->unmatchedValue($index);
@@ -46,11 +47,11 @@ class NthStreamElement
         }
     }
 
-    private function unmatchedValue(int $index)
+    private function unmatchedValue(Index $index)
     {
         $elements = \array_values($this->upstream->all());
-        if (\array_key_exists($index, $elements)) {
-            return $elements[$index];
+        if ($index->in($elements)) {
+            return $index->valueFrom($elements);
         }
         throw new NoSuchNthElementException((new FromNthStreamMessage($index, \count($elements)))->getMessage());
     }

@@ -1,20 +1,21 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Message\SubjectNotMatched;
 
+use TRegx\CleanRegex\Internal\Index;
 use TRegx\CleanRegex\Internal\Message\Message;
 
 class NthMatchAsIntMessage implements Message
 {
-    /** @var int */
-    private $nth;
+    /** @var Index */
+    private $index;
 
-    public function __construct(int $nth)
+    public function __construct(Index $index)
     {
-        $this->nth = $nth;
+        $this->index = $index;
     }
 
     public function getMessage(): string
     {
-        return "Expected to get the $this->nth-nth match as integer, but subject was not matched";
+        return "Expected to get the $this->index-nth match as integer, but subject was not matched";
     }
 }
