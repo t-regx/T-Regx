@@ -39,7 +39,6 @@ class MatchPatternTest extends TestCase
 
     public function test_asInt_first()
     {
-        $this->assertSame(123, $this->match()->asInt()->first());
         $this->assertSame(123, $this->match()->stream()->asInt()->first());
     }
 

@@ -259,30 +259,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_asInt_findFirst_OnUnmatchedPattern_orThrow()
-    {
-        // when
-        $optional = pattern('Foo')->match('Bar')->asInt()->findFirst(Functions::fail());
-        // then
-        $this->assertOptionalEmpty($optional);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_asInt_findFirst_OnInvalidBase()
-    {
-        // then
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid base: 1 (supported bases 2-36, case-insensitive)');
-
-        // given
-        pattern('Foo')->match('Bar')->asInt(1)->findFirst(Functions::fail())->get();
-    }
-
-    /**
-     * @test
-     */
     public function shouldBe_Countable()
     {
         // given
@@ -310,105 +286,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturn_asInt_all()
-    {
-        // given
-        $subject = "I'll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.";
-
-        // when
-        $integers = pattern('\d+')->match($subject)->asInt()->all();
-
-        // then
-        $this->assertSame([9, 9, 6, 7, 45], $integers);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturn_asInt_all_base16()
-    {
-        // when
-        $integers = pattern('\w+')->match('14, fa')->asInt(16)->all();
-
-        // then
-        $this->assertSame([20, 250], $integers);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForInvalidBase()
-    {
-        // given
-        $subject = "I'll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.";
-
-        // then
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid base: 0 (supported bases 2-36, case-insensitive)');
-
-        // when
-        pattern('\d+')->match($subject)->asInt(0)->all();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_asInt_first()
-    {
-        // given
-        $subject = "I'll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.";
-
-        // when
-        $integer = pattern('\d+')->match($subject)->asInt()->first();
-
-        // then
-        $this->assertSame(9, $integer);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGet_asInt_base4_first()
-    {
-        // given
-        $subject = "Number 321";
-
-        // when
-        $integer = pattern('\d+')->match($subject)->asInt(4)->first();
-
-        // then
-        $this->assertSame(57, $integer);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_asInt_filter_first()
-    {
-        // then
-        $this->expectException(NoSuchStreamElementException::class);
-        $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
-
-        // when
-        pattern('\d+')->match('12 13')->asInt()->filter(Functions::constant(false))->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_asInt_filter_first_OnUnmatchedSubject()
-    {
-        // then
-        $this->expectException(NoSuchStreamElementException::class);
-        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
-
-        // when
-        pattern('Foo')->match('Bar')->asInt()->filter(Functions::fail())->first();
-    }
-
-    /**
-     * @test
-     */
     public function shouldThrow_stream_filter_first_OnUnmatchedSubject()
     {
         // then
@@ -417,19 +294,6 @@ class MatchPatternTest extends TestCase
 
         // when
         pattern('Foo')->match('Bar')->stream()->filter(Functions::fail())->first();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrow_asInt_first_OnUnmatchedSubject()
-    {
-        // then
-        $this->expectException(SubjectNotMatchedException::class);
-        $this->expectExceptionMessage('Expected to get the first match as integer, but subject was not matched');
-
-        // when
-        pattern('Foo')->match('Bar')->asInt()->first();
     }
 
     /**
