@@ -7,7 +7,7 @@ use Test\Utils\Functions;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Stream
- * @covers \TRegx\CleanRegex\Internal\Match\StreamTerminal
+ * @covers \TRegx\CleanRegex\Internal\Match\Stream\StreamTerminal
  */
 class StreamTest extends TestCase
 {

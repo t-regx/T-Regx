@@ -1,8 +1,7 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Match;
+namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
-use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 
 class StreamTerminal
 {
