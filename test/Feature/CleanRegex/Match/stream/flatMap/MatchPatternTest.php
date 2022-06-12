@@ -4,6 +4,7 @@ namespace Test\Feature\CleanRegex\Match\stream\flatMap;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
+use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Pattern;
 
@@ -255,5 +256,33 @@ class MatchPatternTest extends TestCase
         \next($array);
         \next($array);
         return $array;
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFlatMapFirstThrow_forEmptyStream()
+    {
+        // given
+        $stream = Pattern::of('Foo')->match('Foo')->stream()->flatMap(Functions::constant([]));
+        // then
+        $this->expectException(NoSuchStreamElementException::class);
+        $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
+        // when
+        $stream->first(Functions::fail());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFlatMapAssocFirstThrow_forEmptyStream()
+    {
+        // given
+        $stream = Pattern::of('Foo')->match('Foo')->stream()->flatMapAssoc(Functions::constant([]));
+        // then
+        $this->expectException(NoSuchStreamElementException::class);
+        $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
+        // when
+        $stream->first(Functions::fail());
     }
 }
