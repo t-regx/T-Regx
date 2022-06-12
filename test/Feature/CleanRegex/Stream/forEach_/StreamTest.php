@@ -32,8 +32,12 @@ class StreamTest extends TestCase
         // given
         $stream = ArrayStream::of(['Foo' => '9', 2 => 'Bar']);
         // when
-        $stream->forEach(Functions::collectAsEntries($arguments));
+        $stream->forEach(Functions::collectEntries($arguments));
         // then
-        $this->assertSame(['9' => 'Foo', 'Bar' => 2], $arguments);
+        $arr = [
+            ['9', 'Foo'],
+            ['Bar', 2]
+        ];
+        $this->assertSame($arr, $arguments);
     }
 }

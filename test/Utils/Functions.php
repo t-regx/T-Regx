@@ -187,11 +187,11 @@ class Functions
         };
     }
 
-    public static function collectAsEntries(array &$entries = null): callable
+    public static function collectEntries(array &$entries = null): callable
     {
         $entries = [];
-        return static function ($key, $value) use (&$entries) {
-            $entries[$key] = $value;
+        return static function ($value, $key) use (&$entries) {
+            $entries[] = [$value, $key];
         };
     }
 

@@ -353,8 +353,12 @@ class StreamTest extends TestCase
             ->stream()
             ->flatMapAssoc(Functions::constant(['Foo' => '9', 2 => 'Bar']));
         // when
-        $stream->forEach(Functions::collectAsEntries($arguments));
+        $stream->forEach(Functions::collectEntries($arguments));
         // then
-        $this->assertSame(['9' => 'Foo', 'Bar' => 2], $arguments);
+        $expected = [
+            ['9', 'Foo'],
+            ['Bar', 2],
+        ];
+        $this->assertSame($expected, $arguments);
     }
 }
