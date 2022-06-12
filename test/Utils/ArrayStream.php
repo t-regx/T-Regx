@@ -1,8 +1,6 @@
 <?php
 namespace Test\Utils;
 
-use Throwable;
-use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Match\Stream;
@@ -11,12 +9,12 @@ class ArrayStream
 {
     public static function empty(): Stream
     {
-        return new Stream(self::upstream([], new EmptyStreamException()));
+        return new Stream(self::upstream([]));
     }
 
     public static function unmatched(): Stream
     {
-        return new Stream(self::upstream([], new UnmatchedStreamException()));
+        return new Stream(self::upstream([]));
     }
 
     public static function of(array $elements): Stream
@@ -24,23 +22,18 @@ class ArrayStream
         if (empty($elements)) {
             throw new \AssertionError("Empty stream");
         }
-        return new Stream(self::upstream($elements, new \AssertionError()));
+        return new Stream(self::upstream($elements));
     }
 
-    private static function upstream(array $elements, Throwable $empty): Upstream
+    private static function upstream(array $elements): Upstream
     {
-        return new class($elements, $empty) implements Upstream {
-            use Fails;
-
+        return new class($elements) implements Upstream {
             /** @var array */
             private $elements;
-            /** @var Throwable */
-            private $empty;
 
-            public function __construct(array $elements, Throwable $empty)
+            public function __construct(array $elements)
             {
                 $this->elements = $elements;
-                $this->empty = $empty;
             }
 
             public function all(): array
