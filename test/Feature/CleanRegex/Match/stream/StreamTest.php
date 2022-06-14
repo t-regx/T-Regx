@@ -342,23 +342,4 @@ class StreamTest extends TestCase
         ];
         $this->assertSame($expected, $grouppedBy->all());
     }
-
-    /**
-     * @test
-     */
-    public function shouldForEach_acceptKey()
-    {
-        // given
-        $stream = Pattern::of('Foo')->match('Foo')
-            ->stream()
-            ->flatMapAssoc(Functions::constant(['Foo' => '9', 2 => 'Bar']));
-        // when
-        $stream->forEach(Functions::collectEntries($arguments));
-        // then
-        $expected = [
-            ['9', 'Foo'],
-            ['Bar', 2],
-        ];
-        $this->assertSame($expected, $arguments);
-    }
 }

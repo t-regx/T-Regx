@@ -194,8 +194,8 @@ class GroupMatch implements \IteratorAggregate
 
     public function forEach(callable $consumer): void
     {
-        foreach ($this->details() as $index => $group) {
-            $consumer($group, $index);
+        foreach ($this->details() as $group) {
+            $consumer($group);
         }
     }
 

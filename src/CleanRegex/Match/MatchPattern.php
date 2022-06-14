@@ -148,8 +148,8 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
 
     public function forEach(callable $consumer): void
     {
-        foreach ($this as $index => $object) {
-            $consumer($object, $index);
+        foreach ($this as $detail) {
+            $consumer($detail);
         }
     }
 

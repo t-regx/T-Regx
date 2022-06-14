@@ -259,43 +259,6 @@ class MatchPatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldForEach_acceptKey()
-    {
-        // given
-        $arguments = [];
-
-        // when
-        pattern('\w+')->match('Foo, Bar, Cat')
-            ->forEach(function (string $argument, int $index) use (&$arguments) {
-                $arguments[$argument] = $index;
-            });
-
-        // then
-        $this->assertSame(['Foo' => 0, 'Bar' => 1, 'Cat' => 2], $arguments);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldForEachGroup_acceptKey()
-    {
-        // given
-        $arguments = [];
-
-        // when
-        pattern('(\w+)')->match('Foo, Bar, Cat')
-            ->group(1)
-            ->forEach(function (string $argument, int $index) use (&$arguments) {
-                $arguments[$argument] = $index;
-            });
-
-        // then
-        $this->assertSame(['Foo' => 0, 'Bar' => 1, 'Cat' => 2], $arguments);
-    }
-
-    /**
-     * @test
-     */
     public function shouldThrow_asInt_findFirst_OnUnmatchedPattern_orThrow()
     {
         // when

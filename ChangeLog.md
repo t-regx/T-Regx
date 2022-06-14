@@ -12,6 +12,9 @@ Incoming
       groups was complicated. However now that the library matured enough, there
       is plenty of ways to get two groups. Additionally, `tuple()` implicitly
       calls first, but it's not obvious from the look of the method.
+    * `Pattern.match().forEach()` callback no longer receives `$index` as its second argument
+    * `Pattern.match().group().forEach()` callback no longer receives `$index` as its second argument
+    * `Pattern.match().stream().forEach()` callback no longer receives `$key` as its second argument
 
 Added in 0.31.0
 ---------------

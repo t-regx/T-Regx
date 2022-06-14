@@ -23,21 +23,4 @@ class StreamTest extends TestCase
         // then
         $this->assertSame(['One', 'Two', 'Three'], $result);
     }
-
-    /**
-     * @test
-     */
-    public function shouldForEach_acceptKey()
-    {
-        // given
-        $stream = ArrayStream::of(['Foo' => '9', 2 => 'Bar']);
-        // when
-        $stream->forEach(Functions::collectEntries($arguments));
-        // then
-        $arr = [
-            ['9', 'Foo'],
-            ['Bar', 2]
-        ];
-        $this->assertSame($arr, $arguments);
-    }
 }

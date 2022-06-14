@@ -24,8 +24,8 @@ class StreamTerminal
 
     public function forEach(callable $consumer): void
     {
-        foreach ($this->all() as $key => $value) {
-            $consumer($value, $key);
+        foreach ($this->all() as $value) {
+            $consumer($value);
         }
     }
 
