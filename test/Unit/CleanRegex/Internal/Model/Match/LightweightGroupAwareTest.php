@@ -2,7 +2,7 @@
 namespace Test\Unit\CleanRegex\Internal\Model\Match;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Definitions;
+use Test\Utils\Values\Definitions;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 

@@ -2,8 +2,8 @@
 namespace Test\Unit\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\PatternEntitiesAssertion;
-use Test\Utils\PcreDependant;
+use Test\Utils\Agnostic\PcreDependant;
+use Test\Utils\Prepared\PatternEntitiesAssertion;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Figure\ExpectedFigures;

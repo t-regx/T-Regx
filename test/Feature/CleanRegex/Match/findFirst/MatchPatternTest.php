@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Match\findFirst;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsOptional;
+use Test\Utils\Assertion\AssertsOptional;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\EmptyOptionalException;

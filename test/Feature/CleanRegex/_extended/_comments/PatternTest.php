@@ -2,8 +2,8 @@
 namespace Test\Feature\CleanRegex\_extended\_comments;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsPattern;
-use Test\Utils\TestCasePasses;
+use Test\Utils\Assertion\AssertsPattern;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Pattern;
 
 class PatternTest extends TestCase

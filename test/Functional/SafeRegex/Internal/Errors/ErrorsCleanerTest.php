@@ -2,7 +2,7 @@
 namespace Test\Functional\SafeRegex\Internal\Errors;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Warnings;
+use Test\Utils\Runtime\CausesWarnings;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Internal\Errors\Errors\BothHostError;
 use TRegx\SafeRegex\Internal\Errors\Errors\CompileError;
@@ -12,7 +12,7 @@ use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 
 class ErrorsCleanerTest extends TestCase
 {
-    use Warnings;
+    use CausesWarnings;
 
     /**
      * @test

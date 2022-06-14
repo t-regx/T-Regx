@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Match\for_each;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use Test\Utils\TestCasePasses;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Pattern;
 

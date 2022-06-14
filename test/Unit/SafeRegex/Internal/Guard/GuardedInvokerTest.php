@@ -2,9 +2,9 @@
 namespace Test\Unit\SafeRegex\Internal\Guard;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsHasClass;
+use Test\Utils\Assertion\AssertsHasClass;
 use Test\Utils\Functions;
-use Test\Utils\Warnings;
+use Test\Utils\Runtime\CausesWarnings;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
@@ -16,7 +16,7 @@ use TRegx\SafeRegex\Internal\Guard\GuardedInvoker;
  */
 class GuardedInvokerTest extends TestCase
 {
-    use Warnings, AssertsHasClass;
+    use CausesWarnings, AssertsHasClass;
 
     /**
      * @test

@@ -2,8 +2,8 @@
 namespace Test\Feature\CleanRegex\Stream\filter\keys;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ArrayStream;
 use Test\Utils\Functions;
+use Test\Utils\Stream\ArrayStream;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Stream

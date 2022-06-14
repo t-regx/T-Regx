@@ -2,8 +2,8 @@
 namespace Test\Feature\CleanRegex\_entry_points;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsPattern;
-use Test\Utils\ExactExceptionMessage;
+use Test\Utils\Assertion\AssertsPattern;
+use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
@@ -12,7 +12,7 @@ use TRegx\CleanRegex\PcrePattern;
 
 class PatternTest extends TestCase
 {
-    use AssertsPattern, ExactExceptionMessage;
+    use AssertsPattern, TestCaseExactMessage;
 
     /**
      * @test

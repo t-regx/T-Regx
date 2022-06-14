@@ -1,5 +1,5 @@
 <?php
-namespace Test\Utils;
+namespace Test\Utils\Values;
 
 use TRegx\CleanRegex\Internal\Candidates;
 use TRegx\CleanRegex\Internal\Definition;
@@ -9,8 +9,14 @@ use TRegx\CleanRegex\Internal\Prepared\Expression\Standard;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\PatternPhrase;
 use TRegx\CleanRegex\Internal\UnsuitableStringCondition;
 
+/**
+ * @deprecated
+ */
 class Definitions
 {
+    /**
+     * @deprecated
+     */
     public static function pattern(string $pattern, string $flags = null): Definition
     {
         /**

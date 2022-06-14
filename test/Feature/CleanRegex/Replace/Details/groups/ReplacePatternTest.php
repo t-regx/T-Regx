@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Replace\Details\groups;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsGroup;
+use Test\Utils\Assertion\AssertsGroup;
 use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Pattern;
 

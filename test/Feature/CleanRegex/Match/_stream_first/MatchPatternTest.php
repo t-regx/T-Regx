@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Match\_stream_first;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CausesBacktracking;
+use Test\Utils\Backtrack\CausesBacktracking;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\MatchPattern;

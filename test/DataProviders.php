@@ -1,8 +1,8 @@
 <?php
 namespace Test;
 
-use Test\Utils\ClassWithToString;
-use Test\Utils\Definitions;
+use Test\Utils\Classes\ClassWithToString;
+use Test\Utils\Values\Definitions;
 use TRegx\CleanRegex\Internal\Definition;
 
 class DataProviders
@@ -62,7 +62,7 @@ class DataProviders
             'array'      => [[1, new \stdClass(), 3], 'array (3)'],
             'resource'   => [self::getResource(), 'resource'],
             'stdClass'   => [new \stdClass(), 'stdClass'],
-            '__toString' => [new ClassWithToString('string'), 'Test\Utils\ClassWithToString'],
+            '__toString' => [new ClassWithToString('string'), 'Test\Utils\Classes\ClassWithToString'],
             'class'      => [Definitions::pcre('//'), Definition::class],
             'function'   => [function () {
             }, 'Closure']

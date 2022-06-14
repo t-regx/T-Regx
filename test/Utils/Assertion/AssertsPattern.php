@@ -1,5 +1,5 @@
 <?php
-namespace Test\Utils;
+namespace Test\Utils\Assertion;
 
 use PHPUnit\Framework\Assert;
 use TRegx\CleanRegex\Pattern;

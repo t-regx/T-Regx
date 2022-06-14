@@ -1,7 +1,7 @@
 <?php
 namespace Test\Fakes\SafeRegex\Internal\Errors\Errors;
 
-use Test\Utils\Fails;
+use Test\Utils\Assertion\Fails;
 use TRegx\SafeRegex\Exception\PregException;
 use TRegx\SafeRegex\Internal\Errors\Errors\CompileError;
 use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeError;

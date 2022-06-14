@@ -2,10 +2,10 @@
 namespace Test\Feature\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsPattern;
+use Test\Utils\Assertion\AssertsPattern;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
-use Test\Utils\TestCasePasses;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Match\Details\Detail;

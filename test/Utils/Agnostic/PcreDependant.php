@@ -1,12 +1,12 @@
 <?php
-namespace Test\Utils;
+namespace Test\Utils\Agnostic;
 
+use PHPUnit\Framework\Assert;
+use Test\Utils\Iterables;
 use TRegx\Pcre;
 
 trait PcreDependant
 {
-    public static abstract function assertSame($expected, $actual, string $message = ''): void;
-
     public function pcreDependentStructure(array $pcre1Patterns, array $pcre2Patterns): array
     {
         $this->assertStructuresCompatible(array_values($pcre1Patterns), array_values($pcre2Patterns));
@@ -31,7 +31,7 @@ trait PcreDependant
     private function assertStructuresCompatible(array $array1, array $array2): void
     {
         foreach (Iterables::zip($array1, $array2) as [[$item1], [$item2]]) {
-            $this->assertSame($item1, $item2);
+            Assert::assertSame($item1, $item2);
         }
     }
 

@@ -2,8 +2,8 @@
 namespace Test\Feature\CleanRegex\Match;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
+use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
@@ -15,7 +15,7 @@ use TRegx\CleanRegex\Pattern;
  */
 class GroupMatchTest extends TestCase
 {
-    use ExactExceptionMessage;
+    use TestCaseExactMessage;
 
     /**
      * @test

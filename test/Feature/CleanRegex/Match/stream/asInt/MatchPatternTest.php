@@ -4,8 +4,8 @@ namespace Test\Feature\CleanRegex\Match\stream\asInt;
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Match\Details\ConstantInt;
 use Test\Utils\DetailFunctions;
-use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
+use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
@@ -16,7 +16,7 @@ use TRegx\CleanRegex\Pattern;
  */
 class MatchPatternTest extends TestCase
 {
-    use ExactExceptionMessage;
+    use TestCaseExactMessage;
 
     /**
      * @test

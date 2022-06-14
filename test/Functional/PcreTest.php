@@ -2,7 +2,7 @@
 namespace Test\Functional;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\TestCaseConditional;
+use Test\Utils\TestCase\TestCaseConditional;
 use TRegx\Pcre;
 
 /**

@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Match\group\stream;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsSameMatches;
+use Test\Utils\Assertion\AssertsSameMatches;
 use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;

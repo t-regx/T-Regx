@@ -2,12 +2,12 @@
 namespace Test\Functional\SafeRegex\Internal\Errors\Errors;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Warnings;
+use Test\Utils\Runtime\CausesWarnings;
 use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeErrorFactory;
 
 class RuntimeErrorFactoryTest extends TestCase
 {
-    use Warnings;
+    use CausesWarnings;
 
     /**
      * @test

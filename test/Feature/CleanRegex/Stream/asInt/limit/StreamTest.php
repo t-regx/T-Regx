@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Stream\asInt\limit;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ArrayStream;
+use Test\Utils\Stream\ArrayStream;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 
 /**

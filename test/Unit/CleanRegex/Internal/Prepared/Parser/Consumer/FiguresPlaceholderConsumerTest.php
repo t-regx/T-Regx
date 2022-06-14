@@ -3,7 +3,7 @@ namespace Test\Unit\CleanRegex\Internal\Prepared\Parser\Consumer;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Prepared\Figure\ConstantFigures;
-use Test\Utils\PatternEntitiesAssertion;
+use Test\Utils\Prepared\PatternEntitiesAssertion;
 use TRegx\CleanRegex\Internal\Prepared\Figure\ExpectedFigures;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\FiguresPlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupConsumer;

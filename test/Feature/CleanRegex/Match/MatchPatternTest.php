@@ -3,13 +3,13 @@ namespace Test\Feature\CleanRegex\Match;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsOptional;
-use Test\Utils\CausesBacktracking;
+use Test\Utils\Assertion\AssertsOptional;
+use Test\Utils\Backtrack\CausesBacktracking;
+use Test\Utils\Classes\ExampleException;
 use Test\Utils\DetailFunctions;
-use Test\Utils\ExactExceptionMessage;
-use Test\Utils\ExampleException;
 use Test\Utils\Functions;
-use Test\Utils\TestCasePasses;
+use Test\Utils\TestCase\TestCaseExactMessage;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
@@ -21,7 +21,7 @@ use function pattern;
 
 class MatchPatternTest extends TestCase
 {
-    use TestCasePasses, CausesBacktracking, ExactExceptionMessage, AssertsOptional;
+    use TestCasePasses, CausesBacktracking, TestCaseExactMessage, AssertsOptional;
 
     /**
      * @test

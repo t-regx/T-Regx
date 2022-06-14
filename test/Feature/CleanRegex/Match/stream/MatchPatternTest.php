@@ -2,12 +2,12 @@
 namespace Test\Feature\CleanRegex\Match\stream;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsOptional;
-use Test\Utils\AssertsSameMatches;
-use Test\Utils\Definitions;
+use Test\Utils\Assertion\AssertsOptional;
+use Test\Utils\Assertion\AssertsSameMatches;
+use Test\Utils\Classes\ExampleException;
 use Test\Utils\DetailFunctions;
-use Test\Utils\ExampleException;
 use Test\Utils\Functions;
+use Test\Utils\Values\Definitions;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;

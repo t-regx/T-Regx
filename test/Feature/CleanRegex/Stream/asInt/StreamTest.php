@@ -4,7 +4,7 @@ namespace Test\Feature\CleanRegex\Stream\asInt;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Match\Details\ConstantInt;
-use Test\Utils\ArrayStream;
+use Test\Utils\Stream\ArrayStream;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;

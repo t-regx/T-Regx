@@ -3,7 +3,7 @@ namespace Test\Unit\CleanRegex\Internal\Prepared\Figure;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ExactExceptionMessage;
+use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use UnderflowException;
@@ -14,7 +14,7 @@ use function next;
  */
 class InjectFiguresTest extends TestCase
 {
-    use ExactExceptionMessage;
+    use TestCaseExactMessage;
 
     /**
      * @test

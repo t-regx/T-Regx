@@ -3,7 +3,7 @@ namespace Test\Functional\SafeRegex\_callback_flags;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
-use Test\Utils\TestCaseConditional;
+use Test\Utils\TestCase\TestCaseConditional;
 use TRegx\SafeRegex\preg;
 
 class pregTest extends TestCase

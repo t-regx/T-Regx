@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Replace\atMost;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CausesBacktracking;
+use Test\Utils\Backtrack\CausesBacktracking;
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
 use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;
 

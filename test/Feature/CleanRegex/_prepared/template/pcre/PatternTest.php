@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\_prepared\template\pcre;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsPattern;
+use Test\Utils\Assertion\AssertsPattern;
 use TRegx\CleanRegex\PcrePattern;
 
 class PatternTest extends TestCase

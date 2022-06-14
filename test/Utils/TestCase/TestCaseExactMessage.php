@@ -1,7 +1,7 @@
 <?php
-namespace Test\Utils;
+namespace Test\Utils\TestCase;
 
-trait ExactExceptionMessage
+trait TestCaseExactMessage
 {
     public function expectExceptionMessage(string $message): void
     {
@@ -20,8 +20,10 @@ trait ExactExceptionMessage
     {
         if (\method_exists($this, 'expectExceptionMessageMatches')) {
             $this->expectExceptionMessageMatches($string);
-        } else {
+        } else if (\method_exists($this, 'expectExceptionMessageRegExp')) {
             $this->expectExceptionMessageRegExp($string);
+        } else {
+            $this->fail();
         }
     }
 }

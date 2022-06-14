@@ -1,7 +1,7 @@
 <?php
 namespace Test\Fakes\CleanRegex\Internal\Pcre\Legacy;
 
-use Test\Utils\Fails;
+use Test\Utils\Assertion\Fails;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatch;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatches;

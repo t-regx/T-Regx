@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Match\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsSameMatches;
+use Test\Utils\Assertion\AssertsSameMatches;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;

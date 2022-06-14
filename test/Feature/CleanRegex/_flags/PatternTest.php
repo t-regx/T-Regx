@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\_flags;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsPattern;
+use Test\Utils\Assertion\AssertsPattern;
 use TRegx\CleanRegex\Pattern;
 
 class PatternTest extends TestCase

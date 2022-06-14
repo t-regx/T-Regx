@@ -2,7 +2,7 @@
 namespace Test\Functional\SafeRegex\Internal\Errors\Errors;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Warnings;
+use Test\Utils\Runtime\CausesWarnings;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeError;
@@ -10,7 +10,7 @@ use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeErrorFactory;
 
 class RuntimeErrorTest extends TestCase
 {
-    use Warnings;
+    use CausesWarnings;
 
     /**
      * @test

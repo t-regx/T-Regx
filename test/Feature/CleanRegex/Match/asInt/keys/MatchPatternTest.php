@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Match\asInt\keys;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ExampleException;
+use Test\Utils\Classes\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;

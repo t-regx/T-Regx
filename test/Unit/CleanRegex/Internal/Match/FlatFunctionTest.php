@@ -2,8 +2,8 @@
 namespace Test\Unit\CleanRegex\Internal\Match;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
+use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
 use TRegx\CleanRegex\Internal\Nested;
@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Internal\Nested;
  */
 class FlatFunctionTest extends TestCase
 {
-    use ExactExceptionMessage;
+    use TestCaseExactMessage;
 
     /**
      * @test

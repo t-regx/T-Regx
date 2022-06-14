@@ -1,7 +1,7 @@
 <?php
 namespace Test\Fakes\CleanRegex\Replace\Details;
 
-use Test\Utils\Fails;
+use Test\Utils\Assertion\Fails;
 use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 
 class ConstantModification implements Modification

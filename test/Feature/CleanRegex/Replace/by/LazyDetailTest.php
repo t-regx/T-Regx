@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Replace\by;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsGroup;
+use Test\Utils\Assertion\AssertsGroup;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Pattern;

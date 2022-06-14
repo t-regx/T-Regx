@@ -1,5 +1,5 @@
 <?php
-namespace Test\Utils;
+namespace Test\Utils\Values;
 
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;

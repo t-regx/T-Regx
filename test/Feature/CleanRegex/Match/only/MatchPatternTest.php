@@ -4,9 +4,7 @@ namespace Test\Feature\CleanRegex\Match\only;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\ThrowSubject;
-use Test\Utils\Definitions;
-use Test\Utils\PhpunitPolyfill;
-use Test\Utils\PhpVersionDependent;
+use Test\Utils\Values\Definitions;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
@@ -16,8 +14,6 @@ use TRegx\Exception\MalformedPatternException;
  */
 class MatchPatternTest extends TestCase
 {
-    use PhpunitPolyfill;
-
     /**
      * @test
      */
@@ -106,8 +102,24 @@ class MatchPatternTest extends TestCase
         $pattern = new MatchPattern(Definitions::pattern('invalid)'), new ThrowSubject());
         // then
         $this->expectException(MalformedPatternException::class);
-        $this->expectExceptionMessageMatches(PhpVersionDependent::getUnmatchedParenthesisMessage(7));
+        $this->expectExceptionMessageMatches($this->getUnmatchedParenthesisMessage(7));
         // when
         $pattern->only(0);
+    }
+
+    public function expectExceptionMessageMatches(string $message): void
+    {
+        if (method_exists($this, 'expectExceptionMessageMatches')) {
+            parent::expectExceptionMessageMatches($message);
+        } else if (method_exists($this, 'expectExceptionMessageRegExp')) {
+            $this->expectExceptionMessageRegExp($message);
+        } else {
+            $this->fail();
+        }
+    }
+
+    private function getUnmatchedParenthesisMessage(int $offset): string
+    {
+        return "/(preg_match_all\(\): )?(Compilation failed: )?([Mm]issing|[Uu]nmatched) (closing parenthesis|parentheses|\)) at offset $offset/";
     }
 }

@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Match\Details\groups\first;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsGroup;
+use Test\Utils\Assertion\AssertsGroup;
 use Test\Utils\DetailFunctions;
 
 class MatchDetailTest extends TestCase

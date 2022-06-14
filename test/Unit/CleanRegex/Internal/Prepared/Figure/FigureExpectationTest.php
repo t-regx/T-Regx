@@ -3,7 +3,7 @@ namespace Test\Unit\CleanRegex\Internal\Prepared\Figure;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Prepared\Figure\ConstantFigures;
-use Test\Utils\TestCasePasses;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Internal\Prepared\Figure\FigureExpectation;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Internal\Prepared\Template\AlterationToken;

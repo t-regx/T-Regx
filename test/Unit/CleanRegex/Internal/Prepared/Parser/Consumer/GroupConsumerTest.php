@@ -2,9 +2,9 @@
 namespace Test\Unit\CleanRegex\Internal\Prepared\Parser\Consumer;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\EntityFailAssertion;
-use Test\Utils\PatternEntitiesAssertion;
-use Test\Utils\PcreDependant;
+use Test\Utils\Agnostic\PcreDependant;
+use Test\Utils\Prepared\EntityFailAssertion;
+use Test\Utils\Prepared\PatternEntitiesAssertion;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupCloseConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralConsumer;

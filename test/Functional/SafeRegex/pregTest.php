@@ -3,9 +3,9 @@ namespace Test\Functional\SafeRegex;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ClassWithToString;
+use Test\Utils\Classes\ClassWithToString;
 use Test\Utils\Functions;
-use Test\Utils\Warnings;
+use Test\Utils\Runtime\CausesWarnings;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
 use TRegx\SafeRegex\Exception\PregMalformedPatternException;
@@ -14,7 +14,7 @@ use TRegx\SafeRegex\preg;
 
 class pregTest extends TestCase
 {
-    use Warnings;
+    use CausesWarnings;
 
     /**
      * @test

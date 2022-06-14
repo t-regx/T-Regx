@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Match\stream\_all_unmatched;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use Test\Utils\TestCasePasses;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Pattern;
 
