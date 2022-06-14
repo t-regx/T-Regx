@@ -2,7 +2,7 @@
 namespace Test\Unit\CleanRegex\Internal\Prepared\Parser\Consumer;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\PatternEntitiesAssertion;
+use Test\Utils\Prepared\PatternEntitiesAssertion;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupCloseConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupClose;
 

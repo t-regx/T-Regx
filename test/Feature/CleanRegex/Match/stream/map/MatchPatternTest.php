@@ -4,7 +4,7 @@ namespace Test\Feature\CleanRegex\Match\stream\map;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
-use Test\Utils\TestCasePasses;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Pattern;
 

@@ -2,8 +2,8 @@
 namespace Test\Feature\CleanRegex\Match\group\findFirst;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsOptionalEmpty;
-use Test\Utils\ExampleException;
+use Test\Utils\Assertion\AssertsOptionalEmpty;
+use Test\Utils\Classes\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Group\Group;

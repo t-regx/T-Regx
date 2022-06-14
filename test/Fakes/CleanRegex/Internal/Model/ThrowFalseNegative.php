@@ -1,7 +1,7 @@
 <?php
 namespace Test\Fakes\CleanRegex\Internal\Model;
 
-use Test\Utils\Fails;
+use Test\Utils\Assertion\Fails;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 

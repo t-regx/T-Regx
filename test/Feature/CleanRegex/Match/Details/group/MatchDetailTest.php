@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Match\Details\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ExplicitStringEncoding;
+use Test\Utils\Runtime\ExplicitStringEncoding;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Detail;

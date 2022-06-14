@@ -1,8 +1,10 @@
 <?php
-namespace Test\Utils;
+namespace Test\Utils\Assertion;
 
 use Exception;
 use PHPUnit\Framework\Assert;
+use Test\Utils\Classes\ExampleException;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\EmptyOptionalException;
 use TRegx\CleanRegex\Match\Optional;
 

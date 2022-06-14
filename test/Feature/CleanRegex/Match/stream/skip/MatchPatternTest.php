@@ -3,8 +3,8 @@ namespace Test\Feature\CleanRegex\Match\stream\skip;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsSameMatches;
-use Test\Utils\CausesBacktracking;
+use Test\Utils\Assertion\AssertsSameMatches;
+use Test\Utils\Backtrack\CausesBacktracking;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;

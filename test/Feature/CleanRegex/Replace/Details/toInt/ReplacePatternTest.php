@@ -3,13 +3,13 @@ namespace Test\Feature\CleanRegex\Replace\Details\toInt;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
-use Test\Utils\ExactExceptionMessage;
+use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use function pattern;
 
 class ReplacePatternTest extends TestCase
 {
-    use ExactExceptionMessage;
+    use TestCaseExactMessage;
 
     /**
      * @test

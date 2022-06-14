@@ -1,5 +1,5 @@
 <?php
-namespace Test\Utils;
+namespace Test\Utils\Assertion;
 
 trait AssertsOptional
 {

@@ -2,15 +2,15 @@
 namespace Test\Feature\CleanRegex\_entry_points;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsPattern;
-use Test\Utils\ExactExceptionMessage;
+use Test\Utils\Assertion\AssertsPattern;
+use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
 use TRegx\CleanRegex\PcrePattern;
 use TRegx\Exception\MalformedPatternException;
 
 class PcrePatternTest extends TestCase
 {
-    use AssertsPattern, ExactExceptionMessage;
+    use AssertsPattern, TestCaseExactMessage;
 
     /**
      * @test

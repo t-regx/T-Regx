@@ -3,7 +3,7 @@ namespace Test\Unit\CleanRegex\Internal\Match\Details;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Model\ThrowEntry;
-use Test\Utils\TestCasePasses;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Internal\Match\Details\NumericDetail;
 use TRegx\CleanRegex\Internal\Model\Entry;
 

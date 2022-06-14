@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\_prepared\mask;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsPattern;
+use Test\Utils\Assertion\AssertsPattern;
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Pattern;

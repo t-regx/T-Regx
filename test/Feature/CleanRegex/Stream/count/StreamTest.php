@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Stream\count;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ArrayStream;
+use Test\Utils\Stream\ArrayStream;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Stream

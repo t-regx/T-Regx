@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Match\group\asInt\_unmatched\_custom;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ExampleException;
+use Test\Utils\Classes\ExampleException;
 use Test\Utils\Functions;
 
 class MatchGroupIntStreamTest extends TestCase

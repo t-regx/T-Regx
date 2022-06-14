@@ -5,8 +5,8 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Match\Details\ConstantInt;
 use Test\Utils\DetailFunctions;
-use Test\Utils\ExactExceptionMessage;
 use Test\Utils\Functions;
+use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
 use TRegx\CleanRegex\Pattern;
@@ -16,7 +16,7 @@ use TRegx\CleanRegex\Pattern;
  */
 class StreamTest extends TestCase
 {
-    use ExactExceptionMessage;
+    use TestCaseExactMessage;
 
     /**
      * @test

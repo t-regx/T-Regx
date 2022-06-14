@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Replace\focus\by\group;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\FocusGroupPairs;
+use Test\Utils\Values\FocusGroupPairs;
 use TRegx\CleanRegex\Match\Details\Detail;
 
 class ReplacePatternTest extends TestCase

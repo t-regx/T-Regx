@@ -2,9 +2,9 @@
 namespace Test\Feature\CleanRegex\Match\asInt;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ExactExceptionMessage;
-use Test\Utils\ExampleException;
+use Test\Utils\Classes\ExampleException;
 use Test\Utils\Functions;
+use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
@@ -19,7 +19,7 @@ use TRegx\CleanRegex\Pattern;
  */
 class MatchPatternTest extends TestCase
 {
-    use ExactExceptionMessage;
+    use TestCaseExactMessage;
 
     /**
      * @test

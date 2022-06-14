@@ -2,14 +2,14 @@
 namespace Test\Functional\SafeRegex;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Warnings;
+use Test\Utils\Runtime\CausesWarnings;
 use TRegx\DataProvider\DataProviders;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\preg;
 
 class PatternExceptionsTest extends TestCase
 {
-    use Warnings;
+    use CausesWarnings;
 
     /**
      * @test

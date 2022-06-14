@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Match\stream\findNth;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsOptional;
+use Test\Utils\Assertion\AssertsOptional;
 use Test\Utils\Functions;
 
 /**

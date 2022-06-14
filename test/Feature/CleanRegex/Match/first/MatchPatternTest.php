@@ -2,13 +2,13 @@
 namespace Test\Feature\CleanRegex\Match\first;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsGroup;
-use Test\Utils\CausesBacktracking;
-use Test\Utils\ControledBacktracking;
-use Test\Utils\Definitions;
+use Test\Utils\Assertion\AssertsGroup;
+use Test\Utils\Backtrack\CausesBacktracking;
+use Test\Utils\Backtrack\ControledBacktracking;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
-use Test\Utils\TestCasePasses;
+use Test\Utils\TestCase\TestCasePasses;
+use Test\Utils\Values\Definitions;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Detail;

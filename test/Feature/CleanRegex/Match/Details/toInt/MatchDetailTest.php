@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Match\Details\toInt;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ExactExceptionMessage;
+use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Match\Details\Detail;
@@ -11,7 +11,7 @@ use function pattern;
 
 class MatchDetailTest extends TestCase
 {
-    use ExactExceptionMessage;
+    use TestCaseExactMessage;
 
     /**
      * @test

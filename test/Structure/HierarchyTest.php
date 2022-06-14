@@ -2,7 +2,7 @@
 namespace Test\Structure;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsHasClass;
+use Test\Utils\Assertion\AssertsHasClass;
 use TRegx\CleanRegex\Exception\PatternException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\Exception\MalformedPatternException;

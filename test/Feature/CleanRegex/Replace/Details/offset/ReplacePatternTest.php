@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Replace\Details\offset;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsGroup;
+use Test\Utils\Assertion\AssertsGroup;
 use Test\Utils\DetailFunctions;
 
 class ReplacePatternTest extends TestCase

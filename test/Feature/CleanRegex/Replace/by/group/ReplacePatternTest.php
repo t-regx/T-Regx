@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Replace\by\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ExampleException;
+use Test\Utils\Classes\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;

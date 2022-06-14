@@ -3,8 +3,8 @@ namespace Test\Unit\CleanRegex\Internal\Prepared\Figure;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Prepared\Figure\ConstantFigures;
-use Test\Utils\ExactExceptionMessage;
-use Test\Utils\TestCasePasses;
+use Test\Utils\TestCase\TestCaseExactMessage;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Internal\Prepared\Figure\ExpectedFigures;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
@@ -15,7 +15,7 @@ use TRegx\CleanRegex\Internal\Prepared\Template\NullToken;
  */
 class ExpectedFiguresTest extends TestCase
 {
-    use TestCasePasses, ExactExceptionMessage;
+    use TestCasePasses, TestCaseExactMessage;
 
     /**
      * @test

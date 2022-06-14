@@ -1,7 +1,8 @@
 <?php
-namespace Test\Utils;
+namespace Test\Utils\Assertion;
 
 use PHPUnit\Framework\Assert;
+use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\Optional;
 
 trait AssertsOptionalPresent

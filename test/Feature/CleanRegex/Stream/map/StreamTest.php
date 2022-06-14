@@ -2,9 +2,9 @@
 namespace Test\Feature\CleanRegex\Stream\map;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ArrayStream;
 use Test\Utils\Functions;
-use Test\Utils\TestCasePasses;
+use Test\Utils\Stream\ArrayStream;
+use Test\Utils\TestCase\TestCasePasses;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Stream

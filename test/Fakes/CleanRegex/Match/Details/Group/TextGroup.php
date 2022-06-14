@@ -1,7 +1,7 @@
 <?php
 namespace Test\Fakes\CleanRegex\Match\Details\Group;
 
-use Test\Utils\Fails;
+use Test\Utils\Assertion\Fails;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class TextGroup implements Group

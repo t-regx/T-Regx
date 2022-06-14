@@ -2,8 +2,8 @@
 namespace Test\Feature\CleanRegex\Replace\focus\by\group\map;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\ExampleException;
-use Test\Utils\FocusGroupPairs;
+use Test\Utils\Classes\ExampleException;
+use Test\Utils\Values\FocusGroupPairs;
 use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;
 
 class ReplacePatternTest extends TestCase

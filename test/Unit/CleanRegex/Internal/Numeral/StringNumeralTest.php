@@ -3,7 +3,7 @@ namespace Test\Unit\CleanRegex\Internal\Numeral;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Numeral\ThrowBase;
-use Test\Utils\ArchitectureDependant;
+use Test\Utils\Agnostic\ArchitectureDependant;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
 use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;

@@ -2,7 +2,7 @@
 namespace Test\Unit\CleanRegex\Internal\Prepared\Parser\Consumer;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\PatternEntitiesAssertion;
+use Test\Utils\Prepared\PatternEntitiesAssertion;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\EscapeConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Escaped;

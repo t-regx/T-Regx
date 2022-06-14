@@ -3,9 +3,9 @@ namespace Test\Feature\CleanRegex\Match\group\asInt;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsOptionalEmpty;
-use Test\Utils\ExactExceptionMessage;
+use Test\Utils\Assertion\AssertsOptionalEmpty;
 use Test\Utils\Functions;
+use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
@@ -16,7 +16,7 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 
 class MatchGroupIntStreamTest extends TestCase
 {
-    use ExactExceptionMessage, AssertsOptionalEmpty;
+    use TestCaseExactMessage, AssertsOptionalEmpty;
 
     /**
      * @test

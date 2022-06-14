@@ -3,9 +3,9 @@ namespace Test\Feature\CleanRegex\Match\Details;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Test\Utils\AssertsGroup;
+use Test\Utils\Assertion\AssertsGroup;
 use Test\Utils\DetailFunctions;
-use Test\Utils\ExplicitStringEncoding;
+use Test\Utils\Runtime\ExplicitStringEncoding;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Match\MatchPattern;

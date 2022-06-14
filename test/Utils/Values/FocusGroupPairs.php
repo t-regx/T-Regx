@@ -1,5 +1,5 @@
 <?php
-namespace Test\Utils;
+namespace Test\Utils\Values;
 
 class FocusGroupPairs
 {

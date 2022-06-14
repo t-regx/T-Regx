@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Replace\by\group\callback;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\CausesBacktracking;
+use Test\Utils\Backtrack\CausesBacktracking;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Group\Group;
