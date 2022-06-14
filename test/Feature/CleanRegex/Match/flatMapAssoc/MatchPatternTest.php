@@ -24,4 +24,17 @@ class MatchPatternTest extends TestCase
         // when
         $pattern->flatMapAssoc(Functions::constant('string'));
     }
+
+    /**
+     * @test
+     */
+    public function shouldFlatMapArrays()
+    {
+        // given
+        $match = Pattern::of('Foo')->match('Foo');
+        // when
+        $result = $match->flatMapAssoc(Functions::constant(['a', 1 => ['b'], 2 => [['c']]]));
+        // then
+        $this->assertSame(['a', ['b'], [['c']]], $result);
+    }
 }

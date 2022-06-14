@@ -108,6 +108,19 @@ class MatchPatternTest extends TestCase
         $pattern->flatMap(Functions::constant('string'));
     }
 
+    /**
+     * @test
+     */
+    public function shouldFlatMapArrays()
+    {
+        // given
+        $match = Pattern::of('Foo')->match('Foo');
+        // when
+        $result = $match->flatMap(Functions::constant(['a', ['b'], [['c']]]));
+        // then
+        $this->assertSame(['a', ['b'], [['c']]], $result);
+    }
+
     private function match(string $subject): MatchPattern
     {
         return Pattern::of("([A-Z])?[a-z']+")->match($subject);
