@@ -15,6 +15,9 @@ Incoming
     * `Pattern.match().forEach()` callback no longer receives `$index` as its second argument
     * `Pattern.match().group().forEach()` callback no longer receives `$index` as its second argument
     * `Pattern.match().stream().forEach()` callback no longer receives `$key` as its second argument
+* Features
+    * Added `Stream.mapEntries()`, similar to `Stream.map()`, but accepts `callable` with two
+      arguments `($key, $value)`, whereas `Stream.map()`'s `callable` accepts `($value)`.
 
 Added in 0.31.0
 ---------------

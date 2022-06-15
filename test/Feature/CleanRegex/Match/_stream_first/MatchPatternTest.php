@@ -69,6 +69,11 @@ class MatchPatternTest extends TestCase
         $this->assertSame('123', $this->match()->stream()->map(Functions::identity())->first()->text());
     }
 
+    public function test_stream_mapEntries()
+    {
+        $this->assertSame('123', $this->match()->stream()->mapEntries(Functions::secondArgument())->first()->text());
+    }
+
     public function test_stream_groupByCallback()
     {
         $this->assertSame('123', $this->match()->stream()->groupByCallback(Functions::identity())->first()->text());
