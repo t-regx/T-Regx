@@ -111,4 +111,32 @@ class MatchPatternTest extends TestCase
         // then
         $this->assertEmpty($result);
     }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroup()
+    {
+        // given
+        $pattern = Pattern::of('(?<name>indexed):(?<name>runtime)', 'J');
+        $match = $pattern->match('indexed:runtime');
+        // when
+        [$detail] = $match->map(Functions::identity());
+        // then
+        $this->assertSame('indexed', $detail->get('name'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupMatched()
+    {
+        // given
+        $pattern = Pattern::of('Foo (?<name>bad){0}(?<name>good)', 'J');
+        $match = $pattern->match('Foo good');
+        // when
+        [$detail] = $match->map(Functions::identity());
+        // then
+        $this->assertFalse($detail->group('name')->matched());
+    }
 }
