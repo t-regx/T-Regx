@@ -2,10 +2,9 @@
 namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Internal\Nested;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 
-class FlatFunction
+class ArrayFunction
 {
     /** @var callable */
     private $function;
@@ -16,11 +15,6 @@ class FlatFunction
     {
         $this->function = $function;
         $this->methodName = $methodName;
-    }
-
-    public function map(array $arguments): Nested
-    {
-        return new Nested(\array_map([$this, 'apply'], $arguments));
     }
 
     public function apply($argument): array
