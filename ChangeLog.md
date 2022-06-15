@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.32.0
+---------------
+
 * Breaking changes
     * Removed `Pattern.match().tuple()`.
     * Removed `Pattern.match().triple()`.
