@@ -15,20 +15,14 @@ class SearchTest extends TestCase
     public function shouldFlatMap()
     {
         // when
-        $stream = Pattern::of('.')->search('Apple')
+        $stream = Pattern::of('..?')->search('Apple')
             ->stream()
-            ->flatMapAssoc(function ($argument) {
-                return [$argument => $argument];
+            ->flatMap(function ($argument) {
+                return [$argument];
             });
         // when
         $entries = $stream->all();
         // then
-        $expected = [
-            'A' => 'A',
-            'p' => 'p',
-            'l' => 'l',
-            'e' => 'e',
-        ];
-        $this->assertSame($expected, $entries);
+        $this->assertSame(['Ap', 'pl', 'e'], $entries);
     }
 }

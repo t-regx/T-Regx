@@ -16,20 +16,14 @@ class MatchPatternTest extends TestCase
     public function shouldFlatMap()
     {
         // when
-        $stream = Pattern::of('.')->match('Apple')
+        $stream = Pattern::of('..?')->match('Apple')
             ->stream()
-            ->flatMapAssoc(function (Detail $detail) {
-                return [$detail->text() => $detail->offset()];
+            ->flatMap(function (Detail $detail) {
+                return [$detail->offset()];
             });
         // when
         $entries = $stream->all();
         // then
-        $expected = [
-            'A' => 0,
-            'p' => 2,
-            'l' => 3,
-            'e' => 4,
-        ];
-        $this->assertSame($expected, $entries);
+        $this->assertSame([0, 2, 4], $entries);
     }
 }
