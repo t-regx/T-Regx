@@ -1,8 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match;
 
-use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
-use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
+use TRegx\CleanRegex\Internal\Match\Flat\FlatFunction;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
 use TRegx\CleanRegex\Internal\Predicate;
@@ -36,12 +35,7 @@ class MatchItems
 
     public function flatMap(FlatFunction $function): array
     {
-        return (new ArrayMergeStrategy())->flatten($function->map($this->getDetailObjects()));
-    }
-
-    public function flatMapAssoc(FlatFunction $function): array
-    {
-        return (new AssignStrategy())->flatten($function->map($this->getDetailObjects()));
+        return $function->flatMap($this->getDetailObjects());
     }
 
     private function getDetailObjects(): array

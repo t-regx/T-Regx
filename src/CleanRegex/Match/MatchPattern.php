@@ -10,8 +10,10 @@ use TRegx\CleanRegex\Internal\EmptyOptional;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Limit;
+use TRegx\CleanRegex\Internal\Match\ArrayFunction;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
-use TRegx\CleanRegex\Internal\Match\FlatFunction;
+use TRegx\CleanRegex\Internal\Match\Flat\DictionaryFunction;
+use TRegx\CleanRegex\Internal\Match\Flat\ListFunction;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 use TRegx\CleanRegex\Internal\Match\IntStream\MatchIntMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
@@ -170,12 +172,12 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
 
     public function flatMap(callable $mapper): array
     {
-        return $this->matchItems->flatMap(new FlatFunction($mapper, 'flatMap'));
+        return $this->matchItems->flatMap(new ListFunction(new ArrayFunction($mapper, 'flatMap')));
     }
 
     public function flatMapAssoc(callable $mapper): array
     {
-        return $this->matchItems->flatMapAssoc(new FlatFunction($mapper, 'flatMapAssoc'));
+        return $this->matchItems->flatMap(new DictionaryFunction(new ArrayFunction($mapper, 'flatMapAssoc')));
     }
 
     /**

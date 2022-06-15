@@ -1,28 +1,24 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-use TRegx\CleanRegex\Internal\Match\FlatFunction;
-use TRegx\CleanRegex\Internal\Match\FlatMap\FlatMapStrategy;
+use TRegx\CleanRegex\Internal\Match\Flat\FlatFunction;
 
 class FlatMapStream implements Upstream
 {
     /** @var Upstream */
     private $upstream;
-    /** @var FlatMapStrategy */
-    private $strategy;
     /** @var FlatFunction */
     private $function;
 
-    public function __construct(Upstream $upstream, FlatMapStrategy $strategy, FlatFunction $function)
+    public function __construct(Upstream $upstream, FlatFunction $function)
     {
         $this->upstream = $upstream;
-        $this->strategy = $strategy;
         $this->function = $function;
     }
 
     public function all(): array
     {
-        return $this->strategy->flatten($this->function->map($this->upstream->all()));
+        return $this->function->flatMap($this->upstream->all());
     }
 
     public function first(): array
@@ -44,7 +40,7 @@ class FlatMapStream implements Upstream
     {
         $value = \reset($array);
         $key = \key($array);
-        return [$this->strategy->firstKey($key), $value];
+        return [$this->function->mapKey($key), $value];
     }
 
     private function remainingArraysFlat(): array

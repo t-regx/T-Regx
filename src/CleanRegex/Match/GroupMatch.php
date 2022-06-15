@@ -11,12 +11,13 @@ use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupMatchFindFirst;
 use TRegx\CleanRegex\Internal\Limit;
+use TRegx\CleanRegex\Internal\Match\ArrayFunction;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacadeMatched;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Match\FlatFunction;
-use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
-use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
+use TRegx\CleanRegex\Internal\Match\Flat\DictionaryFunction;
+use TRegx\CleanRegex\Internal\Match\Flat\FlatFunction;
+use TRegx\CleanRegex\Internal\Match\Flat\ListFunction;
 use TRegx\CleanRegex\Internal\Match\IntStream\GroupIntMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchGroupIntStream;
@@ -160,14 +161,17 @@ class GroupMatch implements \IteratorAggregate
 
     public function flatMap(callable $mapper): array
     {
-        $function = new FlatFunction($mapper, 'flatMap');
-        return (new ArrayMergeStrategy())->flatten($function->map($this->details()));
+        return $this->flatMapDetails(new ListFunction(new ArrayFunction($mapper, 'flatMap')));
     }
 
     public function flatMapAssoc(callable $mapper): array
     {
-        $function = new FlatFunction($mapper, 'flatMapAssoc');
-        return (new AssignStrategy())->flatten($function->map($this->details()));
+        return $this->flatMapDetails(new DictionaryFunction(new ArrayFunction($mapper, 'flatMapAssoc')));
+    }
+
+    private function flatMapDetails(FlatFunction $function): array
+    {
+        return $function->flatMap($this->details());
     }
 
     /**

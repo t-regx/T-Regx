@@ -4,9 +4,9 @@ namespace TRegx\CleanRegex\Match;
 use TRegx\CleanRegex\Internal\EmptyOptional;
 use TRegx\CleanRegex\Internal\Index;
 use TRegx\CleanRegex\Internal\Limit;
-use TRegx\CleanRegex\Internal\Match\FlatFunction;
-use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
-use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
+use TRegx\CleanRegex\Internal\Match\ArrayFunction;
+use TRegx\CleanRegex\Internal\Match\Flat\DictionaryFunction;
+use TRegx\CleanRegex\Internal\Match\Flat\ListFunction;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
@@ -115,12 +115,12 @@ class IntStream implements \Countable, \IteratorAggregate
 
     public function flatMap(callable $mapper): Stream
     {
-        return $this->next(new FlatMapStream($this->upstream, new ArrayMergeStrategy(), new FlatFunction($mapper, 'flatMap')));
+        return $this->next(new FlatMapStream($this->upstream, new ListFunction(new ArrayFunction($mapper, 'flatMap'))));
     }
 
     public function flatMapAssoc(callable $mapper): Stream
     {
-        return $this->next(new FlatMapStream($this->upstream, new AssignStrategy(), new FlatFunction($mapper, 'flatMapAssoc')));
+        return $this->next(new FlatMapStream($this->upstream, new DictionaryFunction(new ArrayFunction($mapper, 'flatMapAssoc'))));
     }
 
     public function distinct(): Stream
