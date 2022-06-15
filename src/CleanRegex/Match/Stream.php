@@ -18,6 +18,7 @@ use TRegx\CleanRegex\Internal\Match\Stream\GroupByCallbackStream;
 use TRegx\CleanRegex\Internal\Match\Stream\IntegerStream;
 use TRegx\CleanRegex\Internal\Match\Stream\KeyStream;
 use TRegx\CleanRegex\Internal\Match\Stream\LimitStream;
+use TRegx\CleanRegex\Internal\Match\Stream\MapEntriesStream;
 use TRegx\CleanRegex\Internal\Match\Stream\MapStream;
 use TRegx\CleanRegex\Internal\Match\Stream\NthStreamElement;
 use TRegx\CleanRegex\Internal\Match\Stream\SkipStream;
@@ -123,6 +124,11 @@ class Stream implements \Countable, \IteratorAggregate
     public function map(callable $mapper): Stream
     {
         return $this->next(new MapStream($this->upstream, $mapper));
+    }
+
+    public function mapEntries(callable $mapper): Stream
+    {
+        return $this->next(new MapEntriesStream($this->upstream, $mapper));
     }
 
     public function flatMap(callable $mapper): Stream

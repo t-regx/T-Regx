@@ -129,6 +129,13 @@ class Functions
         };
     }
 
+    public static function assertArguments(...$expected): callable
+    {
+        return function (...$arguments) use ($expected): void {
+            Assert::assertSame($expected, $arguments);
+        };
+    }
+
     public static function property(string $property): callable
     {
         return function ($object) use ($property) {
@@ -269,6 +276,20 @@ class Functions
         return function (string $argument): int {
             $numeral = new StringNumeral($argument);
             return $numeral->asInt(new Base(10));
+        };
+    }
+
+    public static function toUpper(): callable
+    {
+        return function (string $argument): string {
+            return \strToUpper($argument);
+        };
+    }
+
+    public static function skipArgument(callable $function): callable
+    {
+        return function ($argument, ...$arguments) use ($function) {
+            return $function(...$arguments);
         };
     }
 }
