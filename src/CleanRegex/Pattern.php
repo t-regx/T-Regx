@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\EntryPoints;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 use TRegx\CleanRegex\Internal\Needle;
+use TRegx\CleanRegex\Internal\Splits;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\MatchPattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
@@ -77,10 +78,7 @@ class Pattern
      */
     public function splitStart(string $subject, int $maxSplits): array
     {
-        if ($maxSplits < 0) {
-            throw new \InvalidArgumentException("Negative splits: $maxSplits");
-        }
-        return $this->needle->splitFromStart($subject, $maxSplits);
+        return $this->needle->splitFromStart($subject, new Splits($maxSplits));
     }
 
     /**
@@ -88,10 +86,7 @@ class Pattern
      */
     public function splitEnd(string $subject, int $maxSplits): array
     {
-        if ($maxSplits < 0) {
-            throw new \InvalidArgumentException("Negative splits: $maxSplits");
-        }
-        return $this->needle->splitFromEnd($subject, $maxSplits);
+        return $this->needle->splitFromEnd($subject, new Splits($maxSplits));
     }
 
     public function count(string $subject): int

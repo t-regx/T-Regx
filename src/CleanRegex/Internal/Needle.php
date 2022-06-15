@@ -26,15 +26,15 @@ class Needle
         return $links->links($subject);
     }
 
-    public function splitFromStart(string $subject, int $maxSplits): array
+    public function splitFromStart(string $subject, Splits $splits): array
     {
         $links = new ChainLinks($this->predefinition->definition());
-        return $links->linksFromStart($subject, $maxSplits);
+        return $links->linksFromStart($subject, $splits);
     }
 
-    public function splitFromEnd(string $subject, int $maxSplits): array
+    public function splitFromEnd(string $subject, Splits $splits): array
     {
         $links = new ChainLinks($this->predefinition->definition());
-        return $links->linksFromEnd($subject, $maxSplits);
+        return $links->linksFromEnd($subject, $splits);
     }
 }

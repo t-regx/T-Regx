@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Split;
 
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Splits;
 use TRegx\SafeRegex\preg;
 
 class ChainLinks
@@ -19,14 +20,14 @@ class ChainLinks
         return $this->pregSplitElements($subject, -1)->elements();
     }
 
-    public function linksFromStart(string $subject, int $maxSplits): array
+    public function linksFromStart(string $subject, Splits $splits): array
     {
-        return $this->pregSplitElements($subject, $maxSplits + 1)->elements();
+        return $this->pregSplitElements($subject, $splits->elements())->elements();
     }
 
-    public function linksFromEnd(string $subject, int $maxSplits): array
+    public function linksFromEnd(string $subject, Splits $splits): array
     {
-        return $this->chainAndLinks($this->pregSplitSubject($subject, -1), $maxSplits);
+        return $this->chainAndLinks($this->pregSplitSubject($subject, -1), $splits);
     }
 
     private function pregSplitSubject(string $subject, int $limit): SplitSubject
@@ -41,18 +42,18 @@ class ChainLinks
         return new SplitElements($elements);
     }
 
-    private function chainAndLinks(SplitSubject $subject, int $maxSplits): array
+    private function chainAndLinks(SplitSubject $subject, Splits $splits): array
     {
-        $index = $this->startingIndex($subject, $maxSplits);
+        $index = $this->startingIndex($subject, $splits);
         if ($index > 1) {
             return $subject->chainAndLinks($index);
         }
         return $subject->links();
     }
 
-    private function startingIndex(SplitSubject $subject, int $maxSplits): int
+    private function startingIndex(SplitSubject $subject, Splits $splits): int
     {
-        return $subject->size() - $maxSplits * $this->groupsCount();
+        return $subject->size() - $splits->intValue() * $this->groupsCount();
     }
 
     private function groupsCount(): int
