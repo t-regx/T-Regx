@@ -129,4 +129,44 @@ class StreamTest extends TestCase
         // then
         $this->pass();
     }
+
+    /**
+     * @test
+     */
+    public function shouldMapIdentity()
+    {
+        // given
+        $input = ['one' => 'Neo', 'two' => 'Morpheus', 'three' => 'Trinity'];
+        $stream = ArrayStream::of($input);
+        // when
+        $output = $stream->map(Functions::identity())->all();
+        // then
+        $this->assertSame($input, $output);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFirstKey()
+    {
+        // given
+        $stream = ArrayStream::of(['foo' => 'bar']);
+        // when
+        $firstKey = $stream->map(Functions::identity())->keys()->first();
+        // then
+        $this->assertSame('foo', $firstKey);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetKeys()
+    {
+        // given
+        $stream = ArrayStream::of(['one' => 'Neo', 'two' => 'Morpheus', 'three' => 'Trinity']);
+        // when
+        $firstKey = $stream->map(Functions::identity())->keys()->all();
+        // then
+        $this->assertSame(['one', 'two', 'three'], $firstKey);
+    }
 }
