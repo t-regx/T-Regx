@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.33.0
+---------------
+
 * Breaking changes
     * Removed previously deprecated `Pattern.match().group()`.
     * Removed `Pattern.match().asInt()`. Use `stream().asInt()` or `Detail.toInt()`.
