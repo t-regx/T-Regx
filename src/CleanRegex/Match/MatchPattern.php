@@ -12,11 +12,10 @@ use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Limit;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\FlatFunction;
-use TRegx\CleanRegex\Internal\Match\FlatMap\ArrayMergeStrategy;
-use TRegx\CleanRegex\Internal\Match\FlatMap\AssignStrategy;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
 use TRegx\CleanRegex\Internal\Match\IntStream\MatchIntMessages;
 use TRegx\CleanRegex\Internal\Match\IntStream\NthIntStreamElement;
+use TRegx\CleanRegex\Internal\Match\MatchItems;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\MatchIntStream;
@@ -59,6 +58,8 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
     private $matchOnly;
     /** @var GroupNames */
     private $groupNames;
+    /** @var MatchItems */
+    private $matchItems;
 
     public function __construct(Definition $definition, Subject $subject)
     {
@@ -69,6 +70,7 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
         $this->allFactory = new LazyMatchAllFactory($this->base);
         $this->matchOnly = new MatchOnly($definition, $this->base);
         $this->groupNames = new GroupNames($this->groupAware);
+        $this->matchItems = new MatchItems($this->base, $subject);
     }
 
     public function test(): bool
@@ -155,7 +157,7 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
 
     public function map(callable $mapper): array
     {
-        return \array_map($mapper, $this->getDetailObjects());
+        return $this->matchItems->map($mapper);
     }
 
     /**
@@ -163,21 +165,17 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
      */
     public function filter(callable $predicate): array
     {
-        return \array_values(\array_map(static function (Detail $detail): string {
-            return $detail->text();
-        }, \array_filter($this->getDetailObjects(), [new Predicate($predicate, 'filter'), 'test'])));
+        return $this->matchItems->filter(new Predicate($predicate, 'filter'));
     }
 
     public function flatMap(callable $mapper): array
     {
-        $function = new FlatFunction($mapper, 'flatMap');
-        return (new ArrayMergeStrategy())->flatten($function->map($this->getDetailObjects()));
+        return $this->matchItems->flatMap(new FlatFunction($mapper, 'flatMap'));
     }
 
     public function flatMapAssoc(callable $mapper): array
     {
-        $function = new FlatFunction($mapper, 'flatMapAssoc');
-        return (new AssignStrategy())->flatten($function->map($this->getDetailObjects()));
+        return $this->matchItems->flatMapAssoc(new FlatFunction($mapper, 'flatMapAssoc'));
     }
 
     /**
