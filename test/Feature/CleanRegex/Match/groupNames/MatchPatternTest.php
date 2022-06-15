@@ -1,14 +1,14 @@
 <?php
-namespace Test\Feature\CleanRegex;
+namespace Test\Feature\CleanRegex\Match\groupNames;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Details\Structure;
 use TRegx\CleanRegex\Pattern;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\GroupNames
+ * @covers \TRegx\CleanRegex\Match\MatchPattern
  */
-class GroupNamesTest extends TestCase
+class MatchPatternTest extends TestCase
 {
     /**
      * @test
