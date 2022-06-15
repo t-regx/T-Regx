@@ -4,7 +4,6 @@ namespace TRegx\SafeRegex\Internal\Errors\Errors;
 use TRegx\SafeRegex\Exception\PregException;
 use TRegx\SafeRegex\Internal\Factory\CompilePregExceptionFactory;
 use TRegx\SafeRegex\Internal\PhpError;
-use function error_clear_last;
 
 class StandardCompileError implements CompileError
 {
@@ -23,7 +22,7 @@ class StandardCompileError implements CompileError
 
     public function clear(): void
     {
-        error_clear_last();
+        \error_clear_last();
     }
 
     public function getSafeRegexpException(string $methodName, $pattern): PregException

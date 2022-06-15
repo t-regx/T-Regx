@@ -3,7 +3,6 @@ namespace Test\Feature\CleanRegex\Composite\CompositePattern\prune;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
-use function array_slice;
 
 /**
  * @covers \TRegx\CleanRegex\Composite\CompositePattern::prune
@@ -19,7 +18,7 @@ class CompositePatternTest extends TestCase
     public function test(int $times, string $expected)
     {
         // given
-        $composite = Pattern::compose(array_slice([
+        $composite = Pattern::compose(\array_slice([
             "at's ai",
             "thr you're bre",
             "nk ath",

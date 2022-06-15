@@ -1,8 +1,6 @@
 <?php
 namespace TRegx\SafeRegex\Internal\Guard\Strategy;
 
-use function is_array;
-
 class PregReplaceSuspectedReturnStrategy implements SuspectedReturnStrategy
 {
     /** @var string|array|mixed */
@@ -15,7 +13,7 @@ class PregReplaceSuspectedReturnStrategy implements SuspectedReturnStrategy
 
     public function isSuspected(string $methodName, $result): bool
     {
-        if (!is_array($this->subject)) {
+        if (!\is_array($this->subject)) {
             return $result === null;
         }
         if (empty($this->subject)) {

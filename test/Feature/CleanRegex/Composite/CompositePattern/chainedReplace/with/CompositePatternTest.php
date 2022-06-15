@@ -3,7 +3,6 @@ namespace Test\Feature\CleanRegex\Composite\CompositePattern\chainedReplace\with
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
-use function array_slice;
 
 /**
  * @covers \TRegx\CleanRegex\Composite\CompositePattern::chainedReplace
@@ -19,7 +18,7 @@ class CompositePatternTest extends TestCase
     public function test(int $times, string $expected)
     {
         // given
-        $pattern = Pattern::compose(array_slice([
+        $pattern = Pattern::compose(\array_slice([
             "at's ai",
             "th__r you're bre",
             'nk __ath',

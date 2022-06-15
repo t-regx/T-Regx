@@ -7,7 +7,6 @@ use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
 use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 use UnderflowException;
-use function next;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures
@@ -120,7 +119,7 @@ class InjectFiguresTest extends TestCase
     {
         // given
         $array = ['foo', 'bar'];
-        next($array);
+        \next($array);
         $figures = new InjectFigures($array);
 
         // when

@@ -5,7 +5,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
-use function array_slice;
 
 /**
  * @covers \TRegx\CleanRegex\Composite\CompositePattern::chainedReplace
@@ -38,7 +37,7 @@ class CompositePatternTest extends TestCase
             "thi__ing",
             '(\s+|\?)',
         ];
-        $pattern = Pattern::compose(array_slice($patterns, 0, $times));
+        $pattern = Pattern::compose(\array_slice($patterns, 0, $times));
 
         // when
         $replaced = $pattern

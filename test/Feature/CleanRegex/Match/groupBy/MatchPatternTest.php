@@ -10,7 +10,6 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Pattern;
-use function pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\MatchPattern
