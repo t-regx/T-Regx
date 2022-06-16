@@ -81,6 +81,7 @@ class PcreParserTest extends TestCase
             'quotes'           => ['\Q{@}(hi)[hey]\E', [new Quote('{@}(hi)[hey]', true)]],
             'posix+quotes'     => ['[\Qa-z]\E$', [new PosixOpen(), new Quote('a-z]', true), new Posix('$')]],
             'groups+posix'     => ['(?x:[a-z])$', [new GroupOpenFlags('x'), new PosixOpen(), new Posix('a-z'), new PosixClose(), new GroupClose(), '$']],
+            'backreference'    => ['((?-2))', [new GroupOpen(), new GroupOpen(), '?-2', new GroupClose(), new GroupClose()]],
             'reset'            => ['(?^)', [new GroupRemainder('^')]],
             'reset,set'        => ['(?^ix)', [new GroupRemainder('^ix')]],
             'reset,set:'       => ['(?^ix:)', [new GroupOpenFlags('^ix'), new GroupClose()]],
