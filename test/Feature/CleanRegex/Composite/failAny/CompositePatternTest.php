@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\Composite\CompositePattern\failAny;
+namespace Test\Feature\CleanRegex\Composite\failAny;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;

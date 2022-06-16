@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\Composite\CompositePattern\chainedReplace\with;
+namespace Test\Feature\CleanRegex\Composite\chainedReplace\with;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
