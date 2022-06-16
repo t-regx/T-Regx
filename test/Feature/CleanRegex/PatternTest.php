@@ -423,4 +423,16 @@ class PatternTest extends TestCase
         // then
         $this->assertSame([null, null, null], $groupNames);
     }
+
+    /**
+     * @test
+     */
+    public function shouldAllowDuplicateNameAsReset()
+    {
+        // when
+        $pattern = Pattern::of('(?|(?<name>Foo)|(?<name>Bar))');
+        // then
+        $this->assertConsumesFirst('Foo', $pattern);
+        $this->assertConsumesFirst('Bar', $pattern);
+    }
 }
