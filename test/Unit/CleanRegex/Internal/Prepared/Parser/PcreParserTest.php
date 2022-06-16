@@ -76,12 +76,16 @@ class PcreParserTest extends TestCase
     private function generalPatterns(): array
     {
         return [
-            'empty'            => ['', []],
-            'control'          => ['ab\c\word', ['ab', new Control('\\'), 'word']],
-            'quotes'           => ['\Q{@}(hi)[hey]\E', [new Quote('{@}(hi)[hey]', true)]],
-            'posix+quotes'     => ['[\Qa-z]\E$', [new PosixOpen(), new Quote('a-z]', true), new Posix('$')]],
-            'groups+posix'     => ['(?x:[a-z])$', [new GroupOpenFlags('x'), new PosixOpen(), new Posix('a-z'), new PosixClose(), new GroupClose(), '$']],
-            'backreference'    => ['((?-2))', [new GroupOpen(), new GroupOpen(), '?-2', new GroupClose(), new GroupClose()]],
+            'empty'         => ['', []],
+            'control'       => ['ab\c\word', ['ab', new Control('\\'), 'word']],
+            'quotes'        => ['\Q{@}(hi)[hey]\E', [new Quote('{@}(hi)[hey]', true)]],
+            'posix+quotes'  => ['[\Qa-z]\E$', [new PosixOpen(), new Quote('a-z]', true), new Posix('$')]],
+            'groups+posix'  => ['(?x:[a-z])$', [new GroupOpenFlags('x'), new PosixOpen(), new Posix('a-z'), new PosixClose(), new GroupClose(), '$']],
+            'backreference' => ['((?-2))', [new GroupOpen(), new GroupOpen(), '?-2', new GroupClose(), new GroupClose()]],
+
+            'atomic #1' => ['(?>\d)', [new GroupOpen(), '?>', new Escaped('d'), new GroupClose()]],
+            'atomic #2' => ['(*atomic:\d)', [new GroupOpen(), '*atomic:', new Escaped('d'), new GroupClose()]],
+
             'reset'            => ['(?^)', [new GroupRemainder('^')]],
             'reset,set'        => ['(?^ix)', [new GroupRemainder('^ix')]],
             'reset,set:'       => ['(?^ix:)', [new GroupOpenFlags('^ix'), new GroupClose()]],
