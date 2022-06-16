@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Composite\CompositePattern::chainedReplace
+ * @covers \TRegx\CleanRegex\Composite\ChainedReplace
  */
 class CompositePatternTest extends TestCase
 {

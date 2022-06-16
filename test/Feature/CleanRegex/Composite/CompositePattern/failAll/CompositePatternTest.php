@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
 
 /**
- * @covers \TRegx\CleanRegex\Composite\CompositePattern::testAll
+ * @covers \TRegx\CleanRegex\Composite\CompositePattern::failAll
  */
 class CompositePatternTest extends TestCase
 {

@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 /**
  * @covers \TRegx\CleanRegex\Composite\CompositePattern::chainedReplace
+ * @covers \TRegx\CleanRegex\Composite\ChainedReplace
  */
 class CompositePatternTest extends TestCase
 {
