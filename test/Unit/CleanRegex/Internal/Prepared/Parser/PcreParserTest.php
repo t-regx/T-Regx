@@ -238,14 +238,12 @@ class PcreParserTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowForUnmatchedLiteral()
+    public function shouldThrowForInapplicableConsumer()
     {
         // given
         $parser = new PcreParser(new Feed('\c'), new Flags(''), []);
-
         // then
         $this->expectException(InternalCleanRegexException::class);
-
         // when
         $parser->entities();
     }
