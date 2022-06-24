@@ -247,14 +247,25 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowForMismatchedNumberOfPlaceholders()
+    public function shouldThrowForSuperfluousFigures()
     {
         // then
         $this->expectException(PlaceholderFigureException::class);
         $this->expectExceptionMessage("Found a superfluous figure: string ('bar'). Used 1 placeholders, but 4 figures supplied.");
-
         // when
-        Pattern::inject('You/her, (are|is) @ (you|her)', ['foo', 'bar', 'cat', 'door']);
+        Pattern::inject('Pattern:@', ['foo', 'bar', 'cat', 'door']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMissingFigures()
+    {
+        // then
+        $this->expectException(PlaceholderFigureException::class);
+        $this->expectExceptionMessage('Not enough corresponding figures supplied. Used 3 placeholders, but 2 figures supplied.');
+        // when
+        Pattern::inject('Pattern:@, @, @', ['foo', 'bar']);
     }
 
     /**
