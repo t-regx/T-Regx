@@ -15,10 +15,10 @@ class TextWord implements Word
 
     public function escaped(string $delimiter): string
     {
-        return $this->escapeExtendedWhitespace(preg::quote($this->text, $delimiter));
+        return $this->escapedExtendedWhitespace(preg::quote($this->text, $delimiter));
     }
 
-    private function escapeExtendedWhitespace(string $string): string
+    private function escapedExtendedWhitespace(string $string): string
     {
         return \strtr($string, [
             ' '  => '\ ', #32
