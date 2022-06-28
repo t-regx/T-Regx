@@ -1,6 +1,7 @@
 <?php
 namespace Test\Feature\CleanRegex\_prepared\inject;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsPattern;
 use TRegx\CleanRegex\Pattern;
@@ -240,5 +241,80 @@ class PatternTest extends TestCase
 
         // then
         $this->assertSamePattern("/((?x)(?-x))#Bar\n/", $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForAlterationFigure()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid inject figure type. Expected string, but array (2) given');
+        // when
+        Pattern::inject('', [['foo', 'bar']]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForInvalidFigureType()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Invalid inject figure type. Expected string, but integer (21) given");
+        // when
+        Pattern::inject('', [21]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForInvalidFigureTypeStringKey()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Invalid inject figure type. Expected string, but integer (4) given");
+        // when
+        Pattern::inject('@@', ['foo', 'foo' => 4]);
+    }
+
+    /**
+     * @test
+     * @depends shouldThrowForInvalidFigureTypeStringKey
+     */
+    public function shouldPreferInvalidArgumentExceptionOverPlaceholdersZero()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Invalid inject figure type. Expected string, but integer (4) given");
+        // when
+        Pattern::inject('', ['foo', 'foo' => 4]);
+    }
+
+    /**
+     * @test
+     * @depends shouldThrowForInvalidFigureTypeStringKey
+     */
+    public function shouldPreferInvalidArgumentExceptionOverPlaceholdersOne()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Invalid inject figure type. Expected string, but integer (4) given");
+        // when
+        Pattern::inject('@', ['foo', 'foo' => 4]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldIgnoreInternalArrayPointer()
+    {
+        // given
+        $array = ['foo', 'bar'];
+        \next($array);
+        $pattern = Pattern::inject('@,@', $array);
+        // then, when
+        $this->assertTrue($pattern->test('foo,bar'));
     }
 }

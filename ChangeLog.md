@@ -4,7 +4,9 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Other
+    * Passing invalid arguments which also don't match the number of arguments in `Pattern::inject()`,
+      now always prefers `\InvalidArgumentException` over `PlaceholderFigureException`.
 
 Added in 0.33.0
 ---------------

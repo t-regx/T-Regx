@@ -263,9 +263,9 @@ class PatternTest extends TestCase
     {
         // then
         $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage('Not enough corresponding figures supplied. Used 3 placeholders, but 2 figures supplied.');
+        $this->expectExceptionMessage('Not enough corresponding figures supplied. Used 4 placeholders, but 2 figures supplied.');
         // when
-        Pattern::inject('Pattern:@, @, @', ['foo', 'bar']);
+        Pattern::inject('Pattern:@, @, @, @', ['foo', 'bar']);
     }
 
     /**

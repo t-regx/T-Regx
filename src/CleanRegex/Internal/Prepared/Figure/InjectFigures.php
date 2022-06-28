@@ -14,21 +14,18 @@ class InjectFigures implements CountedFigures
 
     public function __construct(array $figures)
     {
+        foreach ($figures as $figure) {
+            if (\is_string($figure)) {
+                continue;
+            }
+            throw InvalidArgument::typeGiven("Invalid inject figure type. Expected string", new ValueType($figure));
+        }
         $this->figures = \array_slice($figures, 0);
     }
 
     public function nextToken(): Token
     {
-        return new LiteralToken($this->nextString());
-    }
-
-    private function nextString(): string
-    {
-        $figure = $this->nextFigure();
-        if (\is_string($figure)) {
-            return $figure;
-        }
-        throw InvalidArgument::typeGiven("Invalid inject figure type. Expected string", new ValueType($figure));
+        return new LiteralToken($this->nextFigure());
     }
 
     private function nextFigure()
