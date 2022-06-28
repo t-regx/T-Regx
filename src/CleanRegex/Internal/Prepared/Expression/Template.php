@@ -15,15 +15,15 @@ class Template implements Expression
 {
     use PredefinedExpression;
 
-    /** @var Spelling */
-    private $spelling;
     /** @var Dictionary */
     private $dictionary;
+    /** @var Spelling */
+    private $spelling;
 
     public function __construct(Spelling $spelling, CountedFigures $figures)
     {
-        $this->spelling = $spelling;
         $this->dictionary = new Dictionary($spelling, $figures);
+        $this->spelling = $spelling;
     }
 
     protected function phrase(): Phrase
