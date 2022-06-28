@@ -5,11 +5,11 @@ use TRegx\CleanRegex\Internal\Prepared\Template\NullToken;
 use TRegx\CleanRegex\Internal\Prepared\Template\Token;
 use UnderflowException;
 
-class ExpectedFigures implements Figures
+class ExpectedFigures
 {
     /** @var FigureExpectation */
     private $expectation;
-    /** @var Figures */
+    /** @var CountedFigures */
     private $figures;
 
     public function __construct(CountedFigures $figures)

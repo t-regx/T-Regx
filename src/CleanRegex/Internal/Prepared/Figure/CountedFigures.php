@@ -1,7 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Figure;
 
-interface CountedFigures extends Figures
+use TRegx\CleanRegex\Internal\Prepared\Template\Token;
+
+interface CountedFigures
 {
+    public function nextToken(): Token;
+
     public function count(): int;
 }
