@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
 
-class CompositeKeyword
+class MaskPhrase
 {
     /** @var string */
     private $mask;
