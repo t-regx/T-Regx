@@ -9,14 +9,15 @@ use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\StrictInterpretation;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
-use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
+use TRegx\CleanRegex\Internal\Prepared\Template\Mask\KeywordsCondition;
+use TRegx\CleanRegex\Internal\Prepared\Template\Mask\MaskPhrase;
 
 class Mask implements Expression
 {
     use StrictInterpretation;
 
-    /** @var MaskToken */
-    private $token;
+    /** @var MaskPhrase */
+    private $phrase;
     /** @var Candidates */
     private $candidates;
     /** @var Flags */
@@ -28,8 +29,8 @@ class Mask implements Expression
 
     public function __construct(string $mask, array $keywords, Flags $flags)
     {
-        $this->token = new MaskToken($mask, $keywords);
-        $this->candidates = new Candidates($this->token);
+        $this->phrase = new MaskPhrase($mask, $keywords);
+        $this->candidates = new Candidates(new KeywordsCondition($keywords));
         $this->flags = $flags;
         $this->keywords = $keywords;
         $this->mask = $mask;
@@ -37,7 +38,7 @@ class Mask implements Expression
 
     protected function phrase(): Phrase
     {
-        return $this->token->phrase();
+        return $this->phrase->phrase();
     }
 
     protected function delimiter(): Delimiter
