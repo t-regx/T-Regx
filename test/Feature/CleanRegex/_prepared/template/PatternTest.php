@@ -374,4 +374,51 @@ class PatternTest extends TestCase
         // when
         Pattern::template('@')->mask(' ', ['@' => "s~i/e#++", '&' => "m%a!@*`_-;=,\1"]);
     }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptGroupFlags()
+    {
+        // given
+        $pattern = Pattern::template('Foo:(?i:@)')->literal('Bar');
+        // when, then
+        $this->assertPatternTests($pattern, 'Foo:BAR');
+        $this->assertPatternTests($pattern, 'Foo:bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldInjectInCommentWithoutExtendedMode()
+    {
+        // given
+        $pattern = Pattern::template("/#@\n", 'i')->literal('cat~');
+        // when, then
+        $this->assertConsumesFirst("/#cat~\n", $pattern);
+        $this->assertSamePattern("%/#cat~\n%i", $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotInjectPlaceholderInCommentExtendedMode()
+    {
+        // given
+        $pattern = Pattern::template('^@$#@', 'x')->literal('Foo');
+        // when, then
+        $this->assertConsumesFirst('Foo', $pattern);
+        $this->assertSamePattern('/^Foo$#@/x', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function testSubpatternFlags()
+    {
+        // given
+        $pattern = Pattern::template('(?m-i:@')->literal('one');
+        // when, then
+        $this->assertSamePattern('/(?m-i:one/', $pattern);
+    }
 }

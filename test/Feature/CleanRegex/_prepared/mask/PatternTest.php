@@ -111,4 +111,16 @@ class PatternTest extends TestCase
         // when
         Pattern::mask(' ', ['@' => "s~i/e#++", '&' => "m%a!@*`_-;=,\1"]);
     }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptGroupFlags()
+    {
+        // given
+        $pattern = Pattern::mask('Foo:*', ['*' => '(?i:Bar)']);
+        // when, then
+        $this->assertPatternTests($pattern, 'Foo:BAR');
+        $this->assertPatternTests($pattern, 'Foo:bar');
+    }
 }

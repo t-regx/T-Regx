@@ -315,6 +315,18 @@ class PatternTest extends TestCase
         \next($array);
         $pattern = Pattern::inject('@,@', $array);
         // then, when
-        $this->assertTrue($pattern->test('foo,bar'));
+        $this->assertPatternTests($pattern, 'foo,bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptGroupFlags()
+    {
+        // given
+        $pattern = Pattern::inject('Foo:(?i:@)', ['Bar']);
+        // when, then
+        $this->assertPatternTests($pattern, 'Foo:BAR');
+        $this->assertPatternTests($pattern, 'Foo:bar');
     }
 }

@@ -34,6 +34,17 @@ class PatternTest extends TestCase
 
     /**
      * @test
+     */
+    public function shouldQuoteUsingDelimiter()
+    {
+        // given
+        $pattern = PcrePattern::template('%foo:@%m')->literal('bar%cat');
+        // when, then
+        $this->assertSamePattern('%foo:bar\%cat%m', $pattern);
+    }
+
+    /**
+     * @test
      * @dataProvider templatesWithoutPlaceholders
      * @param string $pattern
      * @param string $expected
