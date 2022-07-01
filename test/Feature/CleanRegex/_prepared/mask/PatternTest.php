@@ -76,6 +76,18 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldAcceptTrailingEscapedSlash()
+    {
+        // when
+        $pattern = Pattern::mask('!s', ['!s' => '\\\\']);
+
+        // then
+        $this->assertConsumesFirst('\\', $pattern);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowForRequiredExplicitDelimiterSingleKeyword()
     {
         // then
