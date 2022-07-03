@@ -1,16 +1,13 @@
 <?php
-namespace Test\Unit\CleanRegex\Internal\Prepared\Template;
+namespace Test\Feature\CleanRegex\_prepared\template\mask;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
-use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
+use TRegx\CleanRegex\Pattern;
 use TRegx\SafeRegex\Internal\Errors\Errors\EmptyHostError;
 use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 
-/**
- * @covers \TRegx\CleanRegex\Internal\Prepared\Template\MaskToken
- */
-class MaskTokenTest extends TestCase
+class Test extends TestCase
 {
     /**
      * @test
@@ -20,14 +17,12 @@ class MaskTokenTest extends TestCase
     public function shouldNotValidateStandardPattern(string $invalidPattern)
     {
         // given
-        $mask = new MaskToken('%s', ['%f' => $invalidPattern]);
-
+        $template = Pattern::template('@');
         // then
         $this->expectException(MaskMalformedPatternException::class);
         $this->expectExceptionMessage("Malformed pattern '$invalidPattern' assigned to keyword '%f'");
-
         // when
-        $mask->phrase();
+        $template->mask('%s', ['%f' => $invalidPattern]);
     }
 
     /**
@@ -36,14 +31,12 @@ class MaskTokenTest extends TestCase
     public function shouldStandardNotLeaveErrors()
     {
         // given
-        $mask = new MaskToken('%s', ['%s' => '/{2,1}/']);
-
+        $template = Pattern::template('@');
         // when
         try {
-            $mask->phrase();
+            $template->mask('%s', ['%s' => '/{2,1}/']);
         } catch (MaskMalformedPatternException $silenced) {
         }
-
         // then
         $this->assertErrorsEmpty();
     }
