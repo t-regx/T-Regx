@@ -45,7 +45,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::builder("You/her #@\n her?", 'x')->build();
-
         // then
         $this->assertPatternIs("%You/her #@\n her?%x", $pattern);
     }
@@ -57,7 +56,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::builder("You/her (?-x:#@\n) her?", 'x')->literal('X')->build();
-
         // then
         $this->assertPatternIs("%You/her (?-x:#X\n) her?%x", $pattern);
     }
@@ -72,11 +70,9 @@ class PatternTest extends TestCase
             ->literal('foo')
             ->literal('bar')
             ->literal('cat');
-
         // then
         $this->expectException(PlaceholderFigureException::class);
         $this->expectExceptionMessage("Found a superfluous figure: string ('bar'). Used 1 placeholders, but 3 figures supplied.");
-
         // when
         $builder->build();
     }
@@ -166,7 +162,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::builder('ę')->build();
-
         // then
         $this->assertConsumesFirst('ę', $pattern);
     }
@@ -178,7 +173,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::builder('\Q\\\E!\Q\\')->build();
-
         // then
         $this->assertConsumesFirst('\\!\\', $pattern);
     }
@@ -190,7 +184,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::builder('\c\\')->build();
-
         // then
         $this->assertConsumesFirst(\chr(28), $pattern);
     }
@@ -215,7 +208,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::builder('foo:@@')->pattern('\c\\')->pattern('')->build();
-
         // then
         $this->assertConsumesFirst('foo:' . \chr(28), $pattern);
         $this->assertPatternIs('/foo:\c\{1}/', $pattern);
@@ -228,7 +220,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::builder('foo:@@')->pattern('\c\\')->pattern('>')->build();
-
         // then
         $this->assertConsumesFirst("foo:\x1C>", $pattern);
         $this->assertPatternIs('/foo:\c\>/', $pattern);
@@ -241,7 +232,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::builder('foo:@@')->pattern('\c\\')->literal('|')->build();
-
         // then
         $this->assertConsumesFirst("foo:\x1C|", $pattern);
         $this->assertPatternIs('/foo:\c\\\|/', $pattern);
