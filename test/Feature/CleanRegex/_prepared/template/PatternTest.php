@@ -114,6 +114,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirst('/foo:' . \chr(28), $pattern);
+        $this->assertConsumesFirst("/foo:\x1c", $pattern);
         $this->assertPatternIs('#/foo:\c\{1}#', $pattern);
     }
 
@@ -151,6 +152,18 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::template('@')->mask('!s', ['!s' => '\Q\\']);
+
+        // then
+        $this->assertConsumesFirst('\\', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMaskAcceptTrailingEscapedSlash()
+    {
+        // when
+        $pattern = Pattern::template('@')->mask('!s', ['!s' => '\\\\']);
 
         // then
         $this->assertConsumesFirst('\\', $pattern);
