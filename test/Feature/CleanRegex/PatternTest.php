@@ -9,7 +9,7 @@ use Test\Utils\Structure\AssertsStructure;
 use Test\Utils\Structure\Expect;
 use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
+use TRegx\CleanRegex\Exception\PlaceholderFigureException;
 use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PcrePattern;

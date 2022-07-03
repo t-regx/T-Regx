@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Figure;
+namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\Prepared\Template\Token;
 

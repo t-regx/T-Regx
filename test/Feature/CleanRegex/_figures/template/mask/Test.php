@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\_figures\template\mask;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\TestCase\TestCaseExactMessage;
-use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
+use TRegx\CleanRegex\Exception\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
 
 class Test extends TestCase

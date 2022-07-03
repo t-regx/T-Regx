@@ -1,6 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Figure;
 
+use TRegx\CleanRegex\Exception\PlaceholderFigureException;
+
 class FigureExpectation
 {
     /** @var CountedFigures */

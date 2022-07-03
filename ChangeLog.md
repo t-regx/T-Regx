@@ -4,6 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
+* Breaking changes
+    * Moved `PlaceholderFigureException` from `TRegx\CleanRegex\Internal\Prepared\Figure\ ` to `TRegx\CleanRegex\Exception\ `
 * Other
     * Passing invalid arguments which also don't match the number of arguments in `Pattern::inject()`,
       now always prefers `\InvalidArgumentException` over `PlaceholderFigureException`.

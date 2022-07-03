@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsPattern;
 use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
-use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
+use TRegx\CleanRegex\Exception\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
 
 class PatternTest extends TestCase
