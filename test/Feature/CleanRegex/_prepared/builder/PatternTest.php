@@ -3,13 +3,14 @@ namespace Test\Feature\CleanRegex\_prepared\builder;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsPattern;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
 
 class PatternTest extends TestCase
 {
-    use AssertsPattern;
+    use AssertsPattern, TestCasePasses;
 
     /**
      * @test
@@ -200,13 +201,11 @@ class PatternTest extends TestCase
     public function shouldInjectAcceptTrailingCommentBackslash()
     {
         // given
-        $pattern = Pattern::inject('#\\', []);
-
+        $pattern = Pattern::inject('#\\', [], 'x');
         // when
-        $valid = $pattern->valid();
-
+        $pattern->test('');
         // then
-        $this->assertFalse($valid);
+        $this->pass();
     }
 
     /**
