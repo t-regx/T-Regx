@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Cluster;
 
 use TRegx\CleanRegex\Internal\InvalidArgument;
+use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\AtomicGroup;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
-use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\FigureCluster;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\LiteralFigure;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use UnderflowException;
@@ -26,7 +26,7 @@ class FigureClusters implements CountedClusters
 
     public function nextCluster(): Cluster
     {
-        return new FigureCluster(new LiteralFigure($this->nextFigure()));
+        return new AtomicGroup(new LiteralFigure($this->nextFigure()));
     }
 
     private function nextFigure()

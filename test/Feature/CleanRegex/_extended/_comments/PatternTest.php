@@ -30,7 +30,7 @@ class PatternTest extends TestCase
         // when
         $pattern = Pattern::inject("You/her #@\n her?", ['Bar'], 'X');
         // then
-        $this->assertPatternIs("%You/her #Bar\n her?%X", $pattern);
+        $this->assertPatternIs("%You/her #(?>Bar)\n her?%X", $pattern);
     }
 
     /**
@@ -53,7 +53,7 @@ class PatternTest extends TestCase
         // when
         $pattern = Pattern::inject("(?X)You/her #@\n her?", ['Bar']);
         // then
-        $this->assertPatternIs("%(?X)You/her #Bar\n her?%", $pattern);
+        $this->assertPatternIs("%(?X)You/her #(?>Bar)\n her?%", $pattern);
     }
 
     /**
@@ -74,8 +74,8 @@ class PatternTest extends TestCase
     public function unsetExtendedFlag(): array
     {
         return [
-            'unset flag'        => ["(?-x)#@\n", "/(?-x)#Foo\n/x"],
-            'unset flag, short' => ["(?-x:#@\n)", "/(?-x:#Foo\n)/x"]
+            'unset flag'        => ["(?-x)#@\n", "/(?-x)#(?>Foo)\n/x"],
+            'unset flag, short' => ["(?-x:#@\n)", "/(?-x:#(?>Foo)\n)/x"]
         ];
     }
 

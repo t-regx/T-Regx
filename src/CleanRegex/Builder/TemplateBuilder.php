@@ -4,8 +4,9 @@ namespace TRegx\CleanRegex\Builder;
 use TRegx\CleanRegex\Internal\Prepared\Clusters;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Orthography;
+use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\AtomicGroup;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
-use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\FigureCluster;
+use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\NonCaptureGroup;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\AlterationFigure;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\LiteralFigure;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\MaskFigure;
@@ -27,22 +28,22 @@ class TemplateBuilder
 
     public function mask(string $mask, array $keywords): TemplateBuilder
     {
-        return $this->next(new FigureCluster(new MaskFigure($mask, $keywords)));
+        return $this->next(new NonCaptureGroup(new MaskFigure($mask, $keywords)));
     }
 
     public function literal(string $text): TemplateBuilder
     {
-        return $this->next(new FigureCluster(new LiteralFigure($text)));
+        return $this->next(new AtomicGroup(new LiteralFigure($text)));
     }
 
     public function alteration(array $figures): TemplateBuilder
     {
-        return $this->next(new FigureCluster(new AlterationFigure($figures)));
+        return $this->next(new NonCaptureGroup(new AlterationFigure($figures)));
     }
 
     public function pattern(string $pattern): TemplateBuilder
     {
-        return $this->next(new FigureCluster(new PatternFigure($pattern)));
+        return $this->next(new NonCaptureGroup(new PatternFigure($pattern)));
     }
 
     private function next(Cluster $cluster): TemplateBuilder

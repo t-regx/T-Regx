@@ -31,9 +31,9 @@ class PatternTest extends TestCase
     public function templatesWithPlaceholder(): array
     {
         return [
-            'standard'                               => ['You/her @ her?', '#You/her X her?#'],
-            'comment (but no "x" flag)'              => ["You/her #@\n her?", "%You/her #X\n her?%"],
-            'comment ("x" flag, but also "-x" flag)' => ["You/her (?x:(?-x:#@\n)) her?", "%You/her (?x:(?-x:#X\n)) her?%"],
+            'standard'                               => ['You/her @ her?', '#You/her (?>X) her?#'],
+            'comment (but no "x" flag)'              => ["You/her #@\n her?", "%You/her #(?>X)\n her?%"],
+            'comment ("x" flag, but also "-x" flag)' => ["You/her (?x:(?-x:#@\n)) her?", "%You/her (?x:(?-x:#(?>X)\n)) her?%"],
         ];
     }
 
@@ -74,7 +74,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::template('foo:@')->pattern('#https?/www%');
 
         // then
-        $this->assertPatternIs('~foo:#https?/www%~', $pattern);
+        $this->assertPatternIs('~foo:(?:#https?/www%)~', $pattern);
         $this->assertConsumesFirst('foo:#http/www%', $pattern);
     }
 
@@ -87,7 +87,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::template('@')->pattern('/');
 
         // then
-        $this->assertPatternIs('#/#', $pattern);
+        $this->assertPatternIs('#(?:/)#', $pattern);
         $this->assertConsumesFirst('/', $pattern);
     }
 
@@ -114,8 +114,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirst('/foo:' . \chr(28), $pattern);
-        $this->assertConsumesFirst("/foo:\x1c", $pattern);
-        $this->assertPatternIs('#/foo:\c\{1}#', $pattern);
+        $this->assertPatternIs('#/foo:(?:\c\)#', $pattern);
     }
 
     /**
@@ -149,18 +148,6 @@ class PatternTest extends TestCase
      * @test
      */
     public function shouldMaskAcceptTrailingSlashInQuote()
-    {
-        // when
-        $pattern = Pattern::template('@')->mask('!s', ['!s' => '\Q\\']);
-
-        // then
-        $this->assertConsumesFirst('\\', $pattern);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldMaskAcceptTrailingEscapedSlash()
     {
         // when
         $pattern = Pattern::template('@')->mask('!s', ['!s' => '\\\\']);
@@ -229,7 +216,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::template("/#@\n", 'i')->literal('cat~');
         // when, then
         $this->assertConsumesFirst("/#cat~\n", $pattern);
-        $this->assertPatternIs("%/#cat~\n%i", $pattern);
+        $this->assertPatternIs("%/#(?>cat~)\n%i", $pattern);
     }
 
     /**
@@ -241,7 +228,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::template('^@$#@', 'x')->literal('Foo');
         // when, then
         $this->assertConsumesFirst('Foo', $pattern);
-        $this->assertPatternIs('/^Foo$#@/x', $pattern);
+        $this->assertPatternIs('/^(?>Foo)$#@/x', $pattern);
     }
 
     /**
@@ -252,6 +239,6 @@ class PatternTest extends TestCase
         // given
         $pattern = Pattern::template('(?m-i:@')->literal('one');
         // when, then
-        $this->assertPatternIs('/(?m-i:one/', $pattern);
+        $this->assertPatternIs('/(?m-i:(?>one)/', $pattern);
     }
 }

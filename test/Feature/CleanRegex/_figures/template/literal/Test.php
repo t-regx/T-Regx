@@ -24,6 +24,28 @@ class Test extends TestCase
     /**
      * @test
      */
+    public function shouldMatchOptionalPlaceholderAbsent()
+    {
+        // given
+        $pattern = Pattern::template('^Foo:@?$')->literal('Bar');
+        // when, then
+        $this->assertTrue($pattern->test('Foo:'), "Failed to assert that placeholder was optional and absent");
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotMatchPartialOptionalPlaceholder()
+    {
+        // given
+        $pattern = Pattern::template('^Foo:@?$')->literal('Bar');
+        // when, then
+        $this->assertTrue($pattern->fails('Foo:Ba'), "Failed to assert that partial of placeholder was matched");
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowForSuperfluousFigures()
     {
         // then

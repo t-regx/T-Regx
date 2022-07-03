@@ -16,4 +16,26 @@ class Test extends TestCase
         // when, then
         $this->assertTrue($pattern->test('Foo:Bar'), 'Failed to assert that placeholder was optional and present');
     }
+
+    /**
+     * @test
+     */
+    public function shouldMatchOptionalPlaceholderAbsent()
+    {
+        // given
+        $pattern = Pattern::builder('^Foo:@?$')->literal('Bar')->build();
+        // when, then
+        $this->assertTrue($pattern->test('Foo:'), "Failed to assert that placeholder was optional and absent");
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotMatchPartialOptionalPlaceholder()
+    {
+        // given
+        $pattern = Pattern::builder('^Foo:@?$')->literal('Bar')->build();
+        // when, then
+        $this->assertTrue($pattern->fails('Foo:Ba'), "Failed to assert that partial of placeholder was matched");
+    }
 }

@@ -57,7 +57,7 @@ class PatternTest extends TestCase
         // when
         $pattern = Pattern::builder("You/her (?-x:#@\n) her?", 'x')->literal('X')->build();
         // then
-        $this->assertPatternIs("%You/her (?-x:#X\n) her?%x", $pattern);
+        $this->assertPatternIs("%You/her (?-x:#(?>X)\n) her?%x", $pattern);
     }
 
     /**
@@ -96,7 +96,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowForSuperfluousBuilderAlteration()
+    public function shouldThrowForSuperfluousBuilderTemplateAlteration()
     {
         // given
         $builder = Pattern::builder('Foo')->alteration(['foo', 'bar']);
@@ -112,7 +112,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowForMissingBuilderFigures()
+    public function shouldThrowForMissingTemplateFigures()
     {
         // given
         $builder = Pattern::builder('Foo')->alteration(['Foo', 'Bar']);
@@ -210,7 +210,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::builder('foo:@@')->pattern('\c\\')->pattern('')->build();
         // then
         $this->assertConsumesFirst('foo:' . \chr(28), $pattern);
-        $this->assertPatternIs('/foo:\c\{1}/', $pattern);
+        $this->assertPatternIs('/foo:(?:\c\)(?:)/', $pattern);
     }
 
     /**
@@ -222,7 +222,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::builder('foo:@@')->pattern('\c\\')->pattern('>')->build();
         // then
         $this->assertConsumesFirst("foo:\x1C>", $pattern);
-        $this->assertPatternIs('/foo:\c\>/', $pattern);
+        $this->assertPatternIs('/foo:(?:\c\)(?:>)/', $pattern);
     }
 
     /**
@@ -234,6 +234,6 @@ class PatternTest extends TestCase
         $pattern = Pattern::builder('foo:@@')->pattern('\c\\')->literal('|')->build();
         // then
         $this->assertConsumesFirst("foo:\x1C|", $pattern);
-        $this->assertPatternIs('/foo:\c\\\|/', $pattern);
+        $this->assertPatternIs('/foo:(?:\c\)(?>\|)/', $pattern);
     }
 }

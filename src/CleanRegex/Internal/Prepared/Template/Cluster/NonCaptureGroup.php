@@ -1,11 +1,12 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template\Cluster;
 
+use TRegx\CleanRegex\Internal\Prepared\Phrase\NonCaptureGroupPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\Figure;
 use TRegx\CleanRegex\Internal\Type\Type;
 
-class FigureCluster implements Cluster
+class NonCaptureGroup implements Cluster
 {
     /** @var Figure */
     private $figure;
@@ -17,7 +18,7 @@ class FigureCluster implements Cluster
 
     public function phrase(): Phrase
     {
-        return $this->figure->phrase();
+        return new NonCaptureGroupPhrase($this->figure->phrase());
     }
 
     public function suitable(string $candidate): bool

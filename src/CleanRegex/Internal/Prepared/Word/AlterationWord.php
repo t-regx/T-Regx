@@ -15,8 +15,7 @@ class AlterationWord implements Word
 
     public function escaped(string $delimiter): string
     {
-        $alteration = \implode('|', \iterator_to_array($this->escapedFigures($delimiter)));
-        return "(?:$alteration)";
+        return \implode('|', \iterator_to_array($this->escapedFigures($delimiter)));
     }
 
     private function escapedFigures(string $delimiter): Generator

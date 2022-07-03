@@ -6,6 +6,51 @@ Incoming
 
 * Breaking changes
     * Moved `PlaceholderFigureException` from `TRegx\CleanRegex\Internal\Prepared\Figure\ ` to `TRegx\CleanRegex\Exception\ `
+* Features
+    * Added support for quantifiers to placeholders in prepared patterns.
+        * Added support for quantifiers in `Pattern::inject()`
+        * Added support for quantifiers in `Pattern::template()`
+        * Added support for quantifiers in `Pattern::builder()`
+        * Added support for quantifiers in `PcrePattern::inject()`
+        * Added support for quantifiers in `PcrePattern::template()`
+        * Added support for quantifiers in `PcrePattern::builder()`
+
+      These constructs are now valid:
+      ```php
+      Pattern::inject('Find:@?', ['Value']); // matches "Find:Value" and "Find:"
+      ```
+      ```php
+      Pattern::inject('Find:@*', ['a']); // matches "Find:", "Find:a", "Find:aa"... 
+      ```
+      ```php
+      Pattern::inject('Find:@+', ['a']); // matches "Find:a", "Find:aa"... 
+      ```
+      ```php
+      Pattern::inject('Find:@{3,4}', ['a']); // matches "Find:aaa" and "Find:aaaa" 
+      ```
+      ```php
+      Pattern::inject('Find:@{0}', ['a']); // matches only "Find:" 
+      ```
+
+    * Added support for empty placeholders in prepared patterns:
+      ```php
+      Pattern::inject('Find:@?', ['']); // matches only "Find:"
+      ```
+
+    * Updated backtrakcing in prepared patterns.
+        * Updated backtrakcing in `Pattern.pattern()`.
+
+          ```php
+          Pattern::template('@:Bar')->pattern('Foo:Bar|Foo'); // matches "Foo:Bar" or "Foo:Bar:Bar"
+          ```
+
+        * Updated backtrakcing in `Pattern.mask()`.
+
+          ```php
+          $template = Pattern::template('@:Bar');
+          $template->mask('*', ['*' => 'Foo:Bar|Foo']); // matches "Foo:Bar" or "Foo:Bar:Bar"
+          ```
+
 * Other
     * Passing invalid arguments which also don't match the number of arguments in `Pattern::inject()`,
       now always prefers `\InvalidArgumentException` over `PlaceholderFigureException`.

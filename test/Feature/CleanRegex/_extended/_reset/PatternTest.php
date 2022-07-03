@@ -32,7 +32,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirstPcre2("#Foo\n", $pattern);
-        $this->assertPatternIs("/(?^)#Foo\n/x", $pattern);
+        $this->assertPatternIs("/(?^)#(?>Foo)\n/x", $pattern);
     }
 
     /**
@@ -45,7 +45,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirstPcre2("#Foo\n", $pattern);
-        $this->assertPatternIs("/(?^:#Foo\n)/x", $pattern);
+        $this->assertPatternIs("/(?^:#(?>Foo)\n)/x", $pattern);
     }
 
     /**
@@ -58,7 +58,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirstPcre2("#Foo\n", $pattern);
-        $this->assertPatternIs("/(?x)(?^:#Foo\n)/", $pattern);
+        $this->assertPatternIs("/(?x)(?^:#(?>Foo)\n)/", $pattern);
     }
 
     /**
@@ -72,7 +72,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::inject("(?^X)#@\n", ['Bar']);
 
         // then
-        $this->assertPatternIs("/(?^X)#Bar\n/", $pattern);
+        $this->assertPatternIs("/(?^X)#(?>Bar)\n/", $pattern);
     }
 
     /**
@@ -115,7 +115,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirstPcre2("#Bar\n", $pattern);
-        $this->assertPatternIs("/(?x:(?^))#Bar\n/", $pattern);
+        $this->assertPatternIs("/(?x:(?^))#(?>Bar)\n/", $pattern);
     }
 
     /**
@@ -130,7 +130,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirstPcre2("#Bar\n", $pattern);
-        $this->assertPatternIs("/(?ix:(?^)#Bar\n)/", $pattern);
+        $this->assertPatternIs("/(?ix:(?^)#(?>Bar)\n)/", $pattern);
     }
 
     /**

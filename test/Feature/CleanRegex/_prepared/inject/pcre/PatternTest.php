@@ -26,9 +26,9 @@ class PatternTest extends TestCase
     public function templatesWithPlaceholder(): array
     {
         return [
-            'standard'                               => ['#You/her @ her?#', '#You/her X her?#'],
-            'comment (but no "x" flag)'              => ["%You/her #@\n her?%", "%You/her #X\n her?%"],
-            'comment ("x" flag, but also "-x" flag)' => ["%You/her (?x:(?-x:#@\n)) her?%", "%You/her (?x:(?-x:#X\n)) her?%"],
+            'standard'                               => ['#You/her @ her?#', '#You/her (?>X) her?#'],
+            'comment (but no "x" flag)'              => ["%You/her #@\n her?%", "%You/her #(?>X)\n her?%"],
+            'comment ("x" flag, but also "-x" flag)' => ["%You/her (?x:(?-x:#@\n)) her?%", "%You/her (?x:(?-x:#(?>X)\n)) her?%"],
         ];
     }
 
@@ -76,6 +76,6 @@ class PatternTest extends TestCase
         // when
         $pattern = PcrePattern::inject("%You/her (?-x:#@\n) her?%x", ['X']);
         // then
-        $this->assertPatternIs("%You/her (?-x:#X\n) her?%x", $pattern);
+        $this->assertPatternIs("%You/her (?-x:#(?>X)\n) her?%x", $pattern);
     }
 }
