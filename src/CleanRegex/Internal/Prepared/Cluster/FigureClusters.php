@@ -6,7 +6,6 @@ use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\AtomicGroup;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\LiteralFigure;
 use TRegx\CleanRegex\Internal\Type\ValueType;
-use UnderflowException;
 
 class FigureClusters implements CountedClusters
 {
@@ -26,16 +25,7 @@ class FigureClusters implements CountedClusters
 
     public function current(): Cluster
     {
-        return new AtomicGroup(new LiteralFigure($this->nextFigure()));
-    }
-
-    private function nextFigure()
-    {
-        $key = \key($this->figures);
-        if ($key === null) {
-            throw new UnderflowException();
-        }
-        return \current($this->figures);
+        return new AtomicGroup(new LiteralFigure(\current($this->figures)));
     }
 
     public function next(): void

@@ -2,8 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Cluster;
 
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
-use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\NullCluster;
-use UnderflowException;
 
 class ExpectedClusters
 {
@@ -20,11 +18,7 @@ class ExpectedClusters
 
     public function current(): Cluster
     {
-        try {
-            return $this->clusters->current();
-        } catch (UnderflowException $exception) {
-            return new NullCluster();
-        }
+        return $this->clusters->current();
     }
 
     public function next(): void

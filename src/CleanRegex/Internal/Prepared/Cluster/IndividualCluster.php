@@ -2,11 +2,10 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Cluster;
 
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
-use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\NullCluster;
 
 class IndividualCluster implements CountedClusters
 {
-    /** @var Cluster|null */
+    /** @var Cluster */
     private $cluster;
 
     public function __construct(Cluster $cluster)
@@ -16,15 +15,11 @@ class IndividualCluster implements CountedClusters
 
     public function current(): Cluster
     {
-        if ($this->cluster === null) {
-            return new NullCluster();
-        }
         return $this->cluster;
     }
 
     public function next(): void
     {
-        $this->cluster = null;
     }
 
     public function count(): int

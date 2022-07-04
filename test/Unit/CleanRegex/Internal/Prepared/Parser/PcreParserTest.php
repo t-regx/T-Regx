@@ -103,14 +103,15 @@ class PcreParserTest extends TestCase
     public function shouldParseWithFlags()
     {
         // given
+        $clusters = new ExpectedClusters(new ArrayClusters([
+            new FakeCluster('one'),
+            new FakeCluster('two'),
+            new FakeCluster('three')
+        ]));
         $consumers = [
             new GroupConsumer(),
             new GroupCloseConsumer(),
-            new FiguresPlaceholderConsumer(new ExpectedClusters(new ArrayClusters([
-                new FakeCluster('one'),
-                new FakeCluster('two'),
-                new FakeCluster('three')
-            ])))
+            new FiguresPlaceholderConsumer($clusters)
         ];
 
         // when
@@ -120,11 +121,11 @@ class PcreParserTest extends TestCase
         $assertion->assertPatternRepresents('(?i:(?x:@(?m-x)@)@)', [
             new GroupOpenFlags('i'),
             new GroupOpenFlags('x'),
-            new Placeholder(new FakeCluster('one')),
+            new Placeholder($clusters),
             new GroupRemainder('m-x'),
-            new Placeholder(new FakeCluster('two')),
+            new Placeholder($clusters),
             new GroupClose(),
-            new Placeholder(new FakeCluster('three')),
+            new Placeholder($clusters),
             new GroupClose(),
         ], '(?i:(?x:one(?m-x)two)three)');
     }
