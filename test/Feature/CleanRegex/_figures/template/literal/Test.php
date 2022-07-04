@@ -50,7 +50,7 @@ class Test extends TestCase
     {
         // then
         $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage("Found a superfluous figure: string ('Bar'). Used 0 placeholders, but 1 figures supplied.");
+        $this->expectExceptionMessage("Supplied a superfluous figure. Used 0 placeholders, but 1 figures supplied.");
         // when
         Pattern::template('Foo')->literal('Bar');
     }

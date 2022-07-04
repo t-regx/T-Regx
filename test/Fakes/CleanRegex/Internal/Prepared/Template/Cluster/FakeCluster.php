@@ -5,7 +5,6 @@ use Test\Utils\Assertion\Fails;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\PatternPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
-use TRegx\CleanRegex\Internal\Type\Type;
 
 class FakeCluster implements Cluster
 {
@@ -25,11 +24,6 @@ class FakeCluster implements Cluster
     }
 
     public function suitable(string $candidate): bool
-    {
-        throw $this->fail();
-    }
-
-    public function type(): Type
     {
         throw $this->fail();
     }

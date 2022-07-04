@@ -251,7 +251,7 @@ class PatternTest extends TestCase
     {
         // then
         $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage("Found a superfluous figure: string ('bar'). Used 1 placeholders, but 4 figures supplied.");
+        $this->expectExceptionMessage("Supplied a superfluous figure. Used 1 placeholders, but 4 figures supplied.");
         // when
         Pattern::inject('Pattern:@', ['foo', 'bar', 'cat', 'door']);
     }
@@ -263,7 +263,7 @@ class PatternTest extends TestCase
     {
         // then
         $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage("Found a superfluous figure: string ('cat'). Used 2 placeholders, but 4 figures supplied.");
+        $this->expectExceptionMessage("Supplied a superfluous figure. Used 2 placeholders, but 4 figures supplied.");
         // when
         Pattern::inject('Pattern:@@', ['foo', 'bar', 'cat', 'door']);
     }

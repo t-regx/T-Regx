@@ -5,8 +5,6 @@ use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Template\DelimiterAgnostic;
 use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
-use TRegx\CleanRegex\Internal\Type\Type;
-use TRegx\CleanRegex\Internal\Type\ValueType;
 
 class LiteralFigure implements Figure
 {
@@ -23,10 +21,5 @@ class LiteralFigure implements Figure
     public function phrase(): Phrase
     {
         return new UnconjugatedPhrase(new TextWord($this->text));
-    }
-
-    public function type(): Type
-    {
-        return new ValueType($this->text);
     }
 }

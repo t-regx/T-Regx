@@ -24,7 +24,7 @@ class ClusterExpectation
     {
         $count = $this->clusters->count();
         if ($this->expectations < $count) {
-            throw PlaceholderFigureException::forSuperfluousFigures($this->expectations, $count, $this->clusters->current());
+            throw PlaceholderFigureException::forSuperfluousFigures($this->expectations, $count);
         }
         if ($this->expectations > $count) {
             throw PlaceholderFigureException::forSuperfluousPlaceholders($this->expectations, $count);

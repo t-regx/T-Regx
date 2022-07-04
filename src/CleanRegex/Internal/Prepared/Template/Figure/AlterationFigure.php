@@ -5,8 +5,6 @@ use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Template\DelimiterAgnostic;
 use TRegx\CleanRegex\Internal\Prepared\Word\AlterationWord;
-use TRegx\CleanRegex\Internal\Type\Type;
-use TRegx\CleanRegex\Internal\Type\ValueType;
 
 class AlterationFigure implements Figure
 {
@@ -23,10 +21,5 @@ class AlterationFigure implements Figure
     public function phrase(): Phrase
     {
         return new UnconjugatedPhrase(new AlterationWord($this->figures));
-    }
-
-    public function type(): Type
-    {
-        return new ValueType($this->figures);
     }
 }

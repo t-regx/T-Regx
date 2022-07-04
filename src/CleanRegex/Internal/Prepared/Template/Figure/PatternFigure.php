@@ -6,8 +6,6 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralPlaceholderConsume
 use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Template\DelimiterAware;
-use TRegx\CleanRegex\Internal\Type\PatternType;
-use TRegx\CleanRegex\Internal\Type\Type;
 
 class PatternFigure implements Figure
 {
@@ -27,11 +25,6 @@ class PatternFigure implements Figure
     public function phrase(): Phrase
     {
         return $this->patternAsEntities->phrase();
-    }
-
-    public function type(): Type
-    {
-        return new PatternType($this->pattern);
     }
 
     protected function delimiterAware(): string

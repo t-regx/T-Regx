@@ -60,7 +60,7 @@ class PatternTest extends TestCase
         $template = Pattern::template('Foo');
         // then
         $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage('Found a superfluous figure: array (2). Used 0 placeholders, but 1 figures supplied.');
+        $this->expectExceptionMessage('Supplied a superfluous figure. Used 0 placeholders, but 1 figures supplied.');
         // when
         $template->alteration(['foo', 'bar']);
     }
