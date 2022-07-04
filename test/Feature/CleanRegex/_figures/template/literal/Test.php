@@ -13,6 +13,17 @@ class Test extends TestCase
     /**
      * @test
      */
+    public function shouldMatchOptionalPlaceholder()
+    {
+        // given
+        $pattern = Pattern::template('^Foo:@?$')->literal('Bar');
+        // when, then
+        $this->assertTrue($pattern->test('Foo:Bar'), 'Failed to assert that placeholder was optional and present');
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowForSuperfluousFigures()
     {
         // then

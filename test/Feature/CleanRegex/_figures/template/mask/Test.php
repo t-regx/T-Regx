@@ -13,6 +13,28 @@ class Test extends TestCase
     /**
      * @test
      */
+    public function shouldMatchOptionalPlaceholder()
+    {
+        // given
+        $pattern = Pattern::template('^Foo:@?$')->mask('*', ['*' => 'Bar']);
+        // when, then
+        $this->assertTrue($pattern->test('Foo:Bar'), 'Failed to assert that placeholder was optional and present');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotApplyQuantifierBefore()
+    {
+        // given
+        $pattern = Pattern::template('^Foo:@?$')->mask('*', ['*' => 'Bar']);
+        // when, then
+        $this->assertTrue($pattern->fails('Foo'), "Failed to assert that quantifier applied to placeholder");
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowForSuperfluousFigures()
     {
         // then
