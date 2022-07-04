@@ -259,6 +259,18 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrowForSuperfluousFiguresSecond()
+    {
+        // then
+        $this->expectException(PlaceholderFigureException::class);
+        $this->expectExceptionMessage("Found a superfluous figure: string ('cat'). Used 2 placeholders, but 4 figures supplied.");
+        // when
+        Pattern::inject('Pattern:@@', ['foo', 'bar', 'cat', 'door']);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowForMissingFigures()
     {
         // then
