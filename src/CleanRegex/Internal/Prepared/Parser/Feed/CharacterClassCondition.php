@@ -24,7 +24,7 @@ class CharacterClassCondition
         if ($name === null) {
             throw new InternalCleanRegexException();
         }
-        return \substr($this->feed->content(), 0, \strlen($name));
+        return \substr($this->feed->content(), 0, \strLen($name));
     }
 
     public function commit(): void

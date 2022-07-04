@@ -32,7 +32,7 @@ class Needles
     private function descendingLength(array $needles): array
     {
         \usort($needles, static function (string $a, string $b): int {
-            return \strlen($b) - \strlen($a);
+            return \strLen($b) - \strLen($a);
         });
         return $needles;
     }

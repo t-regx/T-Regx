@@ -24,7 +24,7 @@ class VisibleCharacters
 
     private static function formatWord(string $bytes): string
     {
-        if (\strlen($bytes) === 1) {
+        if (\strLen($bytes) === 1) {
             return self::tryPrettyByte(\ord($bytes)) ?? self::hex($bytes);
         }
         return \join(\array_map([self::class, 'hex'], \str_split($bytes)));

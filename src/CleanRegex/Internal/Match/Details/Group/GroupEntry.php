@@ -21,7 +21,7 @@ class GroupEntry implements Entry
         $this->text = $text;
         $this->subject = $subject;
         $this->offset = new ByteOffset($byteOffset);
-        $this->tail = new ByteOffset($byteOffset + \strlen($this->text));
+        $this->tail = new ByteOffset($byteOffset + \strLen($this->text));
     }
 
     public function text(): string

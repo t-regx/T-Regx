@@ -47,6 +47,6 @@ class SubjectCoordinate
 
     public function byteLength(): int
     {
-        return \strlen($this->entry->text());
+        return \strLen($this->entry->text());
     }
 }

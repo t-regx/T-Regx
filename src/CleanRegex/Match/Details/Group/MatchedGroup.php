@@ -98,7 +98,7 @@ class MatchedGroup implements Group
 
     public function length(): int
     {
-        return \mb_strlen($this->groupEntry->text(), 'UTF-8');
+        return \mb_strLen($this->groupEntry->text(), 'UTF-8');
     }
 
     public function byteOffset(): int
@@ -113,7 +113,7 @@ class MatchedGroup implements Group
 
     public function byteLength(): int
     {
-        return \strlen($this->groupEntry->text());
+        return \strLen($this->groupEntry->text());
     }
 
     public function subject(): string

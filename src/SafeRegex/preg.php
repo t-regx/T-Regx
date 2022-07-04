@@ -39,7 +39,7 @@ class preg
         if ($offset < 0) {
             throw new InvalidArgumentException("Negative offset: $offset");
         }
-        $length = \strlen($subject);
+        $length = \strLen($subject);
         if ($length < $offset) {
             throw new InvalidArgumentException("Overflowing offset: $offset, while subject has length: $length (bytes)");
         }
@@ -247,7 +247,7 @@ class preg
      */
     public static function quote(string $string, string $delimiter = null): string
     {
-        if (!\is_null($delimiter) && \strlen($delimiter) !== 1) {
+        if (!\is_null($delimiter) && \strLen($delimiter) !== 1) {
             throw new InvalidArgumentException('Delimiter must be one alpha-numeric character');
         }
         if (\preg_quote('#', $delimiter) === '#') {
