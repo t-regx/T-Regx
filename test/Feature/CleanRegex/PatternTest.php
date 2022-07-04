@@ -446,4 +446,15 @@ class PatternTest extends TestCase
         $this->assertConsumesFirst('Foo', $pattern);
         $this->assertConsumesFirst('Bar', $pattern);
     }
+
+    /**
+     * @test
+     */
+    public function shouldRemainPattern()
+    {
+        // given
+        $pattern = Pattern::of('welcome:@');
+        // when, then
+        $this->assertPatternIs('/welcome:@/', $pattern);
+    }
 }
