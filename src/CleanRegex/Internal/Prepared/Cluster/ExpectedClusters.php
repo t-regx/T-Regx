@@ -18,14 +18,23 @@ class ExpectedClusters
         $this->clusters = $clusters;
     }
 
-    public function nextCluster(): Cluster
+    public function current(): Cluster
     {
-        $this->expectation->expectNext();
         try {
-            return $this->clusters->nextCluster();
+            return $this->clusters->current();
         } catch (UnderflowException $exception) {
             return new NullCluster();
         }
+    }
+
+    public function next(): void
+    {
+        $this->clusters->next();
+    }
+
+    public function expectNext(): void
+    {
+        $this->expectation->expectNext();
     }
 
     public function meetExpectation(): void

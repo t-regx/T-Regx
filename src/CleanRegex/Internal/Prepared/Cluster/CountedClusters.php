@@ -5,7 +5,9 @@ use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
 
 interface CountedClusters
 {
-    public function nextCluster(): Cluster;
+    public function current(): Cluster;
+
+    public function next(): void;
 
     public function count(): int;
 }

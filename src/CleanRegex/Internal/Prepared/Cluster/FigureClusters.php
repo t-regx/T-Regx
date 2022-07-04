@@ -24,7 +24,7 @@ class FigureClusters implements CountedClusters
         $this->figures = \array_slice($figures, 0);
     }
 
-    public function nextCluster(): Cluster
+    public function current(): Cluster
     {
         return new AtomicGroup(new LiteralFigure($this->nextFigure()));
     }
@@ -35,9 +35,12 @@ class FigureClusters implements CountedClusters
         if ($key === null) {
             throw new UnderflowException();
         }
-        $item = \current($this->figures);
+        return \current($this->figures);
+    }
+
+    public function next(): void
+    {
         \next($this->figures);
-        return $item;
     }
 
     public function count(): int

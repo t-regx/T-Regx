@@ -14,15 +14,18 @@ class ArrayClusters implements CountedClusters
         $this->clusters = \array_slice($clusters, 0);
     }
 
-    public function nextCluster(): Cluster
+    public function current(): Cluster
     {
         $key = \key($this->clusters);
         if ($key === null) {
             return new NullCluster();
         }
-        $value = \current($this->clusters);
+        return \current($this->clusters);
+    }
+
+    public function next(): void
+    {
         \next($this->clusters);
-        return $value;
     }
 
     public function count(): int

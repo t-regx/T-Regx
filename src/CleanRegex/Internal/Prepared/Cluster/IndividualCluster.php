@@ -14,14 +14,17 @@ class IndividualCluster implements CountedClusters
         $this->cluster = $cluster;
     }
 
-    public function nextCluster(): Cluster
+    public function current(): Cluster
     {
         if ($this->cluster === null) {
             return new NullCluster();
         }
-        $cluster = $this->cluster;
+        return $this->cluster;
+    }
+
+    public function next(): void
+    {
         $this->cluster = null;
-        return $cluster;
     }
 
     public function count(): int
