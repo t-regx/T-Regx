@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.34.0
+---------------
+
 * Breaking changes
     * Moved `PlaceholderFigureException` from `TRegx\CleanRegex\Internal\Prepared\Figure\ ` to `TRegx\CleanRegex\Exception\ `
 * Features
