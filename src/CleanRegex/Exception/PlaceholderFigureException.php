@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-use TRegx\CleanRegex\Internal\Prepared\Template\Token;
+use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
 
 class PlaceholderFigureException extends \Exception
 {
@@ -10,8 +10,8 @@ class PlaceholderFigureException extends \Exception
         return new self("Not enough corresponding figures supplied. Used $expected placeholders, but $actual figures supplied.");
     }
 
-    public static function forSuperfluousFigures(int $expected, int $actual, Token $token): self
+    public static function forSuperfluousFigures(int $expected, int $actual, Cluster $cluster): self
     {
-        return new self("Found a superfluous figure: {$token->type()}. Used $expected placeholders, but $actual figures supplied.");
+        return new self("Found a superfluous figure: {$cluster->type()}. Used $expected placeholders, but $actual figures supplied.");
     }
 }

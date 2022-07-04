@@ -6,13 +6,13 @@ use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Composite\CompositePattern;
 use TRegx\CleanRegex\Internal\Expression\Alteration;
 use TRegx\CleanRegex\Internal\Expression\Literal;
+use TRegx\CleanRegex\Internal\Prepared\Cluster\FigureClusters;
+use TRegx\CleanRegex\Internal\Prepared\Clusters;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Mask;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Standard;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
-use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardOrthography;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling;
-use TRegx\CleanRegex\Internal\Prepared\Tokens;
 use TRegx\CleanRegex\Pattern;
 
 trait EntryPoints
@@ -24,7 +24,7 @@ trait EntryPoints
 
     public static function inject(string $pattern, array $texts, string $flags = null): Pattern
     {
-        return new Pattern(new Template(new StandardSpelling($pattern, Flags::from($flags), new UnsuitableStringCondition($pattern)), new InjectFigures($texts)));
+        return new Pattern(new Template(new StandardSpelling($pattern, Flags::from($flags), new UnsuitableStringCondition($pattern)), new FigureClusters($texts)));
     }
 
     public static function mask(string $mask, array $keywords, string $flags = null): Pattern
@@ -39,7 +39,7 @@ trait EntryPoints
 
     public static function builder(string $pattern, string $flags = null): TemplateBuilder
     {
-        return new TemplateBuilder(new StandardOrthography($pattern, Flags::from($flags)), new Tokens([]));
+        return new TemplateBuilder(new StandardOrthography($pattern, Flags::from($flags)), new Clusters([]));
     }
 
     public static function literal(string $text, string $flags = null): Pattern

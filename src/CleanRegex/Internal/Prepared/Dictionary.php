@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Internal\Prepared;
 
 use Generator;
-use TRegx\CleanRegex\Internal\Prepared\Figure\CountedFigures;
-use TRegx\CleanRegex\Internal\Prepared\Figure\ExpectedFigures;
+use TRegx\CleanRegex\Internal\Prepared\Cluster\CountedClusters;
+use TRegx\CleanRegex\Internal\Prepared\Cluster\ExpectedClusters;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\FiguresPlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
@@ -11,15 +11,15 @@ use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
 class Dictionary
 {
-    /** @var ExpectedFigures */
-    private $figures;
+    /** @var ExpectedClusters */
+    private $clusters;
     /** @var PatternAsEntities */
     private $patternAsEntities;
 
-    public function __construct(Spelling $spelling, CountedFigures $figures)
+    public function __construct(Spelling $spelling, CountedClusters $clusters)
     {
-        $this->figures = new ExpectedFigures($figures);
-        $this->patternAsEntities = new PatternAsEntities($spelling->pattern(), $spelling->flags(), new FiguresPlaceholderConsumer($this->figures));
+        $this->clusters = new ExpectedClusters($clusters);
+        $this->patternAsEntities = new PatternAsEntities($spelling->pattern(), $spelling->flags(), new FiguresPlaceholderConsumer($this->clusters));
     }
 
     public function compositePhrase(): Phrase
@@ -30,7 +30,7 @@ class Dictionary
     private function phrases(): Generator
     {
         $entities = $this->patternAsEntities->entities();
-        $this->figures->meetExpectation();
+        $this->clusters->meetExpectation();
         foreach ($entities as $entity) {
             yield $entity->phrase();
         }

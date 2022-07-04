@@ -1,11 +1,11 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Template;
+namespace TRegx\CleanRegex\Internal\Prepared\Template\Cluster;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Type\Type;
 
-class NullToken implements Token
+class NullCluster implements Cluster
 {
     public function phrase(): Phrase
     {

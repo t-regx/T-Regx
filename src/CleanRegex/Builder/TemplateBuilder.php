@@ -1,56 +1,57 @@
 <?php
 namespace TRegx\CleanRegex\Builder;
 
+use TRegx\CleanRegex\Internal\Prepared\Clusters;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Orthography;
-use TRegx\CleanRegex\Internal\Prepared\Template\AlterationToken;
-use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
-use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
-use TRegx\CleanRegex\Internal\Prepared\Template\PatternToken;
-use TRegx\CleanRegex\Internal\Prepared\Template\Token;
-use TRegx\CleanRegex\Internal\Prepared\Tokens;
+use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
+use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\FigureCluster;
+use TRegx\CleanRegex\Internal\Prepared\Template\Figure\AlterationFigure;
+use TRegx\CleanRegex\Internal\Prepared\Template\Figure\LiteralFigure;
+use TRegx\CleanRegex\Internal\Prepared\Template\Figure\MaskFigure;
+use TRegx\CleanRegex\Internal\Prepared\Template\Figure\PatternFigure;
 use TRegx\CleanRegex\Pattern;
 
 class TemplateBuilder
 {
     /** @var Orthography */
     private $orthography;
-    /** @var Tokens */
-    private $tokens;
+    /** @var Clusters */
+    private $clusters;
 
-    public function __construct(Orthography $orthography, Tokens $tokens)
+    public function __construct(Orthography $orthography, Clusters $clusters)
     {
         $this->orthography = $orthography;
-        $this->tokens = $tokens;
+        $this->clusters = $clusters;
     }
 
     public function mask(string $mask, array $keywords): TemplateBuilder
     {
-        return $this->next(new MaskToken($mask, $keywords));
+        return $this->next(new FigureCluster(new MaskFigure($mask, $keywords)));
     }
 
     public function literal(string $text): TemplateBuilder
     {
-        return $this->next(new LiteralToken($text));
+        return $this->next(new FigureCluster(new LiteralFigure($text)));
     }
 
     public function alteration(array $figures): TemplateBuilder
     {
-        return $this->next(new AlterationToken($figures));
+        return $this->next(new FigureCluster(new AlterationFigure($figures)));
     }
 
     public function pattern(string $pattern): TemplateBuilder
     {
-        return $this->next(new PatternToken($pattern));
+        return $this->next(new FigureCluster(new PatternFigure($pattern)));
     }
 
-    private function next(Token $token): TemplateBuilder
+    private function next(Cluster $cluster): TemplateBuilder
     {
-        return new TemplateBuilder($this->orthography, $this->tokens->next($token));
+        return new TemplateBuilder($this->orthography, $this->clusters->next($cluster));
     }
 
     public function build(): Pattern
     {
-        return new Pattern(new Template($this->orthography->spelling($this->tokens->condition()), $this->tokens->figures()));
+        return new Pattern(new Template($this->orthography->spelling($this->clusters->condition()), $this->clusters->clusters()));
     }
 }

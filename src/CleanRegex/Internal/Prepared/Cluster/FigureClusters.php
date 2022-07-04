@@ -1,13 +1,14 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Figure;
+namespace TRegx\CleanRegex\Internal\Prepared\Cluster;
 
 use TRegx\CleanRegex\Internal\InvalidArgument;
-use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
-use TRegx\CleanRegex\Internal\Prepared\Template\Token;
+use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
+use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\FigureCluster;
+use TRegx\CleanRegex\Internal\Prepared\Template\Figure\LiteralFigure;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use UnderflowException;
 
-class InjectFigures implements CountedFigures
+class FigureClusters implements CountedClusters
 {
     /** @var string[] */
     private $figures;
@@ -23,9 +24,9 @@ class InjectFigures implements CountedFigures
         $this->figures = \array_slice($figures, 0);
     }
 
-    public function nextToken(): Token
+    public function nextCluster(): Cluster
     {
-        return new LiteralToken($this->nextFigure());
+        return new FigureCluster(new LiteralFigure($this->nextFigure()));
     }
 
     private function nextFigure()

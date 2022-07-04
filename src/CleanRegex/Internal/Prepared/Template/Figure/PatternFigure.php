@@ -1,14 +1,15 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Template;
+namespace TRegx\CleanRegex\Internal\Prepared\Template\Figure;
 
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralPlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
+use TRegx\CleanRegex\Internal\Prepared\Template\DelimiterAware;
 use TRegx\CleanRegex\Internal\Type\PatternType;
 use TRegx\CleanRegex\Internal\Type\Type;
 
-class PatternToken implements Token
+class PatternFigure implements Figure
 {
     use DelimiterAware;
 

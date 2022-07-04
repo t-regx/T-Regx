@@ -6,8 +6,8 @@ use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Delimiter\UndelimitablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Flags;
+use TRegx\CleanRegex\Internal\Prepared\Cluster\CountedClusters;
 use TRegx\CleanRegex\Internal\Prepared\Dictionary;
-use TRegx\CleanRegex\Internal\Prepared\Figure\CountedFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
@@ -20,9 +20,9 @@ class Template implements Expression
     /** @var Spelling */
     private $spelling;
 
-    public function __construct(Spelling $spelling, CountedFigures $figures)
+    public function __construct(Spelling $spelling, CountedClusters $clusters)
     {
-        $this->dictionary = new Dictionary($spelling, $figures);
+        $this->dictionary = new Dictionary($spelling, $clusters);
         $this->spelling = $spelling;
     }
 

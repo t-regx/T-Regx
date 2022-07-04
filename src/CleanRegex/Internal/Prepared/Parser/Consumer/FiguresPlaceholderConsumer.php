@@ -1,23 +1,23 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser\Consumer;
 
-use TRegx\CleanRegex\Internal\Prepared\Figure\ExpectedFigures;
+use TRegx\CleanRegex\Internal\Prepared\Cluster\ExpectedClusters;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Placeholder;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 
 class FiguresPlaceholderConsumer extends PlaceholderConsumer
 {
-    /** @var ExpectedFigures */
-    private $figures;
+    /** @var ExpectedClusters */
+    private $clusters;
 
-    public function __construct(ExpectedFigures $figures)
+    public function __construct(ExpectedClusters $clusters)
     {
-        $this->figures = $figures;
+        $this->clusters = $clusters;
     }
 
     public function consume(Feed $feed, EntitySequence $entities): void
     {
-        $entities->append(new Placeholder($this->figures->nextToken()));
+        $entities->append(new Placeholder($this->clusters->nextCluster()));
     }
 }

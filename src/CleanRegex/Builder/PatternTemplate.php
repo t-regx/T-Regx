@@ -1,14 +1,15 @@
 <?php
 namespace TRegx\CleanRegex\Builder;
 
+use TRegx\CleanRegex\Internal\Prepared\Cluster\IndividualCluster;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
-use TRegx\CleanRegex\Internal\Prepared\Figure\SingleFigure;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Orthography;
-use TRegx\CleanRegex\Internal\Prepared\Template\AlterationToken;
-use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
-use TRegx\CleanRegex\Internal\Prepared\Template\MaskToken;
-use TRegx\CleanRegex\Internal\Prepared\Template\PatternToken;
-use TRegx\CleanRegex\Internal\Prepared\Template\Token;
+use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
+use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\FigureCluster;
+use TRegx\CleanRegex\Internal\Prepared\Template\Figure\AlterationFigure;
+use TRegx\CleanRegex\Internal\Prepared\Template\Figure\LiteralFigure;
+use TRegx\CleanRegex\Internal\Prepared\Template\Figure\MaskFigure;
+use TRegx\CleanRegex\Internal\Prepared\Template\Figure\PatternFigure;
 use TRegx\CleanRegex\Pattern;
 
 class PatternTemplate
@@ -23,26 +24,26 @@ class PatternTemplate
 
     public function mask(string $mask, array $keywords): Pattern
     {
-        return $this->template(new MaskToken($mask, $keywords));
+        return $this->template(new FigureCluster(new MaskFigure($mask, $keywords)));
     }
 
     public function literal(string $text): Pattern
     {
-        return $this->template(new LiteralToken($text));
+        return $this->template(new FigureCluster(new LiteralFigure($text)));
     }
 
     public function alteration(array $figures): Pattern
     {
-        return $this->template(new AlterationToken($figures));
+        return $this->template(new FigureCluster(new AlterationFigure($figures)));
     }
 
     public function pattern(string $pattern): Pattern
     {
-        return $this->template(new PatternToken($pattern));
+        return $this->template(new FigureCluster(new PatternFigure($pattern)));
     }
 
-    private function template(Token $token): Pattern
+    private function template(Cluster $cluster): Pattern
     {
-        return new Pattern(new Template($this->orthography->spelling($token), new SingleFigure($token)));
+        return new Pattern(new Template($this->orthography->spelling($cluster), new IndividualCluster($cluster)));
     }
 }

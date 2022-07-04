@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Template;
+namespace TRegx\CleanRegex\Internal\Prepared\Template\Figure;
 
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Template\Mask\KeywordsCondition;
@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Prepared\Template\Mask\MaskPhrase;
 use TRegx\CleanRegex\Internal\Type\MaskType;
 use TRegx\CleanRegex\Internal\Type\Type;
 
-class MaskToken implements Token
+class MaskFigure implements Figure
 {
     /** @var KeywordsCondition */
     private $condition;

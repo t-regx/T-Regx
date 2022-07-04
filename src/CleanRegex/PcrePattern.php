@@ -4,11 +4,11 @@ namespace TRegx\CleanRegex;
 use TRegx\CleanRegex\Builder\PatternTemplate;
 use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Internal\Expression\Pcre;
+use TRegx\CleanRegex\Internal\Prepared\Cluster\FigureClusters;
+use TRegx\CleanRegex\Internal\Prepared\Clusters;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
-use TRegx\CleanRegex\Internal\Prepared\Figure\InjectFigures;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreOrthography;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreSpelling;
-use TRegx\CleanRegex\Internal\Prepared\Tokens;
 
 class PcrePattern
 {
@@ -31,7 +31,7 @@ class PcrePattern
 
     public static function inject(string $pcreTemplate, array $values): Pattern
     {
-        return new Pattern(new Template(new PcreSpelling($pcreTemplate), new InjectFigures($values)));
+        return new Pattern(new Template(new PcreSpelling($pcreTemplate), new FigureClusters($values)));
     }
 
     public static function template(string $pcreTemplate): PatternTemplate
@@ -41,6 +41,6 @@ class PcrePattern
 
     public static function builder(string $pcreTemplate): TemplateBuilder
     {
-        return new TemplateBuilder(new PcreOrthography($pcreTemplate), new Tokens([]));
+        return new TemplateBuilder(new PcreOrthography($pcreTemplate), new Clusters([]));
     }
 }

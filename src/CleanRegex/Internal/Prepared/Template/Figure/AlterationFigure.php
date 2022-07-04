@@ -1,13 +1,14 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Prepared\Template;
+namespace TRegx\CleanRegex\Internal\Prepared\Template\Figure;
 
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPhrase;
+use TRegx\CleanRegex\Internal\Prepared\Template\DelimiterAgnostic;
 use TRegx\CleanRegex\Internal\Prepared\Word\AlterationWord;
 use TRegx\CleanRegex\Internal\Type\Type;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 
-class AlterationToken implements Token
+class AlterationFigure implements Figure
 {
     use DelimiterAgnostic;
 

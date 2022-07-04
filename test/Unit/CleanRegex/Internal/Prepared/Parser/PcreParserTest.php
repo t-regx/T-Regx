@@ -2,12 +2,13 @@
 namespace Test\Unit\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Prepared\Template\Cluster\FakeCluster;
 use Test\Utils\Agnostic\PcreDependant;
 use Test\Utils\Prepared\PatternEntitiesAssertion;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Figure\ExpectedFigures;
-use TRegx\CleanRegex\Internal\Prepared\Figure\TokenFigures;
+use TRegx\CleanRegex\Internal\Prepared\Cluster\ArrayClusters;
+use TRegx\CleanRegex\Internal\Prepared\Cluster\ExpectedClusters;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CommentConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\ControlConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\EscapeConsumer;
@@ -31,7 +32,6 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\PosixOpen;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Quote;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
-use TRegx\CleanRegex\Internal\Prepared\Template\LiteralToken;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Prepared\PatternAsEntities
@@ -106,10 +106,10 @@ class PcreParserTest extends TestCase
         $consumers = [
             new GroupConsumer(),
             new GroupCloseConsumer(),
-            new FiguresPlaceholderConsumer(new ExpectedFigures(new TokenFigures([
-                new LiteralToken('one'),
-                new LiteralToken('two'),
-                new LiteralToken('three')
+            new FiguresPlaceholderConsumer(new ExpectedClusters(new ArrayClusters([
+                new FakeCluster('one'),
+                new FakeCluster('two'),
+                new FakeCluster('three')
             ])))
         ];
 
@@ -120,11 +120,11 @@ class PcreParserTest extends TestCase
         $assertion->assertPatternRepresents('(?i:(?x:@(?m-x)@)@)', [
             new GroupOpenFlags('i'),
             new GroupOpenFlags('x'),
-            new Placeholder(new LiteralToken('one')),
+            new Placeholder(new FakeCluster('one')),
             new GroupRemainder('m-x'),
-            new Placeholder(new LiteralToken('two')),
+            new Placeholder(new FakeCluster('two')),
             new GroupClose(),
-            new Placeholder(new LiteralToken('three')),
+            new Placeholder(new FakeCluster('three')),
             new GroupClose(),
         ], '(?i:(?x:one(?m-x)two)three)');
     }
