@@ -12,7 +12,7 @@ trait AssertsPattern
         $this->assertTrue($pattern->test($subject), "Failed to assert that $pattern matches '$subject'");
     }
 
-    public function assertSamePattern(string $expected, Pattern $actual): void
+    public function assertPatternIs(string $expected, Pattern $actual): void
     {
         Assert::assertSame($expected, $actual->delimited());
     }

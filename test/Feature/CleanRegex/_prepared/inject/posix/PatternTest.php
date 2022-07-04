@@ -19,7 +19,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::inject('[]@]', []);
 
         // then
-        $this->assertSamePattern('/[]@]/', $pattern);
+        $this->assertPatternIs('/[]@]/', $pattern);
     }
 
     /**
@@ -44,7 +44,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::inject($pattern, []);
 
         // then
-        $this->assertSamePattern($delimited, $pattern);
+        $this->assertPatternIs($delimited, $pattern);
     }
 
     /**

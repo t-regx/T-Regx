@@ -20,7 +20,7 @@ class PatternTest extends TestCase
         // when
         $pattern = PcrePattern::inject($pattern, ['X']);
         // then
-        $this->assertSamePattern($expected, $pattern);
+        $this->assertPatternIs($expected, $pattern);
     }
 
     public function templatesWithPlaceholder(): array
@@ -43,7 +43,7 @@ class PatternTest extends TestCase
         // when
         $pattern = PcrePattern::inject($pattern, []);
         // then
-        $this->assertSamePattern($expected, $pattern);
+        $this->assertPatternIs($expected, $pattern);
     }
 
     public function templatesWithoutPlaceholders(): array
@@ -65,7 +65,7 @@ class PatternTest extends TestCase
         // when
         $pattern = PcrePattern::inject("%You/her #@\n her?%x", []);
         // then
-        $this->assertSamePattern("%You/her #@\n her?%x", $pattern);
+        $this->assertPatternIs("%You/her #@\n her?%x", $pattern);
     }
 
     /**
@@ -76,6 +76,6 @@ class PatternTest extends TestCase
         // when
         $pattern = PcrePattern::inject("%You/her (?-x:#@\n) her?%x", ['X']);
         // then
-        $this->assertSamePattern("%You/her (?-x:#X\n) her?%x", $pattern);
+        $this->assertPatternIs("%You/her (?-x:#X\n) her?%x", $pattern);
     }
 }

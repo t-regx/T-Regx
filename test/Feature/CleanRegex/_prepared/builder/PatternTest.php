@@ -18,7 +18,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::builder("/#@\n", 'i')->literal('cat~')->build();
         // when, then
         $this->assertConsumesFirst("/#cat~\n", $pattern);
-        $this->assertSamePattern("%/#cat~\n%i", $pattern);
+        $this->assertPatternIs("%/#cat~\n%i", $pattern);
     }
 
     /**
@@ -30,6 +30,6 @@ class PatternTest extends TestCase
         $pattern = Pattern::builder('#@', 'x')->build();
         // when, then
         $this->assertConsumesFirst('', $pattern);
-        $this->assertSamePattern('/#@/x', $pattern);
+        $this->assertPatternIs('/#@/x', $pattern);
     }
 }

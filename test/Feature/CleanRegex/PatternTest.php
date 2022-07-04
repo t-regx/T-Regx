@@ -176,7 +176,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::literal('Foo{2}');
 
         // then
-        $this->assertSamePattern('/Foo\{2\}/', $pattern);
+        $this->assertPatternIs('/Foo\{2\}/', $pattern);
     }
 
     /**
@@ -188,7 +188,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::literal('Foo {2}', 'D');
 
         // then
-        $this->assertSamePattern('/Foo\ \{2\}/D', $pattern);
+        $this->assertPatternIs('/Foo\ \{2\}/D', $pattern);
     }
 
     /**
@@ -200,7 +200,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::literal('Foo/{2}', 'm');
 
         // then
-        $this->assertSamePattern('/Foo\/\{2\}/m', $pattern);
+        $this->assertPatternIs('/Foo\/\{2\}/m', $pattern);
     }
 
     /**
@@ -278,7 +278,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirst(\chr(28), $pattern);
-        $this->assertSamePattern('/\c\\{1}/', $pattern);
+        $this->assertPatternIs('/\c\\{1}/', $pattern);
     }
 
     /**

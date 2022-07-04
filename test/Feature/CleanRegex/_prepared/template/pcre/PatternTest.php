@@ -20,7 +20,7 @@ class PatternTest extends TestCase
         // when
         $pattern = PcrePattern::template($pattern)->literal('X');
         // then
-        $this->assertSamePattern($expected, $pattern);
+        $this->assertPatternIs($expected, $pattern);
     }
 
     public function templatesWithPlaceholder(): array
@@ -40,7 +40,7 @@ class PatternTest extends TestCase
         // given
         $pattern = PcrePattern::template('%foo:@%m')->literal('bar%cat');
         // when, then
-        $this->assertSamePattern('%foo:bar\%cat%m', $pattern);
+        $this->assertPatternIs('%foo:bar\%cat%m', $pattern);
     }
 
     /**
@@ -54,7 +54,7 @@ class PatternTest extends TestCase
         // when
         $pattern = PcrePattern::builder($pattern)->build();
         // then
-        $this->assertSamePattern($expected, $pattern);
+        $this->assertPatternIs($expected, $pattern);
     }
 
     public function templatesWithoutPlaceholders(): array
@@ -76,7 +76,7 @@ class PatternTest extends TestCase
         // when
         $pattern = PcrePattern::builder("%You/her #@\n her?%x")->build();
         // then
-        $this->assertSamePattern("%You/her #@\n her?%x", $pattern);
+        $this->assertPatternIs("%You/her #@\n her?%x", $pattern);
     }
 
     /**
@@ -87,6 +87,6 @@ class PatternTest extends TestCase
         // when
         $pattern = PcrePattern::template("%You/her (?-x:#@\n) her?%x")->literal('X');
         // then
-        $this->assertSamePattern("%You/her (?-x:#X\n) her?%x", $pattern);
+        $this->assertPatternIs("%You/her (?-x:#X\n) her?%x", $pattern);
     }
 }

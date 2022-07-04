@@ -18,7 +18,7 @@ class PatternTest extends TestCase
         // when
         $pattern = Pattern::inject("You/her #@\n her?", [], 'ix');
         // then
-        $this->assertSamePattern("%You/her #@\n her?%ix", $pattern);
+        $this->assertPatternIs("%You/her #@\n her?%ix", $pattern);
     }
 
     /**
@@ -30,7 +30,7 @@ class PatternTest extends TestCase
         // when
         $pattern = Pattern::inject("You/her #@\n her?", ['Bar'], 'X');
         // then
-        $this->assertSamePattern("%You/her #Bar\n her?%X", $pattern);
+        $this->assertPatternIs("%You/her #Bar\n her?%X", $pattern);
     }
 
     /**
@@ -41,7 +41,7 @@ class PatternTest extends TestCase
         // when
         $pattern = Pattern::inject("(?x)You/her #@\n her?", []);
         // then
-        $this->assertSamePattern("%(?x)You/her #@\n her?%", $pattern);
+        $this->assertPatternIs("%(?x)You/her #@\n her?%", $pattern);
     }
 
     /**
@@ -53,7 +53,7 @@ class PatternTest extends TestCase
         // when
         $pattern = Pattern::inject("(?X)You/her #@\n her?", ['Bar']);
         // then
-        $this->assertSamePattern("%(?X)You/her #Bar\n her?%", $pattern);
+        $this->assertPatternIs("%(?X)You/her #Bar\n her?%", $pattern);
     }
 
     /**
@@ -68,7 +68,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::inject($unsetFlag, ['Foo'], 'x');
         // then
         $this->assertConsumesFirst("#Foo\n", $pattern);
-        $this->assertSamePattern($delimited, $pattern);
+        $this->assertPatternIs($delimited, $pattern);
     }
 
     public function unsetExtendedFlag(): array

@@ -24,7 +24,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::inject('You/her, (are|is) @ (you|her)', [$figure]);
 
         // then
-        $this->assertSamePattern('#You/her, (are|is) real\?\ \(or\ are\ you\ not\ real\?\) (you|her)#', $pattern);
+        $this->assertPatternIs('#You/her, (are|is) real\?\ \(or\ are\ you\ not\ real\?\) (you|her)#', $pattern);
     }
 
     /**
@@ -58,7 +58,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirst('(super):{  .12.%/}', $pattern);
-        $this->assertSamePattern('#\(Super\)\:\{\s+\.\d+\.%/\}#i', $pattern);
+        $this->assertPatternIs('#\(Super\)\:\{\s+\.\d+\.%/\}#i', $pattern);
     }
 
     /**
@@ -70,7 +70,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::mask('%', ['%%' => '/', '%e' => '#']);
 
         // then
-        $this->assertSamePattern('%\%%', $pattern);
+        $this->assertPatternIs('%\%%', $pattern);
     }
 
     /**
@@ -128,7 +128,7 @@ class PatternTest extends TestCase
             ->build();
 
         // then
-        $this->assertSamePattern('~^& vThis\-is\:\ x{3,}#\ pattern\ x{4,}/s. &\~ or `s` %~i', $pattern);
+        $this->assertPatternIs('~^& vThis\-is\:\ x{3,}#\ pattern\ x{4,}/s. &\~ or `s` %~i', $pattern);
     }
 
     /**
@@ -150,7 +150,7 @@ class PatternTest extends TestCase
             ->build();
 
         // then
-        $this->assertSamePattern('/^This\-is\:\ x{3,}\ pattern\ x{4,} v@s. \(e{2,3}\:%e\)$ or `s`/i', $pattern);
+        $this->assertPatternIs('/^This\-is\:\ x{3,}\ pattern\ x{4,} v@s. \(e{2,3}\:%e\)$ or `s`/i', $pattern);
     }
 
     /**
@@ -162,7 +162,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::template('^@ vs/$', 's')->mask('This-is: %3', ['%3' => 'x{3,}']);
 
         // then
-        $this->assertSamePattern('#^This\-is\:\ x{3,} vs/$#s', $pattern);
+        $this->assertPatternIs('#^This\-is\:\ x{3,} vs/$#s', $pattern);
     }
 
     /**
@@ -180,7 +180,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirst('/%:#/   ', $pattern);
-        $this->assertSamePattern('~/%\:#/\s*~', $pattern);
+        $this->assertPatternIs('~/%\:#/\s*~', $pattern);
     }
 
     /**
@@ -192,7 +192,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::template('^@ vs/ $', 's')->literal('&');
 
         // then
-        $this->assertSamePattern('#^& vs/ $#s', $pattern);
+        $this->assertPatternIs('#^& vs/ $#s', $pattern);
     }
 
     /**
@@ -206,7 +206,7 @@ class PatternTest extends TestCase
         // then
         $this->assertConsumesFirst('You/her, {hi} her', $pattern);
         $this->assertConsumesFirst('You/her, 50# her', $pattern);
-        $this->assertSamePattern('#You/her, (?:\{hi\}|50\#) (her)#s', $pattern);
+        $this->assertPatternIs('#You/her, (?:\{hi\}|50\#) (her)#s', $pattern);
     }
 
     /**
@@ -230,7 +230,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::alteration(['foo', 'bar']);
 
         // then
-        $this->assertSamePattern('/(?:foo|bar)/', $pattern);
+        $this->assertPatternIs('/(?:foo|bar)/', $pattern);
     }
 
     /**
@@ -243,7 +243,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesAll('FO{2} \d fo{2} \w', ['FO{2}', '\d', 'fo{2}', '\w'], $pattern);
-        $this->assertSamePattern('/(?:fo\{2\}|\\\\w|\\\\d)/i', $pattern);
+        $this->assertPatternIs('/(?:fo\{2\}|\\\\w|\\\\d)/i', $pattern);
     }
 
     /**
@@ -257,7 +257,7 @@ class PatternTest extends TestCase
         $pattern = PcrePattern::inject($delimiter . 'foo(@)' . $delimiter, [$delimiter]);
         // then
         $this->assertConsumesFirst("foo$delimiter", $pattern);
-        $this->assertSamePattern("\x3Afoo(\\\x3A)\x3A", $pattern);
+        $this->assertPatternIs("\x3Afoo(\\\x3A)\x3A", $pattern);
     }
 
     /**

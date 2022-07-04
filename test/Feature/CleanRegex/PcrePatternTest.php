@@ -31,7 +31,7 @@ class PcrePatternTest extends TestCase
         // when
         $pattern = PcrePattern::template('%You/her, @ (her)%s')->mask('%s', ['%s' => '\s']);
         // then
-        $this->assertSamePattern('%You/her, \s (her)%s', $pattern);
+        $this->assertPatternIs('%You/her, \s (her)%s', $pattern);
     }
 
     /**
@@ -42,7 +42,7 @@ class PcrePatternTest extends TestCase
         // when
         $pattern = PcrePattern::template('@You/her, @ (her)@s')->literal('{hi@}');
         // then
-        $this->assertSamePattern('@You/her, \{hi\@\} (her)@s', $pattern);
+        $this->assertPatternIs('@You/her, \{hi\@\} (her)@s', $pattern);
     }
 
     /**
@@ -53,6 +53,6 @@ class PcrePatternTest extends TestCase
         // when
         $pattern = PcrePattern::template('%You/her, @ (her)%s')->alteration(['{hi}', '50%']);
         // then
-        $this->assertSamePattern('%You/her, (?:\{hi\}|50\%) (her)%s', $pattern);
+        $this->assertPatternIs('%You/her, (?:\{hi\}|50\%) (her)%s', $pattern);
     }
 }

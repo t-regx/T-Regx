@@ -25,7 +25,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::template($pattern)->literal('X');
 
         // then
-        $this->assertSamePattern($expected, $pattern);
+        $this->assertPatternIs($expected, $pattern);
     }
 
     public function templatesWithPlaceholder(): array
@@ -49,7 +49,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::builder($pattern)->build();
 
         // then
-        $this->assertSamePattern($expected, $pattern);
+        $this->assertPatternIs($expected, $pattern);
     }
 
     public function templatesWithoutPlaceholders(): array
@@ -72,7 +72,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::builder("You/her #@\n her?", 'x')->build();
 
         // then
-        $this->assertSamePattern("%You/her #@\n her?%x", $pattern);
+        $this->assertPatternIs("%You/her #@\n her?%x", $pattern);
     }
 
     /**
@@ -84,7 +84,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::builder("You/her (?-x:#@\n) her?", 'x')->literal('X')->build();
 
         // then
-        $this->assertSamePattern("%You/her (?-x:#X\n) her?%x", $pattern);
+        $this->assertPatternIs("%You/her (?-x:#X\n) her?%x", $pattern);
     }
 
     /**
@@ -179,7 +179,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::template('foo:@')->pattern('#https?/www%');
 
         // then
-        $this->assertSamePattern('~foo:#https?/www%~', $pattern);
+        $this->assertPatternIs('~foo:#https?/www%~', $pattern);
         $this->assertConsumesFirst('foo:#http/www%', $pattern);
     }
 
@@ -192,7 +192,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::template('@')->pattern('/');
 
         // then
-        $this->assertSamePattern('#/#', $pattern);
+        $this->assertPatternIs('#/#', $pattern);
         $this->assertConsumesFirst('/', $pattern);
     }
 
@@ -255,7 +255,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirst('/foo:' . \chr(28), $pattern);
-        $this->assertSamePattern('#/foo:\c\{1}#', $pattern);
+        $this->assertPatternIs('#/foo:\c\{1}#', $pattern);
     }
 
     /**
@@ -283,7 +283,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirst('foo:' . \chr(28), $pattern);
-        $this->assertSamePattern('/foo:\c\{1}/', $pattern);
+        $this->assertPatternIs('/foo:\c\{1}/', $pattern);
     }
 
     /**
@@ -296,7 +296,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirst("foo:\x1C>", $pattern);
-        $this->assertSamePattern('/foo:\c\>/', $pattern);
+        $this->assertPatternIs('/foo:\c\>/', $pattern);
     }
 
     /**
@@ -309,7 +309,7 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirst("foo:\x1C|", $pattern);
-        $this->assertSamePattern('/foo:\c\\\|/', $pattern);
+        $this->assertPatternIs('/foo:\c\\\|/', $pattern);
     }
 
     /**
@@ -396,7 +396,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::template("/#@\n", 'i')->literal('cat~');
         // when, then
         $this->assertConsumesFirst("/#cat~\n", $pattern);
-        $this->assertSamePattern("%/#cat~\n%i", $pattern);
+        $this->assertPatternIs("%/#cat~\n%i", $pattern);
     }
 
     /**
@@ -408,7 +408,7 @@ class PatternTest extends TestCase
         $pattern = Pattern::template('^@$#@', 'x')->literal('Foo');
         // when, then
         $this->assertConsumesFirst('Foo', $pattern);
-        $this->assertSamePattern('/^Foo$#@/x', $pattern);
+        $this->assertPatternIs('/^Foo$#@/x', $pattern);
     }
 
     /**
@@ -419,6 +419,6 @@ class PatternTest extends TestCase
         // given
         $pattern = Pattern::template('(?m-i:@')->literal('one');
         // when, then
-        $this->assertSamePattern('/(?m-i:one/', $pattern);
+        $this->assertPatternIs('/(?m-i:one/', $pattern);
     }
 }
