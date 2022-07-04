@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsPattern;
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
+use TRegx\CleanRegex\Internal\Prepared\Figure\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
 
 class PatternTest extends TestCase
@@ -34,6 +35,34 @@ class PatternTest extends TestCase
             'comment (but no "x" flag)'              => ["You/her #@\n her?", "%You/her #X\n her?%"],
             'comment ("x" flag, but also "-x" flag)' => ["You/her (?x:(?-x:#@\n)) her?", "%You/her (?x:(?-x:#X\n)) her?%"],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMissingTemplateAlteration()
+    {
+        // given
+        $template = Pattern::template('@@@@@');
+        // then
+        $this->expectException(PlaceholderFigureException::class);
+        $this->expectExceptionMessage('Not enough corresponding figures supplied. Used 5 placeholders, but 1 figures supplied.');
+        // when
+        $template->alteration(['foo', 'bar']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForSuperfluousTemplateAlteration()
+    {
+        // given
+        $template = Pattern::template('Foo');
+        // then
+        $this->expectException(PlaceholderFigureException::class);
+        $this->expectExceptionMessage('Found a superfluous figure: array (2). Used 0 placeholders, but 1 figures supplied.');
+        // when
+        $template->alteration(['foo', 'bar']);
     }
 
     /**

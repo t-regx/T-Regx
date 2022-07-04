@@ -115,6 +115,20 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrowForMissingBuilderFigures()
+    {
+        // given
+        $builder = Pattern::builder('Foo')->alteration(['Foo', 'Bar']);
+        // then
+        $this->expectException(PlaceholderFigureException::class);
+        $this->expectExceptionMessage("Found a superfluous figure: array (2). Used 0 placeholders, but 1 figures supplied.");
+        // when
+        $builder->build();
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowForSuperfluousTemplatePattern()
     {
         // given
