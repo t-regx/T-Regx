@@ -72,6 +72,10 @@ jobs:
       - name: Run tests
         run: ./vendor/bin/phpunit test
 
+      - name: Install "php-coveralls/php-coveralls"
+        if: "${{ matrix.coverage != 'none' }}"
+        run: composer require php-coveralls/php-coveralls --no-progress
+
       - name: Upload coverage results to Coveralls
         if: "${{ matrix.coverage != 'none' }}"
         continue-on-error: true
