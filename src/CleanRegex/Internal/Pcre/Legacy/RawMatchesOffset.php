@@ -22,11 +22,6 @@ class RawMatchesOffset implements GroupAware
         return \count($this->matches[0]) > 0;
     }
 
-    public function getCount(): int
-    {
-        return \count($this->matches[0]);
-    }
-
     public function hasGroup(GroupKey $group): bool
     {
         return \array_key_exists($group->nameOrIndex(), $this->matches);

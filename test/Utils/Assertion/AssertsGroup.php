@@ -20,15 +20,6 @@ trait AssertsGroup
         Assert::assertSame('second', $group->or('second'), $message);
     }
 
-    function assertGroupMatched(Group $group): void
-    {
-        $id = $group->usedIdentifier();
-        $message = "Failed to assert that group $id is matched";
-        Assert::assertTrue($group->matched(), $message);
-        Assert::assertSame($group->text(), $group->or('first'), $message);
-        Assert::assertSame($group->text(), $group->or('second'), $message);
-    }
-
     function assertGroupTexts(array $expectedTexts, array $groups)
     {
         Assert::assertSame($expectedTexts, $this->groupTexts($groups));
@@ -38,11 +29,6 @@ trait AssertsGroup
     function assertGroupTextsOptional(array $expectedTexts, array $groups)
     {
         Assert::assertSame($expectedTexts, $this->groupTextsOptional($groups), "Failed asserting that texts of groups are identical");
-    }
-
-    function assertGroupOffsetsOptional(array $expectedOffsets, array $groups)
-    {
-        Assert::assertSame($expectedOffsets, $this->groupOffsetsOptional($groups), "Failed asserting that offsets of groups are identical");
     }
 
     function assertGroupNames(array $expectedNames, array $groups)
@@ -83,19 +69,6 @@ trait AssertsGroup
         foreach ($groups as $key => $group) {
             if ($group->matched()) {
                 $texts[$key] = $group->text();
-            } else {
-                $texts[$key] = null;
-            }
-        }
-        return $texts;
-    }
-
-    private function groupOffsetsOptional(array $groups): array
-    {
-        $texts = [];
-        foreach ($groups as $key => $group) {
-            if ($group->matched()) {
-                $texts[$key] = $group->offset();
             } else {
                 $texts[$key] = null;
             }

@@ -31,15 +31,6 @@ class RawMatchOffset
         return \array_key_exists($group->nameOrIndex(), $this->match);
     }
 
-    public function getGroup($nameOrIndex): ?string
-    {
-        [$text, $offset] = $this->match[$nameOrIndex];
-        if ($offset === -1) {
-            return null;
-        }
-        return $text;
-    }
-
     public function byteOffset(): int
     {
         return $this->getGroupByteOffset(0);

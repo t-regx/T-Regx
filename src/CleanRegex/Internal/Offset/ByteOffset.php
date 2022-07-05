@@ -32,14 +32,4 @@ class ByteOffset
     {
         return $this->bytes;
     }
-
-    public static function toCharacterOffset(string $subject, int $offset): int
-    {
-        if (\strLen($subject) < $offset) {
-            // @codeCoverageIgnoreStart
-            throw new InternalCleanRegexException();
-            // @codeCoverageIgnoreEnd
-        }
-        return \mb_strLen(\substr($subject, 0, $offset), 'UTF-8');
-    }
 }
