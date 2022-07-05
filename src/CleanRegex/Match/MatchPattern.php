@@ -179,6 +179,9 @@ class MatchPattern implements Structure, \Countable, \IteratorAggregate
         return $this->amount->intValue();
     }
 
+    /**
+     * @return \Iterator|iterable<Detail>
+     */
     public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->getDetailObjects());

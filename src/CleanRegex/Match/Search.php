@@ -156,6 +156,9 @@ class Search implements \Countable, \IteratorAggregate
         return $this->amount->intValue();
     }
 
+    /**
+     * @return \Iterator|iterable<string>
+     */
     public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->searchBase->matchAllTexts());
