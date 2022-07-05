@@ -4,6 +4,7 @@ namespace Test\Feature\CleanRegex\Replace\callback;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Pattern;
+use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 /**
  * @covers \TRegx\CleanRegex\Replace\Details\ReplaceDetail
@@ -15,6 +16,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGetText()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('\w+')->replace('Quizzaciously')->callback(DetailFunctions::outLast($detail, ''));
         // when
@@ -28,6 +32,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGetLength()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('.+')->replace('12.14€')->callback(DetailFunctions::outLast($detail, ''));
         // when, then
@@ -40,6 +47,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGetModifiedSubject()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('\w+')->replace('Foo, Bar')->callback(DetailFunctions::outLast($detail, '_'));
         // when, then
@@ -52,6 +62,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGetModifiedOffset()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('[\w€]+')->replace('Foo€, Bar')->callback(DetailFunctions::outLast($detail, '€'));
         // when, then
@@ -64,6 +77,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGetByteModifiedOffset()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('[\w€]+')->replace('Foo€, Bar')->callback(DetailFunctions::outLast($detail, '€'));
         // when, then
@@ -76,6 +92,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldBeUsingDuplicateName()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('(?<name>One),(?<name>Two)', 'J')->replace('One,Two')->callback(DetailFunctions::outLast($detail, ''));
         // when, then
@@ -87,6 +106,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGetGroupNames()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('(One)(?<name>Two)()')->replace('OneTwo')->callback(DetailFunctions::outLast($detail, ''));
         // when
@@ -100,6 +122,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGetAll()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('\w+')->replace('Foo, Bar, Cat')->callback(DetailFunctions::outLast($detail, '€'));
         // when
@@ -113,6 +138,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGetIndexFirst()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('\w+')->replace('Foo, Bar')->callback(DetailFunctions::outLast($detail, ''));
         // when
@@ -126,6 +154,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGetIndex()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('\w+')->replace('Foo, Bar, Cat')->callback(DetailFunctions::outLast($detail, ''));
         // when
@@ -139,6 +170,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGetLimit()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('\w+')->replace('Foo, Bar, Cat')->only(42)->callback(DetailFunctions::outLast($detail, ''));
         // when
@@ -152,6 +186,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGetLimitAll()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('\w+')->replace('Foo, Bar, Cat')->callback(DetailFunctions::outLast($detail, ''));
         // when
@@ -165,6 +202,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGetTail()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('Łódź')->replace('€--Łódź')->callback(DetailFunctions::outLast($detail, ''));
         // when, then
@@ -177,6 +217,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGetToInt()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('\w+')->replace('14')->callback(DetailFunctions::outLast($detail, ''));
         // when
@@ -190,6 +233,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldBeInt()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('\w+')->replace('14')->callback(DetailFunctions::outLast($detail, ''));
         // when, then
@@ -201,6 +247,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldNotBeInt()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('\w+')->replace('14a')->callback(DetailFunctions::outLast($detail, ''));
         // when, then
@@ -212,6 +261,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGroupBeMatched()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('(One)?(Two)')->replace('Two')->callback(DetailFunctions::outLast($detail, ''));
         // when, then
@@ -225,6 +277,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGroupBeMatchedSecond()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('(One)(Two)?')->replace('One')->callback(DetailFunctions::outLast($detail, ''));
         // when, then
@@ -238,6 +293,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldHaveGroup()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('(?<Foo>\w+)')->replace('Quizzaciously')->callback(DetailFunctions::outLast($detail, ''));
         // when, then
@@ -250,6 +308,9 @@ class ReplaceDetailTest extends TestCase
      */
     public function shouldGet_toString()
     {
+        /**
+         * @var ReplaceDetail $detail
+         */
         // given
         Pattern::of('\w+')->replace('Quizzaciously')->callback(DetailFunctions::outLast($detail, ''));
         // when
