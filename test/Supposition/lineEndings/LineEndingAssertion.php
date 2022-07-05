@@ -12,7 +12,7 @@ class LineEndingAssertion
     /** @var AssertionMessage */
     private $message;
 
-    public function __construct(Ending $ending, string $convention, Pattern $pattern)
+    public function __construct(Pattern $pattern, Ending $ending, string $convention)
     {
         $this->pattern = $pattern;
         $this->message = new AssertionMessage($ending, $convention, $pattern);

@@ -18,7 +18,7 @@ class StandardTest extends TestCase
     {
         // given
         $pattern = Pattern::of("$convention^#comment{$ending->ending()}value$", 'uxD');
-        $assertion = new LineEndingAssertion($ending, $convention, $pattern);
+        $assertion = new LineEndingAssertion($pattern, $ending, $convention);
         // when, then
         $assertion->assertCommentClosed('value');
     }
@@ -31,7 +31,7 @@ class StandardTest extends TestCase
     {
         // given
         $pattern = Pattern::of("$convention^$#comment{$ending->ending()}value$", 'uxD');
-        $assertion = new LineEndingAssertion($ending, $convention, $pattern);
+        $assertion = new LineEndingAssertion($pattern, $ending, $convention);
         // when, then
         $assertion->assertCommentIgnored('value');
     }
