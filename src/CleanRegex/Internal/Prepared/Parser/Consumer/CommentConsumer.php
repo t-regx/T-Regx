@@ -24,11 +24,12 @@ class CommentConsumer implements Consumer
     {
         $commentEnd = $feed->string("\n");
         while (!$feed->empty()) {
-            if ($commentEnd->consumable()) {
+            if (!$commentEnd->consumable()) {
+                $strings->add($feed->letter());
+            } else {
                 $strings->add($commentEnd);
                 break;
             }
-            $strings->add($feed->letter());
         }
     }
 }
