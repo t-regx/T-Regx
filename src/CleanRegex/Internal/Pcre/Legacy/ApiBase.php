@@ -21,12 +21,6 @@ class ApiBase implements Base
         $this->subject = $subject;
     }
 
-    public function match(): RawMatch
-    {
-        preg::match($this->definition->pattern, $this->subject, $match);
-        return new RawMatch($match);
-    }
-
     public function matchOffset(): RawMatchOffset
     {
         preg::match($this->definition->pattern, $this->subject, $match, \PREG_OFFSET_CAPTURE);

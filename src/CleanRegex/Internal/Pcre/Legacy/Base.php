@@ -6,8 +6,6 @@ namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
  */
 interface Base
 {
-    public function match(): RawMatch;
-
     public function matchOffset(): RawMatchOffset;
 
     public function matchAll(): RawMatches;

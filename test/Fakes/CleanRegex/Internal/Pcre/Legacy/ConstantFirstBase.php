@@ -3,7 +3,6 @@ namespace Test\Fakes\CleanRegex\Internal\Pcre\Legacy;
 
 use Test\Utils\Assertion\Fails;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
-use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatch;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatches;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
@@ -18,11 +17,6 @@ class ConstantFirstBase implements Base
     public function __construct(RawMatchOffset $matchFirst)
     {
         $this->matchFirst = $matchFirst;
-    }
-
-    public function match(): RawMatch
-    {
-        throw $this->fail();
     }
 
     public function matchOffset(): RawMatchOffset
