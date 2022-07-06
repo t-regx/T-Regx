@@ -60,7 +60,7 @@
     "ext-json": "*",
     "phpunit/phpunit": "^9.5.4 || ^8.0 || ^7.5",
     "rawr/cross-data-providers": "^2.3.0",
-    "rawr/fqn-check": "^1.2.0"
+    "rawr/fqn-check": "^1.3.0"
   },
   "archive": {
     "exclude": [
