@@ -79,7 +79,7 @@ class GroupFallbackReplacer
 
     private function validateGroup(array $match, GroupKey $group): void
     {
-        if (!array_key_exists($group->nameOrIndex(), $match)) {
+        if (!\array_key_exists($group->nameOrIndex(), $match)) {
             if (!$this->base->matchAllOffsets()->hasGroup($group)) {
                 throw new NonexistentGroupException($group);
             }
@@ -101,7 +101,7 @@ class GroupFallbackReplacer
 
     private function occurrence(array $match, GroupKey $group): ?string
     {
-        if (array_key_exists($group->nameOrIndex(), $match)) {
+        if (\array_key_exists($group->nameOrIndex(), $match)) {
             return $this->makeSureOccurrence($group, $match[$group->nameOrIndex()]);
         }
         return null;

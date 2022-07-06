@@ -6,7 +6,7 @@ abstract class Constants
     public function getConstant(int $error): string
     {
         $constants = $this->getConstants();
-        if (array_key_exists($error, $constants)) {
+        if (\array_key_exists($error, $constants)) {
             return $constants[$error];
         }
         return $this->getDefault();

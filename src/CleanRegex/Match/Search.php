@@ -180,7 +180,7 @@ class Search implements \Countable, \IteratorAggregate
 
     private function performGroupBy(GroupKey $group): array
     {
-        preg::match_all($this->definition->pattern, $this->subject->asString(), $matches, PREG_OFFSET_CAPTURE);
+        preg::match_all($this->definition->pattern, $this->subject->asString(), $matches, \PREG_OFFSET_CAPTURE);
         if (!\array_key_exists($group->nameOrIndex(), $matches)) {
             throw new NonexistentGroupException($group);
         }
