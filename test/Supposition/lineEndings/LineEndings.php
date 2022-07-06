@@ -43,12 +43,22 @@ trait LineEndings
          (*NUL)       the NUL character (binary zero)";
 
         $conventions = [
-            ''        => ['', ['lf', 'crlf', 'lfcr']],
-            'lf'      => ['(*LF)', ['lf', 'crlf', 'lfcr']],
-            'cr'      => ['(*CR)', ['cr', 'crlf', 'lfcr']],
-            'crlf'    => ['(*CRLF)', ['crlf']],
-            'anycrlf' => ['(*ANYCRLF)', ['crlf', 'cr', 'lf', 'lfcr']],
-            'any'     => ['(*ANY)', ['crlf', 'cr', 'lf', 'lfcr', 'vt', 'ff', 'nl']],
+            ''           => ['', ['lf', 'crlf', 'lfcr']],
+            'lf'         => ['(*LF)', ['lf', 'crlf', 'lfcr']],
+            'cr'         => ['(*CR)', ['cr', 'crlf', 'lfcr']],
+            'crlf'       => ['(*CRLF)', ['crlf']],
+            'anycrlf'    => ['(*ANYCRLF)', ['crlf', 'cr', 'lf', 'lfcr']],
+            'any'        => ['(*ANY)', ['crlf', 'cr', 'lf', 'lfcr', 'vt', 'ff', 'nl']],
+
+            ['(*LF)(*CR)', ['cr', 'crlf', 'lfcr']],
+            ['(*CR)(*LF)', ['lf', 'crlf', 'lfcr']],
+            ['(*CR)(*LF)(*CR)(*LF)(*CR)', ['cr', 'crlf', 'lfcr']],
+
+            ['(*CRLF)(*LF)', ['lf', 'crlf', 'lfcr']],
+
+            // PCRE Verb that doesn't change the newlines, should respond to
+            // the default newlines, same as (*LF) or same as no verb.
+            'irrelevant' => ['(*MARK:name)', ['lf', 'crlf', 'lfcr']],
         ];
         if (Pcre::pcre2()) {
             return $conventions + ['nul' => ['(*NUL)', []]];

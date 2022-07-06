@@ -2,6 +2,7 @@
 namespace Test\Unit\CleanRegex\Internal\Prepared\Parser\Consumer;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Prepared\Parser\ConstantConvention;
 use Test\Utils\Prepared\EntityFailAssertion;
 use Test\Utils\Prepared\PatternEntitiesAssertion;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CommentConsumer;
@@ -23,7 +24,7 @@ class CommentConsumerTest extends TestCase
     public function shouldFailToParseComment()
     {
         // given
-        $assertion = new EntityFailAssertion($this, [new CommentConsumer()]);
+        $assertion = new EntityFailAssertion($this, [new CommentConsumer(new ConstantConvention("\r"))]);
 
         // then
         $assertion->assertPatternFails('#');
@@ -37,7 +38,7 @@ class CommentConsumerTest extends TestCase
         // given
         $assertion = PatternEntitiesAssertion::withConsumers([
             new GroupConsumer(),
-            new CommentConsumer(),
+            new CommentConsumer(new ConstantConvention("\n")),
         ]);
 
         // then
@@ -56,7 +57,7 @@ class CommentConsumerTest extends TestCase
         $assertion = PatternEntitiesAssertion::withConsumers([
             new GroupConsumer(),
             new GroupCloseConsumer(),
-            new CommentConsumer(),
+            new CommentConsumer(new ConstantConvention("\n")),
             new LiteralConsumer()
         ]);
 
@@ -76,7 +77,7 @@ class CommentConsumerTest extends TestCase
         // given
         $assertion = PatternEntitiesAssertion::withConsumers([
             new GroupConsumer(),
-            new CommentConsumer(),
+            new CommentConsumer(new ConstantConvention("\n")),
             new LiteralConsumer()
         ]);
 
@@ -97,7 +98,7 @@ class CommentConsumerTest extends TestCase
         $assertion = PatternEntitiesAssertion::withConsumers([
             new GroupConsumer(),
             new GroupCloseConsumer(),
-            new CommentConsumer(),
+            new CommentConsumer(new ConstantConvention("\n")),
             new LiteralConsumer()
         ]);
 
@@ -116,7 +117,7 @@ class CommentConsumerTest extends TestCase
     public function shouldParseCommentOnExtended()
     {
         // given
-        $assertion = PatternEntitiesAssertion::withConsumers([new CommentConsumer()]);
+        $assertion = PatternEntitiesAssertion::withConsumers([new CommentConsumer(new ConstantConvention("\n"))]);
 
         // then
         $assertion->assertPatternFlagsRepresent('#boo', 'x', [new Comment('boo')]);
@@ -130,7 +131,7 @@ class CommentConsumerTest extends TestCase
         // given
         $assertion = PatternEntitiesAssertion::withConsumers([
             new GroupConsumer(),
-            new CommentConsumer(),
+            new CommentConsumer(new ConstantConvention("\n")),
             new LiteralConsumer()
         ]);
 
@@ -148,7 +149,7 @@ class CommentConsumerTest extends TestCase
     {
         // given
         $assertion = PatternEntitiesAssertion::withConsumers([
-            new CommentConsumer(),
+            new CommentConsumer(new ConstantConvention("\n")),
             new LiteralConsumer()
         ]);
 

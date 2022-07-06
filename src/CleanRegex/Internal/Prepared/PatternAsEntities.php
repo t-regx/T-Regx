@@ -12,6 +12,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\PlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\PosixConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\QuoteConsumer;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Convention;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
@@ -33,7 +34,7 @@ class PatternAsEntities
             new GroupCloseConsumer(),
             $placeholderConsumer,
             new PosixConsumer(),
-            new CommentConsumer(),
+            new CommentConsumer(new Convention($pattern)),
             new LiteralConsumer(),
         ]);
     }

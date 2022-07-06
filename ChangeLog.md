@@ -4,7 +4,17 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Features
+    * Prepared patterns now support changing new line conventions with flag `x` (`EXTENDED` mode).
+
+      This code is now valid:
+      ```php
+      Pattern::inject("(*CR)#comment@\r@", ['value'], 'x');
+      ```
+      The first placeholder character `"@"` is considered a part of an extended comment, but the second
+      placeholder `@` is assigned value `'value'`.
+
+    * All types of PCRE newline conventions are supported: `(*LF)`, `(*CR)`, `(*CRLF)`, `(*ANYCRLF)`, `(*ANY)`, `(*NUL)`.
 
 Added in 0.34.0
 ---------------

@@ -2,6 +2,8 @@
 namespace Test\Unit\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\CleanRegex\Internal\Prepared\Parser\ConstantConvention;
+use Test\Fakes\CleanRegex\Internal\Prepared\Parser\ThrowConvention;
 use Test\Fakes\CleanRegex\Internal\Prepared\Template\Cluster\FakeCluster;
 use Test\Utils\Agnostic\PcreDependant;
 use Test\Utils\Prepared\PatternEntitiesAssertion;
@@ -57,7 +59,7 @@ class PcreParserTest extends TestCase
             new GroupConsumer(),
             new GroupCloseConsumer(),
             new PosixConsumer(),
-            new CommentConsumer(),
+            new CommentConsumer(new ThrowConvention()),
             new LiteralConsumer(),
         ];
 
@@ -202,7 +204,7 @@ class PcreParserTest extends TestCase
             new EscapeConsumer(),
             new GroupConsumer(),
             new GroupCloseConsumer(),
-            new CommentConsumer(),
+            new CommentConsumer(new ConstantConvention("\n")),
             new LiteralConsumer(),
         ]);
 

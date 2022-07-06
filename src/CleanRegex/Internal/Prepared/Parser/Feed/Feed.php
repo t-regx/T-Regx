@@ -30,6 +30,11 @@ class Feed
         return $this->constantStrings->string($string);
     }
 
+    public function oneOf(array $values): OneOf
+    {
+        return new OneOf($this->shiftString, $values);
+    }
+
     public function characterClass(): CharacterClassCondition
     {
         return $this->characterClass;
