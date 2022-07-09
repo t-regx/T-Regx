@@ -61,6 +61,14 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-progress
 
+      - name: Install "covers-ignore"
+        if: "${{ matrix.coverage != 'none' }}"
+        run: composer require --dev rawr/covers-ignore:0.10
+
+      - name: Remove @covers annotations
+        if: "${{ matrix.coverage != 'none' }}"
+        run: ./vendor/bin/covers-ignore test
+
       - name: Run tests
         run: ./vendor/bin/phpunit test
 
