@@ -7,28 +7,30 @@ use TRegx\CleanRegex\Internal\Delimiter\UndelimitablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\CountedClusters;
-use TRegx\CleanRegex\Internal\Prepared\Dictionary;
+use TRegx\CleanRegex\Internal\Prepared\Cluster\ExpectedClusters;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
+use TRegx\CleanRegex\Internal\Prepared\PatternPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
+use TRegx\CleanRegex\Internal\Prepared\Placeholders\ClustersPlaceholders;
 
 class Template implements Expression
 {
     use PredefinedExpression;
 
-    /** @var Dictionary */
-    private $dictionary;
+    /** @var PatternPhrase */
+    private $pattern;
     /** @var Spelling */
     private $spelling;
 
     public function __construct(Spelling $spelling, CountedClusters $clusters)
     {
-        $this->dictionary = new Dictionary($spelling, $clusters);
+        $this->pattern = new PatternPhrase($spelling, new ClustersPlaceholders(new ExpectedClusters($clusters)));
         $this->spelling = $spelling;
     }
 
     protected function phrase(): Phrase
     {
-        return $this->dictionary->compositePhrase();
+        return $this->pattern->phrase();
     }
 
     protected function delimiter(): Delimiter
