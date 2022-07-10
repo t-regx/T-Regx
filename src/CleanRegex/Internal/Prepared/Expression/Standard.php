@@ -23,7 +23,7 @@ class Standard implements Expression
     public function __construct(Spelling $spelling)
     {
         $this->spelling = $spelling;
-        $this->patternAsEntities = new PatternAsEntities($spelling->pattern(), $spelling->flags(), new LiteralPlaceholderConsumer());
+        $this->patternAsEntities = new PatternAsEntities($spelling, new LiteralPlaceholderConsumer());
     }
 
     protected function phrase(): Phrase

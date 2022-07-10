@@ -3,7 +3,6 @@ namespace Test\Unit\CleanRegex\Internal\Prepared;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Prepared\Parser\Consumer\ThrowPlaceholderConsumer;
-use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Escaped;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpen;
@@ -12,6 +11,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Posix;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\PosixClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\PosixOpen;
+use TRegx\CleanRegex\Internal\Prepared\Pattern\EmptyFlagPattern;
 use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;
 
 /**
@@ -25,7 +25,7 @@ class PatternAsEntitiesTest extends TestCase
     public function shouldCloseGroup()
     {
         // given
-        $asEntities = new PatternAsEntities('(foo)', new Flags(''), new ThrowPlaceholderConsumer());
+        $asEntities = new PatternAsEntities(new EmptyFlagPattern('(foo)'), new ThrowPlaceholderConsumer());
 
         // when
         $entities = $asEntities->entities();
@@ -47,7 +47,7 @@ class PatternAsEntitiesTest extends TestCase
     public function shouldParseNullByte()
     {
         // given
-        $asEntities = new PatternAsEntities('\0', new Flags(''), new ThrowPlaceholderConsumer());
+        $asEntities = new PatternAsEntities(new EmptyFlagPattern('\0'), new ThrowPlaceholderConsumer());
 
         // when
         $entities = $asEntities->entities();
@@ -62,7 +62,7 @@ class PatternAsEntitiesTest extends TestCase
     public function shouldParseLookAroundAssertion()
     {
         // given
-        $asEntities = new PatternAsEntities('\K', new Flags(''), new ThrowPlaceholderConsumer());
+        $asEntities = new PatternAsEntities(new EmptyFlagPattern('\K'), new ThrowPlaceholderConsumer());
 
         // when
         $entities = $asEntities->entities();
@@ -77,7 +77,7 @@ class PatternAsEntitiesTest extends TestCase
     public function shouldConsumeImmediatelyClosedGroupsRemainder()
     {
         // given
-        $asEntities = new PatternAsEntities('()(?)', new Flags(''), new ThrowPlaceholderConsumer());
+        $asEntities = new PatternAsEntities(new EmptyFlagPattern('()(?)'), new ThrowPlaceholderConsumer());
 
         // when
         $entities = $asEntities->entities();
@@ -92,7 +92,7 @@ class PatternAsEntitiesTest extends TestCase
     public function shouldConsumeImmediatelyClosedGroupsRepeatedly()
     {
         // given
-        $asEntities = new PatternAsEntities('())))(?)', new Flags(''), new ThrowPlaceholderConsumer());
+        $asEntities = new PatternAsEntities(new EmptyFlagPattern('())))(?)'), new ThrowPlaceholderConsumer());
 
         // when
         $entities = $asEntities->entities();
@@ -115,7 +115,7 @@ class PatternAsEntitiesTest extends TestCase
     public function shouldParseImmediatelyClosedCharacterClass()
     {
         // given
-        $asEntities = new PatternAsEntities('[]]]', new Flags(''), new ThrowPlaceholderConsumer());
+        $asEntities = new PatternAsEntities(new EmptyFlagPattern('[]]]'), new ThrowPlaceholderConsumer());
 
         // when
         $entities = $asEntities->entities();
@@ -136,7 +136,7 @@ class PatternAsEntitiesTest extends TestCase
     public function shouldParseDoubleColorWordInCharacterClass()
     {
         // given
-        $asEntities = new PatternAsEntities('[:alpha:]', new Flags(''), new ThrowPlaceholderConsumer());
+        $asEntities = new PatternAsEntities(new EmptyFlagPattern('[:alpha:]'), new ThrowPlaceholderConsumer());
 
         // when
         $entities = $asEntities->entities();
@@ -151,7 +151,7 @@ class PatternAsEntitiesTest extends TestCase
     public function shouldParseEscapedClosingPosix()
     {
         // given
-        $asEntities = new PatternAsEntities('[F\]O]', new Flags(''), new ThrowPlaceholderConsumer());
+        $asEntities = new PatternAsEntities(new EmptyFlagPattern('[F\]O]'), new ThrowPlaceholderConsumer());
 
         // when
         $entities = $asEntities->entities();
@@ -166,7 +166,7 @@ class PatternAsEntitiesTest extends TestCase
     public function shouldParseNestedCharacterClass()
     {
         // given
-        $asEntities = new PatternAsEntities('[01[:alpha:]%]', new Flags(''), new ThrowPlaceholderConsumer());
+        $asEntities = new PatternAsEntities(new EmptyFlagPattern('[01[:alpha:]%]'), new ThrowPlaceholderConsumer());
 
         // when
         $entities = $asEntities->entities();

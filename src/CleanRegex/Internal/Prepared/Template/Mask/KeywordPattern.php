@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Delimiter\UndelimitablePatternException;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralPlaceholderConsumer;
+use TRegx\CleanRegex\Internal\Prepared\Pattern\EmptyFlagPattern;
 use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\UnsuitableStringCondition;
@@ -28,7 +29,7 @@ class KeywordPattern
     public function __construct(string $keyword, string $pattern)
     {
         $this->candidates = new Candidates(new UnsuitableStringCondition($pattern));
-        $this->patternAsEntities = new PatternAsEntities($pattern, Flags::empty(), new LiteralPlaceholderConsumer());
+        $this->patternAsEntities = new PatternAsEntities(new EmptyFlagPattern($pattern), new LiteralPlaceholderConsumer());
         $this->pattern = $pattern;
         $this->keyword = $keyword;
     }

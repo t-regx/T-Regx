@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared;
 
-use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CommentConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\ControlConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\EscapeConsumer;
@@ -15,15 +14,16 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Convention;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
+use TRegx\CleanRegex\Internal\Prepared\Pattern\StringPattern;
 
 class PatternEntities
 {
     /** @var PcreParser */
     private $pcreParser;
 
-    public function __construct(string $pattern, Flags $flags, PlaceholderConsumer $placeholderConsumer)
+    public function __construct(StringPattern $pattern, PlaceholderConsumer $placeholderConsumer)
     {
-        $this->pcreParser = new PcreParser(new Feed($pattern), $flags, [
+        $this->pcreParser = new PcreParser(new Feed($pattern->pattern()), $pattern->flags(), [
             new ControlConsumer(),
             new QuoteConsumer(),
             new EscapeConsumer(),
@@ -31,7 +31,7 @@ class PatternEntities
             new GroupCloseConsumer(),
             $placeholderConsumer,
             new PosixConsumer(),
-            new CommentConsumer(new Convention($pattern)),
+            new CommentConsumer(new Convention($pattern->pattern())),
             new LiteralConsumer(),
         ]);
     }

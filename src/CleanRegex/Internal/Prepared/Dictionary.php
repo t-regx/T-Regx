@@ -19,7 +19,7 @@ class Dictionary
     public function __construct(Spelling $spelling, CountedClusters $clusters)
     {
         $this->clusters = new ExpectedClusters($clusters);
-        $this->patternAsEntities = new PatternAsEntities($spelling->pattern(), $spelling->flags(), new FiguresPlaceholderConsumer($this->clusters));
+        $this->patternAsEntities = new PatternAsEntities($spelling, new FiguresPlaceholderConsumer($this->clusters));
     }
 
     public function compositePhrase(): Phrase
