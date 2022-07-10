@@ -36,7 +36,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
 
 /**
- * @covers \TRegx\CleanRegex\Internal\Prepared\PatternAsEntities
+ * @covers \TRegx\CleanRegex\Internal\Prepared\PatternPhrase
  * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser
  */
 class PcreParserTest extends TestCase

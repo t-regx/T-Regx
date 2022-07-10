@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Delimiter\UndelimitablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
-use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;
+use TRegx\CleanRegex\Internal\Prepared\PatternPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Placeholders\LiteralPlaceholders;
 
@@ -17,18 +17,18 @@ class Standard implements Expression
 
     /** @var Spelling */
     private $spelling;
-    /** @var PatternAsEntities */
-    private $patternAsEntities;
+    /** @var PatternPhrase */
+    private $patternPhrase;
 
     public function __construct(Spelling $spelling)
     {
         $this->spelling = $spelling;
-        $this->patternAsEntities = new PatternAsEntities($spelling, new LiteralPlaceholders());
+        $this->patternPhrase = new PatternPhrase($spelling, new LiteralPlaceholders());
     }
 
     protected function phrase(): Phrase
     {
-        return $this->patternAsEntities->phrase();
+        return $this->patternPhrase->phrase();
     }
 
     protected function delimiter(): Delimiter
