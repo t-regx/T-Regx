@@ -3,7 +3,6 @@ namespace Test\Feature\CleanRegex\Match\stream;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsDetail;
-use Test\Utils\Assertion\AssertsSameMatches;
 use TRegx\CleanRegex\Exception\NoSuchStreamElementException;
 use TRegx\CleanRegex\Pattern;
 
