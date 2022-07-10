@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.34.1
+---------------
+
 * Features
     * Prepared patterns now support changing new line conventions with flag `x` (`EXTENDED` mode).
 
