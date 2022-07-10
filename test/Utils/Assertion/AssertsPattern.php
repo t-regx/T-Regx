@@ -4,7 +4,7 @@ namespace Test\Utils\Assertion;
 use PHPUnit\Framework\Assert;
 use Test\Utils\Assertion\Message\MatchMessage;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\CleanRegex\Match\Matcher;
 use TRegx\CleanRegex\Pattern;
 
 trait AssertsPattern
@@ -29,9 +29,9 @@ trait AssertsPattern
         $this->assertSame($pattern->search($text)->all(), $texts);
     }
 
-    private function assertGroupMissing(MatchPattern $match, int $nameOrIndex): void
+    private function assertGroupMissing(Matcher $matcher, int $nameOrIndex): void
     {
-        $message = new MatchMessage($match);
-        $this->assertFalse($match->groupExists($nameOrIndex), $message->missingGroupMessage(GroupKey::of($nameOrIndex)));
+        $message = new MatchMessage($matcher);
+        $this->assertFalse($matcher->groupExists($nameOrIndex), $message->missingGroupMessage(GroupKey::of($nameOrIndex)));
     }
 }

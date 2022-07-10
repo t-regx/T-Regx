@@ -1,7 +1,7 @@
 <?php
 namespace Test\Utils\Backtrack;
 
-use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\CleanRegex\Match\Matcher;
 use TRegx\CleanRegex\Match\Search;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
@@ -15,7 +15,7 @@ use TRegx\CleanRegex\Replace\ReplaceLimit;
  */
 trait CausesBacktracking
 {
-    public function backtrackingMatch(): MatchPattern
+    public function backtrackingMatch(): Matcher
     {
         return $this->backtrackingPattern()->match($this->backtrackingSubject(1));
     }

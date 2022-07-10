@@ -4,16 +4,16 @@ namespace Test\Utils\Assertion\Message;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
-use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\CleanRegex\Match\Matcher;
 
 class MatchMessage
 {
-    /** @var MatchPattern */
-    private $match;
+    /** @var Matcher */
+    private $matcher;
 
-    public function __construct(MatchPattern $match)
+    public function __construct(Matcher $matcher)
     {
-        $this->match = $match;
+        $this->matcher = $matcher;
     }
 
     public function missingGroupMessage(GroupKey $group): string
@@ -23,10 +23,10 @@ class MatchMessage
 
     private function pattern(): string
     {
-        return $this->baseDefinition($this->matchPatternBase($this->match))->pattern;
+        return $this->baseDefinition($this->matchPatternBase($this->matcher))->pattern;
     }
 
-    private function matchPatternBase(MatchPattern $match): ApiBase
+    private function matchPatternBase(Matcher $match): ApiBase
     {
         return $this->property($match, 'base');
     }

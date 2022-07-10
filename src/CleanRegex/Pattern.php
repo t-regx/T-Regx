@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 use TRegx\CleanRegex\Internal\Needle;
 use TRegx\CleanRegex\Internal\Splits;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\CleanRegex\Match\Matcher;
 use TRegx\CleanRegex\Match\Search;
 use TRegx\CleanRegex\Replace\ReplaceLimit;
 use TRegx\SafeRegex\preg;
@@ -43,9 +43,9 @@ class Pattern
         return new Search($this->predefinition->definition(), new Subject($subject));
     }
 
-    public function match(string $subject): MatchPattern
+    public function match(string $subject): Matcher
     {
-        return new MatchPattern($this->predefinition->definition(), new Subject($subject));
+        return new Matcher($this->predefinition->definition(), new Subject($subject));
     }
 
     public function replace(string $subject): ReplaceLimit

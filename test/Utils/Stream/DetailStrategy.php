@@ -3,18 +3,18 @@ namespace Test\Utils\Stream;
 
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\MatchPattern;
+use TRegx\CleanRegex\Match\Matcher;
 
 abstract class DetailStrategy
 {
-    public abstract function first(MatchPattern $match): Detail;
+    public abstract function first(Matcher $matcher): Detail;
 
     public static function useFirst(): DetailStrategy
     {
         return new class extends DetailStrategy {
-            public function first(MatchPattern $match): Detail
+            public function first(Matcher $matcher): Detail
             {
-                return $match->first();
+                return $matcher->first();
             }
         };
     }
@@ -22,9 +22,9 @@ abstract class DetailStrategy
     public static function useMap(): DetailStrategy
     {
         return new class extends DetailStrategy {
-            public function first(MatchPattern $match): Detail
+            public function first(Matcher $matcher): Detail
             {
-                [$detail] = $match->map(Functions::identity());
+                [$detail] = $matcher->map(Functions::identity());
                 return $detail;
             }
         };
