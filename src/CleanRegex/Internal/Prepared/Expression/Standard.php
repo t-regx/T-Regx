@@ -7,9 +7,9 @@ use TRegx\CleanRegex\Internal\Delimiter\UndelimitablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralPlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Prepared\PatternAsEntities;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
+use TRegx\CleanRegex\Internal\Prepared\Placeholders\LiteralPlaceholders;
 
 class Standard implements Expression
 {
@@ -23,7 +23,7 @@ class Standard implements Expression
     public function __construct(Spelling $spelling)
     {
         $this->spelling = $spelling;
-        $this->patternAsEntities = new PatternAsEntities($spelling, new LiteralPlaceholderConsumer());
+        $this->patternAsEntities = new PatternAsEntities($spelling, new LiteralPlaceholders());
     }
 
     protected function phrase(): Phrase

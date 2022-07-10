@@ -1,15 +1,30 @@
 <?php
 namespace Test\Fakes\CleanRegex\Internal\Prepared\Parser\Consumer;
 
-use AssertionError;
+use Test\Utils\Assertion\Fails;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\PlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
+use TRegx\CleanRegex\Internal\Prepared\Placeholders\Placeholders;
 
-class ThrowPlaceholderConsumer extends PlaceholderConsumer
+class ThrowPlaceholderConsumer implements Placeholders
 {
-    public function consume(Feed $feed, EntitySequence $entities): void
+    use Fails;
+
+    public function consumer(): PlaceholderConsumer
     {
-        throw new AssertionError("PlaceholderConsumer wasn't supposed to be used");
+        return new class extends PlaceholderConsumer {
+            use Fails;
+
+            public function consume(Feed $feed, EntitySequence $entities): void
+            {
+                throw $this->fail();
+            }
+        };
+    }
+
+    public function meetExpectation(): void
+    {
+        throw $this->fail();
     }
 }
