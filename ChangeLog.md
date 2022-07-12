@@ -4,7 +4,13 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Deprecation
+    * Deprecated `ReplaceDetail.modifiedSubject()`
+    * Deprecated `ReplaceDetail.modifiedOffset()`
+    * Deprecated `ReplaceDetail.byteModifiedOffset()`
+    * Deprecated `ReplaceGroup.modifiedSubject()`
+    * Deprecated `ReplaceGroup.modifiedOffset()`
+    * Deprecated `ReplaceGroup.byteModifiedOffset()`
 
 Added in 0.34.1
 ---------------

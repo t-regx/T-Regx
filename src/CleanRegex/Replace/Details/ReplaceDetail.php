@@ -22,16 +22,25 @@ class ReplaceDetail implements Detail
         $this->modification = $modification;
     }
 
+    /**
+     * @deprecated
+     */
     public function modifiedSubject(): string
     {
         return $this->modification->subject();
     }
 
+    /**
+     * @deprecated
+     */
     public function modifiedOffset(): int
     {
         return $this->modification->offset();
     }
 
+    /**
+     * @deprecated
+     */
     public function byteModifiedOffset(): int
     {
         return $this->modification->byteOffset();
