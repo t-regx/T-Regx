@@ -26,6 +26,9 @@ use TRegx\CleanRegex\Replace\Callback\MatchGroupStrategy;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\GroupReplace;
 
+/**
+ * @deprecated
+ */
 class ByGroupReplacePattern implements GroupReplace
 {
     /** @var GroupFallbackReplacer */
@@ -56,11 +59,17 @@ class ByGroupReplacePattern implements GroupReplace
         $this->groupAware = $groupAware;
     }
 
+    /**
+     * @deprecated
+     */
     public function map(array $occurrencesAndReplacements): GroupReplace
     {
         return $this->performMap(new DictionaryMapper($occurrencesAndReplacements));
     }
 
+    /**
+     * @deprecated
+     */
     public function mapAndCallback(array $occurrencesAndReplacements, callable $mapper): GroupReplace
     {
         return $this->performMap(new MapGroupMapperDecorator(new DictionaryMapper($occurrencesAndReplacements), $mapper));
@@ -77,6 +86,9 @@ class ByGroupReplacePattern implements GroupReplace
             $this->middlewareMapper);
     }
 
+    /**
+     * @deprecated
+     */
     public function mapIfExists(array $occurrencesAndReplacements): GroupReplace
     {
         return new UnmatchedGroupStrategy(
@@ -86,21 +98,33 @@ class ByGroupReplacePattern implements GroupReplace
             $this->middlewareMapper);
     }
 
+    /**
+     * @deprecated
+     */
     public function orElseThrow(\Throwable $throwable = null): string
     {
         return $this->replaceGroupOptional(new ThrowStrategy($throwable, $this->group));
     }
 
+    /**
+     * @deprecated
+     */
     public function orElseWith(string $replacement): string
     {
         return $this->replaceGroupOptional(new ConstantReturnStrategy($replacement));
     }
 
+    /**
+     * @deprecated
+     */
     public function orElseIgnore(): string
     {
         return $this->replaceGroupOptional(new DefaultStrategy());
     }
 
+    /**
+     * @deprecated
+     */
     public function orElseEmpty(): string
     {
         if (\is_int($this->group->nameOrIndex())) {
@@ -109,6 +133,9 @@ class ByGroupReplacePattern implements GroupReplace
         return $this->replaceGroupOptional(new ConstantReturnStrategy(''));
     }
 
+    /**
+     * @deprecated
+     */
     public function orElseCalling(callable $replacementProducer): string
     {
         return $this->replaceGroupOptional(new ComputedMatchStrategy($replacementProducer, "orElseCalling"));
@@ -121,6 +148,9 @@ class ByGroupReplacePattern implements GroupReplace
             new WrappingMatchRs($substitute, $this->middlewareMapper));
     }
 
+    /**
+     * @deprecated
+     */
     public function callback(callable $callback): string
     {
         if ($this->groupExists()) {

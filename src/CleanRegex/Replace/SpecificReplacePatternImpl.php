@@ -63,6 +63,9 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
         return $invoker->invoke($callback, new MatchStrategy());
     }
 
+    /**
+     * @deprecated
+     */
     public function by(): ByReplacePattern
     {
         return new ByReplacePattern(

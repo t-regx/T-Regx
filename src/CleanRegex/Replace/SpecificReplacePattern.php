@@ -11,5 +11,8 @@ interface SpecificReplacePattern
 
     public function callback(callable $callback): string;
 
+    /**
+     * @deprecated
+     */
     public function by(): ByReplacePattern;
 }

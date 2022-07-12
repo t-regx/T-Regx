@@ -25,6 +25,9 @@ trait ReplaceLimitHelpers
         return $this->all()->callback($callback);
     }
 
+    /**
+     * @deprecated
+     */
     public function by(): ByReplacePattern
     {
         return $this->all()->by();

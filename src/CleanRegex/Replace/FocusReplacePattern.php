@@ -80,6 +80,9 @@ class FocusReplacePattern implements SpecificReplacePattern
         });
     }
 
+    /**
+     * @deprecated
+     */
     public function by(): ByReplacePattern
     {
         return new ByReplacePattern(

@@ -45,6 +45,9 @@ abstract class ReplacePatternImpl implements ReplacePattern
         return $this->replacePattern->callback($callback);
     }
 
+    /**
+     * @deprecated
+     */
     public function by(): ByReplacePattern
     {
         return $this->replacePattern->by();

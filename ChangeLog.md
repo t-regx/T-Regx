@@ -5,12 +5,24 @@ Incoming
 --------
 
 * Deprecation
-    * Deprecated `ReplaceDetail.modifiedSubject()`
-    * Deprecated `ReplaceDetail.modifiedOffset()`
-    * Deprecated `ReplaceDetail.byteModifiedOffset()`
-    * Deprecated `ReplaceGroup.modifiedSubject()`
-    * Deprecated `ReplaceGroup.modifiedOffset()`
-    * Deprecated `ReplaceGroup.byteModifiedOffset()`
+    * Deprecated keeping track of modified subjects
+        * Deprecated `ReplaceDetail.modifiedSubject()`
+        * Deprecated `ReplaceDetail.modifiedOffset()`
+        * Deprecated `ReplaceDetail.byteModifiedOffset()`
+        * Deprecated `ReplaceGroup.modifiedSubject()`
+        * Deprecated `ReplaceGroup.modifiedOffset()`
+        * Deprecated `ReplaceGroup.byteModifiedOffset()`
+    * Deprecated replace by map and with group
+        * Deprecated `replace().by().group()`
+        * Deprecated `replace().by().group().orElseWith()`
+        * Deprecated `replace().by().group().orElseThrow()`
+        * Deprecated `replace().by().group().orElseCalling()`
+        * Deprecated `replace().by().group().orElseIgnore()`
+        * Deprecated `replace().by().group().orElseEmpty()`
+        * Deprecated `replace().by().group().map()`
+        * Deprecated `replace().by().group().mapIfExists()`
+        * Deprecated `replace().by().map()`
+        * Deprecated `replace().by().mapIfExists()`
 
 Added in 0.34.1
 ---------------

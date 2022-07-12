@@ -61,6 +61,9 @@ class ByReplacePattern
         $this->wrapper = $middlewareMapper;
     }
 
+    /**
+     * @deprecated
+     */
     public function group($nameOrIndex): ByGroupReplacePattern
     {
         return $this->replaceGroup(GroupKey::of($nameOrIndex));
@@ -81,11 +84,17 @@ class ByReplacePattern
             $this->groupAware);
     }
 
+    /**
+     * @deprecated
+     */
     public function map(array $occurrencesAndReplacements): string
     {
         return $this->replace($occurrencesAndReplacements, $this->substitute);
     }
 
+    /**
+     * @deprecated
+     */
     public function mapIfExists(array $occurrencesAndReplacements): string
     {
         return $this->replace($occurrencesAndReplacements, new DefaultStrategy());
