@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchesFirstPrime;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class DelegatedDetail
 {
@@ -18,7 +18,7 @@ class DelegatedDetail
     /** @var int */
     private $index;
 
-    /** @var Detail|null */
+    /** @var \TRegx\CleanRegex\Match\Detail|null */
     private $detail = null;
 
     public function __construct(Base $base, Subject $subject, int $index)

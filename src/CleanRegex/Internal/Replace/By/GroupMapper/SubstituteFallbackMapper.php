@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Message\Replace\Map\ForGroupMessage;
 use TRegx\CleanRegex\Internal\Message\Replace\Map\ForMatchMessage;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazySubjectRs;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class SubstituteFallbackMapper implements DetailGroupMapper
 {

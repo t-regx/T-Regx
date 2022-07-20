@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Replace\By;
 
 use TRegx\CleanRegex\Internal\Replace\Wrappable;
 use TRegx\CleanRegex\Internal\Replace\Wrapper;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class IdentityWrapper implements Wrapper
 {

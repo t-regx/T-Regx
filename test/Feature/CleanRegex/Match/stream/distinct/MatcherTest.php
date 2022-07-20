@@ -6,7 +6,7 @@ use Test\Utils\Assertion\AssertsDetail;
 use Test\Utils\Functions;
 use Test\Utils\Structure\AssertsStructure;
 use Test\Utils\Structure\Expect;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
 
 /**

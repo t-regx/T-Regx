@@ -8,7 +8,7 @@ use Test\Utils\Structure\AssertsStructure;
 use Test\Utils\Structure\Expect;
 use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 

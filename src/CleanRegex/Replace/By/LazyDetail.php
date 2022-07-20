@@ -4,8 +4,8 @@ namespace TRegx\CleanRegex\Replace\By;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
 use TRegx\CleanRegex\Internal\Replace\By\DelegatedDetail;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Detail;
+use TRegx\CleanRegex\Match\Group;
 
 class LazyDetail implements Detail
 {

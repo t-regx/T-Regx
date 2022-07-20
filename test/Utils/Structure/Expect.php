@@ -2,7 +2,7 @@
 namespace Test\Utils\Structure;
 
 use PHPUnit\Framework\Assert;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class Expect
 {

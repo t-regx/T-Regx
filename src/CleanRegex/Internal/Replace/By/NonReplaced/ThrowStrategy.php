@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 use Throwable;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class ThrowStrategy implements SubjectRs, MatchRs
 {

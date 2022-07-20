@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Match\Detail\group\isInt;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use function pattern;
 
 class DetailTest extends TestCase

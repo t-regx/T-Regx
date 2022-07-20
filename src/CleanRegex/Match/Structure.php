@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Match\Details;
+namespace TRegx\CleanRegex\Match;
 
 interface Structure
 {

@@ -5,7 +5,7 @@ use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Replace\Wrappable;
 use TRegx\CleanRegex\Internal\Replace\Wrapper;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class FocusWrapper implements Wrapper
 {

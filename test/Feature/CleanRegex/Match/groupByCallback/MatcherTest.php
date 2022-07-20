@@ -11,7 +11,7 @@ use Test\Utils\TestCase\TestCasePasses;
 use Test\Utils\TypeFunctions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
 use function pattern;
 

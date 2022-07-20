@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Match\stream\flatMapAssoc;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
 
 /**

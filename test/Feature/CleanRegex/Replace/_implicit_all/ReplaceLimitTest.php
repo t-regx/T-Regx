@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class ReplaceLimitTest extends TestCase
 {

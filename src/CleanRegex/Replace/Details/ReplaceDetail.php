@@ -2,14 +2,14 @@
 namespace TRegx\CleanRegex\Replace\Details;
 
 use TRegx\CleanRegex\Internal\Replace\Details\Modification;
-use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Detail;
+use TRegx\CleanRegex\Match\Group;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceGroup;
 
 /**
  * @deprecated Use {@see Detail} instead.
  */
-class ReplaceDetail implements Detail
+class ReplaceDetail implements \TRegx\CleanRegex\Match\Detail
 {
     /** @var Detail */
     private $detail;
@@ -132,7 +132,7 @@ class ReplaceDetail implements Detail
     }
 
     /**
-     * @return Group[]
+     * @return \TRegx\CleanRegex\Match\Group[]
      */
     public function groups(): array
     {
@@ -140,7 +140,7 @@ class ReplaceDetail implements Detail
     }
 
     /**
-     * @return Group[]
+     * @return \TRegx\CleanRegex\Match\Group[]
      */
     public function namedGroups(): array
     {

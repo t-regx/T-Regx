@@ -2,10 +2,9 @@
 namespace Test\Fakes\CleanRegex\Match\Details;
 
 use Test\Utils\Assertion\Fails;
-use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Group;
 
-class ThrowDetail implements Detail
+class ThrowDetail implements \TRegx\CleanRegex\Match\Detail
 {
     use Fails;
 

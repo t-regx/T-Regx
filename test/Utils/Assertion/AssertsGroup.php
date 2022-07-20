@@ -2,7 +2,7 @@
 namespace Test\Utils\Assertion;
 
 use PHPUnit\Framework\Assert;
-use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Group;
 
 trait AssertsGroup
 {

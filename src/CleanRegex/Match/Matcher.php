@@ -38,8 +38,6 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Pcre\Signatures\ArraySignatures;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Structure;
 
 class Matcher implements Structure, \Countable, \IteratorAggregate
 {

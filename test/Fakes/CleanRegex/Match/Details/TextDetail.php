@@ -2,8 +2,8 @@
 namespace Test\Fakes\CleanRegex\Match\Details;
 
 use Test\Utils\Assertion\Fails;
-use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Detail;
+use TRegx\CleanRegex\Match\Group;
 
 class TextDetail implements Detail
 {

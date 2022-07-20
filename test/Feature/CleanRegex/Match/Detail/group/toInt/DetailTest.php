@@ -6,7 +6,7 @@ use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use function pattern;
 
 class DetailTest extends TestCase

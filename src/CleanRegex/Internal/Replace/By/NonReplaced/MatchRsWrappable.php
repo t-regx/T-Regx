@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use TRegx\CleanRegex\Internal\Replace\Wrappable;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class MatchRsWrappable implements Wrappable
 {

@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Replace\counting;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Match\Details\Structure;
+use TRegx\CleanRegex\Match\Structure;
 
 class SpecificReplacePatternImplTest extends TestCase
 {

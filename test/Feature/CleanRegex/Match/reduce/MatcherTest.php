@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Match\reduce;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use function pattern;
 
 /**

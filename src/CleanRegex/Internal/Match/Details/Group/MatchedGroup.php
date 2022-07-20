@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
 use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;
 use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Group;
 
 class MatchedGroup implements Group
 {

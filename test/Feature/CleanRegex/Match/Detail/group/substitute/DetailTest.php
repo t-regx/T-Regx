@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Match\Detail\group\substitute;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class DetailTest extends TestCase
 {

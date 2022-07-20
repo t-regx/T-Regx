@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\FocusGroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class ReplacePatternTest extends TestCase
 {

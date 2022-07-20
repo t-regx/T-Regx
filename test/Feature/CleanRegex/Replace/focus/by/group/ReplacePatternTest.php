@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Replace\focus\by\group;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Values\FocusGroupPairs;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class ReplacePatternTest extends TestCase
 {

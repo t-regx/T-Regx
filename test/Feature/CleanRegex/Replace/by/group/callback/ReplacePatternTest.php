@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Backtrack\CausesBacktracking;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Group;
 use TRegx\CleanRegex\Pattern;
 
 class ReplacePatternTest extends TestCase

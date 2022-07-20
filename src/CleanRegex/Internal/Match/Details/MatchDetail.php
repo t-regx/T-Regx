@@ -14,8 +14,8 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\UsedForGroup;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Detail;
+use TRegx\CleanRegex\Match\Group;
 
 class MatchDetail implements Detail
 {
@@ -139,7 +139,7 @@ class MatchDetail implements Detail
     }
 
     /**
-     * @return Group[]
+     * @return \TRegx\CleanRegex\Match\Group[]
      */
     public function groups(): array
     {
@@ -147,7 +147,7 @@ class MatchDetail implements Detail
     }
 
     /**
-     * @return Group[]
+     * @return \TRegx\CleanRegex\Match\Group[]
      */
     public function namedGroups(): array
     {

@@ -8,7 +8,7 @@ use Test\Utils\Structure\AssertsStructure;
 use Test\Utils\Structure\Expect;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -113,7 +113,7 @@ class MatcherTest extends TestCase
         // when
         $result = pattern('(?<one>Foo)(?<one>Bar)', 'J')->match('FooBar')->groupBy('one');
         // then
-        /** @var Detail $detail */
+        /** @var \TRegx\CleanRegex\Match\Detail $detail */
         [$detail] = $result['Foo'];
         $this->assertSame('FooBar', $detail->text());
         $this->assertSame('FooBar', $detail->subject());

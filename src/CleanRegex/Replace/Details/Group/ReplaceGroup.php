@@ -1,12 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Details\Group;
 
-use TRegx\CleanRegex\Match\Details\Group\Group;
-
 /**
  * @deprecated Use {@see Group} instead.
  */
-interface ReplaceGroup extends Group
+interface ReplaceGroup extends \TRegx\CleanRegex\Match\Group
 {
     /**
      * @deprecated

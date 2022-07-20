@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Replace;
 
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRsWrappable;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class WrappingMatchRs implements MatchRs
 {

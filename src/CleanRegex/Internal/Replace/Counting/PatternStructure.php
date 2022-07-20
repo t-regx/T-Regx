@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Match\Details\GroupsCount;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Structure;
+use TRegx\CleanRegex\Match\Structure;
 
 class PatternStructure implements Structure
 {

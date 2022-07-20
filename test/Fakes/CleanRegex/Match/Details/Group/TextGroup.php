@@ -2,7 +2,7 @@
 namespace Test\Fakes\CleanRegex\Match\Details\Group;
 
 use Test\Utils\Assertion\Fails;
-use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Group;
 
 class TextGroup implements Group
 {

@@ -11,8 +11,8 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchesFirstPrime;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\Type\ValueType;
-use TRegx\CleanRegex\Match\Details\Detail;
-use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Detail;
+use TRegx\CleanRegex\Match\Group;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 class ReplaceCallbackObject

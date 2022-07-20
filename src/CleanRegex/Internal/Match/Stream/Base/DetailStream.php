@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchPrime;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class DetailStream implements Upstream
 {

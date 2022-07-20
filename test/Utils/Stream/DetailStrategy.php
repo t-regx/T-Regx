@@ -2,7 +2,7 @@
 namespace Test\Utils\Stream;
 
 use Test\Utils\Functions;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Match\Matcher;
 
 abstract class DetailStrategy

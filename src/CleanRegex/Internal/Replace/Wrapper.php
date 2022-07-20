@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace;
 
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 /**
  * Currently, this class only purpose is to provide additional wrapper/decorator

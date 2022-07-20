@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Replace\By\NonReplaced;
 
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Internal\Type\ValueType;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class ComputedMatchStrategy implements MatchRs
 {

@@ -1,7 +1,7 @@
 <?php
 namespace Test\Utils\Structure;
 
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 interface Expectation
 {

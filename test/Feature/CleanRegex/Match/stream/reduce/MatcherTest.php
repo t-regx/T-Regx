@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Match\stream\reduce;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
 
 /**

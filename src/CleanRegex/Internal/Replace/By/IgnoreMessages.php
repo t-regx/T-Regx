@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Internal\Replace\By;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\DetailGroupMapper;
 use TRegx\CleanRegex\Internal\Replace\By\GroupMapper\GroupMapper;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class IgnoreMessages implements DetailGroupMapper
 {

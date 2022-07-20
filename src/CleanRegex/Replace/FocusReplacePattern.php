@@ -14,7 +14,7 @@ use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\ReferencesReplacer;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 
 class FocusReplacePattern implements SpecificReplacePattern

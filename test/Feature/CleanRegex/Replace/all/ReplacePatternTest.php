@@ -6,7 +6,7 @@ use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 

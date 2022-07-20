@@ -2,7 +2,7 @@
 namespace Test\Utils\Assertion;
 
 use PHPUnit\Framework\Assert;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 trait AssertsDetail
 {

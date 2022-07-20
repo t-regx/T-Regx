@@ -2,7 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Replace;
 
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 /**
  * This interface exists to allow {@see Wrapper} hierarchy,
@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Match\Details\Detail;
  * {@see GroupMapper} hierarchy or {@see MatchRs} hierarchy.
  *
  * When PHP finally gets generics, we should make the argument
- * generic <T>, instead of {@see Detail}
+ * generic <T>, instead of {@see \TRegx\CleanRegex\Match\Detail}
  */
 interface Wrappable
 {

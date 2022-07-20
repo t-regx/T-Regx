@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Replace\By\GroupMapper;
 
 use TRegx\CleanRegex\Internal\InvalidArgument;
 use TRegx\CleanRegex\Internal\Type\ValueType;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class DictionaryMapper implements GroupMapper
 {

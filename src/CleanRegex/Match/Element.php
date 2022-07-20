@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Match\Details\Group;
+namespace TRegx\CleanRegex\Match;
 
 use TRegx\CleanRegex\Internal\Match\Intable;
 

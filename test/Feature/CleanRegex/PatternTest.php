@@ -10,7 +10,7 @@ use Test\Utils\Structure\Expect;
 use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\PlaceholderFigureException;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PcrePattern;
 use TRegx\Exception\MalformedPatternException;

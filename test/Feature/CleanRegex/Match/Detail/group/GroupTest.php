@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Internal\Match\Details\Group\NotMatchedGroup;
-use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Group;
 use TRegx\CleanRegex\Pattern;
 
 class GroupTest extends TestCase
@@ -60,11 +60,11 @@ class GroupTest extends TestCase
     /**
      * @test
      * @dataProvider groups
-     * @param Group $group
+     * @param \TRegx\CleanRegex\Match\Group $group
      * @param bool $matched
      * @param Group $groupByName
      */
-    public function shouldGetUsedIdentifier_byName(Group $group, bool $matched, Group $groupByName)
+    public function shouldGetUsedIdentifier_byName(\TRegx\CleanRegex\Match\Group $group, bool $matched, Group $groupByName)
     {
         // when
         $identifier = $groupByName->usedIdentifier();
@@ -102,7 +102,7 @@ class GroupTest extends TestCase
      * @test
      * @dataProvider groups
      */
-    public function shouldToIntThrowForInvalidBase(Group $group)
+    public function shouldToIntThrowForInvalidBase(\TRegx\CleanRegex\Match\Group $group)
     {
         // then
         $this->expectException(InvalidArgumentException::class);

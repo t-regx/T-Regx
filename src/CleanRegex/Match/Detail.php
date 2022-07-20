@@ -1,8 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Match\Details;
-
-use TRegx\CleanRegex\Match\Details\Group\Element;
-use TRegx\CleanRegex\Match\Details\Group\Group;
+namespace TRegx\CleanRegex\Match;
 
 interface Detail extends Structure, Element
 {

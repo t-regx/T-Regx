@@ -1,7 +1,7 @@
 <?php
 namespace Test\Utils;
 
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 
 class TypeFunctions
 {

@@ -13,7 +13,7 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\UsedForGroup;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Group\Group;
+use TRegx\CleanRegex\Match\Group;
 
 class DetailGroup
 {

@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsGroup;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Detail;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
 
 /**
