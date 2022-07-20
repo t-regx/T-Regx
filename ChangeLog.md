@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.34.2
+---------------
+
 * Deprecation
     * Deprecated keeping track of modified subjects
         * Deprecated `ReplaceDetail.modifiedSubject()`
