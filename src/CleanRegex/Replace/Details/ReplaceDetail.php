@@ -6,6 +6,9 @@ use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceGroup;
 
+/**
+ * @deprecated Use {@see Detail} instead.
+ */
 class ReplaceDetail implements Detail
 {
     /** @var Detail */

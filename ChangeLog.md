@@ -23,6 +23,10 @@ Incoming
         * Deprecated `replace().by().group().mapIfExists()`
         * Deprecated `replace().by().map()`
         * Deprecated `replace().by().mapIfExists()`
+    * Deprecated `ReplaceDetail`. It will be moved to `Internal/` namespace in the future release
+      and won't be considered part of public T-Regx API anymore.
+    * Deprecated `ReplaceGroup`. It will be moved to `Internal/` namespace in the future release
+      and won't be considered part of public T-Regx API anymore.
 
 Added in 0.34.1
 ---------------
