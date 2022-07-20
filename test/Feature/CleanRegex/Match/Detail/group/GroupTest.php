@@ -3,9 +3,9 @@ namespace Test\Feature\CleanRegex\Match\Detail\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroup;
+use TRegx\CleanRegex\Internal\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Match\Details\Group\Group;
-use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
-use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Pattern;
 
 class GroupTest extends TestCase
@@ -132,11 +132,11 @@ class GroupTest extends TestCase
         ];
     }
 
-    private function matchedGroup($nameOrIndex): MatchedGroup
+    private function matchedGroup($nameOrIndex): \TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroup
     {
         $detail = Pattern::of('(\d+):(?<group>group)')->match('€, 12:group')->first();
         /**
-         * @var MatchedGroup $group
+         * @var \TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroup $group
          */
         $group = $detail->group($nameOrIndex);
         return $group;

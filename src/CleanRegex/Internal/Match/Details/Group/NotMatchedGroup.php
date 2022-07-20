@@ -1,10 +1,10 @@
 <?php
-namespace TRegx\CleanRegex\Match\Details\Group;
+namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class NotMatchedGroup implements Group
 {

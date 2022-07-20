@@ -1,6 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Pcre\Legacy;
 
+use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroup;
+use TRegx\CleanRegex\Internal\Match\Details\MatchDetail;
+
 /**
  * @deprecated
  */

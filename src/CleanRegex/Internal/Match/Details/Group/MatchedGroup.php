@@ -1,9 +1,6 @@
 <?php
-namespace TRegx\CleanRegex\Match\Details\Group;
+namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupDetails;
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupEntry;
-use TRegx\CleanRegex\Internal\Match\Details\Group\SubstitutedGroup;
 use TRegx\CleanRegex\Internal\Match\Numeral\GroupExceptions;
 use TRegx\CleanRegex\Internal\Match\Numeral\IntegerBase;
 use TRegx\CleanRegex\Internal\Numeral\Base;
@@ -11,6 +8,7 @@ use TRegx\CleanRegex\Internal\Numeral\NumeralFormatException;
 use TRegx\CleanRegex\Internal\Numeral\NumeralOverflowException;
 use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class MatchedGroup implements Group
 {

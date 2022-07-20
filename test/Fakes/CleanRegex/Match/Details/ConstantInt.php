@@ -1,9 +1,7 @@
 <?php
 namespace Test\Fakes\CleanRegex\Match\Details;
 
-use TRegx\CleanRegex\Match\Details\Intable;
-
-class ConstantInt implements Intable
+class ConstantInt implements \TRegx\CleanRegex\Internal\Match\Intable
 {
     /** @var int */
     private $integer;

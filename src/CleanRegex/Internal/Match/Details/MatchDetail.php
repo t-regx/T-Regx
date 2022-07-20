@@ -1,15 +1,11 @@
 <?php
-namespace TRegx\CleanRegex\Match\Details;
+namespace TRegx\CleanRegex\Internal\Match\Details;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\GroupNames;
-use TRegx\CleanRegex\Internal\Match\Details\DetailGroup;
-use TRegx\CleanRegex\Internal\Match\Details\DetailScalars;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Groups\PrimeDetailGroups;
-use TRegx\CleanRegex\Internal\Match\Details\GroupsCount;
-use TRegx\CleanRegex\Internal\Match\Details\NumericDetail;
 use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Numeral\Base;
@@ -18,6 +14,7 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\UsedForGroup;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Match\Details\Detail;
 use TRegx\CleanRegex\Match\Details\Group\Group;
 
 class MatchDetail implements Detail

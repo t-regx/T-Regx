@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Match\Detail\group;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
+use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroup;
 use TRegx\CleanRegex\Pattern;
 
 class MatchedGroupTest extends TestCase
@@ -128,7 +128,7 @@ class MatchedGroupTest extends TestCase
     {
         $detail = Pattern::of('(\d+):(?<group>group,€)')->match('€, 12:group,€')->first();
         /**
-         * @var MatchedGroup $group
+         * @var \TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroup $group
          */
         $group = $detail->group(2);
         return $group;

@@ -1,13 +1,13 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Model;
 
+use TRegx\CleanRegex\Internal\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\EagerMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchesFirstPrime;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\MatchDetail;
 
 /**
  * @deprecated

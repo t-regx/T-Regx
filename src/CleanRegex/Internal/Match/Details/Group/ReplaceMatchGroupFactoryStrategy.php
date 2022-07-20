@@ -3,8 +3,6 @@ namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
 use TRegx\CleanRegex\Internal\Replace\Details\EntryModification;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
-use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceMatchedGroup;
 use TRegx\CleanRegex\Replace\Details\Group\ReplaceNotMatchedGroup;
 

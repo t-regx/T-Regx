@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Details\Group;
 
-use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
+use TRegx\CleanRegex\Internal\Match\Details\Group\NotMatchedGroup;
 
 class ReplaceNotMatchedGroup extends NotMatchedGroup implements ReplaceGroup
 {

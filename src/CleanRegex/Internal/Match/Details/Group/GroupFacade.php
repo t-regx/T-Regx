@@ -8,8 +8,6 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\UsedForGroup;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Details\Group\Group;
-use TRegx\CleanRegex\Match\Details\Group\MatchedGroup;
-use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
 
 class GroupFacade
 {

@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Match\Detail\group;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Match\Details\Group\NotMatchedGroup;
+use TRegx\CleanRegex\Internal\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Pattern;
 
 class NotMatchedGroupTest extends TestCase
@@ -172,11 +172,11 @@ class NotMatchedGroupTest extends TestCase
         $group->substitute('');
     }
 
-    private function group(): NotMatchedGroup
+    private function group(): \TRegx\CleanRegex\Internal\Match\Details\Group\NotMatchedGroup
     {
         $detail = Pattern::of('(Foo)(?<group>Bar)?')->match('Foo')->first();
         /**
-         * @var NotMatchedGroup $group
+         * @var \TRegx\CleanRegex\Internal\Match\Details\Group\NotMatchedGroup $group
          */
         $group = $detail->group('group');
         return $group;

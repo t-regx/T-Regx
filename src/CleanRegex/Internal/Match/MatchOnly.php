@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Internal\Match;
 
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Limit;
+use TRegx\CleanRegex\Internal\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
@@ -12,7 +13,6 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchPrime;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Match\Details\MatchDetail;
 use TRegx\SafeRegex\preg;
 
 class MatchOnly

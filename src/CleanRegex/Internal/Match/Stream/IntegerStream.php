@@ -2,11 +2,11 @@
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
 use TRegx\CleanRegex\Exception\InvalidIntegerTypeException;
+use TRegx\CleanRegex\Internal\Match\Intable;
 use TRegx\CleanRegex\Internal\Match\Numeral\IntegerBase;
 use TRegx\CleanRegex\Internal\Match\Numeral\StreamExceptions;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Type\ValueType;
-use TRegx\CleanRegex\Match\Details\Intable;
 
 class IntegerStream implements Upstream
 {

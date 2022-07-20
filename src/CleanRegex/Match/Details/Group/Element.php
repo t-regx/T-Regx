@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Match\Details\Group;
 
-use TRegx\CleanRegex\Match\Details\Intable;
+use TRegx\CleanRegex\Internal\Match\Intable;
 
 interface Element extends Intable
 {
