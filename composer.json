@@ -1,7 +1,7 @@
 {
   "name": "rawr/t-regx",
   "type": "library",
-  "description": "#StandWithUkraine",
+  "description": "PHP regular expression brought up to modern standards.",
   "license": "MIT",
   "scripts": {
     "test": "phpunit test --no-coverage",
@@ -21,14 +21,16 @@
     "match",
     "search",
     "preg",
+    "split",
     "preg_match",
     "preg_match_all",
     "preg_replace",
     "preg_replace_callback",
     "preg_quote",
+    "preg_split",
+    "preg_last_error",
     "prepared patterns",
-    "delimiters",
-    "automatic delimiters"
+    "delimiters"
   ],
   "autoload": {
     "files": [
