@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.36.0
+---------------
+
 * Breaking changes
     * Removed previously deprecated feature of tracking subject modification in replacement
         * Removed previously deprecated `ReplaceGroup.modifiedSubject()`
