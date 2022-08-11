@@ -95,11 +95,6 @@ class ReplaceDetail implements \TRegx\CleanRegex\Match\Detail
         return $this->detail->index();
     }
 
-    public function limit(): int
-    {
-        return $this->limit;
-    }
-
     /**
      * @return \TRegx\CleanRegex\Match\Group[]
      */

@@ -14,16 +14,6 @@ class CompositePatternTest extends TestCase
 {
     /**
      * @test
-     */
-    public function shouldGetLimit()
-    {
-        Pattern::compose(['Foo'])
-            ->chainedReplace("Foo")
-            ->callback(Functions::peek(Functions::assertSame(-1, Functions::property('limit')), '_'));
-    }
-
-    /**
-     * @test
      * @dataProvider times
      * @param int $times
      * @param string $expected

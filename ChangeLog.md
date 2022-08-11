@@ -10,6 +10,7 @@ Incoming
         * Removed previously deprecated `ReplaceGroup.modifiedOffset()`
         * Removed previously deprecated `ReplaceGroup.byteModifiedOffset()`
         * Removed previously deprecated `ReplaceGroup`
+    * Removed `ReplaceDetail.limit()`
 
 Added in 0.35.0
 ---------------

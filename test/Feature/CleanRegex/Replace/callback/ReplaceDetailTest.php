@@ -123,38 +123,6 @@ class ReplaceDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetLimit()
-    {
-        /**
-         * @var ReplaceDetail $detail
-         */
-        // given
-        Pattern::of('\w+')->replace('Foo, Bar, Cat')->only(42)->callback(DetailFunctions::outLast($detail, ''));
-        // when
-        $limit = $detail->limit();
-        // then
-        $this->assertSame(42, $limit);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetLimitAll()
-    {
-        /**
-         * @var ReplaceDetail $detail
-         */
-        // given
-        Pattern::of('\w+')->replace('Foo, Bar, Cat')->callback(DetailFunctions::outLast($detail, ''));
-        // when
-        $limit = $detail->limit();
-        // then
-        $this->assertSame(-1, $limit);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetTail()
     {
         /**
