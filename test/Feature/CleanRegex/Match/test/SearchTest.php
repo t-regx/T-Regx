@@ -8,7 +8,6 @@ use function pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Search
- * @covers \TRegx\CleanRegex\Match\Search
  */
 class SearchTest extends TestCase
 {
