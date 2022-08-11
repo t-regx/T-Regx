@@ -6,6 +6,22 @@ Incoming
 
 * Soon
 
+Added in 0.35.0
+---------------
+
+* Breaking changes
+    * Renamed `MatchPattern` to `Matcher`
+    * Revoke certain classes as parts of public library API:
+        * `MatchedGroup` is no longer part of public API, use `Group` instead.
+        * `NotMatchedGroup` is no longer part of public API, use `Group` instead.
+        * `MatchDetail` is no longer part of public API, use `Detail` instead.
+        * `Intable` is no longer part of public API, return `int` instead.
+    * Simplified `\TRegx\CleanRegex\Match` namespace
+        * Moved `Detail` to `\TRegx\CleanRegex\Match\Detail`
+        * Moved `Group` to `\TRegx\CleanRegex\Match\Group`
+        * Moved `Structure` to `\TRegx\CleanRegex\Match\Structure`
+        * Moved `Element` to `\TRegx\CleanRegex\Match\Element`
+
 Added in 0.34.2
 ---------------
 
