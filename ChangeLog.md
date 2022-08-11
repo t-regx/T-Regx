@@ -5,11 +5,11 @@ Incoming
 --------
 
 * Breaking changes
-    * Removed the feature of tracking subject modification in replacement
-        * Removed method `ReplaceGroup.modifiedSubject()`
-        * Removed method `ReplaceGroup.modifiedOffset()`
-        * Removed method `ReplaceGroup.byteModifiedOffset()`
-        * Removed `ReplaceGroup`
+    * Removed previously deprecated feature of tracking subject modification in replacement
+        * Removed previously deprecated `ReplaceGroup.modifiedSubject()`
+        * Removed previously deprecated `ReplaceGroup.modifiedOffset()`
+        * Removed previously deprecated `ReplaceGroup.byteModifiedOffset()`
+        * Removed previously deprecated `ReplaceGroup`
 
 Added in 0.35.0
 ---------------
