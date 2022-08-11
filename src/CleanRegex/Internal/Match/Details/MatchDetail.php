@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Internal\Match\Details;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\GroupNames;
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Groups\PrimeDetailGroups;
 use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -35,20 +34,19 @@ class MatchDetail implements Detail
     private $groupsCount;
 
     public function __construct(
-        Subject              $subject,
-        int                  $index,
-        GroupAware           $groupAware,
-        Entry                $matchEntry,
-        UsedForGroup         $usedForGroup,
-        MatchAllFactory      $allFactory,
-        GroupFactoryStrategy $strategy,
-        Signatures           $signatures,
-        Legacy\Prime\Prime   $prime)
+        Subject            $subject,
+        int                $index,
+        GroupAware         $groupAware,
+        Entry              $matchEntry,
+        UsedForGroup       $usedForGroup,
+        MatchAllFactory    $allFactory,
+        Signatures         $signatures,
+        Legacy\Prime\Prime $prime)
     {
         $this->scalars = new DetailScalars($matchEntry, $index, $allFactory, $subject);
         $this->coordinate = new SubjectCoordinate($matchEntry, $subject);
         $this->numericDetail = new NumericDetail($matchEntry);
-        $this->group = new DetailGroup($groupAware, $matchEntry, $usedForGroup, $signatures, $strategy, $allFactory, $subject);
+        $this->group = new DetailGroup($groupAware, $matchEntry, $usedForGroup, $signatures, $allFactory, $subject);
         $this->groups = new PrimeDetailGroups($subject, $signatures, $index, $allFactory, $groupAware, $prime);
         $this->groupNames = new GroupNames($groupAware);
         $this->groupsCount = new GroupsCount($groupAware);

@@ -4,7 +4,12 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Removed the feature of tracking subject modification in replacement
+        * Removed method `ReplaceGroup.modifiedSubject()`
+        * Removed method `ReplaceGroup.modifiedOffset()`
+        * Removed method `ReplaceGroup.byteModifiedOffset()`
+        * Removed `ReplaceGroup`
 
 Added in 0.35.0
 ---------------

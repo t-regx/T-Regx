@@ -15,7 +15,7 @@ interface Detail extends Structure, Element
      * @param string|int $nameOrIndex
      * @return Group
      */
-    public function group($nameOrIndex);
+    public function group($nameOrIndex): Group;
 
     /**
      * @return Group[]

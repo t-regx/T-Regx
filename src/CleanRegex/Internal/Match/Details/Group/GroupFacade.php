@@ -15,22 +15,15 @@ class GroupFacade
     private $subject;
     /** @var GroupHandle */
     private $groupHandle;
-    /** @var GroupFactoryStrategy */
-    private $factoryStrategy;
     /** @var MatchAllFactory */
     private $allFactory;
     /** @var Signatures */
     private $signatures;
 
-    public function __construct(Subject              $subject,
-                                GroupFactoryStrategy $factoryStrategy,
-                                MatchAllFactory      $allFactory,
-                                GroupHandle          $groupHandle,
-                                Signatures           $signatures)
+    public function __construct(Subject $subject, MatchAllFactory $allFactory, GroupHandle $groupHandle, Signatures $signatures)
     {
         $this->subject = $subject;
         $this->groupHandle = $groupHandle;
-        $this->factoryStrategy = $factoryStrategy;
         $this->allFactory = $allFactory;
         $this->signatures = $signatures;
     }
@@ -45,12 +38,12 @@ class GroupFacade
 
     private function createdMatched(GroupKey $group, GroupEntry $groupEntry, Entry $entry): MatchedGroup
     {
-        return $this->factoryStrategy->matched($this->subject, $this->createGroupDetails($group), $groupEntry, new SubstitutedGroup($entry, $groupEntry));
+        return new MatchedGroup($this->subject, $this->createGroupDetails($group), $groupEntry, new SubstitutedGroup($entry, $groupEntry));
     }
 
     private function createUnmatched(GroupKey $group): NotMatchedGroup
     {
-        return $this->factoryStrategy->notMatched($this->subject, $this->createGroupDetails($group));
+        return new NotMatchedGroup($this->subject, $this->createGroupDetails($group));
     }
 
     private function createGroupDetails(GroupKey $group): GroupDetails

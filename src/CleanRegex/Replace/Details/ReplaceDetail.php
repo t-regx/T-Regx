@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Replace\Details;
 use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Match\Group;
-use TRegx\CleanRegex\Replace\Details\Group\ReplaceGroup;
 
 /**
  * @deprecated Use {@see Detail} instead.
@@ -60,13 +59,11 @@ class ReplaceDetail implements \TRegx\CleanRegex\Match\Detail
 
     /**
      * @param string|int $nameOrIndex
-     * @return ReplaceGroup
+     * @return Group
      */
-    public function group($nameOrIndex): ReplaceGroup
+    public function group($nameOrIndex): Group
     {
-        /** @var ReplaceGroup $group */
-        $group = $this->detail->group($nameOrIndex);
-        return $group;
+        return $this->detail->group($nameOrIndex);
     }
 
     public function subject(): string

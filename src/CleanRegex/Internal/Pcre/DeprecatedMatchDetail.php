@@ -1,8 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Pcre;
 
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
-use TRegx\CleanRegex\Internal\Match\Details\Group\MatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\IRawMatchOffset;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
@@ -18,16 +16,12 @@ class DeprecatedMatchDetail
     /**
      * @deprecated
      */
-    public static function create(Subject              $subject,
-                                  int                  $index,
-                                  IRawMatchOffset      $match,
-                                  MatchAllFactory      $allFactory,
-                                  Prime                $prime,
-                                  GroupFactoryStrategy $strategy = null): MatchDetail
+    public static function create(Subject         $subject,
+                                  int             $index,
+                                  IRawMatchOffset $match,
+                                  MatchAllFactory $allFactory,
+                                  Prime           $prime): MatchDetail
     {
-        return new MatchDetail($subject, $index, $match, $match, $match, $allFactory,
-            $strategy ?? new MatchGroupFactoryStrategy(),
-            new PerformanceSignatures($match, $match),
-            $prime);
+        return new MatchDetail($subject, $index, $match, $match, $match, $allFactory, new PerformanceSignatures($match, $match), $prime);
     }
 }

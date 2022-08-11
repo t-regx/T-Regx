@@ -6,7 +6,6 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -29,19 +28,18 @@ class DetailGroup
     private $groupFacade;
 
     public function __construct(
-        GroupAware           $groupAware,
-        Entry                $matchEntry,
-        UsedForGroup         $usedForGroup,
-        Signatures           $signatures,
-        GroupFactoryStrategy $strategy,
-        MatchAllFactory      $allFactory,
-        Subject              $subject)
+        GroupAware      $groupAware,
+        Entry           $matchEntry,
+        UsedForGroup    $usedForGroup,
+        Signatures      $signatures,
+        MatchAllFactory $allFactory,
+        Subject         $subject)
     {
         $this->groupAware = $groupAware;
         $this->entry = $matchEntry;
         $this->usedForGroup = $usedForGroup;
         $this->groupHandle = new GroupHandle($signatures);
-        $this->groupFacade = new GroupFacade($subject, $strategy, $allFactory, $this->groupHandle, $signatures);
+        $this->groupFacade = new GroupFacade($subject, $allFactory, $this->groupHandle, $signatures);
     }
 
     public function exists(GroupKey $group): bool

@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Replace\Callback;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
-use TRegx\CleanRegex\Internal\Match\Details\Group\ReplaceMatchGroupFactoryStrategy;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchesFirstPrime;
@@ -76,10 +75,7 @@ class ReplaceCallbackObject
             $index,
             $match,
             $this->factory,
-            new MatchesFirstPrime($matches),
-            new ReplaceMatchGroupFactoryStrategy(
-                $this->alteration->byteOffset(),
-                $this->alteration->subject())), $this->limit,
+            new MatchesFirstPrime($matches)), $this->limit,
             $this->alteration->modification($match->byteOffset()));
     }
 
