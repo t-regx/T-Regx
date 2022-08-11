@@ -3,8 +3,8 @@ namespace Test\Feature\CleanRegex\Composite\chainedReplace\callback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
-use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 /**
  * @covers \TRegx\CleanRegex\Composite\CompositePattern::chainedReplace
@@ -65,7 +65,7 @@ class CompositePatternTest extends TestCase
         $subjects = [];
 
         // when
-        $result = $chainedReplace->callback(function (ReplaceDetail $detail) use (&$matches, &$subjects) {
+        $result = $chainedReplace->callback(function (Detail $detail) use (&$matches, &$subjects) {
             $matches[] = $detail->text();
             $subjects[] = $detail->subject();
             return '_';

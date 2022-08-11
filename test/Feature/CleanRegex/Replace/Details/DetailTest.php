@@ -7,9 +7,9 @@ use Test\Utils\Functions;
 use TRegx\CleanRegex\Pattern;
 
 /**
- * @covers \TRegx\CleanRegex\Replace\Details\ReplaceDetail
+ * @coversNothing
  */
-class ReplaceDetailTest extends TestCase
+class DetailTest extends TestCase
 {
     /**
      * @test

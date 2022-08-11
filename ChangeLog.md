@@ -11,6 +11,7 @@ Incoming
         * Removed previously deprecated `ReplaceGroup.byteModifiedOffset()`
         * Removed previously deprecated `ReplaceGroup`
     * Removed `ReplaceDetail.limit()`
+    * Removed `ReplaceDetail`
 
 Added in 0.35.0
 ---------------

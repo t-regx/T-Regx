@@ -2,7 +2,8 @@
 namespace Test\Feature\CleanRegex\Replace\first;
 
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
+use Test\Utils\Functions;
+use TRegx\CleanRegex\Match\Detail;
 
 class ReplacePatternTest extends TestCase
 {
@@ -42,17 +43,14 @@ class ReplacePatternTest extends TestCase
     public function shouldReplace_withGroup()
     {
         // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
-        $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
+        $pattern = pattern('http://(?<name>[a-z]+)\.(?<domain>com|org)');
+        $replace = $pattern->replace('Links: http://google.com and http://other.org. and again http://danon.com');
 
         // when
-        $result = pattern($pattern)
-            ->replace($subject)
-            ->first()
-            ->callback(function (ReplaceDetail $detail) {
-                // then
-                return $detail->group('name');
-            });
+        $result = $replace->first()->callback(function (Detail $detail) {
+            // then
+            return $detail->group('name');
+        });
 
         // then
         $this->assertSame('Links: google and http://other.org. and again http://danon.com', $result);
@@ -64,18 +62,13 @@ class ReplacePatternTest extends TestCase
     public function shouldReplace_withDetails()
     {
         // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
+        $pattern = pattern('http://(?<name>[a-z]+)\.(?<domain>com|org)');
         $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
-
         // when
-        $result = pattern($pattern)
+        $result = $pattern
             ->replace($subject)
             ->first()
-            ->callback(function (ReplaceDetail $detail) {
-                // then
-                return $detail;
-            });
-
+            ->callback(Functions::identity());
         // then
         $this->assertSame($subject, $result);
     }
@@ -86,18 +79,15 @@ class ReplacePatternTest extends TestCase
     public function shouldGetFromReplaceMatch_all()
     {
         // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
-        $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
+        $pattern = pattern('http://(?<name>[a-z]+)\.(?<domain>com|org)');
+        $replace = $pattern->replace('Links: http://google.com and http://other.org. and again http://danon.com');
 
         // when
-        pattern($pattern)
-            ->replace($subject)
-            ->first()
-            ->callback(function (ReplaceDetail $detail) {
-                // then
-                $this->assertSame(['http://google.com', 'http://other.org', 'http://danon.com'], $detail->all());
+        $replace->first()->callback(function (Detail $detail) {
+            // then
+            $this->assertSame(['http://google.com', 'http://other.org', 'http://danon.com'], $detail->all());
 
-                return '';
-            });
+            return '';
+        });
     }
 }

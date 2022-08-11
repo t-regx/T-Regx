@@ -2,8 +2,8 @@
 namespace TRegx\CleanRegex\Replace\Callback;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Match\Group;
-use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 class MatchGroupStrategy implements ReplaceCallbackArgumentStrategy
 {
@@ -15,7 +15,7 @@ class MatchGroupStrategy implements ReplaceCallbackArgumentStrategy
         $this->group = $group;
     }
 
-    public function mapArgument(ReplaceDetail $detail): Group
+    public function mapArgument(Detail $detail): Group
     {
         return $detail->group($this->group->nameOrIndex());
     }

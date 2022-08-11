@@ -3,8 +3,8 @@ namespace Test\Feature\CleanRegex\Replace\only;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
-use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
 
 class ReplacePatternTest extends TestCase
 {
@@ -29,14 +29,14 @@ class ReplacePatternTest extends TestCase
     public function shouldGetFromReplaceMatch_all()
     {
         // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
+        $pattern = pattern('http://(?<name>[a-z]+)\.(?<domain>com|org)');
         $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
 
         // when
-        pattern($pattern)
+        $pattern
             ->replace($subject)
             ->only(2)
-            ->callback(function (ReplaceDetail $detail) {
+            ->callback(function (Detail $detail) {
                 // then
                 $this->assertSame(['http://google.com', 'http://other.org', 'http://danon.com'], $detail->all());
 
@@ -52,7 +52,6 @@ class ReplacePatternTest extends TestCase
         // given
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Negative limit: -1");
-
         // when
         pattern('')->replace('')->only(-1);
     }
@@ -67,7 +66,6 @@ class ReplacePatternTest extends TestCase
     {
         // when
         $result = pattern('[0-3]')->replace('0 1 2 3')->only($limit)->with('*');
-
         // then
         $this->assertSame($expectedResult, $result);
     }

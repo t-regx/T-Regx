@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Replace\Details\get;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
+use TRegx\CleanRegex\Match\Detail;
 
 class ReplacePatternTest extends TestCase
 {
@@ -13,11 +13,11 @@ class ReplacePatternTest extends TestCase
     public function shouldReplaceWithGroup_matched()
     {
         // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)?';
+        $pattern = pattern('http://(?<name>[a-z]+)\.(?<domain>com|org)?');
         $subject = 'Links: http://google.com';
 
         // when
-        $result = pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $detail) {
+        $result = $pattern->replace($subject)->first()->callback(function (Detail $detail) {
             // then
             return $detail->get('domain');
         });
@@ -32,14 +32,14 @@ class ReplacePatternTest extends TestCase
     public function shouldReplaceWithGroup_notMatched_index()
     {
         // given
-        $pattern = 'http://(?<name>[a-z]+)(?<domain>(?:\.com|org))?';
+        $pattern = pattern('http://(?<name>[a-z]+)(?<domain>(?:\.com|org))?');
         $subject = 'Links: http://google';
 
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to get group #2, but the group was not matched");
 
         // when
-        pattern($pattern)->replace($subject)->first()->callback(function (ReplaceDetail $detail) {
+        $pattern->replace($subject)->first()->callback(function (Detail $detail) {
             // then
             return $detail->get(2);
         });
@@ -51,17 +51,17 @@ class ReplacePatternTest extends TestCase
     public function shouldReplaceWithGroup_notMatched_name()
     {
         // given
-        $pattern = 'http://(?<name>[a-z]+)(?<domain>(?:\.com|org))?';
+        $pattern = pattern('http://(?<name>[a-z]+)(?<domain>(?:\.com|org))?');
         $subject = 'Links: http://google';
 
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to get group 'domain', but the group was not matched");
 
         // when
-        pattern($pattern)
+        $pattern
             ->replace($subject)
             ->first()
-            ->callback(function (ReplaceDetail $detail) {
+            ->callback(function (Detail $detail) {
                 // then
                 return $detail->get('domain');
             });

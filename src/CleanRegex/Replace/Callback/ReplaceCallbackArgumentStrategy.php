@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Callback;
 
-use TRegx\CleanRegex\Replace\Details\ReplaceDetail;
+use TRegx\CleanRegex\Match\Detail;
 
 interface ReplaceCallbackArgumentStrategy
 {
-    public function mapArgument(ReplaceDetail $detail);
+    public function mapArgument(Detail $detail);
 }
