@@ -85,33 +85,6 @@ class ReplacePatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFromReplaceMatch_modifiedSubject()
-    {
-        // given
-        $pattern = 'http://(?<name>[a-z]+)\.(?<domain>com|org)';
-        $subject = 'Links: http://google.com and http://other.org. and again http://google.com';
-
-        $subjects = [];
-
-        $callback = function (ReplaceDetail $detail) use (&$subjects) {
-            $subjects[] = $detail->modifiedSubject();
-            return "+{$detail->get('domain')}+";
-        };
-
-        // when
-        pattern($pattern)->replace($subject)->only(2)->callback($callback);
-
-        // then
-        $expected = [
-            'Links: http://google.com and http://other.org. and again http://google.com',
-            'Links: +com+ and http://other.org. and again http://google.com'
-        ];
-        $this->assertSame($expected, $subjects);
-    }
-
-    /**
-     * @test
-     */
     public function shouldThrow_only_onNegativeLimit()
     {
         // given

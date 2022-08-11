@@ -28,8 +28,6 @@ class ReplaceCallbackObject
     private $limit;
     /** @var ReplaceCallbackArgumentStrategy */
     private $argumentStrategy;
-    /** @var SubjectAlteration */
-    private $alteration;
 
     public function __construct(callable                        $callback,
                                 Subject                         $subject,
@@ -42,22 +40,19 @@ class ReplaceCallbackObject
         $this->factory = $factory;
         $this->limit = $limit;
         $this->argumentStrategy = $argumentStrategy;
-        $this->alteration = new SubjectAlteration($subject);
     }
 
     public function getCallback(): callable
     {
         return function (array $match) {
-            return $this->invoke($match);
+            return $this->invoke();
         };
     }
 
-    private function invoke(array $match): string
+    private function invoke(): string
     {
         $result = ($this->callback)($this->matchObject());
-        $replacement = $this->getReplacement($result);
-        $this->modify($match, $replacement);
-        return $replacement;
+        return $this->getReplacement($result);
     }
 
     private function matchObject()
@@ -69,14 +64,12 @@ class ReplaceCallbackObject
     {
         $index = $this->counter++;
         $matches = $this->factory->getRawMatches();
-        $match = new RawMatchesToMatchAdapter($matches, $index);
         return new ReplaceDetail(DeprecatedMatchDetail::create(
             $this->subject,
             $index,
-            $match,
+            new RawMatchesToMatchAdapter($matches, $index),
             $this->factory,
-            new MatchesFirstPrime($matches)), $this->limit,
-            $this->alteration->modification($match->byteOffset()));
+            new MatchesFirstPrime($matches)), $this->limit);
     }
 
     private function getReplacement($replacement): string
@@ -99,22 +92,5 @@ class ReplaceCallbackObject
             return $group->text();
         }
         throw GroupNotMatchedException::forReplacement(GroupKey::of($group->usedIdentifier()));
-    }
-
-    private function modify(array $match, string $replacement): void
-    {
-        [$text, $offset] = $this->textAndOffset($match);
-        $this->alteration->modify($text, $offset, $replacement);
-    }
-
-    private function textAndOffset(array $match): array
-    {
-        return [$match[0], $this->matchOffset()];
-    }
-
-    private function matchOffset(): int
-    {
-        [$_, $offset] = $this->factory->getRawMatches()->getTextAndOffset($this->counter - 1);
-        return $offset;
     }
 }

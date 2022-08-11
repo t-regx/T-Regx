@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Replace\Details;
 
-use TRegx\CleanRegex\Internal\Replace\Details\Modification;
 use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Match\Group;
 
@@ -14,38 +13,11 @@ class ReplaceDetail implements \TRegx\CleanRegex\Match\Detail
     private $detail;
     /** @var int */
     private $limit;
-    /** @var Modification */
-    private $modification;
 
-    public function __construct(Detail $detail, int $limit, Modification $modification)
+    public function __construct(Detail $detail, int $limit)
     {
         $this->detail = $detail;
         $this->limit = $limit;
-        $this->modification = $modification;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function modifiedSubject(): string
-    {
-        return $this->modification->subject();
-    }
-
-    /**
-     * @deprecated
-     */
-    public function modifiedOffset(): int
-    {
-        return $this->modification->offset();
-    }
-
-    /**
-     * @deprecated
-     */
-    public function byteModifiedOffset(): int
-    {
-        return $this->modification->byteOffset();
     }
 
     /**

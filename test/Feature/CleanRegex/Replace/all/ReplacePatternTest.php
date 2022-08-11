@@ -132,7 +132,6 @@ class ReplacePatternTest extends TestCase
         $this->assertSame('hello', $detail->text());
         $this->assertSame(0, $detail->index());
         $this->assertSame(3, $detail->offset());
-        $this->assertSame(3, $detail->modifiedOffset());
     }
 
     /**

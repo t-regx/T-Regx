@@ -73,32 +73,21 @@ class CompositePatternTest extends TestCase
         $chainedReplace = $pattern->chainedReplace('a 1 b 2 c 3');
         $matches = [];
         $subjects = [];
-        $modified = [];
 
         // when
-        $result = $chainedReplace->callback(function (ReplaceDetail $detail) use (&$matches, &$subjects, &$modified) {
+        $result = $chainedReplace->callback(function (ReplaceDetail $detail) use (&$matches, &$subjects) {
             $matches[] = $detail->text();
             $subjects[] = $detail->subject();
-            $modified[] = $detail->modifiedSubject();
             return '_';
         });
 
         // then
         $first = 'a 1 b 2 c 3';
         $second = '_ 1 _ 2 _ 3';
-        $expectedModified = [
-            'a 1 b 2 c 3',
-            '_ 1 b 2 c 3',
-            '_ 1 _ 2 c 3',
-            '_ 1 _ 2 _ 3',
-            '_ _ _ 2 _ 3',
-            '_ _ _ _ _ 3',
-        ];
         $expectedResult = '_ _ _ _ _ _';
 
         $this->assertSame(['a', 'b', 'c', '1', '2', '3'], $matches);
         $this->assertSame([$first, $first, $first, $second, $second, $second], $subjects);
-        $this->assertSame($expectedModified, $modified);
         $this->assertSame($expectedResult, $result);
     }
 }

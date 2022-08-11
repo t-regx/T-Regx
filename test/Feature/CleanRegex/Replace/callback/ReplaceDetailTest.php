@@ -45,51 +45,6 @@ class ReplaceDetailTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetModifiedSubject()
-    {
-        /**
-         * @var ReplaceDetail $detail
-         */
-        // given
-        Pattern::of('\w+')->replace('Foo, Bar')->callback(DetailFunctions::outLast($detail, '_'));
-        // when, then
-        $this->assertSame('Foo, Bar', $detail->subject());
-        $this->assertSame('_, Bar', $detail->modifiedSubject());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetModifiedOffset()
-    {
-        /**
-         * @var ReplaceDetail $detail
-         */
-        // given
-        Pattern::of('[\w€]+')->replace('Foo€, Bar')->callback(DetailFunctions::outLast($detail, '€'));
-        // when, then
-        $this->assertSame(6, $detail->offset());
-        $this->assertSame(3, $detail->modifiedOffset());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetByteModifiedOffset()
-    {
-        /**
-         * @var ReplaceDetail $detail
-         */
-        // given
-        Pattern::of('[\w€]+')->replace('Foo€, Bar')->callback(DetailFunctions::outLast($detail, '€'));
-        // when, then
-        $this->assertSame(8, $detail->byteOffset());
-        $this->assertSame(5, $detail->byteModifiedOffset());
-    }
-
-    /**
-     * @test
-     */
     public function shouldBeUsingDuplicateName()
     {
         /**
