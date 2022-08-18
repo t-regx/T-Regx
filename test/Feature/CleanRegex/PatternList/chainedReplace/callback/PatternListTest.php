@@ -28,7 +28,7 @@ class PatternListTest extends TestCase
             "thi__ing",
             '(\s+|\?)',
         ];
-        $pattern = Pattern::compose(\array_slice($patterns, 0, $times));
+        $pattern = Pattern::list(\array_slice($patterns, 0, $times));
 
         // when
         $replaced = $pattern
@@ -59,7 +59,7 @@ class PatternListTest extends TestCase
     public function shouldInvokeCallbackForOnePattern()
     {
         // given
-        $pattern = Pattern::compose(['[a-z]', '[1-9]']);
+        $pattern = Pattern::list(['[a-z]', '[1-9]']);
         $chainedReplace = $pattern->chainedReplace('a 1 b 2 c 3');
         $matches = [];
         $subjects = [];

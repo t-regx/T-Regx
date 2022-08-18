@@ -19,7 +19,7 @@ class PatternListTest extends TestCase
     public function test(int $times, string $expected)
     {
         // given
-        $pattern = Pattern::compose(\array_slice([
+        $pattern = Pattern::list(\array_slice([
             "at's ai",
             "th__r you're bre",
             'nk __ath',
@@ -52,7 +52,7 @@ class PatternListTest extends TestCase
     public function shouldQuoteReferences()
     {
         // given
-        $pattern = Pattern::compose(['One(1)', 'Two(2)', 'Three(3)']);
+        $pattern = Pattern::list(['One(1)', 'Two(2)', 'Three(3)']);
         // when
         $replaced = $pattern->chainedReplace("One1 Two2 Three3")->with('$1');
         // then
@@ -65,7 +65,7 @@ class PatternListTest extends TestCase
     public function shouldReplaceWithReferences()
     {
         // given
-        $pattern = Pattern::compose(['One(1)', 'Two(2)', 'Three(3)']);
+        $pattern = Pattern::list(['One(1)', 'Two(2)', 'Three(3)']);
         // when
         $replaced = $pattern->chainedReplace("One1 Two2 Three3")->withReferences('$1');
         // then

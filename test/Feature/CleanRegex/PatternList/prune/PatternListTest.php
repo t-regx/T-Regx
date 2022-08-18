@@ -18,16 +18,16 @@ class PatternListTest extends TestCase
     public function test(int $times, string $expected)
     {
         // given
-        $composite = Pattern::compose(\array_slice([
+        $list = Pattern::list(\array_slice([
             "at's ai",
             "thr you're bre",
-            "nk ath",
-            "thi{2}ng",
+            'nk ath',
+            'thi{2}ng',
             '(\s+|\?)',
-            "[ou]",
+            '[ou]',
         ], 0, $times));
         // when
-        $replaced = $composite->prune("Do you think that's air you're breathing now?");
+        $replaced = $list->prune("Do you think that's air you're breathing now?");
         // then
         $this->assertSame($expected, $replaced);
     }

@@ -296,10 +296,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldAcceptTrailingBackslashControlCompose()
+    public function shouldAcceptTrailingBackslashControlPatternList()
     {
         // when
-        $pattern = Pattern::compose(['\c\\']);
+        $pattern = Pattern::list(['\c\\']);
 
         // then
         $this->assertTrue($pattern->testAll(\chr(28)));

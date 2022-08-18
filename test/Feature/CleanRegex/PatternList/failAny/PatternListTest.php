@@ -15,7 +15,7 @@ class PatternListTest extends TestCase
     public function testAllPassingPatterns()
     {
         // given
-        $pattern = Pattern::compose(['^P', 'R', 'E$']);
+        $pattern = Pattern::list(['^P', 'R', 'E$']);
         // when, then
         $this->assertFalse($pattern->failAny('PRE'));
     }
@@ -26,7 +26,7 @@ class PatternListTest extends TestCase
     public function testOneFailingPattern()
     {
         // given
-        $pattern = Pattern::compose(['^P$', 'R', 'E', 'x']);
+        $pattern = Pattern::list(['^P$', 'R', 'E', 'x']);
         // when, then
         $this->assertTrue($pattern->failAny('PRE'));
     }
@@ -37,7 +37,7 @@ class PatternListTest extends TestCase
     public function testAllFailingPatterns()
     {
         // given
-        $pattern = Pattern::compose(['/1/', '/2/', '/3/', '/4/']);
+        $pattern = Pattern::list(['/1/', '/2/', '/3/', '/4/']);
         // when, then
         $this->assertTrue($pattern->failAny('PRE'));
     }

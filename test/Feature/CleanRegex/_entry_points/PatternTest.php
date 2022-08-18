@@ -30,10 +30,11 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuild_compose()
+    public function shouldBuild_list()
     {
         // given
-        $pattern = Pattern::compose([
+        $pattern = Pattern::list([
+            '^F...o$',
             pattern('^Fro'),
             Pattern::of('rod'),
             PcrePattern::of('/do$/'),

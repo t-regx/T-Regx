@@ -52,7 +52,7 @@ trait EntryPoints
         return new Pattern(new Alteration($texts, Flags::from($flags)));
     }
 
-    public static function compose(array $patterns): PatternList
+    public static function list(array $patterns): PatternList
     {
         return new PatternList(Definitions::composed($patterns, static function (Pattern $pattern): Definition {
             /**

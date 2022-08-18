@@ -40,14 +40,14 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrow_forTrailingBackslash_compose(): void
+    public function shouldThrow_forTrailingBackslash_list(): void
     {
         // then
         $this->expectException(PatternMalformedPatternException::class);
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
 
         // when
-        Pattern::compose(['Foo & \\'])->testAny('Foo');
+        Pattern::list(['Foo & \\'])->testAny('Foo');
     }
 
     /**

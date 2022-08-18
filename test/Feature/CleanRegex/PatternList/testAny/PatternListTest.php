@@ -16,7 +16,7 @@ class PatternListTest extends TestCase
     public function shouldMatch()
     {
         // given
-        $pattern = Pattern::compose($this->patterns());
+        $pattern = Pattern::list($this->patterns());
         // when, then
         $this->assertTrue($pattern->testAny('http'));
     }
@@ -27,7 +27,7 @@ class PatternListTest extends TestCase
     public function shouldNotMatch()
     {
         // given
-        $pattern = Pattern::compose($this->patterns());
+        $pattern = Pattern::list($this->patterns());
         // when, then
         $this->assertFalse($pattern->testAny('Foo'));
     }

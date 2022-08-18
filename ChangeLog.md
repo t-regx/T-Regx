@@ -4,7 +4,9 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Renamed `Pattern.compose()` to `Pattern.list()`
+    * Renamed `CompositePattern` to `PatternList`
 
 Added in 0.36.0
 ---------------
