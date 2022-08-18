@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Builder\PatternTemplate;
 use TRegx\CleanRegex\Builder\TemplateBuilder;
-use TRegx\CleanRegex\Composite\CompositePattern;
 use TRegx\CleanRegex\Internal\Expression\Alteration;
 use TRegx\CleanRegex\Internal\Expression\Literal;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\FigureClusters;
@@ -14,6 +13,7 @@ use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardOrthography;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling;
 use TRegx\CleanRegex\Pattern;
+use TRegx\CleanRegex\PatternList;
 
 trait EntryPoints
 {
@@ -52,9 +52,9 @@ trait EntryPoints
         return new Pattern(new Alteration($texts, Flags::from($flags)));
     }
 
-    public static function compose(array $patterns): CompositePattern
+    public static function compose(array $patterns): PatternList
     {
-        return new CompositePattern(Definitions::composed($patterns, static function (Pattern $pattern): Definition {
+        return new PatternList(Definitions::composed($patterns, static function (Pattern $pattern): Definition {
             /**
              * {@see Pattern} instance has reference to {@see Definition} as "pattern"
              * private field. Definition contains {@see Definition::$pattern} field,

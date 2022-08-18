@@ -1,14 +1,14 @@
 <?php
-namespace Test\Feature\CleanRegex\Composite\chainedReplace\with;
+namespace Test\Feature\CleanRegex\PatternList\chainedReplace\with;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
 
 /**
- * @covers \TRegx\CleanRegex\Composite\CompositePattern::chainedReplace
+ * @covers \TRegx\CleanRegex\PatternList::chainedReplace
  * @covers \TRegx\CleanRegex\Composite\ChainedReplace
  */
-class CompositePatternTest extends TestCase
+class PatternListTest extends TestCase
 {
     /**
      * @test

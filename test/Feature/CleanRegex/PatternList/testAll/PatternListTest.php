@@ -1,14 +1,14 @@
 <?php
-namespace Test\Feature\CleanRegex\Composite\testAny;
+namespace Test\Feature\CleanRegex\PatternList\testAll;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PcrePattern;
 
 /**
- * @covers \TRegx\CleanRegex\Composite\CompositePattern::testAny
+ * @covers \TRegx\CleanRegex\PatternList::testAll
  */
-class CompositePatternTest extends TestCase
+class PatternListTest extends TestCase
 {
     /**
      * @test
@@ -18,7 +18,7 @@ class CompositePatternTest extends TestCase
         // given
         $pattern = Pattern::compose($this->patterns());
         // when, then
-        $this->assertTrue($pattern->testAny('http'));
+        $this->assertTrue($pattern->testAll('Frodo'));
     }
 
     /**
@@ -29,15 +29,15 @@ class CompositePatternTest extends TestCase
         // given
         $pattern = Pattern::compose($this->patterns());
         // when, then
-        $this->assertFalse($pattern->testAny('Foo'));
+        $this->assertFalse($pattern->testAll('Frodo2'));
     }
 
     private function patterns(): array
     {
         return [
-            PcrePattern::of('/https?/i'),
-            PcrePattern::of('/fail/'),
-            PcrePattern::of('/failed/i')
+            PcrePattern::of('/^fro/i'),
+            PcrePattern::of('/rod/'),
+            PcrePattern::of('/odo$/')
         ];
     }
 }

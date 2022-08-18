@@ -1,13 +1,13 @@
 <?php
-namespace Test\Feature\CleanRegex\Composite\prune;
+namespace Test\Feature\CleanRegex\PatternList\prune;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
 
 /**
- * @covers \TRegx\CleanRegex\Composite\CompositePattern::prune
+ * @covers \TRegx\CleanRegex\PatternList::prune
  */
-class CompositePatternTest extends TestCase
+class PatternListTest extends TestCase
 {
     /**
      * @test

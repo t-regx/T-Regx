@@ -1,12 +1,13 @@
 <?php
-namespace TRegx\CleanRegex\Composite;
+namespace TRegx\CleanRegex;
 
+use TRegx\CleanRegex\Composite\ChainedReplace;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
 
-class CompositePattern
+class PatternList
 {
     /** @var Definition[] */
     private $definitions;
