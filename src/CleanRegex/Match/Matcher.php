@@ -159,9 +159,9 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         return $this->matchItems->flatMap(new ListFunction(new ArrayFunction($mapper, 'flatMap')));
     }
 
-    public function flatMapAssoc(callable $mapper): array
+    public function toMap(callable $mapper): array
     {
-        return $this->matchItems->flatMap(new DictionaryFunction(new ArrayFunction($mapper, 'flatMapAssoc')));
+        return $this->matchItems->flatMap(new DictionaryFunction(new ArrayFunction($mapper, 'toMap')));
     }
 
     /**

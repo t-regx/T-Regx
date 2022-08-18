@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\Match\flatMapAssoc;
+namespace Test\Feature\CleanRegex\Match\toMap;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsDetail;
@@ -20,12 +20,12 @@ class MatcherTest extends TestCase
     /**
      * @test
      */
-    public function shouldFlatMapAssoc()
+    public function shouldFlatMap()
     {
         // given
         $matcher = Pattern::of('\w+')->match('One, Two, Six');
         // when
-        $dictionary = $matcher->flatMapAssoc(Functions::lettersAsKeys());
+        $dictionary = $matcher->toMap(Functions::lettersAsKeys());
         // then
         $expected = [
             'O' => 0,
@@ -44,12 +44,12 @@ class MatcherTest extends TestCase
     /**
      * @test
      */
-    public function shouldFlatMapAssocReassignedKeys()
+    public function shouldFlatMapReassignedKeys()
     {
         // given
         $matcher = pattern('[A-Za-z]+')->match('Docker, Down, Foo');
         // when
-        $dictionary = $matcher->flatMapAssoc(Functions::letters());
+        $dictionary = $matcher->toMap(Functions::letters());
         // then
         $this->assertSame(['F', 'o', 'o', 'n', 'e', 'r'], $dictionary);
     }
@@ -62,7 +62,7 @@ class MatcherTest extends TestCase
         // given
         $matcher = Pattern::of('\w+')->match('Family, Duty, Honor');
         // when
-        $dictionary = $matcher->flatMapAssoc(function (Detail $detail) {
+        $dictionary = $matcher->toMap(function (Detail $detail) {
             return [$detail->text() => $detail->offset()];
         });
         // then
@@ -82,7 +82,7 @@ class MatcherTest extends TestCase
         // given
         $matcher = Pattern::of('\w+')->match('Family, Duty, Honor');
         // when
-        $dictionary = $matcher->flatMapAssoc(function (Detail $detail) {
+        $dictionary = $matcher->toMap(function (Detail $detail) {
             return ['duplicate' => $detail->offset()];
         });
         // then
@@ -97,7 +97,7 @@ class MatcherTest extends TestCase
         // given
         $matcher = Pattern::of('\w+')->match('Family, Duty, Honor');
         // when
-        $dictionary = $matcher->flatMapAssoc(function (Detail $detail) {
+        $dictionary = $matcher->toMap(function (Detail $detail) {
             return [1 => $detail->offset()];
         });
         // then
@@ -112,7 +112,7 @@ class MatcherTest extends TestCase
         // given
         $matcher = Pattern::of('\w+')->match("Hear me roar");
         // when
-        $matcher->flatMapAssoc(Functions::collect($details, []));
+        $matcher->toMap(Functions::collect($details, []));
         // then
         [$hear, $me, $roar] = $details;
         $this->assertDetailText('Hear', $hear);
@@ -130,7 +130,7 @@ class MatcherTest extends TestCase
         // given
         $matcher = Pattern::of('\w+')->match("Hear me roar");
         // when
-        $details = $matcher->flatMapAssoc(Functions::wrapKeySequential());
+        $details = $matcher->toMap(Functions::wrapKeySequential());
         // then
         [$hear, $me, $roar] = $details;
         $this->assertDetailText('Hear', $hear);
@@ -148,7 +148,7 @@ class MatcherTest extends TestCase
         // given
         $matcher = Pattern::of('Foo')->match('Bar');
         // when
-        $matcher->flatMapAssoc(Functions::fail());
+        $matcher->toMap(Functions::fail());
         // then
         $this->pass();
     }
@@ -161,7 +161,7 @@ class MatcherTest extends TestCase
         // given
         $matcher = Pattern::of('Foo')->match('Bar');
         // when
-        $map = $matcher->flatMapAssoc(Functions::fail());
+        $map = $matcher->toMap(Functions::fail());
         // then
         $this->assertEmpty($map);
     }
@@ -175,9 +175,9 @@ class MatcherTest extends TestCase
         $matcher = Pattern::of('Foo')->match('Foo');
         // then
         $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage("Invalid flatMapAssoc() callback return type. Expected array, but string ('string') given");
+        $this->expectExceptionMessage("Invalid toMap() callback return type. Expected array, but string ('string') given");
         // when
-        $matcher->flatMapAssoc(Functions::constant('string'));
+        $matcher->toMap(Functions::constant('string'));
     }
 
     /**
@@ -189,7 +189,7 @@ class MatcherTest extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        Pattern::of('+')->match('Foo')->flatMapAssoc(Functions::fail());
+        Pattern::of('+')->match('Foo')->toMap(Functions::fail());
     }
 
     /**
@@ -200,7 +200,7 @@ class MatcherTest extends TestCase
         // given
         $matcher = Pattern::of('Foo')->match('Foo');
         // when
-        $result = $matcher->flatMapAssoc(Functions::constant(['a', 1 => ['b'], 2 => [['c']]]));
+        $result = $matcher->toMap(Functions::constant(['a', 1 => ['b'], 2 => [['c']]]));
         // then
         $this->assertSame(['a', ['b'], [['c']]], $result);
     }

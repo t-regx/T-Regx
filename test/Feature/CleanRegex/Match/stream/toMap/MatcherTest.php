@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\Match\stream\flatMapAssoc;
+namespace Test\Feature\CleanRegex\Match\stream\toMap;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
@@ -14,12 +14,12 @@ class MatcherTest extends TestCase
     /**
      * @test
      */
-    public function shouldFlatMapAssoc()
+    public function shouldFlatMap()
     {
         // when
         $stream = Pattern::of('.')->match('Apple')
             ->stream()
-            ->flatMapAssoc(function (Detail $detail) {
+            ->toMap(function (Detail $detail) {
                 return [$detail->text() => $detail->offset()];
             });
         // when
@@ -42,7 +42,7 @@ class MatcherTest extends TestCase
         // when
         $first = Pattern::of('(?<=")\w*(?=")')->match('"", "", "Apple"')
             ->stream()
-            ->flatMapAssoc(Functions::lettersAsKeys())
+            ->toMap(Functions::lettersAsKeys())
             ->keys()
             ->first();
         // then

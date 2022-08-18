@@ -119,9 +119,9 @@ class Stream implements \Countable, \IteratorAggregate
         return $this->next(new FlatMapStream($this->upstream, new ListFunction(new ArrayFunction($mapper, 'flatMap'))));
     }
 
-    public function flatMapAssoc(callable $mapper): Stream
+    public function toMap(callable $mapper): Stream
     {
-        return $this->next(new FlatMapStream($this->upstream, new DictionaryFunction(new ArrayFunction($mapper, 'flatMapAssoc'))));
+        return $this->next(new FlatMapStream($this->upstream, new DictionaryFunction(new ArrayFunction($mapper, 'toMap'))));
     }
 
     public function distinct(): Stream

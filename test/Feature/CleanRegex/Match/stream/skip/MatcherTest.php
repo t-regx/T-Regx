@@ -41,7 +41,7 @@ class MatcherTest extends TestCase
     {
         // when
         $first = $this->backtrackingMatch()->stream()
-            ->flatMapAssoc(Functions::constant(['key' => 'value']))
+            ->toMap(Functions::constant(['key' => 'value']))
             ->skip(0)
             ->keys()
             ->first();

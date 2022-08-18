@@ -138,9 +138,9 @@ class Search implements \Countable, \IteratorAggregate
         return $this->searchItems->flatMap(new ListFunction(new ArrayFunction($mapper, 'flatMap')));
     }
 
-    public function flatMapAssoc(callable $mapper): array
+    public function toMap(callable $mapper): array
     {
-        return $this->searchItems->flatMap(new DictionaryFunction(new ArrayFunction($mapper, 'flatMapAssoc')));
+        return $this->searchItems->flatMap(new DictionaryFunction(new ArrayFunction($mapper, 'toMap')));
     }
 
     /**

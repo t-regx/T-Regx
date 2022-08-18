@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\Stream\flatMapAssoc;
+namespace Test\Feature\CleanRegex\Stream\toMap;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
@@ -20,7 +20,7 @@ class StreamTest extends TestCase
         // given
         $stream = ArrayStream::of(['Neo', 'Tank', 'Apoc']);
         // when
-        $letters = $stream->flatMapAssoc(Functions::lettersAsKeys())->all();
+        $letters = $stream->toMap(Functions::lettersAsKeys())->all();
         // then
         $expected = [
             'N' => 0,
@@ -45,7 +45,7 @@ class StreamTest extends TestCase
         // given
         $stream = ArrayStream::of(['Neo', 'Morpheus', 'Trinity']);
         // when
-        $letter = $stream->flatMapAssoc(Functions::lettersAsKeys())->first();
+        $letter = $stream->toMap(Functions::lettersAsKeys())->first();
         // then
         $this->assertSame(0, $letter);
     }
@@ -58,7 +58,7 @@ class StreamTest extends TestCase
         // given
         $stream = ArrayStream::of(['Neo', 'Morpheus', 'Trinity']);
         // when
-        $letter = $stream->flatMapAssoc(Functions::lettersAsEntries())->first();
+        $letter = $stream->toMap(Functions::lettersAsEntries())->first();
         // then
         $this->assertSame('N', $letter);
     }
@@ -71,7 +71,7 @@ class StreamTest extends TestCase
         // given
         $stream = ArrayStream::of(['Neo', 'Morpheus', 'Trinity']);
         // when
-        $first = $stream->flatMapAssoc(Functions::lettersAsKeys())->keys()->first();
+        $first = $stream->toMap(Functions::lettersAsKeys())->keys()->first();
         // then
         $this->assertSame('N', $first);
     }
@@ -82,10 +82,10 @@ class StreamTest extends TestCase
     public function shouldThrow_forInvalidReturnType_all()
     {
         // given
-        $stream = ArrayStream::of(['Foo'])->flatMapAssoc(Functions::constant(3));
+        $stream = ArrayStream::of(['Foo'])->toMap(Functions::constant(3));
         // then
         $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage('Invalid flatMapAssoc() callback return type. Expected array, but integer (3) given');
+        $this->expectExceptionMessage('Invalid toMap() callback return type. Expected array, but integer (3) given');
         // when
         $stream->all();
     }
@@ -96,10 +96,10 @@ class StreamTest extends TestCase
     public function shouldThrow_forInvalidReturnType_first()
     {
         // given
-        $stream = ArrayStream::of(['Foo'])->flatMapAssoc(Functions::constant(3));
+        $stream = ArrayStream::of(['Foo'])->toMap(Functions::constant(3));
         // then
         $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage('Invalid flatMapAssoc() callback return type. Expected array, but integer (3) given');
+        $this->expectExceptionMessage('Invalid toMap() callback return type. Expected array, but integer (3) given');
         // when
         $stream->first();
     }
@@ -110,10 +110,10 @@ class StreamTest extends TestCase
     public function shouldThrow_forInvalidReturnType_firstKey()
     {
         // given
-        $stream = ArrayStream::of(['Foo'])->flatMapAssoc(Functions::constant(3))->keys();
+        $stream = ArrayStream::of(['Foo'])->toMap(Functions::constant(3))->keys();
         // then
         $this->expectException(InvalidReturnValueException::class);
-        $this->expectExceptionMessage('Invalid flatMapAssoc() callback return type. Expected array, but integer (3) given');
+        $this->expectExceptionMessage('Invalid toMap() callback return type. Expected array, but integer (3) given');
         // when
         $stream->first();
     }
@@ -126,7 +126,7 @@ class StreamTest extends TestCase
     public function shouldReturn_first_forSkewedArray(array $array)
     {
         // when
-        $first = ArrayStream::of(['Foo'])->flatMapAssoc(Functions::constant($array))->first();
+        $first = ArrayStream::of(['Foo'])->toMap(Functions::constant($array))->first();
         // then
         $this->assertSame(1, $first);
     }
@@ -139,7 +139,7 @@ class StreamTest extends TestCase
     public function shouldReturn_firstKey_forSkewedArray(array $array)
     {
         // given
-        $firstKey = ArrayStream::of(['Foo'])->flatMapAssoc(Functions::constant($array))
+        $firstKey = ArrayStream::of(['Foo'])->toMap(Functions::constant($array))
             ->keys()
             ->first();
         // then
@@ -169,7 +169,7 @@ class StreamTest extends TestCase
         // given
         $stream = ArrayStream::of(['Boromir', 'Faramir']);
         // when
-        $nth = $stream->flatMapAssoc(Functions::lettersAsEntries())->nth(4);
+        $nth = $stream->toMap(Functions::lettersAsEntries())->nth(4);
         // then
         $this->assertSame('i', $nth);
     }

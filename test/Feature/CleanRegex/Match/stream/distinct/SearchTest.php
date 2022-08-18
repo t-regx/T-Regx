@@ -22,7 +22,7 @@ class SearchTest extends TestCase
         $stream = Pattern::of('Foo')
             ->search('Foo')
             ->stream()
-            ->flatMapAssoc(Functions::constant(['12', '12', 12, '12' => 13]));
+            ->toMap(Functions::constant(['12', '12', 12, '12' => 13]));
         // when
         $distinct = $stream->distinct()->all();
         // then

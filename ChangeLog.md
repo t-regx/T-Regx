@@ -7,6 +7,10 @@ Incoming
 * Breaking changes
     * Renamed `Pattern.compose()` to `Pattern.list()`
     * Renamed `CompositePattern` to `PatternList`
+    * Renamed `flatMapAssoc()` to `toMap()`
+        * Renamed `match().flatMapAssoc()` to `match().toMap()`
+        * Renamed `search().flatMapAssoc()` to `search().toMap()`
+        * Renamed `stream().flatMapAssoc()` to `stream().toMap()`
 
 Added in 0.36.0
 ---------------

@@ -41,7 +41,7 @@ class SearchTest extends TestCase
     {
         // when
         $first = $this->backtrackingSearch()->stream()
-            ->flatMapAssoc(Functions::constant(['key' => 'value']))
+            ->toMap(Functions::constant(['key' => 'value']))
             ->skip(0)
             ->keys()
             ->first();
