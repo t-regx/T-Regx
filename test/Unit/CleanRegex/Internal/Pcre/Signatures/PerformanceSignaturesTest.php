@@ -2,7 +2,7 @@
 namespace Test\Unit\CleanRegex\Internal\Pcre\Signatures;
 
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\CleanRegex\Internal\Model\GroupKeys;
+use Test\Fakes\CleanRegex\Internal\Model\ArrayGroupKeys;
 use Test\Fakes\CleanRegex\Internal\Model\ThrowGroupAware;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupIndex;
@@ -21,7 +21,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldGetGroupSignatureByName()
     {
         // given
-        $signatures = new PerformanceSignatures(new GroupKeys([0, 'first', 1]), new ThrowGroupAware());
+        $signatures = new PerformanceSignatures(new ArrayGroupKeys([0, 'first', 1]), new ThrowGroupAware());
         // when
         $signature = $signatures->signature(new GroupName('first'));
         // then
@@ -34,7 +34,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldGetGroupSignatureByIndex()
     {
         // given
-        $signatures = new PerformanceSignatures(new GroupKeys([0, 'foo', 1]), new ThrowGroupAware());
+        $signatures = new PerformanceSignatures(new ArrayGroupKeys([0, 'foo', 1]), new ThrowGroupAware());
         // when
         $signature = $signatures->signature(new GroupIndex(1));
         // then
@@ -47,7 +47,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldGetGroupSignatureForUnmatchedGroup()
     {
         // given
-        $signatures = new PerformanceSignatures(new GroupKeys([0, 1, 'foo']), new ThrowGroupAware());
+        $signatures = new PerformanceSignatures(new ArrayGroupKeys([0, 1, 'foo']), new ThrowGroupAware());
         // when
         $signature = $signatures->signature(new GroupIndex(1));
         // then
@@ -60,7 +60,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldGetSignatureByIndexFromGroupAware()
     {
         // given
-        $signatures = new PerformanceSignatures(new GroupKeys([0]), new GroupKeys([0, 'foo', 1]));
+        $signatures = new PerformanceSignatures(new ArrayGroupKeys([0]), new ArrayGroupKeys([0, 'foo', 1]));
         // when
         $signature = $signatures->signature(new GroupIndex(1));
         // then
@@ -73,7 +73,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldGetSignatureByIndexFromGroupAwareUnnamed()
     {
         // given
-        $signatures = new PerformanceSignatures(new GroupKeys([0]), new GroupKeys([0, 1, 'foo', 2]));
+        $signatures = new PerformanceSignatures(new ArrayGroupKeys([0]), new ArrayGroupKeys([0, 1, 'foo', 2]));
         // when
         $signature = $signatures->signature(new GroupIndex(1));
         // then
@@ -86,7 +86,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldGetSignatureByNameFromGroupAware()
     {
         // given
-        $signatures = new PerformanceSignatures(new GroupKeys([0]), new GroupKeys([0, 'foo', 1]));
+        $signatures = new PerformanceSignatures(new ArrayGroupKeys([0]), new ArrayGroupKeys([0, 'foo', 1]));
         // when
         $signature = $signatures->signature(new GroupName('foo'));
         // then
@@ -99,7 +99,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldThrowForMissingGroupByName()
     {
         // given
-        $signatures = new PerformanceSignatures(new GroupKeys([0]), new GroupKeys([0, 'foo', 1]));
+        $signatures = new PerformanceSignatures(new ArrayGroupKeys([0]), new ArrayGroupKeys([0, 'foo', 1]));
         // then
         $this->expectException(InternalCleanRegexException::class);
         // when
@@ -112,7 +112,7 @@ class PerformanceSignaturesTest extends TestCase
     public function shouldThrowForMissingGroupByIndex()
     {
         // given
-        $signatures = new PerformanceSignatures(new GroupKeys([0]), new GroupKeys([0, 'foo', 1]));
+        $signatures = new PerformanceSignatures(new ArrayGroupKeys([0]), new ArrayGroupKeys([0, 'foo', 1]));
         // then
         $this->expectException(InternalCleanRegexException::class);
         // when

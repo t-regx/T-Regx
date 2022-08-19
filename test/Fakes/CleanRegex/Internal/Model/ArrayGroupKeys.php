@@ -2,8 +2,9 @@
 namespace Test\Fakes\CleanRegex\Internal\Model;
 
 use Test\Utils\Assertion\Fails;
+use TRegx\CleanRegex\Internal\Model\GroupKeys;
 
-class GroupKeys implements \TRegx\CleanRegex\Internal\Model\GroupKeys
+class ArrayGroupKeys implements GroupKeys
 {
     use Fails;
 
