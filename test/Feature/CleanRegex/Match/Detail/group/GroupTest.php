@@ -60,11 +60,11 @@ class GroupTest extends TestCase
     /**
      * @test
      * @dataProvider groups
-     * @param \TRegx\CleanRegex\Match\Group $group
+     * @param Group $group
      * @param bool $matched
      * @param Group $groupByName
      */
-    public function shouldGetUsedIdentifier_byName(\TRegx\CleanRegex\Match\Group $group, bool $matched, Group $groupByName)
+    public function shouldGetUsedIdentifier_byName(Group $group, bool $matched, Group $groupByName)
     {
         // when
         $identifier = $groupByName->usedIdentifier();
@@ -102,7 +102,7 @@ class GroupTest extends TestCase
      * @test
      * @dataProvider groups
      */
-    public function shouldToIntThrowForInvalidBase(\TRegx\CleanRegex\Match\Group $group)
+    public function shouldToIntThrowForInvalidBase(Group $group)
     {
         // then
         $this->expectException(InvalidArgumentException::class);
@@ -132,11 +132,11 @@ class GroupTest extends TestCase
         ];
     }
 
-    private function matchedGroup($nameOrIndex): \TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroup
+    private function matchedGroup($nameOrIndex): MatchedGroup
     {
         $detail = Pattern::of('(\d+):(?<group>group)')->match('€, 12:group')->first();
         /**
-         * @var \TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroup $group
+         * @var MatchedGroup $group
          */
         $group = $detail->group($nameOrIndex);
         return $group;

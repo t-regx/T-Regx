@@ -113,7 +113,7 @@ class MatcherTest extends TestCase
         // when
         $result = pattern('(?<one>Foo)(?<one>Bar)', 'J')->match('FooBar')->groupBy('one');
         // then
-        /** @var \TRegx\CleanRegex\Match\Detail $detail */
+        /** @var Detail $detail */
         [$detail] = $result['Foo'];
         $this->assertSame('FooBar', $detail->text());
         $this->assertSame('FooBar', $detail->subject());

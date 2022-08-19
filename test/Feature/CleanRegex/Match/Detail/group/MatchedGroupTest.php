@@ -128,7 +128,7 @@ class MatchedGroupTest extends TestCase
     {
         $detail = Pattern::of('(\d+):(?<group>group,€)')->match('€, 12:group,€')->first();
         /**
-         * @var \TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroup $group
+         * @var MatchedGroup $group
          */
         $group = $detail->group(2);
         return $group;

@@ -172,11 +172,11 @@ class NotMatchedGroupTest extends TestCase
         $group->substitute('');
     }
 
-    private function group(): \TRegx\CleanRegex\Internal\Match\Details\Group\NotMatchedGroup
+    private function group(): NotMatchedGroup
     {
         $detail = Pattern::of('(Foo)(?<group>Bar)?')->match('Foo')->first();
         /**
-         * @var \TRegx\CleanRegex\Internal\Match\Details\Group\NotMatchedGroup $group
+         * @var NotMatchedGroup $group
          */
         $group = $detail->group('group');
         return $group;
