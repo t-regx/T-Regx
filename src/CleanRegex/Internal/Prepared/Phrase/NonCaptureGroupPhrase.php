@@ -1,29 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
 
-class NonCaptureGroupPhrase implements Phrase
+class NonCaptureGroupPhrase extends GroupPhrase
 {
-    /** @var Phrase */
-    private $phrase;
-
-    public function __construct(Phrase $phrase)
+    protected function phraseGroup(string $phrase): string
     {
-        $this->phrase = $phrase;
-    }
-
-    public function conjugated(string $delimiter): string
-    {
-        return $this->phraseGroup($delimiter);
-    }
-
-    public function unconjugated(string $delimiter): string
-    {
-        return $this->phraseGroup($delimiter);
-    }
-
-    private function phraseGroup(string $delimiter): string
-    {
-        $phrase = $this->phrase->unconjugated($delimiter);
         return "(?:$phrase)";
     }
 }
