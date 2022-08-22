@@ -241,10 +241,8 @@ class Test extends TestCase
 
     public function detail(): Detail
     {
-        return pattern('(?<group>One)(?<group>Two)', 'J')
-            ->match('OneTwo')
-            ->stream()
-            ->first();
+        $pattern = pattern('(?<group>One),(?<group>Two)', 'J');
+        return $pattern->match('One,Two')->first();
     }
 
     /**
