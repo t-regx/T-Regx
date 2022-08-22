@@ -58,6 +58,34 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldTestThrowForMalformedPattern_onTrailingBackslash()
+    {
+        // given
+        $pattern = Pattern::of('\\');
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
+        // when
+        $pattern->count('subject');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldTestThrowForMalformedPattern()
+    {
+        // given
+        $pattern = Pattern::of('+');
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
+        // when
+        $pattern->count('subject');
+    }
+
+    /**
+     * @test
+     */
     public function shouldCount_0_notMatched()
     {
         // when
