@@ -114,14 +114,6 @@ class Functions
         };
     }
 
-    public static function peek(callable $peek, $return): callable
-    {
-        return function ($value) use ($peek, $return) {
-            $peek($value);
-            return $return;
-        };
-    }
-
     public static function assertSame($expected, callable $mapper = null): callable
     {
         return function ($argument) use ($expected, $mapper): void {
@@ -147,13 +139,6 @@ class Functions
     {
         return function (...$args) {
             Assert::assertEmpty($args, 'Failed to assert that function received 0 arguments');
-        };
-    }
-
-    public static function mod(string $even, string $odd): callable
-    {
-        return function (int $integer) use ($even, $odd): string {
-            return $integer % 2 === 0 ? $even : $odd;
         };
     }
 

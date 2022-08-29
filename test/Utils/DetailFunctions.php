@@ -66,14 +66,6 @@ class DetailFunctions
         };
     }
 
-    public static function outGroup($nameOrIndex, ?Group &$group, $return): callable
-    {
-        return function (Detail $detail) use ($nameOrIndex, &$group, $return) {
-            $group = $detail->group($nameOrIndex);
-            return $return;
-        };
-    }
-
     public static function toInt(): callable
     {
         return function (Detail $detail) {
