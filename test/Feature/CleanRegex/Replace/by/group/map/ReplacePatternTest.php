@@ -212,7 +212,7 @@ class ReplacePatternTest extends TestCase
             ->all()
             ->by()
             ->group('capital')
-            ->mapAndCallback($map, Functions::singleArg('strLen'))
+            ->mapAndCallback($map, Functions::stringLength())
             ->orElseWith('failing');
     }
 

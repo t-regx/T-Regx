@@ -46,10 +46,10 @@ class Functions
         };
     }
 
-    public static function singleArg(callable $callable): callable
+    public static function stringLength(): callable
     {
-        return function ($argument) use ($callable) { // ignore remaining arguments
-            return $callable($argument);
+        return function (string $argument): int {
+            return \strLen($argument);
         };
     }
 
