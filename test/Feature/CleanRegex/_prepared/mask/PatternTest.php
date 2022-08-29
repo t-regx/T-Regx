@@ -130,6 +130,21 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldPrioritizeOrder_BothKeywords()
+    {
+        // when
+        $pattern = Pattern::mask('1a2bc', [
+            '1a'   => '(one)',
+            '2bc'  => '(two)',
+            '1a2b' => '(both)',
+        ]);
+        // then
+        $this->assertPatternIs('/(one)(two)/', $pattern);
+    }
+
+    /**
+     * @test
+     */
     public function shouldPrioritizeOrder_SingleKeyword()
     {
         // when

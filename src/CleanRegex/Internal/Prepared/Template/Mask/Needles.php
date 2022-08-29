@@ -8,7 +8,7 @@ class Needles
 
     public function __construct(array $needles)
     {
-        $this->needles = $this->descendingLength($needles);
+        $this->needles = $needles;
     }
 
     public function split(string $string): array
@@ -27,13 +27,5 @@ class Needles
     private function escape(string $input): string
     {
         return \preg_quote($input, '/');
-    }
-
-    private function descendingLength(array $needles): array
-    {
-        \usort($needles, static function (string $a, string $b): int {
-            return \strLen($b) - \strLen($a);
-        });
-        return $needles;
     }
 }

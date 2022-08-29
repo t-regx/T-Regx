@@ -11,6 +11,14 @@ Incoming
         * Renamed `match().flatMapAssoc()` to `match().toMap()`
         * Renamed `search().flatMapAssoc()` to `search().toMap()`
         * Renamed `stream().flatMapAssoc()` to `stream().toMap()`
+* Features
+    * Corrected `Pattern.mask()`, so it respects the order of keywords,
+      and treats it as the priority of assigning masks.
+
+      In other words, if there is ambiguity of which keyword should be assigned,
+      when there is no unique solution, the order of keywords is used to determine
+      the mask. Previously it was the length of the keyword, but that caused problems
+      with ambiguous keywords of the same length.
 
 Added in 0.36.0
 ---------------
