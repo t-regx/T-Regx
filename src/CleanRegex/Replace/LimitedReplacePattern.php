@@ -8,17 +8,17 @@ use TRegx\CleanRegex\Internal\Replace\Counting\ExactCountingStrategy;
 
 class LimitedReplacePattern extends ReplacePatternImpl
 {
-    public function exactly(): CompositeReplacePattern
+    public function exactly(): SpecificReplacePattern
     {
         return $this->replacePattern(new DefaultStrategy(), new ExactCountingStrategy($this->definition, $this->subject, $this->limit));
     }
 
-    public function atLeast(): CompositeReplacePattern
+    public function atLeast(): SpecificReplacePattern
     {
         return $this->replacePattern(new DefaultStrategy(), new AtLeastCountingStrategy($this->limit));
     }
 
-    public function atMost(): CompositeReplacePattern
+    public function atMost(): SpecificReplacePattern
     {
         return $this->replacePattern(new DefaultStrategy(), new AtMostCountingStrategy($this->definition, $this->subject, $this->limit));
     }

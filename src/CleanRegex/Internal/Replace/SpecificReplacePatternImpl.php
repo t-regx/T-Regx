@@ -2,11 +2,9 @@
 namespace TRegx\CleanRegex\Internal\Replace;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
 use TRegx\CleanRegex\Internal\Replace\By\GroupFallbackReplacer;
-use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
@@ -16,12 +14,10 @@ use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\NaiveSubstitute;
-use TRegx\CleanRegex\Replace\CompositeReplacePattern;
-use TRegx\CleanRegex\Replace\FocusReplacePattern;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 use TRegx\SafeRegex\preg;
 
-class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeReplacePattern
+class SpecificReplacePatternImpl implements SpecificReplacePattern
 {
     /** @var Definition */
     private $definition;
@@ -85,15 +81,6 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
             $this->limit,
             $this->countingStrategy,
             new LightweightGroupAware($this->definition),
-            $this->subject,
-            new IdentityWrapper());
-    }
-
-    /**
-     * @deprecated
-     */
-    public function focus($nameOrIndex): FocusReplacePattern
-    {
-        return new FocusReplacePattern($this, $this->definition, $this->subject, $this->limit, GroupKey::of($nameOrIndex), $this->countingStrategy);
+            $this->subject);
     }
 }

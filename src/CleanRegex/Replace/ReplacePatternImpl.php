@@ -2,12 +2,10 @@
 namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\CallbackCountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
-use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Replace\SpecificReplacePatternImpl;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
@@ -54,21 +52,13 @@ abstract class ReplacePatternImpl implements ReplacePattern
         return $this->replacePattern->by();
     }
 
-    public function counting(callable $countReceiver): CompositeReplacePattern
+    public function counting(callable $countReceiver): SpecificReplacePattern
     {
         return $this->replacePattern(new DefaultStrategy(), new CallbackCountingStrategy($countReceiver, $this->subject));
     }
 
-    protected function replacePattern(SubjectRs $substitute, CountingStrategy $countingStrategy): CompositeReplacePattern
+    protected function replacePattern(SubjectRs $substitute, CountingStrategy $countingStrategy): SpecificReplacePattern
     {
         return new SpecificReplacePatternImpl($this->definition, $this->subject, $this->limit, $substitute, $countingStrategy);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function focus($nameOrIndex): FocusReplacePattern
-    {
-        return new FocusReplacePattern($this->replacePattern, $this->definition, $this->subject, $this->limit, GroupKey::of($nameOrIndex), new IgnoreCounting());
     }
 }

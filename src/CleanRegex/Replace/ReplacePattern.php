@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Replace;
 
-interface ReplacePattern extends CompositeReplacePattern
+interface ReplacePattern extends SpecificReplacePattern
 {
-    public function counting(callable $countReceiver): CompositeReplacePattern;
+    public function counting(callable $countReceiver): SpecificReplacePattern;
 }

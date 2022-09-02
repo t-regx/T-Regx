@@ -20,9 +20,6 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\By\UnmatchedGroupStrategy;
 use TRegx\CleanRegex\Internal\Replace\Callback\CallbackInvoker;
-use TRegx\CleanRegex\Internal\Replace\Wrapper;
-use TRegx\CleanRegex\Internal\Replace\WrappingMapper;
-use TRegx\CleanRegex\Internal\Replace\WrappingMatchRs;
 use TRegx\CleanRegex\Replace\Callback\MatchGroupStrategy;
 use TRegx\CleanRegex\Replace\GroupReplace;
 
@@ -39,23 +36,19 @@ class ByGroupReplacePattern implements GroupReplace
     private $performanceReplace;
     /** @var CallbackInvoker */
     private $replaceCallbackInvoker;
-    /** @var Wrapper */
-    private $middlewareMapper;
     /** @var GroupAware */
     private $groupAware;
 
-    public function __construct(GroupFallbackReplacer        $fallbackReplacer,
-                                PerformanceEmptyGroupReplace $performanceReplace,
-                                CallbackInvoker              $replaceCallbackInvoker,
-                                GroupKey                     $group,
-                                Wrapper                      $middlewareMapper,
-                                GroupAware                   $groupAware)
+    public function __construct(GroupFallbackReplacer         $fallbackReplacer,
+                                PerformanceEmptyGroupReplace  $performanceReplace,
+                                CallbackInvoker $replaceCallbackInvoker,
+                                GroupKey                      $group,
+                                GroupAware                    $groupAware)
     {
         $this->fallbackReplacer = $fallbackReplacer;
         $this->group = $group;
         $this->performanceReplace = $performanceReplace;
         $this->replaceCallbackInvoker = $replaceCallbackInvoker;
-        $this->middlewareMapper = $middlewareMapper;
         $this->groupAware = $groupAware;
     }
 
@@ -80,10 +73,7 @@ class ByGroupReplacePattern implements GroupReplace
         return new UnmatchedGroupStrategy(
             $this->fallbackReplacer,
             $this->group,
-            new SubstituteFallbackMapper(
-                new WrappingMapper($mapper, $this->middlewareMapper),
-                new LazyMessageThrowStrategy()),
-            $this->middlewareMapper);
+            new SubstituteFallbackMapper($mapper, new LazyMessageThrowStrategy()));
     }
 
     /**
@@ -94,8 +84,7 @@ class ByGroupReplacePattern implements GroupReplace
         return new UnmatchedGroupStrategy(
             $this->fallbackReplacer,
             $this->group,
-            new IgnoreMessages(new WrappingMapper(new DictionaryMapper($occurrencesAndReplacements), $this->middlewareMapper)),
-            $this->middlewareMapper);
+            new IgnoreMessages(new DictionaryMapper($occurrencesAndReplacements)));
     }
 
     /**
@@ -144,8 +133,8 @@ class ByGroupReplacePattern implements GroupReplace
     private function replaceGroupOptional(MatchRs $substitute): string
     {
         return $this->fallbackReplacer->replaceOrFallback($this->group,
-            new IgnoreMessages(new WrappingMapper(new IdentityMapper(), $this->middlewareMapper)),
-            new WrappingMatchRs($substitute, $this->middlewareMapper));
+            new IgnoreMessages(new IdentityMapper()),
+            $substitute);
     }
 
     /**

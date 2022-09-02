@@ -36,52 +36,6 @@ class SpecificReplacePatternImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldInvoke_counting_all_focus()
-    {
-        // when
-        pattern('(er|ab|ay|ey)')
-            ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->all()
-            ->counting(Functions::assertSame(4))
-            ->focus(1)
-            ->with('$1');
-    }
-
-    /**
-     * @test
-     */
-    public function shouldInvoke_counting_all_focus_by_group()
-    {
-        // when
-        pattern('(er|ab|ay|ey)')
-            ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->all()
-            ->counting(Functions::assertSame(4))
-            ->focus(1)
-            ->by()
-            ->group(1)
-            ->orElseThrow();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldInvoke_counting_all_focus_callback()
-    {
-        // when
-        pattern('(er|ab|ay|ey)')
-            ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->all()
-            ->counting(Functions::assertSame(4))
-            ->focus(1)
-            ->by()
-            ->group(1)
-            ->callback(Functions::constant(''));
-    }
-
-    /**
-     * @test
-     */
     public function shouldInvoke_counting_only()
     {
         // when

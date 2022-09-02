@@ -14,8 +14,6 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowMatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\Callback\CallbackInvoker;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
-use TRegx\CleanRegex\Internal\Replace\Wrapper;
-use TRegx\CleanRegex\Internal\Replace\WrappingMapper;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\Callback\GroupAwareSubstitute;
 
@@ -37,8 +35,6 @@ class ByReplacePattern
     private $countingStrategy;
     /** @var GroupAware */
     private $groupAware;
-    /** @var Wrapper */
-    private $wrapper;
 
     public function __construct(GroupFallbackReplacer        $fallbackReplacer,
                                 LazySubjectRs                $substitute,
@@ -47,8 +43,7 @@ class ByReplacePattern
                                 int                          $limit,
                                 CountingStrategy             $countingStrategy,
                                 GroupAware                   $groupAware,
-                                Subject                      $subject,
-                                Wrapper                      $middlewareMapper)
+                                Subject                      $subject)
     {
         $this->fallbackReplacer = $fallbackReplacer;
         $this->substitute = $substitute;
@@ -58,7 +53,6 @@ class ByReplacePattern
         $this->limit = $limit;
         $this->countingStrategy = $countingStrategy;
         $this->groupAware = $groupAware;
-        $this->wrapper = $middlewareMapper;
     }
 
     /**
@@ -80,7 +74,6 @@ class ByReplacePattern
                 $this->countingStrategy,
                 new GroupAwareSubstitute($this->substitute, $group, $this->groupAware)),
             $group,
-            $this->wrapper,
             $this->groupAware);
     }
 
@@ -104,9 +97,7 @@ class ByReplacePattern
     {
         return $this->fallbackReplacer->replaceOrFallback(
             new WholeMatch(),
-            new SubstituteFallbackMapper(
-                new WrappingMapper(new DictionaryMapper($map), $this->wrapper),
-                $substitute),
+            new SubstituteFallbackMapper(new DictionaryMapper($map), $substitute),
             new ThrowMatchRs()); // ThrowMatchRs, because impossible for group 0 not to be matched
     }
 }

@@ -112,15 +112,4 @@ class Test extends TestCase
             ->with('Bar');
     }
 
-    /**
-     * @test
-     */
-    public function shouldReplace_focus()
-    {
-        // when
-        $result = pattern('(&)(?<name>\w+)')->replace('&Foo &Bar &Cat')->focus('name')->with('X');
-
-        // then
-        $this->assertSame("&X &X &X", $result);
-    }
 }

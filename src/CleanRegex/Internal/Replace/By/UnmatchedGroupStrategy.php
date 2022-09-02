@@ -9,8 +9,6 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ConstantReturnStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
-use TRegx\CleanRegex\Internal\Replace\Wrapper;
-use TRegx\CleanRegex\Internal\Replace\WrappingMatchRs;
 use TRegx\CleanRegex\Replace\GroupReplace;
 
 class UnmatchedGroupStrategy implements GroupReplace
@@ -21,15 +19,12 @@ class UnmatchedGroupStrategy implements GroupReplace
     private $group;
     /** @var GroupMapper */
     private $mapper;
-    /** @var Wrapper */
-    private $middlewareMapper;
 
-    public function __construct(GroupFallbackReplacer $replacer, GroupKey $group, DetailGroupMapper $mapper, Wrapper $middlewareMapper)
+    public function __construct(GroupFallbackReplacer $replacer, GroupKey $group, DetailGroupMapper $mapper)
     {
         $this->replacer = $replacer;
         $this->group = $group;
         $this->mapper = $mapper;
-        $this->middlewareMapper = $middlewareMapper;
     }
 
     /**
@@ -77,6 +72,6 @@ class UnmatchedGroupStrategy implements GroupReplace
      */
     private function replace(MatchRs $substitute): string
     {
-        return $this->replacer->replaceOrFallback($this->group, $this->mapper, new WrappingMatchRs($substitute, $this->middlewareMapper));
+        return $this->replacer->replaceOrFallback($this->group, $this->mapper, $substitute);
     }
 }

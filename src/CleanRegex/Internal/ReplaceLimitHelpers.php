@@ -2,9 +2,8 @@
 namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
-use TRegx\CleanRegex\Replace\CompositeReplacePattern;
-use TRegx\CleanRegex\Replace\FocusReplacePattern;
 use TRegx\CleanRegex\Replace\LimitlessReplacePattern;
+use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 
 trait ReplaceLimitHelpers
 {
@@ -33,16 +32,8 @@ trait ReplaceLimitHelpers
         return $this->all()->by();
     }
 
-    public function counting(callable $countReceiver): CompositeReplacePattern
+    public function counting(callable $countReceiver): SpecificReplacePattern
     {
         return $this->all()->counting($countReceiver);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function focus($nameOrIndex): FocusReplacePattern
-    {
-        return $this->all()->focus($nameOrIndex);
     }
 }
