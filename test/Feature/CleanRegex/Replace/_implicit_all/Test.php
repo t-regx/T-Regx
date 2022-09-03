@@ -61,43 +61,4 @@ class Test extends TestCase
         // when
         pattern('\w+')->replace('Foo:car Foo:bar')->callback(Functions::constant(12));
     }
-
-    /**
-     * @test
-     */
-    public function shouldCall_counting()
-    {
-        // when
-        $result = pattern('\d+')
-            ->replace('14 19 12 21')
-            ->counting(function ($count) {
-                // then
-                $this->assertSame(4, $count);
-
-                // cleanup
-                return "";
-            })
-            ->with('Bar');
-
-        // then
-        $this->assertSame('Bar Bar Bar Bar', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldCall_counting_OnUnmatchedSubject()
-    {
-        // when
-        pattern('Foo')->replace('subject')
-            ->counting(function ($count) {
-                // then
-                $this->assertSame(0, $count);
-
-                // cleanup
-                return "";
-            })
-            ->with('Bar');
-    }
-
 }

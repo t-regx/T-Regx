@@ -2,12 +2,11 @@
 namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Replace\Counting\CallbackCountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\SpecificReplacePatternImpl;
 use TRegx\CleanRegex\Internal\Subject;
 
-abstract class ReplacePatternImpl implements ReplacePattern
+abstract class ReplacePatternImpl implements SpecificReplacePattern
 {
     /** @var SpecificReplacePattern */
     private $replacePattern;
@@ -39,11 +38,6 @@ abstract class ReplacePatternImpl implements ReplacePattern
     public function callback(callable $callback): string
     {
         return $this->replacePattern->callback($callback);
-    }
-
-    public function counting(callable $countReceiver): SpecificReplacePattern
-    {
-        return $this->replacePattern(new CallbackCountingStrategy($countReceiver, $this->subject));
     }
 
     protected function replacePattern(CountingStrategy $countingStrategy): SpecificReplacePattern
