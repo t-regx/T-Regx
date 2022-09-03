@@ -2,13 +2,10 @@
 namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\CallbackCountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\SpecificReplacePatternImpl;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 
 abstract class ReplacePatternImpl implements ReplacePattern
 {
@@ -44,21 +41,13 @@ abstract class ReplacePatternImpl implements ReplacePattern
         return $this->replacePattern->callback($callback);
     }
 
-    /**
-     * @deprecated
-     */
-    public function by(): ByReplacePattern
-    {
-        return $this->replacePattern->by();
-    }
-
     public function counting(callable $countReceiver): SpecificReplacePattern
     {
-        return $this->replacePattern(new DefaultStrategy(), new CallbackCountingStrategy($countReceiver, $this->subject));
+        return $this->replacePattern(new CallbackCountingStrategy($countReceiver, $this->subject));
     }
 
-    protected function replacePattern(SubjectRs $substitute, CountingStrategy $countingStrategy): SpecificReplacePattern
+    protected function replacePattern(CountingStrategy $countingStrategy): SpecificReplacePattern
     {
-        return new SpecificReplacePatternImpl($this->definition, $this->subject, $this->limit, $substitute, $countingStrategy);
+        return new SpecificReplacePatternImpl($this->definition, $this->subject, $this->limit, $countingStrategy);
     }
 }

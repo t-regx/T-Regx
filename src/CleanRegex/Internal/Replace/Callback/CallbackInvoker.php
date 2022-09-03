@@ -8,8 +8,6 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Replace\Callback\GroupSubstitute;
-use TRegx\CleanRegex\Replace\Callback\ReplaceCallbackArgumentStrategy;
 use TRegx\SafeRegex\preg;
 
 class CallbackInvoker
@@ -24,45 +22,35 @@ class CallbackInvoker
     private $countingStrategy;
     /** @var MatchAllFactory */
     private $allFactory;
-    /** @var GroupSubstitute */
-    private $substitute;
 
-    public function __construct(Definition       $definition,
-                                Subject          $subject,
-                                int              $limit,
-                                CountingStrategy $countingStrategy,
-                                GroupSubstitute  $groupSubstitute)
+    public function __construct(Definition $definition, Subject $subject, int $limit, CountingStrategy $countingStrategy)
     {
         $this->definition = $definition;
         $this->subject = $subject;
         $this->limit = $limit;
         $this->countingStrategy = $countingStrategy;
         $this->allFactory = new LazyMatchAllFactory(new ApiBase($definition, $subject));
-        $this->substitute = $groupSubstitute;
     }
 
-    public function invoke(callable $callback, ReplaceCallbackArgumentStrategy $strategy): string
+    public function invoke(callable $callback): string
     {
-        $result = $this->pregReplaceCallback($callback, $replaced, $strategy);
+        $result = $this->pregReplaceCallback($callback, $replaced);
         $this->countingStrategy->applyReplaced($replaced, new LightweightGroupAware($this->definition));
-        if ($replaced === 0) {
-            return $this->substitute->substitute($result);
-        }
         return $result;
     }
 
-    private function pregReplaceCallback(callable $callback, ?int &$replaced, ReplaceCallbackArgumentStrategy $strategy): string
+    private function pregReplaceCallback(callable $callback, ?int &$replaced): string
     {
         return preg::replace_callback($this->definition->pattern,
-            $this->getObjectCallback($callback, $strategy),
+            $this->getObjectCallback($callback),
             $this->subject,
             $this->limit,
             $replaced);
     }
 
-    private function getObjectCallback(callable $callback, ReplaceCallbackArgumentStrategy $strategy): callable
+    private function getObjectCallback(callable $callback): callable
     {
-        $object = new ReplaceCallbackObject($callback, $this->subject, $this->allFactory, $strategy);
+        $object = new ReplaceCallbackObject($callback, $this->subject, $this->allFactory);
         return $object->getCallback();
     }
 }

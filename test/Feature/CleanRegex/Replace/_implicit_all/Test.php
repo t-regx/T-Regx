@@ -65,18 +65,6 @@ class Test extends TestCase
     /**
      * @test
      */
-    public function shouldReplace_by()
-    {
-        // when
-        $result = pattern('\w+')->replace('A, O, A')->by()->map(['A' => 'apple', 'O' => 'orange']);
-
-        // then
-        $this->assertSame('apple, orange, apple', $result);
-    }
-
-    /**
-     * @test
-     */
     public function shouldCall_counting()
     {
         // when

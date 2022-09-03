@@ -12,7 +12,6 @@ use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Match\Group;
-use TRegx\CleanRegex\Replace\Callback\ReplaceCallbackArgumentStrategy;
 
 class ReplaceCallbackObject
 {
@@ -24,18 +23,12 @@ class ReplaceCallbackObject
     private $factory;
     /** @var int */
     private $counter = 0;
-    /** @var ReplaceCallbackArgumentStrategy */
-    private $argumentStrategy;
 
-    public function __construct(callable                        $callback,
-                                Subject                         $subject,
-                                MatchAllFactory                 $factory,
-                                ReplaceCallbackArgumentStrategy $argumentStrategy)
+    public function __construct(callable $callback, Subject $subject, MatchAllFactory $factory)
     {
         $this->callback = $callback;
         $this->subject = $subject;
         $this->factory = $factory;
-        $this->argumentStrategy = $argumentStrategy;
     }
 
     public function getCallback(): callable
@@ -47,13 +40,8 @@ class ReplaceCallbackObject
 
     private function invoke(): string
     {
-        $result = ($this->callback)($this->matchObject());
+        $result = ($this->callback)($this->createDetailObject());
         return $this->getReplacement($result);
-    }
-
-    private function matchObject()
-    {
-        return $this->argumentStrategy->mapArgument($this->createDetailObject());
     }
 
     private function createDetailObject(): Detail

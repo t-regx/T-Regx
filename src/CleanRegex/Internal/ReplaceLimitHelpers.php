@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\LimitlessReplacePattern;
 use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 
@@ -22,14 +21,6 @@ trait ReplaceLimitHelpers
     public function callback(callable $callback): string
     {
         return $this->all()->callback($callback);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function by(): ByReplacePattern
-    {
-        return $this->all()->by();
     }
 
     public function counting(callable $countReceiver): SpecificReplacePattern

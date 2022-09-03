@@ -88,51 +88,6 @@ class SpecificReplacePatternImplTest extends TestCase
     /**
      * @test
      */
-    public function shouldInvoke_counting_first_by_map()
-    {
-        // when
-        pattern('(er|ab|ay|ey)')
-            ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->only(2)
-            ->counting(Functions::assertSame(2))
-            ->by()
-            ->map(['er' => 'ER', 'ab' => 'AB']);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldInvoke_counting_first_by_group_map()
-    {
-        // when
-        pattern('(er|ab|ay|ey)')
-            ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->only(2)
-            ->counting(Functions::assertSame(2))
-            ->by()
-            ->group(1)
-            ->map(['er' => 'ER', 'ab' => 'AB'])
-            ->orElseThrow();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldInvoke_counting_first_by_group_orElseThrow()
-    {
-        // when
-        pattern('(er|ab|ay|ey)')
-            ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->only(2)
-            ->counting(Functions::assertSame(2))
-            ->by()
-            ->group(1)
-            ->orElseThrow();
-    }
-
-    /**
-     * @test
-     */
     public function shouldStructureGetSubject()
     {
         // when
@@ -224,48 +179,6 @@ class SpecificReplacePatternImplTest extends TestCase
                 $this->assertFalse($structure->groupExists('missing'));
             })
             ->callback(Functions::constant('Bar'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldStructureHaveGroupByMap()
-    {
-        // when
-        pattern('(?<value>Foo) or (Bar)(?:)')
-            ->replace('Foo or Bar')
-            ->counting(function (int $count, Structure $structure) {
-                $this->assertTrue($structure->groupExists(0));
-                $this->assertTrue($structure->groupExists(1));
-                $this->assertTrue($structure->groupExists(2));
-                $this->assertTrue($structure->groupExists('value'));
-
-                $this->assertFalse($structure->groupExists(3));
-                $this->assertFalse($structure->groupExists('missing'));
-            })
-            ->by()
-            ->map(['Foo or Bar' => 'Replaced']);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldStructureHaveGroupByGroupMap()
-    {
-        // when
-        pattern('(?<value>Foo) or (Bar)(?:)')
-            ->replace('Foo or Bar')
-            ->counting(function (int $count, Structure $structure) {
-                $this->assertTrue($structure->groupExists(2));
-                $this->assertTrue($structure->groupExists('value'));
-
-                $this->assertFalse($structure->groupExists(3));
-                $this->assertFalse($structure->groupExists('missing'));
-            })
-            ->by()
-            ->group('value')
-            ->map(['Foo' => 'Replaced'])
-            ->orElseThrow();
     }
 
     /**

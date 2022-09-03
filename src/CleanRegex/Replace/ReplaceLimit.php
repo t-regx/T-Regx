@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Replace\SpecificReplacePatternImpl;
 use TRegx\CleanRegex\Internal\ReplaceLimitHelpers;
@@ -43,6 +42,6 @@ class ReplaceLimit implements ReplacePattern
 
     private function specific(int $limit): SpecificReplacePattern
     {
-        return new SpecificReplacePatternImpl($this->definition, $this->subject, $limit, new DefaultStrategy(), new IgnoreCounting());
+        return new SpecificReplacePatternImpl($this->definition, $this->subject, $limit, new IgnoreCounting());
     }
 }
