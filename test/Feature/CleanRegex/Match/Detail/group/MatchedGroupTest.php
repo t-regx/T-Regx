@@ -113,17 +113,6 @@ class MatchedGroupTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
-    public function shouldSubstituteGroup()
-    {
-        // when
-        $result = $this->group()->substitute('<replaced value>');
-        // then
-        $this->assertSame('12:<replaced value>', $result);
-    }
-
     private function group(): MatchedGroup
     {
         $detail = Pattern::of('(\d+):(?<group>group,€)')->match('€, 12:group,€')->first();

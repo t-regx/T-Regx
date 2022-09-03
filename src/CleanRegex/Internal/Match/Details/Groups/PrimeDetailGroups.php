@@ -40,9 +40,9 @@ class PrimeDetailGroups
     private function groups(GroupArrayKey $key): array
     {
         if ($this->index === 0) {
-            return $this->groups->groups($key, $this->prime->firstUsedForGroup(), $this->prime->firstEntry());
+            return $this->groups->groups($key, $this->prime->firstUsedForGroup());
         }
         $match = new RawMatchesToMatchAdapter($this->allFactory->getRawMatches(), $this->index);
-        return $this->groups->groups($key, $match, $match);
+        return $this->groups->groups($key, $match);
     }
 }

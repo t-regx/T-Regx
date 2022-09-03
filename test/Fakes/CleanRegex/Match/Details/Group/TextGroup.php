@@ -81,11 +81,6 @@ class TextGroup implements Group
         throw $this->fail();
     }
 
-    public function substitute(string $replacement): string
-    {
-        throw $this->fail();
-    }
-
     public function subject(): string
     {
         throw $this->fail();

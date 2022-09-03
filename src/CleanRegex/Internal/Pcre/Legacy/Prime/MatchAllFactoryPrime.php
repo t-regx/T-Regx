@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Pcre\Legacy\Prime;
 
-use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\UsedForGroup;
 
@@ -18,10 +17,5 @@ class MatchAllFactoryPrime implements Prime
     public function firstUsedForGroup(): UsedForGroup
     {
         return new MatchesFirstUsedForGroup($this->factory->getRawMatches());
-    }
-
-    public function firstEntry(): Entry
-    {
-        return new MatchesFirstEntry($this->factory->getRawMatches());
     }
 }

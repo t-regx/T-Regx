@@ -61,22 +61,6 @@ class DetailTest extends TestCase
      * @test
      * @dataProvider details
      */
-    public function shouldGetGroups_substitute(DetailStrategy $strategy)
-    {
-        // given
-        $match = Pattern::of('!"(?<first>Foo)"')->match('€Subject: !"Foo"');
-        $detail = $strategy->first($match);
-        $first = $detail->namedGroups()['first'];
-        // when
-        $substitute = $first->substitute('Bar');
-        // then
-        $this->assertSame('!"Bar"', $substitute);
-    }
-
-    /**
-     * @test
-     * @dataProvider details
-     */
     public function shouldGetGroups_forUnmatchedGroup(DetailStrategy $strategy)
     {
         // when

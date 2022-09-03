@@ -303,21 +303,6 @@ class Test extends TestCase
 
     /**
      * @test
-     * @deprecated
-     */
-    public function shouldSubstitute()
-    {
-        // given
-        $pattern = Pattern::of('<(?<group>Old):(?<group>Old)>', 'J');
-        $detail = $pattern->match('Subject <Old:Old>.')->first();
-        // when
-        $declared = $detail->group('group')->substitute('New');
-        // then
-        $this->assertEquals('<New:Old>', $declared);
-    }
-
-    /**
-     * @test
      */
     public function shouldGetGroupMatched()
     {

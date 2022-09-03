@@ -46,7 +46,7 @@ class MatchDetail implements Detail
         $this->scalars = new DetailScalars($matchEntry, $index, $allFactory, $subject);
         $this->coordinate = new SubjectCoordinate($matchEntry, $subject);
         $this->numericDetail = new NumericDetail($matchEntry);
-        $this->group = new DetailGroup($groupAware, $matchEntry, $usedForGroup, $signatures, $allFactory, $subject);
+        $this->group = new DetailGroup($groupAware, $usedForGroup, $signatures, $allFactory, $subject);
         $this->groups = new PrimeDetailGroups($subject, $signatures, $index, $allFactory, $groupAware, $prime);
         $this->groupNames = new GroupNames($groupAware);
         $this->groupsCount = new GroupsCount($groupAware);

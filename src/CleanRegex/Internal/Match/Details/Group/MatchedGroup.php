@@ -18,15 +18,12 @@ class MatchedGroup implements Group
     private $details;
     /** @var GroupEntry */
     private $groupEntry;
-    /** @var SubstitutedGroup */
-    private $substitutedGroup;
 
-    public function __construct(Subject $subject, GroupDetails $details, GroupEntry $entry, SubstitutedGroup $substituted)
+    public function __construct(Subject $subject, GroupDetails $details, GroupEntry $entry)
     {
         $this->subject = $subject;
         $this->details = $details;
         $this->groupEntry = $entry;
-        $this->substitutedGroup = $substituted;
     }
 
     public function text(): string
@@ -122,14 +119,6 @@ class MatchedGroup implements Group
     public function all(): array
     {
         return $this->details->all();
-    }
-
-    /**
-     * @deprecated
-     */
-    public function substitute(string $replacement): string
-    {
-        return $this->substitutedGroup->with($replacement);
     }
 
     public function __toString(): string

@@ -113,12 +113,4 @@ class NotMatchedGroup implements Group
     {
         return $this->details->all();
     }
-
-    /**
-     * @deprecated
-     */
-    public function substitute(string $replacement): string
-    {
-        throw $this->groupNotMatched('substitute');
-    }
 }

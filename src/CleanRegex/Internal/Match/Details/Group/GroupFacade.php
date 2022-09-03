@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal\Match\Details\Group;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
-use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\UsedForGroup;
 use TRegx\CleanRegex\Internal\Subject;
@@ -28,17 +27,17 @@ class GroupFacade
         $this->signatures = $signatures;
     }
 
-    public function createGroup(GroupKey $group, UsedForGroup $forGroup, Entry $entry): Group
+    public function createGroup(GroupKey $group, UsedForGroup $forGroup): Group
     {
         if ($forGroup->isGroupMatched($this->groupHandle->groupHandle($group))) {
-            return $this->createdMatched($group, $this->groupEntry($forGroup, $group), $entry);
+            return $this->createdMatched($group, $this->groupEntry($forGroup, $group));
         }
         return $this->createUnmatched($group);
     }
 
-    private function createdMatched(GroupKey $group, GroupEntry $groupEntry, Entry $entry): MatchedGroup
+    private function createdMatched(GroupKey $group, GroupEntry $groupEntry): MatchedGroup
     {
-        return new MatchedGroup($this->subject, $this->createGroupDetails($group), $groupEntry, new SubstitutedGroup($entry, $groupEntry));
+        return new MatchedGroup($this->subject, $this->createGroupDetails($group), $groupEntry);
     }
 
     private function createUnmatched(GroupKey $group): NotMatchedGroup

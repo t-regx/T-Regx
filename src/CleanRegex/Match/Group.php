@@ -19,9 +19,4 @@ interface Group extends Element
     public function usedIdentifier();
 
     public function all(): array;
-
-    /**
-     * @deprecated
-     */
-    public function substitute(string $replacement): string;
 }

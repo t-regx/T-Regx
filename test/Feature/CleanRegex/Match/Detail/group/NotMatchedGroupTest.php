@@ -158,20 +158,6 @@ class NotMatchedGroupTest extends TestCase
         $group->toInt();
     }
 
-    /**
-     * @test
-     */
-    public function shouldThrow_substitute()
-    {
-        // given
-        $group = $this->group();
-        // then
-        $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to call substitute() for group 'group', but the group was not matched");
-        // when
-        $group->substitute('');
-    }
-
     private function group(): NotMatchedGroup
     {
         $detail = Pattern::of('(Foo)(?<group>Bar)?')->match('Foo')->first();

@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Pcre\Legacy\Prime;
 
-use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\UsedForGroup;
 
@@ -18,10 +17,5 @@ class MatchPrime implements Prime
     public function firstUsedForGroup(): UsedForGroup
     {
         return new MatchUsedForGroup($this->match);
-    }
-
-    public function firstEntry(): Entry
-    {
-        return new MatchEntry($this->match);
     }
 }

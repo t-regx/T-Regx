@@ -7,7 +7,6 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupFacade;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
-use TRegx\CleanRegex\Internal\Model\Entry;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\UsedForGroup;
@@ -18,8 +17,6 @@ class DetailGroup
 {
     /** @var GroupAware */
     private $groupAware;
-    /** @var Entry */
-    private $entry;
     /** @var UsedForGroup */
     private $usedForGroup;
     /** @var GroupHandle */
@@ -29,14 +26,12 @@ class DetailGroup
 
     public function __construct(
         GroupAware      $groupAware,
-        Entry           $matchEntry,
         UsedForGroup    $usedForGroup,
         Signatures      $signatures,
         MatchAllFactory $allFactory,
         Subject         $subject)
     {
         $this->groupAware = $groupAware;
-        $this->entry = $matchEntry;
         $this->usedForGroup = $usedForGroup;
         $this->groupHandle = new GroupHandle($signatures);
         $this->groupFacade = new GroupFacade($subject, $allFactory, $this->groupHandle, $signatures);
@@ -58,7 +53,7 @@ class DetailGroup
     public function group(GroupKey $group): Group
     {
         if ($this->exists($group)) {
-            return $this->groupFacade->createGroup($group, $this->usedForGroup, $this->entry);
+            return $this->groupFacade->createGroup($group, $this->usedForGroup);
         }
         throw new NonexistentGroupException($group);
     }
