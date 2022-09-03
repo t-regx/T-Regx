@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Composite\ChainedReplace;
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
 
@@ -54,6 +53,6 @@ class PatternList
 
     public function chainedReplace(string $subject): ChainedReplace
     {
-        return new ChainedReplace($this->definitions, new Subject($subject), new DefaultStrategy());
+        return new ChainedReplace($this->definitions, new Subject($subject));
     }
 }

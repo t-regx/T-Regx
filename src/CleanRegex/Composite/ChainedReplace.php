@@ -2,11 +2,10 @@
 namespace TRegx\CleanRegex\Composite;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
+use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Replace\Callback\GroupSubstitute;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\NaiveSubstitute;
 use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
@@ -18,14 +17,11 @@ class ChainedReplace
     private $definitions;
     /** @var Subject */
     private $subject;
-    /** @var GroupSubstitute */
-    private $substitute;
 
-    public function __construct(array $definitions, Subject $subject, SubjectRs $substitute)
+    public function __construct(array $definitions, Subject $subject)
     {
         $this->definitions = $definitions;
         $this->subject = $subject;
-        $this->substitute = new NaiveSubstitute($substitute);
     }
 
     public function with(string $replacement): string
@@ -58,7 +54,7 @@ class ChainedReplace
 
     private function replaceNext(Definition $definition, string $subject, callable $callback): string
     {
-        $invoker = new ReplacePatternCallbackInvoker($definition, new Subject($subject), -1, new IgnoreCounting(), $this->substitute);
+        $invoker = new ReplacePatternCallbackInvoker($definition, new Subject($subject), -1, new IgnoreCounting(), new NaiveSubstitute(new DefaultStrategy()));
         return $invoker->invoke($callback, new MatchStrategy());
     }
 }
