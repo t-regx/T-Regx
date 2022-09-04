@@ -2,9 +2,11 @@
 namespace Test\Feature\CleanRegex\Replace\callback;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Backtrack\CausesBacktracking;
 use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use Test\Utils\TestCase\TestCasePasses;
+use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
 use TRegx\CleanRegex\Pattern;
 
 /**
@@ -12,7 +14,7 @@ use TRegx\CleanRegex\Pattern;
  */
 class ReplacePatternTest extends TestCase
 {
-    use TestCasePasses;
+    use TestCasePasses, CausesBacktracking;
 
     /**
      * @test
@@ -52,5 +54,29 @@ class ReplacePatternTest extends TestCase
         Pattern::of('Foo')->replace('Bar')->callback(Functions::fail());
         // then
         $this->pass();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowCatastrophicBacktracking_WhileCheckingLast_callback_first()
+    {
+        // then
+        $this->expectException(ReplacementExpectationFailedException::class);
+        $this->expectExceptionMessage('Expected to perform exactly 1 replacement(s), but at least 2 replacement(s) would have been performed');
+        // when
+        $this->backtrackingReplace(2)->first()->exactly()->callback(Functions::constant('Foo'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowCatastrophicBacktracking_WhileCheckingLast_callback_only()
+    {
+        // then
+        $this->expectException(ReplacementExpectationFailedException::class);
+        $this->expectExceptionMessage('Expected to perform exactly 1 replacement(s), but at least 2 replacement(s) would have been performed');
+        // when
+        $this->backtrackingReplace(2)->only(1)->exactly()->callback(Functions::constant('Foo'));
     }
 }

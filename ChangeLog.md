@@ -19,6 +19,8 @@ Incoming
       when there is no unique solution, the order of keywords is used to determine
       the mask. Previously it was the length of the keyword, but that caused problems
       with ambiguous keywords of the same length.
+    * Updated `replace().callback()`, so it doesn't unnecessarily casues global search,
+      even when used with `only(int)` or `first()`.
 
 Added in 0.36.0
 ---------------

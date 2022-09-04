@@ -86,7 +86,7 @@ class ReplacePatternTest extends TestCase
         // then
         $this->expectException(CatastrophicBacktrackingException::class);
         // when
-        $this->backtrackingReplace()->only(2)->atMost()->with('Bar');
+        $this->backtrackingReplace(1)->only(2)->atMost()->with('Bar');
     }
 
     /**

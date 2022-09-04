@@ -6,8 +6,8 @@ use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
-use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchesFirstPrime;
-use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactoryMatchOffset;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchAllFactoryPrime;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Detail;
@@ -58,13 +58,12 @@ class ReplaceCallbackObject
     private function createDetailObject(): Detail
     {
         $index = $this->counter++;
-        $matches = $this->factory->getRawMatches();
         return DeprecatedMatchDetail::create(
             $this->subject,
             $index,
-            new RawMatchesToMatchAdapter($matches, $index),
+            new MatchAllFactoryMatchOffset($this->factory, $index),
             $this->factory,
-            new MatchesFirstPrime($matches));
+            new MatchAllFactoryPrime($this->factory));
     }
 
     private function getReplacement($replacement): string

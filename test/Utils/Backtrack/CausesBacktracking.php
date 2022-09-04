@@ -25,9 +25,9 @@ trait CausesBacktracking
         return $this->backtrackingPattern()->search($this->backtrackingSubject(1));
     }
 
-    private function backtrackingReplace(): ReplaceLimit
+    private function backtrackingReplace(int $safeOccurrences): ReplaceLimit
     {
-        return $this->backtrackingPattern()->replace($this->backtrackingSubject(1));
+        return $this->backtrackingPattern()->replace($this->backtrackingSubject($safeOccurrences));
     }
 
     public function backtrackingPattern(): Pattern
