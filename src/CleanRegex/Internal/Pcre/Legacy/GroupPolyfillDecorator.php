@@ -38,6 +38,14 @@ class GroupPolyfillDecorator implements IRawMatchOffset
         return true;
     }
 
+    private function reloadAndHasGroup(GroupKey $group): bool
+    {
+        if ($this->trueMatch !== null) {
+            return $this->trueMatch->hasGroup($group);
+        }
+        return $this->groupAware->hasGroup($group);
+    }
+
     public function text(): string
     {
         return $this->falseMatch->text();
@@ -51,31 +59,6 @@ class GroupPolyfillDecorator implements IRawMatchOffset
         return $this->falseMatch->isGroupMatched($nameOrIndex);
     }
 
-    private function reloadAndHasGroup(GroupKey $group): bool
-    {
-        if ($this->trueMatch !== null) {
-            return $this->trueMatch->hasGroup($group);
-        }
-        return $this->groupAware->hasGroup($group);
-    }
-
-    public function getGroup($nameOrIndex): ?string
-    {
-        if ($this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
-            return $this->read($this->trueMatch(), $nameOrIndex);
-        }
-        return $this->read($this->falseMatch, $nameOrIndex);
-    }
-
-    private function read(UsedForGroup $forGroup, $nameOrIndex): ?string
-    {
-        [$text, $offset] = $forGroup->getGroupTextAndOffset($nameOrIndex);
-        if ($offset === -1) {
-            return null;
-        }
-        return $text;
-    }
-
     public function getGroupTextAndOffset($nameOrIndex): array
     {
         if ($this->falseMatch->maybeGroupIsMissing($nameOrIndex)) {
@@ -87,16 +70,6 @@ class GroupPolyfillDecorator implements IRawMatchOffset
     public function byteOffset(): int
     {
         return $this->falseMatch->byteOffset();
-    }
-
-    public function groupTexts(): array
-    {
-        return $this->trueMatch()->groupTexts();
-    }
-
-    public function groupOffsets(): array
-    {
-        return $this->trueMatch()->groupOffsets();
     }
 
     public function getGroupKeys(): array
