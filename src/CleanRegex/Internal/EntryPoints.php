@@ -17,39 +17,39 @@ use TRegx\CleanRegex\PatternList;
 
 trait EntryPoints
 {
-    public static function of(string $pattern, string $flags = null): Pattern
+    public static function of(string $pattern, string $modifiers = null): Pattern
     {
-        return new Pattern(new Standard(new StandardSpelling($pattern, Flags::from($flags), new UnsuitableStringCondition($pattern))));
+        return new Pattern(new Standard(new StandardSpelling($pattern, Flags::from($modifiers), new UnsuitableStringCondition($pattern))));
     }
 
-    public static function inject(string $pattern, array $texts, string $flags = null): Pattern
+    public static function inject(string $pattern, array $texts, string $modifiers = null): Pattern
     {
-        return new Pattern(new Template(new StandardSpelling($pattern, Flags::from($flags), new UnsuitableStringCondition($pattern)), new FigureClusters($texts)));
+        return new Pattern(new Template(new StandardSpelling($pattern, Flags::from($modifiers), new UnsuitableStringCondition($pattern)), new FigureClusters($texts)));
     }
 
-    public static function mask(string $mask, array $keywords, string $flags = null): Pattern
+    public static function mask(string $mask, array $keywords, string $modifiers = null): Pattern
     {
-        return new Pattern(new Mask($mask, $keywords, Flags::from($flags)));
+        return new Pattern(new Mask($mask, $keywords, Flags::from($modifiers)));
     }
 
-    public static function template(string $pattern, string $flags = null): PatternTemplate
+    public static function template(string $pattern, string $modifiers = null): PatternTemplate
     {
-        return new PatternTemplate(new StandardOrthography($pattern, Flags::from($flags)));
+        return new PatternTemplate(new StandardOrthography($pattern, Flags::from($modifiers)));
     }
 
-    public static function builder(string $pattern, string $flags = null): TemplateBuilder
+    public static function builder(string $pattern, string $modifiers = null): TemplateBuilder
     {
-        return new TemplateBuilder(new StandardOrthography($pattern, Flags::from($flags)), new Clusters([]));
+        return new TemplateBuilder(new StandardOrthography($pattern, Flags::from($modifiers)), new Clusters([]));
     }
 
-    public static function literal(string $text, string $flags = null): Pattern
+    public static function literal(string $text, string $modifiers = null): Pattern
     {
-        return new Pattern(new Literal($text, Flags::from($flags)));
+        return new Pattern(new Literal($text, Flags::from($modifiers)));
     }
 
-    public static function alteration(array $texts, string $flags = null): Pattern
+    public static function alteration(array $texts, string $modifiers = null): Pattern
     {
-        return new Pattern(new Alteration($texts, Flags::from($flags)));
+        return new Pattern(new Alteration($texts, Flags::from($modifiers)));
     }
 
     public static function list(array $patterns): PatternList
