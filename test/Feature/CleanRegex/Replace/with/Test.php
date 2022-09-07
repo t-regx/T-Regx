@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\Replace\with;
 
 use PHPUnit\Framework\TestCase;
 
-class ReplacePatternTest extends TestCase
+class Test extends TestCase
 {
     /**
      * @test

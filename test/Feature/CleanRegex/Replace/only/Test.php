@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
 
-class ReplacePatternTest extends TestCase
+class Test extends TestCase
 {
     /**
      * @test

@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsGroup;
 use Test\Utils\DetailFunctions;
 
-class ReplacePatternTest extends TestCase
+class Test extends TestCase
 {
     use AssertsGroup;
 

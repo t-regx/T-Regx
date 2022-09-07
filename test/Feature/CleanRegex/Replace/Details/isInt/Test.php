@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
 use function pattern;
 
-class ReplacePatternTest extends TestCase
+class Test extends TestCase
 {
     /**
      * @test

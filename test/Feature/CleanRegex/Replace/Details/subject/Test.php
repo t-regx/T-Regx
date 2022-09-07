@@ -4,7 +4,7 @@ namespace Test\Feature\CleanRegex\Replace\Details\subject;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
 
-class ReplacePatternTest extends TestCase
+class Test extends TestCase
 {
     /**
      * @test

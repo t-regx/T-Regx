@@ -7,7 +7,7 @@ use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Match\Detail;
 
-class ReplaceLimitTest extends TestCase
+class Test extends TestCase
 {
     use TestCaseExactMessage;
 

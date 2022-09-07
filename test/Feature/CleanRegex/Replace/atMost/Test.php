@@ -6,7 +6,7 @@ use Test\Utils\Backtrack\CausesBacktracking;
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
 use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;
 
-class ReplacePatternTest extends TestCase
+class Test extends TestCase
 {
     use CausesBacktracking;
 

@@ -7,7 +7,7 @@ use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use function pattern;
 
-class ReplacePatternTest extends TestCase
+class Test extends TestCase
 {
     use TestCaseExactMessage;
 

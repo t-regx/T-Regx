@@ -6,7 +6,7 @@ use Test\Utils\Assertion\AssertsGroup;
 use Test\Utils\DetailFunctions;
 use TRegx\CleanRegex\Pattern;
 
-class ReplacePatternTest extends TestCase
+class Test extends TestCase
 {
     use AssertsGroup;
 

@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
 
-class ReplacePatternTest extends TestCase
+class Test extends TestCase
 {
     /**
      * @test
