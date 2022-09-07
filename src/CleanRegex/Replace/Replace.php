@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Replace\SpecificReplacePatternImpl;
 use TRegx\CleanRegex\Internal\ReplaceLimitHelpers;
 use TRegx\CleanRegex\Internal\Subject;
 
-class ReplaceLimit implements SpecificReplacePattern
+class Replace implements SpecificReplacePattern
 {
     use ReplaceLimitHelpers;
 

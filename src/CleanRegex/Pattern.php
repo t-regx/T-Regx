@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Splits;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Match\Matcher;
 use TRegx\CleanRegex\Match\Search;
-use TRegx\CleanRegex\Replace\ReplaceLimit;
+use TRegx\CleanRegex\Replace\Replace;
 use TRegx\SafeRegex\preg;
 
 class Pattern
@@ -48,9 +48,9 @@ class Pattern
         return new Matcher($this->predefinition->definition(), new Subject($subject));
     }
 
-    public function replace(string $subject): ReplaceLimit
+    public function replace(string $subject): Replace
     {
-        return new ReplaceLimit($this->predefinition->definition(), new Subject($subject));
+        return new Replace($this->predefinition->definition(), new Subject($subject));
     }
 
     public function prune(string $subject): string

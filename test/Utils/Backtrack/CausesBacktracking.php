@@ -4,7 +4,7 @@ namespace Test\Utils\Backtrack;
 use TRegx\CleanRegex\Match\Matcher;
 use TRegx\CleanRegex\Match\Search;
 use TRegx\CleanRegex\Pattern;
-use TRegx\CleanRegex\Replace\ReplaceLimit;
+use TRegx\CleanRegex\Replace\Replace;
 
 /**
  * This pattern and subject are deliberately created to
@@ -25,7 +25,7 @@ trait CausesBacktracking
         return $this->backtrackingPattern()->search($this->backtrackingSubject(1));
     }
 
-    private function backtrackingReplace(int $safeOccurrences): ReplaceLimit
+    private function backtrackingReplace(int $safeOccurrences): Replace
     {
         return $this->backtrackingPattern()->replace($this->backtrackingSubject($safeOccurrences));
     }
