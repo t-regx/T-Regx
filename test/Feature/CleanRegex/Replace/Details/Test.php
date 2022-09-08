@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\Replace\callback;
+namespace Test\Feature\CleanRegex\Replace\Details;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
@@ -9,7 +9,7 @@ use TRegx\CleanRegex\Pattern;
 /**
  * @coversNothing
  */
-class DetailTest extends TestCase
+class Test extends TestCase
 {
     /**
      * @test
@@ -77,15 +77,14 @@ class DetailTest extends TestCase
      */
     public function shouldGetAll()
     {
-        /**
-         * @var Detail $detail
-         */
         // given
-        Pattern::of('\w+')->replace('Foo, Bar, Cat')->callback(DetailFunctions::outLast($detail, '€'));
+        Pattern::of('"[ \w]+"')
+            ->replace('"Tyler Durden", "Marla Singer"')
+            ->callback(DetailFunctions::out($detail, ''));
         // when
         $all = $detail->all();
         // then
-        $this->assertSame(['Foo', 'Bar', 'Cat'], $all);
+        $this->assertSame(['"Tyler Durden"', '"Marla Singer"'], $all);
     }
 
     /**
@@ -118,6 +117,21 @@ class DetailTest extends TestCase
         $index = $detail->index();
         // then
         $this->assertSame(2, $index);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetOffset()
+    {
+        /**
+         * @var Detail $detail
+         */
+        // given
+        Pattern::of('Łódź')->replace('€--Łódź')->callback(DetailFunctions::outLast($detail, ''));
+        // when, then
+        $this->assertSame(3, $detail->offset());
+        $this->assertSame(5, $detail->byteOffset());
     }
 
     /**

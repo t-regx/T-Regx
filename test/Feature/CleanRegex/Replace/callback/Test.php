@@ -3,7 +3,6 @@ namespace Test\Feature\CleanRegex\Replace\callback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Backtrack\CausesBacktracking;
-use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
@@ -12,27 +11,9 @@ use TRegx\CleanRegex\Pattern;
 /**
  * @coversNothing
  */
-class ReplacePatternTest extends TestCase
+class Test extends TestCase
 {
     use TestCasePasses, CausesBacktracking;
-
-    /**
-     * @test
-     */
-    public function shouldPassOffsets()
-    {
-        // given
-        $subject = 'Tom Cruise is 21 years old and has 192cm';
-        // when
-        Pattern::of('[0-9]+')
-            ->replace($subject)
-            ->first()
-            ->callback(DetailFunctions::out($detail, ''));
-        // then
-        $this->assertSame(14, $detail->offset());
-        $this->assertSame($subject, $detail->subject());
-        $this->assertSame(['21', '192'], $detail->all());
-    }
 
     /**
      * @test
@@ -54,6 +35,19 @@ class ReplacePatternTest extends TestCase
         Pattern::of('Foo')->replace('Bar')->callback(Functions::fail());
         // then
         $this->pass();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnModifiedValues()
+    {
+        // when
+        $replaced = Pattern::alteration(['sz', 'cz', 'rz', 'ch'], 'i')
+            ->replace('Chrząszcz brzmi w trzcinie, w Szczebrzeszynie')
+            ->callback(Functions::constant('X'));
+        // then
+        $this->assertSame('XXąXX bXmi w tXcinie, w XXebXeXynie', $replaced);
     }
 
     /**
