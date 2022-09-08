@@ -14,13 +14,12 @@ class Test extends TestCase
     public function shouldReplace_withString()
     {
         // when
-        $result = pattern('er|ab|ay|ey')
+        $replaced = pattern('er|ab|ay|ey')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->only(2)
             ->with('*');
-
         // then
-        $this->assertSame('P. Sh*man, 42 Wall*y way, Sydney', $result);
+        $this->assertSame('P. Sh*man, 42 Wall*y way, Sydney', $replaced);
     }
 
     /**
@@ -65,9 +64,9 @@ class Test extends TestCase
     public function shouldReplaceNOccurrences(int $limit, string $expectedResult)
     {
         // when
-        $result = pattern('[0-3]')->replace('0 1 2 3')->only($limit)->with('*');
+        $replaced = pattern('[0-3]')->replace('0 1 2 3')->only($limit)->with('*');
         // then
-        $this->assertSame($expectedResult, $result);
+        $this->assertSame($expectedResult, $replaced);
     }
 
     function limitAndExpectedResults(): array

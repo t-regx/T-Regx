@@ -13,13 +13,12 @@ class Test extends TestCase
     public function shouldReplace_withString()
     {
         // when
-        $result = pattern('er|ab|ay|ey')
+        $replaced = pattern('er|ab|ay|ey')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->first()
             ->with('*');
-
         // then
-        $this->assertSame('P. Sh*man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh*man, 42 Wallaby way, Sydney', $replaced);
     }
 
     /**
@@ -28,13 +27,12 @@ class Test extends TestCase
     public function shouldReplace_withString_not_escaped()
     {
         // when
-        $result = pattern('(er|ab|ay|ey)')
+        $replaced = pattern('(er|ab|ay|ey)')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
             ->first()
             ->withReferences('*$1*');
-
         // then
-        $this->assertSame('P. Sh*er*man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh*er*man, 42 Wallaby way, Sydney', $replaced);
     }
 
     /**
@@ -47,13 +45,13 @@ class Test extends TestCase
         $replace = $pattern->replace('Links: http://google.com and http://other.org. and again http://danon.com');
 
         // when
-        $result = $replace->first()->callback(function (Detail $detail) {
+        $replaced = $replace->first()->callback(function (Detail $detail) {
             // then
             return $detail->group('name');
         });
 
         // then
-        $this->assertSame('Links: google and http://other.org. and again http://danon.com', $result);
+        $this->assertSame('Links: google and http://other.org. and again http://danon.com', $replaced);
     }
 
     /**
@@ -65,12 +63,12 @@ class Test extends TestCase
         $pattern = pattern('http://(?<name>[a-z]+)\.(?<domain>com|org)');
         $subject = 'Links: http://google.com and http://other.org. and again http://danon.com';
         // when
-        $result = $pattern
+        $replaced = $pattern
             ->replace($subject)
             ->first()
             ->callback(Functions::identity());
         // then
-        $this->assertSame($subject, $result);
+        $this->assertSame($subject, $replaced);
     }
 
     /**

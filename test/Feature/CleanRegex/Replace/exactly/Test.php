@@ -12,9 +12,9 @@ class Test extends TestCase
     public function shouldIgnore_first_exactly_once()
     {
         // when
-        $result = pattern('Foo')->replace('Foo Bar Bar Bar')->first()->exactly()->with('Bar');
+        $replaced = pattern('Foo')->replace('Foo Bar Bar Bar')->first()->exactly()->with('Bar');
         // then
-        $this->assertSame('Bar Bar Bar Bar', $result);
+        $this->assertSame('Bar Bar Bar Bar', $replaced);
     }
 
     /**
@@ -23,9 +23,9 @@ class Test extends TestCase
     public function shouldIgnore_two_exactly_twice()
     {
         // when
-        $result = pattern('Foo')->replace('Foo Foo Bar Bar')->only(2)->exactly()->with('Bar');
+        $replaced = pattern('Foo')->replace('Foo Foo Bar Bar')->only(2)->exactly()->with('Bar');
         // then
-        $this->assertSame('Bar Bar Bar Bar', $result);
+        $this->assertSame('Bar Bar Bar Bar', $replaced);
     }
 
     /**
