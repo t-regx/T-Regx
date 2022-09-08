@@ -2,111 +2,121 @@
 namespace Test\Feature\CleanRegex\Replace\with;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\Exception\MalformedPatternException;
 
+/**
+ * @coversNothing
+ */
 class Test extends TestCase
 {
     /**
      * @test
      */
-    public function shouldEscape_dollar_reference()
+    public function shouldReplace()
     {
         // when
-        $result = pattern('(er|ab|ay|ey)')
-            ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->first()
-            ->with('$1');
-
+        $replaced = pattern('\d+')->replace('127.0.0.1')->with('X');
         // then
-        $this->assertSame('P. Sh$1man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('X.X.X.X', $replaced);
     }
 
     /**
      * @test
      */
-    public function shouldEscape_dollar_reference_whole()
+    public function shouldReplace_PcreReferencesDollar_Group1()
     {
         // when
-        $result = pattern('(er|ab|ay|ey)')
-            ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->first()
-            ->with('<$0>');
-
+        $replaced = pattern('\d+')->replace('127.0.0.1')->with('$1');
         // then
-        $this->assertSame('P. Sh<$0>man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('$1.$1.$1.$1', $replaced);
     }
 
     /**
      * @test
      */
-    public function shouldEscape_dollar_reference_curly()
+    public function shouldReplace_PcreReferencesDollar_WholeMatch()
     {
         // when
-        $result = pattern('(er|ab|ay|ey)')
-            ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->first()
-            ->with('<${0}>');
-
+        $replaced = pattern('\d+')->replace('127.0.0.1')->with('$0');
         // then
-        $this->assertSame('P. Sh<${0}>man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('$0.$0.$0.$0', $replaced);
     }
 
     /**
      * @test
      */
-    public function shouldEscape_dollar_reference_curly_two_digits()
+    public function shouldReplace_PcreReferencesDollar_CurlyBrace()
     {
         // when
-        $result = pattern('(er|ab|ay|ey)')
-            ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->first()
-            ->with('<${11}>');
-
+        $replaced = pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way, Sydney')->with('<${0}>');
         // then
-        $this->assertSame('P. Sh<${11}>man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh<${0}>man, 42 Wall<${0}>y w<${0}>, Sydney', $replaced);
     }
 
     /**
      * @test
      */
-    public function shouldEscape_backslash_reference()
+    public function shouldReplace_PcreReferencesDollar_CurlyBrace_TwoDigits()
     {
         // when
-        $result = pattern('(er|ab|ay|ey)')
-            ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->first()
-            ->with('<\\0>');
-
+        $replaced = pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way, Sydney')->with('<${11}>');
         // then
-        $this->assertSame('P. Sh<\\0>man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh<${11}>man, 42 Wall<${11}>y w<${11}>, Sydney', $replaced);
     }
 
     /**
      * @test
      */
-    public function shouldEscape_backslash_reference_two_digits()
+    public function shouldReplace_PcreReferencesDollar_CurlyBrace_DoubleZero()
     {
         // when
-        $result = pattern('(er|ab|ay|ey)')
-            ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->first()
-            ->with('<\\11>');
-
+        $replaced = pattern('er|ab|ay')->replace('P. Sherman, 42 Wallaby way, Sydney')->with('<${00}>');
         // then
-        $this->assertSame('P. Sh<\\11>man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('P. Sh<${00}>man, 42 Wall<${00}>y w<${00}>, Sydney', $replaced);
     }
 
     /**
      * @test
      */
-    public function shouldEscape_backslash()
+    public function shouldReplace_PcreReferencesBackslash()
     {
         // when
-        $result = pattern('(er|ab|ay|ey)')
-            ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->first()
-            ->with('\\\\');
-
+        $replaced = pattern('\d+')->replace('127.0.0.1')->with('\1');
         // then
-        $this->assertSame('P. Sh\\\\man, 42 Wallaby way, Sydney', $result);
+        $this->assertSame('\1.\1.\1.\1', $replaced);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReplace_PcreReferencesBackslash_TwoDigits()
+    {
+        // when
+        $replaced = pattern('\d+')->replace('127.0.0.1')->with('\11');
+        // then
+        $this->assertSame('\11.\11.\11.\11', $replaced);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReplace_PcreEscapedBackslash()
+    {
+        // when
+        $replaced = pattern('er|ay|ey')->replace('P. Sherman, 42 Wallaby way, Sydney')->with('\\\\');
+        // then
+        $this->assertSame('P. Sh\\\\man, 42 Wallaby w\\\\, Sydn\\\\', $replaced);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMalformedPattern()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
+        // when
+        pattern('?')->replace('Foo')->only(0)->with('Bar');
     }
 }
