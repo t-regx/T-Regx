@@ -33,6 +33,11 @@ class LimitedReplacePattern implements SpecificReplacePattern
         return $this->replacePattern->with($replacement);
     }
 
+    public function withGroup($nameOrIndex): string
+    {
+        return $this->replacePattern->withGroup($nameOrIndex);
+    }
+
     public function withReferences(string $replacement): string
     {
         return $this->replacePattern->withReferences($replacement);

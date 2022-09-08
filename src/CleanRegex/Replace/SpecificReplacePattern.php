@@ -5,6 +5,8 @@ interface SpecificReplacePattern
 {
     public function with(string $replacement): string;
 
+    public function withGroup($nameOrIndex): string;
+
     public function withReferences(string $replacement): string;
 
     public function callback(callable $callback): string;

@@ -24,6 +24,11 @@ class Replace implements SpecificReplacePattern
         return $this->specific(-1)->with($replacement);
     }
 
+    public function withGroup($nameOrIndex): string
+    {
+        return $this->specific(-1)->withGroup($nameOrIndex);
+    }
+
     public function withReferences(string $replacement): string
     {
         return $this->specific(-1)->withReferences($replacement);

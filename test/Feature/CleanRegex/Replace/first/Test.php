@@ -24,6 +24,20 @@ class Test extends TestCase
     /**
      * @test
      */
+    public function shouldReplace_withGroup()
+    {
+        // when
+        $replaced = pattern('"(12)"')
+            ->replace('"12", "12", "12"')
+            ->first()
+            ->withGroup(1);
+        // then
+        $this->assertSame('12, "12", "12"', $replaced);
+    }
+
+    /**
+     * @test
+     */
     public function shouldReplace_withString_not_escaped()
     {
         // when
@@ -38,7 +52,7 @@ class Test extends TestCase
     /**
      * @test
      */
-    public function shouldReplace_withGroup()
+    public function shouldReplace_callback_withGroup()
     {
         // given
         $pattern = pattern('http://(?<name>[a-z]+)\.(?<domain>com|org)');
