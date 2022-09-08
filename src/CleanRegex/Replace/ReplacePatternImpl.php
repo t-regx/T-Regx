@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\Counting\CallbackCountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
+use TRegx\CleanRegex\Internal\Replace\SpecificReplacePatternImpl;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 

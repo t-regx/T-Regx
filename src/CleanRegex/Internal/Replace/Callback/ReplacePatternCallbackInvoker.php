@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Replace\Callback;
+namespace TRegx\CleanRegex\Internal\Replace\Callback;
 
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
@@ -8,6 +8,8 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Replace\Callback\GroupSubstitute;
+use TRegx\CleanRegex\Replace\Callback\ReplaceCallbackArgumentStrategy;
 use TRegx\SafeRegex\preg;
 
 class ReplacePatternCallbackInvoker

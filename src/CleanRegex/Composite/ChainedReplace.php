@@ -4,12 +4,12 @@ namespace TRegx\CleanRegex\Composite;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Predefinitions;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
+use TRegx\CleanRegex\Internal\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\NaiveSubstitute;
-use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\SafeRegex\preg;
 
 class ChainedReplace

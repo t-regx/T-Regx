@@ -12,12 +12,12 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazySubjectRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowMatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
+use TRegx\CleanRegex\Internal\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Wrapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMapper;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\Callback\GroupAwareSubstitute;
-use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 
 class ByReplacePattern
 {

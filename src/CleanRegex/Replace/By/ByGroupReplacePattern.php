@@ -19,11 +19,11 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\By\UnmatchedGroupStrategy;
+use TRegx\CleanRegex\Internal\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Internal\Replace\Wrapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMatchRs;
 use TRegx\CleanRegex\Replace\Callback\MatchGroupStrategy;
-use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Replace\GroupReplace;
 
 /**

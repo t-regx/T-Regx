@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Replace;
+namespace TRegx\CleanRegex\Internal\Replace;
 
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
@@ -10,13 +10,15 @@ use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
+use TRegx\CleanRegex\Internal\Replace\Callback\ReplacePatternCallbackInvoker;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
-use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
 use TRegx\CleanRegex\Replace\Callback\MatchStrategy;
 use TRegx\CleanRegex\Replace\Callback\NaiveSubstitute;
-use TRegx\CleanRegex\Replace\Callback\ReplacePatternCallbackInvoker;
+use TRegx\CleanRegex\Replace\CompositeReplacePattern;
+use TRegx\CleanRegex\Replace\FocusReplacePattern;
+use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 use TRegx\SafeRegex\preg;
 
 class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeReplacePattern

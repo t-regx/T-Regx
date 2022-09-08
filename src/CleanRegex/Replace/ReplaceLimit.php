@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Replace;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
+use TRegx\CleanRegex\Internal\Replace\SpecificReplacePatternImpl;
 use TRegx\CleanRegex\Internal\ReplaceLimitHelpers;
 use TRegx\CleanRegex\Internal\Subject;
 

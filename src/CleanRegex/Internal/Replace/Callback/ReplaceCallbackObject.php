@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Replace\Callback;
+namespace TRegx\CleanRegex\Internal\Replace\Callback;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
@@ -12,6 +12,7 @@ use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Match\Group;
+use TRegx\CleanRegex\Replace\Callback\ReplaceCallbackArgumentStrategy;
 
 class ReplaceCallbackObject
 {
