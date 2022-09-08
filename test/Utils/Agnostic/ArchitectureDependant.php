@@ -14,13 +14,6 @@ trait ArchitectureDependant
         return \PHP_INT_SIZE === 8;
     }
 
-    public function onlyArchitecture64(): void
-    {
-        if (!$this->isArchitecture64()) {
-            $this->markTestUnnecessary('Test is valuable only on 64-bit architecture');
-        }
-    }
-
     public function onArchitecture32(array $dataProvider): array
     {
         if ($this->isArchitecture64()) {
