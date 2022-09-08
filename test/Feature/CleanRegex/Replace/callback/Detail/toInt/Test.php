@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\Replace\Details\toInt;
+namespace Test\Feature\CleanRegex\Replace\callback\Detail\toInt;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;

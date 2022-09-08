@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\Replace\Details\index;
+namespace Test\Feature\CleanRegex\Replace\callback\Detail\index;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;

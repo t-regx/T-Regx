@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\Replace\Details\group;
+namespace Test\Feature\CleanRegex\Replace\callback\Detail\get;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
@@ -19,7 +19,7 @@ class Test extends TestCase
         // when
         $result = $pattern->replace($subject)->first()->callback(function (Detail $detail) {
             // then
-            return $detail->group('domain');
+            return $detail->get('domain');
         });
 
         // then
@@ -36,12 +36,12 @@ class Test extends TestCase
         $subject = 'Links: http://google';
 
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to replace with group #2, but the group was not matched");
+        $this->expectExceptionMessage("Expected to get group #2, but the group was not matched");
 
         // when
         $pattern->replace($subject)->first()->callback(function (Detail $detail) {
             // then
-            return $detail->group(2);
+            return $detail->get(2);
         });
     }
 
@@ -55,12 +55,15 @@ class Test extends TestCase
         $subject = 'Links: http://google';
 
         $this->expectException(GroupNotMatchedException::class);
-        $this->expectExceptionMessage("Expected to replace with group 'domain', but the group was not matched");
+        $this->expectExceptionMessage("Expected to get group 'domain', but the group was not matched");
 
         // when
-        $pattern->replace($subject)->first()->callback(function (Detail $detail) {
-            // then
-            return $detail->group('domain');
-        });
+        $pattern
+            ->replace($subject)
+            ->first()
+            ->callback(function (Detail $detail) {
+                // then
+                return $detail->get('domain');
+            });
     }
 }

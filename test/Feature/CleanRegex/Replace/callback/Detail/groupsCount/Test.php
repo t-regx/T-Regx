@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\Replace\Details\groupsCount;
+namespace Test\Feature\CleanRegex\Replace\callback\Detail\groupsCount;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\DetailFunctions;
