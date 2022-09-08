@@ -1,9 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace\Callback;
 
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
-use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactoryMatchOffset;
@@ -11,7 +9,6 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchAllFactoryPrime;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Detail;
-use TRegx\CleanRegex\Match\Group;
 
 class ReplaceCallbackObject
 {
@@ -60,20 +57,6 @@ class ReplaceCallbackObject
         if (\is_string($replacement)) {
             return $replacement;
         }
-        if ($replacement instanceof Group) {
-            return $this->groupAsReplacement($replacement);
-        }
-        if ($replacement instanceof Detail) {
-            return $replacement;
-        }
         throw new InvalidReplacementException(new ValueType($replacement));
-    }
-
-    private function groupAsReplacement(Group $group): string
-    {
-        if ($group->matched()) {
-            return $group->text();
-        }
-        throw GroupNotMatchedException::forReplacement(GroupKey::of($group->usedIdentifier()));
     }
 }

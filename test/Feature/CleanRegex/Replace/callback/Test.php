@@ -7,6 +7,7 @@ use Test\Utils\Functions;
 use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
+use TRegx\CleanRegex\Internal\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 
@@ -52,6 +53,20 @@ class Test extends TestCase
         $this->expectExceptionMessage('Invalid callback() callback return type. Expected string, but integer (12) given');
         // when
         pattern('Foo')->replace('Foo')->callback(Functions::constant(12));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrow_forInvalidTypeDetail()
+    {
+        // given
+        $class = MatchDetail::class;
+        // then
+        $this->expectException(InvalidReplacementException::class);
+        $this->expectExceptionMessage("Invalid callback() callback return type. Expected string, but $class given");
+        // when
+        pattern('\w+')->replace('Foo')->callback(Functions::identity());
     }
 
     /**
