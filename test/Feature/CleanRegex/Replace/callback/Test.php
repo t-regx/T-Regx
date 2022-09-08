@@ -72,7 +72,7 @@ class Test extends TestCase
     public function shouldInvokeUpToLimit()
     {
         // when
-        Pattern::of('.')->replace('Lorem')->only(3)->callback(Functions::collect($details, ''));
+        Pattern::of('.')->replace('Lorem')->limit(3)->callback(Functions::collect($details, ''));
         // then
         $this->assertSame(3, \count($details));
     }

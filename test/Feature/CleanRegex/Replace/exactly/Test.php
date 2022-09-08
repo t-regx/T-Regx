@@ -23,7 +23,7 @@ class Test extends TestCase
     public function shouldIgnore_two_exactly_twice()
     {
         // when
-        $replaced = pattern('Foo')->replace('Foo Foo Bar Bar')->only(2)->exactly()->with('Bar');
+        $replaced = pattern('Foo')->replace('Foo Foo Bar Bar')->limit(2)->exactly()->with('Bar');
         // then
         $this->assertSame('Bar Bar Bar Bar', $replaced);
     }
@@ -49,7 +49,7 @@ class Test extends TestCase
         $this->expectException(ReplacementExpectationFailedException::class);
         $this->expectExceptionMessage('Expected to perform exactly 2 replacement(s), but 1 replacement(s) were actually performed');
         // when
-        pattern('Foo')->replace('Foo Bar Bar Bar')->only(2)->exactly()->with('Bar');
+        pattern('Foo')->replace('Foo Bar Bar Bar')->limit(2)->exactly()->with('Bar');
     }
 
     /**
@@ -73,6 +73,6 @@ class Test extends TestCase
         $this->expectException(ReplacementExpectationFailedException::class);
         $this->expectExceptionMessage('Expected to perform exactly 2 replacement(s), but more than 2 replacement(s) would have been performed');
         // when
-        pattern('Foo')->replace('Foo Foo Foo Bar')->only(2)->exactly()->with('Bar');
+        pattern('Foo')->replace('Foo Foo Foo Bar')->limit(2)->exactly()->with('Bar');
     }
 }

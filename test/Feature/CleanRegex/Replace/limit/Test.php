@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\Replace\only;
+namespace Test\Feature\CleanRegex\Replace\limit;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ class Test extends TestCase
         // when
         $replaced = pattern('er|ab|ay|ey')
             ->replace('P. Sherman, 42 Wallaby way, Sydney')
-            ->only(2)
+            ->limit(2)
             ->with('*');
         // then
         $this->assertSame('P. Sh*man, 42 Wall*y way, Sydney', $replaced);
@@ -34,7 +34,7 @@ class Test extends TestCase
         // when
         $pattern
             ->replace($subject)
-            ->only(2)
+            ->limit(2)
             ->callback(function (Detail $detail) {
                 // then
                 $this->assertSame(['http://google.com', 'http://other.org', 'http://danon.com'], $detail->all());
@@ -52,7 +52,7 @@ class Test extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Negative limit: -1");
         // when
-        pattern('')->replace('')->only(-1);
+        pattern('')->replace('')->limit(-1);
     }
 
     /**
@@ -64,7 +64,7 @@ class Test extends TestCase
     public function shouldReplaceNOccurrences(int $limit, string $expectedResult)
     {
         // when
-        $replaced = pattern('[0-3]')->replace('0 1 2 3')->only($limit)->with('*');
+        $replaced = pattern('[0-3]')->replace('0 1 2 3')->limit($limit)->with('*');
         // then
         $this->assertSame($expectedResult, $replaced);
     }
@@ -90,6 +90,6 @@ class Test extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Negative limit: -2');
         // when
-        $replace->only(-2);
+        $replace->limit(-2);
     }
 }

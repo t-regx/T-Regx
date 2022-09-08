@@ -117,6 +117,6 @@ class Test extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        pattern('?')->replace('Foo')->only(0)->with('Bar');
+        pattern('?')->replace('Foo')->limit(0)->with('Bar');
     }
 }

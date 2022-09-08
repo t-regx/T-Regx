@@ -39,7 +39,7 @@ class Replace implements SpecificReplacePattern
         return new LimitedReplacePattern($this->specific(1), $this->definition, $this->subject, 1);
     }
 
-    public function only(int $limit): LimitedReplacePattern
+    public function limit(int $limit): LimitedReplacePattern
     {
         if ($limit < 0) {
             throw new \InvalidArgumentException("Negative limit: $limit");

@@ -23,7 +23,7 @@ class Test extends TestCase
     public function shouldGetIndex_limit1()
     {
         // given
-        pattern('\d+')->replace('111-222-333')->only(1)->callback(Functions::out($detail, ''));
+        pattern('\d+')->replace('111-222-333')->limit(1)->callback(Functions::out($detail, ''));
         // when, then
         $this->assertSame(0, $detail->index());
     }
@@ -36,7 +36,7 @@ class Test extends TestCase
         // given
         pattern('\d+')
             ->replace('111-222-333')
-            ->only(2)
+            ->limit(2)
             ->callback(Functions::collect($details, ''));
         // then
         [$first, $second] = $details;

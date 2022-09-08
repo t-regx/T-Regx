@@ -32,7 +32,7 @@ class Test extends TestCase
         // when
         pattern('\d+')
             ->replace('123, 345, 678')
-            ->only(2)
+            ->limit(2)
             ->callback(Functions::collect($details, ''));
         // when, then
         [$first, $second] = $details;
@@ -48,7 +48,7 @@ class Test extends TestCase
         // when
         pattern('\d+')
             ->replace('123')
-            ->only(2)
+            ->limit(2)
             ->callback(Functions::out($details, ''));
         // when, then
         $this->assertSame(['123'], $details->all());
