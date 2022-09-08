@@ -2,7 +2,6 @@
 namespace Test\Feature\CleanRegex\Replace\callback\Detail\index;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 
 class Test extends TestCase
@@ -10,44 +9,49 @@ class Test extends TestCase
     /**
      * @test
      */
-    public function shouldGetIndex_replace_first()
+    public function shouldGetIndex_first()
     {
         // given
-        pattern('\d+')->replace('111-222-333')->first()->callback(DetailFunctions::out($detail, ''));
-        // when
-        $index = $detail->index();
-        // then
-        $this->assertSame(0, $index);
+        pattern('Foo')->replace('Foo')->first()->callback(Functions::out($detail, ''));
+        // when, then
+        $this->assertSame(0, $detail->index());
     }
 
     /**
      * @test
      */
-    public function shouldGetIndex_replace()
+    public function shouldGetIndex_limit1()
+    {
+        // given
+        pattern('\d+')->replace('111-222-333')->only(1)->callback(Functions::out($detail, ''));
+        // when, then
+        $this->assertSame(0, $detail->index());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetIndex_limit2()
     {
         // given
         pattern('\d+')
             ->replace('111-222-333')
-            ->all()
+            ->only(2)
             ->callback(Functions::collect($details, ''));
         // then
-        [$first, $second, $third] = $details;
+        [$first, $second] = $details;
         $this->assertSame(0, $first->index());
         $this->assertSame(1, $second->index());
-        $this->assertSame(2, $third->index());
     }
 
     /**
      * @test
      */
-    public function shouldGetIndex_replace_only()
+    public function shouldGetIndex()
     {
         // given
-        pattern('\d+')
-            ->replace('111-222-333')
-            ->only(3)
-            ->callback(Functions::collect($details, ''));
-        // then
+        pattern('\d+')->replace('111-222-333')->callback(Functions::collect($details, ''));
+        // when, then
         [$first, $second, $third] = $details;
         $this->assertSame(0, $first->index());
         $this->assertSame(1, $second->index());

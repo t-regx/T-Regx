@@ -2,7 +2,7 @@
 namespace Test\Feature\CleanRegex\Replace\callback\Detail\subject;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\DetailFunctions;
+use Test\Utils\Functions;
 
 class Test extends TestCase
 {
@@ -12,12 +12,8 @@ class Test extends TestCase
     public function shouldGetSubject()
     {
         // given
-        pattern('(?<matched>Foo)(?<unmatched>Bar)?')
-            ->replace('Hello:Foo')
-            ->first()
-            ->callback(DetailFunctions::out($detail, ''));
-        // when
-        $this->assertSame('Hello:Foo', $detail->group('matched')->subject());
-        $this->assertSame('Hello:Foo', $detail->group('unmatched')->subject());
+        pattern('(?<matched>Foo)(?<unmatched>Bar)?')->replace('Hello:Foo')->callback(Functions::out($detail, ''));
+        // when, then
+        $this->assertSame('Hello:Foo', $detail->subject());
     }
 }
