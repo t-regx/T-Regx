@@ -142,6 +142,19 @@ class Functions
         };
     }
 
+    public static function out(&$argument, $return = null): callable
+    {
+        $wasCaptured = false;
+        return function ($capturedArgument) use (&$wasCaptured, &$argument, $return) {
+            if ($wasCaptured) {
+                return $return;
+            }
+            $argument = $capturedArgument;
+            $wasCaptured = true;
+            return $return;
+        };
+    }
+
     public static function outLast(&$argument, $return = null): callable
     {
         return function ($capturedArgument) use (&$captured, &$argument, $return) {
