@@ -12,7 +12,7 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazySubjectRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowMatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
-use TRegx\CleanRegex\Internal\Replace\Callback\ReplacePatternCallbackInvoker;
+use TRegx\CleanRegex\Internal\Replace\Callback\CallbackInvoker;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Wrapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMapper;
@@ -74,7 +74,7 @@ class ByReplacePattern
         return new ByGroupReplacePattern(
             $this->fallbackReplacer,
             $this->performanceReplace,
-            new ReplacePatternCallbackInvoker($this->definition,
+            new CallbackInvoker($this->definition,
                 $this->subject,
                 $this->limit,
                 $this->countingStrategy,

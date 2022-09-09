@@ -10,7 +10,7 @@ use TRegx\CleanRegex\Internal\Replace\By\IdentityWrapper;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\LazyMessageThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\SubjectRs;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
-use TRegx\CleanRegex\Internal\Replace\Callback\ReplacePatternCallbackInvoker;
+use TRegx\CleanRegex\Internal\Replace\Callback\CallbackInvoker;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\By\ByReplacePattern;
@@ -60,7 +60,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
 
     public function callback(callable $callback): string
     {
-        $invoker = new ReplacePatternCallbackInvoker($this->definition, $this->subject, $this->limit, $this->countingStrategy,
+        $invoker = new CallbackInvoker($this->definition, $this->subject, $this->limit, $this->countingStrategy,
             new NaiveSubstitute($this->substitute));
         return $invoker->invoke($callback, new MatchStrategy());
     }

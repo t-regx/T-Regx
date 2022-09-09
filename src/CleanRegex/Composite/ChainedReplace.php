@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Composite;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Predefinitions;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
-use TRegx\CleanRegex\Internal\Replace\Callback\ReplacePatternCallbackInvoker;
+use TRegx\CleanRegex\Internal\Replace\Callback\CallbackInvoker;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
 use TRegx\CleanRegex\Internal\Subject;
@@ -55,7 +55,7 @@ class ChainedReplace
 
     private function replaceNext(Definition $definition, string $subject, callable $callback): string
     {
-        $invoker = new ReplacePatternCallbackInvoker($definition, new Subject($subject), -1, new IgnoreCounting(), new NaiveSubstitute(new DefaultStrategy()));
+        $invoker = new CallbackInvoker($definition, new Subject($subject), -1, new IgnoreCounting(), new NaiveSubstitute(new DefaultStrategy()));
         return $invoker->invoke($callback, new MatchStrategy());
     }
 }

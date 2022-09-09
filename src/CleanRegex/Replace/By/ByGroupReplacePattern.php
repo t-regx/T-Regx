@@ -19,7 +19,7 @@ use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\MatchRs;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\ThrowStrategy;
 use TRegx\CleanRegex\Internal\Replace\By\PerformanceEmptyGroupReplace;
 use TRegx\CleanRegex\Internal\Replace\By\UnmatchedGroupStrategy;
-use TRegx\CleanRegex\Internal\Replace\Callback\ReplacePatternCallbackInvoker;
+use TRegx\CleanRegex\Internal\Replace\Callback\CallbackInvoker;
 use TRegx\CleanRegex\Internal\Replace\Wrapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMapper;
 use TRegx\CleanRegex\Internal\Replace\WrappingMatchRs;
@@ -37,19 +37,19 @@ class ByGroupReplacePattern implements GroupReplace
     private $group;
     /** @var PerformanceEmptyGroupReplace */
     private $performanceReplace;
-    /** @var ReplacePatternCallbackInvoker */
+    /** @var CallbackInvoker */
     private $replaceCallbackInvoker;
     /** @var Wrapper */
     private $middlewareMapper;
     /** @var GroupAware */
     private $groupAware;
 
-    public function __construct(GroupFallbackReplacer         $fallbackReplacer,
-                                PerformanceEmptyGroupReplace  $performanceReplace,
-                                ReplacePatternCallbackInvoker $replaceCallbackInvoker,
-                                GroupKey                      $group,
-                                Wrapper                       $middlewareMapper,
-                                GroupAware                    $groupAware)
+    public function __construct(GroupFallbackReplacer        $fallbackReplacer,
+                                PerformanceEmptyGroupReplace $performanceReplace,
+                                CallbackInvoker              $replaceCallbackInvoker,
+                                GroupKey                     $group,
+                                Wrapper                      $middlewareMapper,
+                                GroupAware                   $groupAware)
     {
         $this->fallbackReplacer = $fallbackReplacer;
         $this->group = $group;

@@ -12,7 +12,7 @@ use TRegx\CleanRegex\Replace\Callback\GroupSubstitute;
 use TRegx\CleanRegex\Replace\Callback\ReplaceCallbackArgumentStrategy;
 use TRegx\SafeRegex\preg;
 
-class ReplacePatternCallbackInvoker
+class CallbackInvoker
 {
     /** @var Definition */
     private $definition;
