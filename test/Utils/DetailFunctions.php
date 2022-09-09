@@ -80,10 +80,10 @@ class DetailFunctions
         };
     }
 
-    public static function group(string $groupname): callable
+    public static function group($nameOrIndex): callable
     {
-        return function (Detail $detail) use ($groupname): Group {
-            return $detail->group($groupname);
+        return function (Detail $detail) use ($nameOrIndex): Group {
+            return $detail->group($nameOrIndex);
         };
     }
 

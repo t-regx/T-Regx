@@ -1,16 +1,16 @@
 <?php
-namespace TRegx\CleanRegex\Internal\Replace;
+namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Replace\Callback\CallbackInvoker;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\GroupReplace\GroupReplace;
+use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Replace\SpecificReplacePattern;
 use TRegx\SafeRegex\preg;
 
-class SpecificReplacePatternImpl implements SpecificReplacePattern
+class LimitedReplace
 {
     /** @var Definition */
     private $definition;

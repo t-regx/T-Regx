@@ -3,10 +3,13 @@ namespace Test\Feature\CleanRegex\Replace\callback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Backtrack\CausesBacktracking;
+use Test\Utils\DetailFunctions;
 use Test\Utils\Functions;
 use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
+use TRegx\CleanRegex\Internal\Match\Details\Group\MatchedGroup;
+use TRegx\CleanRegex\Internal\Match\Details\Group\NotMatchedGroup;
 use TRegx\CleanRegex\Internal\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
@@ -72,6 +75,34 @@ class Test extends TestCase
     /**
      * @test
      */
+    public function shouldReplace_forInvalidTypeMatchedGroup()
+    {
+        // given
+        $class = MatchedGroup::class;
+        // then
+        $this->expectException(InvalidReplacementException::class);
+        $this->expectExceptionMessage("Invalid callback() callback return type. Expected string, but $class given");
+        // when
+        pattern('(\w+)')->replace('Foo')->callback(DetailFunctions::group(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReplace_forInvalidTypeNotMatchedGroup()
+    {
+        // given
+        $class = NotMatchedGroup::class;
+        // then
+        $this->expectException(InvalidReplacementException::class);
+        $this->expectExceptionMessage("Invalid callback() callback return type. Expected string, but $class given");
+        // when
+        pattern('Foo(Bar)?')->replace('Foo')->callback(DetailFunctions::group(1));
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowMalformedPatternException()
     {
         // when
@@ -112,6 +143,6 @@ class Test extends TestCase
         $this->expectException(ReplacementExpectationFailedException::class);
         $this->expectExceptionMessage('Expected to perform exactly 1 replacement(s), but more than 1 replacement(s) would have been performed');
         // when
-        $this->backtrackingReplace(2)->first()->exactly()->callback(Functions::constant('Foo'));
+        $this->backtrackingReplace(2)->exactly(1)->callback(Functions::constant('Foo'));
     }
 }

@@ -2,58 +2,73 @@
 namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Replace\Counting\AtLeastCountingStrategy;
+use TRegx\CleanRegex\Internal\Replace\Counting\AtMostCountingStrategy;
+use TRegx\CleanRegex\Internal\Replace\Counting\ExactCountingStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
-use TRegx\CleanRegex\Internal\Replace\SpecificReplacePatternImpl;
 use TRegx\CleanRegex\Internal\Subject;
 
-class Replace implements SpecificReplacePattern
+class Replace
 {
     /** @var Definition */
     private $definition;
     /** @var Subject */
     private $subject;
+    /** @var LimitedReplace */
+    private $replace;
 
     public function __construct(Definition $definition, Subject $subject)
     {
         $this->definition = $definition;
         $this->subject = $subject;
+        $this->replace = new LimitedReplace($this->definition, $this->subject, -1, new IgnoreCounting());
     }
 
     public function with(string $replacement): string
     {
-        return $this->specific(-1)->with($replacement);
+        return $this->replace->with($replacement);
     }
 
     public function withGroup($nameOrIndex): string
     {
-        return $this->specific(-1)->withGroup($nameOrIndex);
+        return $this->replace->withGroup($nameOrIndex);
     }
 
     public function withReferences(string $replacement): string
     {
-        return $this->specific(-1)->withReferences($replacement);
+        return $this->replace->withReferences($replacement);
     }
 
     public function callback(callable $callback): string
     {
-        return $this->specific(-1)->callback($callback);
+        return $this->replace->callback($callback);
     }
 
-    public function first(): LimitedReplacePattern
+    public function first(): LimitedReplace
     {
-        return new LimitedReplacePattern($this->specific(1), $this->definition, $this->subject, 1);
+        return $this->exactly(1);
     }
 
-    public function limit(int $limit): LimitedReplacePattern
+    public function exactly(int $amount): LimitedReplace
+    {
+        return new LimitedReplace($this->definition, $this->subject, $amount, new ExactCountingStrategy($this->definition, $this->subject, $amount));
+    }
+
+    public function atMost(int $maximum): LimitedReplace
+    {
+        return new LimitedReplace($this->definition, $this->subject, $maximum, new AtMostCountingStrategy($this->definition, $this->subject, $maximum));
+    }
+
+    public function atLeast(int $minimum): LimitedReplace
+    {
+        return new LimitedReplace($this->definition, $this->subject, -1, new AtLeastCountingStrategy($minimum));
+    }
+
+    public function limit(int $limit): LimitedReplace
     {
         if ($limit < 0) {
             throw new \InvalidArgumentException("Negative limit: $limit");
         }
-        return new LimitedReplacePattern($this->specific($limit), $this->definition, $this->subject, $limit);
-    }
-
-    private function specific(int $limit): SpecificReplacePattern
-    {
-        return new SpecificReplacePatternImpl($this->definition, $this->subject, $limit, new IgnoreCounting());
+        return new LimitedReplace($this->definition, $this->subject, $limit, new IgnoreCounting());
     }
 }
