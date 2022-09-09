@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Replace;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Replace\Callback\CallbackInvoker;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Subject;
@@ -39,7 +38,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern
     public function withReferences(string $replacement): string
     {
         $result = preg::replace($this->definition->pattern, $replacement, $this->subject, $this->limit, $replaced);
-        $this->countingStrategy->applyReplaced($replaced, new LightweightGroupAware($this->definition));
+        $this->countingStrategy->applyReplaced($replaced);
         return $result;
     }
 

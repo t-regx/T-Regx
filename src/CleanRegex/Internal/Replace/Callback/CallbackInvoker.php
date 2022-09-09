@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Replace\Callback;
 
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
@@ -35,7 +34,7 @@ class CallbackInvoker
     public function invoke(callable $callback): string
     {
         $result = $this->pregReplaceCallback($callback, $replaced);
-        $this->countingStrategy->applyReplaced($replaced, new LightweightGroupAware($this->definition));
+        $this->countingStrategy->applyReplaced($replaced);
         return $result;
     }
 

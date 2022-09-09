@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Replace\Counting;
 
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
-use TRegx\CleanRegex\Internal\Model\GroupAware;
 
 class AtLeastCountingStrategy implements CountingStrategy
 {
@@ -14,7 +13,7 @@ class AtLeastCountingStrategy implements CountingStrategy
         $this->minimum = $minimum;
     }
 
-    public function applyReplaced(int $replaced, GroupAware $groupAware): void
+    public function applyReplaced(int $replaced): void
     {
         if ($replaced < $this->minimum) {
             throw ReplacementExpectationFailedException::insufficient($replaced, $this->minimum, 'at least');

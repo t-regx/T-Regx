@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal\Replace\Counting;
 
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
 use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Subject;
 
 class ExactCountingStrategy implements CountingStrategy
@@ -19,7 +18,7 @@ class ExactCountingStrategy implements CountingStrategy
         $this->amount = $amount;
     }
 
-    public function applyReplaced(int $replaced, GroupAware $groupAware): void
+    public function applyReplaced(int $replaced): void
     {
         if ($replaced < $this->amount) {
             throw ReplacementExpectationFailedException::insufficient($replaced, $this->amount, 'exactly');
