@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\PatternList\chainedReplace\with;
+namespace Test\Feature\CleanRegex\PatternList\chainedReplace\withReferences;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
@@ -27,7 +27,7 @@ class PatternListTest extends TestCase
             '(\s+|\?)',
         ], 0, $times));
         // when
-        $replaced = $pattern->chainedReplace("Do you think that's air you're breathing now?")->with('__');
+        $replaced = $pattern->chainedReplace("Do you think that's air you're breathing now?")->withReferences('__');
         // then
         $this->assertSame($expected, $replaced);
     }
@@ -49,66 +49,66 @@ class PatternListTest extends TestCase
     /**
      * @test
      */
-    public function shouldReplacePcreReference()
+    public function shouldReplaceWithReferences()
     {
         // given
         $pattern = Pattern::list(['One(1)', 'Two(2)', 'Three(3)']);
         // when
-        $replaced = $pattern->chainedReplace('One1, Two2, Three3')->with('$1');
+        $replaced = $pattern->chainedReplace('One1 Two2 Three3')->withReferences('$1');
         // then
-        $this->assertSame('$1, $1, $1', $replaced);
+        $this->assertSame('1 2 3', $replaced);
     }
 
     /**
      * @test
      */
-    public function shouldReplaceWithPcreReferences_whole()
+    public function shouldReplaceWithReferences_whole()
     {
         // given
         $pattern = Pattern::list(['One(1)', 'Two(2)', 'Three(3)']);
         // when
-        $replaced = $pattern->chainedReplace('One1, Two2, Three3')->with('<$0>');
+        $replaced = $pattern->chainedReplace('One1, Two2, Three3')->withReferences('<$0>');
         // then
-        $this->assertSame('<$0>, <$0>, <$0>', $replaced);
+        $this->assertSame('<One1>, <Two2>, <Three3>', $replaced);
     }
 
     /**
      * @test
      */
-    public function shouldReplaceWithPcreReferences_whole_curlyBrace()
+    public function shouldReplaceWithReferences_whole_curlyBrace()
     {
         // given
         $pattern = Pattern::list(['One(1)', 'Two(2)', 'Three(3)']);
         // when
-        $replaced = $pattern->chainedReplace('One1, Two2, Three3')->with('<${0}>');
+        $replaced = $pattern->chainedReplace('One1, Two2, Three3')->withReferences('<${0}>');
         // then
-        $this->assertSame('<${0}>, <${0}>, <${0}>', $replaced);
+        $this->assertSame('<One1>, <Two2>, <Three3>', $replaced);
     }
 
     /**
      * @test
      */
-    public function shouldReplaceWithPcreReferences_whole_backslash()
+    public function shouldReplaceWithReferences_whole_backslash()
     {
         // given
         $pattern = Pattern::list(['One(1)', 'Two(2)', 'Three(3)']);
         // when
-        $replaced = $pattern->chainedReplace('One1, Two2, Three3')->with('<\0>');
+        $replaced = $pattern->chainedReplace('One1, Two2, Three3')->withReferences('<\0>');
         // then
-        $this->assertSame('<\0>, <\0>, <\0>', $replaced);
+        $this->assertSame('<One1>, <Two2>, <Three3>', $replaced);
     }
 
     /**
      * @test
      */
-    public function shouldReplaceWithPcreReferences_twoDigits_backslash()
+    public function shouldReplaceWithReferences_twoDigits_backslash()
     {
         // given
         $tenGroups = \str_repeat('()', 10);
         $pattern = Pattern::list(["One$tenGroups(1)", "Two$tenGroups(2)"]);
         // when
-        $replaced = $pattern->chainedReplace('One1, Two2')->with('<${11}>');
+        $replaced = $pattern->chainedReplace('One1, Two2')->withReferences('<${11}>');
         // then
-        $this->assertSame('<${11}>, <${11}>', $replaced);
+        $this->assertSame('<1>, <2>', $replaced);
     }
 }
