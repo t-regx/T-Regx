@@ -11,15 +11,15 @@ use TRegx\CleanRegex\Pattern;
 
 class Definitions
 {
-    public static function composed(array $patterns, callable $patternDefinition): array
+    public static function composed(array $patterns, callable $patternDefinition): Predefinitions
     {
-        return \iterator_to_array(self::definitions($patterns, $patternDefinition));
+        return new Predefinitions(\iterator_to_array(self::predefinitions($patterns, $patternDefinition)));
     }
 
-    private static function definitions(array $patterns, callable $patternDefinition): Generator
+    private static function predefinitions(array $patterns, callable $patternDefinition): Generator
     {
         foreach ($patterns as $pattern) {
-            yield self::expression($pattern, $patternDefinition)->predefinition()->definition();
+            yield self::expression($pattern, $patternDefinition)->predefinition();
         }
     }
 

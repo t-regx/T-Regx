@@ -3,6 +3,7 @@ namespace Test\Feature\CleanRegex\PatternList\failAll;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
+use TRegx\Exception\MalformedPatternException;
 
 /**
  * @covers \TRegx\CleanRegex\PatternList::failAll
@@ -72,5 +73,19 @@ class PatternListTest extends TestCase
             [['failing', Pattern::literal('matching')]],
             [['matching', Pattern::literal('failing')]],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMalformedPattern()
+    {
+        // given
+        $patternList = Pattern::list(['\\']);
+        // when
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
+        // when
+        $patternList->failAll('subject');
     }
 }

@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Composite;
 
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Predefinitions;
 use TRegx\CleanRegex\Internal\Replace\By\NonReplaced\DefaultStrategy;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
@@ -13,14 +14,14 @@ use TRegx\SafeRegex\preg;
 
 class ChainedReplace
 {
-    /** @var Definition[] */
-    private $definitions;
+    /** @var Predefinitions */
+    private $predefinitions;
     /** @var Subject */
     private $subject;
 
-    public function __construct(array $definitions, Subject $subject)
+    public function __construct(Predefinitions $predefinitions, Subject $subject)
     {
-        $this->definitions = $definitions;
+        $this->predefinitions = $predefinitions;
         $this->subject = $subject;
     }
 
@@ -37,7 +38,7 @@ class ChainedReplace
     private function definitionsPatterns(): array
     {
         $patterns = [];
-        foreach ($this->definitions as $definition) {
+        foreach ($this->predefinitions->definitions() as $definition) {
             $patterns[] = $definition->pattern;
         }
         return $patterns;
@@ -46,7 +47,7 @@ class ChainedReplace
     public function callback(callable $callback): string
     {
         $subject = $this->subject->asString();
-        foreach ($this->definitions as $definition) {
+        foreach ($this->predefinitions->definitions() as $definition) {
             $subject = $this->replaceNext($definition, $subject, $callback);
         }
         return $subject;

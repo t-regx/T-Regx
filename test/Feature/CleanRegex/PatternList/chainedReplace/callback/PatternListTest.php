@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
+use TRegx\Exception\MalformedPatternException;
 
 /**
  * @covers \TRegx\CleanRegex\PatternList::chainedReplace
@@ -79,5 +80,20 @@ class PatternListTest extends TestCase
         $this->assertSame(['a', 'b', 'c', '1', '2', '3'], $matches);
         $this->assertSame([$first, $first, $first, $second, $second, $second], $subjects);
         $this->assertSame($expectedResult, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMalformedPattern()
+    {
+        // given
+        $patternList = Pattern::list(['\\']);
+        $replace = $patternList->chainedReplace('subject');
+        // when
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
+        // when
+        $replace->callback(Functions::fail());
     }
 }

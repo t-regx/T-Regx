@@ -5,7 +5,6 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PatternList;
 use TRegx\CleanRegex\PcrePattern;
-use TRegx\Exception\MalformedPatternException;
 
 /**
  * @coversNothing
@@ -33,17 +32,5 @@ class PatternListTest extends TestCase
             PcrePattern::of('/Foo/'),
             PcrePattern::inject('/@/', ['Foo'])
         ]);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForMalformedPattern()
-    {
-        // when
-        $this->expectException(MalformedPatternException::class);
-        $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
-        // when
-        Pattern::list(['\\']);
     }
 }

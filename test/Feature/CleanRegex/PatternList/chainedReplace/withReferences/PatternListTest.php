@@ -3,6 +3,7 @@ namespace Test\Feature\CleanRegex\PatternList\chainedReplace\withReferences;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
+use TRegx\Exception\MalformedPatternException;
 
 /**
  * @covers \TRegx\CleanRegex\PatternList::chainedReplace
@@ -110,5 +111,20 @@ class PatternListTest extends TestCase
         $replaced = $pattern->chainedReplace('One1, Two2')->withReferences('<${11}>');
         // then
         $this->assertSame('<1>, <2>', $replaced);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMalformedPattern()
+    {
+        // given
+        $patternList = Pattern::list(['\\']);
+        $replace = $patternList->chainedReplace('subject');
+        // when
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
+        // when
+        $replace->withReferences('replacement');
     }
 }

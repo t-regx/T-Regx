@@ -2,23 +2,23 @@
 namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Composite\ChainedReplace;
-use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Predefinitions;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
 
 class PatternList
 {
-    /** @var Definition[] */
-    private $definitions;
+    /** @var Predefinitions */
+    private $predefinitions;
 
-    public function __construct(array $definitions)
+    public function __construct(Predefinitions $predefinitions)
     {
-        $this->definitions = $definitions;
+        $this->predefinitions = $predefinitions;
     }
 
     public function testAll(string $subject): bool
     {
-        foreach ($this->definitions as $definition) {
+        foreach ($this->predefinitions->definitions() as $definition) {
             if (!preg::match($definition->pattern, $subject)) {
                 return false;
             }
@@ -28,7 +28,7 @@ class PatternList
 
     public function testAny(string $subject): bool
     {
-        foreach ($this->definitions as $definition) {
+        foreach ($this->predefinitions->definitions() as $definition) {
             if (preg::match($definition->pattern, $subject)) {
                 return true;
             }
@@ -53,6 +53,6 @@ class PatternList
 
     public function chainedReplace(string $subject): ChainedReplace
     {
-        return new ChainedReplace($this->definitions, new Subject($subject));
+        return new ChainedReplace($this->predefinitions, new Subject($subject));
     }
 }
