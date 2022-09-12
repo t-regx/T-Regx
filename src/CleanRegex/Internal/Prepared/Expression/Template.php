@@ -7,7 +7,6 @@ use TRegx\CleanRegex\Internal\Delimiter\UndelimitablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\CountedClusters;
-use TRegx\CleanRegex\Internal\Prepared\Cluster\ExpectedClusters;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\Spelling;
 use TRegx\CleanRegex\Internal\Prepared\PatternPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
@@ -24,7 +23,7 @@ class Template implements Expression
 
     public function __construct(Spelling $spelling, CountedClusters $clusters)
     {
-        $this->pattern = new PatternPhrase($spelling, new ClustersPlaceholders(new ExpectedClusters($clusters)));
+        $this->pattern = new PatternPhrase($spelling, new ClustersPlaceholders($clusters));
         $this->spelling = $spelling;
     }
 
