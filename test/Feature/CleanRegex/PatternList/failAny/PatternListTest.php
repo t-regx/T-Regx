@@ -41,4 +41,36 @@ class PatternListTest extends TestCase
         // when, then
         $this->assertTrue($pattern->failAny('PRE'));
     }
+
+    /**
+     * @test
+     */
+    public function shouldNotFailAny()
+    {
+        // given
+        $pattern = Pattern::list(['matching', Pattern::of('matching')]);
+        // when, then
+        $this->assertFalse($pattern->failAll('matching'));
+    }
+
+    /**
+     * @test
+     * @dataProvider patternLists
+     */
+    public function shouldFailAny(array $list)
+    {
+        // given
+        $pattern = Pattern::list($list);
+        // when, then
+        $this->assertTrue($pattern->failAny('matching'));
+    }
+
+    public function patternLists(): array
+    {
+        return [
+            [[Pattern::literal('failing'), 'failing']],
+            [['failing', Pattern::literal('matching')]],
+            [['matching', Pattern::literal('failing')]],
+        ];
+    }
 }
