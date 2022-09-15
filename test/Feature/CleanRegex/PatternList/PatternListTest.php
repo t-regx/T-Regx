@@ -1,7 +1,9 @@
 <?php
 namespace Test\Feature\CleanRegex\PatternList;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PatternList;
 use TRegx\CleanRegex\PcrePattern;
@@ -11,6 +13,8 @@ use TRegx\CleanRegex\PcrePattern;
  */
 class PatternListTest extends TestCase
 {
+    use TestCaseExactMessage;
+
     /**
      * @test
      */
@@ -56,5 +60,17 @@ class PatternListTest extends TestCase
         // when, then
         $this->assertTrue($list->failAny(\chr(27)));
         $this->assertFalse($list->testAny(\chr(27)));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForInvalidType()
+    {
+        // then
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('PatternList can only compose type Pattern or string, but boolean (true) given');
+        // when
+        Pattern::list([true]);
     }
 }

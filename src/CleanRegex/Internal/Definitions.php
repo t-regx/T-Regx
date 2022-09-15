@@ -31,6 +31,6 @@ class Definitions
         if ($pattern instanceof Pattern) {
             return new Identity($patternDefinition($pattern));
         }
-        throw InvalidArgument::typeGiven("CompositePattern only accepts type Pattern or string", new ValueType($pattern));
+        throw InvalidArgument::typeGiven("PatternList can only compose type Pattern or string", new ValueType($pattern));
     }
 }
