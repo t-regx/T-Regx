@@ -2,14 +2,19 @@
 namespace Test\Feature\CleanRegex\PatternList\prune;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Backtrack\CausesBacktracking;
+use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
+use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;
 
 /**
  * @covers \TRegx\CleanRegex\PatternList::prune
  */
 class PatternListTest extends TestCase
 {
+    use CausesBacktracking;
+
     /**
      * @test
      * @dataProvider times
@@ -49,14 +54,71 @@ class PatternListTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowForMalformedPattern()
+    public function shouldThrowForMalformedPatternTemplate()
     {
         // given
-        $patternList = Pattern::list(['\\']);
-        // when
+        $patternList = Pattern::list(['Foo\\']);
+        // then
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
         // when
         $patternList->prune('subject');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMalformedPattern()
+    {
+        // given
+        $list = Pattern::list(['+']);
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
+        // when, then
+        $list->prune('Fail');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForMalformedPatternMiddle()
+    {
+        // given
+        $list = Pattern::list(['Foo', '+']);
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
+        // when, then
+        $list->prune('Fail');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPreferTemplateMalformedPattern()
+    {
+        // given
+        $list = Pattern::list(['+', 'Foo\\']);
+        // then
+        $this->expectException(PatternMalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
+        // when, then
+        $list->prune('subject');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForCatastrophicBacktracking()
+    {
+        // given
+        $list = Pattern::list([
+            $this->backtrackingPattern()
+        ]);
+        // then
+        $this->expectException(CatastrophicBacktrackingException::class);
+        // when, then
+        $list->prune($this->backtrackingSubject(0));
     }
 }

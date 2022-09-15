@@ -2,6 +2,7 @@
 namespace Test\Feature\CleanRegex\PatternList\testAll;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PcrePattern;
 use TRegx\Exception\MalformedPatternException;
@@ -54,5 +55,19 @@ class PatternListTest extends TestCase
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
         // when
         $patternList->testAll('subject');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPreferTemplateMalformedPattern()
+    {
+        // given
+        $list = Pattern::list(['+', 'Foo\\']);
+        // then
+        $this->expectException(PatternMalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
+        // when, then
+        $list->testAll('subject');
     }
 }

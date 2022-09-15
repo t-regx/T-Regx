@@ -33,4 +33,28 @@ class PatternListTest extends TestCase
             PcrePattern::inject('/@/', ['Foo'])
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function shouldTestControlCharacter()
+    {
+        // given
+        $list = Pattern::list(['\c\\']);
+        // when, then
+        $this->assertTrue($list->testAny(\chr(28)));
+        $this->assertFalse($list->failAny(\chr(28)));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFailControlCharacter()
+    {
+        // given
+        $list = Pattern::list(['\c\\']);
+        // when, then
+        $this->assertTrue($list->failAny(\chr(27)));
+        $this->assertFalse($list->testAny(\chr(27)));
+    }
 }
