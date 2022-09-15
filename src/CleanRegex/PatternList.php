@@ -55,4 +55,10 @@ class PatternList
     {
         return new ChainedReplace($this->predefinitions, new Subject($subject));
     }
+
+    public function count(string $string): int
+    {
+        preg::replace($this->predefinitions->patterns(), '', $string, -1, $count);
+        return $count;
+    }
 }

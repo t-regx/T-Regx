@@ -14,6 +14,18 @@ class Predefinitions
         $this->predefinitions = $predefinitions;
     }
 
+    public function patterns(): array
+    {
+        return \iterator_to_array($this->patternsGenerator());
+    }
+
+    private function patternsGenerator(): Generator
+    {
+        foreach ($this->definitionsGenerator() as $definition) {
+            yield $definition->pattern;
+        }
+    }
+
     public function definitions(): array
     {
         return \iterator_to_array($this->definitionsGenerator());

@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Features
+    * Add `PatternList.count()`, which allows to count occurrances of many patterns in a subject.
 
 Added in 0.37.0
 ---------------
