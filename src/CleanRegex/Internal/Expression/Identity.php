@@ -1,22 +1,20 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Expression;
 
-use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Expression\Predefinition\IdentityPredefinition;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 
 class Identity implements Expression
 {
-    /** @var Definition */
-    private $definition;
+    /** @var Predefinition */
+    private $predefinition;
 
-    public function __construct(Definition $definition)
+    public function __construct(Predefinition $predefinition)
     {
-        $this->definition = $definition;
+        $this->predefinition = $predefinition;
     }
 
     public function predefinition(): Predefinition
     {
-        return new IdentityPredefinition($this->definition);
+        return $this->predefinition;
     }
 }

@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Builder\PatternTemplate;
 use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Internal\Expression\Alteration;
 use TRegx\CleanRegex\Internal\Expression\Literal;
+use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\FigureClusters;
 use TRegx\CleanRegex\Internal\Prepared\Clusters;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Mask;
@@ -54,10 +55,15 @@ trait EntryPoints
 
     public static function list(array $patterns): PatternList
     {
-        return new PatternList(Definitions::composed($patterns, static function (Pattern $pattern): Definition {
+        return self::patternList(new PatternStrings($patterns));
+    }
+
+    private static function patternList(PatternStrings $patterns): PatternList
+    {
+        return new PatternList($patterns->predefinitions(static function (Pattern $pattern): Predefinition {
             /**
-             * {@see Pattern} instance has reference to {@see Definition} as "pattern"
-             * private field. Definition contains {@see Definition::$pattern} field,
+             * {@see Pattern} instance has reference to {@see Predefinition} as "predefinition"
+             * private field. The {@see Predefinition} contains {@see Definition} field,
              * containing a delimited PCRE pattern withs flags as a string, and another
              * field {@see Definition::$undevelopedInput}, containing pattern before it
              * has been parsed - kept for debugging purposes in client applications.
@@ -70,8 +76,8 @@ trait EntryPoints
              * in the public API for clients, perhaps as a field in thrown exceptions, that
              * clients could use for debugging.
              *
-             * In order to use composite patterns, we consume strings and Patterns as an
-             * input, and construct {@see Definition} instances with that. In case of a string,
+             * In order to use pattern lists, we consume strings and {@see Pattern} as an
+             * input, and construct {@see Definition} based on the input. In case of a string,
              * that's simple, we construct a new {@see Definition} with that. In case of a
              * {@see Pattern} instance, we could use the delimited pattern and call it a day,
              * but then the {@see Definition::$undevelopedInput} of the definition  would be
@@ -83,7 +89,7 @@ trait EntryPoints
              * {@see Pattern}, so it has access to its private fields. That's why we can just
              * pass a closure, which can map {@see Pattern} to {@see Definition}.
              */
-            return $pattern->predefinition->definition();
+            return $pattern->predefinition;
         }));
     }
 }
