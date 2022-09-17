@@ -4,13 +4,10 @@ namespace TRegx\CleanRegex\Replace;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Replace\Counting\IgnoreCounting;
 use TRegx\CleanRegex\Internal\Replace\SpecificReplacePatternImpl;
-use TRegx\CleanRegex\Internal\ReplaceLimitHelpers;
 use TRegx\CleanRegex\Internal\Subject;
 
 class Replace implements SpecificReplacePattern
 {
-    use ReplaceLimitHelpers;
-
     /** @var Definition */
     private $definition;
     /** @var Subject */
@@ -22,9 +19,19 @@ class Replace implements SpecificReplacePattern
         $this->subject = $subject;
     }
 
-    public function all(): LimitlessReplacePattern
+    public function with(string $replacement): string
     {
-        return new LimitlessReplacePattern($this->specific(-1), $this->definition, $this->subject);
+        return $this->specific(-1)->with($replacement);
+    }
+
+    public function withReferences(string $replacement): string
+    {
+        return $this->specific(-1)->withReferences($replacement);
+    }
+
+    public function callback(callable $callback): string
+    {
+        return $this->specific(-1)->callback($callback);
     }
 
     public function first(): LimitedReplacePattern

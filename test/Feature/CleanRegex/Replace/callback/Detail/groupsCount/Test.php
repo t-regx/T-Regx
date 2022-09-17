@@ -14,7 +14,6 @@ class Test extends TestCase
         // given
         pattern('(?<one>first) and (second)')
             ->replace('first and second')
-            ->all()
             ->callback(Functions::out($detail, ''));
         // when
         $groupsCount = $detail->groupsCount();
