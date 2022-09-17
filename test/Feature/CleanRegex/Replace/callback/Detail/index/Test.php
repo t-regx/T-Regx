@@ -22,15 +22,13 @@ class Test extends TestCase
 
     /**
      * @test
-     * @dataProvider iteratingReplaceMethods
-     * @param string $method
-     * @param array $arguments
      */
-    public function shouldGetIndex_replace(string $method, array $arguments)
+    public function shouldGetIndex_replace()
     {
+        // given
         pattern('\d+')
             ->replace('111-222-333')
-            ->$method(...$arguments)
+            ->all()
             ->callback(Functions::collect($details, ''));
         // then
         [$first, $second, $third] = $details;
@@ -39,11 +37,20 @@ class Test extends TestCase
         $this->assertSame(2, $third->index());
     }
 
-    public function iteratingReplaceMethods(): array
+    /**
+     * @test
+     */
+    public function shouldGetIndex_replace_only()
     {
-        return [
-            ['all', []],
-            ['only', [3]],
-        ];
+        // given
+        pattern('\d+')
+            ->replace('111-222-333')
+            ->only(3)
+            ->callback(Functions::collect($details, ''));
+        // then
+        [$first, $second, $third] = $details;
+        $this->assertSame(0, $first->index());
+        $this->assertSame(1, $second->index());
+        $this->assertSame(2, $third->index());
     }
 }
