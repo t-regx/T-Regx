@@ -4,6 +4,7 @@ namespace Test\Feature\CleanRegex;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsPattern;
 use TRegx\CleanRegex\PcrePattern;
+use TRegx\Exception\MalformedPatternException;
 
 /**
  * @covers \TRegx\CleanRegex\PcrePattern
@@ -54,5 +55,19 @@ class PcrePatternTest extends TestCase
         $pattern = PcrePattern::template('%You/her, @ (her)%s')->alteration(['{hi}', '50%']);
         // then
         $this->assertPatternIs('%You/her, (?:\{hi\}|50\%) (her)%s', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldEmptyPatternBeMalformed()
+    {
+        // given
+        $pattern = PcrePattern::of('');
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage("Empty regular expression");
+        // when
+        $pattern->test('subject');
     }
 }

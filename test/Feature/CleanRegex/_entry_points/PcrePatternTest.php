@@ -50,4 +50,28 @@ class PcrePatternTest extends TestCase
         // when
         PcrePattern::of('foo')->test('bar');
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrowMalformedPatternException_forPatternWithNullByte()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Null byte in regex');
+        // when
+        PcrePattern::of("/\0/")->test('bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowMalformedPatternException_forNullByteDelimiters()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Null byte in regex');
+        // when
+        PcrePattern::of("\0pattern\0")->test('bar');
+    }
 }
