@@ -1,14 +1,18 @@
 <?php
-namespace Test\Unit\CleanRegex\Internal;
+namespace Test\Feature\CleanRegex\Match\Detail\group;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TRegx\CleanRegex\Internal\VisibleCharacters;
+use Test\Utils\TestCase\TestCaseExactMessage;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\VisibleCharacters
  */
 class VisibleCharactersTest extends TestCase
 {
+    use TestCaseExactMessage;
+
     /**
      * @test
      * @dataProvider characters
@@ -17,11 +21,11 @@ class VisibleCharactersTest extends TestCase
      */
     public function test(string $value, string $expected)
     {
-        // when
-        $visible = new VisibleCharacters($value);
-
         // then
-        $this->assertSame($expected, "$visible");
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '$expected' given");
+        // when
+        Pattern::of('Foo')->match('Foo')->first()->group($value);
     }
 
     public function characters(): array
