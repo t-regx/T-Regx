@@ -497,4 +497,24 @@ class PatternTest extends TestCase
         // when, then
         $this->assertPatternIs('/welcome:@/', $pattern);
     }
+
+    /**
+     * @test
+     * @dataProvider groupNames
+     */
+    public function shouldAcceptDifferentGroupNames_onUnicode(string $groupName): void
+    {
+        // when
+        [$name] = Pattern::of("(?<$groupName>Foo)", 'u')->match('Foo')->groupNames();
+        // then
+        $this->assertSame($groupName, $name);
+    }
+
+    public function groupNames(): array
+    {
+        return [
+            ['gróup'],
+            ['ßark'],
+        ];
+    }
 }
