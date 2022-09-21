@@ -10,20 +10,15 @@ class GroupName extends GroupKey
 
     public function __construct(string $name)
     {
+        if (\preg_match('/^[_a-zA-Z][a-zA-Z0-9_]{0,31}$/DS', $name) === 0) {
+            throw InvalidArgument::typeGiven('Group name must be an alphanumeric string, not starting with a digit', new GroupNameType($name));
+        }
         $this->name = $name;
     }
 
     public function nameOrIndex(): string
     {
-        if ($this->isGroupNameValid()) {
-            return $this->name;
-        }
-        throw InvalidArgument::typeGiven('Group name must be an alphanumeric string, not starting with a digit', new GroupNameType($this->name));
-    }
-
-    private function isGroupNameValid(): bool
-    {
-        return \preg_match('/^[_a-zA-Z][a-zA-Z0-9_]{0,31}$/D', $this->name) > 0;
+        return $this->name;
     }
 
     public function full(): bool

@@ -8,13 +8,6 @@ abstract class GroupKey
 {
     public static function of($group): GroupKey
     {
-        $groupKey = self::groupKey($group);
-        $groupKey->nameOrIndex(); // validate early
-        return $groupKey;
-    }
-
-    private static function groupKey($group): GroupKey
-    {
         if (\is_int($group)) {
             return new GroupIndex($group);
         }
