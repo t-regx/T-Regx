@@ -47,6 +47,49 @@ class DetailTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '2group' given");
         // when
-        $detail->group("2group");
+        $detail->group('2group');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetThreeDigitGroup()
+    {
+        // given
+        $groups = \str_repeat('()', 100);
+        $pattern = Pattern("$groups(Foo)");
+        $detail = $pattern->match('Foo')->first();
+        // when
+        $group = $detail->group(101);
+        // then
+        $this->assertSame('Foo', $group->text());
+    }
+
+    /**
+     * @test
+     * @dataProvider invalidGroupNames
+     * @param string|int $name
+     * @param string $message
+     */
+    public function shouldThrowForMalformedName(string $name, string $message)
+    {
+        // given
+        $detail = Pattern::of('Foo')->match('Foo')->first();
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($message);
+        // when
+        $detail->group($name);
+    }
+
+    public function invalidGroupNames(): array
+    {
+        return [
+            ['9group', "Group name must be an alphanumeric string, not starting with a digit, but '9group' given"],
+            ['group space', "Group name must be an alphanumeric string, not starting with a digit, but 'group space' given"],
+            ["group\n", 'Group name must be an alphanumeric string, not starting with a digit, but \'group\n\' given'],
+            ["a\x7f\x7fb", 'Group name must be an alphanumeric string, not starting with a digit, but \'a\x7f\x7fb\' given'],
+            ["a\xc2\xa0b", 'Group name must be an alphanumeric string, not starting with a digit, but \'a\xc2\xa0b\' given'],
+        ];
     }
 }

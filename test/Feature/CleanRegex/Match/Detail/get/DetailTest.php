@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Pattern;
 
 class DetailTest extends TestCase
 {
@@ -23,14 +24,13 @@ class DetailTest extends TestCase
 
     /**
      * @test
-     * @dataProvider shouldGroup_notMatch_dataProvider
-     * @param string $pattern
-     * @param string $subject
+     * @dataProvider patternsWithGroups
+     * @param Pattern $pattern
      */
-    public function shouldGroup_forUnmatchedGroup(string $pattern, string $subject)
+    public function shouldGroup_forUnmatchedGroup_byName(Pattern $pattern)
     {
         // given
-        $detail = pattern($pattern)->match($subject)->first();
+        $detail = $pattern->match('One,Two')->first();
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to get group 'one', but the group was not matched");
@@ -38,12 +38,26 @@ class DetailTest extends TestCase
         $detail->get('one');
     }
 
-    public function shouldGroup_notMatch_dataProvider(): array
+    public function patternsWithGroups(): array
     {
         return [
-            ['Hello (?<one>there)?', 'Hello XX, General Kenobi'],
-            ['Hello (?<one>there)?(?<two>XX)', 'Hello XX, General Kenobi'],
+            [Pattern::of('(?<one>One){0}')],
+            [Pattern::of('(?<one>One){0},(?<two>Two)')],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGroup_forUnmatchedGroup_byIndex()
+    {
+        // given
+        $detail = pattern('(Foo)(Bar){0}')->match('Foo')->first();
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to get group #2, but the group was not matched");
+        // when
+        $detail->get(2);
     }
 
     /**
@@ -72,5 +86,33 @@ class DetailTest extends TestCase
         $detail = pattern('(?<one>first) and (?<two>second)')->match('first and second')->first();
         // when
         $detail->group(true);
+    }
+
+    /**
+     * @test
+     * @dataProvider validGroups
+     * @param string|int $name
+     */
+    public function shouldGetGroup_validName(string $name)
+    {
+        // given
+        $pattern = Pattern("(?<$name>Bar){0}");
+        $detail = $pattern->match('Foo')->first();
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to get group '$name', but the group was not matched");
+        // when
+        $detail->get($name);
+    }
+
+    public function validGroups(): array
+    {
+        return [
+            ['group'],
+            ['_group'],
+            ['GROUP'],
+            ['g'],
+            ['a123_'],
+        ];
     }
 }
