@@ -69,9 +69,33 @@ class DetailTest extends TestCase
      * @test
      * @dataProvider invalidGroupNames
      * @param string|int $name
+     */
+    public function shouldThrowForMalformedName(string $name)
+    {
+        // given
+        $detail = Pattern::of('Foo', 'u')->match('Foo')->first();
+        // then
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '$name' given");
+        // when
+        $detail->group($name);
+    }
+
+    public function invalidGroupNames(): array
+    {
+        return \provided([
+            '9group',
+            'group space',
+        ]);
+    }
+
+    /**
+     * @test
+     * @dataProvider groupNamesWithInvisibleCharacters
+     * @param string|int $name
      * @param string $message
      */
-    public function shouldThrowForMalformedName(string $name, string $message)
+    public function shouldThrowForMalformedName_invisibleCharacters(string $name, string $message)
     {
         // given
         $detail = Pattern::of('Foo')->match('Foo')->first();
@@ -82,11 +106,9 @@ class DetailTest extends TestCase
         $detail->group($name);
     }
 
-    public function invalidGroupNames(): array
+    public function groupNamesWithInvisibleCharacters(): array
     {
         return [
-            ['9group', "Group name must be an alphanumeric string, not starting with a digit, but '9group' given"],
-            ['group space', "Group name must be an alphanumeric string, not starting with a digit, but 'group space' given"],
             ["group\n", 'Group name must be an alphanumeric string, not starting with a digit, but \'group\n\' given'],
             ["a\x7f\x7fb", 'Group name must be an alphanumeric string, not starting with a digit, but \'a\x7f\x7fb\' given'],
             ["a\xc2\xa0b", 'Group name must be an alphanumeric string, not starting with a digit, but \'a\xc2\xa0b\' given'],

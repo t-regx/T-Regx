@@ -1,4 +1,12 @@
 <?php
+function provided(array $values): array
+{
+    $provider = [];
+    foreach ($values as $value) {
+        $provider[$value] = [$value];
+    }
+    return $provider;
+}
 
 function named(array $values): array
 {
