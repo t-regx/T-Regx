@@ -30,7 +30,7 @@ class VisibleCharactersTest extends TestCase
 
     public function characters(): array
     {
-        return [
+        return \named([
             ['', ''],
             ["\0", '\x0'],
             ["\1", '\x1'],
@@ -56,9 +56,9 @@ class VisibleCharactersTest extends TestCase
             ['Foo€', 'Foo€'],
 
             [
-                "Hello, śćź !@#$%^~ \x1f \x7f \xee", # Malformed UTF8
-                'Hello, \xc5\x9b\xc4\x87\xc5\xba !@#$%^~ \x1f \x7f \xee'
+                "\x1f \x7f \xee", # Malformed UTF8
+                '\x1f \x7f \xee'
             ],
-        ];
+        ]);
     }
 }

@@ -45,7 +45,8 @@
       "test/"
     ],
     "files": [
-      "test/Supposition/format.php"
+      "test/Supposition/format.php",
+      "test/Supposition/provided.php"
     ],
     "psr-4": {
       "Test\\": "test/",
