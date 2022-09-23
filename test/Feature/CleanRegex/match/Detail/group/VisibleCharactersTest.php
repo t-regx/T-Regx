@@ -50,7 +50,6 @@ class VisibleCharactersTest extends TestCase
             ['Foo\ bar', 'Foo\ bar'],
             ["Foo\n bar", 'Foo\n bar'],
 
-            ['śćź', 'śćź'],
             ['!@#$%', '!@#$%'],
             ['Foo€', 'Foo€'],
 

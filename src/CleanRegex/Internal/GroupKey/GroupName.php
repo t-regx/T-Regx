@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\GroupKey;
 
 use TRegx\CleanRegex\Internal\InvalidArgument;
+use TRegx\Pcre;
 
 class GroupName extends GroupKey
 {
@@ -10,10 +11,16 @@ class GroupName extends GroupKey
 
     public function __construct(string $name)
     {
-        if (\preg_match('/^[_a-zA-Z][a-zA-Z0-9_]{0,31}$/DS', $name) === 0) {
+        if (Pcre::pcre2()) {
+            $pattern = '/^[_\p{L}][_\p{L}\p{Nd}]{0,31}$/DSu';
+        } else {
+            $pattern = '/^[_a-zA-Z][a-zA-Z0-9_]{0,31}$/DS';
+        }
+        if (\preg_match($pattern, $name) === 1) {
+            $this->name = $name;
+        } else {
             throw InvalidArgument::typeGiven('Group name must be an alphanumeric string, not starting with a digit', new GroupNameType($name));
         }
-        $this->name = $name;
     }
 
     public function nameOrIndex(): string

@@ -76,4 +76,28 @@ class DataProviders
         $resources = get_resources();
         return reset($resources);
     }
+
+    public static function asciiGroupsNames(): array
+    {
+        return \provided([
+            'group', '_group', 'GROUP',
+            'g', 'a123_', 'a0', 'a9'
+        ]);
+    }
+
+    public static function invalidGroupNames(): array
+    {
+        return named([
+            ['9group', '9group'],
+            ['group space', 'group space'],
+            ["o\xc3", 'o\xc3'], // first unicode byte of "ó"
+            ["o\xb3", 'o\xb3'], // second unicode byte of "ó"
+            [chr(195), '\xc3'], // first unicode byte of "ó"
+            [chr(179), '\xb3'], // second unicode byte of "ó"
+            [chr(254), '\xfe'],
+            [chr(255), '\xff'],
+            ['letterⅤ', 'letterⅤ'],
+            ['fraction¼', 'fraction¼'],
+        ]);
+    }
 }

@@ -148,6 +148,8 @@ Added in 0.37.2
 * Bug fixes
     * Fixed a bug when using internal option setting before newline convention setting
       could've ended with improper placeholder parsing in comments.
+* Features
+    * Group names can now contain unicode characters, when `Pattern` is created with `"u"` modifier.
 
 Added in 0.37.1
 ---------------

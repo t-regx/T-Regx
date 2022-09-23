@@ -67,26 +67,18 @@ class DetailTest extends TestCase
 
     /**
      * @test
-     * @dataProvider invalidGroupNames
+     * @dataProvider \Test\DataProviders::invalidGroupNames()
      * @param string|int $name
      */
-    public function shouldThrowForMalformedName(string $name)
+    public function shouldThrowForMalformedName(string $name, string $expected)
     {
         // given
         $detail = Pattern::of('Foo', 'u')->match('Foo')->first();
         // then
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '$name' given");
+        $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '$expected' given");
         // when
         $detail->group($name);
-    }
-
-    public function invalidGroupNames(): array
-    {
-        return \provided([
-            '9group',
-            'group space',
-        ]);
     }
 
     /**
