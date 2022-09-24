@@ -37,7 +37,6 @@ class VisibleCharactersTest extends TestCase
             ["\2", '\x2'],
             ["\x8", '\b'], # backspace
             ["\t", '\t'], # horizontal tab
-            ["\t", '\t'], # horizontal tab
             ["\n", '\n'], # line feed
             ["\r", '\r'], # carriage return
             ["\v", '\v'], # vertical tab

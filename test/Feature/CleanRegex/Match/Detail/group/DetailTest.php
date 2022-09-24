@@ -114,4 +114,21 @@ class DetailTest extends TestCase
             ["a\xc2\xa0b", 'Group name must be an alphanumeric string, not starting with a digit, but \'a\xc2\xa0b\' given'],
         ];
     }
+
+    /**
+     * @test
+     */
+    public function shouldInvalidUnicodeGroupName_notPoluteUserSpace()
+    {
+        // given
+        $detail = Pattern::of('Foo')->match('Foo')->first();
+        // when
+        try {
+            $detail->group("\xc3\x28");
+        } catch (InvalidArgumentException $exception) {
+        }
+        // then
+        $this->assertSame(null, \error_get_last());
+        $this->assertSame(\PREG_NO_ERROR, \preg_last_error());
+    }
 }

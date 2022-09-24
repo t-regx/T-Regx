@@ -17,6 +17,7 @@ class VisibleCharacters
             return self::formatWord($matches[0]);
         }, $this->string);
         if (\preg_last_error() === \PREG_BAD_UTF8_ERROR) {
+            \preg_match('//', '');
             return \join(\array_map([self::class, 'formatByteOrAscii'], \str_split($this->string)));
         }
         return $result;
