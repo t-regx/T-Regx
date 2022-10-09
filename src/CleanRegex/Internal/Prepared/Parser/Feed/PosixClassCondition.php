@@ -38,7 +38,12 @@ class PosixClassCondition
             '[:alpha:]', '[:alnum:]', '[:ascii:]', '[:blank:]',
             '[:cntrl:]', '[:digit:]', '[:graph:]', '[:lower:]',
             '[:upper:]', '[:print:]', '[:punct:]', '[:space:]',
-            '[:word:]', '[:xdigit:]'
+            '[:word:]', '[:xdigit:]',
+
+            '[:^alpha:]', '[:^alnum:]', '[:^ascii:]', '[:^blank:]',
+            '[:^cntrl:]', '[:^digit:]', '[:^graph:]', '[:^lower:]',
+            '[:^upper:]', '[:^print:]', '[:^punct:]', '[:^space:]',
+            '[:^word:]', '[:^xdigit:]'
         ];
         foreach ($names as $name) {
             if ($this->feed->startsWith($name)) {
