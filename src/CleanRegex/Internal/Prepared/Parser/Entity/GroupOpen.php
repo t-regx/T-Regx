@@ -7,9 +7,17 @@ class GroupOpen implements Entity
 {
     use PatternEntity;
 
+    /** @var string */
+    private $suffix;
+
+    public function __construct(string $suffix = '')
+    {
+        $this->suffix = $suffix;
+    }
+
     public function pattern(): string
     {
-        return '(';
+        return '(' . $this->suffix;
     }
 
     public function visit(Subpattern $subpattern): void

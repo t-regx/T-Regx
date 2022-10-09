@@ -3,6 +3,7 @@ namespace Test\Unit\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Prepared\Parser\ConstantConvention;
+use Test\Fakes\CleanRegex\Internal\Prepared\Parser\Consumer\ConstantPlaceholderConsumer;
 use Test\Fakes\CleanRegex\Internal\Prepared\Parser\ThrowConvention;
 use Test\Fakes\CleanRegex\Internal\Prepared\Template\Cluster\FakeCluster;
 use Test\Utils\Agnostic\PcreDependant;
@@ -249,5 +250,25 @@ class PcreParserTest extends TestCase
         $this->expectException(InternalCleanRegexException::class);
         // when
         $parser->entities();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldParsePlaceholderInGroupName()
+    {
+        // given
+        $consumers = [
+            new GroupConsumer(),
+            new GroupCloseConsumer(),
+            new ConstantPlaceholderConsumer('v'),
+            new LiteralConsumer()
+        ];
+
+        // when
+        $assertion = new PatternEntitiesAssertion($consumers);
+
+        // then
+        $assertion->assertPatternRepresents('(?<@>)', [new GroupOpen('?<@>'), new GroupClose()], '(?<@>)');
     }
 }

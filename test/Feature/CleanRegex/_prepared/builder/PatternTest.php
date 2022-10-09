@@ -7,6 +7,7 @@ use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Exception\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
+use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
 {
@@ -235,5 +236,30 @@ class PatternTest extends TestCase
         // then
         $this->assertConsumesFirst("foo:\x1C|", $pattern);
         $this->assertPatternIs('/foo:(?:\c\)(?>\|)/', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForGroupName_Placeholder()
+    {
+        // given
+        $pattern = Pattern::builder('(?<@>)')->build();
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Subpattern name expected at offset 3');
+        // when
+        $pattern->test('Bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotInjectIntoGroupName()
+    {
+        // given
+        $pattern = Pattern::builder('(?<@>), @')->literal('Foo')->build();
+        // when
+        $this->assertSame('/(?<@>), (?>Foo)/', $pattern->delimited());
     }
 }

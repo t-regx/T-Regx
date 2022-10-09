@@ -6,6 +6,13 @@ Incoming
 
 * Features
     * Add `PatternList.count()`, which allows to count occurrances of many patterns in a subject.
+* Bug fixes
+    * Corrected prepared patterns in malformed patterns.
+
+      When malformed pattern is used, `foo(?<bar@cat>door)` (because of unallowed `@` character in the group name),
+      previously T-Regx would treat `@` as a placeholder, and inject a figure into it. Currently, T-Regx
+      ignores `@` character in the group name, so `PlaceholderFigureException` is not thrown, but
+      `MalformedPatternException` is thrown instead.
 
 Added in 0.37.0
 ---------------

@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Exception\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
+use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
 {
@@ -240,5 +241,30 @@ class PatternTest extends TestCase
         $pattern = Pattern::template('(?m-i:@')->literal('one');
         // when, then
         $this->assertPatternIs('/(?m-i:(?>one)/', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForGroupName_Placeholder()
+    {
+        // given
+        $pattern = Pattern::template('(?<@>), @')->literal('foo');
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Subpattern name expected at offset 3');
+        // when
+        $pattern->test('Bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotInjectIntoGroupName()
+    {
+        // given
+        $pattern = Pattern::template('(?<@>), @')->literal('foo');
+        // when
+        $this->assertSame('/(?<@>), (?>foo)/', $pattern->delimited());
     }
 }
