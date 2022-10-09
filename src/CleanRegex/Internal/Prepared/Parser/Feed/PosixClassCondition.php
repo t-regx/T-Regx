@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser\Feed;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 
-class CharacterClassCondition
+class PosixClassCondition
 {
     /** @var ShiftString */
     private $feed;

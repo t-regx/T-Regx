@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser\Entity;
 
-class Posix implements Entity
+class Character implements Entity
 {
     use TransitiveFlags, PatternEntity;
 

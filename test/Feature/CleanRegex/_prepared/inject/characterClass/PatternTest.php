@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\_prepared\inject\posix;
+namespace Test\Feature\CleanRegex\_prepared\inject\characterClass;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsPattern;
@@ -13,11 +13,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldInjectIntoImmediatelyClosedPosixCharacter()
+    public function shouldInjectIntoImmediatelyClosedCharacterClass()
     {
         // when
         $pattern = Pattern::inject('[]@]', []);
-
         // then
         $this->assertPatternIs('/[]@]/', $pattern);
     }
@@ -25,42 +24,39 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldInjectIntoImmediatelyClosedPosixCharacterTest()
+    public function shouldInjectIntoImmediatelyClosedCharacterClassTest()
     {
         // when
         $pattern = Pattern::inject('^[]@]{2}$', []);
-
         // then
         $this->assertTrue($pattern->test(']@'));
     }
 
     /**
      * @test
-     * @dataProvider characterClasses
+     * @dataProvider posixClasses
      */
     public function shouldInjectIntoPosix_WithNestedCharacterClass(string $pattern, string $delimited, string $subject)
     {
         // when
         $pattern = Pattern::inject($pattern, []);
-
         // then
         $this->assertPatternIs($delimited, $pattern);
     }
 
     /**
      * @test
-     * @dataProvider characterClasses
+     * @dataProvider posixClasses
      */
-    public function shouldInjectIntoPosix_WithNestedCharacterClass_Test(string $pattern, string $delimited, string $subject)
+    public function shouldInjectIntoCharacterClass_WithPosixClass(string $pattern, string $delimited, string $subject)
     {
         // when
         $pattern = Pattern::inject($pattern, []);
-
         // then
         $this->assertTrue($pattern->test($subject));
     }
 
-    public function characterClasses(): array
+    public function posixClasses(): array
     {
         return [
             '[:alpha:]'  => ['[[:alpha:]@]{2}', '/[[:alpha:]@]{2}/', 'a@'],
@@ -84,11 +80,10 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldIncludePlaceholderAfterCharacterClass()
+    public function shouldIncludePlaceholderAfterCharacterClassPosix()
     {
         // when
         $pattern = Pattern::inject('^[[:alpha:]]@$', ['Placeholder']);
-
         // then
         $this->assertTrue($pattern->test('VPlaceholder'));
     }
@@ -100,7 +95,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject('^[[:word:]]@$', ['Placeholder']);
-
         // then
         $this->assertTrue($pattern->test('VPlaceholder'));
     }
@@ -108,15 +102,13 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotAcceptPlaceholderAfterInvalidClassName()
+    public function shouldNotAcceptPlaceholderAfterInvalidPosixClass()
     {
         // when
         $pattern = Pattern::inject('^[[:x:]@]$', ['Placeholder']);
-
         // then
         $this->expectException(PregMalformedPatternException::class);
         $this->expectExceptionMessage('Unknown POSIX class name at offset 4');
-
         // then
         $pattern->test('Bar');
     }

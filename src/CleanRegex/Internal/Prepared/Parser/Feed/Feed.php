@@ -7,8 +7,8 @@ class Feed
     private $shiftString;
     /** @var Letter */
     private $letter;
-    /** @var CharacterClassCondition */
-    private $characterClass;
+    /** @var PosixClassCondition */
+    private $posixClass;
     /** @var ConstantStrings */
     private $constantStrings;
 
@@ -16,7 +16,7 @@ class Feed
     {
         $this->shiftString = new ShiftString($string);
         $this->letter = new Letter($this->shiftString);
-        $this->characterClass = new CharacterClassCondition($this->shiftString);
+        $this->posixClass = new PosixClassCondition($this->shiftString);
         $this->constantStrings = new ConstantStrings($this->shiftString);
     }
 
@@ -35,9 +35,9 @@ class Feed
         return new OneOf($this->shiftString, $values);
     }
 
-    public function characterClass(): CharacterClassCondition
+    public function posixClass(): PosixClassCondition
     {
-        return $this->characterClass;
+        return $this->posixClass;
     }
 
     public function matchedString(string $regex, int $groups): MatchedString

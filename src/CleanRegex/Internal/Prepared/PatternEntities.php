@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared;
 
+use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CharacterClassConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CommentConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\ControlConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\EscapeConsumer;
@@ -8,7 +9,6 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupCloseConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\PlaceholderConsumer;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\PosixConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\QuoteConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Convention;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
@@ -30,7 +30,7 @@ class PatternEntities
             new GroupConsumer(),
             new GroupCloseConsumer(),
             $placeholderConsumer,
-            new PosixConsumer(),
+            new CharacterClassConsumer(),
             new CommentConsumer(new Convention($pattern->pattern())),
             new LiteralConsumer(),
         ]);

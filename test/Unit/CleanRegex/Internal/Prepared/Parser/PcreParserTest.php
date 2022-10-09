@@ -12,6 +12,7 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\ArrayClusters;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\ExpectedClusters;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CharacterClassConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CommentConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\ControlConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\EscapeConsumer;
@@ -19,8 +20,10 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\FiguresPlaceholderConsume
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupCloseConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralConsumer;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\PosixConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\QuoteConsumer;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Character;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\ClassClose;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\ClassOpen;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Comment;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Control;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Escaped;
@@ -29,9 +32,6 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpen;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpenFlags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupRemainder;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Placeholder;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Posix;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\PosixClose;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\PosixOpen;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Quote;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
@@ -59,7 +59,7 @@ class PcreParserTest extends TestCase
             new EscapeConsumer(),
             new GroupConsumer(),
             new GroupCloseConsumer(),
-            new PosixConsumer(),
+            new CharacterClassConsumer(),
             new CommentConsumer(new ThrowConvention()),
             new LiteralConsumer(),
         ];
@@ -82,8 +82,8 @@ class PcreParserTest extends TestCase
             'empty'         => ['', []],
             'control'       => ['ab\c\word', ['ab', new Control('\\'), 'word']],
             'quotes'        => ['\Q{@}(hi)[hey]\E', [new Quote('{@}(hi)[hey]', true)]],
-            'posix+quotes'  => ['[\Qa-z]\E$', [new PosixOpen(), new Quote('a-z]', true), new Posix('$')]],
-            'groups+posix'  => ['(?x:[a-z])$', [new GroupOpenFlags('x'), new PosixOpen(), new Posix('a-z'), new PosixClose(), new GroupClose(), '$']],
+            'class+quotes'  => ['[\Qa-z]\E$', [new ClassOpen(), new Quote('a-z]', true), new Character('$')]],
+            'groups+class'  => ['(?x:[a-z])$', [new GroupOpenFlags('x'), new ClassOpen(), new Character('a-z'), new ClassClose(), new GroupClose(), '$']],
             'backreference' => ['((?-2))', [new GroupOpen(), new GroupOpen(), '?-2', new GroupClose(), new GroupClose()]],
 
             'atomic #1' => ['(?>\d)', [new GroupOpen(), '?>', new Escaped('d'), new GroupClose()]],

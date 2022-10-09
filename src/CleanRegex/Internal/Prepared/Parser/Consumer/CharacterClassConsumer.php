@@ -1,13 +1,13 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser\Consumer;
 
-use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Posix;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\PosixClose;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\PosixOpen;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Character;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\ClassClose;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\ClassOpen;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 
-class PosixConsumer implements Consumer
+class CharacterClassConsumer implements Consumer
 {
     public function condition(Feed $feed): Condition
     {
@@ -16,11 +16,11 @@ class PosixConsumer implements Consumer
 
     public function consume(Feed $feed, EntitySequence $entities): void
     {
-        $entities->append(new PosixOpen());
-        $posix = '';
+        $entities->append(new ClassOpen());
+        $consumed = '';
         $immediatelyFollowed = $feed->string(']');
         if ($immediatelyFollowed->consumable()) {
-            $posix .= ']';
+            $consumed .= ']';
             $immediatelyFollowed->commit();
         }
         $quoteConsumer = new QuoteConsumer();
@@ -28,31 +28,31 @@ class PosixConsumer implements Consumer
             $closingTag = $feed->string(']');
             if ($closingTag->consumable()) {
                 $closingTag->commit();
-                if ($posix !== '') {
-                    $entities->append(new Posix($posix));
+                if ($consumed !== '') {
+                    $entities->append(new Character($consumed));
                 }
-                $entities->append(new PosixClose());
+                $entities->append(new ClassClose());
                 return;
             }
             $condition = $quoteConsumer->condition($feed);
             if ($condition->met($entities)) {
                 $condition->commit();
-                if ($posix !== '') {
-                    $entities->append(new Posix($posix));
-                    $posix = '';
+                if ($consumed !== '') {
+                    $entities->append(new Character($consumed));
+                    $consumed = '';
                 }
                 $quoteConsumer->consume($feed, $entities);
                 continue;
             }
-            $condition = $feed->characterClass();
+            $condition = $feed->posixClass();
             if ($condition->consumable()) {
                 $class = $condition->asString();
                 $condition->commit();
-                if ($posix !== '') {
-                    $entities->append(new Posix($posix));
-                    $posix = '';
+                if ($consumed !== '') {
+                    $entities->append(new Character($consumed));
+                    $consumed = '';
                 }
-                $entities->append(new Posix($class));
+                $entities->append(new Character($class));
                 continue;
             }
             $feedLetter = $feed->letter();
@@ -62,20 +62,20 @@ class PosixConsumer implements Consumer
             $letter = $feedLetter->asString();
             $feedLetter->commit();
             if ($letter !== '\\') {
-                $posix .= $letter;
+                $consumed .= $letter;
             } else {
                 $escapedLetter = $feed->letter();
                 if ($escapedLetter->consumable()) {
                     $escaped = $escapedLetter->asString();
                     $escapedLetter->commit();
-                    $posix .= "\\$escaped";
+                    $consumed .= "\\$escaped";
                 } else {
-                    $posix .= "\\";
+                    $consumed .= "\\";
                 }
             }
         }
-        if ($posix !== '') {
-            $entities->append(new Posix($posix));
+        if ($consumed !== '') {
+            $entities->append(new Character($consumed));
         }
     }
 }
