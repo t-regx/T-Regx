@@ -327,4 +327,16 @@ class pregTest extends TestCase
         // then
         $this->assertTrue(true);
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForInvalidCharacterInGroupName()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Subpattern name expected at offset 3');
+        // when
+        preg::match('/(?<$>foo)/', 'foo', $match);
+    }
 }

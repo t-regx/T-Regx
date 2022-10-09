@@ -55,19 +55,20 @@ class CompilePregExceptionFactory
 
     private function cleanMessage(string $message): string
     {
-        $value = \str_replace('(PCRE2_DUPNAMES not set) ', '', $message);
+        $message = \str_replace('(PCRE2_DUPNAMES not set) ', '', $message);
+        $message = \str_replace('Unrecognized character after (?< at offset ', 'Subpattern name expected at offset ', $message);
 
         if (\version_compare(\PHP_VERSION, '7.3.0', '<')) {
-            if (\preg_match("/^Two named subpatterns have the same name at offset (\d+)$/", $value, $match)) {
+            if (\preg_match("/^Two named subpatterns have the same name at offset (\d+)$/", $message, $match)) {
                 $offset = $match[1] + 1; // increase offset by 1, to fix php inconsistencies
                 return "Two named subpatterns have the same name at offset $offset";
             }
-            if (\preg_match("/^Nothing to repeat at offset (\d+)$/", $value, $match)) {
+            if (\preg_match("/^Nothing to repeat at offset (\d+)$/", $message, $match)) {
                 $offset = $match[1];
                 return "Quantifier does not follow a repeatable item at offset $offset";
             }
         }
 
-        return $value;
+        return $message;
     }
 }
