@@ -1,38 +1,48 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
+use Generator;
+
 class Convention
 {
     /** @var string */
     private $pattern;
     /** @var string[][] */
-    private $lineEndings;
+    private $lineEndings = [
+        'CR'      => ["\r"],
+        'LF'      => ["\n"],
+        'CRLF'    => ["\r\n"],
+        'ANYCRLF' => ["\r\n", "\r", "\n"],
+        'ANY'     => ["\r\n", "\r", "\n", "\v", "\f", "\xc2\x85"],
+        'NUL'     => ["\0"],
+    ];
 
     public function __construct(string $pattern)
     {
         $this->pattern = $pattern;
-        $this->lineEndings = [
-            '(*CR)'      => ["\r"],
-            '(*LF)'      => ["\n"],
-            '(*CRLF)'    => ["\r\n"],
-            '(*ANYCRLF)' => ["\r\n", "\r", "\n"],
-            '(*ANY)'     => ["\r\n", "\r", "\n", "\v", "\f", "\xc2\x85"],
-            '(*NUL)'     => ["\0"],
-        ];
     }
 
     public function lineEndings(): array
     {
-        return $this->shiftedConventionEndings($this->pattern, ["\n"]);
-    }
-
-    private function shiftedConventionEndings(string $pattern, array $finalConventionEndings): array
-    {
-        foreach ($this->lineEndings as $verb => $endings) {
-            if (\strPos($pattern, $verb) === 0) {
-                return $this->shiftedConventionEndings(\subStr($pattern, \strLen($verb)), $endings);
+        foreach ($this->prioritizedOptionNames() as $optionName) {
+            if (\array_key_exists($optionName, $this->lineEndings)) {
+                return $this->lineEndings[$optionName];
             }
         }
-        return $finalConventionEndings;
+        return ["\n"];
+    }
+
+    private function prioritizedOptionNames(): Generator
+    {
+        $options = $this->internalOptions();
+        for (\end($options); \key($options) !== null; \prev($options)) {
+            yield \current($options);
+        }
+    }
+
+    private function internalOptions(): array
+    {
+        \preg_match_all("/\(\*([A-Z_]+)=?[0-9]*\)/A", $this->pattern, $match);
+        return $match[1];
     }
 }

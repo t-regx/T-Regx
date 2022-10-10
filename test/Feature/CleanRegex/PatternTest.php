@@ -2,6 +2,7 @@
 namespace Test\Feature\CleanRegex;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Agnostic\PcreDependant;
 use Test\Utils\Assertion\AssertsDetail;
 use Test\Utils\Assertion\AssertsPattern;
 use Test\Utils\Functions;
@@ -17,7 +18,7 @@ use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
 {
-    use AssertsPattern, AssertsDetail, TestCasePasses, AssertsStructure;
+    use AssertsPattern, AssertsDetail, TestCasePasses, AssertsStructure, PcreDependant;
 
     /**
      * @test
@@ -512,9 +513,6 @@ class PatternTest extends TestCase
 
     public function groupNames(): array
     {
-        return [
-            ['gróup'],
-            ['ßark'],
-        ];
+        return $this->onPcre2(\provided(['gróup', 'ßark']));
     }
 }

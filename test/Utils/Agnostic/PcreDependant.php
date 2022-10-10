@@ -7,6 +7,14 @@ use TRegx\Pcre;
 
 trait PcreDependant
 {
+    public function onPcre2(array $dataProvider): array
+    {
+        if (Pcre::pcre2()) {
+            return $dataProvider;
+        }
+        return [];
+    }
+
     public function pcreDependentStructure(array $pcre1Patterns, array $pcre2Patterns): array
     {
         $this->assertStructuresCompatible(array_values($pcre1Patterns), array_values($pcre2Patterns));
