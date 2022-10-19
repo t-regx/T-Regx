@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.37.2
+---------------
+
 * Bug fixes
     * Fixed a bug when using internal option setting before newline convention setting
       could've ended with improer placeholder parsing in comments.
