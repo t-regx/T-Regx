@@ -6,26 +6,29 @@ use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 use TRegx\CleanRegex\Internal\Subject;
 
-class AtMostCountingStrategy implements CountingStrategy
+class ExactCountingStrategy implements CountingStrategy
 {
     /** @var Exceed */
-    private $exeed;
+    private $exceed;
     /** @var int */
     private $limit;
     /** @var string */
-    private $limitPhrase;
+    private $phrase;
 
     public function __construct(Definition $definition, Subject $subject, int $limit, string $phrase)
     {
-        $this->exeed = new Exceed($definition, $subject);
+        $this->exceed = new Exceed($definition, $subject);
         $this->limit = $limit;
-        $this->limitPhrase = $phrase;
+        $this->phrase = $phrase;
     }
 
     public function count(int $replaced, GroupAware $groupAware): void
     {
-        if ($this->exeed->exeeds($this->limit)) {
-            throw ReplacementExpectationFailedException::superfluous($this->limit, $this->limitPhrase);
+        if ($replaced < $this->limit) {
+            throw ReplacementExpectationFailedException::insufficient($replaced, $this->limit, $this->phrase);
+        }
+        if ($this->exceed->exeeds($this->limit)) {
+            throw ReplacementExpectationFailedException::superfluous($this->limit, $this->phrase);
         }
     }
 }
