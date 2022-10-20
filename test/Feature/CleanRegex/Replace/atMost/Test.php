@@ -28,7 +28,7 @@ class Test extends TestCase
     {
         // then
         $this->expectException(ReplacementExpectationFailedException::class);
-        $this->expectExceptionMessage('Expected to perform at most 1 replacement(s), but at least 2 replacement(s) would have been performed');
+        $this->expectExceptionMessage('Expected to perform at most 1 replacement(s), but more than 1 replacement(s) would have been performed');
         // when
         pattern('Foo')->replace('Foo Foo Bar Bar')->first()->atMost()->with('Bar');
     }
@@ -73,7 +73,7 @@ class Test extends TestCase
     {
         // then
         $this->expectException(ReplacementExpectationFailedException::class);
-        $this->expectExceptionMessage('Expected to perform at most 2 replacement(s), but at least 3 replacement(s) would have been performed');
+        $this->expectExceptionMessage('Expected to perform at most 2 replacement(s), but more than 2 replacement(s) would have been performed');
         // when
         pattern('Foo')->replace('Foo Foo Foo Bar')->only(2)->atMost()->with('Bar');
     }

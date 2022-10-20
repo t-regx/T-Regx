@@ -30,7 +30,7 @@ class AtMostCountingStrategy implements CountingStrategy
     {
         preg::replace($this->definition->pattern, '', $this->subject, $this->limit + 1, $realCount);
         if ($realCount > $this->limit) {
-            throw ReplacementExpectationFailedException::superfluous($realCount, $this->limit, $this->limitPhrase);
+            throw ReplacementExpectationFailedException::superfluous($this->limit, $this->limitPhrase);
         }
     }
 }

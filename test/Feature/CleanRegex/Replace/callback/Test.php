@@ -95,7 +95,7 @@ class Test extends TestCase
     {
         // then
         $this->expectException(ReplacementExpectationFailedException::class);
-        $this->expectExceptionMessage('Expected to perform exactly 1 replacement(s), but at least 2 replacement(s) would have been performed');
+        $this->expectExceptionMessage('Expected to perform exactly 1 replacement(s), but more than 1 replacement(s) would have been performed');
         // when
         $this->backtrackingReplace(2)->first()->exactly()->callback(Functions::constant('Foo'));
     }
