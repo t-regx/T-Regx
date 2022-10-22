@@ -33,6 +33,8 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
     private $substitute;
     /** @var CountingStrategy */
     private $countingStrategy;
+    /** @var CallbackInvoker */
+    private $invoker;
 
     public function __construct(Definition $definition, Subject $subject, int $limit, SubjectRs $substitute, CountingStrategy $countingStrategy)
     {
@@ -41,6 +43,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
         $this->limit = $limit;
         $this->substitute = $substitute;
         $this->countingStrategy = $countingStrategy;
+        $this->invoker = new CallbackInvoker($definition, $subject, $limit, $countingStrategy, new NaiveSubstitute($substitute));
     }
 
     public function with(string $replacement): string
@@ -60,9 +63,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
 
     public function callback(callable $callback): string
     {
-        $invoker = new CallbackInvoker($this->definition, $this->subject, $this->limit, $this->countingStrategy,
-            new NaiveSubstitute($this->substitute));
-        return $invoker->invoke($callback, new MatchStrategy());
+        return $this->invoker->invoke($callback, new MatchStrategy());
     }
 
     /**
