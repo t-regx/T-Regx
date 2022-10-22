@@ -54,7 +54,7 @@ class SpecificReplacePatternImpl implements SpecificReplacePattern, CompositeRep
     public function withReferences(string $replacement): string
     {
         $result = preg::replace($this->definition->pattern, $replacement, $this->subject, $this->limit, $replaced);
-        $this->countingStrategy->count($replaced, new LightweightGroupAware($this->definition));
+        $this->countingStrategy->applyReplaced($replaced, new LightweightGroupAware($this->definition));
         if ($replaced === 0) {
             return $this->substitute->substitute() ?? $result;
         }

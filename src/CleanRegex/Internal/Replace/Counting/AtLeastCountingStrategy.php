@@ -14,7 +14,7 @@ class AtLeastCountingStrategy implements CountingStrategy
         $this->minimum = $minimum;
     }
 
-    public function count(int $replaced, GroupAware $groupAware): void
+    public function applyReplaced(int $replaced, GroupAware $groupAware): void
     {
         if ($replaced < $this->minimum) {
             throw ReplacementExpectationFailedException::insufficient($replaced, $this->minimum, 'at least');

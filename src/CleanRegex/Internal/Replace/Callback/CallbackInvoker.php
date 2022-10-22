@@ -44,7 +44,7 @@ class CallbackInvoker
     public function invoke(callable $callback, ReplaceCallbackArgumentStrategy $strategy): string
     {
         $result = $this->pregReplaceCallback($callback, $replaced, $strategy);
-        $this->countingStrategy->count($replaced, new LightweightGroupAware($this->definition));
+        $this->countingStrategy->applyReplaced($replaced, new LightweightGroupAware($this->definition));
         if ($replaced === 0) {
             return $this->substitute->substitute($result);
         }

@@ -17,7 +17,7 @@ class CallbackCountingStrategy implements CountingStrategy
         $this->subject = $subject;
     }
 
-    public function count(int $replaced, GroupAware $groupAware): void
+    public function applyReplaced(int $replaced, GroupAware $groupAware): void
     {
         ($this->countReceiver)($replaced, new PatternStructure($this->subject, $groupAware));
     }

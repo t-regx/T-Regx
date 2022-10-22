@@ -19,7 +19,7 @@ class ExactCountingStrategy implements CountingStrategy
         $this->amount = $amount;
     }
 
-    public function count(int $replaced, GroupAware $groupAware): void
+    public function applyReplaced(int $replaced, GroupAware $groupAware): void
     {
         if ($replaced < $this->amount) {
             throw ReplacementExpectationFailedException::insufficient($replaced, $this->amount, 'exactly');

@@ -19,7 +19,7 @@ class AtMostCountingStrategy implements CountingStrategy
         $this->maximum = $maximum;
     }
 
-    public function count(int $replaced, GroupAware $groupAware): void
+    public function applyReplaced(int $replaced, GroupAware $groupAware): void
     {
         if ($this->exeed->exeeds($this->maximum)) {
             throw ReplacementExpectationFailedException::superfluous($this->maximum, 'at most');

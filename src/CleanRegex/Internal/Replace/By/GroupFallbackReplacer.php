@@ -60,7 +60,7 @@ class GroupFallbackReplacer
     private function replaceUsingCallback(callable $closure): string
     {
         $result = $this->pregReplaceCallback($closure, $replaced);
-        $this->countingStrategy->count($replaced, $this->groupAware);
+        $this->countingStrategy->applyReplaced($replaced, $this->groupAware);
         if ($replaced === 0) {
             return $this->substitute->substitute() ?? $result;
         }
