@@ -4,7 +4,9 @@ namespace TRegx\CleanRegex\Replace;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Replace\Callback\CallbackInvoker;
+use TRegx\CleanRegex\Internal\Replace\Counter;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
+use TRegx\CleanRegex\Internal\Replace\Counting\StateStrategy;
 use TRegx\CleanRegex\Internal\Replace\GroupReplace\GroupReplace;
 use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
 use TRegx\CleanRegex\Internal\Subject;
@@ -30,8 +32,8 @@ class LimitedReplace
         $this->definition = $definition;
         $this->subject = $subject;
         $this->limit = $limit;
-        $this->countingStrategy = $countingStrategy;
-        $this->invoker = new CallbackInvoker($definition, $subject, $limit, $countingStrategy);
+        $this->countingStrategy = new StateStrategy($countingStrategy, new Counter($definition, $subject, $limit));
+        $this->invoker = new CallbackInvoker($definition, $subject, $limit, $this->countingStrategy);
         $this->groupReplace = new GroupReplace($definition, $subject, $limit, $this->countingStrategy);
     }
 
@@ -55,5 +57,10 @@ class LimitedReplace
     public function callback(callable $callback): string
     {
         return $this->invoker->invoke($callback);
+    }
+
+    public function count(): int
+    {
+        return $this->countingStrategy->count();
     }
 }

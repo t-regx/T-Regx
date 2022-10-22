@@ -44,6 +44,11 @@ class Replace
         return $this->replace->callback($callback);
     }
 
+    public function count(): int
+    {
+        return $this->replace->count();
+    }
+
     public function first(): LimitedReplace
     {
         return $this->exactly(1);
@@ -51,12 +56,12 @@ class Replace
 
     public function exactly(int $amount): LimitedReplace
     {
-        return new LimitedReplace($this->definition, $this->subject, $amount, new ExactCountingStrategy($this->definition, $this->subject, $amount));
+        return new LimitedReplace($this->definition, $this->subject, $amount + 1, new ExactCountingStrategy($amount));
     }
 
     public function atMost(int $maximum): LimitedReplace
     {
-        return new LimitedReplace($this->definition, $this->subject, $maximum, new AtMostCountingStrategy($this->definition, $this->subject, $maximum));
+        return new LimitedReplace($this->definition, $this->subject, $maximum + 1, new AtMostCountingStrategy($maximum));
     }
 
     public function atLeast(int $minimum): LimitedReplace

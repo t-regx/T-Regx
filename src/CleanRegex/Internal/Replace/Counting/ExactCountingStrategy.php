@@ -2,19 +2,14 @@
 namespace TRegx\CleanRegex\Internal\Replace\Counting;
 
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
-use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Subject;
 
 class ExactCountingStrategy implements CountingStrategy
 {
-    /** @var Exceed */
-    private $exceed;
     /** @var int */
     private $amount;
 
-    public function __construct(Definition $definition, Subject $subject, int $amount)
+    public function __construct(int $amount)
     {
-        $this->exceed = new Exceed($definition, $subject);
         $this->amount = $amount;
     }
 
@@ -23,7 +18,7 @@ class ExactCountingStrategy implements CountingStrategy
         if ($replaced < $this->amount) {
             throw ReplacementExpectationFailedException::insufficient($replaced, $this->amount, 'exactly');
         }
-        if ($this->exceed->exeeds($this->amount)) {
+        if ($replaced > $this->amount) {
             throw ReplacementExpectationFailedException::superfluous($this->amount, 'exactly');
         }
     }
