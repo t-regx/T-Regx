@@ -11,21 +11,18 @@ class AtMostCountingStrategy implements CountingStrategy
     /** @var Exceed */
     private $exeed;
     /** @var int */
-    private $limit;
-    /** @var string */
-    private $limitPhrase;
+    private $maximum;
 
-    public function __construct(Definition $definition, Subject $subject, int $limit, string $phrase)
+    public function __construct(Definition $definition, Subject $subject, int $maximum)
     {
         $this->exeed = new Exceed($definition, $subject);
-        $this->limit = $limit;
-        $this->limitPhrase = $phrase;
+        $this->maximum = $maximum;
     }
 
     public function count(int $replaced, GroupAware $groupAware): void
     {
-        if ($this->exeed->exeeds($this->limit)) {
-            throw ReplacementExpectationFailedException::superfluous($this->limit, $this->limitPhrase);
+        if ($this->exeed->exeeds($this->maximum)) {
+            throw ReplacementExpectationFailedException::superfluous($this->maximum, 'at most');
         }
     }
 }

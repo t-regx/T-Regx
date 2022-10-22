@@ -7,20 +7,17 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
 class AtLeastCountingStrategy implements CountingStrategy
 {
     /** @var int */
-    private $limit;
-    /** @var string */
-    private $limitPhrase;
+    private $minimum;
 
-    public function __construct(int $limit, string $phrase)
+    public function __construct(int $minimum)
     {
-        $this->limit = $limit;
-        $this->limitPhrase = $phrase;
+        $this->minimum = $minimum;
     }
 
     public function count(int $replaced, GroupAware $groupAware): void
     {
-        if ($replaced < $this->limit) {
-            throw ReplacementExpectationFailedException::insufficient($replaced, $this->limit, $this->limitPhrase);
+        if ($replaced < $this->minimum) {
+            throw ReplacementExpectationFailedException::insufficient($replaced, $this->minimum, 'at least');
         }
     }
 }

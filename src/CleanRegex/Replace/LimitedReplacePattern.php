@@ -10,16 +10,16 @@ class LimitedReplacePattern extends ReplacePatternImpl
 {
     public function exactly(): CompositeReplacePattern
     {
-        return $this->replacePattern(new DefaultStrategy(), new ExactCountingStrategy($this->definition, $this->subject, $this->limit, 'exactly'));
+        return $this->replacePattern(new DefaultStrategy(), new ExactCountingStrategy($this->definition, $this->subject, $this->limit));
     }
 
     public function atLeast(): CompositeReplacePattern
     {
-        return $this->replacePattern(new DefaultStrategy(), new AtLeastCountingStrategy($this->limit, 'at least'));
+        return $this->replacePattern(new DefaultStrategy(), new AtLeastCountingStrategy($this->limit));
     }
 
     public function atMost(): CompositeReplacePattern
     {
-        return $this->replacePattern(new DefaultStrategy(), new AtMostCountingStrategy($this->definition, $this->subject, $this->limit, 'at most'));
+        return $this->replacePattern(new DefaultStrategy(), new AtMostCountingStrategy($this->definition, $this->subject, $this->limit));
     }
 }

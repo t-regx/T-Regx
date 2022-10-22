@@ -11,24 +11,21 @@ class ExactCountingStrategy implements CountingStrategy
     /** @var Exceed */
     private $exceed;
     /** @var int */
-    private $limit;
-    /** @var string */
-    private $phrase;
+    private $amount;
 
-    public function __construct(Definition $definition, Subject $subject, int $limit, string $phrase)
+    public function __construct(Definition $definition, Subject $subject, int $amount)
     {
         $this->exceed = new Exceed($definition, $subject);
-        $this->limit = $limit;
-        $this->phrase = $phrase;
+        $this->amount = $amount;
     }
 
     public function count(int $replaced, GroupAware $groupAware): void
     {
-        if ($replaced < $this->limit) {
-            throw ReplacementExpectationFailedException::insufficient($replaced, $this->limit, $this->phrase);
+        if ($replaced < $this->amount) {
+            throw ReplacementExpectationFailedException::insufficient($replaced, $this->amount, 'exactly');
         }
-        if ($this->exceed->exeeds($this->limit)) {
-            throw ReplacementExpectationFailedException::superfluous($this->limit, $this->phrase);
+        if ($this->exceed->exeeds($this->amount)) {
+            throw ReplacementExpectationFailedException::superfluous($this->amount, 'exactly');
         }
     }
 }
