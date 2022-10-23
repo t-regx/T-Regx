@@ -6,6 +6,25 @@ Incoming
 
 * Soon
 
+Added in 0.38.0
+---------------
+
+* Breaking changes
+    * Revamped `Pattern.replace()` functionality.
+    * Removed `focus()` and `substitute()` - useful feature, however it proved to be unreliable when used with
+      look-aheads, look-behinds and `\K` resets. The functionallity is available through a separate `"t-regx"` package.
+    * Callback in `replace().callback()` no longer accepts `Detail` or `Group` as a return value.
+
+Migration guide:
+
+- Removed `focus()` - To continue using functinallity, use a separate package.
+- Removed `Group.substitute()` - To continue using functinallity, use a separate package.
+- Removed `replace().by()` - use `replace().callback()` or `replace().withGroup()`
+- Removed `replace().counting()` - use `replace.count()`
+- Removed `replace().all()` - omit call to `all()`
+- Updated `replace().callback()` return type - return `Detail.text()` or `Group.text()` as a return value.
+- Renamed `ReplaceLimit` to `Replace`.
+
 Added in 0.37.2
 ---------------
 
