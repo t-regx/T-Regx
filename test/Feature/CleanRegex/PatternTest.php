@@ -110,52 +110,10 @@ class PatternTest extends TestCase
         ];
 
         // when
-        $result = pattern('[A-Z][a-z]+')->forArray($array)->filter();
+        $filtered = pattern('[A-Z][a-z]+')->filter($array);
 
         // then
-        $this->assertSame(['Uppercase', 'Uppercase again'], $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFilterArray_assoc()
-    {
-        // given
-        $array = [
-            'a' => 'Uppercase',
-            'b' => 'lowercase',
-            'c' => 'Uppercase again',
-            'd' => 'lowercase again',
-        ];
-
-        // when
-        $result = pattern('[A-Z][a-z]+')->forArray($array)->filterAssoc();
-
-        // then
-        $expected = ['a' => 'Uppercase', 'c' => 'Uppercase again'];
-        $this->assertSame($expected, $result);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldFilterArray_byKeys()
-    {
-        // given
-        $array = [
-            'Uppercase'       => 0,
-            'lowercase'       => 1,
-            'Uppercase again' => 2,
-            'lowercase again' => 3,
-        ];
-
-        // when
-        $result = pattern('[A-Z][a-z]+')->forArray($array)->filterByKeys();
-
-        // then
-        $expected = ['Uppercase' => 0, 'Uppercase again' => 2];
-        $this->assertSame($expected, $result);
+        $this->assertSame(['Uppercase', 'Uppercase again'], $filtered);
     }
 
     /**

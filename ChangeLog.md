@@ -4,6 +4,12 @@ T-Regx Changelog
 Incoming
 --------
 
+* Breaking changes
+    * Removed `Pattern.forArray().filter()`. Use `Pattern.filter()` instead.
+    * Removed `Pattern.forArray().filterAssoc()`.
+    * Removed `Pattern.forArray().filterByKeys()`.
+* Features
+    * Added `Pattern.filter()`, which filters subjects which match the pattern (exactly like previous `Pattern.forArray().filter()`).
 * Other
     * Public exceptions now extend `\RuntimeException`, instead of `\Exception`.
 

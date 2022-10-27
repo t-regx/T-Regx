@@ -1,10 +1,10 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\ForArray\ForArrayPattern;
 use TRegx\CleanRegex\Internal\EntryPoints;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
+use TRegx\CleanRegex\Internal\Filter;
 use TRegx\CleanRegex\Internal\Needle;
 use TRegx\CleanRegex\Internal\Splits;
 use TRegx\CleanRegex\Internal\Subject;
@@ -21,11 +21,14 @@ class Pattern
     private $predefinition;
     /** @var Needle */
     private $needle;
+    /** @var Filter */
+    private $filter;
 
     public function __construct(Expression $expression)
     {
         $this->predefinition = $expression->predefinition();
         $this->needle = new Needle($this->predefinition);
+        $this->filter = new Filter($this->predefinition);
     }
 
     public function test(string $subject): bool
@@ -58,9 +61,13 @@ class Pattern
         return preg::replace($this->predefinition->definition()->pattern, '', $subject);
     }
 
-    public function forArray(array $haystack): ForArrayPattern
+    /**
+     * @param string[] $subjects
+     * @return string[]
+     */
+    public function filter(array $subjects): array
     {
-        return new ForArrayPattern($this->predefinition->definition(), $haystack);
+        return $this->filter->filtered($subjects);
     }
 
     /**
