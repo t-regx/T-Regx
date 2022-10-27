@@ -229,7 +229,7 @@ class StreamTest extends TestCase
     {
         // then
         $this->expectException(NoSuchStreamElementException::class);
-        $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
         // when
         ArrayStream::unmatched()->skip(1)->first();
     }
@@ -241,7 +241,7 @@ class StreamTest extends TestCase
     {
         // then
         $this->expectException(NoSuchStreamElementException::class);
-        $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
         // when
         ArrayStream::unmatched()->skip(1)->keys()->first();
     }

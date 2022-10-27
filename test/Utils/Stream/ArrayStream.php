@@ -1,6 +1,7 @@
 <?php
 namespace Test\Utils\Stream;
 
+use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Match\Stream;
@@ -14,7 +15,17 @@ class ArrayStream
 
     public static function unmatched(): Stream
     {
-        return new Stream(self::upstream([]));
+        return new Stream(new class implements Upstream {
+            public function all(): array
+            {
+                throw new UnmatchedStreamException();
+            }
+
+            public function first(): array
+            {
+                throw new UnmatchedStreamException();
+            }
+        });
     }
 
     public static function of(array $elements): Stream

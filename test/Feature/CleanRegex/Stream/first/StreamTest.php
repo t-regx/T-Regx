@@ -19,7 +19,7 @@ class StreamTest extends TestCase
         $stream = ArrayStream::unmatched();
         // then
         $this->expectException(NoSuchStreamElementException::class);
-        $this->expectExceptionMessage('Expected to get the first stream element, but the stream has 0 element(s)');
+        $this->expectExceptionMessage('Expected to get the first match, but subject was not matched');
         // when
         $stream->first();
     }
