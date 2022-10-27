@@ -12,13 +12,13 @@ Added in 0.38.0
 * Breaking changes
     * Revamped `Pattern.replace()` functionality.
     * Removed `focus()` and `substitute()` - useful feature, however it proved to be unreliable when used with
-      look-aheads, look-behinds and `\K` resets. The functionallity is available through a separate `"t-regx"` package.
+      look-aheads, look-behinds and `\K` resets. The functionality is available through a separate `"t-regx"` package.
     * Callback in `replace().callback()` no longer accepts `Detail` or `Group` as a return value.
 
 Migration guide:
 
-- Removed `focus()` - To continue using functinallity, use a separate package.
-- Removed `Group.substitute()` - To continue using functinallity, use a separate package.
+- Removed `focus()` - To continue using functionality, use a separate package.
+- Removed `Group.substitute()` - To continue using functionality, use a separate package.
 - Removed `replace().by()` - use `replace().callback()` or `replace().withGroup()`
 - Removed `replace().counting()` - use `replace.count()`
 - Removed `replace().all()` - omit call to `all()`
@@ -30,17 +30,17 @@ Added in 0.37.2
 
 * Bug fixes
     * Fixed a bug when using internal option setting before newline convention setting
-      could've ended with improer placeholder parsing in comments.
+      could've ended with improper placeholder parsing in comments.
 
 Added in 0.37.1
 ---------------
 
 * Features
-    * Add `PatternList.count()`, which allows to count occurrances of many patterns in a subject.
+    * Add `PatternList.count()`, which allows to count occurrences of many patterns in a subject.
 * Bug fixes
     * Corrected prepared patterns in malformed patterns.
 
-      When malformed pattern is used, `foo(?<bar@cat>door)` (because of unallowed `@` character in the group name),
+      When malformed pattern is used, `foo(?<bar@cat>door)` (because of unalloyed `@` character in the group name),
       previously T-Regx would treat `@` as a placeholder, and inject a figure into it. Currently, T-Regx
       ignores `@` character in the group name, so `PlaceholderFigureException` is not thrown, but
       `MalformedPatternException` is thrown instead.
@@ -63,7 +63,7 @@ Added in 0.37.0
       when there is no unique solution, the order of keywords is used to determine
       the mask. Previously it was the length of the keyword, but that caused problems
       with ambiguous keywords of the same length.
-    * Updated `replace().callback()`, so it doesn't unnecessarily casues global search,
+    * Updated `replace().callback()`, so it doesn't unnecessarily causes global search,
       even when used with `only(int)` or `first()`.
 
 Added in 0.36.0
@@ -172,14 +172,14 @@ Added in 0.34.0
       Pattern::inject('Find:@?', ['']); // matches only "Find:"
       ```
 
-    * Updated backtrakcing in prepared patterns.
-        * Updated backtrakcing in `Pattern.pattern()`.
+    * Updated backtracking in prepared patterns.
+        * Updated backtracking in `Pattern.pattern()`.
 
           ```php
           Pattern::template('@:Bar')->pattern('Foo:Bar|Foo'); // matches "Foo:Bar" or "Foo:Bar:Bar"
           ```
 
-        * Updated backtrakcing in `Pattern.mask()`.
+        * Updated backtracking in `Pattern.mask()`.
 
           ```php
           $template = Pattern::template('@:Bar');
@@ -280,7 +280,7 @@ Added in 0.28.0
 ---------------
 
 * Breaking changes
-    * Removed previously deprecated `NotMatched`. Every functionallity of `NotMatched` was also added to
+    * Removed previously deprecated `NotMatched`. Every functionality of `NotMatched` was also added to
       `Pattern.match()` in previous release. This was done to unify the interface of each `Optional` implementation.
     * Removed previously deprecated `Group.map()`.
     * Removed `IntStream.asInt()` which returned itself.
@@ -430,7 +430,7 @@ Added in 0.23.1
 ---------------
 
 * Bug fixes
-    * Normally, pattern errors take precendece over subject errors. That is, `NonexistentGroupException`
+    * Normally, pattern errors take precedence over subject errors. That is, `NonexistentGroupException`
       should be thrown before `CatastrophicBacktrackingException`.
         * Fixed a bug when replacing a pattern prone to catastrophic backtracking and unmatched group
           threw `CatastrophicBacktrackingException`. Now it throws `NonexistentGroupException`.
