@@ -8,6 +8,7 @@ Incoming
     * Removed `Pattern.forArray().filter()`. Use `Pattern.filter()` instead.
     * Removed `Pattern.forArray().filterAssoc()`.
     * Removed `Pattern.forArray().filterByKeys()`.
+    * Renamed `PatternList.chainedReplace()` to `PatternList.replace()`
 * Features
     * Added `Pattern.filter()`, which filters subjects which match the pattern (exactly like previous `Pattern.forArray().filter()`).
     * Added `Pattern.reject()`, which filters subjects which do not match the pattern.

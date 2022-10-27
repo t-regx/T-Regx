@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\PatternList\chainedReplace\callback;
+namespace Test\Feature\CleanRegex\PatternList\replace\callback;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 
 /**
- * @covers \TRegx\CleanRegex\PatternList::chainedReplace
+ * @covers \TRegx\CleanRegex\PatternList::replace
  * @covers \TRegx\CleanRegex\Composite\ChainedReplace
  */
 class PatternListTest extends TestCase
@@ -33,7 +33,7 @@ class PatternListTest extends TestCase
 
         // when
         $replaced = $pattern
-            ->chainedReplace("Do you think that's air you're breathing now?")
+            ->replace("Do you think that's air you're breathing now?")
             ->callback(Functions::constant('__'));
 
         // then
@@ -61,12 +61,12 @@ class PatternListTest extends TestCase
     {
         // given
         $pattern = Pattern::list(['[a-z]', '[1-9]']);
-        $chainedReplace = $pattern->chainedReplace('a 1 b 2 c 3');
+        $replace = $pattern->replace('a 1 b 2 c 3');
         $matches = [];
         $subjects = [];
 
         // when
-        $result = $chainedReplace->callback(function (Detail $detail) use (&$matches, &$subjects) {
+        $result = $replace->callback(function (Detail $detail) use (&$matches, &$subjects) {
             $matches[] = $detail->text();
             $subjects[] = $detail->subject();
             return '_';
@@ -89,7 +89,7 @@ class PatternListTest extends TestCase
     {
         // given
         $patternList = Pattern::list(['\\']);
-        $replace = $patternList->chainedReplace('subject');
+        $replace = $patternList->replace('subject');
         // when
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');

@@ -48,10 +48,10 @@ class PatternList
 
     public function prune(string $subject): string
     {
-        return $this->chainedReplace($subject)->withReferences('');
+        return $this->replace($subject)->withReferences('');
     }
 
-    public function chainedReplace(string $subject): ChainedReplace
+    public function replace(string $subject): ChainedReplace
     {
         return new ChainedReplace($this->predefinitions, new Subject($subject));
     }
