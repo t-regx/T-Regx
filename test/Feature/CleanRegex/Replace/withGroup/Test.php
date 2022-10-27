@@ -9,7 +9,6 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
-use TRegx\Preg2\Exception\RecursionException;
 
 /**
  * @coversNothing
