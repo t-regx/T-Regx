@@ -8,6 +8,7 @@ use TRegx\CleanRegex\Internal\Filter;
 use TRegx\CleanRegex\Internal\Needle;
 use TRegx\CleanRegex\Internal\Splits;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Internal\SubjectList;
 use TRegx\CleanRegex\Match\Matcher;
 use TRegx\CleanRegex\Match\Search;
 use TRegx\CleanRegex\Replace\Replace;
@@ -67,7 +68,16 @@ class Pattern
      */
     public function filter(array $subjects): array
     {
-        return $this->filter->filtered($subjects);
+        return $this->filter->filtered(new SubjectList($subjects));
+    }
+
+    /**
+     * @param string[] $subjects
+     * @return string[]
+     */
+    public function reject(array $subjects): array
+    {
+        return $this->filter->rejected(new SubjectList($subjects));
     }
 
     /**

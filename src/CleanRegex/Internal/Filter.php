@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
-use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\SafeRegex\preg;
 
 class Filter
@@ -15,13 +14,13 @@ class Filter
         $this->predefinition = $predefinition;
     }
 
-    public function filtered(array $subjects): array
+    public function filtered(SubjectList $subjects): array
     {
-        foreach ($subjects as $value) {
-            if (!\is_string($value)) {
-                throw InvalidArgument::typeGiven("Expected an array of elements of type 'string' to be filtered", new ValueType($value));
-            }
-        }
-        return \array_values(preg::grep($this->predefinition->definition()->pattern, $subjects));
+        return \array_values(preg::grep($this->predefinition->definition()->pattern, $subjects->subjects));
+    }
+
+    public function rejected(SubjectList $subjects): array
+    {
+        return \array_values(preg::grep($this->predefinition->definition()->pattern, $subjects->subjects, \PREG_GREP_INVERT));
     }
 }

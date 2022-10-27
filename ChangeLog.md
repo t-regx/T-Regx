@@ -10,6 +10,7 @@ Incoming
     * Removed `Pattern.forArray().filterByKeys()`.
 * Features
     * Added `Pattern.filter()`, which filters subjects which match the pattern (exactly like previous `Pattern.forArray().filter()`).
+    * Added `Pattern.reject()`, which filters subjects which do not match the pattern.
 * Other
     * Public exceptions now extend `\RuntimeException`, instead of `\Exception`.
 
