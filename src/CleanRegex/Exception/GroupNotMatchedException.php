@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 
-class GroupNotMatchedException extends \Exception implements PatternException
+class GroupNotMatchedException extends \RuntimeException implements PatternException
 {
     public function __construct(string $message)
     {

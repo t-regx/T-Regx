@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class UnevenCutException extends \Exception implements PatternException
+class UnevenCutException extends \RuntimeException implements PatternException
 {
     public function __construct(bool $patternNotMatched)
     {

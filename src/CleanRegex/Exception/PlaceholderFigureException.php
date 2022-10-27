@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class PlaceholderFigureException extends \Exception
+class PlaceholderFigureException extends \RuntimeException
 {
     public static function forSuperfluousPlaceholders(int $expected, int $actual): PlaceholderFigureException
     {

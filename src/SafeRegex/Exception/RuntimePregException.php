@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-class RuntimePregException extends \Exception implements PregException
+class RuntimePregException extends \RuntimeException implements PregException
 {
     /** @var string */
     private $methodName;

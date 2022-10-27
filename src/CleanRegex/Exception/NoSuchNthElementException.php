@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class NoSuchNthElementException extends \Exception implements PatternException
+class NoSuchNthElementException extends \RuntimeException implements PatternException
 {
     public function __construct(string $message)
     {

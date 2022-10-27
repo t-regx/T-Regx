@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
-class SuspectedReturnPregException extends \Exception implements PregException
+class SuspectedReturnPregException extends \RuntimeException implements PregException
 {
     /** @var string */
     private $methodName;

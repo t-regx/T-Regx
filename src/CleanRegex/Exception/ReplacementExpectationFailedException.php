@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-class ReplacementExpectationFailedException extends \Exception implements PatternException
+class ReplacementExpectationFailedException extends \RuntimeException implements PatternException
 {
     public function __construct(string $message)
     {

@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\Message\Message;
 
-class SubjectNotMatchedException extends \Exception implements PatternException
+class SubjectNotMatchedException extends \RuntimeException implements PatternException
 {
     /** @var string */
     private $subject;

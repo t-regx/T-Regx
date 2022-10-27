@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Exception;
 
 use TRegx\Exception\MalformedPatternException;
 
-class PatternMalformedPatternException extends \Exception implements PatternException, MalformedPatternException
+class PatternMalformedPatternException extends \RuntimeException implements PatternException, MalformedPatternException
 {
     public function __construct(string $message)
     {

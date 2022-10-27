@@ -3,7 +3,6 @@ namespace TRegx\SafeRegex;
 
 use InvalidArgumentException;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
-use TRegx\SafeRegex\Exception\PregException;
 use TRegx\SafeRegex\Internal\Bug;
 use TRegx\SafeRegex\Internal\Constants\PregConstants;
 use TRegx\SafeRegex\Internal\Constants\PregMessages;
@@ -23,8 +22,6 @@ class preg
      * @param-out array $matches
      *
      * @psalm-pure Output is only dependent on input parameters values
-     *
-     * @throws PregException
      */
     public static function match(string $pattern, string $subject, array &$matches = null, int $flags = 0, int $offset = 0): int
     {
@@ -55,8 +52,6 @@ class preg
      * @param-out array $matches
      *
      * @psalm-pure Output is only dependent on input parameters values
-     *
-     * @throws PregException
      */
     public static function match_all(string $pattern, string $subject, array &$matches = null, $flags = \PREG_PATTERN_ORDER, int $offset = 0): int
     {
@@ -82,8 +77,6 @@ class preg
      * @psalm-return T
      *
      * @psalm-pure Output is only dependent on input parameters values
-     *
-     * @throws PregException
      */
     public static function replace($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
     {
@@ -109,8 +102,6 @@ class preg
      * @psalm-return T
      *
      * @psalm-pure Output is only dependent on input parameters values
-     *
-     * @throws PregException
      */
     public static function replace_callback($pattern, callable $callback, $subject, int $limit = -1, int &$count = null, int $flags = 0)
     {
@@ -140,8 +131,6 @@ class preg
      * @psalm-return T
      *
      * @psalm-pure Output is only dependent on input parameters values
-     *
-     * @throws PregException
      */
     public static function replace_callback_array(array $patterns_and_callbacks, $subject, int $limit = -1, int &$count = null)
     {
@@ -183,8 +172,6 @@ class preg
      * @psalm-return T
      *
      * @psalm-pure Output is only dependent on input parameters values
-     *
-     * @throws PregException
      */
     public static function filter($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
     {
@@ -201,8 +188,6 @@ class preg
      * @psalm-pure Output is only dependent on input parameters values
      *
      * @return string[]|array[]
-     *
-     * @throws PregException
      */
     public static function split(string $pattern, string $subject, int $limit = -1, int $flags = 0): array
     {
@@ -217,8 +202,6 @@ class preg
      * @link https://php.net/manual/en/function.preg-grep.php
      *
      * @psalm-pure Output is only dependent on input parameters values
-     *
-     * @throws PregException
      */
     public static function grep(string $pattern, array $input, int $flags = 0): array
     {

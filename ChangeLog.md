@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Other
+    * Public exceptions now extend `\RuntimeException`, instead of `\Exception`.
 
 Added in 0.38.0
 ---------------

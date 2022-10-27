@@ -4,7 +4,7 @@ namespace TRegx\CleanRegex\Exception;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 
-class IntegerOverflowException extends \Exception implements PatternException
+class IntegerOverflowException extends \RuntimeException implements PatternException
 {
     public static function forMatch(string $value, Base $base): self
     {

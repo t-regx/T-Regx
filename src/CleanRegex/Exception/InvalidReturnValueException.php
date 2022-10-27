@@ -3,7 +3,7 @@ namespace TRegx\CleanRegex\Exception;
 
 use TRegx\CleanRegex\Internal\Type\Type;
 
-class InvalidReturnValueException extends \Exception implements PatternException
+class InvalidReturnValueException extends \RuntimeException implements PatternException
 {
     public function __construct(string $methodName, string $expectedReturnType, Type $type)
     {
