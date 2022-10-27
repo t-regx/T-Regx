@@ -24,9 +24,9 @@ class MatcherTest extends TestCase
     public function shouldGroupBy()
     {
         // when
-        $groupped = pattern('\d+(?<unit>cm|mm)?')->match('14cm 13mm 19cm 18mm 2cm')->groupBy('unit');
+        $grouped = pattern('\d+(?<unit>cm|mm)?')->match('14cm 13mm 19cm 18mm 2cm')->groupBy('unit');
         // then
-        $this->assertStructure($groupped, [
+        $this->assertStructure($grouped, [
             'cm' => [Expect::text('14cm'), Expect::text('19cm'), Expect::text('2cm')],
             'mm' => [Expect::text('13mm'), Expect::text('18mm')],
         ]);
@@ -38,9 +38,9 @@ class MatcherTest extends TestCase
     public function shouldDetailGetSubject()
     {
         // when
-        $groupped = pattern('Foo')->match('subject:Foo')->groupBy(0);
+        $grouped = pattern('Foo')->match('subject:Foo')->groupBy(0);
         // then
-        $this->assertStructure($groupped, [
+        $this->assertStructure($grouped, [
             'Foo' => [Expect::subject('subject:Foo')]
         ]);
     }
@@ -139,9 +139,9 @@ class MatcherTest extends TestCase
     public function shouldGroupByEmptyElement()
     {
         // when
-        $groupped = pattern('()')->match('')->groupBy(1);
+        $grouped = pattern('()')->match('')->groupBy(1);
         // then
-        $this->assertStructure($groupped, [
+        $this->assertStructure($grouped, [
             '' => [Expect::text('')]
         ]);
     }

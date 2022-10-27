@@ -30,9 +30,9 @@ class MatcherTest extends TestCase
         // given
         $matcher = pattern('\d+(?<unit>cm|mm)')->match('12cm, 14mm, 13cm, 19cm, 18mm, 2mm');
         // when
-        $groupped = $matcher->groupByCallback(DetailFunctions::get('unit'));
+        $grouped = $matcher->groupByCallback(DetailFunctions::get('unit'));
         // then
-        $this->assertStructure($groupped, [
+        $this->assertStructure($grouped, [
             'cm' => [Expect::text('12cm'), Expect::text('13cm'), Expect::text('19cm')],
             'mm' => [Expect::text('14mm'), Expect::text('18mm'), Expect::text('2mm')]
         ]);
@@ -46,9 +46,9 @@ class MatcherTest extends TestCase
         // given
         $matcher = pattern('\d+(?<unit>cm|mm)')->match('12cm 14mm 13cm 19cm 18mm 2mm');
         // when
-        $groupped = $matcher->groupByCallback(DetailFunctions::group('unit'));
+        $grouped = $matcher->groupByCallback(DetailFunctions::group('unit'));
         // then
-        $this->assertStructure($groupped, [
+        $this->assertStructure($grouped, [
             'cm' => [Expect::text('12cm'), Expect::text('13cm'), Expect::text('19cm')],
             'mm' => [Expect::text('14mm'), Expect::text('18mm'), Expect::text('2mm')]
         ]);
@@ -62,9 +62,9 @@ class MatcherTest extends TestCase
         // given
         $matcher = pattern('(?<value>\d+)(?<unit>cm|mm)')->match('12cm 14mm 13cm 19cm 18mm 2mm');
         // when
-        $groupped = $matcher->groupByCallback(Functions::identity());
+        $grouped = $matcher->groupByCallback(Functions::identity());
         // then
-        $this->assertStructure($groupped, [
+        $this->assertStructure($grouped, [
             '12cm' => [Expect::text('12cm')],
             '14mm' => [Expect::text('14mm')],
             '13cm' => [Expect::text('13cm')],
@@ -95,11 +95,11 @@ class MatcherTest extends TestCase
         // given
         $matcher = pattern('(?<value>\d+)(cm|mm)')->match('12cm 14mm 13cm 19cm 18mm 2mm');
         // when
-        $groupped = $matcher->groupByCallback(function (Detail $detail) {
+        $grouped = $matcher->groupByCallback(function (Detail $detail) {
             return $detail->group('value')->toInt();
         });
         // then
-        $this->assertStructure($groupped, [
+        $this->assertStructure($grouped, [
             12 => [Expect::text('12cm')],
             14 => [Expect::text('14mm')],
             13 => [Expect::text('13cm')],
@@ -155,9 +155,9 @@ class MatcherTest extends TestCase
         // given
         $matcher = pattern('Foo')->match('Bar');
         // when
-        $groupped = $matcher->groupByCallback(Functions::fail());
+        $grouped = $matcher->groupByCallback(Functions::fail());
         // then
-        $this->assertEmpty($groupped);
+        $this->assertEmpty($grouped);
     }
 
     /**

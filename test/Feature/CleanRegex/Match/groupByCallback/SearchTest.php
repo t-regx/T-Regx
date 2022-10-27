@@ -25,13 +25,13 @@ class SearchTest extends TestCase
         // given
         $search = pattern('\d+[cm]m')->search('12cm, 14mm, 23cm, 19cm, 28mm, 2mm');
         // when
-        $groupped = $search->groupByCallback(Functions::charAt(0));
+        $grouped = $search->groupByCallback(Functions::charAt(0));
         // then
         $expected = [
             '1' => ['12cm', '14mm', '19cm'],
             '2' => ['23cm', '28mm', '2mm']
         ];
-        $this->assertSame($expected, $groupped);
+        $this->assertSame($expected, $grouped);
     }
 
     /**
@@ -42,7 +42,7 @@ class SearchTest extends TestCase
         // given
         $search = pattern('(?<value>\d+)(?<unit>cm|mm)')->search('12cm 14mm 13cm 19cm 18mm 2mm');
         // when
-        $groupped = $search->groupByCallback(Functions::identity());
+        $grouped = $search->groupByCallback(Functions::identity());
         // then
         $expected = [
             '12cm' => ['12cm'],
@@ -52,7 +52,7 @@ class SearchTest extends TestCase
             '18mm' => ['18mm'],
             '2mm'  => ['2mm'],
         ];
-        $this->assertSame($expected, $groupped);
+        $this->assertSame($expected, $grouped);
     }
 
     /**
@@ -74,7 +74,7 @@ class SearchTest extends TestCase
         // given
         $search = pattern('\d+')->search('12, 14, 12, 18, 2');
         // when
-        $groupped = $search->groupByCallback(Functions::toInt());
+        $grouped = $search->groupByCallback(Functions::toInt());
         // then
         $expected = [
             12 => ['12', '12'],
@@ -82,7 +82,7 @@ class SearchTest extends TestCase
             18 => ['18'],
             2  => ['2'],
         ];
-        $this->assertSame($expected, $groupped);
+        $this->assertSame($expected, $grouped);
     }
 
     /**
@@ -127,8 +127,8 @@ class SearchTest extends TestCase
     public function shouldGroupByUnmatched()
     {
         // when
-        $groupped = pattern('Foo')->search('Bar')->groupByCallback(Functions::fail());
+        $grouped = pattern('Foo')->search('Bar')->groupByCallback(Functions::fail());
         // then
-        $this->assertEmpty($groupped);
+        $this->assertEmpty($grouped);
     }
 }

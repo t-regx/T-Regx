@@ -22,13 +22,13 @@ class SearchTest extends TestCase
     public function shouldGroupBy()
     {
         // when
-        $groupped = pattern('\d+(?<unit>cm|mm)?')->search('14cm 13mm 19cm 18mm 2cm')->groupBy('unit');
+        $grouped = pattern('\d+(?<unit>cm|mm)?')->search('14cm 13mm 19cm 18mm 2cm')->groupBy('unit');
         // then
         $expected = [
             'cm' => ['14cm', '19cm', '2cm'],
             'mm' => ['13mm', '18mm']
         ];
-        $this->assertSame($expected, $groupped);
+        $this->assertSame($expected, $grouped);
     }
 
     /**
@@ -37,13 +37,13 @@ class SearchTest extends TestCase
     public function shouldGroupByIndexedGroup()
     {
         // when
-        $groupped = pattern('\d+(?<unit>cm|mm)?')->search('14cm 13mm 19cm 18mm 2cm')->groupBy(1);
+        $grouped = pattern('\d+(?<unit>cm|mm)?')->search('14cm 13mm 19cm 18mm 2cm')->groupBy(1);
         // then
         $expected = [
             'cm' => ['14cm', '19cm', '2cm'],
             'mm' => ['13mm', '18mm']
         ];
-        $this->assertSame($expected, $groupped);
+        $this->assertSame($expected, $grouped);
     }
 
     /**
@@ -52,9 +52,9 @@ class SearchTest extends TestCase
     public function shouldGroupBy_onUnmatchedSubject()
     {
         // when
-        $groupped = pattern('(Foo)')->search('Bar')->groupBy(1);
+        $grouped = pattern('(Foo)')->search('Bar')->groupBy(1);
         // then
-        $this->assertEmpty($groupped);
+        $this->assertEmpty($grouped);
     }
 
     /**
@@ -135,9 +135,9 @@ class SearchTest extends TestCase
     public function shouldGroupByEmptyElement()
     {
         // when
-        $groupped = pattern('()')->search('')->groupBy(1);
+        $grouped = pattern('()')->search('')->groupBy(1);
         // then
-        $this->assertSame(['' => ['']], $groupped);
+        $this->assertSame(['' => ['']], $grouped);
     }
 
     /**

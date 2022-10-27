@@ -225,10 +225,10 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
      */
     public function groupByCallback(callable $groupMapper): array
     {
-        return $this->groupped(new GroupByFunction('groupByCallback', $groupMapper));
+        return $this->grouped(new GroupByFunction('groupByCallback', $groupMapper));
     }
 
-    private function groupped(GroupByFunction $function): array
+    private function grouped(GroupByFunction $function): array
     {
         $result = [];
         foreach ($this as $detail) {
