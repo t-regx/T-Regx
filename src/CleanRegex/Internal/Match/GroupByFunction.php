@@ -32,14 +32,19 @@ class GroupByFunction
             return $key->text();
         }
         if ($key instanceof Group) {
-            if ($key->matched()) {
-                return $key->text();
-            }
-            throw GroupNotMatchedException::forGroupBy(GroupKey::of($key->usedIdentifier()));
+            return $this->matchedGroup($key);
         }
         if (\is_int($key) || \is_string($key)) {
             return $key;
         }
         throw new InvalidReturnValueException($this->methodName, 'int|string', new ValueType($key));
+    }
+
+    private function matchedGroup(Group $group): string
+    {
+        if ($group->matched()) {
+            return $group->text();
+        }
+        throw GroupNotMatchedException::forGroupBy(GroupKey::of($group->usedIdentifier()));
     }
 }
