@@ -1,8 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Definition;
@@ -11,10 +9,10 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Limit;
 use TRegx\CleanRegex\Internal\Match\Amount;
 use TRegx\CleanRegex\Internal\Match\ArrayFunction;
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Flat\DictionaryFunction;
 use TRegx\CleanRegex\Internal\Match\Flat\ListFunction;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
+use TRegx\CleanRegex\Internal\Match\GroupedTexts;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\SearchBase;
 use TRegx\CleanRegex\Internal\Match\SearchItems;
@@ -23,15 +21,11 @@ use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\TextStream;
 use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
-use TRegx\CleanRegex\Internal\Pcre\Signatures\ArraySignatures;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\SafeRegex\preg;
 
 class Search implements \Countable, \IteratorAggregate
 {
-    /** @var Definition */
-    private $definition;
     /** @var Subject */
     private $subject;
     /** @var SearchBase */
@@ -44,16 +38,18 @@ class Search implements \Countable, \IteratorAggregate
     private $amount;
     /** @var SearchItems */
     private $searchItems;
+    /** @var GroupedTexts */
+    private $grouped;
 
     public function __construct(Definition $definition, Subject $subject)
     {
-        $this->definition = $definition;
         $this->subject = $subject;
         $this->searchBase = new SearchBase($definition, $subject);
         $this->streamBase = new StreamBase(new ApiBase($definition, $subject));
         $this->searchOnly = new SearchOnly($this->searchBase);
         $this->amount = new Amount($this->searchBase);
         $this->searchItems = new SearchItems($this->searchBase);
+        $this->grouped = new GroupedTexts($definition, $subject);
     }
 
     public function test(): bool
@@ -175,28 +171,7 @@ class Search implements \Countable, \IteratorAggregate
      */
     public function groupBy($nameOrIndex): array
     {
-        return $this->performGroupBy(GroupKey::of($nameOrIndex));
-    }
-
-    private function performGroupBy(GroupKey $group): array
-    {
-        preg::match_all($this->definition->pattern, $this->subject->asString(), $matches, \PREG_OFFSET_CAPTURE);
-        if (!\array_key_exists($group->nameOrIndex(), $matches)) {
-            throw new NonexistentGroupException($group);
-        }
-        $map = [];
-        $handle = new GroupHandle(new ArraySignatures(\array_keys($matches)));
-        foreach ($matches[$handle->groupHandle($group)] as $index => $match) {
-            if ($match === '') {
-                throw GroupNotMatchedException::forGroupBy($group);
-            }
-            [$value, $offset] = $match;
-            if ($offset === -1) {
-                throw GroupNotMatchedException::forGroupBy($group);
-            }
-            $map[$value][] = $matches[0][$index][0];
-        }
-        return $map;
+        return $this->grouped->groupedBy(GroupKey::of($nameOrIndex));
     }
 
     /**

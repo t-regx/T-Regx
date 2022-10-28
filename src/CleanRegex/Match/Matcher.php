@@ -1,8 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
-use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Exception\NoSuchNthElementException;
 use TRegx\CleanRegex\Exception\SubjectNotMatchedException;
 use TRegx\CleanRegex\Internal\Definition;
@@ -12,10 +10,10 @@ use TRegx\CleanRegex\Internal\GroupNames;
 use TRegx\CleanRegex\Internal\Limit;
 use TRegx\CleanRegex\Internal\Match\Amount;
 use TRegx\CleanRegex\Internal\Match\ArrayFunction;
-use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
 use TRegx\CleanRegex\Internal\Match\Flat\DictionaryFunction;
 use TRegx\CleanRegex\Internal\Match\Flat\ListFunction;
 use TRegx\CleanRegex\Internal\Match\GroupByFunction;
+use TRegx\CleanRegex\Internal\Match\GroupedDetails;
 use TRegx\CleanRegex\Internal\Match\MatchItems;
 use TRegx\CleanRegex\Internal\Match\MatchOnly;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
@@ -35,7 +33,6 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchPrime;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
-use TRegx\CleanRegex\Internal\Pcre\Signatures\ArraySignatures;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 
@@ -57,6 +54,8 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
     private $matchItems;
     /** @var Amount */
     private $amount;
+    /** @var GroupedDetails */
+    private $grouped;
 
     public function __construct(Definition $definition, Subject $subject)
     {
@@ -68,6 +67,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         $this->groupNames = new GroupNames($this->groupAware);
         $this->matchItems = new MatchItems($this->base, $subject);
         $this->amount = new Amount(new SearchBase($definition, $subject));
+        $this->grouped = new GroupedDetails($definition, $subject);
     }
 
     public function test(): bool
@@ -196,27 +196,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
      */
     public function groupBy($nameOrIndex): array
     {
-        return $this->performGroupBy(GroupKey::of($nameOrIndex));
-    }
-
-    private function performGroupBy(GroupKey $group): array
-    {
-        $factory = new DetailObjectFactory($this->subject);
-        $matches = $this->base->matchAllOffsets();
-        if (!$this->groupAware->hasGroup($group)) {
-            throw new NonexistentGroupException($group);
-        }
-        $map = [];
-        $handle = new GroupHandle(new ArraySignatures($matches->getGroupKeys()));
-        foreach ($matches->getIndexes() as $index) {
-            $handled = $handle->groupHandle($group);
-            if (!$matches->isGroupMatched($handled, $index)) {
-                throw GroupNotMatchedException::forGroupBy($group);
-            }
-            [$text] = $matches->getGroupTextAndOffset($handled, $index);
-            $map[$text][] = $factory->mapToDetailObject($matches, $index);
-        }
-        return $map;
+        return $this->grouped->groupedBy(GroupKey::of($nameOrIndex));
     }
 
     /**
