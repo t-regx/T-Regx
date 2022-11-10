@@ -36,7 +36,7 @@ class GroupAwake
     private function performedMatches(): array
     {
         \preg_match_all($this->definition->pattern, $this->subject, $matches, \PREG_OFFSET_CAPTURE);
-        if (\preg_last_error() !== PREG_NO_ERROR) {
+        if (\preg_last_error() !== \PREG_NO_ERROR) {
             \preg_match('//', '');
         }
         return $matches;
