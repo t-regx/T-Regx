@@ -10,14 +10,14 @@ class PcreDelimiter
 
     public function __construct(string $delimiter)
     {
-        if ($this->valid($delimiter)) {
+        if ($this->legalDelimiter($delimiter)) {
             $this->delimiter = $delimiter;
         } else {
             throw MalformedPcreTemplateException::invalidDelimiter($delimiter);
         }
     }
 
-    private function valid(string $delimiter): bool
+    private function legalDelimiter(string $delimiter): bool
     {
         if (\in_array($delimiter, ["\0", "\t", "\n", "\v", "\f", "\r", ' ', "\\", '(', '[', '{', '<'], true)) {
             return false;
@@ -33,17 +33,17 @@ class PcreDelimiter
 
     public function patternAndFlags(string $pcre): array
     {
-        return $this->separatedAtPosition($pcre, $this->lastOccurrence($pcre));
+        return $this->separatedAtPosition($pcre, $this->closingDelimiterPosition($pcre));
     }
 
-    private function separatedAtPosition(string $string, int $position): array
+    private function separatedAtPosition(string $pcre, int $closingDelimiterPosition): array
     {
-        $before = \substr($string, 0, $position);
-        $after = \substr($string, $position + 1);
-        return [$before, $after];
+        $pattern = \substr($pcre, 0, $closingDelimiterPosition);
+        $modifiers = \substr($pcre, $closingDelimiterPosition + 1);
+        return [$pattern, $modifiers];
     }
 
-    private function lastOccurrence(string $pcre): int
+    private function closingDelimiterPosition(string $pcre): int
     {
         $position = \strrpos($pcre, $this->delimiter);
         if ($position === false) {
