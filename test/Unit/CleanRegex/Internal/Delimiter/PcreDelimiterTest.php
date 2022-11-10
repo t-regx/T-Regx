@@ -2,6 +2,7 @@
 namespace Test\Unit\CleanRegex\Internal\Delimiter;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
 use TRegx\CleanRegex\Internal\Delimiter\PcreDelimiter;
 
@@ -10,23 +11,18 @@ use TRegx\CleanRegex\Internal\Delimiter\PcreDelimiter;
  */
 class PcreDelimiterTest extends TestCase
 {
+    use TestCasePasses;
+
     /**
      * @test
+     * @dataProvider bytes
      */
-    public function test()
+    public function test(int $byte)
     {
-        /*
-         * I use foreach instead of PhpUnit @dataProvider, because with
-         * data provider the test runs in about 50ms, and foreach runs in
-         * about 1ms. 50ms is too much for this trivial test.
-         */
-
-        foreach (\range(0, 255) as $byte) {
-            if (\in_array($byte, $this->legalDelimiterBytes())) {
-                $this->shouldBeValidDelimiter(\chr($byte));
-            } else {
-                $this->shouldBeInvalidDelimiter(\chr($byte));
-            }
+        if ($this->isLegalDelimiter($byte)) {
+            $this->shouldBeValidDelimiter(\chr($byte));
+        } else {
+            $this->shouldBeInvalidDelimiter(\chr($byte));
         }
     }
 
@@ -34,7 +30,6 @@ class PcreDelimiterTest extends TestCase
     {
         // when
         new PcreDelimiter($delimiter);
-
         // then
         $this->pass();
     }
@@ -43,13 +38,30 @@ class PcreDelimiterTest extends TestCase
     {
         // then
         $this->expectException(MalformedPcreTemplateException::class);
-        $this->expectExceptionMessage("PCRE-compatible template is malformed, starting with an unexpected delimiter '$delimiter'");
-
+        $this->expectExceptionMessage($this->expectedMalformedPatternMessage($delimiter));
         // when
         new PcreDelimiter($delimiter);
     }
 
-    public function legalDelimiterBytes(): array
+    public function bytes(): array
+    {
+        return provided(\range(0, 255));
+    }
+
+    private function expectedMalformedPatternMessage(string $delimiter): string
+    {
+        if (\ctype_alnum($delimiter)) {
+            return "PCRE-compatible template is malformed, alphanumeric delimiter '$delimiter'";
+        }
+        return "PCRE-compatible template is malformed, starting with an unexpected delimiter '$delimiter'";
+    }
+
+    private function isLegalDelimiter(int $byte): bool
+    {
+        return \in_array($byte, $this->legalDelimiterBytes());
+    }
+
+    private function legalDelimiterBytes(): array
     {
         return [
             1, 2, 3, 4, 5, 6, 7, 8,
