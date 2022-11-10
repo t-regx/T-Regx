@@ -9,6 +9,9 @@ Incoming
     * Removed `Pattern.forArray().filterAssoc()`.
     * Removed `Pattern.forArray().filterByKeys()`.
     * Renamed `PatternList.chainedReplace()` to `PatternList.replace()`
+* Bug fixes
+    * Fixed a bug when using `PcrePattern` with delimiter `\n`, `\v`, `\f`, `t` didn't throw
+      appropriate `MalformedPatternException`
 * Features
     * Added `Pattern.filter()`, which filters subjects which match the pattern (exactly like previous `Pattern.forArray().filter()`).
     * Added `Pattern.reject()`, which filters subjects which do not match the pattern.

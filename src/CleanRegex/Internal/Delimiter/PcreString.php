@@ -14,8 +14,13 @@ class PcreString
 
     public function __construct(string $pcre)
     {
-        [$this->delimiter, $undelimitedPcre] = $this->undelimitedPcre($pcre);
+        [$this->delimiter, $undelimitedPcre] = $this->undelimitedWhitespacePcre($pcre);
         [$this->pattern, $this->flags] = $this->delimiter->patternAndFlags($undelimitedPcre);
+    }
+
+    private function undelimitedWhitespacePcre(string $whitespacePcre): array
+    {
+        return $this->undelimitedPcre(\lTrim($whitespacePcre, " \t\f\n\r\v"));
     }
 
     private function undelimitedPcre(string $pcre): array
@@ -23,7 +28,7 @@ class PcreString
         if ($pcre === '') {
             throw MalformedPcreTemplateException::emptyPattern();
         }
-        return $this->shiftedDelimiter(\lTrim($pcre, " \t\f\n\r\v"));
+        return $this->shiftedDelimiter($pcre);
     }
 
     private function shiftedDelimiter(string $pcre): array
