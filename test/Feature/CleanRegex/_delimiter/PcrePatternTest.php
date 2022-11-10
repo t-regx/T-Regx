@@ -3,6 +3,7 @@ namespace Test\Feature\CleanRegex\_delimiter;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsPattern;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
 use TRegx\CleanRegex\PcrePattern;
 
@@ -14,7 +15,133 @@ use TRegx\CleanRegex\PcrePattern;
  */
 class PcrePatternTest extends TestCase
 {
-    use AssertsPattern;
+    use TestCasePasses, AssertsPattern;
+
+    /**
+     * @test
+     * @dataProvider legalDelimiters
+     */
+    public function shouldAcceptLegalDelimiterInject(string $delimiter): void
+    {
+        // when
+        PcrePattern::inject($delimiter . $delimiter, []);
+        // then
+        $this->pass();
+    }
+
+    /**
+     * @test
+     * @dataProvider legalDelimiters
+     */
+    public function shouldAcceptLegalDelimiterTemplate(string $delimiter): void
+    {
+        // when
+        PcrePattern::template($delimiter . '@' . $delimiter)->literal('value');
+        // then
+        $this->pass();
+    }
+
+    /**
+     * @test
+     * @dataProvider legalDelimiters
+     */
+    public function shouldAcceptLegalDelimiterBuilder(string $delimiter): void
+    {
+        // when
+        PcrePattern::builder($delimiter . $delimiter)->build();
+        // then
+        $this->pass();
+    }
+
+    /**
+     * @test
+     * @dataProvider illegalDelimiters
+     */
+    public function shouldThrowForIllegalDelimiterInject(string $delimiter): void
+    {
+        // then
+        $this->expectException(MalformedPcreTemplateException::class);
+        $this->expectExceptionMessage($this->expectedMalformedPatternMessage($delimiter));
+        // when
+        PcrePattern::inject($delimiter, []);
+    }
+
+    /**
+     * @test
+     * @dataProvider illegalDelimiters
+     */
+    public function shouldThrowForIllegalDelimiterTemplate(string $delimiter): void
+    {
+        // then
+        $this->expectException(MalformedPcreTemplateException::class);
+        $this->expectExceptionMessage($this->expectedMalformedPatternMessage($delimiter));
+        // when
+        PcrePattern::template($delimiter)->literal('value');
+    }
+
+    /**
+     * @test
+     * @dataProvider illegalDelimiters
+     */
+    public function shouldThrowForIllegalDelimiterBuilder(string $delimiter): void
+    {
+        // then
+        $this->expectException(MalformedPcreTemplateException::class);
+        $this->expectExceptionMessage($this->expectedMalformedPatternMessage($delimiter));
+        // when
+        PcrePattern::builder($delimiter)->build();
+    }
+
+    public function expectedMalformedPatternMessage(string $delimiter): string
+    {
+        if (\in_array(\ord($delimiter), [9, 10, 11, 12, 13, 32])) {
+            return 'PCRE-compatible template is malformed, pattern is empty';
+        }
+        if (\ctype_alnum($delimiter)) {
+            return "PCRE-compatible template is malformed, alphanumeric delimiter '$delimiter'";
+        }
+        return "PCRE-compatible template is malformed, starting with an unexpected delimiter '$delimiter'";
+    }
+
+    public function legalDelimiters(): \Generator
+    {
+        foreach (\range(0, 255) as $byte) {
+            if ($this->isLegalDelimiter($byte)) {
+                $character = \chr($byte);
+                yield "$character (#$byte)" => [\chr($byte)];
+            }
+        }
+    }
+
+    public function illegalDelimiters(): \Generator
+    {
+        foreach (\range(0, 255) as $byte) {
+            if (!$this->isLegalDelimiter($byte)) {
+                $character = \chr($byte);
+                yield "'$character' (#$byte)" => [\chr($byte)];
+            }
+        }
+    }
+
+    private function isLegalDelimiter(int $delimiterByte): bool
+    {
+        return \in_array($delimiterByte, $this->legalDelimiterBytes());
+    }
+
+    private function legalDelimiterBytes(): array
+    {
+        return [
+            1, 2, 3, 4, 5, 6, 7, 8,
+            14, 15, 16, 17, 18, 19,
+            20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+            30, 31, 33, 34, 35, 36, 37, 38, 39,
+            41, 42, 43, 44, 45, 46, 47,
+            58, 59,
+            61, 62, 63, 64,
+            93, 94, 95, 96,
+            124, 125, 126, 127
+        ];
+    }
 
     /**
      * @test
