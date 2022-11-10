@@ -170,14 +170,13 @@ class StringNumeralTest extends TestCase
     private function minimumOnArchitecture64(): array
     {
         /**
-         * I'm unable to explain it, but somehow -9223372036854775808 is parsed
-         * as a float, even though -9223372036854775807-1 is calculated as an integer.
+         * When number "-9223372036854775808" appears in the PHP source code, it is parsed
+         * as a float. Surprisingly, when expression "-9223372036854775807-1" appears in
+         * the source code, it is on the other hand calculated as an integer.
          *
-         * It's probably because INT_MAX is positive 9223372036854775807, so php
-         * dumbly checks negative 9223372036854775807, even though it's not the
+         * It's probably because {@see PHP_INT_MAX} equals "positive 9223372036854775807",
+         * so PHP naively checks negative 9223372036854775807, even though it's not the
          * smallest possible integer.
-         *
-         * Using {@see PHP_INT_MIN} also works as integer,
          */
         $minimum64 = -9223372036854775807 - 1;
         return [
