@@ -1,68 +1,54 @@
 <?php
-namespace Test\Unit\CleanRegex\Internal\Delimiter;
+namespace Test\Feature\CleanRegex\_delimiter;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Assertion\AssertsPattern;
 use TRegx\CleanRegex\Exception\MalformedPcreTemplateException;
-use TRegx\CleanRegex\Internal\Delimiter\PcreString;
+use TRegx\CleanRegex\PcrePattern;
 
 /**
+ * @covers \TRegx\CleanRegex\Internal\Delimiter\PcreDelimiter
  * @covers \TRegx\CleanRegex\Internal\Delimiter\PcreString
+ * @covers \TRegx\CleanRegex\Internal\Prepared\Orthography\PcreSpelling
+ * @covers \TRegx\CleanRegex\PcrePattern
  */
-class PcreStringTest extends TestCase
+class PcrePatternTest extends TestCase
 {
+    use AssertsPattern;
+
     /**
      * @test
+     * @dataProvider pcreStrings
      */
-    public function shouldGetPattern()
+    public function shouldGetPatternInject(string $pattern, string $subject)
     {
         // given
-        $string = new PcreString('/welcome/');
-
-        // when
-        $delimiter = $string->delimiter();
-        $pattern = $string->pattern();
-        $flags = $string->flags();
-
+        $pattern = PcrePattern::inject($pattern, []);
         // then
-        $this->assertSame('/', $delimiter);
-        $this->assertSame('welcome', $pattern);
-        $this->assertSame('', $flags);
+        $this->assertPatternIs($pattern, $pattern);
+        $this->assertConsumesFirst($subject, $pattern);
     }
 
     /**
      * @test
+     * @dataProvider pcreStrings
      */
-    public function shouldGetEmptyPattern()
+    public function shouldGetPatternInjectBuilder(string $pattern, string $subject)
     {
         // given
-        $string = new PcreString('//');
-
-        // when
-        $pattern = $string->pattern();
-        $delimiter = $string->delimiter();
-
+        $pattern = PcrePattern::builder($pattern)->build();
         // then
-        $this->assertSame('', $pattern);
-        $this->assertSame('/', $delimiter);
+        $this->assertPatternIs($pattern, $pattern);
+        $this->assertConsumesFirst($subject, $pattern);
     }
 
-    /**
-     * @test
-     */
-    public function shouldGetPatternWithFlags()
+    public function pcreStrings(): array
     {
-        // given
-        $string = new PcreString('/welcome/bar');
-
-        // when
-        $pattern = $string->pattern();
-        $flags = $string->flags();
-        $delimiter = $string->delimiter();
-
-        // then
-        $this->assertSame('welcome', $pattern);
-        $this->assertSame('bar', $flags);
-        $this->assertSame('/', $delimiter);
+        return [
+            ['//', ''],
+            ['/welcome/', 'welcome'],
+            ['/welcome/i', 'WELCOME'],
+        ];
     }
 
     /**
@@ -71,36 +57,20 @@ class PcreStringTest extends TestCase
     public function shouldIgnoreInPatternDelimiter()
     {
         // given
-        $string = new PcreString('/foo/bar/cat/x');
-
-        // when
-        $pattern = $string->pattern();
-        $flags = $string->flags();
-        $delimiter = $string->delimiter();
-
+        $pattern = PcrePattern::inject("/foo/(?x)#@\n/i", []);
         // then
-        $this->assertSame('foo/bar/cat', $pattern);
-        $this->assertSame('x', $flags);
-        $this->assertSame('/', $delimiter);
+        $this->assertPatternIs("/foo/(?x)#@\n/i", $pattern);
     }
 
     /**
      * @test
      */
-    public function shouldAcceptPcrePatternWithHashDelimiter()
+    public function shouldIgnoreInPatternDelimiterPercent()
     {
         // given
-        $string = new PcreString('#foo/bar#cat#x');
-
-        // when
-        $pattern = $string->pattern();
-        $flags = $string->flags();
-        $delimiter = $string->delimiter();
-
+        $pattern = PcrePattern::inject("%foo%(?x)#@\n%i", []);
         // then
-        $this->assertSame('foo/bar#cat', $pattern);
-        $this->assertSame('x', $flags);
-        $this->assertSame('#', $delimiter);
+        $this->assertPatternIs("%foo%(?x)#@\n%i", $pattern);
     }
 
     /**
@@ -114,9 +84,8 @@ class PcreStringTest extends TestCase
         // then
         $this->expectException(MalformedPcreTemplateException::class);
         $this->expectExceptionMessage($expectedMessage);
-
         // given
-        new PcreString($pattern);
+        PcrePattern::inject($pattern, []);
     }
 
     public function unclosedPatterns(): array
@@ -137,13 +106,11 @@ class PcreStringTest extends TestCase
     {
         // given
         $invalid = chr(128); // non-ascii code points are never valid delimiters
-
         // then
         $this->expectException(MalformedPcreTemplateException::class);
         $this->expectExceptionMessage("PCRE-compatible template is malformed, starting with an unexpected delimiter '$invalid'");
-
         // given
-        new PcreString($invalid . 'foo');
+        PcrePattern::inject($invalid . 'foo', []);
     }
 
     /**
@@ -153,13 +120,10 @@ class PcreStringTest extends TestCase
     public function shouldAcceptLeadingSpace()
     {
         // given
-        $string = new PcreString("\t \n\v\f\r/foo/");
-
-        // when
-        $pattern = $string->pattern();
-
+        $pattern = PcrePattern::inject("\t \n\v\f\r/foo/", []);
         // then
-        $this->assertSame('foo', $pattern);
+        $this->assertPatternIs('/foo/', $pattern);
+        $this->assertConsumesFirst('foo', $pattern);
     }
 
     /**
@@ -170,9 +134,8 @@ class PcreStringTest extends TestCase
     {
         // then
         $this->expectException(MalformedPcreTemplateException::class);
-
         // given
-        new PcreString("\0/foo/");
+        PcrePattern::inject("\0/foo/", []);
     }
 
     /**
@@ -183,13 +146,9 @@ class PcreStringTest extends TestCase
     public function shouldIgnoreNewLinesInModifiers()
     {
         // given
-        $string = new PcreString(" /foo/i\n m\r \0\t\f\v");
-
-        // when
-        $flags = $string->flags();
-
+        $pattern = PcrePattern::inject(" /foo/i\n m\r \0\t\f\v", []);
         // then
-        $this->assertSame("im\0\t\f\v", $flags);
+        $this->assertPatternIs("/foo/im\0\t\f\v", $pattern);
     }
 
     /**
@@ -198,12 +157,9 @@ class PcreStringTest extends TestCase
     public function shouldPreserveNewLinesInPattern()
     {
         // given
-        $string = new PcreString(" /foo\n\r /i ");
-
-        // when
-        $pattern = $string->pattern();
-
+        $pattern = PcrePattern::inject(" /foo\n\r /i ", []);
         // then
-        $this->assertSame("foo\n\r ", $pattern);
+        $this->assertPatternIs("/foo\n\r /i", $pattern);
+        $this->assertConsumesFirst("foo\n\r ", $pattern);
     }
 }
