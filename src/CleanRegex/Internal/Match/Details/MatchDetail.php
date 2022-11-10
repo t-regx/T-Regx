@@ -137,7 +137,7 @@ class MatchDetail implements Detail
     }
 
     /**
-     * @return \TRegx\CleanRegex\Match\Group[]
+     * @return Group[]
      */
     public function groups(): array
     {
@@ -145,7 +145,7 @@ class MatchDetail implements Detail
     }
 
     /**
-     * @return \TRegx\CleanRegex\Match\Group[]
+     * @return Group[]
      */
     public function namedGroups(): array
     {

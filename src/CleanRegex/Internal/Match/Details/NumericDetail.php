@@ -21,7 +21,12 @@ class NumericDetail
 
     public function asInteger(Base $base): int
     {
-        return (new IntegerBase($base, new MatchExceptions()))->integer($this->entry->text());
+        return $this->entryInBase(new IntegerBase($base, new MatchExceptions()));
+    }
+
+    private function entryInBase(IntegerBase $integerBase): int
+    {
+        return $integerBase->integer($this->entry->text());
     }
 
     public function isInteger(Base $base): bool

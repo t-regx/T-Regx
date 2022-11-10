@@ -18,9 +18,9 @@ class StringNumeral
 
     private function notation(string $value): Notation
     {
-        if ($value === '' || $value[0] !== '-') {
-            return new PositiveNotation($value);
+        if ($value !== '' && $value[0] === '-') {
+            return new NegativeNotation(new PositiveNotation(\subStr($value, 1)));
         }
-        return new NegativeNotation(new PositiveNotation(\subStr($value, 1)));
+        return new PositiveNotation($value);
     }
 }
