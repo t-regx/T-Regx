@@ -16,7 +16,7 @@ class NegativeNotation implements Notation
 
     public function integer(Base $base): int
     {
-        if ($this->lowerBound->lowerBound($base) === \strtolower($this->absoluteValue)) {
+        if ($this->lowerBound->lowerBound($base) === \strToLower($this->absoluteValue)) {
             return $this->lowerBound->minimalValue();
         }
         return -$this->absoluteValue->integer($base);

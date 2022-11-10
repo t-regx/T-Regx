@@ -24,12 +24,12 @@ class PositiveNotation implements Notation
 
     private function containsOnlyDigits(Base $base): bool
     {
-        return $this->containsOnly(\substr('0123456789abcdefghijklmnopqrstuvwxyz', 0, $base->base()));
+        return $this->containsOnly(\subStr('0123456789abcdefghijklmnopqrstuvwxyz', 0, $base->base()));
     }
 
     private function containsOnly(string $digits): bool
     {
-        return \rtrim(\strtolower($this->number), $digits) === '';
+        return \rTrim(\strToLower($this->number), $digits) === '';
     }
 
     private function parseInteger(Base $base): int

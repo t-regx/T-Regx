@@ -25,7 +25,7 @@ class ByteOffset
             throw new InternalCleanRegexException();
             // @codeCoverageIgnoreEnd
         }
-        return \mb_strLen(\substr($subject, 0, $this->bytes), 'UTF-8');
+        return \mb_strLen(\subStr($subject, 0, $this->bytes), 'UTF-8');
     }
 
     public function bytes(): int

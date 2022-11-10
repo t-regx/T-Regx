@@ -66,7 +66,7 @@ class Functions
     public static function substring(int $start, int $length): callable
     {
         return function (string $argument) use ($start, $length): string {
-            return \substr($argument, $start, $length);
+            return \subStr($argument, $start, $length);
         };
     }
 

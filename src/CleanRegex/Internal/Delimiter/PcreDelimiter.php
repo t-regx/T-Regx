@@ -38,8 +38,8 @@ class PcreDelimiter
 
     private function separatedAtPosition(string $pcre, int $closingDelimiterPosition): array
     {
-        $pattern = \substr($pcre, 0, $closingDelimiterPosition);
-        $modifiers = \substr($pcre, $closingDelimiterPosition + 1);
+        $pattern = \subStr($pcre, 0, $closingDelimiterPosition);
+        $modifiers = \subStr($pcre, $closingDelimiterPosition + 1);
         return [$pattern, $modifiers];
     }
 

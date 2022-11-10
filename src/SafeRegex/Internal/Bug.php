@@ -16,7 +16,7 @@ class Bug
 
     private static function map(string $pattern): string
     {
-        return \rtrim($pattern, "\r\t\f\x0b");
+        return \rTrim($pattern, "\r\t\f\x0b");
     }
 
     private static function mapArray(array $pattern): array

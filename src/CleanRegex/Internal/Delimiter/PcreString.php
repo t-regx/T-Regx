@@ -23,14 +23,14 @@ class PcreString
         if ($pcre === '') {
             throw MalformedPcreTemplateException::emptyPattern();
         }
-        return $this->shiftedDelimiter(\ltrim($pcre, " \t\f\n\r\v"));
+        return $this->shiftedDelimiter(\lTrim($pcre, " \t\f\n\r\v"));
     }
 
     private function shiftedDelimiter(string $pcre): array
     {
         return [
             new PcreDelimiter($pcre[0]),
-            \substr($pcre, 1)
+            \subStr($pcre, 1)
         ];
     }
 

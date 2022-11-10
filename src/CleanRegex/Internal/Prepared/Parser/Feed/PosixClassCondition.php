@@ -24,7 +24,7 @@ class PosixClassCondition
         if ($name === null) {
             throw new InternalCleanRegexException();
         }
-        return \substr($this->feed->content(), 0, \strLen($name));
+        return \subStr($this->feed->content(), 0, \strLen($name));
     }
 
     public function commit(): void

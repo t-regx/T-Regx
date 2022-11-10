@@ -21,6 +21,6 @@ class StringNumeral
         if ($value === '' || $value[0] !== '-') {
             return new PositiveNotation($value);
         }
-        return new NegativeNotation(new PositiveNotation(\substr($value, 1)));
+        return new NegativeNotation(new PositiveNotation(\subStr($value, 1)));
     }
 }
