@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.39.0
+---------------
+
 * Breaking changes
     * Removed `Pattern.forArray().filter()`. Use `Pattern.filter()` instead.
     * Removed `Pattern.forArray().filterAssoc()`.
