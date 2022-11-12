@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream;
 
-use TRegx\CleanRegex\Internal\Limit;
+use TRegx\CleanRegex\Internal\Match\Limit;
 
 class LimitStream implements Upstream
 {
