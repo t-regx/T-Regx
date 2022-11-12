@@ -6,6 +6,7 @@ Incoming
 
 * Breaking changes
     * Removed `SubjectNotMatchedException.getSubject()`.
+    * Moved `ChainedReplace` to `TRegx\CleanRegex\Replace\ `
 * Other
     * Exception `PlaceholderFigureException` now extend correctly implements `PatternException`.
 

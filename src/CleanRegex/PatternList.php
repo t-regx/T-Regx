@@ -1,9 +1,9 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Composite\ChainedReplace;
 use TRegx\CleanRegex\Internal\Predefinitions;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Replace\ChainedReplace;
 use TRegx\SafeRegex\preg;
 
 class PatternList

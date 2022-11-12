@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Composite;
+namespace TRegx\CleanRegex\Replace;
 
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Predefinitions;
