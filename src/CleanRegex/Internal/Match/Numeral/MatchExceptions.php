@@ -14,6 +14,6 @@ class MatchExceptions implements IntegerExceptions
 
     public function overflowException(Base $base, string $numeral): IntegerOverflowException
     {
-        return IntegerOverflowException::forMatch($numeral, $base);
+        return new IntegerOverflowException("Expected to parse '$numeral', but it exceeds integer size on this architecture in base $base");
     }
 }

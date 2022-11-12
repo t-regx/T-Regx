@@ -23,6 +23,6 @@ class GroupExceptions implements IntegerExceptions
 
     public function overflowException(Base $base, string $numeral): IntegerOverflowException
     {
-        return IntegerOverflowException::forGroup($this->group, $numeral, $base);
+        return new IntegerOverflowException("Expected to parse group $this->group, but '$numeral' exceeds integer size on this architecture in base $base");
     }
 }
