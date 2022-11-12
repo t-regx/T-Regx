@@ -26,7 +26,7 @@ class Standard implements Expression
         try {
             return $this->expression->predefinition();
         } catch (UndelimitablePatternException $exception) {
-            throw ExplicitDelimiterRequiredException::forStandard($this->spelling->pattern());
+            throw new ExplicitDelimiterRequiredException("pattern: {$this->spelling->pattern()}");
         }
     }
 }

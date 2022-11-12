@@ -46,7 +46,8 @@ class Mask implements Expression
         try {
             return $this->candidates->delimiter();
         } catch (UndelimitablePatternException $exception) {
-            throw ExplicitDelimiterRequiredException::forMask($this->keywords);
+            $message = 'mask keywords in their entirety: ' . \implode(', ', $this->keywords);
+            throw new ExplicitDelimiterRequiredException($message);
         }
     }
 
