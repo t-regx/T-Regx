@@ -25,6 +25,14 @@ class Cut
         if ($piecesAmount === 2) {
             return $pieces;
         }
-        throw new UnevenCutException($piecesAmount === 1);
+        throw new UnevenCutException($this->unevenCutMessage($piecesAmount));
+    }
+
+    private function unevenCutMessage(int $piecesAmount): string
+    {
+        if ($piecesAmount === 1) {
+            return "Expected the pattern to make exactly 1 cut, but the pattern doesn't match the subject";
+        }
+        return "Expected the pattern to make exactly 1 cut, but 2 or more cuts were matched";
     }
 }
