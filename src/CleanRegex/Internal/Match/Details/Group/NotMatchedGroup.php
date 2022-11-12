@@ -101,7 +101,7 @@ class NotMatchedGroup implements Group
 
     protected function groupNotMatched(string $method): GroupNotMatchedException
     {
-        return GroupNotMatchedException::forMethod($this->details->group(), $method);
+        return new GroupNotMatchedException("Expected to call $method() for group {$this->details->group()}, but the group was not matched");
     }
 
     public function subject(): string
