@@ -33,23 +33,28 @@ class CallbackInvoker
 
     public function invoke(callable $callback): string
     {
-        $result = $this->pregReplaceCallback($callback, $replaced);
+        return $this->invokeFunction(new ReplaceFunction($callback));
+    }
+
+    private function invokeFunction(ReplaceFunction $function): string
+    {
+        $result = $this->pregReplaceCallback($function, $replaced);
         $this->countingStrategy->applyReplaced($replaced);
         return $result;
     }
 
-    private function pregReplaceCallback(callable $callback, ?int &$replaced): string
+    private function pregReplaceCallback(ReplaceFunction $function, ?int &$replaced): string
     {
         return preg::replace_callback($this->definition->pattern,
-            $this->getObjectCallback($callback),
+            $this->getObjectCallback($function),
             $this->subject,
             $this->pregLimit,
             $replaced);
     }
 
-    private function getObjectCallback(callable $callback): callable
+    private function getObjectCallback(ReplaceFunction $function): callable
     {
-        $object = new ReplaceCallbackObject($callback, $this->subject, $this->allFactory);
+        $object = new ReplaceCallbackObject($function, $this->subject, $this->allFactory);
         return $object->getCallback();
     }
 }
