@@ -12,18 +12,18 @@ class Counter
     /** @var Subject */
     private $subject;
     /** @var int */
-    private $limit;
+    private $pregLimit;
 
-    public function __construct(Definition $definition, Subject $subject, int $limit)
+    public function __construct(Definition $definition, Subject $subject, int $pregLimit)
     {
         $this->definition = $definition;
         $this->subject = $subject;
-        $this->limit = $limit;
+        $this->pregLimit = $pregLimit;
     }
 
     public function limitedAmount(): int
     {
-        preg::replace($this->definition->pattern, '', $this->subject->asString(), $this->limit, $count);
+        preg::replace($this->definition->pattern, '', $this->subject->asString(), $this->pregLimit, $count);
         return $count;
     }
 }
