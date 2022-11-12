@@ -17,7 +17,7 @@ class GroupReplace
     /** @var Subject */
     private $subject;
     /** @var int */
-    private $limit;
+    private $pregLimit;
     /** @var GroupAware */
     private $groupAware;
     /** @var CountingStrategy */
@@ -25,11 +25,11 @@ class GroupReplace
     /** @var GroupAwake */
     private $awake;
 
-    public function __construct(Definition $definition, Subject $subject, int $limit, CountingStrategy $counting)
+    public function __construct(Definition $definition, Subject $subject, int $pregLimit, CountingStrategy $counting)
     {
         $this->definition = $definition;
         $this->subject = $subject;
-        $this->limit = $limit;
+        $this->pregLimit = $pregLimit;
         $this->groupAware = new LightweightGroupAware($definition);
         $this->counting = $counting;
         $this->awake = new GroupAwake($definition, $subject);
@@ -45,7 +45,7 @@ class GroupReplace
 
     private function replacedByDelegate(PregDelegate $delegate): string
     {
-        return preg::replace_callback($this->definition->pattern, [$delegate, 'apply'], $this->subject, $this->limit);
+        return preg::replace_callback($this->definition->pattern, [$delegate, 'apply'], $this->subject, $this->pregLimit);
     }
 
     private function applyDelegate(PregDelegate $delegate, GroupKey $group): void

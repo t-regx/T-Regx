@@ -27,14 +27,14 @@ class LimitedReplace
     /** @var GroupReplace */
     private $groupReplace;
 
-    public function __construct(Definition $definition, Subject $subject, int $limit, CountingStrategy $countingStrategy)
+    public function __construct(Definition $definition, Subject $subject, int $pregLimit, CountingStrategy $countingStrategy)
     {
         $this->definition = $definition;
         $this->subject = $subject;
-        $this->limit = $limit;
-        $this->countingStrategy = new StateStrategy($countingStrategy, new Counter($definition, $subject, $limit));
-        $this->invoker = new CallbackInvoker($definition, $subject, $limit, $this->countingStrategy);
-        $this->groupReplace = new GroupReplace($definition, $subject, $limit, $this->countingStrategy);
+        $this->limit = $pregLimit;
+        $this->countingStrategy = new StateStrategy($countingStrategy, new Counter($definition, $subject, $pregLimit));
+        $this->invoker = new CallbackInvoker($definition, $subject, $pregLimit, $this->countingStrategy);
+        $this->groupReplace = new GroupReplace($definition, $subject, $pregLimit, $this->countingStrategy);
     }
 
     public function with(string $replacement): string

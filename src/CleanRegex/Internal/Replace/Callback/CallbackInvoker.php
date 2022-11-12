@@ -16,17 +16,17 @@ class CallbackInvoker
     /** @var Subject */
     private $subject;
     /** @var int */
-    private $limit;
+    private $pregLimit;
     /** @var CountingStrategy */
     private $countingStrategy;
     /** @var MatchAllFactory */
     private $allFactory;
 
-    public function __construct(Definition $definition, Subject $subject, int $limit, CountingStrategy $countingStrategy)
+    public function __construct(Definition $definition, Subject $subject, int $pregLimit, CountingStrategy $countingStrategy)
     {
         $this->definition = $definition;
         $this->subject = $subject;
-        $this->limit = $limit;
+        $this->pregLimit = $pregLimit;
         $this->countingStrategy = $countingStrategy;
         $this->allFactory = new LazyMatchAllFactory(new ApiBase($definition, $subject));
     }
@@ -43,7 +43,7 @@ class CallbackInvoker
         return preg::replace_callback($this->definition->pattern,
             $this->getObjectCallback($callback),
             $this->subject,
-            $this->limit,
+            $this->pregLimit,
             $replaced);
     }
 
