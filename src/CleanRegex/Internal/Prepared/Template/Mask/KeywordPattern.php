@@ -62,7 +62,7 @@ class KeywordPattern
         try {
             return $this->candidates->delimiter();
         } catch (UndelimitablePatternException $exception) {
-            throw ExplicitDelimiterRequiredException::forMaskKeyword($this->keyword, $this->pattern);
+            throw new ExplicitDelimiterRequiredException("mask pattern '$this->pattern' assigned to keyword '$this->keyword'");
         }
     }
 }

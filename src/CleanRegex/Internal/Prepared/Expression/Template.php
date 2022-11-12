@@ -24,7 +24,7 @@ class Template implements Expression
         try {
             return $this->expression->predefinition();
         } catch (UndelimitablePatternException $exception) {
-            throw ExplicitDelimiterRequiredException::forTemplate();
+            throw new ExplicitDelimiterRequiredException('template in its entirety');
         }
     }
 }
