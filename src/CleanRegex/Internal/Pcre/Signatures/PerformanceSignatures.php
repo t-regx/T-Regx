@@ -29,7 +29,9 @@ class PerformanceSignatures implements Signatures
             try {
                 return (new ArraySignatures($this->groupKeys->getGroupKeys()))->signature($group);
             } catch (InsufficientMatchException $exception) {
+                // @codeCoverageIgnoreStart
                 throw new InternalCleanRegexException();
+                // @codeCoverageIgnoreEnd
             }
         }
     }

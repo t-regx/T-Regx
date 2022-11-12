@@ -18,6 +18,8 @@ class EmptyHostError implements HostError
 
     public function getSafeRegexpException(string $methodName, $pattern): PregException
     {
+        // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();
+        // @codeCoverageIgnoreEnd
     }
 }
