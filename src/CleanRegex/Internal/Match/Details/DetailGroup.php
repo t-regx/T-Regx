@@ -73,6 +73,6 @@ class DetailGroup
             [$text] = $this->usedForGroup->getGroupTextAndOffset($handle);
             return $text;
         }
-        throw GroupNotMatchedException::forGet($group);
+        throw new GroupNotMatchedException("Expected to get group $group, but the group was not matched");
     }
 }
