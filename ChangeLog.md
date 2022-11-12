@@ -6,6 +6,8 @@ Incoming
 
 * Breaking changes
     * Removed `SubjectNotMatchedException.getSubject()`.
+* Other
+    * Exception `PlaceholderFigureException` now extend correctly implements `PatternException`.
 
 Added in 0.39.0
 ---------------
