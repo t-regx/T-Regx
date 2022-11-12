@@ -1,8 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match;
 
-use TRegx\CleanRegex\Internal\Limit;
-
 class SearchOnly
 {
     /** @var SearchBase */
