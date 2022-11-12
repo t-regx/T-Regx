@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\CleanRegex\Builder;
+namespace TRegx\CleanRegex;
 
 use TRegx\CleanRegex\Internal\Prepared\Cluster\IndividualCluster;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
@@ -11,7 +11,6 @@ use TRegx\CleanRegex\Internal\Prepared\Template\Figure\AlterationFigure;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\LiteralFigure;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\MaskFigure;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\PatternFigure;
-use TRegx\CleanRegex\Pattern;
 
 class PatternTemplate
 {
