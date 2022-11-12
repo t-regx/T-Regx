@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Breaking changes
+    * Removed `SubjectNotMatchedException.getSubject()`.
 
 Added in 0.39.0
 ---------------

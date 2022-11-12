@@ -75,22 +75,6 @@ class MatcherTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowSubjectNotMatched_getSubject()
-    {
-        // given
-        $matcher = pattern('Foo')->match('Bar');
-        try {
-            // when
-            $matcher->first();
-        } catch (SubjectNotMatchedException $exception) {
-            // then
-            $this->assertSame('Bar', $exception->getSubject());
-        }
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetFirst_backtrackingAtEdge()
     {
         // given
