@@ -2,13 +2,20 @@
 namespace TRegx\CleanRegex\Internal\Replace\Callback;
 
 use TRegx\CleanRegex\Internal\Definition;
+use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\LazyMatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactoryMatchOffset;
+use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchAllFactoryPrime;
 use TRegx\CleanRegex\Internal\Replace\Counting\CountingStrategy;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\SafeRegex\preg;
 
+/**
+ * @deprecated
+ */
 class CallbackInvoker
 {
     /** @var Definition */
@@ -21,6 +28,8 @@ class CallbackInvoker
     private $countingStrategy;
     /** @var MatchAllFactory */
     private $allFactory;
+    /** @var MatchAllFactoryPrime */
+    private $primeFactory;
 
     public function __construct(Definition $definition, Subject $subject, int $pregLimit, CountingStrategy $countingStrategy)
     {
@@ -29,6 +38,7 @@ class CallbackInvoker
         $this->pregLimit = $pregLimit;
         $this->countingStrategy = $countingStrategy;
         $this->allFactory = new LazyMatchAllFactory(new ApiBase($definition, $subject));
+        $this->primeFactory = new MatchAllFactoryPrime($this->allFactory);
     }
 
     public function invoke(callable $callback): string
@@ -38,23 +48,25 @@ class CallbackInvoker
 
     private function invokeFunction(ReplaceFunction $function): string
     {
-        $result = $this->pregReplaceCallback($function, $replaced);
-        $this->countingStrategy->applyReplaced($replaced);
-        return $result;
-    }
-
-    private function pregReplaceCallback(ReplaceFunction $function, ?int &$replaced): string
-    {
-        return preg::replace_callback($this->definition->pattern,
-            $this->getObjectCallback($function),
+        $index = 0;
+        $replaced = preg::replace_callback($this->definition->pattern,
+            function (array $match) use ($function, &$index) {
+                return $function->apply($this->detail($index++));
+            },
             $this->subject,
             $this->pregLimit,
-            $replaced);
+            $replacedAmount);
+        $this->countingStrategy->applyReplaced($replacedAmount);
+        return $replaced;
     }
 
-    private function getObjectCallback(ReplaceFunction $function): callable
+    public function detail(int $index): Detail
     {
-        $object = new ReplaceCallbackObject($function, $this->subject, $this->allFactory);
-        return $object->getCallback();
+        return DeprecatedMatchDetail::create(
+            $this->subject,
+            $index,
+            new MatchAllFactoryMatchOffset($this->allFactory, $index),
+            $this->allFactory,
+            $this->primeFactory);
     }
 }
