@@ -43,6 +43,7 @@ class IntegerStream implements Upstream
         if (\is_string($value)) {
             return $this->base->integer($value);
         }
-        throw InvalidIntegerTypeException::forInvalidType(new ValueType($value));
+        $type = new ValueType($value);
+        throw new InvalidIntegerTypeException("Failed to parse value as integer. Expected integer|string, but $type given");
     }
 }
