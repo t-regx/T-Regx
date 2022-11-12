@@ -53,14 +53,14 @@ class GroupReplace
         if ($delegate->replaced() === 0) {
             $this->applyUnmatchedSubject($group);
         } else {
-            $this->counting->applyReplaced($delegate->replaced(), $this->groupAware);
+            $this->counting->applyReplaced($delegate->replaced());
         }
     }
 
     private function applyUnmatchedSubject(GroupKey $group): void
     {
         if ($this->groupAware->hasGroup($group)) {
-            $this->counting->applyReplaced(0, $this->groupAware);
+            $this->counting->applyReplaced(0);
         } else {
             throw new NonexistentGroupException($group);
         }
