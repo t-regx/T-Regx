@@ -19,7 +19,6 @@ use TRegx\CleanRegex\Internal\Match\SearchItems;
 use TRegx\CleanRegex\Internal\Match\SearchOnly;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\TextStream;
-use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
@@ -74,7 +73,7 @@ class Search implements \Countable, \IteratorAggregate
     {
         $text = $this->searchBase->matchFirstOrNull();
         if ($text === null) {
-            throw new SubjectNotMatchedException(new FirstMatchMessage(), $this->subject->asString());
+            throw new SubjectNotMatchedException();
         }
         return $text;
     }

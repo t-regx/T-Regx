@@ -20,7 +20,6 @@ use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\SearchBase;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\DetailStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase;
-use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Model\FalseNegative;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
@@ -94,7 +93,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         if ($match->matched()) {
             return $this->firstDetail($match);
         }
-        throw new SubjectNotMatchedException(new FirstMatchMessage(), $this->subject);
+        throw new SubjectNotMatchedException();
     }
 
     public function findFirst(): Optional

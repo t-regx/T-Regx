@@ -59,20 +59,6 @@ class SearchTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowSubjectNotMatched_getSubject()
-    {
-        try {
-            // when
-            pattern('Foo')->search('Bar')->first();
-        } catch (SubjectNotMatchedException $exception) {
-            // then
-            $this->assertSame('Bar', $exception->getSubject());
-        }
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetFirst_backtrackingAtEdge()
     {
         // given

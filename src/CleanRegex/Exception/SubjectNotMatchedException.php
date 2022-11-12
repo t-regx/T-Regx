@@ -1,21 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
-use TRegx\CleanRegex\Internal\Message\Message;
-
 class SubjectNotMatchedException extends \RuntimeException implements PatternException
 {
-    /** @var string */
-    private $subject;
-
-    public function __construct(Message $message, string $subject)
+    public function __construct()
     {
-        parent::__construct($message->getMessage());
-        $this->subject = $subject;
-    }
-
-    public function getSubject(): string
-    {
-        return $this->subject;
+        parent::__construct('Expected to get the first match, but subject was not matched');
     }
 }
