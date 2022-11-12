@@ -14,6 +14,6 @@ class StreamExceptions implements IntegerExceptions
 
     public function overflowException(Base $base, string $numeral): IntegerOverflowException
     {
-        return IntegerOverflowException::forStream($numeral, $base);
+        return new IntegerOverflowException("Expected to parse stream element '$numeral', but it exceeds integer size on this architecture in base $base");
     }
 }
