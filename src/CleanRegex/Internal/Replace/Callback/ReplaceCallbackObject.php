@@ -1,19 +1,17 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Replace\Callback;
 
-use TRegx\CleanRegex\Exception\InvalidReplacementException;
 use TRegx\CleanRegex\Internal\Pcre\DeprecatedMatchDetail;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactoryMatchOffset;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\MatchAllFactoryPrime;
 use TRegx\CleanRegex\Internal\Subject;
-use TRegx\CleanRegex\Internal\Type\ValueType;
 use TRegx\CleanRegex\Match\Detail;
 
 class ReplaceCallbackObject
 {
-    /** @var callable */
-    private $callback;
+    /** @var ReplaceFunction */
+    private $function;
     /** @var Subject */
     private $subject;
     /** @var MatchAllFactory */
@@ -21,9 +19,9 @@ class ReplaceCallbackObject
     /** @var int */
     private $counter = 0;
 
-    public function __construct(callable $callback, Subject $subject, MatchAllFactory $factory)
+    public function __construct(ReplaceFunction $function, Subject $subject, MatchAllFactory $factory)
     {
-        $this->callback = $callback;
+        $this->function = $function;
         $this->subject = $subject;
         $this->factory = $factory;
     }
@@ -31,14 +29,8 @@ class ReplaceCallbackObject
     public function getCallback(): callable
     {
         return function (array $match) {
-            return $this->invoke();
+            return $this->function->apply($this->createDetailObject());
         };
-    }
-
-    private function invoke(): string
-    {
-        $result = ($this->callback)($this->createDetailObject());
-        return $this->getReplacement($result);
     }
 
     private function createDetailObject(): Detail
@@ -50,13 +42,5 @@ class ReplaceCallbackObject
             new MatchAllFactoryMatchOffset($this->factory, $index),
             $this->factory,
             new MatchAllFactoryPrime($this->factory));
-    }
-
-    private function getReplacement($replacement): string
-    {
-        if (\is_string($replacement)) {
-            return $replacement;
-        }
-        throw new InvalidReplacementException(new ValueType($replacement));
     }
 }
