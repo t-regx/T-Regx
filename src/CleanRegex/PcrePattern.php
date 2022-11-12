@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex;
 
-use TRegx\CleanRegex\Builder\PatternTemplate;
 use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Internal\Expression\Pcre;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\FigureClusters;

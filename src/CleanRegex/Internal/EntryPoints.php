@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use TRegx\CleanRegex\Builder\PatternTemplate;
 use TRegx\CleanRegex\Builder\TemplateBuilder;
 use TRegx\CleanRegex\Internal\Expression\Alteration;
 use TRegx\CleanRegex\Internal\Expression\Literal;
@@ -15,6 +14,7 @@ use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardOrthography;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PatternList;
+use TRegx\CleanRegex\PatternTemplate;
 
 trait EntryPoints
 {
