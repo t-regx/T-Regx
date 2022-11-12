@@ -7,7 +7,7 @@ use TRegx\Exception\MalformedPatternException;
 
 /**
  * @covers \TRegx\CleanRegex\PatternList::replace
- * @covers \TRegx\CleanRegex\Composite\ChainedReplace
+ * @covers \TRegx\CleanRegex\Replace\ChainedReplace
  */
 class PatternListTest extends TestCase
 {
