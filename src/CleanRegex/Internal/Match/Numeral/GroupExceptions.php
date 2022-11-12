@@ -18,7 +18,7 @@ class GroupExceptions implements IntegerExceptions
 
     public function formatException(Base $base, string $numeral): IntegerFormatException
     {
-        return IntegerFormatException::forGroup($this->group, $numeral, $base);
+        return new IntegerFormatException("Expected to parse group $this->group, but '$numeral' is not a valid integer in base $base");
     }
 
     public function overflowException(Base $base, string $numeral): IntegerOverflowException
