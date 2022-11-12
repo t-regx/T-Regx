@@ -79,21 +79,28 @@ class PatternTest extends TestCase
                 ['(?<az@>)'],
                 ["(?'az@')"],
                 ["(?P<az@>)"],
+                ['(?<abcdefghijklmnopqrstuvwxyz@>)'],
             ],
 
-            ['(?<g@>)'],
-            ['(?<_group@>)'],
-            ['(?<_@>)'],
-            ['(?<gro_up@>)'],
-            ['(?<abcdefghijklmnopqrstuvwxyz@>)'],
+            'unclosed' => [
+                ['(?<'],
+                ['(?<>'],
+                ["(?''"],
+                ['(?<@'],
+                ['(?<foo@'],
+                ["(?'foo@"],
+                ["(?P<foo@"],
+            ],
 
-            ['(?<'],     // wtf
-            ['(?<>'],     // wtf
-            ["(?''"],     // wtf
-            ['(?<@'],     // wtf
-            ['(?<foo@'],  // wtf
-            ["(?'foo@"],  // wtf
-            ["(?P<foo@"], // wtf
+            'underscore permutations' => [
+                ['(?<_group@>)'],
+                ['(?<_@>)'],
+                ['(?<gro_up@>)'],
+            ],
+
+            'empty' => [
+                ["(?<>)"],
+            ]
         ]);
     }
 
