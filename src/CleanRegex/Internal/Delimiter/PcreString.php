@@ -26,7 +26,7 @@ class PcreString
     private function undelimitedPcre(string $pcre): array
     {
         if ($pcre === '') {
-            throw MalformedPcreTemplateException::emptyPattern();
+            throw new MalformedPcreTemplateException('pattern is empty');
         }
         return $this->shiftedDelimiter($pcre);
     }

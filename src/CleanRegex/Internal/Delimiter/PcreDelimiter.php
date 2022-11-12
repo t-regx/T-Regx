@@ -13,13 +13,21 @@ class PcreDelimiter
         if ($this->legalDelimiter($delimiter)) {
             $this->delimiter = $delimiter;
         } else {
-            throw MalformedPcreTemplateException::invalidDelimiter($delimiter);
+            throw new MalformedPcreTemplateException($this->malformedTemplateMessage($delimiter));
         }
+    }
+
+    private function malformedTemplateMessage(string $delimiter): string
+    {
+        if (\ctype_alnum($delimiter)) {
+            return "alphanumeric delimiter '$delimiter'";
+        }
+        return "starting with an unexpected delimiter '$delimiter'";
     }
 
     private function legalDelimiter(string $delimiter): bool
     {
-        if (\in_array($delimiter, ["\0", "\t", "\n", "\v", "\f", "\r", ' ', "\\", '(', '[', '{', '<'], true)) {
+        if (\in_array($delimiter, ["\0", "\t", "\n", "\v", "\f", "\r", ' ', "\\", '(', '[', '{', '<'])) {
             return false;
         }
         if (\ctype_alnum($delimiter)) {
@@ -47,7 +55,7 @@ class PcreDelimiter
     {
         $position = \strrpos($pcre, $this->delimiter);
         if ($position === false) {
-            throw MalformedPcreTemplateException::unclosed($this->delimiter);
+            throw new MalformedPcreTemplateException("unclosed pattern '$this->delimiter'");
         }
         return $position;
     }
