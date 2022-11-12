@@ -22,7 +22,9 @@ class PosixClassCondition
     {
         $name = $this->nextName();
         if ($name === null) {
+            // @codeCoverageIgnoreStart
             throw new InternalCleanRegexException();
+            // @codeCoverageIgnoreEnd
         }
         return \subStr($this->feed->content(), 0, \strLen($name));
     }

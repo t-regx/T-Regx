@@ -24,7 +24,9 @@ class ArraySignatures implements Signatures
         if (\is_int($group->nameOrIndex())) {
             return new GroupSignature($group->nameOrIndex(), $this->getNameByIndex($group->nameOrIndex()));
         }
+        // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();
+        // @codeCoverageIgnoreEnd
     }
 
     private function getIndexByName(string $name): int
@@ -36,7 +38,10 @@ class ArraySignatures implements Signatures
         if (\array_key_exists($key + 1, $this->groupKeys)) {
             return $this->groupKeys[$key + 1];
         }
+
+        // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();
+        // @codeCoverageIgnoreEnd
     }
 
     private function getNameByIndex(int $index): ?string

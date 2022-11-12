@@ -19,7 +19,9 @@ class ShiftString
     public function shift(string $string): void
     {
         if (!$this->startsWith($string)) {
+            // @codeCoverageIgnoreStart
             throw new InternalCleanRegexException();
+            // @codeCoverageIgnoreEnd
         }
         $this->offset += \strLen($string);
     }
@@ -37,7 +39,9 @@ class ShiftString
     public function firstLetter(): string
     {
         if ($this->offset >= \strLen($this->string)) {
+            // @codeCoverageIgnoreStart
             throw new InternalCleanRegexException();
+            // @codeCoverageIgnoreEnd
         }
         return \subStr($this->string, $this->offset, 1);
     }
