@@ -157,7 +157,7 @@ class Functions
 
     public static function outLast(&$argument, $return = null): callable
     {
-        return function ($capturedArgument) use (&$captured, &$argument, $return) {
+        return function ($capturedArgument) use (&$argument, $return) {
             $argument = $capturedArgument;
             return $return;
         };
