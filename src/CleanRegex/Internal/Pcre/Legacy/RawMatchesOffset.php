@@ -33,43 +33,14 @@ class RawMatchesOffset implements GroupAware
         return $offset;
     }
 
-    public function getTextAndOffset(int $index): array
-    {
-        return $this->matches[0][$index];
-    }
-
     public function getGroupTextAndOffset($nameOrIndex, int $index): array
     {
         return $this->matches[$nameOrIndex][$index];
     }
 
-    public function getGroupTextAndOffsetAll($nameOrIndex): array
-    {
-        return $this->matches[$nameOrIndex];
-    }
-
     public function getGroupKeys(): array
     {
         return \array_keys($this->matches);
-    }
-
-    public function getGroupsOffsets(int $index): array
-    {
-        return \array_map(static function (array $match) use ($index) {
-            [$text, $offset] = $match[$index];
-            return $offset;
-        }, $this->matches);
-    }
-
-    public function getGroupsTexts(int $index): array
-    {
-        return \array_map(static function (array $match) use ($index): ?string {
-            [$text, $offset] = $match[$index];
-            if ($offset === -1) {
-                return null;
-            }
-            return $text;
-        }, $this->matches);
     }
 
     public function getGroupTexts($group): array
