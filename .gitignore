@@ -7,3 +7,5 @@ profile/
 composer.phar
 composer.lock
 .phpunit.result.cache
+.phpdoc
+*.phar
