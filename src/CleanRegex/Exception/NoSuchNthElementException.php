@@ -3,11 +3,6 @@ namespace TRegx\CleanRegex\Exception;
 
 class NoSuchNthElementException extends \RuntimeException implements PatternException
 {
-    public function __construct(string $message)
-    {
-        parent::__construct($message);
-    }
-
     public static function forSubject(int $index, int $total): self
     {
         $message = "Expected to get the $index-nth match";
