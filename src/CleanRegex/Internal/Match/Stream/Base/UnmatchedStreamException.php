@@ -1,6 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Stream\Base;
 
-class UnmatchedStreamException extends \Exception
+class UnmatchedStreamException extends \RuntimeException
 {
 }
