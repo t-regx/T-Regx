@@ -11,13 +11,13 @@ class MatchItems
 {
     /** @var ApiBase */
     private $base;
-    /** @var Subject */
-    private $subject;
+    /** @var DetailObjectFactory */
+    private $factory;
 
     public function __construct(ApiBase $base, Subject $subject)
     {
         $this->base = $base;
-        $this->subject = $subject;
+        $this->factory = new DetailObjectFactory($subject);
     }
 
     public function filter(Predicate $predicate): array
@@ -32,7 +32,6 @@ class MatchItems
 
     private function getDetailObjects(): array
     {
-        $factory = new DetailObjectFactory($this->subject);
-        return $factory->mapToDetailObjects($this->base->matchAllOffsets());
+        return $this->factory->mapToDetailObjects($this->base->matchAllOffsets());
     }
 }

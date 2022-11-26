@@ -55,6 +55,8 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
     private $amount;
     /** @var GroupedDetails */
     private $grouped;
+    /** @var DetailObjectFactory */
+    private $factory;
 
     public function __construct(Definition $definition, Subject $subject)
     {
@@ -67,6 +69,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         $this->matchItems = new MatchItems($this->base, $subject);
         $this->amount = new Amount(new SearchBase($definition, $subject));
         $this->grouped = new GroupedDetails($definition, $subject);
+        $this->factory = new DetailObjectFactory($subject);
     }
 
     public function test(): bool
@@ -127,8 +130,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         }
         $texts = \array_values($this->base->matchAll()->getTexts());
         if (\array_key_exists($index, $texts)) {
-            $factory = new DetailObjectFactory($this->subject);
-            return $factory->mapToDetailObject($this->base->matchAllOffsets(), $index);
+            return $this->factory->mapToDetailObject($this->base->matchAllOffsets(), $index);
         }
         throw NoSuchNthElementException::forSubject($index, \count($texts));
     }
@@ -222,8 +224,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
 
     private function getDetailObjects(): array
     {
-        $factory = new DetailObjectFactory($this->subject);
-        return $factory->mapToDetailObjects($this->base->matchAllOffsets());
+        return $this->factory->mapToDetailObjects($this->base->matchAllOffsets());
     }
 
     public function reduce(callable $reducer, $accumulator)
