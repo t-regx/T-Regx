@@ -26,8 +26,6 @@ use TRegx\CleanRegex\Internal\Match\Stream\StreamTerminal;
 use TRegx\CleanRegex\Internal\Match\Stream\UniqueStream;
 use TRegx\CleanRegex\Internal\Match\Stream\Upstream;
 use TRegx\CleanRegex\Internal\Match\Stream\ValueStream;
-use TRegx\CleanRegex\Internal\Message\Stream\FromFirstStreamMessage;
-use TRegx\CleanRegex\Internal\Message\SubjectNotMatched\FirstMatchMessage;
 use TRegx\CleanRegex\Internal\Numeral;
 use TRegx\CleanRegex\Internal\Predicate;
 
@@ -78,9 +76,9 @@ class Stream implements \Countable, \IteratorAggregate
             [$key, $value] = $this->upstream->first();
             return $value;
         } catch (EmptyStreamException $exception) {
-            throw new NoSuchStreamElementException(new FromFirstStreamMessage());
+            throw new NoSuchStreamElementException("Expected to get the first stream element, but the stream has 0 element(s)");
         } catch (UnmatchedStreamException $exception) {
-            throw new NoSuchStreamElementException(new FirstMatchMessage());
+            throw new NoSuchStreamElementException('Expected to get the first match, but subject was not matched');
         }
     }
 
