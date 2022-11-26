@@ -50,7 +50,7 @@ class GroupedDetails
     private function groupText(RawMatchesOffset $matches, int $handled, int $index, GroupKey $group): string
     {
         if (!$matches->isGroupMatched($handled, $index)) {
-            throw GroupNotMatchedException::forGroupBy($group);
+            throw (new GroupNotMatchedException("Expected to group matches by group $group, but the group was not matched"));
         }
         [$text] = $matches->getGroupTextAndOffset($handled, $index);
         return $text;

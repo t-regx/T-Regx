@@ -45,12 +45,17 @@ class GroupedTexts
     private function groupText($match, GroupKey $group): string
     {
         if ($match === '') {
-            throw GroupNotMatchedException::forGroupBy($group);
+            throw $this->groupNotMatched($group);
         }
         [$value, $offset] = $match;
         if ($offset === -1) {
-            throw GroupNotMatchedException::forGroupBy($group);
+            throw $this->groupNotMatched($group);
         }
         return $value;
+    }
+
+    private function groupNotMatched(GroupKey $group): GroupNotMatchedException
+    {
+        return new GroupNotMatchedException("Expected to group matches by group $group, but the group was not matched");
     }
 }

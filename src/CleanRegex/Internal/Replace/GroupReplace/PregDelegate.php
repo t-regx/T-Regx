@@ -3,6 +3,7 @@ namespace TRegx\CleanRegex\Internal\Replace\GroupReplace;
 
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Exception\PatternException;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Model\GroupAware;
 
@@ -54,13 +55,13 @@ class PregDelegate
         if ($this->awake->groupMatched($this->index, $this->group)) {
             return '';
         }
-        throw GroupNotMatchedException::forReplacement($this->group);
+        throw new GroupNotMatchedException("Expected to replace with group $this->group, but the group was not matched");
     }
 
-    private function absentGroupException(): \Throwable
+    private function absentGroupException(): PatternException
     {
         if ($this->aware->hasGroup($this->group)) {
-            return GroupNotMatchedException::forReplacement($this->group);
+            return new GroupNotMatchedException("Expected to replace with group $this->group, but the group was not matched");
         }
         return new NonexistentGroupException($this->group);
     }
