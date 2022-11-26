@@ -20,11 +20,6 @@ class MatchItems
         $this->subject = $subject;
     }
 
-    public function map(callable $mapper): array
-    {
-        return \array_map($mapper, $this->getDetailObjects());
-    }
-
     public function filter(Predicate $predicate): array
     {
         return \array_values(\array_filter($this->getDetailObjects(), [$predicate, 'test']));

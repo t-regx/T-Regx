@@ -142,7 +142,11 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
 
     public function map(callable $mapper): array
     {
-        return $this->matchItems->map($mapper);
+        $mapped = [];
+        foreach ($this as $detail) {
+            $mapped[] = $mapper($detail);
+        }
+        return $mapped;
     }
 
     /**

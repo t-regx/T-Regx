@@ -117,7 +117,11 @@ class Search implements \Countable, \IteratorAggregate
 
     public function map(callable $mapper): array
     {
-        return $this->searchItems->mapped($mapper);
+        $mapped = [];
+        foreach ($this as $text) {
+            $mapped[] = $mapper($text);
+        }
+        return $mapped;
     }
 
     /**
