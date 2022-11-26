@@ -20,12 +20,14 @@ trait EntryPoints
 {
     public static function of(string $pattern, string $modifiers = null): Pattern
     {
-        return new Pattern(new Standard(new StandardSpelling($pattern, Flags::from($modifiers), new UnsuitableStringCondition($pattern))));
+        return new Pattern(new Standard(new StandardSpelling($pattern, Flags::from($modifiers),
+            new UnsuitableStringCondition($pattern))));
     }
 
     public static function inject(string $pattern, array $texts, string $modifiers = null): Pattern
     {
-        return new Pattern(new Template(new StandardSpelling($pattern, Flags::from($modifiers), new UnsuitableStringCondition($pattern)), new FigureClusters($texts)));
+        return new Pattern(new Template(new StandardSpelling($pattern, Flags::from($modifiers),
+            new UnsuitableStringCondition($pattern)), new FigureClusters($texts)));
     }
 
     public static function mask(string $mask, array $keywords, string $modifiers = null): Pattern
@@ -40,7 +42,8 @@ trait EntryPoints
 
     public static function builder(string $pattern, string $modifiers = null): TemplateBuilder
     {
-        return new TemplateBuilder(new StandardOrthography($pattern, Flags::from($modifiers)), new Clusters([]));
+        return new TemplateBuilder(new StandardOrthography($pattern, Flags::from($modifiers)),
+            new Clusters([]));
     }
 
     public static function literal(string $text, string $modifiers = null): Pattern
