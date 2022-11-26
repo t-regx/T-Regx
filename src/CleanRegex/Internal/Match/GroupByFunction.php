@@ -45,6 +45,11 @@ class GroupByFunction
         if ($group->matched()) {
             return $group->text();
         }
-        throw GroupNotMatchedException::forGroupBy(GroupKey::of($group->usedIdentifier()));
+        throw $this->notMatched(GroupKey::of($group->usedIdentifier()));
+    }
+
+    private function notMatched(GroupKey $group): GroupNotMatchedException
+    {
+        return new GroupNotMatchedException("Expected to group matches by group $group, but the group was not matched");
     }
 }
