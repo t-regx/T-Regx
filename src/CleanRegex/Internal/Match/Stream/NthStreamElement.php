@@ -6,8 +6,6 @@ use TRegx\CleanRegex\Internal\EmptyOptional;
 use TRegx\CleanRegex\Internal\Index;
 use TRegx\CleanRegex\Internal\Match\PresentOptional;
 use TRegx\CleanRegex\Internal\Match\Stream\Base\UnmatchedStreamException;
-use TRegx\CleanRegex\Internal\Message\Stream\FromNthStreamMessage;
-use TRegx\CleanRegex\Internal\Message\Stream\SubjectNotMatched;
 use TRegx\CleanRegex\Match\Optional;
 
 class NthStreamElement
@@ -43,7 +41,7 @@ class NthStreamElement
         try {
             return $this->unmatchedValue($index);
         } catch (UnmatchedStreamException $exception) {
-            throw new NoSuchNthElementException((new SubjectNotMatched\FromNthStreamMessage($index))->getMessage());
+            throw new NoSuchNthElementException("Expected to get the $index-nth stream element, but the subject backing the stream was not matched");
         }
     }
 
@@ -53,6 +51,7 @@ class NthStreamElement
         if ($index->in($elements)) {
             return $index->valueFrom($elements);
         }
-        throw new NoSuchNthElementException((new FromNthStreamMessage($index, \count($elements)))->getMessage());
+        $count = \count($elements);
+        throw new NoSuchNthElementException("Expected to get the $index-nth stream element, but the stream has $count element(s)");
     }
 }
