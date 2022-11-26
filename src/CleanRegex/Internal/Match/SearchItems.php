@@ -14,11 +14,6 @@ class SearchItems
         $this->base = $base;
     }
 
-    public function mapped(callable $mapper): array
-    {
-        return \array_map($mapper, $this->base->matchAllTexts());
-    }
-
     public function filter(Predicate $predicate): array
     {
         return \array_values(\array_filter($this->base->matchAllTexts(), [$predicate, 'test']));
