@@ -16,10 +16,12 @@ class ExactCountingStrategy implements CountingStrategy
     public function applyReplaced(int $replaced): void
     {
         if ($replaced < $this->amount) {
-            throw ReplacementExpectationFailedException::insufficient($replaced, $this->amount, 'exactly');
+            throw new ReplacementExpectationFailedException("Expected to perform exactly $this->amount replacement(s), " .
+                "but $replaced replacement(s) were actually performed");
         }
         if ($replaced > $this->amount) {
-            throw ReplacementExpectationFailedException::superfluous($this->amount, 'exactly');
+            throw new ReplacementExpectationFailedException("Expected to perform exactly $this->amount replacement(s), " .
+                "but more than $this->amount replacement(s) would have been performed");
         }
     }
 }

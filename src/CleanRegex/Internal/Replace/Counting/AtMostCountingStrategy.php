@@ -16,7 +16,8 @@ class AtMostCountingStrategy implements CountingStrategy
     public function applyReplaced(int $replaced): void
     {
         if ($replaced > $this->maximum) {
-            throw ReplacementExpectationFailedException::superfluous($this->maximum, 'at most');
+            throw new ReplacementExpectationFailedException("Expected to perform at most $this->maximum replacement(s), " .
+                "but more than $this->maximum replacement(s) would have been performed");
         }
     }
 }

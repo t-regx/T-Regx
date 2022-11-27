@@ -16,7 +16,8 @@ class AtLeastCountingStrategy implements CountingStrategy
     public function applyReplaced(int $replaced): void
     {
         if ($replaced < $this->minimum) {
-            throw ReplacementExpectationFailedException::insufficient($replaced, $this->minimum, 'at least');
+            throw new ReplacementExpectationFailedException("Expected to perform at least $this->minimum replacement(s), " .
+                "but $replaced replacement(s) were actually performed");
         }
     }
 }
