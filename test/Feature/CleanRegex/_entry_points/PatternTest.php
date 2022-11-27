@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PcrePattern;
+use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
 {
@@ -353,5 +354,89 @@ class PatternTest extends TestCase
 
         // then
         $this->assertConsumesFirst('\\', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowMalformedPatternExceptionPattern_forPatternWithNullByte()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not contain null-byte');
+        // when
+        Pattern::of("pattern \0")->test('bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowMalformedPatternExceptionPatternList_forPatternWithNullByte()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not contain null-byte');
+        // when
+        Pattern::list(['foo', "pattern \0"])->testAny('bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowMalformedPatternExceptionInject_forPatternWithNullByte()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not contain null-byte');
+        // when
+        Pattern::inject("pattern \0", [])->test('bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowMalformedPatternExceptionTemplate_forPatternWithNullByte()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not contain null-byte');
+        // when
+        Pattern::template("pattern \0@")->literal('value')->test('bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowMalformedPatternExceptionTemplatePattern_forPatternWithNullByte()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not contain null-byte');
+        // when
+        Pattern::template('@')->pattern("pattern \0")->test('bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowMalformedPatternExceptionBuilder_forPatternWithNullByte()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not contain null-byte');
+        // when
+        Pattern::builder("pattern \0")->build()->test('bar');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowMalformedPatternExceptionBuilderPattern_forPatternWithNullByte()
+    {
+        // then
+        $this->expectException(MalformedPatternException::class);
+        $this->expectExceptionMessage('Pattern may not contain null-byte');
+        // when
+        Pattern::builder('@')->pattern("pattern \0")->build()->test('bar');
     }
 }
