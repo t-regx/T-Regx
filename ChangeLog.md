@@ -9,6 +9,7 @@ Incoming
     * Moved `ChainedReplace` to `TRegx\CleanRegex\Replace\ `
     * Moved `PatternTemplate` to `TRegx\CleanRegex\ `
     * Moved `TemplateBuilder` to `TRegx\CleanRegex\ `
+    * Updated `MalformedPatternException` message `Null byte in regex` to `Pattern may not contain null-byte`.
 * Other
     * Exception `PlaceholderFigureException` now extend correctly implements `PatternException`.
 

@@ -55,6 +55,9 @@ class CompilePregExceptionFactory
 
     private function cleanMessage(string $message): string
     {
+        if ($message === 'Null byte in regex') {
+            return 'Pattern may not contain null-byte';
+        }
         $message = \str_replace('(PCRE2_DUPNAMES not set) ', '', $message);
         $message = \str_replace('Unrecognized character after (?< at offset ', 'Subpattern name expected at offset ', $message);
 
