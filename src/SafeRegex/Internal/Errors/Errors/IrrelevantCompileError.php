@@ -20,6 +20,11 @@ class IrrelevantCompileError implements CompileError
         // @codeCoverageIgnoreEnd
     }
 
+    /**
+     * @param string $methodName
+     * @param string|string[] $pattern
+     * @return PregException
+     */
     public function getSafeRegexpException(string $methodName, $pattern): PregException
     {
         // @codeCoverageIgnoreStart

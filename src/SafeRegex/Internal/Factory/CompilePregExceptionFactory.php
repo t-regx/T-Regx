@@ -12,7 +12,7 @@ class CompilePregExceptionFactory
     private $phpErrorConstants;
     /** @var string */
     private $methodName;
-    /** @var string|array */
+    /** @var string|string[] */
     private $pattern;
     /** @var PhpError */
     private $error;

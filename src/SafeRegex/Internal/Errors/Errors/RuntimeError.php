@@ -26,6 +26,11 @@ class RuntimeError implements HostError
         \preg_match('//', '');
     }
 
+    /**
+     * @param string $methodName
+     * @param string|string[] $pattern
+     * @return PregException
+     */
     public function getSafeRegexpException(string $methodName, $pattern): PregException
     {
         if ($this->occurred()) {
