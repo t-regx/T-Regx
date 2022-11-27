@@ -1,8 +1,7 @@
 *.iml
 .idea/*
 vendor/
-build/cov/
-build/logs/
+build/
 profile/
 composer.phar
 composer.lock
