@@ -36,7 +36,7 @@ PHP regular expressions brought up to modern standards.
 [![PHP Version](https://img.shields.io/badge/PHP-7.4-blue.svg)](https://github.com/T-Regx/T-Regx/actions)
 [![PHP Version](https://img.shields.io/badge/PHP-8.0-blue.svg)](https://github.com/T-Regx/T-Regx/actions)
 [![PHP Version](https://img.shields.io/badge/PHP-8.1-blue.svg)](https://github.com/T-Regx/T-Regx/actions)
-[![PHP Version](https://img.shields.io/badge/PHP-8.2-yellow.svg)](https://github.com/T-Regx/T-Regx/issues/141)
+[![PHP Version](https://img.shields.io/badge/PHP-8.2-blue.svg)](https://github.com/T-Regx/T-Regx/actions)
 
 1. [Installation](#installation)
     * [Composer](#installation)

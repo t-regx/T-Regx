@@ -5,6 +5,7 @@ Incoming
 --------
 
 * Features
+    * Since `0.41.0` T-Regx officially supports PHP 8.2.
     * Added full support for `n` modifier for every supported PHP version: `7.1` - `8.2`
         * Despite modifier `/n` being only valid in vanilla regexp in PHP only since `8.2`,
           modifier `/n` is fully supported in T-Regx in each PHP version.
