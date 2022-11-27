@@ -58,7 +58,7 @@ class PcrePatternTest extends TestCase
     {
         // then
         $this->expectException(MalformedPatternException::class);
-        $this->expectExceptionMessage('Null byte in regex');
+        $this->expectExceptionMessage('Pattern may not contain null-byte');
         // when
         PcrePattern::of("/\0/")->test('bar');
     }
@@ -70,7 +70,7 @@ class PcrePatternTest extends TestCase
     {
         // then
         $this->expectException(MalformedPatternException::class);
-        $this->expectExceptionMessage('Null byte in regex');
+        $this->expectExceptionMessage('Pattern may not contain null-byte');
         // when
         PcrePattern::of("\0pattern\0")->test('bar');
     }
