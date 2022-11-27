@@ -27,7 +27,6 @@ class PatternTest extends TestCase
     {
         // when
         $test = pattern('\d')->test('abc');
-
         // then
         $this->assertFalse($test);
     }
@@ -39,7 +38,6 @@ class PatternTest extends TestCase
     {
         // when
         $fails = pattern('\d')->fails('abc');
-
         // then
         $this->assertTrue($fails);
     }
@@ -51,7 +49,6 @@ class PatternTest extends TestCase
     {
         // when
         $count = pattern('\d+')->count('111-222-333');
-
         // then
         $this->assertSame(3, $count);
     }
@@ -91,7 +88,6 @@ class PatternTest extends TestCase
     {
         // when
         $count = pattern('[a-z]+')->count('111-222-333');
-
         // then
         $this->assertSame(0, $count);
     }
@@ -108,10 +104,8 @@ class PatternTest extends TestCase
             'Uppercase again',
             'lowercase again',
         ];
-
         // when
         $filtered = pattern('[A-Z][a-z]+')->filter($array);
-
         // then
         $this->assertSame(['Uppercase', 'Uppercase again'], $filtered);
     }
@@ -124,7 +118,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Two named subpatterns have the same name at offset 21');
-
         // when
         pattern('First(?<one>)?(?<one>)?')->test('Test');
     }
@@ -136,7 +129,6 @@ class PatternTest extends TestCase
     {
         // when
         $result = pattern('\d+[.,]\d+')->prune('Foo for "14,43" and Bar for "2.32"');
-
         // then
         $this->assertSame('Foo for "" and Bar for ""', $result);
     }
@@ -149,7 +141,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 5');
-
         // when
         pattern('Foo **')->prune('Foo bar');
     }
@@ -161,7 +152,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::literal('Foo{2}');
-
         // then
         $this->assertPatternIs('/Foo\{2\}/', $pattern);
     }
@@ -173,7 +163,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::literal('Foo {2}', 'D');
-
         // then
         $this->assertPatternIs('/Foo\ \{2\}/D', $pattern);
     }
@@ -185,7 +174,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::literal('Foo/{2}', 'm');
-
         // then
         $this->assertPatternIs('/Foo\/\{2\}/m', $pattern);
     }
@@ -196,13 +184,11 @@ class PatternTest extends TestCase
     public function shouldCast_of()
     {
         // given
-        $pattern = Pattern::of('Foo{1,2}/', 'n');
-
+        $pattern = Pattern::of('Foo{1,2}/', 'm');
         // when
         $string = (string)$pattern;
-
         // then
-        $this->assertSame('#Foo{1,2}/#n', $string);
+        $this->assertSame('#Foo{1,2}/#m', $string);
     }
 
     /**
@@ -274,7 +260,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::of('\c\\');
-
         // then
         $this->assertConsumesFirst(\chr(28), $pattern);
         $this->assertPatternIs('/\c\\{1}/', $pattern);
@@ -287,7 +272,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::list(['\c\\']);
-
         // then
         $this->assertTrue($pattern->testAll(\chr(28)));
     }
@@ -299,7 +283,6 @@ class PatternTest extends TestCase
     {
         // when
         $lines = Pattern::of('^.*$', 'm')->search("\rone\r\ntwo\n\nthree\rfour\v\f")->all();
-
         // then
         $this->assertSame(["\rone\r", 'two', '', "three\rfour\v\f"], $lines);
     }
