@@ -58,6 +58,9 @@ class CompilePregExceptionFactory
         if ($message === 'Null byte in regex') {
             return 'Pattern may not contain null-byte';
         }
+        if ($message === 'Delimiter must not be alphanumeric, backslash, or NUL') {
+            return 'Delimiter must not be alphanumeric or backslash';
+        }
         $message = \str_replace('(PCRE2_DUPNAMES not set) ', '', $message);
         $message = \str_replace('Unrecognized character after (?< at offset ', 'Subpattern name expected at offset ', $message);
 

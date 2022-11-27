@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Orthography;
 
+use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Candidates;
 use TRegx\CleanRegex\Internal\Condition;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
@@ -29,7 +30,10 @@ class StandardSpelling implements Spelling
 
     public function pattern(): string
     {
-        return $this->input;
+        if (\strPos($this->input, "\0") === false) {
+            return $this->input;
+        }
+        throw new PatternMalformedPatternException('Pattern may not contain null-byte');
     }
 
     public function flags(): Flags

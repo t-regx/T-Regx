@@ -16,6 +16,11 @@ class Definition
         $this->undevelopedInput = $undevelopedInput;
     }
 
+    public function containsNullByte(): bool
+    {
+        return \strPos($this->pattern, "\0") !== false;
+    }
+
     public function valid(): bool
     {
         return !GuardedExecution::silenced('preg_match', function () {

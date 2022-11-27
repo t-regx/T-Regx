@@ -250,7 +250,6 @@ class PatternTest extends TestCase
             'tilde'            => ['(?<name~@', '(?<name~(?>value)'],
             'backtick'         => ['(?<name`@', '(?<name`(?>value)'],
             'quote'            => ['(?<name"@', '(?<name"(?>value)'],
-            'null byte'        => ["(?<name\0@", "(?<name\0(?>value)"],
             'escape'           => ["(?<name\x1B@", "(?<name\x1B(?>value)"],
             'delete'           => ["(?<name\x7F@", "(?<name\x7F(?>value)"],
         ]);
