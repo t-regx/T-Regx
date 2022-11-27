@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Expression\Predefinition;
 
+use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
 use TRegx\CleanRegex\Internal\Definition;
 
 class IdentityPredefinition implements Predefinition
@@ -15,6 +16,9 @@ class IdentityPredefinition implements Predefinition
 
     public function definition(): Definition
     {
+        if ($this->definition->containsNullByte()) {
+            throw new PatternMalformedPatternException('Pattern may not contain null-byte');
+        }
         return $this->definition;
     }
 

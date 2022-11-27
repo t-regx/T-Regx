@@ -273,9 +273,9 @@ class PcrePatternTest extends TestCase
     public function shouldIgnoreNewLinesInModifiers()
     {
         // given
-        $pattern = PcrePattern::inject(" /foo/i\n m\r \0\t\f\v", []);
+        $pattern = PcrePattern::inject(" /foo/i\n m\r \t\f\v", []);
         // then
-        $this->assertPatternIs("/foo/im\0\t\f\v", $pattern);
+        $this->assertPatternIs("/foo/im\t\f\v", $pattern);
     }
 
     /**
