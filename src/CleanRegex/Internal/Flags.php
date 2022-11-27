@@ -4,11 +4,11 @@ namespace TRegx\CleanRegex\Internal;
 class Flags
 {
     /** @var string */
-    private $flags;
+    private $modifiers;
 
-    public function __construct(string $flags)
+    public function __construct(string $modifiers)
     {
-        $this->flags = $flags;
+        $this->modifiers = $modifiers;
     }
 
     public static function empty(): Flags
@@ -16,18 +16,18 @@ class Flags
         return new Flags('');
     }
 
-    public static function from(?string $flagsString): Flags
+    public static function from(?string $modifiersString): Flags
     {
-        return new Flags($flagsString ?? '');
+        return new Flags($modifiersString ?? '');
     }
 
     public function isExtended(): bool
     {
-        return \strPos($this->flags, 'x') !== false;
+        return \strPos($this->modifiers, 'x') !== false;
     }
 
     public function __toString(): string
     {
-        return $this->flags;
+        return $this->modifiers;
     }
 }
