@@ -25,6 +25,11 @@ class StandardCompileError implements CompileError
         \error_clear_last();
     }
 
+    /**
+     * @param string $methodName
+     * @param string|string[] $pattern
+     * @return PregException
+     */
     public function getSafeRegexpException(string $methodName, $pattern): PregException
     {
         return (new CompilePregExceptionFactory($methodName, $pattern, $this->error))->create();

@@ -16,6 +16,11 @@ class EmptyHostError implements HostError
     {
     }
 
+    /**
+     * @param string $methodName
+     * @param string|string[] $pattern
+     * @return PregException
+     */
     public function getSafeRegexpException(string $methodName, $pattern): PregException
     {
         // @codeCoverageIgnoreStart
