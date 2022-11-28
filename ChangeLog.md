@@ -10,6 +10,30 @@ Incoming
     * Moved `PatternTemplate` to `TRegx\CleanRegex\ `
     * Moved `TemplateBuilder` to `TRegx\CleanRegex\ `
     * Updated `MalformedPatternException` message `Null byte in regex` to `Pattern may not contain null-byte`.
+* Features
+    * Added public modifier constants to `Pattern`.
+        * Added `Pattern::CASE_INSENSITIVE`
+        * Added `Pattern::UNICODE`
+        * Added `Pattern::MULTILINE`
+        * Added `Pattern::SINGLELINE`
+        * Added `Pattern::IGNORE_WHITESPACE`
+        * Added `Pattern::ANCHORED`
+        * Added `Pattern::GREEDYNESS_INVERTED`
+        * Added `Pattern::RESTRICTIVE_ESCAPE`
+        * Added `Pattern::DUPLICATE_NAMES`
+        * Added `Pattern::DOLLAR_ENDONLY`
+        * Added `Pattern::STUDY`
+
+      From now on, patterns can be constructed with such constants, for example:
+      ```php
+      Pattern::of('^foo$', Pattern::CASE_INSENSITIVE . Pattern::MULTILINE)
+      ```
+
+      String literal modifiers continue to work as before
+      ```php
+      Pattern::of('^foo$', 'im');
+      ```
+      
 * Other
     * Exception `PlaceholderFigureException` now extend correctly implements `PatternException`.
 

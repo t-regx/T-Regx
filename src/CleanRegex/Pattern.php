@@ -16,6 +16,18 @@ use TRegx\SafeRegex\preg;
 
 class Pattern
 {
+    public const CASE_INSENSITIVE = 'i';
+    public const UNICODE = 'u';
+    public const MULTILINE = 'm';
+    public const SINGLELINE = 's';
+    public const IGNORE_WHITESPACE = 'x';
+    public const ANCHORED = 'A';
+    public const GREEDYNESS_INVERTED = 'U';
+    public const RESTRICTIVE_ESCAPE = 'X';
+    public const DUPLICATE_NAMES = 'J';
+    public const DOLLAR_ENDONLY = 'D';
+    public const STUDY = 'S';
+
     use EntryPoints;
 
     /** @var Predefinition */
