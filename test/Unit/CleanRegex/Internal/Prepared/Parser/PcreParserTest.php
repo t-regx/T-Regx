@@ -100,39 +100,6 @@ class PcreParserTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
-    public function shouldParseWithFlags()
-    {
-        // given
-        $clusters = new ExpectedClusters(new ArrayClusters([
-            new FakeCluster('one'),
-            new FakeCluster('two'),
-            new FakeCluster('three')
-        ]));
-        $consumers = [
-            new GroupConsumer(),
-            new GroupCloseConsumer(),
-            new FiguresPlaceholderConsumer($clusters)
-        ];
-
-        // when
-        $assertion = new PatternEntitiesAssertion($consumers);
-
-        // then
-        $assertion->assertPatternRepresents('(?i:(?x:@(?m-x)@)@)', [
-            new GroupOpenFlags('i'),
-            new GroupOpenFlags('x'),
-            new Placeholder($clusters),
-            new GroupRemainder('m-x'),
-            new Placeholder($clusters),
-            new GroupClose(),
-            new Placeholder($clusters),
-            new GroupClose(),
-        ], '(?i:(?x:one(?m-x)two)three)');
-    }
-
     private function pcreDependantPatterns(): array
     {
         return $this->pcreDependentStructure([
@@ -191,6 +158,39 @@ class PcreParserTest extends TestCase
                 new GroupOpenFlags('J'), new GroupClose()
             ]]
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldParseWithFlags()
+    {
+        // given
+        $clusters = new ExpectedClusters(new ArrayClusters([
+            new FakeCluster('one'),
+            new FakeCluster('two'),
+            new FakeCluster('three')
+        ]));
+        $consumers = [
+            new GroupConsumer(),
+            new GroupCloseConsumer(),
+            new FiguresPlaceholderConsumer($clusters)
+        ];
+
+        // when
+        $assertion = new PatternEntitiesAssertion($consumers);
+
+        // then
+        $assertion->assertPatternRepresents('(?i:(?x:@(?m-x)@)@)', [
+            new GroupOpenFlags('i'),
+            new GroupOpenFlags('x'),
+            new Placeholder($clusters),
+            new GroupRemainder('m-x'),
+            new Placeholder($clusters),
+            new GroupClose(),
+            new Placeholder($clusters),
+            new GroupClose(),
+        ], '(?i:(?x:one(?m-x)two)three)');
     }
 
     /**

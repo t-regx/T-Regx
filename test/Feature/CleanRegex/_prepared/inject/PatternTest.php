@@ -263,7 +263,7 @@ class PatternTest extends TestCase
     {
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Invalid inject figure type. Expected string, but integer (21) given");
+        $this->expectExceptionMessage('Invalid inject figure type. Expected string, but integer (21) given');
         // when
         Pattern::inject('', [21]);
     }
@@ -275,7 +275,7 @@ class PatternTest extends TestCase
     {
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Invalid inject figure type. Expected string, but integer (4) given");
+        $this->expectExceptionMessage('Invalid inject figure type. Expected string, but integer (4) given');
         // when
         Pattern::inject('@@', ['foo', 'foo' => 4]);
     }
@@ -288,7 +288,7 @@ class PatternTest extends TestCase
     {
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Invalid inject figure type. Expected string, but integer (4) given");
+        $this->expectExceptionMessage('Invalid inject figure type. Expected string, but integer (4) given');
         // when
         Pattern::inject('', ['foo', 'foo' => 4]);
     }
@@ -301,7 +301,7 @@ class PatternTest extends TestCase
     {
         // then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Invalid inject figure type. Expected string, but integer (4) given");
+        $this->expectExceptionMessage('Invalid inject figure type. Expected string, but integer (4) given');
         // when
         Pattern::inject('@', ['foo', 'foo' => 4]);
     }
