@@ -32,7 +32,7 @@ class PatternEntitiesTest extends TestCase
 
         // then
         $expected = [
-            new GroupOpen(),
+            new GroupOpen(''),
             new Literal('f'),
             new Literal('o'),
             new Literal('o'),
@@ -83,7 +83,7 @@ class PatternEntitiesTest extends TestCase
         $entities = $asEntities->entities();
 
         // then
-        $this->assertEquals([new GroupOpen(), new GroupClose(), new GroupRemainder(''),], $entities);
+        $this->assertEquals([new GroupOpen(''), new GroupClose(), new GroupRemainder(''),], $entities);
     }
 
     /**
@@ -99,7 +99,7 @@ class PatternEntitiesTest extends TestCase
 
         // then
         $expected = [
-            new GroupOpen(),
+            new GroupOpen(''),
             new GroupClose(),
             new GroupClose(),
             new GroupClose(),

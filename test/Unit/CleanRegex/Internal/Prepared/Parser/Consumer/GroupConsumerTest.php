@@ -32,7 +32,7 @@ class GroupConsumerTest extends TestCase
         $assertion = PatternEntitiesAssertion::withConsumers([new GroupConsumer()]);
 
         // then
-        $assertion->assertPatternRepresents('(', [new GroupOpen()]);
+        $assertion->assertPatternRepresents('(', [new GroupOpen('')]);
     }
 
     /**
@@ -141,7 +141,7 @@ class GroupConsumerTest extends TestCase
         $assertion = PatternEntitiesAssertion::withConsumers([new GroupConsumer(), new GroupCloseConsumer(), new LiteralConsumer()]);
 
         // then
-        $assertion->assertPatternRepresents('(?c:bar)', [new GroupOpen(), '?c:bar', new GroupClose()]);
+        $assertion->assertPatternRepresents('(?c:bar)', [new GroupOpen(''), '?c:bar', new GroupClose()]);
     }
 
     /**

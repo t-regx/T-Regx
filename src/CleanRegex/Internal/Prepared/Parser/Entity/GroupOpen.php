@@ -10,7 +10,7 @@ class GroupOpen implements Entity
     /** @var string */
     private $suffix;
 
-    public function __construct(string $suffix = '')
+    public function __construct(string $suffix)
     {
         $this->suffix = $suffix;
     }

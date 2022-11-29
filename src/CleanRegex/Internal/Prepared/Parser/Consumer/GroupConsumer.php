@@ -33,7 +33,7 @@ class GroupConsumer implements Consumer
         }
         $groupDetails = $feed->matchedString($this->groupOpenParenthesisRegex(), 4);
         if (!$groupDetails->matched()) {
-            return new GroupOpen();
+            return new GroupOpen('');
         }
         [$type, $flags, $nonCapture, $comment] = $groupDetails->consume();
         if ($type === ':)') {
