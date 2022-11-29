@@ -36,9 +36,4 @@ class Literal implements Expression
     {
         return $this->flags;
     }
-
-    protected function undevelopedInput(): string
-    {
-        return $this->text;
-    }
 }

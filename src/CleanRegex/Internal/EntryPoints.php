@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Internal\Expression\Alteration;
 use TRegx\CleanRegex\Internal\Expression\Literal;
-use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\FigureClusters;
 use TRegx\CleanRegex\Internal\Prepared\Clusters;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Mask;
@@ -58,41 +57,6 @@ trait EntryPoints
 
     public static function list(array $patterns): PatternList
     {
-        return self::patternList(new PatternStrings($patterns));
-    }
-
-    private static function patternList(PatternStrings $patterns): PatternList
-    {
-        return new PatternList($patterns->predefinitions(static function (Pattern $pattern): Predefinition {
-            /**
-             * {@see Pattern} instance has reference to {@see Predefinition} as "predefinition"
-             * private field. The {@see Predefinition} contains {@see Definition} field,
-             * containing a delimited PCRE pattern withs flags as a string, and another
-             * field {@see Definition::$undevelopedInput}, containing pattern before it
-             * has been parsed - kept for debugging purposes in client applications.
-             * It contains whatever string input was used to construct the real pattern.
-             * It can either be the exact pcre string, it can be undelimited pattern
-             * used with standard strategy, template with placeholders in case of
-             * prepared pattern, or it can be user input in case of a mask with keywords.
-             *
-             * In the future, we plan to make {@see Definition::$undevelopedInput} visible
-             * in the public API for clients, perhaps as a field in thrown exceptions, that
-             * clients could use for debugging.
-             *
-             * In order to use pattern lists, we consume strings and {@see Pattern} as an
-             * input, and construct {@see Definition} based on the input. In case of a string,
-             * that's simple, we construct a new {@see Definition} with that. In case of a
-             * {@see Pattern} instance, we could use the delimited pattern and call it a day,
-             * but then the {@see Definition::$undevelopedInput} of the definition  would be
-             * lost for the debugging purposes in the client applications. So to preserve that,
-             * we don't construct new {@see Definition} instances, but we take one from the
-             * {@see Pattern}. Normally, that would be impossible without reflection, breaking
-             * encapsulation or exposing the internal pattern outside of {@see Pattern} (which
-             * would break its point of being internal), but {@see EntryPoints} is a trait in
-             * {@see Pattern}, so it has access to its private fields. That's why we can just
-             * pass a closure, which can map {@see Pattern} to {@see Definition}.
-             */
-            return $pattern->predefinition;
-        }));
+        return new PatternList(new PatternStrings($patterns));
     }
 }

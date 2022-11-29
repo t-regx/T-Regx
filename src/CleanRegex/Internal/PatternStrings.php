@@ -1,9 +1,8 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
-use Generator;
-use TRegx\CleanRegex\Internal\Expression\Expression;
-use TRegx\CleanRegex\Internal\Expression\Identity;
+use TRegx\CleanRegex\Internal\Expression\Predefinition\IdentityPredefinition;
+use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Standard;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\StandardSpelling;
 use TRegx\CleanRegex\Internal\Type\ValueType;
@@ -19,29 +18,23 @@ class PatternStrings
         $this->patterns = $patterns;
     }
 
-    public function predefinitions(callable $patternDefinition): Predefinitions
+    public function predefinitions(): Predefinitions
     {
         $predefinitions = [];
-        foreach ($this->expressions($patternDefinition) as $expression) {
-            $predefinitions[] = $expression->predefinition();
+        foreach ($this->patterns as $pattern) {
+            $predefinitions[] = $this->predefinition($pattern);
         }
         return new Predefinitions($predefinitions);
     }
 
-    private function expressions(callable $patternDefinition): Generator
-    {
-        foreach ($this->patterns as $pattern) {
-            yield $this->expression($pattern, $patternDefinition);
-        }
-    }
-
-    private function expression($pattern, callable $predefinition): Expression
+    private function predefinition($pattern): Predefinition
     {
         if (\is_string($pattern)) {
-            return new Standard(new StandardSpelling($pattern, Flags::empty(), new UnsuitableStringCondition($pattern)));
+            $expression = new Standard(new StandardSpelling($pattern, Flags::empty(), new UnsuitableStringCondition($pattern)));
+            return $expression->predefinition();
         }
         if ($pattern instanceof Pattern) {
-            return new Identity($predefinition($pattern));
+            return new IdentityPredefinition(new Definition($pattern->delimited()));
         }
         throw InvalidArgument::typeGiven("PatternList can only compose type Pattern or string", new ValueType($pattern));
     }

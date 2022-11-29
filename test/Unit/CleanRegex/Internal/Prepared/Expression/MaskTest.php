@@ -27,7 +27,7 @@ class MaskTest extends TestCase
         $predefinition = $mask->predefinition();
 
         // then
-        $this->assertEquals(new Definition('/\(\w\:\s\\\\\\)/x', '(%w:%s\)'), $predefinition->definition());
+        $this->assertEquals(new Definition('/\(\w\:\s\\\\\\)/x'), $predefinition->definition());
     }
 
     /**
@@ -42,7 +42,7 @@ class MaskTest extends TestCase
         $predefinition = $mask->predefinition();
 
         // then
-        $this->assertEquals(new Definition('~foo~i', 'foo'), $predefinition->definition());
+        $this->assertEquals(new Definition('~foo~i'), $predefinition->definition());
     }
 
     /**
@@ -57,7 +57,7 @@ class MaskTest extends TestCase
         $predefinition = $mask->predefinition();
 
         // then
-        $this->assertEquals(new Definition('/foo\/bar/x', 'foo/bar'), $predefinition->definition());
+        $this->assertEquals(new Definition('/foo\/bar/x'), $predefinition->definition());
     }
 
     /**

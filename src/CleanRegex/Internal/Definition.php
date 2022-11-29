@@ -7,13 +7,10 @@ class Definition
 {
     /** @var string */
     public $pattern;
-    /** @var string */
-    public $undevelopedInput;
 
-    public function __construct(string $pattern, string $undevelopedInput)
+    public function __construct(string $pattern)
     {
         $this->pattern = $pattern;
-        $this->undevelopedInput = $undevelopedInput;
     }
 
     public function containsNullByte(): bool

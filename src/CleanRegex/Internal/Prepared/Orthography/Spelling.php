@@ -7,6 +7,4 @@ use TRegx\CleanRegex\Internal\Prepared\Pattern\StringPattern;
 interface Spelling extends StringPattern
 {
     public function delimiter(): Delimiter;
-
-    public function undevelopedInput(): string;
 }

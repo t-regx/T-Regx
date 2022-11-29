@@ -40,9 +40,4 @@ class StandardSpelling implements Spelling
     {
         return $this->flags;
     }
-
-    public function undevelopedInput(): string
-    {
-        return $this->input;
-    }
 }

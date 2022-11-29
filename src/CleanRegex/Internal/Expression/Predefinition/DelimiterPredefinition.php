@@ -12,9 +12,9 @@ class DelimiterPredefinition implements Predefinition
     /** @var Definition */
     private $definition;
 
-    public function __construct(Phrase $phrase, Delimiter $delimiter, Flags $flags, string $undeveloped)
+    public function __construct(Phrase $phrase, Delimiter $delimiter, Flags $flags)
     {
-        $this->definition = new Definition($delimiter->delimited($phrase, $flags), $undeveloped);
+        $this->definition = new Definition($delimiter->delimited($phrase, $flags));
     }
 
     public function definition(): Definition

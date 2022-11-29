@@ -23,6 +23,6 @@ class PcreTest extends TestCase
         $actual = $pcre->predefinition();
 
         // then
-        $this->assertEquals(new IdentityPredefinition(new Definition('/foo/x', '/foo/x')), $actual);
+        $this->assertEquals(new IdentityPredefinition(new Definition('/foo/x')), $actual);
     }
 }
