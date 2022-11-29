@@ -53,7 +53,7 @@ class PcreDelimiter
 
     private function closingDelimiterPosition(string $pcre): int
     {
-        $position = \strrpos($pcre, $this->delimiter);
+        $position = \strRPos($pcre, $this->delimiter);
         if ($position === false) {
             throw new MalformedPcreTemplateException("unclosed pattern '$this->delimiter'");
         }
