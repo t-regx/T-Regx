@@ -41,7 +41,7 @@ class KeywordPattern
 
     private function validPhrase(Phrase $phrase, Delimiter $delimiter): Phrase
     {
-        $definition = new Definition($delimiter->delimited($phrase, Flags::empty()), '');
+        $definition = new Definition($delimiter->delimited($phrase, Flags::empty()));
         if ($definition->valid()) {
             return $phrase;
         }

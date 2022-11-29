@@ -29,8 +29,7 @@ class DelimiterExpression
             return new DelimiterPredefinition(
                 $this->pattern->phrase(),
                 $this->spelling->delimiter(),
-                $this->spelling->flags(),
-                $this->spelling->undevelopedInput());
+                $this->spelling->flags());
         } catch (TrailingBackslashException $exception) {
             return new TrailingBackslashPredefinition(new PatternMalformedPatternException('Pattern may not end with a trailing backslash'));
         }

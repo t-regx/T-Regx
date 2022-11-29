@@ -15,10 +15,8 @@ trait StrictInterpretation
 
     abstract protected function flags(): Flags;
 
-    abstract protected function undevelopedInput(): string;
-
     public function predefinition(): Predefinition
     {
-        return new DelimiterPredefinition($this->phrase(), $this->delimiter(), $this->flags(), $this->undevelopedInput());
+        return new DelimiterPredefinition($this->phrase(), $this->delimiter(), $this->flags());
     }
 }

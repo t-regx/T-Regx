@@ -46,21 +46,6 @@ class StandardSpellingTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetUndevelopedInput()
-    {
-        // given
-        $standard = new StandardSpelling('#wel/{come}', Flags::empty(), new ThrowCondition());
-
-        // when
-        $undeveloped = $standard->undevelopedInput();
-
-        // then
-        $this->assertSame('#wel/{come}', $undeveloped);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetFlags()
     {
         // given

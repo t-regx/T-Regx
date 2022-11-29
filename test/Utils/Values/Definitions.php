@@ -24,7 +24,7 @@ class Definitions
          * then the tests are compromised. By using low-level {@see Delimiter} and
          * {@see PatternPhrase} to reduce the possibilities of false-positives in tests.
          */
-        return new Definition(self::candidates($pattern)->delimiter()->delimited(new PatternPhrase($pattern), Flags::from($flags)), $pattern);
+        return new Definition(self::candidates($pattern)->delimiter()->delimited(new PatternPhrase($pattern), Flags::from($flags)));
     }
 
     private static function candidates(string $delimitable): Candidates
@@ -34,6 +34,6 @@ class Definitions
 
     public static function pcre(string $pattern): Definition
     {
-        return new Definition($pattern, $pattern);
+        return new Definition($pattern);
     }
 }

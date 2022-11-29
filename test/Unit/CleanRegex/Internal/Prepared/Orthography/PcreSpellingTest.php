@@ -24,13 +24,11 @@ class PcreSpellingTest extends TestCase
         $delimiter = $pcre->delimiter();
         $pattern = $pcre->pattern();
         $flags = $pcre->flags();
-        $undeveloped = $pcre->undevelopedInput();
 
         // then
         $this->assertEquals(new Delimiter('/'), $delimiter);
         $this->assertSame('foo', $pattern);
         $this->assertEquals(new Flags('x'), $flags);
-        $this->assertSame('/foo/x', $undeveloped);
     }
 
     /**

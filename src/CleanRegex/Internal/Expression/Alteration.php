@@ -36,11 +36,4 @@ class Alteration implements Expression
     {
         return $this->flags;
     }
-
-    protected function undevelopedInput(): string
-    {
-        // We should come up with a better idea when we expose
-        // undeveloped inputs as a public API
-        return \implode('|', $this->texts);
-    }
 }

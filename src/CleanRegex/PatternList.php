@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex;
 
+use TRegx\CleanRegex\Internal\PatternStrings;
 use TRegx\CleanRegex\Internal\Predefinitions;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\ChainedReplace;
@@ -11,9 +12,9 @@ class PatternList
     /** @var Predefinitions */
     private $predefinitions;
 
-    public function __construct(Predefinitions $predefinitions)
+    public function __construct(PatternStrings $patternStrings)
     {
-        $this->predefinitions = $predefinitions;
+        $this->predefinitions = $patternStrings->predefinitions();
     }
 
     public function testAll(string $subject): bool
@@ -58,7 +59,7 @@ class PatternList
 
     public function count(string $string): int
     {
-        preg::replace($this->predefinitions->patterns(), '', $string, -1, $count);
+        preg::replace($this->predefinitions->patternStrings(), '', $string, -1, $count);
         return $count;
     }
 }

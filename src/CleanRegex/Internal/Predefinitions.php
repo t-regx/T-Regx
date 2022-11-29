@@ -14,7 +14,7 @@ class Predefinitions
         $this->predefinitions = $predefinitions;
     }
 
-    public function patterns(): array
+    public function patternStrings(): array
     {
         return \iterator_to_array($this->patternsGenerator());
     }

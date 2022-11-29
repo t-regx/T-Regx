@@ -17,6 +17,6 @@ class Pcre implements Expression
 
     public function predefinition(): Predefinition
     {
-        return new IdentityPredefinition(new Definition($this->pcre, $this->pcre));
+        return new IdentityPredefinition(new Definition($this->pcre));
     }
 }
