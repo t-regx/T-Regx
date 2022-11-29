@@ -84,17 +84,17 @@ class PcreParserTest extends TestCase
             'quotes'        => ['\Q{@}(hi)[hey]\E', [new Quote('{@}(hi)[hey]', true)]],
             'class+quotes'  => ['[\Qa-z]\E$', [new ClassOpen(), new Quote('a-z]', true), new Character('$')]],
             'groups+class'  => ['(?x:[a-z])$', [new GroupOpenFlags('x'), new ClassOpen(), new Character('a-z'), new ClassClose(), new GroupClose(), '$']],
-            'backreference' => ['((?-2))', [new GroupOpen(), new GroupOpen(), '?-2', new GroupClose(), new GroupClose()]],
+            'backreference' => ['((?-2))', [new GroupOpen(''), new GroupOpen(''), '?-2', new GroupClose(), new GroupClose()]],
 
-            'atomic #1' => ['(?>\d)', [new GroupOpen(), '?>', new Escaped('d'), new GroupClose()]],
-            'atomic #2' => ['(*atomic:\d)', [new GroupOpen(), '*atomic:', new Escaped('d'), new GroupClose()]],
+            'atomic #1' => ['(?>\d)', [new GroupOpen(''), '?>', new Escaped('d'), new GroupClose()]],
+            'atomic #2' => ['(*atomic:\d)', [new GroupOpen(''), '*atomic:', new Escaped('d'), new GroupClose()]],
 
             'reset'            => ['(?^)', [new GroupRemainder('^')]],
             'reset,set'        => ['(?^ix)', [new GroupRemainder('^ix')]],
             'reset,set:'       => ['(?^ix:)', [new GroupOpenFlags('^ix'), new GroupClose()]],
-            'reset,invalid #1' => ['(?-i^)', [new GroupOpen(), '?-i^', new GroupClose()]],
-            'reset,invalid #2' => ['(?-^i)', [new GroupOpen(), '?-^i', new GroupClose()]],
-            'reset,invalid #3' => ['(?i^)', [new GroupOpen(), '?i^', new GroupClose()]],
+            'reset,invalid #1' => ['(?-i^)', [new GroupOpen(''), '?-i^', new GroupClose()]],
+            'reset,invalid #2' => ['(?-^i)', [new GroupOpen(''), '?-^i', new GroupClose()]],
+            'reset,invalid #3' => ['(?i^)', [new GroupOpen(''), '?i^', new GroupClose()]],
             'reset,unset'      => ['(?^-i)', [new GroupRemainder('^-i')]],
             'reset,unset:'     => ['(?^-i:)', [new GroupOpenFlags('^-i'), new GroupClose()]],
         ];
@@ -138,28 +138,28 @@ class PcreParserTest extends TestCase
         return $this->pcreDependentStructure([
             'pcre1 #1' => ['(?x-)', [new GroupRemainder('x-')]],
             'pcre1 #2' => ['(?)', [new GroupRemainder('')]], // legal in PCRE
-            'pcre1 #3' => ['(?nx)', [new GroupOpen(), '?nx', new GroupClose()]], // illegal in PCRE
+            'pcre1 #3' => ['(?nx)', [new GroupOpen(''), '?nx', new GroupClose()]], // illegal in PCRE
             'pcre1 #4' => ['(?x--)', [new GroupRemainder('x--')]], // legal in PCRE
             'pcre1 #5' => ['(?-x-)', [new GroupRemainder('-x-')]], // legal in PCRE
             'pcre1 #6' => ['(?Xx)', [new GroupRemainder('Xx')]], // legal in PCRE
             'pcre1 #7' => ['(?Xx:)', [new GroupOpenFlags('Xx'), new GroupClose()]], // legal in PCRE
-            'pcre1 #8' => ['(?Xnx)', [new GroupOpen(), '?Xnx', new GroupClose()]] // illegal in both
+            'pcre1 #8' => ['(?Xnx)', [new GroupOpen(''), '?Xnx', new GroupClose()]] // illegal in both
         ], [
             'pcre2 #1' => ['(?x-)', [new GroupRemainder('x-')]],
             'pcre2 #2' => ['(?)', [new GroupRemainder('')]], // illegal in PCRE2
             'pcre2 #3' => ['(?nx)', [new GroupRemainder('nx')]], // legal in PCRE2
-            'pcre2 #4' => ['(?x--)', [new GroupOpen(), '?x--', new GroupClose()]], // illegal in PCRE2
-            'pcre2 #5' => ['(?-x-)', [new GroupOpen(), '?-x-', new GroupClose()]], // illegal in PCRE2
-            'pcre2 #6' => ['(?Xx)', [new GroupOpen(), '?Xx', new GroupClose()]], // illegal in PCRE2
-            'pcre2 #7' => ['(?Xx:)', [new GroupOpen(), '?Xx:', new GroupClose()]], // illegal in PCRE2
-            'pcre2 #8' => ['(?Xnx)', [new GroupOpen(), '?Xnx', new GroupClose()]] // illegal in both
+            'pcre2 #4' => ['(?x--)', [new GroupOpen(''), '?x--', new GroupClose()]], // illegal in PCRE2
+            'pcre2 #5' => ['(?-x-)', [new GroupOpen(''), '?-x-', new GroupClose()]], // illegal in PCRE2
+            'pcre2 #6' => ['(?Xx)', [new GroupOpen(''), '?Xx', new GroupClose()]], // illegal in PCRE2
+            'pcre2 #7' => ['(?Xx:)', [new GroupOpen(''), '?Xx:', new GroupClose()]], // illegal in PCRE2
+            'pcre2 #8' => ['(?Xnx)', [new GroupOpen(''), '?Xnx', new GroupClose()]] // illegal in both
         ]);
     }
 
     private function pcreDependantFlags(): array
     {
         return $this->pcreDependant([
-            'pcre1 groups #1' => ['(?n)', [new GroupOpen(), '?n', new GroupClose()]], // illegal in PCRE
+            'pcre1 groups #1' => ['(?n)', [new GroupOpen(''), '?n', new GroupClose()]], // illegal in PCRE
             'pcre1 groups #2' => ['foo(?UxmsiJX:)', ['foo', new GroupOpenFlags('UxmsiJX'), new GroupClose()]],
             'pcre1 groups #3' => ['foo(?Uxm-siJX:)', ['foo', new GroupOpenFlags('Uxm-siJX'), new GroupClose()]],
             'pcre1 groups #4' => ['foo(?UxmsiJX)', ['foo', new GroupRemainder('UxmsiJX')]],
@@ -175,7 +175,7 @@ class PcreParserTest extends TestCase
                 new GroupOpenFlags('J'), new GroupClose()
             ]]
         ], [
-            'pcre2 groups #1' => ['(?X)', [new GroupOpen(), '?X', new GroupClose()]], // illegal in PCRE2
+            'pcre2 groups #1' => ['(?X)', [new GroupOpen(''), '?X', new GroupClose()]], // illegal in PCRE2
             'pcre2 groups #2' => ['foo(?UxmsiJn:)', ['foo', new GroupOpenFlags('UxmsiJn'), new GroupClose()]],
             'pcre2 groups #3' => ['foo(?Uxm-siJn:)', ['foo', new GroupOpenFlags('Uxm-siJn'), new GroupClose()]],
             'pcre2 groups #4' => ['foo(?UxmsiJn)', ['foo', new GroupRemainder('UxmsiJn')]],
