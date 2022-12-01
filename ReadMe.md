@@ -40,24 +40,28 @@ PHP regular expressions brought up to modern standards.
 
 1. [Installation](#installation)
     * [Composer](#installation)
-2. [What T-Regx is and isn't](#what-t-regx-is-and-isnt)
-3. [API](#api)
-    1. [For legacy projects - `preg::match_all()`](#seamless-migration-for-legacy-projects)
-    2. [For standard projects -`pattern()`](#written-with-clean-api)
-4. [Documentation](#documentation)
-5. [T-Regx fiddle - Try online](#try-it-online-in-your-browser)
-6. [Overview](#why-t-regx-stands-out)
-    1. [Seamless migration](#seamless-migration-for-legacy-projects)
-    2. [Automatic delimiters](#automatic-delimiters-for-your-pattern)
-    3. [Prepared patterns](#prepared-patterns)
-7. [Comparison](#whats-better)
+2. [API](#api)
+    1. [For standard projects -`pattern()`](#written-with-clean-api)
+    2. For legacy projects - `preg::match_all()`
+3. [Documentation](#documentation)
+4. [T-Regx fiddle - Try online](#try-it-online-in-your-browser)
+5. [Overview](#why-t-regx-stands-out)
+    1. [Prepared patterns](#prepared-patterns)
+    2. [Working with the developer](#working-with-the-developer)
+    3. [Clean API](#written-with-clean-api)
+    4. [Fatal errors](#protects-you-from-fatal-errors)
+    5. [Clean Code](#t-regx-follows-the-philosophy-of-uncle-bob-and-clean-code)
+    6. [Exceptions vs. errors](#exceptions-over-warningserrors)
+6. [Comparison](#whats-better)
     1. [Exceptions over warnings/errors](#exceptions-over-warningserrors)
     2. [Working with the developer](#working-with-the-developer)
     3. [Written with clean API in mind](#written-with-clean-api)
     4. [Philosophy of Uncle Bob and "Clean Code"](#t-regx-follows-the-philosophy-of-uncle-bob-and-clean-code)
-8. [Plans for the future](#current-work-in-progress)
-9. [Sponsors](#sponsors)
-10. [License](#license)
+7. [Plans for the future](#current-work-in-progress)
+8. [Sponsors](#sponsors)
+9. [License](#license)
+
+[Buy me a coffee!](https://www.buymeacoffee.com/danielwilkowski)
 
 # Installation
 
@@ -69,45 +73,36 @@ composer require rawr/t-regx
 
 T-Regx only requires `mb-string` extension. No additional dependencies or extensions are required.
 
-## What T-Regx is and isn't
-
-- ### T-Regx is not a tool for building regular expressions
-
-  We don't want to build the patterns for you. T-Regx is to be used exactly with "raw patterns".
-
-  :bulb: For a tool to help you build and understand your patterns, consider using
-  [PHPVerbalExpressions](https://github.com/VerbalExpressions/PHPVerbalExpressions):
-
-  ```php
-  $regex = new VerbalExpressions();
-  $regex->startOfLine()->then("http")->maybe("s")->then("://")->maybe("www.")->endOfLine();
-  ```
-
-- ### T-Regx is a regex solution as it should've been made in PHP
-
-  In our humble opinions, T-Regx is a well-crafted, robust, reliable and predictable tool for using regular expression
-  in modern applications. It eliminates unknowns and complexity, for the sake of concise code and revealing intentions.
-  It utilizes numerous, performant and lightweight checks and operations to ensure each method does exactly what it's
-  supposed to.
-
-    - T-Regx uses `preg_match()`/`preg_replace()` as an engine internally, but doesn't leak the horribleness of their
-      design out.
-    - T-Regx is to `preg_match()`, what PDO was to `mysql_query()`.
-
-    #### Read more, [Scroll to "Overview"](#why-t-regx-stands-out)...
-
 # API
 
 **You** choose the interface:
 
-- I choose to **keep PHP methods** *(but protected from errors/warnings)*:
-
-  [Scroll to see](#exceptions-over-warningserrors) - `preg::match_all()`, `preg::replace_callback()`, `preg::split()`
 - I choose the **modern regex API**:
 
   [Scroll to see](#written-with-clean-api) - `pattern()->test()`, `pattern()->match()`, `pattern()->replace()`
 
+- I choose to **keep PHP methods** *(but protected from errors/warnings)*:
+
+  [Scroll to see](#exceptions-over-warningserrors) - `preg::match_all()`, `preg::replace_callback()`, `preg::split()`
+
 For legacy projects, we suggest `preg::match_all()`. For standard projects, we suggest `pattern()`.
+
+- Standard T-Regx
+  ```php
+  $pattern = Pattern::of("ups"); // pattern("ups") also works
+  $matcher = $pattern->match('yay, ups');
+  
+  if ($matcher->test()) {
+    echo "Unmatched subject :/";
+  }
+  
+  foreach ($matcher as $detail) {
+    $detail->text();    // (string) "ups";
+    $detail->offset();  // (int) 0
+  }
+  
+  $pattern->replace('well, ups')->with('heck') // (string) "well, heck";
+  ```
 
 - Legacy API
 
@@ -118,23 +113,6 @@ For legacy projects, we suggest `preg::match_all()`. For standard projects, we s
   } catch (\TRegx\Exception\MalformedPatternException $exception) {
       echo "Invalid pattern";
   }
-  ```
-
-- Standard T-Regx
-  ```php
-  $pattern = Pattern::of("ups"); // pattern("ups") also works
-  $match = $pattern->match('yay, ups');
-  
-  if ($match->test()) {
-    echo "Unmatched subject :/";
-  }
-  
-  foreach ($match as $detail) {
-    $detail->text();    // (string) "ups";
-    $detail->offset();  // (int) 0
-  }
-  
-  $pattern->replace('well, ups')->with('heck') // (string) "well, heck";
   ```
 
 # Documentation
@@ -150,17 +128,6 @@ Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing aro
 # Why T-Regx stands out?
 
 :bulb: [See documentation at t-regx.com](https://t-regx.com/)
-
-* ### Seamless migration for legacy projects
-    * You can use T-Regx exception-based error handling, without changing your API much. Simply swap `preg_match()` to
-      `preg::match()`, and the method will only ever throw exceptions. Won't return `null` or `false` or issue a warning
-      or a notice. Nor will it throw a fatal error.
-    * Arguments, structure and return types remain the same. Your code will not break.
-
-* ### Automatic delimiters for your pattern
-  Surrounding slashes or tildes (`/pattern/` or  `~patttern~`) are not compulsory (if you use `pattern()`).
-  Methods `preg::match()`/`preg::replace()` of course still require them, so we can swap between `preg::match()`
-  and `preg_match()`.
 
 * ### Prepared patterns
 
@@ -182,27 +149,6 @@ Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing aro
   
   $pattern->test('name=(my?name)'); // (bool) true
   ```
-
-* ### Exceptions over warnings/errors
-    * Unlike PHP methods, T-Regx doesn't use warnings/notices/errors for unexpected inputs:
-      ```php
-      try {
-        preg::match_all('/([a3]+[a3]+)+3/', 'aaaaaaaaaaaaaaaaaaaa 3');
-      } catch (\TRegx\SafeRegex\Exception\CatastrophicBacktrackingException $exception) {
-        // caught
-      }
-      ```
-    * Detects **malformed patterns** in and throws `MalformedPatternException`. This is impossible to catch
-      with `preg_last_error()`.
-      ```php
-      try {
-        preg::match('/?ups/', 'ups');
-      } catch (\TRegx\Exception\MalformedPatternException $exception) {
-        // caught
-      }
-      ```
-    * Not every error in PHP can be read from `preg_last_error()`, however T-Regx throws dedicated exceptions for those
-      events.
 
 * ### Working **with** the developer
     * Simple methods
@@ -240,6 +186,33 @@ Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing aro
 
   Function should do one thing, it should do it well. A function should do exactly what you expect it to do.
 
+* ### Compatible with other tools and libraries
+
+  Granted, `Pattern::of()` accepts undelimited pattern (`(Foo){3,4}}`) is not suitable with other PHP libraries,
+  which work with delimited patterns (`/(Foo){3,4}/`), for example Laravel and Routing. For that case,
+  use `PcrePattern::of()` which accepts plain-old standard PHP syntax.
+
+* ### Exceptions over warnings/errors
+    * Unlike PHP methods, T-Regx doesn't use warnings/notices/errors for unexpected inputs:
+      ```php
+      try {
+        preg::match_all('/([a3]+[a3]+)+3/', 'aaaaaaaaaaaaaaaaaaaa 3');
+      } catch (\TRegx\SafeRegex\Exception\CatastrophicBacktrackingException $exception) {
+        // caught
+      }
+      ```
+    * Detects **malformed patterns** in and throws `MalformedPatternException`. This is impossible to catch
+      with `preg_last_error()`.
+      ```php
+      try {
+        preg::match('/?ups/', 'ups');
+      } catch (\TRegx\Exception\MalformedPatternException $exception) {
+        // caught
+      }
+      ```
+    * Not every error in PHP can be read from `preg_last_error()`, however T-Regx throws dedicated exceptions for those
+      events.
+
 # What's better
 
 ![Ugly api](https://t-regx.com/img/external/readme/preg.png)
@@ -254,8 +227,9 @@ Current development priorities, regarding release of 1.0:
 
 - Separate SafeRegex and CleanRegex into to two packages, so users can choose what they want #103
 - Add documentation to each T-Regx public method #17 \[in progress]
-- Release 1.0
+- Backporting `/n` modifier to all T-Regx versions \[in progress]
 - Revamp of [t-regx.com](https://t-regx.com/) documentation \[in progress]
+- Release 1.0
 
 # Sponsors
 
