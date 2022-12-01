@@ -9,7 +9,7 @@ use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;
 
 /**
- * @coversNothing
+ * @covers \TRegx\CleanRegex\PatternList::count
  */
 class PatternListTest extends TestCase
 {
