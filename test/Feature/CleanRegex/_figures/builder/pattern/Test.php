@@ -2,10 +2,13 @@
 namespace Test\Feature\CleanRegex\_figures\builder\pattern;
 
 use PHPUnit\Framework\TestCase;
+use Test\Utils\Assertion\AssertsPattern;
 use TRegx\CleanRegex\Pattern;
 
 class Test extends TestCase
 {
+    use AssertsPattern;
+
     /**
      * @test
      */
@@ -59,5 +62,17 @@ class Test extends TestCase
         $pattern = Pattern::builder('^Foo:@?$')->pattern('')->build();
         // when, then
         $this->assertTrue($pattern->fails('Foo'), "Failed to assert that quantifier applied to placeholder");
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotCorruptCommentInPattern()
+    {
+        // given
+        $pattern = Pattern::builder('^@$', 'x')->pattern("value#comment@comment\n")->build();
+        // when, then
+        $this->assertConsumesFirst('value', $pattern);
+        $this->assertPatternIs("/^(?:value#comment@comment\n)$/x", $pattern);
     }
 }
