@@ -26,29 +26,25 @@ class GroupConsumer implements Consumer
 
     private function consumeGroup(Feed $feed): Entity
     {
-        $namedGroup = $feed->matchedString("/^\?((?:P?<|')[a-zA-Z0-9_\x80-\xFF@]*[>']?)/", 1);
-        if ($namedGroup->matched()) {
-            [$groupNotation] = $namedGroup->consume();
-            return new GroupOpen('?' . $groupNotation);
-        }
-        $groupDetails = $feed->matchedString($this->groupOpenParenthesisRegex(), 4);
+        $groupDetails = $feed->matchedString($this->groupOpenRegex(), 5);
         if (!$groupDetails->matched()) {
             return new GroupOpen('');
         }
-        [$type, $options, $optionsMode, $comment] = $groupDetails->consume();
+        [$groupNotation, $type, $options, $optionsMode, $comment] = $groupDetails->consume();
+        if ($groupNotation !== null) {
+            return new GroupOpen('?' . $groupNotation);
+        }
         if ($type === ':)') {
             return new GroupNull();
         }
         if ($type === ':') {
             return new GroupOpenFlags($options ?? '');
         }
-        if ($options !== null) {
-            if ($optionsMode === ':') {
-                return new GroupOpenFlags($options);
-            }
-            if ($optionsMode === ')') {
-                return new GroupRemainder($options);
-            }
+        if ($optionsMode === ':') {
+            return new GroupOpenFlags($options);
+        }
+        if ($optionsMode === ')') {
+            return new GroupRemainder($options);
         }
         if ($comment !== null) {
             return new GroupComment($comment);
@@ -58,13 +54,25 @@ class GroupConsumer implements Consumer
         // @codeCoverageIgnoreEnd
     }
 
-    private function groupOpenParenthesisRegex(): string
+    private function groupOpenRegex(): string
     {
         if (Pcre::pcre2()) {
             $flags = '\^?[ismxnUJ]*(?:-[ismxnUJ]*)?';
         } else {
             $flags = '\^?[ismxXUJ-]*';
         }
-        return "/^\?(?:(\:\)?)|($flags)([:)])|#([^)]*))/";
+        /** @lang RegExp */
+        return "/^
+            \?
+             (?:
+               ( (?:<|P<|') [a-zA-Z0-9_\x80-\xFF@]* [>']?)
+              |
+               (:\)?)
+              |
+               ($flags)([:)])
+              |
+               \#([^)]*)
+             )
+           /x";
     }
 }
