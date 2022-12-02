@@ -18,7 +18,7 @@ class PcreVersion
 
     public function semanticVersion(): string
     {
-        $version = \strstr($this->pcreVersion, ' ', true);
+        $version = \strStr($this->pcreVersion, ' ', true);
         if ($version === false) {
             return $this->pcreVersion;
         }
@@ -27,7 +27,7 @@ class PcreVersion
 
     public function majorVersion(): int
     {
-        return \strstr($this->semanticVersion(), '.', true);
+        return \strStr($this->pcreVersion, '.', true);
     }
 
     public function minorVersion(): int
