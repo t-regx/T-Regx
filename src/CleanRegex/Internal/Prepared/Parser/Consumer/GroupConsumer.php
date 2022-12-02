@@ -35,19 +35,19 @@ class GroupConsumer implements Consumer
         if (!$groupDetails->matched()) {
             return new GroupOpen('');
         }
-        [$type, $flags, $nonCapture, $comment] = $groupDetails->consume();
+        [$type, $options, $optionsMode, $comment] = $groupDetails->consume();
         if ($type === ':)') {
             return new GroupNull();
         }
         if ($type === ':') {
-            return new GroupOpenFlags($flags ?? '');
+            return new GroupOpenFlags($options ?? '');
         }
-        if ($flags !== null) {
-            if ($nonCapture === ':') {
-                return new GroupOpenFlags($flags);
+        if ($options !== null) {
+            if ($optionsMode === ':') {
+                return new GroupOpenFlags($options);
             }
-            if ($nonCapture === ')') {
-                return new GroupRemainder($flags);
+            if ($optionsMode === ')') {
+                return new GroupRemainder($options);
             }
         }
         if ($comment !== null) {
