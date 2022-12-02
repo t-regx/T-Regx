@@ -2,7 +2,6 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\Consumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
@@ -16,10 +15,10 @@ class PcreParser
     /** @var Consumer[] */
     private $consumers;
 
-    public function __construct(Feed $feed, Flags $flags, array $consumers)
+    public function __construct(Feed $feed, SubpatternFlags $flags, array $consumers)
     {
         $this->feed = $feed;
-        $this->sequence = new EntitySequence(SubpatternFlags::from($flags));
+        $this->sequence = new EntitySequence($flags);
         $this->consumers = $consumers;
     }
 

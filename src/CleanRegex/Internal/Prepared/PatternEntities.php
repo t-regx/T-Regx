@@ -14,6 +14,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Convention;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 use TRegx\CleanRegex\Internal\Prepared\Pattern\StringPattern;
 
 class PatternEntities
@@ -23,7 +24,7 @@ class PatternEntities
 
     public function __construct(StringPattern $pattern, PlaceholderConsumer $placeholderConsumer)
     {
-        $this->pcreParser = new PcreParser(new Feed($pattern->pattern()), $pattern->flags(), [
+        $this->pcreParser = new PcreParser(new Feed($pattern->pattern()), SubpatternFlags::from($pattern->flags()), [
             new ControlConsumer(),
             new QuoteConsumer(),
             new EscapeConsumer(),

@@ -18,6 +18,11 @@ class SubpatternFlags
         return new self($flags->isExtended());
     }
 
+    public static function empty(): SubpatternFlags
+    {
+        return new self(false);
+    }
+
     public function parsed(string $string): SubpatternFlags
     {
         $flagString = new FlagString($string);
