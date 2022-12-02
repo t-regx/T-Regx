@@ -4,6 +4,7 @@ namespace TRegx\CleanRegex\Internal\Prepared\Orthography;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Delimiter\PcreString;
 use TRegx\CleanRegex\Internal\Flags;
+use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 
 class PcreSpelling implements Spelling
 {
@@ -28,5 +29,10 @@ class PcreSpelling implements Spelling
     public function flags(): Flags
     {
         return Flags::from($this->pcre->flags());
+    }
+
+    public function subpatternFlags(): SubpatternFlags
+    {
+        return SubpatternFlags::from($this->flags());
     }
 }
