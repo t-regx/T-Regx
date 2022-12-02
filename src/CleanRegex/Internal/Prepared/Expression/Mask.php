@@ -27,7 +27,7 @@ class Mask implements Expression
     /** @var string */
     private $mask;
 
-    public function __construct(string $mask, array $keywords, Flags $flags)
+    public function __construct(string $mask, Flags $flags, array $keywords)
     {
         $this->phrase = new MaskPhrase($mask, $keywords);
         $this->candidates = new Candidates(new KeywordsCondition($keywords));

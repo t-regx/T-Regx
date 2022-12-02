@@ -18,10 +18,10 @@ class MaskTest extends TestCase
     public function test()
     {
         // given
-        $mask = new Mask('(%w:%s\)', [
+        $mask = new Mask('(%w:%s\)', new Flags('x'), [
             '%s' => '\s',
             '%w' => '\w'
-        ], new Flags('x'));
+        ]);
 
         // when
         $predefinition = $mask->predefinition();
@@ -36,7 +36,7 @@ class MaskTest extends TestCase
     public function shouldChooseDelimiter()
     {
         // given
-        $mask = new Mask('foo', ['x' => '%', '%w' => '#', '%s' => '/'], new Flags('i'));
+        $mask = new Mask('foo', new Flags('i'), ['x' => '%', '%w' => '#', '%s' => '/']);
 
         // when
         $predefinition = $mask->predefinition();
@@ -51,7 +51,7 @@ class MaskTest extends TestCase
     public function shouldNotUseMaskToDelimiter()
     {
         // given
-        $mask = new Mask('foo/bar', [], new Flags('x'));
+        $mask = new Mask('foo/bar', new Flags('x'), []);
 
         // when
         $predefinition = $mask->predefinition();
@@ -66,10 +66,10 @@ class MaskTest extends TestCase
     public function shouldThrowForTrailingEscape()
     {
         // given
-        $mask = new Mask('(%w:%s\)', [
+        $mask = new Mask('(%w:%s\)', new Flags('x'), [
             '%s' => '\s',
             '%w' => '\w\\'
-        ], new Flags('x'));
+        ]);
 
         // then
         $this->expectException(MaskMalformedPatternException::class);

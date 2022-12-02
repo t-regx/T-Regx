@@ -31,7 +31,7 @@ trait EntryPoints
 
     public static function mask(string $mask, array $keywords, string $modifiers = null): Pattern
     {
-        return new Pattern(new Mask($mask, $keywords, Flags::from($modifiers)));
+        return new Pattern(new Mask($mask, Flags::from($modifiers), $keywords));
     }
 
     public static function template(string $pattern, string $modifiers = null): PatternTemplate
