@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Pattern;
 
-use TRegx\CleanRegex\Internal\Flags;
+use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 
 class EmptyFlagPattern implements StringPattern
 {
@@ -18,8 +18,8 @@ class EmptyFlagPattern implements StringPattern
         return $this->pattern;
     }
 
-    public function flags(): Flags
+    public function subpatternFlags(): SubpatternFlags
     {
-        return Flags::empty();
+        return SubpatternFlags::empty();
     }
 }

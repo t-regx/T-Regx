@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Internal\Candidates;
 use TRegx\CleanRegex\Internal\Condition;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
+use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 
 class StandardSpelling implements Spelling
 {
@@ -39,5 +40,10 @@ class StandardSpelling implements Spelling
     public function flags(): Flags
     {
         return $this->flags;
+    }
+
+    public function subpatternFlags(): SubpatternFlags
+    {
+        return SubpatternFlags::from($this->flags);
     }
 }
