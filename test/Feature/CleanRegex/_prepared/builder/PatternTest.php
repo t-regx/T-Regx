@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsPattern;
 use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
+use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Exception\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
@@ -261,5 +262,19 @@ class PatternTest extends TestCase
         $pattern = Pattern::builder('(?<@>), @')->literal('Foo')->build();
         // when
         $this->assertSame('/(?<@>), (?>Foo)/', $pattern->delimited());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldValidateMaskWithFlags()
+    {
+        // given
+        $template = Pattern::builder('^@$', 'x');
+        // then
+        $this->expectException(MaskMalformedPatternException::class);
+        $this->expectExceptionMessage("Malformed pattern '#commen(t\nfoo)' assigned to keyword '*'");
+        // when, then
+        $template->mask('*', ['*' => "#commen(t\nfoo)"])->build();
     }
 }

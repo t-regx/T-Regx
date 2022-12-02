@@ -27,7 +27,7 @@ class TemplateBuilder
 
     public function mask(string $mask, array $keywords): TemplateBuilder
     {
-        return $this->next(new NonCaptureGroup(new MaskFigure($mask, $keywords)));
+        return $this->next(new NonCaptureGroup(new MaskFigure($mask, $this->orthography->flags(), $keywords)));
     }
 
     public function literal(string $text): TemplateBuilder

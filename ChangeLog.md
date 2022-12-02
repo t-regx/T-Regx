@@ -10,6 +10,13 @@ Incoming
     * Moved `PatternTemplate` to `TRegx\CleanRegex\ `
     * Moved `TemplateBuilder` to `TRegx\CleanRegex\ `
     * Updated `MalformedPatternException` message `Null byte in regex` to `Pattern may not contain null-byte`.
+* Bug fixes
+    * Fixed a bug when using prepared patterns with `mask()` didn't take modifiers into account when running validation
+        * Fixed the bug in `Pattern::mask()`
+        * Fixed the bug in `Pattern::template()->mask()`
+        * Fixed the bug in `Pattern::builder()->mask()`
+        * Fixed the bug in `PcrePattern::template()->mask()`
+        * Fixed the bug in `PcrePattern::builder()->mask()`
 * Features
     * Added public modifier constants to `Pattern`.
         * Added `Pattern::CASE_INSENSITIVE`

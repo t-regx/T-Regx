@@ -46,4 +46,18 @@ class Test extends TestCase
         $errorsCleaner = new ErrorsCleaner();
         $this->assertInstanceOf(EmptyHostError::class, $errorsCleaner->getError());
     }
+
+    /**
+     * @test
+     */
+    public function shouldValidateMaskWithFlags()
+    {
+        // given
+        $template = Pattern::template('^@$', 'x');
+        // then
+        $this->expectException(MaskMalformedPatternException::class);
+        $this->expectExceptionMessage("Malformed pattern '#commen(t\nfoo)' assigned to keyword '*'");
+        // when, then
+        $template->mask('*', ['*' => "#commen(t\nfoo)"]);
+    }
 }

@@ -2,14 +2,18 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Template\Mask;
 
 use Generator;
+use TRegx\CleanRegex\Internal\Flags;
 
 class KeywordPatterns
 {
+    /** @var Flags */
+    private $flags;
     /** @var string[] */
     private $keywordPatterns;
 
-    public function __construct(array $keywordPatterns)
+    public function __construct(Flags $flags, array $keywordPatterns)
     {
+        $this->flags = $flags;
         $this->keywordPatterns = $keywordPatterns;
     }
 
@@ -28,7 +32,7 @@ class KeywordPatterns
             if ($keyword === '') {
                 throw new \InvalidArgumentException("Keyword cannot be empty, must consist of at least one character");
             }
-            yield $keyword => new KeywordPattern($keyword, $pattern);
+            yield $keyword => new KeywordPattern($this->flags, $keyword, $pattern);
         }
     }
 }

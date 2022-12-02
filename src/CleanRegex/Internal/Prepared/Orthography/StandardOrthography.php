@@ -21,6 +21,14 @@ class StandardOrthography implements Orthography
 
     public function spelling(Condition $condition): Spelling
     {
-        return new StandardSpelling($this->input, $this->flags, new CompositeCondition([new UnsuitableStringCondition($this->input), $condition]));
+        return new StandardSpelling($this->input, $this->flags, new CompositeCondition([
+            new UnsuitableStringCondition($this->input),
+            $condition
+        ]));
+    }
+
+    public function flags(): Flags
+    {
+        return $this->flags;
     }
 }

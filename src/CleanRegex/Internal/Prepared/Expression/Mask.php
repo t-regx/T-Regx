@@ -29,7 +29,7 @@ class Mask implements Expression
 
     public function __construct(string $mask, Flags $flags, array $keywords)
     {
-        $this->phrase = new MaskPhrase($mask, $keywords);
+        $this->phrase = new MaskPhrase($mask, $flags, $keywords);
         $this->candidates = new Candidates(new KeywordsCondition($keywords));
         $this->flags = $flags;
         $this->keywords = $keywords;

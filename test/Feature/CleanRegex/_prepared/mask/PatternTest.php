@@ -230,4 +230,16 @@ class PatternTest extends TestCase
         // then
         $this->assertPatternIs('/Foo\)To\]The\{\{Bar/', $pattern);
     }
+
+    /**
+     * @test
+     */
+    public function shouldValidateMaskWithFlags()
+    {
+        // then
+        $this->expectException(MaskMalformedPatternException::class);
+        $this->expectExceptionMessage("Malformed pattern '#commen(t\nfoo)' assigned to keyword '*'");
+        // when, then
+        Pattern::mask('*', ['*' => "#commen(t\nfoo)"], 'x');
+    }
 }
