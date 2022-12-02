@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Template\Mask;
 
 use Generator;
+use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPhrase;
@@ -16,10 +17,10 @@ class MaskPhrase
     /** @var Needles */
     private $needles;
 
-    public function __construct(string $mask, array $keywordPatterns)
+    public function __construct(string $mask, Flags $flags, array $keywordPatterns)
     {
         $this->mask = $mask;
-        $this->patterns = new KeywordPatterns($keywordPatterns);
+        $this->patterns = new KeywordPatterns($flags, $keywordPatterns);
         $this->needles = new Needles(\array_keys($keywordPatterns));
     }
 

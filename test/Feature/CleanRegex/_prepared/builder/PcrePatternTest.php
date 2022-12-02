@@ -3,6 +3,7 @@ namespace Test\Feature\CleanRegex\_prepared\builder;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsPattern;
+use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\PcrePattern;
 
 class PcrePatternTest extends TestCase
@@ -43,5 +44,19 @@ class PcrePatternTest extends TestCase
         $pattern = PcrePattern::builder("%You/her #@\n her?%x")->build();
         // then
         $this->assertPatternIs("%You/her #@\n her?%x", $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldValidateMaskWithFlags()
+    {
+        // given
+        $template = PcrePattern::builder('%^@$%x');
+        // then
+        $this->expectException(MaskMalformedPatternException::class);
+        $this->expectExceptionMessage("Malformed pattern '#commen(t\nfoo)' assigned to keyword '*'");
+        // when, then
+        $template->mask('*', ['*' => "#commen(t\nfoo)"])->build();
     }
 }

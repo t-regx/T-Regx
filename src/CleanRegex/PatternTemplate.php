@@ -24,7 +24,7 @@ class PatternTemplate
 
     public function mask(string $mask, array $keywords): Pattern
     {
-        return $this->template(new NonCaptureGroup(new MaskFigure($mask, $keywords)));
+        return $this->template(new NonCaptureGroup(new MaskFigure($mask, $this->orthography->flags(), $keywords)));
     }
 
     public function literal(string $text): Pattern

@@ -17,6 +17,8 @@ use TRegx\CleanRegex\Internal\UnsuitableStringCondition;
 
 class KeywordPattern
 {
+    /** @var Flags */
+    private $flags;
     /** @var Candidates */
     private $candidates;
     /** @var PatternPhrase */
@@ -26,8 +28,9 @@ class KeywordPattern
     /** @var string */
     private $keyword;
 
-    public function __construct(string $keyword, string $pattern)
+    public function __construct(Flags $flags, string $keyword, string $pattern)
     {
+        $this->flags = $flags;
         $this->candidates = new Candidates(new UnsuitableStringCondition($pattern));
         $this->patternPhrase = new PatternPhrase(new EmptyFlagPattern($pattern), new LiteralPlaceholders());
         $this->pattern = $pattern;
@@ -41,7 +44,7 @@ class KeywordPattern
 
     private function validPhrase(Phrase $phrase, Delimiter $delimiter): Phrase
     {
-        $definition = new Definition($delimiter->delimited($phrase, Flags::empty()));
+        $definition = new Definition($delimiter->delimited($phrase, $this->flags));
         if ($definition->valid()) {
             return $phrase;
         }
