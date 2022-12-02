@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\TerminatingEscape;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\PatternPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
@@ -36,7 +37,7 @@ class PatternEntitiesAssertion
 
     public function assertPatternFlagsRepresent(string $pattern, string $flags, array $expectedEntities, string $expected = null): void
     {
-        $parser = new PcreParser(new Feed($pattern), new Flags($flags), $this->consumers);
+        $parser = new PcreParser(new Feed($pattern), SubpatternFlags::from(new Flags($flags)), $this->consumers);
         try {
             $entities = $parser->entities();
         } catch (InternalCleanRegexException $exception) {

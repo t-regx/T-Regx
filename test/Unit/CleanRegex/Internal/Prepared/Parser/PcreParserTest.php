@@ -9,7 +9,6 @@ use Test\Fakes\CleanRegex\Internal\Prepared\Template\Cluster\FakeCluster;
 use Test\Utils\Agnostic\PcreDependant;
 use Test\Utils\Prepared\PatternEntitiesAssertion;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\ArrayClusters;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\ExpectedClusters;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CharacterClassConsumer;
@@ -35,6 +34,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Placeholder;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Quote;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 
 /**
  * @covers \TRegx\CleanRegex\Internal\Prepared\PatternPhrase
@@ -245,7 +245,7 @@ class PcreParserTest extends TestCase
     public function shouldThrowForInapplicableConsumer()
     {
         // given
-        $parser = new PcreParser(new Feed('\c'), new Flags(''), []);
+        $parser = new PcreParser(new Feed('\c'), SubpatternFlags::empty(), []);
         // then
         $this->expectException(InternalCleanRegexException::class);
         // when
