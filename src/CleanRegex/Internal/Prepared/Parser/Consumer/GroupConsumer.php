@@ -26,10 +26,10 @@ class GroupConsumer implements Consumer
 
     private function consumeGroup(Feed $feed): Entity
     {
-        $namedGroup = $feed->matchedString("/^ ( \? (?:P?<|') [a-zA-Z0-9_\x80-\xFF@]* [>']? )/x", 1);
+        $namedGroup = $feed->matchedString("/^\?((?:P?<|')[a-zA-Z0-9_\x80-\xFF@]*[>']?)/", 1);
         if ($namedGroup->matched()) {
             [$groupNotation] = $namedGroup->consume();
-            return new GroupOpen($groupNotation);
+            return new GroupOpen('?' . $groupNotation);
         }
         $groupDetails = $feed->matchedString($this->groupOpenParenthesisRegex(), 4);
         if (!$groupDetails->matched()) {
