@@ -8,6 +8,7 @@ use Test\Utils\Assertion\AssertsPattern;
 use Test\Utils\Functions;
 use Test\Utils\Structure\AssertsStructure;
 use Test\Utils\Structure\Expect;
+use Test\Utils\TestCase\TestCaseConditional;
 use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\PlaceholderFigureException;
@@ -18,7 +19,7 @@ use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
 {
-    use AssertsPattern, AssertsDetail, TestCasePasses, AssertsStructure, PcreDependant;
+    use AssertsPattern, AssertsDetail, TestCasePasses, AssertsStructure, PcreDependant, TestCaseConditional;
 
     /**
      * @test
@@ -446,6 +447,9 @@ class PatternTest extends TestCase
      */
     public function shouldAcceptDifferentGroupNames_onUnicode(string $groupName): void
     {
+        if (!$this->isPcre2()) {
+            $this->markTestUnnecessary('Unicode group names are only available in PCRE2');
+        }
         // when
         [$name] = Pattern::of("(?<$groupName>Foo)", 'u')->match('Foo')->groupNames();
         // then
@@ -454,6 +458,6 @@ class PatternTest extends TestCase
 
     public function groupNames(): array
     {
-        return $this->onPcre2(\provided(['gróup', 'ßark']));
+        return \provided(['gróup', 'ßark']);
     }
 }
