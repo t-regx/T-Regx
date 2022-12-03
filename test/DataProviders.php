@@ -2,7 +2,6 @@
 namespace Test;
 
 use Test\Utils\Classes\ClassWithToString;
-use Test\Utils\Values\Definitions;
 use TRegx\CleanRegex\Internal\Definition;
 
 class DataProviders
@@ -63,7 +62,7 @@ class DataProviders
             'resource'   => [self::getResource(), 'resource'],
             'stdClass'   => [new \stdClass(), 'stdClass'],
             '__toString' => [new ClassWithToString('string'), 'Test\Utils\Classes\ClassWithToString'],
-            'class'      => [Definitions::pcre('//'), Definition::class],
+            'class'      => [new Definition('//'), Definition::class],
             'function'   => [function () {
             }, 'Closure']
         ];

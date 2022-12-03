@@ -2,7 +2,7 @@
 namespace Test\Unit\CleanRegex\Internal\Model\Match;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Values\Definitions;
+use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 
@@ -17,7 +17,7 @@ class LightweightGroupAwareTest extends TestCase
     public function shouldGetGroupKeys()
     {
         // given
-        $groupAware = new LightweightGroupAware(Definitions::pcre('/(?<group>)/'));
+        $groupAware = new LightweightGroupAware(new Definition('/(?<group>)/'));
 
         // when
         $keys = $groupAware->getGroupKeys();
@@ -35,7 +35,7 @@ class LightweightGroupAwareTest extends TestCase
     public function shouldVerify(string $pattern, bool $expected)
     {
         // given
-        $groupAware = new LightweightGroupAware(Definitions::pcre($pattern));
+        $groupAware = new LightweightGroupAware(new Definition($pattern));
 
         // when
         $hasGroup = $groupAware->hasGroup(new GroupName('group'));

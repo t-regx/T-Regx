@@ -2,7 +2,7 @@
 namespace Test\Unit\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
-use Test\Utils\Values\StandardSubpatternFlags;
+use Test\Utils\Prepared\StandardSubpatternFlags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\FlagStack;
 
 /**
