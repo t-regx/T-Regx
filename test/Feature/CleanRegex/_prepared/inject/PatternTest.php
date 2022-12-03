@@ -366,4 +366,92 @@ class PatternTest extends TestCase
         // when
         $this->assertSame('/(?<!(?>value))/', $pattern->delimited());
     }
+
+    /**
+     * @test
+     */
+    public function shouldInjectAfterNamedGroup()
+    {
+        // given
+        $pattern = Pattern::inject('(?x)(?<name>foo)#@', []);
+        // when, then
+        $this->assertConsumesFirst('foo', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldInjectAfterAtomicGroup()
+    {
+        // given
+        $pattern = Pattern::inject('(?x)(?>foo)#@', []);
+        // when, then
+        $this->assertConsumesFirst('foo', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldInjectAfterPositiveLookAhead()
+    {
+        // given
+        $pattern = Pattern::inject('(?x)foo(?=after)#@', []);
+        // when, then
+        $this->assertConsumesFirstSubstring('fooafter', 'foo', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldInjectAfterNegativeLookAhead()
+    {
+        // given
+        $pattern = Pattern::inject('(?x)foo(?!after)#@', []);
+        // when, then
+        $this->assertConsumesFirst('foo', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldInjectAfterGroupReference()
+    {
+        // given
+        $pattern = Pattern::inject('(?x)(foo),(?1)#@', []);
+        // when, then
+        $this->assertConsumesFirst('foo,foo', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldInjectAfterDefine()
+    {
+        // given
+        $pattern = Pattern::inject('(?x)(?(DEFINE))foo#@', []);
+        // when, then
+        $this->assertConsumesFirst('foo', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldInjectAfterVerb()
+    {
+        // given
+        $pattern = Pattern::inject('(?x)foo(*ACCEPT)#@', []);
+        // when, then
+        $this->assertConsumesFirst('foo', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldInjectAfterRecursivePattern()
+    {
+        // given
+        $pattern = Pattern::inject('(?x)"(?:(?R)|foo)"#@', []);
+        // when, then
+        $this->assertConsumesFirst('""""foo""""', $pattern);
+    }
 }

@@ -6,6 +6,7 @@ use Test\Utils\Assertion\Message\MatchMessage;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Match\Matcher;
 use TRegx\CleanRegex\Pattern;
+use TRegx\Exception\MalformedPatternException;
 
 trait AssertsPattern
 {
@@ -16,7 +17,11 @@ trait AssertsPattern
 
     private function assertPatternFails(Pattern $pattern, string $subject): void
     {
-        $this->assertTrue($pattern->fails($subject), "Failed to assert that $pattern fails to match '$subject'");
+        try {
+            $this->assertTrue($pattern->fails($subject), "Failed to assert that $pattern fails to match '$subject'");
+        } catch (MalformedPatternException $exception) {
+            Assert::fail("Failed to execute a malformed pattern: $pattern");
+        }
     }
 
     public function assertPatternIs(string $expected, Pattern $actual): void
@@ -26,7 +31,21 @@ trait AssertsPattern
 
     public function assertConsumesFirst(string $text, Pattern $pattern): void
     {
-        $this->assertSame($text, $pattern->search($text)->first());
+        try {
+            $this->assertSame($text, $pattern->search($text)->first());
+        } catch (MalformedPatternException $exception) {
+            $pattern = str_replace("\r", "\n", $pattern);
+            Assert::fail("Failed to execute a malformed pattern: $pattern");
+        }
+    }
+
+    public function assertConsumesFirstSubstring(string $subject, string $expected, Pattern $pattern): void
+    {
+        try {
+            $this->assertSame($expected, $pattern->search($subject)->first());
+        } catch (MalformedPatternException $exception) {
+            Assert::fail("Failed to execute a malformed pattern: $pattern");
+        }
     }
 
     public function assertConsumesFirstGroup(string $subject, string $expectedGroup, Pattern $pattern): void
