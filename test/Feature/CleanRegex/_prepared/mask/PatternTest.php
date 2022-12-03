@@ -15,6 +15,42 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function test()
+    {
+        // given
+        $pattern = Pattern::mask('(%w:%s\)', [
+            '%s' => '\s',
+            '%w' => '\w'
+        ], 'x');
+        // when, then
+        $this->assertPatternIs('/\(\w\:\s\\\\\\)/x', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldChooseDelimiter()
+    {
+        // given
+        $pattern = Pattern::mask('foo', ['x' => '%', '%w' => '#', '%s' => '/'], 'i');
+        // when, then
+        $this->assertPatternIs('~foo~i', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotUseMaskToDelimiter()
+    {
+        // given
+        $pattern = Pattern::mask('foo/bar', [], 'x');
+        // when, then
+        $this->assertPatternIs('/foo\/bar/x', $pattern);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowForEmptyKeyword()
     {
         // then
@@ -77,6 +113,18 @@ class PatternTest extends TestCase
         $pattern = Pattern::mask('!s', ['!s' => '\\\\']);
         // then
         $this->assertConsumesFirst('\\', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowForTrailingEscape()
+    {
+        // then
+        $this->expectException(MaskMalformedPatternException::class);
+        $this->expectExceptionMessage("Malformed pattern '\w\' assigned to keyword '%w'");
+        // when
+        Pattern::mask('(%w:%s\)', ['%s' => '\s', '%w' => '\w\\'], 'x');
     }
 
     /**
