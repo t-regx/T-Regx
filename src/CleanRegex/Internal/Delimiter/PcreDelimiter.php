@@ -19,6 +19,9 @@ class PcreDelimiter
 
     private function malformedTemplateMessage(string $delimiter): string
     {
+        if ($delimiter === "\0") {
+            return 'null-byte delimiter';
+        }
         if (\ctype_alnum($delimiter)) {
             return "alphanumeric delimiter '$delimiter'";
         }

@@ -94,6 +94,9 @@ class PcrePatternTest extends TestCase
 
     public function expectedMalformedPatternMessage(string $delimiter): string
     {
+        if (\ord($delimiter) === 0) {
+            return 'PCRE-compatible template is malformed, null-byte delimiter';
+        }
         if (\in_array(\ord($delimiter), [9, 10, 11, 12, 13, 32])) {
             return 'PCRE-compatible template is malformed, pattern is empty';
         }

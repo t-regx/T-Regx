@@ -10,6 +10,7 @@ Incoming
     * Moved `PatternTemplate` to `TRegx\CleanRegex\ `
     * Moved `TemplateBuilder` to `TRegx\CleanRegex\ `
     * Updated `MalformedPatternException` message `Null byte in regex` to `Pattern may not contain null-byte`.
+    * Updated `MalformedPatternException` message `...unexpected delimiter '\0'` to `...null-byte delimiter`.
 * Bug fixes
     * Fixed a bug when using prepared patterns with `mask()` didn't take modifiers into account when running validation
         * Fixed the bug in `Pattern::mask()`
