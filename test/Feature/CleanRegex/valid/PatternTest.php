@@ -3,7 +3,6 @@ namespace Test\Feature\CleanRegex\valid;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Pattern;
-use TRegx\CleanRegex\PcrePattern;
 use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
@@ -11,47 +10,25 @@ class PatternTest extends TestCase
     /**
      * @test
      * @dataProvider patterns
-     * @param string $pattern
-     * @param bool $expected
-     * @param bool $_
-     */
-    public function testStandard(string $pattern, bool $expected, bool $_)
-    {
-        // given
-        $pattern = Pattern::of($pattern);
-
-        // when
-        $valid = $pattern->valid();
-
-        // then
-        $this->assertSame($expected, $valid);
-    }
-
-    /**
-     * @test
-     * @dataProvider patterns
-     * @param string $pattern
-     * @param bool $_
+     * @param string $expression
      * @param bool $expected
      */
-    public function testPcre(string $pattern, bool $_, bool $expected)
+    public function testStandard(string $expression, bool $expected)
     {
         // given
-        $pattern = PcrePattern::of($pattern);
-        // when
-        $valid = $pattern->valid();
-        // then
-        $this->assertSame($expected, $valid);
+        $pattern = Pattern::of($expression);
+        // when then
+        $this->assertSame($expected, $pattern->valid());
     }
 
     public function patterns(): array
     {
         return [
-            'of'           => ['Foo', true, false],
-            'pcre'         => ['/Foo/', true, true],
-            'pcre,invalid' => ['/invalid)/', false, false],
-            'invalid'      => ['invalid)', false, false],
-            'empty'        => ['', true, false],
+            'of'           => ['Foo', true],
+            'pcre'         => ['/Foo/', true],
+            'pcre,invalid' => ['/invalid)/', false],
+            'invalid'      => ['invalid)', false],
+            'empty'        => ['', true],
         ];
     }
 
@@ -62,12 +39,8 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::of('\c\\');
-
-        // when
-        $valid = $pattern->valid();
-
-        // then
-        $this->assertTrue($valid);
+        // when, then
+        $this->assertTrue($pattern->valid());
     }
 
     /**
@@ -77,12 +50,8 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::of('\Q\\');
-
-        // when
-        $valid = $pattern->valid();
-
-        // then
-        $this->assertTrue($valid);
+        // when, then
+        $this->assertTrue($pattern->valid());
     }
 
     /**
@@ -92,12 +61,8 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::of('#\\', 'x');
-
-        // when
-        $valid = $pattern->valid();
-
-        // then
-        $this->assertTrue($valid);
+        // when, then
+        $this->assertTrue($pattern->valid());
     }
 
     /**
@@ -107,12 +72,8 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::of('#\\');
-
-        // when
-        $valid = $pattern->valid();
-
-        // then
-        $this->assertFalse($valid);
+        // when, then
+        $this->assertFalse($pattern->valid());
     }
 
     /**
@@ -122,10 +83,8 @@ class PatternTest extends TestCase
     {
         // when
         pattern('/[a-')->valid();
-        // when
-        $valid = pattern('/[a-z]/')->valid();
-        // then
-        $this->assertTrue($valid);
+        // when, then
+        $this->assertTrue(pattern('/[a-z]/')->valid());
     }
 
     /**
