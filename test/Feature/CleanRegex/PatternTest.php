@@ -186,10 +186,8 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::of('Foo{1,2}/', 'm');
-        // when
-        $string = (string)$pattern;
-        // then
-        $this->assertSame('#Foo{1,2}/#m', $string);
+        // when, then
+        $this->assertSame('#Foo{1,2}/#m', (string)$pattern);
     }
 
     /**
@@ -198,11 +196,9 @@ class PatternTest extends TestCase
     public function shouldCast_pcre()
     {
         // given
-        $pattern = PcrePattern::of('/Foo{1,2}/n');
-        // when
-        $string = (string)$pattern;
-        // then
-        $this->assertSame('/Foo{1,2}/n', $string);
+        $pattern = PcrePattern::of('/Foo{1,2}/i');
+        // when, then
+        $this->assertSame('/Foo{1,2}/i', (string)$pattern);
     }
 
     /**

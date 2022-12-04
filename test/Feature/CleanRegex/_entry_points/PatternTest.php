@@ -23,7 +23,6 @@ class PatternTest extends TestCase
         // when
         $figure = 'real? (or are you not real?)';
         $pattern = Pattern::inject('You/her, (are|is) @ (you|her)', [$figure]);
-
         // then
         $this->assertPatternIs('#You/her, (are|is) (?>real\?\ \(or\ are\ you\ not\ real\?\)) (you|her)#', $pattern);
     }
@@ -57,7 +56,6 @@ class PatternTest extends TestCase
             '%d' => '\d+',
             '%%' => '%/'
         ], 'i');
-
         // then
         $this->assertConsumesFirst('(super):{  .12.%/}', $pattern);
         $this->assertPatternIs('#\(Super\)\:\{\s+\.\d+\.%/\}#i', $pattern);
@@ -70,7 +68,6 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::mask('%', ['%%' => '/', '%e' => '#']);
-
         // then
         $this->assertPatternIs('%\%%', $pattern);
     }
@@ -83,7 +80,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(MaskMalformedPatternException::class);
         $this->expectExceptionMessage("Malformed pattern '\' assigned to keyword '%e'");
-
         // when
         Pattern::mask('%e', ['%e' => '\\']);
     }
@@ -96,7 +92,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(MaskMalformedPatternException::class);
         $this->expectExceptionMessage("Malformed pattern '*' assigned to keyword '%e'");
-
         // when
         Pattern::mask('%e', ['%e' => '*']);
     }
@@ -109,7 +104,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(MaskMalformedPatternException::class);
         $this->expectExceptionMessage("Malformed pattern '\' assigned to keyword '%e'");
-
         // when
         Pattern::mask('%e', ['%e' => '\\', '%f' => 'e']);
     }
@@ -128,7 +122,6 @@ class PatternTest extends TestCase
             ])
             ->literal('~')
             ->build();
-
         // then
         $this->assertPatternIs('~^(?>&) v(?:This\-is\:\ x{3,}#\ pattern\ x{4,}/)s. &(?>\~) or `s` %~i', $pattern);
     }
@@ -150,7 +143,6 @@ class PatternTest extends TestCase
                 '%e' => 'e{2,3}'
             ])
             ->build();
-
         // then
         $this->assertPatternIs('/^(?:This\-is\:\ x{3,}\ pattern\ x{4,}) v(?>@)s. (?:\(e{2,3}\:%e\))$ or `s`/i', $pattern);
     }
@@ -162,7 +154,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::template('^@ vs/$', 's')->mask('This-is: %3', ['%3' => 'x{3,}']);
-
         // then
         $this->assertPatternIs('#^(?:This\-is\:\ x{3,}) vs/$#s', $pattern);
     }
@@ -179,7 +170,6 @@ class PatternTest extends TestCase
             '%f' => '/',
             '%s' => '\s*',
         ]);
-
         // then
         $this->assertConsumesFirst('/%:#/   ', $pattern);
         $this->assertPatternIs('~/(?:%\:#/\s*)~', $pattern);
@@ -192,7 +182,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::template('^@ vs/ $', 's')->literal('&');
-
         // then
         $this->assertPatternIs('#^(?>&) vs/ $#s', $pattern);
     }
@@ -204,7 +193,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::template('You/her, @ (her)', 's')->alteration(['{hi}', '50#']);
-
         // then
         $this->assertConsumesFirst('You/her, {hi} her', $pattern);
         $this->assertConsumesFirst('You/her, 50# her', $pattern);
@@ -230,7 +218,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::alteration(['foo', 'bar']);
-
         // then
         $this->assertPatternIs('/foo|bar/', $pattern);
     }
@@ -242,7 +229,6 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::alteration(['fo{2}', '\w', '\d'], 'i');
-
         // then
         $this->assertConsumesAll('FO{2} \d fo{2} \w', ['FO{2}', '\d', 'fo{2}', '\w'], $pattern);
         $this->assertPatternIs('/fo\{2\}|\\\\w|\\\\d/i', $pattern);
@@ -282,7 +268,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(ExplicitDelimiterRequiredException::class);
         $this->expectExceptionMessage("Failed to select a distinct delimiter to enable mask keywords in their entirety: s~i/e#, m+m+%a!, @*`_-;=,\1");
-
         // when
         Pattern::mask('@', [
             'foo' => 's~i/e#',
@@ -299,7 +284,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(ExplicitDelimiterRequiredException::class);
         $this->expectExceptionMessage("Failed to select a distinct delimiter to enable template in its entirety");
-
         // when
         Pattern::template('@')->mask('foo', [
             'foo' => 's~i/e#',
@@ -315,7 +299,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject('()(?:)', []);
-
         // then
         $this->assertConsumesFirst('', $pattern);
     }
@@ -327,7 +310,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::of('\c?');
-
         // then
         $this->assertConsumesFirst(\chr(127), $pattern);
     }
@@ -339,7 +321,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::of('\c\\');
-
         // then
         $this->assertConsumesFirst(\chr(28), $pattern);
     }
@@ -351,7 +332,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::of('\Q\\');
-
         // then
         $this->assertConsumesFirst('\\', $pattern);
     }
