@@ -2,10 +2,11 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use Generator;
+use TRegx\CleanRegex\Internal\PatternPrefix;
 
 class Convention
 {
-    /** @var string */
+    /** @var PatternPrefix */
     private $pattern;
     /** @var string[][] */
     private $lineEndings = [
@@ -19,7 +20,7 @@ class Convention
 
     public function __construct(string $pattern)
     {
-        $this->pattern = $pattern;
+        $this->pattern = new PatternPrefix($pattern);
     }
 
     public function lineEndings(): array
@@ -34,15 +35,9 @@ class Convention
 
     private function prioritizedOptionNames(): Generator
     {
-        $options = $this->internalOptions();
+        $options = $this->pattern->internalOptions();
         for (\end($options); \key($options) !== null; \prev($options)) {
             yield \current($options);
         }
-    }
-
-    private function internalOptions(): array
-    {
-        \preg_match_all("/\(\*([A-Z_]+)=?[0-9]*\)/A", $this->pattern, $match);
-        return $match[1];
     }
 }
