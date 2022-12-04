@@ -21,11 +21,6 @@ class GroupIndex extends GroupKey
         return $this->index;
     }
 
-    public function full(): bool
-    {
-        return false;
-    }
-
     public function __toString(): string
     {
         return "#$this->index";

@@ -22,7 +22,5 @@ abstract class GroupKey
      */
     public abstract function nameOrIndex();
 
-    public abstract function full(): bool;
-
     public abstract function __toString(): string;
 }
