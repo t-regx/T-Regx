@@ -148,4 +148,15 @@ class PatternTest extends TestCase
         // when
         $this->assertPatternIs("/^one$/S", $pattern);
     }
+
+    /**
+     * @test
+     */
+    public function noAutoCapture(): void
+    {
+        // given
+        $pattern = Pattern::of('(foo),(?<bar>bar)', Pattern::NO_AUTOCAPTURE);
+        // when, then
+        $this->assertConsumesFirstGroup('foo,bar', 'bar', $pattern);
+    }
 }

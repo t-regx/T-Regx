@@ -23,6 +23,8 @@ Incoming
             * `PcrePattern::inject("/$pattern/n", $figures)` is now accepted
             * `PcrePattern::template("/$pattern/n")` is now accepted
             * `PcrePattern::builder("/$pattern/n")` is now accepted
+    * Added public modifier constant to `Pattern`.
+        * Added `Pattern::NO_AUTOCAPTURE`
 
 Added in 0.40.0
 ---------------
