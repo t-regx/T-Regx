@@ -237,6 +237,17 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldAcceptNoAutoCapture()
+    {
+        // given
+        $pattern = Pattern::alteration(['(foo)', '(bar)'], 'n');
+        // then
+        $this->assertConsumesFirst('(foo)', $pattern);
+    }
+
+    /**
+     * @test
+     */
     public function shouldPcreQuoteNonStandardDelimiter()
     {
         // given

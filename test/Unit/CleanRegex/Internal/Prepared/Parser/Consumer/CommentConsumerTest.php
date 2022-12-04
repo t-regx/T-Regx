@@ -5,6 +5,8 @@ use PHPUnit\Framework\TestCase;
 use Test\Fakes\CleanRegex\Internal\Prepared\Parser\ConstantConvention;
 use Test\Utils\Prepared\EntityFailAssertion;
 use Test\Utils\Prepared\PatternEntitiesAssertion;
+use TRegx\CleanRegex\Internal\AutoCapture\OptionSetting\IdentityOptionSetting;
+use TRegx\CleanRegex\Internal\AutoCapture\PcreAutoCapture;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CommentConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupCloseConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupConsumer;
@@ -37,13 +39,13 @@ class CommentConsumerTest extends TestCase
     {
         // given
         $assertion = PatternEntitiesAssertion::withConsumers([
-            new GroupConsumer(),
+            new GroupConsumer(PcreAutoCapture::autoCapture()),
             new CommentConsumer(new ConstantConvention("\n")),
         ]);
 
         // then
         $assertion->assertPatternRepresents("(?x:#boo\n", [
-            new GroupOpenFlags('x'),
+            new GroupOpenFlags('x', new IdentityOptionSetting('x')),
             new Comment("boo\n")
         ]);
     }
@@ -55,7 +57,7 @@ class CommentConsumerTest extends TestCase
     {
         // given
         $assertion = PatternEntitiesAssertion::withConsumers([
-            new GroupConsumer(),
+            new GroupConsumer(PcreAutoCapture::autoCapture()),
             new GroupCloseConsumer(),
             new CommentConsumer(new ConstantConvention("\n")),
             new LiteralConsumer()
@@ -63,7 +65,7 @@ class CommentConsumerTest extends TestCase
 
         // then
         $assertion->assertPatternRepresents('(?x:)#boo', [
-            new GroupOpenFlags('x'),
+            new GroupOpenFlags('x', new IdentityOptionSetting('x')),
             new GroupClose(),
             '#boo',
         ]);
@@ -76,15 +78,15 @@ class CommentConsumerTest extends TestCase
     {
         // given
         $assertion = PatternEntitiesAssertion::withConsumers([
-            new GroupConsumer(),
+            new GroupConsumer(PcreAutoCapture::autoCapture()),
             new CommentConsumer(new ConstantConvention("\n")),
             new LiteralConsumer()
         ]);
 
         // then
         $assertion->assertPatternRepresents('(?x:(?-x:#boo', [
-            new GroupOpenFlags('x'),
-            new GroupOpenFlags('-x'),
+            new GroupOpenFlags('x', new IdentityOptionSetting('x')),
+            new GroupOpenFlags('-x', new IdentityOptionSetting('-x')),
             '#boo'
         ]);
     }
@@ -96,7 +98,7 @@ class CommentConsumerTest extends TestCase
     {
         // given
         $assertion = PatternEntitiesAssertion::withConsumers([
-            new GroupConsumer(),
+            new GroupConsumer(PcreAutoCapture::autoCapture()),
             new GroupCloseConsumer(),
             new CommentConsumer(new ConstantConvention("\n")),
             new LiteralConsumer()
@@ -104,8 +106,8 @@ class CommentConsumerTest extends TestCase
 
         // then
         $assertion->assertPatternRepresents('(?x:(?-x:)#boo', [
-            new GroupOpenFlags('x'),
-            new GroupOpenFlags('-x'),
+            new GroupOpenFlags('x', new IdentityOptionSetting('x')),
+            new GroupOpenFlags('-x', new IdentityOptionSetting('-x')),
             new GroupClose(),
             new Comment('boo')
         ]);
@@ -130,14 +132,14 @@ class CommentConsumerTest extends TestCase
     {
         // given
         $assertion = PatternEntitiesAssertion::withConsumers([
-            new GroupConsumer(),
+            new GroupConsumer(PcreAutoCapture::autoCapture()),
             new CommentConsumer(new ConstantConvention("\n")),
             new LiteralConsumer()
         ]);
 
         // then
         $assertion->assertPatternFlagsRepresent('(?-x:#boo', 'x', [
-            new GroupOpenFlags('-x'),
+            new GroupOpenFlags('-x', new IdentityOptionSetting('-x')),
             '#boo'
         ]);
     }

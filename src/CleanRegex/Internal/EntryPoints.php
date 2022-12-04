@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use TRegx\CleanRegex\Internal\AutoCapture\PcreAutoCapture;
 use TRegx\CleanRegex\Internal\Expression\Alteration;
 use TRegx\CleanRegex\Internal\Expression\Literal;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\FigureClusters;
@@ -19,44 +20,46 @@ trait EntryPoints
 {
     public static function of(string $pattern, string $modifiers = null): Pattern
     {
-        return new Pattern(new Standard(new StandardSpelling($pattern, Flags::from($modifiers),
-            new UnsuitableStringCondition($pattern))));
+        return new Pattern(new Standard(PcreAutoCapture::autoCapture(), new StandardSpelling($pattern,
+            Flags::from($modifiers), new UnsuitableStringCondition($pattern))));
     }
 
     public static function inject(string $pattern, array $texts, string $modifiers = null): Pattern
     {
-        return new Pattern(new Template(new StandardSpelling($pattern, Flags::from($modifiers),
-            new UnsuitableStringCondition($pattern)), new FigureClusters($texts)));
+        return new Pattern(new Template(PcreAutoCapture::autoCapture(), new StandardSpelling(
+            $pattern, Flags::from($modifiers), new UnsuitableStringCondition($pattern)),
+            new FigureClusters($texts)));
     }
 
     public static function mask(string $mask, array $keywords, string $modifiers = null): Pattern
     {
-        return new Pattern(new Mask($mask, Flags::from($modifiers), $keywords));
+        return new Pattern(new Mask(PcreAutoCapture::autoCapture(), $mask, Flags::from($modifiers), $keywords));
     }
 
     public static function template(string $pattern, string $modifiers = null): PatternTemplate
     {
-        return new PatternTemplate(new StandardOrthography($pattern, Flags::from($modifiers)));
+        return new PatternTemplate(PcreAutoCapture::autoCapture(),
+            new StandardOrthography($pattern, Flags::from($modifiers)));
     }
 
     public static function builder(string $pattern, string $modifiers = null): TemplateBuilder
     {
-        return new TemplateBuilder(new StandardOrthography($pattern, Flags::from($modifiers)),
-            new Clusters([]));
+        return new TemplateBuilder(PcreAutoCapture::autoCapture(),
+            new StandardOrthography($pattern, Flags::from($modifiers)), new Clusters([]));
     }
 
     public static function literal(string $text, string $modifiers = null): Pattern
     {
-        return new Pattern(new Literal($text, Flags::from($modifiers)));
+        return new Pattern(new Literal(PcreAutoCapture::autoCapture(), $text, Flags::from($modifiers)));
     }
 
     public static function alteration(array $texts, string $modifiers = null): Pattern
     {
-        return new Pattern(new Alteration($texts, Flags::from($modifiers)));
+        return new Pattern(new Alteration(PcreAutoCapture::autoCapture(), $texts, Flags::from($modifiers)));
     }
 
     public static function list(array $patterns): PatternList
     {
-        return new PatternList(new PatternStrings($patterns));
+        return new PatternList(new PatternStrings(PcreAutoCapture::autoCapture(), $patterns));
     }
 }

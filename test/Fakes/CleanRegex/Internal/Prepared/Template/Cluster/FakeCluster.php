@@ -2,6 +2,7 @@
 namespace Test\Fakes\CleanRegex\Internal\Prepared\Template\Cluster;
 
 use Test\Utils\Assertion\Fails;
+use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\PatternPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
@@ -18,7 +19,7 @@ class FakeCluster implements Cluster
         $this->pattern = $text;
     }
 
-    public function phrase(): Phrase
+    public function phrase(SubpatternFlags $flags): Phrase
     {
         return new PatternPhrase($this->pattern);
     }

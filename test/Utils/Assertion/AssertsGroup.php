@@ -2,6 +2,7 @@
 namespace Test\Utils\Assertion;
 
 use PHPUnit\Framework\Assert;
+use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Match\Group;
 
 trait AssertsGroup
@@ -20,10 +21,21 @@ trait AssertsGroup
         Assert::assertSame('second', $group->or('second'), $message);
     }
 
-    function assertGroupTexts(array $expectedTexts, array $groups)
+    function assertGroupTexts(Detail $detail, array $expectedTexts): void
     {
-        Assert::assertSame($expectedTexts, $this->groupTexts($groups));
-        $this->assertGroupsMatched($groups);
+        Assert::assertSame($expectedTexts, $this->texts($detail));
+    }
+
+    private function texts(Detail $detail): array
+    {
+        $texts = [];
+        foreach ($detail->groups() as $group) {
+            $texts[] = $group->text();
+        }
+        foreach ($detail->namedGroups() as $group) {
+            $texts[$group->name()] = $group->text();
+        }
+        return $texts;
     }
 
     function assertGroupTextsOptional(array $expectedTexts, array $groups)
@@ -72,15 +84,6 @@ trait AssertsGroup
             } else {
                 $texts[$key] = null;
             }
-        }
-        return $texts;
-    }
-
-    private function groupTexts(array $groups): array
-    {
-        $texts = [];
-        foreach ($groups as $key => $group) {
-            $texts[$key] = $group->text();
         }
         return $texts;
     }

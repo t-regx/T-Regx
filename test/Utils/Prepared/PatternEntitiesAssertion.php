@@ -6,10 +6,13 @@ use PHPUnit\Framework\Assert;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpenFlags;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupRemainder;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\TerminatingEscape;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Subpattern;
 use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\PatternPhrase;
@@ -43,7 +46,7 @@ class PatternEntitiesAssertion
         } catch (InternalCleanRegexException $exception) {
             throw new AssertionError("Failed to parse '$pattern' with given consumers");
         }
-        Assert::assertEquals($this->stringsAsLiterals($expectedEntities), $entities);
+        Assert::assertEquals($this->stringsAsLiterals($expectedEntities), $this->flagsAsArray($entities));
         Assert::assertSame($this->joinEntities($entities), $expected ?? $pattern);
     }
 
@@ -56,10 +59,24 @@ class PatternEntitiesAssertion
     private function stringsAsLiterals(array $expected): array
     {
         foreach ($expected as &$entity) {
-            if (\is_string($entity)) {
+            if ($entity instanceof GroupOpenFlags || $entity instanceof GroupRemainder) {
+                $entity = ['flags' => $this->flags($entity)];
+            } else if (\is_string($entity)) {
                 $entity = \array_map(function (string $letter): Literal {
                     return new Literal($letter);
                 }, \str_split($entity));
+            } else {
+                $entity = [$entity];
+            }
+        }
+        return $this->flatten($expected);
+    }
+
+    private function flagsAsArray(array $expected): array
+    {
+        foreach ($expected as &$entity) {
+            if ($entity instanceof GroupOpenFlags || $entity instanceof GroupRemainder) {
+                $entity = ['flags' => $this->flags($entity)];
             } else {
                 $entity = [$entity];
             }
@@ -83,5 +100,14 @@ class PatternEntitiesAssertion
             }
             return $entity->phrase();
         }, $entities);
+    }
+
+    private function flags($entity): string
+    {
+        $subpattern = new Subpattern(SubpatternFlags::empty());
+        $entity->visit($subpattern);
+        $subpatternFlags = $subpattern->flags();
+        return ($subpatternFlags->noAutoCapture() ? 'n' : '') .
+            ($subpatternFlags->isExtended() ? 'x' : '');
     }
 }

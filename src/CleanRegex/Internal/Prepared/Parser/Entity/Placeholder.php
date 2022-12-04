@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser\Entity;
 
 use TRegx\CleanRegex\Internal\Prepared\Cluster\ExpectedClusters;
+use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
 class Placeholder implements Entity
@@ -10,16 +11,19 @@ class Placeholder implements Entity
 
     /** @var ExpectedClusters */
     private $clusters;
+    /** @var SubpatternFlags */
+    private $flags;
 
-    public function __construct(ExpectedClusters $clusters)
+    public function __construct(ExpectedClusters $clusters, SubpatternFlags $flags)
     {
         $this->clusters = $clusters;
+        $this->flags = $flags;
     }
 
     public function phrase(): Phrase
     {
         $cluster = $this->clusters->current();
         $this->clusters->next();
-        return $cluster->phrase();
+        return $cluster->phrase($this->flags);
     }
 }

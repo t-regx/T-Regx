@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Expression;
 
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
+use TRegx\CleanRegex\Internal\AutoCapture\AutoCapture;
 use TRegx\CleanRegex\Internal\Delimiter\UndelimitablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
@@ -15,9 +16,9 @@ class Standard implements Expression
     /** @var Spelling */
     private $spelling;
 
-    public function __construct(Spelling $spelling)
+    public function __construct(AutoCapture $autoCapture, Spelling $spelling)
     {
-        $this->expression = new DelimiterExpression($spelling, new LiteralPlaceholders());
+        $this->expression = new DelimiterExpression($autoCapture, $spelling, new LiteralPlaceholders());
         $this->spelling = $spelling;
     }
 

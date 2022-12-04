@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex;
 
+use TRegx\CleanRegex\Internal\AutoCapture\PcreAutoCapture;
 use TRegx\CleanRegex\Internal\Expression\Pcre;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\FigureClusters;
 use TRegx\CleanRegex\Internal\Prepared\Clusters;
@@ -24,21 +25,21 @@ class PcrePattern
      */
     public static function of(string $pcrePattern): Pattern
     {
-        return new Pattern(new Pcre($pcrePattern));
+        return new Pattern(new Pcre(PcreAutoCapture::autoCapture(), $pcrePattern));
     }
 
     public static function inject(string $pcreTemplate, array $values): Pattern
     {
-        return new Pattern(new Template(new PcreSpelling($pcreTemplate), new FigureClusters($values)));
+        return new Pattern(new Template(PcreAutoCapture::autoCapture(), new PcreSpelling($pcreTemplate), new FigureClusters($values)));
     }
 
     public static function template(string $pcreTemplate): PatternTemplate
     {
-        return new PatternTemplate(new PcreOrthography($pcreTemplate));
+        return new PatternTemplate(PcreAutoCapture::autoCapture(), new PcreOrthography($pcreTemplate));
     }
 
     public static function builder(string $pcreTemplate): TemplateBuilder
     {
-        return new TemplateBuilder(new PcreOrthography($pcreTemplate), new Clusters([]));
+        return new TemplateBuilder(PcreAutoCapture::autoCapture(), new PcreOrthography($pcreTemplate), new Clusters([]));
     }
 }

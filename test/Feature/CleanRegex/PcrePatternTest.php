@@ -62,12 +62,10 @@ class PcrePatternTest extends TestCase
      */
     public function shouldEmptyPatternBeMalformed()
     {
-        // given
-        $pattern = PcrePattern::of('');
         // then
         $this->expectException(MalformedPatternException::class);
-        $this->expectExceptionMessage("Empty regular expression");
+        $this->expectExceptionMessage('PCRE-compatible template is malformed, pattern is empty');
         // when
-        $pattern->test('subject');
+        PcrePattern::of('')->test('subject');
     }
 }

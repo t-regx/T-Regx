@@ -1,7 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Template\Figure;
 
-use TRegx\CleanRegex\Internal\Prepared\Pattern\EmptyFlagPattern;
+use TRegx\CleanRegex\Internal\AutoCapture\Group\GroupAutoCapture;
+use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
+use TRegx\CleanRegex\Internal\Prepared\Pattern\SubpatternFlagsStringPattern;
 use TRegx\CleanRegex\Internal\Prepared\PatternPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Placeholders\LiteralPlaceholders;
@@ -11,20 +13,21 @@ class PatternFigure implements Figure
 {
     use DelimiterAware;
 
-    /** @var PatternPhrase */
-    private $patternPhrase;
+    /** @var GroupAutoCapture */
+    private $autoCapture;
     /** @var string */
     private $pattern;
 
-    public function __construct(string $pattern)
+    public function __construct(GroupAutoCapture $autoCapture, string $pattern)
     {
-        $this->patternPhrase = new PatternPhrase(new EmptyFlagPattern($pattern), new LiteralPlaceholders());
+        $this->autoCapture = $autoCapture;
         $this->pattern = $pattern;
     }
 
-    public function phrase(): Phrase
+    public function phrase(SubpatternFlags $flags): Phrase
     {
-        return $this->patternPhrase->phrase();
+        $patternPhrase = new PatternPhrase($this->autoCapture, new SubpatternFlagsStringPattern($this->pattern, $flags), new LiteralPlaceholders());
+        return $patternPhrase->phrase();
     }
 
     protected function delimiterAware(): string

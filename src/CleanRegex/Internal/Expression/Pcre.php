@@ -1,22 +1,24 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Expression;
 
-use TRegx\CleanRegex\Internal\Definition;
-use TRegx\CleanRegex\Internal\Expression\Predefinition\IdentityPredefinition;
+use TRegx\CleanRegex\Internal\AutoCapture\AutoCapture;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
+use TRegx\CleanRegex\Internal\Prepared\Expression\DelimiterExpression;
+use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreSpelling;
+use TRegx\CleanRegex\Internal\Prepared\Placeholders\LiteralPlaceholders;
 
 class Pcre implements Expression
 {
-    /** @var string */
-    private $pcre;
+    /** @var DelimiterExpression */
+    private $expression;
 
-    public function __construct(string $pcre)
+    public function __construct(AutoCapture $autoCapture, string $pcre)
     {
-        $this->pcre = $pcre;
+        $this->expression = new DelimiterExpression($autoCapture, new PcreSpelling($pcre), new LiteralPlaceholders());
     }
 
     public function predefinition(): Predefinition
     {
-        return new IdentityPredefinition(new Definition($this->pcre));
+        return $this->expression->predefinition();
     }
 }

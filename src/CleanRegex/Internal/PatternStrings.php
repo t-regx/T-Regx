@@ -1,6 +1,11 @@
 <?php
 namespace TRegx\CleanRegex\Internal;
 
+use TRegx\CleanRegex\Internal\AutoCapture\AutoCapture;
+use TRegx\CleanRegex\Internal\AutoCapture\CompositeAutoCapture;
+use TRegx\CleanRegex\Internal\AutoCapture\Group\GroupAutoCapture;
+use TRegx\CleanRegex\Internal\AutoCapture\Pattern\EmptyFlagsAutoCapture;
+use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\IdentityPredefinition;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 use TRegx\CleanRegex\Internal\Prepared\Expression\Standard;
@@ -10,11 +15,17 @@ use TRegx\CleanRegex\Pattern;
 
 class PatternStrings
 {
-    /** @var array */
+    /** @var AutoCapture */
+    private $autoCapture;
+    /** @var Flags */
+    private $flags;
+    /** @var string[] */
     private $patterns;
 
-    public function __construct(array $patterns)
+    public function __construct(GroupAutoCapture $autoCapture, array $patterns)
     {
+        $this->autoCapture = new CompositeAutoCapture(new EmptyFlagsAutoCapture(), $autoCapture);
+        $this->flags = Flags::empty();
         $this->patterns = $patterns;
     }
 
@@ -38,8 +49,8 @@ class PatternStrings
         throw InvalidArgument::typeGiven("PatternList can only compose type Pattern or string", new ValueType($pattern));
     }
 
-    private function expression(string $pattern): Standard
+    private function expression(string $pattern): Expression
     {
-        return new Standard(new StandardSpelling($pattern, Flags::empty(), new UnsuitableStringCondition($pattern)));
+        return new Standard($this->autoCapture, new StandardSpelling($pattern, $this->flags, new UnsuitableStringCondition($pattern)));
     }
 }

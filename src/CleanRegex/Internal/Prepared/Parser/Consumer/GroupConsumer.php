@@ -2,10 +2,13 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser\Consumer;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
+use TRegx\CleanRegex\Internal\AutoCapture\Group\GroupAutoCapture;
+use TRegx\CleanRegex\Internal\AutoCapture\OptionSetting\IdentityOptionSetting;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupComment;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupNull;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpen;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpenConditional;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpenFlags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupRemainder;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
@@ -14,6 +17,14 @@ use TRegx\Pcre;
 
 class GroupConsumer implements Consumer
 {
+    /** @var GroupAutoCapture */
+    private $autoCapture;
+
+    public function __construct(GroupAutoCapture $autoCapture)
+    {
+        $this->autoCapture = $autoCapture;
+    }
+
     public function condition(Feed $feed): Condition
     {
         return $feed->string('(');
@@ -21,16 +32,19 @@ class GroupConsumer implements Consumer
 
     public function consume(Feed $feed, EntitySequence $entities): void
     {
-        $entities->append($this->consumeGroup($feed));
+        $entities->append($this->consumeGroup($feed, $entities));
     }
 
-    private function consumeGroup(Feed $feed): Entity
+    private function consumeGroup(Feed $feed, EntitySequence $entities): Entity
     {
-        $groupDetails = $feed->matchedString($this->groupOpenRegex(), 5);
+        $groupDetails = $feed->matchedString($this->groupOpenRegex(), 6);
         if (!$groupDetails->matched()) {
+            if ($this->imposedNonCapture($entities)) {
+                return new GroupOpen('?:');
+            }
             return new GroupOpen('');
         }
-        [$groupNotation, $type, $options, $optionsMode, $comment] = $groupDetails->consume();
+        [$groupNotation, $type, $options, $optionsMode, $comment, $reference] = $groupDetails->consume();
         if ($groupNotation !== null) {
             return new GroupOpen('?' . $groupNotation);
         }
@@ -38,13 +52,22 @@ class GroupConsumer implements Consumer
             return new GroupNull();
         }
         if ($type === ':') {
-            return new GroupOpenFlags($options ?? '');
+            return new GroupOpenFlags('', new IdentityOptionSetting(''));
+        }
+        if ($type === '(') {
+            return new GroupOpenConditional();
+        }
+        if ($type === '>' || $type === '=' || $type === '!') {
+            return new GroupOpen('?' . $type);
+        }
+        if ($reference !== null) {
+            return new GroupOpen($reference);
         }
         if ($optionsMode === ':') {
-            return new GroupOpenFlags($options);
+            return new GroupOpenFlags($options, $this->autoCapture->optionSetting($options));
         }
         if ($optionsMode === ')') {
-            return new GroupRemainder($options);
+            return new GroupRemainder($options, $this->autoCapture->optionSetting($options));
         }
         if ($comment !== null) {
             return new GroupComment($comment);
@@ -56,16 +79,14 @@ class GroupConsumer implements Consumer
 
     private function groupOpenRegex(): string
     {
+        $namedGroup = "(?:<|P<|') [a-zA-Z0-9_\x80-\xFF@]* [>']?";
         if (Pcre::pcre2()) {
             $flags = '\^?[ismxnUJ]*(?:-[ismxnUJ]*)?';
-        } else {
-            $flags = '\^?[ismxXUJ-]*';
-        }
-        /** @lang RegExp */
-        return "/^
+            /** @lang RegExp */
+            return "/^
             \?
              (?:
-               ( (?:<|P<|') [a-zA-Z0-9_\x80-\xFF@]* [>']?)
+               ($namedGroup)
               |
                (:\)?)
               |
@@ -74,5 +95,25 @@ class GroupConsumer implements Consumer
                \#([^)]*)
              )
            /x";
+        }
+        $flags = '\^?[ismnxXUJ-]*';
+        /** @lang RegExp */
+        return "/^
+             (?:
+               \?($namedGroup)
+              |
+               \?( [!>=(]|:\)? )
+              |
+               \?($flags)([:)])
+              |
+               \?\#([^)]*)
+              |
+               ([?*])
+           )/x";
+    }
+
+    private function imposedNonCapture(EntitySequence $entities): bool
+    {
+        return $entities->flags()->noAutoCapture() && $this->autoCapture->imposedNonCapture();
     }
 }

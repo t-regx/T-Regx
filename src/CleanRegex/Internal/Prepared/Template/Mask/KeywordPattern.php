@@ -3,13 +3,16 @@ namespace TRegx\CleanRegex\Internal\Prepared\Template\Mask;
 
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
+use TRegx\CleanRegex\Internal\AutoCapture\AutoCapture;
+use TRegx\CleanRegex\Internal\AutoCapture\Pattern\PatternAutoCapture;
 use TRegx\CleanRegex\Internal\Candidates;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Delimiter\UndelimitablePatternException;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Pattern\EmptyFlagPattern;
+use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
+use TRegx\CleanRegex\Internal\Prepared\Pattern\SubpatternFlagsStringPattern;
 use TRegx\CleanRegex\Internal\Prepared\PatternPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Placeholders\LiteralPlaceholders;
@@ -27,14 +30,18 @@ class KeywordPattern
     private $pattern;
     /** @var string */
     private $keyword;
+    /** @var PatternAutoCapture */
+    private $autoCapture;
 
-    public function __construct(Flags $flags, string $keyword, string $pattern)
+    public function __construct(Flags $flags, string $keyword, string $pattern, AutoCapture $autoCapture, SubpatternFlags $subpatternFlags)
     {
         $this->flags = $flags;
         $this->candidates = new Candidates(new UnsuitableStringCondition($pattern));
-        $this->patternPhrase = new PatternPhrase(new EmptyFlagPattern($pattern), new LiteralPlaceholders());
+        $patternString = new SubpatternFlagsStringPattern($pattern, $subpatternFlags);
+        $this->patternPhrase = new PatternPhrase($autoCapture, $patternString, new LiteralPlaceholders());
         $this->pattern = $pattern;
         $this->keyword = $keyword;
+        $this->autoCapture = $autoCapture;
     }
 
     public function phrase(): Phrase
@@ -44,7 +51,7 @@ class KeywordPattern
 
     private function validPhrase(Phrase $phrase, Delimiter $delimiter): Phrase
     {
-        $definition = new Definition($delimiter->delimited($phrase, $this->flags));
+        $definition = new Definition($delimiter->delimited($this->autoCapture, $phrase, $this->flags));
         if ($definition->valid()) {
             return $phrase;
         }
