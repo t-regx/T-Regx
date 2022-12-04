@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.40.0
+---------------
+
 * Breaking changes
     * Removed `SubjectNotMatchedException.getSubject()`.
     * Moved `ChainedReplace` to `TRegx\CleanRegex\Replace\ `
