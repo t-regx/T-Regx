@@ -4,7 +4,28 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Features
+    * Since `0.41.0` T-Regx officially supports PHP `8.2`.
+    * Added full support for `n` modifier for every supported PHP version: `7.1` - `8.2`
+        * Despite modifier `/n` being only valid in vanilla regexp in PHP only since `8.2`,
+          modifier `/n` is fully supported in T-Regx in each PHP version.
+
+        * Added full support for `n` modifier in `Pattern`
+            * `Pattern::of($pattern, 'n')` is now accepted
+            * `Pattern::inject($pattern, $figures, 'n')` is now accepted
+            * `Pattern::template($pattern, 'n')` is now accepted
+            * `Pattern::builder($pattern, 'n')` is now accepted
+            * `Pattern::literal($text, 'n')` is now accepted
+            * `Pattern::alteration($texts, 'n')` is now accepted
+            * `Pattern::mask($mask, $keywords, 'n')` is now accepted
+            * `Pattern::list()` now accepts patterns with `n` modifier
+        * Added full support for `n` modifier in `PcrePattern`
+            * `PcrePattern::of("/$pattern/n", )` is now accepted
+            * `PcrePattern::inject("/$pattern/n", $figures)` is now accepted
+            * `PcrePattern::template("/$pattern/n")` is now accepted
+            * `PcrePattern::builder("/$pattern/n")` is now accepted
+    * Added public modifier constant to `Pattern`.
+        * Added `Pattern::NO_AUTOCAPTURE`
 
 Added in 0.40.0
 ---------------
