@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.41.0
+---------------
+
 * Features
     * Since `0.41.0` T-Regx officially supports PHP 8.2.
     * Added full support for `n` modifier for every supported PHP version: `7.1` - `8.2`
