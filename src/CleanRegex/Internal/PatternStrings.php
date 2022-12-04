@@ -30,12 +30,16 @@ class PatternStrings
     private function predefinition($pattern): Predefinition
     {
         if (\is_string($pattern)) {
-            $expression = new Standard(new StandardSpelling($pattern, Flags::empty(), new UnsuitableStringCondition($pattern)));
-            return $expression->predefinition();
+            return $this->expression($pattern)->predefinition();
         }
         if ($pattern instanceof Pattern) {
             return new IdentityPredefinition(new Definition($pattern->delimited()));
         }
         throw InvalidArgument::typeGiven("PatternList can only compose type Pattern or string", new ValueType($pattern));
+    }
+
+    private function expression(string $pattern): Standard
+    {
+        return new Standard(new StandardSpelling($pattern, Flags::empty(), new UnsuitableStringCondition($pattern)));
     }
 }
