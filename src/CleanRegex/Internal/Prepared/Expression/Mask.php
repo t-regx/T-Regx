@@ -6,42 +6,41 @@ use TRegx\CleanRegex\Internal\Candidates;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Delimiter\UndelimitablePatternException;
 use TRegx\CleanRegex\Internal\Expression\Expression;
-use TRegx\CleanRegex\Internal\Expression\StrictInterpretation;
+use TRegx\CleanRegex\Internal\Expression\Predefinition\DelimiterPredefinition;
+use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Template\Mask\KeywordsCondition;
 use TRegx\CleanRegex\Internal\Prepared\Template\Mask\MaskPhrase;
 
 class Mask implements Expression
 {
-    use StrictInterpretation;
-
     /** @var MaskPhrase */
     private $phrase;
     /** @var Candidates */
     private $candidates;
-    /** @var Flags */
-    private $flags;
     /** @var string[] */
     private $keywords;
-    /** @var string */
-    private $mask;
+    /** @var Flags */
+    private $flags;
 
     public function __construct(string $mask, Flags $flags, array $keywords)
     {
         $this->phrase = new MaskPhrase($mask, $flags, $keywords);
         $this->candidates = new Candidates(new KeywordsCondition($keywords));
-        $this->flags = $flags;
         $this->keywords = $keywords;
-        $this->mask = $mask;
+        $this->flags = $flags;
     }
 
-    protected function phrase(): Phrase
+    public function predefinition(): Predefinition
     {
-        return $this->phrase->phrase();
+        return new DelimiterPredefinition(
+            $this->phrase->phrase(),
+            $this->delimiter(),
+            $this->flags
+        );
     }
 
-    protected function delimiter(): Delimiter
+    private function delimiter(): Delimiter
     {
         try {
             return $this->candidates->delimiter();
@@ -49,10 +48,5 @@ class Mask implements Expression
             $message = 'mask keywords in their entirety: ' . \implode(', ', $this->keywords);
             throw new ExplicitDelimiterRequiredException($message);
         }
-    }
-
-    protected function flags(): Flags
-    {
-        return $this->flags;
     }
 }
