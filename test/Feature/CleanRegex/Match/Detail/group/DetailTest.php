@@ -131,4 +131,32 @@ class DetailTest extends TestCase
         $this->assertSame(null, \error_get_last());
         $this->assertSame(\PREG_NO_ERROR, \preg_last_error());
     }
+
+    /**
+     * @test
+     */
+    public function shouldAssignNameNoAutoCapture()
+    {
+        // given
+        $pattern = Pattern::of('(foo),(?<group>bar)', 'n');
+        $matcher = $pattern->match('foo,bar');
+        // when
+        $detail = $matcher->first();
+        // then
+        $this->assertSame('group', $detail->group(1)->name());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAssignIndexNoAutoCapture()
+    {
+        // given
+        $pattern = Pattern::of('(foo),(?<group>bar)', 'n');
+        $matcher = $pattern->match('foo,bar');
+        // when
+        $detail = $matcher->first();
+        // then
+        $this->assertSame(1, $detail->group('group')->index());
+    }
 }
