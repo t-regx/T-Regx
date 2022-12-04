@@ -36,9 +36,9 @@ class PcrePatternTest extends TestCase
     {
         // then
         $this->expectException(MalformedPatternException::class);
-        $this->expectExceptionMessage('Delimiter must not be alphanumeric or backslash');
+        $this->expectExceptionMessage("PCRE-compatible template is malformed, alphanumeric delimiter 'F'");
         // when
-        PcrePattern::of('Foo')->test('foo');
+        PcrePattern::of('Foo');
     }
 
     /**
@@ -48,9 +48,9 @@ class PcrePatternTest extends TestCase
     {
         // then
         $this->expectException(MalformedPatternException::class);
-        $this->expectExceptionMessage('Delimiter must not be alphanumeric or backslash');
+        $this->expectExceptionMessage("PCRE-compatible template is malformed, alphanumeric delimiter 'i'");
         // when
-        PcrePattern::of('invalid)')->test('foo');
+        PcrePattern::of('invalid)');
     }
 
     /**
@@ -60,8 +60,8 @@ class PcrePatternTest extends TestCase
     {
         // then
         $this->expectException(MalformedPatternException::class);
-        $this->expectExceptionMessage('Empty regular expression');
+        $this->expectExceptionMessage('PCRE-compatible template is malformed, pattern is empty');
         // when
-        PcrePattern::of('')->test('foo');
+        PcrePattern::of('');
     }
 }

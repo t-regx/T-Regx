@@ -3,14 +3,17 @@ namespace TRegx\CleanRegex\Internal\Prepared\Pattern;
 
 use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 
-class EmptyFlagPattern implements StringPattern
+class SubpatternFlagsStringPattern implements StringPattern
 {
     /** @var string */
     private $pattern;
+    /** @var SubpatternFlags */
+    private $flags;
 
-    public function __construct(string $pattern)
+    public function __construct(string $pattern, SubpatternFlags $flags)
     {
         $this->pattern = $pattern;
+        $this->flags = $flags;
     }
 
     public function pattern(): string
@@ -20,6 +23,6 @@ class EmptyFlagPattern implements StringPattern
 
     public function subpatternFlags(): SubpatternFlags
     {
-        return SubpatternFlags::empty();
+        return $this->flags;
     }
 }

@@ -3,6 +3,7 @@ namespace Test\Unit\CleanRegex\Internal\Prepared\Parser;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Prepared\StandardSubpatternFlags;
+use TRegx\CleanRegex\Internal\AutoCapture\OptionSetting\IdentityOptionSetting;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpenFlags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
@@ -39,7 +40,7 @@ class EntitySequenceTest extends TestCase
         // given
         $sequence = new EntitySequence($this->subpatternFlagsStandard());
         // when
-        $sequence->append(new GroupOpenFlags('x'));
+        $sequence->append(new GroupOpenFlags('x', new IdentityOptionSetting('x')));
         // then
         $this->assertIsExtended($sequence);
     }
@@ -53,7 +54,7 @@ class EntitySequenceTest extends TestCase
         // given
         $sequence = new EntitySequence($this->subpatternFlagsExtended());
         // when
-        $sequence->append(new GroupOpenFlags('-x'));
+        $sequence->append(new GroupOpenFlags('-x', new IdentityOptionSetting('-x')));
         // then
         $this->assertIsNotExtended($sequence);
     }
@@ -67,7 +68,7 @@ class EntitySequenceTest extends TestCase
         // given
         $sequence = new EntitySequence($this->subpatternFlagsExtended());
         // when
-        $sequence->append(new GroupOpenFlags('-x'));
+        $sequence->append(new GroupOpenFlags('-x', new IdentityOptionSetting('-x')));
         // then
         $this->assertIsNotExtended($sequence);
     }
@@ -81,9 +82,9 @@ class EntitySequenceTest extends TestCase
         // given
         $sequence = new EntitySequence($this->subpatternFlagsExtended());
         // when
-        $sequence->append(new GroupOpenFlags('i'));
-        $sequence->append(new GroupOpenFlags('-x'));
-        $sequence->append(new GroupOpenFlags('m'));
+        $sequence->append(new GroupOpenFlags('i', new IdentityOptionSetting('i')));
+        $sequence->append(new GroupOpenFlags('-x', new IdentityOptionSetting('-x')));
+        $sequence->append(new GroupOpenFlags('m', new IdentityOptionSetting('m')));
         // then
         $this->assertIsNotExtended($sequence);
     }
@@ -97,9 +98,9 @@ class EntitySequenceTest extends TestCase
         // given
         $sequence = new EntitySequence($this->subpatternFlagsExtended());
         // when
-        $sequence->append(new GroupOpenFlags('i'));
-        $sequence->append(new GroupOpenFlags('-x'));
-        $sequence->append(new GroupOpenFlags('m'));
+        $sequence->append(new GroupOpenFlags('i', new IdentityOptionSetting('i')));
+        $sequence->append(new GroupOpenFlags('-x', new IdentityOptionSetting('-x')));
+        $sequence->append(new GroupOpenFlags('m', new IdentityOptionSetting('m')));
         $sequence->append(new GroupClose());
         // then
         $this->assertIsNotExtended($sequence);
@@ -114,9 +115,9 @@ class EntitySequenceTest extends TestCase
         // given
         $sequence = new EntitySequence($this->subpatternFlagsExtended());
         // when
-        $sequence->append(new GroupOpenFlags('i'));
-        $sequence->append(new GroupOpenFlags('-x'));
-        $sequence->append(new GroupOpenFlags('m'));
+        $sequence->append(new GroupOpenFlags('i', new IdentityOptionSetting('i')));
+        $sequence->append(new GroupOpenFlags('-x', new IdentityOptionSetting('-x')));
+        $sequence->append(new GroupOpenFlags('m', new IdentityOptionSetting('m')));
         $sequence->append(new GroupClose());
         $sequence->append(new GroupClose());
         // then
@@ -132,9 +133,9 @@ class EntitySequenceTest extends TestCase
         // given
         $sequence = new EntitySequence($this->subpatternFlagsExtended());
         // when
-        $sequence->append(new GroupOpenFlags('i'));
-        $sequence->append(new GroupOpenFlags('-x'));
-        $sequence->append(new GroupOpenFlags('m'));
+        $sequence->append(new GroupOpenFlags('i', new IdentityOptionSetting('i')));
+        $sequence->append(new GroupOpenFlags('-x', new IdentityOptionSetting('-x')));
+        $sequence->append(new GroupOpenFlags('m', new IdentityOptionSetting('m')));
         $sequence->append(new GroupClose());
         $sequence->append(new GroupClose());
         $sequence->append(new GroupClose());
@@ -151,7 +152,7 @@ class EntitySequenceTest extends TestCase
         // given
         $sequence = new EntitySequence($this->subpatternFlagsExtended());
         // when
-        $sequence->append(new GroupOpenFlags('i'));
+        $sequence->append(new GroupOpenFlags('i', new IdentityOptionSetting('i')));
         $sequence->append(new GroupClose());
         $sequence->append(new GroupClose());
         // then
@@ -167,7 +168,7 @@ class EntitySequenceTest extends TestCase
         // given
         $sequence = new EntitySequence($this->subpatternFlagsStandard());
         // when
-        $sequence->append(new GroupOpenFlags('x-x'));
+        $sequence->append(new GroupOpenFlags('x-x', new IdentityOptionSetting('x-x')));
         // then
         $this->assertIsNotExtended($sequence);
     }
@@ -181,7 +182,7 @@ class EntitySequenceTest extends TestCase
         // given
         $sequence = new EntitySequence($this->subpatternFlagsStandard());
         // when
-        $sequence->append(new GroupOpenFlags('x-X'));
+        $sequence->append(new GroupOpenFlags('x-X', new IdentityOptionSetting('x-X')));
         // then
         $this->assertIsExtended($sequence);
     }
@@ -195,7 +196,7 @@ class EntitySequenceTest extends TestCase
         // given
         $sequence = new EntitySequence($this->subpatternFlagsStandard());
         // when
-        $sequence->append(new GroupOpenFlags('x-x-i'));
+        $sequence->append(new GroupOpenFlags('x-x-i', new IdentityOptionSetting('x-x-i')));
         // then
         $this->assertIsNotExtended($sequence);
     }
@@ -208,7 +209,7 @@ class EntitySequenceTest extends TestCase
         // given
         $sequence = new EntitySequence($this->subpatternFlagsStandard());
         // when
-        $sequence->append(new GroupOpenFlags('-'));
+        $sequence->append(new GroupOpenFlags('-', new IdentityOptionSetting('-')));
         // then
         $this->assertIsNotExtended($sequence);
     }
@@ -221,7 +222,7 @@ class EntitySequenceTest extends TestCase
         // given
         $sequence = new EntitySequence($this->subpatternFlagsStandard());
         // when
-        $sequence->append(new GroupOpenFlags('Ux'));
+        $sequence->append(new GroupOpenFlags('Ux', new IdentityOptionSetting('Ux')));
         // then
         $this->assertIsExtended($sequence);
     }

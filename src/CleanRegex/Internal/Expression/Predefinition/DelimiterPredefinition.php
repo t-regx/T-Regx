@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Expression\Predefinition;
 
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
+use TRegx\CleanRegex\Internal\AutoCapture\Pattern\PatternAutoCapture;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\Delimiter\Delimiter;
 use TRegx\CleanRegex\Internal\Flags;
@@ -12,9 +13,9 @@ class DelimiterPredefinition implements Predefinition
     /** @var Definition */
     private $definition;
 
-    public function __construct(Phrase $phrase, Delimiter $delimiter, Flags $flags)
+    public function __construct(PatternAutoCapture $autoCapture, Phrase $phrase, Delimiter $delimiter, Flags $flags)
     {
-        $this->definition = new Definition($delimiter->delimited($phrase, $flags));
+        $this->definition = new Definition($delimiter->delimited($autoCapture, $phrase, $flags));
     }
 
     public function definition(): Definition

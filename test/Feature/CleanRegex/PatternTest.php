@@ -163,9 +163,11 @@ class PatternTest extends TestCase
     public function shouldGet_literal_WithFlags()
     {
         // when
-        $pattern = Pattern::literal('Foo {2}', 'D');
+        $pattern = Pattern::literal('Foo {}', 'i');
         // then
-        $this->assertPatternIs('/Foo\ \{2\}/D', $pattern);
+        $this->assertConsumesFirst('Foo {}', $pattern);
+        $this->assertConsumesFirst('FOO {}', $pattern);
+        $this->assertPatternIs('/Foo\ \{\}/i', $pattern);
     }
 
     /**

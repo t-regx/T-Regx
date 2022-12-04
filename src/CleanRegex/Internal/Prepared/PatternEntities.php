@@ -1,6 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared;
 
+use TRegx\CleanRegex\Internal\AutoCapture\Group\GroupAutoCapture;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CharacterClassConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CommentConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\ControlConsumer;
@@ -21,13 +22,13 @@ class PatternEntities
     /** @var PcreParser */
     private $pcreParser;
 
-    public function __construct(StringPattern $pattern, PlaceholderConsumer $placeholderConsumer)
+    public function __construct(StringPattern $pattern, GroupAutoCapture $autoCapture, PlaceholderConsumer $placeholderConsumer)
     {
         $this->pcreParser = new PcreParser(new Feed($pattern->pattern()), $pattern->subpatternFlags(), [
             new ControlConsumer(),
             new QuoteConsumer(),
             new EscapeConsumer(),
-            new GroupConsumer(),
+            new GroupConsumer($autoCapture),
             new GroupCloseConsumer(),
             $placeholderConsumer,
             new CharacterClassConsumer(),

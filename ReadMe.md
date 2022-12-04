@@ -227,7 +227,6 @@ Current development priorities, regarding release of 1.0:
 
 - Separate SafeRegex and CleanRegex into to two packages, so users can choose what they want #103
 - Add documentation to each T-Regx public method #17 \[in progress]
-- Backporting `/n` modifier to all T-Regx versions \[in progress]
 - Revamp of [t-regx.com](https://t-regx.com/) documentation \[in progress]
 - Release 1.0
 
