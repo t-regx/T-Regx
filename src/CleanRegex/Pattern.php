@@ -27,6 +27,7 @@ class Pattern
     public const DUPLICATE_NAMES = 'J';
     public const DOLLAR_ENDONLY = 'D';
     public const STUDY = 'S';
+    public const NO_AUTOCAPTURE = 'n';
 
     use EntryPoints;
 
