@@ -372,13 +372,7 @@ class Test extends TestCase
         $pattern = Pattern::of('(*LIMIT_RECURSION=4)(?<empty>)(one|two|a(b((c(d)))))');
         $replace = $pattern->replace('one, two, abcd');
         // given
-        \ini_set('pcre.jit', 0);
-        try {
-            // when
-            $replace->limit(2)->withGroup('empty');
-        } finally {
-            \ini_restore('pcre.jit');
-        }
+        $replace->limit(2)->withGroup('empty');
         // then
         $this->pass();
     }

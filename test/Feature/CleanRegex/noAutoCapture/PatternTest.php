@@ -342,8 +342,8 @@ class PatternTest extends TestCase
      */
     public function shouldIgnoreLookAheadAlternativeNotation()
     {
-        if (!Pcre::pcre2()) {
-            $this->markTestUnnecessary('Alternative look-ahead syntax is only available in PCRE2');
+        if (PHP_VERSION_ID < 70400) {
+            $this->markTestUnnecessary('Alternative look-ahead syntax is only available in PHP 7.4');
         }
         // given
         $pattern = Pattern::of('(*pla:foo)foo', 'n');
@@ -356,8 +356,8 @@ class PatternTest extends TestCase
      */
     public function shouldIgnoreLookBehindAlternativeNotation()
     {
-        if (!Pcre::pcre2()) {
-            $this->markTestUnnecessary('Alternative look-behind syntax is only available in PCRE2');
+        if (PHP_VERSION_ID < 70400) {
+            $this->markTestUnnecessary('Alternative look-behind syntax is only available in PHP 7.4');
         }
         // given
         $pattern = Pattern::of('foo(*plb:foo)', 'n');
@@ -370,8 +370,8 @@ class PatternTest extends TestCase
      */
     public function shouldIgnoreLookAheadAlternativeLongNotation()
     {
-        if (!Pcre::pcre2()) {
-            $this->markTestUnnecessary('Alternative look-ahead syntax is only available in PCRE2');
+        if (PHP_VERSION_ID < 70400) {
+            $this->markTestUnnecessary('Alternative look-ahead syntax is only available in PHP 7.4');
         }
         // given
         $pattern = Pattern::of('(*positive_lookahead:foo)foo', 'n');
@@ -384,8 +384,8 @@ class PatternTest extends TestCase
      */
     public function shouldIgnoreLookBehindAlternativeLongNotation()
     {
-        if (!Pcre::pcre2()) {
-            $this->markTestUnnecessary('Alternative look-behind syntax is only available in PCRE2');
+        if (PHP_VERSION_ID < 70400) {
+            $this->markTestUnnecessary('Alternative look-behind syntax is only available in PHP 7.4');
         }
         // given
         $pattern = Pattern::of('foo(*positive_lookbehind:foo)', 'n');
@@ -398,8 +398,8 @@ class PatternTest extends TestCase
      */
     public function shouldIgnoreLookAheadAlternativeLongNotationForCompletness()
     {
-        if (!Pcre::pcre2()) {
-            $this->markTestUnnecessary('Verb (*positive_lookahead:) is only available in PCRE2');
+        if (PHP_VERSION_ID < 70400) {
+            $this->markTestUnnecessary('Verb (*positive_lookahead:) is only available in PHP 7.4');
         }
         // given
         $pattern = Pattern::of('(*positive_lookahead:foo)foo', 'n');
@@ -417,8 +417,8 @@ class PatternTest extends TestCase
      */
     public function shouldIgnoreLookBehindAlternativeLongNotationForCompletness()
     {
-        if (!Pcre::pcre2()) {
-            $this->markTestUnnecessary('Verb (*positive_lookbehind:) is only available in PCRE2');
+        if (PHP_VERSION_ID < 70400) {
+            $this->markTestUnnecessary('Verb (*positive_lookbehind:) is only available in PHP 7.4');
         }
         // given
         $pattern = Pattern::of('(?<group>foo)(*positive_lookbehind:foo)', 'n');

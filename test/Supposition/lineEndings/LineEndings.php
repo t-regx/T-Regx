@@ -4,7 +4,6 @@ namespace Test\Supposition\TRegx\lineEndings;
 use Test\Supposition\lineEndings\Ending;
 use Test\Supposition\lineEndings\EndingsMap;
 use Test\Utils\Functions;
-use TRegx\Pcre;
 
 trait LineEndings
 {
@@ -60,9 +59,9 @@ trait LineEndings
             // the default newlines, same as (*LF) or same as no verb.
             'irrelevant' => ['(*MARK:name)', ['lf', 'crlf', 'lfcr']],
         ];
-        if (Pcre::pcre2()) {
-            return $conventions + ['nul' => ['(*NUL)', []]];
+        if (PHP_VERSION_ID < 70400) {
+            return $conventions;
         }
-        return $conventions;
+        return $conventions + ['nul' => ['(*NUL)', []]];
     }
 }

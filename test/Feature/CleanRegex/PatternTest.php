@@ -445,8 +445,8 @@ class PatternTest extends TestCase
      */
     public function shouldAcceptDifferentGroupNames_onUnicode(string $groupName): void
     {
-        if (!$this->isPcre2()) {
-            $this->markTestUnnecessary('Unicode group names are only available in PCRE2');
+        if (PHP_VERSION_ID < 70400) {
+            $this->markTestUnnecessary('Unicode group names are only available in PHP 7.4');
         }
         // when
         [$name] = Pattern::of("(?<$groupName>Foo)", 'u')->match('Foo')->groupNames();

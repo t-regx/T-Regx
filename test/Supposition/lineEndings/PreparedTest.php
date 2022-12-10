@@ -8,7 +8,6 @@ use Test\Utils\Assertion\AssertsPattern;
 use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
-use TRegx\Pcre;
 
 class PreparedTest extends TestCase
 {
@@ -57,7 +56,7 @@ class PreparedTest extends TestCase
 
         // We need (*NUL) for this test, because that's the only convention
         // in which CRLF won't close the subject
-        $prefixedVerbsPcre2 = [
+        $prefixedVerbsNull = [
             'crlf'       => ['(*NUL)prefix (*CRLF)', new Ending('crlf')],
             'anycrlf,nl' => ['(*NUL)prefix (*ANYCRLF)', new Ending('nl')],
             'anycrlf,ls' => ['(*NUL)prefix (*ANYCRLF)', new Ending('ls')],
@@ -69,10 +68,10 @@ class PreparedTest extends TestCase
             'any,ps'   => ['(*NUL)prefix (*ANY)', new Ending('ps')],
         ];
 
-        if (Pcre::pcre2()) {
-            return $prefixedVerbs + $prefixedVerbsPcre2;
+        if (PHP_VERSION_ID < 70400) {
+            return $prefixedVerbs;
         }
-        return $prefixedVerbs;
+        return $prefixedVerbs + $prefixedVerbsNull;
     }
 
     private function patternEmpty(string $convention, Ending $ending): Pattern
