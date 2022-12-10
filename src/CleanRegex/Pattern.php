@@ -16,18 +16,18 @@ use TRegx\SafeRegex\preg;
 
 class Pattern
 {
+    public const MULTILINE = 'm';
     public const CASE_INSENSITIVE = 'i';
     public const UNICODE = 'u';
-    public const MULTILINE = 'm';
-    public const SINGLELINE = 's';
+    public const DUPLICATE_NAMES = 'J';
+    public const NO_AUTOCAPTURE = 'n';
     public const IGNORE_WHITESPACE = 'x';
     public const ANCHORED = 'A';
-    public const GREEDYNESS_INVERTED = 'U';
-    public const RESTRICTIVE_ESCAPE = 'X';
-    public const DUPLICATE_NAMES = 'J';
+    public const SINGLELINE = 's';
     public const DOLLAR_ENDONLY = 'D';
+    public const RESTRICTIVE_ESCAPE = 'X';
+    public const GREEDYNESS_INVERTED = 'U';
     public const STUDY = 'S';
-    public const NO_AUTOCAPTURE = 'n';
 
     use EntryPoints;
 
