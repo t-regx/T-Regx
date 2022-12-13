@@ -4,7 +4,7 @@ namespace TRegx\SafeRegex\Internal\Errors;
 use TRegx\SafeRegex\Internal\Errors\Errors\BothHostError;
 use TRegx\SafeRegex\Internal\Errors\Errors\CompileErrorFactory;
 use TRegx\SafeRegex\Internal\Errors\Errors\EmptyHostError;
-use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeErrorFactory;
+use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeError;
 
 class ErrorsCleaner
 {
@@ -19,7 +19,7 @@ class ErrorsCleaner
     public function getError(): HostError
     {
         $compile = CompileErrorFactory::getLast();
-        $runtime = RuntimeErrorFactory::getLast();
+        $runtime = new RuntimeError(\preg_last_error());
 
         if ($runtime->occurred() && $compile->occurred()) {
             return new BothHostError($compile, $runtime);

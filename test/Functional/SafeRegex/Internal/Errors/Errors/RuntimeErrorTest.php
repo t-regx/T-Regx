@@ -6,7 +6,6 @@ use Test\Utils\Runtime\CausesWarnings;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeError;
-use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeErrorFactory;
 
 class RuntimeErrorTest extends TestCase
 {
@@ -49,13 +48,11 @@ class RuntimeErrorTest extends TestCase
     {
         // given
         $this->causeRuntimeWarning();
-        $error = RuntimeErrorFactory::getLast();
-
+        $error = new RuntimeError(\preg_last_error());
         // when
         $error->clear();
-
         // then
-        $this->assertFalse(RuntimeErrorFactory::getLast()->occurred());
+        $this->assertFalse((new RuntimeError(\preg_last_error()))->occurred());
     }
 
     /**
@@ -65,10 +62,8 @@ class RuntimeErrorTest extends TestCase
     {
         // given
         $error = new RuntimeError(PREG_BAD_UTF8_ERROR);
-
         // when
         $exception = $error->getSafeRegexpException('preg_replace', '/pattern/');
-
         // then
         $this->assertInstanceOf(RuntimePregException::class, $exception);
         $this->assertSame('preg_replace', $exception->getInvokingMethod());
@@ -85,10 +80,8 @@ class RuntimeErrorTest extends TestCase
     {
         // given
         $error = new RuntimeError(PREG_NO_ERROR);
-
         // then
         $this->expectException(InternalCleanRegexException::class);
-
         // when
         $error->getSafeRegexpException('preg_match', '/pattern/');
     }
