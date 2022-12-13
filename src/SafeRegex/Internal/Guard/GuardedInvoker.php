@@ -34,38 +34,32 @@ class GuardedInvoker
 
     public function catch(): array
     {
-        $this->clear();
+        $previousError = $this->joinedHostError(new RuntimeError(\preg_last_error()), $this->nullableError(\error_get_last()));
+        if ($previousError->occurred()) {
+            $previousError->clear();
+        }
         $result = ($this->callback)();
-        $exception = $this->retrieveGlobals($this->methodName, $result);
-        $this->clear();
-
+        $followingError = $this->joinedHostError(new RuntimeError(\preg_last_error()), $this->nullableError(\error_get_last()));
+        $exception = $this->pregException($followingError, $result);
+        if ($followingError->occurred()) {
+            $followingError->clear();
+        }
         return [$result, $exception];
     }
 
-    private function retrieveGlobals(string $methodName, $pregResult): ?PregException
+    private function pregException(HostError $hostError, $pregResult): ?PregException
     {
-        $hostError = $this->getError();
         if ($hostError->occurred()) {
-            return $hostError->getSafeRegexpException($methodName, $this->pattern);
+            return $hostError->getSafeRegexpException($this->methodName, $this->pattern);
         }
-        if ($this->strategy->isSuspected($methodName, $pregResult)) {
-            return new SuspectedReturnPregException($methodName, $this->pattern, \var_export($pregResult, true));
+        if ($this->strategy->isSuspected($this->methodName, $pregResult)) {
+            return new SuspectedReturnPregException($this->methodName, $this->pattern, \var_export($pregResult, true));
         }
         return null;
     }
 
-    private function clear(): void
+    private function joinedHostError(RuntimeError $runtime, CompileError $compile): HostError
     {
-        $error = $this->getError();
-        if ($error->occurred()) {
-            $error->clear();
-        }
-    }
-
-    private function getError(): HostError
-    {
-        $compile = $this->nullableError(\error_get_last());
-        $runtime = new RuntimeError(\preg_last_error());
         if ($runtime->occurred() && $compile->occurred()) {
             return new BothHostError($compile, $runtime);
         }
