@@ -3,7 +3,6 @@ namespace TRegx\SafeRegex\Internal\Guard;
 
 use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Internal\ExceptionFactory;
-use TRegx\SafeRegex\Internal\Guard\Strategy\DefaultSuspectedReturnStrategy;
 use TRegx\SafeRegex\Internal\Guard\Strategy\SuspectedReturnStrategy;
 
 class GuardedInvoker
@@ -16,13 +15,16 @@ class GuardedInvoker
     private $errorsCleaner;
     /** @var ExceptionFactory */
     private $exceptionFactory;
+    /** @var SuspectedReturnStrategy */
+    private $strategy;
 
-    public function __construct(string $methodName, $pattern, callable $callback, SuspectedReturnStrategy $strategy = null)
+    public function __construct(string $methodName, $pattern, callable $callback, SuspectedReturnStrategy $strategy)
     {
         $this->callback = $callback;
         $this->methodName = $methodName;
         $this->errorsCleaner = new ErrorsCleaner();
-        $this->exceptionFactory = new ExceptionFactory($pattern, $strategy ?? new DefaultSuspectedReturnStrategy(), $this->errorsCleaner);
+        $this->strategy = $strategy;
+        $this->exceptionFactory = new ExceptionFactory($pattern, $this->strategy, $this->errorsCleaner);
     }
 
     public function catch(): array
