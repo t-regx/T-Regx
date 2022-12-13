@@ -1,9 +1,18 @@
 <?php
 namespace TRegx\SafeRegex\Internal\Constants;
 
-class PhpErrorConstants extends Constants
+class PhpErrorConstants
 {
-    protected function getConstants(): array
+    public function getConstant(int $error): string
+    {
+        $constants = $this->getConstants();
+        if (\array_key_exists($error, $constants)) {
+            return $constants[$error];
+        }
+        return 'E_UNKNOWN_CODE';
+    }
+
+    private function getConstants(): array
     {
         return [
             \E_ERROR             => 'E_ERROR',
@@ -21,10 +30,5 @@ class PhpErrorConstants extends Constants
             \E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
             \E_DEPRECATED        => 'E_DEPRECATED',
         ];
-    }
-
-    protected function getDefault(): string
-    {
-        return 'E_UNKNOWN_CODE';
     }
 }
