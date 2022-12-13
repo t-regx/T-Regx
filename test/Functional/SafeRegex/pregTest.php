@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Classes\ClassWithToString;
 use Test\Utils\Functions;
 use Test\Utils\Runtime\CausesWarnings;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\InvalidReturnValueException;
 use TRegx\SafeRegex\Exception\PregMalformedPatternException;
@@ -14,7 +15,7 @@ use TRegx\SafeRegex\preg;
 
 class pregTest extends TestCase
 {
-    use CausesWarnings;
+    use CausesWarnings, TestCasePasses;
 
     /**
      * @test
@@ -323,9 +324,10 @@ class pregTest extends TestCase
         preg::replace_callback('/foo/', function () {
             @\trigger_error('preg_cheating: welcome');
         }, 'foo');
-
         // then
-        $this->assertTrue(true);
+        $this->pass();
+        // clean
+        \error_clear_last();
     }
 
     /**
