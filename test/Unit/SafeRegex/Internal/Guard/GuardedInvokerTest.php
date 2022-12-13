@@ -5,18 +5,19 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsHasClass;
 use Test\Utils\Functions;
 use Test\Utils\Runtime\CausesWarnings;
+use Test\Utils\TestCase\TestCasePasses;
 use TRegx\Exception\MalformedPatternException;
-use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
 use TRegx\SafeRegex\Internal\Guard\GuardedInvoker;
 use TRegx\SafeRegex\Internal\Guard\Strategy\DefaultSuspectedReturnStrategy;
+use TRegx\SafeRegex\preg;
 
 /**
  * @covers \TRegx\SafeRegex\Internal\Guard\GuardedInvoker
  */
 class GuardedInvokerTest extends TestCase
 {
-    use CausesWarnings, AssertsHasClass;
+    use CausesWarnings, AssertsHasClass, TestCasePasses;
 
     /**
      * @test
@@ -25,10 +26,8 @@ class GuardedInvokerTest extends TestCase
     {
         // given
         $invoker = new GuardedInvoker('preg_match', '/p/', Functions::constant(13), new DefaultSuspectedReturnStrategy());
-
         // when
         [$result, $exception] = $invoker->catch();
-
         // then
         $this->assertSame(13, $result);
         $this->assertNull($exception);
@@ -77,26 +76,6 @@ class GuardedInvokerTest extends TestCase
     /**
      * @test
      */
-    public function shouldCatchCompileWarning()
-    {
-        // given
-        $invoker = new GuardedInvoker('', '/p/', function () {
-            $this->causeCompileWarning();
-            return 15;
-        }, new DefaultSuspectedReturnStrategy());
-
-        // when
-        [$result, $exception] = $invoker->catch();
-
-        // then
-        $this->assertSame(15, $result);
-        $this->assertHasClass(CompilePregException::class, $exception);
-        $this->assertSame("/p/", $exception->getPregPattern());
-    }
-
-    /**
-     * @test
-     */
     public function shouldReturnResult()
     {
         // given
@@ -118,15 +97,14 @@ class GuardedInvokerTest extends TestCase
     public function shouldIgnorePreviousWarnings(callable $obsoleteWarning)
     {
         // given
-        $obsoleteWarning();
-        $invoker = new GuardedInvoker('preg_match', '/p/', Functions::constant(17), new DefaultSuspectedReturnStrategy());
-
+        try {
+            $obsoleteWarning();
+        } catch (\Throwable $ignored) {
+        }
         // when
-        [$result, $exception] = $invoker->catch();
-
+        preg::match('/foo/', 'foo');
         // then
-        $this->assertSame(17, $result);
-        $this->assertNull($exception);
+        $this->pass();
     }
 
     /**
@@ -136,25 +114,27 @@ class GuardedInvokerTest extends TestCase
      */
     public function shouldNotLeaveOutWarnings(callable $obsoleteWarning)
     {
-        // given
-        $invoker = new GuardedInvoker('preg_match', '/p/', $obsoleteWarning, new DefaultSuspectedReturnStrategy());
-
         // when
-        $invoker->catch();
-
+        try {
+            $obsoleteWarning();
+        } catch (\Throwable $ignored) {
+        }
         // then
         $this->assertNull(\error_get_last());
-        $this->assertSame(PREG_NO_ERROR, \preg_last_error());
+        $this->assertSame(\PREG_NO_ERROR, \preg_last_error());
     }
 
     public function possibleObsoleteWarnings(): array
     {
         return [
             [function () {
-                $this->causeRuntimeWarning();
+                preg::match('/pattern/u', "\xc3\x28");
             }],
             [function () {
-                $this->causeMalformedPatternWarning();
+                preg::match('/unclosed pattern', '');
+            }],
+            [function () {
+                preg::match('/+/', '');
             }],
         ];
     }

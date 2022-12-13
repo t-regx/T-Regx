@@ -3,13 +3,10 @@ namespace TRegx\SafeRegex\Internal\Guard;
 
 use TRegx\SafeRegex\Exception\PregException;
 use TRegx\SafeRegex\Exception\SuspectedReturnPregException;
-use TRegx\SafeRegex\Internal\Errors\Errors\BothHostError;
-use TRegx\SafeRegex\Internal\Errors\Errors\CompileError;
-use TRegx\SafeRegex\Internal\Errors\Errors\EmptyHostError;
-use TRegx\SafeRegex\Internal\Errors\Errors\IrrelevantCompileError;
-use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeError;
-use TRegx\SafeRegex\Internal\Errors\Errors\StandardCompileError;
-use TRegx\SafeRegex\Internal\Errors\HostError;
+use TRegx\SafeRegex\Internal\Errors\CompileError;
+use TRegx\SafeRegex\Internal\Errors\NoError;
+use TRegx\SafeRegex\Internal\Errors\RuntimeError;
+use TRegx\SafeRegex\Internal\Errors\StandardCompileError;
 use TRegx\SafeRegex\Internal\Guard\Strategy\SuspectedReturnStrategy;
 use TRegx\SafeRegex\Internal\PhpError;
 
@@ -34,58 +31,42 @@ class GuardedInvoker
 
     public function catch(): array
     {
-        $previousError = $this->joinedHostError(new RuntimeError(\preg_last_error()), $this->nullableError(\error_get_last()));
-        if ($previousError->occurred()) {
-            $previousError->clear();
+        [$result, $compile, $runtime] = $this->execute();
+        if ($runtime->occurred()) {
+            $runtime->clear();
         }
-        $result = ($this->callback)();
-        $followingError = $this->joinedHostError(new RuntimeError(\preg_last_error()), $this->nullableError(\error_get_last()));
-        $exception = $this->pregException($followingError, $result);
-        if ($followingError->occurred()) {
-            $followingError->clear();
-        }
-        return [$result, $exception];
+        return [$result, $this->pregException($compile, $runtime, $result)];
     }
 
-    private function pregException(HostError $hostError, $pregResult): ?PregException
+    private function execute(): array
     {
-        if ($hostError->occurred()) {
-            return $hostError->getSafeRegexpException($this->methodName, $this->pattern);
+        $compileError = new NoError();
+        \set_error_handler(function (int $type, string $message) use (&$compileError) {
+            if ($type === \E_WARNING) {
+                $phpError = new PhpError($type, $message);
+                if ($phpError->isPregError()) {
+                    $compileError = new StandardCompileError($phpError);
+                    return true;
+                }
+            }
+            return false;
+        });
+        $result = ($this->callback)();
+        \restore_error_handler();
+        return [$result, $compileError, new RuntimeError(\preg_last_error())];
+    }
+
+    private function pregException(CompileError $compile, RuntimeError $runtime, $pregResult): ?PregException
+    {
+        if ($compile->occurred()) {
+            return $compile->getSafeRegexpException($this->methodName, $this->pattern);
+        }
+        if ($runtime->occurred()) {
+            return $runtime->getSafeRegexpException($this->methodName, $this->pattern);
         }
         if ($this->strategy->isSuspected($this->methodName, $pregResult)) {
             return new SuspectedReturnPregException($this->methodName, $this->pattern, \var_export($pregResult, true));
         }
         return null;
-    }
-
-    private function joinedHostError(RuntimeError $runtime, CompileError $compile): HostError
-    {
-        if ($runtime->occurred() && $compile->occurred()) {
-            return new BothHostError($compile, $runtime);
-        }
-        if ($compile->occurred()) {
-            return $compile;
-        }
-        if ($runtime->occurred()) {
-            return $runtime;
-        }
-        return new EmptyHostError();
-    }
-
-    private function nullableError(?array $error): CompileError
-    {
-        if ($error === null) {
-            return new StandardCompileError(null);
-        }
-        return self::mapToError($error['type'], $error['message']);
-    }
-
-    private function mapToError(int $type, string $message): CompileError
-    {
-        $phpError = new PhpError($type, $message);
-        if ($phpError->isPregError()) {
-            return new StandardCompileError($phpError);
-        }
-        return new IrrelevantCompileError();
     }
 }

@@ -3,8 +3,7 @@ namespace Test\Functional\SafeRegex\Internal\Errors;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Runtime\CausesWarnings;
-use TRegx\SafeRegex\Internal\Errors\Errors\BothHostError;
-use TRegx\SafeRegex\Internal\Errors\Errors\CompileError;
+use TRegx\SafeRegex\Internal\Errors\CompileError;
 
 class ErrorsCleanerTest extends TestCase
 {
@@ -24,7 +23,7 @@ class ErrorsCleanerTest extends TestCase
         $error = $cleaner->getError();
 
         // then
-        $this->assertInstanceOf($this->isBugFixed() ? BothHostError::class : CompileError::class, $error);
+        $this->assertInstanceOf($this->isBugFixed() ? 'BothHostError::class' : CompileError::class, $error);
         $this->assertTrue($error->occurred());
 
         // cleanup

@@ -291,4 +291,10 @@ class Functions
             return $function(...$arguments);
         };
     }
+
+    public static function ignore(): callable
+    {
+        return static function (): void {
+        };
+    }
 }

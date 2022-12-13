@@ -1,23 +1,28 @@
 <?php
-namespace TRegx\SafeRegex\Internal\Errors\Errors;
+namespace TRegx\SafeRegex\Internal\Errors;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Exception\PregException;
+use TRegx\SafeRegex\Internal\Factory\RuntimePregExceptionFactory;
 
-class IrrelevantCompileError implements CompileError
+class RuntimeError
 {
+    /** @var int */
+    private $pregError;
+
+    public function __construct(int $pregError)
+    {
+        $this->pregError = $pregError;
+    }
+
     public function occurred(): bool
     {
-        // It really occurred, but let T-Regx think nothing happened.
-        // We don't care about that error anyway.
-        return false;
+        return $this->pregError !== \PREG_NO_ERROR;
     }
 
     public function clear(): void
     {
-        // @codeCoverageIgnoreStart
-        throw new InternalCleanRegexException();
-        // @codeCoverageIgnoreEnd
+        \preg_match('//', '');
     }
 
     /**
@@ -27,6 +32,9 @@ class IrrelevantCompileError implements CompileError
      */
     public function getSafeRegexpException(string $methodName, $pattern): PregException
     {
+        if ($this->occurred()) {
+            return (new RuntimePregExceptionFactory($methodName, $pattern, $this->pregError))->create();
+        }
         // @codeCoverageIgnoreStart
         throw new InternalCleanRegexException();
         // @codeCoverageIgnoreEnd

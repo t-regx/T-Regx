@@ -89,15 +89,12 @@ class pregTest extends TestCase
      */
     public function testPregWarningsInsideCallbacksAreTransparent()
     {
-        // given
-        preg::replace_callback('/./', function () {
-            trigger_error('some user error', E_USER_WARNING);
-        }, 'Foo');
-
         // when
-        $warning = error_get_last();
-
+        preg::replace_callback('/./', function () {
+            \trigger_error('some user error', \E_USER_WARNING);
+        }, 'Foo');
         // then
+        $warning = \error_get_last();
         $this->assertSame('some user error', $warning['message']);
     }
 

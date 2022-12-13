@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Runtime\CausesWarnings;
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
-use TRegx\SafeRegex\Internal\Errors\Errors\RuntimeError;
+use TRegx\SafeRegex\Internal\Errors\RuntimeError;
 
 class RuntimeErrorTest extends TestCase
 {

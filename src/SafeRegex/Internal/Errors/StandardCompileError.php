@@ -1,5 +1,5 @@
 <?php
-namespace TRegx\SafeRegex\Internal\Errors\Errors;
+namespace TRegx\SafeRegex\Internal\Errors;
 
 use TRegx\SafeRegex\Exception\PregException;
 use TRegx\SafeRegex\Internal\Factory\CompilePregExceptionFactory;
@@ -18,11 +18,6 @@ class StandardCompileError implements CompileError
     public function occurred(): bool
     {
         return $this->error !== null;
-    }
-
-    public function clear(): void
-    {
-        \error_clear_last();
     }
 
     /**

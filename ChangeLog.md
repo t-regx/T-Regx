@@ -4,7 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Features
+    * Updated internal error handling, so T-Regx works in an environment with overriden error handler.
 
 Added in 0.41.0
 ---------------

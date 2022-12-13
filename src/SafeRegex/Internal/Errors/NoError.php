@@ -1,19 +1,14 @@
 <?php
-namespace TRegx\SafeRegex\Internal\Errors\Errors;
+namespace TRegx\SafeRegex\Internal\Errors;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\SafeRegex\Exception\PregException;
-use TRegx\SafeRegex\Internal\Errors\HostError;
 
-class EmptyHostError implements HostError
+class NoError implements CompileError
 {
     public function occurred(): bool
     {
         return false;
-    }
-
-    public function clear(): void
-    {
     }
 
     /**

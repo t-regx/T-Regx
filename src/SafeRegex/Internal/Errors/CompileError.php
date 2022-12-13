@@ -3,11 +3,9 @@ namespace TRegx\SafeRegex\Internal\Errors;
 
 use TRegx\SafeRegex\Exception\PregException;
 
-interface HostError
+interface CompileError
 {
     public function occurred(): bool;
-
-    public function clear(): void;
 
     /**
      * @param string $methodName
