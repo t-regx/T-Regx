@@ -8,7 +8,6 @@ use Test\Utils\Runtime\CausesWarnings;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
-use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Internal\Guard\GuardedInvoker;
 use TRegx\SafeRegex\Internal\Guard\Strategy\DefaultSuspectedReturnStrategy;
 
@@ -144,7 +143,8 @@ class GuardedInvokerTest extends TestCase
         $invoker->catch();
 
         // then
-        $this->assertFalse((new ErrorsCleaner())->getError()->occurred());
+        $this->assertNull(\error_get_last());
+        $this->assertSame(PREG_NO_ERROR, \preg_last_error());
     }
 
     public function possibleObsoleteWarnings(): array

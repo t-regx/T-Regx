@@ -4,8 +4,6 @@ namespace Test\Feature\CleanRegex\_prepared\template\mask;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
 use TRegx\CleanRegex\Pattern;
-use TRegx\SafeRegex\Internal\Errors\Errors\EmptyHostError;
-use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 
 class Test extends TestCase
 {
@@ -43,8 +41,8 @@ class Test extends TestCase
 
     private function assertErrorsEmpty(): void
     {
-        $errorsCleaner = new ErrorsCleaner();
-        $this->assertInstanceOf(EmptyHostError::class, $errorsCleaner->getError());
+        $this->assertNull(\error_get_last());
+        $this->assertSame(PREG_NO_ERROR, \preg_last_error());
     }
 
     /**

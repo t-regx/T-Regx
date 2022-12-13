@@ -8,8 +8,6 @@ use Test\Utils\Runtime\CausesWarnings;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\PregMalformedPatternException;
 use TRegx\SafeRegex\Exception\RuntimePregException;
-use TRegx\SafeRegex\Internal\Errors\Errors\EmptyHostError;
-use TRegx\SafeRegex\Internal\Errors\ErrorsCleaner;
 use TRegx\SafeRegex\Internal\Guard\GuardedExecution;
 
 class GuardedExecutionTest extends TestCase
@@ -90,39 +88,12 @@ class GuardedExecutionTest extends TestCase
      */
     public function shouldSilenceAnException()
     {
-        // given
-        $errorsCleaner = new ErrorsCleaner();
-
         // when
-        $silenced = GuardedExecution::silenced('preg_match', function () {
+        GuardedExecution::silenced('preg_match', function () {
             $this->causeMalformedPatternWarning();
         });
-
-        $error = $errorsCleaner->getError();
-
         // then
-        $this->assertTrue($silenced);
-        $this->assertFalse($error->occurred());
-        $this->assertInstanceOf(EmptyHostError::class, $error);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotSilenceAnException()
-    {
-        // given
-        $errorsCleaner = new ErrorsCleaner();
-
-        // when
-        $silenced = GuardedExecution::silenced('preg_match', Functions::constant(2)); // ...for this.
-
-        $error = $errorsCleaner->getError();  // This method is being tested...
-
-        // then
-        $this->assertFalse($silenced);
-        $this->assertFalse($error->occurred());
-        $this->assertInstanceOf(EmptyHostError::class, $error);
+        $this->assertNull(\error_get_last());
     }
 
     /**
