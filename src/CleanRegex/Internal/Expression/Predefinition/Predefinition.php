@@ -11,5 +11,5 @@ interface Predefinition
 {
     public function definition(): Definition;
 
-    public function valid();
+    public function valid(): bool;
 }
