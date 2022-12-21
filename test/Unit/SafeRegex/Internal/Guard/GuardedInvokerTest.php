@@ -114,6 +114,8 @@ class GuardedInvokerTest extends TestCase
      */
     public function shouldNotLeaveOutWarnings(callable $obsoleteWarning)
     {
+        // given
+        \error_clear_last();
         // when
         try {
             $obsoleteWarning();
