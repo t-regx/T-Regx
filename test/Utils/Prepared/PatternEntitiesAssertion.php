@@ -62,9 +62,7 @@ class PatternEntitiesAssertion
             if ($entity instanceof GroupOpenFlags || $entity instanceof GroupRemainder) {
                 $entity = ['flags' => $this->flags($entity)];
             } else if (\is_string($entity)) {
-                $entity = \array_map(function (string $letter): Literal {
-                    return new Literal($letter);
-                }, \str_split($entity));
+                $entity = [new Literal($entity)];
             } else {
                 $entity = [$entity];
             }

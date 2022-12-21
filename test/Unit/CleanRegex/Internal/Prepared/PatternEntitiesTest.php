@@ -39,9 +39,7 @@ class PatternEntitiesTest extends TestCase
         // then
         $expected = [
             new GroupOpen(''),
-            new Literal('f'),
-            new Literal('o'),
-            new Literal('o'),
+            new Literal('foo'),
             new GroupClose(),
         ];
         $this->assertEquals($expected, $entities);

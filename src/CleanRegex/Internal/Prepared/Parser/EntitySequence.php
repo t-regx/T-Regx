@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;
 
 class EntitySequence
 {
@@ -9,6 +10,8 @@ class EntitySequence
     private $entities;
     /** @var Subpattern */
     private $subpattern;
+    /** @var string */
+    private $literal = '';
 
     public function __construct(SubpatternFlags $flags)
     {
@@ -18,8 +21,17 @@ class EntitySequence
 
     public function append(Entity $entity): void
     {
+        if ($this->literal !== '') {
+            $this->entities[] = new Literal($this->literal);
+            $this->literal = '';
+        }
         $this->entities[] = $entity;
         $entity->visit($this->subpattern);
+    }
+
+    public function appendLiteral(string $literal): void
+    {
+        $this->literal .= $literal;
     }
 
     public function flags(): SubpatternFlags
@@ -29,6 +41,10 @@ class EntitySequence
 
     public function entities(): array
     {
+        if ($this->literal !== '') {
+            $this->entities[] = new Literal($this->literal);
+            $this->literal = '';
+        }
         return $this->entities;
     }
 }
