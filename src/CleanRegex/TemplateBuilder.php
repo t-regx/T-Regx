@@ -56,6 +56,6 @@ class TemplateBuilder
 
     public function build(): Pattern
     {
-        return new Pattern(new Template($this->autoCapture, $this->orthography->spelling($this->clusters->condition()), $this->clusters->clusters()));
+        return new Pattern(new Template($this->autoCapture, $this->orthography->spelling($this->clusters), $this->clusters->clusters()));
     }
 }

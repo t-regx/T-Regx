@@ -6,7 +6,7 @@ use TRegx\CleanRegex\Internal\Prepared\Cluster\ArrayClusters;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\CountedClusters;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
 
-class Clusters
+class Clusters implements Condition
 {
     /** @var Cluster[] */
     private $clusters;
@@ -21,13 +21,18 @@ class Clusters
         return new Clusters(\array_merge($this->clusters, [$cluster]));
     }
 
-    public function condition(): Condition
-    {
-        return new CompositeCondition($this->clusters);
-    }
-
     public function clusters(): CountedClusters
     {
         return new ArrayClusters($this->clusters);
+    }
+
+    public function suitable(string $candidate): bool
+    {
+        foreach ($this->clusters as $cluster) {
+            if (!$cluster->suitable($candidate)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

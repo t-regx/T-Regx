@@ -12,19 +12,19 @@ class StandardOrthography implements Orthography
     private $input;
     /** @var Flags */
     private $flags;
+    /** @var Condition */
+    private $inputCondition;
 
     public function __construct(string $input, Flags $flags)
     {
         $this->input = $input;
         $this->flags = $flags;
+        $this->inputCondition = new UnsuitableStringCondition($input);
     }
 
     public function spelling(Condition $condition): Spelling
     {
-        return new StandardSpelling($this->input, $this->flags, new CompositeCondition([
-            new UnsuitableStringCondition($this->input),
-            $condition
-        ]));
+        return new StandardSpelling($this->input, $this->flags, new CompositeCondition($this->inputCondition, $condition));
     }
 
     public function flags(): Flags
