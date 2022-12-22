@@ -36,6 +36,9 @@ class PosixClassCondition
 
     private function nextName(): ?string
     {
+        if (!$this->feed->startsWith('[:')) {
+            return null;
+        }
         $names = [
             '[:alpha:]', '[:alnum:]', '[:ascii:]', '[:blank:]',
             '[:cntrl:]', '[:digit:]', '[:graph:]', '[:lower:]',
