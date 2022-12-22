@@ -350,6 +350,30 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldAcceptEmptyQuoteClosed()
+    {
+        // when
+        $pattern = Pattern::of('\Q\E');
+        // then
+        $this->assertConsumesFirst('', $pattern);
+        $this->assertPatternIs('/\Q\E/', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptEmptyQuote()
+    {
+        // when
+        $pattern = Pattern::of('\Q');
+        // then
+        $this->assertConsumesFirst('', $pattern);
+        $this->assertPatternIs('/\Q/', $pattern);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowMalformedPatternExceptionPattern_forPatternWithNullByte()
     {
         // then
