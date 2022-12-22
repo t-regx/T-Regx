@@ -50,6 +50,7 @@ class PatternTest extends TestCase
     {
         return [
             "placeholder '@' in []"      => ['#You/her [@] her?#', '#You/her [@] her?#'],
+            "placeholder '@' in ["       => ['#You/her [@ her?#', '#You/her [@ her?#'],
             "placeholder '@' in \Q\E"    => ['#You/her \Q@\E her?#', '#You/her \Q@\E her?#'],
             "placeholder '@' escaped"    => ['#You/her \@ her?#', '#You/her \@ her?#'],
             "placeholder '@' in comment" => ["%You/her (?x:#@\n) her?%", "%You/her (?x:#@\n) her?%"],

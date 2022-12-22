@@ -13,12 +13,34 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldInjectIntoImmediatelyClosedCharacterClass()
+    public function shouldNotInjectIntoImmediatelyClosedCharacterClass()
     {
         // when
         $pattern = Pattern::inject('[]@]', []);
         // then
         $this->assertPatternIs('/[]@]/', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotInjectIntoUnclosedCharacterClass()
+    {
+        // when
+        $pattern = Pattern::inject('[.\]@]', []);
+        // then
+        $this->assertPatternIs('/[.\]@]/', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotInjectIntoSlashClosedCharacterClass()
+    {
+        // when
+        $pattern = Pattern::inject('[.\\\\]@]', ['value']);
+        // then
+        $this->assertPatternIs('/[.\\\\](?>value)]/', $pattern);
     }
 
     /**
