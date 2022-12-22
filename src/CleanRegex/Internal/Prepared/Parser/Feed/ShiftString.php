@@ -34,7 +34,7 @@ class ShiftString
 
     public function firstLetter(): string
     {
-        return \subStr($this->string, $this->offset, 1);
+        return $this->string[$this->offset];
     }
 
     public function content(): string
