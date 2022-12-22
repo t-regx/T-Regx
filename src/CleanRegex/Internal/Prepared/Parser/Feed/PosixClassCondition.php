@@ -1,8 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser\Feed;
 
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-
 class PosixClassCondition
 {
     /** @var ShiftString */
@@ -20,13 +18,7 @@ class PosixClassCondition
 
     public function asString(): string
     {
-        $name = $this->nextName();
-        if ($name === null) {
-            // @codeCoverageIgnoreStart
-            throw new InternalCleanRegexException();
-            // @codeCoverageIgnoreEnd
-        }
-        return \subStr($this->feed->content(), 0, \strLen($name));
+        return \subStr($this->feed->content(), 0, \strLen($this->nextName()));
     }
 
     public function commit(): void

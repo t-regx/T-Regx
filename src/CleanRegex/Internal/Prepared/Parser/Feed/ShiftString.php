@@ -1,8 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser\Feed;
 
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-
 class ShiftString
 {
     /** @var string */
@@ -21,11 +19,6 @@ class ShiftString
 
     public function shift(string $string): void
     {
-        if (!$this->startsWith($string)) {
-            // @codeCoverageIgnoreStart
-            throw new InternalCleanRegexException();
-            // @codeCoverageIgnoreEnd
-        }
         $this->offset += \strLen($string);
     }
 
@@ -41,11 +34,6 @@ class ShiftString
 
     public function firstLetter(): string
     {
-        if ($this->offset >= $this->stringLength) {
-            // @codeCoverageIgnoreStart
-            throw new InternalCleanRegexException();
-            // @codeCoverageIgnoreEnd
-        }
         return \subStr($this->string, $this->offset, 1);
     }
 
