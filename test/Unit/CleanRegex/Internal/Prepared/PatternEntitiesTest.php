@@ -7,10 +7,10 @@ use Test\Fakes\CleanRegex\Internal\NoAutoCapture\ThrowAutoCapture;
 use Test\Fakes\CleanRegex\Internal\Prepared\Parser\Consumer\ThrowPlaceholderConsumer;
 use Test\Fakes\CleanRegex\Internal\Prepared\Template\Cluster\FakeCluster;
 use Test\Utils\Agnostic\PcreDependant;
-use Test\Utils\Prepared\PatternEntitiesAssertion;
 use TRegx\CleanRegex\Internal\AutoCapture\OptionSetting\IdentityOptionSetting;
 use TRegx\CleanRegex\Internal\AutoCapture\OptionSetting\LegacyOptionSetting;
 use TRegx\CleanRegex\Internal\AutoCapture\PcreAutoCapture;
+use TRegx\CleanRegex\Internal\Delimiter\TrailingBackslashException;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\ArrayClusters;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\ExpectedClusters;
@@ -31,13 +31,10 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupRemainder;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Placeholder;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Quote;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\TerminatingEscape;
 use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 use TRegx\CleanRegex\Internal\Prepared\Pattern\SubpatternFlagsStringPattern;
 use TRegx\CleanRegex\Internal\Prepared\PatternEntities;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
-use TRegx\CleanRegex\Internal\Prepared\Phrase\PatternPhrase;
-use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\Pcre;
 
 /**
@@ -54,12 +51,10 @@ class PatternEntitiesTest extends TestCase
     {
         // given
         $asEntities = new PatternEntities(new SubpatternFlagsStringPattern('\K', SubpatternFlags::empty()), new ThrowAutoCapture(), new ThrowPlaceholderConsumer());
-
-        // when
-        $entities = $asEntities->entities();
-
-        // then
-        $this->assertEquals([new Escaped('K')], $entities);
+        // when, then
+        $this->assertEntitiesEqual($asEntities, [
+            new Escaped('K')
+        ]);
     }
 
     /**
@@ -69,13 +64,13 @@ class PatternEntitiesTest extends TestCase
     {
         // given
         $asEntities = new PatternEntities(new SubpatternFlagsStringPattern('()(?)', SubpatternFlags::empty()), PcreAutoCapture::autoCapture(), new ThrowPlaceholderConsumer());
-
-        // when
-        $entities = $asEntities->entities();
-
-        // then
+        // when, then
         $setting = Pcre::pcre2() ? new IdentityOptionSetting('') : new LegacyOptionSetting('');
-        $this->assertEquals([new GroupOpen(''), new GroupClose(), new GroupRemainder('', $setting)], $entities);
+        $this->assertEntitiesEqual($asEntities, [
+            new GroupOpen(''),
+            new GroupClose(),
+            new GroupRemainder('', $setting)
+        ]);
     }
 
     /**
@@ -84,21 +79,17 @@ class PatternEntitiesTest extends TestCase
     public function shouldConsumeImmediatelyClosedGroupsRepeatedly()
     {
         // given
-        $asEntities = new PatternEntities(new SubpatternFlagsStringPattern('())))(?)', SubpatternFlags::empty()), PcreAutoCapture::autoCapture(), new ThrowPlaceholderConsumer());
-
-        // when
-        $entities = $asEntities->entities();
-
-        // then
-        $expected = [
+        $asEntities = new PatternEntities(new SubpatternFlagsStringPattern('())))(?)', SubpatternFlags::empty()),
+            PcreAutoCapture::autoCapture(), new ThrowPlaceholderConsumer());
+        // when, then
+        $this->assertEntitiesEqual($asEntities, [
             new GroupOpen(''),
             new GroupClose(),
             new GroupClose(),
             new GroupClose(),
             new GroupClose(),
             new GroupRemainder('', Pcre::pcre2() ? new IdentityOptionSetting('') : new LegacyOptionSetting('')),
-        ];
-        $this->assertEquals($expected, $entities);
+        ]);
     }
 
     /**
@@ -108,18 +99,13 @@ class PatternEntitiesTest extends TestCase
     {
         // given
         $asEntities = new PatternEntities(new SubpatternFlagsStringPattern('[]]]', SubpatternFlags::empty()), new ThrowAutoCapture(), new ThrowPlaceholderConsumer());
-
-        // when
-        $entities = $asEntities->entities();
-
-        // then
-        $expected = [
+        // when, then
+        $this->assertEntitiesEqual($asEntities, [
             new ClassOpen(),
             new Character(']'),
             new ClassClose(),
             new Literal(']'),
-        ];
-        $this->assertEquals($expected, $entities);
+        ]);
     }
 
     /**
@@ -129,12 +115,12 @@ class PatternEntitiesTest extends TestCase
     {
         // given
         $asEntities = new PatternEntities(new SubpatternFlagsStringPattern('[:alpha:]', SubpatternFlags::empty()), new ThrowAutoCapture(), new ThrowPlaceholderConsumer());
-
-        // when
-        $entities = $asEntities->entities();
-
-        // then
-        $this->assertEquals([new ClassOpen(), new Character(':alpha:'), new ClassClose()], $entities);
+        // when, then
+        $this->assertEntitiesEqual($asEntities, [
+            new ClassOpen(),
+            new Character(':alpha:'),
+            new ClassClose()
+        ]);
     }
 
     /**
@@ -144,12 +130,12 @@ class PatternEntitiesTest extends TestCase
     {
         // given
         $asEntities = new PatternEntities(new SubpatternFlagsStringPattern('[F\]O]', SubpatternFlags::empty()), new ThrowAutoCapture(), new ThrowPlaceholderConsumer());
-
-        // when
-        $entities = $asEntities->entities();
-
-        // then
-        $this->assertEquals([new ClassOpen(), new Character('F\]O'), new ClassClose()], $entities);
+        // when, then
+        $this->assertEntitiesEqual($asEntities, [
+            new ClassOpen(),
+            new Character('F\]O'),
+            new ClassClose()
+        ]);
     }
 
     /**
@@ -159,19 +145,14 @@ class PatternEntitiesTest extends TestCase
     {
         // given
         $asEntities = new PatternEntities(new SubpatternFlagsStringPattern('[01[:alpha:]%]', SubpatternFlags::empty()), new ThrowAutoCapture(), new ThrowPlaceholderConsumer());
-
-        // when
-        $entities = $asEntities->entities();
-
-        // then
-        $expected = [
+        // when, then
+        $this->assertEntitiesEqual($asEntities, [
             new ClassOpen(),
             new Character('01'),
             new Character('[:alpha:]'),
             new Character('%'),
             new ClassClose()
-        ];
-        $this->assertEquals($expected, $entities);
+        ]);
     }
 
     /**
@@ -183,10 +164,8 @@ class PatternEntitiesTest extends TestCase
         // given
         $asEntities = new PatternEntities(new SubpatternFlagsStringPattern($pattern, SubpatternFlags::from(Flags::from($flags))),
             new IdentityOptionSettingAutoCapture(), new ThrowPlaceholderConsumer());
-        // when
-        $entities = $asEntities->entities();
-        // when
-        $this->assertEquals($expectedBlocks, $entities);
+        // when, then
+        $this->assertEntitiesEqual($asEntities, $expectedBlocks);
     }
 
     public function comments(): array
@@ -230,10 +209,8 @@ class PatternEntitiesTest extends TestCase
         // given
         $asEntities = new PatternEntities(new SubpatternFlagsStringPattern($pattern, SubpatternFlags::empty()),
             new IdentityOptionSettingAutoCapture(), new ThrowPlaceholderConsumer());
-        // when
-        $entities = $asEntities->entities();
-        // then
-        $this->assertEquals($expected, $entities);
+        // when, then
+        $this->assertEntitiesEqual($asEntities, $expected);
     }
 
     public function characterClasses(): array
@@ -281,8 +258,6 @@ class PatternEntitiesTest extends TestCase
             ['\n\foo', [new Escaped('n'), new Escaped('f'), new Literal('oo')]],
             ["\\\n", [new Escaped("\n")]],
             ['\\\\x', [new Escaped('\\'), new Literal('x')]],
-            ['\\', [new TerminatingEscape()]],
-            ['\\\\\\', [new Escaped('\\'), new TerminatingEscape()]],
             ['\@', [new Escaped('@')]],
             ['\&', [new Escaped('&')]],
         ]);
@@ -314,6 +289,28 @@ class PatternEntitiesTest extends TestCase
 
     /**
      * @test
+     * @dataProvider terminatingEscapes
+     */
+    public function shouldThrowForTerminatingEscape(string $pattern)
+    {
+        // given
+        $asEntities = new PatternEntities(new SubpatternFlagsStringPattern($pattern, SubpatternFlags::empty()),
+            new IdentityOptionSettingAutoCapture(), new ThrowPlaceholderConsumer());
+        // then
+        $this->expectException(TrailingBackslashException::class);
+        // when
+        foreach ($asEntities->entities() as $entity) {
+            $entity->phrase();
+        }
+    }
+
+    public function terminatingEscapes(): array
+    {
+        return provided(['\\', '\\\\\\']);
+    }
+
+    /**
+     * @test
      * @dataProvider patterns
      * @param string $pattern
      * @param array $expected
@@ -324,11 +321,9 @@ class PatternEntitiesTest extends TestCase
         // given
         $asEntities = new PatternEntities(new SubpatternFlagsStringPattern($pattern, SubpatternFlags::empty()),
             new IdentityOptionSettingAutoCapture(), new ThrowPlaceholderConsumer());
-        // when
-        $entities = $asEntities->entities();
-        // then
-        $this->assertEquals($expected, $entities);
-        $this->assertEntitiesRepresent($entities, $expectedPattern ?? $pattern);
+        // when, then
+        $this->assertEntitiesEqual($asEntities, $expected);
+        $this->assertEntitiesRepresent($asEntities, $expectedPattern ?? $pattern);
     }
 
     public function patterns(): array
@@ -352,10 +347,8 @@ class PatternEntitiesTest extends TestCase
             new IdentityOptionSettingAutoCapture(),
             new FiguresPlaceholderConsumer($clusters)
         );
-        // when
-        $entities = $asEntities->entities();
-        // then
-        $expected = [
+        // when, then
+        $this->assertEntitiesEqual($asEntities, [
             new GroupOpenFlags('i', new IdentityOptionSetting('i')),
             new GroupOpenFlags('x', new IdentityOptionSetting('x')),
             new Placeholder($clusters, SubpatternFlags::from(Flags::from('x'))),
@@ -364,9 +357,8 @@ class PatternEntitiesTest extends TestCase
             new GroupClose(),
             new Placeholder($clusters, SubpatternFlags::empty()),
             new GroupClose(),
-        ];
-        $this->assertEquals($expected, $entities);
-        $this->assertEntitiesRepresent($entities, '(?i:(?x:one(?m-x)two)three)');
+        ]);
+        $this->assertEntitiesRepresent($asEntities, '(?i:(?x:one(?m-x)two)three)');
     }
 
     private function generalPatterns(): array
@@ -464,24 +456,22 @@ class PatternEntitiesTest extends TestCase
         ]);
     }
 
-    private function assertEntitiesRepresent(array $entities, string $pattern): void
+    /**
+     * @param PatternEntities $entities
+     * @param Entity[] $expected
+     */
+    private function assertEntitiesEqual(PatternEntities $entities, array $expected): void
     {
-        $this->assertSame($this->joinEntities($entities), $pattern);
+        $this->assertEquals($expected, $entities->entities());
     }
 
-    private function joinEntities(array $entities): string
+    private function assertEntitiesRepresent(PatternEntities $asEntities, string $pattern): void
     {
-        $phrase = new CompositePhrase($this->phrases($entities));
-        return $phrase->conjugated('/');
-    }
-
-    private function phrases(array $entities): array
-    {
-        return \array_map(function (Entity $entity): Phrase {
-            if ($entity instanceof TerminatingEscape) {
-                return new PatternPhrase('\\');
-            }
-            return $entity->phrase();
-        }, $entities);
+        $phrases = [];
+        foreach ($asEntities->entities() as $entity) {
+            $phrases[] = $entity->phrase();
+        }
+        $phrase = new CompositePhrase($phrases);
+        $this->assertSame($phrase->conjugated('/'), $pattern);
     }
 }
