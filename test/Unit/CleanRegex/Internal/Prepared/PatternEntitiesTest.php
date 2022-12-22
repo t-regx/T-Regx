@@ -337,25 +337,24 @@ class PatternEntitiesTest extends TestCase
     public function shouldParseWithFlags()
     {
         // given
-        $clusters = new ExpectedClusters(new ArrayClusters([
-            new FakeCluster('one'),
-            new FakeCluster('two'),
-            new FakeCluster('three')
-        ]));
         $asEntities = new PatternEntities(
             new SubpatternFlagsStringPattern('(?i:(?x:@(?m-x)@)@)', SubpatternFlags::empty()),
             new IdentityOptionSettingAutoCapture(),
-            new FiguresPlaceholderConsumer($clusters)
+            new FiguresPlaceholderConsumer(new ExpectedClusters(new ArrayClusters([
+                new FakeCluster('one'),
+                new FakeCluster('two'),
+                new FakeCluster('three')
+            ])))
         );
         // when, then
         $this->assertEntitiesEqual($asEntities, [
             new GroupOpenFlags('i', new IdentityOptionSetting('i')),
             new GroupOpenFlags('x', new IdentityOptionSetting('x')),
-            new Placeholder($clusters, SubpatternFlags::from(Flags::from('x'))),
+            new Placeholder(new FakeCluster('one'), SubpatternFlags::from(Flags::from('x'))),
             new GroupRemainder('m-x', new IdentityOptionSetting('m-x')),
-            new Placeholder($clusters, SubpatternFlags::empty()),
+            new Placeholder(new FakeCluster('two'), SubpatternFlags::empty()),
             new GroupClose(),
-            new Placeholder($clusters, SubpatternFlags::empty()),
+            new Placeholder(new FakeCluster('three'), SubpatternFlags::empty()),
             new GroupClose(),
         ]);
         $this->assertEntitiesRepresent($asEntities, '(?i:(?x:one(?m-x)two)three)');

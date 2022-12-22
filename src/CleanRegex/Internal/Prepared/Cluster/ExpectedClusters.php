@@ -24,10 +24,6 @@ class ExpectedClusters
     public function next(): void
     {
         $this->clusters->next();
-    }
-
-    public function expectNext(): void
-    {
         $this->expectation->expectNext();
     }
 
