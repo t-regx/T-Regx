@@ -430,4 +430,31 @@ class PatternTest extends TestCase
         // when
         Pattern::builder('@')->pattern("pattern \0")->build()->test('bar');
     }
+
+    /**
+     * @test
+     */
+    public function shouldBindSecondFigureTemplate()
+    {
+        // given
+        $template = Pattern::template('@');
+        // when, then
+        $this->assertConsumesFirst('first', $template->literal('first'));
+        $this->assertConsumesFirst('first', $template->literal('first'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBindSecondFigureBuilder()
+    {
+        // given
+        $builder = Pattern::builder('@,@')->literal('first');
+        // when
+        $builder->literal('second')->build();
+        $templateBuilder = $builder->literal('third');
+        // then
+        $this->assertConsumesFirst('first,third', $templateBuilder->build());
+        $this->assertConsumesFirst('first,third', $templateBuilder->build());
+    }
 }
