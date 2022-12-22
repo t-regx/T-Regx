@@ -50,7 +50,7 @@ class CallbackInvoker
     {
         $index = 0;
         $replaced = preg::replace_callback($this->definition->pattern,
-            function (array $match) use ($function, &$index) {
+            function () use ($function, &$index) {
                 return $function->apply($this->detail($index++));
             },
             $this->subject,
