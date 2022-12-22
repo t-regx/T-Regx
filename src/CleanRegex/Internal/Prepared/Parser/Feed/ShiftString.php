@@ -8,11 +8,14 @@ class ShiftString
     /** @var string */
     private $string;
     /** @var int */
+    private $stringLength;
+    /** @var int */
     private $offset;
 
     public function __construct(string $string)
     {
         $this->string = $string;
+        $this->stringLength = \strLen($string);
         $this->offset = 0;
     }
 
@@ -33,12 +36,12 @@ class ShiftString
 
     public function empty(): bool
     {
-        return $this->offset >= \strLen($this->string);
+        return $this->offset >= $this->stringLength;
     }
 
     public function firstLetter(): string
     {
-        if ($this->offset >= \strLen($this->string)) {
+        if ($this->offset >= $this->stringLength) {
             // @codeCoverageIgnoreStart
             throw new InternalCleanRegexException();
             // @codeCoverageIgnoreEnd
