@@ -89,4 +89,59 @@ class PatternTest extends TestCase
         // then
         $this->pass();
     }
+
+    /**
+     * @test
+     */
+    public function shouldFailOnConstructiveSubpatternDestructiveSubpattern()
+    {
+        // given
+        $pattern = Pattern::inject('(?x:(?-x:#boo:@))', ['value']);
+        // then
+        $this->assertConsumesFirst('#boo:value', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldConsumeOnConstructiveSubpatternDestructiveSubpatternClosed()
+    {
+        // given
+        $pattern = Pattern::inject("(?x:(?-x:)foo#@\n,bar)", []);
+        // then
+        $this->assertConsumesFirst('foo,bar', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldParseCommentOnExtended()
+    {
+        // given
+        $pattern = Pattern::inject("foo#boo:@\n,end", [], 'x');
+        // then
+        $this->assertConsumesFirst('foo,end', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFailOnConstructivePatternDestructiveSubpattern()
+    {
+        // given
+        $pattern = Pattern::inject("(?-x:)foo#@\n,bar", [], 'x');
+        // then
+        $this->assertConsumesFirst('foo,bar', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldEndComment()
+    {
+        // given
+        $pattern = Pattern::inject("#@\nbar", [], 'x');
+        // then
+        $this->assertConsumesFirst('bar', $pattern);
+    }
 }
