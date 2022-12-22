@@ -458,4 +458,15 @@ class PatternTest extends TestCase
     {
         return \provided(['gróup', 'ßark']);
     }
+
+    /**
+     * @test
+     */
+    public function shouldMatchNullByte()
+    {
+        // given
+        $pattern = Pattern::inject('\0', []);
+        // when
+        $this->assertTrue($pattern->test("\0"));
+    }
 }
