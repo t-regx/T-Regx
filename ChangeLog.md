@@ -6,6 +6,7 @@ Incoming
 
 * Performance
     * Increased pattern instantiating performance by parsing continuous literal figures as one entity.
+    * Additional performance optimisations with usage of xDebug profiler and QCacheGrind.
 
 Added in 0.41.1
 ---------------
