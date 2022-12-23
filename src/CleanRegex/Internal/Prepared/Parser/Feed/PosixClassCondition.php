@@ -4,11 +4,11 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser\Feed;
 class PosixClassCondition
 {
     /** @var ShiftString */
-    private $feed;
+    private $string;
 
-    public function __construct(ShiftString $feed)
+    public function __construct(ShiftString $string)
     {
-        $this->feed = $feed;
+        $this->string = $string;
     }
 
     public function consumable(): bool
@@ -18,17 +18,17 @@ class PosixClassCondition
 
     public function asString(): string
     {
-        return \subStr($this->feed->content(), 0, \strLen($this->nextName()));
+        return \subStr($this->string->content(), 0, \strLen($this->nextName()));
     }
 
     public function commit(): void
     {
-        $this->feed->shift($this->asString());
+        $this->string->shift($this->asString());
     }
 
     private function nextName(): ?string
     {
-        if (!$this->feed->startsWith('[:')) {
+        if (!$this->string->startsWith('[:')) {
             return null;
         }
         $names = [
@@ -43,7 +43,7 @@ class PosixClassCondition
             '[:^word:]', '[:^xdigit:]'
         ];
         foreach ($names as $name) {
-            if ($this->feed->startsWith($name)) {
+            if ($this->string->startsWith($name)) {
                 return $name;
             }
         }
