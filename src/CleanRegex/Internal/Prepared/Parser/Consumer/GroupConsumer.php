@@ -19,10 +19,13 @@ class GroupConsumer implements Consumer
 {
     /** @var GroupAutoCapture */
     private $autoCapture;
+    /** @var string */
+    private $openGroupRegex;
 
     public function __construct(GroupAutoCapture $autoCapture)
     {
         $this->autoCapture = $autoCapture;
+        $this->openGroupRegex = $this->groupOpenRegex();
     }
 
     public function condition(Feed $feed): Condition
@@ -37,7 +40,7 @@ class GroupConsumer implements Consumer
 
     private function consumeGroup(Feed $feed, EntitySequence $entities): Entity
     {
-        $groupDetails = $feed->matchedString($this->groupOpenRegex(), 6);
+        $groupDetails = $feed->matchedString($this->openGroupRegex, 6);
         if (!$groupDetails->matched()) {
             if ($this->imposedNonCapture($entities)) {
                 return new GroupOpen('?:');
