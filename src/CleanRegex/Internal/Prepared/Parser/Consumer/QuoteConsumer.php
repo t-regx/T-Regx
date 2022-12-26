@@ -26,9 +26,8 @@ class QuoteConsumer implements Consumer
                 $quoteEnd->commit();
                 return new Quote($quote, true);
             }
-            $letter = $feed->letter();
-            $quote .= $letter->asString();
-            $letter->commit();
+            $quote .= $feed->firstLetter();
+            $feed->shiftSingle();
         }
         return new Quote($quote, false);
     }

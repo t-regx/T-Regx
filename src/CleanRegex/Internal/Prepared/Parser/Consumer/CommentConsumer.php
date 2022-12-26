@@ -32,9 +32,8 @@ class CommentConsumer implements Consumer
                 $commentEnd->commit();
                 break;
             }
-            $letter = $feed->letter();
-            $strings .= $letter->asString();
-            $letter->commit();
+            $strings .= $feed->firstLetter();
+            $feed->shiftSingle();
         }
         $entities->append(new Comment($strings));
     }

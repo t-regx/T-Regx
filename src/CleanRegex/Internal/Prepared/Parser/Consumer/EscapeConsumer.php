@@ -21,12 +21,11 @@ class EscapeConsumer implements Consumer
 
     private function consumeEscaped(Feed $feed): Entity
     {
-        $letter = $feed->letter();
-        if ($letter->consumable()) {
-            $letterString = $letter->asString();
-            $letter->commit();
-            return new Escaped($letterString);
+        if ($feed->empty()) {
+            throw new TrailingBackslashException();
         }
-        throw new TrailingBackslashException();
+        $letterString = $feed->firstLetter();
+        $feed->shiftSingle();
+        return new Escaped($letterString);
     }
 }

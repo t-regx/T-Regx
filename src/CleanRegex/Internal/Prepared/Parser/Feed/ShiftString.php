@@ -37,6 +37,11 @@ class ShiftString
         return $this->string[$this->offset];
     }
 
+    public function shiftSingle(): void
+    {
+        $this->offset += 1;
+    }
+
     public function content(): string
     {
         return \subStr($this->string, $this->offset);

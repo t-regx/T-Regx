@@ -14,12 +14,11 @@ class ControlConsumer implements Consumer
 
     public function consume(Feed $feed, EntitySequence $entities): void
     {
-        $letter = $feed->letter();
-        if ($letter->consumable()) {
-            $entities->append(new Control($letter->asString()));
-            $letter->commit();
-        } else {
+        if ($feed->empty()) {
             $entities->append(new Control(''));
+        } else {
+            $entities->append(new Control($feed->firstLetter()));
+            $feed->shiftSingle();
         }
     }
 }

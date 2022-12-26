@@ -61,22 +61,20 @@ class CharacterClassConsumer implements Consumer
                 $entities->appendLiteral($class);
                 continue;
             }
-            $feedLetter = $feed->letter();
-            if (!$feedLetter->consumable()) {
+            if ($feed->empty()) {
                 break;
             }
-            $letter = $feedLetter->asString();
-            $feedLetter->commit();
+            $letter = $feed->firstLetter();
+            $feed->shiftSingle();
             if ($letter !== '\\') {
                 $consumed .= $letter;
             } else {
-                $escapedLetter = $feed->letter();
-                if ($escapedLetter->consumable()) {
-                    $escaped = $escapedLetter->asString();
-                    $escapedLetter->commit();
-                    $consumed .= "\\$escaped";
-                } else {
+                if ($feed->empty()) {
                     $consumed .= "\\";
+                } else {
+                    $escaped = $feed->firstLetter();
+                    $feed->shiftSingle();
+                    $consumed .= "\\$escaped";
                 }
             }
         }

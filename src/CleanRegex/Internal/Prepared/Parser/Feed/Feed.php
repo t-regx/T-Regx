@@ -5,21 +5,13 @@ class Feed
 {
     /** @var ShiftString */
     private $shiftString;
-    /** @var Letter */
-    private $letter;
     /** @var ConstantStrings */
     private $constantStrings;
 
     public function __construct(string $string)
     {
         $this->shiftString = new ShiftString($string);
-        $this->letter = new Letter($this->shiftString);
         $this->constantStrings = new ConstantStrings($this->shiftString);
-    }
-
-    public function letter(): Letter
-    {
-        return $this->letter;
     }
 
     public function stringLengthBeforeAny(string $characters): int
@@ -52,8 +44,18 @@ class Feed
         return $this->shiftString->content();
     }
 
+    public function firstLetter(): string
+    {
+        return $this->shiftString->firstLetter();
+    }
+
     public function subString(int $length): string
     {
         return $this->shiftString->subString($length);
+    }
+
+    public function shiftSingle(): void
+    {
+        $this->shiftString->shiftSingle();
     }
 }

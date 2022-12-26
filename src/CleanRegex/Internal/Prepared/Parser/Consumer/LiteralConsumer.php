@@ -13,8 +13,7 @@ class LiteralConsumer implements Consumer
 
     public function consume(Feed $feed, EntitySequence $entities): void
     {
-        $letter = $feed->letter();
-        $entities->appendLiteral($letter->asString());
-        $letter->commit();
+        $entities->appendLiteral($feed->firstLetter());
+        $feed->shiftSingle();
     }
 }
