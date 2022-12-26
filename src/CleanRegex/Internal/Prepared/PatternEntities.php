@@ -12,10 +12,10 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\LiteralConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\PlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\QuoteConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Convention;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
 use TRegx\CleanRegex\Internal\Prepared\Pattern\StringPattern;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
 class PatternEntities
 {
@@ -38,10 +38,10 @@ class PatternEntities
     }
 
     /**
-     * @return Entity[]
+     * @return Phrase[]
      */
-    public function entities(): array
+    public function phrases(): array
     {
-        return $this->pcreParser->entities();
+        return $this->pcreParser->phrases();
     }
 }

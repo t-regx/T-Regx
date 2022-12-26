@@ -2,30 +2,31 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Literal;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\PatternPhrase;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
 class EntitySequence
 {
-    /** @var Entity[] */
-    private $entities;
     /** @var Subpattern */
     private $subpattern;
+
+    /** @var Phrase[] */
+    private $phrases = [];
     /** @var string */
     private $literal = '';
 
     public function __construct(SubpatternFlags $flags)
     {
-        $this->entities = [];
         $this->subpattern = new Subpattern($flags);
     }
 
     public function append(Entity $entity): void
     {
         if ($this->literal !== '') {
-            $this->entities[] = new Literal($this->literal);
+            $this->phrases[] = new PatternPhrase($this->literal);
             $this->literal = '';
         }
-        $this->entities[] = $entity;
+        $this->phrases[] = $entity->phrase();
         $entity->visit($this->subpattern);
     }
 
@@ -39,12 +40,12 @@ class EntitySequence
         return $this->subpattern->flags();
     }
 
-    public function entities(): array
+    public function phrases(): array
     {
         if ($this->literal !== '') {
-            $this->entities[] = new Literal($this->literal);
+            $this->phrases[] = new PatternPhrase($this->literal);
             $this->literal = '';
         }
-        return $this->entities;
+        return $this->phrases;
     }
 }

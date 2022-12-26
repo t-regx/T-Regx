@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared;
 
-use Generator;
 use TRegx\CleanRegex\Internal\AutoCapture\Group\GroupAutoCapture;
 use TRegx\CleanRegex\Internal\Prepared\Pattern\StringPattern;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
@@ -23,15 +22,8 @@ class PatternPhrase
 
     public function phrase(): Phrase
     {
-        return new CompositePhrase(\iterator_to_array($this->phrases()));
-    }
-
-    private function phrases(): Generator
-    {
-        $entities = $this->entities->entities();
+        $phrases = $this->entities->phrases();
         $this->placeholders->meetExpectation();
-        foreach ($entities as $entity) {
-            yield $entity->phrase();
-        }
+        return new CompositePhrase($phrases);
     }
 }

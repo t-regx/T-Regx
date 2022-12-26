@@ -3,8 +3,8 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
 use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\Consumer;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Entity;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
 class PcreParser
 {
@@ -23,14 +23,14 @@ class PcreParser
     }
 
     /**
-     * @return Entity[]
+     * @return Phrase[]
      */
-    public function entities(): array
+    public function phrases(): array
     {
         while (!$this->feed->empty()) {
             $this->applicableConsumer()->consume($this->feed, $this->sequence);
         }
-        return $this->sequence->entities();
+        return $this->sequence->phrases();
     }
 
     private function applicableConsumer(): Consumer

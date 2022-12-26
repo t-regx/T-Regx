@@ -299,9 +299,7 @@ class PatternEntitiesTest extends TestCase
         // then
         $this->expectException(TrailingBackslashException::class);
         // when
-        foreach ($asEntities->entities() as $entity) {
-            $entity->phrase();
-        }
+        $asEntities->phrases();
     }
 
     public function terminatingEscapes(): array
@@ -461,16 +459,16 @@ class PatternEntitiesTest extends TestCase
      */
     private function assertEntitiesEqual(PatternEntities $entities, array $expected): void
     {
-        $this->assertEquals($expected, $entities->entities());
+        $phrases = [];
+        foreach ($expected as $entity) {
+            $phrases[] = $entity->phrase();
+        }
+        $this->assertEquals($phrases, $entities->phrases());
     }
 
     private function assertEntitiesRepresent(PatternEntities $asEntities, string $pattern): void
     {
-        $phrases = [];
-        foreach ($asEntities->entities() as $entity) {
-            $phrases[] = $entity->phrase();
-        }
-        $phrase = new CompositePhrase($phrases);
+        $phrase = new CompositePhrase($asEntities->phrases());
         $this->assertSame($phrase->conjugated('/'), $pattern);
     }
 }
