@@ -17,12 +17,7 @@ class Delimiter
 
     public function delimited(PatternAutoCapture $autoCapture, Phrase $phrase, Flags $flags): string
     {
-        return $this->patternDelimited($autoCapture, $this->verbedPattern($phrase), $flags);
-    }
-
-    private function verbedPattern(Phrase $phrase): VerbedPattern
-    {
-        return new VerbedPattern($phrase->conjugated($this->delimiter));
+        return $this->patternDelimited($autoCapture, new VerbedPattern($phrase->conjugated($this->delimiter)), $flags);
     }
 
     private function patternDelimited(PatternAutoCapture $autoCapture, VerbedPattern $pattern, Flags $flags): string
