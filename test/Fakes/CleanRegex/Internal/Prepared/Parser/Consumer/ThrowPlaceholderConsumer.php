@@ -1,7 +1,6 @@
 <?php
 namespace Test\Fakes\CleanRegex\Internal\Prepared\Parser\Consumer;
 
-use AssertionError;
 use Test\Utils\Assertion\Fails;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\Condition;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\PlaceholderConsumer;
@@ -19,6 +18,6 @@ class ThrowPlaceholderConsumer implements PlaceholderConsumer
 
     public function consume(Feed $feed, EntitySequence $entities): void
     {
-        throw new AssertionError("PlaceholderConsumer wasn't supposed to be used");
+        throw $this->fail();
     }
 }
