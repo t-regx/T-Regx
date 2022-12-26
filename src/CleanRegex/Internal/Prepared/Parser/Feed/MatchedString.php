@@ -1,55 +1,42 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser\Feed;
 
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
-
 class MatchedString
 {
     /** @var Feed */
     private $feed;
-    /** @var string */
-    private $pattern;
     /** @var int */
     private $groups;
+    /** @var (string|int)[][] */
+    private $matches;
 
     public function __construct(Feed $feed, string $pattern, int $groups)
     {
         $this->feed = $feed;
-        $this->pattern = $pattern;
         $this->groups = $groups;
+        \preg_match($pattern, $feed->content(), $this->matches, \PREG_OFFSET_CAPTURE);
     }
 
     public function matched(): bool
     {
-        return \preg_match($this->pattern, $this->feed->content()) === 1;
+        return !empty($this->matches);
     }
 
     public function consume(): array
     {
-        [$full, $groups] = $this->match();
-        $this->feed->commit($full);
-        return $this->matchedGroups($groups);
+        $this->feed->commit($this->matches[0][0]);
+        return $this->matchedGroups();
     }
 
-    private function match(): array
-    {
-        if (\preg_match($this->pattern, $this->feed->content(), $matches, \PREG_OFFSET_CAPTURE) === 1) {
-            if ($matches[0][1] === 0) {
-                [[$full]] = $matches;
-                return [$full, \array_slice($matches, 1)];
-            }
-        }
-        // @codeCoverageIgnoreStart
-        throw new InternalCleanRegexException();
-        // @codeCoverageIgnoreEnd
-    }
-
-    private function matchedGroups(array $groups): array
+    private function matchedGroups(): array
     {
         $result = \array_fill(0, $this->groups, null);
-        foreach ($groups as $index => [$text, $offset]) {
+        foreach ($this->matches as $index => [$text, $offset]) {
+            if ($index === 0) {
+                continue;
+            }
             if ($offset > -1) {
-                $result[$index] = $text;
+                $result[$index - 1] = $text;
             }
         }
         return $result;
