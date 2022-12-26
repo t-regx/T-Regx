@@ -25,6 +25,11 @@ class Feed
         return $this->letter;
     }
 
+    public function stringLengthBeforeAny(string $characters): int
+    {
+        return $this->shiftString->stringLengthBeforeAny($characters);
+    }
+
     public function string(string $string): ConstantString
     {
         return $this->constantStrings->string($string);
@@ -53,5 +58,10 @@ class Feed
     public function content(): string
     {
         return $this->shiftString->content();
+    }
+
+    public function subString(int $length): string
+    {
+        return $this->shiftString->subString($length);
     }
 }

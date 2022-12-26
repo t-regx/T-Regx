@@ -41,4 +41,14 @@ class ShiftString
     {
         return \subStr($this->string, $this->offset);
     }
+
+    public function stringLengthBeforeAny(string $characters): int
+    {
+        return \strCSpn($this->string, $characters, $this->offset);
+    }
+
+    public function subString(int $length): string
+    {
+        return \subStr($this->string, $this->offset, $length);
+    }
 }

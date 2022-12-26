@@ -28,6 +28,13 @@ class PcreParser
     public function phrases(): array
     {
         while (!$this->feed->empty()) {
+            $literalsAmount = $this->feed->stringLengthBeforeAny('()[@\#');
+            if ($literalsAmount > 0) {
+                $literals = $this->feed->subString($literalsAmount);
+                $this->sequence->appendLiteral($literals);
+                $this->feed->commit($literals);
+                continue;
+            }
             $this->applicableConsumer()->consume($this->feed, $this->sequence);
         }
         return $this->sequence->phrases();
