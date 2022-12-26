@@ -13,6 +13,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpenFlags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupRemainder;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\MatchedString;
 use TRegx\Pcre;
 
 class GroupConsumer implements Consumer
@@ -40,7 +41,7 @@ class GroupConsumer implements Consumer
 
     private function consumeGroup(Feed $feed, EntitySequence $entities): Entity
     {
-        $groupDetails = $feed->matchedString($this->openGroupRegex, 6);
+        $groupDetails = new MatchedString($feed, $this->openGroupRegex, 6);
         if (!$groupDetails->matched()) {
             if ($this->imposedNonCapture($entities)) {
                 return new GroupOpen('?:');

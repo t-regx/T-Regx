@@ -35,11 +35,6 @@ class Feed
         return $this->posixClass;
     }
 
-    public function matchedString(string $regex, int $groups): MatchedString
-    {
-        return new MatchedString($this->shiftString, $regex, $groups);
-    }
-
     public function empty(): bool
     {
         return $this->shiftString->empty();
@@ -53,5 +48,10 @@ class Feed
     public function commit(string $string): void
     {
         $this->shiftString->shift($string);
+    }
+
+    public function content(): string
+    {
+        return $this->shiftString->content();
     }
 }

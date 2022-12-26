@@ -5,35 +5,35 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 
 class MatchedString
 {
-    /** @var ShiftString */
-    private $shiftString;
+    /** @var Feed */
+    private $feed;
     /** @var string */
     private $pattern;
     /** @var int */
     private $groups;
 
-    public function __construct(ShiftString $shiftString, string $pattern, int $groups)
+    public function __construct(Feed $feed, string $pattern, int $groups)
     {
-        $this->shiftString = $shiftString;
+        $this->feed = $feed;
         $this->pattern = $pattern;
         $this->groups = $groups;
     }
 
     public function matched(): bool
     {
-        return \preg_match($this->pattern, $this->shiftString->content()) === 1;
+        return \preg_match($this->pattern, $this->feed->content()) === 1;
     }
 
     public function consume(): array
     {
         [$full, $groups] = $this->match();
-        $this->shiftString->shift($full);
+        $this->feed->commit($full);
         return $this->matchedGroups($groups);
     }
 
     private function match(): array
     {
-        if (\preg_match($this->pattern, $this->shiftString->content(), $matches, \PREG_OFFSET_CAPTURE) === 1) {
+        if (\preg_match($this->pattern, $this->feed->content(), $matches, \PREG_OFFSET_CAPTURE) === 1) {
             if ($matches[0][1] === 0) {
                 [[$full]] = $matches;
                 return [$full, \array_slice($matches, 1)];
