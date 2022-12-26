@@ -16,7 +16,6 @@ use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\ArrayClusters;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\ExpectedClusters;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\FiguresPlaceholderConsumer;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Character;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\ClassClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\ClassOpen;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Comment;
@@ -102,7 +101,7 @@ class PatternEntitiesTest extends TestCase
         // when, then
         $this->assertEntitiesEqual($asEntities, [
             new ClassOpen(),
-            new Character(']'),
+            new Literal(']'),
             new ClassClose(),
             new Literal(']'),
         ]);
@@ -118,7 +117,7 @@ class PatternEntitiesTest extends TestCase
         // when, then
         $this->assertEntitiesEqual($asEntities, [
             new ClassOpen(),
-            new Character(':alpha:'),
+            new Literal(':alpha:'),
             new ClassClose()
         ]);
     }
@@ -133,7 +132,7 @@ class PatternEntitiesTest extends TestCase
         // when, then
         $this->assertEntitiesEqual($asEntities, [
             new ClassOpen(),
-            new Character('F\]O'),
+            new Literal('F\]O'),
             new ClassClose()
         ]);
     }
@@ -148,9 +147,7 @@ class PatternEntitiesTest extends TestCase
         // when, then
         $this->assertEntitiesEqual($asEntities, [
             new ClassOpen(),
-            new Character('01'),
-            new Character('[:alpha:]'),
-            new Character('%'),
+            new Literal('01[:alpha:]%'),
             new ClassClose()
         ]);
     }
@@ -232,23 +229,23 @@ class PatternEntitiesTest extends TestCase
         ]);
         $characterClasses = named([
             ['[', [new ClassOpen()]],
-            ['[foo\bar]', [new ClassOpen(), new Character('foo\bar'), new ClassClose()]],
-            ['[foo\]bar]', [new ClassOpen(), new Character('foo\]bar'), new ClassClose()]],
+            ['[foo\bar]', [new ClassOpen(), new Literal('foo\bar'), new ClassClose()]],
+            ['[foo\]bar]', [new ClassOpen(), new Literal('foo\]bar'), new ClassClose()]],
 
-            ['[\\', [new ClassOpen(), new Character('\\')]],
-            ['[\]', [new ClassOpen(), new Character('\]')]],
-            ['[\]]', [new ClassOpen(), new Character('\]'), new ClassClose()]],
-            ['[[]]', [new ClassOpen(), new Character('['), new ClassClose(), new Literal(']')]],
-            ['[[]\]', [new ClassOpen(), new Character('['), new ClassClose(), new Escaped(']')]],
+            ['[\\', [new ClassOpen(), new Literal('\\')]],
+            ['[\]', [new ClassOpen(), new Literal('\]')]],
+            ['[\]]', [new ClassOpen(), new Literal('\]'), new ClassClose()]],
+            ['[[]]', [new ClassOpen(), new Literal('['), new ClassClose(), new Literal(']')]],
+            ['[[]\]', [new ClassOpen(), new Literal('['), new ClassClose(), new Escaped(']')]],
             ['[\Q', [new ClassOpen(), new Quote('', false)]],
 
-            ['[@]', [new ClassOpen(), new Character('@'), new ClassClose()]],
-            ['[&]', [new ClassOpen(), new Character('&'), new ClassClose()]],
+            ['[@]', [new ClassOpen(), new Literal('@'), new ClassClose()]],
+            ['[&]', [new ClassOpen(), new Literal('&'), new ClassClose()]],
 
-            ['[\Qa-z]\E+]', [new ClassOpen(), new Quote('a-z]', true), new Character('+'), new ClassClose()]],
-            ['[\Qa-z\]\\\E+]', [new ClassOpen(), new Quote('a-z\]\\', true), new Character('+'), new ClassClose()]],
-            ['[\Qb\Ec\Qd\Ee', [new ClassOpen(), new Quote('b', true), new Character('c'), new Quote('d', true), new Character('e')]],
-            ['[(?x:a-z])$', [new ClassOpen(), new Character('(?x:a-z'), new ClassClose(), new GroupClose(), new Literal('$')]],
+            ['[\Qa-z]\E+]', [new ClassOpen(), new Quote('a-z]', true), new Literal('+'), new ClassClose()]],
+            ['[\Qa-z\]\\\E+]', [new ClassOpen(), new Quote('a-z\]\\', true), new Literal('+'), new ClassClose()]],
+            ['[\Qb\Ec\Qd\Ee', [new ClassOpen(), new Quote('b', true), new Literal('c'), new Quote('d', true), new Literal('e')]],
+            ['[(?x:a-z])$', [new ClassOpen(), new Literal('(?x:a-z'), new ClassClose(), new GroupClose(), new Literal('$')]],
         ]);
         $controls = named([
             ['\cx', [new Control('x')]],
@@ -364,8 +361,8 @@ class PatternEntitiesTest extends TestCase
             'empty'        => ['', []],
             'control'      => ['ab\c\word', [new Literal('ab'), new Control('\\'), new Literal('word')]],
             'quotes'       => ['\Q{@}(hi)[hey]\E', [new Quote('{@}(hi)[hey]', true)]],
-            'class+quotes' => ['[\Qa-z]\E$', [new ClassOpen(), new Quote('a-z]', true), new Character('$')]],
-            'groups+class' => ['(?x:[a-z])$', [new GroupOpenFlags('x', new IdentityOptionSetting('x')), new ClassOpen(), new Character('a-z'), new ClassClose(), new GroupClose(), new Literal('$')]],
+            'class+quotes' => ['[\Qa-z]\E$', [new ClassOpen(), new Quote('a-z]', true), new Literal('$')]],
+            'groups+class' => ['(?x:[a-z])$', [new GroupOpenFlags('x', new IdentityOptionSetting('x')), new ClassOpen(), new Literal('a-z'), new ClassClose(), new GroupClose(), new Literal('$')]],
 
             'reset'        => ['(?^)', [new GroupRemainder('^', new IdentityOptionSetting('^'))]],
             'reset,set'    => ['(?^ix)', [new GroupRemainder('^ix', new IdentityOptionSetting('^ix'))]],

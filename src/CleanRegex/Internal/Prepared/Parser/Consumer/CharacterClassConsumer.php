@@ -1,7 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser\Consumer;
 
-use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Character;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\ClassClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\ClassOpen;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
@@ -35,7 +34,7 @@ class CharacterClassConsumer implements Consumer
             if ($closingTag->consumable()) {
                 $closingTag->commit();
                 if ($consumed !== '') {
-                    $entities->append(new Character($consumed));
+                    $entities->appendLiteral($consumed);
                 }
                 $entities->append(new ClassClose());
                 return;
@@ -44,7 +43,7 @@ class CharacterClassConsumer implements Consumer
             if ($condition->met($entities)) {
                 $condition->commit();
                 if ($consumed !== '') {
-                    $entities->append(new Character($consumed));
+                    $entities->appendLiteral($consumed);
                     $consumed = '';
                 }
                 $quoteConsumer->consume($feed, $entities);
@@ -55,10 +54,10 @@ class CharacterClassConsumer implements Consumer
                 $class = $condition->asString();
                 $condition->commit();
                 if ($consumed !== '') {
-                    $entities->append(new Character($consumed));
+                    $entities->appendLiteral($consumed);
                     $consumed = '';
                 }
-                $entities->append(new Character($class));
+                $entities->appendLiteral($class);
                 continue;
             }
             $feedLetter = $feed->letter();
@@ -81,7 +80,7 @@ class CharacterClassConsumer implements Consumer
             }
         }
         if ($consumed !== '') {
-            $entities->append(new Character($consumed));
+            $entities->appendLiteral($consumed);
         }
     }
 }
