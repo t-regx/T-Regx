@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\ClassClose;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\ClassOpen;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\PosixClassCondition;
 
 class CharacterClassConsumer implements Consumer
 {
@@ -29,6 +30,7 @@ class CharacterClassConsumer implements Consumer
             }
         }
         $quoteConsumer = new QuoteConsumer();
+        $posixClass = new PosixClassCondition($feed);
         while (true) {
             $closingTag = $feed->string(']');
             if ($closingTag->consumable()) {
@@ -39,9 +41,9 @@ class CharacterClassConsumer implements Consumer
                 $entities->append(new ClassClose());
                 return;
             }
-            $condition = $quoteConsumer->condition($feed);
-            if ($condition->met($entities)) {
-                $condition->commit();
+            $quote = $quoteConsumer->condition($feed);
+            if ($quote->met($entities)) {
+                $quote->commit();
                 if ($consumed !== '') {
                     $entities->appendLiteral($consumed);
                     $consumed = '';
@@ -49,10 +51,9 @@ class CharacterClassConsumer implements Consumer
                 $quoteConsumer->consume($feed, $entities);
                 continue;
             }
-            $condition = $feed->posixClass();
-            if ($condition->consumable()) {
-                $class = $condition->asString();
-                $condition->commit();
+            if ($posixClass->consumable()) {
+                $class = $posixClass->asString();
+                $posixClass->commit();
                 if ($consumed !== '') {
                     $entities->appendLiteral($consumed);
                     $consumed = '';

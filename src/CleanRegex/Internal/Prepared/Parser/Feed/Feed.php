@@ -7,8 +7,6 @@ class Feed
     private $shiftString;
     /** @var Letter */
     private $letter;
-    /** @var PosixClassCondition */
-    private $posixClass;
     /** @var ConstantStrings */
     private $constantStrings;
 
@@ -16,7 +14,6 @@ class Feed
     {
         $this->shiftString = new ShiftString($string);
         $this->letter = new Letter($this->shiftString);
-        $this->posixClass = new PosixClassCondition($this->shiftString);
         $this->constantStrings = new ConstantStrings($this->shiftString);
     }
 
@@ -33,11 +30,6 @@ class Feed
     public function string(string $string): ConstantString
     {
         return $this->constantStrings->string($string);
-    }
-
-    public function posixClass(): PosixClassCondition
-    {
-        return $this->posixClass;
     }
 
     public function empty(): bool
