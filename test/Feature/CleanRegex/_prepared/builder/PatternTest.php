@@ -183,6 +183,17 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldConsumeTwoQuotes()
+    {
+        // when
+        $pattern = Pattern::builder('\Qone\E,\Qtwo\E')->build();
+        // then
+        $this->assertConsumesFirst('one,two', $pattern);
+    }
+
+    /**
+     * @test
+     */
     public function shouldTemplateAcceptTrailingControlBackslash()
     {
         // when

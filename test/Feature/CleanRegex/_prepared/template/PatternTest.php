@@ -160,6 +160,17 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldConsumeTwoQuotes()
+    {
+        // when
+        $pattern = Pattern::template('\Qone\E,\Qtwo\E,@')->literal('value');
+        // then
+        $this->assertConsumesFirst('one,two,value', $pattern);
+    }
+
+    /**
+     * @test
+     */
     public function shouldTemplateMaskThrowForRequiredExplicitDelimiterSingleKeyword()
     {
         // then
