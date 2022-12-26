@@ -30,11 +30,6 @@ class Feed
         return $this->constantStrings->string($string);
     }
 
-    public function oneOf(array $values): OneOf
-    {
-        return new OneOf($this->shiftString, $values);
-    }
-
     public function posixClass(): PosixClassCondition
     {
         return $this->posixClass;
@@ -48,5 +43,15 @@ class Feed
     public function empty(): bool
     {
         return $this->shiftString->empty();
+    }
+
+    public function startsWith(string $infix): bool
+    {
+        return $this->shiftString->startsWith($infix);
+    }
+
+    public function commit(string $string): void
+    {
+        $this->shiftString->shift($string);
     }
 }

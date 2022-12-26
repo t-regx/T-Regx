@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Convention;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Comment;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\OneOf;
 
 class CommentConsumer implements Consumer
 {
@@ -24,7 +25,7 @@ class CommentConsumer implements Consumer
     public function consume(Feed $feed, EntitySequence $entities): void
     {
         $strings = '';
-        $commentEnd = $feed->oneOf($this->convention->lineEndings());
+        $commentEnd = new OneOf($feed, $this->convention->lineEndings());
         while (!$feed->empty()) {
             if ($commentEnd->consumable()) {
                 $strings .= $commentEnd->asString();

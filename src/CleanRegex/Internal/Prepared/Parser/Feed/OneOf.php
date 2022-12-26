@@ -5,21 +5,21 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 
 class OneOf implements StringCondition
 {
-    /** @var ShiftString */
-    private $shiftString;
+    /** @var Feed */
+    private $feed;
     /** @var array */
     private $values;
 
-    public function __construct(ShiftString $shiftString, array $values)
+    public function __construct(Feed $feed, array $values)
     {
-        $this->shiftString = $shiftString;
+        $this->feed = $feed;
         $this->values = $values;
     }
 
     public function consumable(): bool
     {
         foreach ($this->values as $value) {
-            if ($this->shiftString->startsWith($value)) {
+            if ($this->feed->startsWith($value)) {
                 return true;
             }
         }
@@ -29,7 +29,7 @@ class OneOf implements StringCondition
     public function asString(): string
     {
         foreach ($this->values as $value) {
-            if ($this->shiftString->startsWith($value)) {
+            if ($this->feed->startsWith($value)) {
                 return $value;
             }
         }
@@ -40,6 +40,6 @@ class OneOf implements StringCondition
 
     public function commit(): void
     {
-        $this->shiftString->shift($this->asString());
+        $this->feed->commit($this->asString());
     }
 }
