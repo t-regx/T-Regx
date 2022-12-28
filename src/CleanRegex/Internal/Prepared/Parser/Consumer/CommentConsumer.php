@@ -33,7 +33,7 @@ class CommentConsumer implements Consumer
                 break;
             }
             $strings .= $feed->firstLetter();
-            $feed->shiftSingle();
+            $feed->commitSingle();
         }
         $entities->append(new Comment($strings));
     }

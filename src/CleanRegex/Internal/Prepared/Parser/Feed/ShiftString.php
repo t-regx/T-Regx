@@ -17,7 +17,7 @@ class ShiftString
         $this->offset = 0;
     }
 
-    public function shift(string $string): void
+    public function commit(string $string): void
     {
         $this->offset += \strLen($string);
     }
@@ -37,7 +37,7 @@ class ShiftString
         return $this->string[$this->offset];
     }
 
-    public function shiftSingle(): void
+    public function commitSingle(): void
     {
         $this->offset += 1;
     }

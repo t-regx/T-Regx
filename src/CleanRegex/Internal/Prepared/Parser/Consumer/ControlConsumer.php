@@ -18,7 +18,7 @@ class ControlConsumer implements Consumer
             $entities->append(new Control(''));
         } else {
             $entities->append(new Control($feed->firstLetter()));
-            $feed->shiftSingle();
+            $feed->commitSingle();
         }
     }
 }

@@ -36,7 +36,7 @@ class Feed
 
     public function commit(string $string): void
     {
-        $this->shiftString->shift($string);
+        $this->shiftString->commit($string);
     }
 
     public function content(): string
@@ -54,8 +54,8 @@ class Feed
         return $this->shiftString->subString($length);
     }
 
-    public function shiftSingle(): void
+    public function commitSingle(): void
     {
-        $this->shiftString->shiftSingle();
+        $this->shiftString->commitSingle();
     }
 }

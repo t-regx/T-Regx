@@ -32,7 +32,7 @@ class ConstantString implements Condition, StringCondition
      */
     public function commit(): void
     {
-        $this->shiftString->shift($this->string);
+        $this->shiftString->commit($this->string);
     }
 
     public function asString(): string

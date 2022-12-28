@@ -21,7 +21,7 @@ class CharacterClassConsumer implements Consumer
         $immediatelyFollowed = $feed->string(']');
         if ($immediatelyFollowed->consumable()) {
             $consumed .= ']';
-            $feed->shiftSingle();
+            $feed->commitSingle();
         } else {
             $immediatelyFollowed = $feed->string('^]');
             if ($immediatelyFollowed->consumable()) {
@@ -34,7 +34,7 @@ class CharacterClassConsumer implements Consumer
         while (true) {
             $closingTag = $feed->string(']');
             if ($closingTag->consumable()) {
-                $feed->shiftSingle();
+                $feed->commitSingle();
                 if ($consumed !== '') {
                     $entities->appendLiteral($consumed);
                 }
@@ -65,7 +65,7 @@ class CharacterClassConsumer implements Consumer
                 break;
             }
             $letter = $feed->firstLetter();
-            $feed->shiftSingle();
+            $feed->commitSingle();
             if ($letter !== '\\') {
                 $consumed .= $letter;
             } else {
@@ -73,7 +73,7 @@ class CharacterClassConsumer implements Consumer
                     $consumed .= "\\";
                 } else {
                     $escaped = $feed->firstLetter();
-                    $feed->shiftSingle();
+                    $feed->commitSingle();
                     $consumed .= "\\$escaped";
                 }
             }

@@ -19,7 +19,7 @@ class EscapeConsumer implements Consumer
             throw new TrailingBackslashException();
         }
         $letterString = $feed->firstLetter();
-        $feed->shiftSingle();
+        $feed->commitSingle();
         $entities->append(new Escaped($letterString));
     }
 }
