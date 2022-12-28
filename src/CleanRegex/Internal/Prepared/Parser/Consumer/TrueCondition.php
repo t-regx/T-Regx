@@ -10,6 +10,9 @@ class TrueCondition implements Condition
         return true;
     }
 
+    /**
+     * @deprecated
+     */
     public function commit(): void
     {
     }

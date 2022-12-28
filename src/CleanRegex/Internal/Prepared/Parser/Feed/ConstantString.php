@@ -27,6 +27,9 @@ class ConstantString implements Condition, StringCondition
         return $this->consumable();
     }
 
+    /**
+     * @deprecated
+     */
     public function commit(): void
     {
         $this->shiftString->shift($this->string);

@@ -21,12 +21,12 @@ class CharacterClassConsumer implements Consumer
         $immediatelyFollowed = $feed->string(']');
         if ($immediatelyFollowed->consumable()) {
             $consumed .= ']';
-            $immediatelyFollowed->commit();
+            $feed->shiftSingle();
         } else {
             $immediatelyFollowed = $feed->string('^]');
             if ($immediatelyFollowed->consumable()) {
                 $consumed .= '^]';
-                $immediatelyFollowed->commit();
+                $feed->commit('^]');
             }
         }
         $quoteConsumer = new QuoteConsumer();
@@ -34,7 +34,7 @@ class CharacterClassConsumer implements Consumer
         while (true) {
             $closingTag = $feed->string(']');
             if ($closingTag->consumable()) {
-                $closingTag->commit();
+                $feed->shiftSingle();
                 if ($consumed !== '') {
                     $entities->appendLiteral($consumed);
                 }
@@ -43,7 +43,7 @@ class CharacterClassConsumer implements Consumer
             }
             $quote = $quoteConsumer->condition($feed);
             if ($quote->met($entities)) {
-                $quote->commit();
+                $feed->commit('\Q');
                 if ($consumed !== '') {
                     $entities->appendLiteral($consumed);
                     $consumed = '';

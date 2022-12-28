@@ -7,5 +7,8 @@ interface Condition
 {
     public function met(EntitySequence $entities): bool;
 
+    /**
+     * @deprecated
+     */
     public function commit(): void;
 }

@@ -23,6 +23,9 @@ class CommentCondition implements Condition
         return $this->string->consumable() && $entities->flags()->isExtended();
     }
 
+    /**
+     * @deprecated
+     */
     public function commit(): void
     {
         $this->string->commit();

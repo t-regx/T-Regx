@@ -20,10 +20,9 @@ class QuoteConsumer implements Consumer
     private function consumeQuote(Feed $feed): Quote
     {
         $quote = '';
-        $quoteEnd = $feed->string('\E');
         while (!$feed->empty()) {
-            if ($quoteEnd->consumable()) {
-                $quoteEnd->commit();
+            if ($feed->startsWith('\E')) {
+                $feed->commit('\E');
                 return new Quote($quote, true);
             }
             $quote .= $feed->firstLetter();
