@@ -18,8 +18,7 @@ class CharacterClassConsumer implements Consumer
     {
         $entities->append(new ClassOpen());
         $consumed = '';
-        $immediatelyFollowed = $feed->string(']');
-        if ($immediatelyFollowed->consumable()) {
+        if ($feed->startsWith(']')) {
             $consumed .= ']';
             $feed->commitSingle();
         } else {
@@ -32,8 +31,7 @@ class CharacterClassConsumer implements Consumer
         $quoteConsumer = new QuoteConsumer();
         $posixClass = new PosixClassCondition($feed);
         while (true) {
-            $closingTag = $feed->string(']');
-            if ($closingTag->consumable()) {
+            if ($feed->startsWith(']')) {
                 $feed->commitSingle();
                 if ($consumed !== '') {
                     $entities->appendLiteral($consumed);
@@ -41,8 +39,7 @@ class CharacterClassConsumer implements Consumer
                 $entities->append(new ClassClose());
                 return;
             }
-            $quote = $quoteConsumer->condition($feed);
-            if ($quote->met($entities)) {
+            if ($feed->startsWith('\Q')) {
                 $feed->commit('\Q');
                 if ($consumed !== '') {
                     $entities->appendLiteral($consumed);
