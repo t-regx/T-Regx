@@ -6,9 +6,17 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 
 class LiteralPlaceholderConsumer implements PlaceholderConsumer
 {
-    public function consume(Feed $feed, EntitySequence $entities): void
+    /** @var Feed */
+    private $feed;
+
+    public function __construct(Feed $feed)
     {
-        $feed->commitSingle();
+        $this->feed = $feed;
+    }
+
+    public function consume(EntitySequence $entities): void
+    {
+        $this->feed->commitSingle();
         $entities->appendLiteral('@');
     }
 }

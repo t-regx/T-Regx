@@ -2,27 +2,26 @@
 namespace TRegx\CleanRegex\Internal\Prepared;
 
 use TRegx\CleanRegex\Internal\AutoCapture\Group\GroupAutoCapture;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\PlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Convention;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\ShiftString;
 use TRegx\CleanRegex\Internal\Prepared\Parser\PcreParser;
 use TRegx\CleanRegex\Internal\Prepared\Pattern\StringPattern;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
+use TRegx\CleanRegex\Internal\Prepared\Placeholders\Placeholders;
 
 class PatternEntities
 {
     /** @var PcreParser */
     private $pcreParser;
 
-    public function __construct(StringPattern       $pattern,
-                                GroupAutoCapture    $autoCapture,
-                                PlaceholderConsumer $placeholderConsumer)
+    public function __construct(StringPattern $pattern, GroupAutoCapture $autoCapture, Placeholders $placeholders)
     {
+        $feed = new ShiftString($pattern->pattern());
         $this->pcreParser = new PcreParser(
-            new ShiftString($pattern->pattern()),
+            $feed,
             $pattern->subpatternFlags(),
             $autoCapture,
-            $placeholderConsumer,
+            $placeholders->consumer($feed),
             new Convention($pattern->pattern()));
     }
 

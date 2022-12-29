@@ -5,6 +5,7 @@ use TRegx\CleanRegex\Internal\Prepared\Cluster\CountedClusters;
 use TRegx\CleanRegex\Internal\Prepared\Cluster\ExpectedClusters;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\FiguresPlaceholderConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\PlaceholderConsumer;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 
 class ClustersPlaceholders implements Placeholders
 {
@@ -16,9 +17,9 @@ class ClustersPlaceholders implements Placeholders
         $this->clusters = new ExpectedClusters($clusters);
     }
 
-    public function consumer(): PlaceholderConsumer
+    public function consumer(Feed $feed): PlaceholderConsumer
     {
-        return new FiguresPlaceholderConsumer($this->clusters);
+        return new FiguresPlaceholderConsumer($feed, $this->clusters);
     }
 
     public function meetExpectation(): void

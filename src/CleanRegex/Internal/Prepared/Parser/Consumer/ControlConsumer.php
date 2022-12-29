@@ -7,14 +7,22 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 
 class ControlConsumer implements Consumer
 {
-    public function consume(Feed $feed, EntitySequence $entities): void
+    /** @var Feed */
+    private $feed;
+
+    public function __construct(Feed $feed)
     {
-        $feed->commit('\c');
-        if ($feed->empty()) {
+        $this->feed = $feed;
+    }
+
+    public function consume(EntitySequence $entities): void
+    {
+        $this->feed->commit('\c');
+        if ($this->feed->empty()) {
             $entities->append(new Control(''));
         } else {
-            $entities->append(new Control($feed->firstLetter()));
-            $feed->commitSingle();
+            $entities->append(new Control($this->feed->firstLetter()));
+            $this->feed->commitSingle();
         }
     }
 }

@@ -16,7 +16,7 @@ class PatternPhrase
 
     public function __construct(GroupAutoCapture $autoCapture, StringPattern $pattern, Placeholders $placeholders)
     {
-        $this->entities = new PatternEntities($pattern, $autoCapture, $placeholders->consumer());
+        $this->entities = new PatternEntities($pattern, $autoCapture, $placeholders);
         $this->placeholders = $placeholders;
     }
 

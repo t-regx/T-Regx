@@ -248,6 +248,23 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldInjectWithModifiers()
+    {
+        // given
+        $pattern = Pattern::inject("(?i:(?x:#@\n@(?m-x)#@\n@)@)", [
+            'one',
+            'two',
+            'three',
+            'four'
+        ]);
+        // when, then
+        $this->assertConsumesFirst("One#Two\nThreeFour", $pattern);
+        $this->assertPatternIs("/(?i:(?x:#@\n(?>one)(?m-x)#(?>two)\n(?>three))(?>four))/", $pattern);
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowForAlterationFigure()
     {
         // then
@@ -455,4 +472,5 @@ class PatternTest extends TestCase
         // when, then
         $this->assertConsumesFirst('""""foo""""', $pattern);
     }
+
 }

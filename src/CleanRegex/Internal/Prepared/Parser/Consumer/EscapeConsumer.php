@@ -8,14 +8,22 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 
 class EscapeConsumer implements Consumer
 {
-    public function consume(Feed $feed, EntitySequence $entities): void
+    /** @var Feed */
+    private $feed;
+
+    public function __construct(Feed $feed)
     {
-        $feed->commitSingle();
-        if ($feed->empty()) {
+        $this->feed = $feed;
+    }
+
+    public function consume(EntitySequence $entities): void
+    {
+        $this->feed->commitSingle();
+        if ($this->feed->empty()) {
             throw new TrailingBackslashException();
         }
-        $letterString = $feed->firstLetter();
-        $feed->commitSingle();
+        $letterString = $this->feed->firstLetter();
+        $this->feed->commitSingle();
         $entities->append(new Escaped($letterString));
     }
 }

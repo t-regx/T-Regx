@@ -9,42 +9,54 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\PosixClassCondition;
 
 class CharacterClassConsumer implements Consumer
 {
-    public function consume(Feed $feed, EntitySequence $entities): void
+    /** @var Feed */
+    private $feed;
+    /** @var PosixClassCondition */
+    private $posixClass;
+    /** @var QuoteConsumer */
+    private $quoteConsumer;
+
+    public function __construct(Feed $feed)
     {
-        $feed->commitSingle();
+        $this->feed = $feed;
+        $this->posixClass = new PosixClassCondition($feed);
+        $this->quoteConsumer = new QuoteConsumer($feed);
+    }
+
+    public function consume(EntitySequence $entities): void
+    {
+        $this->feed->commitSingle();
         $entities->append(new ClassOpen());
         $consumed = '';
-        if ($feed->startsWith(']')) {
+        if ($this->feed->startsWith(']')) {
             $consumed .= ']';
-            $feed->commitSingle();
+            $this->feed->commitSingle();
         } else {
-            if ($feed->startsWith('^]')) {
+            if ($this->feed->startsWith('^]')) {
                 $consumed .= '^]';
-                $feed->commit('^]');
+                $this->feed->commit('^]');
             }
         }
-        $quoteConsumer = new QuoteConsumer();
-        $posixClass = new PosixClassCondition($feed);
         while (true) {
-            if ($feed->startsWith(']')) {
-                $feed->commitSingle();
+            if ($this->feed->startsWith(']')) {
+                $this->feed->commitSingle();
                 if ($consumed !== '') {
                     $entities->appendLiteral($consumed);
                 }
                 $entities->append(new ClassClose());
                 return;
             }
-            if ($feed->startsWith('\Q')) {
+            if ($this->feed->startsWith('\Q')) {
                 if ($consumed !== '') {
                     $entities->appendLiteral($consumed);
                     $consumed = '';
                 }
-                $quoteConsumer->consume($feed, $entities);
+                $this->quoteConsumer->consume($entities);
                 continue;
             }
-            if ($posixClass->consumable()) {
-                $class = $posixClass->asString();
-                $posixClass->commit();
+            if ($this->posixClass->consumable()) {
+                $class = $this->posixClass->asString();
+                $this->posixClass->commit();
                 if ($consumed !== '') {
                     $entities->appendLiteral($consumed);
                     $consumed = '';
@@ -52,16 +64,16 @@ class CharacterClassConsumer implements Consumer
                 $entities->appendLiteral($class);
                 continue;
             }
-            if ($feed->empty()) {
+            if ($this->feed->empty()) {
                 break;
             }
-            $letter = $feed->firstLetter();
-            $feed->commitSingle();
+            $letter = $this->feed->firstLetter();
+            $this->feed->commitSingle();
             $consumed .= $letter;
             if ($letter === '\\') {
-                if (!$feed->empty()) {
-                    $consumed .= $feed->firstLetter();
-                    $feed->commitSingle();
+                if (!$this->feed->empty()) {
+                    $consumed .= $this->feed->firstLetter();
+                    $this->feed->commitSingle();
                 }
             }
         }

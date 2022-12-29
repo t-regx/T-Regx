@@ -37,18 +37,18 @@ class PcreParser
     {
         $this->feed = $feed;
         $this->sequence = new EntitySequence($flags);
-        $this->commentConsumer = new CommentConsumer($convention);
+        $this->commentConsumer = new CommentConsumer($feed, $convention);
         $this->consumers = [
-            '(' => new GroupConsumer($autoCapture),
-            ')' => new GroupCloseConsumer(),
+            '(' => new GroupConsumer($feed, $autoCapture),
+            ')' => new GroupCloseConsumer($feed),
             '@' => $placeholderConsumer,
-            '[' => new CharacterClassConsumer(),
+            '[' => new CharacterClassConsumer($feed),
         ];
         $this->controlConsumers = [
-            '\c' => new ControlConsumer(),
-            '\Q' => new QuoteConsumer(),
+            '\c' => new ControlConsumer($feed),
+            '\Q' => new QuoteConsumer($feed),
         ];
-        $this->escapedConsumer = new EscapeConsumer();
+        $this->escapedConsumer = new EscapeConsumer($feed);
     }
 
     /**
@@ -78,11 +78,11 @@ class PcreParser
     {
         $firstLetter = $this->feed->firstLetter();
         if ($firstLetter === '\\') {
-            $this->escapedConsumer()->consume($this->feed, $this->sequence);
+            $this->escapedConsumer()->consume($this->sequence);
         } else if ($firstLetter === '#') {
             $this->consumeComment();
         } else {
-            $this->consumers[$firstLetter]->consume($this->feed, $this->sequence);
+            $this->consumers[$firstLetter]->consume($this->sequence);
         }
     }
 
@@ -98,7 +98,7 @@ class PcreParser
     private function consumeComment(): void
     {
         if ($this->sequence->flags()->isExtended()) {
-            $this->commentConsumer->consume($this->feed, $this->sequence);
+            $this->commentConsumer->consume($this->sequence);
         } else {
             $this->sequence->appendLiteral('#');
             $this->feed->commitSingle();

@@ -9,30 +9,33 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\ShortestSubstring;
 
 class CommentConsumer implements Consumer
 {
+    /** @var Feed */
+    private $feed;
     /** @var string[] */
     private $lineEndings;
 
-    public function __construct(Convention $convention)
+    public function __construct(Feed $feed, Convention $convention)
     {
+        $this->feed = $feed;
         $this->lineEndings = $convention->lineEndings();
     }
 
-    public function consume(Feed $feed, EntitySequence $entities): void
+    public function consume(EntitySequence $entities): void
     {
-        $feed->commitSingle();
-        $this->consumeComment($feed, $entities, $this->commentString($feed));
+        $this->feed->commitSingle();
+        $this->consumeComment($entities, $this->commentString());
     }
 
-    private function consumeComment(Feed $feed, EntitySequence $entities, ShortestSubstring $comment): void
+    private function consumeComment(EntitySequence $entities, ShortestSubstring $comment): void
     {
-        $closedComment = $comment->closedContent($feed);
-        $feed->commit($closedComment);
+        $closedComment = $comment->closedContent($this->feed);
+        $this->feed->commit($closedComment);
         $entities->append(new Comment($closedComment));
     }
 
-    private function commentString(Feed $feed): ShortestSubstring
+    private function commentString(): ShortestSubstring
     {
-        $content = $feed->content();
+        $content = $this->feed->content();
         $comment = new ShortestSubstring();
         foreach ($this->lineEndings as $lineEnding) {
             $this->updateComment($comment, $content, $lineEnding);

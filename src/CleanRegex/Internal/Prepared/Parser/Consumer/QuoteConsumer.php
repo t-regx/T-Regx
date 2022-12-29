@@ -8,17 +8,25 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Span;
 
 class QuoteConsumer implements Consumer
 {
-    public function consume(Feed $feed, EntitySequence $entities): void
+    /** @var Feed */
+    private $feed;
+
+    public function __construct(Feed $feed)
     {
-        $feed->commit('\Q');
-        $this->consumeSpan($feed, $entities, $feed->stringBefore('\E'));
+        $this->feed = $feed;
     }
 
-    private function consumeSpan(Feed $feed, EntitySequence $entities, Span $quote): void
+    public function consume(EntitySequence $entities): void
     {
-        $feed->commit($quote->content());
+        $this->feed->commit('\Q');
+        $this->consumeSpan($entities, $this->feed->stringBefore('\E'));
+    }
+
+    private function consumeSpan(EntitySequence $entities, Span $quote): void
+    {
+        $this->feed->commit($quote->content());
         if ($quote->closed()) {
-            $feed->commit('\E');
+            $this->feed->commit('\E');
         }
         $entities->append(new Quote($quote->content(), $quote->closed()));
     }

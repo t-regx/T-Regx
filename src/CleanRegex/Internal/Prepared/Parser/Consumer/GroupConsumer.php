@@ -18,26 +18,29 @@ use TRegx\Pcre;
 
 class GroupConsumer implements Consumer
 {
+    /** @var Feed */
+    private $feed;
     /** @var GroupAutoCapture */
     private $autoCapture;
     /** @var string */
     private $openGroupRegex;
 
-    public function __construct(GroupAutoCapture $autoCapture)
+    public function __construct(Feed $feed, GroupAutoCapture $autoCapture)
     {
+        $this->feed = $feed;
         $this->autoCapture = $autoCapture;
         $this->openGroupRegex = $this->groupOpenRegex();
     }
 
-    public function consume(Feed $feed, EntitySequence $entities): void
+    public function consume(EntitySequence $entities): void
     {
-        $feed->commitSingle();
-        $entities->append($this->consumeGroup($feed, $entities));
+        $this->feed->commitSingle();
+        $entities->append($this->consumeGroup($entities));
     }
 
-    private function consumeGroup(Feed $feed, EntitySequence $entities): Entity
+    private function consumeGroup(EntitySequence $entities): Entity
     {
-        $groupDetails = new MatchedString($feed, $this->openGroupRegex, 6);
+        $groupDetails = new MatchedString($this->feed, $this->openGroupRegex, 6);
         if (!$groupDetails->matched()) {
             if ($this->imposedNonCapture($entities)) {
                 return new GroupOpen('?:');
