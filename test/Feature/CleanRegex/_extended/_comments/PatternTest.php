@@ -144,4 +144,16 @@ class PatternTest extends TestCase
         // then
         $this->assertConsumesFirst('bar', $pattern);
     }
+
+    /**
+     * @test
+     */
+    public function shouldParseTwoComments()
+    {
+        // given
+        $pattern = Pattern::inject("#@\nbar, #@\nfoo", [], 'x');
+        // then
+        $this->assertConsumesFirst('bar,foo', $pattern);
+        $this->assertPatternIs("/#@\nbar, #@\nfoo/x", $pattern);
+    }
 }

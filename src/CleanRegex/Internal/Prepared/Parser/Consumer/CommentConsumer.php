@@ -5,16 +5,16 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Convention;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Comment;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
-use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\OneOf;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\ShortestSubstring;
 
 class CommentConsumer implements Consumer
 {
-    /** @var Convention */
-    private $convention;
+    /** @var string[] */
+    private $lineEndings;
 
     public function __construct(Convention $convention)
     {
-        $this->convention = $convention;
+        $this->lineEndings = $convention->lineEndings();
     }
 
     public function condition(Feed $feed): Condition
@@ -24,17 +24,32 @@ class CommentConsumer implements Consumer
 
     public function consume(Feed $feed, EntitySequence $entities): void
     {
-        $strings = '';
-        $commentEnd = new OneOf($feed, $this->convention->lineEndings());
-        while (!$feed->empty()) {
-            if ($commentEnd->consumable()) {
-                $strings .= $commentEnd->asString();
-                $commentEnd->commit();
-                break;
-            }
-            $strings .= $feed->firstLetter();
-            $feed->commitSingle();
+        $this->consumeComment($feed, $entities, $this->commentString($feed));
+    }
+
+    private function consumeComment(Feed $feed, EntitySequence $entities, ShortestSubstring $comment): void
+    {
+        $closedComment = $comment->closedContent($feed);
+        $feed->commit($closedComment);
+        $entities->append(new Comment($closedComment));
+    }
+
+    private function commentString(Feed $feed): ShortestSubstring
+    {
+        $content = $feed->content();
+        $comment = new ShortestSubstring();
+        foreach ($this->lineEndings as $lineEnding) {
+            $this->updateComment($comment, $content, $lineEnding);
         }
-        $entities->append(new Comment($strings));
+        return $comment;
+    }
+
+    private function updateComment(ShortestSubstring $comment, string $content, string $lineEnding): void
+    {
+        $length = \strPos($content, $lineEnding);
+        if ($length === false) {
+            return;
+        }
+        $comment->update($length, $lineEnding);
     }
 }
