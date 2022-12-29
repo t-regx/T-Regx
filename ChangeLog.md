@@ -4,6 +4,8 @@ T-Regx Changelog
 Incoming
 --------
 
+* Bug fixes
+    * Fixed a bug with improper parsing of character classes starting with `^]`.
 * Performance
     * Increased pattern instantiating performance by parsing continuous literal figures as one entity.
     * Additional performance optimisations with usage of xDebug profiler and QCacheGrind.

@@ -22,6 +22,12 @@ class CharacterClassConsumer implements Consumer
         if ($immediatelyFollowed->consumable()) {
             $consumed .= ']';
             $immediatelyFollowed->commit();
+        } else {
+            $immediatelyFollowed = $feed->string('^]');
+            if ($immediatelyFollowed->consumable()) {
+                $consumed .= '^]';
+                $immediatelyFollowed->commit();
+            }
         }
         $quoteConsumer = new QuoteConsumer();
         while (true) {

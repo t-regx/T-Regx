@@ -150,4 +150,81 @@ class PatternTest extends TestCase
         // then
         $pattern->test('Bar');
     }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptInitialClosingBracketAfterCircumflex()
+    {
+        // given
+        $pattern = Pattern::inject('[^]@]:@', ['value']);
+        // when, then
+        $this->assertConsumesFirst('x:value', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotAcceptInitialClosingBracketRegularCircumflex()
+    {
+        // given
+        $pattern = Pattern::inject('[]^]:@:@', ['one', 'two']);
+        // when, then
+        $this->assertConsumesFirst('^:one:two', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotAcceptInitialClosingBracketCircumflexRegular()
+    {
+        // given
+        $pattern = Pattern::inject('[^]]:@:@', ['one', 'two']);
+        // when, then
+        $this->assertConsumesFirst('^:one:two', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotAcceptInitialClosingBracketRegularRegular()
+    {
+        // given
+        $pattern = Pattern::inject('[]]:@:@', ['one', 'two']);
+        // when, then
+        $this->assertConsumesFirst(']:one:two', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotAcceptInitialClosingBracketCircumflexCircumflex()
+    {
+        // given
+        $pattern = Pattern::inject('[^]^]:@:@', ['one', 'two']);
+        // when, then
+        $this->assertConsumesFirst('x:one:two', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptStartOfWord()
+    {
+        // given
+        $pattern = Pattern::inject('[[:<:]]@', ['value']);
+        // when, then
+        $this->assertConsumesFirst('value', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptEndOfWord()
+    {
+        // given
+        $pattern = Pattern::inject('@[[:>:]]@', ['value', ' ']);
+        // when, then
+        $this->assertConsumesFirst('value ', $pattern);
+    }
 }
