@@ -9,21 +9,16 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\PosixClassCondition;
 
 class CharacterClassConsumer implements Consumer
 {
-    public function condition(Feed $feed): Condition
-    {
-        return $feed->string('[');
-    }
-
     public function consume(Feed $feed, EntitySequence $entities): void
     {
+        $feed->commitSingle();
         $entities->append(new ClassOpen());
         $consumed = '';
         if ($feed->startsWith(']')) {
             $consumed .= ']';
             $feed->commitSingle();
         } else {
-            $immediatelyFollowed = $feed->string('^]');
-            if ($immediatelyFollowed->consumable()) {
+            if ($feed->startsWith('^]')) {
                 $consumed .= '^]';
                 $feed->commit('^]');
             }
@@ -40,7 +35,6 @@ class CharacterClassConsumer implements Consumer
                 return;
             }
             if ($feed->startsWith('\Q')) {
-                $feed->commit('\Q');
                 if ($consumed !== '') {
                     $entities->appendLiteral($consumed);
                     $consumed = '';
@@ -63,15 +57,11 @@ class CharacterClassConsumer implements Consumer
             }
             $letter = $feed->firstLetter();
             $feed->commitSingle();
-            if ($letter !== '\\') {
-                $consumed .= $letter;
-            } else {
-                if ($feed->empty()) {
-                    $consumed .= "\\";
-                } else {
-                    $escaped = $feed->firstLetter();
+            $consumed .= $letter;
+            if ($letter === '\\') {
+                if (!$feed->empty()) {
+                    $consumed .= $feed->firstLetter();
                     $feed->commitSingle();
-                    $consumed .= "\\$escaped";
                 }
             }
         }

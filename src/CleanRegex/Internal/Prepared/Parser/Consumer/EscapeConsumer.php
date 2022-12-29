@@ -8,13 +8,9 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 
 class EscapeConsumer implements Consumer
 {
-    public function condition(Feed $feed): Condition
-    {
-        return $feed->string('\\');
-    }
-
     public function consume(Feed $feed, EntitySequence $entities): void
     {
+        $feed->commitSingle();
         if ($feed->empty()) {
             throw new TrailingBackslashException();
         }

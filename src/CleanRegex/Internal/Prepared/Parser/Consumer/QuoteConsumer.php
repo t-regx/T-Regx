@@ -4,30 +4,22 @@ namespace TRegx\CleanRegex\Internal\Prepared\Parser\Consumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\Quote;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Span;
 
 class QuoteConsumer implements Consumer
 {
-    public function condition(Feed $feed): Condition
-    {
-        return $feed->string('\Q');
-    }
-
     public function consume(Feed $feed, EntitySequence $entities): void
     {
-        $entities->append($this->consumeQuote($feed));
+        $feed->commit('\Q');
+        $this->consumeSpan($feed, $entities, $feed->stringBefore('\E'));
     }
 
-    private function consumeQuote(Feed $feed): Quote
+    private function consumeSpan(Feed $feed, EntitySequence $entities, Span $quote): void
     {
-        $quote = '';
-        while (!$feed->empty()) {
-            if ($feed->startsWith('\E')) {
-                $feed->commit('\E');
-                return new Quote($quote, true);
-            }
-            $quote .= $feed->firstLetter();
-            $feed->commitSingle();
+        $feed->commit($quote->content());
+        if ($quote->closed()) {
+            $feed->commit('\E');
         }
-        return new Quote($quote, false);
+        $entities->append(new Quote($quote->content(), $quote->closed()));
     }
 }

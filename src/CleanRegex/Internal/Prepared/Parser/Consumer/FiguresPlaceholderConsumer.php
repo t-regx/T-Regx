@@ -16,13 +16,9 @@ class FiguresPlaceholderConsumer implements PlaceholderConsumer
         $this->clusters = $clusters;
     }
 
-    public function condition(Feed $feed): Condition
-    {
-        return $feed->string('@');
-    }
-
     public function consume(Feed $feed, EntitySequence $entities): void
     {
+        $feed->commitSingle();
         $cluster = $this->clusters->current();
         $entities->append(new Placeholder($cluster, $entities->flags()));
         $this->clusters->next();

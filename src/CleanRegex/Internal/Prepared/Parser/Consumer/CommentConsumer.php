@@ -17,13 +17,9 @@ class CommentConsumer implements Consumer
         $this->lineEndings = $convention->lineEndings();
     }
 
-    public function condition(Feed $feed): Condition
-    {
-        return new CommentCondition($feed);
-    }
-
     public function consume(Feed $feed, EntitySequence $entities): void
     {
+        $feed->commitSingle();
         $this->consumeComment($feed, $entities, $this->commentString($feed));
     }
 

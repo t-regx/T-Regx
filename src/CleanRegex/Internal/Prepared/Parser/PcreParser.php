@@ -1,8 +1,16 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Parser;
 
-use TRegx\CleanRegex\Exception\InternalCleanRegexException;
+use TRegx\CleanRegex\Internal\AutoCapture\Group\GroupAutoCapture;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CharacterClassConsumer;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\CommentConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\Consumer;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\ControlConsumer;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\EscapeConsumer;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupCloseConsumer;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\GroupConsumer;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\PlaceholderConsumer;
+use TRegx\CleanRegex\Internal\Prepared\Parser\Consumer\QuoteConsumer;
 use TRegx\CleanRegex\Internal\Prepared\Parser\Feed\Feed;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
@@ -12,14 +20,35 @@ class PcreParser
     private $feed;
     /** @var EntitySequence */
     private $sequence;
+    /** @var CommentConsumer */
+    private $commentConsumer;
     /** @var Consumer[] */
     private $consumers;
+    /** @var Consumer[] */
+    private $controlConsumers;
+    /** @var EscapeConsumer */
+    private $escapedConsumer;
 
-    public function __construct(Feed $feed, SubpatternFlags $flags, array $consumers)
+    public function __construct(Feed                $feed,
+                                SubpatternFlags     $flags,
+                                GroupAutoCapture    $autoCapture,
+                                PlaceholderConsumer $placeholderConsumer,
+                                Convention          $convention)
     {
         $this->feed = $feed;
         $this->sequence = new EntitySequence($flags);
-        $this->consumers = $consumers;
+        $this->commentConsumer = new CommentConsumer($convention);
+        $this->consumers = [
+            '(' => new GroupConsumer($autoCapture),
+            ')' => new GroupCloseConsumer(),
+            '@' => $placeholderConsumer,
+            '[' => new CharacterClassConsumer(),
+        ];
+        $this->controlConsumers = [
+            '\c' => new ControlConsumer(),
+            '\Q' => new QuoteConsumer(),
+        ];
+        $this->escapedConsumer = new EscapeConsumer();
     }
 
     /**
@@ -30,27 +59,49 @@ class PcreParser
         while (!$this->feed->empty()) {
             $literalsAmount = $this->feed->stringLengthBeforeAny('()[@\#');
             if ($literalsAmount > 0) {
-                $literals = $this->feed->subString($literalsAmount);
-                $this->sequence->appendLiteral($literals);
-                $this->feed->commit($literals);
-                continue;
+                $this->consumeLiteral($literalsAmount);
+            } else {
+                $this->consumeComposite();
             }
-            $this->applicableConsumer()->consume($this->feed, $this->sequence);
         }
         return $this->sequence->phrases();
     }
 
-    private function applicableConsumer(): Consumer
+    private function consumeLiteral(int $literalsAmount): void
     {
-        foreach ($this->consumers as $consumer) {
-            $condition = $consumer->condition($this->feed);
-            if ($condition->met($this->sequence)) {
-                $condition->commit();
-                return $consumer;
-            }
+        $literals = $this->feed->subString($literalsAmount);
+        $this->sequence->appendLiteral($literals);
+        $this->feed->commit($literals);
+    }
+
+    private function consumeComposite(): void
+    {
+        $firstLetter = $this->feed->firstLetter();
+        if ($firstLetter === '\\') {
+            $this->escapedConsumer()->consume($this->feed, $this->sequence);
+        } else if ($firstLetter === '#') {
+            $this->consumeComment();
+        } else {
+            $this->consumers[$firstLetter]->consume($this->feed, $this->sequence);
         }
-        // @codeCoverageIgnoreStart
-        throw new InternalCleanRegexException();
-        // @codeCoverageIgnoreEnd
+    }
+
+    private function escapedConsumer(): Consumer
+    {
+        $head = $this->feed->head();
+        if (\in_array($head, ['\c', '\Q'])) {
+            return $this->controlConsumers[$head];
+        }
+        return $this->escapedConsumer;
+    }
+
+    private function consumeComment(): void
+    {
+        if ($this->sequence->flags()->isExtended()) {
+            $this->commentConsumer->consume($this->feed, $this->sequence);
+        } else {
+            $this->sequence->appendLiteral('#');
+            $this->feed->commitSingle();
+        }
     }
 }

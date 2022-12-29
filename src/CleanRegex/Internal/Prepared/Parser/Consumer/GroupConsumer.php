@@ -29,13 +29,9 @@ class GroupConsumer implements Consumer
         $this->openGroupRegex = $this->groupOpenRegex();
     }
 
-    public function condition(Feed $feed): Condition
-    {
-        return $feed->string('(');
-    }
-
     public function consume(Feed $feed, EntitySequence $entities): void
     {
+        $feed->commitSingle();
         $entities->append($this->consumeGroup($feed, $entities));
     }
 
