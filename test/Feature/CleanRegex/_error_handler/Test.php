@@ -20,9 +20,12 @@ class Test extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        $pattern->test('foo');
-        // clean
-        \restore_error_handler();
+        try {
+            $pattern->test('foo');
+        } finally {
+            // clean
+            \restore_error_handler();
+        }
     }
 
     /**
@@ -37,8 +40,11 @@ class Test extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        $pattern->prune('foo');
-        // clean
-        \restore_error_handler();
+        try {
+            $pattern->prune('foo');
+        } finally {
+            // clean
+            \restore_error_handler();
+        }
     }
 }
