@@ -51,8 +51,11 @@ class GuardedInvoker
             }
             return false;
         });
-        $result = ($this->callback)();
-        \restore_error_handler();
+        try {
+            $result = ($this->callback)();
+        } finally {
+            \restore_error_handler();
+        }
         return [$result, $compileError, new RuntimeError(\preg_last_error())];
     }
 

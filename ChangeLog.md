@@ -6,6 +6,7 @@ Incoming
 
 * Bug fixes
     * Fixed a bug with improper parsing of character classes starting with `^]`.
+    * Fixed a bug with improper client error handlers, when user-supplied callbacks threw exceptions.
 * Performance
     * Increased pattern instantiating performance by parsing continuous literal figures as one entity.
     * Additional performance optimisations with usage of xDebug profiler and QCacheGrind.
