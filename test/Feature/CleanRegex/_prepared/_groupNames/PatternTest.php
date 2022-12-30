@@ -344,6 +344,7 @@ class PatternTest extends TestCase
     public function shouldInvalidUnicodeGroupName_notPoluteUserSpace(string $groupName)
     {
         // given
+        \error_clear_last();
         $pattern = Pattern::inject("(?<$groupName>foo)", []);
         // when
         try {

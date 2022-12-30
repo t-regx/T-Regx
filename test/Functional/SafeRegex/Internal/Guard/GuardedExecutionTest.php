@@ -88,6 +88,8 @@ class GuardedExecutionTest extends TestCase
      */
     public function shouldSilenceAnException()
     {
+        // given
+        \error_clear_last();
         // when
         GuardedExecution::silenced('preg_match', function () {
             $this->causeMalformedPatternWarning();

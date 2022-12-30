@@ -29,6 +29,7 @@ class Test extends TestCase
     public function shouldStandardNotLeaveErrors()
     {
         // given
+        \error_clear_last();
         $template = Pattern::template('@');
         // when
         try {
