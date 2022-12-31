@@ -52,9 +52,9 @@
       "Test\\": "test/",
       "Test\\Feature\\TRegx\\": "test/Feature/",
       "Test\\Functional\\TRegx\\": "test/Functional/",
+      "Test\\Legacy\\TRegx\\": "test/Legacy/",
       "Test\\Structure\\TRegx\\": "test/Structure/",
-      "Test\\Supposition\\TRegx\\": "test/Supposition/",
-      "Test\\Unit\\TRegx\\": "test/Unit/"
+      "Test\\Supposition\\TRegx\\": "test/Supposition/"
     }
   },
   "require": {
