@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.41.2
+---------------
+
 * Bug fixes
     * Fixed a bug with improper parsing of character classes starting with `^]`.
     * Fixed a bug with improper client error handlers, when user-supplied callbacks threw exceptions.
