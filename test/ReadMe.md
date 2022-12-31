@@ -1,32 +1,83 @@
-## Where to place new tests
+## About tests in T-Regx
 
-Currently, we have 4 roots for automatic tests in T-Regx:
+Currently, we have 4 roots for automatic tests in T-Regx: `Feature`, `Legacy`,
+`Structure` and `Supposition`.
 
-- `Feature` (a.k.a. "end to end") - This category has two goals:
-  - Ensure that a certain functionality works "out of the box" (as if used by an end user).
-  - Ensure that each dependency is integrated properly with other dependencies.
-  - Is immute to refactoring of internals
+In order to minimise misconceptions we don't name the folder `Unit\ `, since the
+many users and contributors might bring in their understanding of what "unit test"
+is or isn't, we clarify exact criteria T-Regx tests must meet.
 
-  Rules:
-  - Each test-case must be created from `pattern()` function or one of `Pattern` factory methods.
+## Overall rules for tests
 
-- `Interaction` - You'd like to test behaviour - then test only the part of your interface that's relevant to the
-  feature domain, and not each element separately - write the smallest tests possible. Try to keep coupling of tests
-  with logic as low as possible.
+- a test **must not** use or reference a class from `Internal\ ` for any reason.
 
-  Rules:
-  - There should be as little tests in this category as possible (preferably 1 per functionality). More throughout
-    testcases should be in `Unit` or `Feature`.
-  - If possible, any dependencies should be real instances, instead of fakes. If instantiating becomes too complicated,
-    occasional fakes are allowed, to make tests easier to read and edit.
+- a test **must** be small:
+  - an ideal test spans 1-3 lines
+  - a test up to 4-10 lines is allowed, if the test cannot be split into more
+    smaller tests
+  - a test suite class with 300 small tests is preferential to a suite with 50
+    larger tests covering the same features.
+  - increasing quantity of tests **is not** considered a flaw.
+  - decreasing specifity of tests **is** considered a flaw.
 
-- `Unit` - This is the category that the coverage is measured against (if there are no tests for a class in this
-  category, it's as thought it's not covered). Rules:
-  - 100% of dependencies must be faked. Only a change in the tested class can cause the test to fail.
+- a test **must** execute fast.
+  - frequent and rapid execution of tests is desirable
+  - while developing T-Regx, execution of tests should be possible at any time, in
+    rapid successions, even after a single character change in a source code.
+- a test **must not** alter another test.
+  - execution of a test **must not** influence in any way the execution of another
+    test, in particular: by triggering PHP errors (which are preserved between
+    executions), by setting errors handlers which influence exceution of
+    error-sensitive tests, set any state between tests.
+  - a great deal of dedication and care must be put to tests which cover error
+    handling functionallity in T-Regx. T-Regx library operates on errors and
+    error handlers, and proper coverage of such functionallity requires an even
+    greater deal of logic around errors and error handlers, in a way that is
+    sensitive enough to detect regression, and at the same time is resilient
+    enough not to influence other tests.
 
-- `Functional` - tests in `Functional` cover T-Regx's contract with PHP methods, errors, warnings, etc.
+### Category `Feature\ `
 
-  Rules:
-  - Tests for breaking changes between PHP versions should be in `Functional`
-  - Tests for `preg_` and `preg::` should be in `Functional`
-  - Tests for reaction of T-Regx on warnings, notices, errors, fatals and
+Standard T-Regx tests are in `Feature\ ` folder. Tests in `Feature\ ` folder meet
+certain criteria that we believe increase the quality of the library.
+
+Criteria for tests in `Feature\ ` must follow:
+
+- a test in `Feature\ ` should cover a very narrow part of functionallity. An ideal
+  test covers as little piece of feature as possibile, provided the piece of feature
+  is non-trivial. Any test that can be split into two more specific tests, should be
+  split.
+
+- tests in `Feature\ ` should be groupped by their relation to the `Pattern` class.
+- a test covering a particular function or method should be placed in a directory
+  with named as the covered function or method (e.g. `flatMap\ `, `match\ `, `stream\ `).
+- a test covering other part of functionallity but not pertaining for a particular
+  method must be placed in a directory prefixed with `_` (e.g. `_trailing_backslash`,
+  `_noAutoCapture`, `_jit`).
+
+### Category `Supposition\ `
+
+T-Regx handles varying and changing behaviours of PHP, and so certain features of the
+library rely on a particular behaviour of a given PHP function. Tests in category
+`Supposition\ ` assert that very behaviour, so when the behaviour is prooved to change,
+the tests can recognize the improper assumption, as opposed to a simple bug in the
+library.
+
+Criteria for tests in `Supposition\ ` must follow:
+
+- a test in `Supposition\ ` must not use or reference any T-Regx logic.
+- a test in `Supposition\ ` must only assert the current behaviour of PHP.
+
+### Category `Structure\ `
+
+Tests in category `Structure\ ` verify the hierarchy of T-Regx exceptions and whether
+the correct relation of the exceptions is followed for the sake of more general
+or specific `try`/`catch`.
+
+### Category `Legacy\ `
+
+A previously used category, but now deprecated and planned to be removed in the future.
+Tests in category `Legacy\ ` break the encapsulation of T-Regx library and slows down
+refactoring of many features.
+
+No new tests should be added into that category.
