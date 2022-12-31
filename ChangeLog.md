@@ -10,6 +10,9 @@ Incoming
 * Performance
     * Increased pattern instantiating performance by parsing continuous literal figures as one entity.
     * Additional performance optimisations with usage of xDebug profiler and QCacheGrind.
+    * Increased performance of parsing certain features by using PHP built-in functions, instead of loops.
+    * Increased performance of prepared patterns by looking up strategies by hashtable.
+    * Reimplemented some of internal parser logic without unnecessary conditions and iterations.
 
 Added in 0.41.1
 ---------------
