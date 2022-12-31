@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\noAutoCapture\mask;
+namespace Test\Feature\CleanRegex\_noAutoCapture\mask;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsPattern;

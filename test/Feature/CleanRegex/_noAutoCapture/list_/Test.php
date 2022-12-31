@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\noAutoCapture\list_;
+namespace Test\Feature\CleanRegex\_noAutoCapture\list_;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\TestCase\TestCasePasses;
