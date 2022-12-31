@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\modifiers;
+namespace Test\Feature\CleanRegex\_modifiers;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Agnostic\PcreDependant;
