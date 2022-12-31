@@ -6,6 +6,7 @@ use TRegx\SafeRegex\Exception\CompilePregException;
 use TRegx\SafeRegex\Internal\PhpError;
 
 /**
+ * @deprecated
  * @covers \TRegx\SafeRegex\Exception\CompilePregException
  */
 class CompilePregExceptionTest extends TestCase

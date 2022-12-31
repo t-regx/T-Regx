@@ -11,6 +11,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
 use TRegx\CleanRegex\Internal\Pcre\Signatures\PerformanceSignatures;
 
 /**
+ * @deprecated
  * @covers \TRegx\CleanRegex\Internal\Pcre\Signatures\PerformanceSignatures
  */
 class PerformanceSignaturesTest extends TestCase

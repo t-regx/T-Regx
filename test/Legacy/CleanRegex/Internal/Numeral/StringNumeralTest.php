@@ -11,6 +11,7 @@ use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
 use TRegx\DataProvider\CrossDataProviders;
 
 /**
+ * @deprecated
  * @covers \TRegx\CleanRegex\Internal\Numeral\StringNumeral
  */
 class StringNumeralTest extends TestCase

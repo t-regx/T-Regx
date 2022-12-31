@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupSignature;
 use TRegx\CleanRegex\Internal\Pcre\Signatures\ArraySignatures;
 
 /**
+ * @deprecated
  * @covers \TRegx\CleanRegex\Internal\Pcre\Signatures\ArraySignatures
  */
 class ArraySignaturesTest extends TestCase

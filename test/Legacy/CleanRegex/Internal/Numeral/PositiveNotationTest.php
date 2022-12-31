@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Internal\Numeral\PositiveNotation;
 use TRegx\DataProvider\CrossDataProviders;
 
 /**
+ * @deprecated
  * @covers \TRegx\CleanRegex\Internal\Numeral\PositiveNotation
  */
 class PositiveNotationTest extends TestCase

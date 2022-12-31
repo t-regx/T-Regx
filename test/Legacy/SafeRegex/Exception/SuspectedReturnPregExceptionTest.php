@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Exception\SuspectedReturnPregException;
 
 /**
+ * @deprecated
  * @covers \TRegx\SafeRegex\Exception\SuspectedReturnPregException
  */
 class SuspectedReturnPregExceptionTest extends TestCase

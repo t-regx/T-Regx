@@ -13,6 +13,7 @@ use TRegx\SafeRegex\Internal\Guard\Strategy\DefaultSuspectedReturnStrategy;
 use TRegx\SafeRegex\preg;
 
 /**
+ * @deprecated
  * @covers \TRegx\SafeRegex\Internal\Guard\GuardedInvoker
  */
 class GuardedInvokerTest extends TestCase

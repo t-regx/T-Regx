@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Prepared\Parser\Entity\GroupOpenFlags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence;
 
 /**
+ * @deprecated
  * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\EntitySequence
  */
 class EntitySequenceTest extends TestCase

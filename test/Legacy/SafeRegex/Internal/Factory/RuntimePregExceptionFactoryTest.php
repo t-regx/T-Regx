@@ -11,6 +11,7 @@ use TRegx\SafeRegex\Exception\UnicodeOffsetException;
 use TRegx\SafeRegex\Internal\Factory\RuntimePregExceptionFactory;
 
 /**
+ * @deprecated
  * @covers \TRegx\SafeRegex\Internal\Factory\RuntimePregExceptionFactory
  */
 class RuntimePregExceptionFactoryTest extends TestCase

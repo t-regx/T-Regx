@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Offset\SubjectCoordinate;
 use TRegx\CleanRegex\Internal\Subject;
 
 /**
+ * @deprecated
  * @covers \TRegx\CleanRegex\Internal\Offset\SubjectCoordinate
  */
 class SubjectCoordinateTest extends TestCase

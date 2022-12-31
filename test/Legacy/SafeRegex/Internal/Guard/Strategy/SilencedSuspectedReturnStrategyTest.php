@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Internal\Guard\Strategy\SilencedSuspectedReturnStrategy;
 
 /**
+ * @deprecated
  * @covers \TRegx\SafeRegex\Internal\Guard\Strategy\SilencedSuspectedReturnStrategy
  */
 class SilencedSuspectedReturnStrategyTest extends TestCase

@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
 
 /**
+ * @deprecated
  * @covers \TRegx\CleanRegex\Internal\Prepared\Word\TextWord
  */
 class TextWordTest extends TestCase

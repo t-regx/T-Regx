@@ -13,6 +13,7 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\GroupPolyfillDecorator;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 
 /**
+ * @deprecated
  * @covers \TRegx\CleanRegex\Internal\Pcre\Legacy\GroupPolyfillDecorator
  */
 class GroupPolyfillDecoratorTest extends TestCase

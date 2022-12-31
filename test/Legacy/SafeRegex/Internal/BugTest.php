@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Internal\Bug;
 
 /**
+ * @deprecated
  * @covers \TRegx\SafeRegex\Internal\Bug
  */
 class BugTest extends TestCase

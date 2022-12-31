@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Internal\Guard\Strategy\PregFilterSuspectedReturnStrategy;
 
 /**
+ * @deprecated
  * @covers \TRegx\SafeRegex\Internal\Guard\Strategy\PregFilterSuspectedReturnStrategy
  */
 class PregFilterSuspectedReturnStrategyTest extends TestCase

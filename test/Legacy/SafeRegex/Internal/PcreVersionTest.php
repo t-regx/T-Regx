@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Internal\PcreVersion;
 
 /**
+ * @deprecated
  * @covers \TRegx\SafeRegex\Internal\PcreVersion
  */
 class PcreVersionTest extends TestCase

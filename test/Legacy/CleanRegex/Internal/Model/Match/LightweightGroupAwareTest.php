@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Internal\GroupKey\GroupName;
 use TRegx\CleanRegex\Internal\Model\LightweightGroupAware;
 
 /**
+ * @deprecated
  * @covers \TRegx\CleanRegex\Internal\Model\LightweightGroupAware
  */
 class LightweightGroupAwareTest extends TestCase

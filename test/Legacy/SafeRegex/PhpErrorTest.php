@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use TRegx\SafeRegex\Internal\PhpError;
 
 /**
+ * @deprecated
  * @covers \TRegx\SafeRegex\Internal\PhpError
  */
 class PhpErrorTest extends TestCase

@@ -6,6 +6,7 @@ use Test\Utils\Prepared\StandardSubpatternFlags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\FlagStack;
 
 /**
+ * @deprecated
  * @covers \TRegx\CleanRegex\Internal\Prepared\Parser\FlagStack
  */
 class FlagStackTest extends TestCase

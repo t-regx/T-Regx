@@ -32,6 +32,7 @@ use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
 use TRegx\Pcre;
 
 /**
+ * @deprecated
  * @covers \TRegx\CleanRegex\Internal\Prepared\PatternEntities
  */
 class PatternEntitiesTest extends TestCase

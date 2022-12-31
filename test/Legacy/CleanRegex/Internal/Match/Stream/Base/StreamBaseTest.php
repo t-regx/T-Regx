@@ -10,6 +10,7 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesOffset;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 
 /**
+ * @deprecated
  * @covers \TRegx\CleanRegex\Internal\Match\Stream\Base\StreamBase
  */
 class StreamBaseTest extends TestCase
