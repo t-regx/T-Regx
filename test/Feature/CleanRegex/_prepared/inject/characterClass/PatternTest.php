@@ -35,12 +35,56 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotInjectIntoSlashClosedCharacterClass()
+    public function shouldCloseCharacterClassAfterEscapedBackslash()
     {
         // when
         $pattern = Pattern::inject('[.\\\\]@]', ['value']);
         // then
         $this->assertPatternIs('/[.\\\\](?>value)]/', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCloseCharacterClassImmediatelyAfterQuote()
+    {
+        // given
+        $pattern = Pattern::inject('[\QX\E]:@', ['value']);
+        // when, then
+        $this->assertConsumesFirst('X:value', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCloseCharacterClassAfterEscapedClosingBracket()
+    {
+        // given
+        $pattern = Pattern::inject('[\]]:@', ['value']);
+        // when, then
+        $this->assertConsumesFirst(']:value', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCloseCharacterClassAfterEscapedOpeningBracket()
+    {
+        // given
+        $pattern = Pattern::inject('[\[]:@', ['value']);
+        // when, then
+        $this->assertConsumesFirst('[:value', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptDoubleOpeningDoubleClosing()
+    {
+        // given
+        $pattern = Pattern::of('[[]]');
+        // when, then
+        $this->assertConsumesFirst('[]', $pattern);
     }
 
     /**
@@ -154,6 +198,17 @@ class PatternTest extends TestCase
     /**
      * @test
      */
+    public function shouldCloseCharacterClassAfterOpeningBracketColon()
+    {
+        // when
+        $pattern = Pattern::inject('[[:]@', ['value']);
+        // when, then
+        $this->assertConsumesFirst(':value', $pattern);
+    }
+
+    /**
+     * @test
+     */
     public function shouldAcceptInitialClosingBracketAfterCircumflex()
     {
         // given
@@ -226,5 +281,16 @@ class PatternTest extends TestCase
         $pattern = Pattern::inject('@[[:>:]]@', ['value', ' ']);
         // when, then
         $this->assertConsumesFirst('value ', $pattern);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPreserveTrailingBackslashInCharacterClass()
+    {
+        // given
+        $pattern = Pattern::of('[foo\\');
+        // when, then
+        $this->assertPatternIs('/[foo\/', $pattern);
     }
 }

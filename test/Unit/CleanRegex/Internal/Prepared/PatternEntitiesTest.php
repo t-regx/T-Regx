@@ -227,9 +227,6 @@ class PatternEntitiesTest extends TestCase
             ['[foo\bar]', [new ClassOpen(), new Literal('foo\bar'), new ClassClose()]],
             ['[foo\]bar]', [new ClassOpen(), new Literal('foo\]bar'), new ClassClose()]],
 
-            ['[\\', [new ClassOpen(), new Literal('\\')]],
-            ['[\]', [new ClassOpen(), new Literal('\]')]],
-            ['[\]]', [new ClassOpen(), new Literal('\]'), new ClassClose()]],
             ['[[]]', [new ClassOpen(), new Literal('['), new ClassClose(), new Literal(']')]],
             ['[[]\]', [new ClassOpen(), new Literal('['), new ClassClose(), new Escaped(']')]],
             ['[\Q', [new ClassOpen(), new Quote('', false)]],
