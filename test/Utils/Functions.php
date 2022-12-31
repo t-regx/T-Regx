@@ -46,13 +46,6 @@ class Functions
         };
     }
 
-    public static function stringLength(): callable
-    {
-        return function (string $argument): int {
-            return \strLen($argument);
-        };
-    }
-
     public static function charAt(int $position): callable
     {
         return static function (string $string) use ($position): string {
