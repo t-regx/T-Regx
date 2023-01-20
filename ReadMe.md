@@ -40,26 +40,27 @@ PHP regular expressions brought up to modern standards.
 
 1. [Installation](#installation)
     * [Composer](#installation)
-2. [API](#api)
-    1. [For standard projects -`pattern()`](#written-with-clean-api)
-    2. For legacy projects - `preg::match_all()`
+2. [Examples](#examples)
 3. [Documentation](#documentation)
 4. [T-Regx fiddle - Try online](#try-it-online-in-your-browser)
-5. [Overview](#why-t-regx-stands-out)
+5. [API](#api)
+    1. [For standard projects -`pattern()`](#written-with-clean-api)
+    2. For legacy projects - `preg::match_all()`
+6. [Overview](#why-t-regx-stands-out)
     1. [Prepared patterns](#prepared-patterns)
     2. [Working with the developer](#working-with-the-developer)
     3. [Clean API](#written-with-clean-api)
     4. [Fatal errors](#protects-you-from-fatal-errors)
     5. [Clean Code](#t-regx-follows-the-philosophy-of-uncle-bob-and-clean-code)
     6. [Exceptions vs. errors](#exceptions-over-warningserrors)
-6. [Comparison](#whats-better)
+7. [Comparison](#comparison)
     1. [Exceptions over warnings/errors](#exceptions-over-warningserrors)
     2. [Working with the developer](#working-with-the-developer)
     3. [Written with clean API in mind](#written-with-clean-api)
     4. [Philosophy of Uncle Bob and "Clean Code"](#t-regx-follows-the-philosophy-of-uncle-bob-and-clean-code)
-7. [Plans for the future](#current-work-in-progress)
-8. [Sponsors](#sponsors)
-9. [License](#license)
+8. [Plans for the future](#current-work-in-progress)
+9. [Sponsors](#sponsors)
+10. [License](#license)
 
 [Buy me a coffee!](https://www.buymeacoffee.com/danielwilkowski)
 
@@ -73,9 +74,39 @@ composer require rawr/t-regx
 
 T-Regx only requires `mb-string` extension. No additional dependencies or extensions are required.
 
+# Examples
+
+Illustration of methods `match()`, `test()` and `count()`.
+
+ ```php
+$pattern = Pattern::of("ups"); // pattern("ups") also works
+$matcher = $pattern->match('yay, ups');
+
+foreach ($matcher as $detail) {
+    $detail->text();    // (string) "ups";
+    $detail->offset();  // (int) 0
+}
+
+if (!$matcher->test()) {
+    echo "No occurrances found";
+} else {
+    echo "Found {$matcher->count()} occurrences";
+}
+```
+
+# Documentation
+
+Full API documentation is available at [t-regx.com](https://t-regx.com/). List of changes is available
+in [ChangeLog.md](https://github.com/T-Regx/T-Regx/blob/develop/ChangeLog.md).
+
+# Try it online, in your browser!
+
+Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing around right in your browser.
+[Try now!](https://repl.it/github/T-Regx/fiddle)
+
 # API
 
-**You** choose the interface:
+Choose the interface:
 
 - I choose the **modern regex API**:
 
@@ -85,14 +116,14 @@ T-Regx only requires `mb-string` extension. No additional dependencies or extens
 
   [Scroll to see](#exceptions-over-warningserrors) - `preg::match_all()`, `preg::replace_callback()`, `preg::split()`
 
-For legacy projects, we suggest `preg::match_all()`. For standard projects, we suggest `pattern()`.
+For standard projects, we suggest `pattern()`. For legacy projects, we suggest `preg::match_all()`.
 
 - Standard T-Regx
   ```php
   $pattern = Pattern::of("ups"); // pattern("ups") also works
   $matcher = $pattern->match('yay, ups');
   
-  if ($matcher->test()) {
+  if (!$matcher->test()) {
     echo "Unmatched subject :/";
   }
   
@@ -114,16 +145,6 @@ For legacy projects, we suggest `preg::match_all()`. For standard projects, we s
       echo "Invalid pattern";
   }
   ```
-
-# Documentation
-
-Full API documentation is available at [t-regx.com](https://t-regx.com/). List of changes is available
-in [ChangeLog.md](https://github.com/T-Regx/T-Regx/blob/develop/ChangeLog.md).
-
-# Try it online, in your browser!
-
-Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing around right in your browser.
-[Try now!](https://repl.it/github/T-Regx/fiddle)
 
 # Why T-Regx stands out?
 
@@ -213,7 +234,7 @@ Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing aro
     * Not every error in PHP can be read from `preg_last_error()`, however T-Regx throws dedicated exceptions for those
       events.
 
-# What's better
+# Comparison
 
 ![Ugly api](https://t-regx.com/img/external/readme/preg.png)
 
@@ -225,7 +246,7 @@ or
 
 Current development priorities, regarding release of 1.0:
 
-- Separate SafeRegex and CleanRegex into to two packages, so users can choose what they want #103
+- Separate SafeRegex and CleanRegex into to two packages, so users can choose what they need #103
 - Add documentation to each T-Regx public method #17 \[in progress]
 - Revamp of [t-regx.com](https://t-regx.com/) documentation \[in progress]
 - Release 1.0
