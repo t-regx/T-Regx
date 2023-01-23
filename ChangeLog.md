@@ -6,6 +6,12 @@ Incoming
 
 * Soon
 
+Added in 0.41.3
+---------------
+
+* Other
+    * Relaxed composer php version requirement up.
+
 Added in 0.41.2
 ---------------
 
