@@ -25,7 +25,7 @@ class PatternStrings
     public function __construct(GroupAutoCapture $autoCapture, array $patterns)
     {
         $this->autoCapture = new CompositeAutoCapture(new PristineAutoCapture(), $autoCapture);
-        $this->flags = Flags::empty();
+        $this->flags = new Flags('');
         $this->patterns = $patterns;
     }
 

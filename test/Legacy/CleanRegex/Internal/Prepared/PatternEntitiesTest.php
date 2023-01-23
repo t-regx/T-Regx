@@ -155,7 +155,7 @@ class PatternEntitiesTest extends TestCase
     public function shouldParseComments(string $flags, string $pattern, array $expectedBlocks)
     {
         // given
-        $asEntities = new PatternEntities(new SubpatternFlagsStringPattern($pattern, SubpatternFlags::from(Flags::from($flags))),
+        $asEntities = new PatternEntities(new SubpatternFlagsStringPattern($pattern, SubpatternFlags::from(new Flags($flags))),
             new IdentityOptionSettingAutoCapture(), new ThrowPlaceholders());
         // when, then
         $this->assertEntitiesEqual($asEntities, $expectedBlocks);

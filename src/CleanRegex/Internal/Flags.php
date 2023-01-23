@@ -11,16 +11,6 @@ class Flags
         $this->modifiers = $modifiers;
     }
 
-    public static function empty(): Flags
-    {
-        return new Flags('');
-    }
-
-    public static function from(?string $modifiersString): Flags
-    {
-        return new Flags($modifiersString ?? '');
-    }
-
     public function isExtended(): bool
     {
         return $this->contains('x');

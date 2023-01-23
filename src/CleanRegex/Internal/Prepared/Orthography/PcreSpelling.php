@@ -28,7 +28,7 @@ class PcreSpelling implements Spelling
 
     public function flags(): Flags
     {
-        return Flags::from($this->pcre->flags());
+        return new Flags($this->pcre->flags());
     }
 
     public function subpatternFlags(): SubpatternFlags

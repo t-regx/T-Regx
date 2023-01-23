@@ -4,7 +4,10 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Other
+    * Changed signature of `Pattern::of()`, so `$modifiers` argument default value is no longer
+      `null` but an empty string. It poses no difference in the behaviour of the method, but the
+      type of the argument is similifed from `null|string` to `string` in documentation tools.
 
 Added in 0.41.4
 ---------------
