@@ -58,7 +58,7 @@
     }
   },
   "require": {
-    "php": "~8.0.0 | >=7.1.0",
+    "php": ">=7.1.0",
     "ext-mbstring": "*"
   },
   "require-dev": {
