@@ -57,7 +57,7 @@ class DetailTest extends TestCase
     {
         // given
         $groups = \str_repeat('()', 100);
-        $pattern = Pattern("$groups(Foo)");
+        $pattern = Pattern::of("$groups(Foo)");
         $detail = $pattern->match('Foo')->first();
         // when
         $group = $detail->group(101);

@@ -96,7 +96,7 @@ class DetailTest extends TestCase
     public function shouldGetGroup_validName(string $name)
     {
         // given
-        $pattern = Pattern("(?<$name>Bar){0}");
+        $pattern = Pattern::of("(?<$name>Bar){0}");
         $detail = $pattern->match('Foo')->first();
         // then
         $this->expectException(GroupNotMatchedException::class);
