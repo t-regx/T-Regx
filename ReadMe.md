@@ -2,10 +2,10 @@
     <a href="https://t-regx.com"><img src="t.regx.png" alt="T-Regx"></a>
 </p>
 <p align="center">
-    <a href="https://github.com/T-Regx/T-Regx/actions/"><img src="https://github.com/T-Regx/T-Regx/workflows/build/badge.svg" alt="Build status"/></a>
-    <a href="https://coveralls.io/github/T-Regx/T-Regx"><img src="https://coveralls.io/repos/github/T-Regx/T-Regx/badge.svg" alt="Unit tests"/></a>
-    <a href="https://github.com/T-Regx/T-Regx/releases"><img src="https://img.shields.io/badge/latest-0.41.3-brightgreen.svg?style=popout" alt="latest: 0.41.3"/></a>
-    <a href="https://github.com/T-Regx/T-Regx"><img src="https://img.shields.io/badge/dependencies-0-brightgreen.svg" alt="dependencies: 0"/></a>
+    <a href="https://github.com/t-regx/T-Regx/actions/"><img src="https://github.com/t-regx/T-Regx/workflows/build/badge.svg" alt="Build status"/></a>
+    <a href="https://coveralls.io/github/t-regx/T-Regx"><img src="https://coveralls.io/repos/github/t-regx/T-Regx/badge.svg" alt="Unit tests"/></a>
+    <a href="https://github.com/t-regx/T-Regx/releases"><img src="https://img.shields.io/badge/latest-0.41.3-brightgreen.svg?style=popout" alt="latest: 0.41.3"/></a>
+    <a href="https://github.com/t-regx/T-Regx"><img src="https://img.shields.io/badge/dependencies-0-brightgreen.svg" alt="dependencies: 0"/></a>
 </p>
 
 # T-Regx | Regular Expressions library
@@ -14,29 +14,28 @@ PHP regular expressions brought up to modern standards.
 
 [See documentation](https://t-regx.com/) at [t-regx.com](https://t-regx.com/).
 
-[![last commit](https://img.shields.io/github/last-commit/T-Regx/T-Regx/develop.svg)](https://github.com/T-Regx/T-Regx/commits/develop)
-[![commit activity](https://img.shields.io/github/commit-activity/y/T-Regx/T-Regx.svg)](https://github.com/T-Regx/T-Regx)
-[![Commits since](https://img.shields.io/github/commits-since/T-Regx/T-Regx/0.41.3/develop.svg)](https://github.com/T-Regx/T-Regx/compare/0.41.3...develop)
-[![Unit tests](https://img.shields.io/badge/Unit%20tests-3867-brightgreen.svg)](https://github.com/T-Regx/T-Regx)
-[![Unit tests](https://img.shields.io/badge/Assertions-6079-brightgreen.svg)](https://github.com/T-Regx/T-Regx)
-[![Code Climate](https://img.shields.io/codeclimate/maintainability/T-Regx/T-Regx.svg)](https://codeclimate.com/github/T-Regx/T-Regx)
-[![Repository size](https://img.shields.io/github/languages/code-size/T-Regx/vanilla.svg?label=size)](https://github.com/T-Regx/T-Regx)
+[![last commit](https://img.shields.io/github/last-commit/t-regx/T-Regx/develop.svg)](https://github.com/t-regx/T-Regx/commits/develop)
+[![commit activity](https://img.shields.io/github/commit-activity/y/t-regx/T-Regx.svg)](https://github.com/t-regx/T-Regx)
+[![Commits since](https://img.shields.io/github/commits-since/t-regx/T-Regx/0.41.3/develop.svg)](https://github.com/t-regx/T-Regx/compare/0.41.3...develop)
+[![Unit tests](https://img.shields.io/badge/Unit%20tests-3867-brightgreen.svg)](https://github.com/t-regx/T-Regx)
+[![Unit tests](https://img.shields.io/badge/Assertions-6079-brightgreen.svg)](https://github.com/t-regx/T-Regx)
+[![Code Climate](https://img.shields.io/codeclimate/maintainability/t-regx/T-Regx.svg)](https://codeclimate.com/github/t-regx/T-Regx)
 [![FQN](https://img.shields.io/badge/FQN-used-blue.svg)](https://github.com/kelunik/fqn-check)
 [![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
 [![Gitter](https://badges.gitter.im/T-Regx/community.svg)](https://gitter.im/T-Regx/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-[![OS Arch](https://img.shields.io/badge/OS-32&hyphen;bit-brightgreen.svg)](https://github.com/T-Regx/T-Regx/actions)
-[![OS Arch](https://img.shields.io/badge/OS-64&hyphen;bit-brightgreen.svg)](https://github.com/T-Regx/T-Regx/actions)
-[![OS Arch](https://img.shields.io/badge/OS-Windows-blue.svg)](https://github.com/T-Regx/T-Regx/actions)
-[![OS Arch](https://img.shields.io/badge/OS-Linux/Unix-blue.svg)](https://github.com/T-Regx/T-Regx/actions)
+[![OS Arch](https://img.shields.io/badge/OS-32&hyphen;bit-brightgreen.svg)](https://github.com/t-regx/T-Regx/actions)
+[![OS Arch](https://img.shields.io/badge/OS-64&hyphen;bit-brightgreen.svg)](https://github.com/t-regx/T-Regx/actions)
+[![OS Arch](https://img.shields.io/badge/OS-Windows-blue.svg)](https://github.com/t-regx/T-Regx/actions)
+[![OS Arch](https://img.shields.io/badge/OS-Linux/Unix-blue.svg)](https://github.com/t-regx/T-Regx/actions)
 
-[![PHP Version](https://img.shields.io/badge/PHP-7.1-blue.svg)](https://github.com/T-Regx/T-Regx/actions)
-[![PHP Version](https://img.shields.io/badge/PHP-7.2-blue.svg)](https://github.com/T-Regx/T-Regx/actions)
-[![PHP Version](https://img.shields.io/badge/PHP-7.3-blue.svg)](https://github.com/T-Regx/T-Regx/actions)
-[![PHP Version](https://img.shields.io/badge/PHP-7.4-blue.svg)](https://github.com/T-Regx/T-Regx/actions)
-[![PHP Version](https://img.shields.io/badge/PHP-8.0-blue.svg)](https://github.com/T-Regx/T-Regx/actions)
-[![PHP Version](https://img.shields.io/badge/PHP-8.1-blue.svg)](https://github.com/T-Regx/T-Regx/actions)
-[![PHP Version](https://img.shields.io/badge/PHP-8.2-blue.svg)](https://github.com/T-Regx/T-Regx/actions)
+[![PHP Version](https://img.shields.io/badge/PHP-7.1-blue.svg)](https://github.com/t-regx/T-Regx/actions)
+[![PHP Version](https://img.shields.io/badge/PHP-7.2-blue.svg)](https://github.com/t-regx/T-Regx/actions)
+[![PHP Version](https://img.shields.io/badge/PHP-7.3-blue.svg)](https://github.com/t-regx/T-Regx/actions)
+[![PHP Version](https://img.shields.io/badge/PHP-7.4-blue.svg)](https://github.com/t-regx/T-Regx/actions)
+[![PHP Version](https://img.shields.io/badge/PHP-8.0-blue.svg)](https://github.com/t-regx/T-Regx/actions)
+[![PHP Version](https://img.shields.io/badge/PHP-8.1-blue.svg)](https://github.com/t-regx/T-Regx/actions)
+[![PHP Version](https://img.shields.io/badge/PHP-8.2-blue.svg)](https://github.com/t-regx/T-Regx/actions)
 
 1. [Installation](#installation)
     * [Composer](#installation)
@@ -97,7 +96,7 @@ if (!$matcher->test()) {
 # Documentation
 
 Full API documentation is available at [t-regx.com](https://t-regx.com/). List of changes is available
-in [ChangeLog.md](https://github.com/T-Regx/T-Regx/blob/develop/ChangeLog.md).
+in [ChangeLog.md](https://github.com/t-regx/T-Regx/blob/develop/ChangeLog.md).
 
 # Try it online, in your browser!
 
