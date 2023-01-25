@@ -3,6 +3,7 @@ namespace Test\Feature\CleanRegex\replace\callback\Detail\groupsCount;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Pattern;
 
 class Test extends TestCase
 {
@@ -12,7 +13,7 @@ class Test extends TestCase
     public function shouldGetGroupsCount()
     {
         // given
-        pattern('(?<one>first) and (second)')
+        Pattern::of('(?<one>first) and (second)')
             ->replace('first and second')
             ->callback(Functions::out($detail, ''));
         // when
@@ -27,7 +28,7 @@ class Test extends TestCase
     public function shouldGetGroupsCount_lastEmpty()
     {
         // given
-        pattern('(?<one>first) (and) (second)?')
+        Pattern::of('(?<one>first) (and) (second)?')
             ->replace('first and ')
             ->callback(Functions::out($detail, ''));
         // when, then

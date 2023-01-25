@@ -5,7 +5,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsDetail;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
-use function pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Search
@@ -20,7 +19,7 @@ class SearchTest extends TestCase
     public function shouldCountMatches()
     {
         // when
-        $count = pattern('\w+')->search('One, One, One, Two, One, Three, Two, One')->count();
+        $count = Pattern::of('\w+')->search('One, One, One, Two, One, Three, Two, One')->count();
         // then
         $this->assertSame(8, $count);
     }
@@ -31,7 +30,7 @@ class SearchTest extends TestCase
     public function shouldCountMatches_onUnmatchedSubject()
     {
         // when
-        $count = pattern('Foo')->search('Bar')->count();
+        $count = Pattern::of('Foo')->search('Bar')->count();
         // then
         $this->assertSame(0, $count);
     }

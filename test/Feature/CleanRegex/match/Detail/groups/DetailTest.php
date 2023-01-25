@@ -63,7 +63,7 @@ class DetailTest extends TestCase
     public function shouldGetGroups_forUnmatchedGroup(DetailStrategy $strategy)
     {
         // when
-        $match = pattern('Foo(Bar)?(Cat)?')->match('Foo');
+        $match = Pattern::of('Foo(Bar)?(Cat)?')->match('Foo');
         $detail = $strategy->first($match);
         // when
         [$first, $second] = $detail->groups();
@@ -94,7 +94,7 @@ class DetailTest extends TestCase
     public function shouldGetGroupsNames(DetailStrategy $strategy)
     {
         // given
-        $match = pattern('(zero), (?<one>first) and (?<two>second)')->match('zero, first and second');
+        $match = Pattern::of('(zero), (?<one>first) and (?<two>second)')->match('zero, first and second');
         $detail = $strategy->first($match);
         // when, then
         $this->assertSame([null, 'one', 'two'], $detail->groupNames());

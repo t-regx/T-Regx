@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use Test\Utils\TestCase\TestCasePasses;
 use Test\Utils\TypeFunctions;
-use function pattern;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Search
@@ -20,7 +20,7 @@ class SearchTest extends TestCase
     public function shouldReduce_returnAccumulatorForEmptyMatch()
     {
         // when
-        $result = pattern('Beep')->search('Boop')->reduce(Functions::fail(), 12);
+        $result = Pattern::of('Beep')->search('Boop')->reduce(Functions::fail(), 12);
         // then
         $this->assertSame(12, $result);
     }
@@ -31,7 +31,7 @@ class SearchTest extends TestCase
     public function shouldReduce_passAccumulatorAsFirstArgument()
     {
         // when
-        $result = pattern('Foo')->search('Foo')->reduce(Functions::identity(), 'Accumulator');
+        $result = Pattern::of('Foo')->search('Foo')->reduce(Functions::identity(), 'Accumulator');
         // then
         $this->assertSame('Accumulator', $result);
     }
@@ -42,7 +42,7 @@ class SearchTest extends TestCase
     public function shouldReduce_passFromCallbackForSingleMatch()
     {
         // when
-        $result = pattern('Match')->search('Match')->reduce(Functions::constant('Lorem'), 'Accumulator');
+        $result = Pattern::of('Match')->search('Match')->reduce(Functions::constant('Lorem'), 'Accumulator');
         // then
         $this->assertSame('Lorem', $result);
     }
@@ -53,7 +53,7 @@ class SearchTest extends TestCase
     public function shouldReduce_passDetailSecondAsArgumentString()
     {
         // when
-        $result = pattern('Match')->search('Match')->reduce(Functions::secondArgument(), 'Accumulator');
+        $result = Pattern::of('Match')->search('Match')->reduce(Functions::secondArgument(), 'Accumulator');
         // then
         $this->assertSame('Match', $result);
     }
@@ -64,7 +64,7 @@ class SearchTest extends TestCase
     public function shouldReduce_passDetailSecondAsArgumentTypeString()
     {
         // when
-        pattern('Foo')->search('Foo')->reduce(TypeFunctions::assertTypeStringString(), 'Accumulator');
+        Pattern::of('Foo')->search('Foo')->reduce(TypeFunctions::assertTypeStringString(), 'Accumulator');
         // then
         $this->pass();
     }
@@ -81,7 +81,7 @@ class SearchTest extends TestCase
         // then
         $this->expectException(\ArgumentCountError::class);
         // when
-        pattern('Foo')->search('Foo')->reduce($tooManyArguments, 'Accumulator');
+        Pattern::of('Foo')->search('Foo')->reduce($tooManyArguments, 'Accumulator');
     }
 
     /**
@@ -96,7 +96,7 @@ class SearchTest extends TestCase
         // then
         $this->expectException(\TypeError::class);
         // when
-        pattern('Foo')->search('Foo')->reduce($tooManyArguments, 'Accumulator');
+        Pattern::of('Foo')->search('Foo')->reduce($tooManyArguments, 'Accumulator');
     }
 
     /**
@@ -107,7 +107,7 @@ class SearchTest extends TestCase
         // then
         $this->expectException(\TypeError::class);
         // when
-        pattern('Foo')->search('Foo')->reduce(null, 'Accumulator');
+        Pattern::of('Foo')->search('Foo')->reduce(null, 'Accumulator');
     }
 
     /**
@@ -116,7 +116,7 @@ class SearchTest extends TestCase
     public function shouldReduceSecond()
     {
         // when
-        $reduced = pattern('\w+')->search('Foo, Bar')->reduce(Functions::secondArgument(), 'Accumulator');
+        $reduced = Pattern::of('\w+')->search('Foo, Bar')->reduce(Functions::secondArgument(), 'Accumulator');
         // then
         $this->assertSame('Bar', $reduced);
     }
@@ -127,7 +127,7 @@ class SearchTest extends TestCase
     public function shouldPassAccumulator()
     {
         // when
-        $reduced = pattern('\d+')->search('15,16,17')->reduce(Functions::sum(), 0);
+        $reduced = Pattern::of('\d+')->search('15,16,17')->reduce(Functions::sum(), 0);
         // then
         $this->assertSame(48, $reduced);
     }
@@ -138,7 +138,7 @@ class SearchTest extends TestCase
     public function shouldReturnNull()
     {
         // when
-        $reduced = pattern('Foo')->search('Foo,Foo')->reduce(Functions::constant(null), 0);
+        $reduced = Pattern::of('Foo')->search('Foo,Foo')->reduce(Functions::constant(null), 0);
         // then
         $this->assertNull($reduced);
     }
@@ -149,7 +149,7 @@ class SearchTest extends TestCase
     public function shouldReturnNullAccumulator()
     {
         // when
-        $reduced = pattern('Foo')->search('Bar')->reduce(Functions::fail(), null);
+        $reduced = Pattern::of('Foo')->search('Bar')->reduce(Functions::fail(), null);
         // then
         $this->assertNull($reduced);
     }

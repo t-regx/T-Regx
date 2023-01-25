@@ -22,7 +22,7 @@ class SearchTest extends TestCase
     public function shouldFilter()
     {
         // given
-        $search = pattern('\w+')->search('Foo, Bar, Top, Door');
+        $search = Pattern::of('\w+')->search('Foo, Bar, Top, Door');
         // when
         $filtered = $search->filter(Functions::oneOf(['Foo', 'Top', 'Door']));
         // then
@@ -35,7 +35,7 @@ class SearchTest extends TestCase
     public function shouldFilter_acceptString()
     {
         // given
-        $search = pattern('Foo')->search('Foo');
+        $search = Pattern::of('Foo')->search('Foo');
         // when
         $search->filter(TypeFunctions::assertTypeString(true));
         // then
@@ -48,7 +48,7 @@ class SearchTest extends TestCase
     public function shouldThrow_forInvalidReturnType_integer()
     {
         // given
-        $search = pattern('Foo')->search('Foo');
+        $search = Pattern::of('Foo')->search('Foo');
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid filter() callback return type. Expected bool, but integer (12) given');
@@ -62,7 +62,7 @@ class SearchTest extends TestCase
     public function shouldThrow_forInvalidReturnType_array()
     {
         // given
-        $search = pattern('Foo')->search('Foo');
+        $search = Pattern::of('Foo')->search('Foo');
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid filter() callback return type. Expected bool, but array (0) given');

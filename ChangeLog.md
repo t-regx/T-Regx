@@ -1223,15 +1223,15 @@ Added in 0.9.8
     * You can now use [`foreach`](https://www.php.net/manual/en/control-structures.foreach.php) on [`match()`], instead
       of [`forEach()`]:
       ```php
-      foreach (pattern('\d+')->match('127.0.0.1') as $match) {}
+      foreach (Pattern::of('\d+')->match('127.0.0.1') as $match) {}
       ```
       and also
       ```php
-      foreach (pattern('\d+')->match('127.0.0.1')->asInt() as $digit) {}
+      foreach (Pattern::of('\d+')->match('127.0.0.1')->asInt() as $digit) {}
       ```
       or
       ```php
-      foreach (pattern('\d+')->match('127.0.0.1')->all() as $text) {}
+      foreach (Pattern::of('\d+')->match('127.0.0.1')->all() as $text) {}
       ```
     * Added [`Match.get(string|int)`], which is a shorthand for `Match.group(string|int).text()`.
     * Restored `pattern()->match()->test()`/[`fails()`] that were removed in version 0.9.2.

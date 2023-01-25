@@ -16,7 +16,7 @@ class SearchTest extends TestCase
 
     private function search(): Search
     {
-        return pattern('\d+')->search('127.0.1.2');
+        return Pattern::of('\d+')->search('127.0.1.2');
     }
 
     /**

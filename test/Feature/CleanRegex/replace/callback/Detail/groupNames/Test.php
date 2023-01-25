@@ -3,6 +3,7 @@ namespace Test\Feature\CleanRegex\replace\callback\Detail\groupNames;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Pattern;
 
 class Test extends TestCase
 {
@@ -12,7 +13,7 @@ class Test extends TestCase
     public function shouldGetEmptyGroupNames()
     {
         // given
-        pattern('Foo')
+        Pattern::of('Foo')
             ->replace('Foo')
             ->callback(Functions::out($detail, ''));
         // when, then
@@ -25,7 +26,7 @@ class Test extends TestCase
     public function shouldGetGroupNames()
     {
         // given
-        pattern('(?<name>Foo)(?<second>Bar)')
+        Pattern::of('(?<name>Foo)(?<second>Bar)')
             ->replace('FooBar')
             ->callback(Functions::out($detail, ''));
         // when, then
@@ -38,7 +39,7 @@ class Test extends TestCase
     public function shouldGetGroupNamesLastUnmatched()
     {
         // given
-        pattern('(?<name>Foo)(?<second>Bar){0}')
+        Pattern::of('(?<name>Foo)(?<second>Bar){0}')
             ->replace('Foo')
             ->callback(Functions::out($detail, ''));
         // when, then
@@ -51,7 +52,7 @@ class Test extends TestCase
     public function shouldGetGroupNamesLastMatchedEmpty()
     {
         // given
-        pattern('(?<name>Foo)(?<second>)Bar')
+        Pattern::of('(?<name>Foo)(?<second>)Bar')
             ->replace('FooBar')
             ->callback(Functions::out($detail, ''));
         // when, then
@@ -64,7 +65,7 @@ class Test extends TestCase
     public function shouldGetUnnamedGroups()
     {
         // given
-        pattern('(One)(?<two>Two)(Three)(?<four>Four)')
+        Pattern::of('(One)(?<two>Two)(Three)(?<four>Four)')
             ->replace('OneTwoThreeFour')
             ->callback(Functions::out($detail, ''));
         // when, then

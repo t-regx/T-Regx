@@ -14,7 +14,7 @@ class DetailTest extends TestCase
     public function shouldThrow_onMissingGroup()
     {
         // given
-        $detail = pattern('(?<one>hello)')->match('hello')->first();
+        $detail = Pattern::of('(?<one>hello)')->match('hello')->first();
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'two'");

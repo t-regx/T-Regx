@@ -47,7 +47,7 @@ class Test extends TestCase
     public function shouldGet_compositeGroups_offset()
     {
         // when
-        pattern('(?<group>Foo)')->replace('€ ęFoo')->callback(Functions::out($detail, ''));
+        Pattern::of('(?<group>Foo)')->replace('€ ęFoo')->callback(Functions::out($detail, ''));
         // then
         $this->assertGroupOffsets([3], $detail->groups());
         $this->assertGroupIndicesConsequetive($detail->groups());
@@ -60,7 +60,7 @@ class Test extends TestCase
     public function shouldGetTail()
     {
         // given
-        $pattern = pattern('(Tońe|Kamy)k');
+        $pattern = Pattern::of('(Tońe|Kamy)k');
         $replace = $pattern->replace('€€€€, Tońek i Kamyk');
         // when
         $replace->callback(Functions::collect($details, ''));
@@ -78,7 +78,7 @@ class Test extends TestCase
     public function shouldGetLength()
     {
         // given
-        $pattern = pattern('(Tońe|Kamy)k');
+        $pattern = Pattern::of('(Tońe|Kamy)k');
         $replace = $pattern->replace('€€€€, Tońek i Kamyk');
         // when
         $replace->callback(Functions::collect($details, ''));

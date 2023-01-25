@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
-use function pattern;
+use TRegx\CleanRegex\Pattern;
 
 class DetailTest extends TestCase
 {
@@ -21,7 +21,7 @@ class DetailTest extends TestCase
     public function shouldParseInt(string $string, int $expected)
     {
         // given
-        $detail = pattern('-?\d+')->match($string)->first();
+        $detail = Pattern::of('-?\d+')->match($string)->first();
         // when
         $result = $detail->toInt();
         // then
@@ -46,7 +46,7 @@ class DetailTest extends TestCase
     public function shouldIntBase4()
     {
         // given
-        $detail = pattern('-\d+')->match('-123')->first();
+        $detail = Pattern::of('-\d+')->match('-123')->first();
         // when
         $result = $detail->toInt(4);
         // then
@@ -59,7 +59,7 @@ class DetailTest extends TestCase
     public function shouldThrowForInvalidBase()
     {
         // given
-        $detail = pattern('Foo')->match('Foo')->first();
+        $detail = Pattern::of('Foo')->match('Foo')->first();
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid base: -1 (supported bases 2-36, case-insensitive)');
@@ -73,7 +73,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forPseudoInteger_becausePhpSucks()
     {
         // given
-        $detail = pattern('.*', 's')->match('1e3')->first();
+        $detail = Pattern::of('.*', 's')->match('1e3')->first();
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse '1e3', but it is not a valid integer in base 10");
@@ -87,7 +87,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forInvalidInteger_base4()
     {
         // given
-        $detail = pattern('(4)')->match('4')->first();
+        $detail = Pattern::of('(4)')->match('4')->first();
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse '4', but it is not a valid integer in base 4");
@@ -101,7 +101,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forMalformedInteger()
     {
         // given
-        $detail = pattern('Foo')->match('Foo')->first();
+        $detail = Pattern::of('Foo')->match('Foo')->first();
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse 'Foo', but it is not a valid integer in base 10");
@@ -115,7 +115,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forOverflownInteger()
     {
         // given
-        $detail = pattern('-\d+')->match('-9223372036854775809')->first();
+        $detail = Pattern::of('-\d+')->match('-9223372036854775809')->first();
         // then
         $this->expectException(IntegerOverflowException::class);
         $this->expectExceptionMessage("Expected to parse '-9223372036854775809', but it exceeds integer size on this architecture in base 10");
@@ -129,7 +129,7 @@ class DetailTest extends TestCase
     public function shouldParseIntBase4()
     {
         // given
-        $detail = pattern('-?\d+')->match('-321')->first();
+        $detail = Pattern::of('-?\d+')->match('-321')->first();
         // when
         $result = $detail->toInt(4);
         // then
@@ -142,7 +142,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forOverflownIntegerBase16()
     {
         // given
-        $detail = pattern('-\d+')->match('-9223372036854770000')->first();
+        $detail = Pattern::of('-\d+')->match('-9223372036854770000')->first();
         // then
         $this->expectException(IntegerOverflowException::class);
         $this->expectExceptionMessage("Expected to parse '-9223372036854770000', but it exceeds integer size on this architecture in base 16");

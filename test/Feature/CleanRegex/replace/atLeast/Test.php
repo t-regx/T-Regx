@@ -4,6 +4,7 @@ namespace Test\Feature\CleanRegex\replace\atLeast;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @coversNothing
@@ -16,7 +17,7 @@ class Test extends TestCase
     public function replaceAtLeast0_shouldReplace0()
     {
         // when
-        $replaced = pattern('Foo')->replace('Bar')->atLeast(0)->with('Door');
+        $replaced = Pattern::of('Foo')->replace('Bar')->atLeast(0)->with('Door');
         // then
         $this->assertSame('Bar', $replaced);
     }
@@ -27,7 +28,7 @@ class Test extends TestCase
     public function replaceAtLeast1_shouldReplace1()
     {
         // when
-        $replaced = pattern('Foo')->replace('Foo')->atLeast(1)->with('Bar');
+        $replaced = Pattern::of('Foo')->replace('Foo')->atLeast(1)->with('Bar');
         // then
         $this->assertSame('Bar', $replaced);
     }
@@ -38,7 +39,7 @@ class Test extends TestCase
     public function replaceAtLeast1_shouldReplace3()
     {
         // when
-        $replaced = pattern('Foo')->replace('Foo,Foo,Foo')->atLeast(1)->with('Bar');
+        $replaced = Pattern::of('Foo')->replace('Foo,Foo,Foo')->atLeast(1)->with('Bar');
         // then
         $this->assertSame('Bar,Bar,Bar', $replaced);
     }
@@ -52,7 +53,7 @@ class Test extends TestCase
         $this->expectException(ReplacementExpectationFailedException::class);
         $this->expectExceptionMessage('Expected to perform at least 1 replacement(s), but 0 replacement(s) were actually performed');
         // when
-        pattern('Foo')->replace('Bar')->atLeast(1)->with('Bar');
+        Pattern::of('Foo')->replace('Bar')->atLeast(1)->with('Bar');
     }
 
     /**
@@ -61,7 +62,7 @@ class Test extends TestCase
     public function replaceAtLeast2_shouldReplace2()
     {
         // when
-        $replaced = pattern('Foo')->replace('Foo,Foo')->atLeast(2)->with('Bar');
+        $replaced = Pattern::of('Foo')->replace('Foo,Foo')->atLeast(2)->with('Bar');
         // then
         $this->assertSame('Bar,Bar', $replaced);
     }
@@ -72,7 +73,7 @@ class Test extends TestCase
     public function replaceAtLeast2_shouldReplace3()
     {
         // when
-        $replaced = pattern('Foo')->replace('Foo,Foo,Foo')->atLeast(2)->with('Bar');
+        $replaced = Pattern::of('Foo')->replace('Foo,Foo,Foo')->atLeast(2)->with('Bar');
         // then
         $this->assertSame('Bar,Bar,Bar', $replaced);
     }
@@ -86,7 +87,7 @@ class Test extends TestCase
         $this->expectException(ReplacementExpectationFailedException::class);
         $this->expectExceptionMessage('Expected to perform at least 2 replacement(s), but 1 replacement(s) were actually performed');
         // when
-        pattern('Foo')->replace('Foo')->atLeast(2)->with('Bar');
+        Pattern::of('Foo')->replace('Foo')->atLeast(2)->with('Bar');
     }
 
     /**
@@ -98,7 +99,7 @@ class Test extends TestCase
         $this->expectException(ReplacementExpectationFailedException::class);
         $this->expectExceptionMessage('Expected to perform at least 1 replacement(s), but 0 replacement(s) were actually performed');
         // when
-        pattern('Foo')->replace('Bar')->atLeast(1)->callback(Functions::fail());
+        Pattern::of('Foo')->replace('Bar')->atLeast(1)->callback(Functions::fail());
     }
 
     /**
@@ -110,6 +111,6 @@ class Test extends TestCase
         $this->expectException(ReplacementExpectationFailedException::class);
         $this->expectExceptionMessage('Expected to perform at least 2 replacement(s), but 0 replacement(s) were actually performed');
         // when
-        pattern('Foo')->replace('Bar')->atLeast(2)->callback(Functions::fail());
+        Pattern::of('Foo')->replace('Bar')->atLeast(2)->callback(Functions::fail());
     }
 }

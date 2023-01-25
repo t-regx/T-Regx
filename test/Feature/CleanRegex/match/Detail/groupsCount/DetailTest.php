@@ -3,6 +3,7 @@ namespace Test\Feature\CleanRegex\match\Detail\groupsCount;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsGroup;
+use TRegx\CleanRegex\Pattern;
 
 class DetailTest extends TestCase
 {
@@ -14,7 +15,7 @@ class DetailTest extends TestCase
     public function shouldGetGroupsCount()
     {
         // given
-        $pattern = pattern('(?<one>first) and (second) and (third), (?:invisible)');
+        $pattern = Pattern::of('(?<one>first) and (second) and (third), (?:invisible)');
         $detail = $pattern->match("first and second and third, invisible")->first();
         // when, then
         $this->assertSame(3, $detail->groupsCount());
@@ -28,7 +29,7 @@ class DetailTest extends TestCase
     public function shouldGetGroupsCount_twoNamedGroups()
     {
         // given
-        $pattern = pattern("(zero), (?<first>first) and (?<second>second), (?:invisible)");
+        $pattern = Pattern::of("(zero), (?<first>first) and (?<second>second), (?:invisible)");
         $detail = $pattern->match('zero, first and second, invisible')->first();
         // when, then
         $this->assertSame(3, $detail->groupsCount());

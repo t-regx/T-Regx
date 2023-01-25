@@ -8,7 +8,6 @@ use Test\Utils\TestCase\TestCasePasses;
 use Test\Utils\TypeFunctions;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Pattern;
-use function pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Search
@@ -23,7 +22,7 @@ class SearchTest extends TestCase
     public function shouldGroupByCallbackString()
     {
         // given
-        $search = pattern('\d+[cm]m')->search('12cm, 14mm, 23cm, 19cm, 28mm, 2mm');
+        $search = Pattern::of('\d+[cm]m')->search('12cm, 14mm, 23cm, 19cm, 28mm, 2mm');
         // when
         $grouped = $search->groupByCallback(Functions::charAt(0));
         // then
@@ -40,7 +39,7 @@ class SearchTest extends TestCase
     public function shouldGroupByCallbackStringIdentity()
     {
         // given
-        $search = pattern('(?<value>\d+)(?<unit>cm|mm)')->search('12cm 14mm 13cm 19cm 18mm 2mm');
+        $search = Pattern::of('(?<value>\d+)(?<unit>cm|mm)')->search('12cm 14mm 13cm 19cm 18mm 2mm');
         // when
         $grouped = $search->groupByCallback(Functions::identity());
         // then
@@ -72,7 +71,7 @@ class SearchTest extends TestCase
     public function shouldGroupByCallbackInteger()
     {
         // given
-        $search = pattern('\d+')->search('12, 14, 12, 18, 2');
+        $search = Pattern::of('\d+')->search('12, 14, 12, 18, 2');
         // when
         $grouped = $search->groupByCallback(Functions::toInt());
         // then
@@ -94,7 +93,7 @@ class SearchTest extends TestCase
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid groupByCallback() callback return type. Expected int|string, but array (0) given');
         // given
-        pattern('Foo')->search('Foo')->groupByCallback(Functions::constant([]));
+        Pattern::of('Foo')->search('Foo')->groupByCallback(Functions::constant([]));
     }
 
     /**
@@ -106,7 +105,7 @@ class SearchTest extends TestCase
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid groupByCallback() callback return type. Expected int|string, but null given');
         // given
-        pattern('Foo')->search('Foo')->groupByCallback(Functions::constant(null));
+        Pattern::of('Foo')->search('Foo')->groupByCallback(Functions::constant(null));
     }
 
     /**
@@ -118,7 +117,7 @@ class SearchTest extends TestCase
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid groupByCallback() callback return type. Expected int|string, but boolean (true) given');
         // given
-        pattern('Foo')->search('Foo')->groupByCallback(Functions::constant(true));
+        Pattern::of('Foo')->search('Foo')->groupByCallback(Functions::constant(true));
     }
 
     /**
@@ -127,7 +126,7 @@ class SearchTest extends TestCase
     public function shouldGroupByUnmatched()
     {
         // when
-        $grouped = pattern('Foo')->search('Bar')->groupByCallback(Functions::fail());
+        $grouped = Pattern::of('Foo')->search('Bar')->groupByCallback(Functions::fail());
         // then
         $this->assertEmpty($grouped);
     }

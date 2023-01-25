@@ -2,6 +2,7 @@
 namespace Test\Feature\CleanRegex\Split\splitStart;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
@@ -12,7 +13,7 @@ class PatternTest extends TestCase
     public function shouldSplitStartIntoPieces()
     {
         // when
-        $pieces = pattern(', ?')->splitStart('Father, Mother, Maiden, Crone, Warrior, Smith, Stranger', 6);
+        $pieces = Pattern::of(', ?')->splitStart('Father, Mother, Maiden, Crone, Warrior, Smith, Stranger', 6);
         // then
         $this->assertSame(['Father', 'Mother', 'Maiden', 'Crone', 'Warrior', 'Smith', 'Stranger'], $pieces);
     }
@@ -23,7 +24,7 @@ class PatternTest extends TestCase
     public function shouldSplitStartIntoPieces_limitThree()
     {
         // when
-        $pieces = pattern(', ?')->splitStart('Father, Mother, Maiden, Crone, Warrior, Smith, Stranger', 3);
+        $pieces = Pattern::of(', ?')->splitStart('Father, Mother, Maiden, Crone, Warrior, Smith, Stranger', 3);
         // then
         $this->assertSame(['Father', 'Mother', 'Maiden', 'Crone, Warrior, Smith, Stranger'], $pieces);
     }
@@ -34,7 +35,7 @@ class PatternTest extends TestCase
     public function shouldSplitIntoPieces_withSeparators()
     {
         // when
-        $pieces = pattern('(;)(;) ?')->splitStart('Foo;; Bar;; Cat;; Door;;', 2);
+        $pieces = Pattern::of('(;)(;) ?')->splitStart('Foo;; Bar;; Cat;; Door;;', 2);
         // then
         $this->assertSame(['Foo', ';', ';', 'Bar', ';', ';', 'Cat;; Door;;'], $pieces);
     }
@@ -45,7 +46,7 @@ class PatternTest extends TestCase
     public function shouldSplitIntoPieces_withSeparators_emptySeparator()
     {
         // when
-        $pieces = pattern('()(;) ?')->splitStart('Foo; Bar; Cat; Door', 2);
+        $pieces = Pattern::of('()(;) ?')->splitStart('Foo; Bar; Cat; Door', 2);
         // then
         $this->assertSame(['Foo', '', ';', 'Bar', '', ';', 'Cat; Door'], $pieces);
     }
@@ -56,7 +57,7 @@ class PatternTest extends TestCase
     public function shouldSplitIntoPieces_withSeparators_unmatchedSeparator()
     {
         // when
-        $pieces = pattern('(,)?(;) ?')->splitStart('One,; Two; Three,; Four', 2);
+        $pieces = Pattern::of('(,)?(;) ?')->splitStart('One,; Two; Three,; Four', 2);
         // then
         $this->assertSame(['One', ',', ';', 'Two', null, ';', 'Three,; Four'], $pieces);
     }
@@ -67,7 +68,7 @@ class PatternTest extends TestCase
     public function shouldReturnSubject_limit0()
     {
         // when
-        $pieces = pattern(' ')->splitStart('We work in Dark, to serve the Light', 0);
+        $pieces = Pattern::of(' ')->splitStart('We work in Dark, to serve the Light', 0);
         // then
         $this->assertSame(['We work in Dark, to serve the Light'], $pieces);
     }
@@ -78,7 +79,7 @@ class PatternTest extends TestCase
     public function shouldReturnSubject_onUnmatchedSubject()
     {
         // when
-        $pieces = pattern(' ')->splitStart('Bar', 0);
+        $pieces = Pattern::of(' ')->splitStart('Bar', 0);
         // then
         $this->assertSame(['Bar'], $pieces);
     }
@@ -92,7 +93,7 @@ class PatternTest extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        pattern('+')->splitStart('Foo', 1);
+        Pattern::of('+')->splitStart('Foo', 1);
     }
 
     /**
@@ -104,7 +105,7 @@ class PatternTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Negative splits: -1');
         // when
-        pattern('invalid)')->splitStart('Foo', -1);
+        Pattern::of('invalid)')->splitStart('Foo', -1);
     }
 
     /**
@@ -116,6 +117,6 @@ class PatternTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Negative splits: -2');
         // when
-        pattern('invalid)')->splitStart('Foo', -2);
+        Pattern::of('invalid)')->splitStart('Foo', -2);
     }
 }

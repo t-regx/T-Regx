@@ -4,6 +4,7 @@ namespace Test\Feature\CleanRegex\match\Detail\group\offset;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use Test\Utils\Runtime\ExplicitStringEncoding;
+use TRegx\CleanRegex\Pattern;
 
 class DetailTest extends TestCase
 {
@@ -15,7 +16,7 @@ class DetailTest extends TestCase
     public function shouldGetOffset_first()
     {
         // when
-        $detail = pattern('[€$](\d+)')->match('Cześć: €12')->first();
+        $detail = Pattern::of('[€$](\d+)')->match('Cześć: €12')->first();
         // when
         $offset = $detail->group(1)->offset();
         $byteOffset = $detail->group(1)->byteOffset();
@@ -30,7 +31,7 @@ class DetailTest extends TestCase
     public function shouldGetOffset_forEach()
     {
         // when
-        pattern('[€$](\d+)')->match('Cześć: €12, $132, €14')->forEach(Functions::collect($details));
+        Pattern::of('[€$](\d+)')->match('Cześć: €12, $132, €14')->forEach(Functions::collect($details));
         // when
         [$first, $second, $third] = $details;
 

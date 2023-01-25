@@ -19,7 +19,7 @@ class SearchTest extends TestCase
     public function shouldGetFirstKey()
     {
         // given
-        $stream = pattern('\d+')->search('123, 456, 789')->stream();
+        $stream = Pattern::of('\d+')->search('123, 456, 789')->stream();
         // when
         $key = $stream->keys()->first();
         // then

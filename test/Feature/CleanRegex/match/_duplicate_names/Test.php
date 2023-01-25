@@ -21,7 +21,7 @@ class Test extends TestCase
     public function shouldGetGroup()
     {
         // given
-        $detail = pattern('(?<group>Foo)(?<group>Bar)', 'J')->match('FooBar')->first();
+        $detail = Pattern::of('(?<group>Foo)(?<group>Bar)', 'J')->match('FooBar')->first();
         // when
         $group = $detail->group('group');
         // when, then
@@ -52,7 +52,7 @@ class Test extends TestCase
     public function shouldLastGroupNotBeMatched()
     {
         // given
-        $pattern = pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
+        $pattern = Pattern::of('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
         $detail = $pattern->match('Lorem')->first();
         // when
         $group = $detail->group('group');
@@ -68,7 +68,7 @@ class Test extends TestCase
     public function shouldGetThrow_forUnmatchedGroup()
     {
         // given
-        $pattern = pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
+        $pattern = Pattern::of('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
         $detail = $pattern->match('Lorem')->first();
         // then
         $this->expectException(GroupNotMatchedException::class);
@@ -83,7 +83,7 @@ class Test extends TestCase
     public function shouldGetGroups()
     {
         // given
-        $pattern = pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
+        $pattern = Pattern::of('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
         $detail = $pattern->match('Lorem')->first();
         // when
         $groups = $detail->groups();
@@ -97,7 +97,7 @@ class Test extends TestCase
     public function shouldGetGroupNames()
     {
         // given
-        $pattern = pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
+        $pattern = Pattern::of('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
         $detail = $pattern->match('Lorem')->first();
         // when
         $groups = $detail->groups();
@@ -112,7 +112,7 @@ class Test extends TestCase
     public function shouldGetNamedGroups()
     {
         // given
-        $pattern = pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
+        $pattern = Pattern::of('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
         $detail = $pattern->match('Lorem')->first();
         // when
         $groups = $detail->namedGroups();
@@ -127,7 +127,7 @@ class Test extends TestCase
     public function shouldGetNamedGroupNames()
     {
         // given
-        $pattern = pattern('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
+        $pattern = Pattern::of('(?<group>Foo)|(?<group>Bar)|(?<group>Lorem)', 'J');
         $detail = $pattern->match('Lorem')->first();
         // when
         $groups = $detail->namedGroups();
@@ -241,7 +241,7 @@ class Test extends TestCase
 
     public function detail(): Detail
     {
-        $pattern = pattern('(?<group>One),(?<group>Two)', 'J');
+        $pattern = Pattern::of('(?<group>One),(?<group>Two)', 'J');
         return $pattern->match('One,Two')->first();
     }
 

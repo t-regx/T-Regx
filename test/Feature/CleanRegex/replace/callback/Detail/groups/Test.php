@@ -59,7 +59,7 @@ class Test extends TestCase
     public function shouldGetGroups_forUnmatchedGroup()
     {
         // when
-        pattern('Foo(Bar){0}(Cat){0}')->replace('Foo')->callback(Functions::out($detail, ''));
+        Pattern::of('Foo(Bar){0}(Cat){0}')->replace('Foo')->callback(Functions::out($detail, ''));
         // when
         [$first, $second] = $detail->groups();
         // then
@@ -86,7 +86,7 @@ class Test extends TestCase
     public function shouldGetGroupsNames()
     {
         // given
-        $pattern = pattern('(zero), (?<one>first) and (?<two>second)');
+        $pattern = Pattern::of('(zero), (?<one>first) and (?<two>second)');
         $pattern->replace('zero, first and second')->callback(Functions::out($detail, ''));
         // when, then
         $this->assertSame([null, 'one', 'two'], $detail->groupNames());

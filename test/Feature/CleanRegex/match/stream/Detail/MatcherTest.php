@@ -3,6 +3,7 @@ namespace Test\Feature\CleanRegex\match\stream\Detail;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsDetail;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Matcher
@@ -17,7 +18,7 @@ class MatcherTest extends TestCase
     public function shouldGetAll()
     {
         // given
-        $stream = pattern('\d+')->match('123,456,789')->stream();
+        $stream = Pattern::of('\d+')->match('123,456,789')->stream();
         // when
         [$first, $second, $third] = $stream->all();
         // then
@@ -32,7 +33,7 @@ class MatcherTest extends TestCase
     public function shouldGetFirstTextAndIndex()
     {
         // given
-        $stream = pattern('\d+')->match('123, 456, 789')->stream();
+        $stream = Pattern::of('\d+')->match('123, 456, 789')->stream();
         // when
         $first = $stream->first();
         // then
@@ -46,7 +47,7 @@ class MatcherTest extends TestCase
     public function shouldGetGroupNames_lastGroup()
     {
         // when
-        $stream = pattern('Foo(?<one>Bar)?(?<two>Bar)?')
+        $stream = Pattern::of('Foo(?<one>Bar)?(?<two>Bar)?')
             ->match('Foo')
             ->stream();
         // when
@@ -62,7 +63,7 @@ class MatcherTest extends TestCase
     public function shouldFindFirstDetail()
     {
         // when
-        $detail = pattern('Foo')->match('ę Foo')->stream()->findFirst()->get();
+        $detail = Pattern::of('Foo')->match('ę Foo')->stream()->findFirst()->get();
         // then
         $this->assertSame(2, $detail->offset());
         $this->assertSame(3, $detail->length());

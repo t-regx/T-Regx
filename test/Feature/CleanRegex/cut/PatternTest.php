@@ -25,7 +25,7 @@ class PatternTest extends TestCase
     public function shouldCutEmptyBeforeAndAfter()
     {
         // when
-        [$first, $second] = pattern('%')->cut('%');
+        [$first, $second] = Pattern::of('%')->cut('%');
         // then
         $this->assertSame('', $first);
         $this->assertSame('', $second);
@@ -37,7 +37,7 @@ class PatternTest extends TestCase
     public function shouldNotIncludeSeparator()
     {
         // when
-        [$first, $second] = pattern('(%)')->cut('one%two');
+        [$first, $second] = Pattern::of('(%)')->cut('one%two');
         // then
         $this->assertSame('one', $first);
         $this->assertSame('two', $second);
@@ -49,7 +49,7 @@ class PatternTest extends TestCase
     public function shouldThrowForThreeCuts()
     {
         // given
-        $pattern = pattern('%');
+        $pattern = Pattern::of('%');
         // then
         $this->expectException(UnevenCutException::class);
         $this->expectExceptionMessage("Expected the pattern to make exactly 1 cut, but 2 or more cuts were matched");
@@ -63,7 +63,7 @@ class PatternTest extends TestCase
     public function shouldThrowForTwoCuts()
     {
         // given
-        $pattern = pattern('%');
+        $pattern = Pattern::of('%');
         // then
         $this->expectException(UnevenCutException::class);
         $this->expectExceptionMessage("Expected the pattern to make exactly 1 cut, but 2 or more cuts were matched");
@@ -77,7 +77,7 @@ class PatternTest extends TestCase
     public function shouldThrowForZeroCuts()
     {
         // given
-        $pattern = pattern('%');
+        $pattern = Pattern::of('%');
         // then
         $this->expectException(UnevenCutException::class);
         $this->expectExceptionMessage("Expected the pattern to make exactly 1 cut, but the pattern doesn't match the subject");
@@ -91,7 +91,7 @@ class PatternTest extends TestCase
     public function shouldCutWithZeroLengthMatch()
     {
         // given
-        $pattern = pattern('(?=bar)');
+        $pattern = Pattern::of('(?=bar)');
         // when
         $pieces = $pattern->cut('bar');
         // then

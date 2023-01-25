@@ -4,7 +4,7 @@ namespace Test\Feature\CleanRegex\match\reduce;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Match\Detail;
-use function pattern;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Matcher
@@ -17,7 +17,7 @@ class MatcherTest extends TestCase
     public function shouldReduce_returnAccumulatorForEmptyMatch()
     {
         // given
-        $matcher = pattern('Beep')->match('Boop');
+        $matcher = Pattern::of('Beep')->match('Boop');
         // when
         $result = $matcher->reduce(Functions::fail(), 12);
         // then
@@ -30,7 +30,7 @@ class MatcherTest extends TestCase
     public function shouldReduce_passFromCallbackForSingleMatch()
     {
         // given
-        $matcher = pattern('Match')->match('Match');
+        $matcher = Pattern::of('Match')->match('Match');
         // when
         $result = $matcher->reduce(Functions::constant('Lorem'), 'Accumulator');
         // then
@@ -43,7 +43,7 @@ class MatcherTest extends TestCase
     public function shouldReduce_passAccumulatorAsFirstArgument()
     {
         // given
-        $matcher = pattern('Foo')->match('Foo');
+        $matcher = Pattern::of('Foo')->match('Foo');
         // when
         $result = $matcher->reduce(Functions::identity(), 'Accumulator');
         // then
@@ -60,7 +60,7 @@ class MatcherTest extends TestCase
             return $string;
         };
         // when
-        $result = pattern('Match')->match('Match')->reduce($secondString, 'Accumulator');
+        $result = Pattern::of('Match')->match('Match')->reduce($secondString, 'Accumulator');
         // then
         $this->assertSame('Match', $result);
     }
@@ -75,7 +75,7 @@ class MatcherTest extends TestCase
             return $detail->text();
         };
         // when
-        $result = pattern('Foo')->match('Foo')->reduce($detailText, 'Accumulator');
+        $result = Pattern::of('Foo')->match('Foo')->reduce($detailText, 'Accumulator');
         // then
         $this->assertSame('Foo', $result);
     }
@@ -92,7 +92,7 @@ class MatcherTest extends TestCase
         // then
         $this->expectException(\ArgumentCountError::class);
         // when
-        pattern('Foo')->match('Foo')->reduce($tooManyArguments, 'Accumulator');
+        Pattern::of('Foo')->match('Foo')->reduce($tooManyArguments, 'Accumulator');
     }
 
     /**
@@ -107,7 +107,7 @@ class MatcherTest extends TestCase
         // then
         $this->expectException(\TypeError::class);
         // when
-        pattern('Foo')->match('Foo')->reduce($tooManyArguments, 'Accumulator');
+        Pattern::of('Foo')->match('Foo')->reduce($tooManyArguments, 'Accumulator');
     }
 
     /**
@@ -118,7 +118,7 @@ class MatcherTest extends TestCase
         // then
         $this->expectException(\TypeError::class);
         // when
-        pattern('Foo')->match('Foo')->reduce(null, 'Accumulator');
+        Pattern::of('Foo')->match('Foo')->reduce(null, 'Accumulator');
     }
 
     /**
@@ -127,7 +127,7 @@ class MatcherTest extends TestCase
     public function shouldReduceSecond()
     {
         // when
-        $reduced = pattern('\w+')->match('Foo, Bar')->reduce(Functions::secondArgument(), 'Accumulator');
+        $reduced = Pattern::of('\w+')->match('Foo, Bar')->reduce(Functions::secondArgument(), 'Accumulator');
         // then
         $this->assertSame('Bar', $reduced->text());
         $this->assertSame('Foo, Bar', $reduced->subject());
@@ -139,7 +139,7 @@ class MatcherTest extends TestCase
     public function shouldPassAccumulator()
     {
         // when
-        $reduced = pattern('\d+')->match('15,16,17')->reduce(Functions::sum(), 0);
+        $reduced = Pattern::of('\d+')->match('15,16,17')->reduce(Functions::sum(), 0);
         // then
         $this->assertSame(48, $reduced);
     }
@@ -150,7 +150,7 @@ class MatcherTest extends TestCase
     public function shouldReturnNull()
     {
         // when
-        $reduced = pattern('Foo')->match('Foo,Foo')->reduce(Functions::constant(null), 0);
+        $reduced = Pattern::of('Foo')->match('Foo,Foo')->reduce(Functions::constant(null), 0);
         // then
         $this->assertNull($reduced);
     }
@@ -161,7 +161,7 @@ class MatcherTest extends TestCase
     public function shouldReturnNullAccumulator()
     {
         // when
-        $reduced = pattern('Foo')->match('Bar')->reduce(Functions::fail(), null);
+        $reduced = Pattern::of('Foo')->match('Bar')->reduce(Functions::fail(), null);
         // then
         $this->assertNull($reduced);
     }

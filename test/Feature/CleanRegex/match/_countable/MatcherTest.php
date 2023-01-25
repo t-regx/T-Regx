@@ -3,7 +3,7 @@ namespace Test\Feature\CleanRegex\match\_countable;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsDetail;
-use function pattern;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Matcher
@@ -18,7 +18,7 @@ class MatcherTest extends TestCase
     public function shouldBeCountable()
     {
         // given
-        $matcher = pattern('\w+')->match('One, One, One, Two, One, Three, Two, One');
+        $matcher = Pattern::of('\w+')->match('One, One, One, Two, One, Three, Two, One');
         // when
         $count = \count($matcher);
         // then

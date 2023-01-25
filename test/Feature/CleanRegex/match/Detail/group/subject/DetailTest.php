@@ -2,6 +2,7 @@
 namespace Test\Feature\CleanRegex\match\Detail\group\subject;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Pattern;
 
 class DetailTest extends TestCase
 {
@@ -11,7 +12,7 @@ class DetailTest extends TestCase
     public function shouldGetSubject()
     {
         // given
-        $detail = pattern('(?<loved>Boromir)(Faramir)?')->match('I love you, Boromir')->first();
+        $detail = Pattern::of('(?<loved>Boromir)(Faramir)?')->match('I love you, Boromir')->first();
         // when
         $matchedSubject = $detail->group('loved')->subject();
         // then
@@ -24,7 +25,7 @@ class DetailTest extends TestCase
     public function shouldGetSubject_forUnmatchedGroup()
     {
         // given
-        $detail = pattern('Boromir(?<well>Faramir)?')->match('I love you, Boromir')->first();
+        $detail = Pattern::of('Boromir(?<well>Faramir)?')->match('I love you, Boromir')->first();
         // when
         $subject = $detail->group('well')->subject();
         // then

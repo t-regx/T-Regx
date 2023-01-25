@@ -4,7 +4,7 @@ namespace Test\Feature\CleanRegex\match\Detail\group\isInt;
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Match\Detail;
-use function pattern;
+use TRegx\CleanRegex\Pattern;
 
 class DetailTest extends TestCase
 {
@@ -14,7 +14,7 @@ class DetailTest extends TestCase
     public function shouldBeInt()
     {
         // given
-        $detail = pattern('(?<name>11)')->match('11')->first();
+        $detail = Pattern::of('(?<name>11)')->match('11')->first();
         // when
         $result = $detail->group(1)->isInt();
         // then
@@ -27,7 +27,7 @@ class DetailTest extends TestCase
     public function shouldPseudoInteger_notBeInt_becausePhpSucks()
     {
         // given
-        $detail = pattern('(1e3)')->match('1e3')->first();
+        $detail = Pattern::of('(1e3)')->match('1e3')->first();
         // when
         $result = $detail->group(1)->isInt();
         // then
@@ -40,7 +40,7 @@ class DetailTest extends TestCase
     public function shouldNotBeInteger_byName()
     {
         // given
-        $detail = pattern('(?<name>Foo)')->match('Foo bar')->first();
+        $detail = Pattern::of('(?<name>Foo)')->match('Foo bar')->first();
         // when
         $result = $detail->group('name')->isInt();
         // then
@@ -53,7 +53,7 @@ class DetailTest extends TestCase
     public function shouldNotBeInteger_byIndex()
     {
         // given
-        $detail = pattern('(?<name>Foo)')->match('Foo bar')->first();
+        $detail = Pattern::of('(?<name>Foo)')->match('Foo bar')->first();
         // when
         $result = $detail->group(1)->isInt();
         // then
@@ -66,7 +66,7 @@ class DetailTest extends TestCase
     public function shouldBeInt_byName()
     {
         // given
-        pattern('(?<value>\d+)')
+        Pattern::of('(?<value>\d+)')
             ->match('12cm 14mm 13cm 19cm 18mm 2mm')
             ->forEach(function (Detail $detail) {
                 // when
@@ -83,7 +83,7 @@ class DetailTest extends TestCase
     public function shouldBeInt_byIndex()
     {
         // given
-        pattern('(?<value>\d+)')
+        Pattern::of('(?<value>\d+)')
             ->match('12cm 14mm 13cm 19cm 18mm 2mm')
             ->map(function (Detail $detail) {
                 // when
@@ -100,7 +100,7 @@ class DetailTest extends TestCase
     public function shouldBeIntBase12()
     {
         // given
-        $detail = pattern('14b2')->match('14b2')->first();
+        $detail = Pattern::of('14b2')->match('14b2')->first();
         // when
         $isInt = $detail->group(0)->isInt(12);
         // then
@@ -113,7 +113,7 @@ class DetailTest extends TestCase
     public function shouldIntegerBase11NotBeIntegerBase10()
     {
         // given
-        $detail = pattern('10a')->match('10a')->first();
+        $detail = Pattern::of('10a')->match('10a')->first();
         // when
         $isInt = $detail->group(0)->isInt();
         // then
@@ -126,7 +126,7 @@ class DetailTest extends TestCase
     public function shouldNotBeInteger_overflown()
     {
         // given
-        $detail = pattern('(?<name>\d+)')->match('-92233720368547758080')->first();
+        $detail = Pattern::of('(?<name>\d+)')->match('-92233720368547758080')->first();
         // when
         $result = $detail->group('name')->isInt();
         // then
@@ -139,7 +139,7 @@ class DetailTest extends TestCase
     public function shouldThrowForUnmatchedGroup()
     {
         // given
-        $detail = pattern('(?<name>Foo)(?<missing>Bar)?')->match('Foo')->first();
+        $detail = Pattern::of('(?<name>Foo)(?<missing>Bar)?')->match('Foo')->first();
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to call isInt() for group 'missing', but the group was not matched");

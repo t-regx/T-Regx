@@ -24,7 +24,7 @@ class MatcherTest extends TestCase
     public function shouldGroupBy()
     {
         // when
-        $grouped = pattern('\d+(?<unit>cm|mm)?')->match('14cm 13mm 19cm 18mm 2cm')->groupBy('unit');
+        $grouped = Pattern::of('\d+(?<unit>cm|mm)?')->match('14cm 13mm 19cm 18mm 2cm')->groupBy('unit');
         // then
         $this->assertStructure($grouped, [
             'cm' => [Expect::text('14cm'), Expect::text('19cm'), Expect::text('2cm')],
@@ -38,7 +38,7 @@ class MatcherTest extends TestCase
     public function shouldDetailGetSubject()
     {
         // when
-        $grouped = pattern('Foo')->match('subject:Foo')->groupBy(0);
+        $grouped = Pattern::of('Foo')->match('subject:Foo')->groupBy(0);
         // then
         $this->assertStructure($grouped, [
             'Foo' => [Expect::subject('subject:Foo')]
@@ -54,7 +54,7 @@ class MatcherTest extends TestCase
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage('Expected to group matches by group #1, but the group was not matched');
         // when
-        pattern('Foo(Bar)?')->match('FooBar, Foo')->groupBy(1);
+        Pattern::of('Foo(Bar)?')->match('FooBar, Foo')->groupBy(1);
     }
 
     /**
@@ -66,7 +66,7 @@ class MatcherTest extends TestCase
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to group matches by group 'group', but the group was not matched");
         // when
-        pattern('Foo(?<group>Bar)?')->match('FooBar, Foo')->groupBy('group');
+        Pattern::of('Foo(?<group>Bar)?')->match('FooBar, Foo')->groupBy('group');
     }
 
     /**
@@ -111,7 +111,7 @@ class MatcherTest extends TestCase
     public function shouldGroupByCorrectlyByDuplicateName()
     {
         // when
-        $result = pattern('(?<one>Foo)(?<one>Bar)', 'J')->match('FooBar')->groupBy('one');
+        $result = Pattern::of('(?<one>Foo)(?<one>Bar)', 'J')->match('FooBar')->groupBy('one');
         // then
         /** @var Detail $detail */
         [$detail] = $result['Foo'];
@@ -125,7 +125,7 @@ class MatcherTest extends TestCase
     public function shouldGroupByCorrectlyThrowForUnmatchedDuplicateName()
     {
         // given
-        $matcher = pattern('(?<one>Foo){0}(?<one>Bar)', 'J')->match('Bar');
+        $matcher = Pattern::of('(?<one>Foo){0}(?<one>Bar)', 'J')->match('Bar');
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to group matches by group 'one', but the group was not matched");
@@ -139,7 +139,7 @@ class MatcherTest extends TestCase
     public function shouldGroupByEmptyElement()
     {
         // when
-        $grouped = pattern('()')->match('')->groupBy(1);
+        $grouped = Pattern::of('()')->match('')->groupBy(1);
         // then
         $this->assertStructure($grouped, [
             '' => [Expect::text('')]

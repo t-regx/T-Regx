@@ -82,9 +82,9 @@ class PatternTest extends TestCase
     public function shouldNotInfluenceFurtherChecks()
     {
         // when
-        pattern('/[a-')->valid();
+        Pattern::of('/[a-')->valid();
         // when, then
-        $this->assertTrue(pattern('/[a-z]/')->valid());
+        $this->assertTrue(Pattern::of('/[a-z]/')->valid());
     }
 
     /**
@@ -93,11 +93,11 @@ class PatternTest extends TestCase
     public function shouldNotInterfereWithFurtherMatches()
     {
         try {
-            pattern('/[a-')->test('');
+            Pattern::of('/[a-')->test('');
         } catch (MalformedPatternException $e) {
         }
         // when
-        $valid = pattern('[a-z]')->test('a');
+        $valid = Pattern::of('[a-z]')->test('a');
         // then
         $this->assertTrue($valid);
     }

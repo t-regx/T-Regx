@@ -101,7 +101,7 @@ class Test extends TestCase
     public function shouldThrowMalformedPattern()
     {
         // given
-        $pattern = pattern('+');
+        $pattern = Pattern::of('+');
         // then
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
@@ -115,7 +115,7 @@ class Test extends TestCase
     public function shouldThrowMalformedPatternExactly0()
     {
         // given
-        $pattern = pattern('+');
+        $pattern = Pattern::of('+');
         // then
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');

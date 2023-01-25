@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Backtrack\CausesBacktracking;
 use Test\Utils\Functions;
 use Test\Utils\TestCase\TestCasePasses;
+use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\SafeRegex\Exception\CatastrophicBacktrackingException;
 
@@ -24,7 +25,7 @@ class Test extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Negative limit: -1');
         // when
-        pattern('Foo')->replace('Bar')->limit(-1);
+        Pattern::of('Foo')->replace('Bar')->limit(-1);
     }
 
     /**
@@ -36,7 +37,7 @@ class Test extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Negative limit: -4');
         // when
-        pattern('Foo')->replace('Bar')->limit(-4);
+        Pattern::of('Foo')->replace('Bar')->limit(-4);
     }
 
     /**
@@ -45,7 +46,7 @@ class Test extends TestCase
     public function shouldReplace()
     {
         // when
-        $replaced = pattern('\d+')->replace('127.0.0.1')->limit(3)->with('X');
+        $replaced = Pattern::of('\d+')->replace('127.0.0.1')->limit(3)->with('X');
         // then
         $this->assertSame('X.X.X.1', $replaced);
     }
@@ -59,7 +60,7 @@ class Test extends TestCase
     public function shouldReplaceNOccurrences(int $limit, string $expectedResult)
     {
         // when
-        $replaced = pattern('[0-3]')->replace('0, 1, 2, 3')->limit($limit)->with('*');
+        $replaced = Pattern::of('[0-3]')->replace('0, 1, 2, 3')->limit($limit)->with('*');
         // then
         $this->assertSame($expectedResult, $replaced);
     }
@@ -80,7 +81,7 @@ class Test extends TestCase
     public function shouldReplace_withReferences()
     {
         // when
-        $replaced = pattern('(\d+)')->replace('127.0.0.1')->limit(2)->withReferences('<$1>');
+        $replaced = Pattern::of('(\d+)')->replace('127.0.0.1')->limit(2)->withReferences('<$1>');
         // then
         $this->assertSame('<127>.<0>.0.1', $replaced);
     }
@@ -94,7 +95,7 @@ class Test extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        pattern('?')->replace('Foo')->limit(0)->withReferences('Bar');
+        Pattern::of('?')->replace('Foo')->limit(0)->withReferences('Bar');
     }
 
     /**
@@ -103,7 +104,7 @@ class Test extends TestCase
     public function shouldReplace_callback()
     {
         // when
-        $replaced = pattern('\d+')->replace('127.230.35.10')->limit(2)->callback(Functions::charAt(0));
+        $replaced = Pattern::of('\d+')->replace('127.230.35.10')->limit(2)->callback(Functions::charAt(0));
         // then
         $this->assertSame('1.2.35.10', $replaced);
     }
@@ -114,7 +115,7 @@ class Test extends TestCase
     public function shouldReplace_withGroup()
     {
         // when
-        $replaced = pattern('!(\d+)!')->replace('!123!, !345!, !678!')->limit(2)->withGroup(1);
+        $replaced = Pattern::of('!(\d+)!')->replace('!123!, !345!, !678!')->limit(2)->withGroup(1);
         // then
         $this->assertSame('123, 345, !678!', $replaced);
     }

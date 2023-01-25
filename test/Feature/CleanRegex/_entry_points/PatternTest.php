@@ -35,8 +35,7 @@ class PatternTest extends TestCase
         // given
         $pattern = Pattern::list([
             '^F...o$',
-            pattern('^Fro'),
-            Pattern::of('rod'),
+            Pattern::of('^Fro'),
             PcrePattern::of('/do$/'),
         ]);
         // when

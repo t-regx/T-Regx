@@ -4,6 +4,7 @@ namespace Test\Feature\CleanRegex\match\Detail\index;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsDetail;
 use Test\Utils\Functions;
+use TRegx\CleanRegex\Pattern;
 
 class DetailTest extends TestCase
 {
@@ -15,7 +16,7 @@ class DetailTest extends TestCase
     public function shouldGetIndex_first()
     {
         // given
-        $detail = pattern('\w+')->match('Socrates, Plato, Aristotle')->first();
+        $detail = Pattern::of('\w+')->match('Socrates, Plato, Aristotle')->first();
         // when
         $index = $detail->index();
         // then
@@ -28,7 +29,7 @@ class DetailTest extends TestCase
     public function shouldGetIndex_findFirst()
     {
         // given
-        $detail = pattern('\w+')->match('Socrates, Plato, Aristotle')->findFirst()->get();
+        $detail = Pattern::of('\w+')->match('Socrates, Plato, Aristotle')->findFirst()->get();
         // when
         $index = $detail->index();
         // then
@@ -41,7 +42,7 @@ class DetailTest extends TestCase
     public function shouldGetIndex_all()
     {
         // given
-        $match = pattern('\w+')->match('Socrates, Plato, Aristotle');
+        $match = Pattern::of('\w+')->match('Socrates, Plato, Aristotle');
         // when
         $details = $match->all();
         // then
@@ -54,7 +55,7 @@ class DetailTest extends TestCase
     public function shouldGetIndex_map()
     {
         // given
-        $match = pattern('\w+')->match('Socrates, Plato, Aristotle');
+        $match = Pattern::of('\w+')->match('Socrates, Plato, Aristotle');
         // when
         $match->map(Functions::collect($details));
         // then
@@ -67,7 +68,7 @@ class DetailTest extends TestCase
     public function shouldGetIndex_flatMap()
     {
         // given
-        $match = pattern('\w+')->match('Socrates, Plato, Aristotle');
+        $match = Pattern::of('\w+')->match('Socrates, Plato, Aristotle');
         // when
         $match->flatMap(Functions::collect($details, []));
         // then
@@ -80,7 +81,7 @@ class DetailTest extends TestCase
     public function shouldGetIndex_forEach()
     {
         // given
-        $match = pattern('\w+')->match('Socrates, Plato, Aristotle');
+        $match = Pattern::of('\w+')->match('Socrates, Plato, Aristotle');
         // when
         $match->forEach(Functions::collect($details));
         // then

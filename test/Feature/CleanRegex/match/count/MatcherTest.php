@@ -5,7 +5,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsDetail;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
-use function pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Matcher
@@ -20,7 +19,7 @@ class MatcherTest extends TestCase
     public function shouldCount()
     {
         // when
-        $count = pattern('\w+')->match('One, One, One, Two, One, Three, Two, One')->count();
+        $count = Pattern::of('\w+')->match('One, One, One, Two, One, Three, Two, One')->count();
         // then
         $this->assertSame(8, $count);
     }
@@ -31,7 +30,7 @@ class MatcherTest extends TestCase
     public function shouldCount_onUnmatchedSubject()
     {
         // when
-        $count = pattern('Foo')->match('Bar')->count();
+        $count = Pattern::of('Foo')->match('Bar')->count();
         // then
         $this->assertSame(0, $count);
     }

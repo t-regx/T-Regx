@@ -5,7 +5,6 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsDetail;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
-use function pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Search
@@ -20,7 +19,7 @@ class SearchTest extends TestCase
     public function shouldReturnAll()
     {
         // when
-        $details = pattern('\S{5,}')->search("I'm disinclined to acquiesce to your request")->all();
+        $details = Pattern::of('\S{5,}')->search("I'm disinclined to acquiesce to your request")->all();
         // then
         $this->assertSame(['disinclined', 'acquiesce', 'request'], $details);
     }
@@ -31,7 +30,7 @@ class SearchTest extends TestCase
     public function shouldReturnEmpty_onUnmatchedSubject()
     {
         // when
-        $details = pattern('Means')->search('No')->all();
+        $details = Pattern::of('Means')->search('No')->all();
         // then
         $this->assertEmpty($details);
     }

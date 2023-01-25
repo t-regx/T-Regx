@@ -13,7 +13,6 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\InvalidReturnValueException;
 use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
-use function pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Matcher
@@ -28,7 +27,7 @@ class MatcherTest extends TestCase
     public function shouldGroupByCallbackString()
     {
         // given
-        $matcher = pattern('\d+(?<unit>cm|mm)')->match('12cm, 14mm, 13cm, 19cm, 18mm, 2mm');
+        $matcher = Pattern::of('\d+(?<unit>cm|mm)')->match('12cm, 14mm, 13cm, 19cm, 18mm, 2mm');
         // when
         $grouped = $matcher->groupByCallback(DetailFunctions::get('unit'));
         // then
@@ -44,7 +43,7 @@ class MatcherTest extends TestCase
     public function shouldGroupByCallbackGroup()
     {
         // given
-        $matcher = pattern('\d+(?<unit>cm|mm)')->match('12cm 14mm 13cm 19cm 18mm 2mm');
+        $matcher = Pattern::of('\d+(?<unit>cm|mm)')->match('12cm 14mm 13cm 19cm 18mm 2mm');
         // when
         $grouped = $matcher->groupByCallback(DetailFunctions::group('unit'));
         // then
@@ -60,7 +59,7 @@ class MatcherTest extends TestCase
     public function shouldGroupByCallbackDetail()
     {
         // given
-        $matcher = pattern('(?<value>\d+)(?<unit>cm|mm)')->match('12cm 14mm 13cm 19cm 18mm 2mm');
+        $matcher = Pattern::of('(?<value>\d+)(?<unit>cm|mm)')->match('12cm 14mm 13cm 19cm 18mm 2mm');
         // when
         $grouped = $matcher->groupByCallback(Functions::identity());
         // then
@@ -93,7 +92,7 @@ class MatcherTest extends TestCase
     public function shouldGroupByCallbackInteger()
     {
         // given
-        $matcher = pattern('(?<value>\d+)(cm|mm)')->match('12cm 14mm 13cm 19cm 18mm 2mm');
+        $matcher = Pattern::of('(?<value>\d+)(cm|mm)')->match('12cm 14mm 13cm 19cm 18mm 2mm');
         // when
         $grouped = $matcher->groupByCallback(function (Detail $detail) {
             return $detail->group('value')->toInt();
@@ -118,7 +117,7 @@ class MatcherTest extends TestCase
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid groupByCallback() callback return type. Expected int|string, but array (0) given');
         // given
-        pattern('Foo')->match('Foo')->groupByCallback(Functions::constant([]));
+        Pattern::of('Foo')->match('Foo')->groupByCallback(Functions::constant([]));
     }
 
     /**
@@ -130,7 +129,7 @@ class MatcherTest extends TestCase
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid groupByCallback() callback return type. Expected int|string, but null given');
         // given
-        pattern('Foo')->match('Foo')->groupByCallback(Functions::constant(null));
+        Pattern::of('Foo')->match('Foo')->groupByCallback(Functions::constant(null));
     }
 
     /**
@@ -139,7 +138,7 @@ class MatcherTest extends TestCase
     public function shouldThrowForInvalidGroupByTypeTrue()
     {
         // given
-        $matcher = pattern('Foo')->match('Foo');
+        $matcher = Pattern::of('Foo')->match('Foo');
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid groupByCallback() callback return type. Expected int|string, but boolean (true) given');
@@ -153,7 +152,7 @@ class MatcherTest extends TestCase
     public function shouldGroupByUnmatched()
     {
         // given
-        $matcher = pattern('Foo')->match('Bar');
+        $matcher = Pattern::of('Foo')->match('Bar');
         // when
         $grouped = $matcher->groupByCallback(Functions::fail());
         // then

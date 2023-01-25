@@ -27,7 +27,7 @@ class PatternTest extends TestCase
     public function shouldTest_beFalse_forNotMatching()
     {
         // when
-        $test = pattern('\d')->test('abc');
+        $test = Pattern::of('\d')->test('abc');
         // then
         $this->assertFalse($test);
     }
@@ -38,7 +38,7 @@ class PatternTest extends TestCase
     public function shouldFails_beTrue_forNotMatched()
     {
         // when
-        $fails = pattern('\d')->fails('abc');
+        $fails = Pattern::of('\d')->fails('abc');
         // then
         $this->assertTrue($fails);
     }
@@ -49,7 +49,7 @@ class PatternTest extends TestCase
     public function shouldCount()
     {
         // when
-        $count = pattern('\d+')->count('111-222-333');
+        $count = Pattern::of('\d+')->count('111-222-333');
         // then
         $this->assertSame(3, $count);
     }
@@ -88,7 +88,7 @@ class PatternTest extends TestCase
     public function shouldCount_0_notMatched()
     {
         // when
-        $count = pattern('[a-z]+')->count('111-222-333');
+        $count = Pattern::of('[a-z]+')->count('111-222-333');
         // then
         $this->assertSame(0, $count);
     }
@@ -106,7 +106,7 @@ class PatternTest extends TestCase
             'lowercase again',
         ];
         // when
-        $filtered = pattern('[A-Z][a-z]+')->filter($array);
+        $filtered = Pattern::of('[A-Z][a-z]+')->filter($array);
         // then
         $this->assertSame(['Uppercase', 'Uppercase again'], $filtered);
     }
@@ -120,7 +120,7 @@ class PatternTest extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Two named subpatterns have the same name at offset 21');
         // when
-        pattern('First(?<one>)?(?<one>)?')->test('Test');
+        Pattern::of('First(?<one>)?(?<one>)?')->test('Test');
     }
 
     /**
@@ -129,7 +129,7 @@ class PatternTest extends TestCase
     public function shouldReturn_prune()
     {
         // when
-        $result = pattern('\d+[.,]\d+')->prune('Foo for "14,43" and Bar for "2.32"');
+        $result = Pattern::of('\d+[.,]\d+')->prune('Foo for "14,43" and Bar for "2.32"');
         // then
         $this->assertSame('Foo for "" and Bar for ""', $result);
     }
@@ -143,7 +143,7 @@ class PatternTest extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 5');
         // when
-        pattern('Foo **')->prune('Foo bar');
+        Pattern::of('Foo **')->prune('Foo bar');
     }
 
     /**

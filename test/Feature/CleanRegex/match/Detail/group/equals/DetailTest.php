@@ -2,6 +2,7 @@
 namespace Test\Feature\CleanRegex\match\Detail\group\equals;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Pattern;
 
 class DetailTest extends TestCase
 {
@@ -11,7 +12,7 @@ class DetailTest extends TestCase
     public function shouldEqual()
     {
         // given
-        $detail = pattern('Foo(Bar)')->match('FooBar')->first();
+        $detail = Pattern::of('Foo(Bar)')->match('FooBar')->first();
         // then
         $this->assertTrue($detail->group(1)->equals('Bar'));
     }
@@ -22,7 +23,7 @@ class DetailTest extends TestCase
     public function shouldNotEqual()
     {
         // given
-        $detail = pattern('Foo(Bar)')->match('FooBar')->first();
+        $detail = Pattern::of('Foo(Bar)')->match('FooBar')->first();
         // then
         $this->assertFalse($detail->group(1)->equals('something else'));
     }
@@ -33,7 +34,7 @@ class DetailTest extends TestCase
     public function shouldNotEqual_forUnmatchedGroup()
     {
         // given
-        $detail = pattern('Foo(Bar)?')->match('Foo')->first();
+        $detail = Pattern::of('Foo(Bar)?')->match('Foo')->first();
         // then
         $this->assertFalse($detail->group(1)->equals('irrelevant'));
     }
@@ -44,7 +45,7 @@ class DetailTest extends TestCase
     public function shouldNotEqual_forUnmatchedGroup_emptyString()
     {
         // given
-        $detail = pattern('Foo(Bar)?')->match('Foo')->first();
+        $detail = Pattern::of('Foo(Bar)?')->match('Foo')->first();
         // then
         $this->assertFalse($detail->group(1)->equals(''));
     }
@@ -55,7 +56,7 @@ class DetailTest extends TestCase
     public function shouldEqual_emptyString()
     {
         // given
-        $detail = pattern('Foo()')->match('Foo')->first();
+        $detail = Pattern::of('Foo()')->match('Foo')->first();
         // then
         $this->assertTrue($detail->group(1)->equals(''));
     }

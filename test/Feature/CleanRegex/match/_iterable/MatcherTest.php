@@ -18,7 +18,7 @@ class MatcherTest extends TestCase
 
     private function match(): Matcher
     {
-        return pattern('\d+')->match('127.0.1.2');
+        return Pattern::of('\d+')->match('127.0.1.2');
     }
 
     /**

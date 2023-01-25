@@ -6,6 +6,7 @@ use Test\Utils\Backtrack\CausesBacktracking;
 use Test\Utils\Functions;
 use Test\Utils\TestCase\TestCaseExactMessage;
 use TRegx\CleanRegex\Exception\ReplacementExpectationFailedException;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @coversNothing
@@ -20,7 +21,7 @@ class Test extends TestCase
     public function shouldReplaceFirst()
     {
         // when
-        $replaced = pattern('Foo')->replace('"Foo"')->first()->with('Bar');
+        $replaced = Pattern::of('Foo')->replace('"Foo"')->first()->with('Bar');
         // then
         $this->assertSame('"Bar"', $replaced);
     }
@@ -31,7 +32,7 @@ class Test extends TestCase
     public function shouldReplaceFirst_withReferences()
     {
         // when
-        $replaced = pattern('(127)')->replace('127.0.0.1')->first()->withReferences('<$1>');
+        $replaced = Pattern::of('(127)')->replace('127.0.0.1')->first()->withReferences('<$1>');
         // then
         $this->assertSame('<127>.0.0.1', $replaced);
     }
@@ -42,7 +43,7 @@ class Test extends TestCase
     public function shouldReplaceFirst_callback()
     {
         // when
-        $replaced = pattern('127')->replace('127.230.35.10')->first()->callback(Functions::charAt(0));
+        $replaced = Pattern::of('127')->replace('127.230.35.10')->first()->callback(Functions::charAt(0));
         // then
         $this->assertSame('1.230.35.10', $replaced);
     }
@@ -53,7 +54,7 @@ class Test extends TestCase
     public function shouldReplaceFirst_withGroup()
     {
         // when
-        $replaced = pattern('!(123)!')->replace('!123! !345!')->first()->withGroup(1);
+        $replaced = Pattern::of('!(123)!')->replace('!123! !345!')->first()->withGroup(1);
         // then
         $this->assertSame('123 !345!', $replaced);
     }
@@ -67,7 +68,7 @@ class Test extends TestCase
         $this->expectException(ReplacementExpectationFailedException::class);
         $this->expectExceptionMessage('Expected to perform exactly 1 replacement(s), but more than 1 replacement(s) would have been performed');
         // when
-        pattern('Foo')->replace('Foo, Foo')->first()->with('Dead');
+        Pattern::of('Foo')->replace('Foo, Foo')->first()->with('Dead');
     }
 
     /**
@@ -79,7 +80,7 @@ class Test extends TestCase
         $this->expectException(ReplacementExpectationFailedException::class);
         $this->expectExceptionMessage('Expected to perform exactly 1 replacement(s), but 0 replacement(s) were actually performed');
         // when
-        pattern('Foo')->replace('Bar')->first()->with('Dead');
+        Pattern::of('Foo')->replace('Bar')->first()->with('Dead');
     }
 
     /**
@@ -91,7 +92,7 @@ class Test extends TestCase
         $this->expectException(ReplacementExpectationFailedException::class);
         $this->expectExceptionMessage('Expected to perform exactly 1 replacement(s), but 0 replacement(s) were actually performed');
         // when
-        pattern('Foo')->replace('Bar')->first()->callback(Functions::fail());
+        Pattern::of('Foo')->replace('Bar')->first()->callback(Functions::fail());
     }
 
     /**
@@ -103,7 +104,7 @@ class Test extends TestCase
         $this->expectException(ReplacementExpectationFailedException::class);
         $this->expectExceptionMessage('Expected to perform exactly 1 replacement(s), but more than 1 replacement(s) would have been performed');
         // when
-        pattern('Foo')->replace('Foo, Foo, Foo')->first()->callback(Functions::constant('Bar'));
+        Pattern::of('Foo')->replace('Foo, Foo, Foo')->first()->callback(Functions::constant('Bar'));
     }
 
     /**
@@ -127,7 +128,7 @@ class Test extends TestCase
         $this->expectException(ReplacementExpectationFailedException::class);
         $this->expectExceptionMessage('Expected to perform exactly 1 replacement(s), but more than 1 replacement(s) would have been performed');
         // when
-        pattern('Foo')->replace('"Foo", Foo')->first()->with('Bar');
+        Pattern::of('Foo')->replace('"Foo", Foo')->first()->with('Bar');
     }
 
     /**
@@ -136,7 +137,7 @@ class Test extends TestCase
     public function shouldReplaceExactlyFirst_withGroup()
     {
         // when
-        $result = pattern('Foo(\d+)')->replace('"Foo14"')->first()->withGroup(1);
+        $result = Pattern::of('Foo(\d+)')->replace('"Foo14"')->first()->withGroup(1);
         // then
         $this->assertSame('"14"', $result);
     }
@@ -150,6 +151,6 @@ class Test extends TestCase
         $this->expectException(ReplacementExpectationFailedException::class);
         $this->expectExceptionMessage('Expected to perform exactly 1 replacement(s), but more than 1 replacement(s) would have been performed');
         // when
-        pattern('(Foo)')->replace('"Foo", Foo')->first()->withGroup(1);
+        Pattern::of('(Foo)')->replace('"Foo", Foo')->first()->withGroup(1);
     }
 }

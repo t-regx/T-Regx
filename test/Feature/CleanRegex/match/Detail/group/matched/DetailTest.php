@@ -2,6 +2,7 @@
 namespace Test\Feature\CleanRegex\match\Detail\group\matched;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Pattern;
 
 class DetailTest extends TestCase
 {
@@ -11,7 +12,7 @@ class DetailTest extends TestCase
     public function shouldBeMatched()
     {
         // given
-        $detail = pattern('Hello (?<one>there)')->match('Hello there, General Kenobi')->first();
+        $detail = Pattern::of('Hello (?<one>there)')->match('Hello there, General Kenobi')->first();
         // when
         $matches = $detail->group('one')->matched();
         // then
@@ -24,7 +25,7 @@ class DetailTest extends TestCase
     public function shouldNotBeMatched_forUnmatchedGroup()
     {
         // given
-        $detail = pattern('Hello (?<one>there)?(?<two>XX)')->match('Hello XX, General Kenobi')->first();
+        $detail = Pattern::of('Hello (?<one>there)?(?<two>XX)')->match('Hello XX, General Kenobi')->first();
         // when
         $matches = $detail->group('one')->matched();
         // then
@@ -37,7 +38,7 @@ class DetailTest extends TestCase
     public function shouldNotBeMatched_forUnmatchedGroup_last()
     {
         // given
-        $detail = pattern('Hello (?<one>there)?')->match('Hello XX, General Kenobi')->first();
+        $detail = Pattern::of('Hello (?<one>there)?')->match('Hello XX, General Kenobi')->first();
         // when
         $matches = $detail->group('one')->matched();
         // then

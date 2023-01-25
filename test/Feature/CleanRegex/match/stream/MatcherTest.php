@@ -102,7 +102,7 @@ class MatcherTest extends TestCase
     public function shouldBeIterable()
     {
         // given
-        $stream = pattern('\d+([cm]m)')->match('14cm, 12mm')->stream();
+        $stream = Pattern::of('\d+([cm]m)')->match('14cm, 12mm')->stream();
         // when
         [$first, $second] = \iterator_to_array($stream);
         // then
@@ -129,7 +129,7 @@ class MatcherTest extends TestCase
     public function shouldKeepIndices()
     {
         // given
-        $stream = pattern('Foo|Bar|Lorem')->match("Foo, Bar, Lorem")->stream();
+        $stream = Pattern::of('Foo|Bar|Lorem')->match("Foo, Bar, Lorem")->stream();
         // when
         [$first, $second, $third] = $stream->all();
         // then
@@ -144,7 +144,7 @@ class MatcherTest extends TestCase
     public function shouldKeepIndex_first()
     {
         // given
-        $detail = pattern('Foo|Bar')->match("Foo, Bar")->stream()->first();
+        $detail = Pattern::of('Foo|Bar')->match("Foo, Bar")->stream()->first();
         // then
         $this->assertDetailIndex(0, $detail);
     }
@@ -155,7 +155,7 @@ class MatcherTest extends TestCase
     public function shouldGetDetailAll_first()
     {
         // given
-        $detail = pattern('Foo|Bar|Lorem')->match('Foo, Bar, Lorem')->stream()->first();
+        $detail = Pattern::of('Foo|Bar|Lorem')->match('Foo, Bar, Lorem')->stream()->first();
         // when
         $other = $detail->all();
         // then
@@ -168,7 +168,7 @@ class MatcherTest extends TestCase
     public function shouldGetDetailAll()
     {
         // given
-        $stream = pattern('Foo|Bar|Lorem')->match('Foo, Bar, Lorem')->stream();
+        $stream = Pattern::of('Foo|Bar|Lorem')->match('Foo, Bar, Lorem')->stream();
         // when
         [$first, $second, $third] = $stream->all();
         // then

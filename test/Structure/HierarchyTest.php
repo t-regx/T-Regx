@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsHasClass;
 use TRegx\CleanRegex\Exception\PatternException;
 use TRegx\CleanRegex\Exception\PatternMalformedPatternException;
+use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 use TRegx\Exception\RegexException;
 use TRegx\SafeRegex\Exception\PregException;
@@ -38,7 +39,7 @@ class HierarchyTest extends TestCase
     public function pattern(): void
     {
         try {
-            pattern('(hello')->test('word');
+            Pattern::of('(hello')->test('word');
         } catch (\Throwable $exception) {
             $this->assertHasClass(PregMalformedPatternException::class, $exception);
             $this->assertInstanceOf(MalformedPatternException::class, $exception);
@@ -55,7 +56,7 @@ class HierarchyTest extends TestCase
     public function pattern_trailing(): void
     {
         try {
-            pattern('hello\\')->test('word');
+            Pattern::of('hello\\')->test('word');
         } catch (\Throwable $exception) {
             $this->assertHasClass(PatternMalformedPatternException::class, $exception);
             $this->assertInstanceOf(MalformedPatternException::class, $exception);

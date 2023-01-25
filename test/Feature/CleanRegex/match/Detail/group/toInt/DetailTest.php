@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\IntegerFormatException;
 use TRegx\CleanRegex\Exception\IntegerOverflowException;
 use TRegx\CleanRegex\Match\Detail;
-use function pattern;
+use TRegx\CleanRegex\Pattern;
 
 class DetailTest extends TestCase
 {
@@ -22,7 +22,7 @@ class DetailTest extends TestCase
     public function shouldParseInt(string $string, int $expected)
     {
         // given
-        $detail = pattern('(?<name>-?\d+)')->match($string)->first();
+        $detail = Pattern::of('(?<name>-?\d+)')->match($string)->first();
         // when
         $int = $detail->group(1)->toInt();
         // then
@@ -47,7 +47,7 @@ class DetailTest extends TestCase
     public function shouldParseIntBase4()
     {
         // given
-        $detail = pattern('(?<name>-?\d+)')->match('-321')->first();
+        $detail = Pattern::of('(?<name>-?\d+)')->match('-321')->first();
         // when
         $result = $detail->group(1)->toInt(4);
         // then
@@ -60,7 +60,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forPseudoInteger_becausePhpSucks()
     {
         // given
-        $detail = pattern('(.*)', 's')->match(' 10')->first();
+        $detail = Pattern::of('(.*)', 's')->match(' 10')->first();
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse group #1, but ' 10' is not a valid integer in base 10");
@@ -74,7 +74,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forInvalidInteger_base4()
     {
         // given
-        $detail = pattern('(4)')->match('4')->first();
+        $detail = Pattern::of('(4)')->match('4')->first();
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse group #1, but '4' is not a valid integer in base 4");
@@ -88,7 +88,7 @@ class DetailTest extends TestCase
     public function shouldParseInt_byName()
     {
         // given
-        $result = pattern('(?<value>\d+)')
+        $result = Pattern::of('(?<value>\d+)')
             ->match('12cm 14mm 13cm 19cm 18mm 2mm')
             ->map(function (Detail $detail) {
                 // when
@@ -105,7 +105,7 @@ class DetailTest extends TestCase
     public function shouldParseInt_byIndex()
     {
         // given
-        $result = pattern('(?<value>\d+)')
+        $result = Pattern::of('(?<value>\d+)')
             ->match('12cm 14mm 13cm 19cm 18mm 2mm')
             ->map(function (Detail $detail) {
                 // when
@@ -122,7 +122,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forInvalidInteger_byName()
     {
         // given
-        $detail = pattern('(?<name>Foo)')->match('Foo bar')->first();
+        $detail = Pattern::of('(?<name>Foo)')->match('Foo bar')->first();
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse group 'name', but 'Foo' is not a valid integer in base 10");
@@ -136,7 +136,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forInvalidInteger_byIndex()
     {
         // given
-        $detail = pattern('(?<name>Foo)')->match('Foo bar')->first();
+        $detail = Pattern::of('(?<name>Foo)')->match('Foo bar')->first();
         // then
         $this->expectException(IntegerFormatException::class);
         $this->expectExceptionMessage("Expected to parse group #1, but 'Foo' is not a valid integer in base 10");
@@ -150,7 +150,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forOverflownInteger_byName()
     {
         // given
-        $detail = pattern('(?<name>\d+)')->match('9223372036854775808')->first();
+        $detail = Pattern::of('(?<name>\d+)')->match('9223372036854775808')->first();
         // then
         $this->expectException(IntegerOverflowException::class);
         $this->expectExceptionMessage("Expected to parse group 'name', but '9223372036854775808' exceeds integer size on this architecture in base 10");
@@ -164,7 +164,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forOverflownInteger_byIndex()
     {
         // given
-        $detail = pattern('(?<name>-\d+)')->match('-922337203685477580700')->first();
+        $detail = Pattern::of('(?<name>-\d+)')->match('-922337203685477580700')->first();
         // then
         $this->expectException(IntegerOverflowException::class);
         $this->expectExceptionMessage("Expected to parse group #1, but '-922337203685477580700' exceeds integer size on this architecture in base 10");
@@ -178,7 +178,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forOverflownInteger_inBase16()
     {
         // given
-        $detail = pattern('(?<name>\d+)')->match('9223372036854775000')->first();
+        $detail = Pattern::of('(?<name>\d+)')->match('9223372036854775000')->first();
         // then
         $this->expectException(IntegerOverflowException::class);
         $this->expectExceptionMessage("Expected to parse group 'name', but '9223372036854775000' exceeds integer size on this architecture in base 16");
@@ -192,7 +192,7 @@ class DetailTest extends TestCase
     public function shouldThrowForUnmatchedGroup()
     {
         // given
-        $detail = pattern('(?<name>Foo)(?<missing>\d+)?')->match('Foo bar')->first();
+        $detail = Pattern::of('(?<name>Foo)(?<missing>\d+)?')->match('Foo bar')->first();
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to call toInt() for group 'missing', but the group was not matched");

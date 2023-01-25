@@ -15,7 +15,7 @@ class DetailTest extends TestCase
     public function shouldGetGroup()
     {
         // given
-        $detail = pattern('Hello (?<one>there)')->match('Hello there, General Kenobi')->first();
+        $detail = Pattern::of('Hello (?<one>there)')->match('Hello there, General Kenobi')->first();
         // when
         $group = $detail->get('one');
         // then
@@ -52,7 +52,7 @@ class DetailTest extends TestCase
     public function shouldGroup_forUnmatchedGroup_byIndex()
     {
         // given
-        $detail = pattern('(Foo)(Bar){0}')->match('Foo')->first();
+        $detail = Pattern::of('(Foo)(Bar){0}')->match('Foo')->first();
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to get group #2, but the group was not matched");
@@ -66,7 +66,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forNonexistentGroup()
     {
         // given
-        $detail = pattern('(?<one>hello)')->match('hello')->first();
+        $detail = Pattern::of('(?<one>hello)')->match('hello')->first();
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'two'");
@@ -83,7 +83,7 @@ class DetailTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Group index must be an integer or a string, but boolean (true) given');
         // given
-        $detail = pattern('(?<one>first) and (?<two>second)')->match('first and second')->first();
+        $detail = Pattern::of('(?<one>first) and (?<two>second)')->match('first and second')->first();
         // when
         $detail->group(true);
     }

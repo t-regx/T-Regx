@@ -20,7 +20,7 @@ class SearchTest extends TestCase
     public function shouldGet_nth()
     {
         // given
-        $search = pattern('\d+(cm|mm)')->search('12cm 14mm 13cm 19cm');
+        $search = Pattern::of('\d+(cm|mm)')->search('12cm 14mm 13cm 19cm');
         // when
         $nth = $search->nth(3);
         // then
@@ -33,7 +33,7 @@ class SearchTest extends TestCase
     public function shouldThrow_nth_onUnmatchedSubject()
     {
         // given
-        $search = pattern('Not matching')->search('Lorem Ipsum');
+        $search = Pattern::of('Not matching')->search('Lorem Ipsum');
         // then
         $this->expectException(NoSuchNthElementException::class);
         $this->expectExceptionMessage("Expected to get the 6-nth match, but subject was not matched at all");
@@ -47,7 +47,7 @@ class SearchTest extends TestCase
     public function shouldThrow_nth_forMissingMatch()
     {
         // given
-        $search = pattern('\d+(cm|mm)')->search('12cm, 14mm');
+        $search = Pattern::of('\d+(cm|mm)')->search('12cm, 14mm');
         // then
         $this->expectException(NoSuchNthElementException::class);
         $this->expectExceptionMessage("Expected to get the 6-nth match, but only 2 occurrences were matched");
@@ -64,7 +64,7 @@ class SearchTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Negative nth: -6");
         // when
-        pattern('Bar')->search('Bar')->nth(-6);
+        Pattern::of('Bar')->search('Bar')->nth(-6);
     }
 
     /**

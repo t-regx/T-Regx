@@ -26,7 +26,7 @@ class MatcherTest extends TestCase
     public function shouldFilter()
     {
         // given
-        $matcher = pattern('\w+')->match('Foo, Bar, Top, Door');
+        $matcher = Pattern::of('\w+')->match('Foo, Bar, Top, Door');
         // when
         $details = $matcher->filter(DetailFunctions::notEquals('Bar'));
         // then
@@ -49,7 +49,7 @@ class MatcherTest extends TestCase
     public function shouldFilter_acceptDetail()
     {
         // given
-        $matcher = pattern('Foo')->match('Foo');
+        $matcher = Pattern::of('Foo')->match('Foo');
         // when
         $matcher->filter(TypeFunctions::assertTypeDetail(true));
         // then
@@ -62,7 +62,7 @@ class MatcherTest extends TestCase
     public function shouldThrow_forInvalidReturnType_integer()
     {
         // given
-        $matcher = pattern('Foo')->match('Foo');
+        $matcher = Pattern::of('Foo')->match('Foo');
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid filter() callback return type. Expected bool, but integer (12) given');
@@ -76,7 +76,7 @@ class MatcherTest extends TestCase
     public function shouldThrow_forInvalidReturnType_array()
     {
         // given
-        $matcher = pattern('Foo')->match('Foo');
+        $matcher = Pattern::of('Foo')->match('Foo');
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid filter() callback return type. Expected bool, but array (0) given');

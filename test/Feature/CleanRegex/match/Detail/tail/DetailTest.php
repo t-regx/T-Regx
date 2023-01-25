@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsDetail;
 use Test\Utils\Functions;
 use Test\Utils\Runtime\ExplicitStringEncoding;
+use TRegx\CleanRegex\Pattern;
 
 class DetailTest extends TestCase
 {
@@ -16,7 +17,7 @@ class DetailTest extends TestCase
     public function shouldGetTail()
     {
         // when
-        $detail = pattern('\S{4,}')->match('die Vögel')->first();
+        $detail = Pattern::of('\S{4,}')->match('die Vögel')->first();
         // when
         $tail = $detail->tail();
         $byteTail = $detail->byteTail();
@@ -32,7 +33,7 @@ class DetailTest extends TestCase
     public function shouldGetTail_forEach()
     {
         // when
-        pattern('[^ ,]+')->match('👸, 👹, 👺')->forEach(Functions::collect($details));
+        Pattern::of('[^ ,]+')->match('👸, 👹, 👺')->forEach(Functions::collect($details));
         // then
         [$first, $second, $third] = $details;
         $this->assertSame(1, $first->tail());

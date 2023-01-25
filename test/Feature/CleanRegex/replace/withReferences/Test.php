@@ -2,6 +2,7 @@
 namespace Test\Feature\CleanRegex\replace\withReferences;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @coversNothing
@@ -14,7 +15,7 @@ class Test extends TestCase
     public function withReferences()
     {
         // when
-        $replaced = pattern('\d+')->replace('127.0.0.1')->withReferences('X');
+        $replaced = Pattern::of('\d+')->replace('127.0.0.1')->withReferences('X');
         // then
         $this->assertSame('X.X.X.X', $replaced);
     }
@@ -25,7 +26,7 @@ class Test extends TestCase
     public function withReferences_UsingPcreReferencesDollar()
     {
         // when
-        $replaced = pattern('<(\d+)>')->replace('<127> <167>')->withReferences('($1)');
+        $replaced = Pattern::of('<(\d+)>')->replace('<127> <167>')->withReferences('($1)');
         // then
         $this->assertSame('(127) (167)', $replaced);
     }
@@ -36,7 +37,7 @@ class Test extends TestCase
     public function withReferences_UsingPcreReferencesBackslash()
     {
         // when
-        $replaced = pattern('<(\d+)>')->replace('<127> <167>')->withReferences('(\1)');
+        $replaced = Pattern::of('<(\d+)>')->replace('<127> <167>')->withReferences('(\1)');
         // then
         $this->assertSame('(127) (167)', $replaced);
     }

@@ -7,7 +7,6 @@ use Test\Utils\Structure\AssertsStructure;
 use Test\Utils\Structure\Expect;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
-use function pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Matcher
@@ -22,7 +21,7 @@ class MatcherTest extends TestCase
     public function shouldReturnAll()
     {
         // when
-        $details = pattern('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->all();
+        $details = Pattern::of('Foo (B(ar))')->match('Foo Bar, Foo Bar, Foo Bar')->all();
         // then
         $this->assertStructure($details, [
             Expect::text('Foo Bar'),
@@ -43,7 +42,7 @@ class MatcherTest extends TestCase
     public function shouldReturnEmpty_onUnmatchedSubject()
     {
         // when
-        $details = pattern('Foo')->match('Bar')->all();
+        $details = Pattern::of('Foo')->match('Bar')->all();
         // then
         $this->assertEmpty($details);
     }

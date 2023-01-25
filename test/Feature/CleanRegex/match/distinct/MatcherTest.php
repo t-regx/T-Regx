@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsDetail;
 use Test\Utils\Structure\AssertsStructure;
 use Test\Utils\Structure\Expect;
-use function pattern;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Matcher
@@ -20,7 +20,7 @@ class MatcherTest extends TestCase
     public function shouldReturnAllDistinct()
     {
         // when
-        $details = pattern('\w+')->match('One, One, One, Two, One, Three, Two, One')->distinct();
+        $details = Pattern::of('\w+')->match('One, One, One, Two, One, Three, Two, One')->distinct();
         // then
         $this->assertStructure($details, [
             Expect::text('One'),
@@ -40,7 +40,7 @@ class MatcherTest extends TestCase
     public function shouldReturnAll()
     {
         // when
-        $details = pattern('\S{5,}')->match("I'm disinclined to acquiesce to your request")->distinct();
+        $details = Pattern::of('\S{5,}')->match("I'm disinclined to acquiesce to your request")->distinct();
         // then
         $this->assertStructure($details, [
             Expect::text('disinclined'),
@@ -56,7 +56,7 @@ class MatcherTest extends TestCase
     public function shouldReturnEmpty_onUnmatchedSubject()
     {
         // when
-        $details = pattern('Foo')->match('Bar')->distinct();
+        $details = Pattern::of('Foo')->match('Bar')->distinct();
         // then
         $this->assertEmpty($details);
     }

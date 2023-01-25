@@ -39,7 +39,7 @@ class DetailTest extends TestCase
     public function shouldThrow_forUnmatchedGroup()
     {
         // given
-        $detail = pattern('(?<group>Foo)?')->match('Bar')->first();
+        $detail = Pattern::of('(?<group>Foo)?')->match('Bar')->first();
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to call text() for group 'group', but the group was not matched");

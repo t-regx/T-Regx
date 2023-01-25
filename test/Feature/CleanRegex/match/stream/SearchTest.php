@@ -101,7 +101,7 @@ class SearchTest extends TestCase
     public function shouldBeIterable()
     {
         // given
-        $stream = pattern('\d+([cm]m)')->search('14cm, 12mm')->stream();
+        $stream = Pattern::of('\d+([cm]m)')->search('14cm, 12mm')->stream();
         // when
         [$first, $second] = \iterator_to_array($stream);
         // then

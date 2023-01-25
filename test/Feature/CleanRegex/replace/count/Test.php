@@ -20,7 +20,7 @@ class Test extends TestCase
     public function shouldCount()
     {
         // when
-        $count = pattern('Foo')->replace('Bar')->count();
+        $count = Pattern::of('Foo')->replace('Bar')->count();
         // then
         $this->assertSame(0, $count);
     }
@@ -31,7 +31,7 @@ class Test extends TestCase
     public function shouldCountMany()
     {
         // when
-        $count = pattern('\d+')->replace('12, 14, 15')->count();
+        $count = Pattern::of('\d+')->replace('12, 14, 15')->count();
         // then
         $this->assertSame(3, $count);
     }
@@ -42,7 +42,7 @@ class Test extends TestCase
     public function shouldThrowMalformedPattern()
     {
         // given
-        $pattern = pattern('+');
+        $pattern = Pattern::of('+');
         // then
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');

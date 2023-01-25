@@ -47,7 +47,7 @@ class MatcherTest extends TestCase
     public function shouldFlatMapReassignedKeys()
     {
         // given
-        $matcher = pattern('[A-Za-z]+')->match('Docker, Down, Foo');
+        $matcher = Pattern::of('[A-Za-z]+')->match('Docker, Down, Foo');
         // when
         $dictionary = $matcher->toMap(Functions::letters());
         // then

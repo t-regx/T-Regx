@@ -2,6 +2,7 @@
 namespace Test\Feature\CleanRegex\Split\split;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 
 class PatternTest extends TestCase
@@ -12,7 +13,7 @@ class PatternTest extends TestCase
     public function shouldSplitIntoPieces()
     {
         // when
-        $pieces = pattern(', ?')->split('Father, Mother, Maiden, Crone, Warrior, Smith, Stranger');
+        $pieces = Pattern::of(', ?')->split('Father, Mother, Maiden, Crone, Warrior, Smith, Stranger');
         // then
         $this->assertSame(['Father', 'Mother', 'Maiden', 'Crone', 'Warrior', 'Smith', 'Stranger'], $pieces);
     }
@@ -23,7 +24,7 @@ class PatternTest extends TestCase
     public function shouldSplitIntoPieces_withSeparator()
     {
         // when
-        $pieces = pattern('([,;]) ?')->split('Foo, Bar; Cat, Door');
+        $pieces = Pattern::of('([,;]) ?')->split('Foo, Bar; Cat, Door');
         // then
         $this->assertSame(['Foo', ',', 'Bar', ';', 'Cat', ',', 'Door'], $pieces);
     }
@@ -34,7 +35,7 @@ class PatternTest extends TestCase
     public function shouldSplitIntoPieces_withSeparators()
     {
         // when
-        $pieces = pattern('(;)(;) ?')->split('Foo;; Bar;; Cat;; Door');
+        $pieces = Pattern::of('(;)(;) ?')->split('Foo;; Bar;; Cat;; Door');
         // then
         $this->assertSame(['Foo', ';', ';', 'Bar', ';', ';', 'Cat', ';', ';', 'Door'], $pieces);
     }
@@ -45,7 +46,7 @@ class PatternTest extends TestCase
     public function shouldSplitIntoPieces_withSeparators_emptySeparator()
     {
         // when
-        $pieces = pattern('()(;) ?')->split('Foo; Bar; Cat; Door');
+        $pieces = Pattern::of('()(;) ?')->split('Foo; Bar; Cat; Door');
         // then
         $this->assertSame(['Foo', '', ';', 'Bar', '', ';', 'Cat', '', ';', 'Door'], $pieces);
     }
@@ -56,7 +57,7 @@ class PatternTest extends TestCase
     public function shouldSplitIntoPieces_withOptionalGroup()
     {
         // when
-        $pieces = pattern('(,)?(;) ?')->split('One,; Two; Three,; Four');
+        $pieces = Pattern::of('(,)?(;) ?')->split('One,; Two; Three,; Four');
         // then
         $this->assertSame(['One', ',', ';', 'Two', null, ';', 'Three', ',', ';', 'Four'], $pieces);
     }
@@ -70,6 +71,6 @@ class PatternTest extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        pattern('+')->split('Foo');
+        Pattern::of('+')->split('Foo');
     }
 }

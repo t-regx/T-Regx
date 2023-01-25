@@ -3,8 +3,8 @@ namespace Test\Feature\CleanRegex\match\test;
 
 use PHPUnit\Framework\TestCase;
 use TRegx\CleanRegex\Match\Matcher;
+use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
-use function pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Matcher
@@ -19,7 +19,7 @@ class MatcherTest extends TestCase
         // given
         $subject = "I'm dishonest, and a dishonest man you can always trust to be dishonest";
         // when
-        $match = pattern($subject)->match($subject);
+        $match = Pattern::of($subject)->match($subject);
         // then
         $this->assertTests($match);
     }
@@ -30,7 +30,7 @@ class MatcherTest extends TestCase
     public function shouldFailSubject()
     {
         // given
-        $pattern = pattern('You forgot one very important thing, mate');
+        $pattern = Pattern::of('You forgot one very important thing, mate');
         // when
         $match = $pattern->match("I'm captain Jack Sparrow");
         // then
@@ -43,7 +43,7 @@ class MatcherTest extends TestCase
     public function shouldTestSubjectRegularExpression()
     {
         // when
-        $match = pattern('Valar (Morghulis)')->match('Valar Morghulis');
+        $match = Pattern::of('Valar (Morghulis)')->match('Valar Morghulis');
         // then
         $this->assertTests($match);
     }
@@ -66,7 +66,7 @@ class MatcherTest extends TestCase
     public function shouldTestThrowForMalformedPattern()
     {
         // given
-        $matcher = pattern('+')->match('Valar Dohaeris');
+        $matcher = Pattern::of('+')->match('Valar Dohaeris');
         // then
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
@@ -80,7 +80,7 @@ class MatcherTest extends TestCase
     public function shouldFailsThrowForMalformedPattern()
     {
         // given
-        $matcher = pattern('+')->match('Valar Dohaeris');
+        $matcher = Pattern::of('+')->match('Valar Dohaeris');
         // then
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');

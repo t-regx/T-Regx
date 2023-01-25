@@ -27,7 +27,7 @@ class Test extends TestCase
     public function shouldReplace()
     {
         // given
-        $pattern = pattern('\w+');
+        $pattern = Pattern::of('\w+');
         // when
         $replaced = $pattern->replace('Joffrey, Cersei, Ilyn Payne, The Hound')->callback(Functions::charAt(0));
         // then
@@ -43,7 +43,7 @@ class Test extends TestCase
         $this->expectException(InvalidReplacementException::class);
         $this->expectExceptionMessage('Invalid callback() callback return type. Expected string, but array (0) given');
         // when
-        pattern('\w+')->replace('Foo')->callback(Functions::constant([]));
+        Pattern::of('\w+')->replace('Foo')->callback(Functions::constant([]));
     }
 
     /**
@@ -55,7 +55,7 @@ class Test extends TestCase
         $this->expectException(InvalidReplacementException::class);
         $this->expectExceptionMessage('Invalid callback() callback return type. Expected string, but integer (12) given');
         // when
-        pattern('Foo')->replace('Foo')->callback(Functions::constant(12));
+        Pattern::of('Foo')->replace('Foo')->callback(Functions::constant(12));
     }
 
     /**
@@ -69,7 +69,7 @@ class Test extends TestCase
         $this->expectException(InvalidReplacementException::class);
         $this->expectExceptionMessage("Invalid callback() callback return type. Expected string, but $class given");
         // when
-        pattern('\w+')->replace('Foo')->callback(Functions::identity());
+        Pattern::of('\w+')->replace('Foo')->callback(Functions::identity());
     }
 
     /**
@@ -83,7 +83,7 @@ class Test extends TestCase
         $this->expectException(InvalidReplacementException::class);
         $this->expectExceptionMessage("Invalid callback() callback return type. Expected string, but $class given");
         // when
-        pattern('(\w+)')->replace('Foo')->callback(DetailFunctions::group(1));
+        Pattern::of('(\w+)')->replace('Foo')->callback(DetailFunctions::group(1));
     }
 
     /**
@@ -97,7 +97,7 @@ class Test extends TestCase
         $this->expectException(InvalidReplacementException::class);
         $this->expectExceptionMessage("Invalid callback() callback return type. Expected string, but $class given");
         // when
-        pattern('Foo(Bar)?')->replace('Foo')->callback(DetailFunctions::group(1));
+        Pattern::of('Foo(Bar)?')->replace('Foo')->callback(DetailFunctions::group(1));
     }
 
     /**
@@ -109,7 +109,7 @@ class Test extends TestCase
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage('Quantifier does not follow a repeatable item at offset 0');
         // when
-        pattern('?')->replace('Bar')->callback(Functions::fail());
+        Pattern::of('?')->replace('Bar')->callback(Functions::fail());
     }
 
     /**

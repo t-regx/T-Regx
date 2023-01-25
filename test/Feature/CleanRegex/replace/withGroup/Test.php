@@ -23,7 +23,7 @@ class Test extends TestCase
     public function shouldReplace()
     {
         // when
-        $replaced = pattern('(\d+)[cm]m')->replace('13cm 18m 19cm')->withGroup(1);
+        $replaced = Pattern::of('(\d+)[cm]m')->replace('13cm 18m 19cm')->withGroup(1);
         // then
         $this->assertSame('13 18m 19', $replaced);
     }
@@ -34,7 +34,7 @@ class Test extends TestCase
     public function shouldReplace_namedGroup()
     {
         // when
-        $replaced = pattern('\d+(?<unit>[cm]m)')->replace('14cm 17m 19mm')->withGroup('unit');
+        $replaced = Pattern::of('\d+(?<unit>[cm]m)')->replace('14cm 17m 19mm')->withGroup('unit');
         // then
         $this->assertSame('cm 17m mm', $replaced);
     }
@@ -45,7 +45,7 @@ class Test extends TestCase
     public function shouldReplace_whole()
     {
         // given
-        $pattern = pattern('https?://(google|facebook)\.com');
+        $pattern = Pattern::of('https?://(google|facebook)\.com');
         $subject = 'Links: https://google.com and http://facebook.com';
         // when
         $replaced = $pattern->replace($subject)->withGroup(0);
@@ -62,7 +62,7 @@ class Test extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Group index must be a non-negative integer, but -6 given');
         // when
-        pattern('\d+(?<unit>[cm]m)')->replace('14cm 17m 19mm')->withGroup(-6);
+        Pattern::of('\d+(?<unit>[cm]m)')->replace('14cm 17m 19mm')->withGroup(-6);
     }
 
     /**
@@ -74,7 +74,7 @@ class Test extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '6digit' given");
         // when
-        pattern('\d+(?<unit>[cm]m)')->replace('14cm 17m 19mm')->withGroup('6digit');
+        Pattern::of('\d+(?<unit>[cm]m)')->replace('14cm 17m 19mm')->withGroup('6digit');
     }
 
     /**
@@ -86,7 +86,7 @@ class Test extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Group index must be an integer or a string, but boolean (true) given");
         // when
-        pattern('\d+(?<unit>[cm]m)')->replace('14cm 17m 19mm')->withGroup(true);
+        Pattern::of('\d+(?<unit>[cm]m)')->replace('14cm 17m 19mm')->withGroup(true);
     }
 
     /**
@@ -98,7 +98,7 @@ class Test extends TestCase
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage('Nonexistent group: #2');
         // when
-        pattern('matched')->replace('matched')->withGroup(2);
+        Pattern::of('matched')->replace('matched')->withGroup(2);
     }
 
     /**
@@ -110,7 +110,7 @@ class Test extends TestCase
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'unit'");
         // when
-        pattern('matched')->replace('matched')->withGroup('unit');
+        Pattern::of('matched')->replace('matched')->withGroup('unit');
     }
 
     /**
@@ -122,7 +122,7 @@ class Test extends TestCase
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage('Nonexistent group: #2');
         // when
-        pattern('Foo')->replace('not matched')->withGroup(2);
+        Pattern::of('Foo')->replace('not matched')->withGroup(2);
     }
 
     /**
@@ -134,7 +134,7 @@ class Test extends TestCase
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'unit'");
         // when
-        pattern('Foo')->replace('not matched')->withGroup('unit');
+        Pattern::of('Foo')->replace('not matched')->withGroup('unit');
     }
 
     /**
@@ -143,7 +143,7 @@ class Test extends TestCase
     public function shouldReplace_withLastEmptyGroup()
     {
         // when
-        $replaced = pattern('(Foo):()')->replace('Bar')->withGroup(2);
+        $replaced = Pattern::of('(Foo):()')->replace('Bar')->withGroup(2);
         // then
         $this->assertSame('Bar', $replaced);
     }
@@ -156,7 +156,7 @@ class Test extends TestCase
         // then
         $this->expectException(MalformedPatternException::class);
         // when
-        pattern(')')->replace('Bar')->withGroup(2);
+        Pattern::of(')')->replace('Bar')->withGroup(2);
     }
 
     /**
@@ -168,7 +168,7 @@ class Test extends TestCase
     public function shouldThrow_forUnmatchedGroup($groupIdentifier, string $group)
     {
         // given
-        $pattern = pattern('Foo(?<name>Bar){0}');
+        $pattern = Pattern::of('Foo(?<name>Bar){0}');
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to replace with group $group, but the group was not matched");
@@ -190,7 +190,7 @@ class Test extends TestCase
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to replace with group 'named', but the group was not matched");
         // when
-        pattern('Foo(?<named>Bar)?')->replace('Foo')->withGroup('named');
+        Pattern::of('Foo(?<named>Bar)?')->replace('Foo')->withGroup('named');
     }
 
     /**
@@ -202,7 +202,7 @@ class Test extends TestCase
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage('Expected to replace with group #1, but the group was not matched');
         // when
-        pattern('Foo(Bar){0}(Cat)')->replace('FooCat')->withGroup(1);
+        Pattern::of('Foo(Bar){0}(Cat)')->replace('FooCat')->withGroup(1);
     }
 
     /**
@@ -214,7 +214,7 @@ class Test extends TestCase
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to replace with group 'bar', but the group was not matched");
         // when
-        pattern('Foo(?<bar>Bar){0}(?<car>Car)')->replace('FooCar')->withGroup('bar');
+        Pattern::of('Foo(?<bar>Bar){0}(?<car>Car)')->replace('FooCar')->withGroup('bar');
     }
 
     /**
@@ -223,7 +223,7 @@ class Test extends TestCase
     public function shouldReplace_withEmptyGroup()
     {
         // when
-        $replaced = pattern('Foo(?<group>)(?<car>Car)')->replace('"FooCar"')->withGroup('group');
+        $replaced = Pattern::of('Foo(?<group>)(?<car>Car)')->replace('"FooCar"')->withGroup('group');
         // then
         $this->assertSame('""', $replaced);
     }
@@ -234,7 +234,7 @@ class Test extends TestCase
     public function shouldReplace_withEmptyGroup_thirdMatch()
     {
         // when
-        $replaced = pattern('Foo(?<group>)(?<car>Car)')->replace('"FooCar", "FooCar", "FooCar"')->withGroup('group');
+        $replaced = Pattern::of('Foo(?<group>)(?<car>Car)')->replace('"FooCar", "FooCar", "FooCar"')->withGroup('group');
         // then
         $this->assertSame('"", "", ""', $replaced);
     }
@@ -245,7 +245,7 @@ class Test extends TestCase
     public function shouldThrow_forUnmatchedGroup_lastGroup()
     {
         // given
-        $pattern = pattern('Foo(?<bar>Bar){0}');
+        $pattern = Pattern::of('Foo(?<bar>Bar){0}');
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to replace with group 'bar', but the group was not matched");
@@ -259,7 +259,7 @@ class Test extends TestCase
     public function shouldThrow_groupNotMatch_lastGroup_thirdIndex()
     {
         // given
-        $pattern = pattern('(?<foo>Foo)(?<bar>Bar)?(?<last>;)');
+        $pattern = Pattern::of('(?<foo>Foo)(?<bar>Bar)?(?<last>;)');
         $replace = $pattern->replace('FooBar; FooBar; Foo; Foo;');
         // then
         $this->expectException(GroupNotMatchedException::class);
@@ -275,7 +275,7 @@ class Test extends TestCase
     public function shouldThrow_groupNotMatch_lastGroup_thirdIndex_breaking()
     {
         // given
-        $pattern = pattern('(?<foo>Foo)(?<bar>Bar)?(?<last>;)');
+        $pattern = Pattern::of('(?<foo>Foo)(?<bar>Bar)?(?<last>;)');
         $replace = $pattern->replace('FooBar; FooBar; Foo; Foo;');
 
         try {
@@ -296,7 +296,7 @@ class Test extends TestCase
     public function shouldThrow_groupNotMatch_lastGroup_secondIndex()
     {
         // given
-        $pattern = pattern('(?<foo>Foo)(?<bar>Bar)?(?<last>;)');
+        $pattern = Pattern::of('(?<foo>Foo)(?<bar>Bar)?(?<last>;)');
         $replace = $pattern->replace('FooBar; Foo;');
         // then
         $this->expectException(GroupNotMatchedException::class);
@@ -311,7 +311,7 @@ class Test extends TestCase
     public function shouldThrow_groupNotMatch_secondIndex_afterEmptyGroup_lastGroup()
     {
         // given
-        $pattern = pattern('>("(?<empty>)")?');
+        $pattern = Pattern::of('>("(?<empty>)")?');
         $replace = $pattern->replace('>"", >unmatched');
         // then
         $this->expectException(GroupNotMatchedException::class);
@@ -326,7 +326,7 @@ class Test extends TestCase
     public function shouldThrow_groupNotMatch_secondIndex_afterEmptyGroup()
     {
         // given
-        $pattern = pattern('>("(?<empty>)")?()');
+        $pattern = Pattern::of('>("(?<empty>)")?()');
         $replace = $pattern->replace('>"", >unmatched');
         // then
         $this->expectException(GroupNotMatchedException::class);

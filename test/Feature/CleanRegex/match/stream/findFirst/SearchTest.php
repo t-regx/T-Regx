@@ -6,6 +6,7 @@ use Test\Utils\Assertion\AssertsOptional;
 use Test\Utils\Classes\ExampleException;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Internal\Match\Stream\EmptyStreamException;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * @covers \TRegx\CleanRegex\Match\Search
@@ -20,7 +21,7 @@ class SearchTest extends TestCase
     public function shouldFindFirstThrow_forUnmatchedSubject()
     {
         // given
-        $stream = pattern('Foo')->search('Bar')->stream();
+        $stream = Pattern::of('Foo')->search('Bar')->stream();
         // when
         $optional = $stream->findFirst();
         // then
@@ -33,7 +34,7 @@ class SearchTest extends TestCase
     public function shouldKeysFindFirstThrow_forUnmatchedSubject()
     {
         // given
-        $stream = pattern('Foo')->search('Bar')->stream();
+        $stream = Pattern::of('Foo')->search('Bar')->stream();
         // when
         $optional = $stream->keys()->findFirst();
         // then
@@ -46,7 +47,7 @@ class SearchTest extends TestCase
     public function shouldFindFirstThrow_forUnmatchedSubject_orThrow()
     {
         // given
-        $stream = pattern('Foo')->search('Bar')->stream();
+        $stream = Pattern::of('Foo')->search('Bar')->stream();
         // then
         $this->expectException(ExampleException::class);
         // when
@@ -59,7 +60,7 @@ class SearchTest extends TestCase
     public function shouldFindFirstThrow_forEmptyStream()
     {
         // given
-        $stream = pattern('Foo')->search('Foo')->stream();
+        $stream = Pattern::of('Foo')->search('Foo')->stream();
         // then
         $this->expectException(ExampleException::class);
         // when
@@ -75,7 +76,7 @@ class SearchTest extends TestCase
     public function shouldInvoke_orElse_withoutArguments_forUnmatchedSubject()
     {
         // given
-        $stream = pattern('Foo')->search('Bar')->stream();
+        $stream = Pattern::of('Foo')->search('Bar')->stream();
         // when
         $stream->findFirst()->orElse(Functions::assertArgumentless());
     }
@@ -86,7 +87,7 @@ class SearchTest extends TestCase
     public function shouldInvoke_orElse_withoutArguments_forEmptyStream()
     {
         // given
-        $stream = pattern('Foo')->search('Foo')->stream();
+        $stream = Pattern::of('Foo')->search('Foo')->stream();
         // when
         $stream
             ->filter(Functions::constant(false))
@@ -100,7 +101,7 @@ class SearchTest extends TestCase
     public function shouldFindFirstReturn_forUnmatchedSubject()
     {
         // given
-        $stream = pattern('Foo')->search('Bar')->stream();
+        $stream = Pattern::of('Foo')->search('Bar')->stream();
         // when
         $value = $stream->findFirst()->orReturn('value');
         // then
@@ -113,7 +114,7 @@ class SearchTest extends TestCase
     public function shouldPassThrough_InternalException()
     {
         // given
-        $stream = pattern('Foo')->search('Foo')->stream();
+        $stream = Pattern::of('Foo')->search('Foo')->stream();
         try {
             // when
             $stream->findFirst()->map(Functions::throws(new EmptyStreamException()));

@@ -18,7 +18,7 @@ class MatchStreamPatternTest extends TestCase
 
     private function stream(): Stream
     {
-        return pattern('\d+')->match('127.0.1.2')->stream();
+        return Pattern::of('\d+')->match('127.0.1.2')->stream();
     }
 
     /**

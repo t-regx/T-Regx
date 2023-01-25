@@ -155,7 +155,7 @@ class MatcherTest extends TestCase
         // then
         $this->expectException(ExampleException::class);
         // when
-        pattern('Foo')->match('bar')->findFirst()->map(Functions::fail())->orThrow(new ExampleException());
+        Pattern::of('Foo')->match('bar')->findFirst()->map(Functions::fail())->orThrow(new ExampleException());
     }
 
     /**

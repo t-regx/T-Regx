@@ -46,7 +46,7 @@ class SearchTest extends TestCase
     public function shouldFlatMapReassignedKeys()
     {
         // when
-        $dictionary = pattern('[A-Za-z]+')->search('Docker, Down, Foo')->toMap(Functions::letters());
+        $dictionary = Pattern::of('[A-Za-z]+')->search('Docker, Down, Foo')->toMap(Functions::letters());
         // then
         $this->assertSame(['F', 'o', 'o', 'n', 'e', 'r'], $dictionary);
     }

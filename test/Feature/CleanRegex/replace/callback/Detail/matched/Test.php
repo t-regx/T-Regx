@@ -4,6 +4,7 @@ namespace Test\Feature\CleanRegex\replace\callback\Detail\matched;
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Functions;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
+use TRegx\CleanRegex\Pattern;
 
 class Test extends TestCase
 {
@@ -13,7 +14,7 @@ class Test extends TestCase
     public function shouldGroupNotBeMatched()
     {
         // given
-        pattern('(Foo)?(Bar)')->replace('Bar')->callback(Functions::out($detail, ''));
+        Pattern::of('(Foo)?(Bar)')->replace('Bar')->callback(Functions::out($detail, ''));
         // when, then
         $this->assertFalse($detail->matched(1));
     }
@@ -24,7 +25,7 @@ class Test extends TestCase
     public function shouldEmptyGroupBeMatched()
     {
         // given
-        pattern('()')->replace('')->callback(Functions::out($detail, ''));
+        Pattern::of('()')->replace('')->callback(Functions::out($detail, ''));
         // when, then
         $this->assertTrue($detail->matched(1));
     }
@@ -35,7 +36,7 @@ class Test extends TestCase
     public function shouldGroupBeMatched()
     {
         // given
-        pattern('(Foo)')->replace('Foo')->callback(Functions::out($detail, ''));
+        Pattern::of('(Foo)')->replace('Foo')->callback(Functions::out($detail, ''));
         // when, then
         $this->assertTrue($detail->matched(1));
     }
@@ -46,7 +47,7 @@ class Test extends TestCase
     public function shouldThrowForNonexistentGroup()
     {
         // given
-        pattern('Foo')->replace('Foo')->callback(Functions::out($detail, ''));
+        Pattern::of('Foo')->replace('Foo')->callback(Functions::out($detail, ''));
         // then
         $this->expectException(NonexistentGroupException::class);
         $this->expectExceptionMessage("Nonexistent group: 'missing'");
@@ -60,7 +61,7 @@ class Test extends TestCase
     public function shouldThrowForInvalidGroupName()
     {
         // given
-        pattern('Foo')->replace('Foo')->callback(Functions::out($detail, ''));
+        Pattern::of('Foo')->replace('Foo')->callback(Functions::out($detail, ''));
         // then
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Group name must be an alphanumeric string, not starting with a digit, but '2group' given");
@@ -74,7 +75,7 @@ class Test extends TestCase
     public function shouldThrowForInvalidGroupIndex()
     {
         // given
-        pattern('Foo')->replace('Foo')->callback(Functions::out($detail, ''));
+        Pattern::of('Foo')->replace('Foo')->callback(Functions::out($detail, ''));
         // then
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Group index must be a non-negative integer, but -1 given');
@@ -88,7 +89,7 @@ class Test extends TestCase
     public function shouldLastGroupBeMatched()
     {
         // given
-        pattern('(Foo)(Bar)')->replace('FooBar')->callback(Functions::out($detail, ''));
+        Pattern::of('(Foo)(Bar)')->replace('FooBar')->callback(Functions::out($detail, ''));
         // when, then
         $this->assertTrue($detail->matched(2));
     }
@@ -99,7 +100,7 @@ class Test extends TestCase
     public function shouldLastGroupNotBeMatched()
     {
         // given
-        pattern('(Foo)(Bar)?')->replace('Foo')->callback(Functions::out($detail, ''));
+        Pattern::of('(Foo)(Bar)?')->replace('Foo')->callback(Functions::out($detail, ''));
         // when, then
         $this->assertFalse($detail->matched(2));
     }

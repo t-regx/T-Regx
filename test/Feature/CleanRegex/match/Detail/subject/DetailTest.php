@@ -2,6 +2,7 @@
 namespace Test\Feature\CleanRegex\match\Detail\subject;
 
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Pattern;
 
 class DetailTest extends TestCase
 {
@@ -11,7 +12,7 @@ class DetailTest extends TestCase
     public function shouldGetSubject()
     {
         // when
-        $detail = pattern('.+')->match('Not all who wander are lost')->first();
+        $detail = Pattern::of('.+')->match('Not all who wander are lost')->first();
         // when
         $subject = $detail->subject();
         // then
