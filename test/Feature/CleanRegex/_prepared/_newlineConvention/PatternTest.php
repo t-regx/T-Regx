@@ -26,7 +26,7 @@ class PatternTest extends TestCase
     public function shouldVerbNotOverrideNewlineConventionLineFeed()
     {
         // when
-        $pattern = Pattern::inject("(*NO_AUTO_POSSESS)^#comment@\nvalue:@$", ['figure'], 'x');
+        $pattern = Pattern::inject("(*NOTEMPTY)^#comment@\nvalue:@$", ['figure'], 'x');
         // then
         $this->assertConsumesFirst('value:figure', $pattern);
     }
@@ -58,8 +58,12 @@ class PatternTest extends TestCase
     {
         return \named([
             'starting option' => [
+                ['(*NOTEMPTY)'],
+                ['(*NOTEMPTY_ATSTART)'],
                 ['(*NO_AUTO_POSSESS)'],
+                ['(*NO_DOTSTAR_ANCHOR)'],
                 ['(*NO_START_OPT)'],
+                ['(*NO_JIT)'],
                 ['(*UCP)'],
                 ['(*UTF)'],
             ],
@@ -68,18 +72,26 @@ class PatternTest extends TestCase
                 ['(*BSR_UNICODE)'],
             ],
             'parametrized'    => [
+                ['(*LIMIT_DEPTH=0)'],
+                ['(*LIMIT_HEAP=0)'],
                 ['(*LIMIT_MATCH=0)'],
+                ['(*LIMIT_DEPTH=1)'],
+                ['(*LIMIT_HEAP=1)'],
                 ['(*LIMIT_MATCH=1)'],
+                ['(*LIMIT_DEPTH=20)'],
+                ['(*LIMIT_HEAP=20)'],
                 ['(*LIMIT_MATCH=20)'],
+                ['(*LIMIT_DEPTH=99999999)'],
+                ['(*LIMIT_HEAP=99999999)'],
                 ['(*LIMIT_MATCH=99999999)'],
             ],
             'repeated'        => [
-                ['(*NO_AUTO_POSSESS)(*NO_AUTO_POSSESS)'],
-                ['(*NO_AUTO_POSSESS)(*NO_AUTO_POSSESS)(*UCP)'],
+                ['(*NOTEMPTY)(*NOTEMPTY)'],
+                ['(*NOTEMPTY)(*NOTEMPTY)(*UCP)'],
             ],
             'mixed'           => [
-                ['(*CR)(*NO_AUTO_POSSESS)'],
-                ['(*LF)(*NO_AUTO_POSSESS)'],
+                ['(*CR)(*NOTEMPTY)'],
+                ['(*LF)(*NOTEMPTY)'],
             ]
         ]);
     }
@@ -98,28 +110,7 @@ class PatternTest extends TestCase
 
     public function unknownVerbs(): array
     {
-        return \named([
-            'pcre2'   => [
-                ['(*NOTEMPTY)'],
-                ['(*NOTEMPTY_ATSTART)'],
-                ['(*NO_DOTSTAR_ANCHOR)'],
-                ['(*NO_JIT)'],
-                ['(*LIMIT_DEPTH=99999999)'],
-                ['(*LIMIT_HEAP=99999999)'],
-                ['(*LIMIT_DEPTH=20)'],
-                ['(*LIMIT_HEAP=20)'],
-                ['(*LIMIT_DEPTH=1)'],
-                ['(*LIMIT_HEAP=1)'],
-                ['(*LIMIT_DEPTH=0)'],
-                ['(*LIMIT_HEAP=0)'],
-            ],
-            'unknown' => [
-                ['(*UNKNOWN)'],
-                ['(*FOO)'],
-                ['(*AZ)'],
-                ['(*X)'],
-            ]
-        ]);
+        return \provided(['(*UNKNOWN)', '(*FOO)']);
     }
 
     /**
@@ -165,16 +156,5 @@ class PatternTest extends TestCase
             ['(*LIMIT_HEAP=)'],
             ['(*LIMIT_MATCH=)'],
         ]);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotAcceptNewlineConventionAfterZeroLengthVerb()
-    {
-        // when
-        $pattern = Pattern::inject("(*)(*CR)^#@\r@$", [], 'x');
-        // then
-        $this->assertPatternIs("/(*)(*CR)^#@\r@$/x", $pattern);
     }
 }

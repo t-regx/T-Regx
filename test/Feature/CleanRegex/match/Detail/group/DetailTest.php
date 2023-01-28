@@ -3,6 +3,7 @@ namespace Test\Feature\CleanRegex\match\Detail\group;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TRegx\CleanRegex\Exception\GroupNotMatchedException;
 use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Pattern;
 
@@ -63,6 +64,23 @@ class DetailTest extends TestCase
         $group = $detail->group(101);
         // then
         $this->assertSame('Foo', $group->text());
+    }
+
+    /**
+     * @test
+     * @dataProvider \Test\DataProviders::validGroups()
+     * @param string|int $name
+     */
+    public function shouldGetGroup_validName(string $name)
+    {
+        // given
+        $pattern = Pattern("(?<$name>Bar){0}", 'u');
+        $detail = $pattern->match('Foo')->first();
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to call text() for group '$name', but the group was not matched");
+        // when
+        $detail->group($name)->text();
     }
 
     /**

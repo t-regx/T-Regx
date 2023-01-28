@@ -77,11 +77,32 @@ class DataProviders
         return reset($resources);
     }
 
-    public static function asciiGroupsNames(): array
+    public static function validGroups(): array
     {
         return \provided([
-            'group', '_group', 'GROUP',
-            'g', 'a123_', 'a0', 'a9'
+            'group',
+            '_group',
+            'GROUP',
+            'g',
+            'a123_',
+            'a0',
+            'a9',
+            'ó',
+            'gróup',
+            'wordß',
+            'ßark',
+            'Ĝ',
+            'Ħ',
+            'ʷ',
+            'ƻ',
+            'ǅ',
+            'foo_ßark',
+            'foo_Ĝ',
+            'foo_Ħ',
+            'foo_ʷ',
+            'foo_ƻ',
+            'foo_ǅ',
+            'foo_٤'
         ]);
     }
 

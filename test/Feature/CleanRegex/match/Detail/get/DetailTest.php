@@ -90,6 +90,23 @@ class DetailTest extends TestCase
 
     /**
      * @test
+     * @dataProvider \Test\DataProviders::validGroups()
+     * @param string|int $name
+     */
+    public function shouldGetGroup_validName(string $name)
+    {
+        // given
+        $pattern = Pattern("(?<$name>Bar){0}", 'u');
+        $detail = $pattern->match('Foo')->first();
+        // then
+        $this->expectException(GroupNotMatchedException::class);
+        $this->expectExceptionMessage("Expected to get group '$name', but the group was not matched");
+        // when
+        $detail->get($name);
+    }
+
+    /**
+     * @test
      * @dataProvider \Test\DataProviders::invalidGroupNames()
      * @param string|int $name
      */
