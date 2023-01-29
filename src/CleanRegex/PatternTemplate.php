@@ -9,7 +9,6 @@ use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\AtomicGroup;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\NonCaptureGroup;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\AlterationFigure;
-use TRegx\CleanRegex\Internal\Prepared\Template\Figure\LiteralFigure;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\MaskFigure;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\PatternFigure;
 
@@ -33,7 +32,7 @@ class PatternTemplate
 
     public function literal(string $text): Pattern
     {
-        return $this->template(new AtomicGroup(new LiteralFigure($text)));
+        return $this->template(new AtomicGroup($text));
     }
 
     public function alteration(array $figures): Pattern
