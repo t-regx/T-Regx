@@ -98,6 +98,16 @@ if (!$matcher->test()) {
 Full API documentation is available at [t-regx.com](https://t-regx.com/). List of changes is available
 in [ChangeLog.md](https://github.com/t-regx/T-Regx/blob/develop/ChangeLog.md).
 
+Quick links:
+
+- [Introduction](https://t-regx.com/docs/introduction) - https://t-regx.com/docs/introduction
+    - [Matching overview](https://t-regx.com/docs/match) - https://t-regx.com/docs/match
+    - [Replacing](https://t-regx.com/docs/replace) - https://t-regx.com/docs/replace
+    - [Splitting](https://t-regx.com/docs/split) - https://t-regx.com/docs/split
+- [Prepared patterns](https://t-regx.com/docs/prepared-patterns) - https://t-regx.com/docs/prepared-patterns
+    - [Template syntax](https://t-regx.com/docs/template-syntax) - https://t-regx.com/docs/template-syntax
+    - [Pattern list](https://t-regx.com/docs/pattern-list) - https://t-regx.com/docs/pattern-list
+
 # Try it online, in your browser!
 
 Open [T-Regx fiddle](https://repl.it/github/T-Regx/fiddle) and start playing around right in your browser.
@@ -175,9 +185,6 @@ For standard projects, we suggest `pattern()`. For legacy projects, we suggest `
         * T-Regx exposes functionality by simple methods, which return `int`, `string`, `string[]` or `bool`, which
           aren't nullable. If you wish to do something with your match or pattern, there's probably a method for that,
           which does exactly and only that.
-    * Handlers and state:
-        * Not even touching your error handlers or exception handlers **in any way**!
-        * In fact, T-Regx doesn't touch any global state.
     * Strings:
         * [Fixing error with multibyte offset (utf-8 safe)](https://t-regx.com/docs/match-details#offsets).
         * Separate methods for positions:
@@ -194,7 +201,7 @@ For standard projects, we suggest `pattern()`. For legacy projects, we suggest `
 
 * ### Written with clean API
     * Descriptive, simple interface
-    * UTF-8 support out-of-the-box
+    * Unicode support out-of-the-box
     * No Reflection used, `No (...varargs)`, `No (boolean arguments, true)`, `(No flags, 1)`, `[No [nested, [arrays]]]`
     * Inconsistencies between PHP versions are eliminated in T-Regx
 
