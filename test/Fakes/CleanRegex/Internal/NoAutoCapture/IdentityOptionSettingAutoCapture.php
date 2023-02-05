@@ -23,7 +23,7 @@ class IdentityOptionSettingAutoCapture implements AutoCapture
 
     public function imposedNonCapture(): bool
     {
-        throw $this->fail();
+        return false;
     }
 
     public function optionSetting(string $options): OptionSetting

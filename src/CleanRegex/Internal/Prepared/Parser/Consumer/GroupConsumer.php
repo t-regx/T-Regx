@@ -117,6 +117,6 @@ class GroupConsumer implements Consumer
 
     private function imposedNonCapture(EntitySequence $entities): bool
     {
-        return $entities->flags()->noAutoCapture() && $this->autoCapture->imposedNonCapture();
+        return $this->autoCapture->imposedNonCapture() && $entities->flags()->noAutoCapture();
     }
 }
