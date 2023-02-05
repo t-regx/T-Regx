@@ -1,11 +1,6 @@
 <?php
 namespace TRegx\CleanRegex\Internal\AutoCapture;
 
-use TRegx\CleanRegex\Internal\AutoCapture\Group\IdentityGroupAutoCapture;
-use TRegx\CleanRegex\Internal\AutoCapture\Group\LegacyGroupAutoCapture;
-use TRegx\CleanRegex\Internal\AutoCapture\Pattern\ImposedNoCapture;
-use TRegx\CleanRegex\Internal\AutoCapture\Pattern\ModifierAutoCapture;
-use TRegx\CleanRegex\Internal\AutoCapture\Pattern\OptionSettingAutoCapture;
 use TRegx\Pcre;
 
 class PcreAutoCapture
@@ -24,11 +19,11 @@ class PcreAutoCapture
     private static function instance(): AutoCapture
     {
         if (\PHP_VERSION_ID >= 80200) {
-            return new CompositeAutoCapture(new ModifierAutoCapture(), new IdentityGroupAutoCapture());
+            return new IdentityAutoCapture();
         }
         if (Pcre::pcre2()) {
-            return new CompositeAutoCapture(new OptionSettingAutoCapture(), new IdentityGroupAutoCapture());
+            return new OptionSettingAutoCapture();
         }
-        return new CompositeAutoCapture(new ImposedNoCapture(), new LegacyGroupAutoCapture());
+        return new ImposedAutoCapture();
     }
 }

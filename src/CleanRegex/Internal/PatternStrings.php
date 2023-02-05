@@ -2,9 +2,6 @@
 namespace TRegx\CleanRegex\Internal;
 
 use TRegx\CleanRegex\Internal\AutoCapture\AutoCapture;
-use TRegx\CleanRegex\Internal\AutoCapture\CompositeAutoCapture;
-use TRegx\CleanRegex\Internal\AutoCapture\Group\GroupAutoCapture;
-use TRegx\CleanRegex\Internal\AutoCapture\Pattern\PristineAutoCapture;
 use TRegx\CleanRegex\Internal\Expression\Expression;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\IdentityPredefinition;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
@@ -22,9 +19,9 @@ class PatternStrings
     /** @var (string|Pattern)[] */
     private $patterns;
 
-    public function __construct(GroupAutoCapture $autoCapture, array $patterns)
+    public function __construct(AutoCapture $autoCapture, array $patterns)
     {
-        $this->autoCapture = new CompositeAutoCapture(new PristineAutoCapture(), $autoCapture);
+        $this->autoCapture = $autoCapture;
         $this->flags = new Flags('');
         $this->patterns = $patterns;
     }
