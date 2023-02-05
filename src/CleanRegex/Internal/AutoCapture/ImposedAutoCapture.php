@@ -22,7 +22,7 @@ class ImposedAutoCapture implements AutoCapture
         return true;
     }
 
-    public function optionSetting(string $options): OptionSetting
+    public function groupOptionSetting(string $options): OptionSetting
     {
         return new LegacyOptionSetting($options);
     }

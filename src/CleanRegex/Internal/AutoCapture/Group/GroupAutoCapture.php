@@ -7,5 +7,5 @@ interface GroupAutoCapture
 {
     public function imposedNonCapture(): bool;
 
-    public function optionSetting(string $options): OptionSetting;
+    public function groupOptionSetting(string $options): OptionSetting;
 }

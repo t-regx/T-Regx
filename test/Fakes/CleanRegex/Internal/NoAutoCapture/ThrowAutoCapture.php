@@ -25,7 +25,7 @@ class ThrowAutoCapture implements AutoCapture
         throw $this->fail();
     }
 
-    public function optionSetting(string $options): OptionSetting
+    public function groupOptionSetting(string $options): OptionSetting
     {
         throw $this->fail();
     }

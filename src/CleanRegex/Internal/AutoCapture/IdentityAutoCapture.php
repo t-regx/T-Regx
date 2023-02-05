@@ -22,7 +22,7 @@ class IdentityAutoCapture implements AutoCapture
         return false;
     }
 
-    public function optionSetting(string $options): OptionSetting
+    public function groupOptionSetting(string $options): OptionSetting
     {
         return new IdentityOptionSetting($options);
     }

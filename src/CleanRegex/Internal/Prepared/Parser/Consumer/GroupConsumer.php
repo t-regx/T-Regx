@@ -67,10 +67,10 @@ class GroupConsumer implements Consumer
             return new GroupOpen($reference);
         }
         if ($optionsMode === ':') {
-            return new GroupOpenFlags($options, $this->autoCapture->optionSetting($options));
+            return new GroupOpenFlags($options, $this->autoCapture->groupOptionSetting($options));
         }
         if ($optionsMode === ')') {
-            return new GroupRemainder($options, $this->autoCapture->optionSetting($options));
+            return new GroupRemainder($options, $this->autoCapture->groupOptionSetting($options));
         }
         if ($comment !== null) {
             return new GroupComment($comment);
