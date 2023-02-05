@@ -26,7 +26,7 @@ class Flags
         return \strPos($this->modifiers, $modifier) !== false;
     }
 
-    public function toPcreModifiers(): string
+    public function pcreModifiers(): string
     {
         return $this->modifiers;
     }

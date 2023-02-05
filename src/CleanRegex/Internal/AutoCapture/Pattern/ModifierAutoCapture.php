@@ -12,6 +12,6 @@ class ModifierAutoCapture implements PatternAutoCapture
 
     public function patternModifiers(Flags $flags): string
     {
-        return $flags->toPcreModifiers();
+        return $flags->pcreModifiers();
     }
 }

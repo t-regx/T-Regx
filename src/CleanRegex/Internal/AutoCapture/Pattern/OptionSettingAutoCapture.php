@@ -15,6 +15,6 @@ class OptionSettingAutoCapture implements PatternAutoCapture
 
     public function patternModifiers(Flags $flags): string
     {
-        return \str_replace('n', '', $flags->toPcreModifiers());
+        return \str_replace('n', '', $flags->pcreModifiers());
     }
 }
