@@ -17,7 +17,6 @@ class BugTest extends TestCase
     {
         // when
         $result = Bug::fix("foo\r\t\f\v");
-
         // then
         $this->assertSame('foo', $result);
     }
@@ -29,7 +28,6 @@ class BugTest extends TestCase
     {
         // when
         $result = Bug::fix(["foo\r\t\f\v", "bar\r\t\f\v"]);
-
         // then
         $this->assertSame(['foo', 'bar'], $result);
     }
@@ -41,7 +39,6 @@ class BugTest extends TestCase
     {
         // when
         $result = Bug::fix(12);
-
         // then
         $this->assertSame(12, $result);
     }

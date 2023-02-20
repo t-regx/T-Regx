@@ -25,10 +25,8 @@ class PositiveNotationTest extends TestCase
     {
         // given
         $number = new PositiveNotation($input);
-
         // when
         $integer = $number->integer(new Base($base));
-
         // then
         $this->assertSame($expected, $integer);
     }
@@ -112,10 +110,8 @@ class PositiveNotationTest extends TestCase
     {
         // given
         $number = new PositiveNotation($value);
-
         // then
         $this->expectException(NumeralOverflowException::class);
-
         // when
         $number->integer(new Base($base));
     }
@@ -158,10 +154,8 @@ class PositiveNotationTest extends TestCase
     {
         // given
         $number = new PositiveNotation($value);
-
         // then
         $this->expectException(NumeralFormatException::class);
-
         // when
         $number->integer(new Base($base));
     }
@@ -182,10 +176,8 @@ class PositiveNotationTest extends TestCase
     {
         // given
         $number = new PositiveNotation($value);
-
         // then
         $this->expectException(NumeralFormatException::class);
-
         // when
         $number->integer(new Base($base - 1));
     }
@@ -198,10 +190,8 @@ class PositiveNotationTest extends TestCase
     {
         // given
         $number = new PositiveNotation($value);
-
         // when
         $integer = $number->integer(new Base($base));
-
         // then
         $this->assertSame($expected, $integer);
     }
@@ -253,10 +243,8 @@ class PositiveNotationTest extends TestCase
     {
         // given
         $number = new PositiveNotation('10');
-
         // when
         $integer = $number->integer(new Base(10));
-
         // then
         $this->assertSame(10, $integer);
     }

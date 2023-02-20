@@ -24,7 +24,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::template($pattern)->literal('X');
-
         // then
         $this->assertPatternIs($expected, $pattern);
     }
@@ -73,7 +72,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::template('foo:@')->pattern('#https?/www%');
-
         // then
         $this->assertPatternIs('~foo:(?:#https?/www%)~', $pattern);
         $this->assertConsumesFirst('foo:#http/www%', $pattern);
@@ -86,7 +84,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::template('@')->pattern('/');
-
         // then
         $this->assertPatternIs('#(?:/)#', $pattern);
         $this->assertConsumesFirst('/', $pattern);
@@ -100,7 +97,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Keyword cannot be empty, must consist of at least one character');
-
         // when
         Pattern::template('@')->mask('foo', ['' => 'Bar']);
     }
@@ -112,7 +108,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::template('/foo:@')->pattern('\c\\');
-
         // then
         $this->assertConsumesFirst('/foo:' . \chr(28), $pattern);
         $this->assertPatternIs('#/foo:(?:\c\)#', $pattern);
@@ -125,10 +120,8 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::inject('#\\', []);
-
         // when
         $valid = $pattern->valid();
-
         // then
         $this->assertFalse($valid);
     }
@@ -140,7 +133,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::template('@')->mask('!s', ['!s' => '\c\\']);
-
         // then
         $this->assertConsumesFirst(\chr(28), $pattern);
     }
@@ -152,7 +144,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::template('@')->mask('!s', ['!s' => '\\\\']);
-
         // then
         $this->assertConsumesFirst('\\', $pattern);
     }
@@ -176,7 +167,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(ExplicitDelimiterRequiredException::class);
         $this->expectExceptionMessage("Failed to select a distinct delimiter to enable mask pattern 's~i/e#++m%a!@*`_-;=,\1' assigned to keyword '@'");
-
         // when
         Pattern::template('@')->mask('@', ['@' => "s~i/e#++m%a!@*`_-;=,\1"]);
     }
@@ -189,7 +179,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(MaskMalformedPatternException::class);
         $this->expectExceptionMessage("Malformed pattern 's~i/e#++m%a!@*`_-;=,\1\' assigned to keyword 's'");
-
         // when
         Pattern::template('@')->mask('s', ['s' => "s~i/e#++m%a!@*`_-;=,\1\\"]);
     }
@@ -202,7 +191,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(ExplicitDelimiterRequiredException::class);
         $this->expectExceptionMessage("Failed to select a distinct delimiter to enable template in its entirety");
-
         // when
         Pattern::template('@')->mask(' ', ['@' => "s~i/e#++", '&' => "m%a!@*`_-;=,\1"]);
     }

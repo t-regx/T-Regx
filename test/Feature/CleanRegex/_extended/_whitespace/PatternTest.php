@@ -16,7 +16,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("@:bar", ["user\ninput"]);
-
         // then
         $this->assertConsumesFirst("user\ninput:bar", $pattern);
     }
@@ -28,7 +27,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("@:bar", ["user\n\vinput"], 'x');
-
         // then
         $this->assertConsumesFirst("user\n\vinput:bar", $pattern);
     }
@@ -40,7 +38,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::template('@:bar', 'x')->literal("user\n\vinput");
-
         // then
         $this->assertConsumesFirst("user\n\vinput:bar", $pattern);
     }

@@ -68,7 +68,6 @@ class StreamTest extends TestCase
         $tooManyArguments = function ($one, $two, $three) {
             $this->fail();
         };
-
         // then
         $this->expectException(\ArgumentCountError::class);
         // when
@@ -84,7 +83,6 @@ class StreamTest extends TestCase
         $tooManyArguments = function ($one, int $invalid) {
             $this->fail();
         };
-
         // then
         $this->expectException(\TypeError::class);
         // when

@@ -94,7 +94,6 @@ class DetailTest extends TestCase
                 // when
                 return $detail->group('value')->toInt();
             });
-
         // then
         $this->assertSame([12, 14, 13, 19, 18, 2], $result);
     }
@@ -111,7 +110,6 @@ class DetailTest extends TestCase
                 // when
                 return $detail->group(1)->toInt();
             });
-
         // then
         $this->assertSame([12, 14, 13, 19, 18, 2], $result);
     }

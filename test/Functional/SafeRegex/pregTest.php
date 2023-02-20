@@ -24,7 +24,6 @@ class pregTest extends TestCase
     {
         // when
         $result = preg::replace([], [], []);
-
         // then
         $this->assertEmpty($result);
     }
@@ -36,7 +35,6 @@ class pregTest extends TestCase
     {
         // when
         $result = preg::filter([], [], []);
-
         // then
         $this->assertEmpty($result);
     }
@@ -48,7 +46,6 @@ class pregTest extends TestCase
     {
         // when
         $result = preg::filter('/c/', '', ['a', 'b']);
-
         // then
         $this->assertEmpty($result);
     }
@@ -61,7 +58,6 @@ class pregTest extends TestCase
         // then
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage("No ending delimiter '/' found");
-
         // when
         preg::replace_callback('/valid/', function () {
             $this->causeMalformedPatternWarning();
@@ -79,7 +75,6 @@ class pregTest extends TestCase
             trigger_error('some other warning', E_USER_WARNING);
             return 'maybe';
         }, 'valid');
-
         // then
         $this->assertTrue(true);
     }
@@ -106,7 +101,6 @@ class pregTest extends TestCase
     {
         // when
         $value = preg::match('/^|\d{1,2}$/', "7");
-
         // then
         $this->assertSame(1, $value);
     }
@@ -118,12 +112,10 @@ class pregTest extends TestCase
     {
         // given
         $this->causeRuntimeWarning();
-
         // when
         $error = preg::last_error();
         $message = preg::last_error_msg();
         $constant = preg::last_error_constant();
-
         // then
         $this->assertSame(PREG_BAD_UTF8_ERROR, $error);
         $this->assertSame('Malformed UTF-8 characters, possibly incorrectly encoded', $message);
@@ -137,7 +129,6 @@ class pregTest extends TestCase
     {
         // when
         $quoted = preg::quote('Hello # there');
-
         // then
         $this->assertSame('Hello \# there', $quoted);
     }
@@ -149,7 +140,6 @@ class pregTest extends TestCase
     {
         // when
         $quoted = preg::quote('Hello # % there', '%');
-
         // then
         $this->assertSame('Hello \# \% there', $quoted);
     }
@@ -161,7 +151,6 @@ class pregTest extends TestCase
     {
         // when
         $quoted = preg::quote('Hello # % there', '#');
-
         // then
         $this->assertSame('Hello \# % there', $quoted);
     }
@@ -173,7 +162,6 @@ class pregTest extends TestCase
     {
         // when
         $unquoted = preg::unquote('\[a\-z\]\+');
-
         // then
         $this->assertSame('[a-z]+', $unquoted);
     }
@@ -187,7 +175,6 @@ class pregTest extends TestCase
     {
         // when
         $output = preg::unquote(preg::quote($input));
-
         // then
         $this->assertSame($input, $output);
     }
@@ -211,10 +198,8 @@ class pregTest extends TestCase
     {
         // given
         $input = '\\\' \" \/ \;';
-
         // when
         $unquoted = preg::unquote($input);
-
         // then
         $this->assertSame($input, $unquoted);
     }
@@ -228,7 +213,6 @@ class pregTest extends TestCase
         $result = preg::replace_callback('/valid/', function () {
             return new ClassWithToString("replaced");
         }, 'valid');
-
         // then
         $this->assertSame("replaced", $result);
     }
@@ -241,7 +225,6 @@ class pregTest extends TestCase
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Delimiter must be one alpha-numeric character');
-
         // when
         preg::quote('Hello # % there', '##');
     }
@@ -254,7 +237,6 @@ class pregTest extends TestCase
         // then
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Delimiter must be one alpha-numeric character');
-
         // when
         preg::quote('Hello # % there', '');
     }
@@ -269,7 +251,6 @@ class pregTest extends TestCase
             '/./'  => Functions::constant('a'),
             '/a(/' => Functions::constant('b'),
         ];
-
         // when
         try {
             preg::replace_callback_array($patterns, 'word');
@@ -287,7 +268,6 @@ class pregTest extends TestCase
         // given
         $this->expectException(UnicodeOffsetException::class);
         $this->expectExceptionMessage('Invalid UTF-8 offset parameter was passed to preg_match()');
-
         // when
         preg::match('/€/u', '€', $match, 0, 1);
     }
@@ -302,7 +282,6 @@ class pregTest extends TestCase
             '/./' => Functions::constant('a'),
             '/a/' => Functions::constant(new \stdClass()),
         ];
-
         // when
         try {
             preg::replace_callback_array($patterns, 'word');

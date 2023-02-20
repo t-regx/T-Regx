@@ -20,10 +20,8 @@ class pregTest extends TestCase
             'b'  => new \stdClass(),
             '11' => true,
         ];
-
         // when
         $result = preg::grep_keys('/\d+/', $input);
-
         // then
         $this->assertSame(['9' => ['Foo', 'Bar'], '10' => true, '11' => true], $result);
     }
@@ -42,10 +40,8 @@ class pregTest extends TestCase
             'b'  => $object,
             '11' => true
         ];
-
         // when
         $result = preg::grep_keys('/\d+/', $input, PREG_GREP_INVERT);
-
         // then
         $this->assertSame(['a' => false, 'b' => $object], $result);
     }
@@ -57,7 +53,6 @@ class pregTest extends TestCase
     {
         // when
         $result = preg::grep_keys('//', []);
-
         // then
         $this->assertEmpty($result);
     }
@@ -70,7 +65,6 @@ class pregTest extends TestCase
         // then
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage("Quantifier does not follow a repeatable item at offset 0");
-
         // when
         preg::grep_keys('/+/', []);
     }

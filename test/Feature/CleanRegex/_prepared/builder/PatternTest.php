@@ -24,7 +24,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::builder($pattern)->build();
-
         // then
         $this->assertPatternIs($expected, $pattern);
     }
@@ -87,11 +86,9 @@ class PatternTest extends TestCase
     {
         // given
         $builder = Pattern::builder('Foo')->mask('foo', ['foo', 'bar']);
-
         // then
         $this->expectException(PlaceholderFigureException::class);
         $this->expectExceptionMessage("Supplied a superfluous figure. Used 0 placeholders, but 1 figures supplied.");
-
         // when
         $builder->build();
     }
@@ -103,11 +100,9 @@ class PatternTest extends TestCase
     {
         // given
         $builder = Pattern::builder('Foo')->alteration(['foo', 'bar']);
-
         // then
         $this->expectException(PlaceholderFigureException::class);
         $this->expectExceptionMessage("Supplied a superfluous figure. Used 0 placeholders, but 1 figures supplied.");
-
         // when
         $builder->build();
     }
@@ -133,11 +128,9 @@ class PatternTest extends TestCase
     {
         // given
         $builder = Pattern::builder('Foo')->pattern('bar');
-
         // then
         $this->expectException(PlaceholderFigureException::class);
         $this->expectExceptionMessage('Supplied a superfluous figure. Used 0 placeholders, but 1 figures supplied.');
-
         // when
         $builder->build();
     }
@@ -149,11 +142,9 @@ class PatternTest extends TestCase
     {
         // given
         $builder = Pattern::builder("s~i/e#++m%a!\@*`_-;=,\1");
-
         // then
         $this->expectException(ExplicitDelimiterRequiredException::class);
         $this->expectExceptionMessage("Failed to select a distinct delimiter to enable template in its entirety");
-
         // when
         $builder->build();
     }

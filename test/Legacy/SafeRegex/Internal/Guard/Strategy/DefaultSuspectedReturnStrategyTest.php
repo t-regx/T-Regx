@@ -22,10 +22,8 @@ class DefaultSuspectedReturnStrategyTest extends TestCase
     {
         // given
         $failureIndicators = new DefaultSuspectedReturnStrategy();
-
         // when
         $isSuspected = $failureIndicators->isSuspected($methodName, $result);
-
         // then
         $this->assertFalse($isSuspected);
     }
@@ -52,10 +50,8 @@ class DefaultSuspectedReturnStrategyTest extends TestCase
     {
         // given
         $failureIndicators = new DefaultSuspectedReturnStrategy();
-
         // when
         $isSuspected = $failureIndicators->isSuspected($methodName, $result);
-
         // then
         $this->assertTrue($isSuspected);
     }

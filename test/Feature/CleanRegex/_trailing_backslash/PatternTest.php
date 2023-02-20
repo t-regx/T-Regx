@@ -21,7 +21,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(PatternMalformedPatternException::class);
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
-
         // when
         $pattern->test('Foo');
     }
@@ -45,7 +44,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(PatternMalformedPatternException::class);
         $this->expectExceptionMessage('Pattern may not end with a trailing backslash');
-
         // when
         Pattern::list(['Foo & \\'])->testAny('Foo');
     }
@@ -61,7 +59,6 @@ class PatternTest extends TestCase
         // then
         $this->expectException(MaskMalformedPatternException::class);
         $this->expectExceptionMessage($message);
-
         // when
         $entryPoint();
     }
@@ -91,7 +88,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::of('foo\\\\');
-
         // then
         $this->assertConsumesFirst('foo\\', $pattern);
     }

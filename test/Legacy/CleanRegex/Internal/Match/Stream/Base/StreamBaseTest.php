@@ -22,10 +22,8 @@ class StreamBaseTest extends TestCase
     {
         // given
         $stream = new StreamBase(new ConstantAllBase($this->matchesOffset()));
-
         // when
         $all = $stream->all();
-
         // then
         $this->assertSame(['Joffrey', 'Cersei', 'Ilyn Payne', 'The Hound'], $all->getTexts());
     }
@@ -37,10 +35,8 @@ class StreamBaseTest extends TestCase
     {
         // given
         $stream = new StreamBase(new ConstantFirstBase($this->matchOffset()));
-
         // when
         $first = $stream->first();
-
         // then
         $this->assertSame('Joffrey', $first->getText());
     }
@@ -52,10 +48,8 @@ class StreamBaseTest extends TestCase
     {
         // given
         $stream = new StreamBase(new ConstantFirstBase(new RawMatchOffset([])));
-
         // then
         $this->expectException(UnmatchedStreamException::class);
-
         // when
         $stream->first();
     }
@@ -67,10 +61,8 @@ class StreamBaseTest extends TestCase
     {
         // given
         $stream = new StreamBase(new ConstantAllBase(new RawMatchesOffset([[]])));
-
         // then
         $this->expectException(UnmatchedStreamException::class);
-
         // when
         $stream->all();
     }

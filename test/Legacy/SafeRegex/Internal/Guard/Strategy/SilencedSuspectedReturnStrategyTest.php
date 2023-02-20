@@ -17,10 +17,8 @@ class SilencedSuspectedReturnStrategyTest extends TestCase
     {
         // given
         $strategy = new SilencedSuspectedReturnStrategy();
-
         // when
         $isSuspected = $strategy->isSuspected('any string', null);
-
         // then
         $this->assertFalse($isSuspected);
     }

@@ -21,7 +21,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject($pattern, ['X']);
-
         // then
         $this->assertPatternIs($expected, $pattern);
     }
@@ -45,7 +44,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject($pattern, []);
-
         // then
         $this->assertPatternIs($expected, $pattern);
     }
@@ -69,7 +67,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject('foo(?#@', []);
-
         // then
         $this->assertPatternIs('/foo(?#@/', $pattern);
     }
@@ -81,7 +78,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("(?x)#@\n", []);
-
         // then
         $this->assertPatternIs("/(?x)#@\n/", $pattern);
     }
@@ -94,7 +90,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("(#@\n(?x)#@\n)#@\n", ['One', 'Three']);
-
         // then
         $this->assertConsumesFirst("#One\n#Three\n", $pattern);
         $this->assertPatternIs("/(#(?>One)\n(?x)#@\n)#(?>Three)\n/", $pattern);
@@ -108,7 +103,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("(?x:(?x))#@\n", ['Bar']);
-
         // then
         $this->assertConsumesFirst("#Bar\n", $pattern);
         $this->assertPatternIs("/(?x:(?x))#(?>Bar)\n/", $pattern);
@@ -122,7 +116,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("(?x)(#@\n)", []);
-
         // then
         $this->assertPatternIs("/(?x)(#@\n)/", $pattern);
     }
@@ -135,7 +128,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("(?x)()#@\n", []);
-
         // then
         $this->assertPatternIs("/(?x)()#@\n/", $pattern);
     }
@@ -149,7 +141,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("(?x)()(#@\n)", []);
-
         // then
         $this->assertPatternIs("/(?x)()(#@\n)/", $pattern);
     }
@@ -162,7 +153,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("(?x)(?:)(#@\n)", []);
-
         // then
         $this->assertPatternIs("/(?x)(?:)(#@\n)/", $pattern);
     }
@@ -175,7 +165,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("(?x)(?)(#@\n)", []);
-
         // then
         $this->assertPatternIs("/(?x)(?)(#@\n)/", $pattern);
     }
@@ -188,7 +177,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("(?x)(?#)#@\n", []);
-
         // then
         $this->assertPatternIs("/(?x)(?#)#@\n/", $pattern);
     }
@@ -201,7 +189,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("((?x))#@\n", ['Bar']);
-
         // then
         $this->assertPatternIs("/((?x))#(?>Bar)\n/", $pattern);
     }
@@ -214,7 +201,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("((?x))(#@\n)", ['Bar']);
-
         // then
         $this->assertPatternIs("/((?x))(#(?>Bar)\n)/", $pattern);
     }
@@ -227,7 +213,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("(?x)(?-x)(#@\n)", ['Bar']);
-
         // then
         $this->assertPatternIs("/(?x)(?-x)(#(?>Bar)\n)/", $pattern);
     }
@@ -240,7 +225,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::inject("((?x)(?-x))#@\n", ['Bar']);
-
         // then
         $this->assertPatternIs("/((?x)(?-x))#(?>Bar)\n/", $pattern);
     }

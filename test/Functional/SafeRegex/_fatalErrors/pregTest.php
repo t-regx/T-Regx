@@ -18,7 +18,6 @@ class pregTest extends TestCase
     {
         // when
         preg::grep('/./', [$input]);
-
         // then
         $this->assertTrue(true);
     }
@@ -32,7 +31,6 @@ class pregTest extends TestCase
     {
         // when
         preg::replace_callback('/./', Functions::constant($input), 'word');
-
         // then
         $this->assertTrue(true);
     }
@@ -47,7 +45,6 @@ class pregTest extends TestCase
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid preg_replace_callback() callback return type. Expected type that can be cast to string, but object given');
-
         // when
         preg::replace_callback('/./', Functions::constant($input), 'word');
     }
@@ -64,7 +61,6 @@ class pregTest extends TestCase
             '/./' => Functions::constant($input),
             '/a/' => Functions::constant($input),
         ], 'word');
-
         // then
         $this->assertTrue(true);
     }
@@ -89,7 +85,6 @@ class pregTest extends TestCase
         // then
         $this->expectException(InvalidReturnValueException::class);
         $this->expectExceptionMessage('Invalid preg_replace_callback_array() callback return type. Expected type that can be cast to string, but object given');
-
         // when
         preg::replace_callback_array([
             '/./' => Functions::constant('a'),
@@ -105,7 +100,6 @@ class pregTest extends TestCase
         // given
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid callback passed to preg_replace_callback_array()');
-
         // when
         preg::replace_callback_array(['/a/' => 4], 'word');
     }

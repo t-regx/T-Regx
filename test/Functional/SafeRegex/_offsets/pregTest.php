@@ -18,7 +18,6 @@ class pregTest extends TestCase
         // then
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage($message);
-
         // when
         preg::match('/Foo/', $subject, $matches, 0, $offset);
     }
@@ -30,10 +29,8 @@ class pregTest extends TestCase
     {
         // given
         $twoBytesPerLetter = 'łąęśćź';
-
         // when
         preg::match_all('/.+/', $twoBytesPerLetter, $match, 0, 8);
-
         // then
         $this->assertSame('ćź', $match[0][0]);
     }
@@ -50,7 +47,6 @@ class pregTest extends TestCase
         // then
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage($message);
-
         // when
         preg::match_all('/Foo/', $subject, $matches, 0, $offset);
     }
@@ -62,10 +58,8 @@ class pregTest extends TestCase
     {
         // given
         $twoBytesPerLetter = 'łąęśćź';
-
         // when
         preg::match_all('/.+/', $twoBytesPerLetter, $match, 0, 8);
-
         // then
         $this->assertSame('ćź', $match[0][0]);
     }

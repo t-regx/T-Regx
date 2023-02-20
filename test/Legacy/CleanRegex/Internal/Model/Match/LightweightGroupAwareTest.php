@@ -19,10 +19,8 @@ class LightweightGroupAwareTest extends TestCase
     {
         // given
         $groupAware = new LightweightGroupAware(new Definition('/(?<group>)/'));
-
         // when
         $keys = $groupAware->getGroupKeys();
-
         // then
         $this->assertSame([0, 'group', 1], $keys);
     }
@@ -37,10 +35,8 @@ class LightweightGroupAwareTest extends TestCase
     {
         // given
         $groupAware = new LightweightGroupAware(new Definition($pattern));
-
         // when
         $hasGroup = $groupAware->hasGroup(new GroupName('group'));
-
         // then
         $this->assertSame($expected, $hasGroup);
     }

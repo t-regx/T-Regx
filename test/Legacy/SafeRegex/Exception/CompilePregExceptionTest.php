@@ -15,12 +15,10 @@ class CompilePregExceptionTest extends TestCase
     {
         // given
         $exception = new CompilePregException('', '', '', new PhpError(2, 'message'), 'error');
-
         // when
         $error = $exception->getError();
         $errorName = $exception->getErrorName();
         $errorMessage = $exception->getPregErrorMessage();
-
         // then
         $this->assertSame(2, $error);
         $this->assertSame('error', $errorName);
@@ -34,10 +32,8 @@ class CompilePregExceptionTest extends TestCase
     {
         // given
         $exception = new CompilePregException('preg_method', null, '', new PhpError(2, ''), '');
-
         // when
         $method = $exception->getInvokingMethod();
-
         // then
         $this->assertSame('preg_method', $method);
     }
@@ -49,10 +45,8 @@ class CompilePregExceptionTest extends TestCase
     {
         // given
         $exception = new CompilePregException('', '/pattern/', '', new PhpError(2, ''), '');
-
         // when
         $pattern = $exception->getPregPattern();
-
         // then
         $this->assertSame('/pattern/', $pattern);
     }

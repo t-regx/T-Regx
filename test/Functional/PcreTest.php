@@ -21,7 +21,6 @@ class PcreTest extends TestCase
         $version = Pcre::semanticVersion();
         $major = Pcre::majorVersion();
         $minor = Pcre::minorVersion();
-
         // then
         $this->assertSame($version, "$major.$minor");
     }
@@ -33,7 +32,6 @@ class PcreTest extends TestCase
     {
         // when
         $version = Pcre::semanticVersion();
-
         // then
         $this->assertStringStartsWith($version, \PCRE_VERSION);
     }
@@ -55,17 +53,14 @@ class PcreTest extends TestCase
         if (\PHP_VERSION_ID >= 70300) {
             $this->markTestUnnecessary("PHP with PCRE2 is not prone to constant override");
         }
-
         // given
         \define('PCRE_VERSION_MAJOR', 1200);
         \define('PCRE_VERSION_MINOR', 1300);
-
         // when
         $semantic = Pcre::semanticVersion();
         $minor = Pcre::minorVersion();
         $major = Pcre::majorVersion();
         $pcre2 = Pcre::pcre2();
-
         // then
         $this->assertLessThan(1100, $major);
         $this->assertLessThan(1100, $minor);

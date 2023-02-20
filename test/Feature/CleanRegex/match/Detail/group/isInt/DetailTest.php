@@ -71,7 +71,6 @@ class DetailTest extends TestCase
             ->forEach(function (Detail $detail) {
                 // when
                 $isInt = $detail->group('value')->isInt();
-
                 // then
                 $this->assertTrue($isInt);
             });
@@ -88,7 +87,6 @@ class DetailTest extends TestCase
             ->map(function (Detail $detail) {
                 // when
                 $isInt = $detail->group(1)->isInt();
-
                 // then
                 $this->assertTrue($isInt);
             });

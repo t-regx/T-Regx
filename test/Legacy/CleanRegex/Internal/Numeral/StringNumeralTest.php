@@ -26,10 +26,8 @@ class StringNumeralTest extends TestCase
     {
         // given
         $numeral = new StringNumeral($input);
-
         // when
         $integer = $numeral->asInt(new Base($base));
-
         // then
         $this->assertSame($expected, $integer);
     }
@@ -227,10 +225,8 @@ class StringNumeralTest extends TestCase
     {
         // given
         $number = new StringNumeral($value);
-
         // then
         $this->expectException(NumeralOverflowException::class);
-
         // when
         $number->asInt(new Base($base));
     }
@@ -417,10 +413,8 @@ class StringNumeralTest extends TestCase
     {
         // given
         $number = new StringNumeral($value);
-
         // then
         $this->expectException(NumeralFormatException::class);
-
         // when
         $number->asInt(new Base($base));
     }
@@ -438,10 +432,8 @@ class StringNumeralTest extends TestCase
     {
         // given
         $number = new StringNumeral($value);
-
         // then
         $this->expectException(NumeralFormatException::class);
-
         // when
         $number->asInt(new Base($base));
     }
@@ -458,10 +450,8 @@ class StringNumeralTest extends TestCase
     {
         // given
         $number = new StringNumeral('000');
-
         // when
         $format = $number->asInt(new Base(12));
-
         // then
         $this->assertSame(0, $format);
     }
@@ -473,10 +463,8 @@ class StringNumeralTest extends TestCase
     {
         // given
         $number = new StringNumeral('');
-
         // then
         $this->expectException(NumeralFormatException::class);
-
         // when
         $number->asInt(new ThrowBase());
     }
@@ -488,10 +476,8 @@ class StringNumeralTest extends TestCase
     {
         // given
         $number = new StringNumeral('-ABC');
-
         // when
         $integer = $number->asInt(new Base(13));
-
         // then
         $this->assertSame(-1845, $integer);
     }
@@ -504,10 +490,8 @@ class StringNumeralTest extends TestCase
     {
         // given
         $number = new StringNumeral($number);
-
         // when
         $integer = $number->asInt(new Base(36));
-
         // then
         $this->assertSame($expected, $integer);
     }

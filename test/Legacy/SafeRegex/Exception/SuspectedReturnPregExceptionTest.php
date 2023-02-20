@@ -14,12 +14,10 @@ class SuspectedReturnPregExceptionTest extends TestCase
     {
         // given
         $exception = new SuspectedReturnPregException('method', '/pattern/', true);
-
         // when
         $method = $exception->getInvokingMethod();
         $pattern = $exception->getPregPattern();
         $value = $exception->getReturnValue();
-
         // then
         $this->assertSame('method', $method);
         $this->assertSame('/pattern/', $pattern);
@@ -30,10 +28,8 @@ class SuspectedReturnPregExceptionTest extends TestCase
     {
         // given
         $exception = new SuspectedReturnPregException('', ['/foo/', '/bar/'], null);
-
         // when
         $pattern = $exception->getPregPattern();
-
         // then
         $this->assertSame(['/foo/', '/bar/'], $pattern);
     }

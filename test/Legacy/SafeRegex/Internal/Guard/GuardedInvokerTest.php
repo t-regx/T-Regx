@@ -44,10 +44,8 @@ class GuardedInvokerTest extends TestCase
             $this->causeRuntimeWarning();
             return 14;
         }, new DefaultSuspectedReturnStrategy());
-
         // when
         [$result, $exception] = $invoker->catch();
-
         // then
         $this->assertSame(14, $result);
         $this->assertInstanceOf(RuntimePregException::class, $exception);
@@ -64,10 +62,8 @@ class GuardedInvokerTest extends TestCase
             $this->causeMalformedPatternWarning();
             return 15;
         }, new DefaultSuspectedReturnStrategy());
-
         // when
         [$result, $exception] = $invoker->catch();
-
         // then
         $this->assertSame(15, $result);
         $this->assertInstanceOf(MalformedPatternException::class, $exception);
@@ -81,10 +77,8 @@ class GuardedInvokerTest extends TestCase
     {
         // given
         $invoker = new GuardedInvoker('preg_match', '/p/', Functions::constant(16), new DefaultSuspectedReturnStrategy());
-
         // when
         [$result, $exception] = $invoker->catch();
-
         // then
         $this->assertSame(16, $result);
         $this->assertNull($exception);
@@ -149,11 +143,9 @@ class GuardedInvokerTest extends TestCase
     {
         // given
         $invoker = new GuardedInvoker('preg_match', '/p/', Functions::throws(new \Exception("For Frodo")), new DefaultSuspectedReturnStrategy());
-
         // then
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("For Frodo");
-
         // when
         $invoker->catch();
     }

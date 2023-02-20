@@ -16,10 +16,8 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::inject('Foo@', ['Bar'], 'i');
-
         // when
         $flagIsAdded = $pattern->test('foobar');
-
         // then
         $this->assertTrue($flagIsAdded);
     }
@@ -31,10 +29,8 @@ class PatternTest extends TestCase
     {
         // given
         $pattern = Pattern::template('Foo@', 'i')->literal('Bar');
-
         // when
         $flagIsAdded = $pattern->test('foobar');
-
         // then
         $this->assertTrue($flagIsAdded);
     }
@@ -46,7 +42,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::mask('Cat:%w', ['%w' => 'Foo'], 'i');
-
         // then
         $this->assertConsumesFirst('cat:foo', $pattern);
     }

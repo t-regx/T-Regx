@@ -13,7 +13,6 @@ class pregTest extends TestCase
     {
         // when
         preg::match("~foo~$flag", 'foo', $match);
-
         // then
         $this->assertSame(['foo'], $match);
     }
@@ -25,7 +24,6 @@ class pregTest extends TestCase
     {
         // when
         preg::match_all("~foo~$flag", 'foo', $match);
-
         // then
         $this->assertSame([['foo']], $match);
     }
@@ -37,7 +35,6 @@ class pregTest extends TestCase
     {
         // when
         $result = preg::replace("~foo~$flag", 'bar', 'foo');
-
         // then
         $this->assertSame('bar', $result);
     }
@@ -49,7 +46,6 @@ class pregTest extends TestCase
     {
         // when
         $result = preg::filter("~foo~$flag", 'bar', 'foo');
-
         // then
         $this->assertSame('bar', $result);
     }
@@ -61,7 +57,6 @@ class pregTest extends TestCase
     {
         // when
         $result = preg::filter(["~foo~$flag"], 'bar', 'foo');
-
         // then
         $this->assertSame('bar', $result);
     }
@@ -73,7 +68,6 @@ class pregTest extends TestCase
     {
         // when
         $result = preg::replace_callback("~foo~$flag", 'json_encode', 'foo');
-
         // then
         $this->assertSame('["foo"]', $result);
     }
@@ -85,7 +79,6 @@ class pregTest extends TestCase
     {
         // when
         $result = preg::replace_callback_array(["~foo~$flag" => 'json_encode'], 'foo');
-
         // then
         $this->assertSame('["foo"]', $result);
     }
@@ -97,7 +90,6 @@ class pregTest extends TestCase
     {
         // when
         $parts = preg::split("~[,.]~$flag", 'a.b,c');
-
         // then
         $this->assertSame(['a', 'b', 'c'], $parts);
     }
@@ -109,7 +101,6 @@ class pregTest extends TestCase
     {
         // when
         $parts = preg::grep("~f.o~$flag", ['foo', 'bar', 'fao', 'bao']);
-
         // then
         $this->assertSame(['foo', 2 => 'fao'], $parts);
     }

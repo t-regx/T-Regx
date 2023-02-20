@@ -30,12 +30,10 @@ class PatternListTest extends TestCase
             '(\s+|\?)',
         ];
         $pattern = Pattern::list(\array_slice($patterns, 0, $times));
-
         // when
         $replaced = $pattern
             ->replace("Do you think that's air you're breathing now?")
             ->callback(Functions::constant('__'));
-
         // then
         $this->assertSame($expected, $replaced);
     }
@@ -64,14 +62,12 @@ class PatternListTest extends TestCase
         $replace = $pattern->replace('a 1 b 2 c 3');
         $matches = [];
         $subjects = [];
-
         // when
         $result = $replace->callback(function (Detail $detail) use (&$matches, &$subjects) {
             $matches[] = $detail->text();
             $subjects[] = $detail->subject();
             return '_';
         });
-
         // then
         $first = 'a 1 b 2 c 3';
         $second = '_ 1 _ 2 _ 3';

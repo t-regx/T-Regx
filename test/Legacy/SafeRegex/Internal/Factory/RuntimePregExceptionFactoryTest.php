@@ -28,10 +28,8 @@ class RuntimePregExceptionFactoryTest extends TestCase
     {
         // given
         $factory = new RuntimePregExceptionFactory('preg_method', '/pattern/', $errorCode);
-
         // when
         $exception = $factory->create();
-
         // then
         $this->assertInstanceOf($className, $exception);
         $this->assertSame('preg_method', $exception->getInvokingMethod());

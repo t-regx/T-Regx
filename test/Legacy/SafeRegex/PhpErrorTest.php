@@ -14,12 +14,10 @@ class PhpErrorTest extends TestCase
     {
         // given
         $error = new PhpError(E_WARNING, 'Something failed');
-
         // when
         $type = $error->getType();
         $message = $error->getMessage();
         $isPreg = $error->isPregError();
-
         // then
         $this->assertSame(E_WARNING, $type);
         $this->assertSame('Something failed', $message);
@@ -33,10 +31,8 @@ class PhpErrorTest extends TestCase
     {
         // given
         $error = new PhpError(0, 'preg_match()');
-
         // when
         $isPregError = $error->isPregError();
-
         // then
         $this->assertTrue($isPregError);
     }
@@ -48,10 +44,8 @@ class PhpErrorTest extends TestCase
     {
         // given
         $error = new PhpError(0, 'preg_ something');
-
         // when
         $isPregError = $error->isPregError();
-
         // then
         $this->assertFalse($isPregError);
     }

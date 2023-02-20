@@ -18,7 +18,6 @@ class PatternTest extends TestCase
     {
         // when
         $pattern = Pattern::of("\Q$input\E");
-
         // then
         $this->assertConsumesFirst($input, $pattern);
     }

@@ -17,10 +17,8 @@ class PcreVersionTest extends TestCase
     {
         // given
         $version = new PcreVersion('13.14');
-
         // when
         $semantic = $version->semanticVersion();
-
         // then
         $this->assertSame('13.14', $semantic);
     }
@@ -32,10 +30,8 @@ class PcreVersionTest extends TestCase
     {
         // given
         $version = new PcreVersion('52.23 2021-15');
-
         // when
         $semantic = $version->semanticVersion();
-
         // then
         $this->assertSame('52.23', $semantic);
     }
@@ -47,11 +43,9 @@ class PcreVersionTest extends TestCase
     {
         // given
         $version = new PcreVersion('42.31');
-
         // when
         $majorVersion = $version->majorVersion();
         $minorVersion = $version->minorVersion();
-
         // then
         $this->assertSame(42, $majorVersion);
         $this->assertSame(31, $minorVersion);
@@ -64,11 +58,9 @@ class PcreVersionTest extends TestCase
     {
         // given
         $version = new PcreVersion('4.1');
-
         // when
         $majorVersion = $version->majorVersion();
         $minorVersion = $version->minorVersion();
-
         // then
         $this->assertSame(4, $majorVersion);
         $this->assertSame(1, $minorVersion);
@@ -82,10 +74,8 @@ class PcreVersionTest extends TestCase
     {
         // given
         $version = new PcreVersion($version);
-
         // when
         $pcre2 = $version->pcre2();
-
         // then
         $this->assertSame($expected, $pcre2);
     }

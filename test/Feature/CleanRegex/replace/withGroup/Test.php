@@ -277,12 +277,10 @@ class Test extends TestCase
         // given
         $pattern = Pattern::of('(?<foo>Foo)(?<bar>Bar)?(?<last>;)');
         $replace = $pattern->replace('FooBar; FooBar; Foo; Foo;');
-
         try {
             $replace->withGroup('bar');
         } catch (GroupNotMatchedException $ignored) {
         }
-
         // then
         $this->expectException(GroupNotMatchedException::class);
         $this->expectExceptionMessage("Expected to replace with group 'bar', but the group was not matched");

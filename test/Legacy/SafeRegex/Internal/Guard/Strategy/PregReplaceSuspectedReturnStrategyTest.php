@@ -17,10 +17,8 @@ class PregReplaceSuspectedReturnStrategyTest extends TestCase
     {
         // given
         $strategy = new PregReplaceSuspectedReturnStrategy([]);
-
         // when
         $isSuspected = $strategy->isSuspected('', []);
-
         // then
         $this->assertFalse($isSuspected);
     }
@@ -32,10 +30,8 @@ class PregReplaceSuspectedReturnStrategyTest extends TestCase
     {
         // given
         $strategy = new PregReplaceSuspectedReturnStrategy([1]);
-
         // when
         $isSuspected = $strategy->isSuspected('', [2]);
-
         // then
         $this->assertFalse($isSuspected);
     }
@@ -47,10 +43,8 @@ class PregReplaceSuspectedReturnStrategyTest extends TestCase
     {
         // given
         $strategy = new PregReplaceSuspectedReturnStrategy('input');
-
         // when
         $isSuspected = $strategy->isSuspected('', 'output');
-
         // then
         $this->assertFalse($isSuspected);
     }
@@ -62,10 +56,8 @@ class PregReplaceSuspectedReturnStrategyTest extends TestCase
     {
         // given
         $strategy = new PregReplaceSuspectedReturnStrategy(['input']);
-
         // when
         $isSuspected = $strategy->isSuspected('', []);
-
         // then
         $this->assertTrue($isSuspected);
     }
@@ -77,10 +69,8 @@ class PregReplaceSuspectedReturnStrategyTest extends TestCase
     {
         // given
         $strategy = new PregReplaceSuspectedReturnStrategy('input');
-
         // when
         $isSuspected = $strategy->isSuspected('', null);
-
         // then
         $this->assertTrue($isSuspected);
     }

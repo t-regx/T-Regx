@@ -22,7 +22,6 @@ class GuardedExecutionTest extends TestCase
         // then
         $this->expectException(RuntimePregException::class);
         $this->expectExceptionMessage('After invoking preg_match(), preg_last_error() returned PREG_BAD_UTF8_ERROR');
-
         // when
         GuardedExecution::invoke('preg_match', '', function () {
             $this->causeRuntimeWarning();
@@ -38,7 +37,6 @@ class GuardedExecutionTest extends TestCase
         // then
         $this->expectException(MalformedPatternException::class);
         $this->expectExceptionMessage("No ending delimiter '/' found");
-
         // when
         GuardedExecution::invoke('preg_match', '', function () {
             $this->causeMalformedPatternWarning();
@@ -54,7 +52,6 @@ class GuardedExecutionTest extends TestCase
         // then
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Rethrown exception');
-
         // when
         GuardedExecution::invoke('preg_match', '', Functions::throws(new Exception('Rethrown exception')));
     }
@@ -66,7 +63,6 @@ class GuardedExecutionTest extends TestCase
     {
         // when
         $result = GuardedExecution::invoke('preg_match', '', Functions::constant(13));
-
         // then
         $this->assertSame(13, $result);
     }

@@ -18,13 +18,10 @@ class pregTest extends TestCase
         if (\PHP_VERSION_ID < 70400) {
             $this->markTestUnnecessary("PHP with PCRE2 is not prone to constant override");
         }
-
         // given
         $collected = null;
-
         // when
         preg::replace_callback('/Foo/', DetailFunctions::out($collected), 'Foo', -1, $count, \PREG_OFFSET_CAPTURE);
-
         // then
         $this->assertSame([['Foo', 0]], $collected);
     }
@@ -36,10 +33,8 @@ class pregTest extends TestCase
     {
         // given
         $collected = null;
-
         // when
         preg::replace_callback('/Foo/', DetailFunctions::out($collected), 'Foo', -1, $count, 0);
-
         // then
         $this->assertSame(['Foo'], $collected);
     }

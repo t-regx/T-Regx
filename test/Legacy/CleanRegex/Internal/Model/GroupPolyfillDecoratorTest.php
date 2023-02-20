@@ -25,7 +25,6 @@ class GroupPolyfillDecoratorTest extends TestCase
     {
         // given
         $decorator = new GroupPolyfillDecorator($this->match(['group' => 'value']), new ThrowFactory(), -10);
-
         // when, then
         $this->assertTrue($decorator->hasGroup(new GroupName('group')));
     }
@@ -37,7 +36,6 @@ class GroupPolyfillDecoratorTest extends TestCase
     {
         // given
         $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll(['group' => null]), -10);
-
         // when, then
         $this->assertTrue($decorator->hasGroup(new GroupName('group')));
     }
@@ -49,7 +47,6 @@ class GroupPolyfillDecoratorTest extends TestCase
     {
         // given
         $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll([]), -10);
-
         // when, then
         $this->assertFalse($decorator->hasGroup(new GroupName('group')));
     }
@@ -61,7 +58,6 @@ class GroupPolyfillDecoratorTest extends TestCase
     {
         // given
         $decorator = new GroupPolyfillDecorator($this->match(['group' => ['value', 0]]), new ThrowFactory(), -10);
-
         // when, then
         $this->assertTrue($decorator->isGroupMatched('group'));
     }
@@ -88,7 +84,6 @@ class GroupPolyfillDecoratorTest extends TestCase
 
         // given
         $decorator = new GroupPolyfillDecorator($this->match(['group' => ['value', -1]]), new ThrowFactory(), -10);
-
         // when, then
         $this->assertFalse($decorator->isGroupMatched('group'));
     }
@@ -100,7 +95,6 @@ class GroupPolyfillDecoratorTest extends TestCase
     {
         // given
         $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll(['group' => [[null, -1]]]), 0);
-
         // when, then
         $this->assertFalse($decorator->isGroupMatched('group'));
     }
@@ -112,7 +106,6 @@ class GroupPolyfillDecoratorTest extends TestCase
     {
         // given
         $decorator = new GroupPolyfillDecorator($this->match(['group' => ['Foo', 2]]), new ThrowFactory(), -10);
-
         // when, then
         $this->assertSame(['Foo', 2], $decorator->getGroupTextAndOffset('group'));
     }
@@ -124,7 +117,6 @@ class GroupPolyfillDecoratorTest extends TestCase
     {
         // given
         $decorator = new GroupPolyfillDecorator(new ThrowFalseNegative(), new ConstantAll(['group' => [['Foo', 2]]]), 0);
-
         // when, then
         $this->assertSame(['Foo', 2], $decorator->getGroupTextAndOffset('group'));
     }
@@ -140,7 +132,6 @@ class GroupPolyfillDecoratorTest extends TestCase
 
         // given
         $decorator = new GroupPolyfillDecorator($this->match(['group' => ['value', -1]]), new ThrowFactory(), -10);
-
         // when, then
         $this->assertSame(['value', -1], $decorator->getGroupTextAndOffset('group'));
     }
@@ -152,7 +143,6 @@ class GroupPolyfillDecoratorTest extends TestCase
     {
         // given
         $decorator = new GroupPolyfillDecorator($this->match([0 => ['value', -10]]), new ThrowFactory(), -10);
-
         // when, then
         $this->assertSame('value', $decorator->text());
     }
@@ -164,7 +154,6 @@ class GroupPolyfillDecoratorTest extends TestCase
     {
         // given
         $decorator = new GroupPolyfillDecorator($this->match([0 => ['value', 15]]), new ThrowFactory(), -10);
-
         // when, then
         $this->assertSame(15, $decorator->byteOffset());
     }
