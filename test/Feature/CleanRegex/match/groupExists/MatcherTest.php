@@ -133,4 +133,49 @@ class MatcherTest extends TestCase
         // when
         $matcher->groupExists(-1);
     }
+
+    /**
+     * @test
+     * @dataProvider groups
+     * @param string $pattern
+     */
+    public function shouldPcreNotationGroupExist(string $pattern)
+    {
+        // given
+        $matcher = Pattern::of($pattern)->match('value');
+        // when, then
+        $this->assertTrue($matcher->groupExists('group'));
+    }
+
+    public function groups(): array
+    {
+        return [
+            ['ab (?<group>c)'],
+            ['ab (?P<group>c)'],
+            ["ab (?'group'c)"],
+            ["ab (?'group'c (?<P>xd))"],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider nonGroups
+     * @param string $pattern
+     */
+    public function shouldPcreNotationGroupNotExist(string $pattern)
+    {
+        // given
+        $matcher = Pattern::of($pattern)->match('value');
+        // when, then
+        $this->assertFalse($matcher->groupExists('group'));
+    }
+
+    public function nonGroups(): array
+    {
+        return [
+            ['ab \(?<group>c\)'],
+            ['ab \(?P<group>c\)'],
+            ["ab \(?'group'c\)"],
+        ];
+    }
 }
