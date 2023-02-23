@@ -3,7 +3,6 @@ namespace TRegx\CleanRegex\Internal\Delimiter;
 
 use TRegx\CleanRegex\Internal\AutoCapture\Pattern\PatternAutoCapture;
 use TRegx\CleanRegex\Internal\Flags;
-use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 
 class Delimiter
 {
@@ -15,7 +14,7 @@ class Delimiter
         $this->delimiter = $delimiter;
     }
 
-    public function delimited(PatternAutoCapture $autoCapture, Phrase $phrase, Flags $flags): string
+    public function delimited(PatternAutoCapture $autoCapture, DelimitablePhrase $phrase, Flags $flags): string
     {
         return $this->patternDelimited($autoCapture, new VerbedPattern($phrase->conjugated($this->delimiter)), $flags);
     }

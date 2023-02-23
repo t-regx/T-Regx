@@ -14,6 +14,7 @@ use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 use TRegx\CleanRegex\Internal\Prepared\Pattern\SubpatternFlagsStringPattern;
 use TRegx\CleanRegex\Internal\Prepared\PatternPhrase;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Placeholders\LiteralPlaceholders;
 use TRegx\CleanRegex\Internal\UnsuitableStringCondition;
@@ -49,7 +50,7 @@ class KeywordPattern
         return $this->validPhrase($this->entitiesPhrase(), $this->delimiter());
     }
 
-    private function validPhrase(Phrase $phrase, Delimiter $delimiter): Phrase
+    private function validPhrase(CompositePhrase $phrase, Delimiter $delimiter): Phrase
     {
         $definition = new Definition($delimiter->delimited($this->autoCapture, $phrase, $this->flags));
         if ($definition->valid()) {
@@ -58,7 +59,7 @@ class KeywordPattern
         throw new MaskMalformedPatternException("Malformed pattern '$this->pattern' assigned to keyword '$this->keyword'");
     }
 
-    private function entitiesPhrase(): Phrase
+    private function entitiesPhrase(): CompositePhrase
     {
         try {
             return $this->patternPhrase->phrase();

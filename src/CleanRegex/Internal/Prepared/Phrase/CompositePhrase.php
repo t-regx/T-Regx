@@ -2,8 +2,9 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
 
 use Generator;
+use TRegx\CleanRegex\Internal\Delimiter\DelimitablePhrase;
 
-class CompositePhrase implements Phrase
+class CompositePhrase implements Phrase, DelimitablePhrase
 {
     /** @var Phrase[] */
     private $phrases;

@@ -1,9 +1,10 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
 
+use TRegx\CleanRegex\Internal\Delimiter\DelimitablePhrase;
 use TRegx\CleanRegex\Internal\Prepared\Word\Word;
 
-class UnconjugatedPhrase implements Phrase
+class UnconjugatedPhrase implements Phrase, DelimitablePhrase
 {
     /** @var Word */
     private $word;

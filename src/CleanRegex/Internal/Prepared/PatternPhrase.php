@@ -4,7 +4,6 @@ namespace TRegx\CleanRegex\Internal\Prepared;
 use TRegx\CleanRegex\Internal\AutoCapture\Group\GroupAutoCapture;
 use TRegx\CleanRegex\Internal\Prepared\Pattern\StringPattern;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
-use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Placeholders\Placeholders;
 
 class PatternPhrase
@@ -20,7 +19,7 @@ class PatternPhrase
         $this->placeholders = $placeholders;
     }
 
-    public function phrase(): Phrase
+    public function phrase(): CompositePhrase
     {
         $phrases = $this->entities->phrases();
         $this->placeholders->meetExpectation();
