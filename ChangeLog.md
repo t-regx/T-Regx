@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Bug fixes
+    * Empty alteration previously always matched in-place, now empty alteration never matches.
+        * `Pattern::alteration([])` doesn't match anything
+        * `Pattern::template('@')->alteration([])` doesn't match anything
+        * `Pattern::builder('@')->alteration([])` doesn't match anything
 * Other
     * Changed signature of `Pattern::of()`, so `$modifiers` argument default value is no longer
       `null` but an empty string. It poses no difference in the behaviour of the method, but the

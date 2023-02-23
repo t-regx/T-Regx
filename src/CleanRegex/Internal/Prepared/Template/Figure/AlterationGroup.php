@@ -2,6 +2,7 @@
 namespace TRegx\CleanRegex\Internal\Prepared\Template\Figure;
 
 use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\FailPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\NonCaptureGroupPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPhrase;
@@ -23,6 +24,9 @@ class AlterationGroup implements Cluster
 
     public function phrase(SubpatternFlags $flags): Phrase
     {
+        if (empty($this->figures)) {
+            return new FailPhrase();
+        }
         return new NonCaptureGroupPhrase(new UnconjugatedPhrase(new AlterationWord($this->figures)));
     }
 }
