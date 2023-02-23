@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Prepared\Orthography\Orthography;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\AtomicGroup;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\NonCaptureGroup;
-use TRegx\CleanRegex\Internal\Prepared\Template\Figure\AlterationFigure;
+use TRegx\CleanRegex\Internal\Prepared\Template\Figure\AlterationGroup;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\MaskFigure;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\PatternFigure;
 
@@ -37,7 +37,7 @@ class PatternTemplate
 
     public function alteration(array $figures): Pattern
     {
-        return $this->template(new NonCaptureGroup(new AlterationFigure($figures)));
+        return $this->template(new AlterationGroup($figures));
     }
 
     public function pattern(string $pattern): Pattern

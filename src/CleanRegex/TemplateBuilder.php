@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Prepared\Orthography\Orthography;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\AtomicGroup;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\Cluster;
 use TRegx\CleanRegex\Internal\Prepared\Template\Cluster\NonCaptureGroup;
-use TRegx\CleanRegex\Internal\Prepared\Template\Figure\AlterationFigure;
+use TRegx\CleanRegex\Internal\Prepared\Template\Figure\AlterationGroup;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\MaskFigure;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\PatternFigure;
 
@@ -40,7 +40,7 @@ class TemplateBuilder
 
     public function alteration(array $figures): TemplateBuilder
     {
-        return $this->next(new NonCaptureGroup(new AlterationFigure($figures)));
+        return $this->next(new AlterationGroup($figures));
     }
 
     public function pattern(string $pattern): TemplateBuilder
