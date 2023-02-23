@@ -1,7 +1,7 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Prepared\Phrase;
 
-abstract class GroupPhrase implements Phrase
+trait GroupPhrase
 {
     /** @var Phrase */
     private $phrase;
