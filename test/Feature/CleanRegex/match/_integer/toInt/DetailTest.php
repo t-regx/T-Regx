@@ -29,6 +29,18 @@ class DetailTest extends TestCase
 
     /**
      * @test
+     * @dataProvider integers
+     */
+    public function shouldBeIntegerGivenBase(string $input, int $expected, int $base)
+    {
+        // given
+        $detail = $this->detail($input);
+        // when, then
+        $this->assertSame($expected, $detail->toInt($base));
+    }
+
+    /**
+     * @test
      */
     public function shouldParseIntegerBase4()
     {
@@ -141,15 +153,27 @@ class DetailTest extends TestCase
      * @test
      * @dataProvider cornerDigits
      */
-    public function shouldThrowForCornerDigit(int $base, string $text)
+    public function shouldParseIntegerCornerDigit(string $cornerDigit, int $value, int $base)
     {
         // given
-        $detail = $this->detail($text);
+        $detail = $this->detail($cornerDigit);
+        // when, then
+        $this->assertEquals($value, $detail->toInt($base));
+    }
+
+    /**
+     * @test
+     * @dataProvider cornerDigits
+     */
+    public function shouldThrowForAboveCornerDigit(string $cornerDigit, int $value, int $base)
+    {
+        // given
+        $detail = $this->detail($cornerDigit);
         // then
         $this->expectException(IntegerFormatException::class);
-        $this->expectExceptionMessage("Expected to parse '$text', but it is not a valid integer in base $base");
+        $this->expectExceptionMessage("Expected to parse '$cornerDigit', but it is not a valid integer in base " . ($base - 1));
         // when
-        $detail->toInt($base);
+        $detail->toInt($base - 1);
     }
 
     /**

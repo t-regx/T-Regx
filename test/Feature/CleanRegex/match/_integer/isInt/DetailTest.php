@@ -27,6 +27,18 @@ class DetailTest extends TestCase
 
     /**
      * @test
+     * @dataProvider integers
+     */
+    public function shouldBeIntegerGivenBase(string $input, int $expected, int $base)
+    {
+        // given
+        $detail = $this->detail($input);
+        // when, then
+        $this->assertTrue($detail->isInt($base));
+    }
+
+    /**
+     * @test
      */
     public function shouldBeIntegerBase4()
     {
@@ -124,12 +136,24 @@ class DetailTest extends TestCase
      * @test
      * @dataProvider cornerDigits
      */
-    public function shouldNotBeIntegerCornerDigit(int $base, string $text)
+    public function shouldBeIntegerCornerDigit(string $cornerDigit, int $value, int $base)
     {
         // given
-        $detail = $this->detail($text);
+        $detail = $this->detail($cornerDigit);
         // when, then
-        $this->assertFalse($detail->isInt($base));
+        $this->assertTrue($detail->isInt($base));
+    }
+
+    /**
+     * @test
+     * @dataProvider cornerDigits
+     */
+    public function shouldNotBeIntegerAboveCornerDigit(string $cornerDigit, int $value, int $base)
+    {
+        // given
+        $detail = $this->detail($cornerDigit);
+        // when, then
+        $this->assertFalse($detail->isInt($base - 1));
     }
 
     /**
