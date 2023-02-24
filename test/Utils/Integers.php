@@ -2,10 +2,45 @@
 namespace Test\Utils;
 
 use Test\Utils\Agnostic\ArchitectureDependant;
+use TRegx\DataProvider\CrossDataProviders;
 
 trait Integers
 {
     use ArchitectureDependant;
+
+    public function invalidBases(): array
+    {
+        return [[-1], [1], [37]];
+    }
+
+    public function integersBase10(): array
+    {
+        return [
+            ['1', 1],
+            ['-1', -1],
+            ['0', 0],
+            ['000', 0],
+            ['0011', 11],
+            ['10', 10],
+            ['100', 100],
+            ['00000000000000000000000000000000000000000000001', 1],
+        ];
+    }
+
+    public function integersMalformed(): array
+    {
+        $bases = [[2], [10], [16], [36]];
+        $malformedValues = [['--1'], ['1-1'], ['+2'], ['-'], ['\n1']];
+        return CrossDataProviders::cross($bases, $malformedValues);
+    }
+
+    public function integerBoundryValuesCaseInsensitive(): array
+    {
+        return \array_merge(
+            $this->onArchitecture32([['-ZIK0ZK', -2147483647 - 1]]),
+            $this->onArchitecture64([['-1Y2P0IJ32E8E8', -9223372036854775807 - 1]])
+        );
+    }
 
     public function cornerDigits(): array
     {
