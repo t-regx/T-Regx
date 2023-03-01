@@ -9,6 +9,7 @@ Incoming
         * `Pattern::alteration([])` doesn't match anything
         * `Pattern::template('@')->alteration([])` doesn't match anything
         * `Pattern::builder('@')->alteration([])` doesn't match anything
+    * Corrected exception when `Pattern::builder()` was used with not enough bound figures.
 * Other
     * Changed signature of `Pattern::of()`, so `$modifiers` argument default value is no longer
       `null` but an empty string. It poses no difference in the behaviour of the method, but the

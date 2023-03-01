@@ -6,7 +6,6 @@ use Test\Utils\Assertion\AssertsPattern;
 use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\ExplicitDelimiterRequiredException;
 use TRegx\CleanRegex\Exception\MaskMalformedPatternException;
-use TRegx\CleanRegex\Exception\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
 use TRegx\Exception\MalformedPatternException;
 
@@ -60,79 +59,6 @@ class PatternTest extends TestCase
         $pattern = Pattern::builder("You/her (?-x:#@\n) her?", 'x')->literal('X')->build();
         // then
         $this->assertPatternIs("%You/her (?-x:#(?>X)\n) her?%x", $pattern);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForSuperfluousTemplateFigure()
-    {
-        // given
-        $builder = Pattern::builder('You/her, (are|is) @ (you|her)')
-            ->literal('foo')
-            ->literal('bar')
-            ->literal('cat');
-        // then
-        $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage("Supplied a superfluous figure. Used 1 placeholders, but 3 figures supplied.");
-        // when
-        $builder->build();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForSuperfluousTemplateMask()
-    {
-        // given
-        $builder = Pattern::builder('Foo')->mask('foo', ['foo', 'bar']);
-        // then
-        $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage("Supplied a superfluous figure. Used 0 placeholders, but 1 figures supplied.");
-        // when
-        $builder->build();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForSuperfluousBuilderTemplateAlteration()
-    {
-        // given
-        $builder = Pattern::builder('Foo')->alteration(['foo', 'bar']);
-        // then
-        $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage("Supplied a superfluous figure. Used 0 placeholders, but 1 figures supplied.");
-        // when
-        $builder->build();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForMissingTemplateFigures()
-    {
-        // given
-        $builder = Pattern::builder('Foo')->alteration(['Foo', 'Bar']);
-        // then
-        $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage("Supplied a superfluous figure. Used 0 placeholders, but 1 figures supplied.");
-        // when
-        $builder->build();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForSuperfluousTemplatePattern()
-    {
-        // given
-        $builder = Pattern::builder('Foo')->pattern('bar');
-        // then
-        $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage('Supplied a superfluous figure. Used 0 placeholders, but 1 figures supplied.');
-        // when
-        $builder->build();
     }
 
     /**

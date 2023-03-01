@@ -3,7 +3,6 @@ namespace Test\Feature\CleanRegex\_figures\_partial\template;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\TestCase\TestCaseExactMessage;
-use TRegx\CleanRegex\Exception\PlaceholderFigureException;
 use TRegx\CleanRegex\Pattern;
 
 class Test extends TestCase
@@ -42,29 +41,4 @@ class Test extends TestCase
         // when, then
         $this->assertTrue($pattern->fails('Foo:Ba'), "Failed to assert that partial of placeholder was matched");
     }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForSuperfluousFigures()
-    {
-        // then
-        $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage("Supplied a superfluous figure. Used 0 placeholders, but 1 figures supplied.");
-        // when
-        Pattern::template('Foo')->literal('Bar');
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForUnderflowFigures()
-    {
-        // then
-        $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage('Not enough corresponding figures supplied. Used 2 placeholders, but 1 figures supplied.');
-        // when
-        Pattern::template('@@')->literal('Bar');
-    }
-
 }

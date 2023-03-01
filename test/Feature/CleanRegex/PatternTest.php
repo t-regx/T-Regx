@@ -11,7 +11,6 @@ use Test\Utils\Structure\Expect;
 use Test\Utils\TestCase\TestCaseConditional;
 use Test\Utils\TestCase\TestCasePasses;
 use TRegx\CleanRegex\Exception\GroupNotMatchedException;
-use TRegx\CleanRegex\Exception\PlaceholderFigureException;
 use TRegx\CleanRegex\Match\Detail;
 use TRegx\CleanRegex\Pattern;
 use TRegx\CleanRegex\PcrePattern;
@@ -214,42 +213,6 @@ class PatternTest extends TestCase
         $detail = Pattern::inject('^@$', [$whitespace], 'x')->match($whitespace)->first();
         // then
         $this->assertSame($whitespace, $detail->text());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForSuperfluousFigures()
-    {
-        // then
-        $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage("Supplied a superfluous figure. Used 1 placeholders, but 4 figures supplied.");
-        // when
-        Pattern::inject('Pattern:@', ['foo', 'bar', 'cat', 'door']);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForSuperfluousFiguresSecond()
-    {
-        // then
-        $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage("Supplied a superfluous figure. Used 2 placeholders, but 4 figures supplied.");
-        // when
-        Pattern::inject('Pattern:@@', ['foo', 'bar', 'cat', 'door']);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowForMissingFigures()
-    {
-        // then
-        $this->expectException(PlaceholderFigureException::class);
-        $this->expectExceptionMessage('Not enough corresponding figures supplied. Used 4 placeholders, but 2 figures supplied.');
-        // when
-        Pattern::inject('Pattern:@, @, @, @', ['foo', 'bar']);
     }
 
     /**

@@ -15,7 +15,11 @@ class ArrayClusters implements CountedClusters
 
     public function current(): Cluster
     {
-        return \current($this->clusters);
+        $cluster = \current($this->clusters);
+        if ($cluster === false) {
+            return new PhantomCluster();
+        }
+        return $cluster;
     }
 
     public function next(): void
