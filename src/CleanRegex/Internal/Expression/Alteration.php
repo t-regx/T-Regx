@@ -8,7 +8,7 @@ use TRegx\CleanRegex\Internal\Expression\Predefinition\DelimiterPredefinition;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\FailPhrase;
-use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPhrase;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\WordPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Word\AlterationWord;
 
 class Alteration implements Expression
@@ -32,7 +32,7 @@ class Alteration implements Expression
         if (empty($texts)) {
             return new FailPhrase();
         }
-        return new UnconjugatedPhrase(new AlterationWord($texts));
+        return new WordPhrase(new AlterationWord($texts));
     }
 
     public function predefinition(): Predefinition

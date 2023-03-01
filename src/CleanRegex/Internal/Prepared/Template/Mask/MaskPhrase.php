@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Parser\SubpatternFlags;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\CompositePhrase;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
-use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPhrase;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\WordPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
 
 class MaskPhrase
@@ -37,7 +37,7 @@ class MaskPhrase
             if (\array_key_exists($value, $phrases)) {
                 yield $phrases[$value];
             } else {
-                yield new UnconjugatedPhrase(new TextWord($value));
+                yield new WordPhrase(new TextWord($value));
             }
         }
     }

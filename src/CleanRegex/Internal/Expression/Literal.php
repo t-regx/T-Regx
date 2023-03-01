@@ -7,7 +7,7 @@ use TRegx\CleanRegex\Internal\Expression\Predefinition\DelimiterPredefinition;
 use TRegx\CleanRegex\Internal\Expression\Predefinition\Predefinition;
 use TRegx\CleanRegex\Internal\Flags;
 use TRegx\CleanRegex\Internal\Prepared\Phrase\Phrase;
-use TRegx\CleanRegex\Internal\Prepared\Phrase\UnconjugatedPhrase;
+use TRegx\CleanRegex\Internal\Prepared\Phrase\WordPhrase;
 use TRegx\CleanRegex\Internal\Prepared\Word\TextWord;
 
 class Literal implements Expression
@@ -22,7 +22,7 @@ class Literal implements Expression
     public function __construct(PatternAutoCapture $autoCapture, string $text, Flags $flags)
     {
         $this->autoCapture = $autoCapture;
-        $this->phrase = new UnconjugatedPhrase(new TextWord($text));
+        $this->phrase = new WordPhrase(new TextWord($text));
         $this->flags = $flags;
     }
 
