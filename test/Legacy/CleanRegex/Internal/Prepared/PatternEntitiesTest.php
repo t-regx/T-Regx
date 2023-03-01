@@ -42,19 +42,6 @@ class PatternEntitiesTest extends TestCase
     /**
      * @test
      */
-    public function shouldParseLookAroundAssertion()
-    {
-        // given
-        $asEntities = new PatternEntities(new SubpatternFlagsStringPattern('\K', SubpatternFlags::empty()), new ThrowAutoCapture(), new ThrowPlaceholders());
-        // when, then
-        $this->assertEntitiesEqual($asEntities, [
-            new Escaped('K')
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function shouldConsumeImmediatelyClosedGroupsRemainder()
     {
         // given
