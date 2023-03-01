@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\CleanRegex\_figures\builder\pattern;
+namespace Test\Feature\CleanRegex\_figures\_partial\pattern;
 
 use PHPUnit\Framework\TestCase;
 use Test\Utils\Assertion\AssertsPattern;
