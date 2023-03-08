@@ -4,8 +4,8 @@
   "description": "PHP regular expression brought up to modern standards.",
   "license": "MIT",
   "scripts": {
-    "test": "phpunit test --no-coverage",
-    "fqn": "fqn-check src"
+    "fqn": "fqn-check src",
+    "test": "phpunit test --no-coverage"
   },
   "keywords": [
     "pcre",
