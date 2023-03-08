@@ -44,11 +44,14 @@ class LimitedReplace
 
     public function withReferences(string $replacement): string
     {
-        $result = preg::replace($this->definition->pattern, $replacement, $this->subject, $this->limit, $replaced);
+        $result = preg::replace($this->definition->pattern, $replacement, $this->subject->asString(), $this->limit, $replaced);
         $this->countingStrategy->applyReplaced($replaced);
         return $result;
     }
 
+    /**
+     * @param string|int $nameOrIndex
+     */
     public function withGroup($nameOrIndex): string
     {
         return $this->groupReplace->withGroup(GroupKey::of($nameOrIndex));

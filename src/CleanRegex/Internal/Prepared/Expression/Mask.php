@@ -29,6 +29,9 @@ class Mask implements Expression
     /** @var Flags */
     private $flags;
 
+    /**
+     * @param string[] $keywords
+     */
     public function __construct(AutoCapture $autoCapture, string $mask, Flags $flags, array $keywords)
     {
         $this->phrase = new MaskPhrase($autoCapture, $mask, $flags, $keywords);

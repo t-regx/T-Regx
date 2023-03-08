@@ -22,6 +22,9 @@ class PatternStrings
     /** @var (string|Pattern)[] */
     private $patterns;
 
+    /**
+     * @param (string|Pattern)[] $patterns
+     */
     public function __construct(GroupAutoCapture $autoCapture, array $patterns)
     {
         $this->autoCapture = new CompositeAutoCapture(new PristineAutoCapture(), $autoCapture);

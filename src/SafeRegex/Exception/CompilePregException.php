@@ -14,6 +14,9 @@ class CompilePregException extends \RuntimeException implements PregException
     /** @var string|string[] */
     private $pattern;
 
+    /**
+     * @param string|string[] $pattern
+     */
     public function __construct(string $methodName, $pattern, string $message, PhpError $error, string $errorName)
     {
         parent::__construct($message);

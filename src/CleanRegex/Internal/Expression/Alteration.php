@@ -19,6 +19,9 @@ class Alteration implements Expression
     /** @var Flags */
     private $flags;
 
+    /**
+     * @param string[] $texts
+     */
     public function __construct(PatternAutoCapture $autoCapture, array $texts, Flags $flags)
     {
         $this->autoCapture = $autoCapture;

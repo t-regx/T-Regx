@@ -14,11 +14,18 @@ class GroupNames
         $this->groupKeys = $groupKeys;
     }
 
+    /**
+     * @return (string|null)[]
+     */
     public function groupNames(): array
     {
         return $this->withoutUnnamedGroups(\array_slice($this->groupKeys->getGroupKeys(), 1));
     }
 
+    /**
+     * @param mixed[] $groupKeys
+     * @return (string|null)[]
+     */
     private function withoutUnnamedGroups(array $groupKeys): array
     {
         $names = [];

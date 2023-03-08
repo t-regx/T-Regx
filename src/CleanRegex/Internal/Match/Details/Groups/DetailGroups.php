@@ -9,6 +9,7 @@ use TRegx\CleanRegex\Internal\Model\GroupKeys;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\UsedForGroup;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Match\Group;
 
 class DetailGroups
 {
@@ -23,6 +24,12 @@ class DetailGroups
         $this->facade = new GroupFacade($subject, $allFactory, new GroupHandle($signatures), $signatures);
     }
 
+    /**
+     * @template T of int|string
+     * @param GroupArrayKey<T> $arrayKey
+     * @return Group[]
+     * @phpstan-return array<T, Group>
+     */
     public function groups(GroupArrayKey $arrayKey, UsedForGroup $forGroup): array
     {
         $groups = [];

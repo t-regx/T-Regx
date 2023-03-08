@@ -19,6 +19,11 @@ class TypeFunctions
         };
     }
 
+    /**
+     * @template T
+     * @param T $return
+     * @return callable(mixed ...$arguments): T
+     */
     public static function assertTypeString($return = null): callable
     {
         return function (...$arguments) use ($return) {

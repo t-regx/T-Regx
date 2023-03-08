@@ -1,6 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Internal\Match\Details\Groups;
 
+/**
+ * @implements GroupArrayKey<int>
+ */
 class IndexKey implements GroupArrayKey
 {
     public function applies($nameOrIndex): bool

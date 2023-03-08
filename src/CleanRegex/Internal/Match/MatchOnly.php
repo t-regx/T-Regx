@@ -30,6 +30,10 @@ class MatchOnly
         $this->base = $base;
     }
 
+    /**
+     * @param Limit $limit
+     * @return list<MatchDetail>
+     */
     public function get(Limit $limit): array
     {
         if ($limit->empty()) {
@@ -47,6 +51,9 @@ class MatchOnly
         preg::match($this->definition->pattern, '');
     }
 
+    /**
+     * @return array{MatchDetail}|array{}
+     */
     private function getOneMatch(): array
     {
         $match = $this->base->matchOffset();
@@ -56,6 +63,9 @@ class MatchOnly
         return [];
     }
 
+    /**
+     * @return list<MatchDetail>
+     */
     private function detailObjects(): array
     {
         $factory = new DetailObjectFactory($this->subject);

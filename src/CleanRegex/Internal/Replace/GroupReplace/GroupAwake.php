@@ -11,7 +11,7 @@ class GroupAwake
     private $definition;
     /** @var Subject */
     private $subject;
-    /** @var array|null */
+    /** @var array<list<array{string, int}>>|null */
     private $matches;
 
     public function __construct(Definition $definition, Subject $subject)
@@ -25,6 +25,9 @@ class GroupAwake
         return $this->matches()[$group->nameOrIndex()][$index][1] !== -1;
     }
 
+    /**
+     * @return array<list<array{string, int}>>
+     */
     private function matches(): array
     {
         if ($this->matches === null) {
@@ -33,6 +36,9 @@ class GroupAwake
         return $this->matches;
     }
 
+    /**
+     * @return array<list<array{string, int}>>
+     */
     private function performedMatches(): array
     {
         \preg_match_all($this->definition->pattern, $this->subject, $matches, \PREG_OFFSET_CAPTURE);

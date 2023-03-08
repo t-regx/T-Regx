@@ -21,6 +21,6 @@ class Base
 
     public function __toString(): string
     {
-        return $this->base;
+        return (string) $this->base;
     }
 }

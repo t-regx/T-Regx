@@ -34,7 +34,7 @@ trait AssertsPattern
         try {
             $this->assertSame($text, $pattern->search($text)->first());
         } catch (MalformedPatternException $exception) {
-            $pattern = str_replace("\r", "\n", $pattern);
+            $pattern = str_replace("\r", "\n", (string) $pattern);
             Assert::fail("Failed to execute a malformed pattern: $pattern");
         }
     }

@@ -1,0 +1,6 @@
+parameters:
+	level: 9
+
+includes:
+    - phpstan.src.neon
+    - phpstan.test.neon

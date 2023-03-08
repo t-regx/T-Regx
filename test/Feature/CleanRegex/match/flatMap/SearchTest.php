@@ -101,7 +101,7 @@ class SearchTest extends TestCase
         // given
         $search = Pattern::of('\w+')->search("Hear me roar");
         // when
-        $texts = $search->flatMap(Functions::wrap());
+        $texts = $search->flatMap(Functions::wrapString());
         // then
         $this->assertSame(['Hear', 'me', 'roar'], $texts);
     }

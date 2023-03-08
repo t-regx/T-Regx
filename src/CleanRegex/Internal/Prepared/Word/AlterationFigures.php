@@ -7,19 +7,28 @@ use TRegx\CleanRegex\Internal\Type\ValueType;
 
 class AlterationFigures
 {
-    /** @var array */
+    /** @var string[] */
     private $figures;
 
+    /**
+     * @param string[] $figures
+     */
     public function __construct(array $figures)
     {
         $this->figures = $figures;
     }
 
+    /**
+     * @return string[]
+     */
     public function figures(): array
     {
         return \array_unique(\iterator_to_array($this->stringFigures()));
     }
 
+    /**
+     * @return Generator<string>
+     */
     private function stringFigures(): Generator
     {
         foreach ($this->figures as $figure) {

@@ -3,14 +3,21 @@ namespace TRegx\CleanRegex\Internal\Split;
 
 class SplitElements
 {
-    /** @var array */
+    /** @var array{string, int}[] */
     private $elements;
 
+    /**
+     * @param array{string, int}[] $elements
+     */
     public function __construct(array $elements)
     {
         $this->elements = $elements;
     }
 
+    /**
+     * @return (string|null)[]
+     * @phpstan-return list<string|null>
+     */
     public function elements(): array
     {
         $elements = [];
@@ -29,6 +36,9 @@ class SplitElements
         return \count($this->elements);
     }
 
+    /**
+     * @return array{string, int}
+     */
     public function entryAt(int $index): array
     {
         return $this->elements[$index];

@@ -8,6 +8,9 @@ class SubjectList
     /** @var string[] */
     public $subjects;
 
+    /**
+     * @param string[] $subjects
+     */
     public function __construct(array $subjects)
     {
         foreach ($subjects as $subject) {

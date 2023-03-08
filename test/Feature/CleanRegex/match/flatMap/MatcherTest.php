@@ -94,7 +94,7 @@ class MatcherTest extends TestCase
         // given
         $matcher = Pattern::of('\w+')->match("Hear me roar");
         // when
-        $details = $matcher->flatMap(Functions::wrap());
+        $details = $matcher->flatMap(Functions::wrapDetail());
         // then
         [$hear, $me, $roar] = $details;
         $this->assertDetailText('Hear', $hear);

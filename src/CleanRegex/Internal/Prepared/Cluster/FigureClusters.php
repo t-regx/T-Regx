@@ -28,7 +28,7 @@ class FigureClusters implements CountedClusters
 
     public function current(): Cluster
     {
-        return new AtomicGroup(new LiteralFigure(\current($this->figures)));
+        return new AtomicGroup(new LiteralFigure((string) \current($this->figures)));
     }
 
     public function next(): void

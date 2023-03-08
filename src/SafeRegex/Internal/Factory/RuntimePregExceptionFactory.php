@@ -15,11 +15,14 @@ class RuntimePregExceptionFactory
     private $pregConstants;
     /** @var string */
     private $methodName;
-    /** @var string|array */
+    /** @var string|string[] */
     private $pattern;
     /** @var int */
     private $errorCode;
 
+    /**
+     * @param string|string[] $pattern
+     */
     public function __construct(string $methodName, $pattern, int $errorCode)
     {
         $this->pregConstants = new PregConstants();

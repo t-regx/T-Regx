@@ -1,0 +1,607 @@
+parameters:
+	paths:
+		- test/
+
+	ignoreErrors:
+		#
+		# Tests stuff. Resolving these brings no advantage to T-Regx users.
+		#
+
+		-
+			message: '#^You should use assert#'
+			path: test/*
+
+		-
+			message: '#^Method [^ ]+ has no return type specified\.$#'
+			path: test/*
+
+		-
+			message: '#^Method [^ ]+ return type has no value type specified in iterable type array.$#'
+			path: test/*
+
+		-
+			message: '#^Method [^ ]+ has parameter [^ ]+ with no type specified\.$#'
+			path: test/*
+
+		-
+			message: '#^Method [^ ]+ has parameter [^ ]+ with no value type specified in iterable type array\.$#'
+			path: test/*
+
+		-
+			message: '#^Property [^ ]+ has no type specified\.$#'
+			path: test/*
+
+		#
+		# Tests stuff. Resolving these brings no advantage to T-Regx users, however will improve working with PHPStan.
+		# TODO: All errors in this section should be either resolved or moved to other ignored non-TODO section.
+		#
+
+		# FIXME: This is probably not intended.
+		-
+			message: "#^Parameter \\#2 \\$pattern of class TRegx\\\\SafeRegex\\\\Exception\\\\CompilePregException constructor expects array\\<string\\>\\|string, null given\\.$#"
+			count: 1
+			path: test/Legacy/SafeRegex/Exception/CompilePregExceptionTest.php
+
+		-
+			message: "#^Unable to resolve the template type Tres in call to method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:flatMap\\(\\)$#"
+			count: 3
+			path: test/Feature/CleanRegex/match/flatMap/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$reducer of method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:reduce\\(\\) expects callable\\(string, string\\|TRegx\\\\CleanRegex\\\\Match\\\\Detail\\)\\: string, null given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/reduce/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$mapper of method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:toMap\\(\\) expects callable\\(string\\|TRegx\\\\CleanRegex\\\\Match\\\\Detail\\)\\: array\\<int\\|string, mixed\\>, callable\\(\\)\\: string given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/toMap/MatcherTest.php
+
+		-
+			message: "#^Unable to resolve the template type Kres in call to method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:toMap\\(\\)$#"
+			count: 5
+			path: test/Feature/CleanRegex/match/toMap/MatcherTest.php
+
+		-
+			message: "#^Unable to resolve the template type Vres in call to method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:toMap\\(\\)$#"
+			count: 5
+			path: test/Feature/CleanRegex/match/toMap/MatcherTest.php
+
+		-
+			message: "#^Method Test\\\\DataProviders\\:\\:getResource\\(\\) should return resource but returns resource\\|false\\.$#"
+			count: 1
+			path: test/DataProviders.php
+
+		-
+			message: "#^Property Test\\\\Fakes\\\\CleanRegex\\\\Internal\\\\Model\\\\ArrayGroupKeys\\:\\:\\$groupKeys type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: test/Fakes/CleanRegex/Internal/Model/ArrayGroupKeys.php
+
+		-
+			message: "#^Property Test\\\\Fakes\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\ConstantAll\\:\\:\\$matches type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: test/Fakes/CleanRegex/Internal/Pcre/Legacy/ConstantAll.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$name with type int\\|string is not subtype of native type string\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/Detail/get/DetailTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$nameOrIndex of method TRegx\\\\CleanRegex\\\\Match\\\\Detail\\:\\:group\\(\\) expects int\\|string, true given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/Detail/get/DetailTest.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$name with type int\\|string is not subtype of native type string\\.$#"
+			count: 2
+			path: test/Feature/CleanRegex/match/Detail/group/DetailTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$nameOrIndex of method TRegx\\\\CleanRegex\\\\Match\\\\Detail\\:\\:group\\(\\) expects int\\|string, true given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/Detail/group/DetailTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$substitute of method TRegx\\\\CleanRegex\\\\Internal\\\\Match\\\\Details\\\\Group\\\\MatchedGroup\\:\\:or\\(\\) expects string, int given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/Detail/group/MatchedGroupTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$substitute of method TRegx\\\\CleanRegex\\\\Internal\\\\Match\\\\Details\\\\Group\\\\NotMatchedGroup\\:\\:or\\(\\) expects string, int given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/Detail/group/NotMatchedGroupTest.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between true and false will always evaluate to false\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/Detail/group/length/DetailTest.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between true and false will always evaluate to false\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/Detail/group/offset/DetailTest.php
+
+		-
+			message: "#^Cannot cast TRegx\\\\CleanRegex\\\\Match\\\\Group to string\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/Detail/group/text/DetailTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$detail of method Test\\\\Utils\\\\Structure\\\\Expectation\\:\\:apply\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/Detail/length/DetailTest.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between true and false will always evaluate to false\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/Detail/length/DetailTest.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between true and false will always evaluate to false\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/Detail/offset/DetailTest.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between true and false will always evaluate to false\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/Detail/tail/DetailTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$detail of method Test\\\\Utils\\\\Structure\\\\Expectation\\:\\:apply\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/_iterable/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$detail of method Test\\\\Utils\\\\Structure\\\\Expectation\\:\\:apply\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/all/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$detail of method Test\\\\Utils\\\\Structure\\\\Expectation\\:\\:apply\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/distinct/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$detail of method Test\\\\Utils\\\\Structure\\\\Expectation\\:\\:apply\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/filter/MatcherTest.php
+
+		-
+			message: "#^Method Test\\\\Feature\\\\CleanRegex\\\\match\\\\findFirst\\\\MatcherTest\\:\\:assertIsEmpty\\(\\) has parameter \\$optional with generic interface TRegx\\\\CleanRegex\\\\Match\\\\Optional but does not specify its types\\: T$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/findFirst/MatcherTest.php
+
+		-
+			message: "#^Method Test\\\\Feature\\\\CleanRegex\\\\match\\\\findFirst\\\\MatcherTest\\:\\:assertOptionalEmpty\\(\\) has parameter \\$optional with generic interface TRegx\\\\CleanRegex\\\\Match\\\\Optional but does not specify its types\\: T$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/findFirst/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$actual of method Test\\\\Feature\\\\CleanRegex\\\\match\\\\findFirst\\\\MatcherTest\\:\\:assertDetailText\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, TRegx\\\\CleanRegex\\\\Match\\\\Detail\\|null given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/findFirst/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$detail of method Test\\\\Utils\\\\Structure\\\\Expectation\\:\\:apply\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 3
+			path: test/*
+
+		-
+			message: "#^Method Test\\\\Feature\\\\CleanRegex\\\\match\\\\findFirst\\\\SearchTest\\:\\:assertIsEmpty\\(\\) has parameter \\$optional with generic interface TRegx\\\\CleanRegex\\\\Match\\\\Optional but does not specify its types\\: T$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/findFirst/SearchTest.php
+
+		-
+			message: "#^Method Test\\\\Feature\\\\CleanRegex\\\\match\\\\findFirst\\\\SearchTest\\:\\:assertOptionalEmpty\\(\\) has parameter \\$optional with generic interface TRegx\\\\CleanRegex\\\\Match\\\\Optional but does not specify its types\\: T$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/findFirst/SearchTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$mapper of method TRegx\\\\CleanRegex\\\\Match\\\\Search\\:\\:flatMap\\(\\) expects callable\\(string\\)\\: array, callable\\(\\)\\: string given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/flatMap/SearchTest.php
+
+		-
+			message: "#^Unable to resolve the template type T in call to method TRegx\\\\CleanRegex\\\\Match\\\\Search\\:\\:flatMap\\(\\)$#"
+			count: 4
+			path: test/Feature/CleanRegex/match/flatMap/SearchTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$detail of method Test\\\\Utils\\\\Structure\\\\Expectation\\:\\:apply\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/flatMap/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$detail of method Test\\\\Utils\\\\Structure\\\\Expectation\\:\\:apply\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/forEach_/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$detail of method Test\\\\Utils\\\\Structure\\\\Expectation\\:\\:apply\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/groupBy/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$detail of method Test\\\\Utils\\\\Structure\\\\Expectation\\:\\:apply\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/groupByCallback/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$detail of method Test\\\\Utils\\\\Structure\\\\Expectation\\:\\:apply\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/map/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$detail of method Test\\\\Utils\\\\Structure\\\\Expectation\\:\\:apply\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/stream/distinct/MatcherTest.php
+
+		-
+			message: "#^Method Test\\\\Feature\\\\CleanRegex\\\\match\\\\stream\\\\findFirst\\\\MatcherTest\\:\\:assertIsEmpty\\(\\) has parameter \\$optional with generic interface TRegx\\\\CleanRegex\\\\Match\\\\Optional but does not specify its types\\: T$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/stream/findFirst/MatcherTest.php
+
+		-
+			message: "#^Method Test\\\\Feature\\\\CleanRegex\\\\match\\\\stream\\\\findFirst\\\\MatcherTest\\:\\:assertOptionalEmpty\\(\\) has parameter \\$optional with generic interface TRegx\\\\CleanRegex\\\\Match\\\\Optional but does not specify its types\\: T$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/stream/findFirst/MatcherTest.php
+
+		-
+			message: "#^Method Test\\\\Feature\\\\CleanRegex\\\\match\\\\stream\\\\findFirst\\\\SearchTest\\:\\:assertIsEmpty\\(\\) has parameter \\$optional with generic interface TRegx\\\\CleanRegex\\\\Match\\\\Optional but does not specify its types\\: T$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/stream/findFirst/SearchTest.php
+
+		-
+			message: "#^Method Test\\\\Feature\\\\CleanRegex\\\\match\\\\stream\\\\findFirst\\\\SearchTest\\:\\:assertOptionalEmpty\\(\\) has parameter \\$optional with generic interface TRegx\\\\CleanRegex\\\\Match\\\\Optional but does not specify its types\\: T$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/stream/findFirst/SearchTest.php
+
+		-
+			message: "#^Method Test\\\\Feature\\\\CleanRegex\\\\match\\\\stream\\\\findNth\\\\MatcherTest\\:\\:assertIsEmpty\\(\\) has parameter \\$optional with generic interface TRegx\\\\CleanRegex\\\\Match\\\\Optional but does not specify its types\\: T$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/stream/findNth/MatcherTest.php
+
+		-
+			message: "#^Method Test\\\\Feature\\\\CleanRegex\\\\match\\\\stream\\\\findNth\\\\MatcherTest\\:\\:assertOptionalEmpty\\(\\) has parameter \\$optional with generic interface TRegx\\\\CleanRegex\\\\Match\\\\Optional but does not specify its types\\: T$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/stream/findNth/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$details of method Test\\\\Feature\\\\CleanRegex\\\\match\\\\toMap\\\\MatcherTest\\:\\:assertDetailsIndexed\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail\\|null, mixed given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/toMap/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$actual of method Test\\\\Feature\\\\CleanRegex\\\\match\\\\toMap\\\\MatcherTest\\:\\:assertDetailText\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 3
+			path: test/Feature/CleanRegex/match/toMap/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$details of method Test\\\\Feature\\\\CleanRegex\\\\match\\\\toMap\\\\MatcherTest\\:\\:assertDetailsAll\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/toMap/MatcherTest.php
+
+		-
+			message: "#^Regex pattern is invalid\\: No ending delimiter '/' found in pattern\\: /unclosed pattern$#"
+			count: 1
+			path: test/Functional/SafeRegex/Internal/Guard/GuardedExecutionTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:filter\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/PatternExceptionsTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:grep\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/PatternExceptionsTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:match\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/PatternExceptionsTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:match_all\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/PatternExceptionsTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:replace\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/PatternExceptionsTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:replace_callback\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/PatternExceptionsTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:replace_callback_array\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/PatternExceptionsTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:split\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/PatternExceptionsTest.php
+
+		-
+			message: "#^Regex pattern is invalid\\: No ending delimiter '/' found in pattern\\: /unclosed pattern$#"
+			count: 1
+			path: test/Functional/SafeRegex/PatternExceptionsTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:match\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/_bug77827/pregTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:match_all\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/_bug77827/pregTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:replace_callback\\(\\) on a separate line has no effect\\.$#"
+			count: 2
+			path: test/Functional/SafeRegex/_callback_flags/pregTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:grep\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/_fatalErrors/pregTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:replace_callback\\(\\) on a separate line has no effect\\.$#"
+			count: 2
+			path: test/Functional/SafeRegex/_fatalErrors/pregTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:replace_callback_array\\(\\) on a separate line has no effect\\.$#"
+			count: 3
+			path: test/Functional/SafeRegex/_fatalErrors/pregTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$patterns_and_callbacks of static method TRegx\\\\SafeRegex\\\\preg\\:\\:replace_callback_array\\(\\) expects array\\<string, callable\\(\\)\\: mixed\\>, array\\{/a/\\: 4\\} given\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/_fatalErrors/pregTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:match\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/_offsets/pregTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:match_all\\(\\) on a separate line has no effect\\.$#"
+			count: 3
+			path: test/Functional/SafeRegex/_offsets/pregTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:grep_keys\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/grep_keys/pregTest.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertEmpty\\(\\) with array\\{string, string\\} will always evaluate to false\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/pregTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:match\\(\\) on a separate line has no effect\\.$#"
+			count: 2
+			path: test/Functional/SafeRegex/pregTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:quote\\(\\) on a separate line has no effect\\.$#"
+			count: 2
+			path: test/Functional/SafeRegex/pregTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:replace_callback\\(\\) on a separate line has no effect\\.$#"
+			count: 4
+			path: test/Functional/SafeRegex/pregTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:replace_callback_array\\(\\) on a separate line has no effect\\.$#"
+			count: 2
+			path: test/Functional/SafeRegex/pregTest.php
+
+		-
+			message: "#^Offset 'message' does not exist on array\\{type\\: int, message\\: string, file\\: string, line\\: int\\}\\|null\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/pregTest.php
+
+		-
+			message: "#^Regex pattern is invalid\\: No ending delimiter '/' found in pattern\\: /unclosed pattern$#"
+			count: 1
+			path: test/Functional/SafeRegex/pregTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$expected of method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) expects class\\-string\\<object\\>, string given\\.$#"
+			count: 1
+			path: test/Legacy/SafeRegex/Internal/Factory/RuntimePregExceptionFactoryTest.php
+
+		-
+			message: "#^Call to an undefined method TRegx\\\\Exception\\\\MalformedPatternException\\:\\:getPregPattern\\(\\)\\.$#"
+			count: 1
+			path: test/Legacy/SafeRegex/Internal/Guard/GuardedInvokerTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:match\\(\\) on a separate line has no effect\\.$#"
+			count: 4
+			path: test/Legacy/SafeRegex/Internal/Guard/GuardedInvokerTest.php
+
+		-
+			message: "#^Regex pattern is invalid\\: No ending delimiter '/' found in pattern\\: /unclosed pattern$#"
+			count: 1
+			path: test/Legacy/SafeRegex/Internal/Guard/GuardedInvokerTest.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:match\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Structure/HierarchyTest.php
+
+		-
+			message: "#^Function format\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: test/Supposition/format.php
+
+		-
+			message: "#^Function format\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: test/Supposition/format.php
+
+		-
+			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:match\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: test/Supposition/groupNames/Test.php
+
+		-
+			message: "#^Expression \"\"\\(\\*CR\\)        carriage return\\\\n         \\(\\*LF\\)        linefeed\\\\n         \\(\\*CRLF\\)      carriage return, followed by linefeed\\\\n         \\(\\*ANYCRLF\\)   any of the three above\\\\n         \\(\\*ANY\\)       all Unicode newline sequences\\\\n         \\(\\*NUL\\)       the NUL character \\(binary zero\\)\"\" on a separate line does not do anything\\.$#"
+			count: 1
+			path: test/Supposition/lineEndings/PreparedTest.php
+
+		-
+			message: "#^Expression \"\"\\(\\*CR\\)        carriage return\\\\n         \\(\\*LF\\)        linefeed\\\\n         \\(\\*CRLF\\)      carriage return, followed by linefeed\\\\n         \\(\\*ANYCRLF\\)   any of the three above\\\\n         \\(\\*ANY\\)       all Unicode newline sequences\\\\n         \\(\\*NUL\\)       the NUL character \\(binary zero\\)\"\" on a separate line does not do anything\\.$#"
+			count: 1
+			path: test/Supposition/lineEndings/StandardTest.php
+
+		-
+			message: "#^Function named\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: test/Supposition/provided.php
+
+		-
+			message: "#^Function named\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: test/Supposition/provided.php
+
+		-
+			message: "#^Unable to resolve the template type Tres in call to method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:flatMap\\(\\)$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/flatMap/MatcherTest.php
+
+		-
+			message: "#^Unable to resolve the template type K in call to method TRegx\\\\CleanRegex\\\\Match\\\\Search\\:\\:toMap\\(\\)$#"
+			count: 5
+			path: test/Feature/CleanRegex/match/toMap/SearchTest.php
+
+		-
+			message: "#^Unable to resolve the template type V in call to method TRegx\\\\CleanRegex\\\\Match\\\\Search\\:\\:toMap\\(\\)$#"
+			count: 5
+			path: test/Feature/CleanRegex/match/toMap/SearchTest.php
+
+		-
+			message: "#^Cannot call method text\\(\\) on mixed\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/_stream_first/MatcherTest.php
+
+		-
+			message: "#^Cannot call method length\\(\\) on mixed\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/stream/Detail/MatcherTest.php
+
+		-
+			message: "#^Cannot call method offset\\(\\) on mixed\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/stream/Detail/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$actual of method Test\\\\Feature\\\\CleanRegex\\\\match\\\\stream\\\\MatcherTest\\:\\:assertDetailText\\(\\) expects TRegx\\\\CleanRegex\\\\Match\\\\Detail, mixed given\\.$#"
+			count: 2
+			path: test/Feature/CleanRegex/match/stream/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$reducer of method TRegx\\\\CleanRegex\\\\Match\\\\Stream\\:\\:reduce\\(\\) expects callable\\(\\)\\: mixed, null given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/stream/reduce/StreamTest.php
+
+		#
+		# False-positives in TESTS caused by T-Regx support for wrong-type arguments for use with older/less-strict codebases.
+		#
+
+		-
+			message: "#^Parameter \\#1 \\$patterns of static method TRegx\\\\CleanRegex\\\\Pattern\\:\\:list\\(\\) expects array\\<string\\>, array\\<int, true\\> given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/PatternList/PatternListTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$texts of static method TRegx\\\\CleanRegex\\\\Pattern\\:\\:inject\\(\\) expects array\\<string\\>, array\\<int, array\\<int, string\\>\\> given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/_prepared/inject/PatternTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$texts of static method TRegx\\\\CleanRegex\\\\Pattern\\:\\:inject\\(\\) expects array\\<string\\>, array\\<int, int\\> given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/_prepared/inject/PatternTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$texts of static method TRegx\\\\CleanRegex\\\\Pattern\\:\\:inject\\(\\) expects array\\<string\\>, array\\<int\\|string, int\\|string\\> given\\.$#"
+			count: 3
+			path: test/Feature/CleanRegex/_prepared/inject/PatternTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$subjects of method TRegx\\\\CleanRegex\\\\Pattern\\:\\:filter\\(\\) expects array\\<string\\>, array\\<int, array\\|\\(callable\\)\\|int\\|resource\\|string\\|null\\> given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/filter/PatternTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$subjects of method TRegx\\\\CleanRegex\\\\Pattern\\:\\:reject\\(\\) expects array\\<string\\>, array\\<int, array\\|\\(callable\\)\\|int\\|resource\\|string\\|null\\> given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/reject/PatternTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$reducer of method TRegx\\\\CleanRegex\\\\Match\\\\Search\\:\\:reduce\\(\\) expects callable\\(string, string\\)\\: string, Closure\\(mixed, int\\)\\: \\*NEVER\\* given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/reduce/SearchTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$reducer of method TRegx\\\\CleanRegex\\\\Match\\\\Search\\:\\:reduce\\(\\) expects callable\\(string, string\\)\\: string, Closure\\(mixed, mixed, mixed\\)\\: \\*NEVER\\* given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/reduce/SearchTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$reducer of method TRegx\\\\CleanRegex\\\\Match\\\\Search\\:\\:reduce\\(\\) expects callable\\(string, string\\)\\: string, null given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/reduce/SearchTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$mapper of method TRegx\\\\CleanRegex\\\\Match\\\\Search\\:\\:toMap\\(\\) expects callable\\(string\\)\\: array\\<int\\|string, mixed\\>, callable\\(\\)\\: string given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/toMap/SearchTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$figures of method TRegx\\\\CleanRegex\\\\PatternTemplate\\:\\:alteration\\(\\) expects array\\<string\\>, array\\<int, array\\|string\\> given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/_prepared/template/alteration/Test.php
+
+		-
+			message: "#^Parameter \\#1 \\$figures of method TRegx\\\\CleanRegex\\\\PatternTemplate\\:\\:alteration\\(\\) expects array\\<string\\>, array\\<int, false\\> given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/_prepared/template/alteration/Test.php
+
+		-
+			message: "#^Parameter \\#1 \\$figures of method TRegx\\\\CleanRegex\\\\PatternTemplate\\:\\:alteration\\(\\) expects array\\<string\\>, array\\<int, int\\|string\\> given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/_prepared/template/alteration/Test.php
+
+		-
+			message: "#^Parameter \\#1 \\$nameOrIndex of method TRegx\\\\CleanRegex\\\\Replace\\\\Replace\\:\\:withGroup\\(\\) expects int\\|string, true given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/replace/withGroup/Test.php
+
+		-
+			message: "#^Parameter \\#1 \\$mapper of method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:flatMap\\(\\) expects callable\\(string\\|TRegx\\\\CleanRegex\\\\Match\\\\Detail\\)\\: array, callable\\(\\)\\: string given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/flatMap/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$reducer of method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:reduce\\(\\) expects callable\\(string, string\\|TRegx\\\\CleanRegex\\\\Match\\\\Detail\\)\\: string, Closure\\(mixed, int\\)\\: \\*NEVER\\* given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/reduce/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$reducer of method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:reduce\\(\\) expects callable\\(string, string\\|TRegx\\\\CleanRegex\\\\Match\\\\Detail\\)\\: string, Closure\\(mixed, mixed, mixed\\)\\: \\*NEVER\\* given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/reduce/MatcherTest.php

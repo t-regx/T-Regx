@@ -42,11 +42,17 @@ class PcreDelimiter
         return true;
     }
 
+    /**
+     * @return array{string, string}
+     */
     public function patternAndFlags(string $pcre): array
     {
         return $this->separatedAtPosition($pcre, $this->closingDelimiterPosition($pcre));
     }
 
+    /**
+     * @return array{string, string}
+     */
     private function separatedAtPosition(string $pcre, int $closingDelimiterPosition): array
     {
         $pattern = \subStr($pcre, 0, $closingDelimiterPosition);

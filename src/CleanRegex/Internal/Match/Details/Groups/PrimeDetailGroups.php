@@ -7,6 +7,7 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\MatchAllFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Prime\Prime;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchesToMatchAdapter;
 use TRegx\CleanRegex\Internal\Subject;
+use TRegx\CleanRegex\Match\Group;
 
 class PrimeDetailGroups
 {
@@ -27,16 +28,30 @@ class PrimeDetailGroups
         $this->groups = new DetailGroups($subject, $signatures, $allFactory, $groupKeys);
     }
 
+    /**
+     * @return Group[]
+     * @phpstan-return array<int, Group>
+     */
     public function indexedGroups(): array
     {
         return $this->groups(new IndexKey());
     }
 
+    /**
+     * @return Group[]
+     * @phpstan-return array<string, Group>
+     */
     public function namedGroups(): array
     {
         return $this->groups(new NameKey());
     }
 
+    /**
+     * @template T of int|string
+     * @param GroupArrayKey<T> $key
+     * @return Group[]
+     * @phpstan-return array<T, Group>
+     */
     private function groups(GroupArrayKey $key): array
     {
         if ($this->index === 0) {

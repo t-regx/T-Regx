@@ -22,6 +22,9 @@ class DetailObjectFactory
         $this->subject = $subject;
     }
 
+    /**
+     * @return list<MatchDetail>
+     */
     public function mapToDetailObjects(RawMatchesOffset $matches): array
     {
         $matchObjects = [];

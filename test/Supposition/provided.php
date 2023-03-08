@@ -2,6 +2,11 @@
 
 use Test\Utils\TestCase\DataProvider\NamedProvider;
 
+/**
+ * @template T of int|string
+ * @param T[] $values
+ * @return array<T, array{T}>
+ */
 function provided(array $values): array
 {
     $provider = [];

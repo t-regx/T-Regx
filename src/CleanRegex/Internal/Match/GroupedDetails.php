@@ -6,6 +6,7 @@ use TRegx\CleanRegex\Exception\NonexistentGroupException;
 use TRegx\CleanRegex\Internal\Definition;
 use TRegx\CleanRegex\Internal\GroupKey\GroupKey;
 use TRegx\CleanRegex\Internal\Match\Details\Group\GroupHandle;
+use TRegx\CleanRegex\Internal\Match\Details\MatchDetail;
 use TRegx\CleanRegex\Internal\Model\DetailObjectFactory;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
 use TRegx\CleanRegex\Internal\Pcre\Legacy\Base;
@@ -26,6 +27,10 @@ class GroupedDetails
         $this->factory = new DetailObjectFactory($subject);
     }
 
+    /**
+     * @return MatchDetail[][]
+     * @phpstan-return array<string, list<MatchDetail>>
+     */
     public function groupedBy(GroupKey $group): array
     {
         $matches = $this->base->matchAllOffsets();
@@ -35,6 +40,10 @@ class GroupedDetails
         throw new NonexistentGroupException($group);
     }
 
+    /**
+     * @return MatchDetail[][]
+     * @phpstan-return array<string, list<MatchDetail>>
+     */
     private function groupedByGroup(RawMatchesOffset $matches, GroupKey $group): array
     {
         $groupedBy = [];

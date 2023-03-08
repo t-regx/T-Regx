@@ -18,11 +18,17 @@ class PcreString
         [$this->pattern, $this->flags] = $this->delimiter->patternAndFlags($undelimitedPcre);
     }
 
+    /**
+     * @return array{PcreDelimiter, string}
+     */
     private function undelimitedWhitespacePcre(string $whitespacePcre): array
     {
         return $this->undelimitedPcre(\lTrim($whitespacePcre, " \t\f\n\r\v"));
     }
 
+    /**
+     * @return array{PcreDelimiter, string}
+     */
     private function undelimitedPcre(string $pcre): array
     {
         if ($pcre === '') {
@@ -31,6 +37,9 @@ class PcreString
         return $this->shiftedDelimiter($pcre);
     }
 
+    /**
+     * @return array{PcreDelimiter, string}
+     */
     private function shiftedDelimiter(string $pcre): array
     {
         return [

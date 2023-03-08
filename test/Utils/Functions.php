@@ -5,6 +5,7 @@ use PHPUnit\Framework\Assert;
 use Throwable;
 use TRegx\CleanRegex\Internal\Numeral\Base;
 use TRegx\CleanRegex\Internal\Numeral\StringNumeral;
+use TRegx\CleanRegex\Match\Detail;
 
 class Functions
 {
@@ -15,6 +16,11 @@ class Functions
         };
     }
 
+    /**
+     * @template T
+     * @param T $value
+     * @return callable(): T
+     */
     public static function constant($value): callable
     {
         return function () use ($value) {
@@ -29,6 +35,9 @@ class Functions
         };
     }
 
+    /**
+     * @return callable(): never
+     */
     public static function fail(string $message = null): callable
     {
         return function () use ($message) {
@@ -63,6 +72,9 @@ class Functions
         };
     }
 
+    /**
+     * @return callable(string): list<non-empty-string>
+     */
     public static function letters(): callable
     {
         return static function (string $string): array {
@@ -70,6 +82,9 @@ class Functions
         };
     }
 
+    /**
+     * @return callable(string): array<string, int>
+     */
     public static function lettersAsKeys(): callable
     {
         return function (string $value): array {
@@ -85,6 +100,9 @@ class Functions
         };
     }
 
+    /**
+     * @return list<non-empty-string>
+     */
     private static function splitLetters(string $string): array
     {
         return \array_filter(str_split($string), function (string $value) {
@@ -92,9 +110,22 @@ class Functions
         });
     }
 
-    public static function wrap(): callable
+    /**
+     * @return callable(Detail): array{Detail}
+     */
+    public static function wrapDetail(): callable
     {
-        return function ($value): array {
+        return function (Detail $value): array {
+            return [$value];
+        };
+    }
+
+    /**
+     * @return callable(string): array{string}
+     */
+    public static function wrapString(): callable
+    {
+        return function (string $value): array {
             return [$value];
         };
     }
@@ -156,6 +187,12 @@ class Functions
         };
     }
 
+    /**
+     * @template Tret
+     * @param mixed[]|null $collection
+     * @param Tret $return
+     * @return callable(mixed): Tret
+     */
     public static function collect(array &$collection = null, $return = null): callable
     {
         return function ($argument) use (&$collection, $return) {

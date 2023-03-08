@@ -24,6 +24,9 @@ trait EntryPoints
             Flags::from($modifiers), new UnsuitableStringCondition($pattern))));
     }
 
+    /**
+     * @param string[] $texts
+     */
     public static function inject(string $pattern, array $texts, string $modifiers = null): Pattern
     {
         return new Pattern(new Template(PcreAutoCapture::autoCapture(), new StandardSpelling(
@@ -31,6 +34,9 @@ trait EntryPoints
             new FigureClusters($texts)));
     }
 
+    /**
+     * @param string[] $keywords
+     */
     public static function mask(string $mask, array $keywords, string $modifiers = null): Pattern
     {
         return new Pattern(new Mask(PcreAutoCapture::autoCapture(), $mask, Flags::from($modifiers), $keywords));
@@ -53,11 +59,17 @@ trait EntryPoints
         return new Pattern(new Literal(PcreAutoCapture::autoCapture(), $text, Flags::from($modifiers)));
     }
 
+    /**
+     * @param string[] $texts
+     */
     public static function alteration(array $texts, string $modifiers = null): Pattern
     {
         return new Pattern(new Alteration(PcreAutoCapture::autoCapture(), $texts, Flags::from($modifiers)));
     }
 
+    /**
+     * @param string[] $patterns
+     */
     public static function list(array $patterns): PatternList
     {
         return new PatternList(new PatternStrings(PcreAutoCapture::autoCapture(), $patterns));

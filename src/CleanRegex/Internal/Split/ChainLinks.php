@@ -15,16 +15,28 @@ class ChainLinks
         $this->definition = $definition;
     }
 
+    /**
+     * @return (string|null)[]
+     * @phpstan-return list<string|null>
+     */
     public function links(string $subject): array
     {
         return $this->pregSplitElements($subject, -1)->elements();
     }
 
+    /**
+     * @return (string|null)[]
+     * @phpstan-return list<string|null>
+     */
     public function linksFromStart(string $subject, Splits $splits): array
     {
         return $this->pregSplitElements($subject, $splits->elements())->elements();
     }
 
+    /**
+     * @return (string|null)[]
+     * @phpstan-return list<string|null>
+     */
     public function linksFromEnd(string $subject, Splits $splits): array
     {
         return $this->chainAndLinks($this->pregSplitSubject($subject, -1), $splits);
@@ -42,6 +54,10 @@ class ChainLinks
         return new SplitElements($elements);
     }
 
+    /**
+     * @return (string|null)[]
+     * @phpstan-return list<string|null>
+     */
     private function chainAndLinks(SplitSubject $subject, Splits $splits): array
     {
         $index = $this->startingIndex($subject, $splits);

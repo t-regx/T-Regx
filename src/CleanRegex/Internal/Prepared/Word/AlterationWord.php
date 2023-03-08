@@ -8,6 +8,9 @@ class AlterationWord implements Word
     /** @var AlterationFigures */
     private $figures;
 
+    /**
+     * @param string[] $figures
+     */
     public function __construct(array $figures)
     {
         $this->figures = new AlterationFigures($figures);

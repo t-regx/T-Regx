@@ -53,6 +53,9 @@ class VisibleCharacters
         ]);
     }
 
+    /**
+     * @param array<int, string> $map
+     */
     private static function getFromArrayOrNull(int $key, array $map): ?string
     {
         return \array_key_exists($key, $map) ? $map[$key] : null;

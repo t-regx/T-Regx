@@ -11,9 +11,12 @@ class AlterationFigure implements Figure
 {
     use DelimiterAgnostic;
 
-    /** @var array */
+    /** @var string[] */
     private $figures;
 
+    /**
+     * @param string[] $figures
+     */
     public function __construct(array $figures)
     {
         $this->figures = $figures;

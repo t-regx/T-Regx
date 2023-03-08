@@ -11,6 +11,9 @@ class KeywordsCondition implements Condition
     /** @var string[] */
     private $keywordsAndPatterns;
 
+    /**
+     * @param string[] $keywordsAndPatterns
+     */
     public function __construct(array $keywordsAndPatterns)
     {
         $this->keywordsAndPatterns = $keywordsAndPatterns;

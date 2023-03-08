@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "fqn": "fqn-check src",
-    "test": "phpunit test --no-coverage"
+    "test": "phpunit test --no-coverage",
+    "phpstan": "phpstan analyse --configuration phpstan.neon"
   },
   "keywords": [
     "pcre",
@@ -59,18 +60,26 @@
   },
   "require": {
     "php": ">=7.1.0",
-    "ext-mbstring": "*"
+    "ext-mbstring": "*",
+    "phpstan/phpstan-phpunit": "^1.3",
+    "phpstan/extension-installer": "^1.2"
   },
   "require-dev": {
     "ext-json": "*",
     "phpunit/phpunit": "^9.5.4 || ^8.0 || ^7.5",
     "rawr/cross-data-providers": "^2.3.0",
-    "rawr/fqn-check": "^1.3.0"
+    "rawr/fqn-check": "^1.3.0",
+    "phpstan/phpstan": "^1.10"
   },
   "archive": {
     "exclude": [
       "/test/**",
       "/test"
     ]
+  },
+  "config": {
+    "allow-plugins": {
+      "phpstan/extension-installer": true
+    }
   }
 }

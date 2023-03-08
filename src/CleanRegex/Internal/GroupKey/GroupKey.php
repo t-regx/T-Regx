@@ -6,6 +6,9 @@ use TRegx\CleanRegex\Internal\Type\ValueType;
 
 abstract class GroupKey
 {
+    /**
+     * @param string|int $group
+     */
     public static function of($group): GroupKey
     {
         if (\is_int($group)) {

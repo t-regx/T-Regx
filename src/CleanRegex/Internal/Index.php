@@ -14,11 +14,20 @@ class Index
         $this->index = $index;
     }
 
+    /**
+     * @param array<mixed> $array
+     * @return bool
+     */
     public function in(array $array): bool
     {
         return \array_key_exists($this->index, $array);
     }
 
+    /**
+     * @template T
+     * @param T[] $array
+     * @return T
+     */
     public function valueFrom(array $array)
     {
         return $array[$this->index];
@@ -26,6 +35,6 @@ class Index
 
     public function __toString(): string
     {
-        return $this->index;
+        return (string) $this->index;
     }
 }

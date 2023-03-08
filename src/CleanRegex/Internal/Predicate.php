@@ -17,6 +17,9 @@ class Predicate
         $this->methodName = $methodName;
     }
 
+    /**
+     * @param mixed $argument
+     */
     public function test($argument): bool
     {
         $result = ($this->predicate)($argument);

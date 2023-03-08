@@ -29,11 +29,17 @@ class GroupDetails
         return $this->group;
     }
 
+    /**
+     * @return list<string>
+     */
     public function all(): array
     {
         return \array_values($this->allFactory->getRawMatches()->getGroupTexts($this->handle->groupHandle($this->group)));
     }
 
+    /**
+     * @return int|string
+     */
     public function nameOrIndex()
     {
         return $this->group->nameOrIndex();

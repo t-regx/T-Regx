@@ -14,11 +14,20 @@ class Cut
         $this->definition = $definition;
     }
 
+    /**
+     * @param string $subject
+     * @return array{string, string}
+     */
     public function twoPieces(string $subject): array
     {
         return $this->exactlyTwoPieces(preg::split($this->definition->pattern, $subject, 3));
     }
 
+    /**
+     * @template T
+     * @param T[] $pieces
+     * @return T[]
+     */
     private function exactlyTwoPieces(array $pieces): array
     {
         $piecesAmount = \count($pieces);

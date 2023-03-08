@@ -42,6 +42,9 @@ class GroupedTexts
         return $groupedBy;
     }
 
+    /**
+     * @param (''|array{string, int}) $match
+     */
     private function groupText($match, GroupKey $group): string
     {
         if ($match === '') {

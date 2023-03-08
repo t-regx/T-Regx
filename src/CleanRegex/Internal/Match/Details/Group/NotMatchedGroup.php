@@ -109,6 +109,9 @@ class NotMatchedGroup implements Group
         return $this->subject;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function all(): array
     {
         return $this->details->all();
