@@ -19,7 +19,7 @@ class PatternStrings
     private $autoCapture;
     /** @var Flags */
     private $flags;
-    /** @var string[] */
+    /** @var (string|Pattern)[] */
     private $patterns;
 
     public function __construct(GroupAutoCapture $autoCapture, array $patterns)
@@ -38,6 +38,9 @@ class PatternStrings
         return new Predefinitions($predefinitions);
     }
 
+    /**
+     * @param string|Pattern $pattern
+     */
     private function predefinition($pattern): Predefinition
     {
         if (\is_string($pattern)) {

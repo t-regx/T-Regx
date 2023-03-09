@@ -241,7 +241,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return string[]
+     * @return (string|null)[]
      */
     public function groupNames(): array
     {

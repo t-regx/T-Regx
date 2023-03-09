@@ -12,6 +12,9 @@ class FigureClusters implements CountedClusters
     /** @var string[] */
     private $figures;
 
+    /**
+     * @param string[] $figures
+     */
     public function __construct(array $figures)
     {
         foreach ($figures as $figure) {

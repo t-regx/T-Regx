@@ -6,7 +6,7 @@ interface Structure
     public function subject(): string;
 
     /**
-     * @return string[]
+     * @return (string|null)[]
      */
     public function groupNames(): array;
 

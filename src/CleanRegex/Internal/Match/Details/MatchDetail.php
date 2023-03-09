@@ -124,7 +124,7 @@ class MatchDetail implements Detail
     }
 
     /**
-     * @return string[]
+     * @return (string|null)[]
      */
     public function groupNames(): array
     {
