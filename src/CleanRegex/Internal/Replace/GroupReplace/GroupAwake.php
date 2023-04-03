@@ -20,7 +20,7 @@ class GroupAwake
         $this->subject = $subject;
     }
 
-    public function groupMatched(int $index, GroupKey $group): string
+    public function groupMatched(int $index, GroupKey $group): bool
     {
         return $this->matches()[$group->nameOrIndex()][$index][1] !== -1;
     }
