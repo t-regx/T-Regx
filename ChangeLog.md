@@ -6,6 +6,11 @@ Incoming
 
 * Soon
 
+Added in 0.41.4
+---------------
+
+No functional changes.
+
 Added in 0.41.3
 ---------------
 
