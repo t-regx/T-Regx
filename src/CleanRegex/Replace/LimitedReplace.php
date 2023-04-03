@@ -20,7 +20,7 @@ class LimitedReplace
     private $subject;
     /** @var int */
     private $limit;
-    /** @var CountingStrategy */
+    /** @var StateStrategy */
     private $countingStrategy;
     /** @var CallbackInvoker */
     private $invoker;
