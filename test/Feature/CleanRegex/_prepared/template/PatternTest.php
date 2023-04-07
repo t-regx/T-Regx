@@ -75,7 +75,7 @@ class PatternTest extends TestCase
     /**
      * @test
      */
-    public function shouldTemplatePatternAcceptTrailingControlBackslash()
+    public function shouldTemplatePatternAcceptTrailingBackslashControl()
     {
         // when
         $pattern = Pattern::template('/foo:@')->pattern('\c\\');
