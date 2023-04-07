@@ -91,4 +91,15 @@ class PatternTest extends TestCase
         // then
         $this->assertConsumesFirst('foo\\', $pattern);
     }
+
+    /**
+     * @test
+     */
+    public function shouldAcceptBackslashBeforeSpaceExtended()
+    {
+        // when
+        $pattern = Pattern::of('foo\  ', 'x');
+        // then
+        $this->assertConsumesFirst('foo ', $pattern);
+    }
 }
