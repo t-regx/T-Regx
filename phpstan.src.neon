@@ -583,12 +583,6 @@ parameters:
 			count: 1
 			path: src/CleanRegex/Internal/Replace/Counter.php
 
-        # FIXME: This looks like a bug
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Replace\\\\GroupReplace\\\\GroupAwake\\:\\:groupMatched\\(\\) should return string but returns bool\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Replace/GroupReplace/GroupAwake.php
-
 		-
 			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Replace\\\\GroupReplace\\\\GroupReplace\\:\\:replacedByDelegate\\(\\) should return string but returns array\\<string\\>\\|string\\.$#"
 			count: 1
@@ -1093,12 +1087,6 @@ parameters:
 		# Library sources, public parts.
 		# TODO: All errors in this section should be either resolved or moved to other ignored non-TODO section.
 		#
-
-		-
-			# FIXME: This looks like a bug, the interface indeed lacks the method.
-			message: "#^Call to an undefined method TRegx\\\\CleanRegex\\\\Internal\\\\Replace\\\\Counting\\\\CountingStrategy\\:\\:count\\(\\)\\.$#"
-			count: 1
-			path: src/CleanRegex/Replace/LimitedReplace.php
 
 		-
 			message: "#^Part \\$returnValue \\(mixed\\) of encapsed string cannot be cast to string\\.$#"
