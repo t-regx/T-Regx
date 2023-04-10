@@ -10,7 +10,7 @@ if [[ -n "$(git status --untracked-files=no --porcelain --short)" ]]; then
 fi
 
 git checkout phpstan/master
-git merge --no-commit phpstan/develop || true
+git merge --no-ff --no-commit phpstan/develop || true
 
 # Remove newly added files from the merge
 git status --porcelain --untracked-files=no \
