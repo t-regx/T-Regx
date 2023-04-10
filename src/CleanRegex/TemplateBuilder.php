@@ -29,6 +29,9 @@ class TemplateBuilder
         $this->clusters = $clusters;
     }
 
+    /**
+     * @param string[] $keywords
+     */
     public function mask(string $mask, array $keywords): TemplateBuilder
     {
         return $this->next(new NonCaptureGroup(new MaskFigure($this->autoCapture, $mask, $this->orthography->flags(), $keywords)));
@@ -39,6 +42,9 @@ class TemplateBuilder
         return $this->next(new AtomicGroup(new LiteralFigure($text)));
     }
 
+    /**
+     * @param string[] $figures
+     */
     public function alteration(array $figures): TemplateBuilder
     {
         return $this->next(new NonCaptureGroup(new AlterationFigure($figures)));

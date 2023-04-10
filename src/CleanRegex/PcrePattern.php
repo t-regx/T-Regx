@@ -28,6 +28,9 @@ class PcrePattern
         return new Pattern(new Pcre(PcreAutoCapture::autoCapture(), $pcrePattern));
     }
 
+    /**
+     * @param string[] $values
+     */
     public static function inject(string $pcreTemplate, array $values): Pattern
     {
         return new Pattern(new Template(PcreAutoCapture::autoCapture(), new PcreSpelling($pcreTemplate), new FigureClusters($values)));

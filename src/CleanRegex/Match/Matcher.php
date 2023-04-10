@@ -35,6 +35,9 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\RawMatchOffset;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 
+/**
+ * @implements \IteratorAggregate<Detail>
+ */
 class Matcher implements Structure, \Countable, \IteratorAggregate
 {
     /** @var Subject */
@@ -99,6 +102,9 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         throw new SubjectNotMatchedException();
     }
 
+    /**
+     * @return Optional<Detail>
+     */
     public function findFirst(): Optional
     {
         $match = $this->base->matchOffset();
@@ -116,7 +122,9 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
 
     /**
      * @param int $limit
+     *
      * @return Detail[]
+     * @phpstan-return list<Detail>
      */
     public function only(int $limit): array
     {
@@ -142,6 +150,14 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         }
     }
 
+    /**
+     * @template Targ of Detail|string
+     * @template Tres
+     *
+     * @param (callable(Targ): Tres) $mapper
+     *
+     * @phpstan-return list<Tres>
+     */
     public function map(callable $mapper): array
     {
         $mapped = [];
@@ -159,11 +175,28 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         return $this->matchItems->filter(new Predicate($predicate, 'filter'));
     }
 
+    /**
+     * @template Targ of Detail|string
+     * @template Tres
+     *
+     * @param callable(Targ): array<Tres> $mapper
+     *
+     * @phpstan-return list<Tres>
+     */
     public function flatMap(callable $mapper): array
     {
         return $this->matchItems->flatMap(new ListFunction(new ArrayFunction($mapper, 'flatMap')));
     }
 
+    /**
+     * @template Targ of Detail|string
+     * @template Kres
+     * @template Vres
+     *
+     * @param callable(Targ): array<Kres, Vres> $mapper
+     *
+     * @phpstan-return array<Kres, Vres>
+     */
     public function toMap(callable $mapper): array
     {
         return $this->matchItems->flatMap(new DictionaryFunction(new ArrayFunction($mapper, 'toMap')));
@@ -171,6 +204,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
 
     /**
      * @return Detail[]
+     * @phpstan-return list<Detail>
      */
     public function distinct(): array
     {
@@ -183,7 +217,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return \Iterator|iterable<Detail>
+     * @return \Iterator<Detail>
      */
     public function getIterator(): \Iterator
     {
@@ -213,6 +247,9 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         return $this->grouped(new GroupByFunction('groupByCallback', $groupMapper));
     }
 
+    /**
+     * @return array<string, list<Detail>>
+     */
     private function grouped(GroupByFunction $function): array
     {
         $result = [];
@@ -222,11 +259,23 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         return $result;
     }
 
+    /**
+     * @return list<Detail>
+     */
     private function getDetailObjects(): array
     {
         return $this->factory->mapToDetailObjects($this->base->matchAllOffsets());
     }
 
+    /**
+     * @template Targ of Detail|string
+     * @template Tres
+     *
+     * @param callable(Tres, Targ): Tres $reducer
+     * @param Tres $accumulator
+     *
+     * @return Tres
+     */
     public function reduce(callable $reducer, $accumulator)
     {
         foreach ($this as $detail) {

@@ -187,7 +187,10 @@ class preg
      *
      * @psalm-pure Output is only dependent on input parameters values
      *
+     * @param int-mask<1, 2, 4> $flags
+     *
      * @return string[]|array[]
+     * @phpstan-return ($flags is 4|5|6|7 ? array{string, int}[] : string[])
      */
     public static function split(string $pattern, string $subject, int $limit = -1, int $flags = 0): array
     {

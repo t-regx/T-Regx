@@ -29,9 +29,12 @@ class ChainedReplace
 
     public function withReferences(string $replacement): string
     {
-        return preg::replace($this->definitionsPatterns(), $replacement, $this->subject);
+        return preg::replace($this->definitionsPatterns(), $replacement, (string) $this->subject);
     }
 
+    /**
+     * @return list<string>
+     */
     private function definitionsPatterns(): array
     {
         $patterns = [];

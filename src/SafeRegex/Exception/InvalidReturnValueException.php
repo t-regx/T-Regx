@@ -8,6 +8,10 @@ class InvalidReturnValueException extends \RuntimeException implements PregExcep
     /** @var string|string[] */
     private $pattern;
 
+    /**
+     * @param string|string[] $pattern
+     * @param string|null $returnType
+     */
     public function __construct($pattern, string $methodName, $returnType)
     {
         parent::__construct("Invalid $methodName() callback return type. Expected type that can be cast to string, but $returnType given");

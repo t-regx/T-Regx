@@ -23,6 +23,9 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 
+/**
+ * @implements \IteratorAggregate<string>
+ */
 class Search implements \Countable, \IteratorAggregate
 {
     /** @var Subject */
@@ -78,6 +81,9 @@ class Search implements \Countable, \IteratorAggregate
         return $text;
     }
 
+    /**
+     * @return Optional<string>
+     */
     public function findFirst(): Optional
     {
         $text = $this->searchBase->matchFirstOrNull();
@@ -115,6 +121,11 @@ class Search implements \Countable, \IteratorAggregate
         }
     }
 
+    /**
+     * @template T
+     * @param callable(string): T $mapper
+     * @return list<T>
+     */
     public function map(callable $mapper): array
     {
         $mapped = [];
@@ -132,11 +143,22 @@ class Search implements \Countable, \IteratorAggregate
         return $this->searchItems->filter(new Predicate($predicate, 'filter'));
     }
 
+    /**
+     * @template T
+     * @param callable(string): array<T> $mapper
+     * @return list<T>
+     */
     public function flatMap(callable $mapper): array
     {
         return $this->searchItems->flatMap(new ListFunction(new ArrayFunction($mapper, 'flatMap')));
     }
 
+    /**
+     * @template K
+     * @template V
+     * @param callable(string): array<K, V> $mapper
+     * @return array<K, V>
+     */
     public function toMap(callable $mapper): array
     {
         return $this->searchItems->flatMap(new DictionaryFunction(new ArrayFunction($mapper, 'toMap')));
@@ -156,7 +178,7 @@ class Search implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @return \Iterator|iterable<string>
+     * @return \Iterator<string>
      */
     public function getIterator(): \Iterator
     {
@@ -186,6 +208,9 @@ class Search implements \Countable, \IteratorAggregate
         return $this->grouped(new GroupByFunction('groupByCallback', $groupMapper));
     }
 
+    /**
+     * @return array<string, list<string>>
+     */
     private function grouped(GroupByFunction $function): array
     {
         $result = [];
@@ -195,6 +220,12 @@ class Search implements \Countable, \IteratorAggregate
         return $result;
     }
 
+    /**
+     * @template T
+     * @param callable(T, string): T $reducer
+     * @param T $accumulator
+     * @return T
+     */
     public function reduce(callable $reducer, $accumulator)
     {
         foreach ($this as $text) {

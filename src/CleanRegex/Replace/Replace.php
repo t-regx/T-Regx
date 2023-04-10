@@ -29,6 +29,9 @@ class Replace
         return $this->replace->with($replacement);
     }
 
+    /**
+     * @param string|int $nameOrIndex
+     */
     public function withGroup($nameOrIndex): string
     {
         return $this->replace->withGroup($nameOrIndex);

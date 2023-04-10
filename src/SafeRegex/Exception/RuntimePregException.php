@@ -12,6 +12,9 @@ class RuntimePregException extends \RuntimeException implements PregException
     /** @var string */
     private $errorName;
 
+    /**
+     * @param string|string[] $pattern
+     */
     public function __construct(string $message, $pattern, string $methodName, int $errorCode, string $errorName)
     {
         parent::__construct($message);

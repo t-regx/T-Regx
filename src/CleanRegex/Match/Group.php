@@ -18,5 +18,10 @@ interface Group extends Element
      */
     public function usedIdentifier();
 
+    /**
+     * @return string[]
+     *
+     * @phpstan-return list<string>
+     */
     public function all(): array;
 }

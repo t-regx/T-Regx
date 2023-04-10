@@ -10,6 +10,10 @@ class SuspectedReturnPregException extends \RuntimeException implements PregExce
     /** @var mixed */
     private $returnValue;
 
+    /**
+     * @param string|string[] $pattern
+     * @param mixed $returnValue
+     */
     public function __construct(string $methodName, $pattern, $returnValue)
     {
         parent::__construct("Invoking $methodName() resulted in '$returnValue'.");
@@ -31,6 +35,9 @@ class SuspectedReturnPregException extends \RuntimeException implements PregExce
         return $this->pattern;
     }
 
+    /**
+     * @return mixed
+     */
     public function getReturnValue()
     {
         return $this->returnValue;

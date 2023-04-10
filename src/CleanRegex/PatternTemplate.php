@@ -26,6 +26,9 @@ class PatternTemplate
         $this->orthography = $orthography;
     }
 
+    /**
+     * @param string[] $keywords
+     */
     public function mask(string $mask, array $keywords): Pattern
     {
         return $this->template(new NonCaptureGroup(new MaskFigure($this->autoCapture, $mask, $this->orthography->flags(), $keywords)));
@@ -36,6 +39,9 @@ class PatternTemplate
         return $this->template(new AtomicGroup(new LiteralFigure($text)));
     }
 
+    /**
+     * @param string[] $figures
+     */
     public function alteration(array $figures): Pattern
     {
         return $this->template(new NonCaptureGroup(new AlterationFigure($figures)));
