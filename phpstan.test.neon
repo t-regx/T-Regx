@@ -36,8 +36,7 @@ parameters:
 		# TODO: All errors in this section should be either resolved or moved to other ignored non-TODO section.
 		#
 
-		# FIXME: This is probably not intended.
-		-
+		-   # FIXME: This is probably not intended.
 			message: "#^Parameter \\#2 \\$pattern of class TRegx\\\\SafeRegex\\\\Exception\\\\CompilePregException constructor expects array\\<string\\>\\|string, null given\\.$#"
 			count: 1
 			path: test/Legacy/SafeRegex/Exception/CompilePregExceptionTest.php
