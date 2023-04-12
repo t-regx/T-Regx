@@ -8,9 +8,12 @@ use TRegx\CleanRegex\Internal\GroupKey\Signatures;
 
 class ArraySignatures implements Signatures
 {
-    /** @var array */
+    /** @var list<int|string> */
     private $groupKeys;
 
+    /**
+     * @param list<int|string> $groupKeys
+     */
     public function __construct(array $groupKeys)
     {
         $this->groupKeys = $groupKeys;
@@ -57,6 +60,10 @@ class ArraySignatures implements Signatures
         return null;
     }
 
+    /**
+     * @param int|string $group
+     * @return int
+     */
     private function getKeyByGroup($group)
     {
         $key = \array_search($group, $this->groupKeys, true);

@@ -9,9 +9,12 @@ use TRegx\CleanRegex\Internal\Model\GroupAware;
  */
 class RawMatchesOffset implements GroupAware
 {
-    /** @var array */
+    /** @var array<int|string, list<array{string, int}>> */
     public $matches;
 
+    /**
+     * @param array<int|string, list<array{string, int}>> $matches
+     */
     public function __construct(array $matches)
     {
         $this->matches = $matches;
@@ -33,16 +36,28 @@ class RawMatchesOffset implements GroupAware
         return $offset;
     }
 
+    /**
+     * @param int|string $nameOrIndex
+     * @param int $index
+     * @return array{string, int}
+     */
     public function getGroupTextAndOffset($nameOrIndex, int $index): array
     {
         return $this->matches[$nameOrIndex][$index];
     }
 
+    /**
+     * @return list<int|string>
+     */
     public function getGroupKeys(): array
     {
         return \array_keys($this->matches);
     }
 
+    /**
+     * @param int|string $group
+     * @return (string|null)[]
+     */
     public function getGroupTexts($group): array
     {
         return \array_map(static function ($group) {
@@ -54,11 +69,17 @@ class RawMatchesOffset implements GroupAware
         }, $this->matches[$group]);
     }
 
+    /**
+     * @return (string|null)[]
+     */
     public function getTexts(): array
     {
         return $this->getGroupTexts(0);
     }
 
+    /**
+     * @param int|string $nameOrIndex
+     */
     public function isGroupMatched($nameOrIndex, int $index): bool
     {
         $var = $this->matches[$nameOrIndex][$index];

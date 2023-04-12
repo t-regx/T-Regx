@@ -74,11 +74,6 @@ parameters:
 			path: src/CleanRegex/Internal/Match/SearchBase.php
 
 		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Match\\\\SearchBase\\:\\:matched\\(\\) should return bool but returns int\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Match/SearchBase.php
-
-		-
 			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Match\\\\SearchOnly\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/CleanRegex/Internal/Match/SearchOnly.php
@@ -334,54 +329,24 @@ parameters:
 			path: src/CleanRegex/Internal/Pcre/Legacy/RawMatches.php
 
 		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\RawMatchesOffset\\:\\:__construct\\(\\) has parameter \\$matches with no value type specified in iterable type array\\.$#"
+			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Match\\\\Details\\\\Group\\\\GroupDetails\\:\\:all\\(\\) should return array\\<int, string\\> but returns array\\<int, string\\|null\\>\\.$#"
+			count: 1
+			path: src/CleanRegex/Internal/Match/Details/Group/GroupDetails.php
+
+		-
+			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\MatchAllFactoryMatchOffset\\:\\:text\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/CleanRegex/Internal/Pcre/Legacy/MatchAllFactoryMatchOffset.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/CleanRegex/Internal/Pcre/Legacy/RawMatchesOffset.php
 
 		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\RawMatchesOffset\\:\\:getGroupKeys\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\RawMatchesToMatchAdapter\\:\\:text\\(\\) should return string but returns string\\|null\\.$#"
 			count: 1
-			path: src/CleanRegex/Internal/Pcre/Legacy/RawMatchesOffset.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\RawMatchesOffset\\:\\:getGroupTextAndOffset\\(\\) has parameter \\$nameOrIndex with no type specified\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Legacy/RawMatchesOffset.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\RawMatchesOffset\\:\\:getGroupTextAndOffset\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Legacy/RawMatchesOffset.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\RawMatchesOffset\\:\\:getGroupTexts\\(\\) has parameter \\$group with no type specified\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Legacy/RawMatchesOffset.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\RawMatchesOffset\\:\\:getGroupTexts\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Legacy/RawMatchesOffset.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\RawMatchesOffset\\:\\:getIndexes\\(\\) should return array\\<int\\> but returns array\\<int, int\\|string\\>\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Legacy/RawMatchesOffset.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\RawMatchesOffset\\:\\:getTexts\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Legacy/RawMatchesOffset.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\RawMatchesOffset\\:\\:isGroupMatched\\(\\) has parameter \\$nameOrIndex with no type specified\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Legacy/RawMatchesOffset.php
-
-		-
-			message: "#^Property TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\RawMatchesOffset\\:\\:\\$matches type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Legacy/RawMatchesOffset.php
+			path: src/CleanRegex/Internal/Pcre/Legacy/RawMatchesToMatchAdapter.php
 
 		-
 			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\RawMatchesToMatchAdapter\\:\\:getGroupKeys\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -417,36 +382,6 @@ parameters:
 			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Legacy\\\\UsedForGroup\\:\\:isGroupMatched\\(\\) has parameter \\$nameOrIndex with no type specified\\.$#"
 			count: 1
 			path: src/CleanRegex/Internal/Pcre/Legacy/UsedForGroup.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Signatures/ArraySignatures.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Signatures\\\\ArraySignatures\\:\\:__construct\\(\\) has parameter \\$groupKeys with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Signatures/ArraySignatures.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Signatures\\\\ArraySignatures\\:\\:getKeyByGroup\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Signatures/ArraySignatures.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Signatures\\\\ArraySignatures\\:\\:getKeyByGroup\\(\\) has parameter \\$group with no type specified\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Signatures/ArraySignatures.php
-
-		-
-			message: "#^Property TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Signatures\\\\ArraySignatures\\:\\:\\$groupKeys type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Signatures/ArraySignatures.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Pcre/Signatures/ArraySignatures.php
 
 		-
 			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Signatures\\\\PerformanceSignatures\\:\\:__construct\\(\\) has parameter \\$rawMatchOffset with no type specified\\.$#"
@@ -584,36 +519,6 @@ parameters:
 			path: src/CleanRegex/Internal/Replace/Counter.php
 
 		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Replace\\\\GroupReplace\\\\GroupReplace\\:\\:replacedByDelegate\\(\\) should return string but returns array\\<string\\>\\|string\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Replace/GroupReplace/GroupReplace.php
-
-		-
-			message: "#^Unable to resolve the template type T in call to method static method TRegx\\\\SafeRegex\\\\preg\\:\\:replace_callback\\(\\)$#"
-			count: 1
-			path: src/CleanRegex/Internal/Replace/GroupReplace/GroupReplace.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Replace\\\\GroupReplace\\\\PregDelegate\\:\\:apply\\(\\) has parameter \\$match with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Replace/GroupReplace/PregDelegate.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Replace\\\\GroupReplace\\\\PregDelegate\\:\\:groupText\\(\\) has parameter \\$match with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Replace/GroupReplace/PregDelegate.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Replace\\\\GroupReplace\\\\PregDelegate\\:\\:groupText\\(\\) has parameter \\$nameOrIndex with no type specified\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Replace/GroupReplace/PregDelegate.php
-
-		-
-			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Replace\\\\GroupReplace\\\\PregDelegate\\:\\:matchedGroupText\\(\\) has parameter \\$match with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/CleanRegex/Internal/Replace/GroupReplace/PregDelegate.php
-
-		-
 			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Type\\\\ValueType\\:\\:__toString\\(\\) should return string but returns class\\-string\\|false\\.$#"
 			count: 1
 			path: src/CleanRegex/Internal/Type/ValueType.php
@@ -628,50 +533,15 @@ parameters:
 			count: 1
 			path: src/CleanRegex/Internal/VisibleCharacters.php
 
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Bug\\:\\:fix\\(\\) has no return type specified\\.$#"
+		-   # FIXME
+			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Bug\\:\\:fix\\(\\) should return T but returns array\\<string\\>\\.$#"
 			count: 1
 			path: src/SafeRegex/Internal/Bug.php
 
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Bug\\:\\:fix\\(\\) has parameter \\$pattern with no type specified\\.$#"
+		-   # FIXME
+			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Bug\\:\\:fix\\(\\) should return T but returns string\\.$#"
 			count: 1
 			path: src/SafeRegex/Internal/Bug.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Bug\\:\\:fixArrayKeys\\(\\) has parameter \\$patterns with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Bug.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Bug\\:\\:fixArrayKeys\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Bug.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Bug\\:\\:mapArray\\(\\) has parameter \\$pattern with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Bug.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Bug\\:\\:mapArray\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Bug.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Constants\\\\PhpErrorConstants\\:\\:getConstants\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Constants/PhpErrorConstants.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Constants\\\\PregConstants\\:\\:getConstants\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Constants/PregConstants.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Constants\\\\PregMessages\\:\\:getConstants\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Constants/PregMessages.php
 
 		-
 			message: "#^Parameter \\#3 \\$error of class TRegx\\\\SafeRegex\\\\Internal\\\\Factory\\\\CompilePregExceptionFactory constructor expects TRegx\\\\SafeRegex\\\\Internal\\\\PhpError, TRegx\\\\SafeRegex\\\\Internal\\\\PhpError\\|null given\\.$#"
@@ -698,75 +568,10 @@ parameters:
 			count: 1
 			path: src/SafeRegex/Internal/Guard/GuardedExecution.php
 
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Guard\\\\GuardedInvoker\\:\\:__construct\\(\\) has parameter \\$pattern with no type specified\\.$#"
+		-   # TODO: This seems to be an error in original type hint
+			message: "#^Parameter \\#2 \\$pattern of class TRegx\\\\SafeRegex\\\\Internal\\\\Guard\\\\GuardedInvoker constructor expects array\\<string\\>\\|string, null given\\.$#"
 			count: 1
-			path: src/SafeRegex/Internal/Guard/GuardedInvoker.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Guard\\\\GuardedInvoker\\:\\:catch\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Guard/GuardedInvoker.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Guard\\\\GuardedInvoker\\:\\:execute\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Guard/GuardedInvoker.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Guard\\\\GuardedInvoker\\:\\:pregException\\(\\) has parameter \\$pregResult with no type specified\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Guard/GuardedInvoker.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Guard\\\\Strategy\\\\DefaultSuspectedReturnStrategy\\:\\:isSuspected\\(\\) has parameter \\$result with no type specified\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Guard/Strategy/DefaultSuspectedReturnStrategy.php
-
-		-
-			message: "#^Property TRegx\\\\SafeRegex\\\\Internal\\\\Guard\\\\Strategy\\\\DefaultSuspectedReturnStrategy\\:\\:\\$indicators has no type specified\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Guard/Strategy/DefaultSuspectedReturnStrategy.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Guard\\\\Strategy\\\\PregFilterSuspectedReturnStrategy\\:\\:__construct\\(\\) has parameter \\$subject with no type specified\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Guard/Strategy/PregFilterSuspectedReturnStrategy.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Guard\\\\Strategy\\\\PregFilterSuspectedReturnStrategy\\:\\:isSuspected\\(\\) has parameter \\$result with no type specified\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Guard/Strategy/PregFilterSuspectedReturnStrategy.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Guard\\\\Strategy\\\\PregReplaceSuspectedReturnStrategy\\:\\:__construct\\(\\) has parameter \\$subject with no type specified\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Guard/Strategy/PregReplaceSuspectedReturnStrategy.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Guard\\\\Strategy\\\\PregReplaceSuspectedReturnStrategy\\:\\:isSuspected\\(\\) has parameter \\$result with no type specified\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Guard/Strategy/PregReplaceSuspectedReturnStrategy.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Guard\\\\Strategy\\\\SilencedSuspectedReturnStrategy\\:\\:isSuspected\\(\\) has parameter \\$result with no type specified\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Guard/Strategy/SilencedSuspectedReturnStrategy.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\Guard\\\\Strategy\\\\SuspectedReturnStrategy\\:\\:isSuspected\\(\\) has parameter \\$result with no type specified\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/Guard/Strategy/SuspectedReturnStrategy.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\PcreVersion\\:\\:majorVersion\\(\\) should return int but returns string\\|false\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/PcreVersion.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\Internal\\\\PcreVersion\\:\\:minorVersion\\(\\) should return int but returns string\\.$#"
-			count: 1
-			path: src/SafeRegex/Internal/PcreVersion.php
+			path: src/SafeRegex/Internal/Guard/GuardedExecution.php
 
 		-
 			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Match\\\\Flat\\\\FlatFunction\\:\\:apply\\(\\) has parameter \\$value with no type specified\\.$#"
@@ -1104,26 +909,6 @@ parameters:
 			path: src/SafeRegex/preg.php
 
 		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\preg\\:\\:grep\\(\\) has parameter \\$input with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/preg.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\preg\\:\\:grep\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/preg.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\preg\\:\\:grep_keys\\(\\) has parameter \\$input with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/preg.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\preg\\:\\:grep_keys\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/preg.php
-
-		-
 			message: "#^Method TRegx\\\\SafeRegex\\\\preg\\:\\:match\\(\\) has parameter \\$matches with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/SafeRegex/preg.php
@@ -1135,21 +920,6 @@ parameters:
 
 		-
 			message: "#^Method TRegx\\\\SafeRegex\\\\preg\\:\\:match_all\\(\\) has parameter \\$matches with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/preg.php
-
-		-
-			message: "#^Method TRegx\\\\SafeRegex\\\\preg\\:\\:unquoteStringWithCharacters\\(\\) has parameter \\$specialCharacters with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/SafeRegex/preg.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$flags with type int\\|null is not subtype of native type int\\.$#"
-			count: 1
-			path: src/SafeRegex/preg.php
-
-		-
-			message: "#^Parameter \\#4 \\$flags of function preg_match expects TFlags of 0\\|256\\|512\\|768, int given\\.$#"
 			count: 1
 			path: src/SafeRegex/preg.php
 
@@ -1198,6 +968,11 @@ parameters:
 		#
 
 		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: src/CleanRegex/Internal/Pcre/Signatures/ArraySignatures.php
+
+		-
 			message: "#^Property TRegx\\\\CleanRegex\\\\Internal\\\\Match\\\\ArrayFunction\\:\\:\\$methodName is never read, only written\\.$#"
 			count: 1
 			path: src/CleanRegex/Internal/Match/ArrayFunction.php
@@ -1235,3 +1010,13 @@ parameters:
 			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:replace\\(\\) on a separate line has no effect\\.$#"
 			count: 1
 			path: src/CleanRegex/PatternList.php
+
+		-   # See comment in the class
+			message: "#^Method TRegx\\\\CleanRegex\\\\Internal\\\\Pcre\\\\Signatures\\\\ArraySignatures\\:\\:getIndexByName\\(\\) should return int but returns int\\|string\\.$#"
+			count: 1
+			path: src/CleanRegex/Internal/Pcre/Signatures/ArraySignatures.php
+
+		-   # Only on internal error (?)
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/CleanRegex/Internal/Pcre/Signatures/ArraySignatures.php

@@ -12,6 +12,9 @@ class PregConstants
         return 'UNKNOWN_PREG_ERROR';
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function getConstants(): array
     {
         return [

@@ -27,12 +27,12 @@ class PcreVersion
 
     public function majorVersion(): int
     {
-        return \strStr($this->pcreVersion, '.', true);
+        return (int) \strStr($this->pcreVersion, '.', true);
     }
 
     public function minorVersion(): int
     {
         [$major, $minor] = \explode('.', $this->semanticVersion());
-        return $minor;
+        return (int) $minor;
     }
 }

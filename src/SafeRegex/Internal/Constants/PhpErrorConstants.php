@@ -12,6 +12,9 @@ class PhpErrorConstants
         return 'E_UNKNOWN_CODE';
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function getConstants(): array
     {
         return [

@@ -6,6 +6,9 @@ class PregReplaceSuspectedReturnStrategy implements SuspectedReturnStrategy
     /** @var string|array|mixed */
     private $subject;
 
+    /**
+     * @param string|array|mixed $subject
+     */
     public function __construct($subject)
     {
         $this->subject = $subject;

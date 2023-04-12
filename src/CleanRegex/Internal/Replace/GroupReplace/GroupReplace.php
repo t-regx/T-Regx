@@ -45,7 +45,7 @@ class GroupReplace
 
     private function replacedByDelegate(PregDelegate $delegate): string
     {
-        return preg::replace_callback($this->definition->pattern, [$delegate, 'apply'], $this->subject, $this->pregLimit);
+        return preg::replace_callback($this->definition->pattern, [$delegate, 'apply'], $this->subject->asString(), $this->pregLimit);
     }
 
     private function applyDelegate(PregDelegate $delegate, GroupKey $group): void

@@ -26,6 +26,9 @@ class PregDelegate
         $this->index = 0;
     }
 
+    /**
+     * @param array<int|string, string> $match
+     */
     public function apply(array $match): string
     {
         $groupText = $this->matchedGroupText($match);
@@ -33,6 +36,9 @@ class PregDelegate
         return $groupText;
     }
 
+    /**
+     * @param array<int|string, string> $match
+     */
     private function matchedGroupText(array $match): string
     {
         $nameOrIndex = $this->group->nameOrIndex();
@@ -42,6 +48,10 @@ class PregDelegate
         throw $this->absentGroupException();
     }
 
+    /**
+     * @param array<int|string, string> $match
+     * @param int|string $nameOrIndex
+     */
     private function groupText(array $match, $nameOrIndex): string
     {
         if ($match[$nameOrIndex] === '') {

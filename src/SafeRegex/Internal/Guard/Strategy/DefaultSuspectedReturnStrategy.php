@@ -5,6 +5,9 @@ use TRegx\CleanRegex\Exception\InternalCleanRegexException;
 
 class DefaultSuspectedReturnStrategy implements SuspectedReturnStrategy
 {
+    /**
+     * @var array<string, null|false>
+     */
     private static $indicators = [
         'preg_match'                  => false,
         'preg_match_all'              => false,

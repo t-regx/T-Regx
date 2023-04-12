@@ -3,6 +3,11 @@ namespace TRegx\SafeRegex\Internal;
 
 class Bug
 {
+    /**
+     * @template T of string|string[]|mixed
+     * @param T $pattern
+     * @return T
+     */
     public static function fix($pattern)
     {
         if (\is_string($pattern)) {
@@ -19,11 +24,20 @@ class Bug
         return \rTrim($pattern, "\r\t\f\x0b");
     }
 
+    /**
+     * @param string[] $pattern
+     * @return string[]
+     */
     private static function mapArray(array $pattern): array
     {
         return \array_map([Bug::class, 'map'], $pattern);
     }
 
+    /**
+     * @template T
+     * @param array<string, T> $patterns
+     * @return array<string, T>
+     */
     public static function fixArrayKeys(array $patterns): array
     {
         $result = [];

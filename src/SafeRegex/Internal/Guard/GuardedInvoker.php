@@ -10,6 +10,9 @@ use TRegx\SafeRegex\Internal\Errors\StandardCompileError;
 use TRegx\SafeRegex\Internal\Guard\Strategy\SuspectedReturnStrategy;
 use TRegx\SafeRegex\Internal\PhpError;
 
+/**
+ * @template T
+ */
 class GuardedInvoker
 {
     /** @var string */
@@ -21,6 +24,10 @@ class GuardedInvoker
     /** @var SuspectedReturnStrategy */
     private $strategy;
 
+    /**
+     * @param string|string[] $pattern
+     * @param callable(): T $callback
+     */
     public function __construct(string $methodName, $pattern, callable $callback, SuspectedReturnStrategy $strategy)
     {
         $this->methodName = $methodName;
@@ -29,6 +36,9 @@ class GuardedInvoker
         $this->strategy = $strategy;
     }
 
+    /**
+     * @return array{T, ?PregException}
+     */
     public function catch(): array
     {
         [$result, $compile, $runtime] = $this->execute();
@@ -38,6 +48,9 @@ class GuardedInvoker
         return [$result, $this->pregException($compile, $runtime, $result)];
     }
 
+    /**
+     * @return array{T, CompileError, RuntimeError}
+     */
     private function execute(): array
     {
         $compileError = new NoError();
@@ -59,6 +72,9 @@ class GuardedInvoker
         return [$result, $compileError, new RuntimeError(\preg_last_error())];
     }
 
+    /**
+     * @param T $pregResult
+     */
     private function pregException(CompileError $compile, RuntimeError $runtime, $pregResult): ?PregException
     {
         if ($compile->occurred()) {

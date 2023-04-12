@@ -41,6 +41,21 @@ parameters:
 			count: 1
 			path: test/Legacy/SafeRegex/Exception/CompilePregExceptionTest.php
 
+		-   # TODO: Not sure if a false-positive, or testing older setups, or wrong type hinting
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertSame\\(\\) with array\\{0\\: 'foo', 2\\: 'fao'\\} and array\\{'foo', 'bar', 'fao', 'bao'\\} will always evaluate to false\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/_bug77827/pregTest.php
+
+		-   # TODO: Not sure if a false-positive, or testing older setups, or wrong type hinting
+			message: "#^Parameter \\#2 \\$input of static method TRegx\\\\SafeRegex\\\\preg\\:\\:grep\\(\\) expects array\\<int\\|string\\|Stringable\\>, array\\<int, mixed\\> given\\.$#"
+			count: 1
+			path: test/Functional/SafeRegex/_fatalErrors/pregTest.php
+
+		-   # TODO: Not sure if a false-positive, or testing older setups, or wrong type hinting
+			message: "#^Unable to resolve the template type T in call to method static method TRegx\\\\SafeRegex\\\\preg\\:\\:grep\\(\\)$#"
+			count: 1
+			path: test/Functional/SafeRegex/_fatalErrors/pregTest.php
+
 		-
 			message: "#^Unable to resolve the template type Tres in call to method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:flatMap\\(\\)$#"
 			count: 3
@@ -420,11 +435,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$expected of method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) expects class\\-string\\<object\\>, string given\\.$#"
 			count: 1
 			path: test/Legacy/SafeRegex/Internal/Factory/RuntimePregExceptionFactoryTest.php
-
-		-
-			message: "#^Call to an undefined method TRegx\\\\Exception\\\\MalformedPatternException\\:\\:getPregPattern\\(\\)\\.$#"
-			count: 1
-			path: test/Legacy/SafeRegex/Internal/Guard/GuardedInvokerTest.php
 
 		-
 			message: "#^Call to static method TRegx\\\\SafeRegex\\\\preg\\:\\:match\\(\\) on a separate line has no effect\\.$#"

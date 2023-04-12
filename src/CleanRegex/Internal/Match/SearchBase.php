@@ -20,7 +20,7 @@ class SearchBase
 
     public function matched(): bool
     {
-        return preg::match($this->definition->pattern, $this->subject->asString());
+        return 1 === preg::match($this->definition->pattern, $this->subject->asString());
     }
 
     public function count(): int

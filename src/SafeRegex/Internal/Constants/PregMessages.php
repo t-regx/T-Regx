@@ -12,6 +12,9 @@ class PregMessages
         return 'Unknown error';
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function getConstants(): array
     {
         return [
