@@ -33,7 +33,8 @@ class ChainedReplace
     }
 
     /**
-     * @return list<string>
+     * @return string[]
+     * @phpstan-return list<string>
      */
     private function definitionsPatterns(): array
     {
