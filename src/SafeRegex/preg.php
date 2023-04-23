@@ -17,9 +17,8 @@ class preg
      * Perform a regular expression match
      * @link https://php.net/manual/en/function.preg-match.php
      *
-     * @param mixed[] $matches
      * @template TFlags as int-mask<0, 256, 512>
-     * @param TFlags $flags
+     * @phpstan-param TFlags $flags
      *
      * @param-out (TFlags is 256 ? array<array-key, array{string, 0|positive-int}|array{'', -1}>
      *          : (TFlags is 512 ? array<array-key, string|null>
@@ -55,9 +54,8 @@ class preg
      * Perform a global regular expression match
      * @link https://php.net/manual/en/function.preg-match-all.php
      *
-     * @param mixed[] $matches
      * @template TFlags as int
-     * @param TFlags $flags
+     * @phpstan-param TFlags $flags
      *
      * @param-out (TFlags is 1 ? array<list<string>>
      *          : (TFlags is 2 ? list<array<string>>

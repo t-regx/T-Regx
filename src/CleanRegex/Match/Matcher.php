@@ -189,7 +189,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
 
     /**
      * @template Targ of Detail|string
-     * @template Kres
+     * @template Kres of array-key
      * @template Vres
      *
      * @phpstan-param callable(Targ): array<Kres, Vres> $mapper

@@ -909,6 +909,16 @@ parameters:
 			path: src/SafeRegex/preg.php
 
 		-
+			message: "#^Method TRegx\\\\SafeRegex\\\\preg\\:\\:match\\(\\) has parameter \\$matches with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SafeRegex/preg.php
+
+		-
+			message: "#^Method TRegx\\\\SafeRegex\\\\preg\\:\\:match_all\\(\\) has parameter \\$matches with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SafeRegex/preg.php
+
+		-
 			message: "#^Class TRegx\\\\CleanRegex\\\\Match\\\\Stream implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: src/CleanRegex/Match/Stream.php

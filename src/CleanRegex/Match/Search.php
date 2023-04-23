@@ -223,9 +223,9 @@ class Search implements \Countable, \IteratorAggregate
 
     /**
      * @template T
-     * @param callable(T, string): T $reducer
-     * @param T $accumulator
-     * @return T
+     * @phpstan-param callable(T, string): T $reducer
+     * @phpstan-param T $accumulator
+     * @phpstan-return T
      */
     public function reduce(callable $reducer, $accumulator)
     {

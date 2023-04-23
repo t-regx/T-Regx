@@ -67,11 +67,6 @@ parameters:
 			path: test/Feature/CleanRegex/match/reduce/MatcherTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$mapper of method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:toMap\\(\\) expects callable\\(string\\|TRegx\\\\CleanRegex\\\\Match\\\\Detail\\)\\: array\\<int\\|string, mixed\\>, callable\\(\\)\\: string given\\.$#"
-			count: 1
-			path: test/Feature/CleanRegex/match/toMap/MatcherTest.php
-
-		-
 			message: "#^Unable to resolve the template type Kres in call to method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:toMap\\(\\)$#"
 			count: 5
 			path: test/Feature/CleanRegex/match/toMap/MatcherTest.php
@@ -576,11 +571,6 @@ parameters:
 			path: test/Feature/CleanRegex/match/reduce/SearchTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$mapper of method TRegx\\\\CleanRegex\\\\Match\\\\Search\\:\\:toMap\\(\\) expects callable\\(string\\)\\: array\\<int\\|string, mixed\\>, callable\\(\\)\\: string given\\.$#"
-			count: 1
-			path: test/Feature/CleanRegex/match/toMap/SearchTest.php
-
-		-
 			message: "#^Parameter \\#1 \\$figures of method TRegx\\\\CleanRegex\\\\PatternTemplate\\:\\:alteration\\(\\) expects array\\<string\\>, array\\<int, array\\|string\\> given\\.$#"
 			count: 1
 			path: test/Feature/CleanRegex/_prepared/template/alteration/Test.php
@@ -614,3 +604,13 @@ parameters:
 			message: "#^Parameter \\#1 \\$reducer of method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:reduce\\(\\) expects callable\\(string, string\\|TRegx\\\\CleanRegex\\\\Match\\\\Detail\\)\\: string, Closure\\(mixed, mixed, mixed\\)\\: \\*NEVER\\* given\\.$#"
 			count: 1
 			path: test/Feature/CleanRegex/match/reduce/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$mapper of method TRegx\\\\CleanRegex\\\\Match\\\\Matcher\\:\\:toMap\\(\\) expects callable\\(string\\|TRegx\\\\CleanRegex\\\\Match\\\\Detail\\)\\: array, callable\\(\\)\\: string given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/toMap/MatcherTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$mapper of method TRegx\\\\CleanRegex\\\\Match\\\\Search\\:\\:toMap\\(\\) expects callable\\(string\\)\\: array, callable\\(\\)\\: string given\\.$#"
+			count: 1
+			path: test/Feature/CleanRegex/match/toMap/SearchTest.php
