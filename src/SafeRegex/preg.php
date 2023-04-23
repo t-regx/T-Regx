@@ -211,7 +211,6 @@ class preg
      * Split string by a regular expression
      * @link https://php.net/manual/en/function.preg-split.php
      *
-     * @param int $flags
      * @phpstan-param int-mask<1, 2, 4> $flags
      *
      * @return string[]|array[]
