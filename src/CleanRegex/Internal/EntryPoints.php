@@ -68,7 +68,7 @@ trait EntryPoints
     }
 
     /**
-     * @param string[] $patterns
+     * @param (string|Pattern)[] $patterns
      */
     public static function list(array $patterns): PatternList
     {
