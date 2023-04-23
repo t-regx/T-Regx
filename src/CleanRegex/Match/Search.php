@@ -123,8 +123,8 @@ class Search implements \Countable, \IteratorAggregate
 
     /**
      * @template T
-     * @param callable(string): T $mapper
-     * @return list<T>
+     * @phpstan-param callable(string): T $mapper
+     * @phpstan-return list<T>
      */
     public function map(callable $mapper): array
     {
@@ -145,8 +145,8 @@ class Search implements \Countable, \IteratorAggregate
 
     /**
      * @template T
-     * @param callable(string): array<T> $mapper
-     * @return list<T>
+     * @phpstan-param callable(string): array<T> $mapper
+     * @phpstan-return list<T>
      */
     public function flatMap(callable $mapper): array
     {
@@ -154,10 +154,10 @@ class Search implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @template K
+     * @template K of array-key
      * @template V
-     * @param callable(string): array<K, V> $mapper
-     * @return array<K, V>
+     * @phpstan-param callable(string): array<K, V> $mapper
+     * @phpstan-return array<K, V>
      */
     public function toMap(callable $mapper): array
     {
