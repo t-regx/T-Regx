@@ -9,33 +9,33 @@ use Throwable;
 interface Optional
 {
     /**
-     * @return T
+     * @phpstan-return T
      */
     public function get();
 
     /**
-     * @return T|never
+     * @phpstan-return T|never
      */
     public function orThrow(Throwable $throwable);
 
     /**
      * @template TorReturn
-     * @param TorReturn $substitute
-     * @return T|TorReturn
+     * @phpstan-param TorReturn $substitute
+     * @phpstan-return T|TorReturn
      */
     public function orReturn($substitute);
 
     /**
      * @template TorElse
-     * @param (callable(): TorElse)|(\Closure(): TorElse) $substituteProducer
-     * @return T|TorElse
+     * @phpstan-param (callable(): TorElse)|(\Closure(): TorElse) $substituteProducer
+     * @phpstan-return T|TorElse
      */
     public function orElse(callable $substituteProducer);
 
     /**
      * @template Tmap
-     * @param (callable(T): Tmap)|(\Closure(): Tmap) $mapper
-     * @return Optional<Tmap>
+     * @phpstan-param (callable(T): Tmap)|(\Closure(): Tmap) $mapper
+     * @phpstan-return Optional<Tmap>
      */
     public function map(callable $mapper): Optional;
 }

@@ -20,7 +20,6 @@ interface Group extends Element
 
     /**
      * @return string[]
-     *
      * @phpstan-return list<string>
      */
     public function all(): array;

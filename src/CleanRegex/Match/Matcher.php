@@ -122,7 +122,6 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
 
     /**
      * @param int $limit
-     *
      * @return Detail[]
      * @phpstan-return list<Detail>
      */
@@ -154,7 +153,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
      * @template Targ of Detail|string
      * @template Tres
      *
-     * @param (callable(Targ): Tres) $mapper
+     * @phpstan-param (callable(Targ): Tres) $mapper
      *
      * @phpstan-return list<Tres>
      */
@@ -179,7 +178,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
      * @template Targ of Detail|string
      * @template Tres
      *
-     * @param callable(Targ): array<Tres> $mapper
+     * @phpstan-param callable(Targ): array<Tres> $mapper
      *
      * @phpstan-return list<Tres>
      */
@@ -193,7 +192,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
      * @template Kres
      * @template Vres
      *
-     * @param callable(Targ): array<Kres, Vres> $mapper
+     * @phpstan-param callable(Targ): array<Kres, Vres> $mapper
      *
      * @phpstan-return array<Kres, Vres>
      */
@@ -273,10 +272,10 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
      * @template Targ of Detail|string
      * @template Tres
      *
-     * @param callable(Tres, Targ): Tres $reducer
-     * @param Tres $accumulator
+     * @phpstan-param callable(Tres, Targ): Tres $reducer
+     * @phpstan-param Tres $accumulator
      *
-     * @return Tres
+     * @phpstan-return Tres
      */
     public function reduce(callable $reducer, $accumulator)
     {
