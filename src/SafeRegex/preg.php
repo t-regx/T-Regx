@@ -17,8 +17,7 @@ class preg
      * Perform a regular expression match
      * @link https://php.net/manual/en/function.preg-match.php
      *
-     * @return int Returns 1 if the pattern matches given subject, 0 if it does not
-     *
+     * @param mixed[] $matches
      * @template TFlags as int-mask<0, 256, 512>
      * @param TFlags $flags
      *
@@ -27,6 +26,8 @@ class preg
      *          : (TFlags is 768 ? array<array-key, array{string, 0|positive-int}|array{null, -1}>
      *          : array<array-key, string>
      *          ))) $matches
+     *
+     * @return int Returns 1 if the pattern matches given subject, 0 if it does not
      *
      * @psalm-pure Output is only dependent on input parameters values
      */
@@ -54,9 +55,21 @@ class preg
      * Perform a global regular expression match
      * @link https://php.net/manual/en/function.preg-match-all.php
      *
-     * @return int Number of full pattern matches (which might be zero)
+     * @param mixed[] $matches
+     * @template TFlags as int
+     * @param TFlags $flags
      *
-     * @param-out array $matches
+     * @param-out (TFlags is 1 ? array<list<string>>
+     *          : (TFlags is 2 ? list<array<string>>
+     *          : (TFlags is 256|257 ? array<list<array{string, int}>>
+     *          : (TFlags is 258 ? list<array<array{string, int}>>
+     *          : (TFlags is 512|513 ? array<list<?string>>
+     *          : (TFlags is 514 ? list<array<?string>>
+     *          : (TFlags is 770 ? list<array<array{?string, int}>>
+     *          : array
+     *          ))))))) $matches
+     *
+     * @return int Number of full pattern matches (which might be zero)
      *
      * @psalm-pure Output is only dependent on input parameters values
      */
@@ -82,6 +95,8 @@ class preg
      * @template T of string|string[]
      * @psalm-param T $subject
      * @psalm-return T
+     * @phpstan-param T $subject
+     * @phpstan-return T
      *
      * @psalm-pure Output is only dependent on input parameters values
      */
@@ -138,6 +153,8 @@ class preg
      * @template T of string|string[]
      * @psalm-param T $subject
      * @psalm-return T
+     * @phpstan-param T $subject
+     * @phpstan-return T
      *
      * @psalm-pure Output is only dependent on input parameters values
      */
@@ -179,6 +196,8 @@ class preg
      * @template T of string|string[]
      * @psalm-param T $subject
      * @psalm-return T
+     * @phpstan-param T $subject
+     * @phpstan-return T
      *
      * @psalm-pure Output is only dependent on input parameters values
      */
@@ -194,12 +213,13 @@ class preg
      * Split string by a regular expression
      * @link https://php.net/manual/en/function.preg-split.php
      *
-     * @psalm-pure Output is only dependent on input parameters values
-     *
-     * @param int-mask<1, 2, 4> $flags
+     * @param int $flags
+     * @phpstan-param int-mask<1, 2, 4> $flags
      *
      * @return string[]|array[]
      * @phpstan-return ($flags is 4|5|6|7 ? array{string, int}[] : string[])
+     *
+     * @psalm-pure Output is only dependent on input parameters values
      */
     public static function split(string $pattern, string $subject, int $limit = -1, int $flags = 0): array
     {
@@ -214,8 +234,8 @@ class preg
      * @link https://php.net/manual/en/function.preg-grep.php
      *
      * @template T of (int|string|\Stringable)[] TODO: This may not be accurate
-     * @param T $input
-     * @return T
+     * @phpstan-param T $input
+     * @phpstan-return T
      *
      * @psalm-pure Output is only dependent on input parameters values
      */
@@ -233,8 +253,9 @@ class preg
     /**
      * @template TKey of int|string
      * @template TValue
-     * @param array<TKey, TValue> $input
-     * @return array<TKey, TValue>
+     * @phpstan-param array<TKey, TValue> $input
+     * @phpstan-return array<TKey, TValue>
+     *
      * @psalm-pure Output is only dependent on input parameters values
      */
     public static function grep_keys(string $pattern, array $input, int $flags = 0): array

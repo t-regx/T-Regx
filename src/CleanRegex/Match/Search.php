@@ -209,7 +209,8 @@ class Search implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @return array<string, list<string>>
+     * @return string[][]
+     * @phpstan-return array<string, list<string>>
      */
     private function grouped(GroupByFunction $function): array
     {

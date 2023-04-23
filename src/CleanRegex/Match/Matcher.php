@@ -248,7 +248,8 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return array<string, list<Detail>>
+     * @return Detail[][]
+     * @phpstan-return array<string, list<Detail>>
      */
     private function grouped(GroupByFunction $function): array
     {
@@ -260,7 +261,8 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return list<Detail>
+     * @return Detail[]
+     * @phpstan-return list<Detail>
      */
     private function getDetailObjects(): array
     {
