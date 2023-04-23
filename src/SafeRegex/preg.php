@@ -19,7 +19,14 @@ class preg
      *
      * @return int Returns 1 if the pattern matches given subject, 0 if it does not
      *
-     * @param-out array $matches
+     * @template TFlags as int-mask<0, 256, 512>
+     * @param TFlags $flags
+     *
+     * @param-out (TFlags is 256 ? array<array-key, array{string, 0|positive-int}|array{'', -1}>
+     *          : (TFlags is 512 ? array<array-key, string|null>
+     *          : (TFlags is 768 ? array<array-key, array{string, 0|positive-int}|array{null, -1}>
+     *          : array<array-key, string>
+     *          ))) $matches
      *
      * @psalm-pure Output is only dependent on input parameters values
      */
@@ -92,7 +99,7 @@ class preg
      *
      * @param string|string[] $pattern
      * @param string|string[] $subject
-     * @param int|null $flags
+     * @param int $flags
      * @return string|string[]
      *
      * @param-out int $count
@@ -100,6 +107,8 @@ class preg
      * @template T of string|string[]
      * @psalm-param T $subject
      * @psalm-return T
+     * @phpstan-param T $subject
+     * @phpstan-return T
      *
      * @psalm-pure Output is only dependent on input parameters values
      */
@@ -204,6 +213,10 @@ class preg
      * Return array entries that match the pattern
      * @link https://php.net/manual/en/function.preg-grep.php
      *
+     * @template T of (int|string|\Stringable)[] TODO: This may not be accurate
+     * @param T $input
+     * @return T
+     *
      * @psalm-pure Output is only dependent on input parameters values
      */
     public static function grep(string $pattern, array $input, int $flags = 0): array
@@ -218,6 +231,10 @@ class preg
     }
 
     /**
+     * @template TKey of int|string
+     * @template TValue
+     * @param array<TKey, TValue> $input
+     * @return array<TKey, TValue>
      * @psalm-pure Output is only dependent on input parameters values
      */
     public static function grep_keys(string $pattern, array $input, int $flags = 0): array
@@ -250,6 +267,9 @@ class preg
         ]);
     }
 
+    /**
+     * @param string[] $specialCharacters
+     */
     private static function unquoteStringWithCharacters(string $string, array $specialCharacters): string
     {
         return \strtr($string, \array_combine(\array_map(static function (string $char): string {
