@@ -72,8 +72,13 @@ jobs:
         if: "${{ matrix.coverage != 'none' }}"
         run: ./vendor/bin/covers-ignore test
 
-      - name: Run tests
-        run: ./vendor/bin/phpunit test
+      - name: Run tests (no coverage)
+        if: "${{ matrix.coverage == 'none' }}"
+        run: ./vendor/bin/phpunit test --no-coverage
+
+      - name: Run tests (coverage)
+        if: "${{ matrix.coverage != 'none' }}"
+        run: ./vendor/bin/phpunit test --whitelist src
 
       - name: Install "php-coveralls/php-coveralls"
         if: "${{ matrix.coverage != 'none' }}"
