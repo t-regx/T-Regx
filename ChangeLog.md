@@ -4,15 +4,20 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.41.5
+---------------
+
 * Bug fixes
-    * Empty alteration previously always matched in-place, now empty alteration never matches.
-        * `Pattern::alteration([])` doesn't match anything
-        * `Pattern::template('@')->alteration([])` doesn't match anything
-        * `Pattern::builder('@')->alteration([])` doesn't match anything
-    * Corrected exception when `Pattern::builder()` was used with not enough bound figures.
+   * Empty alteration previously always matched in-place, now empty alteration never matches.
+      * `Pattern::alteration([])` doesn't match anything
+      * `Pattern::template('@')->alteration([])` doesn't match anything
+      * `Pattern::builder('@')->alteration([])` doesn't match anything
+   * Corrected exception when `Pattern::builder()` was used with not enough bound figures.
 * Other
-    * Changed signature of `Pattern::of()`, so `$modifiers` argument default value is no longer
-      `null` but an empty string. It poses no difference in the behaviour of the method, but the
+   * Changed signature of `Pattern::of()`, so `$modifiers` argument default value is no longer
+     `null` but an empty string. It poses no difference in the behaviour of the method, but the
       type of the argument is similifed from `null|string` to `string` in documentation tools.
 
 Added in 0.41.4

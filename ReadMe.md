@@ -4,7 +4,7 @@
 <p align="center">
     <a href="https://github.com/t-regx/T-Regx/actions/"><img src="https://github.com/t-regx/T-Regx/workflows/build/badge.svg" alt="Build status"/></a>
     <a href="https://coveralls.io/github/t-regx/T-Regx"><img src="https://coveralls.io/repos/github/t-regx/T-Regx/badge.svg" alt="Unit tests"/></a>
-    <a href="https://github.com/t-regx/T-Regx/releases"><img src="https://img.shields.io/badge/latest-0.41.4-brightgreen.svg?style=popout" alt="latest: 0.41.4"/></a>
+    <a href="https://github.com/t-regx/T-Regx/releases"><img src="https://img.shields.io/badge/latest-0.41.5-brightgreen.svg?style=popout" alt="latest: 0.41.5"/></a>
     <a href="https://github.com/t-regx/T-Regx"><img src="https://img.shields.io/badge/dependencies-0-brightgreen.svg" alt="dependencies: 0"/></a>
 </p>
 
@@ -16,7 +16,7 @@ PHP regular expressions brought up to modern standards.
 
 [![last commit](https://img.shields.io/github/last-commit/t-regx/T-Regx/develop.svg)](https://github.com/t-regx/T-Regx/commits/develop)
 [![commit activity](https://img.shields.io/github/commit-activity/y/t-regx/T-Regx.svg)](https://github.com/t-regx/T-Regx)
-[![Commits since](https://img.shields.io/github/commits-since/t-regx/T-Regx/0.41.4/develop.svg)](https://github.com/t-regx/T-Regx/compare/0.41.4...develop)
+[![Commits since](https://img.shields.io/github/commits-since/t-regx/T-Regx/0.41.5/develop.svg)](https://github.com/t-regx/T-Regx/compare/0.41.5...develop)
 [![Unit tests](https://img.shields.io/badge/Unit%20tests-3867-brightgreen.svg)](https://github.com/t-regx/T-Regx)
 [![Unit tests](https://img.shields.io/badge/Assertions-6079-brightgreen.svg)](https://github.com/t-regx/T-Regx)
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/t-regx/T-Regx.svg)](https://codeclimate.com/github/t-regx/T-Regx)
