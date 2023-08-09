@@ -31,6 +31,7 @@ class ThrowExpectation
             Assert::fail("Failed to assert that exception was thrown: $exceptionClass");
         }
         if ($exceptionClass === \get_class($this->throwable)) {
+            Assert::assertTrue(true);
             return new ExceptionAssertion($this->throwable);
         }
         throw $this->throwable;

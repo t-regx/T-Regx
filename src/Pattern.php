@@ -8,6 +8,9 @@ final class Pattern
     public function __construct(string $pattern)
     {
         $this->pattern = $pattern;
+        if (@\preg_match("/$this->pattern/", '') === false) {
+            throw new SyntaxException();
+        }
     }
 
     public function test(string $subject): bool
