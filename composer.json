@@ -1,4 +1,10 @@
 {
+  "autoload-dev": {
+    "psr-4": {
+      "Test\\": "test/",
+      "Test\\Unit\\": "test/Unit/"
+    }
+  },
   "require": {
     "php": ">=7.4.0"
   },
