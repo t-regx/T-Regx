@@ -35,11 +35,19 @@ final class Pattern
     /**
      * @return string[]|null[]
      */
-    public function split(string $subject): array
+    public function split(string $subject, int $maxSplits = -1): array
     {
-        $result = [];
-        $pieces = \preg_split("/$this->pattern/", $subject, -1,
+        if ($maxSplits < 0) {
+            return $this->splitSubject($subject, -1);
+        }
+        return $this->splitSubject($subject, $maxSplits + 1);
+    }
+
+    private function splitSubject(string $subject, int $limit): array
+    {
+        $pieces = \preg_split("/$this->pattern/", $subject, $limit,
             \PREG_SPLIT_DELIM_CAPTURE | \PREG_SPLIT_OFFSET_CAPTURE);
+        $result = [];
         foreach ($pieces as [$piece, $offset]) {
             $result[] = $offset === -1 ? null : $piece;
         }
