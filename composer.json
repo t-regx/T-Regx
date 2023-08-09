@@ -8,12 +8,16 @@
     "psr-4": {
       "Test\\": "test/",
       "Test\\Unit\\": "test/Unit/"
-    }
+    },
+    "files": [
+      "test/Fixture/Functions/functions.php"
+    ]
   },
   "require": {
     "php": ">=7.4.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.6.12"
+    "phpunit/phpunit": "^9.6.12",
+    "rawr/phpunit-data-provider": "^3.1.0"
   }
 }

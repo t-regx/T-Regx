@@ -55,4 +55,48 @@ class split extends TestCase
             ["Knowledge", null, "is", "Power."],
             $pattern->split("Knowledge is Power."));
     }
+
+    /**
+     * @test
+     */
+    public function splitsLimit()
+    {
+        $pattern = new Pattern(', ?');
+        $this->assertSame([
+            'Father', 'Mother', 'Maiden', 'Crone', 'Warrior, Smith, Stranger'],
+            $pattern->split('Father, Mother, Maiden, Crone, Warrior, Smith, Stranger', 4));
+    }
+
+    /**
+     * @test
+     */
+    public function splitsZero()
+    {
+        $pattern = new Pattern(' ');
+        $this->assertSame(
+            ['And now his watch is ended'],
+            $pattern->split('And now his watch is ended', 0));
+    }
+
+    /**
+     * @test
+     */
+    public function splitsOne()
+    {
+        $pattern = new Pattern(' ');
+        $this->assertSame(
+            ['And', 'now his watch is ended'],
+            $pattern->split('And now his watch is ended', 1));
+    }
+
+    /**
+     * @test
+     */
+    public function splitsNegativeOne()
+    {
+        $pattern = new Pattern(' ');
+        $this->assertSame(
+            ['And', 'now', 'his', 'watch', 'is', 'ended'],
+            $pattern->split('And now his watch is ended', -1));
+    }
 }
