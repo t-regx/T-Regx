@@ -31,4 +31,13 @@ final class Pattern
             \str_replace(['\\', '$'], ['\\\\', '\$'], $replacement),
             $subject);
     }
+
+    /**
+     * @return string[]
+     */
+    public function split(string $subject): array
+    {
+        return \preg_split("/$this->pattern/", $subject, -1,
+            \PREG_SPLIT_DELIM_CAPTURE);
+    }
 }
