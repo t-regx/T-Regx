@@ -8,9 +8,16 @@ final class Pattern
     public function __construct(string $pattern)
     {
         $this->pattern = $pattern;
-        if (@\preg_match("/$this->pattern/", '') === false) {
-            throw new SyntaxException();
+        @\preg_match("/$this->pattern/", '');
+        $error = \error_get_last();
+        if ($error !== null) {
+            throw new SyntaxException($this->exceptionMessage($error['message']));
         }
+    }
+
+    private function exceptionMessage(string $message): string
+    {
+        return \ucFirst(\subStr($message, \strLen('preg_match(): Compilation failed: '))) . '.';
     }
 
     public function test(string $subject): bool
