@@ -2,6 +2,7 @@
 namespace Regex;
 
 use Regex\Internal\DelimitedExpression;
+use Regex\Internal\GroupNames;
 use Regex\Internal\Pcre;
 
 final class Pattern
@@ -17,11 +18,13 @@ final class Pattern
 
     private DelimitedExpression $expression;
     private Pcre $pcre;
+    private GroupNames $groupNames;
 
     public function __construct(string $pattern, string $modifiers = '')
     {
         $this->expression = new DelimitedExpression($pattern, $modifiers);
         $this->pcre = new Pcre($this->expression);
+        $this->groupNames = new GroupNames($this->expression);
     }
 
     public function test(string $subject): bool
@@ -56,6 +59,14 @@ final class Pattern
             return $this->pcre->split($subject, -1);
         }
         return $this->pcre->split($subject, $maxSplits + 1);
+    }
+
+    /**
+     * @return string[]|null[]
+     */
+    public function groupNames(): array
+    {
+        return $this->groupNames->names;
     }
 
     public function groupCount(): int
