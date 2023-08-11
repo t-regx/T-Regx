@@ -25,7 +25,7 @@ final class Pattern
     {
         $result = \preg_match($this->expression->delimited, $subject);
         $this->throwMatchException();
-        return $result === 1;
+        return $result;
     }
 
     public function count(string $subject): int
