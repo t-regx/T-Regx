@@ -10,6 +10,7 @@ final class Pattern
     public const UNICODE = 'u';
     public const COMMENTS_WHITESPACE = 'x';
     public const SINGLELINE = 's';
+    public const DUPLICATE_NAMES = 'J';
 
     private DelimitedExpression $expression;
 

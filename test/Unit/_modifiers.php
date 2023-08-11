@@ -3,6 +3,8 @@ namespace Test\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Regex\Pattern;
+use Regex\SyntaxException;
+use function Test\Fixture\Functions\catching;
 
 class _modifiers extends TestCase
 {
@@ -96,5 +98,24 @@ class _modifiers extends TestCase
     {
         $pattern = new Pattern("car #foo\n pet", Pattern::COMMENTS_WHITESPACE);
         $this->assertTrue($pattern->test('carpet'));
+    }
+
+    /**
+     * @test
+     */
+    public function nonDuplicateNames()
+    {
+        catching(fn() => new Pattern('(?<group>Not) (?<group>today)'))
+            ->assertException(SyntaxException::class)
+            ->assertMessage('Two named subpatterns have the same name at offset 23.');
+    }
+
+    /**
+     * @test
+     * @doesNotPerformAssertions
+     */
+    public function duplicateNames()
+    {
+        new Pattern('(?<group>Not) (?<group>today)', Pattern::DUPLICATE_NAMES);
     }
 }
