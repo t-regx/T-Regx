@@ -2,6 +2,7 @@
 namespace Regex;
 
 use Regex\Internal\DelimitedExpression;
+use Regex\Internal\GroupKey;
 use Regex\Internal\GroupNames;
 use Regex\Internal\Pcre;
 use Regex\Internal\ReplaceFunction;
@@ -99,6 +100,15 @@ final class Pattern
     public function groupNames(): array
     {
         return $this->groupNames->names;
+    }
+
+    /**
+     * @param string|int $nameOrIndex
+     */
+    public function groupExists($nameOrIndex): bool
+    {
+        $group = new GroupKey($nameOrIndex);
+        return \in_array($group->nameOrIndex, $this->expression->groupKeys, true);
     }
 
     public function groupCount(): int
