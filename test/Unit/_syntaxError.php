@@ -50,4 +50,24 @@ class _syntaxError extends TestCase
                 ->assertMessage('Null byte in regex.');
         }
     }
+
+    /**
+     * @test
+     */
+    public function invalidEscape()
+    {
+        catching(fn() => new Pattern('\i'))
+            ->assertException(SyntaxException::class)
+            ->assertMessage('Unrecognized character follows \ at offset 1.');
+    }
+
+    /**
+     * @test
+     */
+    public function invalidEscape_notOverriddenByModifiers()
+    {
+        catching(fn() => new Pattern('\i', Pattern::MULTILINE))
+            ->assertException(SyntaxException::class)
+            ->assertMessage('Unrecognized character follows \ at offset 1.');
+    }
 }
