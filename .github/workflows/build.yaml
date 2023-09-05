@@ -1,0 +1,46 @@
+name: build
+
+on:
+  pull_request:
+  push:
+    paths-ignore:
+      - "ReadMe.md"
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        include:
+          - php-version: 7.4
+          - php-version: 8.0
+          - php-version: 8.1
+          - php-version: 8.2
+          - php-version: 8.3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Use PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/composer
+          key: php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: php${{ matrix.php-version }}-composer-
+
+      - name: Install dependencies
+        run: |
+          composer install --no-progress;
+          composer show;
+
+      - name: Run tests
+        run: ./vendor/bin/phpunit --no-coverage
