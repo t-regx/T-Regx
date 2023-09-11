@@ -47,12 +47,21 @@ final class Detail
 
     public function group($nameOrIndex): string
     {
+        $group = $this->groupOrNull($nameOrIndex);
+        if ($group === null) {
+            throw new GroupException(new GroupKey($nameOrIndex), 'is not matched');
+        }
+        return $group;
+    }
+
+    public function groupOrNull($nameOrIndex): ?string
+    {
         $group = new GroupKey($nameOrIndex);
         if (!$this->match->groupExists($group)) {
             throw new GroupException($group, 'does not exist');
         }
         if (!$this->match->groupMatched($group)) {
-            throw new GroupException($group, 'is not matched');
+            return null;
         }
         return $this->match->groupText($group);
     }
