@@ -28,6 +28,13 @@ final class Pattern
         return $result === 1;
     }
 
+    public function count(string $subject): int
+    {
+        $result = \preg_match_all($this->expression->delimited, $subject);
+        $this->throwMatchException();
+        return $result;
+    }
+
     /**
      * @return string[]
      */

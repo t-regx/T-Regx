@@ -52,4 +52,13 @@ class MethodsTest extends TestCase
         $this->expectException(MatchException::class);
         $this->pattern->replace('A man with no motive is a man no one suspects.', 'replacement');
     }
+
+    /**
+     * @test
+     */
+    public function count_(): void
+    {
+        $this->expectException(MatchException::class);
+        $this->pattern->count('A man with no motive is a man no one suspects.');
+    }
 }
