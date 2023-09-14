@@ -1,4 +1,9 @@
 {
+  "autoload": {
+    "psr-4": {
+      "Regex\\": "src/"
+    }
+  },
   "autoload-dev": {
     "psr-4": {
       "Test\\": "test/",
