@@ -23,4 +23,12 @@ final class Pattern
         \preg_match_all("/$this->pattern/", $subject, $matches);
         return $matches[0];
     }
+
+    public function replace(string $subject, string $replacement): string
+    {
+        return \preg_replace(
+            "/$this->pattern/",
+            \str_replace(['\\', '$'], ['\\\\', '\$'], $replacement),
+            $subject);
+    }
 }
