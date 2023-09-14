@@ -9,7 +9,8 @@ class DelimitedExpression
 
     public function __construct(string $pattern, string $modifiers)
     {
-        $this->delimited = "/$pattern/DX$modifiers";
+        $delimiter = new Delimiter($pattern);
+        $this->delimited = $delimiter . $pattern . $delimiter . 'DX' . $modifiers;
         $parsed = new ParsedPattern($this->delimited);
         if ($parsed->syntaxErrorMessage) {
             throw new SyntaxException($this->exceptionMessage($parsed->syntaxErrorMessage));
