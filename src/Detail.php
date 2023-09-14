@@ -21,7 +21,7 @@ final class Detail
 
     public function offset(): int
     {
-        return \mb_strLen(\subStr($this->subject, 0, $this->offset));
+        return \mb_strLen(\subStr($this->subject, 0, $this->offset), 'UTF-8');
     }
 
     public function byteOffset(): int
