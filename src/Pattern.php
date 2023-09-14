@@ -14,4 +14,13 @@ final class Pattern
     {
         return \preg_match("/$this->pattern/", $subject) === 1;
     }
+
+    /**
+     * @return string[]
+     */
+    public function search(string $subject): array
+    {
+        \preg_match_all("/$this->pattern/", $subject, $matches);
+        return $matches[0];
+    }
 }
