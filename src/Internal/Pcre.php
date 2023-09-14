@@ -55,7 +55,8 @@ class Pcre
 
     public function replaceCallback(string $subject, callable $replacer): string
     {
-        $result = \preg_replace_callback($this->expression->delimited, $replacer, $subject);
+        $result = \preg_replace_callback($this->expression->delimited, $replacer, $subject,
+            -1, $count, \PREG_OFFSET_CAPTURE);
         $this->throwMatchException();
         return $result;
     }

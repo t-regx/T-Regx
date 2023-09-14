@@ -2,6 +2,7 @@
 namespace Test\Unit\Pattern;
 
 use PHPUnit\Framework\TestCase;
+use Regex\Detail;
 use Regex\Pattern;
 use TRegx\PhpUnit\DataProviders\DataProvider;
 use UnexpectedValueException;
@@ -46,5 +47,24 @@ class replaceCallback extends TestCase
             [[], 'array (0)'],
             [new \stdClass(), 'stdClass']
         );
+    }
+
+    /**
+     * @test
+     */
+    public function argument()
+    {
+        $pattern = new Pattern('not');
+        $pattern->replaceCallback('We do not sow', $this->collect($detail));
+        $this->assertSame(6, $detail->byteOffset());
+    }
+
+    private function collect(?Detail &$output): callable
+    {
+        $output = null;
+        return function ($argument) use (&$output): string {
+            $output = $argument;
+            return '';
+        };
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace Regex\Internal;
 
+use Regex\Detail;
+
 class ReplaceFunction
 {
     /** @var callable */
@@ -13,7 +15,13 @@ class ReplaceFunction
 
     public function apply(array $match): string
     {
-        $result = ($this->replacer)($match[0]);
+        [[$text, $offset]] = $match;
+        return $this->replace(new Detail($text, $offset));
+    }
+
+    private function replace(Detail $detail): string
+    {
+        $result = ($this->replacer)($detail);
         if (\is_string($result)) {
             return $result;
         }
