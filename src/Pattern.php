@@ -84,4 +84,9 @@ final class Pattern
             throw new JitException();
         }
     }
+
+    public function __toString(): string
+    {
+        return $this->expression->delimited;
+    }
 }
