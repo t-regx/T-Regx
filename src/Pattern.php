@@ -39,9 +39,18 @@ final class Pattern
 
     public function first(string $subject): Detail
     {
+        $detail = $this->firstOrNull($subject);
+        if ($detail === null) {
+            throw new NoMatchException();
+        }
+        return $detail;
+    }
+
+    public function firstOrNull(string $subject): ?Detail
+    {
         $match = $this->pcre->matchFirst($subject);
         if (empty($match)) {
-            throw new NoMatchException();
+            return null;
         }
         return new Detail($match[0]);
     }
