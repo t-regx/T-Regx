@@ -14,4 +14,9 @@ final class Detail
     {
         return $this->text;
     }
+
+    public function __toString(): string
+    {
+        return $this->text;
+    }
 }
