@@ -52,7 +52,7 @@ final class Pattern
         if (empty($match)) {
             return null;
         }
-        return new Detail($match[0]);
+        return new Detail($match[0][0], $match[0][1]);
     }
 
     /**

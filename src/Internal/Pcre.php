@@ -31,7 +31,8 @@ class Pcre
 
     public function matchFirst(string $subject): array
     {
-        \preg_match($this->expression->delimited, $subject, $match);
+        \preg_match($this->expression->delimited, $subject, $match,
+            \PREG_OFFSET_CAPTURE);
         $this->throwMatchException();
         return $match;
     }
