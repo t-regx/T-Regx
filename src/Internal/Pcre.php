@@ -53,6 +53,13 @@ class Pcre
         return $result;
     }
 
+    public function replaceCallback(string $subject, callable $replacer): string
+    {
+        $result = \preg_replace_callback($this->expression->delimited, $replacer, $subject);
+        $this->throwMatchException();
+        return $result;
+    }
+
     public function split(string $subject, int $limit): array
     {
         $elements = [];

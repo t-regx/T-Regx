@@ -70,4 +70,13 @@ class MethodsTest extends TestCase
         $this->expectException(MatchException::class);
         $this->pattern->first('A man with no motive is a man no one suspects.');
     }
+
+    /**
+     * @test
+     */
+    public function replaceCallback(): void
+    {
+        $this->expectException(MatchException::class);
+        $this->pattern->replaceCallback('A man with no motive is a man no one suspects.', fn() => null);
+    }
 }

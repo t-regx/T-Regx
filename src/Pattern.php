@@ -4,6 +4,7 @@ namespace Regex;
 use Regex\Internal\DelimitedExpression;
 use Regex\Internal\GroupNames;
 use Regex\Internal\Pcre;
+use Regex\Internal\ReplaceFunction;
 
 final class Pattern
 {
@@ -66,6 +67,11 @@ final class Pattern
     public function replace(string $subject, string $replacement): string
     {
         return $this->pcre->replace($subject, $replacement);
+    }
+
+    public function replaceCallback(string $subject, callable $replacer): string
+    {
+        return $this->pcre->replaceCallback($subject, [new ReplaceFunction($replacer), 'apply']);
     }
 
     /**
