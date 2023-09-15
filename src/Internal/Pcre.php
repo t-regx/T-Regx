@@ -29,6 +29,13 @@ class Pcre
         return $result;
     }
 
+    public function matchFirst(string $subject): array
+    {
+        \preg_match($this->expression->delimited, $subject, $match);
+        $this->throwMatchException();
+        return $match;
+    }
+
     public function search(string $subject): array
     {
         \preg_match_all($this->expression->delimited, $subject, $matches);

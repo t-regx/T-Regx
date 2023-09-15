@@ -37,6 +37,15 @@ final class Pattern
         return $this->pcre->count($subject);
     }
 
+    public function first(string $subject): Detail
+    {
+        $match = $this->pcre->matchFirst($subject);
+        if (empty($match)) {
+            throw new NoMatchException();
+        }
+        return new Detail($match[0]);
+    }
+
     /**
      * @return string[]
      */
