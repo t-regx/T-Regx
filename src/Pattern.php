@@ -149,6 +149,11 @@ final class Pattern
         return \count(\array_filter($this->expression->groupKeys, '\is_int')) - 1;
     }
 
+    public function delimited(): string
+    {
+        return $this->expression->delimited;
+    }
+
     public function __toString(): string
     {
         return $this->expression->delimited;
