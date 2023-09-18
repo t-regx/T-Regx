@@ -75,7 +75,8 @@ final class Pattern
     {
         $group = new GroupKey($nameOrIndex);
         if (\in_array($nameOrIndex, $this->expression->groupKeys, true)) {
-            return $this->pcre->search($subject)[$nameOrIndex];
+            $index = $this->groupKeys->unambiguousIndex($group);
+            return $this->pcre->search($subject)[$index];
         }
         throw new GroupException($group, 'does not exist');
     }
