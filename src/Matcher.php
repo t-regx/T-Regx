@@ -4,7 +4,7 @@ namespace Regex;
 use Regex\Internal\GroupKeys;
 use Regex\Internal\Pcre;
 
-final class Matcher implements \Countable
+final class Matcher implements \Countable, \IteratorAggregate
 {
     private array $matches;
     private string $subject;
@@ -53,5 +53,10 @@ final class Matcher implements \Countable
             $details[] = new Detail($match, $this->subject, $this->groupKeys, $index);
         }
         return $details;
+    }
+
+    public function getIterator(): \Iterator
+    {
+        return new \ArrayIterator($this->all());
     }
 }
