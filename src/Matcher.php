@@ -17,6 +17,11 @@ final class Matcher
         $this->groupKeys = $groupKeys;
     }
 
+    public function test(): bool
+    {
+        return !empty($this->match[0]);
+    }
+
     public function first(): Detail
     {
         if (empty($this->match[0])) {
