@@ -2,11 +2,11 @@
 namespace Test\Unit\Pattern;
 
 use PHPUnit\Framework\TestCase;
-use Regex\Detail;
 use Regex\Pattern;
 use TRegx\PhpUnit\DataProviders\DataProvider;
 use UnexpectedValueException;
 use function Test\Fixture\Functions\catching;
+use function Test\Fixture\Functions\collect;
 
 class replaceCallback extends TestCase
 {
@@ -55,8 +55,8 @@ class replaceCallback extends TestCase
     public function argument()
     {
         $pattern = new Pattern('not');
-        $pattern->replaceCallback('We do not sow', $this->collect($detail));
-        $this->assertSame(6, $detail->byteOffset());
+        $pattern->replaceCallback('We do not sow', collect($detail, ''));
+        $this->assertSame(6, $detail->offset());
     }
 
     /**
@@ -65,16 +65,7 @@ class replaceCallback extends TestCase
     public function argumentUnicodeOffset()
     {
         $pattern = new Pattern('Fury');
-        $pattern->replaceCallback('Óurs is the Fury', $this->collect($detail));
+        $pattern->replaceCallback('Óurs is the Fury', collect($detail, ''));
         $this->assertSame(12, $detail->offset());
-    }
-
-    private function collect(?Detail &$output): callable
-    {
-        $output = null;
-        return function ($argument) use (&$output): string {
-            $output = $argument;
-            return '';
-        };
     }
 }

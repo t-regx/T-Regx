@@ -9,6 +9,7 @@ class ReplaceFunction
     private $replacer;
     private string $subject;
     private GroupKeys $groupKeys;
+    private int $sequence = 0;
 
     public function __construct(callable $replacer, string $subject, GroupKeys $groupKeys)
     {
@@ -19,7 +20,7 @@ class ReplaceFunction
 
     public function apply(array $match): string
     {
-        return $this->replace(new Detail($match, $this->subject, $this->groupKeys));
+        return $this->replace(new Detail($match, $this->subject, $this->groupKeys, $this->sequence++));
     }
 
     private function replace(Detail $detail): string

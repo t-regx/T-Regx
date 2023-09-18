@@ -10,18 +10,25 @@ final class Detail
     private string $subject;
     private GroupKeys $groupKeys;
     private array $match;
+    private int $index;
 
-    public function __construct(array $match, string $subject, GroupKeys $groupKeys)
+    public function __construct(array $match, string $subject, GroupKeys $groupKeys, int $index)
     {
         [[$this->text, $this->offset]] = $match;
         $this->subject = $subject;
         $this->groupKeys = $groupKeys;
         $this->match = $match;
+        $this->index = $index;
     }
 
     public function text(): string
     {
         return $this->text;
+    }
+
+    public function index(): int
+    {
+        return $this->index;
     }
 
     public function offset(): int
