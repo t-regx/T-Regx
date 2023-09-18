@@ -1,6 +1,7 @@
 <?php
 namespace Regex;
 
+use Regex\Internal\AbsoluteMatch;
 use Regex\Internal\GroupKey;
 use Regex\Internal\GroupKeys;
 
@@ -9,16 +10,14 @@ final class Detail
     private string $text;
     private int $offset;
     private string $subject;
-    private GroupKeys $groupKeys;
-    private array $match;
+    private AbsoluteMatch $match;
     private int $index;
 
     public function __construct(array $match, string $subject, GroupKeys $groupKeys, int $index)
     {
         [[$this->text, $this->offset]] = $match;
         $this->subject = $subject;
-        $this->groupKeys = $groupKeys;
-        $this->match = $match;
+        $this->match = new AbsoluteMatch($groupKeys, $match);
         $this->index = $index;
     }
 
@@ -49,29 +48,25 @@ final class Detail
     public function group($nameOrIndex): string
     {
         $group = new GroupKey($nameOrIndex);
-        if (!$this->groupKeys->groupExists($group)) {
+        if (!$this->match->groupExists($group)) {
             throw new GroupException($group, 'does not exist');
         }
-        [$text, $offset] = $this->match[$nameOrIndex] ?? [null, -1];
-        if ($offset === -1) {
+        if (!$this->match->groupMatched($group)) {
             throw new GroupException($group, 'is not matched');
         }
-        return $text;
+        return $this->match->groupText($group);
     }
 
     public function groupExists($nameOrIndex): bool
     {
-        return $this->groupKeys->groupExists(new GroupKey($nameOrIndex));
+        return $this->match->groupExists(new GroupKey($nameOrIndex));
     }
 
     public function groupMatched($nameOrIndex): bool
     {
         $group = new GroupKey($nameOrIndex);
-        if ($this->groupKeys->groupExists($group)) {
-            if (\array_key_exists($nameOrIndex, $this->match)) {
-                return $this->match[$nameOrIndex][1] !== -1;
-            }
-            return false;
+        if ($this->match->groupExists($group)) {
+            return $this->match->groupMatched($group);
         }
         throw new GroupException($group, 'does not exist');
     }
