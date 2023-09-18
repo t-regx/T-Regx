@@ -154,4 +154,22 @@ class _modifiers extends TestCase
         $pattern = new Pattern('Foo', Pattern::ANCHORED);
         $this->assertSame(['Foo', 'Foo'], $pattern->search('FooFoo Foo'));
     }
+
+    /**
+     * @test
+     */
+    public function implicitCapture(): void
+    {
+        $pattern = new Pattern('(Foo)');
+        $this->assertSame([null], $pattern->groupNames());
+    }
+
+    /**
+     * @test
+     */
+    public function explicitCapture(): void
+    {
+        $pattern = new Pattern('(Car)(?<group>Pet)', Pattern::EXPLICIT_CAPTURE);
+        $this->assertSame(['group'], $pattern->groupNames());
+    }
 }

@@ -14,7 +14,8 @@ class DelimitedExpression
     public function __construct(string $pattern, string $modifiers)
     {
         $delimiter = new Delimiter($pattern);
-        $this->delimited = $delimiter . $pattern . $delimiter . \count_chars('DX' . $modifiers, 3);
+        $expression = new OptionSettingExpression($pattern, 'DX' . $modifiers);
+        $this->delimited = $delimiter . $expression->pattern . $delimiter . $expression->modifiers;
         $parsed = new ParsedPattern($this->delimited);
         if ($parsed->errorMessage) {
             throw $this->exception($this->compilationFailed($parsed->errorMessage));
