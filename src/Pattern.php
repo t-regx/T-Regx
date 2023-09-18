@@ -14,6 +14,7 @@ final class Pattern
     public const MULTILINE = 'm';
     public const UNICODE = 'u';
     public const COMMENTS_WHITESPACE = 'x';
+    public const EXPLICIT_CAPTURE = 'n';
     public const SINGLELINE = 's';
     public const ANCHORED = 'A';
     public const INVERTED_GREEDY = 'U';
