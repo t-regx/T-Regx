@@ -79,6 +79,20 @@ class Pcre
         return $pieces;
     }
 
+    public function filter(array $subjects): array
+    {
+        $result = \preg_grep($this->expression->delimited, $subjects);
+        $this->throwMatchException();
+        return $result;
+    }
+
+    public function reject(array $subjects): array
+    {
+        $result = \preg_grep($this->expression->delimited, $subjects, \PREG_GREP_INVERT);
+        $this->throwMatchException();
+        return $result;
+    }
+
     private function throwMatchException(): void
     {
         $error = \preg_last_error();

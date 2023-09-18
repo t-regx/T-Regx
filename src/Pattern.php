@@ -111,6 +111,24 @@ final class Pattern
     }
 
     /**
+     * @param string[] $subjects
+     * @return string[]
+     */
+    public function filter(array $subjects): array
+    {
+        return $this->pcre->filter($subjects);
+    }
+
+    /**
+     * @param string[] $subjects
+     * @return string[]
+     */
+    public function reject(array $subjects): array
+    {
+        return $this->pcre->reject($subjects);
+    }
+
+    /**
      * @return string[]|null[]
      */
     public function groupNames(): array
