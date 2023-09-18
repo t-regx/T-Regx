@@ -55,6 +55,11 @@ final class Detail
         throw new GroupException($group);
     }
 
+    public function subject(): string
+    {
+        return $this->subject;
+    }
+
     public function __toString(): string
     {
         return $this->text;
