@@ -2,8 +2,10 @@
 namespace Test\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Regex\ModifierException;
 use Regex\Pattern;
 use Regex\SyntaxException;
+use TRegx\PhpUnit\DataProviders\DataProvider;
 use function Test\Fixture\Functions\catching;
 
 class _modifiers extends TestCase
@@ -171,5 +173,41 @@ class _modifiers extends TestCase
     {
         $pattern = new Pattern('(Car)(?<group>Pet)', Pattern::EXPLICIT_CAPTURE);
         $this->assertSame(['group'], $pattern->groupNames());
+    }
+
+    /**
+     * @test
+     * @dataProvider invalidModifiers
+     */
+    public function invalid(string $modifiers)
+    {
+        catching(fn() => new Pattern('\w+', $modifiers))
+            ->assertException(ModifierException::class)
+            ->assertMessage("Supplied one or more unexpected modifiers: '$modifiers'.");
+    }
+
+    public function invalidModifiers(): DataProvider
+    {
+        return DataProvider::list('k', 'kk', 'g', 'Z', 'G', \chr(2), 'mnp');
+    }
+
+    /**
+     * @test
+     */
+    public function restrictiveEscape()
+    {
+        catching(fn() => new Pattern('\w+', 'mXi'))
+            ->assertException(ModifierException::class)
+            ->assertMessage("Supplied one or more unexpected modifiers: 'mXi', modifier 'X' is already applied.");
+    }
+
+    /**
+     * @test
+     */
+    public function dollarEndOnly()
+    {
+        catching(fn() => new Pattern('\w+', 'mDi'))
+            ->assertException(ModifierException::class)
+            ->assertMessage("Supplied one or more unexpected modifiers: 'mDi', modifier 'D' is already applied.");
     }
 }
