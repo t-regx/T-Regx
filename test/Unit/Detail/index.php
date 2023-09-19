@@ -18,6 +18,26 @@ class index extends TestCase
     /**
      * @test
      */
+    public function matchFirst()
+    {
+        $pattern = new Pattern('F.r.');
+        $match = $pattern->match('Ours is the Fury')->first();
+        $this->assertSame(0, $match->index());
+    }
+
+    /**
+     * @test
+     */
+    public function matchFirstOrNull()
+    {
+        $pattern = new Pattern('F.r.');
+        $match = $pattern->match('Ours is the Fury')->firstOrNull();
+        $this->assertSame(0, $match->index());
+    }
+
+    /**
+     * @test
+     */
     public function replaceFirst()
     {
         $pattern = new Pattern('\w+');

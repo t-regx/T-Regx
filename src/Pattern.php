@@ -81,6 +81,11 @@ final class Pattern
         throw new GroupException($group, 'does not exist');
     }
 
+    public function match(string $subject): Matcher
+    {
+        return new Matcher($this->pcre, $subject, $this->groupKeys);
+    }
+
     public function replace(string $subject, string $replacement): string
     {
         return $this->pcre->replace($subject, $replacement)[0];
