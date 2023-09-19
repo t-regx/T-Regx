@@ -52,4 +52,12 @@ class GroupKey
     {
         return \str_replace(["\0", "\x8", "\t", "\n", "\r"], ' ', $groupName);
     }
+
+    public function __toString(): string
+    {
+        if (\is_string($this->nameOrIndex)) {
+            return "'$this->nameOrIndex'";
+        }
+        return "#$this->nameOrIndex";
+    }
 }

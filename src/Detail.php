@@ -9,13 +9,14 @@ final class Detail
     private int $offset;
     private string $subject;
     private GroupKeys $groupKeys;
+    private array $match;
 
-    public function __construct(string $text, int $offset, string $subject, GroupKeys $groupKeys)
+    public function __construct(array $match, string $subject, GroupKeys $groupKeys)
     {
-        $this->text = $text;
-        $this->offset = $offset;
+        [[$this->text, $this->offset]] = $match;
         $this->subject = $subject;
         $this->groupKeys = $groupKeys;
+        $this->match = $match;
     }
 
     public function text(): string
@@ -40,6 +41,18 @@ final class Detail
     public function groupExists($nameOrIndex): bool
     {
         return $this->groupKeys->groupExists(new GroupKey($nameOrIndex));
+    }
+
+    public function groupMatched($nameOrIndex): bool
+    {
+        $group = new GroupKey($nameOrIndex);
+        if ($this->groupKeys->groupExists($group)) {
+            if (\array_key_exists($nameOrIndex, $this->match)) {
+                return $this->match[$nameOrIndex][1] !== -1;
+            }
+            return false;
+        }
+        throw new GroupException($group);
     }
 
     public function __toString(): string
