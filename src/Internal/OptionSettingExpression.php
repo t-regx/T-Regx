@@ -3,21 +3,15 @@ namespace Regex\Internal;
 
 class OptionSettingExpression
 {
-    public string $pattern;
-    public string $modifiers;
+    private string $pattern;
 
-    public function __construct(string $pattern, string $modifiers)
+    public function __construct(string $pattern, Modifiers $modifiers)
     {
-        $this->pattern = $this->pattern($pattern, $modifiers);
-        $this->modifiers = \count_chars(\str_replace('n', '', $modifiers), 3);
-    }
-
-    private function pattern(string $pattern, string $modifiers): string
-    {
-        if (\strPos($modifiers, 'n') === false) {
-            return $pattern;
+        if ($modifiers->autoCapture) {
+            $this->pattern = $this->patternNoAutoCapture($pattern, $this->optionSettingOffset($pattern));
+        } else {
+            $this->pattern = $pattern;
         }
-        return $this->patternNoAutoCapture($pattern, $this->optionSettingOffset($pattern));
     }
 
     private function optionSettingOffset(string $pattern): int
@@ -29,5 +23,10 @@ class OptionSettingExpression
     private function patternNoAutoCapture(string $pattern, int $offset): string
     {
         return \subStr_replace($pattern, '(?n)', $offset, 0);
+    }
+
+    public function __toString(): string
+    {
+        return $this->pattern;
     }
 }

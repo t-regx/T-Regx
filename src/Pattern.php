@@ -5,6 +5,7 @@ use Regex\Internal\DelimitedExpression;
 use Regex\Internal\GroupKey;
 use Regex\Internal\GroupKeys;
 use Regex\Internal\GroupNames;
+use Regex\Internal\Modifiers;
 use Regex\Internal\Pcre;
 use Regex\Internal\ReplaceFunction;
 use Regex\Internal\ReplaceGroup;
@@ -28,7 +29,7 @@ final class Pattern
 
     public function __construct(string $pattern, string $modifiers = '')
     {
-        $this->expression = new DelimitedExpression($pattern, $modifiers);
+        $this->expression = new DelimitedExpression($pattern, new Modifiers($modifiers));
         $this->pcre = new Pcre($this->expression);
         $this->groupNames = new GroupNames($this->expression);
         $this->groupKeys = new GroupKeys($this->expression);

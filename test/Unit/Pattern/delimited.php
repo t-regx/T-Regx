@@ -17,7 +17,7 @@ class delimited extends TestCase
      */
     public function duplicateModifiers()
     {
-        $pattern = new Pattern('\w+', 'SDAxmixmxXDSA');
+        $pattern = new Pattern('\w+', 'SAxmixmxSA');
         $this->assertSame('/\w+/ADSXimx', $pattern->delimited());
     }
 }

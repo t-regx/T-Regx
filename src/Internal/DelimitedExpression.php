@@ -11,11 +11,11 @@ class DelimitedExpression
     /** @var int[]|string[] */
     public array $groupKeys;
 
-    public function __construct(string $pattern, string $modifiers)
+    public function __construct(string $pattern, Modifiers $modifiers)
     {
         $delimiter = new Delimiter($pattern);
-        $expression = new OptionSettingExpression($pattern, 'DX' . $modifiers);
-        $this->delimited = $delimiter . $expression->pattern . $delimiter . $expression->modifiers;
+        $expression = new OptionSettingExpression($pattern, $modifiers);
+        $this->delimited = $delimiter . $expression . $delimiter . $modifiers;
         $parsed = new ParsedPattern($this->delimited);
         if ($parsed->errorMessage) {
             throw $this->exception($this->compilationFailed($parsed->errorMessage));
