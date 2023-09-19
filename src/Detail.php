@@ -3,6 +3,7 @@ namespace Regex;
 
 use Regex\Internal\GroupKey;
 use Regex\Internal\GroupKeys;
+
 final class Detail
 {
     private string $text;
@@ -45,6 +46,19 @@ final class Detail
         return $this->offset;
     }
 
+    public function group($nameOrIndex): string
+    {
+        $group = new GroupKey($nameOrIndex);
+        if (!$this->groupKeys->groupExists($group)) {
+            throw new GroupException($group, 'does not exist');
+        }
+        [$text, $offset] = $this->match[$nameOrIndex] ?? [null, -1];
+        if ($offset === -1) {
+            throw new GroupException($group, 'is not matched');
+        }
+        return $text;
+    }
+
     public function groupExists($nameOrIndex): bool
     {
         return $this->groupKeys->groupExists(new GroupKey($nameOrIndex));
@@ -59,7 +73,7 @@ final class Detail
             }
             return false;
         }
-        throw new GroupException($group);
+        throw new GroupException($group, 'does not exist');
     }
 
     public function subject(): string

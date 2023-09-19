@@ -5,8 +5,8 @@ use Regex\Internal\GroupKey;
 
 final class GroupException extends RegexException
 {
-    public function __construct(GroupKey $group)
+    public function __construct(GroupKey $group, string $verb)
     {
-        parent::__construct("Capturing group does not exist: $group.");
+        parent::__construct("Capturing group $verb: $group.");
     }
 }
