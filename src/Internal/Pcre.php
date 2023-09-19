@@ -39,9 +39,10 @@ class Pcre
 
     public function search(string $subject): array
     {
-        \preg_match_all($this->expression->delimited, $subject, $matches);
+        \preg_match_all($this->expression->delimited, $subject, $matches,
+            \PREG_UNMATCHED_AS_NULL);
         $this->throwMatchException();
-        return $matches[0];
+        return $matches;
     }
 
     public function replace(string $subject, string $replacement): array
