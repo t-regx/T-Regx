@@ -80,6 +80,9 @@ final class Pattern
         if ($error === \PREG_RECURSION_LIMIT_ERROR) {
             throw new RecursionException();
         }
+        if ($error === \PREG_BAD_UTF8_ERROR) {
+            throw new UnicodeException();
+        }
         if ($error === \PREG_JIT_STACKLIMIT_ERROR) {
             throw new JitException();
         }

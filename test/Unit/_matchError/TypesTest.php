@@ -6,6 +6,7 @@ use Regex\BacktrackException;
 use Regex\JitException;
 use Regex\Pattern;
 use Regex\RecursionException;
+use Regex\UnicodeException;
 use function Test\Fixture\Functions\catching;
 
 class TypesTest extends TestCase
@@ -43,5 +44,16 @@ class TypesTest extends TestCase
         catching(fn() => $pattern->test($subject))
             ->assertException(JitException::class)
             ->assertMessage('Just-in-time compilation stack limit exceeded when executing the pattern.');
+    }
+
+    /**
+     * @test
+     */
+    public function subjectEncoding()
+    {
+        $pattern = new Pattern('\w+', 'u');
+        catching(fn() => $pattern->test("\xe2\x28\xa1"))
+            ->assertException(UnicodeException::class)
+            ->assertMessage('Malformed unicode subject.');
     }
 }
