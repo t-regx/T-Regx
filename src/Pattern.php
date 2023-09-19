@@ -65,7 +65,19 @@ final class Pattern
      */
     public function search(string $subject): array
     {
-        return $this->pcre->search($subject);
+        return $this->pcre->search($subject)[0];
+    }
+
+    /**
+     * @return string[]|null[]
+     */
+    public function searchGroup(string $subject, $nameOrIndex): array
+    {
+        $group = new GroupKey($nameOrIndex);
+        if (\in_array($nameOrIndex, $this->expression->groupKeys, true)) {
+            return $this->pcre->search($subject)[$nameOrIndex];
+        }
+        throw new GroupException($group);
     }
 
     public function replace(string $subject, string $replacement): string
