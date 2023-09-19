@@ -2,6 +2,7 @@
 namespace Regex\Internal;
 
 use Regex\DelimiterException;
+use Regex\SyntaxException;
 
 class Delimiter
 {
@@ -11,7 +12,15 @@ class Delimiter
 
     public function __construct(string $pattern)
     {
+        if ($this->hasTrailingBackslash($pattern)) {
+            throw new SyntaxException('Trailing backslash in regular expression.');
+        }
         $this->delimiter = $this->delimiter($pattern);
+    }
+
+    private function hasTrailingBackslash(string $pattern): bool
+    {
+        return \subStr(\str_replace('\\\\', '', $pattern), -1) === "\\";
     }
 
     private function delimiter(string $pattern): string
