@@ -3,7 +3,7 @@ namespace Regex\Internal;
 
 use Regex\Detail;
 
-class ReplaceFunction
+class ReplaceFunction implements Replacer
 {
     /** @var callable */
     private $replacer;
@@ -18,12 +18,12 @@ class ReplaceFunction
         $this->groupKeys = $groupKeys;
     }
 
-    public function apply(array $match): string
+    public function replace(array $match): string
     {
-        return $this->replace(new Detail($match, $this->subject, $this->groupKeys, $this->sequence++));
+        return $this->apply(new Detail($match, $this->subject, $this->groupKeys, $this->sequence++));
     }
 
-    private function replace(Detail $detail): string
+    private function apply(Detail $detail): string
     {
         $result = ($this->replacer)($detail);
         if (\is_string($result)) {

@@ -7,6 +7,7 @@ use Regex\Internal\GroupKeys;
 use Regex\Internal\GroupNames;
 use Regex\Internal\Pcre;
 use Regex\Internal\ReplaceFunction;
+use Regex\Internal\ReplaceGroup;
 
 final class Pattern
 {
@@ -100,10 +101,16 @@ final class Pattern
         return $this->pcre->replace($subject, $replacement);
     }
 
+    public function replaceGroup(string $subject, $nameOrIndex): string
+    {
+        return $this->pcre->replaceCallback($subject,
+            new ReplaceGroup($this->groupKeys, new GroupKey($nameOrIndex)));
+    }
+
     public function replaceCallback(string $subject, callable $replacer): string
     {
         return $this->pcre->replaceCallback($subject,
-            [new ReplaceFunction($replacer, $subject, $this->groupKeys), 'apply']);
+            new ReplaceFunction($replacer, $subject, $this->groupKeys));
     }
 
     /**
