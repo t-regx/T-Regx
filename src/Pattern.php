@@ -77,7 +77,7 @@ final class Pattern
         if (\in_array($nameOrIndex, $this->expression->groupKeys, true)) {
             return $this->pcre->search($subject)[$nameOrIndex];
         }
-        throw new GroupException($group);
+        throw new GroupException($group, 'does not exist');
     }
 
     public function replace(string $subject, string $replacement): string
