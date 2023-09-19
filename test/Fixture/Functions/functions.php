@@ -51,3 +51,8 @@ function collectLast(?Detail &$ref, $return): callable
         return $return;
     };
 }
+
+function since(string $phpVersion): bool
+{
+    return \version_compare(\PHP_VERSION, $phpVersion, '>=');
+}

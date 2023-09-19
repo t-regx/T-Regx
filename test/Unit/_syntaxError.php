@@ -6,6 +6,7 @@ use Regex\Pattern;
 use Regex\SyntaxException;
 use TRegx\PhpUnit\DataProviders\DataProvider;
 use function Test\Fixture\Functions\catching;
+use function Test\Fixture\Functions\since;
 
 class _syntaxError extends TestCase
 {
@@ -41,7 +42,7 @@ class _syntaxError extends TestCase
         // when
         $call = catching(fn() => new Pattern("\w\0"));
         // then
-        if (\version_compare(\PHP_VERSION, '8.2.0', '>=')) {
+        if (since('8.2.0')) {
             $call
                 ->assertExceptionNone();
         } else {
