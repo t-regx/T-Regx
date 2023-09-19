@@ -19,8 +19,7 @@ class ReplaceFunction
 
     public function apply(array $match): string
     {
-        [[$text, $offset]] = $match;
-        return $this->replace(new Detail($text, $offset, $this->subject, $this->groupKeys));
+        return $this->replace(new Detail($match, $this->subject, $this->groupKeys));
     }
 
     private function replace(Detail $detail): string

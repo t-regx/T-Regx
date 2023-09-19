@@ -57,7 +57,7 @@ final class Pattern
         if (empty($match)) {
             return null;
         }
-        return new Detail($match[0][0], $match[0][1], $subject, $this->groupKeys);
+        return new Detail($match, $subject, $this->groupKeys);
     }
 
     /**
