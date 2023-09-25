@@ -14,7 +14,7 @@ class Delimiter
     {
         if ($this->hasTrailingBackslash($pattern)) {
             throw new SyntaxException('Trailing backslash in regular expression',
-                \strLen($pattern) - 1);
+                $pattern, \strLen($pattern) - 1);
         }
         $this->delimiter = $this->delimiter($pattern);
     }
