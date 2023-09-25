@@ -12,7 +12,6 @@ trait NonPrintables
             'bell'                        => [\chr(7), ''],
             'backspace'                   => [\chr(8), ' '],
             'tab'                         => [\chr(9), ' '],
-            'newline'                     => [\chr(10), ' '],
             'vertical tab'                => [\chr(11), ''],
             'form feed'                   => [\chr(12), ''],
             'carriage return'             => [\chr(13), ' '],
