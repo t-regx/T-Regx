@@ -40,4 +40,28 @@ class _pattern extends TestCase
             ->assertException(SyntaxException::class)
             ->assertMessageEndsWith("'+pattern space'");
     }
+
+    /**
+     * @test
+     */
+    public function newline()
+    {
+        catching(fn() => new Pattern("+invalid\n"))
+            ->assertException(SyntaxException::class)
+            ->assertMessageEndsWith("'+invalid\n'");
+    }
+
+    /**
+     * @test
+     */
+    public function newline_nonPrintable()
+    {
+        catching(fn() => new Pattern("[a-z]\r.\n\w+ (?<>)"))
+            ->assertException(SyntaxException::class)
+            ->assertMessage("Subpattern name expected, near position 15.
+
+'[a-z] .
+\w+ (?<>)'
+(contains non-printable characters)");
+    }
 }

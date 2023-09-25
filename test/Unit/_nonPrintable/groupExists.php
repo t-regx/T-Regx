@@ -30,4 +30,15 @@ class groupExists extends TestCase
             ->assertException(\InvalidArgumentException::class);
         $this->assertSame(\PREG_NO_ERROR, \preg_last_error());
     }
+
+    /**
+     * @test
+     */
+    public function newline()
+    {
+        $pattern = new Pattern('any');
+        catching(fn() => $pattern->groupExists("+invalid\n"))
+            ->assertException(\InvalidArgumentException::class)
+            ->assertMessageEndsWith("'+invalid '.");
+    }
 }
