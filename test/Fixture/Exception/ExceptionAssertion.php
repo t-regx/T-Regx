@@ -13,6 +13,11 @@ class ExceptionAssertion
         $this->throwable = $throwable;
     }
 
+    public function get(): \Throwable
+    {
+        return $this->throwable;
+    }
+
     public function assertMessage(string $message): void
     {
         Assert::assertSame($message, $this->throwable->getMessage(),

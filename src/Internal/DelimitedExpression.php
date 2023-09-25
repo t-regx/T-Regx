@@ -31,7 +31,7 @@ class DelimitedExpression
         if (\count($messageOffset) === 2) {
             return $this->patternException(...$messageOffset);
         }
-        return new SyntaxException($message, \strPos($this->pattern, "\0"));
+        return new SyntaxException($message, $this->pattern, \strPos($this->pattern, "\0"));
     }
 
     private function patternException(string $message, int $errorPosition): RegexException
@@ -40,7 +40,7 @@ class DelimitedExpression
             $unicodeMessage = \subStr($message, 13);
             return new UnicodeException("Malformed regular expression, $unicodeMessage, near position $errorPosition.");
         }
-        return new SyntaxException(\ucFirst($this->duplicateNames($message)), $errorPosition);
+        return new SyntaxException(\ucFirst($this->duplicateNames($message)), $this->pattern, $errorPosition);
     }
 
     private function compilationFailed(string $message): string
