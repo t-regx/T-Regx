@@ -32,6 +32,14 @@ class ExceptionAssertion
         return $this;
     }
 
+    public function assertMessageNotContains(string $infix): self
+    {
+        $this->showDifference($infix,
+            'Failed to assert exception message contains substring.',
+            fn() => Assert::assertStringNotContainsString($infix, $this->throwable->getMessage()));
+        return $this;
+    }
+
     public function assertMessageStartsWith(string $prefix): self
     {
         $this->showDifference($prefix,

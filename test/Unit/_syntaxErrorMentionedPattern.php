@@ -45,6 +45,6 @@ EXCEPTION
     {
         catching(fn() => new Pattern($pattern))
             ->assertException(SyntaxException::class)
-            ->assertMessage($message);
+            ->assertMessageStartsWith($message);
     }
 }

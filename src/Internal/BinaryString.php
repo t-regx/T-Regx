@@ -4,11 +4,13 @@ namespace Regex\Internal;
 class BinaryString
 {
     public bool $containsControl;
+    public bool $multiline;
     private string $nonControl;
 
     public function __construct(string $string)
     {
         $this->containsControl = $this->containsControl($string);
+        $this->multiline = \strPos($string, "\n") !== false;
         $this->nonControl = \str_replace(["\0", "\t", "\r", "\x8"], ' ', $string);
     }
 
