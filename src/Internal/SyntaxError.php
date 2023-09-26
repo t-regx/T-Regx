@@ -4,19 +4,21 @@ namespace Regex\Internal;
 class SyntaxError
 {
     private string $message;
-    private string $pattern;
+    private BinaryString $pattern;
     private int $position;
 
     public function __construct(string $message, string $pattern, int $position)
     {
         $this->message = $message;
-        $this->pattern = $pattern;
+        $this->pattern = new BinaryString($pattern);
         $this->position = $position;
     }
 
     public function __toString(): string
     {
-        return "$this->message, near position $this->position.\n\n" . $this->patternInQuotes();
+        return "$this->message, near position $this->position.\n\n"
+            . $this->patternInQuotes()
+            . $this->containsControl();
     }
 
     private function patternInQuotes(): string
@@ -25,5 +27,13 @@ class SyntaxError
             return "'$this->pattern'";
         }
         return '"' . $this->pattern . '"';
+    }
+
+    private function containsControl(): string
+    {
+        if ($this->pattern->containsControl) {
+            return "\n(contains non-printable characters)";
+        }
+        return '';
     }
 }

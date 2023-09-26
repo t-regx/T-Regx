@@ -24,11 +24,27 @@ class ExceptionAssertion
             'Failed to assert the exact exception message.');
     }
 
-    public function assertMessageStartsWith(string $prefix): void
+    public function assertMessageContains(string $infix): self
+    {
+        $this->showDifference($infix,
+            'Failed to assert exception message contains substring.',
+            fn() => Assert::assertStringContainsString($infix, $this->throwable->getMessage()));
+        return $this;
+    }
+
+    public function assertMessageStartsWith(string $prefix): self
     {
         $this->showDifference($prefix,
             'Failed to assert exception message prefix.',
             fn() => Assert::assertStringStartsWith($prefix, $this->throwable->getMessage()));
+        return $this;
+    }
+
+    public function assertMessageEndsWith(string $suffix): void
+    {
+        $this->showDifference($suffix,
+            'Failed to assert exception message suffix.',
+            fn() => Assert::assertStringEndsWith($suffix, $this->throwable->getMessage()));
     }
 
     private function showDifference(string $actual, string $message, callable $assertion): void

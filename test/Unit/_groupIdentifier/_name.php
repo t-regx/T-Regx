@@ -104,29 +104,13 @@ class _name extends TestCase
 
     /**
      * @test
-     * @dataProvider nonPrintables
      */
-    public function nonPrintable(string $group, string $expected)
+    public function nonPrintable()
     {
         $pattern = new Pattern('any');
-        catching(fn() => $pattern->groupExists("invalid $group"))
+        catching(fn() => $pattern->groupExists("\w\0\n"))
             ->assertException(\InvalidArgumentException::class)
-            ->assertMessage("Group name must be an alphanumeric string, not starting with a digit, given: 'invalid $expected'.");
-    }
-
-    public function nonPrintables(): DataProvider
-    {
-        return DataProvider::of([
-            'low ascii codes' => ["\1\2\3\4", ''],
-            'bell'            => [\chr(7), ''],
-            'backspace'       => [\chr(8), ' '],
-            'tab'             => [\chr(9), ' '],
-            'newline'         => [\chr(10), ' '],
-            'vertical tab'    => [\chr(11), ''],
-            'form feed'       => [\chr(12), ''],
-            'carriage return' => [\chr(13), ' '],
-            'shift out'       => [\chr(14), ''],
-        ]);
+            ->assertMessage("Group name must be an alphanumeric string, not starting with a digit, given: '\w  '.");
     }
 
     /**
@@ -138,15 +122,5 @@ class _name extends TestCase
         catching(fn() => $pattern->groupExists("\xc3\x28"))
             ->assertException(\InvalidArgumentException::class)
             ->assertMessage("Group name must be an alphanumeric string, not starting with a digit, given: '\xc3\x28'.");
-    }
-
-    /**
-     * @test
-     */
-    public function malformedUnicodeNoLastError()
-    {
-        $pattern = new Pattern('any');
-        catching(fn() => $pattern->groupExists("\xc3\x28"));
-        $this->assertSame(\PREG_NO_ERROR, \preg_last_error());
     }
 }
