@@ -8,6 +8,8 @@ use Regex\UnicodeException;
 class DelimitedExpression
 {
     private string $pattern;
+    private OptionSettingExpression $expression;
+
     public string $delimited;
     /** @var int[]|string[] */
     public array $groupKeys;
@@ -16,8 +18,8 @@ class DelimitedExpression
     {
         $this->pattern = $pattern;
         $delimiter = new Delimiter($pattern);
-        $expression = new OptionSettingExpression($pattern, $modifiers);
-        $this->delimited = $delimiter . $expression . $delimiter . $modifiers;
+        $this->expression = new OptionSettingExpression($pattern, $modifiers);
+        $this->delimited = $delimiter . $this->expression . $delimiter . $modifiers;
         $parsed = new ParsedPattern($this->delimited);
         if ($parsed->errorMessage) {
             throw $this->exception($this->compilationFailed($parsed->errorMessage));
@@ -40,7 +42,10 @@ class DelimitedExpression
             $unicodeMessage = \subStr($message, 13);
             return new UnicodeException("Malformed regular expression, $unicodeMessage, near position $errorPosition.");
         }
-        return new SyntaxException(\ucFirst($this->duplicateNames($message)), $this->pattern, $errorPosition);
+        return new SyntaxException(
+            \ucFirst($this->duplicateNames($message)),
+            $this->pattern,
+            $this->expression->position($errorPosition));
     }
 
     private function compilationFailed(string $message): string
