@@ -17,8 +17,17 @@ class SyntaxError
     public function __toString(): string
     {
         return "$this->message, near position $this->position.\n\n"
-            . $this->patternInQuotes()
+            . $this->patternWithCaret()
             . $this->containsControl();
+    }
+
+    private function patternWithCaret(): string
+    {
+        $pattern = $this->patternInQuotes();
+        if ($this->pattern->multiline) {
+            return "$pattern\n";
+        }
+        return "$pattern\n" . $this->caret();
     }
 
     private function patternInQuotes(): string
@@ -27,6 +36,16 @@ class SyntaxError
             return "'$this->pattern'";
         }
         return '"' . $this->pattern . '"';
+    }
+
+    private function caret(): string
+    {
+        return ' ' . \str_repeat(' ', $this->unicodePosition()) . '^';
+    }
+
+    private function unicodePosition(): int
+    {
+        return \mb_strLen(\subStr($this->pattern, 0, $this->position), 'UTF-8');
     }
 
     private function containsControl(): string

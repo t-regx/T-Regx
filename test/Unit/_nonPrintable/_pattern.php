@@ -38,7 +38,8 @@ class _pattern extends TestCase
     {
         catching(fn() => new Pattern('+pattern space'))
             ->assertException(SyntaxException::class)
-            ->assertMessageEndsWith("'+pattern space'");
+            ->assertMessageContains("'+pattern space'")
+            ->assertMessageNotContains('(contains non-printable characters)');
     }
 
     /**
@@ -48,7 +49,8 @@ class _pattern extends TestCase
     {
         catching(fn() => new Pattern("+invalid\n"))
             ->assertException(SyntaxException::class)
-            ->assertMessageEndsWith("'+invalid\n'");
+            ->assertMessageContains("'+invalid\n'")
+            ->assertMessageNotContains('(contains non-printable characters)');
     }
 
     /**
@@ -58,10 +60,7 @@ class _pattern extends TestCase
     {
         catching(fn() => new Pattern("[a-z]\r.\n\w+ (?<>)"))
             ->assertException(SyntaxException::class)
-            ->assertMessage("Subpattern name expected, near position 15.
-
-'[a-z] .
-\w+ (?<>)'
-(contains non-printable characters)");
+            ->assertMessageContains("'[a-z] .\n\w+ (?<>)'")
+            ->assertMessageEndsWith('(contains non-printable characters)');
     }
 }
