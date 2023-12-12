@@ -1,7 +1,9 @@
 <?php
 namespace Regex\Internal;
 
+use Regex\RegexException;
 use Regex\SyntaxException;
+use Regex\UnicodeException;
 
 class DelimitedExpression
 {
@@ -12,19 +14,23 @@ class DelimitedExpression
         $delimiter = new Delimiter($pattern);
         $this->delimited = $delimiter . $pattern . $delimiter . 'DX' . $modifiers;
         $parsed = new ParsedPattern($this->delimited);
-        if ($parsed->syntaxErrorMessage) {
-            throw new SyntaxException($this->exceptionMessage($parsed->syntaxErrorMessage));
+        if ($parsed->errorMessage) {
+            throw $this->exception($this->compilationFailed($parsed->errorMessage));
         }
     }
 
-    private function exceptionMessage(string $message): string
+    private function exception(string $message): RegexException
     {
-        return $this->duplicateNames($this->compilationFailed($message)) . '.';
+        if (\subStr($message, 0, 13) === 'UTF-8 error: ') {
+            $unicodeMessage = \subStr($message, 13);
+            return new UnicodeException("Malformed regular expression, $unicodeMessage.");
+        }
+        return new SyntaxException(\ucFirst($this->duplicateNames($message)) . '.');
     }
 
     private function compilationFailed(string $message): string
     {
-        return \ucFirst(\str_replace('Compilation failed: ', '', $message));
+        return \str_replace('Compilation failed: ', '', $message);
     }
 
     private function duplicateNames(string $message): string
