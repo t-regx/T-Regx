@@ -81,7 +81,7 @@ final class Pattern
             throw new RecursionException();
         }
         if ($error === \PREG_BAD_UTF8_ERROR) {
-            throw new UnicodeException();
+            throw new UnicodeException('Malformed unicode subject.');
         }
         if ($error === \PREG_JIT_STACKLIMIT_ERROR) {
             throw new JitException();

@@ -3,12 +3,12 @@ namespace Regex\Internal;
 
 class ParsedPattern
 {
-    public ?string $syntaxErrorMessage = null;
+    public ?string $errorMessage = null;
 
     public function __construct(string $delimited)
     {
         $this->parse($delimited);
-        if ($this->syntaxErrorMessage) {
+        if ($this->errorMessage) {
             \preg_match('//', '');
         }
     }
@@ -16,7 +16,7 @@ class ParsedPattern
     private function parse(string $delimited): void
     {
         \set_error_handler(function (int $type, string $message): void {
-            $this->syntaxErrorMessage = \subStr($message, \strLen('preg_match(): '));
+            $this->errorMessage = \subStr($message, \strLen('preg_match(): '));
         });
         @\preg_match($delimited, '');
         \restore_error_handler();
