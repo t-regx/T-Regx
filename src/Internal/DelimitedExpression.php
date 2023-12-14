@@ -23,6 +23,7 @@ class DelimitedExpression
             $error = $message;
         });
         @\preg_match($this->delimited, '');
+        \restore_error_handler();
         return $error;
     }
 
