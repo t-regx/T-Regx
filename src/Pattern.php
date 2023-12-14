@@ -131,7 +131,7 @@ final class Pattern
      */
     public function reject(array $subjects): array
     {
-        return $this->pcre->reject($subjects);
+        return \array_diff_key($subjects, $this->filter($subjects));
     }
 
     /**

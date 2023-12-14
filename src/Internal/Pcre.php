@@ -3,6 +3,7 @@ namespace Regex\Internal;
 
 use Regex\BacktrackException;
 use Regex\JitException;
+use Regex\PcreException;
 use Regex\RecursionException;
 use Regex\UnicodeException;
 
@@ -17,16 +18,16 @@ class Pcre
 
     public function test(string $subject): bool
     {
-        $result = \preg_match($this->expression->delimited, $subject);
+        \preg_replace($this->expression->delimited, '\0', $subject, 1, $count);
         $this->throwMatchException();
-        return $result;
+        return $count > 0;
     }
 
     public function count(string $subject): int
     {
-        $result = \preg_match_all($this->expression->delimited, $subject);
+        \preg_replace($this->expression->delimited, '\0', $subject, -1, $count);
         $this->throwMatchException();
-        return $result;
+        return $count;
     }
 
     public function matchFirst(string $subject): array
@@ -89,14 +90,7 @@ class Pcre
 
     public function filter(array $subjects): array
     {
-        $result = \preg_grep($this->expression->delimited, $subjects);
-        $this->throwMatchException();
-        return $result;
-    }
-
-    public function reject(array $subjects): array
-    {
-        $result = \preg_grep($this->expression->delimited, $subjects, \PREG_GREP_INVERT);
+        $result = \preg_filter($this->expression->delimited, '\0', $subjects);
         $this->throwMatchException();
         return $result;
     }
@@ -104,6 +98,9 @@ class Pcre
     private function throwMatchException(): void
     {
         $error = \preg_last_error();
+        if ($error === \PREG_INTERNAL_ERROR) {
+            throw new PcreException();
+        }
         if ($error === \PREG_BACKTRACK_LIMIT_ERROR) {
             throw new BacktrackException();
         }
