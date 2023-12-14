@@ -19,12 +19,10 @@ class DelimitedExpression
     private function syntaxErrorMessage(): ?string
     {
         $error = null;
-        \set_error_handler(static function (int $type, string $message) use (&$error): bool {
+        \set_error_handler(static function (int $type, string $message) use (&$error): void {
             $error = $message;
-            return false;
         });
         @\preg_match($this->delimited, '');
-        \error_clear_last();
         return $error;
     }
 
