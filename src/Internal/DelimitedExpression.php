@@ -8,6 +8,8 @@ use Regex\UnicodeException;
 class DelimitedExpression
 {
     public string $delimited;
+    /** @var int[]|string[] */
+    public array $groupKeys;
 
     public function __construct(string $pattern, string $modifiers)
     {
@@ -17,6 +19,7 @@ class DelimitedExpression
         if ($parsed->errorMessage) {
             throw $this->exception($this->compilationFailed($parsed->errorMessage));
         }
+        $this->groupKeys = $parsed->groupKeys();
     }
 
     private function exception(string $message): RegexException

@@ -58,6 +58,11 @@ final class Pattern
         return $this->pcre->split($subject, $maxSplits + 1);
     }
 
+    public function groupCount(): int
+    {
+        return \count(\array_filter($this->expression->groupKeys, '\is_int')) - 1;
+    }
+
     public function __toString(): string
     {
         return $this->expression->delimited;
