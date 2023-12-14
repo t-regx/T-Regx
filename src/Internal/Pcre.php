@@ -45,6 +45,14 @@ class Pcre
         return $matches;
     }
 
+    public function fullMatch(string $subject): array
+    {
+        \preg_match_all($this->expression->delimited, $subject, $matches,
+            \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER);
+        $this->throwMatchException();
+        return $matches;
+    }
+
     public function replace(string $subject, string $replacement): array
     {
         $result = \preg_replace($this->expression->delimited,
