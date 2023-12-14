@@ -23,4 +23,9 @@ class WarningSnapshot
         Assert::assertSame('warning-snapshot', $error['message']);
         Assert::assertSame(\E_USER_WARNING, $error['type']);
     }
+
+    public function clear(): void
+    {
+        \error_clear_last();
+    }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Test\Unit;
+namespace Test\Unit\_system;
 
 use PHPUnit\Framework\TestCase;
 use Regex\Pattern;
@@ -10,7 +10,7 @@ use function Test\Fixture\Functions\catching;
 use function Test\Fixture\Functions\systemErrorHandler;
 use function Test\Fixture\Functions\systemWarning;
 
-class _system extends TestCase
+class _pattern extends TestCase
 {
     /**
      * @test
