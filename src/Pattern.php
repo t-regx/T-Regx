@@ -11,6 +11,7 @@ final class Pattern
         $result = @\preg_match("/$this->pattern/", '');
         if ($result === false) {
             $error = \error_get_last();
+            \error_clear_last();
             throw new SyntaxException($this->exceptionMessage($error['message']));
         }
     }
