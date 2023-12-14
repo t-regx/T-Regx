@@ -19,11 +19,6 @@ class _syntaxError extends TestCase
             ->assertMessage($expectedMessage);
     }
 
-    protected function tearDown(): void
-    {
-        \error_clear_last();
-    }
-
     public function malformedPatterns(): DataProvider
     {
         return DataProvider::tuples(
