@@ -8,9 +8,9 @@ final class Pattern
     public function __construct(string $pattern)
     {
         $this->pattern = $pattern;
-        @\preg_match("/$this->pattern/", '');
-        $error = \error_get_last();
-        if ($error !== null) {
+        $result = @\preg_match("/$this->pattern/", '');
+        if ($result === false) {
+            $error = \error_get_last();
             throw new SyntaxException($this->exceptionMessage($error['message']));
         }
     }
