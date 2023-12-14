@@ -36,4 +36,13 @@ class ThrowExpectation
         }
         throw $this->throwable;
     }
+
+    public function assertExceptionNone(): void
+    {
+        if ($this->throwable === null) {
+            Assert::assertTrue(true);
+        } else {
+            throw $this->throwable;
+        }
+    }
 }
