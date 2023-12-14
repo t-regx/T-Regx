@@ -3,10 +3,12 @@ namespace Test\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Regex\Pattern;
+use Regex\SyntaxException;
 use function Test\Fixture\Functions\catching;
+use function Test\Fixture\Functions\systemErrorHandler;
 use function Test\Fixture\Functions\systemWarning;
 
-class _systemWarning extends TestCase
+class _system extends TestCase
 {
     /**
      * @test
@@ -26,5 +28,16 @@ class _systemWarning extends TestCase
         catching(fn() => new Pattern('invalid)'));
         // then
         $this->assertNull(\error_get_last());
+    }
+
+    /**
+     * @test
+     */
+    public function ignoreErrorHandler()
+    {
+        systemErrorHandler(function () {
+            catching(fn() => new Pattern('+'))
+                ->assertException(SyntaxException::class);
+        });
     }
 }

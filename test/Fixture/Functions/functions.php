@@ -19,3 +19,14 @@ function systemWarning(callable $block): void
         \error_clear_last();
     }
 }
+
+function systemErrorHandler(callable $block): void
+{
+    \set_error_handler(function () {
+    });
+    try {
+        $block();
+    } finally {
+        \restore_error_handler();
+    }
+}
