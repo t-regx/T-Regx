@@ -4,6 +4,7 @@ namespace Test\Unit;
 use PHPUnit\Framework\TestCase;
 use Regex\Pattern;
 use Regex\SyntaxException;
+use Test\Fixture\WarningSnapshot;
 use function Test\Fixture\Functions\catching;
 use function Test\Fixture\Functions\systemErrorHandler;
 use function Test\Fixture\Functions\systemWarning;
@@ -39,5 +40,18 @@ class _system extends TestCase
             catching(fn() => new Pattern('+'))
                 ->assertException(SyntaxException::class);
         });
+    }
+
+    /**
+     * @test
+     */
+    public function unalterWarning()
+    {
+        // given
+        $warning = new WarningSnapshot();
+        // when
+        catching(fn() => new Pattern('+'));
+        // then
+        $warning->assertEquals();
     }
 }
