@@ -32,4 +32,22 @@ class _syntaxError extends TestCase
             ['[\Q]', 'Missing terminating ] for character class at offset 4.'],
         );
     }
+
+    /**
+     * @test
+     */
+    public function nullByte()
+    {
+        // when
+        $call = catching(fn() => new Pattern("\w\0"));
+        // then
+        if (\version_compare(\PHP_VERSION, '8.2.0', '>=')) {
+            $call
+                ->assertExceptionNone();
+        } else {
+            $call
+                ->assertException(SyntaxException::class)
+                ->assertMessage('Null byte in regex.');
+        }
+    }
 }

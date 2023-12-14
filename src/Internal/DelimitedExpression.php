@@ -12,12 +12,12 @@ class DelimitedExpression
         $this->delimited = "/$pattern/";
         $parsed = new ParsedPattern($this->delimited);
         if ($parsed->syntaxErrorMessage) {
-            throw new SyntaxException($this->exceptionMessage($parsed->syntaxErrorMessage));
+            throw new SyntaxException($this->compilationFailed($parsed->syntaxErrorMessage) . '.');
         }
     }
 
-    private function exceptionMessage(string $message): string
+    private function compilationFailed(string $message): string
     {
-        return \ucFirst(\subStr($message, \strLen('Compilation failed: '))) . '.';
+        return \ucFirst(\str_replace('Compilation failed: ', '', $message));
     }
 }
