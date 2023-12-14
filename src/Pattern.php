@@ -14,7 +14,9 @@ final class Pattern
 
     public function test(string $subject): bool
     {
-        return \preg_match($this->expression->delimited, $subject) === 1;
+        $result = \preg_match($this->expression->delimited, $subject);
+        $this->throwMatchException();
+        return $result === 1;
     }
 
     /**
@@ -23,15 +25,18 @@ final class Pattern
     public function search(string $subject): array
     {
         \preg_match_all($this->expression->delimited, $subject, $matches);
+        $this->throwMatchException();
         return $matches[0];
     }
 
     public function replace(string $subject, string $replacement): string
     {
-        return \preg_replace(
+        $result = \preg_replace(
             $this->expression->delimited,
             \str_replace(['\\', '$'], ['\\\\', '\$'], $replacement),
             $subject);
+        $this->throwMatchException();
+        return $result;
     }
 
     /**
@@ -49,10 +54,18 @@ final class Pattern
     {
         $pieces = \preg_split($this->expression->delimited, $subject, $limit,
             \PREG_SPLIT_DELIM_CAPTURE | \PREG_SPLIT_OFFSET_CAPTURE);
+        $this->throwMatchException();
         $result = [];
         foreach ($pieces as [$piece, $offset]) {
             $result[] = $offset === -1 ? null : $piece;
         }
         return $result;
+    }
+
+    private function throwMatchException(): void
+    {
+        if (\preg_last_error() !== \PREG_NO_ERROR) {
+            throw new MatchException();
+        }
     }
 }
