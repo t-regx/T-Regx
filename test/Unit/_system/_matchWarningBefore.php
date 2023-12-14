@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Regex\Pattern;
 use Test\Fixture\WarningSnapshot;
 
-class _match extends TestCase
+class _matchWarningBefore extends TestCase
 {
     private WarningSnapshot $warning;
 
