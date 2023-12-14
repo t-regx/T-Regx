@@ -12,6 +12,7 @@ class DelimitedExpression
         $this->delimited = "/$pattern/";
         $errorMessage = $this->syntaxErrorMessage();
         if ($errorMessage) {
+            \preg_match('//', '');
             throw new SyntaxException($this->exceptionMessage($errorMessage));
         }
     }
