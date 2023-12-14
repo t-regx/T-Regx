@@ -4,15 +4,17 @@ namespace Regex;
 use Regex\Internal\GroupKeys;
 use Regex\Internal\Pcre;
 
-final class Matcher
+final class Matcher implements \Countable
 {
     private array $match;
+    private int $count;
     private string $subject;
     private GroupKeys $groupKeys;
 
     public function __construct(Pcre $pcre, string $subject, GroupKeys $groupKeys)
     {
         $this->match = $pcre->matchFirst($subject);
+        $this->count = $pcre->count($subject);
         $this->subject = $subject;
         $this->groupKeys = $groupKeys;
     }
@@ -36,5 +38,10 @@ final class Matcher
             return null;
         }
         return new Detail($this->match, $this->subject, $this->groupKeys, 0);
+    }
+
+    public function count(): int
+    {
+        return $this->count;
     }
 }
