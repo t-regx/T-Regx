@@ -1,29 +1,20 @@
 <?php
 namespace Regex;
 
+use Regex\Internal\DelimitedExpression;
+
 final class Pattern
 {
-    private string $pattern;
+    private DelimitedExpression $expression;
 
     public function __construct(string $pattern)
     {
-        $this->pattern = $pattern;
-        $result = @\preg_match("/$this->pattern/", '');
-        if ($result === false) {
-            $error = \error_get_last();
-            \error_clear_last();
-            throw new SyntaxException($this->exceptionMessage($error['message']));
-        }
-    }
-
-    private function exceptionMessage(string $message): string
-    {
-        return \ucFirst(\subStr($message, \strLen('preg_match(): Compilation failed: '))) . '.';
+        $this->expression = new DelimitedExpression($pattern);
     }
 
     public function test(string $subject): bool
     {
-        return \preg_match("/$this->pattern/", $subject) === 1;
+        return \preg_match($this->expression->delimited, $subject) === 1;
     }
 
     /**
@@ -31,14 +22,14 @@ final class Pattern
      */
     public function search(string $subject): array
     {
-        \preg_match_all("/$this->pattern/", $subject, $matches);
+        \preg_match_all($this->expression->delimited, $subject, $matches);
         return $matches[0];
     }
 
     public function replace(string $subject, string $replacement): string
     {
         return \preg_replace(
-            "/$this->pattern/",
+            $this->expression->delimited,
             \str_replace(['\\', '$'], ['\\\\', '\$'], $replacement),
             $subject);
     }
@@ -56,7 +47,7 @@ final class Pattern
 
     private function splitSubject(string $subject, int $limit): array
     {
-        $pieces = \preg_split("/$this->pattern/", $subject, $limit,
+        $pieces = \preg_split($this->expression->delimited, $subject, $limit,
             \PREG_SPLIT_DELIM_CAPTURE | \PREG_SPLIT_OFFSET_CAPTURE);
         $result = [];
         foreach ($pieces as [$piece, $offset]) {
