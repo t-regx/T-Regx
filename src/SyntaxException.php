@@ -1,6 +1,7 @@
 <?php
 namespace Regex;
 
+use Regex\Internal\SyntaxError;
 use Regex\Internal\UnicodeString;
 
 final class SyntaxException extends RegexException
@@ -10,7 +11,7 @@ final class SyntaxException extends RegexException
 
     public function __construct(string $message, string $pattern, int $syntaxErrorPosition)
     {
-        parent::__construct("$message, near position $syntaxErrorPosition.");
+        parent::__construct(new SyntaxError($message, $pattern, $syntaxErrorPosition));
         $this->syntaxErrorPattern = $pattern;
         $this->syntaxErrorByteOffset = $syntaxErrorPosition;
     }
