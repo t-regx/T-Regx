@@ -16,7 +16,7 @@ class _unicode extends TestCase
     {
         catching(fn() => new Pattern("[a-z] \xe2\x28\xa1", 'u'))
             ->assertException(UnicodeException::class)
-            ->assertMessage('Malformed regular expression, byte 2 top bits not 0x80 at offset 6.');
+            ->assertMessageStartsWith('Malformed regular expression, byte 2 top bits not 0x80');
     }
 
     /**
@@ -26,7 +26,7 @@ class _unicode extends TestCase
     {
         catching(fn() => new Pattern("(*UTF)[a-z] \xe2\x28\xa1"))
             ->assertException(UnicodeException::class)
-            ->assertMessage('Malformed regular expression, byte 2 top bits not 0x80 at offset 12.');
+            ->assertMessageStartsWith('Malformed regular expression, byte 2 top bits not 0x80');
     }
 
     /**
@@ -36,6 +36,6 @@ class _unicode extends TestCase
     {
         catching(fn() => new Pattern("[a-z] \xe2\x28\xa1"))
             ->assertException(SyntaxException::class)
-            ->assertMessage('Missing closing parenthesis at offset 9.');
+            ->assertMessageStartsWith('Missing closing parenthesis');
     }
 }

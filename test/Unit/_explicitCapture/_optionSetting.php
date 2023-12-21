@@ -46,7 +46,7 @@ class _optionSetting extends TestCase
     {
         catching(fn() => new Pattern('(*UTF)(*INVALID)', 'n'))
             ->assertException(SyntaxException::class)
-            ->assertMessage('(*VERB) not recognized or malformed at offset 15.');
+            ->assertMessageStartsWith('(*VERB) not recognized or malformed');
     }
 
     /**

@@ -13,7 +13,8 @@ class Delimiter
     public function __construct(string $pattern)
     {
         if ($this->hasTrailingBackslash($pattern)) {
-            throw new SyntaxException('Trailing backslash in regular expression.');
+            throw new SyntaxException('Trailing backslash in regular expression',
+                \strLen($pattern) - 1);
         }
         $this->delimiter = $this->delimiter($pattern);
     }
