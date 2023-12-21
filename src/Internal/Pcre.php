@@ -5,6 +5,7 @@ use Regex\BacktrackException;
 use Regex\JitException;
 use Regex\PcreException;
 use Regex\RecursionException;
+use Regex\RegexException;
 use Regex\UnicodeException;
 
 class Pcre
@@ -62,7 +63,7 @@ class Pcre
         return $matches;
     }
 
-    public function fullMatch(string $subject): array
+    public function fullMatchWithException(string $subject): array
     {
         $error = false;
         \set_error_handler(static function () use (&$error): void {
@@ -72,10 +73,9 @@ class Pcre
             \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER);
         \restore_error_handler();
         if ($error) {
-            throw new PcreException('undetermined error');
+            return [$matches, new PcreException('undetermined error')];
         }
-        $this->throwMatchException();
-        return $matches;
+        return [$matches, $this->lastMatchException()];
     }
 
     public function replace(string $subject, string $replacement): array
@@ -121,21 +121,30 @@ class Pcre
 
     private function throwMatchException(): void
     {
+        $exception = $this->lastMatchException();
+        if ($exception) {
+            throw $exception;
+        }
+    }
+
+    private function lastMatchException(): ?RegexException
+    {
         $error = \preg_last_error();
         if ($error === \PREG_INTERNAL_ERROR) {
-            throw new PcreException('pcre internal error');
+            return new PcreException('pcre internal error');
         }
         if ($error === \PREG_BACKTRACK_LIMIT_ERROR) {
-            throw new BacktrackException();
+            return new BacktrackException();
         }
         if ($error === \PREG_RECURSION_LIMIT_ERROR) {
-            throw new RecursionException();
+            return new RecursionException();
         }
         if ($error === \PREG_BAD_UTF8_ERROR) {
-            throw new UnicodeException('Malformed unicode subject.');
+            return new UnicodeException('Malformed unicode subject.');
         }
         if ($error === \PREG_JIT_STACKLIMIT_ERROR) {
-            throw new JitException();
+            return new JitException();
         }
+        return null;
     }
 }
