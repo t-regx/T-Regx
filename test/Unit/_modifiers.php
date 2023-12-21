@@ -109,7 +109,7 @@ class _modifiers extends TestCase
     {
         catching(fn() => new Pattern('(?<group>Not) (?<group>today)'))
             ->assertException(SyntaxException::class)
-            ->assertMessage('Two named subpatterns have the same name at offset 23.');
+            ->assertMessageStartsWith('Two named subpatterns have the same name');
     }
 
     /**

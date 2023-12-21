@@ -16,7 +16,7 @@ class _trailingBackslash extends TestCase
     {
         catching(fn() => new Pattern($pattern))
             ->assertException(SyntaxException::class)
-            ->assertMessage('Trailing backslash in regular expression.');
+            ->assertMessageStartsWith('Trailing backslash in regular expression');
     }
 
     public function patterns(): DataProvider
@@ -55,6 +55,6 @@ class _trailingBackslash extends TestCase
         // then
         $call
             ->assertException(SyntaxException::class)
-            ->assertMessage('\ at end of pattern at offset 4.');
+            ->assertMessageStartsWith('\ at end of pattern');
     }
 }

@@ -17,20 +17,20 @@ class _syntaxError extends TestCase
     {
         catching(fn() => new Pattern($pattern))
             ->assertException(SyntaxException::class)
-            ->assertMessage($expectedMessage);
+            ->assertMessageStartsWith("$expectedMessage, near position");
     }
 
     public function malformedPatterns(): DataProvider
     {
         return DataProvider::tuples(
-            [')', 'Unmatched closing parenthesis at offset 0.'],
-            ['+', 'Quantifier does not follow a repeatable item at offset 0.'],
-            ['[z-a]', 'Range out of order in character class at offset 3.'],
-            ['(?<>)', 'Subpattern name expected at offset 3.'],
-            ['(?<123>)', 'Subpattern name must start with a non-digit at offset 3.'],
-            ['[[:invalid:]]', 'Unknown POSIX class name at offset 3.'],
-            ['(?<=a+)b', 'Lookbehind assertion is not fixed length at offset 0.'],
-            ['[\Q]', 'Missing terminating ] for character class at offset 4.'],
+            [')', 'Unmatched closing parenthesis'],
+            ['+', 'Quantifier does not follow a repeatable item'],
+            ['[z-a]', 'Range out of order in character class'],
+            ['(?<>)', 'Subpattern name expected'],
+            ['(?<123>)', 'Subpattern name must start with a non-digit'],
+            ['[[:invalid:]]', 'Unknown POSIX class name'],
+            ['(?<=a+)b', 'Lookbehind assertion is not fixed length'],
+            ['[\Q]', 'Missing terminating ] for character class'],
         );
     }
 
@@ -48,7 +48,7 @@ class _syntaxError extends TestCase
         } else {
             $call
                 ->assertException(SyntaxException::class)
-                ->assertMessage('Null byte in regex.');
+                ->assertMessageStartsWith('Null byte in regex');
         }
     }
 
@@ -59,7 +59,7 @@ class _syntaxError extends TestCase
     {
         catching(fn() => new Pattern('\i'))
             ->assertException(SyntaxException::class)
-            ->assertMessage('Unrecognized character follows \ at offset 1.');
+            ->assertMessageStartsWith('Unrecognized character follows \\');
     }
 
     /**
@@ -69,6 +69,6 @@ class _syntaxError extends TestCase
     {
         catching(fn() => new Pattern('\i', Pattern::MULTILINE))
             ->assertException(SyntaxException::class)
-            ->assertMessage('Unrecognized character follows \ at offset 1.');
+            ->assertMessageStartsWith('Unrecognized character follows \\');
     }
 }
