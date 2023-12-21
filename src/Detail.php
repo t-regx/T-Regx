@@ -4,19 +4,20 @@ namespace Regex;
 use Regex\Internal\AbsoluteMatch;
 use Regex\Internal\GroupKey;
 use Regex\Internal\GroupKeys;
+use Regex\Internal\UnicodeString;
 
 final class Detail
 {
     private string $text;
     private int $offset;
-    private string $subject;
+    private UnicodeString $subject;
     private AbsoluteMatch $match;
     private int $index;
 
     public function __construct(array $match, string $subject, GroupKeys $groupKeys, int $index)
     {
         [[$this->text, $this->offset]] = $match;
-        $this->subject = $subject;
+        $this->subject = new UnicodeString($subject);
         $this->match = new AbsoluteMatch($groupKeys, $match);
         $this->index = $index;
     }
@@ -33,7 +34,7 @@ final class Detail
 
     public function offset(): int
     {
-        return $this->unicodeOffset($this->offset);
+        return $this->subject->offset($this->offset);
     }
 
     public function byteOffset(): int
@@ -61,7 +62,7 @@ final class Detail
 
     public function groupOffset($nameOrIndex): int
     {
-        return $this->unicodeOffset($this->groupByteOffset($nameOrIndex));
+        return $this->subject->offset($this->groupByteOffset($nameOrIndex));
     }
 
     public function groupByteOffset($nameOrIndex): int
@@ -105,14 +106,5 @@ final class Detail
             return $group;
         }
         throw new GroupException($group, 'does not exist');
-    }
-
-    private function unicodeOffset(int $offset): int
-    {
-        $leading = \subStr($this->subject, 0, $offset);
-        if (\mb_check_encoding($leading, 'UTF-8')) {
-            return \mb_strLen($leading, 'UTF-8');
-        }
-        throw new UnicodeException("Byte offset $offset does not point to a valid unicode code point.");
     }
 }
