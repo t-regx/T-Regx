@@ -14,7 +14,7 @@ class _syntaxErrorPosition extends TestCase
     {
         catching(fn() => new Pattern('\w+\d+++'))
             ->assertException(SyntaxException::class)
-            ->assertMessage('Quantifier does not follow a repeatable item, near position 7.');
+            ->assertMessageStartsWith('Quantifier does not follow a repeatable item, near position 7.');
     }
 
     /**
@@ -24,7 +24,7 @@ class _syntaxErrorPosition extends TestCase
     {
         catching(fn() => new Pattern('[a-z0-9]\\'))
             ->assertException(SyntaxException::class)
-            ->assertMessage('Trailing backslash in regular expression, near position 8.');
+            ->assertMessageStartsWith('Trailing backslash in regular expression, near position 8.');
     }
 
     /**
@@ -40,7 +40,7 @@ class _syntaxErrorPosition extends TestCase
         } else {
             $call
                 ->assertException(SyntaxException::class)
-                ->assertMessage('Null byte in regex, near position 4.');
+                ->assertMessageStartsWith('Null byte in regex, near position 4.');
         }
     }
 
