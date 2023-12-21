@@ -88,6 +88,20 @@ final class Pattern
         return new Matcher($this->pcre, $subject, $this->groupKeys);
     }
 
+    /**
+     * @return Detail[]|\Iterator
+     */
+    public function matchPartial(string $subject): \Iterator
+    {
+        [$matches, $exception] = $this->pcre->fullMatchWithException($subject);
+        foreach ($matches as $index => $match) {
+            yield new Detail($match, $subject, $this->groupKeys, $index);
+        }
+        if ($exception) {
+            throw $exception;
+        }
+    }
+
     public function replace(string $subject, string $replacement): string
     {
         return $this->pcre->replace($subject, $replacement)[0];

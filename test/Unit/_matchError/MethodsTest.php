@@ -38,6 +38,15 @@ class MethodsTest extends TestCase
     /**
      * @test
      */
+    public function matchPartial(): void
+    {
+        $this->expectException(MatchException::class);
+        \iterator_to_array($this->pattern->matchPartial('A man with no motive is a man no one suspects.'));
+    }
+
+    /**
+     * @test
+     */
     public function split(): void
     {
         $this->expectException(MatchException::class);

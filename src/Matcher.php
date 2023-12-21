@@ -12,7 +12,10 @@ final class Matcher implements \Countable, \IteratorAggregate
 
     public function __construct(Pcre $pcre, string $subject, GroupKeys $groupKeys)
     {
-        $this->matches = $pcre->fullMatch($subject);
+        [$this->matches, $exception] = $pcre->fullMatchWithException($subject);
+        if ($exception) {
+            throw $exception;
+        }
         $this->subject = $subject;
         $this->groupKeys = $groupKeys;
     }

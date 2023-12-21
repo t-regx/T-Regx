@@ -110,6 +110,14 @@ class _matchErrorInternal extends TestCase
         $this->assertUndeterminedError(fn() => $this->pattern->match('word'));
     }
 
+    /**
+     * @test
+     */
+    public function matchPartial()
+    {
+        $this->assertUndeterminedError(fn() => \iterator_to_array($this->pattern->matchPartial('word')));
+    }
+
     private function assertUndeterminedError(callable $block): void
     {
         catching($block)
