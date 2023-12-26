@@ -5,11 +5,17 @@ use Regex\Internal\DelimitedExpression;
 
 final class Pattern
 {
+    public const IGNORE_CASE = 'i';
+    public const MULTILINE = 'm';
+    public const UNICODE = 'u';
+    public const COMMENTS_WHITESPACE = 'x';
+    public const SINGLELINE = 's';
+
     private DelimitedExpression $expression;
 
-    public function __construct(string $pattern)
+    public function __construct(string $pattern, string $modifiers = '')
     {
-        $this->expression = new DelimitedExpression($pattern);
+        $this->expression = new DelimitedExpression($pattern, $modifiers);
     }
 
     public function test(string $subject): bool
