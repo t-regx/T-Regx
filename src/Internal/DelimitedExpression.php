@@ -1,6 +1,7 @@
 <?php
 namespace Regex\Internal;
 
+use Regex\ExecutionException;
 use Regex\RegexException;
 use Regex\SyntaxException;
 use Regex\UnicodeException;
@@ -22,18 +23,20 @@ class DelimitedExpression
         $this->delimited = $delimiter . $this->expression . $delimiter . $modifiers;
         $parsed = new ParsedPattern($this->delimited);
         if ($parsed->errorMessage) {
-            throw $this->exception($this->compilationFailed($parsed->errorMessage));
+            throw $this->exception($parsed->errorMessage);
         }
         $this->groupKeys = $parsed->groupKeys();
     }
 
     private function exception(string $message): RegexException
     {
-        $messageOffset = \explode(' at offset ', $message);
-        if (\count($messageOffset) === 2) {
-            return $this->patternException(...$messageOffset);
+        if (\subStr($message, 0, 20) === 'Compilation failed: ') {
+            return $this->patternException(...\explode(' at offset ', \subStr($message, 20)));
         }
-        return new SyntaxException($message, $this->pattern, \strPos($this->pattern, "\0"));
+        if ($message === 'Null byte in regex') {
+            return new SyntaxException($message, $this->pattern, \strPos($this->pattern, "\0"));
+        }
+        return new ExecutionException(\strTok($message, '.') . '.');
     }
 
     private function patternException(string $message, int $errorPosition): RegexException
@@ -46,11 +49,6 @@ class DelimitedExpression
             \ucFirst($this->duplicateNames($message)),
             $this->pattern,
             $this->expression->position($errorPosition));
-    }
-
-    private function compilationFailed(string $message): string
-    {
-        return \str_replace('Compilation failed: ', '', $message);
     }
 
     private function duplicateNames(string $message): string
