@@ -4,7 +4,7 @@ namespace Regex;
 use Regex\Internal\SyntaxError;
 use Regex\Internal\UnicodeString;
 
-final class SyntaxException extends RegexException
+final class SyntaxException extends PatternException
 {
     public string $syntaxErrorPattern;
     public int $syntaxErrorByteOffset;
