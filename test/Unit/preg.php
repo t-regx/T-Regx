@@ -58,6 +58,16 @@ class preg extends TestCase
     /**
      * @test
      */
+    public function syntaxErrorPosition()
+    {
+        /** @var SyntaxException $exception */
+        $exception = catching(fn() => new PregPattern('  /foo )/  '))->get();
+        $this->assertSame(4, $exception->syntaxErrorByteOffset);
+    }
+
+    /**
+     * @test
+     */
     public function modifiers()
     {
         $pattern = new PregPattern('/^[a-z]+$/im');

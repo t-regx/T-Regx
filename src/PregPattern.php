@@ -2,8 +2,7 @@
 namespace Regex;
 
 use Regex\Internal\ExceptionFactory;
-use Regex\Internal\Modifiers;
-use Regex\Internal\OptionSettingExpression;
+use Regex\Internal\IdentityPosition;
 use Regex\Internal\ParsedPattern;
 
 final class PregPattern
@@ -14,8 +13,7 @@ final class PregPattern
     {
         $parsed = new ParsedPattern($pattern);
         if ($parsed->errorMessage) {
-            $factory = new ExceptionFactory($pattern, 
-                new OptionSettingExpression('', new Modifiers('')));
+            $factory = new ExceptionFactory($pattern, new IdentityPosition());
             throw $factory->exceptionFor($parsed->errorMessage);
         }
         $this->pattern = $pattern;
