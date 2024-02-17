@@ -1,7 +1,7 @@
 <?php
 namespace Regex\Internal;
 
-class OptionSettingExpression
+class OptionSettingExpression implements SeekableExpression
 {
     private string $pattern;
     private Modifiers $modifiers;

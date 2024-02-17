@@ -45,4 +45,9 @@ class ThrowExpectation
             throw $this->throwable;
         }
     }
+
+    public function get(): \Throwable
+    {
+        return $this->throwable;
+    }
 }

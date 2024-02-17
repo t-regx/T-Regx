@@ -9,9 +9,9 @@ use Regex\UnicodeException;
 class ExceptionFactory
 {
     private string $input;
-    private OptionSettingExpression $expression;
+    private SeekableExpression $expression;
 
-    public function __construct(string $input, OptionSettingExpression $expression)
+    public function __construct(string $input, SeekableExpression $expression)
     {
         $this->input = $input;
         $this->expression = $expression;
