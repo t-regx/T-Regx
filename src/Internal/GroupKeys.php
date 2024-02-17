@@ -3,16 +3,16 @@ namespace Regex\Internal;
 
 class GroupKeys
 {
-    private DelimitedExpression $expression;
+    private array $groupKeys;
 
-    public function __construct(DelimitedExpression $expression)
+    public function __construct(array $groupKeys)
     {
-        $this->expression = $expression;
+        $this->groupKeys = $groupKeys;
     }
 
     public function groupExists(GroupKey $group): bool
     {
-        return \in_array($group->nameOrIndex, $this->expression->groupKeys, true);
+        return \in_array($group->nameOrIndex, $this->groupKeys, true);
     }
 
     public function unambiguousIndex(GroupKey $group): int
@@ -25,7 +25,7 @@ class GroupKeys
 
     private function correspondingGroupIndex(string $name): int
     {
-        $index = \array_search($name, $this->expression->groupKeys, true);
-        return $this->expression->groupKeys[$index + 1];
+        $index = \array_search($name, $this->groupKeys, true);
+        return $this->groupKeys[$index + 1];
     }
 }
