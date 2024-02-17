@@ -10,23 +10,23 @@ use Regex\UnicodeException;
 
 class Pcre
 {
-    private DelimitedExpression $expression;
+    private string $pattern;
 
-    public function __construct(DelimitedExpression $expression)
+    public function __construct(string $pattern)
     {
-        $this->expression = $expression;
+        $this->pattern = $pattern;
     }
 
     public function test(string $subject): bool
     {
-        \preg_replace($this->expression->delimited, '\0', $subject, 1, $count);
+        \preg_replace($this->pattern, '\0', $subject, 1, $count);
         $this->throwMatchException();
         return $count > 0;
     }
 
     public function count(string $subject): int
     {
-        \preg_replace($this->expression->delimited, '\0', $subject, -1, $count);
+        \preg_replace($this->pattern, '\0', $subject, -1, $count);
         $this->throwMatchException();
         return $count;
     }
@@ -37,7 +37,7 @@ class Pcre
         \set_error_handler(static function () use (&$error): void {
             $error = true;
         });
-        \preg_match($this->expression->delimited, $subject, $match,
+        \preg_match($this->pattern, $subject, $match,
             \PREG_OFFSET_CAPTURE);
         \restore_error_handler();
         if ($error) {
@@ -53,7 +53,7 @@ class Pcre
         \set_error_handler(static function () use (&$error): void {
             $error = true;
         });
-        \preg_match_all($this->expression->delimited, $subject, $matches,
+        \preg_match_all($this->pattern, $subject, $matches,
             \PREG_UNMATCHED_AS_NULL);
         \restore_error_handler();
         if ($error) {
@@ -69,7 +69,7 @@ class Pcre
         \set_error_handler(static function () use (&$error): void {
             $error = true;
         });
-        \preg_match_all($this->expression->delimited, $subject, $matches,
+        \preg_match_all($this->pattern, $subject, $matches,
             \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER);
         \restore_error_handler();
         if ($error) {
@@ -80,7 +80,7 @@ class Pcre
 
     public function replace(string $subject, string $replacement, int $limit): array
     {
-        $result = \preg_replace($this->expression->delimited,
+        $result = \preg_replace($this->pattern,
             \str_replace(['\\', '$'], ['\\\\', '\$'], $replacement),
             $subject, $limit, $count);
         $this->throwMatchException();
@@ -90,7 +90,7 @@ class Pcre
     public function replaceCallback(string $subject, Replacer $replacer, int $limit): string
     {
         $result = \preg_replace_callback(
-            $this->expression->delimited, [$replacer, 'replace'],
+            $this->pattern, [$replacer, 'replace'],
             $subject, $limit, $count, \PREG_OFFSET_CAPTURE);
         $this->throwMatchException();
         return $result;
@@ -107,7 +107,7 @@ class Pcre
 
     private function splitOffsetCapture(string $subject, int $limit): array
     {
-        $pieces = \preg_split($this->expression->delimited, $subject, $limit,
+        $pieces = \preg_split($this->pattern, $subject, $limit,
             \PREG_SPLIT_DELIM_CAPTURE | \PREG_SPLIT_OFFSET_CAPTURE);
         $this->throwMatchException();
         return $pieces;
@@ -115,7 +115,7 @@ class Pcre
 
     public function filter(array $subjects): array
     {
-        $result = \preg_filter($this->expression->delimited, '\0', $subjects);
+        $result = \preg_filter($this->pattern, '\0', $subjects);
         $this->throwMatchException();
         return $result;
     }

@@ -30,9 +30,9 @@ final class Pattern
     public function __construct(string $pattern, string $modifiers = '')
     {
         $this->expression = new DelimitedExpression($pattern, new Modifiers($modifiers));
-        $this->pcre = new Pcre($this->expression);
-        $this->groupNames = new GroupNames($this->expression);
-        $this->groupKeys = new GroupKeys($this->expression);
+        $this->pcre = new Pcre($this->expression->delimited);
+        $this->groupNames = new GroupNames($this->expression->groupKeys);
+        $this->groupKeys = new GroupKeys($this->expression->groupKeys);
     }
 
     public function test(string $subject): bool
