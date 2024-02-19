@@ -3,8 +3,7 @@ namespace Regex;
 
 use Regex\Internal\DelimitedExpression;
 use Regex\Internal\GroupKey;
-use Regex\Internal\GroupKeys;
-use Regex\Internal\GroupNames;
+use Regex\Internal\Groups;
 use Regex\Internal\Modifiers;
 use Regex\Internal\Pcre;
 use Regex\Internal\ReplaceFunction;
@@ -24,15 +23,13 @@ final class Pattern
 
     private DelimitedExpression $expression;
     private Pcre $pcre;
-    private GroupNames $groupNames;
-    private GroupKeys $groupKeys;
+    private Groups $groups;
 
     public function __construct(string $pattern, string $modifiers = '')
     {
         $this->expression = new DelimitedExpression($pattern, new Modifiers($modifiers));
         $this->pcre = new Pcre($this->expression->delimited);
-        $this->groupNames = new GroupNames($this->expression->groupKeys);
-        $this->groupKeys = new GroupKeys($this->expression->groupKeys);
+        $this->groups = new Groups($this->expression->groupKeys);
     }
 
     public function test(string $subject): bool
@@ -60,7 +57,7 @@ final class Pattern
         if (empty($match)) {
             return null;
         }
-        return new Detail($match, $subject, $this->groupKeys, 0);
+        return new Detail($match, $subject, $this->groups->keys, 0);
     }
 
     /**
@@ -78,7 +75,7 @@ final class Pattern
     {
         $group = new GroupKey($nameOrIndex);
         if (\in_array($nameOrIndex, $this->expression->groupKeys, true)) {
-            $index = $this->groupKeys->unambiguousIndex($group);
+            $index = $this->groups->keys->unambiguousIndex($group);
             return $this->pcre->search($subject)[$index];
         }
         throw new GroupException($group, 'does not exist');
@@ -86,7 +83,7 @@ final class Pattern
 
     public function match(string $subject): Matcher
     {
-        return new Matcher($this->pcre, $subject, $this->groupKeys);
+        return new Matcher($this->pcre, $subject, $this->groups->keys);
     }
 
     /**
@@ -96,7 +93,7 @@ final class Pattern
     {
         [$matches, $exception] = $this->pcre->fullMatchWithException($subject);
         foreach ($matches as $index => $match) {
-            yield new Detail($match, $subject, $this->groupKeys, $index);
+            yield new Detail($match, $subject, $this->groups->keys, $index);
         }
         if ($exception) {
             throw $exception;
@@ -119,13 +116,13 @@ final class Pattern
     public function replaceGroup(string $subject, $nameOrIndex, int $limit = -1): string
     {
         return $this->pcre->replaceCallback($subject,
-            new ReplaceGroup($this->groupKeys, new GroupKey($nameOrIndex)), $limit);
+            new ReplaceGroup($this->groups->keys, new GroupKey($nameOrIndex)), $limit);
     }
 
     public function replaceCallback(string $subject, callable $replacer, int $limit = -1): string
     {
         return $this->pcre->replaceCallback($subject,
-            new ReplaceFunction($replacer, $subject, $this->groupKeys), $limit);
+            new ReplaceFunction($replacer, $subject, $this->groups->keys), $limit);
     }
 
     /**
@@ -162,7 +159,7 @@ final class Pattern
      */
     public function groupNames(): array
     {
-        return $this->groupNames->names;
+        return $this->groups->names();
     }
 
     /**
@@ -170,12 +167,12 @@ final class Pattern
      */
     public function groupExists($nameOrIndex): bool
     {
-        return $this->groupKeys->groupExists(new GroupKey($nameOrIndex));
+        return $this->groups->keys->groupExists(new GroupKey($nameOrIndex));
     }
 
     public function groupCount(): int
     {
-        return \count(\array_filter($this->expression->groupKeys, '\is_int')) - 1;
+        return $this->groups->count();
     }
 
     public function delimited(): string
