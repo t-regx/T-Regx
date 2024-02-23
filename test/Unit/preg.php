@@ -2,10 +2,12 @@
 namespace Test\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Regex\BacktrackException;
 use Regex\ExecutionException;
 use Regex\PregPattern;
 use Regex\SyntaxException;
 use function Test\Fixture\Functions\catching;
+use function Test\Fixture\Functions\since;
 
 class preg extends TestCase
 {
@@ -101,5 +103,70 @@ class preg extends TestCase
     {
         $pattern = new PregPattern('<Winter is coming>i');
         $this->assertSame('<Winter is coming>i', $pattern->delimited());
+    }
+
+    /**
+     * @test
+     */
+    public function explicitCapture()
+    {
+        // when
+        $call = catching(fn() => new PregPattern('/foo/n'));
+        // then
+        if (since('8.2.0')) {
+            $call->assertExceptionNone();
+        } else {
+            $call
+                ->assertException(ExecutionException::class)
+                ->assertMessage("Unknown modifier 'n'.");
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function predicateBacktrack()
+    {
+        $pattern = new PregPattern('#(\d+\d+)+3#');
+        catching(fn() => $pattern->test('11111111111111111111 3'))
+            ->assertException(BacktrackException::class);
+    }
+
+    /**
+     * @test
+     */
+    public function searchBacktrack()
+    {
+        $pattern = new PregPattern('#(\d+\d+)+3#');
+        catching(fn() => $pattern->search('11111111111111111111 3'))
+            ->assertException(BacktrackException::class);
+    }
+
+    /**
+     * @test
+     * @doesNotPerformAssertions
+     */
+    public function noSecondCall()
+    {
+        $pattern = new PregPattern('%(\d+\d+)+3%');
+        $pattern->test('123 11111111111111111111 3');
+    }
+
+    /**
+     * @test
+     */
+    public function groupNames()
+    {
+        $pattern = new PregPattern('%(?<Valar>) (Morghulis)%');
+        $this->assertSame(['Valar', null], $pattern->groupNames());
+    }
+
+    /**
+     * @test
+     */
+    public function groupCount()
+    {
+        $pattern = new PregPattern('%(?<Valar>) (Morghulis) ()%');
+        $this->assertSame(3, $pattern->groupCount());
     }
 }
