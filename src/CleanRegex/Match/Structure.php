@@ -1,15 +1,22 @@
 <?php
 namespace TRegx\CleanRegex\Match;
 
+/**
+ * @deprecated
+ */
 interface Structure
 {
     public function subject(): string;
 
     /**
      * @return (string|null)[]
+     * @deprecated
      */
     public function groupNames(): array;
 
+    /**
+     * @deprecated
+     */
     public function groupsCount(): int;
 
     /**

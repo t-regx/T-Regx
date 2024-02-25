@@ -1,6 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
+/**
+ * @deprecated
+ */
 class SubjectNotMatchedException extends \RuntimeException implements PatternException
 {
     public function __construct()

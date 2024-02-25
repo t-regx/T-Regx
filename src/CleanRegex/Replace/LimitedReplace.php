@@ -12,6 +12,9 @@ use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
 
+/**
+ * @deprecated
+ */
 class LimitedReplace
 {
     /** @var Definition */
@@ -37,11 +40,17 @@ class LimitedReplace
         $this->groupReplace = new GroupReplace($definition, $subject, $pregLimit, $this->countingStrategy);
     }
 
+    /**
+     * @deprecated
+     */
     public function with(string $replacement): string
     {
         return $this->withReferences(ReplaceReferences::escaped($replacement));
     }
 
+    /**
+     * @deprecated
+     */
     public function withReferences(string $replacement): string
     {
         $result = preg::replace($this->definition->pattern, $replacement, $this->subject, $this->limit, $replaced);
@@ -49,16 +58,25 @@ class LimitedReplace
         return $result;
     }
 
+    /**
+     * @deprecated
+     */
     public function withGroup($nameOrIndex): string
     {
         return $this->groupReplace->withGroup(GroupKey::of($nameOrIndex));
     }
 
+    /**
+     * @deprecated
+     */
     public function callback(callable $callback): string
     {
         return $this->invoker->invoke($callback);
     }
 
+    /**
+     * @deprecated
+     */
     public function count(): int
     {
         return $this->countingStrategy->count();

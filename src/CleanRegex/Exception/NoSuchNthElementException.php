@@ -1,6 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
+/**
+ * @deprecated
+ */
 class NoSuchNthElementException extends \RuntimeException implements PatternException
 {
     public static function forSubject(int $index, int $total): self

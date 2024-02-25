@@ -24,6 +24,9 @@ trait EntryPoints
             new Flags($modifiers), new UnsuitableStringCondition($pattern))));
     }
 
+    /**
+     * @deprecated
+     */
     public static function inject(string $pattern, array $texts, string $modifiers = ''): Pattern
     {
         return new Pattern(new Template(PcreAutoCapture::autoCapture(), new StandardSpelling(
@@ -31,33 +34,51 @@ trait EntryPoints
             new FigureClusters($texts)));
     }
 
+    /**
+     * @deprecated
+     */
     public static function mask(string $mask, array $keywords, string $modifiers = ''): Pattern
     {
         return new Pattern(new Mask(PcreAutoCapture::autoCapture(), $mask, new Flags($modifiers), $keywords));
     }
 
+    /**
+     * @deprecated
+     */
     public static function template(string $pattern, string $modifiers = ''): PatternTemplate
     {
         return new PatternTemplate(PcreAutoCapture::autoCapture(),
             new StandardOrthography($pattern, new Flags($modifiers)));
     }
 
+    /**
+     * @deprecated
+     */
     public static function builder(string $pattern, string $modifiers = ''): TemplateBuilder
     {
         return new TemplateBuilder(PcreAutoCapture::autoCapture(),
             new StandardOrthography($pattern, new Flags($modifiers)), new Clusters([]));
     }
 
+    /**
+     * @deprecated
+     */
     public static function literal(string $text, string $modifiers = ''): Pattern
     {
         return new Pattern(new Literal(PcreAutoCapture::autoCapture(), $text, new Flags($modifiers)));
     }
 
+    /**
+     * @deprecated
+     */
     public static function alteration(array $texts, string $modifiers = ''): Pattern
     {
         return new Pattern(new Alteration(PcreAutoCapture::autoCapture(), $texts, new Flags($modifiers)));
     }
 
+    /**
+     * @deprecated
+     */
     public static function list(array $patterns): PatternList
     {
         return new PatternList(new PatternStrings(PcreAutoCapture::autoCapture(), $patterns));

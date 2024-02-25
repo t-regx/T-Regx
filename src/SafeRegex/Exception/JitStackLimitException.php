@@ -1,6 +1,9 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
+/**
+ * @deprecated
+ */
 class JitStackLimitException extends RuntimePregException implements PatternStructureException
 {
     public function __construct($pattern, string $methodName, int $errorCode, string $errorName)

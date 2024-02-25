@@ -24,9 +24,18 @@ class Pattern
     public const IGNORE_WHITESPACE = 'x';
     public const ANCHORED = 'A';
     public const SINGLELINE = 's';
+    /**
+     * @deprecated
+     */
     public const DOLLAR_ENDONLY = 'D';
+    /**
+     * @deprecated
+     */
     public const RESTRICTIVE_ESCAPE = 'X';
     public const GREEDYNESS_INVERTED = 'U';
+    /**
+     * @deprecated
+     */
     public const STUDY = 'S';
 
     use EntryPoints;
@@ -50,11 +59,17 @@ class Pattern
         return preg::match($this->predefinition->definition()->pattern, $subject) === 1;
     }
 
+    /**
+     * @deprecated
+     */
     public function fails(string $subject): bool
     {
         return preg::match($this->predefinition->definition()->pattern, $subject) === 0;
     }
 
+    /**
+     * @deprecated
+     */
     public function search(string $subject): Search
     {
         return new Search($this->predefinition->definition(), new Subject($subject));
@@ -65,11 +80,17 @@ class Pattern
         return new Matcher($this->predefinition->definition(), new Subject($subject));
     }
 
+    /**
+     * @deprecated
+     */
     public function replace(string $subject): Replace
     {
         return new Replace($this->predefinition->definition(), new Subject($subject));
     }
 
+    /**
+     * @deprecated
+     */
     public function prune(string $subject): string
     {
         return preg::replace($this->predefinition->definition()->pattern, '', $subject);
@@ -95,6 +116,7 @@ class Pattern
 
     /**
      * @return string[]
+     * @deprecated
      */
     public function cut(string $subject): array
     {
@@ -130,6 +152,9 @@ class Pattern
         return preg::match_all($this->predefinition->definition()->pattern, $subject);
     }
 
+    /**
+     * @deprecated
+     */
     public function valid(): bool
     {
         return $this->predefinition->valid();

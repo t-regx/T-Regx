@@ -3,6 +3,9 @@ namespace TRegx\SafeRegex\Exception;
 
 use TRegx\SafeRegex\Internal\PhpError;
 
+/**
+ * @deprecated
+ */
 class CompilePregException extends \RuntimeException implements PregException
 {
     /** @var PhpError */

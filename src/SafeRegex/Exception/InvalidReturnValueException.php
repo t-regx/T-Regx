@@ -1,6 +1,9 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
+/**
+ * @deprecated
+ */
 class InvalidReturnValueException extends \RuntimeException implements PregException
 {
     /** @var string */

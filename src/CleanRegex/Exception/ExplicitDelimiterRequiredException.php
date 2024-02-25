@@ -1,6 +1,9 @@
 <?php
 namespace TRegx\CleanRegex\Exception;
 
+/**
+ * @deprecated
+ */
 class ExplicitDelimiterRequiredException extends \RuntimeException implements PatternException
 {
     public function __construct(string $template)

@@ -9,6 +9,9 @@ use TRegx\CleanRegex\Internal\Replace\ReplaceReferences;
 use TRegx\CleanRegex\Internal\Subject;
 use TRegx\SafeRegex\preg;
 
+/**
+ * @deprecated
+ */
 class ChainedReplace
 {
     /** @var Predefinitions */
@@ -22,11 +25,17 @@ class ChainedReplace
         $this->subject = $subject;
     }
 
+    /**
+     * @deprecated
+     */
     public function with(string $replacement): string
     {
         return $this->withReferences(ReplaceReferences::escaped($replacement));
     }
 
+    /**
+     * @deprecated
+     */
     public function withReferences(string $replacement): string
     {
         return preg::replace($this->definitionsPatterns(), $replacement, $this->subject);
@@ -41,6 +50,9 @@ class ChainedReplace
         return $patterns;
     }
 
+    /**
+     * @deprecated
+     */
     public function callback(callable $callback): string
     {
         $subject = $this->subject->asString();

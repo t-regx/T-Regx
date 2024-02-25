@@ -77,6 +77,9 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         return $this->amount->atLeastOne();
     }
 
+    /**
+     * @deprecated
+     */
     public function fails(): bool
     {
         return $this->amount->none();
@@ -99,6 +102,9 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         throw new SubjectNotMatchedException();
     }
 
+    /**
+     * @deprecated
+     */
     public function findFirst(): Optional
     {
         $match = $this->base->matchOffset();
@@ -117,12 +123,16 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
     /**
      * @param int $limit
      * @return Detail[]
+     * @deprecated
      */
     public function only(int $limit): array
     {
         return $this->matchOnly->get(new Limit($limit));
     }
 
+    /**
+     * @deprecated
+     */
     public function nth(int $index): Detail
     {
         if ($index < 0) {
@@ -135,6 +145,9 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         throw NoSuchNthElementException::forSubject($index, \count($texts));
     }
 
+    /**
+     * @deprecated
+     */
     public function forEach(callable $consumer): void
     {
         foreach ($this as $detail) {
@@ -142,6 +155,9 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         }
     }
 
+    /**
+     * @deprecated
+     */
     public function map(callable $mapper): array
     {
         $mapped = [];
@@ -153,17 +169,24 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
 
     /**
      * @return Detail[]
+     * @deprecated
      */
     public function filter(callable $predicate): array
     {
         return $this->matchItems->filter(new Predicate($predicate, 'filter'));
     }
 
+    /**
+     * @deprecated
+     */
     public function flatMap(callable $mapper): array
     {
         return $this->matchItems->flatMap(new ListFunction(new ArrayFunction($mapper, 'flatMap')));
     }
 
+    /**
+     * @deprecated
+     */
     public function toMap(callable $mapper): array
     {
         return $this->matchItems->flatMap(new DictionaryFunction(new ArrayFunction($mapper, 'toMap')));
@@ -171,6 +194,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
 
     /**
      * @return Detail[]
+     * @deprecated
      */
     public function distinct(): array
     {
@@ -190,6 +214,9 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         return new \ArrayIterator($this->getDetailObjects());
     }
 
+    /**
+     * @deprecated
+     */
     public function stream(): Stream
     {
         return new Stream(new DetailStream(new StreamBase($this->base), $this->subject, $this->allFactory, $this->groupAware));
@@ -198,6 +225,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
     /**
      * @param string|int $nameOrIndex
      * @return string[][]
+     * @deprecated
      */
     public function groupBy($nameOrIndex): array
     {
@@ -207,6 +235,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
     /**
      * @param callable $groupMapper
      * @return Detail[][]
+     * @deprecated
      */
     public function groupByCallback(callable $groupMapper): array
     {
@@ -227,6 +256,9 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         return $this->factory->mapToDetailObjects($this->base->matchAllOffsets());
     }
 
+    /**
+     * @deprecated
+     */
     public function reduce(callable $reducer, $accumulator)
     {
         foreach ($this as $detail) {
@@ -235,6 +267,9 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
         return $accumulator;
     }
 
+    /**
+     * @deprecated
+     */
     public function subject(): string
     {
         return $this->subject->asString();
@@ -242,12 +277,16 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
 
     /**
      * @return (string|null)[]
+     * @deprecated
      */
     public function groupNames(): array
     {
         return $this->groupNames->groupNames();
     }
 
+    /**
+     * @deprecated
+     */
     public function groupsCount(): int
     {
         return \count(\array_filter($this->groupAware->getGroupKeys(), '\is_int')) - 1;
@@ -256,6 +295,7 @@ class Matcher implements Structure, \Countable, \IteratorAggregate
     /**
      * @param string|int $nameOrIndex
      * @return bool
+     * @deprecated
      */
     public function groupExists($nameOrIndex): bool
     {

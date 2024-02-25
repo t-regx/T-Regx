@@ -4,7 +4,132 @@ T-Regx Changelog
 Incoming
 --------
 
-* Soon
+* Deprecation
+    * Deprecate `Pattern` methods unqualified for release candidate.
+        * Deprecate `Pattern.fails()`
+        * Deprecate `Pattern.search()`
+        * Deprecate `Pattern.prune()`
+        * Deprecate `Pattern.cut()`
+        * Deprecate `Pattern.valid()`
+        * Deprecate `Pattern::STUDY`
+        * Deprecate `Pattern::RESTRICTIVE_ESCAPE`
+        * Deprecate `Pattern::DOLLAR_ENDONLY`
+        * Deprecate `Search`
+    * Deprecate `Matcher` methods unqualified for release candidate.
+        * Deprecate `Matcher.fails()`
+        * Deprecate `Matcher.findFirst()`
+        * Deprecate `Matcher.only()`
+        * Deprecate `Matcher.nth()`
+        * Deprecate `Matcher.forEach()`
+        * Deprecate `Matcher.map()`
+        * Deprecate `Matcher.filter()`
+        * Deprecate `Matcher.flatMap()`
+        * Deprecate `Matcher.toMap()`
+        * Deprecate `Matcher.distinct()`
+        * Deprecate `Matcher.stream()`
+        * Deprecate `Matcher.groupBy()`
+        * Deprecate `Matcher.groupByCallback()`
+        * Deprecate `Matcher.reduce()`
+        * Deprecate `Matcher.subject()`
+        * Deprecate `Matcher.groupNames()`
+        * Deprecate `Matcher.groupsCount()`
+        * Deprecate `Matcher.groupExists()`
+    * Deprecate `Detail` methods unqualified for release candidate.
+        * Deprecate `Detail.get()`, to be renamed to `.group()`
+        * Deprecate `Detail.group()`, to be refactored to return `string`
+        * Deprecate `Detail.groups()`
+        * Deprecate `Detail.namedGroups()`
+        * Deprecate `Detail.matched()`, to be renamed to `.groupMatched()`
+        * Deprecate `Detail.all()`
+        * Deprecate `Detail.groupNames()`, to be refactored to `Pattern.groupNames()`
+        * Deprecate `Detail.groupsCount()`, to be refactored to `Pattern.groupsCount()`
+        * Deprecate `Detail.length()`
+        * Deprecate `Detail.offset()`, to be renamed to `.start()`
+        * Deprecate `Detail.tail()`, to be renamed to `.end()`
+        * Deprecate `Detail.byteLength()`
+        * Deprecate `Detail.byteOffset()`, to be renamed to `.byteStart()`
+        * Deprecate `Detail.byteTail()`, to be renamed to `.byteEnd()`
+        * Deprecate `Detail.byteLength()`
+        * Deprecate `Detail.toInt()`
+        * Deprecate `Detail.isInt()`
+        * Deprecate `Intable`
+        * `Detail` is to be refactored from an interface to a class
+    * Deprecate `Group`, as unqualified for release candidate.
+        * Deprecate `Group`, use `Detail` methods instead
+        * Deprecate `Group.text()`, to be refactored to `Detail.group()`
+        * Deprecate `Group.isInt()`
+        * Deprecate `Group.toInt()`
+        * Deprecate `Group.matched()`, to be refactored to `Detail.groupMatched()`
+        * Deprecate `Group.equals()`, use `Detail.groupOrNull()` instead
+        * Deprecate `Group.or()`, to be refactored to `Detail.groupOrNull()`
+        * Deprecate `Group.index()`, use `Pattern.groupNames()` to calculate index based on name
+        * Deprecate `Group.name()`, use `Pattern.groupNames()` to calculate name based on index
+        * Deprecate `Group.usedIdentifier()`
+        * Deprecate `Group.all()`
+        * Deprecate `Group.subject()`
+        * Deprecate `Group.offset()`, to be refactored to `Detail.groupStart()`
+        * Deprecate `Group.byteOffset()`, to be refactored to `Detail.groupByteStart()`
+        * Deprecate `Group.tail()`, to be refactored to `Detail.groupEnd()`
+        * Deprecate `Group.byteTail()`, to be refactored to `Detail.groupByteEnd()`
+        * Deprecate `Element` interface
+        * Deprecate `Structure` interface
+    * Deprecate `Replace` methods unqualified for release candidate.
+        * Deprecate `Pattern.replace().with()`, to be refactored to `Pattern.replace()`
+        * Deprecate `Pattern.replace().withGroup()`, to be refactored to `Pattern.replaceGroup()`
+        * Deprecate `Pattern.replace().withReferences()`
+        * Deprecate `Pattern.replace().callback()`, to be refactored to `Pattern.replaceCallback()`
+        * Deprecate `Pattern.replace().count()`, to be refactored to `Pattern.replaceCount()`
+        * Deprecate `Pattern.replace().exactly()`
+        * Deprecate `Pattern.replace().atMost()`
+        * Deprecate `Pattern.replace().atLeast()`
+        * Deprecate `Pattern.replace().first()`, use `$limit` argument in replace methods
+        * Deprecate `Pattern.replace().limit()`, use `$limit` argument in replace methods
+    * Deprecate exceptions unqualified for release candidate.
+        * Deprecate `EmptyOptionalException`
+        * Deprecate `ExplicitDelimiterRequiredException`, to be refactored to `DelimiterException`
+        * Deprecate `GroupNotMatchedException`, to be refactored to `GroupException`
+        * Deprecate `IntegerFormatException`
+        * Deprecate `IntegerOverflowException`
+        * Deprecate `InternalCleanRegexException`
+        * Deprecate `InvalidIntegerTypeException`
+        * Deprecate `InvalidReplacementException`, to be refactored to `\UnexpectedValueException`
+        * Deprecate `InvalidReturnValueException`
+        * Deprecate `MalformedPcreTemplateException`, to be refactored to `SyntaxException`
+        * Deprecate `MaskMalformedPatternException`
+        * Deprecate `NonexistentGroupException`, to be refactored to `GroupException`
+        * Deprecate `NoSuchNthElementException`
+        * Deprecate `NoSuchStreamElementException`
+        * Deprecate `PatternMalformedPatternException`
+        * Deprecate `PlaceholderFigureException`
+        * Deprecate `ReplacementExpectationFailedException`
+        * Deprecate `SubjectNotMatchedException`, to be refactored to `NoMatchException`
+        * Deprecate `UnevenCutException`
+        * Deprecate `MalformedPatternException`, to be refactored to `SyntaxException`
+        * Deprecate `PatternSyntaxException`
+        * Deprecate `CatastrophicBacktrackingException`, to be refactored to `BacktrackException`
+        * Deprecate `CompilePregException`, to be refactored to `SyntaxException`
+        * Deprecate `JitStackLimitException`, to be refactored to `JitException`
+        * Deprecate `PatternStructureException`
+        * Deprecate `PregException`
+        * Deprecate `PregMalformedPatternException`, to be refactored to `SyntaxException`
+        * Deprecate `RuntimePregException`, to be refactored to `MatchException`
+        * Deprecate `SubjectEncodingException`, to be refactored to `UnicodeException`
+        * Deprecate `SuspectedReturnPregException`
+    * Deprecate `preg::` methods
+    * Deprecate `PcrePattern`, to be refactored to `PregPattern`
+    * Deprecate factory methods unqualified for release candidate.
+        * Deprecate `Pattern.list()`
+        * Deprecate `PatternList`
+    * Interface of prepared patterns will change in release candidate:
+        * Deprecate `Pattern.literal()`, to be refactored
+        * Deprecate `Pattern.alternation()`, to be refactored
+        * Deprecate `Pattern.builder()`, to be refactored
+        * Deprecate `Pattern.template()`, to be refactored
+        * Deprecate `PatternTemplate`, to be refactored
+        * Deprecate `TemplateBuilder`, to be refactored
+    * Deprecate `Optional`
+    * Deprecate `Pcre` helper
+    * Any class in `Internal/` namespace is subject to change without notice
 
 Added in 0.41.5
 ---------------

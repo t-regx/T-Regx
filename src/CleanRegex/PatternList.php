@@ -7,6 +7,9 @@ use TRegx\CleanRegex\Internal\Subject;
 use TRegx\CleanRegex\Replace\ChainedReplace;
 use TRegx\SafeRegex\preg;
 
+/**
+ * @deprecated
+ */
 class PatternList
 {
     /** @var Predefinitions */
@@ -17,6 +20,9 @@ class PatternList
         $this->predefinitions = $patternStrings->predefinitions();
     }
 
+    /**
+     * @deprecated
+     */
     public function testAll(string $subject): bool
     {
         foreach ($this->predefinitions->definitions() as $definition) {
@@ -27,6 +33,9 @@ class PatternList
         return true;
     }
 
+    /**
+     * @deprecated
+     */
     public function testAny(string $subject): bool
     {
         foreach ($this->predefinitions->definitions() as $definition) {
@@ -37,26 +46,41 @@ class PatternList
         return false;
     }
 
+    /**
+     * @deprecated
+     */
     public function failAll(string $subject): bool
     {
         return !$this->testAny($subject);
     }
 
+    /**
+     * @deprecated
+     */
     public function failAny(string $subject): bool
     {
         return !$this->testAll($subject);
     }
 
+    /**
+     * @deprecated
+     */
     public function prune(string $subject): string
     {
         return $this->replace($subject)->withReferences('');
     }
 
+    /**
+     * @deprecated
+     */
     public function replace(string $subject): ChainedReplace
     {
         return new ChainedReplace($this->predefinitions, new Subject($subject));
     }
 
+    /**
+     * @deprecated
+     */
     public function count(string $string): int
     {
         preg::replace($this->predefinitions->patternStrings(), '', $string, -1, $count);

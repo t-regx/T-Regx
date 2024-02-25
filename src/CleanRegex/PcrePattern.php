@@ -9,6 +9,9 @@ use TRegx\CleanRegex\Internal\Prepared\Expression\Template;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreOrthography;
 use TRegx\CleanRegex\Internal\Prepared\Orthography\PcreSpelling;
 
+/**
+ * @deprecated
+ */
 class PcrePattern
 {
     /**
@@ -22,22 +25,32 @@ class PcrePattern
      * @param string $pcrePattern
      * @return Pattern
      * @see \TRegx\CleanRegex\Pattern::of
+     * @deprecated
      */
     public static function of(string $pcrePattern): Pattern
     {
         return new Pattern(new Pcre(PcreAutoCapture::autoCapture(), $pcrePattern));
     }
 
+    /**
+     * @deprecated
+     */
     public static function inject(string $pcreTemplate, array $values): Pattern
     {
         return new Pattern(new Template(PcreAutoCapture::autoCapture(), new PcreSpelling($pcreTemplate), new FigureClusters($values)));
     }
 
+    /**
+     * @deprecated
+     */
     public static function template(string $pcreTemplate): PatternTemplate
     {
         return new PatternTemplate(PcreAutoCapture::autoCapture(), new PcreOrthography($pcreTemplate));
     }
 
+    /**
+     * @deprecated
+     */
     public static function builder(string $pcreTemplate): TemplateBuilder
     {
         return new TemplateBuilder(PcreAutoCapture::autoCapture(), new PcreOrthography($pcreTemplate), new Clusters([]));

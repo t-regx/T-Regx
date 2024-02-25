@@ -11,17 +11,21 @@ use TRegx\SafeRegex\Internal\Guard\Strategy\PregFilterSuspectedReturnStrategy;
 use TRegx\SafeRegex\Internal\Guard\Strategy\PregReplaceSuspectedReturnStrategy;
 use TRegx\SafeRegex\Internal\Guard\Strategy\SilencedSuspectedReturnStrategy;
 
+/**
+ * @deprecated
+ */
 class preg
 {
     /**
-     * Perform a regular expression match
-     * @link https://php.net/manual/en/function.preg-match.php
-     *
      * @return int Returns 1 if the pattern matches given subject, 0 if it does not
      *
      * @param-out array $matches
      *
      * @psalm-pure Output is only dependent on input parameters values
+     * @link https://php.net/manual/en/function.preg-match.php
+     *
+     * @deprecated
+     * Perform a regular expression match
      */
     public static function match(string $pattern, string $subject, array &$matches = null, int $flags = 0, int $offset = 0): int
     {
@@ -52,6 +56,7 @@ class preg
      * @param-out array $matches
      *
      * @psalm-pure Output is only dependent on input parameters values
+     * @deprecated
      */
     public static function match_all(string $pattern, string $subject, array &$matches = null, $flags = \PREG_PATTERN_ORDER, int $offset = 0): int
     {
@@ -77,6 +82,7 @@ class preg
      * @psalm-return T
      *
      * @psalm-pure Output is only dependent on input parameters values
+     * @deprecated
      */
     public static function replace($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
     {
@@ -102,6 +108,7 @@ class preg
      * @psalm-return T
      *
      * @psalm-pure Output is only dependent on input parameters values
+     * @deprecated
      */
     public static function replace_callback($pattern, callable $callback, $subject, int $limit = -1, int &$count = null, int $flags = 0)
     {
@@ -131,6 +138,7 @@ class preg
      * @psalm-return T
      *
      * @psalm-pure Output is only dependent on input parameters values
+     * @deprecated
      */
     public static function replace_callback_array(array $patterns_and_callbacks, $subject, int $limit = -1, int &$count = null)
     {
@@ -172,6 +180,7 @@ class preg
      * @psalm-return T
      *
      * @psalm-pure Output is only dependent on input parameters values
+     * @deprecated
      */
     public static function filter($pattern, $replacement, $subject, int $limit = -1, int &$count = null)
     {
@@ -188,6 +197,7 @@ class preg
      * @psalm-pure Output is only dependent on input parameters values
      *
      * @return string[]|array[]
+     * @deprecated
      */
     public static function split(string $pattern, string $subject, int $limit = -1, int $flags = 0): array
     {
@@ -202,6 +212,7 @@ class preg
      * @link https://php.net/manual/en/function.preg-grep.php
      *
      * @psalm-pure Output is only dependent on input parameters values
+     * @deprecated
      */
     public static function grep(string $pattern, array $input, int $flags = 0): array
     {
@@ -216,6 +227,7 @@ class preg
 
     /**
      * @psalm-pure Output is only dependent on input parameters values
+     * @deprecated
      */
     public static function grep_keys(string $pattern, array $input, int $flags = 0): array
     {
@@ -227,6 +239,7 @@ class preg
      * @link https://php.net/manual/en/function.preg-quote.php
      *
      * @psalm-pure Output is only dependent on input parameters values
+     * @deprecated
      */
     public static function quote(string $string, string $delimiter = null): string
     {
@@ -239,6 +252,9 @@ class preg
         return \preg_quote($string, $delimiter);
     }
 
+    /**
+     * @deprecated
+     */
     public static function unquote(string $string): string
     {
         return self::unquoteStringWithCharacters($string, [
@@ -271,6 +287,7 @@ class preg
      * <b>PREG_RECURSION_LIMIT_ERROR</b> (see also pcre.recursion_limit)
      * <b>PREG_BAD_UTF8_ERROR</b>
      * <b>PREG_BAD_UTF8_OFFSET_ERROR</b> (since PHP 5.3.0)
+     * @deprecated
      */
     public static function last_error(): int
     {
@@ -279,11 +296,17 @@ class preg
         // @codeCoverageIgnoreEnd
     }
 
+    /**
+     * @deprecated
+     */
     public static function last_error_constant(): string
     {
         return (new PregConstants())->getConstant(\preg_last_error());
     }
 
+    /**
+     * @deprecated
+     */
     public static function last_error_msg(): string
     {
         return (new PregMessages())->getConstant(\preg_last_error());

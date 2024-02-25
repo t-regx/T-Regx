@@ -23,6 +23,9 @@ use TRegx\CleanRegex\Internal\Pcre\Legacy\ApiBase;
 use TRegx\CleanRegex\Internal\Predicate;
 use TRegx\CleanRegex\Internal\Subject;
 
+/**
+ * @deprecated
+ */
 class Search implements \Countable, \IteratorAggregate
 {
     /** @var Subject */
@@ -40,6 +43,9 @@ class Search implements \Countable, \IteratorAggregate
     /** @var GroupedTexts */
     private $grouped;
 
+    /**
+     * @deprecated
+     */
     public function __construct(Definition $definition, Subject $subject)
     {
         $this->subject = $subject;
@@ -51,11 +57,17 @@ class Search implements \Countable, \IteratorAggregate
         $this->grouped = new GroupedTexts($definition, $subject);
     }
 
+    /**
+     * @deprecated
+     */
     public function test(): bool
     {
         return $this->amount->atLeastOne();
     }
 
+    /**
+     * @deprecated
+     */
     public function fails(): bool
     {
         return $this->amount->none();
@@ -63,12 +75,16 @@ class Search implements \Countable, \IteratorAggregate
 
     /**
      * @return string[]
+     * @deprecated
      */
     public function all(): array
     {
         return $this->searchBase->matchAllTexts();
     }
 
+    /**
+     * @deprecated
+     */
     public function first(): string
     {
         $text = $this->searchBase->matchFirstOrNull();
@@ -78,6 +94,9 @@ class Search implements \Countable, \IteratorAggregate
         return $text;
     }
 
+    /**
+     * @deprecated
+     */
     public function findFirst(): Optional
     {
         $text = $this->searchBase->matchFirstOrNull();
@@ -90,12 +109,16 @@ class Search implements \Countable, \IteratorAggregate
     /**
      * @param int $limit
      * @return string[]
+     * @deprecated
      */
     public function only(int $limit): array
     {
         return $this->searchOnly->get(new Limit($limit));
     }
 
+    /**
+     * @deprecated
+     */
     public function nth(int $index): string
     {
         if ($index < 0) {
@@ -108,6 +131,9 @@ class Search implements \Countable, \IteratorAggregate
         throw NoSuchNthElementException::forSubject($index, \count($texts));
     }
 
+    /**
+     * @deprecated
+     */
     public function forEach(callable $consumer): void
     {
         foreach ($this as $text) {
@@ -115,6 +141,9 @@ class Search implements \Countable, \IteratorAggregate
         }
     }
 
+    /**
+     * @deprecated
+     */
     public function map(callable $mapper): array
     {
         $mapped = [];
@@ -126,17 +155,24 @@ class Search implements \Countable, \IteratorAggregate
 
     /**
      * @return string[]
+     * @deprecated
      */
     public function filter(callable $predicate): array
     {
         return $this->searchItems->filter(new Predicate($predicate, 'filter'));
     }
 
+    /**
+     * @deprecated
+     */
     public function flatMap(callable $mapper): array
     {
         return $this->searchItems->flatMap(new ListFunction(new ArrayFunction($mapper, 'flatMap')));
     }
 
+    /**
+     * @deprecated
+     */
     public function toMap(callable $mapper): array
     {
         return $this->searchItems->flatMap(new DictionaryFunction(new ArrayFunction($mapper, 'toMap')));
@@ -144,12 +180,16 @@ class Search implements \Countable, \IteratorAggregate
 
     /**
      * @return string[]
+     * @deprecated
      */
     public function distinct(): array
     {
         return \array_values(\array_unique($this->searchBase->matchAllTexts()));
     }
 
+    /**
+     * @deprecated
+     */
     public function count(): int
     {
         return $this->amount->intValue();
@@ -157,12 +197,16 @@ class Search implements \Countable, \IteratorAggregate
 
     /**
      * @return \Iterator|iterable<string>
+     * @deprecated
      */
     public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->searchBase->matchAllTexts());
     }
 
+    /**
+     * @deprecated
+     */
     public function stream(): Stream
     {
         return new Stream(new TextStream($this->streamBase));
@@ -171,6 +215,7 @@ class Search implements \Countable, \IteratorAggregate
     /**
      * @param string|int $nameOrIndex
      * @return string[][]
+     * @deprecated
      */
     public function groupBy($nameOrIndex): array
     {
@@ -180,6 +225,7 @@ class Search implements \Countable, \IteratorAggregate
     /**
      * @param callable $groupMapper
      * @return string[][]
+     * @deprecated
      */
     public function groupByCallback(callable $groupMapper): array
     {
@@ -195,6 +241,9 @@ class Search implements \Countable, \IteratorAggregate
         return $result;
     }
 
+    /**
+     * @deprecated
+     */
     public function reduce(callable $reducer, $accumulator)
     {
         foreach ($this as $text) {
@@ -203,6 +252,9 @@ class Search implements \Countable, \IteratorAggregate
         return $accumulator;
     }
 
+    /**
+     * @deprecated
+     */
     public function subject(): string
     {
         return $this->subject->asString();

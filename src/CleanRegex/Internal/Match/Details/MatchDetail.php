@@ -67,21 +67,33 @@ class MatchDetail implements Detail
         return $this->scalars->matchedText();
     }
 
+    /**
+     * @deprecated
+     */
     public function length(): int
     {
         return $this->coordinate->characterLength();
     }
 
+    /**
+     * @deprecated
+     */
     public function byteLength(): int
     {
         return $this->coordinate->byteLength();
     }
 
+    /**
+     * @deprecated
+     */
     public function toInt(int $base = 10): int
     {
         return $this->numericDetail->asInteger(new Base($base));
     }
 
+    /**
+     * @deprecated
+     */
     public function isInt(int $base = 10): bool
     {
         return $this->numericDetail->isInteger(new Base($base));
@@ -90,6 +102,7 @@ class MatchDetail implements Detail
     /**
      * @param string|int $nameOrIndex
      * @return string
+     * @deprecated
      */
     public function get($nameOrIndex): string
     {
@@ -99,6 +112,7 @@ class MatchDetail implements Detail
     /**
      * @param string|int $nameOrIndex
      * @return Group
+     * @deprecated
      */
     public function group($nameOrIndex): Group
     {
@@ -117,6 +131,7 @@ class MatchDetail implements Detail
     /**
      * @param string|int $nameOrIndex
      * @return bool
+     * @deprecated
      */
     public function matched($nameOrIndex): bool
     {
@@ -125,12 +140,16 @@ class MatchDetail implements Detail
 
     /**
      * @return (string|null)[]
+     * @deprecated
      */
     public function groupNames(): array
     {
         return $this->groupNames->groupNames();
     }
 
+    /**
+     * @deprecated
+     */
     public function groupsCount(): int
     {
         return $this->groupsCount->groupsCount();
@@ -138,6 +157,7 @@ class MatchDetail implements Detail
 
     /**
      * @return Group[]
+     * @deprecated
      */
     public function groups(): array
     {
@@ -146,6 +166,7 @@ class MatchDetail implements Detail
 
     /**
      * @return Group[]
+     * @deprecated
      */
     public function namedGroups(): array
     {
@@ -154,27 +175,40 @@ class MatchDetail implements Detail
 
     /**
      * @return string[]
+     * @deprecated
      */
     public function all(): array
     {
         return $this->scalars->otherTexts();
     }
 
+    /**
+     * @deprecated
+     */
     public function offset(): int
     {
         return $this->coordinate->characterOffset();
     }
 
+    /**
+     * @deprecated
+     */
     public function tail(): int
     {
         return $this->coordinate->characterTail();
     }
 
+    /**
+     * @deprecated
+     */
     public function byteOffset(): int
     {
         return $this->coordinate->byteOffset();
     }
 
+    /**
+     * @deprecated
+     */
     public function byteTail(): int
     {
         return $this->coordinate->byteTail();

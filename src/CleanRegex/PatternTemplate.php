@@ -12,6 +12,9 @@ use TRegx\CleanRegex\Internal\Prepared\Template\Figure\AlterationGroup;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\MaskFigure;
 use TRegx\CleanRegex\Internal\Prepared\Template\Figure\PatternFigure;
 
+/**
+ * @deprecated
+ */
 class PatternTemplate
 {
     /** @var AutoCapture */
@@ -25,21 +28,33 @@ class PatternTemplate
         $this->orthography = $orthography;
     }
 
+    /**
+     * @deprecated
+     */
     public function mask(string $mask, array $keywords): Pattern
     {
         return $this->template(new NonCaptureGroup(new MaskFigure($this->autoCapture, $mask, $this->orthography->flags(), $keywords)));
     }
 
+    /**
+     * @deprecated
+     */
     public function literal(string $text): Pattern
     {
         return $this->template(new AtomicGroup($text));
     }
 
+    /**
+     * @deprecated
+     */
     public function alteration(array $figures): Pattern
     {
         return $this->template(new AlterationGroup($figures));
     }
 
+    /**
+     * @deprecated
+     */
     public function pattern(string $pattern): Pattern
     {
         return $this->template(new NonCaptureGroup(new PatternFigure($this->autoCapture, $pattern)));

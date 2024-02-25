@@ -1,6 +1,9 @@
 <?php
 namespace TRegx\SafeRegex\Exception;
 
+/**
+ * @deprecated
+ */
 class RuntimePregException extends \RuntimeException implements PregException
 {
     /** @var string */
