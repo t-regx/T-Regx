@@ -4,6 +4,11 @@ T-Regx Changelog
 Incoming
 --------
 
+* Soon
+
+Added in 0.41.5
+---------------
+
 * Deprecation
     * Deprecate `Pattern` methods unqualified for release candidate.
         * Deprecate `Pattern.fails()`
