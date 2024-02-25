@@ -44,13 +44,13 @@ class Pcre
         return $matches[0];
     }
 
-    public function replace(string $subject, string $replacement): string
+    public function replace(string $subject, string $replacement): array
     {
         $result = \preg_replace($this->expression->delimited,
             \str_replace(['\\', '$'], ['\\\\', '\$'], $replacement),
-            $subject);
+            $subject, -1, $count);
         $this->throwMatchException();
-        return $result;
+        return [$result, $count];
     }
 
     public function replaceCallback(string $subject, callable $replacer): string

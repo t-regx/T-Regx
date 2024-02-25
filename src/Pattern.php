@@ -66,6 +66,14 @@ final class Pattern
 
     public function replace(string $subject, string $replacement): string
     {
+        return $this->pcre->replace($subject, $replacement)[0];
+    }
+
+    /**
+     * @return string[]|int[]
+     */
+    public function replaceCount(string $subject, string $replacement): array
+    {
         return $this->pcre->replace($subject, $replacement);
     }
 
