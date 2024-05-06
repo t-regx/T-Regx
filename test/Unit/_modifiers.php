@@ -118,4 +118,22 @@ class _modifiers extends TestCase
     {
         new Pattern('(?<group>Not) (?<group>today)', Pattern::DUPLICATE_NAMES);
     }
+
+    /**
+     * @test
+     */
+    public function greedyStandard(): void
+    {
+        $pattern = new Pattern('.+');
+        $this->assertSame(['Foo'], $pattern->search('Foo'));
+    }
+
+    /**
+     * @test
+     */
+    public function greedyInverted(): void
+    {
+        $pattern = new Pattern('.+', Pattern::INVERTED_GREEDY);
+        $this->assertSame(['F', 'o', 'o'], $pattern->search('Foo'));
+    }
 }
