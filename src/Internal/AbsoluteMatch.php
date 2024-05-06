@@ -29,4 +29,9 @@ class AbsoluteMatch
     {
         return $this->match[$this->groups->unambiguousIndex($group)][0];
     }
+
+    public function groupOffset(GroupKey $group): int
+    {
+        return $this->match[$group->nameOrIndex][1];
+    }
 }
