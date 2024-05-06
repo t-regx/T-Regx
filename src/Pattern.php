@@ -64,8 +64,12 @@ final class Pattern
 
     private function throwMatchException(): void
     {
-        if (\preg_last_error() !== \PREG_NO_ERROR) {
-            throw new MatchException();
+        $error = \preg_last_error();
+        if ($error === \PREG_BACKTRACK_LIMIT_ERROR) {
+            throw new BacktrackException();
+        }
+        if ($error === \PREG_RECURSION_LIMIT_ERROR) {
+            throw new RecursionException();
         }
     }
 }
