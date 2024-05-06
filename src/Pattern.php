@@ -71,5 +71,8 @@ final class Pattern
         if ($error === \PREG_RECURSION_LIMIT_ERROR) {
             throw new RecursionException();
         }
+        if ($error === \PREG_JIT_STACKLIMIT_ERROR) {
+            throw new JitException();
+        }
     }
 }
