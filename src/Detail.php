@@ -21,7 +21,11 @@ final class Detail
 
     public function offset(): int
     {
-        return \mb_strLen(\subStr($this->subject, 0, $this->offset), 'UTF-8');
+        $leading = \subStr($this->subject, 0, $this->offset);
+        if (\mb_check_encoding($leading, 'UTF-8')) {
+            return \mb_strLen($leading, 'UTF-8');
+        }
+        throw new UnicodeException("Byte offset $this->offset does not point to a valid unicode code point.");
     }
 
     public function byteOffset(): int
