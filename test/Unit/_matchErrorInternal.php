@@ -85,4 +85,45 @@ class _matchErrorInternal extends TestCase
             ->assertException(PcreException::class)
             ->assertMessage('Failed to match the subject, due to pcre internal error.');
     }
+
+    /**
+     * @test
+     */
+    public function first()
+    {
+        $this->assertUndeterminedError(fn() => $this->pattern->first('word'));
+    }
+
+    /**
+     * @test
+     */
+    public function search()
+    {
+        $this->assertUndeterminedError(fn() => $this->pattern->search('word'));
+    }
+
+    /**
+     * @test
+     */
+    public function match()
+    {
+        $this->assertUndeterminedError(fn() => $this->pattern->match('word'));
+    }
+
+    private function assertUndeterminedError(callable $block): void
+    {
+        catching($block)
+            ->assertException(PcreException::class)
+            ->assertMessage('Failed to match the subject, due to undetermined error.');
+    }
+
+    /**
+     * @test
+     */
+    public function optimized()
+    {
+        $pattern = new Pattern('(?=Morghulis\K)');
+        catching(fn() => $pattern->test('Dohaeris'))
+            ->assertExceptionNone();
+    }
 }

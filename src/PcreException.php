@@ -3,8 +3,8 @@ namespace Regex;
 
 final class PcreException extends MatchException
 {
-    public function __construct()
+    public function __construct(string $reason)
     {
-        parent::__construct("Failed to match the subject, due to pcre internal error.");
+        parent::__construct("Failed to match the subject, due to $reason.");
     }
 }
