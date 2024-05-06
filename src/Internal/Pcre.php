@@ -33,14 +33,12 @@ class Pcre
     public function matchFirst(string $subject): array
     {
         $error = false;
-        \set_error_handler(static function () use (&$error): bool {
+        \set_error_handler(static function () use (&$error): void {
             $error = true;
-            return false;
         });
-        @\preg_match($this->expression->delimited, $subject, $match,
+        \preg_match($this->expression->delimited, $subject, $match,
             \PREG_OFFSET_CAPTURE);
         if ($error) {
-            \error_clear_last();
             throw new PcreException('undetermined error');
         }
         $this->throwMatchException();
@@ -50,14 +48,12 @@ class Pcre
     public function search(string $subject): array
     {
         $error = false;
-        \set_error_handler(static function () use (&$error): bool {
+        \set_error_handler(static function () use (&$error): void {
             $error = true;
-            return false;
         });
-        @\preg_match_all($this->expression->delimited, $subject, $matches,
+        \preg_match_all($this->expression->delimited, $subject, $matches,
             \PREG_UNMATCHED_AS_NULL);
         if ($error) {
-            \error_clear_last();
             throw new PcreException('undetermined error');
         }
         $this->throwMatchException();
@@ -67,14 +63,12 @@ class Pcre
     public function fullMatch(string $subject): array
     {
         $error = false;
-        \set_error_handler(static function () use (&$error): bool {
+        \set_error_handler(static function () use (&$error): void {
             $error = true;
-            return false;
         });
-        @\preg_match_all($this->expression->delimited, $subject, $matches,
+        \preg_match_all($this->expression->delimited, $subject, $matches,
             \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER);
         if ($error) {
-            \error_clear_last();
             throw new PcreException('undetermined error');
         }
         $this->throwMatchException();
