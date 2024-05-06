@@ -32,10 +32,14 @@ class Pcre
 
     public function matchFirst(string $subject): array
     {
-        \error_clear_last();
+        $error = false;
+        \set_error_handler(static function () use (&$error): bool {
+            $error = true;
+            return false;
+        });
         @\preg_match($this->expression->delimited, $subject, $match,
             \PREG_OFFSET_CAPTURE);
-        if (\error_get_last() !== null) {
+        if ($error) {
             \error_clear_last();
             throw new PcreException('undetermined error');
         }
@@ -45,10 +49,14 @@ class Pcre
 
     public function search(string $subject): array
     {
-        \error_clear_last();
+        $error = false;
+        \set_error_handler(static function () use (&$error): bool {
+            $error = true;
+            return false;
+        });
         @\preg_match_all($this->expression->delimited, $subject, $matches,
             \PREG_UNMATCHED_AS_NULL);
-        if (\error_get_last() !== null) {
+        if ($error) {
             \error_clear_last();
             throw new PcreException('undetermined error');
         }
@@ -58,10 +66,14 @@ class Pcre
 
     public function fullMatch(string $subject): array
     {
-        \error_clear_last();
+        $error = false;
+        \set_error_handler(static function () use (&$error): bool {
+            $error = true;
+            return false;
+        });
         @\preg_match_all($this->expression->delimited, $subject, $matches,
             \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER);
-        if (\error_get_last() !== null) {
+        if ($error) {
             \error_clear_last();
             throw new PcreException('undetermined error');
         }
