@@ -1,17 +1,21 @@
 <?php
 namespace Regex;
 
+use Regex\Internal\GroupKey;
+use Regex\Internal\GroupKeys;
 final class Detail
 {
     private string $text;
     private int $offset;
     private string $subject;
+    private GroupKeys $groupKeys;
 
-    public function __construct(string $text, int $offset, string $subject)
+    public function __construct(string $text, int $offset, string $subject, GroupKeys $groupKeys)
     {
         $this->text = $text;
         $this->offset = $offset;
         $this->subject = $subject;
+        $this->groupKeys = $groupKeys;
     }
 
     public function text(): string
@@ -31,6 +35,11 @@ final class Detail
     public function byteOffset(): int
     {
         return $this->offset;
+    }
+
+    public function groupExists($nameOrIndex): bool
+    {
+        return $this->groupKeys->groupExists(new GroupKey($nameOrIndex));
     }
 
     public function __toString(): string
