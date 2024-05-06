@@ -59,6 +59,16 @@ class replaceCallback extends TestCase
         $this->assertSame(6, $detail->byteOffset());
     }
 
+    /**
+     * @test
+     */
+    public function argumentUnicodeOffset()
+    {
+        $pattern = new Pattern('Fury');
+        $pattern->replaceCallback('Óurs is the Fury', $this->collect($detail));
+        $this->assertSame(12, $detail->offset());
+    }
+
     private function collect(?Detail &$output): callable
     {
         $output = null;
