@@ -66,6 +66,18 @@ final class Detail
         return $this->match->groupText($group);
     }
 
+    public function groupByteOffset($nameOrIndex): int
+    {
+        $group = new GroupKey($nameOrIndex);
+        if (!$this->match->groupExists($group)) {
+            throw new GroupException($group, 'does not exist');
+        }
+        if (!$this->match->groupMatched($group)) {
+            throw new GroupException(new GroupKey($nameOrIndex), 'is not matched');
+        }
+        return $this->match->groupOffset($group);
+    }
+
     public function groupExists($nameOrIndex): bool
     {
         return $this->match->groupExists(new GroupKey($nameOrIndex));
