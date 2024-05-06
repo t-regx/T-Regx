@@ -136,4 +136,22 @@ class _modifiers extends TestCase
         $pattern = new Pattern('.+', Pattern::INVERTED_GREEDY);
         $this->assertSame(['F', 'o', 'o'], $pattern->search('Foo'));
     }
+
+    /**
+     * @test
+     */
+    public function nonAnchored(): void
+    {
+        $pattern = new Pattern('Foo');
+        $this->assertSame(['Foo', 'Foo', 'Foo'], $pattern->search('FooFoo Foo'));
+    }
+
+    /**
+     * @test
+     */
+    public function anchored(): void
+    {
+        $pattern = new Pattern('Foo', Pattern::ANCHORED);
+        $this->assertSame(['Foo', 'Foo'], $pattern->search('FooFoo Foo'));
+    }
 }
