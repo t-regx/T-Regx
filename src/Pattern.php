@@ -33,11 +33,16 @@ final class Pattern
     }
 
     /**
-     * @return string[]
+     * @return string[]|null[]
      */
     public function split(string $subject): array
     {
-        return \preg_split("/$this->pattern/", $subject, -1,
-            \PREG_SPLIT_DELIM_CAPTURE);
+        $result = [];
+        $pieces = \preg_split("/$this->pattern/", $subject, -1,
+            \PREG_SPLIT_DELIM_CAPTURE | \PREG_SPLIT_OFFSET_CAPTURE);
+        foreach ($pieces as [$piece, $offset]) {
+            $result[] = $offset === -1 ? null : $piece;
+        }
+        return $result;
     }
 }
