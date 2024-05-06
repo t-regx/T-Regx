@@ -56,10 +56,7 @@ final class Detail
 
     public function groupOrNull($nameOrIndex): ?string
     {
-        $group = new GroupKey($nameOrIndex);
-        if (!$this->match->groupExists($group)) {
-            throw new GroupException($group, 'does not exist');
-        }
+        $group = $this->existingGroup($nameOrIndex);
         if (!$this->match->groupMatched($group)) {
             return null;
         }
@@ -68,10 +65,7 @@ final class Detail
 
     public function groupByteOffset($nameOrIndex): int
     {
-        $group = new GroupKey($nameOrIndex);
-        if (!$this->match->groupExists($group)) {
-            throw new GroupException($group, 'does not exist');
-        }
+        $group = $this->existingGroup($nameOrIndex);
         if (!$this->match->groupMatched($group)) {
             throw new GroupException(new GroupKey($nameOrIndex), 'is not matched');
         }
@@ -85,11 +79,7 @@ final class Detail
 
     public function groupMatched($nameOrIndex): bool
     {
-        $group = new GroupKey($nameOrIndex);
-        if ($this->match->groupExists($group)) {
-            return $this->match->groupMatched($group);
-        }
-        throw new GroupException($group, 'does not exist');
+        return $this->match->groupMatched($this->existingGroup($nameOrIndex));
     }
 
     public function subject(): string
@@ -100,5 +90,14 @@ final class Detail
     public function __toString(): string
     {
         return $this->text;
+    }
+
+    private function existingGroup($nameOrIndex): GroupKey
+    {
+        $group = new GroupKey($nameOrIndex);
+        if ($this->match->groupExists($group)) {
+            return $group;
+        }
+        throw new GroupException($group, 'does not exist');
     }
 }
