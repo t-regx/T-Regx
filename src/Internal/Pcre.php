@@ -32,24 +32,33 @@ class Pcre
 
     public function matchFirst(string $subject): array
     {
-        \preg_match($this->expression->delimited, $subject, $match,
+        @\preg_match($this->expression->delimited, $subject, $match,
             \PREG_OFFSET_CAPTURE);
+        if (\error_get_last() !== null) {
+            throw new PcreException('undetermined error');
+        }
         $this->throwMatchException();
         return $match;
     }
 
     public function search(string $subject): array
     {
-        \preg_match_all($this->expression->delimited, $subject, $matches,
+        @\preg_match_all($this->expression->delimited, $subject, $matches,
             \PREG_UNMATCHED_AS_NULL);
+        if (\error_get_last() !== null) {
+            throw new PcreException('undetermined error');
+        }
         $this->throwMatchException();
         return $matches;
     }
 
     public function fullMatch(string $subject): array
     {
-        \preg_match_all($this->expression->delimited, $subject, $matches,
+        @\preg_match_all($this->expression->delimited, $subject, $matches,
             \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER);
+        if (\error_get_last() !== null) {
+            throw new PcreException('undetermined error');
+        }
         $this->throwMatchException();
         return $matches;
     }
@@ -99,7 +108,7 @@ class Pcre
     {
         $error = \preg_last_error();
         if ($error === \PREG_INTERNAL_ERROR) {
-            throw new PcreException();
+            throw new PcreException('pcre internal error');
         }
         if ($error === \PREG_BACKTRACK_LIMIT_ERROR) {
             throw new BacktrackException();
