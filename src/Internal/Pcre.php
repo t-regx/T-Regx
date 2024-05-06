@@ -39,6 +39,7 @@ class Pcre
         \preg_match($this->expression->delimited, $subject, $match,
             \PREG_OFFSET_CAPTURE);
         if ($error) {
+            \restore_error_handler();
             throw new PcreException('undetermined error');
         }
         $this->throwMatchException();
@@ -54,6 +55,7 @@ class Pcre
         \preg_match_all($this->expression->delimited, $subject, $matches,
             \PREG_UNMATCHED_AS_NULL);
         if ($error) {
+            \restore_error_handler();
             throw new PcreException('undetermined error');
         }
         $this->throwMatchException();
@@ -69,6 +71,7 @@ class Pcre
         \preg_match_all($this->expression->delimited, $subject, $matches,
             \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER);
         if ($error) {
+            \restore_error_handler();
             throw new PcreException('undetermined error');
         }
         $this->throwMatchException();
