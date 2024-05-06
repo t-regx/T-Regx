@@ -53,7 +53,7 @@ final class Pattern
         if (empty($match)) {
             return null;
         }
-        return new Detail($match[0][0], $match[0][1]);
+        return new Detail($match[0][0], $match[0][1], $subject);
     }
 
     /**
@@ -79,7 +79,7 @@ final class Pattern
 
     public function replaceCallback(string $subject, callable $replacer): string
     {
-        return $this->pcre->replaceCallback($subject, [new ReplaceFunction($replacer), 'apply']);
+        return $this->pcre->replaceCallback($subject, [new ReplaceFunction($replacer, $subject), 'apply']);
     }
 
     /**

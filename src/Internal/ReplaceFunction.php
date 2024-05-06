@@ -7,16 +7,18 @@ class ReplaceFunction
 {
     /** @var callable */
     private $replacer;
+    private string $subject;
 
-    public function __construct(callable $replacer)
+    public function __construct(callable $replacer, string $subject)
     {
         $this->replacer = $replacer;
+        $this->subject = $subject;
     }
 
     public function apply(array $match): string
     {
         [[$text, $offset]] = $match;
-        return $this->replace(new Detail($text, $offset));
+        return $this->replace(new Detail($text, $offset, $this->subject));
     }
 
     private function replace(Detail $detail): string
