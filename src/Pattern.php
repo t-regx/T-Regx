@@ -3,6 +3,7 @@ namespace Regex;
 
 use Regex\Internal\DelimitedExpression;
 use Regex\Internal\GroupKey;
+use Regex\Internal\GroupKeys;
 use Regex\Internal\GroupNames;
 use Regex\Internal\Pcre;
 use Regex\Internal\ReplaceFunction;
@@ -21,12 +22,14 @@ final class Pattern
     private DelimitedExpression $expression;
     private Pcre $pcre;
     private GroupNames $groupNames;
+    private GroupKeys $groupKeys;
 
     public function __construct(string $pattern, string $modifiers = '')
     {
         $this->expression = new DelimitedExpression($pattern, $modifiers);
         $this->pcre = new Pcre($this->expression);
         $this->groupNames = new GroupNames($this->expression);
+        $this->groupKeys = new GroupKeys($this->expression);
     }
 
     public function test(string $subject): bool
@@ -54,7 +57,7 @@ final class Pattern
         if (empty($match)) {
             return null;
         }
-        return new Detail($match[0][0], $match[0][1], $subject);
+        return new Detail($match[0][0], $match[0][1], $subject, $this->groupKeys);
     }
 
     /**
@@ -80,7 +83,8 @@ final class Pattern
 
     public function replaceCallback(string $subject, callable $replacer): string
     {
-        return $this->pcre->replaceCallback($subject, [new ReplaceFunction($replacer, $subject), 'apply']);
+        return $this->pcre->replaceCallback($subject,
+            [new ReplaceFunction($replacer, $subject, $this->groupKeys), 'apply']);
     }
 
     /**
@@ -107,8 +111,7 @@ final class Pattern
      */
     public function groupExists($nameOrIndex): bool
     {
-        $group = new GroupKey($nameOrIndex);
-        return \in_array($group->nameOrIndex, $this->expression->groupKeys, true);
+        return $this->groupKeys->groupExists(new GroupKey($nameOrIndex));
     }
 
     public function groupCount(): int
