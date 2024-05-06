@@ -44,4 +44,15 @@ class split extends TestCase
         $pieces = $pattern->split('Oath-keeper');
         $this->assertSame(['Oath', '', 'keeper'], $pieces);
     }
+
+    /**
+     * @test
+     */
+    public function unmatchedGroup()
+    {
+        $pattern = new Pattern(' (not)?(is) ');
+        $this->assertSame(
+            ["Knowledge", null, "is", "Power."],
+            $pattern->split("Knowledge is Power."));
+    }
 }
