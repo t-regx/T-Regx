@@ -1,11 +1,11 @@
 <?php
-namespace Test\Unit;
+namespace Test\Unit\_matchError;
 
 use PHPUnit\Framework\TestCase;
 use Regex\MatchException;
 use Regex\Pattern;
 
-class _matchError extends TestCase
+class MethodsTest extends TestCase
 {
     private Pattern $pattern;
 
