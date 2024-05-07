@@ -33,11 +33,7 @@ final class Detail
 
     public function offset(): int
     {
-        $leading = \subStr($this->subject, 0, $this->offset);
-        if (\mb_check_encoding($leading, 'UTF-8')) {
-            return \mb_strLen($leading, 'UTF-8');
-        }
-        throw new UnicodeException("Byte offset $this->offset does not point to a valid unicode code point.");
+        return $this->unicodeOffset($this->offset);
     }
 
     public function byteOffset(): int
@@ -63,13 +59,14 @@ final class Detail
         return $this->match->groupText($group);
     }
 
+    public function groupOffset($nameOrIndex): int
+    {
+        return $this->unicodeOffset($this->groupByteOffset($nameOrIndex));
+    }
+
     public function groupByteOffset($nameOrIndex): int
     {
-        $group = $this->existingGroup($nameOrIndex);
-        if (!$this->match->groupMatched($group)) {
-            throw new GroupException(new GroupKey($nameOrIndex), 'is not matched');
-        }
-        return $this->match->groupOffset($group);
+        return $this->match->groupOffset($this->matchedGroup($nameOrIndex));
     }
 
     public function groupExists($nameOrIndex): bool
@@ -92,6 +89,15 @@ final class Detail
         return $this->text;
     }
 
+    private function matchedGroup($nameOrIndex): GroupKey
+    {
+        $group = $this->existingGroup($nameOrIndex);
+        if ($this->match->groupMatched($group)) {
+            return $group;
+        }
+        throw new GroupException(new GroupKey($nameOrIndex), 'is not matched');
+    }
+
     private function existingGroup($nameOrIndex): GroupKey
     {
         $group = new GroupKey($nameOrIndex);
@@ -99,5 +105,14 @@ final class Detail
             return $group;
         }
         throw new GroupException($group, 'does not exist');
+    }
+
+    private function unicodeOffset(int $offset): int
+    {
+        $leading = \subStr($this->subject, 0, $offset);
+        if (\mb_check_encoding($leading, 'UTF-8')) {
+            return \mb_strLen($leading, 'UTF-8');
+        }
+        throw new UnicodeException("Byte offset $offset does not point to a valid unicode code point.");
     }
 }
