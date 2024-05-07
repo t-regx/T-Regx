@@ -9,7 +9,7 @@ use Regex\Internal\Pcre;
 use Regex\Internal\ReplaceFunction;
 use Regex\Internal\ReplaceGroup;
 
-final class Pattern
+final class Pattern implements Regex
 {
     public const IGNORE_CASE = 'i';
     public const MULTILINE = 'm';
