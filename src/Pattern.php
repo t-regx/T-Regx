@@ -103,29 +103,29 @@ final class Pattern
         }
     }
 
-    public function replace(string $subject, string $replacement): string
+    public function replace(string $subject, string $replacement, int $limit = -1): string
     {
-        return $this->pcre->replace($subject, $replacement)[0];
+        return $this->pcre->replace($subject, $replacement, $limit)[0];
     }
 
     /**
      * @return string[]|int[]
      */
-    public function replaceCount(string $subject, string $replacement): array
+    public function replaceCount(string $subject, string $replacement, int $limit = -1): array
     {
-        return $this->pcre->replace($subject, $replacement);
+        return $this->pcre->replace($subject, $replacement, $limit);
     }
 
-    public function replaceGroup(string $subject, $nameOrIndex): string
+    public function replaceGroup(string $subject, $nameOrIndex, int $limit = -1): string
     {
         return $this->pcre->replaceCallback($subject,
-            new ReplaceGroup($this->groupKeys, new GroupKey($nameOrIndex)));
+            new ReplaceGroup($this->groupKeys, new GroupKey($nameOrIndex)), $limit);
     }
 
-    public function replaceCallback(string $subject, callable $replacer): string
+    public function replaceCallback(string $subject, callable $replacer, int $limit = -1): string
     {
         return $this->pcre->replaceCallback($subject,
-            new ReplaceFunction($replacer, $subject, $this->groupKeys));
+            new ReplaceFunction($replacer, $subject, $this->groupKeys), $limit);
     }
 
     /**

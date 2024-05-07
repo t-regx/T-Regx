@@ -78,19 +78,20 @@ class Pcre
         return [$matches, $this->lastMatchException()];
     }
 
-    public function replace(string $subject, string $replacement): array
+    public function replace(string $subject, string $replacement, int $limit): array
     {
         $result = \preg_replace($this->expression->delimited,
             \str_replace(['\\', '$'], ['\\\\', '\$'], $replacement),
-            $subject, -1, $count);
+            $subject, $limit, $count);
         $this->throwMatchException();
         return [$result, $count];
     }
 
-    public function replaceCallback(string $subject, Replacer $replacer): string
+    public function replaceCallback(string $subject, Replacer $replacer, int $limit): string
     {
-        $result = \preg_replace_callback($this->expression->delimited, [$replacer, 'replace'], $subject,
-            -1, $count, \PREG_OFFSET_CAPTURE);
+        $result = \preg_replace_callback(
+            $this->expression->delimited, [$replacer, 'replace'],
+            $subject, $limit, $count, \PREG_OFFSET_CAPTURE);
         $this->throwMatchException();
         return $result;
     }
