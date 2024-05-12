@@ -1,0 +1,5 @@
+.github/ export-ignore
+test/ export-ignore
+phpunit.xml export-ignore
+t.regx.png export-ignore
+ReadMe.md export-ignore
