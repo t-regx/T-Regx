@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://t-regx.com"><img src="t.regx.png" alt="T-Regx"></a>
+    <a href="https://phpregex.org"><img src="t.regx.png" alt="T-Regx"></a>
 </p>
 <p align="center">
     <a href="https://github.com/t-regx/T-Regx/actions/"><img src="https://github.com/t-regx/T-Regx/workflows/build/badge.svg" alt="Build status"/></a>
@@ -12,7 +12,7 @@
 
 PHP regular expressions brought up to modern standards.
 
-[See documentation](https://t-regx.com/) at [t-regx.com](https://t-regx.com/).
+[See documentation](https://phpregex.org/) at [phpregex.org](https://phpregex.org/).
 
 [![last commit](https://img.shields.io/github/last-commit/t-regx/T-Regx/develop.svg)](https://github.com/t-regx/T-Regx/commits/develop)
 [![commit activity](https://img.shields.io/github/commit-activity/y/t-regx/T-Regx.svg)](https://github.com/t-regx/T-Regx)
@@ -95,18 +95,18 @@ if (!$matcher->test()) {
 
 # Documentation
 
-Full API documentation is available at [t-regx.com](https://t-regx.com/). List of changes is available
+Full API documentation is available at [phpregex.org](https://phpregex.org/). List of changes is available
 in [ChangeLog.md](https://github.com/t-regx/T-Regx/blob/develop/ChangeLog.md).
 
 Quick links:
 
-- [Introduction](https://t-regx.com/docs/introduction) - https://t-regx.com/docs/introduction
-    - [Matching overview](https://t-regx.com/docs/match) - https://t-regx.com/docs/match
-    - [Replacing](https://t-regx.com/docs/replace) - https://t-regx.com/docs/replace
-    - [Splitting](https://t-regx.com/docs/split) - https://t-regx.com/docs/split
-- [Prepared patterns](https://t-regx.com/docs/prepared-patterns) - https://t-regx.com/docs/prepared-patterns
-    - [Template syntax](https://t-regx.com/docs/template-syntax) - https://t-regx.com/docs/template-syntax
-    - [Pattern list](https://t-regx.com/docs/pattern-list) - https://t-regx.com/docs/pattern-list
+- [Introduction](https://phpregex.org/docs/introduction) - https://phpregex.org/docs/introduction
+    - [Matching overview](https://phpregex.org/docs/match) - https://phpregex.org/docs/match
+    - [Replacing](https://phpregex.org/docs/replace) - https://phpregex.org/docs/replace
+    - [Splitting](https://phpregex.org/docs/split) - https://phpregex.org/docs/split
+- [Prepared patterns](https://phpregex.org/docs/prepared-patterns) - https://phpregex.org/docs/prepared-patterns
+    - [Template syntax](https://phpregex.org/docs/template-syntax) - https://phpregex.org/docs/template-syntax
+    - [Pattern list](https://phpregex.org/docs/pattern-list) - https://phpregex.org/docs/pattern-list
 
 # Try it online, in your browser!
 
@@ -157,7 +157,7 @@ For standard projects, we suggest `pattern()`. For legacy projects, we suggest `
 
 # Why T-Regx stands out?
 
-:bulb: [See documentation at t-regx.com](https://t-regx.com/)
+:bulb: [See documentation at phpregex.org](https://phpregex.org/)
 
 * ### Prepared patterns
 
@@ -186,7 +186,7 @@ For standard projects, we suggest `pattern()`. For legacy projects, we suggest `
           aren't nullable. If you wish to do something with your match or pattern, there's probably a method for that,
           which does exactly and only that.
     * Strings:
-        * [Fixing error with multibyte offset (utf-8 safe)](https://t-regx.com/docs/match-details#offsets).
+        * [Fixing error with multibyte offset (utf-8 safe)](https://phpregex.org/docs/match-details#offsets).
         * Separate methods for positions:
             * `offset()` - which returns position of a match in characters in UTF-8
             * `byteOffset()` - which returns position of a match in bytes, regardless of encoding
@@ -242,19 +242,18 @@ For standard projects, we suggest `pattern()`. For legacy projects, we suggest `
 
 # Comparison
 
-![Ugly api](https://t-regx.com/img/external/readme/preg.png)
+![Ugly api](https://phpregex.org/img/external/readme/preg.png)
 
 or
 
-![Pretty api](https://t-regx.com/img/external/readme/t-regx.png?)
+![Pretty api](https://phpregex.org/img/external/readme/t-regx.png?)
 
 # Current work in progress
 
 Current development priorities, regarding release of 1.0:
 
-- Separate SafeRegex and CleanRegex into to two packages, so users can choose what they need #103
 - Add documentation to each T-Regx public method #17 \[in progress]
-- Revamp of [t-regx.com](https://t-regx.com/) documentation \[in progress]
+- Revamp of [phpregex.org](https://phpregex.org/) documentation \[in progress]
 - Release 1.0
 
 # Sponsors
@@ -265,7 +264,7 @@ Current development priorities, regarding release of 1.0:
 # T-Regx is developed thanks to
 
 <a href="https://www.jetbrains.com/?from=T-Regx">
-  <img src="https://t-regx.com/img/external/jetbrains-variant-4.svg" alt="JetBrains"/>
+  <img src="https://phpregex.org/img/external/jetbrains-variant-4.svg" alt="JetBrains"/>
 </a>
 
 ## License
