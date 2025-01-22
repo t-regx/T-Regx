@@ -11,7 +11,7 @@ use TRegx\CleanRegex\Internal\UnsuitableStringCondition;
 
 class Definitions
 {
-    public static function pattern(string $pattern, string $flags = null): Definition
+    public static function pattern(string $pattern, ?string $flags = null): Definition
     {
         /**
          * I intentionally don't use {@see Standard}, because if there are bugs in it,

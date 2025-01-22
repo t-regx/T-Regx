@@ -20,7 +20,7 @@ class EntityFailAssertion
         $this->consumers = $consumers;
     }
 
-    public function assertPatternFails(string $pattern, string $flags = ''): void
+    public function assertPatternFails(string $pattern, ?string $flags = ''): void
     {
         $parser = new PcreParser(new Feed($pattern), new Flags($flags), $this->consumers);
         $this->testCase->expectException(InternalCleanRegexException::class);
